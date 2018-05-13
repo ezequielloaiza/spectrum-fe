@@ -1,15 +1,15 @@
 <div class="login-page" [@routerTransition]>
 	<div class="row justify-content-md-center">
 		<div class="col-md-4">
-			<img class="" src="http://spctinternational.com/wp-content/uploads/2017/01/logo10.png" width="300px" />
+			<img class="" src="assets/images/spectrumLogo.png" width="300px" />
 			<form role="form">
 				<div class="form-content">
 					<div class="form-group">
-						<input type="text" class="form-control input-underline input-lg" id="" placeholder="Full Name">
-					</div>
-
-					<div class="form-group">
 						<input type="text" class="form-control input-underline input-lg" id="" placeholder="Email">
+					</div>
+					<!--
+					<div class="form-group">
+						<input type="text" class="form-control input-underline input-lg" id="" placeholder="Full Name">
 					</div>
 
 					<div class="form-group">
@@ -19,8 +19,14 @@
 						<input type="password" class="form-control input-underline input-lg" id="" placeholder="Repeat Password">
 					</div>
 				</div>
-				<a class="btn rounded-btn" [routerLink]="['/dashboard']"> Register </a>&nbsp;
-				<a class="btn rounded-btn" [routerLink]="['/login']"> Log in </a>
+				-->
+				<br>
+				<a class="btn rounded-btn" [routerLink]="['/dashboard']"> Submit </a>
+				<div class="form-group">
+					<br>
+				  <a [routerLink]="['/login']"> Back to Log in </a>
+			  </div>
+				</div>
 			</form>
 		</div>
 	</div>
