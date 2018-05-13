@@ -4,11 +4,11 @@
 			<i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
 		</a>
 		<div class="nested-menu">
-			<a class="list-group-item" (click)="addExpandClass('pages')">
+			<a class="list-group-item" (click)="addExpandClass('account')">
 				<span>
 					<i class="fa fa-plus"></i>&nbsp; {{ 'Your Account' | translate }}</span>
 			</a>
-			<li class="nested" [class.expand]="showMenu === 'pages'">
+			<li class="nested" [class.expand]="showMenu === 'account'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
@@ -34,20 +34,20 @@
 			</li>
 		</div>
 		<div class="nested-menu">
-			<a class="list-group-item" (click)="addExpandClass('pages')">
+			<a class="list-group-item" (click)="addExpandClass('warranty')">
 				<span>
-					<i class="fa fa-plus"></i>&nbsp; {{ 'Your Guarantees' | translate }}</span>
+					<i class="fa fa-plus"></i>&nbsp; {{ 'Your Warranties' | translate }}</span>
 			</a>
-			<li class="nested" [class.expand]="showMenu === 'pages'">
+			<li class="nested" [class.expand]="showMenu === 'warranty'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'New Guarantee' | translate }}</span>
+							<span>{{ 'New Warranty' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Check Guarantee' | translate }}</span>
+							<span>{{ 'Check Warranty' | translate }}</span>
 						</a>
 					</li>
 				</ul>
@@ -58,11 +58,11 @@
 			<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Profile' | translate }}
 		</a>
 		<div class="nested-menu">
-			<a class="list-group-item" (click)="addExpandClass('pages')">
+			<a class="list-group-item" (click)="addExpandClass('users')">
 				<span>
 					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
 			</a>
-			<li class="nested" [class.expand]="showMenu === 'pages'">
+			<li class="nested" [class.expand]="showMenu === 'users'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
@@ -83,11 +83,11 @@
 			</li>
 		</div>
 		<div class="nested-menu">
-			<a class="list-group-item" (click)="addExpandClass('pages')">
+			<a class="list-group-item" (click)="addExpandClass('sellers')">
 				<span>
 					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Sellers' | translate }}</span>
 			</a>
-			<li class="nested" [class.expand]="showMenu === 'pages'">
+			<li class="nested" [class.expand]="showMenu === 'sellers'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
@@ -108,11 +108,11 @@
 			</li>
 		</div>
 		<div class="nested-menu">
-			<a class="list-group-item" (click)="addExpandClass('pages')">
+			<a class="list-group-item" (click)="addExpandClass('orders')">
 				<span>
 					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
 			</a>
-			<li class="nested" [class.expand]="showMenu === 'pages'">
+			<li class="nested" [class.expand]="showMenu === 'orders'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
@@ -148,15 +148,15 @@
 			</li>
 		</div>
 		<div class="nested-menu">
-			<a class="list-group-item" (click)="addExpandClass('pages')">
+			<a class="list-group-item" (click)="addExpandClass('warranties')">
 				<span>
-					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Guarantees' | translate }}</span>
+					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
 			</a>
-			<li class="nested" [class.expand]="showMenu === 'pages'">
+			<li class="nested" [class.expand]="showMenu === 'warranties'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Check Guarantees' | translate }}</span>
+							<span>{{ 'Check Warranty' | translate }}</span>
 						</a>
 					</li>
 				</ul>

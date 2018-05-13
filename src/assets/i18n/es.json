@@ -35,9 +35,9 @@
     "Your Shipping Addresses" : "Tus Direcciones de Envío",
     "Your Payments" : "Tus Pagos",
     "Activity" : "Actividad",
-    "Your Guarantees" : "Tus Garantías",
-    "New Guarantee" : "Nueva Garantía",
-    "Check Guarantee" : "Consultar Garantía",
+    "Your Warranties" : "Tus Garantías",
+    "New Warranty" : "Nueva Garantía",
+    "Check Warranty" : "Consultar Garantía",
     "Manage Users" : "Gestionar Usuarios",
     "New Account" : "Nueva Cuenta",
     "Check Account" : "Consultar Cuenta",
@@ -53,7 +53,7 @@
     "Resolve Problem" : "Resolver Problema",
     "Cancel Order" : "Cancelar Orden",
     "Add Payment" : "Agregar Pago",
-    "Manage Guarantees" : "Gestionar Garantías",
-    "Check Guarantees" : "Consultar Garantías"
+    "Manage Warranties" : "Gestionar Garantías",
+    "Check Warranties" : "Consultar Garantías"
 
 }
