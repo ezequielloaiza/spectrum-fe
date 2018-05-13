@@ -53,6 +53,115 @@
 				</ul>
 			</li>
 		</div>
+		<!--ADMIN MENU-->
+		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Profile' | translate }}
+		</a>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('pages')">
+				<span>
+					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'pages'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'New Account' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Check Account' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Check Payments' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('pages')">
+				<span>
+					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Sellers' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'pages'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'New Seller' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Assign Seller' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Check Seller' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('pages')">
+				<span>
+					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'pages'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'New Order' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Check Order' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Verify Payment' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Resolve Problem' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Cancel Order' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Add Payment' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('pages')">
+				<span>
+					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Guarantees' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'pages'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Check Guarantees' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
 		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
 		</a>
