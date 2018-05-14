@@ -37,23 +37,29 @@
     "Activity" : "Activity",
     "Your Warranties" : "Your Warranties",
     "New Warranty" : "New Warranty",
-    "Check Warranty" : "Check Warranty",
+    "Consult Warranty" : "Consult Warranty",
     "Manage Users" : "Manage Users",
     "New Account" : "New Account",
-    "Check Account" : "Check Account",
-    "Check Payments" : "Check Payments",
+    "Consult Account" : "Consult Account",
+    "Consult Payments" : "Consult Payments",
     "Manage Sellers" : "Manage Sellers",
     "New Seller" : "New Seller",
     "Assign Seller" : "Assign Seller",
-    "Check Seller" : "Check Seller",
+    "Consult Seller" : "Consult Seller",
     "Manage Orders" : "Manage Orders",
     "New Order" : "New Order",
-    "Check Order" : "Check Order",
+    "Consult Order" : "Consult Order",
     "Verify Payment" : "Verify Payment",
     "Resolve Problem" : "Resolve Problem",
     "Cancel Order" : "Cancel Order",
     "Add Payment" : "Add Payment",
     "Manage Warranties" : "Manage Warranties",
-    "Check Warranties" : "Check Warranties"
+    "Consult Warranties" : "Consult Warranties",
+    "Your Orders" : "Your Orders",
+    "Consult Order" : "Consult Order",
+    "Attach Payment" : "Attach Payment",
+    "Report a Problem" : "Report a Problem"
+
+
 
 }

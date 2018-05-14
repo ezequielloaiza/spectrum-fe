@@ -6,28 +6,60 @@
 		<div class="nested-menu">
 			<a class="list-group-item" (click)="addExpandClass('account')">
 				<span>
-					<i class="fa fa-plus"></i>&nbsp; {{ 'Your Account' | translate }}</span>
+					<i class="fa fa-user"></i>&nbsp; {{ 'Your Account' | translate }}</span>
 			</a>
 			<li class="nested" [class.expand]="showMenu === 'account'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Your Profile' | translate }}</span>
+							<span>
+								<i class="fa fa-user-circle"></i>&nbsp; {{ 'Your Profile' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Your Shipping Addresses' | translate }}</span>
+							<span>
+								<i class="fa fa-truck"></i>&nbsp; {{ 'Your Shipping Addresses' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Your Payments' | translate }}</span>
+							<span>
+								<i class="fa fa-credit-card"></i>&nbsp; {{ 'Your Payments' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Activity' | translate }}</span>
+							<span>
+								<i class="fa fa-tasks"></i>&nbsp; {{ 'Activity' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('order')">
+				<span>
+					<i class="fa fa-folder-open"></i>&nbsp; {{ 'Your Orders' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'order'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-money"></i>&nbsp; {{ 'Attach Payment' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-exclamation-triangle"></i>&nbsp; {{ 'Report a Problem' | translate }}</span>
 						</a>
 					</li>
 				</ul>
@@ -36,18 +68,20 @@
 		<div class="nested-menu">
 			<a class="list-group-item" (click)="addExpandClass('warranty')">
 				<span>
-					<i class="fa fa-plus"></i>&nbsp; {{ 'Your Warranties' | translate }}</span>
+					<i class="fa fa-certificate"></i>&nbsp; {{ 'Your Warranties' | translate }}</span>
 			</a>
 			<li class="nested" [class.expand]="showMenu === 'warranty'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'New Warranty' | translate }}</span>
+							<span>
+								<i class="fa fa-plus-circle"></i>&nbsp; {{ 'New Warranty' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Check Warranty' | translate }}</span>
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Warranty' | translate }}</span>
 						</a>
 					</li>
 				</ul>
@@ -55,28 +89,31 @@
 		</div>
 		<!--ADMIN MENU-->
 		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-			<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Profile' | translate }}
+			<i class="fa fa-user"></i>&nbsp;{{ 'Profile' | translate }}
 		</a>
 		<div class="nested-menu">
 			<a class="list-group-item" (click)="addExpandClass('users')">
 				<span>
-					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
+					<i class="fa fa-users"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
 			</a>
 			<li class="nested" [class.expand]="showMenu === 'users'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'New Account' | translate }}</span>
+							<span>
+								<i class="fa fa-user-plus"></i>&nbsp; {{ 'New Account' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Check Account' | translate }}</span>
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Account' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Check Payments' | translate }}</span>
+							<span>
+								<i class="fa fa-money"></i>&nbsp; {{ 'Consult Payments' | translate }}</span>
 						</a>
 					</li>
 				</ul>
@@ -85,23 +122,26 @@
 		<div class="nested-menu">
 			<a class="list-group-item" (click)="addExpandClass('sellers')">
 				<span>
-					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Sellers' | translate }}</span>
+					<i class="fa fa-shopping-bag"></i>&nbsp; {{ 'Manage Sellers' | translate }}</span>
 			</a>
 			<li class="nested" [class.expand]="showMenu === 'sellers'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'New Seller' | translate }}</span>
+							<span>
+								<i class="fa fa-user-plus"></i>&nbsp; {{ 'New Seller' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Assign Seller' | translate }}</span>
+							<span>
+								<i class="fa fa-random"></i>&nbsp; {{ 'Assign Seller' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Check Seller' | translate }}</span>
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Seller' | translate }}</span>
 						</a>
 					</li>
 				</ul>
@@ -110,38 +150,44 @@
 		<div class="nested-menu">
 			<a class="list-group-item" (click)="addExpandClass('orders')">
 				<span>
-					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
+					<i class="fa fa-folder-open"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
 			</a>
 			<li class="nested" [class.expand]="showMenu === 'orders'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'New Order' | translate }}</span>
+							<span>
+								<i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Check Order' | translate }}</span>
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Verify Payment' | translate }}</span>
+							<span>
+								<i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Resolve Problem' | translate }}</span>
+							<span>
+								<i class="fa fa-check"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Cancel Order' | translate }}</span>
+							<span>
+								<i class="fa fa-times"></i>&nbsp; {{ 'Cancel Order' | translate }}</span>
 						</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Add Payment' | translate }}</span>
+							<span>
+								<i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
 						</a>
 					</li>
 				</ul>
@@ -150,13 +196,14 @@
 		<div class="nested-menu">
 			<a class="list-group-item" (click)="addExpandClass('warranties')">
 				<span>
-					<i class="fa fa-plus"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
+					<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
 			</a>
 			<li class="nested" [class.expand]="showMenu === 'warranties'">
 				<ul class="submenu">
 					<li>
 						<a href="javascript:void(0)">
-							<span>{{ 'Check Warranty' | translate }}</span>
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Warranty' | translate }}</span>
 						</a>
 					</li>
 				</ul>
