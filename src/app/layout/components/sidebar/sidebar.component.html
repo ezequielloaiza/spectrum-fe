@@ -88,8 +88,8 @@
 			</li>
 		</div>
 		<!--ADMIN MENU-->
-		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-			<i class="fa fa-user"></i>&nbsp;{{ 'Profile' | translate }}
+		<a [routerLink]="['/profile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-user"></i>&nbsp;  {{ 'Profile' | translate }}
 		</a>
 		<div class="nested-menu">
 			<a class="list-group-item" (click)="addExpandClass('users')">
