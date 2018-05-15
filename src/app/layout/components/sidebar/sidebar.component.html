@@ -1,127 +1,349 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
-    <div class="list-group">
-        <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
-        </a>
-        <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
-        </a>
-        <a [routerLink]="['/tables']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-table"></i>&nbsp;{{ 'Tables' | translate }}
-        </a>
-        <a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-edit"></i>&nbsp;{{ 'Forms' | translate }}
-        </a>
-        <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-desktop"></i>&nbsp;{{ 'Bootstrap Element' | translate }}
-        </a>
-        <a [routerLink]="['/grid']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-wrench"></i>&nbsp;{{ 'Bootstrap Grid' | translate }}
-        </a>
-        <a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-th-list"></i>&nbsp;{{ 'Component' | translate }}
-        </a>
-        <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')">
-                <span><i class="fa fa-plus"></i>&nbsp; {{ 'Menu' | translate }}</span>
-            </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
-                <ul class="submenu">
-                    <li>
-                        <a href="javascript:void(0)"><span>{{ 'Submenu' | translate }}</span></a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)"><span>{{ 'Submenu' | translate }}</span></a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)"><span>{{ 'Submenu' | translate }}</span></a>
-                    </li>
-                </ul>
-            </li>
-        </div>
-        <a [routerLink]="['/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-file-o"></i>&nbsp;{{ 'Blank Page' | translate }}
-        </a>
-        <a class="list-group-item more-themes" href="http://www.strapui.com/" >
-            {{ 'More Theme' | translate }}
-        </a>
-        <div class="header-fields">
-            <a (click)="rltAndLtr()" class="list-group-item">
-                <span><i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>
-            </a>
-            <div class="nested-menu">
-                <a class="list-group-item" (click)="addExpandClass('languages')">
-                    <span><i class="fa fa-language"></i>&nbsp; {{ 'Language' | translate }} <b class="caret"></b></span>
-                </a>
-                <li class="nested" [class.expand]="showMenu === 'languages'">
-                    <ul class="submenu">
-                        <li>
-                            <a href="javascript:void(0)" (click)="changeLang('en')">
-                                {{ 'English' | translate }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)" (click)="changeLang('fr')">
-                                {{ 'French' | translate }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)" (click)="changeLang('ur')">
-                                {{ 'Urdu' | translate }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)" (click)="changeLang('es')">
-                                {{ 'Spanish' | translate }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)" (click)="changeLang('it')">
-                                {{ 'Italian' | translate }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)" (click)="changeLang('fa')">
-                                {{ 'Farsi' | translate }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)" (click)="changeLang('de')">
-                                {{ 'German' | translate }}
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </div>
-            <div class="nested-menu">
-                <a class="list-group-item" (click)="addExpandClass('profile')">
-                    <span><i class="fa fa-user"></i>&nbsp; John Smith</span>
-                </a>
-                <li class="nested" [class.expand]="showMenu === 'profile'">
-                    <ul class="submenu">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <span><i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <span><i class="fa fa-fw fa-envelope"></i> {{ 'Inbox' | translate }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <span><i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a [routerLink]="['/login']" (click)="onLoggedout()">
-                                <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </div>
-        </div>
-    </div>
+	<div class="list-group">
+		<a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
+		</a>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('account')">
+				<span>
+					<i class="fa fa-user"></i>&nbsp; {{ 'Your Account' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'account'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-user-circle"></i>&nbsp; {{ 'Your Profile' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-truck"></i>&nbsp; {{ 'Your Shipping Addresses' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-credit-card"></i>&nbsp; {{ 'Your Payments' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-tasks"></i>&nbsp; {{ 'Activity' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('order')">
+				<span>
+					<i class="fa fa-folder-open"></i>&nbsp; {{ 'Your Orders' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'order'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-money"></i>&nbsp; {{ 'Attach Payment' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-exclamation-triangle"></i>&nbsp; {{ 'Report a Problem' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('warranty')">
+				<span>
+					<i class="fa fa-certificate"></i>&nbsp; {{ 'Your Warranties' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'warranty'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-plus-circle"></i>&nbsp; {{ 'New Warranty' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Warranty' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<!--ADMIN MENU-->
+		<a [routerLink]="['/profile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-user"></i>&nbsp;  {{ 'Profile' | translate }}
+		</a>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('users')">
+				<span>
+					<i class="fa fa-users"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'users'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-user-plus"></i>&nbsp; {{ 'New Account' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Account' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-money"></i>&nbsp; {{ 'Consult Payments' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('sellers')">
+				<span>
+					<i class="fa fa-shopping-bag"></i>&nbsp; {{ 'Manage Sellers' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'sellers'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-user-plus"></i>&nbsp; {{ 'New Seller' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-random"></i>&nbsp; {{ 'Assign Seller' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Seller' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('orders')">
+				<span>
+					<i class="fa fa-folder-open"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'orders'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-check"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-times"></i>&nbsp; {{ 'Cancel Order' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('warranties')">
+				<span>
+					<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'warranties'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>
+								<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Warranty' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
+		</a>
+		<a [routerLink]="['/tables']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-fw fa-table"></i>&nbsp;{{ 'Tables' | translate }}
+		</a>
+		<a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-fw fa-edit"></i>&nbsp;{{ 'Forms' | translate }}
+		</a>
+		<a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-fw fa-desktop"></i>&nbsp;{{ 'Bootstrap Element' | translate }}
+		</a>
+		<a [routerLink]="['/grid']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-fw fa-wrench"></i>&nbsp;{{ 'Bootstrap Grid' | translate }}
+		</a>
+		<a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-th-list"></i>&nbsp;{{ 'Component' | translate }}
+		</a>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('pages')">
+				<span>
+					<i class="fa fa-plus"></i>&nbsp; {{ 'Menu' | translate }}</span>
+			</a>
+			<li class="nested" [class.expand]="showMenu === 'pages'">
+				<ul class="submenu">
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Submenu' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Submenu' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">
+							<span>{{ 'Submenu' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<a [routerLink]="['/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<i class="fa fa-file-o"></i>&nbsp;{{ 'Blank Page' | translate }}
+		</a>
+		<a class="list-group-item more-themes" href="http://www.strapui.com/">
+			{{ 'More Theme' | translate }}
+		</a>
+		<div class="header-fields">
+			<a (click)="rltAndLtr()" class="list-group-item">
+				<span>
+					<i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>
+			</a>
+			<div class="nested-menu">
+				<a class="list-group-item" (click)="addExpandClass('languages')">
+					<span>
+						<i class="fa fa-language"></i>&nbsp; {{ 'Language' | translate }}
+						<b class="caret"></b>
+					</span>
+				</a>
+				<li class="nested" [class.expand]="showMenu === 'languages'">
+					<ul class="submenu">
+						<li>
+							<a href="javascript:void(0)" (click)="changeLang('en')">
+								{{ 'English' | translate }}
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" (click)="changeLang('fr')">
+								{{ 'French' | translate }}
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" (click)="changeLang('ur')">
+								{{ 'Urdu' | translate }}
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" (click)="changeLang('es')">
+								{{ 'Spanish' | translate }}
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" (click)="changeLang('it')">
+								{{ 'Italian' | translate }}
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" (click)="changeLang('fa')">
+								{{ 'Farsi' | translate }}
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" (click)="changeLang('de')">
+								{{ 'German' | translate }}
+							</a>
+						</li>
+					</ul>
+				</li>
+			</div>
+			<div class="nested-menu">
+				<a class="list-group-item" (click)="addExpandClass('profile')">
+					<span>
+						<i class="fa fa-user"></i>&nbsp; John Smith</span>
+				</a>
+				<li class="nested" [class.expand]="showMenu === 'profile'">
+					<ul class="submenu">
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-fw fa-envelope"></i> {{ 'Inbox' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a [routerLink]="['/login']" (click)="onLoggedout()">
+								<span>
+									<i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</div>
+		</div>
+	</div>
 </nav>
