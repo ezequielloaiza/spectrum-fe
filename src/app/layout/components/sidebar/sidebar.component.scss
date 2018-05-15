@@ -1,4 +1,6 @@
-$topnav-background-color: #222;
+$topnav-background-color: #494949;
+$sidebar-background-color: #1756a6;
+
 .sidebar {
     border-radius: 0;
     position: fixed;
@@ -25,7 +27,7 @@ $topnav-background-color: #222;
             background: $topnav-background-color;
             border: 0;
             border-radius: 0;
-            color: #999;
+            color: #ffff;
             text-decoration: none;
             .fa {
                 margin-right: 10px;
@@ -37,7 +39,7 @@ $topnav-background-color: #222;
         }
         a.router-link-active {
             background: darken($topnav-background-color, 5%);
-            color: #fff;
+            color: #f90;
         }
         .header-fields {
             padding-top: 10px;
@@ -79,7 +81,7 @@ $topnav-background-color: #222;
             background: darken($topnav-background-color, 5%);
         }
         .panel-collapse {
-            border-radious: 0;
+            border-radius: 0;
             border: none;
             .panel-body {
                 .list-group-item {
