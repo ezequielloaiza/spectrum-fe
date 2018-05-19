@@ -4,6 +4,11 @@ import { routerTransition } from '../router.animations';
 import { UserService } from '../shared/services/user/user.service';
 import { StoreService } from '../http/store.service';
 import { UserStorageService } from '../http/user-storage.service';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators
+} from '@angular/forms';
 
 @Component({
     selector: 'app-login',
@@ -13,8 +18,10 @@ import { UserStorageService } from '../http/user-storage.service';
 })
 export class LoginComponent implements OnInit {
 
+  public form: FormGroup;
+
   constructor(public router: Router, private userService: UserService, private store: StoreService,
-    private userStorageService: UserStorageService) {}
+    private userStorageService: UserStorageService, private formBuilder: FormBuilder) {}
 
   user: any = {
     username: '',
@@ -23,10 +30,13 @@ export class LoginComponent implements OnInit {
 
   message: String = '';
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initializeForm();
+  }
 
-  signIn(): void {
-    this.userService.signIn$(this.user).subscribe(res => {
+  signIn(user: any): void {
+    console.log('1', user);
+    this.userService.signIn$(user).subscribe(res => {
       if (res.code === 200) {
         this.store.setUserToken(res.data.token);
         this.userStorageService.saveCurrentUser(JSON.stringify(res.data));
@@ -37,5 +47,17 @@ export class LoginComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+  }
+
+  private initializeForm(): void {
+    this.form = this.formBuilder.group({
+      username: [
+        this.user.username, [Validators.required]
+      ],
+      password: [
+        this.user.password, [Validators.required]
+      ]
+    });
+
   }
 }

@@ -1,0 +1,71 @@
+<div>
+  <app-page-header [heading]="'List Of Clients'"
+                   [icon]="'fa fa-users'"></app-page-header>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            ALL CLIENTS
+          </div>
+          <div class="ml-auto p-2">
+            <button type="button"
+                    class="btn btn-primary"
+                    (click)="openModal()">Add Client</button>
+          </div>
+        </div>
+        <div class="card-body table-responsive table-hover">
+          <table class="table">
+            <thead>
+              <tr class="border-thead">
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>
+                  <div class="d-flex flex-row justify-content-center justify-content-between">
+                    <div (click)="openModal()">
+                      <i class="fa fa-pencil"
+                         aria-hidden="true"></i>
+                    </div>
+                    <div>
+                      <i class="fa fa-trash"
+                         aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>
+                  <div class="d-flex flex-row justify-content-center justify-content-between">
+                    <div>
+                      <i class="fa fa-pencil"
+                         aria-hidden="true"></i>
+                    </div>
+                    <div>
+                      <i class="fa fa-trash"
+                         aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
