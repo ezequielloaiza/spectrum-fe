@@ -1,0 +1,64 @@
+<div>
+	<app-page-header [heading]="'List Shipping Address'" [icon]="'fa-edit'"></app-page-header>
+  <div class="card mb-3">
+    <div class="card-header">
+      {{ 'Add Shipping Address' }}
+      <button class="btn btn-main" (click)="open(content)">{{ 'New' | translate }}&nbsp;
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="table-tr"></th>
+            <th class="table-tr">Name</th>
+            <th class="table-tr">Company</th>
+            <th class="table-tr">Username</th>
+            <th class="table-tr"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="table-tr" scope="row">1</th>
+            <td class="table-tr">Mark</td>
+            <td class="table-tr">Otto</td>
+            <td class="table-tr">@mdo</td>
+            <td class="table-tr">
+              <div class="d-flex flex-row justify-content-around">
+                <div ngbDropdown class="d-inline-block dropdown">
+                  <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                  <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="open(content)">
+                      <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                    <button class="dropdown-item" (click)="open(content1)">
+                      <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th class="table-tr" scope="row">1</th>
+            <td class="table-tr">Mark</td>
+            <td class="table-tr">Otto</td>
+            <td class="table-tr">@mdo</td>
+            <td class="table-tr">
+              <div class="d-flex flex-row justify-content-around">
+                <div ngbDropdown class="d-inline-block dropdown">
+                  <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                  <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="open(content)">
+                      <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                    <button class="dropdown-item" (click)="open(content1)">
+                      <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

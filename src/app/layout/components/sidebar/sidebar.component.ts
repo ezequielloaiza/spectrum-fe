@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { UserStorageService } from '../../../http/user-storage.service';
+import { UserService } from '../../../shared/services';
 
 @Component({
     selector: 'app-sidebar',
@@ -11,12 +13,15 @@ export class SidebarComponent {
     isActive: boolean = false;
     showMenu: string = '';
     pushRightClass: string = 'push-right';
+    user: any;
 
-    constructor(private translate: TranslateService, public router: Router) {
+    constructor(private translate: TranslateService, public router: Router, private userService: UserStorageService) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de']);
         this.translate.setDefaultLang('en');
         const browserLang = this.translate.getBrowserLang();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de/) ? browserLang : 'en');
+        this.user = JSON.parse(userService.getCurrentUser());
+        console.log(this.user);
 
         this.router.events.subscribe(val => {
             if (

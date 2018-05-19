@@ -1,0 +1,7 @@
+@import '../../../styles/spectrum/spectrum';
+
+@include tr-sizes((5%,25%,25%,25%,15%));
+
+.dropdown-item {
+  cursor: pointer;
+}

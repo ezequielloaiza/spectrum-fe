@@ -1,0 +1,13 @@
+.modal-header {
+  background-color: $bg-blue;
+  color: #ffff;
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+  align-items: center;
+  height: 50px;
+
+  >button {
+    color: $bg-white;
+    opacity: 1;
+  }
+}
