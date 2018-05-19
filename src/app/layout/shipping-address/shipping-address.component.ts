@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { ShippingAddressModalComponent } from './modals/shipping-address-modal/shipping-address-modal.component';
 
 @Component({
   selector: 'app-shipping-address',
@@ -7,6 +8,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./shipping-address.component.scss']
 })
 export class ShippingAddressComponent implements OnInit {
+
   closeResult: string;
   constructor(private modalService: NgbModal) { }
 
@@ -15,7 +17,7 @@ export class ShippingAddressComponent implements OnInit {
   }
   
   open(content) {
-		this.modalService.open(content).result.then((result) => {
+		this.modalService.open(ShippingAddressModalComponent).result.then((result) => {
 			this.closeResult = `Closed with: ${result}`;
 		}, (reason) => {
 			this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

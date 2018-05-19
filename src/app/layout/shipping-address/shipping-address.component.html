@@ -1,77 +1,64 @@
-<div class="card mb-3">
-  <div class="card-header">
-    Basic example
-    <button class="btn btn-primary" (click)="open(content)">{{ 'New' | translate}}</button>
-  </div>
-  <div class="card-body table-responsive table-hover">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Company</th>
-          <th>Username</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-          <td>
-            <div class="d-flex flex-row justify-content-around">
-              <div ngbDropdown class="d-inline-block dropdown">
-                <button class="btn btn-outline-primary" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
-                <div ngbDropdownMenu>
-                  <button class="dropdown-item" (click)="open(content)">
-                    <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                  <button class="dropdown-item" (click)="open(content1)">
-                    <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+<div>
+	<app-page-header [heading]="'List Shipping Address'" [icon]="'fa-edit'"></app-page-header>
+  <div class="card mb-3">
+    <div class="card-header">
+      {{ 'Add Shipping Address' }}
+      <button class="btn btn-main" (click)="open(content)">{{ 'New' | translate }}&nbsp;
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="table-tr"></th>
+            <th class="table-tr">Name</th>
+            <th class="table-tr">Company</th>
+            <th class="table-tr">Username</th>
+            <th class="table-tr"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="table-tr" scope="row">1</th>
+            <td class="table-tr">Mark</td>
+            <td class="table-tr">Otto</td>
+            <td class="table-tr">@mdo</td>
+            <td class="table-tr">
+              <div class="d-flex flex-row justify-content-around">
+                <div ngbDropdown class="d-inline-block dropdown">
+                  <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                  <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="open(content)">
+                      <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                    <button class="dropdown-item" (click)="open(content1)">
+                      <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+          <tr>
+            <th class="table-tr" scope="row">1</th>
+            <td class="table-tr">Mark</td>
+            <td class="table-tr">Otto</td>
+            <td class="table-tr">@mdo</td>
+            <td class="table-tr">
+              <div class="d-flex flex-row justify-content-around">
+                <div ngbDropdown class="d-inline-block dropdown">
+                  <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                  <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="open(content)">
+                      <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                    <button class="dropdown-item" (click)="open(content1)">
+                      <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Shipping Address</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <fieldset class="form-group">
-      <label>Company</label>
-      <input class="form-control" placeholder="Enter text">
-    </fieldset>
-    <fieldset class="form-group">
-      <label>Name</label>
-      <textarea class="form-control" rows="3"></textarea>
-    </fieldset>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-  </div>
-</ng-template>
-
-<ng-template #content1 let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">Delete</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <p>Are you sure delete this shipping address?&hellip;</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-    </div>
-</ng-template>

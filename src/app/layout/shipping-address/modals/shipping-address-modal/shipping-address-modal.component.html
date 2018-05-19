@@ -1,0 +1,23 @@
+
+  <div class="modal-header">
+    <h4 class="modal-title">Shipping Address</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <fieldset class="form-group">
+      <label for="disabledSelect">{{ 'Company' | translate}}</label>
+      <select id="disabledSelect" class="form-control">
+        <option>{{ 'Select the company' | translate }}</option>
+      </select>
+    </fieldset>
+    <fieldset class="form-group">
+      <label>Name</label>
+      <textarea class="form-control" rows="3"></textarea>
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-main">Save</button>
+    <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+  </div>

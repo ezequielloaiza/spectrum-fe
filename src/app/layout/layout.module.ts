@@ -8,6 +8,8 @@ import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
+import { PageHeaderModule } from './../shared';
+import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
 
 @NgModule({
     imports: [
@@ -15,8 +17,10 @@ import { ShippingAddressComponent } from './shipping-address/shipping-address.co
         LayoutRoutingModule,
         TranslateModule,
         NgbDropdownModule.forRoot(),
-        NgbModule.forRoot()
+        NgbModule.forRoot(),
+        PageHeaderModule
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ShippingAddressComponent]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ShippingAddressComponent, ShippingAddressModalComponent],
+    entryComponents: [ShippingAddressModalComponent]
 })
 export class LayoutModule {}
