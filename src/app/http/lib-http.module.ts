@@ -1,7 +1,6 @@
 import { CatchInterceptorService } from './catch-interceptor.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { StoreService } from './store.service';
 import { TokenInterceptorService } from './token-interceptor.service';
 
 @NgModule({

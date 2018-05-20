@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
 import { UserService } from '../shared/services/user/user.service';
-import { StoreService } from '../http/store.service';
 import { UserStorageService } from '../http/user-storage.service';
 
 @Component({
@@ -13,7 +12,7 @@ import { UserStorageService } from '../http/user-storage.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public router: Router, private userService: UserService, private store: StoreService,
+  constructor(public router: Router, private userService: UserService,
     private userStorageService: UserStorageService) {}
 
   user: any = {
