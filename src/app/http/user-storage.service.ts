@@ -6,6 +6,8 @@ const CURRENT_USER = 'currentUser';
 @Injectable()
 export class UserStorageService {
 
+  currentUser = {token: ''};
+
   constructor() { }
 
   signOut() {
@@ -21,5 +23,10 @@ export class UserStorageService {
 
   public getCurrentUser(): string {
     return sessionStorage.getItem(CURRENT_USER);
+  }
+
+  public getToke(): string {
+    this.currentUser = JSON.parse(sessionStorage.getItem(CURRENT_USER));
+    return this.currentUser.token;
   }
 }

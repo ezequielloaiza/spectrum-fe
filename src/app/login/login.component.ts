@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit {
   signIn(): void {
     this.userService.signIn$(this.user).subscribe(res => {
       if (res.code === 200) {
-        this.store.setUserToken(res.data.token);
         this.userStorageService.saveCurrentUser(JSON.stringify(res.data));
         this.router.navigateByUrl('');
       } else {
