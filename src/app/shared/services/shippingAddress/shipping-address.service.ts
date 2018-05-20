@@ -18,8 +18,8 @@ export class ShippingAddressService {
     return this.http.put(environment.apiUrl + 'address/update', shippingAddress);
   }
 
-  public findAllByCompany$(id): Observable<any> {
-    return this.http.get(environment.apiUrl + 'address/findAllByCompany/' + id);
+  public findAll$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'address/findAll');
   }
 
   public removeById$(id): Observable<any> {

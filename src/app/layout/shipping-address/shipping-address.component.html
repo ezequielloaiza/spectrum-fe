@@ -1,9 +1,9 @@
 <div>
-	<app-page-header [heading]="'List Shipping Address'" [icon]="'fa-edit'"></app-page-header>
+  <app-page-header [heading]="'List Shipping Address'" [icon]="'fa-edit'"></app-page-header>
   <div class="card mb-3">
     <div class="card-header">
       {{ 'Add Shipping Address' }}
-      <button class="btn btn-main" (click)="open(content)">{{ 'New' | translate }}&nbsp;
+      <button class="btn btn-main" (click)="open(content,'create')">{{ 'New' | translate }}&nbsp;
         <i class="fa fa-plus"></i>
       </button>
     </div>
@@ -12,45 +12,24 @@
         <thead>
           <tr>
             <th class="table-tr"></th>
-            <th class="table-tr">Name</th>
+            <th class="table-tr">Address</th>
             <th class="table-tr">Company</th>
-            <th class="table-tr">Username</th>
             <th class="table-tr"></th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngFor="let address of addresses">
             <th class="table-tr" scope="row">1</th>
-            <td class="table-tr">Mark</td>
-            <td class="table-tr">Otto</td>
-            <td class="table-tr">@mdo</td>
+            <td class="table-tr"> {{ address.name }}</td>
+            <td class="table-tr"> {{ address.company.companyName }}</td>
             <td class="table-tr">
               <div class="d-flex flex-row justify-content-around">
                 <div ngbDropdown class="d-inline-block dropdown">
                   <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                   <div ngbDropdownMenu>
-                    <button class="dropdown-item" (click)="open(content)">
+                    <button class="dropdown-item" (click)="open(address,'edit')">
                       <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                    <button class="dropdown-item" (click)="open(content1)">
-                      <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th class="table-tr" scope="row">1</th>
-            <td class="table-tr">Mark</td>
-            <td class="table-tr">Otto</td>
-            <td class="table-tr">@mdo</td>
-            <td class="table-tr">
-              <div class="d-flex flex-row justify-content-around">
-                <div ngbDropdown class="d-inline-block dropdown">
-                  <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
-                  <div ngbDropdownMenu>
-                    <button class="dropdown-item" (click)="open(content)">
-                      <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                    <button class="dropdown-item" (click)="open(content1)">
+                    <button class="dropdown-item" (click)="delete(address.idAddress)">
                       <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
                   </div>
                 </div>
@@ -59,6 +38,12 @@
           </tr>
         </tbody>
       </table>
+      <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxAddresses.length"
+        [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+      </ngb-pagination>
+      <div class="alert alert-info">
+        <b>Current page: </b>{{advancedPagination}}
+      </div>
     </div>
   </div>
 </div>

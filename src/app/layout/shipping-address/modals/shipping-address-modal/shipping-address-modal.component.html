@@ -1,7 +1,7 @@
 
   <div class="modal-header">
     <h4 class="modal-title">Shipping Address</h4>
-    <button type="button" class="close" aria-label="Close" (click)="close()">
+    <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -9,17 +9,17 @@
     <form [formGroup]="form">
       <fieldset class="form-group">
         <label>{{ 'Company' | translate}}</label>
-        <select class="form-control" *ngFor="let company of companies">
-          <option>{{ company.name }}</option>
+        <select class="form-control" name="companyId" formControlName="companyId">
+          <option *ngFor="let company of companies" [ngValue]="company.idCompany" >{{ company.companyName }}</option>
         </select>
       </fieldset>
       <fieldset class="form-group">
         <label> {{ 'Address' }} </label>
-        <textarea name="address" formControlName="address" rows="3"></textarea>
+        <textarea name="name" formControlName="name" rows="3"></textarea>
       </fieldset>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-main" (click)="save()">Save</button>
-    <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+    <button type="button" class="btn btn-main" (click)="save(action)">Save</button>
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">Close</button>
   </div>

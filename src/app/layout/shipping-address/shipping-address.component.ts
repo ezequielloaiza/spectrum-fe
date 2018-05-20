@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { ShippingAddressModalComponent } from './modals/shipping-address-modal/shipping-address-modal.component';
+import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
+import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 
 @Component({
   selector: 'app-shipping-address',
@@ -9,18 +11,29 @@ import { ShippingAddressModalComponent } from './modals/shipping-address-modal/s
 })
 export class ShippingAddressComponent implements OnInit {
 
-  closeResult: string;
-  constructor(private modalService: NgbModal) { }
+	closeResult: string;
+	addresses: Array<any> = new Array;
+	auxAddresses: Array<any> = new Array;
+	advancedPagination: number;
+	itemPerPage: number = 5;
+
+	constructor(private modalService: NgbModal,
+							private shippingAddressService: ShippingAddressService,
+							private alertify: AlertifyService){}
 
   ngOnInit() {
-    
+		this.getAddress();
+		this.advancedPagination = 1;
   }
   
-  open(content) {
-		this.modalService.open(ShippingAddressModalComponent).result.then((result) => {
-			this.closeResult = `Closed with: ${result}`;
-		}, (reason) => {
-			this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  open(address,action) {
+		const modalRef = this.modalService.open(ShippingAddressModalComponent);
+		modalRef.componentInstance.address = address;
+		modalRef.componentInstance.action = action;
+		modalRef.result.then((result) => {
+			this.getAddress();
+		} , (reason) => {
+
 		});
 	}
 
@@ -32,6 +45,46 @@ export class ShippingAddressComponent implements OnInit {
 		} else {
 			return `with: ${reason}`;
 		}
+	}
+
+	getAddress() {
+    this.shippingAddressService.findAll$().subscribe(res => {
+      if (res.code === 200) {
+				this.auxAddresses = res.data;
+				this.addresses = this.auxAddresses.slice(0,this.itemPerPage);
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+	}
+
+	borrar(id) {
+		console.log('borrar', id);
+		this.shippingAddressService.removeById$(id).subscribe(res => {
+			console.log('test');
+			if (res.code === 200) {
+				this.getAddress();
+			} else {
+				console.log(res.errors[0].detail);
+			}
+		}, error => {
+			console.log('error', error);
+		});
+	}
+	
+	delete(id) {
+		this.alertify.confirm('Are you sure do you want to delete this?', () => {
+			this.borrar(id);
+		});
+	}
+
+	pageChange(event) {
+		event.page;
+		let startItem = (event - 1) * this.itemPerPage;
+		let endItem = event * this.itemPerPage;
+		this.addresses = this.auxAddresses.slice(startItem,endItem);
 	}
 
 }

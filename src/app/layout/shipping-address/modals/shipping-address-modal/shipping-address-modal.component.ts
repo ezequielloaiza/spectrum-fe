@@ -13,18 +13,23 @@ export class ShippingAddressModalComponent implements OnInit {
 
   form: FormGroup;
   companies: Array<any>;
+  address: any;
+  action: string;
+
 
   constructor(
-    private modalReference: NgbActiveModal,
+    public modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
     private shippingAddressService: ShippingAddressService,
     private companyService: CompanyService) {
    }
 
   initializeForm() {
-    this.form = this.formBuilder.group({ address: ['',[ Validators.required]],
-                                         company: ['', [ Validators.required]]
-                                      });
+    this.form = this.formBuilder.group({ 
+      id       : [this.action === 'edit' ? this.address.idAddress : ''],
+      companyId: [ this.action === 'edit' ? this.address.company.idCompany : '',[ Validators.required]],
+      name     : [this.action === 'edit' ? this.address.name : '', [ Validators.required]]
+    });
   }
 
   ngOnInit() {
@@ -33,19 +38,31 @@ export class ShippingAddressModalComponent implements OnInit {
   }
 
   save(): void {
-    this.shippingAddressService.save$(this.form.value).subscribe(res => {
-      if (res.code === 200) {
-        close();
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
+    if (this.action !== 'edit') {
+      this.shippingAddressService.save$(this.form.value).subscribe(res => {
+        if (res.code === 200) {
+          this.close();
+        } else {
+          console.log(res.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    } else {
+      console.log('save',this.form.value);
+      this.shippingAddressService.update$(this.form.value).subscribe(res => {
+        if (res.code === 200) {
+          this.close();
+        } else {
+          console.log(res.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    }
   }
 
   getCompanies() {
-    console.log('companias')
     this.companyService.findAllByCompany$().subscribe(res => {
       if (res.code === 200) {
         this.companies = res.data;
@@ -59,7 +76,7 @@ export class ShippingAddressModalComponent implements OnInit {
   }
 
   close() {
-    this.modalReference.dismiss();
+    this.modalReference.close();
   }
 
 }

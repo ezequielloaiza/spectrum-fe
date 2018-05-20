@@ -11,6 +11,7 @@ import { ShippingAddressComponent } from './shipping-address/shipping-address.co
 import { PageHeaderModule } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AlertifyService } from '../shared/services/alertify/alertify.service';
 
 @NgModule({
     imports: [
@@ -21,9 +22,9 @@ import { ReactiveFormsModule } from '@angular/forms';
         NgbModule.forRoot(),
         PageHeaderModule,
         ReactiveFormsModule
-
     ],
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ShippingAddressComponent, ShippingAddressModalComponent],
-    entryComponents: [ShippingAddressModalComponent]
+    entryComponents: [ShippingAddressModalComponent],
+    providers: [AlertifyService]
 })
 export class LayoutModule {}
