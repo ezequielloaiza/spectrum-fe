@@ -9,14 +9,13 @@ import {
 } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { StoreService } from './store.service';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class CatchInterceptorService implements HttpInterceptor {
   private started;
 
-  constructor(private router: Router, private store: StoreService) {}
+  constructor(private router: Router) {}
 
   public intercept(
     req: HttpRequest<any>,
@@ -27,7 +26,6 @@ export class CatchInterceptorService implements HttpInterceptor {
       this.catchError
     );
     this.started = Date.now();
-    this.store.setUserMessage('');
     const handledRequest = next.handle(req);
     return handledRequest.pipe(interceptionOperator);
   }
@@ -43,7 +41,6 @@ export class CatchInterceptorService implements HttpInterceptor {
       this.catchHttpError(err);
     } else {
       console.error(err.message);
-      this.store.setUserMessage(err.message);
     }
   }
 
@@ -52,12 +49,10 @@ export class CatchInterceptorService implements HttpInterceptor {
       this.catchUnauthorized();
     } else {
       console.warn(err.statusText);
-      this.store.setUserMessage(err.statusText);
     }
   }
 
   private catchUnauthorized() {
-    this.store.setUserMessage('Not authorized');
     this.navigateToLogin();
   }
   private navigateToLogin() {
