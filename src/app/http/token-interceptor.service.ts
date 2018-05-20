@@ -7,20 +7,14 @@ import {
 } from '@angular/common/http';
 import { StoreService } from './store.service';
 import { Observable } from 'rxjs';
+import { UserStorageService } from './user-storage.service';
 
 @Injectable()
 export class TokenInterceptorService implements HttpInterceptor {
   private token: String = '';
 
-  constructor(private store: StoreService) {
-    this.subscribeToTokenChanges();
+  constructor(private store: UserStorageService) {
   }
-
-  private subscribeToTokenChanges() {
-    this.store.getUserToken$().subscribe(this.setToken);
-  }
-
-  private setToken = token => (this.token = token);
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authorizationReq = this.setAuthHeader(req);
@@ -28,7 +22,7 @@ export class TokenInterceptorService implements HttpInterceptor {
     return handledRequest;
   }
   private setAuthHeader(req: HttpRequest<any>): HttpRequest<any> {
-    const authToken = `${this.token}`;
+    const authToken = this.store.getToke();
     const headers = req.headers.set('Authorization', authToken);
     const authorizedReq = req.clone({ headers });
     return authorizedReq;

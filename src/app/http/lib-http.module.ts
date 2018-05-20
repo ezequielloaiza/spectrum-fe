@@ -17,8 +17,7 @@ import { TokenInterceptorService } from './token-interceptor.service';
       provide: HTTP_INTERCEPTORS,
      useClass: CatchInterceptorService,
       multi: true
-    },
-    StoreService
+    }
   ]
 })
 export class LibHttpModule { }
