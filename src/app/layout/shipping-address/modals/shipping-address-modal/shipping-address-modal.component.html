@@ -6,18 +6,20 @@
     </button>
   </div>
   <div class="modal-body">
-    <fieldset class="form-group">
-      <label for="disabledSelect">{{ 'Company' | translate}}</label>
-      <select id="disabledSelect" class="form-control">
-        <option>{{ 'Select the company' | translate }}</option>
-      </select>
-    </fieldset>
-    <fieldset class="form-group">
-      <label>Name</label>
-      <textarea class="form-control" rows="3"></textarea>
-    </fieldset>
+    <form [formGroup]="form">
+      <fieldset class="form-group">
+        <label>{{ 'Company' | translate}}</label>
+        <select class="form-control" *ngFor="let company of companies">
+          <option>{{ company.name }}</option>
+        </select>
+      </fieldset>
+      <fieldset class="form-group">
+        <label> {{ 'Address' }} </label>
+        <textarea name="address" formControlName="address" rows="3"></textarea>
+      </fieldset>
+    </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-main">Save</button>
+    <button type="button" class="btn btn-main" (click)="save()">Save</button>
     <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
   </div>

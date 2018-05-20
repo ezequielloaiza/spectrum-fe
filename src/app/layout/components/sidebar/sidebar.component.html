@@ -3,7 +3,7 @@
 		<a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
 		</a>
-		<div [hidden]="user.role.idRole === 1">
+		<div [hidden]="user.role.idRole === 2">
 			<div class="nested-menu">
 				<a class="list-group-item" (click)="addExpandClass('account')">
 					<span>

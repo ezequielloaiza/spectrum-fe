@@ -10,6 +10,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
 import { PageHeaderModule } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
@@ -18,7 +19,9 @@ import { ShippingAddressModalComponent } from './shipping-address/modals/shippin
         TranslateModule,
         NgbDropdownModule.forRoot(),
         NgbModule.forRoot(),
-        PageHeaderModule
+        PageHeaderModule,
+        ReactiveFormsModule
+
     ],
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ShippingAddressComponent, ShippingAddressModalComponent],
     entryComponents: [ShippingAddressModalComponent]

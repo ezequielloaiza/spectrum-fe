@@ -8,14 +8,12 @@ import {StoreService} from '../http/store.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-
-
 @NgModule({
     imports: [
         CommonModule,
         LoginRoutingModule,
         FormsModule,
-        HttpClientModule,
+        HttpClientModule
     ],
     declarations: [LoginComponent],
     providers: [UserService,  StoreService]
