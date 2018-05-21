@@ -11,17 +11,15 @@
       <table class="table">
         <thead>
           <tr>
-            <th class="table-tr"></th>
-            <th class="table-tr">Address</th>
             <th class="table-tr">Company</th>
+            <th class="table-tr">Address</th>
             <th class="table-tr"></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let address of addresses">
-            <th class="table-tr" scope="row">1</th>
-            <td class="table-tr"> {{ address.name }}</td>
             <td class="table-tr"> {{ address.company.companyName }}</td>
+            <td class="table-tr"> {{ address.name }}</td>
             <td class="table-tr">
               <div class="d-flex flex-row justify-content-around">
                 <div ngbDropdown class="d-inline-block dropdown">
