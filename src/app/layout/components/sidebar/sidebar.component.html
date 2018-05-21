@@ -3,7 +3,8 @@
 		<a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
 		</a>
-		<div [hidden]="user.role.idRole === 2">
+		<!--<div [hidden]="user.role.idRole === 1">-->
+		<div>
 			<div class="nested-menu">
 				<a class="list-group-item" (click)="addExpandClass('account')">
 					<span>
@@ -89,8 +90,9 @@
 				</li>
 			</div>
 	  </div>
-		<!--ADMIN MENU-->
-		<div [hidden]="user.role.idRole === 1">
+		<!--ADMIN MENU
+		<div [hidden]="user.role.idRole === 2">-->
+		<div>
 			<a [routerLink]="['/profile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-user"></i>&nbsp;  {{ 'Profile' | translate }}
 			</a>

@@ -1,14 +1,14 @@
 <div class="row">
 	<div class="col-xl-12">
 		<h4 class="page-header">
-			{{heading}}
+			{{ heading | translate }}
 		</h4>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
-				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' }}</a>
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
 			</li>
 			<li class="breadcrumb-item active">
-				<i class="fa {{icon}}"></i> {{heading}}</li>
+				<i class="fa {{icon}}"></i> {{ heading | translate}}</li>
 		</ol>
 	</div>
 </div>

@@ -61,7 +61,6 @@ export class ShippingAddressComponent implements OnInit {
 	}
 
 	borrar(id) {
-		console.log('borrar', id);
 		this.shippingAddressService.removeById$(id).subscribe(res => {
 			console.log('test');
 			if (res.code === 200) {
@@ -75,9 +74,11 @@ export class ShippingAddressComponent implements OnInit {
 	}
 	
 	delete(id) {
-		this.alertify.confirm('Are you sure do you want to delete this?', () => {
+		this.alertify.confirm('Delete Shipping Address', 'Are you sure do you want to delete this?', () => {
 			this.borrar(id);
-		});
+		}, () => {
+
+		}) ;
 	}
 
 	pageChange(event) {
