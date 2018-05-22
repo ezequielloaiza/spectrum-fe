@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [
     {
@@ -17,7 +18,8 @@ const routes: Routes = [
             { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
             { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
-            { path: 'shipping-address', component: ShippingAddressComponent }
+            { path: 'shipping-address', component: ShippingAddressComponent },
+            { path: 'products', component: ProductsComponent },
         ]
     }
 ];

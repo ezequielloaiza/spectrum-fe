@@ -12,6 +12,7 @@ import { PageHeaderModule } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertifyService } from '../shared/services/alertify/alertify.service';
+import { ProductsComponent } from './products/products.component';
 
 @NgModule({
     imports: [
@@ -23,7 +24,7 @@ import { AlertifyService } from '../shared/services/alertify/alertify.service';
         PageHeaderModule,
         ReactiveFormsModule
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ShippingAddressComponent, ShippingAddressModalComponent],
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ShippingAddressComponent, ShippingAddressModalComponent, ProductsComponent],
     entryComponents: [ShippingAddressModalComponent],
     providers: [AlertifyService]
 })
