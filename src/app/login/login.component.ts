@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
 import { UserService } from '../shared/services/user/user.service';
-import { StoreService } from '../http/store.service';
 import { UserStorageService } from '../http/user-storage.service';
 import {
   FormGroup,
@@ -20,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   public form: FormGroup;
 
-  constructor(public router: Router, private userService: UserService, private store: StoreService,
+  constructor(public router: Router, private userService: UserService,
     private userStorageService: UserStorageService, private formBuilder: FormBuilder) {}
 
   user: any = {
@@ -38,7 +37,6 @@ export class LoginComponent implements OnInit {
     console.log('1', user);
     this.userService.signIn$(user).subscribe(res => {
       if (res.code === 200) {
-        this.store.setUserToken(res.data.token);
         this.userStorageService.saveCurrentUser(JSON.stringify(res.data));
         this.router.navigateByUrl('');
       } else {
