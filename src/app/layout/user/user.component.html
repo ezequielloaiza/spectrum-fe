@@ -10,11 +10,12 @@
           </div>
           <div class="ml-auto p-2">
             <button type="button"
-                    class="btn btn-primary"
-                    (click)="openModal()">Add Client</button>
+                    class="btn btn-main"
+                    (click)="openModal()"
+                    >Add Client</button>
           </div>
         </div>
-        <div class="card-body table-responsive table-hover">
+        <div class="card-body table-responsive">
           <table class="table">
             <thead>
               <tr class="border-thead">
@@ -31,15 +32,16 @@
                 <td>Mark</td>
                 <td>Otto</td>
                 <td>@mdo</td>
-                <td>
-                  <div class="d-flex flex-row justify-content-center justify-content-between">
-                    <div (click)="openModal()">
-                      <i class="fa fa-pencil"
-                         aria-hidden="true"></i>
-                    </div>
-                    <div>
-                      <i class="fa fa-trash"
-                         aria-hidden="true"></i>
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="open(content)">
+                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                        <button class="dropdown-item" (click)="open(content1)">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -49,15 +51,16 @@
                 <td>Mark</td>
                 <td>Otto</td>
                 <td>@mdo</td>
-                <td>
-                  <div class="d-flex flex-row justify-content-center justify-content-between">
-                    <div>
-                      <i class="fa fa-pencil"
-                         aria-hidden="true"></i>
-                    </div>
-                    <div>
-                      <i class="fa fa-trash"
-                         aria-hidden="true"></i>
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="open(content)">
+                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                        <button class="dropdown-item" (click)="open(content1)">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                      </div>
                     </div>
                   </div>
                 </td>

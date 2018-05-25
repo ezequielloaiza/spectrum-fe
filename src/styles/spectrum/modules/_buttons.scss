@@ -5,6 +5,10 @@
   &:focus {
     box-shadow: none;
   }
+
+  &:hover {
+    background: $bg-blue-hover;
+  }
 }
 
 .btn-dropdown-main {

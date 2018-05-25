@@ -1,1 +1,3 @@
-@import '../../../sass/spectrum';
+@import '../../../styles/spectrum/spectrum';
+
+@include tr-sizes((5%,25%,25%,25%,15%));

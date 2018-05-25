@@ -42,6 +42,14 @@
     </div>
     <div class="col-xl-6">
       <fieldset class="form-group">
+        <label>Bussiness type</label>
+        <select class="form-control" name="companyId" >
+          <option *ngFor="let bussinesType of bussinesTypes" >{{ bussinesType.name }}</option>
+        </select>
+      </fieldset>
+    </div>
+    <div class="col-xl-6">
+      <fieldset class="form-group">
         <label>Email</label>
         <input class="form-control"
                placeholder="Enter text">
@@ -68,17 +76,11 @@
                placeholder="Enter text">
       </fieldset>
     </div>
-    <div class="col-xl-6">
-      <fieldset class="form-group">
-        <label>Bussiness type</label>
-        <input class="form-control"
-               placeholder="Enter text">
-      </fieldset>
-    </div>
+
   </div>
 </div>
 
 <div class="modal-footer">
   <button type="button"
-          class="btn btn-primary">Save Information</button>
+          class="btn btn-main">Save Information</button>
 </div>

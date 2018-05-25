@@ -11,6 +11,8 @@ import { UserModalComponent } from './user/modals/user-modal/user-modal.componen
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
 import { PageHeaderModule } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
+import { BussinesTypeService } from '../shared/services';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
@@ -18,7 +20,8 @@ import { ShippingAddressModalComponent } from './shipping-address/modals/shippin
         LayoutRoutingModule,
         TranslateModule,
         NgbModule.forRoot(),
-        PageHeaderModule
+        PageHeaderModule,
+        ReactiveFormsModule
     ],
     declarations: [
         LayoutComponent,
@@ -29,6 +32,7 @@ import { ShippingAddressModalComponent } from './shipping-address/modals/shippin
         ShippingAddressComponent,
         ShippingAddressModalComponent
     ],
+    providers: [BussinesTypeService],
     entryComponents: [ShippingAddressModalComponent, UserModalComponent]
 })
 export class LayoutModule {}
