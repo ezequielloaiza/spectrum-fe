@@ -5,7 +5,8 @@ import {
   Validators
 } from '@angular/forms';
 import { NgbModalRef, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { BussinesTypeService } from '../../../../shared/services';
+import { BusinessTypeService, UserService } from '../../../../shared/services';
+import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 
 @Component({
   selector: 'app-user-modal',
@@ -14,10 +15,12 @@ import { BussinesTypeService } from '../../../../shared/services';
 })
 export class UserModalComponent implements OnInit {
   form: FormGroup;
-  bussinesTypes: Array<any> = new Array;
+  businessTypes: Array<any> = new Array;
 
-  constructor(private modal: NgbActiveModal, private formBuilder: FormBuilder,
-    private bussinesTypeService: BussinesTypeService) { }
+  constructor(private modal: NgbActiveModal,
+    private formBuilder: FormBuilder,
+    private businessTypeService: BusinessTypeService,
+    private userSerice: UserService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -26,7 +29,7 @@ export class UserModalComponent implements OnInit {
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      mame               : ['', [ Validators.required]],
+      name               : ['', [ Validators.required]],
       email              : ['', [ Validators.required]],
       address            : ['', [ Validators.required]],
       companyName        : ['', [ Validators.required]],
@@ -35,7 +38,7 @@ export class UserModalComponent implements OnInit {
       companyPhone       : ['', [ Validators.required]],
       companyEmail       : ['', [ Validators.required]],
       creditLimit        : ['', [ Validators.required]],
-      idBussinesType     : ['', [ Validators.required]]
+      idBusinessType     : ['', [ Validators.required]]
     });
   }
 
@@ -44,10 +47,16 @@ export class UserModalComponent implements OnInit {
   }
 
   getBussinesAll(): void {
-    this.bussinesTypeService.findAll$().subscribe(res => {
-      if (res.code === 200) {
-        this.bussinesTypes = res.data;
+    this.businessTypeService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.businessTypes = res.data;
       }
+    });
+  }
+
+  save(): void {
+    this.userSerice.signUp$(this.form.value).subscribe(res => {
+
     });
   }
 

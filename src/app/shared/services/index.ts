@@ -1,2 +1,2 @@
 export * from './user/user.service';
-export * from './bussinesType/bussines-type.service';
+export * from './businessType/business-type.service';

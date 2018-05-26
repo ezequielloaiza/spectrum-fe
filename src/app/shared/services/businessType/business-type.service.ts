@@ -6,11 +6,11 @@ import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class BussinesTypeService {
+export class BusinessTypeService {
 
   constructor(private http: HttpClient) { }
 
   public findAll$(): Observable<any> {
-    return this.http.get(environment.apiUrl + 'bussinesType/findAll');
+    return this.http.get(environment.apiUrl + 'businessType/findAll');
   }
 }
