@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { UserStorageService } from './http/user-storage.service';
 import { LibHttpModule } from './http/lib-http.module';
+import { RecoveryPasswordComponent } from './login/recovery-password/recovery-password.component';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -39,7 +40,7 @@ export const createTranslateLoader = (http: HttpClient) => {
         AppRoutingModule,
         LibHttpModule
     ],
-    declarations: [AppComponent],
+    declarations: [AppComponent, RecoveryPasswordComponent],
     providers: [AuthGuard, UserStorageService],
     bootstrap: [AppComponent]
 })
