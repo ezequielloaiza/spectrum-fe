@@ -8,6 +8,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { PageHeaderModule } from '../shared';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     ProductsRoutingModule,
     TranslateModule,
     HeaderModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    PageHeaderModule
   ],
   declarations: [ProductsComponent, ProductsListsComponent, ProductDetailComponent]
 })

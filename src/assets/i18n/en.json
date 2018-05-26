@@ -66,8 +66,8 @@
     "Actions" : "Actions",
     "Edit" : "Edit",
     "Delete" : "Delete",
-    "Products" : "Products"
-
-
-
+    "Products" : "Products",
+    "Characteristics" : "Characteristics",
+    "Technical specifications" : "Technical specifications"
+    
 }

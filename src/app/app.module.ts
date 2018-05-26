@@ -8,7 +8,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthGuard } from './shared';
+import { AuthGuard, PageHeaderModule } from './shared';
 import { UserStorageService } from './http/user-storage.service';
 import { LibHttpModule } from './http/lib-http.module';
 
@@ -38,7 +38,8 @@ export const createTranslateLoader = (http: HttpClient) => {
             }
         }),
         AppRoutingModule,
-        LibHttpModule
+        LibHttpModule,
+        PageHeaderModule
     ],
     declarations: [AppComponent],
     providers: [AuthGuard, UserStorageService],
