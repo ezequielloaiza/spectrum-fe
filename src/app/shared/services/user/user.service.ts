@@ -17,4 +17,8 @@ export class UserService {
   public signUp$(user): Observable<any> {
     return this.http.post(environment.apiUrl + 'user/signUp', user);
   }
+
+  public recoveryPassword$(user): Observable<any> {
+    return this.http.post(environment.apiUrl + 'user/recovery_password', user);
+  }
 }

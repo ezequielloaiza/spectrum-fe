@@ -13,6 +13,7 @@ import { PageHeaderModule } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
 import { BusinessTypeService } from '../shared/services';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LibHttpModule } from '../http/lib-http.module';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
         NgbModule.forRoot(),
         PageHeaderModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        LibHttpModule
     ],
     declarations: [
         LayoutComponent,
