@@ -1,0 +1,304 @@
+<br>
+<br>
+<br>
+
+<div class="middleBar">
+  <div class="row display-table">
+    <div class="col-sm-3 vertical-align text-left hidden-xs">
+
+    </div>
+    <!-- end col -->
+    <div class="col-sm-9 vertical-align text-center">
+      <form>
+        <div class="row grid-space-1">
+          <div class="col-sm-4">
+            <input type="text" name="keyword" class="form-control input-lg" placeholder="Search">
+          </div>
+          <!-- end col -->
+          <div class="col-sm-4">
+            <select class="form-control input-lg" name="category">
+              <option value="all">All Categories</option>
+              <optgroup label="Mens">
+                <option value="shirts">Shirts</option>
+                <option value="coats-jackets">Coats & Jackets</option>
+                <option value="underwear">Underwear</option>
+                <option value="sunglasses">Sunglasses</option>
+                <option value="socks">Socks</option>
+                <option value="belts">Belts</option>
+              </optgroup>
+              <optgroup label="Womens">
+                <option value="bresses">Bresses</option>
+                <option value="t-shirts">T-shirts</option>
+                <option value="skirts">Skirts</option>
+                <option value="jeans">Jeans</option>
+                <option value="pullover">Pullover</option>
+              </optgroup>
+              <option value="kids">Kids</option>
+              <option value="fashion">Fashion</option>
+              <optgroup label="Sportwear">
+                <option value="shoes">Shoes</option>
+                <option value="bags">Bags</option>
+                <option value="pants">Pants</option>
+                <option value="swimwear">Swimwear</option>
+                <option value="bicycles">Bicycles</option>
+              </optgroup>
+              <option value="bags">Bags</option>
+              <option value="shoes">Shoes</option>
+              <option value="hoseholds">HoseHolds</option>
+              <optgroup label="Technology">
+                <option value="tv">TV</option>
+                <option value="camera">Camera</option>
+                <option value="speakers">Speakers</option>
+                <option value="mobile">Mobile</option>
+                <option value="pc">PC</option>
+              </optgroup>
+            </select>
+          </div>
+          <!-- end col -->
+          <div class="col-sm-3">
+            <input type="button" class="btn btn-primary" value="Search">
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+      </form>
+    </div>
+    <!-- end col -->
+  </div>
+  <!-- end  row -->
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3 col-md-3">
+      <br>
+      <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+        <ngb-panel title="Simple">
+          <ng-template ngbPanelContent>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""> Checkbox 1
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""> Checkbox 1
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""> Checkbox 1
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""> Checkbox 1
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""> Checkbox 1
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""> Checkbox 1
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value=""> Checkbox 1
+              </label>
+            </div>
+
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <span>&#9733;
+              <b>Fancy</b> title &#9733;</span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked=""> Radio 1
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> Radio 2
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3"> Radio 3
+              </label>
+            </div>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel title="Disabled">
+          <ng-template ngbPanelContent>
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
+            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+            sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+            craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+            occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+            labore sustainable VHS.
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+    <div class="col-sm-9 col-md-9">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <figure class="card card-product">
+              <div class="img-wrap">
+                <img src="assets/images/lentes.jpg">
+                <a class="btn-overlay" href="http://localhost:4200/products/product-detail">
+                  <i class="fa fa-search-plus"></i> Quick view</a>
+              </div>
+              <figcaption class="info-wrap">
+                <h6 class="title text-dots">
+                  <a href="#">Good item name</a>
+                </h6>
+                <div class="action-wrap">
+                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
+                  <div class="price-wrap h5">
+                    <span class="price-new">$1280</span>
+                    <del class="price-old">$1980</del>
+                  </div>
+                  <!-- price-wrap.// -->
+                </div>
+                <!-- action-wrap -->
+              </figcaption>
+            </figure>
+            <!-- card // -->
+          </div>
+          <!-- col // -->
+          <div class="col-md-4">
+            <figure class="card card-product">
+              <div class="img-wrap">
+                <img src="assets/images/lentes.jpg">
+                <a class="btn-overlay" href="#">
+                  <i class="fa fa-search-plus"></i> Quick view</a>
+              </div>
+              <figcaption class="info-wrap">
+                <h6 class="title text-dots">
+                  <a href="#">The name of product</a>
+                </h6>
+                <div class="action-wrap">
+                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
+                  <div class="price-wrap h5">
+                    <span class="price-new">$280</span>
+                  </div>
+                  <!-- price-wrap.// -->
+                </div>
+                <!-- action-wrap -->
+              </figcaption>
+            </figure>
+            <!-- card // -->
+          </div>
+          <!-- col // -->
+          <div class="col-md-4">
+            <figure class="card card-product">
+              <div class="img-wrap">
+                <img src="assets/images/lentes.jpg">
+                <a class="btn-overlay" href="#">
+                  <i class="fa fa-search-plus"></i> Quick view</a>
+              </div>
+              <figcaption class="info-wrap">
+                <h6 class="title text-dots">
+                  <a href="#">Name of product</a>
+                </h6>
+                <div class="action-wrap">
+                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
+                  <div class="price-wrap h5">
+                    <span class="price-new">$280</span>
+                  </div>
+                  <!-- price-wrap.// -->
+                </div>
+                <!-- action-wrap -->
+              </figcaption>
+            </figure>
+            <!-- card // -->
+          </div>
+          <div class="col-md-4">
+            <figure class="card card-product">
+              <div class="img-wrap">
+                <img src="assets/images/lentes.jpg">
+                <a class="btn-overlay" href="#">
+                  <i class="fa fa-search-plus"></i> Quick view</a>
+              </div>
+              <figcaption class="info-wrap">
+                <h6 class="title text-dots">
+                  <a href="#">Name of product</a>
+                </h6>
+                <div class="action-wrap">
+                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
+                  <div class="price-wrap h5">
+                    <span class="price-new">$280</span>
+                  </div>
+                  <!-- price-wrap.// -->
+                </div>
+                <!-- action-wrap -->
+              </figcaption>
+            </figure>
+            <!-- card // -->
+          </div>
+          <div class="col-md-4">
+            <figure class="card card-product">
+              <div class="img-wrap">
+                <img src="assets/images/lentes.jpg">
+                <a class="btn-overlay" href="#">
+                  <i class="fa fa-search-plus"></i> Quick view</a>
+              </div>
+              <figcaption class="info-wrap">
+                <h6 class="title text-dots">
+                  <a href="#">Name of product</a>
+                </h6>
+                <div class="action-wrap">
+                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
+                  <div class="price-wrap h5">
+                    <span class="price-new">$280</span>
+                  </div>
+                  <!-- price-wrap.// -->
+                </div>
+                <!-- action-wrap -->
+              </figcaption>
+            </figure>
+            <!-- card // -->
+          </div>
+          <div class="col-md-4">
+            <figure class="card card-product">
+              <div class="img-wrap">
+                <img src="assets/images/lentes.jpg">
+                <a class="btn-overlay" href="#">
+                  <i class="fa fa-search-plus"></i> Quick view</a>
+              </div>
+              <figcaption class="info-wrap">
+                <h6 class="title text-dots">
+                  <a href="#">Name of product</a>
+                </h6>
+                <div class="action-wrap">
+                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
+                  <div class="price-wrap h5">
+                    <span class="price-new">$280</span>
+                  </div>
+                  <!-- price-wrap.// -->
+                </div>
+                <!-- action-wrap -->
+              </figcaption>
+            </figure>
+            <!-- card // -->
+          </div>
+
+
+          <!-- col // -->
+        </div>
+        <!-- row.// -->
+      </div>
+    </div>
+  </div>
+
+</div>

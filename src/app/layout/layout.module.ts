@@ -6,25 +6,24 @@ import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { HeaderComponent } from './components/header/header.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
 import { PageHeaderModule } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertifyService } from '../shared/services/alertify/alertify.service';
-import { ProductsComponent } from './products/products.component';
+import { HeaderModule } from '../shared/modules/header/header.module';
 
 @NgModule({
     imports: [
         CommonModule,
         LayoutRoutingModule,
-        TranslateModule,
-        NgbDropdownModule.forRoot(),
+        TranslateModule,        
         NgbModule.forRoot(),
         PageHeaderModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HeaderModule
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, ShippingAddressComponent, ShippingAddressModalComponent, ProductsComponent],
+    declarations: [LayoutComponent, SidebarComponent, ShippingAddressComponent, ShippingAddressModalComponent],
     entryComponents: [ShippingAddressModalComponent],
     providers: [AlertifyService]
 })
