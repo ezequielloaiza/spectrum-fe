@@ -1,0 +1,15 @@
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid $bg-blue; /* red */
+}
+
+.content {
+  padding: 1.7rem;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.20);
+}

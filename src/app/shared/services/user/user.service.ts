@@ -15,6 +15,6 @@ export class UserService {
   }
 
   public signUp$(user): Observable<any> {
-    return this.http.post(environment.apiUrl + 'sign_up', user);
+    return this.http.post(environment.apiUrl + 'user/signUp', user);
   }
 }
