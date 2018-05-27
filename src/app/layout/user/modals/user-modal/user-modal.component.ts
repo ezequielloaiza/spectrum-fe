@@ -8,6 +8,7 @@ import {
 import { NgbModalRef, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BusinessTypeService, UserService } from '../../../../shared/services';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-modal',
@@ -21,7 +22,8 @@ export class UserModalComponent implements OnInit {
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private businessTypeService: BusinessTypeService,
-    private userSerice: UserService) { }
+    private userSerice: UserService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -59,6 +61,7 @@ export class UserModalComponent implements OnInit {
 
   save(): void {
     this.userSerice.signUp$(this.form.value).subscribe(res => {
+      this.toastr.success('User save', 'Success');
       this.modal.close();
     });
   }
