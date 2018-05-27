@@ -24,15 +24,14 @@ import { HeaderComponent } from '../shared/modules/header/header.component';
         NgbModule.forRoot(),
         PageHeaderModule,
         ReactiveFormsModule,
-        HeaderModule,
-        FormsModule
+        FormsModule,
+        HeaderModule
     ],
     declarations: [
         LayoutComponent,
         SidebarComponent,
         ShippingAddressComponent,
         ShippingAddressModalComponent,
-        HeaderComponent,
         UserComponent,
         UserModalComponent,
     ],
