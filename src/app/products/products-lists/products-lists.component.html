@@ -1,8 +1,9 @@
 <br>
 <br>
 <br>
+
 <div class="margin-breadcrumb">
-  <app-page-header [heading]="'Shipping Address List'" [icon]="'fa-edit'"></app-page-header>
+  <app-page-header [heading]="'Products List'" [icon]="'fa-edit'"></app-page-header>
 </div>
 <div class="middleBar">
   <div class="row display-table">
@@ -74,8 +75,11 @@
   <div class="row">
     <div class="col-sm-3 col-md-3">
       <br>
-      <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-        <ngb-panel title="Simple">
+      <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" type="dark">
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <span class="title-collapse">Filter</span>
+          </ng-template>
           <ng-template ngbPanelContent>
             <div class="checkbox">
               <label>
@@ -117,8 +121,7 @@
         </ngb-panel>
         <ngb-panel>
           <ng-template ngbPanelTitle>
-            <span>&#9733;
-              <b>Fancy</b> title &#9733;</span>
+            <span class="title-collapse">Filter</span>
           </ng-template>
           <ng-template ngbPanelContent>
             <div class="radio">
@@ -138,7 +141,10 @@
             </div>
           </ng-template>
         </ngb-panel>
-        <ngb-panel title="Disabled">
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <span class="title-collapse">Filter</span>
+          </ng-template>
           <ng-template ngbPanelContent>
             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
             non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
