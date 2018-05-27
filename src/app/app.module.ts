@@ -31,7 +31,6 @@ export const createTranslateLoader = (http: HttpClient) => {
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        LibHttpModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
