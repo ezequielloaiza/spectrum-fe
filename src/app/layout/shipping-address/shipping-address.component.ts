@@ -79,6 +79,7 @@ export class ShippingAddressComponent implements OnInit {
 		}, () => {
 
 		}) ;
+		
 	}
 
 	pageChange(event) {

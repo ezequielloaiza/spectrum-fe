@@ -4,3 +4,45 @@
 @import "utils";
 @import "rtl";
 @import "responsive";
+
+.alertify-notifier .ajs-message.ajs-success {
+  background-color: #00cc00 !important;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+.alertify-notifier .ajs-message.ajs-error {
+  background-color: #cc0000 !important;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+.alertify-notifier .ajs-message.ajs-warning {
+  background-color: #ffcc00 !important;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+.alertify {
+  border-radius: 5px !important;
+  .ajs-header {
+    background-color: #1756a6 !important;
+    color: #ffffff;
+  }
+}
+
+.alertify .ajs-footer .ajs-buttons.ajs-primary .ajs-button.ajs-ok {
+  background: #1756a6 !important;
+  color: #ffffff;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 2px;
+}
+
+.alertify .ajs-footer .ajs-buttons.ajs-primary .ajs-button.ajs-cancel {
+  background: #acaaaa !important;
+  color: #ffffff;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 2px;
+}
