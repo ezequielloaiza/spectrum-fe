@@ -13,3 +13,9 @@
 .form-control:focus {
   box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.20);
 }
+
+.message-error {
+  margin-top: -1rem;
+  color: $bg-blue;
+  font-size: 0.85rem;
+}

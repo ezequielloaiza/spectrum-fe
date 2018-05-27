@@ -14,6 +14,9 @@ import { RecoveryPasswordComponent } from './login/recovery-password/recovery-pa
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
+import { ToastrModule } from 'ngx-toastr';
+import { LibHttpModule } from './http/lib-http.module';
+
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
     /* for development
@@ -39,7 +42,9 @@ export const createTranslateLoader = (http: HttpClient) => {
             }
         }),
         AppRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        LibHttpModule,
+        ToastrModule.forRoot()
     ],
     declarations: [AppComponent, RecoveryPasswordComponent],
     providers: [AuthGuard, UserStorageService],

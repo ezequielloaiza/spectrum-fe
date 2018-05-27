@@ -13,19 +13,29 @@
           <fieldset class="form-group">
             <label>Name</label>
             <input class="form-control" placeholder="Enter name" name="name" formControlName="name" required>
-          </fieldset>{{form.value.name.valid}}{{form.value.name.pristine}}
+          </fieldset>
+          <div class="message-error" [hidden]="name.valid || name.pristine">
+            <span>Name is required</span>
+          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>Email</label>
             <input class="form-control" placeholder="Enter email" name="email" formControlName="email" required>
           </fieldset>
+          <div class="message-error" [hidden]="email.pristine">
+            <span *ngIf="email.errors && !!email.errors.required">Email is required</span>
+            <span *ngIf="email.errors && !!email.errors.email">Email not is valid</span>
+          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>Address</label>
             <input class="form-control" placeholder="Enter address" name="address" formControlName="address" required>
           </fieldset>
+          <div class="message-error" [hidden]="address.valid || address.pristine">
+              <span>Name is required</span>
+            </div>
         </div>
       </div>
       <br>
@@ -36,7 +46,19 @@
             <label>Company name</label>
             <input class="form-control" placeholder="Enter company name" name="companyName" formControlName="companyName" required>
           </fieldset>
+          <div class="message-error" [hidden]="companyName.valid || companyName.pristine">
+              <span>Name is required</span>
+            </div>
         </div>
+        <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>Company contact name</label>
+              <input class="form-control" placeholder="Enter company name" name="companyContactName" formControlName="companyContactName" required>
+            </fieldset>
+            <div class="message-error" [hidden]="companyContactName.valid || companyContactName.pristine">
+                <span>Company contact name is required</span>
+              </div>
+          </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>Bussiness type</label>
@@ -44,32 +66,46 @@
               <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBussinesType" >{{ bussinesType.name }}</option>
             </select>
           </fieldset>
+          <div class="message-error" [hidden]="idBusinessType.valid || idBusinessType.pristine">
+            <span>Name is required</span>
+          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>Email</label>
             <input class="form-control" placeholder="Enter company email" name="companyEmail" formControlName="companyEmail" required>
           </fieldset>
+          <div class="message-error" [hidden]="companyEmail.valid || companyEmail.pristine">
+            <span>Name is required</span>
+          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>Phone</label>
             <input class="form-control" placeholder="Enter company phone" name="companyPhone" formControlName="companyPhone" required>
           </fieldset>
+          <div class="message-error" [hidden]="companyPhone.valid || companyPhone.pristine">
+            <span>Name is required</span>
+          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>Address</label>
             <input class="form-control" placeholder="Enter company address" name="companyAddress" formControlName="companyAddress" required>
           </fieldset>
+          <div class="message-error" [hidden]="companyAddress.valid || companyAddress.pristine">
+            <span>Name is required</span>
+          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>Credit limit</label>
             <input class="form-control" placeholder="Enter credit limit" name="creditLimit" formControlName="creditLimit" required>
           </fieldset>
+          <div class="message-error" [hidden]="creditLimit.valid || creditLimit.pristine">
+            <span>Name is required</span>
+          </div>
         </div>
-
       </div>
     </form>
   </div>
@@ -77,5 +113,6 @@
 
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-main" (click)="save()">Save Information</button>
+  <button type="button" [disabled]="form.invalid"  class="btn btn-main" (click)="save()">Save</button>
+  <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
 </div>

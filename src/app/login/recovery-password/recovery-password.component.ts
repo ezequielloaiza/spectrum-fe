@@ -7,9 +7,8 @@ import {
 } from '@angular/forms';
 import { UserService } from '../../shared/services';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
-import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { Router } from '@angular/router';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recovery-password',
@@ -19,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class RecoveryPasswordComponent implements OnInit {
   form: FormGroup;
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private alertify: AlertifyService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private alertify: ToastrService, private router: Router) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -34,11 +33,11 @@ export class RecoveryPasswordComponent implements OnInit {
   submitPassword(): void {
     this.userService.recoveryPassword$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.alertify.success('Se ha enviado una contrasenna temporal a su email.');
+        this.alertify.success('', 'Contraseña temporal enviada');
         this.router.navigateByUrl('signin');
       }
       if (res.code === CodeHttp.notFound) {
-        this.alertify.error('El email no se encuentra registrado.');
+        this.alertify.error('', 'Email no registrado');
       }
     });
   }
