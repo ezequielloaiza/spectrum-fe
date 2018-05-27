@@ -6,6 +6,7 @@ import {
   Validators
 } from '@angular/forms';
 import { UserService } from '../../shared/services';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
 
 @Component({
   selector: 'app-recovery-password',
@@ -29,6 +30,10 @@ export class RecoveryPasswordComponent implements OnInit {
 
   submitPassword(): void {
     this.userService.recoveryPassword$(this.form.value).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        alertify.success('Ok: ' + value);
+        //this.businessTypes = res.data;
+      }
     });
   }
 
