@@ -27,6 +27,6 @@ export class UserStorageService {
 
   public getToke(): string {
     this.currentUser = JSON.parse(sessionStorage.getItem(CURRENT_USER));
-    return this.currentUser.token;
+    return this.currentUser ? this.currentUser.token : '';
   }
 }

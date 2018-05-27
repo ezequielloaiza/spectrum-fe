@@ -1,0 +1,55 @@
+<div>
+  <app-page-header [heading]="'List Of Clients'"
+                   [icon]="'fa fa-users'"></app-page-header>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            ALL CLIENTS
+          </div>
+          <div class="ml-auto p-2">
+            <button type="button"
+                    class="btn btn-main"
+                    (click)="openModal()"
+                    >Add Client</button>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr">Name</th>
+                <th class="table-tr">Email</th>
+                <th class="table-tr">Company Name</th>
+                <th class="table-tr">Business type</th>
+                <th class="table-tr"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of listUsers">
+                <td class="table-tr">{{user.name}}</td>
+                <td class="table-tr">{{user.email}}</td>
+                <td class="table-tr">{{user.company.companyName}}</td>
+                <td class="table-tr">{{user.company.businessType.name}}</td>
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="open()">
+                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                        <button class="dropdown-item" (click)="open()">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -107,7 +107,7 @@
 				<li class="nested" [class.expand]="showMenu === 'users'">
 					<ul class="submenu">
 						<li>
-							<a href="javascript:void(0)">
+							<a [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 								<span>
 									<i class="fa fa-user-plus"></i>&nbsp; {{ 'New Account' | translate }}</span>
 							</a>

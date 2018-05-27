@@ -1,0 +1,4 @@
+export enum CodeHttp {
+  ok = 200,
+  notFound = 404
+}

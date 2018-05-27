@@ -5,6 +5,10 @@
   &:focus {
     box-shadow: none;
   }
+
+  &:hover {
+    background: $bg-blue-hover;
+  }
 }
 
 .btn-dropdown-main {
@@ -43,7 +47,11 @@
   left: 60px;
   display: inline-block;
   border-right: 6px solid transparent;
-  border-bottom: 6px solid white;
+  border-bottom: 6px solid $bg-white;
   border-left: 6px solid transparent;
   content: '';
   }
+
+  .btn.disabled, .btn:disabled {
+    cursor: not-allowed;
+}

@@ -10,6 +10,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard, PageHeaderModule } from './shared';
 import { UserStorageService } from './http/user-storage.service';
+import { RecoveryPasswordComponent } from './login/recovery-password/recovery-password.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+
+import { ToastrModule } from 'ngx-toastr';
 import { LibHttpModule } from './http/lib-http.module';
 
 // AoT requires an exported function for factories
@@ -29,7 +34,6 @@ export const createTranslateLoader = (http: HttpClient) => {
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        LibHttpModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -38,10 +42,12 @@ export const createTranslateLoader = (http: HttpClient) => {
             }
         }),
         AppRoutingModule,
+        ReactiveFormsModule,
         LibHttpModule,
+        ToastrModule.forRoot(),
         PageHeaderModule
     ],
-    declarations: [AppComponent],
+    declarations: [AppComponent, RecoveryPasswordComponent],
     providers: [AuthGuard, UserStorageService],
     bootstrap: [AppComponent]
 })
