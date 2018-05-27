@@ -12,6 +12,8 @@ import { AuthGuard } from './shared';
 import { UserStorageService } from './http/user-storage.service';
 import { LibHttpModule } from './http/lib-http.module';
 
+import { ToastrModule } from 'ngx-toastr';
+
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
     /* for development
@@ -37,7 +39,8 @@ export const createTranslateLoader = (http: HttpClient) => {
             }
         }),
         AppRoutingModule,
-        LibHttpModule
+        LibHttpModule,
+        ToastrModule.forRoot()
     ],
     declarations: [AppComponent],
     providers: [AuthGuard, UserStorageService],

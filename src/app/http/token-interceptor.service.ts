@@ -21,7 +21,7 @@ export class TokenInterceptorService implements HttpInterceptor {
     return handledRequest;
   }
   private setAuthHeader(req: HttpRequest<any>): HttpRequest<any> {
-    const authToken = this.store.getToke();
+    const authToken = (this.store && this.store.getToke()) ? this.store.getToke() : '';
     const headers = req.headers.set('Authorization', authToken);
     const authorizedReq = req.clone({ headers });
     return authorizedReq;

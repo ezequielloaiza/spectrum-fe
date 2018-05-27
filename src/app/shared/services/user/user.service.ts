@@ -17,4 +17,8 @@ export class UserService {
   public signUp$(user): Observable<any> {
     return this.http.post(environment.apiUrl + 'user/signUp', user);
   }
+
+  public allUserBySeller$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/allUserBySeller');
+  }
 }
