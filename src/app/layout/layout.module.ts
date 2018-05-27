@@ -14,6 +14,7 @@ import { ShippingAddressModalComponent } from './shipping-address/modals/shippin
 import { BusinessTypeService } from '../shared/services';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LibHttpModule } from '../http/lib-http.module';
+import { AlertifyService } from '../shared/services/alertify/alertify.service';
 
 @NgModule({
     imports: [
@@ -35,7 +36,7 @@ import { LibHttpModule } from '../http/lib-http.module';
         ShippingAddressComponent,
         ShippingAddressModalComponent
     ],
-    providers: [BusinessTypeService],
+    providers: [BusinessTypeService, AlertifyService],
     entryComponents: [ShippingAddressModalComponent, UserModalComponent]
 })
 export class LayoutModule {}

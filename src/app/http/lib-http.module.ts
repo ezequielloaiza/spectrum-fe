@@ -14,7 +14,7 @@ import { TokenInterceptorService } from './token-interceptor.service';
     },
     {
       provide: HTTP_INTERCEPTORS,
-     useClass: CatchInterceptorService,
+      useClass: CatchInterceptorService,
       multi: true
     }
   ]

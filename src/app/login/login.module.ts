@@ -7,14 +7,13 @@ import {UserService} from '../shared/services/user/user.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-
-
 @NgModule({
     imports: [
-      CommonModule,
-      LoginRoutingModule,
-      HttpClientModule,
-      ReactiveFormsModule
+        CommonModule,
+        LoginRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        ReactiveFormsModule
     ],
     declarations: [LoginComponent],
     providers: [UserService]
