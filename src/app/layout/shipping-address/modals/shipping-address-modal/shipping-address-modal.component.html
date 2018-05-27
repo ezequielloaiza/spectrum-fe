@@ -9,13 +9,13 @@
     <form [formGroup]="form">
       <fieldset class="form-group">
         <label>{{ 'Company' | translate}}</label>
-        <select class="form-control" name="companyId" formControlName="companyId">
-          <option *ngFor="let company of companies" [ngValue]="company.idCompany" >{{ company.companyName }}</option>
+        <select class="form-control" name="companyId" formControlName="companyId" required>
+          <option *ngFor="let company of companies" [ngValue]="company.idCompany">{{ company.companyName }}</option>
         </select>
       </fieldset>
       <fieldset class="form-group">
         <label>{{'Address' | translate}} </label>
-        <textarea  class="form-control" name="name" formControlName="name" rows="3"></textarea>
+        <textarea  class="form-control" name="name" formControlName="name" rows="3" required></textarea>
       </fieldset>
     </form>
   </div>
