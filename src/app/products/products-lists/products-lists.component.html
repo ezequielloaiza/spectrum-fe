@@ -4,20 +4,23 @@
 
 <div class="margin-breadcrumb">
   <app-page-header [heading]="'Products List'" [icon]="'fa-edit'"></app-page-header>
+  <a href="http://localhost:4200/dashboard">
+    <i class="fa fa-arrow-left">&nbsp;&nbsp;{{ 'Back' | translate }}</i>
+  </a>
 </div>
 <div class="middleBar">
   <div class="row display-table">
     <div class="col-sm-3 vertical-align text-left hidden-xs">
-
     </div>
     <!-- end col -->
     <div class="col-sm-9 vertical-align text-center">
       <form>
         <div class="row grid-space-1">
-          <div class="col-sm-4">
-            <input type="text" name="keyword" class="form-control input-lg" placeholder="Search">
+          <div class="col col-xl-10 col-lg-10 search">
+            <input class="form-control" placeholder=" {{ 'Enter product name...' | translate }} ">
+            <i class="fa fa-search"></i>
           </div>
-          <!-- end col -->
+          <!-- Categories 
           <div class="col-sm-4">
             <select class="form-control input-lg" name="category">
               <option value="all">All Categories</option>
@@ -58,10 +61,6 @@
             </select>
           </div>
           <!-- end col -->
-          <div class="col-sm-3">
-            <input type="button" class="btn btn-primary" value="Search">
-          </div>
-          <!-- end col -->
         </div>
         <!-- end row -->
       </form>
@@ -75,88 +74,58 @@
   <div class="row">
     <div class="col-sm-3 col-md-3">
       <br>
-      <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" type="dark">
-        <ngb-panel>
+      <ngb-accordion #acc="ngbAccordion" activeIds="filter1,filter2" type="dark">
+        <ngb-panel id="filter1">
           <ng-template ngbPanelTitle>
-            <span class="title-collapse">Filter</span>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""> Checkbox 1
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""> Checkbox 1
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""> Checkbox 1
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""> Checkbox 1
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""> Checkbox 1
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""> Checkbox 1
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value=""> Checkbox 1
-              </label>
-            </div>
-
-          </ng-template>
-        </ngb-panel>
-        <ngb-panel>
-          <ng-template ngbPanelTitle>
-            <span class="title-collapse">Filter</span>
+            <span class="title-collapse"> {{ 'Supplies' | translate }} </span>
           </ng-template>
           <ng-template ngbPanelContent>
             <div class="radio">
               <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked=""> Radio 1
+                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked=""> {{ 'Fluo Strips' | translate }}
               </label>
             </div>
             <div class="radio">
               <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> Radio 2
-              </label>
-            </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3"> Radio 3
+                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked=""> {{ 'Spectrum Saline' | translate }}
               </label>
             </div>
           </ng-template>
         </ngb-panel>
-        <ngb-panel>
+        <ngb-panel id="filter2">
           <ng-template ngbPanelTitle>
-            <span class="title-collapse">Filter</span>
+            <span class="title-collapse">{{ 'Contact Lenses' | translate }}</span>
           </ng-template>
           <ng-template ngbPanelContent>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
-            non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-            sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-            craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-            occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-            labore sustainable VHS.
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked=""> {{ 'Color Contact Lenses' | translate }}
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> {{ 'Scleral Lenses' | translate }}
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3"> {{ 'Spectrum Blue Light' | translate }}
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3"> {{ 'MarkEnnovy Contact Lenses' | translate }}
+              </label>
+            </div>
           </ng-template>
         </ngb-panel>
       </ngb-accordion>
+      <br>
+      <div class="btn-align">
+        <input type="button" class="btn btn-primary" value="{{ 'Search' | translate }}">
+      </div>
     </div>
-    <div class="col-sm-9 col-md-9">
+    <div class="col-sm-9 col-md-9 col-lg-9">
       <div class="container margin-list">
         <div class="row">
           <div class="col-md-4">
@@ -168,7 +137,7 @@
               </div>
               <figcaption class="info-wrap">
                 <h6 class="title text-dots">
-                  <a href="#">Good item name</a>
+                  <h4>Name of product</h4>
                 </h6>
                 <div class="action-wrap">
                   <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
@@ -193,7 +162,7 @@
               </div>
               <figcaption class="info-wrap">
                 <h6 class="title text-dots">
-                  <a href="#">The name of product</a>
+                  <h4>Name of product</h4>
                 </h6>
                 <div class="action-wrap">
                   <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
@@ -217,7 +186,7 @@
               </div>
               <figcaption class="info-wrap">
                 <h6 class="title text-dots">
-                  <a href="#">Name of product</a>
+                  <h4>Name of product</h4>
                 </h6>
                 <div class="action-wrap">
                   <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
@@ -240,7 +209,7 @@
               </div>
               <figcaption class="info-wrap">
                 <h6 class="title text-dots">
-                  <a href="#">Name of product</a>
+                  <h4>Name of product</h4>
                 </h6>
                 <div class="action-wrap">
                   <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
@@ -263,7 +232,7 @@
               </div>
               <figcaption class="info-wrap">
                 <h6 class="title text-dots">
-                  <a href="#">Name of product</a>
+                  <h4>Name of product</h4>
                 </h6>
                 <div class="action-wrap">
                   <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
@@ -286,7 +255,7 @@
               </div>
               <figcaption class="info-wrap">
                 <h6 class="title text-dots">
-                  <a href="#">Name of product</a>
+                  <h4>Name of product</h4>
                 </h6>
                 <div class="action-wrap">
                   <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>

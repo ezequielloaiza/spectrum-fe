@@ -6,7 +6,7 @@
 }
 
 .margin-list {
-  margin-left: 1% !important;
+  margin-left: 20% !important;
 }
 
 .title-collapse {
@@ -16,6 +16,21 @@
 .container {
   padding: 0px;
   margin-left: 3%;
+}
+
+.search {
+  padding-bottom: 1.5rem;
+
+  i {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: $bg-imput;
+  }
+}
+
+.btn-align{
+  text-align: center;
 }
 
 .card {
