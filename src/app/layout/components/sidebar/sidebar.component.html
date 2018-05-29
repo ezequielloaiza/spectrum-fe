@@ -6,7 +6,7 @@
 		<a routerLink="/products" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-archive"></i>&nbsp;{{ 'Products' | translate }}
 		</a>
-		<div [hidden]="user.role.idRole === 1">
+		<div [hidden]="user.role.idRole === 3">
 		<!--<div>-->
 			<div class="nested-menu">
 				<a class="list-group-item" (click)="addExpandClass('account')">
@@ -94,7 +94,7 @@
 			</div>
 		</div>
 		<!--ADMIN MENU-->
-		<div [hidden]="user.role.idRole === 2">
+		<div [hidden]="user.role.idRole === 1">
 		<!--<div>-->
 			<a [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
@@ -218,6 +218,104 @@
 				</li>
 			</div>
 		</div>
+
+		<!--SELLER MENU-->
+		<div [hidden]="user.role.idRole === 1">
+			<!--<div>-->
+				<a [routerLinkActive]="['router-link-active']" class="list-group-item">
+					<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
+				</a>
+				<div class="nested-menu">
+					<a class="list-group-item" (click)="addExpandClass('users')">
+						<span>
+							<i class="fa fa-users"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
+					</a>
+					<li class="nested" [class.expand]="showMenu === 'users'">
+						<ul class="submenu">
+							<li>
+								<a [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+									<span>
+										<i class="fa fa-user-plus"></i>&nbsp; {{ 'New Account' | translate }}</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Account' | translate }}</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-money"></i>&nbsp; {{ 'Consult Payments' | translate }}</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</div>
+				<div class="nested-menu">
+					<a class="list-group-item" (click)="addExpandClass('orders')">
+						<span>
+							<i class="fa fa-folder-open"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
+					</a>
+					<li class="nested" [class.expand]="showMenu === 'orders'">
+						<ul class="submenu">
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-check"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-times"></i>&nbsp; {{ 'Cancel Order' | translate }}</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</div>
+				<div class="nested-menu">
+					<a class="list-group-item" (click)="addExpandClass('warranties')">
+						<span>
+							<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
+					</a>
+					<li class="nested" [class.expand]="showMenu === 'warranties'">
+						<ul class="submenu">
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Warranty' | translate }}</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</div>
+			</div>
 		<!--
 		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
