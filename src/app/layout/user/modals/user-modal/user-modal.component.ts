@@ -63,7 +63,7 @@ export class UserModalComponent implements OnInit {
     this.form = this.formBuilder.group({
       name               : ['', [ Validators.required]],
       email              : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
-      address            : ['', [ Validators.required]],
+      address            : [''],
       companyName        : ['', [ Validators.required]],
       companyContactName : ['', [ Validators.required]],
       companyAddress     : ['', [ Validators.required]],
@@ -75,6 +75,10 @@ export class UserModalComponent implements OnInit {
       country            : ['', [ Validators.required]],
       city               : ['', [ Validators.required]],
       postal             : ['', [ Validators.required]],
+      companyState       : ['', [ Validators.required]],
+      companyCountry     : ['', [ Validators.required]],
+      companyCity        : ['', [ Validators.required]],
+      companyPostal      : ['', [ Validators.required]],
       typeUser           : ['USER']
     });
   }
@@ -93,6 +97,7 @@ export class UserModalComponent implements OnInit {
 
   save(): void {
     this.form.get('city').setValue(this.googleService.getCity());
+    this.form.get('companyCity').setValue(this.googleService.getCity());
     this.userSerice.signUp$(this.form.value).subscribe(res => {
       this.toastr.success('User save', 'Success');
       this.modal.close();
@@ -106,6 +111,16 @@ export class UserModalComponent implements OnInit {
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({description: this.googleService.getCity()});
+    });
+  }
+
+  findPlaceCompany(item): void {
+    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+      this.googleService.setPlace(res.data.result);
+      this.form.get('companyCountry').setValue(this.googleService.getCountry());
+      this.form.get('companyState').setValue(this.googleService.getState());
+      this.form.get('companyPostal').setValue(this.googleService.getPostalCode());
+      this.form.get('companyCity').setValue({description: this.googleService.getCity()});
     });
   }
 
@@ -123,16 +138,21 @@ export class UserModalComponent implements OnInit {
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
+  get companyCity() { return this.form.get('companyCity'); }
+  get companyState() { return this.form.get('companyState'); }
+  get companyCountry() { return this.form.get('companyCountry'); }
+  get companyPostal() { return this.form.get('companyPostal'); }
 
   validatePhone(event) {
-    var key = window.event ? event.keyCode : event.which;
-    if (event.keyCode === 8 || event.keyCode === 32 || event.keyCode === 40 || event.keyCode === 41 || event.keyCode === 45  || event.keyCode === 46 ) {
+    const key = window.event ? event.keyCode : event.which;
+    if (event.keyCode === 8 || event.keyCode === 32 || event.keyCode === 40 ||
+        event.keyCode === 41 || event.keyCode === 45  || event.keyCode === 46 ) {
         return true;
     } else if ( key < 48 || key > 57 ) {
         return false;
     } else {
-    	return true;
+      return true;
     }
-  };
+  }
 
 }
