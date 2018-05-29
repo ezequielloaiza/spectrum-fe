@@ -96,7 +96,7 @@
 		<!--ADMIN MENU-->
 		<div [hidden]="user.role.idRole === 2">
 		<!--<div>-->
-			<a [routerLink]="['/profile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<a [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
 			</a>
 			<div class="nested-menu">

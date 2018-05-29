@@ -3,7 +3,7 @@
 }
 
 .ng-invalid:not(form)  {
-  border-left: 5px solid $bg-blue; /* red */
+  border-left: 5px solid $bg-red; /* red */
 }
 
 .content {
@@ -16,6 +16,6 @@
 
 .message-error {
   margin-top: -1rem;
-  color: $bg-blue;
+  color: $bg-red;
   font-size: 0.85rem;
 }

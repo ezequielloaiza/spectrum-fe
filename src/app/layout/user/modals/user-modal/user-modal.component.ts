@@ -62,13 +62,13 @@ export class UserModalComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       name               : ['', [ Validators.required]],
-      email              : ['', [ Validators.required, Validators.email]],
+      email              : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       address            : ['', [ Validators.required]],
       companyName        : ['', [ Validators.required]],
       companyContactName : ['', [ Validators.required]],
       companyAddress     : ['', [ Validators.required]],
       companyPhone       : ['', [ Validators.required]],
-      companyEmail       : ['', [ Validators.required]],
+      companyEmail       : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       creditLimit        : ['', [ Validators.required]],
       idBusinessType     : ['', [ Validators.required]],
       state              : ['', [ Validators.required]],
@@ -119,5 +119,20 @@ export class UserModalComponent implements OnInit {
   get companyEmail() { return this.form.get('companyEmail'); }
   get creditLimit() { return this.form.get('creditLimit'); }
   get idBusinessType() { return this.form.get('idBusinessType'); }
+  get city() { return this.form.get('city'); }
+  get state() { return this.form.get('state'); }
+  get country() { return this.form.get('country'); }
+  get postal() { return this.form.get('postal'); }
+
+  validatePhone(event) {
+    var key = window.event ? event.keyCode : event.which;
+    if (event.keyCode === 8 || event.keyCode === 32 || event.keyCode === 40 || event.keyCode === 41 || event.keyCode === 45  || event.keyCode === 46 ) {
+        return true;
+    } else if ( key < 48 || key > 57 ) {
+        return false;
+    } else {
+    	return true;
+    }
+  };
 
 }

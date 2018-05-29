@@ -1,10 +1,10 @@
 <div>
-  <app-page-header [heading]="'List Of Clients'"
+  <app-page-header [heading]="'List of Clients'"
                    [icon]="'fa fa-users'"></app-page-header>
 
   <div class="row search">
     <div class="col col-xl-4 col-lg-4">
-        <input class="form-control" placeholder="Enter user search..">
+        <input class="form-control" placeholder=" {{ 'Enter user name...' | translate }}">
         <i class="fa fa-search"></i>
     </div>
   </div>
@@ -13,23 +13,22 @@
       <div class="card mb-3">
         <div class="card-header d-flex">
           <div class="align-self-center">
-            ALL CLIENTS
+            {{ 'All Clients' | translate }}
           </div>
           <div class="ml-auto p-2">
             <button type="button"
                     class="btn btn-main"
-                    (click)="openModal()"
-                    >Add Client</button>
+                    (click)="openModal()">{{ 'Add Client' | translate }}</button>
           </div>
         </div>
         <div class="card-body table-responsive">
           <table class="table">
             <thead>
               <tr>
-                <th class="table-tr">Name</th>
-                <th class="table-tr">Email</th>
-                <th class="table-tr">Company Name</th>
-                <th class="table-tr">Business type</th>
+                <th class="table-tr">{{ 'Name' | translate }}</th>
+                <th class="table-tr">{{ 'Email' | translate }}</th>
+                <th class="table-tr">{{ 'Company Name' | translate }}</th>
+                <th class="table-tr">{{ 'Business Type' | translate}}</th>
                 <th class="table-tr"></th>
               </tr>
             </thead>

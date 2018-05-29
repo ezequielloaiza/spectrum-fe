@@ -1,6 +1,9 @@
 @import '../../../../../styles/spectrum/spectrum';
 
 .content {
+  overflow-y: auto;
+  max-height: 600px;
+
   h5 {
     font-weight: 600;
   }
