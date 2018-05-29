@@ -72,6 +72,7 @@ export class ShippingAddressModalComponent implements OnInit {
     )
 
   save(): void {
+    this.form.get('city').setValue(this.googleService.getCity());
     if (this.action !== 'edit') {
       this.shippingAddressService.save$(this.form.value).subscribe(res => {
         if (res.code === 200) {

@@ -226,6 +226,74 @@
 					<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
 				</a>
 				<div class="nested-menu">
+					<a class="list-group-item" (click)="addExpandClass('account')">
+						<span>
+							<i class="fa fa-user"></i>&nbsp; {{ 'Your Account' | translate }}</span>
+					</a>
+					<li class="nested" [class.expand]="showMenu === 'account'">
+						<ul class="submenu">
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-user-circle"></i>&nbsp; {{ 'Your Profile' | translate }}</span>
+								</a>
+							</li>
+							<li>
+								<a routerLink="/shipping-address" [routerLinkActive]="['router-link-active']">
+									<span>
+										<i class="fa fa-truck"></i>&nbsp; {{ 'Your Shipping Addresses' | translate }}</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-credit-card"></i>&nbsp; {{ 'Your Payments' | translate }}</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)">
+									<span>
+										<i class="fa fa-tasks"></i>&nbsp; {{ 'Activity' | translate }}</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</div>
+				<div class="nested-menu">
+				<a class="list-group-item" (click)="addExpandClass('account')">
+					<span>
+						<i class="fa fa-user"></i>&nbsp; {{ 'Your Account' | translate }}</span>
+				</a>
+				<li class="nested" [class.expand]="showMenu === 'account'">
+					<ul class="submenu">
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-user-circle"></i>&nbsp; {{ 'Your Profile' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a routerLink="/shipping-address" [routerLinkActive]="['router-link-active']">
+								<span>
+									<i class="fa fa-truck"></i>&nbsp; {{ 'Your Shipping Addresses' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-credit-card"></i>&nbsp; {{ 'Your Payments' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-tasks"></i>&nbsp; {{ 'Activity' | translate }}</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</div>
+				<div class="nested-menu">
 					<a class="list-group-item" (click)="addExpandClass('users')">
 						<span>
 							<i class="fa fa-users"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
