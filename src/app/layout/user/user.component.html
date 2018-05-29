@@ -2,12 +2,12 @@
   <app-page-header [heading]="'List of Clients'"
                    [icon]="'fa fa-users'"></app-page-header>
 
-  <div class="row search">
+ <!-- <div class="row search">
     <div class="col col-xl-4 col-lg-4">
         <input class="form-control" placeholder=" {{ 'Enter user name...' | translate }}">
         <i class="fa fa-search"></i>
     </div>
-  </div>
+  </div>-->
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
       <div class="card mb-3">
@@ -29,7 +29,6 @@
                 <th class="table-tr">{{ 'Email' | translate }}</th>
                 <th class="table-tr">{{ 'Company Name' | translate }}</th>
                 <th class="table-tr">{{ 'Business Type' | translate}}</th>
-                <th class="table-tr"></th>
               </tr>
             </thead>
             <tbody>
@@ -38,19 +37,6 @@
                 <td class="table-tr">{{user.email}}</td>
                 <td class="table-tr">{{user.company.companyName}}</td>
                 <td class="table-tr">{{user.company.businessType.name}}</td>
-                <td class="table-tr">
-                  <div class="d-flex flex-row justify-content-around">
-                    <div ngbDropdown class="d-inline-block dropdown">
-                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
-                      <div ngbDropdownMenu>
-                        <button class="dropdown-item" (click)="open()">
-                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                        <button class="dropdown-item" (click)="open()">
-                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
-                      </div>
-                    </div>
-                  </div>
-                </td>
               </tr>
             </tbody>
           </table>
