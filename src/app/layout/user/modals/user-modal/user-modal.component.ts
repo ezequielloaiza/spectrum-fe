@@ -5,10 +5,13 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
-import { NgbModalRef, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbActiveModal, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { BusinessTypeService, UserService } from '../../../../shared/services';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { ToastrService } from 'ngx-toastr';
+import { debounceTime, distinctUntilChanged, map, catchError, tap, switchMap, merge } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { GoogleService } from '../../../../shared/services/google/google.service';
 
 @Component({
   selector: 'app-user-modal',
@@ -18,17 +21,42 @@ import { ToastrService } from 'ngx-toastr';
 export class UserModalComponent implements OnInit {
   form: FormGroup;
   businessTypes: Array<any> = new Array;
+  searching = false;
+  searchFailed = false;
+  hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  public model: any;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private businessTypeService: BusinessTypeService,
     private userSerice: UserService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private googleService: GoogleService) { }
 
   ngOnInit() {
     this.initializeForm();
     this.getBussinesAll();
   }
+
+  formatter = (x: {description: string}) => x.description;
+
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.searching = true),
+      switchMap(term =>
+        this.googleService.searchCities$(term).pipe(
+          tap(() => this.searchFailed = false),
+          catchError(() => {
+            this.searchFailed = true;
+            return of([]);
+          }))
+      ),
+      tap(() => this.searching = false),
+      merge(this.hideSearchingWhenUnsubscribed)
+    )
+
 
   initializeForm() {
 
@@ -43,6 +71,10 @@ export class UserModalComponent implements OnInit {
       companyEmail       : ['', [ Validators.required]],
       creditLimit        : ['', [ Validators.required]],
       idBusinessType     : ['', [ Validators.required]],
+      state              : ['', [ Validators.required]],
+      country            : ['', [ Validators.required]],
+      city               : ['', [ Validators.required]],
+      postal             : ['', [ Validators.required]],
       typeUser           : ['USER']
     });
   }
@@ -60,9 +92,20 @@ export class UserModalComponent implements OnInit {
   }
 
   save(): void {
+    this.form.get('city').setValue(this.googleService.getCity());
     this.userSerice.signUp$(this.form.value).subscribe(res => {
       this.toastr.success('User save', 'Success');
       this.modal.close();
+    });
+  }
+
+  findPlace(item): void {
+    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+      this.googleService.setPlace(res.data.result);
+      this.form.get('country').setValue(this.googleService.getCountry());
+      this.form.get('state').setValue(this.googleService.getState());
+      this.form.get('postal').setValue(this.googleService.getPostalCode());
+      this.form.get('city').setValue({description: this.googleService.getCity()});
     });
   }
 
