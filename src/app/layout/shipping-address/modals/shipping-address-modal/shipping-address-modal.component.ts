@@ -3,6 +3,7 @@ import { ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShippingAddressService } from '../../../../shared/services/shippingAddress/shipping-address.service';
 import { CompanyService } from '../../../../shared/services/company/company.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shipping-address-modal',
@@ -21,7 +22,8 @@ export class ShippingAddressModalComponent implements OnInit {
     public modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
     private shippingAddressService: ShippingAddressService,
-    private companyService: CompanyService) {
+    private companyService: CompanyService,
+    private notification: ToastrService) {
    }
 
   initializeForm() {
@@ -42,6 +44,7 @@ export class ShippingAddressModalComponent implements OnInit {
       this.shippingAddressService.save$(this.form.value).subscribe(res => {
         if (res.code === 200) {
           this.close();
+          this.notification.success('', 'Saved Success');
         } else {
           console.log(res.errors[0].detail);
         }

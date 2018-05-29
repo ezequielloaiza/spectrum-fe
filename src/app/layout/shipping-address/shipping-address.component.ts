@@ -3,6 +3,7 @@ import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-boots
 import { ShippingAddressModalComponent } from './modals/shipping-address-modal/shipping-address-modal.component';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shipping-address',
@@ -19,7 +20,8 @@ export class ShippingAddressComponent implements OnInit {
 
 	constructor(private modalService: NgbModal,
 							private shippingAddressService: ShippingAddressService,
-							private alertify: AlertifyService){}
+							private alertify: AlertifyService,
+						  private notification: ToastrService){}
 
   ngOnInit() {
 		this.getAddress();
@@ -65,6 +67,7 @@ export class ShippingAddressComponent implements OnInit {
 			console.log('test');
 			if (res.code === 200) {
 				this.getAddress();
+				this.notification.success('', 'Deleted Success');
 			} else {
 				console.log(res.errors[0].detail);
 			}
@@ -77,9 +80,7 @@ export class ShippingAddressComponent implements OnInit {
 		this.alertify.confirm('Delete Shipping Address', 'Are you sure do you want to delete this?', () => {
 			this.borrar(id);
 		}, () => {
-
 		}) ;
-		
 	}
 
 	pageChange(event) {

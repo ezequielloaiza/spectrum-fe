@@ -68,6 +68,18 @@
     "Delete" : "Delete",
     "Products" : "Products",
     "Characteristics" : "Characteristics",
-    "Technical specifications" : "Technical specifications"
+    "Technical specifications" : "Technical specifications",
+    "Supplies": "Supplies",
+    "Fluo Strips": "Fluo Strips",
+    "Spectrum Saline" : "Spectrum Saline",
+    "Contact Lenses" : "Contact Lenses",
+    "Color Contact Lenses" : "Color Contact Lenses",
+    "Scleral Lenses" : "Scleral Lenses",
+    "Spectrum Blue Light" : "Spectrum Blue Light",
+    "MarkEnnovy Contact Lenses" : "MarkEnnovy Contact Lenses",
+    "Back" : "Back",
+    "Product Details" : "Product Details",
+    "Products List" : "Product List",
+    "Enter product name..." : "Enter product name..."
     
 }

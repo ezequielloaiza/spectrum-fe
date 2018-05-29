@@ -4,10 +4,10 @@
 			<i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
 		</a>
 		<a routerLink="/products" [routerLinkActive]="['router-link-active']" class="list-group-item">
-			<i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Products' | translate }}
+			<i class="fa fa-archive"></i>&nbsp;{{ 'Products' | translate }}
 		</a>
-		<!--<div [hidden]="user.role.idRole === 1">-->
-		<div>
+		<div [hidden]="user.role.idRole === 1">
+		<!--<div>-->
 			<div class="nested-menu">
 				<a class="list-group-item" (click)="addExpandClass('account')">
 					<span>
@@ -93,9 +93,9 @@
 				</li>
 			</div>
 		</div>
-		<!--ADMIN MENU
-		<div [hidden]="user.role.idRole === 2">-->
-		<div>
+		<!--ADMIN MENU-->
+		<div [hidden]="user.role.idRole === 2">
+		<!--<div>-->
 			<a [routerLink]="['/profile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
 			</a>
@@ -218,6 +218,7 @@
 				</li>
 			</div>
 		</div>
+		<!--
 		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
 		</a>
@@ -267,6 +268,7 @@
 		<a class="list-group-item more-themes" href="http://www.strapui.com/">
 			{{ 'More Theme' | translate }}
 		</a>
+		-->
 		<div class="header-fields">
 			<a (click)="rltAndLtr()" class="list-group-item">
 				<span>
