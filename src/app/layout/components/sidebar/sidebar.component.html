@@ -6,7 +6,7 @@
 		<a routerLink="/products" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-archive"></i>&nbsp;{{ 'Products' | translate }}
 		</a>
-		<div [hidden]="user.role.idRole === 3">
+		<div *ngIf="user.role.idRole === 3">
 		<!--<div>-->
 			<div class="nested-menu">
 				<a class="list-group-item" (click)="addExpandClass('account')">
@@ -94,7 +94,7 @@
 			</div>
 		</div>
 		<!--ADMIN MENU-->
-		<div [hidden]="user.role.idRole === 1">
+		<div *ngIf="user.role.idRole === 1">
 		<!--<div>-->
 			<a [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
@@ -220,7 +220,7 @@
 		</div>
 
 		<!--SELLER MENU-->
-		<div [hidden]="user.role.idRole === 1">
+		<div *ngIf="user.role.idRole === 2">
 			<!--<div>-->
 				<a [routerLinkActive]="['router-link-active']" class="list-group-item">
 					<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
