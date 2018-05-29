@@ -4,6 +4,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShippingAddressService } from '../../../../shared/services/shippingAddress/shipping-address.service';
 import { CompanyService } from '../../../../shared/services/company/company.service';
 import { ToastrService } from 'ngx-toastr';
+import { Observable, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge } from 'rxjs/operators';
+import { GoogleService } from '../../../../shared/services';
 
 @Component({
   selector: 'app-shipping-address-modal',
@@ -16,6 +19,10 @@ export class ShippingAddressModalComponent implements OnInit {
   companies: Array<any>;
   address: any;
   action: string;
+  searching = false;
+  searchFailed = false;
+  hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  public model: any;
 
 
   constructor(
@@ -23,14 +30,20 @@ export class ShippingAddressModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private shippingAddressService: ShippingAddressService,
     private companyService: CompanyService,
-    private notification: ToastrService) {
+    private notification: ToastrService,
+    private googleService: GoogleService) {
    }
 
   initializeForm() {
     this.form = this.formBuilder.group({ 
-      id       : [this.action === 'edit' ? this.address.idAddress : ''],
-      companyId: [ this.action === 'edit' ? this.address.company.idCompany : '',[ Validators.required]],
-      name     : [this.action === 'edit' ? this.address.name : '', [ Validators.required]]
+      id        : [this.action === 'edit' ? this.address.idAddress : ''],
+      companyId : [ this.action === 'edit' ? this.address.company.idCompany : '',[ Validators.required]],
+      name      : [this.action === 'edit' ? this.address.name : '', [ Validators.required]],
+      state     : ['', [ Validators.required]],
+      country   : ['', [ Validators.required]],
+      city      : ['', [ Validators.required]],
+      postal    : ['', [ Validators.required]],
+      address   : ['', [ Validators.required]]
     });
   }
 
@@ -38,6 +51,25 @@ export class ShippingAddressModalComponent implements OnInit {
     this.initializeForm();
     this.getCompanies();
   }
+
+  formatter = (x: {description: string}) => x.description;
+
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.searching = true),
+      switchMap(term =>
+        this.googleService.searchCities$(term).pipe(
+          tap(() => this.searchFailed = false),
+          catchError(() => {
+            this.searchFailed = true;
+            return of([]);
+          }))
+      ),
+      tap(() => this.searching = false),
+      merge(this.hideSearchingWhenUnsubscribed)
+    )
 
   save(): void {
     if (this.action !== 'edit') {
@@ -80,6 +112,16 @@ export class ShippingAddressModalComponent implements OnInit {
 
   close() {
     this.modalReference.close();
+  }
+
+  findPlace(item): void {
+    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+      this.googleService.setPlace(res.data.result);
+      this.form.get('country').setValue(this.googleService.getCountry());
+      this.form.get('state').setValue(this.googleService.getState());
+      this.form.get('postal').setValue(this.googleService.getPostalCode());
+      this.form.get('city').setValue({description: this.googleService.getCity()});
+    });
   }
 
 }
