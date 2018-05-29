@@ -7,19 +7,101 @@
   </div>
   <div class="modal-body">
     <form [formGroup]="form">
-      <fieldset class="form-group">
-        <label>{{ 'Company' | translate}}</label>
-        <select class="form-control" name="companyId" formControlName="companyId" required>
-          <option *ngFor="let company of companies" [ngValue]="company.idCompany">{{ company.companyName }}</option>
-        </select>
-      </fieldset>
+    <div class="row">
+      <div class="col-xl-12">
+        <fieldset class="form-group">
+          <label>{{ 'Company' | translate}}</label>
+          <select class="form-control" name="companyId" formControlName="companyId" required>
+            <option *ngFor="let company of companies" [ngValue]="company.idCompany">{{ company.companyName }}</option>
+          </select>
+        </fieldset>
+      </div>
+      <!--
       <fieldset class="form-group">
         <label>{{'Address' | translate}} </label>
         <textarea  class="form-control" name="name" formControlName="name" rows="3" required></textarea>
       </fieldset>
+      -->
+
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>City</label>
+          <input
+            id="typeahead-focus"
+            type="text"
+            class="form-control"
+            [ngbTypeahead]="search"
+            [resultTemplate]="rt"
+            name="city"
+            formControlName="city"
+            [inputFormatter]="formatter"
+            (selectItem) ="findPlace($event)"
+            #instance="ngbTypeahead"
+          required />
+          
+        </fieldset>
+        <!--
+        <div class="message-error" [hidden]="city.pristine">
+          <span *ngIf="city.errors && !!city.errors.required">City is required</span>
+        </div>
+        -->
+      </div>
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>State</label>
+          <input class="form-control" placeholder="Enter email" name="state" formControlName="state" required>
+        </fieldset>
+        <!--
+        <div class="message-error" [hidden]="state.pristine">
+          <span *ngIf="state.errors && !!state.errors.required">State is required</span>
+        </div>
+        -->
+      </div>
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>Country</label>
+          <input class="form-control" placeholder="Enter email" name="country" formControlName="country" required>
+        </fieldset>
+        <!--
+        <div class="message-error" [hidden]="country.pristine">
+          <span *ngIf="country.errors && !!country.errors.required">Country is required</span>
+        </div>
+        -->
+      </div>
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>Postal code</label>
+          <input class="form-control" placeholder="Enter email" name="postal" formControlName="postal" required>
+        </fieldset>
+        <!--
+        <div class="message-error" [hidden]="postal.pristine">
+          <span *ngIf="postal.errors && !!postal.errors.required">Postal code is required</span>
+        </div>
+        -->
+      </div>
+      <div class="col-xl-12">
+        <fieldset class="form-group">
+          <label>Address</label>
+          <input class="form-control" placeholder="Enter address" name="address" formControlName="address" required>
+        </fieldset>
+        <!--
+        <div class="message-error" [hidden]="address.valid || address.pristine">
+          <span>Name is required</span>
+        </div>
+        -->
+      </div>
+    </div>
+
+
+
+
     </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-main" (click)="save(action)">Save</button>
     <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">Close</button>
   </div>
+
+  <ng-template #rt let-r="result" let-t="term">
+    {{ r.description}}
+  </ng-template>
