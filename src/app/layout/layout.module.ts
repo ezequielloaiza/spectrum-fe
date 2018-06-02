@@ -16,6 +16,7 @@ import { AlertifyService } from '../shared/services/alertify/alertify.service';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { HeaderComponent } from '../shared/modules/header/header.component';
 import { CheckAccountComponent } from './user/check-account/check-account.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     imports: [
@@ -36,6 +37,7 @@ import { CheckAccountComponent } from './user/check-account/check-account.compon
         UserComponent,
         UserModalComponent,
         CheckAccountComponent,
+        ProfileComponent,
     ],
     entryComponents: [ShippingAddressModalComponent, UserModalComponent],
     providers: [

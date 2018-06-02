@@ -96,7 +96,7 @@
 		<!--ADMIN MENU-->
 		<div *ngIf="user.role.idRole === 1">
 		<!--<div>-->
-			<a [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<a routerLink="/profile" [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
 			</a>
 			<div class="nested-menu">
@@ -222,7 +222,7 @@
 		<!--SELLER MENU-->
 		<div *ngIf="user.role.idRole === 2">
 			<!--<div>-->
-				<a [routerLinkActive]="['router-link-active']" class="list-group-item">
+				<a routerLink="/profile" [routerLinkActive]="['router-link-active']" class="list-group-item">
 					<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
 				</a>
 				<div class="nested-menu">
@@ -233,7 +233,7 @@
 					<li class="nested" [class.expand]="showMenu === 'account'">
 						<ul class="submenu">
 							<li>
-								<a href="javascript:void(0)">
+								<a routerLink="/profile" [routerLinkActive]="['router-link-active']">
 									<span>
 										<i class="fa fa-user-circle"></i>&nbsp; {{ 'Your Profile' | translate }}</span>
 								</a>
