@@ -37,13 +37,12 @@ export class ShippingAddressModalComponent implements OnInit {
   initializeForm() {
     this.form = this.formBuilder.group({ 
       id        : [this.action === 'edit' ? this.address.idAddress : ''],
-      companyId : [ this.action === 'edit' ? this.address.company.idCompany : '',[ Validators.required]],
+      companyId : [this.action === 'edit' ? this.address.company.idCompany : '',[ Validators.required]],
       name      : [this.action === 'edit' ? this.address.name : '', [ Validators.required]],
-      state     : ['', [ Validators.required]],
-      country   : ['', [ Validators.required]],
-      city      : ['', [ Validators.required]],
-      postal    : ['', [ Validators.required]],
-      address   : ['', [ Validators.required]]
+      state     : [this.action === 'edit' ? this.address.state : '', [ Validators.required]],
+      country   : [this.action === 'edit' ? this.address.country : '', [ Validators.required]],
+      city      : [this.action === 'edit' ? {description: this.address.city} : '', [ Validators.required]],
+      postal    : [this.action === 'edit' ? this.address.postalCode : '']
     });
   }
 
@@ -72,7 +71,9 @@ export class ShippingAddressModalComponent implements OnInit {
     )
 
   save(): void {
-    this.form.get('city').setValue(this.googleService.getCity());
+    if (this.form.get('city').value.description) {
+      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.address.city);
+    }
     if (this.action !== 'edit') {
       this.shippingAddressService.save$(this.form.value).subscribe(res => {
         if (res.code === 200) {
@@ -87,6 +88,7 @@ export class ShippingAddressModalComponent implements OnInit {
     } else {
       console.log('save',this.form.value);
       this.shippingAddressService.update$(this.form.value).subscribe(res => {
+
         if (res.code === 200) {
           this.close();
         } else {
@@ -124,5 +126,11 @@ export class ShippingAddressModalComponent implements OnInit {
       this.form.get('city').setValue({description: this.googleService.getCity()});
     });
   }
+
+  get companyId() { return this.form.get('companyId'); }
+  get state() { return this.form.get('state'); }
+  get city() { return this.form.get('city'); }
+  get country() { return this.form.get('country'); }
+  get name() { return this.form.get('name'); }
 
 }

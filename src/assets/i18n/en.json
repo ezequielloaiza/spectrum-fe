@@ -121,6 +121,9 @@
     "Enter company" : "Enter company",
     "Enter company contact name" : "Enter company contact name",
     "Enter phone" : "Enter phone",
-    "Enter credit limit" : "Enter credit limit"
+    "Enter credit limit" : "Enter credit limit",
+    "Save" : "Save",
+    "Close" : "Close",
+    "Shipping Address" : "Shipping Address"
     
 }

@@ -1,6 +1,6 @@
 
   <div class="modal-header">
-    <h4 class="modal-title">Shipping Address</h4>
+    <h4 class="modal-title">{{ 'Shipping Address' | translate }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -10,22 +10,19 @@
     <div class="row">
       <div class="col-xl-12">
         <fieldset class="form-group">
-          <label>{{ 'Company' | translate}}</label>
+          <label>{{ 'Company' | translate }}</label>
           <select class="form-control" name="companyId" formControlName="companyId" required>
             <option *ngFor="let company of companies" [ngValue]="company.idCompany">{{ company.companyName }}</option>
           </select>
         </fieldset>
       </div>
-      <!--
-      <fieldset class="form-group">
-        <label>{{'Address' | translate}} </label>
-        <textarea  class="form-control" name="name" formControlName="name" rows="3" required></textarea>
-      </fieldset>
-      -->
+      <div class="message-error" [hidden]="companyId.valid || companyId.pristine">
+        <span>{{ 'Company is required' | translate }}</span>
+      </div>
 
       <div class="col-xl-6">
         <fieldset class="form-group">
-          <label>City</label>
+          <label>{{ 'City' | translate }}</label>
           <input
             id="typeahead-focus"
             type="text"
@@ -38,68 +35,56 @@
             (selectItem) ="findPlace($event)"
             #instance="ngbTypeahead"
           required />
-          
         </fieldset>
-        <!--
-        <div class="message-error" [hidden]="city.pristine">
-          <span *ngIf="city.errors && !!city.errors.required">City is required</span>
+        <div *ngIf="searching" class="spinner">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
         </div>
-        -->
+        <div class="message-error" [hidden]="city.valid || city.pristine">
+          <span>{{ 'City is required' | translate }}</span>
+        </div>
       </div>
       <div class="col-xl-6">
         <fieldset class="form-group">
-          <label>State</label>
+          <label>{{ 'State' | translate }}</label>
           <input class="form-control" placeholder="Enter email" name="state" formControlName="state" required>
         </fieldset>
-        <!--
-        <div class="message-error" [hidden]="state.pristine">
-          <span *ngIf="state.errors && !!state.errors.required">State is required</span>
+        <div class="message-error" [hidden]="state.valid || state.pristine">
+          <span>{{ 'State is required' | translate }}</span>
         </div>
-        -->
       </div>
       <div class="col-xl-6">
         <fieldset class="form-group">
-          <label>Country</label>
+          <label>{{ 'Country' | translate }}</label>
           <input class="form-control" placeholder="Enter email" name="country" formControlName="country" required>
         </fieldset>
-        <!--
-        <div class="message-error" [hidden]="country.pristine">
-          <span *ngIf="country.errors && !!country.errors.required">Country is required</span>
+        <div class="message-error" [hidden]="country.valid || country.pristine">
+          <span>{{ 'Country is required' | translate }}</span>
         </div>
-        -->
       </div>
       <div class="col-xl-6">
         <fieldset class="form-group">
-          <label>Postal code</label>
-          <input class="form-control" placeholder="Enter email" name="postal" formControlName="postal" required>
+          <label>{{ 'Postal Code' | translate }}</label>
+          <input class="form-control" placeholder="Enter postal code" name="postal" formControlName="postal">
         </fieldset>
-        <!--
-        <div class="message-error" [hidden]="postal.pristine">
-          <span *ngIf="postal.errors && !!postal.errors.required">Postal code is required</span>
-        </div>
-        -->
       </div>
       <div class="col-xl-12">
         <fieldset class="form-group">
-          <label>Address</label>
-          <input class="form-control" placeholder="Enter address" name="address" formControlName="address" required>
+          <label>{{ 'Address' | translate }}</label>
+          <input class="form-control" placeholder="Enter address" name="name" formControlName="name" required>
         </fieldset>
-        <!--
-        <div class="message-error" [hidden]="address.valid || address.pristine">
-          <span>Name is required</span>
+        <div class="message-error" [hidden]="name.valid || name.pristine">
+          <span>{{ 'Address is required' | translate }}</span>
         </div>
-        -->
       </div>
     </div>
-
-
-
 
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-main" (click)="save(action)">Save</button>
-    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">Close</button>
+    <button type="button" class="btn btn-main" [disabled]="form.invalid" (click)="save(action)">{{ 'Save' | translate }}</button>
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}</button>
   </div>
 
   <ng-template #rt let-r="result" let-t="term">
