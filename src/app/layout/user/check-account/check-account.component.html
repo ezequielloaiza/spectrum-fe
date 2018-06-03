@@ -1,56 +1,111 @@
-<div>
-  <app-page-header [heading]="'List of Clients'"
+<app-page-header class="page-header-fixed" [heading]="'List of Clients'"
                    [icon]="'fa fa-users'"></app-page-header>
 
+
+<div class="sp-container">
   <div class="row search">
     <div class="col col-xl-4 col-lg-4">
-        <input class="form-control" placeholder="Enter user search..">
-        <i class="fa fa-search"></i>
+      <input class="form-control" (keyup)="getItems($event)" placeholder="Enter user search..">
+      <i class="fa fa-search"></i>
     </div>
   </div>
-  <div class="row">
-    <div class="col col-xl-12 col-lg-12">
-      <div class="card mb-3">
-        <div class="card-header d-flex">
-          <div class="align-self-center">
-            {{ 'All Clients' | translate }}
+  <ngb-tabset>
+    <ngb-tab title="Active">
+      <ng-template ngbTabContent>
+        <br>
+        <div class="row">
+          <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+              <div class="card-header d-flex">
+                <div class="align-self-center">
+                  {{ 'All Clients' | translate }}
+                </div>
+              </div>
+              <div class="card-body table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="table-tr">{{ 'Name' | translate }}</th>
+                      <th class="table-tr">{{ 'Email' | translate }}</th>
+                      <th class="table-tr">{{ 'Company Name' | translate }}</th>
+                      <th class="table-tr">{{ 'Business Type' | translate}}</th>
+                      <th class="table-tr"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of listUsers | filterStatus : '0'">
+                      <td class="table-tr">{{user.name}}</td>
+                      <td class="table-tr">{{user.email}}</td>
+                      <td class="table-tr">{{user.company.companyName}}</td>
+                      <td class="table-tr">{{user.company.businessType.name}}</td>
+                      <td class="table-tr">
+                        <div class="d-flex flex-row justify-content-around">
+                          <div ngbDropdown class="d-inline-block dropdown">
+                            <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                            <div ngbDropdownMenu>
+                              <button class="dropdown-item" (click)="open()">
+                                <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                              <button class="dropdown-item" (click)="changeStatus(user.idUser)">
+                                <i class="fa fa-trash"></i> {{ 'deactivate' | translate }}</button>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="card-body table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="table-tr">{{ 'Name' | translate }}</th>
-                <th class="table-tr">{{ 'Email' | translate }}</th>
-                <th class="table-tr">{{ 'Company Name' | translate }}</th>
-                <th class="table-tr">{{ 'Business Type' | translate}}</th>
-                <th class="table-tr"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let user of listUsers">
-                <td class="table-tr">{{user.name}}</td>
-                <td class="table-tr">{{user.email}}</td>
-                <td class="table-tr">{{user.company.companyName}}</td>
-                <td class="table-tr">{{user.company.businessType.name}}</td>
-                <td class="table-tr">
-                  <div class="d-flex flex-row justify-content-around">
-                    <div ngbDropdown class="d-inline-block dropdown">
-                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
-                      <div ngbDropdownMenu>
-                        <button class="dropdown-item" (click)="open()">
-                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                        <button class="dropdown-item" (click)="open()">
-                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Inactive">
+      <ng-template ngbTabContent>
+        <br>
+        <div class="row">
+          <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+              <div class="card-header d-flex">
+                <div class="align-self-center">
+                  {{ 'All Clients' | translate }}
+                </div>
+              </div>
+              <div class="card-body table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="table-tr">{{ 'Name' | translate }}</th>
+                      <th class="table-tr">{{ 'Email' | translate }}</th>
+                      <th class="table-tr">{{ 'Company Name' | translate }}</th>
+                      <th class="table-tr">{{ 'Business Type' | translate}}</th>
+                      <th class="table-tr"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of listUsers | filterStatus : '1'">
+                      <td class="table-tr">{{user.name}}</td>
+                      <td class="table-tr">{{user.email}}</td>
+                      <td class="table-tr">{{user.company.companyName}}</td>
+                      <td class="table-tr">{{user.company.businessType.name}}</td>
+                      <td class="table-tr">
+                        <div class="d-flex flex-row justify-content-around">
+                          <div ngbDropdown class="d-inline-block dropdown">
+                            <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                            <div ngbDropdownMenu>
+                              <button class="dropdown-item" (click)="changeStatus(user.idUser)">
+                                <i class="fa fa-trash"></i> {{ 'Active' | translate }}</button>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>

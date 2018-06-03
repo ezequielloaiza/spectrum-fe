@@ -21,8 +21,12 @@ export class UserService {
   public recoveryPassword$(user): Observable<any> {
     return this.http.post(environment.apiUrl + 'user/recovery_password', user);
   }
-  
+
   public allUserBySeller$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/allUserBySeller');
+  }
+
+  public changeStatus$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/changeStatus/' + id);
   }
 }

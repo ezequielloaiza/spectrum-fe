@@ -1,12 +1,26 @@
 @import '../../../../styles/spectrum/spectrum';
 
-.link {
-  color: $bg-blue;
-  padding-left: 0px;
-}
+.header-body {
+  width: 100%;
+  background: $bg-white;
+  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
 
-.breadcrumb {
-  padding-left: 0px;
-  background-color: transparent;
-  border-radius: 0px;
+  .link {
+    color: $bg-blue;
+    padding-left: 0px;
+  }
+
+  .breadcrumb {
+    padding-left: 0px;
+    background-color: transparent;
+    border-radius: 0px;
+    padding-left: 15px;
+    border-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
+  h4 {
+    padding-left: 15px;
+  }
 }

@@ -15,7 +15,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AlertifyService } from '../shared/services/alertify/alertify.service';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { HeaderComponent } from '../shared/modules/header/header.component';
-import { CheckAccountComponent } from './user/check-account/check-account.component';
+import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/check-account.component';
 
 @NgModule({
     imports: [
@@ -36,6 +36,7 @@ import { CheckAccountComponent } from './user/check-account/check-account.compon
         UserComponent,
         UserModalComponent,
         CheckAccountComponent,
+        FilterStatusPipe
     ],
     entryComponents: [ShippingAddressModalComponent, UserModalComponent],
     providers: [
