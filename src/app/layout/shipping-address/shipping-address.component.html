@@ -13,6 +13,9 @@
           <tr>
             <th class="table-tr"> {{ 'Company' | translate }}</th>
             <th class="table-tr"> {{ 'Address' | translate }}</th>
+            <th class="table-tr"> {{ 'City' | translate }}</th>
+            <th class="table-tr"> {{ 'State' | translate }}</th>
+            <th class="table-tr"> {{ 'Country' | translate }}</th>
             <th class="table-tr"></th>
           </tr>
         </thead>
@@ -20,6 +23,10 @@
           <tr *ngFor="let address of addresses">
             <td class="table-tr"> {{ address.company.companyName }}</td>
             <td class="table-tr"> {{ address.name }}</td>
+            <td class="table-tr"> {{ address.city }}</td>
+            <td class="table-tr"> {{ address.state }}</td>
+            <td class="table-tr"> {{ address.country }}</td>
+
             <td class="table-tr">
               <div class="d-flex flex-row justify-content-around">
                 <div ngbDropdown class="d-inline-block dropdown">

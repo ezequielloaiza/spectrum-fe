@@ -121,6 +121,8 @@
     "Enter company" : "Ingrese compañía",
     "Enter company contact name" : "Ingrese nombre contácto compañía",
     "Enter phone" : "Ingrese teléfono",
-    "Enter credit limit" : "Ingrese límite de crédito"
-
+    "Enter credit limit" : "Ingrese límite de crédito",
+    "Save" : "Guardar",
+    "Close" : "Cerrar",
+    "Shipping Address" : "Direcciones de Envío"
 }
