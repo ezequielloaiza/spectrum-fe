@@ -124,6 +124,12 @@
     "Enter credit limit" : "Enter credit limit",
     "Save" : "Save",
     "Close" : "Close",
-    "Shipping Address" : "Shipping Address"
-    
+    "Shipping Address" : "Shipping Address",
+    "Successfully Saved" : "Successfully Saved",
+    "Successfully Updated" : "Successfully Updated",
+    "Successfully Deleted" : "Successfully Deleted",
+    "Confirm Delete" : "Confirm Delete",
+    "Are you sure do you want to delete this?" : "Are you sure do you want to delete this?",
+    "Temporary Password Sent" : "Temporary Password Sent",
+    "Unregistered email" : "Unregistered email"
 }
