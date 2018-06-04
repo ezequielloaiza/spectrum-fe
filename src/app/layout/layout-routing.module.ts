@@ -5,6 +5,7 @@ import { UserComponent } from './user/user.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
 import { ProductsComponent } from '../products/products.component';
 import { CheckAccountComponent } from './user/check-account/check-account.component';
+import { SuppliersComponent } from './suppliers/suppliers.component';
 
 const routes: Routes = [
     {
@@ -22,7 +23,8 @@ const routes: Routes = [
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
             { path: 'user', component: UserComponent },
             { path: 'shipping-address', component: ShippingAddressComponent },
-            { path: 'consult-account', component: CheckAccountComponent }
+            { path: 'consult-account', component: CheckAccountComponent },
+            { path: 'suppliers', component: SuppliersComponent }
         ]
     }
 ];

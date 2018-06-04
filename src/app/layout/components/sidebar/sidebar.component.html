@@ -217,6 +217,9 @@
 					</ul>
 				</li>
 			</div>
+			<a routerLink="/suppliers" [routerLinkActive]="['router-link-active']" class="list-group-item">
+				<i class="fa fa-archive"></i>&nbsp;{{ 'Suppliers' | translate }}
+			</a>
 		</div>
 
 		<!--SELLER MENU-->
@@ -349,6 +352,10 @@
 						</ul>
 					</li>
 				</div>
+
+				<a routerLink="/suppliers" [routerLinkActive]="['router-link-active']" class="list-group-item">
+					<i class="fa fa-archive"></i>&nbsp;{{ 'Suppliers' | translate }}
+				</a>
 			</div>
 		<!--
 		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">

@@ -16,6 +16,8 @@ import { AlertifyService } from '../shared/services/alertify/alertify.service';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { HeaderComponent } from '../shared/modules/header/header.component';
 import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/check-account.component';
+import { SuppliersComponent } from './suppliers/suppliers.component';
+import { SupplierModalComponent } from './suppliers/modals/supplier-modal/supplier-modal.component';
 
 @NgModule({
     imports: [
@@ -36,9 +38,11 @@ import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/ch
         UserComponent,
         UserModalComponent,
         CheckAccountComponent,
-        FilterStatusPipe
+        FilterStatusPipe,
+        SuppliersComponent,
+        SupplierModalComponent
     ],
-    entryComponents: [ShippingAddressModalComponent, UserModalComponent],
+    entryComponents: [ShippingAddressModalComponent, UserModalComponent, SupplierModalComponent],
     providers: [
       BusinessTypeService,
       AlertifyService,

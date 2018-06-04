@@ -1,0 +1,56 @@
+
+<div>
+  <app-page-header [heading]="'List of Suppliers'" [icon]="'fa-edit'"></app-page-header>
+  <div class="card mb-3">
+    <div class="card-header">
+      {{ 'All Suppliers' | translate }}
+      <button class="btn btn-main" (click)="open(content,'create')">{{ 'Add Supplier' | translate }}&nbsp;
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="table-tr">{{ 'Company Name' | translate }}</th>
+            <th class="table-tr">{{ 'Contact' | translate }}</th>
+            <th class="table-tr">{{ 'Address' | translate }}</th>
+            <th class="table-tr">{{ 'Telephone' | translate}}</th>
+            <th class="table-tr">{{ 'Website' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let supplier of suppliers">
+            <td class="table-tr">{{supplier.companyName}}</td>
+            <td class="table-tr">{{supplier.contact}}</td>
+            <td class="table-tr">{{supplier.address}}</td>
+            <td class="table-tr">{{supplier.telephone}}</td>
+            <td class="table-tr">{{supplier.website}}</td>
+
+            <td class="table-tr">
+              <div class="d-flex flex-row justify-content-around">
+                <div ngbDropdown class="d-inline-block dropdown">
+                  <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                  <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="open(supplier,'edit')">
+                      <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                    <button class="dropdown-item" (click)="delete(supplier.idSupplier)">
+                      <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- EMPTY LIST -->
+      <div class="table-empty" ng-show="suppliers.length === 0" translate>
+        There aren't any suppliers added yet
+      </div>
+      <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxSuppliers.length"
+        [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true" ng-show="suppliers.length === 0">
+      </ngb-pagination>
+    </div>
+  </div>
+</div>
+
