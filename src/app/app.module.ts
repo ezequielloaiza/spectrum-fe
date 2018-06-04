@@ -12,8 +12,6 @@ import { AuthGuard, PageHeaderModule } from './shared';
 import { UserStorageService } from './http/user-storage.service';
 import { RecoveryPasswordComponent } from './login/recovery-password/recovery-password.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
-
 import { ToastrModule } from 'ngx-toastr';
 import { LibHttpModule } from './http/lib-http.module';
 
@@ -45,7 +43,8 @@ export const createTranslateLoader = (http: HttpClient) => {
         ReactiveFormsModule,
         LibHttpModule,
         ToastrModule.forRoot(),
-        PageHeaderModule
+        PageHeaderModule,
+        
     ],
     declarations: [AppComponent, RecoveryPasswordComponent],
     providers: [AuthGuard, UserStorageService],
