@@ -126,5 +126,12 @@
     "Enter credit limit" : "Ingrese límite de crédito",
     "Save" : "Guardar",
     "Close" : "Cerrar",
-    "Shipping Address" : "Direcciones de Envío"
+    "Shipping Address" : "Direcciones de Envío",
+    "Successfully Saved" : "Guardado con éxito",
+    "Successfully Updated" : "Actualizado con éxito",
+    "Successfully Deleted" : "Eliminado con éxito",
+    "Confirm Delete" : "Confirmación de Eliminación",
+    "Are you sure do you want to delete this?" : "¿Está seguro que quiere eliminar el registro?",
+    "Temporary Password Sent" : "Contraseña temporal enviada",
+    "Unregistered email" : "Correo electrónico no registrado"
 }
