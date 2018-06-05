@@ -53,7 +53,7 @@ export class BusinessTypeComponent implements OnInit {
     this.businessTypeService.findAll$().subscribe(res => {
       if (res.code === 200) {
 				this.auxbusinesstypes = res.data;
-				this.businesstypes = this.businesstypes.slice(0,this.itemPerPage);
+				this.businesstypes = this.auxbusinesstypes.slice(0,this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }

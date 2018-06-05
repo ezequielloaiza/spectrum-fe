@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge } from 'rxjs/operators';
 import { GoogleService } from '../../../../shared/services';
+import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 
 @Component({
   selector: 'app-business-type-modal',
@@ -34,7 +35,7 @@ export class BusinessTypeModalComponent implements OnInit {
 
    initializeForm() {
     this.form = this.formBuilder.group({ 
-      id        : [this.action === 'edit' ? this.businesstype.id : ''],
+      id        : [this.action === 'edit' ? this.businesstype.idBusinessType : ''],
       name      : [this.action === 'edit' ? this.businesstype.name : '', [ Validators.required]],
     });
   }
@@ -43,29 +44,10 @@ export class BusinessTypeModalComponent implements OnInit {
     this.initializeForm();
   }
 
-  formatter = (x: {description: string}) => x.description;
-
-  search = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      tap(() => this.searching = true),
-      switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
-          tap(() => this.searchFailed = false),
-          catchError(() => {
-            this.searchFailed = true;
-            return of([]);
-          }))
-      ),
-      tap(() => this.searching = false),
-      merge(this.hideSearchingWhenUnsubscribed)
-    )
-
   save(): void {
     if (this.action !== 'edit') {
       this.businessTypeService.save$(this.form.value).subscribe(res => {
-        if (res.code === 200) {
+        if (res.code === CodeHttp.ok) {
           this.close();
           this.notification.success('', 'Saved Success');
         } else {
@@ -78,7 +60,7 @@ export class BusinessTypeModalComponent implements OnInit {
       console.log('save',this.form.value);
       this.businessTypeService.update$(this.form.value).subscribe(res => {
 
-        if (res.code === 200) {
+        if (res.code === CodeHttp.ok) {
           this.close();
         } else {
           console.log(res.errors[0].detail);
