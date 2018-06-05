@@ -25,7 +25,7 @@ export class SupplierModalComponent implements OnInit {
   action: string;
   public model: any;
 
-  constructor(private modal: NgbActiveModal,
+  constructor(private modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
     private supplierService: SupplierService,
     private toastr: ToastrService,
@@ -55,7 +55,7 @@ export class SupplierModalComponent implements OnInit {
   }
 
   close(): void {
-    this.modal.dismiss();
+    this.modalReference.close();
   }
 
   save(): void {

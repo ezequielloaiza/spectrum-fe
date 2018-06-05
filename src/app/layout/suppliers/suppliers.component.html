@@ -4,7 +4,7 @@
   <div class="card mb-3">
     <div class="card-header">
       {{ 'All Suppliers' | translate }}
-      <button class="btn btn-main" (click)="open(content,'create')">{{ 'Add Supplier' | translate }}&nbsp;
+      <button class="btn btn-main" (click)="open(content,'create')">{{ 'Add' | translate }}&nbsp;
         <i class="fa fa-plus"></i>
       </button>
     </div>
@@ -19,7 +19,7 @@
             <th class="table-tr">{{ 'Website' | translate}}</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody [hidden]="suppliers.length === 0">
           <tr *ngFor="let supplier of suppliers">
             <td class="table-tr">{{supplier.companyName}}</td>
             <td class="table-tr">{{supplier.contact}}</td>
@@ -44,12 +44,15 @@
         </tbody>
       </table>
       <!-- EMPTY LIST -->
-      <div class="table-empty" ng-show="suppliers.length === 0" translate>
+      <div class="table-empty" [hidden]="suppliers.length !== 0" translate>
         There aren't any suppliers added yet
       </div>
-      <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxSuppliers.length"
-        [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true" ng-show="suppliers.length === 0">
-      </ngb-pagination>
+      <div [hidden]="suppliers.length === 0">
+        <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxSuppliers.length"
+          [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+        </ngb-pagination>
+      </div>
+      
     </div>
   </div>
 </div>

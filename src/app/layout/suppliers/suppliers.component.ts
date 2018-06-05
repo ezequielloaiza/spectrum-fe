@@ -37,7 +37,6 @@ export class SuppliersComponent implements OnInit {
 		modalRef.result.then((result) => {
 			this.getSuppliers();
 		} , (reason) => {
-
 		});
 	}
 
