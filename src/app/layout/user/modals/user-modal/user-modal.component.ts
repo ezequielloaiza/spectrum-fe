@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, map, catchError, tap, switchMap, merge } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-modal',
@@ -31,7 +32,8 @@ export class UserModalComponent implements OnInit {
     private businessTypeService: BusinessTypeService,
     private userSerice: UserService,
     private toastr: ToastrService,
-    private googleService: GoogleService) { }
+    private googleService: GoogleService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -99,7 +101,9 @@ export class UserModalComponent implements OnInit {
     this.form.get('city').setValue(this.googleService.getCity());
     this.form.get('companyCity').setValue(this.googleService.getCity());
     this.userSerice.signUp$(this.form.value).subscribe(res => {
-      this.toastr.success('User save', 'Success');
+      this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
+        this.toastr.success('', res);
+      });
       this.modal.close();
     });
   }

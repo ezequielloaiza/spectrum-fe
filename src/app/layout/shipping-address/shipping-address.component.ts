@@ -4,6 +4,7 @@ import { ShippingAddressModalComponent } from './modals/shipping-address-modal/s
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shipping-address',
@@ -21,7 +22,8 @@ export class ShippingAddressComponent implements OnInit {
 	constructor(private modalService: NgbModal,
 							private shippingAddressService: ShippingAddressService,
 							private alertify: AlertifyService,
-						  private notification: ToastrService){}
+							private notification: ToastrService,
+						  private translate: TranslateService){}
 
   ngOnInit() {
 		this.getAddress();
@@ -67,7 +69,9 @@ export class ShippingAddressComponent implements OnInit {
 			console.log('test');
 			if (res.code === 200) {
 				this.getAddress();
-				this.notification.success('', 'Deleted Success');
+				this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
+					this.notification.success('', res);
+				});
 			} else {
 				console.log(res.errors[0].detail);
 			}
@@ -77,10 +81,14 @@ export class ShippingAddressComponent implements OnInit {
 	}
 	
 	delete(id) {
-		this.alertify.confirm('Delete Shipping Address', 'Are you sure do you want to delete this?', () => {
-			this.borrar(id);
-		}, () => {
-		}) ;
+		this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
+			this.translate.get('Are you sure do you want to delete this?', {value: 'Are you sure do you want to delete this?'}).subscribe((msg: string) => {
+				this.alertify.confirm(title, msg, () => {
+					this.borrar(id);
+				}, () => {
+				});
+			});
+		});
 	}
 
 	pageChange(event) {

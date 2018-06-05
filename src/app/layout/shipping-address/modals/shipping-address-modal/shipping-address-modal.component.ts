@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge } from 'rxjs/operators';
 import { GoogleService } from '../../../../shared/services';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shipping-address-modal',
@@ -31,7 +33,8 @@ export class ShippingAddressModalComponent implements OnInit {
     private shippingAddressService: ShippingAddressService,
     private companyService: CompanyService,
     private notification: ToastrService,
-    private googleService: GoogleService) {
+    private googleService: GoogleService,
+    private translate: TranslateService ) {
    }
 
   initializeForm() {
@@ -78,7 +81,9 @@ export class ShippingAddressModalComponent implements OnInit {
       this.shippingAddressService.save$(this.form.value).subscribe(res => {
         if (res.code === 200) {
           this.close();
-          this.notification.success('', 'Saved Success');
+          this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
         } else {
           console.log(res.errors[0].detail);
         }
@@ -88,7 +93,9 @@ export class ShippingAddressModalComponent implements OnInit {
     } else {
       console.log('save',this.form.value);
       this.shippingAddressService.update$(this.form.value).subscribe(res => {
-
+        this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
         if (res.code === 200) {
           this.close();
         } else {
