@@ -11,7 +11,7 @@
       <div class="col-xl-12">
         <fieldset class="form-group">
           <label>{{ 'Name' | translate }}</label>
-          <input class="form-control" placeholder="Enter name" name="name" formControlName="name" required>
+          <input class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name" formControlName="name" required>
         </fieldset>
         <div class="message-error" [hidden]="name.valid || name.pristine">
           <span>{{ 'Name is required' | translate }}</span>
@@ -22,8 +22,8 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-main" [disabled]="form.invalid" (click)="save(action)">{{ 'Save' | translate }}</button>
     <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}</button>
+    <button type="button" class="btn btn-main" [disabled]="form.invalid" (click)="save(action)">{{ 'Save' | translate }}</button>
   </div>
 
   <ng-template #rt let-r="result" let-t="term">

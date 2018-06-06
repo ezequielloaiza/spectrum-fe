@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge } from 'rxjs/operators';
 import { GoogleService } from '../../../../shared/services';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-business-type-modal',
@@ -30,8 +31,8 @@ export class BusinessTypeModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private businessTypeService: BusinessTypeService,
     private notification: ToastrService,
-    private googleService: GoogleService) {
-   }
+    private googleService: GoogleService,
+    private translate: TranslateService ) {}
 
    initializeForm() {
     this.form = this.formBuilder.group({ 
@@ -49,7 +50,9 @@ export class BusinessTypeModalComponent implements OnInit {
       this.businessTypeService.save$(this.form.value).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.close();
-          this.notification.success('', 'Saved Success');
+          this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
         } else {
           console.log(res.errors[0].detail);
         }
@@ -59,7 +62,9 @@ export class BusinessTypeModalComponent implements OnInit {
     } else {
       console.log('save',this.form.value);
       this.businessTypeService.update$(this.form.value).subscribe(res => {
-
+        this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
         if (res.code === CodeHttp.ok) {
           this.close();
         } else {

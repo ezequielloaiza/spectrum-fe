@@ -1,43 +1,58 @@
-<div>
-  <app-page-header [heading]="'Business Type List'" [icon]="'fa-edit'"></app-page-header>
-    <div class="card mb-3">
-      <div class="card-header">
-        {{ 'All Business Type' | translate }}
-        <button class="btn btn-main" (click)="open(content,'create')">{{ 'Add' | translate }}&nbsp;
-          <i class="fa fa-plus"></i>
-        </button>
-      </div>
-      <div class="card-body table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="table-tr"> {{ 'Name' | translate }}</th>
-              <th class="table-tr"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let businesstype of businesstypes">
-              <td class="table-tr"> {{ businesstype.name }}</td>
-  
-              <td class="table-tr">
-                <div class="d-flex flex-row justify-content-around">
-                  <div ngbDropdown class="d-inline-block dropdown">
-                    <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
-                    <div ngbDropdownMenu>
-                      <button class="dropdown-item" (click)="open(businesstype,'edit')">
-                        <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                      <button class="dropdown-item" (click)="delete(businesstype.idBusinessType)">
-                        <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+<app-page-header class="page-header-fixed" [heading]="'Business Type List'" [icon]="'fa fa-building'"></app-page-header>
+<div class="sp-container">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All Business Type' | translate }}
+          </div>
+          <div class="ml-auto p-2">
+            <button type="button" class="btn btn-main" (click)="open(content,'create')">{{ 'Add' | translate }}&nbsp;
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr"> {{ 'Name' | translate }}</th>
+                <th class="table-tr"></th>
+              </tr>
+            </thead>
+            <tbody [hidden]="businessTypes.length === 0">
+              <tr *ngFor="let businessType of businessTypes">
+                <td class="table-tr"> {{ businessType.name }}</td>
+
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="open(businessType,'edit')">
+                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                        <button class="dropdown-item" (click)="delete(businessType.idBusinessType)">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxbusinesstypes.length"
-          [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
-        </ngb-pagination>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-empty" [hidden]="businessTypes.length !== 0" translate>
+            <p class="no-business">
+              {{ 'No business types added yet' | translate }}
+            </p>
+          </div>
+          <div [hidden]="businessTypes.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxBusinessTypes.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
