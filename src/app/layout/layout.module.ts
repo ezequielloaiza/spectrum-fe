@@ -18,6 +18,8 @@ import { HeaderComponent } from '../shared/modules/header/header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { InternationalPhoneModule } from 'ng4-intl-phone';
 import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/check-account.component';
+import { BusinessTypeComponent } from './business-type/business-type.component';
+import { BusinessTypeModalComponent } from './business-type/modals/business-type-modal/business-type-modal.component';
 
 @NgModule({
     imports: [
@@ -41,8 +43,10 @@ import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/ch
         CheckAccountComponent,
         ProfileComponent,
         FilterStatusPipe,
+        BusinessTypeComponent,
+        BusinessTypeModalComponent
     ],
-    entryComponents: [ShippingAddressModalComponent, UserModalComponent],
+    entryComponents: [ShippingAddressModalComponent, UserModalComponent,BusinessTypeModalComponent],
     providers: [
       BusinessTypeService,
       AlertifyService,

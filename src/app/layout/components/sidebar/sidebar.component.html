@@ -7,7 +7,7 @@
 			<i class="fa fa-archive"></i>&nbsp;{{ 'Products' | translate }}
 		</a>
 		<div *ngIf="user.role.idRole === 3">
-		<!--<div>-->
+			<!--<div>-->
 			<div class="nested-menu">
 				<a class="list-group-item" (click)="addExpandClass('account')">
 					<span>
@@ -98,6 +98,10 @@
 		<!--<div>-->
 			<a routerLink="/profile" [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
+			</a>
+			<a [routerLink]="['/business-type']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+				<span>
+					<i class="fa fa-building"></i>&nbsp; {{ 'Business Type' | translate }}</span>
 			</a>
 			<div class="nested-menu">
 				<a class="list-group-item" (click)="addExpandClass('users')">
@@ -350,6 +354,69 @@
 					</li>
 				</div>
 			</div>
+			<div class="nested-menu">
+				<a class="list-group-item" (click)="addExpandClass('orders')">
+					<span>
+						<i class="fa fa-folder-open"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
+				</a>
+				<li class="nested" [class.expand]="showMenu === 'orders'">
+					<ul class="submenu">
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-check"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-times"></i>&nbsp; {{ 'Cancel Order' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</div>
+			<div class="nested-menu">
+				<a class="list-group-item" (click)="addExpandClass('warranties')">
+					<span>
+						<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
+				</a>
+				<li class="nested" [class.expand]="showMenu === 'warranties'">
+					<ul class="submenu">
+						<li>
+							<a href="javascript:void(0)">
+								<span>
+									<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Warranty' | translate }}</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</div>
+		</div>
 		<!--
 		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
