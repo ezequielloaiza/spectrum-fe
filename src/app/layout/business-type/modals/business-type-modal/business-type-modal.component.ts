@@ -16,7 +16,6 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class BusinessTypeModalComponent implements OnInit {
 
-
   form: FormGroup;
   businesstype: any;
   action: string;
