@@ -19,19 +19,36 @@ export class SuppliersComponent implements OnInit {
 	auxSuppliers: Array<any> = new Array;
 	advancedPagination: number;
 	itemPerPage: number = 5;
+	/*initial order*/
+	orderByField = 'companyName';
+	reverseSort = false;
+	pageCurrent = 1;
 
 	constructor(private modalService: NgbModal,
 							private supplierService: SupplierService,
 							private alertify: AlertifyService,
-						  private notification: ToastrService){}
+							private notification: ToastrService){}
 
   ngOnInit() {
 		this.getSuppliers();
 		this.advancedPagination = 1;
-  }
+	}
+	
+	sortSupplier(key) {
+    let suppliersSort = this.auxSuppliers.sort(function(a, b) {
+        let x = a[key]; let y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		});
+		this.auxSuppliers = suppliersSort;
+		if (this.reverseSort) {
+			this.auxSuppliers = suppliersSort.reverse();
+		}
+		this.advancedPagination = 1;
+		this.pageChange(this.advancedPagination);
+	}
   
   open(supplier,action) {
-		const modalRef = this.modalService.open(SupplierModalComponent);
+		const modalRef = this.modalService.open(SupplierModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
 		modalRef.componentInstance.supplier = supplier;
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {
@@ -54,7 +71,8 @@ export class SuppliersComponent implements OnInit {
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === 200) {
 				this.auxSuppliers = res.data;
-				this.suppliers = this.auxSuppliers.slice(0,this.itemPerPage);
+				this.sortSupplier(this.orderByField);
+				this.pageChange(this.advancedPagination);
       } else {
         console.log(res.errors[0].detail);
       }
@@ -81,7 +99,6 @@ export class SuppliersComponent implements OnInit {
 	}
 
 	pageChange(event) {
-		event.page;
 		let startItem = (event - 1) * this.itemPerPage;
 		let endItem = event * this.itemPerPage;
 		this.suppliers = this.auxSuppliers.slice(startItem,endItem);
