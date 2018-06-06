@@ -1,3 +1,59 @@
-<p>
-  category works!
-</p>
+<app-page-header class="page-header-fixed" [heading]="'List Product Categories'" [icon]="'fa fa-tags'"></app-page-header>
+<div class="sp-container">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All product categories' | translate }}
+          </div>
+          <div class="ml-auto p-2">
+            <button type="button" class="btn btn-main" (click)="open(content,'create')">{{ 'Add' | translate }}&nbsp;
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr"> {{ 'Name' | translate }}</th>
+                <th class="table-tr"> {{ 'Description' | translate }}</th>
+                <th class="table-tr"></th>
+              </tr>
+            </thead>
+            <tbody [hidden]="categories.length === 0">
+              <tr *ngFor="let category of categories">
+                <td class="table-tr"> {{ category.name }}</td>
+                <td class="table-tr"> {{ category.description }}</td>
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="open(category,'edit')">
+                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                        <button class="dropdown-item" (click)="delete(category.idCategory)">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-empty" [hidden]="categories.length !== 0" translate>
+            <p class="no-category">
+              {{ 'No product categories added yet' | translate }}
+            </p>
+          </div>
+          <div [hidden]="categories.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxCategories.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

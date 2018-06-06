@@ -19,6 +19,7 @@ import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/ch
 import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import { BusinessTypeModalComponent } from './business-type/modals/business-type-modal/business-type-modal.component';
+import { CategoryModalComponent } from './category/modals/category-modal/category-modal.component';
 
 @NgModule({
     imports: [
@@ -42,9 +43,10 @@ import { BusinessTypeModalComponent } from './business-type/modals/business-type
         FilterStatusPipe,
         CategoryComponent,
         BusinessTypeComponent,
-        BusinessTypeModalComponent
+        BusinessTypeModalComponent,
+        CategoryModalComponent
     ],
-    entryComponents: [ShippingAddressModalComponent, UserModalComponent,BusinessTypeModalComponent],
+    entryComponents: [ShippingAddressModalComponent, UserModalComponent,BusinessTypeModalComponent,CategoryModalComponent],
     providers: [
       BusinessTypeService,
       AlertifyService,
