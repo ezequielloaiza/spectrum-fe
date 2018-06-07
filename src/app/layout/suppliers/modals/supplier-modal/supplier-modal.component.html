@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">{{ 'Information Supplier' | translate }}</h4>
-  <button type="button" class="close close-modal" aria-label="Close" (click)="close()">
+  <button type="button" class="close close-modal" aria-label="Close" (click)="dismiss()">
     <span aria-hidden="true"> &times; </span>
   </button>
 </div>
@@ -98,7 +98,7 @@
 
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+  <button type="button" class="btn btn-secondary" (click)="dismiss()">Close</button>
   <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">Save</button>
 </div>
 <ng-template #rt let-r="result" let-t="term">

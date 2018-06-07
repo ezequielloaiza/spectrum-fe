@@ -6,6 +6,7 @@ import { SupplierService } from '../../shared/services/suppliers/supplier.servic
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { SupplierModalComponent } from './modals/supplier-modal/supplier-modal.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-suppliers',
@@ -22,7 +23,6 @@ export class SuppliersComponent implements OnInit {
 	/*initial order*/
 	orderByField = 'companyName';
 	reverseSort = false;
-	pageCurrent = 1;
 
 	constructor(private modalService: NgbModal,
 							private supplierService: SupplierService,
@@ -30,41 +30,8 @@ export class SuppliersComponent implements OnInit {
 							private notification: ToastrService){}
 
   ngOnInit() {
+		this.advancedPagination = 1;
 		this.getSuppliers();
-		this.advancedPagination = 1;
-	}
-	
-	sortSupplier(key) {
-    let suppliersSort = this.auxSuppliers.sort(function(a, b) {
-        let x = a[key]; let y = b[key];
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-		});
-		this.auxSuppliers = suppliersSort;
-		if (this.reverseSort) {
-			this.auxSuppliers = suppliersSort.reverse();
-		}
-		this.advancedPagination = 1;
-		this.pageChange(this.advancedPagination);
-	}
-  
-  open(supplier,action) {
-		const modalRef = this.modalService.open(SupplierModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
-		modalRef.componentInstance.supplier = supplier;
-		modalRef.componentInstance.action = action;
-		modalRef.result.then((result) => {
-			this.getSuppliers();
-		} , (reason) => {
-		});
-	}
-
-	private getDismissReason(reason: any): string {
-		if (reason === ModalDismissReasons.ESC) {
-			return 'by pressing ESC';
-		} else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-			return 'by clicking on a backdrop';
-		} else {
-			return `with: ${reason}`;
-		}
 	}
 
 	getSuppliers() {
@@ -79,6 +46,55 @@ export class SuppliersComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+	}
+	
+	sortSupplier(key) {
+    let suppliersSort = this.auxSuppliers.sort(function(a, b) {
+        let x = a[key]; let y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		});
+		this.auxSuppliers = suppliersSort;
+		if (this.reverseSort) {
+			this.auxSuppliers = suppliersSort.reverse();
+		}
+		this.advancedPagination = 1;
+		this.pageChange(this.advancedPagination);
+	}
+
+	pageChange(event) {
+		let startItem = (event - 1) * this.itemPerPage;
+		let endItem = event * this.itemPerPage;
+		this.suppliers = this.auxSuppliers.slice(startItem,endItem);
+	}
+  
+  open(supplier,action) {
+		const modalRef = this.modalService.open(SupplierModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+		modalRef.componentInstance.supplier = supplier;
+		modalRef.componentInstance.action = action;
+		modalRef.result.then((result) => {
+			//this.getSuppliers();
+			if (action === 'edit') {
+				var index = _.findIndex(this.auxSuppliers, {idSupplier: result.idSupplier});
+				this.auxSuppliers[index] = result;
+			}
+			else {
+				this.auxSuppliers.push(result);
+			}
+
+			this.sortSupplier(this.orderByField);
+			this.moveInsertPage(result.idSupplier);
+		} , (reason) => {
+		});
+	}
+
+	moveInsertPage(id) {
+		let indexInsert = _.findIndex(this.auxSuppliers, {idSupplier: id});
+		if (indexInsert % this.itemPerPage === 0) {
+			indexInsert ++;
+		}
+		this.advancedPagination = Math.ceil(indexInsert / this.itemPerPage);
+		debugger
+		this.pageChange(this.advancedPagination);
 	}
 	
 	delete(id) {
@@ -96,12 +112,6 @@ export class SuppliersComponent implements OnInit {
 			});
 		}, () => {
 		}) ;
-	}
-
-	pageChange(event) {
-		let startItem = (event - 1) * this.itemPerPage;
-		let endItem = event * this.itemPerPage;
-		this.suppliers = this.auxSuppliers.slice(startItem,endItem);
 	}
 
 }

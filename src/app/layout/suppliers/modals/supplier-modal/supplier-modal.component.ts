@@ -54,15 +54,19 @@ export class SupplierModalComponent implements OnInit {
     });
   }
 
-  close(): void {
-    this.modalReference.close();
+  close(data): void {
+    this.modalReference.close(data);
+  }
+
+  dismiss(): void {
+    this.modalReference.dismiss();
   }
 
   save(): void {
     if (this.action !== 'edit') {
       this.supplierService.save$(this.form.value).subscribe(res => {
         if (res.code === 200) {
-          this.close();
+          this.close(res.data);
           this.notification.success('', 'Saved Success');
         } else {
           console.log(res.errors[0].detail);
@@ -74,7 +78,7 @@ export class SupplierModalComponent implements OnInit {
       console.log('save',this.form.value);
       this.supplierService.update$(this.form.value).subscribe(res => {
         if (res.code === 200) {
-          this.close();
+          this.close(res.data);
         } else {
           console.log(res.errors[0].detail);
         }
