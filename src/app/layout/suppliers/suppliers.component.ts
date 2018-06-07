@@ -21,8 +21,9 @@ export class SuppliersComponent implements OnInit {
 	advancedPagination: number;
 	itemPerPage: number = 5;
 	/*initial order*/
-	orderByField = 'companyName';
-	reverseSort = false;
+	orderByField = 'idSupplier';
+	reverseSort = true;
+	typeSort = 0;
 
 	constructor(private modalService: NgbModal,
 							private supplierService: SupplierService,
@@ -49,6 +50,16 @@ export class SuppliersComponent implements OnInit {
 	}
 	
 	sortSupplier(key) {
+		this.orderByField = key;
+		if (this.orderByField !== 'idSupplier') {
+			this.typeSort ++;
+			if (this.typeSort > 2) {
+				this.typeSort = 0;
+				this.orderByField = 'idSupplier';
+				key = 'idSupplier';
+				this.reverseSort = true;
+			}
+		}
     let suppliersSort = this.auxSuppliers.sort(function(a, b) {
         let x = a[key]; let y = b[key];
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));

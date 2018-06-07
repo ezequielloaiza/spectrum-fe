@@ -26,9 +26,16 @@
 .fa-caret-up{
   margin-left: 5px;
   cursor: pointer;
+  display: none;
 }
 
 .fa-caret-down{
   margin-left: 5px;
   cursor: pointer;
+}
+
+.header-column {
+  :hover {
+    cursor: pointer;
+  }
 }

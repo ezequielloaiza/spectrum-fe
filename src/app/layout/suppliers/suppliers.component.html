@@ -12,17 +12,17 @@
       <table class="table">
         <thead>
           <tr>
-            <th class="table-tr">
-              <span title="Company Name">{{ 'Company Name' | translate }}</span>
-              <span [hidden]="orderByField != 'companyName'">  
-                <i title="Ascendente" [hidden]="!reverseSort" class="fa fa-caret-up" (click)="reverseSort = !reverseSort; sortSupplier('companyName')"></i>
-                <i title="Descendente" [hidden]="reverseSort" class="fa fa-caret-down" (click)="reverseSort = !reverseSort; sortSupplier('companyName')"></i>
+            <th class="table-tr header-column">
+              <span title="Company Name" (click)="reverseSort = !reverseSort; sortSupplier('companyName')">{{ 'Company Name' | translate }}</span>
+              <span [hidden]="orderByField != 'companyName' || typeSort === 0" >  
+                <i title="Descendente" [hidden]="!reverseSort" class="fa fa-chevron-up" ></i>
+                <i title="Ascendente" [hidden]="reverseSort" class="fa fa-chevron-down"></i>
               </span>
             </th> 
-            <th class="table-tr">{{ 'Contact' | translate }}</th>
-            <th class="table-tr">{{ 'Address' | translate }}</th>
-            <th class="table-tr">{{ 'Telephone' | translate}}</th>
-            <th class="table-tr">{{ 'Website' | translate}}</th>
+            <th class="table-tr header-column">{{ 'Contact' | translate }}</th>
+            <th class="table-tr header-column">{{ 'Address' | translate }}</th>
+            <th class="table-tr header-column">{{ 'Telephone' | translate}}</th>
+            <th class="table-tr header-column">{{ 'Website' | translate}}</th>
           </tr>
         </thead>
         <tbody [hidden]="suppliers.length === 0">
