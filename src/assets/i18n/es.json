@@ -134,5 +134,12 @@
     "Confirm Delete" : "Confirmación de Eliminación",
     "Are you sure do you want to delete this?" : "¿Está seguro que quiere eliminar el registro?",
     "Temporary Password Sent" : "Contraseña temporal enviada",
-    "Unregistered email" : "Correo electrónico no registrado"
+    "Unregistered email" : "Correo electrónico no registrado",
+    "No product categories added yet":"No hay categorías de productos agregadas todavía",
+    "All product categories":"Todas las categorias de productos",
+    "List Product Categories":"Lista de categorías de Productos",
+    "Product categories":"Categorías de Productos",
+    "Description":"Descripción",
+    "Product category":"Categoría de Producto",
+    "Enter description":"Ingrese descripción"
 }
