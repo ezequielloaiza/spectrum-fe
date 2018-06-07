@@ -75,7 +75,12 @@ export class BusinessTypeComponent implements OnInit {
 				this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
 					this.notification.success('', res);
 				});
-			} else {
+			} else if(res.code === CodeHttp.notAcceptable){
+				this.translate.get('Can not be eliminated is associated with a company', {value: 'Can not be eliminated is associated with a company'}).subscribe((res: string) => {
+					this.notification.warning('', res);
+				});
+			}	
+			else {
 				console.log(res.errors[0].detail);
 			}
 		}, error => {

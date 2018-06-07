@@ -141,5 +141,7 @@
     "Product categories":"Categorías de Productos",
     "Description":"Descripción",
     "Product category":"Categoría de Producto",
-    "Enter description":"Ingrese descripción"
+    "Enter description":"Ingrese descripción",
+    "Can not be eliminated is associated with a company":"No se puede eliminar se encuentra asociado a una compañía",
+    "There is a type of business with that name":"Existe un tipo de negocio con ese nombre"
 }
