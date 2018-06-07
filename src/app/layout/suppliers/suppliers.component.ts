@@ -40,7 +40,6 @@ export class SuppliersComponent implements OnInit {
       if (res.code === 200) {
 				this.auxSuppliers = res.data;
 				this.sortSupplier(this.orderByField);
-				this.pageChange(this.advancedPagination);
       } else {
         console.log(res.errors[0].detail);
       }
@@ -50,6 +49,10 @@ export class SuppliersComponent implements OnInit {
 	}
 	
 	sortSupplier(key) {
+		if (this.orderByField !== key) {
+			this.typeSort = 0;
+			this.reverseSort = false;
+		}
 		this.orderByField = key;
 		if (this.orderByField !== 'idSupplier') {
 			this.typeSort ++;
@@ -83,7 +86,6 @@ export class SuppliersComponent implements OnInit {
 		modalRef.componentInstance.supplier = supplier;
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {
-			//this.getSuppliers();
 			if (action === 'edit') {
 				var index = _.findIndex(this.auxSuppliers, {idSupplier: result.idSupplier});
 				this.auxSuppliers[index] = result;
@@ -91,20 +93,17 @@ export class SuppliersComponent implements OnInit {
 			else {
 				this.auxSuppliers.push(result);
 			}
-
-			this.sortSupplier(this.orderByField);
-			this.moveInsertPage(result.idSupplier);
+			this.moveFirstPage();
 		} , (reason) => {
 		});
 	}
 
-	moveInsertPage(id) {
-		let indexInsert = _.findIndex(this.auxSuppliers, {idSupplier: id});
-		if (indexInsert % this.itemPerPage === 0) {
-			indexInsert ++;
-		}
-		this.advancedPagination = Math.ceil(indexInsert / this.itemPerPage);
-		debugger
+	moveFirstPage() {
+		this.advancedPagination = 1;
+		this.reverseSort = true;
+		this.typeSort = 0;
+		this.orderByField = 'idSupplier';
+		this.sortSupplier(this.orderByField);
 		this.pageChange(this.advancedPagination);
 	}
 	
