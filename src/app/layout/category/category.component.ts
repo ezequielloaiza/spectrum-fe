@@ -69,7 +69,6 @@ export class CategoryComponent implements OnInit {
 
 	borrar(id) {
 		this.categoryService.removeById$(id).subscribe(res => {
-			console.log('test');
 			if (res.code === CodeHttp.ok) {
 				this.getCategories();
 				this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
