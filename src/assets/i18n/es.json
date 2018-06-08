@@ -106,7 +106,7 @@
     "City is required" : "Ciudad es requerido",
     "State is required" : "Estado es requerido",
     "Country is required" : "Pais es es requerido",
-    "Postal code is required" : "Código postal es requerido", 
+    "Postal code is required" : "Código postal es requerido",
     "Address is required" : "Dirección es requerido",
     "Company name is required" : "Nombre de compañía es requerido",
     "Company contact name is required" : "Nombre de contácto de compañía",
@@ -132,7 +132,7 @@
     "Successfully Updated" : "Actualizado con éxito",
     "Successfully Deleted" : "Eliminado con éxito",
     "Confirm Delete" : "Confirmación de Eliminación",
-    "Are you sure do you want to delete this?" : "¿Está seguro que quiere eliminar el registro?",
+    "Are you sure do you want to delete this register?" : "¿Está seguro de que quiere eliminar este registro?",
     "Temporary Password Sent" : "Contraseña temporal enviada",
     "Unregistered email" : "Correo electrónico no registrado",
     "No product categories added yet":"No hay categorías de productos agregadas todavía",
@@ -142,6 +142,6 @@
     "Description":"Descripción",
     "Product category":"Categoría de Producto",
     "Enter description":"Ingrese descripción",
-    "Can not be eliminated is associated with a company":"No se puede eliminar se encuentra asociado a una compañía",
-    "There is a type of business with that name":"Existe un tipo de negocio con ese nombre"
+    "Can not be eliminated, is associated with a company":"No se puede eliminar, se encuentra asociado a una compañía",
+    "The business type already exists": "El tipo de negocio ya existe"
 }
