@@ -7,6 +7,7 @@ import { AlertifyService } from '../../shared/services/alertify/alertify.service
 import { ToastrService } from 'ngx-toastr';
 import { SupplierModalComponent } from './modals/supplier-modal/supplier-modal.component';
 import * as _ from 'lodash';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-suppliers',
@@ -28,7 +29,8 @@ export class SuppliersComponent implements OnInit {
 	constructor(private modalService: NgbModal,
 							private supplierService: SupplierService,
 							private alertify: AlertifyService,
-							private notification: ToastrService){}
+							private notification: ToastrService,
+							private translate: TranslateService){}
 
   ngOnInit() {
 		this.advancedPagination = 1;
@@ -108,20 +110,27 @@ export class SuppliersComponent implements OnInit {
 	}
 	
 	delete(id) {
-		this.alertify.confirm('Delete Supplier', 'Are you sure do you want to delete this?', () => {
-			this.supplierService.removeById$(id).subscribe(res => {
-				console.log('test');
-				if (res.code === 200) {
-					this.getSuppliers();
-					this.notification.success('', 'Deleted Success');
-				} else {
-					console.log(res.errors[0].detail);
-				}
-			}, error => {
-				console.log('error', error);
+		this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
+			this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
+				this.alertify.confirm(title, msg, () => {
+					this.supplierService.removeById$(id).subscribe(res => {
+						if (res.code === 200) {
+							this.getSuppliers();
+							this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
+								this.notification.success('', res);
+							});
+						} else {
+							this.translate.get('Can not be eliminated', {value: 'Can not be eliminated'}).subscribe((res: string) => {
+								this.notification.warning('', res);
+							});
+						}
+					}, error => {
+						console.log('error', error);
+					});
+				}, () => {
+				});
 			});
-		}, () => {
-		}) ;
+		});
 	}
 
 }

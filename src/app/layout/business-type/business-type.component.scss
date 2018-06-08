@@ -1,6 +1,6 @@
 @import '../../../styles/spectrum/spectrum';
 
-@include tr-sizes((20%,30%,15%,15%,20%));
+@include tr-sizes((80%,20%));
 
 .dropdown-item {
   cursor: pointer;
@@ -11,6 +11,6 @@
   box-shadow: 0 2px 2px $box-shadow, 0 0 2px $box-shadow1;
 }
 
-.no-items{
+.no-business{
   text-align: center;
 }

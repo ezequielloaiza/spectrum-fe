@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, map, catchError, tap, switchMap, me
 import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
 import { SupplierService } from '../../../../shared/services/suppliers/supplier.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-supplier-modal',
@@ -30,7 +31,8 @@ export class SupplierModalComponent implements OnInit {
     private supplierService: SupplierService,
     private toastr: ToastrService,
     private notification: ToastrService,
-    private googleService: GoogleService) { }
+    private googleService: GoogleService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -67,7 +69,9 @@ export class SupplierModalComponent implements OnInit {
       this.supplierService.save$(this.form.value).subscribe(res => {
         if (res.code === 200) {
           this.close(res.data);
-          this.notification.success('', 'Saved Success');
+          this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
         } else {
           console.log(res.errors[0].detail);
         }
@@ -79,6 +83,9 @@ export class SupplierModalComponent implements OnInit {
       this.supplierService.update$(this.form.value).subscribe(res => {
         if (res.code === 200) {
           this.close(res.data);
+          this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
         } else {
           console.log(res.errors[0].detail);
         }

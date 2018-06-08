@@ -21,7 +21,6 @@ export class SidebarComponent {
         const browserLang = this.translate.getBrowserLang();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de/) ? browserLang : 'en');
         this.user = JSON.parse(userService.getCurrentUser());
-        console.log(this.user);
 
         this.router.events.subscribe(val => {
             if (

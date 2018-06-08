@@ -9,6 +9,7 @@ import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge }
 import { GoogleService } from '../../../../shared/services';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { TranslateService } from '@ngx-translate/core';
+import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 
 @Component({
   selector: 'app-shipping-address-modal',
@@ -38,7 +39,7 @@ export class ShippingAddressModalComponent implements OnInit {
    }
 
   initializeForm() {
-    this.form = this.formBuilder.group({ 
+    this.form = this.formBuilder.group({
       id        : [this.action === 'edit' ? this.address.idAddress : ''],
       companyId : [this.action === 'edit' ? this.address.company.idCompany : '',[ Validators.required]],
       name      : [this.action === 'edit' ? this.address.name : '', [ Validators.required]],
@@ -79,10 +80,14 @@ export class ShippingAddressModalComponent implements OnInit {
     }
     if (this.action !== 'edit') {
       this.shippingAddressService.save$(this.form.value).subscribe(res => {
-        if (res.code === 200) {
+        if (res.code === CodeHttp.ok) {
           this.close();
           this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
             this.notification.success('', res);
+          });
+        } else if (res.code === CodeHttp.notAcceptable) {
+          this.translate.get('The shipping address already exists', { value: 'The shipping address already exists' }).subscribe((res: string) => {
+            this.notification.warning('', res);
           });
         } else {
           console.log(res.errors[0].detail);
@@ -96,8 +101,12 @@ export class ShippingAddressModalComponent implements OnInit {
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((res: string) => {
           this.notification.success('', res);
         });
-        if (res.code === 200) {
+        if (res.code === CodeHttp.ok) {
           this.close();
+        } else if (res.code === CodeHttp.notAcceptable) {
+          this.translate.get('The shipping address already exists', { value: 'The shipping address already exists' }).subscribe((res: string) => {
+            this.notification.warning('', res);
+          });
         } else {
           console.log(res.errors[0].detail);
         }
@@ -109,7 +118,7 @@ export class ShippingAddressModalComponent implements OnInit {
 
   getCompanies() {
     this.companyService.findAllByCompany$().subscribe(res => {
-      if (res.code === 200) {
+      if (res.code === CodeHttp.ok) {
         this.companies = res.data;
       } else {
         console.log(res.errors[0].detail);

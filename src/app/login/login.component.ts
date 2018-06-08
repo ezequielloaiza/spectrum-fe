@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
   }
 
   signIn(user: any): void {
-    console.log('1', user);
     this.userService.signIn$(user).subscribe(res => {
       if (res.code === 200) {
         this.userStorageService.saveCurrentUser(JSON.stringify(res.data));

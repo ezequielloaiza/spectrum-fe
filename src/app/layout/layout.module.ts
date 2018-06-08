@@ -18,6 +18,10 @@ import { HeaderComponent } from '../shared/modules/header/header.component';
 import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/check-account.component';
 import { SuppliersComponent } from './suppliers/suppliers.component';
 import { SupplierModalComponent } from './suppliers/modals/supplier-modal/supplier-modal.component';
+import { CategoryComponent } from './category/category.component';
+import { BusinessTypeComponent } from './business-type/business-type.component';
+import { BusinessTypeModalComponent } from './business-type/modals/business-type-modal/business-type-modal.component';
+import { CategoryModalComponent } from './category/modals/category-modal/category-modal.component';
 
 @NgModule({
     imports: [
@@ -39,10 +43,14 @@ import { SupplierModalComponent } from './suppliers/modals/supplier-modal/suppli
         UserModalComponent,
         CheckAccountComponent,
         FilterStatusPipe,
+        CategoryComponent,
+        BusinessTypeComponent,
+        BusinessTypeModalComponent,
+        CategoryModalComponent,
         SuppliersComponent,
         SupplierModalComponent
     ],
-    entryComponents: [ShippingAddressModalComponent, UserModalComponent, SupplierModalComponent],
+    entryComponents: [ShippingAddressModalComponent, UserModalComponent,BusinessTypeModalComponent,CategoryModalComponent, SupplierModalComponent],
     providers: [
       BusinessTypeService,
       AlertifyService,
