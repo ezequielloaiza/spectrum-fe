@@ -16,6 +16,10 @@ import { AlertifyService } from '../shared/services/alertify/alertify.service';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { HeaderComponent } from '../shared/modules/header/header.component';
 import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/check-account.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { DetailUserComponent } from './user/detail-user/detail-user.component';
+import { NavComponent } from './nav/nav.component';
+import { NavService } from './nav/nav.service';
 
 @NgModule({
     imports: [
@@ -26,7 +30,8 @@ import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/ch
         PageHeaderModule,
         ReactiveFormsModule,
         FormsModule,
-        HeaderModule
+        HeaderModule,
+        NgSelectModule
     ],
     declarations: [
         LayoutComponent,
@@ -36,13 +41,16 @@ import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/ch
         UserComponent,
         UserModalComponent,
         CheckAccountComponent,
-        FilterStatusPipe
+        FilterStatusPipe,
+        DetailUserComponent,
+        NavComponent
     ],
     entryComponents: [ShippingAddressModalComponent, UserModalComponent],
     providers: [
       BusinessTypeService,
       AlertifyService,
-      GoogleService
+      GoogleService,
+      NavService
     ]
 })
 export class LayoutModule {}

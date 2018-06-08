@@ -1,0 +1,99 @@
+.nn-navs {
+  padding: 10px 10px 0;
+
+  > ul {
+    display: flex;
+    font-family: Avenir;
+    font-size: 11px;
+    font-weight: bold;
+    list-style: none;
+    margin-bottom: 0;
+    padding: 0;
+
+    > li {
+      align-self: flex-end;
+      background-color: rgb(65, 65, 241);
+      border-left: .5px rgb(65, 65, 241);
+      border-right: .5px rgb(65, 65, 241);
+      border-bottom-width: 0;
+      color: rgb(65, 65, 241);
+      cursor: pointer;
+      display: inline-block;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+      text-overflow: ellipsis;
+      transition: .2s;
+      width: 120px;
+      white-space: nowrap;
+
+      &.ng-enter,
+      &.ng-leave,
+      &.ng-move {
+        animation-name: pulse;
+        animation-duration: .2s;
+      }
+
+      a {
+        color: white;
+        display: block;
+        overflow: hidden;
+        padding: 5px 10px;
+        text-decoration: none;
+        text-overflow: ellipsis;
+      }
+
+      &:first-child {
+        color: rgb(65, 65, 241);
+
+        a {
+          color: rgb(65, 65, 241);
+          text-transform: capitalize;
+          padding-top: 8px;
+          padding-bottom: 8px;
+        }
+      }
+
+      &:not(:first-child) {
+        max-width: 150px;
+      }
+
+      &.closable {
+        padding-right: 5px;
+      }
+
+      i {
+        font-size: 10px;
+        position: absolute;
+        right: 3px;
+        top: 1px;
+        transition: color .2s, opacity .1s;
+
+        &:hover {
+          color: rgb(65, 65, 241);
+        }
+      }
+
+      &.active {
+        background-color: rgb(65, 65, 241);
+        border-color: rgb(65, 65, 241);
+        color: rgb(65, 65, 241);
+        border-top-width: 0;
+        border-right-color: rgb(65, 65, 241);
+        border-left-color: rgb(65, 65, 241);
+
+        a {
+          color: rgb(65, 65, 241);
+        }
+
+        &:not(:first-child) a {
+          padding-top: 8px;
+        }
+      }
+
+      &:hover {
+        opacity: .85;
+      }
+    }
+  }
+}

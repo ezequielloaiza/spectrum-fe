@@ -103,14 +103,14 @@
     "City is required" : "Ciudad es requerido",
     "State is required" : "Estado es requerido",
     "Country is required" : "Pais es es requerido",
-    "Postal code is required" : "Código postal es requerido", 
+    "Postal code is required" : "Código postal es requerido",
     "Address is required" : "Dirección es requerido",
     "Company name is required" : "Nombre de compañía es requerido",
     "Company contact name is required" : "Nombre de contácto de compañía",
     "Phone is required" : "Teléfono es requerido",
     "Credit Limit is required" : "Límite de cŕedito es requerido",
-    "Information User" : "Información de Usuario",
-    "Information Contact" : "Información de Contácto",
+    "User Information" : "Información de Usuario",
+    "Contact Information" : "Información de Contácto",
     "Enter name" : "Ingrese nombre",
     "Enter email" : "Ingrese email",
     "Enter city" : "Ingrese ciudad",
@@ -124,5 +124,6 @@
     "Enter credit limit" : "Ingrese límite de crédito",
     "Save" : "Guardar",
     "Close" : "Cerrar",
-    "Shipping Address" : "Direcciones de Envío"
+    "Shipping Address" : "Direcciones de Envío",
+    "United States" : "Estado Unido"
 }

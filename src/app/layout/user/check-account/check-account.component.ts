@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../shared/services';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import { Pipe, PipeTransform } from '@angular/core';
+import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserModalComponent } from '../modals/user-modal/user-modal.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-check-account',
@@ -12,7 +18,9 @@ export class CheckAccountComponent implements OnInit {
   listUsers: Array<any> = new Array;
   listUsersAux: Array<any> = new Array;
 
-  constructor(private userService: UserService, private alertify: AlertifyService, private notification: ToastrService) { }
+  constructor(private userService: UserService, private alertify: AlertifyService,
+    private notification: ToastrService, private modalService: NgbModal,
+    private translate: TranslateService ) { }
 
   ngOnInit() {
     this.getListUser();
@@ -41,9 +49,6 @@ export class CheckAccountComponent implements OnInit {
     }
   }
 
-
-
-
   changeStatus(id): void {
     this.alertify.confirm('Delete Shipping Address', 'Are you sure do you want to delete this?', () => {
       this.userService.changeStatus$(id).subscribe(res => {
@@ -54,11 +59,20 @@ export class CheckAccountComponent implements OnInit {
     });
   }
 
+  open(user, action) {
+    const modalRef = this.modalService.open(UserModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.componentInstance.user = user;
+    modalRef.componentInstance.action = action;
+    modalRef.result.then((result) => {
+    this.getListUser();
+    }, (reason) => {
+
+    });
+  }
+
 }
 
-import { Pipe, PipeTransform } from '@angular/core';
-import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
-import { ToastrService } from 'ngx-toastr';
+
 @Pipe({
   name: 'filterStatus'
 })

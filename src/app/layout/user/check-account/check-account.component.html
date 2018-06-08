@@ -27,6 +27,7 @@
                     <tr>
                       <th class="table-tr">{{ 'Name' | translate }}</th>
                       <th class="table-tr">{{ 'Email' | translate }}</th>
+                      <th class="table-tr">{{ 'Country' | translate}}</th>
                       <th class="table-tr">{{ 'Company Name' | translate }}</th>
                       <th class="table-tr">{{ 'Business Type' | translate}}</th>
                       <th class="table-tr"></th>
@@ -36,6 +37,7 @@
                     <tr *ngFor="let user of listUsers | filterStatus : '0'">
                       <td class="table-tr">{{user.name}}</td>
                       <td class="table-tr">{{user.email}}</td>
+                      <td class="table-tr">{{user.country}}</td>
                       <td class="table-tr">{{user.company.companyName}}</td>
                       <td class="table-tr">{{user.company.businessType.name}}</td>
                       <td class="table-tr">
@@ -43,7 +45,7 @@
                           <div ngbDropdown class="d-inline-block dropdown">
                             <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                             <div ngbDropdownMenu>
-                              <button class="dropdown-item" (click)="open()">
+                              <button class="dropdown-item" (click)="open(user, 'edit')">
                                 <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
                               <button class="dropdown-item" (click)="changeStatus(user.idUser)">
                                 <i class="fa fa-trash"></i> {{ 'deactivate' | translate }}</button>

@@ -12,6 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, map, catchError, tap, switchMap, merge } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
+import { CountryService } from '../../../../shared/services/country/country.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-modal',
@@ -21,21 +23,56 @@ import { GoogleService } from '../../../../shared/services/google/google.service
 export class UserModalComponent implements OnInit {
   form: FormGroup;
   businessTypes: Array<any> = new Array;
+  countries: Array<any> = new Array;
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
-  public model: any;
+  user: any;
+  action: string;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private businessTypeService: BusinessTypeService,
     private userSerice: UserService,
     private toastr: ToastrService,
-    private googleService: GoogleService) { }
+    private googleService: GoogleService,
+    private countryService: CountryService,
+    public translate: TranslateService) { }
 
   ngOnInit() {
     this.initializeForm();
     this.getBussinesAll();
+    this.getCountries();
+  }
+
+  initializeForm() {
+
+    this.form = this.formBuilder.group({
+      id                 : [this.action === 'edit' ? this.user.idUser : '', []],
+      name               : [this.action === 'edit' ? this.user.name : '', [ Validators.required]],
+      email              : [{value: this.action === 'edit' ? this.user.email : '', disabled: this.action === 'edit' ? true : false},
+                           [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
+      address            : [this.action === 'edit' ? this.user.address : ''],
+      idBusinessType     : [this.action === 'edit' ? this.user.company.businessType.idBussinesType : '', [ Validators.required]],
+      state              : [this.action === 'edit' ? this.user.state : '', [ Validators.required]],
+      country            : [this.action === 'edit' ? this.user.country : '', [ Validators.required]],
+      city               : [this.action === 'edit' ? {description: this.user.email} : '', [ Validators.required]],
+      postal             : [this.action === 'edit' ? this.user.postalCode : '', []],
+      phone              : [this.action === 'edit' ? this.user.phone : '', []],
+      creditLimit        : [this.action === 'edit' ? this.user.company.creditLimit : '', [ Validators.required]],
+      companyName        : [this.action === 'edit' ? this.user.company.companyName : '', [ Validators.required]],
+      companyContactName : [this.action === 'edit' ? this.user.company.contactName : '', [ Validators.required]],
+      companyAddress     : [this.action === 'edit' ? this.user.company.address : '', [ Validators.required]],
+      companyPhone       : [this.action === 'edit' ? this.user.company.phone : '', [ Validators.required]],
+      companyEmail       : [this.action === 'edit' ? this.user.company.email : '',
+                           [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
+      companyState       : [this.action === 'edit' ? this.user.company.state : '', [ Validators.required]],
+      companyCountry     : [this.action === 'edit' ? this.user.company.country : '', [ Validators.required]],
+      companyCity        : [this.action === 'edit' ? {description: this.user.company.email} : '', [ Validators.required]],
+      companyPostal      : [this.action === 'edit' ? this.user.company.postalCode : '', []],
+      idCompany          : [this.action === 'edit' ? this.user.company.idCompany : '', []],
+      typeUser           : ['USER']
+    });
   }
 
   formatter = (x: {description: string}) => x.description;
@@ -57,32 +94,6 @@ export class UserModalComponent implements OnInit {
       merge(this.hideSearchingWhenUnsubscribed)
     )
 
-
-  initializeForm() {
-
-    this.form = this.formBuilder.group({
-      name               : ['', [ Validators.required]],
-      email              : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
-      address            : [''],
-      companyName        : ['', [ Validators.required]],
-      companyContactName : ['', [ Validators.required]],
-      companyAddress     : ['', [ Validators.required]],
-      companyPhone       : ['', [ Validators.required]],
-      companyEmail       : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
-      creditLimit        : ['', [ Validators.required]],
-      idBusinessType     : ['', [ Validators.required]],
-      state              : ['', [ Validators.required]],
-      country            : ['', [ Validators.required]],
-      city               : ['', [ Validators.required]],
-      postal             : ['', [ Validators.required]],
-      companyState       : ['', [ Validators.required]],
-      companyCountry     : ['', [ Validators.required]],
-      companyCity        : ['', [ Validators.required]],
-      companyPostal      : ['', [ Validators.required]],
-      typeUser           : ['USER']
-    });
-  }
-
   close(): void {
     this.modal.dismiss();
   }
@@ -95,13 +106,27 @@ export class UserModalComponent implements OnInit {
     });
   }
 
+  getCountries(): void {
+    this.countryService.findAll$().subscribe(res => {
+      this.countries = res;
+    });
+  }
+
   save(): void {
     this.form.get('city').setValue(this.googleService.getCity());
     this.form.get('companyCity').setValue(this.googleService.getCity());
-    this.userSerice.signUp$(this.form.value).subscribe(res => {
-      this.toastr.success('User save', 'Success');
-      this.modal.close();
-    });
+    if (this.action !== 'edit') {
+      this.userSerice.signUp$(this.form.value).subscribe(res => {
+        this.toastr.success('User save', 'Success');
+        this.modal.close();
+      });
+    } else {
+      this.userSerice.userUpdate$(this.form.value).subscribe(res => {
+        this.toastr.success('User save', 'Success');
+        this.modal.close();
+      });
+    }
+
   }
 
   findPlace(item): void {
@@ -122,6 +147,19 @@ export class UserModalComponent implements OnInit {
       this.form.get('companyPostal').setValue(this.googleService.getPostalCode());
       this.form.get('companyCity').setValue({description: this.googleService.getCity()});
     });
+  }
+
+  searchCountry(term: string, item: any) {
+    term = term.toLocaleLowerCase();
+    console.log('1', item);
+    console.log('2', term);
+   /* this.translate.get('Save', {value: 'Save'}).subscribe((res: string) => {
+      console.log("ddd", res);
+    });
+
+    this.translate.get(item.name, {value: item.name}).subscribe((res: string) => {*/
+      return item.name.toLocaleLowerCase().indexOf(term) > -1;
+    /*});*/
   }
 
   get name() { return this.form.get('name'); }

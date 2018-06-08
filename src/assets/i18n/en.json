@@ -93,7 +93,7 @@
     "State" : "State",
     "Country" : "Country",
     "Postal Code" : "Postal Code",
-    "Information Company" : "Information Company",
+    "Company Information" : "Information Company",
     "Company contact name" : "Company contact name",
     "Bussiness type" : "Bussiness type",
     "Phone" : "Phone",
@@ -103,14 +103,14 @@
     "City is required" : "City is required",
     "State is required" : "State is required",
     "Country is required" : "Country is required",
-    "Postal code is required" : "Postal code is required", 
+    "Postal code is required" : "Postal code is required",
     "Address is required" : "Address is required",
     "Company name is required" : "Company name is required",
     "Company contact name is required" : "Company contact name is required",
     "Phone is required" : "Phone is required",
     "Credit Limit is required" : "Credit Limit is required",
-    "Information User" : "Information User",
-    "Information Contact" : "Information Contact",
+    "User Information" : "Information User",
+    "Contact Information" : "Information Contact",
     "Enter name" : "Enter name",
     "Enter email" : "Enter email",
     "Enter city" : "Enter city",
@@ -124,6 +124,7 @@
     "Enter credit limit" : "Enter credit limit",
     "Save" : "Save",
     "Close" : "Close",
-    "Shipping Address" : "Shipping Address"
-    
+    "Shipping Address" : "Shipping Address",
+    "United States" : "United States"
+
 }

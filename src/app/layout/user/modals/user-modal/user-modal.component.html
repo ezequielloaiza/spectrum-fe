@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{ 'Information User' | translate }}</h4>
+  <h4 class="modal-title">{{ 'User Information' | translate }}</h4>
   <button type="button" class="close close-modal" aria-label="Close" (click)="close()">
     <span aria-hidden="true"> &times; </span>
   </button>
@@ -7,7 +7,7 @@
 <div class="content">
   <div class="modal-body">
     <form [formGroup]="form">
-      <h5>{{ 'Information Contact' | translate }}</h5>
+      <h5>{{ 'Contact Information' | translate }}</h5>
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
@@ -66,11 +66,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Postal Code' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal" required>
+            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal">
           </fieldset>
-          <div class="message-error" [hidden]="postal.valid || postal.pristine">
-            <span>{{ 'Postal code is required' | translate }}</span>
-          </div>
         </div>
         <div class="col-xl-12">
           <fieldset class="form-group">
@@ -78,9 +75,16 @@
             <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
           </fieldset>
         </div>
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Phone' | translate }}</label>
+            <input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter phone' | translate }}" name="phone" formControlName="phone"
+              >
+          </fieldset>
+        </div>
       </div>
       <br>
-      <h5>{{ 'Information Company' | translate }}</h5>
+      <h5>{{ 'Company Information' | translate }}</h5>
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
@@ -118,18 +122,9 @@
             <input class="form-control" placeholder="{{ 'Enter email' | translate }}" name="companyEmail" formControlName="companyEmail" required>
           </fieldset>
           <div class="message-error" [hidden]="companyEmail.pristine">
-              <span *ngIf="companyEmail.errors && !!companyEmail.errors.required">{{'Email is required' | translate }}</span>
-              <span *ngIf="companyEmail.errors && !!companyEmail.errors.companyEmail">{{ 'Email is not valid' | translate }}
-              </span>
-            </div>        </div>
-        <div class="col-xl-6">
-          <fieldset class="form-group">
-            <label>{{ 'Phone' | translate }}</label>
-            <input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter phone' | translate }}" name="companyPhone" formControlName="companyPhone"
-              required>
-          </fieldset>
-          <div class="message-error" [hidden]="companyPhone.valid || companyPhone.pristine">
-            <span>{{ 'Phone is required' | translate }}</span>
+            <span *ngIf="companyEmail.errors && !!companyEmail.errors.required">{{'Email is required' | translate }}</span>
+            <span *ngIf="companyEmail.errors && !!companyEmail.errors.companyEmail">{{ 'Email is not valid' | translate }}
+            </span>
           </div>
         </div>
         <div class="col-xl-6">
@@ -157,6 +152,20 @@
           </div>
         </div>
         <div class="col-xl-6">
+          <!--<ng-select [items]="countries"
+            [selectOnTab]="true"
+
+            bindValue="idCountry"
+            placeholder="Select country"
+            [searchFn]="searchCountry"
+            formControlName="companyCountry" required>
+            <ng-template ng-option-tmp let-item="item" let-index="index">
+                {{item.dialCode}} {{item.name  | translate}}
+            </ng-template>
+            <ng-template ng-label-tmp let-item="item">
+                {{item.dialCode}} {{item.name  | translate}}
+            </ng-template>
+          </ng-select>-->
           <fieldset class="form-group">
             <label>{{ 'Country' | translate }}</label>
             <input class="form-control" placeholder="{{ 'Enter country' | translate }}" name="companyCountry" formControlName="companyCountry" required>
@@ -168,13 +177,10 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Postal Code' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="companyPostal" formControlName="companyPostal" required>
+            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="companyPostal" formControlName="companyPostal">
           </fieldset>
-          <div class="message-error" [hidden]="companyPostal.valid || companyPostal.pristine">
-            <span>{{ 'Postal code is required' | translate }}</span>
-          </div>
         </div>
-        <div class="col-xl-6">
+        <div class="col-xl-12">
           <fieldset class="form-group">
             <label>{{ 'Address' | translate }}
             </label>
@@ -182,6 +188,16 @@
           </fieldset>
           <div class="message-error" [hidden]="companyAddress.valid || companyAddress.pristine">
             <span>{{ 'Address is required' | translate }}</span>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Phone' | translate }}</label>
+            <input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter phone' | translate }}" name="companyPhone" formControlName="companyPhone"
+              required>
+          </fieldset>
+          <div class="message-error" [hidden]="companyPhone.valid || companyPhone.pristine">
+            <span>{{ 'Phone is required' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">
