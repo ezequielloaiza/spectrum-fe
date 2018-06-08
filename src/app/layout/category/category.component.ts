@@ -19,8 +19,8 @@ export class CategoryComponent implements OnInit {
 	auxCategories: Array<any> = new Array;
 	advancedPagination: number;
 	itemPerPage: number = 5;
-	
-  
+
+
   constructor(private modalService: NgbModal,
               private categoryService: CategoryService,
               private alertify: AlertifyService,
@@ -31,7 +31,7 @@ export class CategoryComponent implements OnInit {
     this.getCategories();
 		this.advancedPagination = 1;
 	}
-	
+
 	open(category,action) {
 		const modalRef = this.modalService.open(CategoryModalComponent);
 		modalRef.componentInstance.category = category;
@@ -66,7 +66,7 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  
+
 	borrar(id) {
 		this.categoryService.removeById$(id).subscribe(res => {
 			console.log('test');
@@ -85,7 +85,7 @@ export class CategoryComponent implements OnInit {
 
 	delete(id) {
 		this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
-			this.translate.get('Are you sure do you want to delete this?', {value: 'Are you sure do you want to delete this?'}).subscribe((msg: string) => {
+			this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
 				this.alertify.confirm(title, msg, () => {
 					this.borrar(id);
 				}, () => {

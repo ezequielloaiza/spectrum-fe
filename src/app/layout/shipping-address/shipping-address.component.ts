@@ -29,7 +29,7 @@ export class ShippingAddressComponent implements OnInit {
 		this.getAddress();
 		this.advancedPagination = 1;
   }
-  
+
   open(address,action) {
 		const modalRef = this.modalService.open(ShippingAddressModalComponent);
 		modalRef.componentInstance.address = address;
@@ -79,10 +79,10 @@ export class ShippingAddressComponent implements OnInit {
 			console.log('error', error);
 		});
 	}
-	
+
 	delete(id) {
 		this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
-			this.translate.get('Are you sure do you want to delete this?', {value: 'Are you sure do you want to delete this?'}).subscribe((msg: string) => {
+			this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
 				this.alertify.confirm(title, msg, () => {
 					this.borrar(id);
 				}, () => {
