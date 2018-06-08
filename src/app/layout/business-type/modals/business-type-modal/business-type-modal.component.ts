@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BusinessTypeService } from '../../../../shared/services/businessType/business-type.service';
 import { ToastrService } from 'ngx-toastr';
@@ -31,12 +31,12 @@ export class BusinessTypeModalComponent implements OnInit {
     private businessTypeService: BusinessTypeService,
     private notification: ToastrService,
     private googleService: GoogleService,
-    private translate: TranslateService ) {}
+    private translate: TranslateService) { }
 
-   initializeForm() {
-    this.form = this.formBuilder.group({ 
-      id        : [this.action === 'edit' ? this.businesstype.idBusinessType : ''],
-      name      : [this.action === 'edit' ? this.businesstype.name : '', [ Validators.required]],
+  initializeForm() {
+    this.form = this.formBuilder.group({
+      id: [this.action === 'edit' ? this.businesstype.idBusinessType : ''],
+      name: [this.action === 'edit' ? this.businesstype.name : '', [Validators.required]],
     });
   }
 
@@ -49,8 +49,12 @@ export class BusinessTypeModalComponent implements OnInit {
       this.businessTypeService.save$(this.form.value).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.close();
-          this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
+          this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
             this.notification.success('', res);
+          });
+        } else if (res.code === CodeHttp.notAcceptable) {
+          this.translate.get('The business type already exists', { value: 'The business type already exists' }).subscribe((res: string) => {
+            this.notification.warning('', res);
           });
         } else {
           console.log(res.errors[0].detail);
@@ -59,13 +63,17 @@ export class BusinessTypeModalComponent implements OnInit {
         console.log('error', error);
       });
     } else {
-      console.log('save',this.form.value);
+      console.log('save', this.form.value);
       this.businessTypeService.update$(this.form.value).subscribe(res => {
-        this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((res: string) => {
-          this.notification.success('', res);
-        });
         if (res.code === CodeHttp.ok) {
+          this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
           this.close();
+        } else if (res.code === CodeHttp.notAcceptable) {
+          this.translate.get('There is a type of business with that name', { value: 'There is a type of business with that name' }).subscribe((res: string) => {
+            this.notification.warning('', res);
+          });
         } else {
           console.log(res.errors[0].detail);
         }
