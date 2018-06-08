@@ -5,6 +5,7 @@ import { ShippingAddressService } from '../../shared/services/shippingAddress/sh
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
 
 @Component({
   selector: 'app-shipping-address',
@@ -66,11 +67,14 @@ export class ShippingAddressComponent implements OnInit {
 
 	borrar(id) {
 		this.shippingAddressService.removeById$(id).subscribe(res => {
-			console.log('test');
-			if (res.code === 200) {
+			if (res.code === CodeHttp.ok) {
 				this.getAddress();
 				this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
 					this.notification.success('', res);
+				});
+			} else if(res.code === CodeHttp.notAcceptable) {
+				this.translate.get('Can not be eliminated', {value: 'Can not be eliminated'}).subscribe((res: string) => {
+					this.notification.warning('', res);
 				});
 			} else {
 				console.log(res.errors[0].detail);

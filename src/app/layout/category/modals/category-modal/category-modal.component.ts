@@ -35,7 +35,7 @@ export class CategoryModalComponent implements OnInit {
     private translate: TranslateService ) {}
 
    initializeForm() {
-    this.form = this.formBuilder.group({ 
+    this.form = this.formBuilder.group({
       id          : [this.action === 'edit' ? this.category.idCategory : ''],
       name        : [this.action === 'edit' ? this.category.name : '', [ Validators.required]],
       description : [this.action === 'edit' ? this.category.description : '']
@@ -61,7 +61,6 @@ export class CategoryModalComponent implements OnInit {
         console.log('error', error);
       });
     } else {
-      console.log('save',this.form.value);
       this.categoryService.update$(this.form.value).subscribe(res => {
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((res: string) => {
           this.notification.success('', res);

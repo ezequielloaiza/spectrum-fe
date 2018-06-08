@@ -5,3 +5,12 @@
 .dropdown-item {
   cursor: pointer;
 }
+
+.card {
+  border: 1px solid $border;
+  box-shadow: 0 2px 2px $box-shadow, 0 0 2px $box-shadow1;
+}
+
+.no-items{
+  text-align: center;
+}

@@ -19,7 +19,6 @@ export class BusinessTypeComponent implements OnInit {
 	auxBusinessTypes: Array<any> = new Array;
 	advancedPagination: number;
 	itemPerPage: number = 5;
-	public sortBy = "name";
 
   constructor(private modalService: NgbModal,
               private businessTypeService: BusinessTypeService,
@@ -69,13 +68,12 @@ export class BusinessTypeComponent implements OnInit {
 
 	borrar(id) {
 		this.businessTypeService.removeById$(id).subscribe(res => {
-			console.log('test');
 			if (res.code === CodeHttp.ok) {
 				this.getBusinessType();
 				this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
 					this.notification.success('', res);
 				});
-			} else if(res.code === CodeHttp.notAcceptable){
+			} else if(res.code === CodeHttp.notAcceptable) {
 				this.translate.get('Can not be eliminated, is associated with a company', {value: 'Can not be eliminated, is associated with a company'}).subscribe((res: string) => {
 					this.notification.warning('', res);
 				});
