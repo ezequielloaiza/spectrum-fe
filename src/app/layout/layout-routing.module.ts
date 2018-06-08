@@ -7,6 +7,8 @@ import { ProductsComponent } from '../products/products.component';
 import { CheckAccountComponent } from './user/check-account/check-account.component';
 import { DetailUserComponent } from './user/detail-user/detail-user.component';
 import { NavComponent } from './nav/nav.component';
+import { CategoryComponent } from './category/category.component';
+import { BusinessTypeComponent } from './business-type/business-type.component';
 
 const routes: Routes = [
     {
@@ -30,7 +32,9 @@ const routes: Routes = [
 
             },
             { path: 'shipping-address', component: ShippingAddressComponent },
-            { path: 'consult-account', component: CheckAccountComponent }
+            { path: 'consult-account', component: CheckAccountComponent },
+            { path: 'category', component: CategoryComponent },
+            { path: 'business-type', component: BusinessTypeComponent }
         ]
     }
 ];

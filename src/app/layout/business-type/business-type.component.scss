@@ -1,0 +1,16 @@
+@import '../../../styles/spectrum/spectrum';
+
+@include tr-sizes((80%,20%));
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.card {
+  border: 1px solid $border;
+  box-shadow: 0 2px 2px $box-shadow, 0 0 2px $box-shadow1;
+}
+
+.no-business{
+  text-align: center;
+}

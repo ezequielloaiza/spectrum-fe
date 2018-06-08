@@ -107,9 +107,9 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Bussiness type' | translate }}</label>
+            <label>{{ 'Business types' | translate }}</label>
             <select class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
-              <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBussinesType">{{ bussinesType.name }}</option>
+              <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name }}</option>
             </select>
           </fieldset>
           <div class="message-error" [hidden]="idBusinessType.valid || idBusinessType.pristine">

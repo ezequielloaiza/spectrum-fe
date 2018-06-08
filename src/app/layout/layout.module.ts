@@ -20,6 +20,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DetailUserComponent } from './user/detail-user/detail-user.component';
 import { NavComponent } from './nav/nav.component';
 import { NavService } from './nav/nav.service';
+import { CategoryComponent } from './category/category.component';
+import { BusinessTypeComponent } from './business-type/business-type.component';
+import { BusinessTypeModalComponent } from './business-type/modals/business-type-modal/business-type-modal.component';
+import { CategoryModalComponent } from './category/modals/category-modal/category-modal.component';
 
 @NgModule({
     imports: [
@@ -43,9 +47,13 @@ import { NavService } from './nav/nav.service';
         CheckAccountComponent,
         FilterStatusPipe,
         DetailUserComponent,
-        NavComponent
+        NavComponent,
+        CategoryComponent,
+        BusinessTypeComponent,
+        BusinessTypeModalComponent,
+        CategoryModalComponent
     ],
-    entryComponents: [ShippingAddressModalComponent, UserModalComponent],
+    entryComponents: [ShippingAddressModalComponent, UserModalComponent,BusinessTypeModalComponent,CategoryModalComponent],
     providers: [
       BusinessTypeService,
       AlertifyService,

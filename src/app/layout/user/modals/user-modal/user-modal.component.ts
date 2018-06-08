@@ -117,7 +117,9 @@ export class UserModalComponent implements OnInit {
     this.form.get('companyCity').setValue(this.googleService.getCity());
     if (this.action !== 'edit') {
       this.userSerice.signUp$(this.form.value).subscribe(res => {
-        this.toastr.success('User save', 'Success');
+        this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((tra: string) => {
+          this.toastr.success('', tra);
+        });
         this.modal.close();
       });
     } else {
@@ -126,7 +128,6 @@ export class UserModalComponent implements OnInit {
         this.modal.close();
       });
     }
-
   }
 
   findPlace(item): void {

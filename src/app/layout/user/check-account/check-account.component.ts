@@ -50,7 +50,7 @@ export class CheckAccountComponent implements OnInit {
   }
 
   changeStatus(id): void {
-    this.alertify.confirm('Delete Shipping Address', 'Are you sure do you want to delete this?', () => {
+    this.alertify.confirm('Delete Shipping Address', 'Are you sure do you want to delete this register?', () => {
       this.userService.changeStatus$(id).subscribe(res => {
         this.notification.success('User save', 'Success');
         this.getListUser();
