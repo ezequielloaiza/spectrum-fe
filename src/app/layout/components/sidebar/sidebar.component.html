@@ -95,7 +95,10 @@
 		</div>
 		<!--ADMIN MENU-->
 		<div *ngIf="user.role.idRole === 1">
-		<!--<div>-->
+			<!--<div>-->
+			<a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+				<i class="fa fa-tags"></i>&nbsp;{{ 'Product categories' | translate }}
+			</a>
 			<a routerLink="/profile" [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
 			</a>

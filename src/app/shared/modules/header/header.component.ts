@@ -10,6 +10,7 @@ import { UserStorageService } from '../../../http/user-storage.service';
 })
 export class HeaderComponent implements OnInit {
     pushRightClass: string = 'push-right';
+    user: any;
 
     constructor(private translate: TranslateService, public router: Router, private userStorageService: UserStorageService) {
 
@@ -17,6 +18,7 @@ export class HeaderComponent implements OnInit {
         this.translate.setDefaultLang('en');
         const browserLang = this.translate.getBrowserLang();
         this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+        this.user = JSON.parse(userStorageService.getCurrentUser());
 
         this.router.events.subscribe(val => {
             if (

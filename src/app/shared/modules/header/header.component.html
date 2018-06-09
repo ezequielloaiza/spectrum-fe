@@ -137,7 +137,9 @@
 			&nbsp;
 			<li class="nav-item dropdown" ngbDropdown>
 				<a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
-					<i class="fa fa-user-circle"></i> John Smith
+          <i class="fa fa-user-circle"></i>
+          {{ user.userResponse.name }}
+          ({{ user.userResponse.username }})
 					<b class="caret"></b>
 				</a>
 				<div class="dropdown-menu-right" ngbDropdownMenu>

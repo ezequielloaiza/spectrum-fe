@@ -19,8 +19,7 @@ export class BusinessTypeComponent implements OnInit {
 	auxBusinessTypes: Array<any> = new Array;
 	advancedPagination: number;
 	itemPerPage: number = 5;
-	public sortBy = "name";
-  
+
   constructor(private modalService: NgbModal,
               private businessTypeService: BusinessTypeService,
               private alertify: AlertifyService,
@@ -31,7 +30,7 @@ export class BusinessTypeComponent implements OnInit {
     this.getBusinessType();
 		this.advancedPagination = 1;
 	}
-	
+
 	open(businesstype,action) {
 		const modalRef = this.modalService.open(BusinessTypeModalComponent);
 		modalRef.componentInstance.businesstype = businesstype;
@@ -66,16 +65,20 @@ export class BusinessTypeComponent implements OnInit {
     });
   }
 
-  
+
 	borrar(id) {
 		this.businessTypeService.removeById$(id).subscribe(res => {
-			console.log('test');
 			if (res.code === CodeHttp.ok) {
 				this.getBusinessType();
 				this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
 					this.notification.success('', res);
 				});
-			} else {
+			} else if(res.code === CodeHttp.notAcceptable) {
+				this.translate.get('Can not be eliminated, is associated with a company', {value: 'Can not be eliminated, is associated with a company'}).subscribe((res: string) => {
+					this.notification.warning('', res);
+				});
+			}
+			else {
 				console.log(res.errors[0].detail);
 			}
 		}, error => {
@@ -85,7 +88,7 @@ export class BusinessTypeComponent implements OnInit {
 
 	delete(id) {
 		this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
-			this.translate.get('Are you sure do you want to delete this?', {value: 'Are you sure do you want to delete this?'}).subscribe((msg: string) => {
+			this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
 				this.alertify.confirm(title, msg, () => {
 					this.borrar(id);
 				}, () => {
@@ -101,5 +104,5 @@ export class BusinessTypeComponent implements OnInit {
 		this.businessTypes = this.auxBusinessTypes.slice(startItem,endItem);
 	}
 
-  
+
 }
