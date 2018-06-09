@@ -1,18 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../shared/services';
+import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
+import { ToastrService } from 'ngx-toastr';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserModalComponent } from '../modals/user-modal/user-modal.component';
 
 @Component({
-  selector: 'app-check-account',
-  templateUrl: './check-account.component.html',
-  styleUrls: ['./check-account.component.scss']
+  selector: 'app-list',
+  templateUrl: './list-user.component.html',
+  styleUrls: ['./list-user.component.scss']
 })
-export class CheckAccountComponent implements OnInit {
+export class ListUserComponent implements OnInit {
 
   listUsers: Array<any> = new Array;
   listUsersAux: Array<any> = new Array;
 
-  constructor(private userService: UserService, private alertify: AlertifyService, private notification: ToastrService) { }
+  constructor(private userService: UserService,
+    private alertify: AlertifyService,
+    private notification: ToastrService,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.getListUser();
@@ -41,41 +48,21 @@ export class CheckAccountComponent implements OnInit {
     }
   }
 
-
-
-
   changeStatus(id): void {
     this.alertify.confirm('Delete Shipping Address', 'Are you sure do you want to delete this register?', () => {
       this.userService.changeStatus$(id).subscribe(res => {
         this.notification.success('User save', 'Success');
         this.getListUser();
       });
-    }, () => {
+    }, () => { });
+  }
+
+  openModal(): void {
+    const modalRef = this.modalService.open(UserModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.result.then((result) => {
+      this.getListUser();
+    } , (reason) => {
     });
   }
 
-}
-
-import { Pipe, PipeTransform } from '@angular/core';
-import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
-import { ToastrService } from 'ngx-toastr';
-@Pipe({
-  name: 'filterStatus'
-})
-export class FilterStatusPipe implements PipeTransform {
-  transform(items: any[], searchText: string): any[] {
-
-    if (!items) {
-      console.log('22', items);
-      return [];
-    }
-
-    if (!searchText) {
-      return items;
-    }
-
-  return items.filter( (item) => {
-    return (String(item.status).indexOf(searchText.toString().toLowerCase()) > -1);
-    });
-   }
 }
