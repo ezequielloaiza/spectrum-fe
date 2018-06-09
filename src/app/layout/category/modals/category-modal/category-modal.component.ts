@@ -54,6 +54,10 @@ export class CategoryModalComponent implements OnInit {
           this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
             this.notification.success('', res);
           });
+        }else if (res.code === CodeHttp.notAcceptable) {
+          this.translate.get('The category already exists', { value: 'The category already exists' }).subscribe((res: string) => {
+            this.notification.warning('', res);
+          });
         } else {
           console.log(res.errors[0].detail);
         }
@@ -62,12 +66,16 @@ export class CategoryModalComponent implements OnInit {
       });
     } else {
       this.categoryService.update$(this.form.value).subscribe(res => {
-        this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((res: string) => {
-          this.notification.success('', res);
-        });
         if (res.code === CodeHttp.ok) {
+          this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
           this.close();
-        } else {
+        } else if (res.code === CodeHttp.notAcceptable) {
+          this.translate.get('The category already exists', { value: 'The category already exists' }).subscribe((res: string) => {
+            this.notification.warning('', res);
+          });
+        }else {
           console.log(res.errors[0].detail);
         }
       }, error => {

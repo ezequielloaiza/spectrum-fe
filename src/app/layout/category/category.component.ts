@@ -74,6 +74,10 @@ export class CategoryComponent implements OnInit {
 				this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
 					this.notification.success('', res);
 				});
+			}else if(res.code === CodeHttp.notAcceptable) {
+				this.translate.get('Can not be eliminated, is associated with a product', {value: 'Can not be eliminated, is associated with a product'}).subscribe((res: string) => {
+					this.notification.warning('', res);
+				});
 			} else {
 				console.log(res.errors[0].detail);
 			}
