@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
 import { ProductsComponent } from '../products/products.component';
+import { ProfileComponent } from './profile/profile.component';
 import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import { UserComponent, ListUserComponent, DetailUserComponent, EditUserComponent } from './user';
@@ -46,7 +47,10 @@ const routes: Routes = [
                   ]
                 }
               ]
-            }
+            },
+            { path: 'profile', component: ProfileComponent },
+            { path: 'category', component: CategoryComponent },
+            { path: 'business-type', component: BusinessTypeComponent }
         ]
     }
 ];
