@@ -148,6 +148,7 @@
     "The shipping address already exists": "La dirección de envío ya existe",
     "Membership":"Membresía",
     "Membership is required":"Membresía es requerida",
-    "The user already exists":"El usuario ya existe"
-
+    "The user already exists":"El usuario ya existe",
+    "The category already exists":"La categoría ya existe",
+    "Can not be eliminated, is associated with a product":"No se puede eliminar, se encuentra asociada a un producto"
 }
