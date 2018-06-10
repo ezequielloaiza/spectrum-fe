@@ -1,20 +1,137 @@
+<div class="container bootstrap snippet">
+  <div class="row">
+    <div class="col-sm-12">
+      <hr>
+      <form [formGroup]="form">
+        <div class="form-options">
+          <h4>{{ 'Account Info' | translate }}</h4>
+          <button class="btn btn-main" (click)="edit()" [hidden]="canEdit">{{ 'Edit' | translate }}&nbsp;
+            <i class="fa fa-edit"></i>
+          </button>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Name' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user ? user.name : '' }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name" formControlName="name"
+                  required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="name.valid || name.pristine">
+              <span>{{ 'Name is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Email' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user ? user.email : '' }}</span>
+                <input [hidden]="!canEdit" type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email" formControlName="email"
+                  required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="email.pristine">
+              <span *ngIf="email.errors && !!email.errors.required">{{'Email is required' | translate }}</span>
+              <span *ngIf="email.errors && !!email.errors.email">{{ 'Email is not valid' | translate }}
+              </span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+              <fieldset class="form-group">
+                <label>{{ 'Phone' | translate }}</label>
+                <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ 04147418458 }}</span>
+                <input [hidden]="!canEdit" type="text" class="form-control" placeholder="{{ 'Enter phone' | translate }}" name="phone" formControlName="phone"
+                  >
+              </div>
+              </fieldset>
+            </div>
 
-<p>
-  edit-user works!
-</p>
-<p>
-  edit-user works!
-</p>
-
-<p>
-  edit-user works!
-</p>
-<p>
-  edit-user works!
-</p>
-<p>
-  edit-user works!
-</p>
-<p>
-  edit-user works!
-</p>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'City' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user ? user.city : '' }}</span>
+                <input [hidden]="!canEdit" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt"
+                  name="city" formControlName="city" [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead"
+                  placeholder="{{ 'Enter city' | translate }}" required />
+              </div>
+            </fieldset>
+            <div *ngIf="searching" class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+            <div class="message-error" [hidden]="city.valid || city.pristine">
+              <span>{{ 'City is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'State' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user ? user.state : '' }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state"
+                  required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="state.valid || state.pristine">
+              <span>{{ 'State is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Country' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user ? user.country : '' }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter country' | translate }}" name="country" formControlName="country"
+                  required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="country.valid || country.pristine">
+              <span>{{ 'Country is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Postal Code' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user ? user.postalCode : '' }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal">
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="postal.valid || postal.pristine">
+              <span>{{ 'Postal code is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-12">
+            <fieldset class="form-group">
+              <label>{{ 'Address' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user ? user.address : '' }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <br>
+        <div class="footer-form">
+          <button class="btn btn-main" (click)="save()" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
+            <i class="fa fa-save"></i>
+          </button>
+          &nbsp;&nbsp;
+          <button class="btn btn-secondary" (click)="edit()" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+      </form>
+      <hr>
+    </div>
+  </div>
+</div>
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.description}}
+</ng-template>
