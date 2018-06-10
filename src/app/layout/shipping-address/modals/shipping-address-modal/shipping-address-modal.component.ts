@@ -98,10 +98,10 @@ export class ShippingAddressModalComponent implements OnInit {
     } else {
       console.log('save',this.form.value);
       this.shippingAddressService.update$(this.form.value).subscribe(res => {
-        this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((res: string) => {
-          this.notification.success('', res);
-        });
         if (res.code === CodeHttp.ok) {
+          this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
           this.close();
         } else if (res.code === CodeHttp.notAcceptable) {
           this.translate.get('The shipping address already exists', { value: 'The shipping address already exists' }).subscribe((res: string) => {

@@ -70,7 +70,7 @@ export class BusinessTypeModalComponent implements OnInit {
           });
           this.close();
         } else if (res.code === CodeHttp.notAcceptable) {
-          this.translate.get('There is a type of business with that name', { value: 'There is a type of business with that name' }).subscribe((res: string) => {
+          this.translate.get('The business type already exists', { value: 'The business type already exists' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
         } else {
