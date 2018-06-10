@@ -10,7 +10,7 @@ import { UserModalComponent } from './user/modals/user-modal/user-modal.componen
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
 import { PageHeaderModule } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
-import { BusinessTypeService, GoogleService } from '../shared/services';
+import { BusinessTypeService, GoogleService} from '../shared/services';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AlertifyService } from '../shared/services/alertify/alertify.service';
 import { HeaderModule } from '../shared/modules/header/header.module';
@@ -20,6 +20,7 @@ import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import { BusinessTypeModalComponent } from './business-type/modals/business-type-modal/business-type-modal.component';
 import { CategoryModalComponent } from './category/modals/category-modal/category-modal.component';
+import { MembershipService} from '../shared/services/membership/membership.service';
 
 @NgModule({
     imports: [
