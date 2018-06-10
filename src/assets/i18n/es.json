@@ -145,5 +145,7 @@
     "Can not be eliminated, is associated with a company":"No se puede eliminar, se encuentra asociado a una compañía",
     "The business type already exists": "El tipo de negocio ya existe",
     "No records have been added yet": "No han sido agregados registros todavía",
-    "The shipping address already exists": "La dirección de envío ya existe"
+    "The shipping address already exists": "La dirección de envío ya existe",
+    "The category already exists":"La categoría ya existe",
+    "Can not be eliminated, is associated with a product":"No se puede eliminar, se encuentra asociada a un producto"
 }
