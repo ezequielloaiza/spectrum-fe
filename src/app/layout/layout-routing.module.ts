@@ -5,13 +5,9 @@ import { UserComponent } from './user/user.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
 import { ProductsComponent } from '../products/products.component';
 import { CheckAccountComponent } from './user/check-account/check-account.component';
-<<<<<<< HEAD
 import { ProfileComponent } from './profile/profile.component';
-=======
 import { CategoryComponent } from './category/category.component';
->>>>>>> 27c88aa8546b7e3e0e271ff3e3020ae2dd1eeac4
 import { BusinessTypeComponent } from './business-type/business-type.component';
-import { CategoryComponent } from './category/category.component';
 
 const routes: Routes = [
     {
