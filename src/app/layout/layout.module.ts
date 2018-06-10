@@ -10,11 +10,13 @@ import { UserModalComponent } from './user/modals/user-modal/user-modal.componen
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
 import { PageHeaderModule } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
-import { BusinessTypeService, GoogleService } from '../shared/services';
+import { BusinessTypeService, GoogleService} from '../shared/services';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AlertifyService } from '../shared/services/alertify/alertify.service';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { HeaderComponent } from '../shared/modules/header/header.component';
+import { ProfileComponent } from './profile/profile.component';
+import { InternationalPhoneModule } from 'ng4-intl-phone';
 import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/check-account.component';
 import { SuppliersComponent } from './suppliers/suppliers.component';
 import { SupplierModalComponent } from './suppliers/modals/supplier-modal/supplier-modal.component';
@@ -22,6 +24,7 @@ import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import { BusinessTypeModalComponent } from './business-type/modals/business-type-modal/business-type-modal.component';
 import { CategoryModalComponent } from './category/modals/category-modal/category-modal.component';
+import { MembershipService} from '../shared/services/membership/membership.service';
 
 @NgModule({
     imports: [
@@ -32,7 +35,8 @@ import { CategoryModalComponent } from './category/modals/category-modal/categor
         PageHeaderModule,
         ReactiveFormsModule,
         FormsModule,
-        HeaderModule
+        HeaderModule,
+        InternationalPhoneModule
     ],
     declarations: [
         LayoutComponent,
@@ -42,6 +46,7 @@ import { CategoryModalComponent } from './category/modals/category-modal/categor
         UserComponent,
         UserModalComponent,
         CheckAccountComponent,
+        ProfileComponent,
         FilterStatusPipe,
         CategoryComponent,
         BusinessTypeComponent,

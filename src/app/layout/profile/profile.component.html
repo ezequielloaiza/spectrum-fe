@@ -1,0 +1,222 @@
+<app-page-header class="page-header-fixed" [heading]="'Profile'" [icon]="'fa-edit'"></app-page-header>
+<div class="container bootstrap snippet">
+  <div class="row">
+    <div class="col-sm-3">
+      <!--left col-->
+      <div class="text-center">
+        <br>
+        <img src="assets/images/user.png" class="avatar img-circle img-thumbnail" alt="avatar">
+      </div>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="FS" required>
+        <label class="custom-file-label" for="FS">Choose file...</label>
+        <div class="invalid-feedback">Example invalid custom file feedback</div>
+      </div>
+      <br>
+    </div>
+    <!--/col-3-->
+    <div class="col-sm-9">
+      <hr>
+      <form [formGroup]="form">
+        <div class="form-options">
+          <h4>{{ 'Account Info' | translate }}</h4>
+          <button class="btn btn-main" (click)="edit()" [disabled]="canEdit">{{ 'Edit' | translate }}&nbsp;
+            <i class="fa fa-edit"></i>
+          </button>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xl-4">
+            <fieldset class="form-group">
+              <label>{{ 'Username' | translate }}</label>
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <h5 [hidden]="canEdit">{{ user.userResponse.username }}</h5>
+                <input [hidden]="!canEdit" type="text" class="form-control" name="username" formControlName="username" value="{{ user.userResponse.username }}"
+                  placeholder="Username" aria-describedby="usernameHelpBlock" readonly required>
+              </div>
+              <small id="usernameHelpBlock" class="form-text text-muted" [hidden]="!canEdit">
+                {{'You can not edit your username' | translate }}
+              </small>
+            </fieldset>
+            <div class="message-error" [hidden]="username.valid || username.pristine">
+              <span>{{ 'Username is required' | translate }}</span>
+            </div>
+          </div>
+          <!--
+          <div class="col-xl-4">
+            <fieldset class="form-group">
+              <label>Password</label>
+              <input type="password" class="form-control" name="password" formControlName="password" placeholder="Password" aria-describedby="passwordHelpBlock"
+              />
+              <small id="passwordHelpBlock" class="form-text text-muted">
+                {{'Password must be at least 8 characters' | translate }}
+              </small>
+            </fieldset>
+            <div class="message-error" [hidden]="password.valid || password.pristine">
+              <span>{{ 'Password is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-4">
+            <fieldset class="form-group">
+              <label>Repeat Password</label>
+              <input type="password" class="form-control" name="confirmPassword" formControlName="confirmPassword" placeholder="Password" aria-describedby="confirmPasswordHelpBlock"
+              />
+              <small id="passwordHelpBlock" class="form-text text-muted">
+                {{'Password must be at least 8 characters' | translate }}
+              </small>
+            </fieldset>
+            <div class="message-error" [hidden]="confirmPassword.valid || confirmPassword.pristine">
+              <span>{{ 'Password is required' | translate }}</span>
+            </div>
+          </div>
+          -->
+          <div class="col-xl-4">
+            <fieldset class="form-group">
+              <label for="password" class="control-label">{{'Password' | translate}}</label>
+              <h6 [hidden]="canEdit">{{ 'The password is secret' | translate }}</h6>
+              <input [hidden]="!canEdit" type="password" class="form-control" formControlName="password" aria-describedby="passwordHelpBlock">
+              <small [hidden]="!canEdit" id="passwordHelpBlock" class="form-text text-muted">
+                {{'Password must be at least 8 characters' | translate }}
+              </small>
+            </fieldset>
+            <div class="message-error" [hidden]="password.valid || password.pristine">
+              <span>{{ 'Password is not valid' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-4">
+            <fieldset class="form-group">
+              <label for="confirmedPassword" class="control-label">{{'Confirm Password' | translate}}</label>
+              <h6 [hidden]="canEdit">{{ 'The password is secret' | translate }}</h6>
+              <input [hidden]="!canEdit" type="password" class="form-control" formControlName="confirmedPassword" aria-describedby="passwordHelpBlock">
+              <small [hidden]="!canEdit" id="passwordHelpBlock" class="form-text text-muted">
+                {{'Password must be at least 8 characters' | translate }}
+              </small>
+            </fieldset>
+            <div class="message-error" *ngIf="form.get(['password']).value != form.get(['confirmedPassword']).value && form.get(['confirmedPassword']).value != null">
+              <span>{{ 'Passwords do not match' | translate }}</span>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <h4>Personal Info</h4>
+        <div class="row">
+          <div class="col-xl-4">
+            <fieldset class="form-group">
+              <label>{{ 'Name' | translate }}</label>
+              <h5 [hidden]="canEdit">{{ user.userResponse.name }}</h5>
+              <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name" formControlName="name" value="{{ user.userResponse.name }}"
+                required>
+            </fieldset>
+            <div class="message-error" [hidden]="name.valid || name.pristine">
+              <span>{{ 'Name is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-4">
+            <fieldset class="form-group">
+              <label>{{ 'Email' | translate }}</label>
+              <h5 [hidden]="canEdit">{{ user.userResponse.email }}</h5>
+              <input [hidden]="!canEdit" type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email" value="{{ user.userResponse.email }}"
+                formControlName="email" aria-describedby="emailHelpBlock" required readonly>
+              <small [hidden]="!canEdit" id="emailHelpBlock" class="form-text text-muted">
+                {{'You can not edit your email' | translate }}
+              </small>
+            </fieldset>
+            <div class="message-error" [hidden]="email.pristine">
+              <span *ngIf="email.errors && !!email.errors.required">{{'Email is required' | translate }}</span>
+              <span *ngIf="email.errors && !!email.errors.email">{{ 'Email is not valid' | translate }}
+              </span>
+            </div>
+          </div>
+          <div class="col-xl-4">
+            <fieldset class="form-group">
+              <label>{{ 'Phone' | translate }}</label>
+              <h5 [hidden]="canEdit">{{ 04147418458 }}</h5>
+              <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
+            </fieldset>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'City' | translate }}</label>
+              <h5 [hidden]="canEdit">{{ user.userResponse.city }}</h5>
+              <input [hidden]="!canEdit" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt" name="city" formControlName="city"
+                [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead" placeholder="{{ 'Enter city' | translate }}"
+                value="{{ user.userResponse.city }}" required/>
+            </fieldset>
+            <div *ngIf="searching" class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+            <div class="message-error" [hidden]="city.valid || city.pristine">
+              <span>{{ 'City is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'State' | translate }}</label>
+              <h5 [hidden]="canEdit">{{ user.userResponse.state }}</h5>
+              <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state" value="{{ user.userResponse.state }}"
+                required>
+            </fieldset>
+            <div class="message-error" [hidden]="state.valid || state.pristine">
+              <span>{{ 'State is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Country' | translate }}</label>
+              <h5 [hidden]="canEdit">{{ user.userResponse.country }}</h5>
+              <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter country' | translate }}" name="country" formControlName="country" value="{{ user.userResponse.country }}"
+                required>
+            </fieldset>
+            <div class="message-error" [hidden]="country.valid || country.pristine">
+              <span>{{ 'Country is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Postal Code' | translate }}</label>
+              <h5 [hidden]="canEdit">{{ user.userResponse.postalCode }}</h5>
+              <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal" value="{{ user.userResponse.postalCode }}"
+                required>
+            </fieldset>
+            <div class="message-error" [hidden]="postal.valid || postal.pristine">
+              <span>{{ 'Postal code is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-12">
+            <fieldset class="form-group">
+              <label>{{ 'Address' | translate }}</label>
+              <h5 [hidden]="canEdit">{{ user.userResponse.address }}</h5>
+              <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address" value="{{ user.userResponse.address }}">
+            </fieldset>
+          </div>
+        </div>
+        <br>
+        <div class="footer-form">
+          <button class="btn btn-main" (click)="save()" [disabled]="!canEdit">{{ 'Save' | translate }}&nbsp;
+            <i class="fa fa-save"></i>
+          </button>
+          &nbsp;&nbsp;
+          <button class="btn btn-secondary" (click)="edit()" [disabled]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
+              <i class="fa fa-times"></i>
+            </button>
+        </div>
+      </form>
+      <hr>
+      <!--/tab-pane-->
+    </div>
+    <!--/tab-content-->
+  </div>
+  <!--/col-9-->
+</div>
+<!--/row-->
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.description}}
+</ng-template>
+
+<script>
+  $(document).ready(function () {
+    $('#identicalForm').bootstrapValidator();
+  });
+</script>

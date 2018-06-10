@@ -6,6 +6,7 @@ import { ShippingAddressComponent } from './shipping-address/shipping-address.co
 import { ProductsComponent } from '../products/products.component';
 import { CheckAccountComponent } from './user/check-account/check-account.component';
 import { SuppliersComponent } from './suppliers/suppliers.component';
+import { ProfileComponent } from './profile/profile.component';
 import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 
@@ -27,8 +28,9 @@ const routes: Routes = [
             { path: 'shipping-address', component: ShippingAddressComponent },
             { path: 'consult-account', component: CheckAccountComponent },
             { path: 'suppliers', component: SuppliersComponent },
+            { path: 'profile', component: ProfileComponent },
             { path: 'category', component: CategoryComponent },
-            { path: 'business-type', component: BusinessTypeComponent }            
+            { path: 'business-type', component: BusinessTypeComponent }
         ]
     }
 ];
