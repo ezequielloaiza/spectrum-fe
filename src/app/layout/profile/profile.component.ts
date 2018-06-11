@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
+
 export class ProfileComponent implements OnInit {
 
   canEdit = false;
@@ -29,6 +30,7 @@ export class ProfileComponent implements OnInit {
               private notification: ToastrService,
              ) {
               this.user = JSON.parse(userStorageService.getCurrentUser());
+              console.log(this.user = JSON.parse(userStorageService.getCurrentUser()));
              }
 
   ngOnInit() {
@@ -73,14 +75,33 @@ export class ProfileComponent implements OnInit {
 
   edit() {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;
+    this.form.get('username').setValue(this.user.userResponse.username);
+    this.form.get('password').setValue("password");
+    this.form.get('confirmedPassword').setValue("password");
+    this.form.get('email').setValue(this.user.userResponse.email);
+    this.form.get('name').setValue(this.user.userResponse.name);
+    this.form.get('phone').setValue(this.user.userResponse.phone);
+    this.form.get('city').setValue({description: this.user.userResponse.city});
+    this.form.get('state').setValue(this.user.userResponse.state);
+    this.form.get('country').setValue(this.user.userResponse.country);
+    this.form.get('postal').setValue(this.user.userResponse.postalCode);
+    this.form.get('address').setValue(this.user.userResponse.address);
   }
 
   save(): void {
+    /*
+    if (this.form.get('city').value.description) {
+      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.user.city);
+    }
+    this.form.get('username').setValue(this.user.userResponse.username);
     this.form.get('city').setValue(this.googleService.getCity());
-    this.form.get('companyCity').setValue(this.googleService.getCity());
+    //this.form.get('companyCity').setValue(this.googleService.getCity());
     this.userService.signUp$(this.form.value).subscribe(res => {
       this.notification.success('User save', 'Success');
     });
+    */
+   this.notification.success('User save', 'Success');
+   this.canEdit = false;
   }
 
   findPlace(item): void {
@@ -115,7 +136,7 @@ export class ProfileComponent implements OnInit {
   checkFileSize() {
     var FS = document.getElementById("FS");
     var files = FS.files;
-  
+
     // If there is (at least) one file selected
     if (files.length > 0) {
        if (files[0].size > 75 * 1024) { // Check the constraint
@@ -138,5 +159,6 @@ export class ProfileComponent implements OnInit {
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
+  get phone() { return this.form.get('phone'); }
 
 }
