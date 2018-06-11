@@ -39,7 +39,7 @@ export class SuppliersComponent implements OnInit {
 
 	getSuppliers() {
     this.supplierService.findAll$().subscribe(res => {
-      if (res.code === 200) {
+      if (res.code === CodeHttp.ok) {
 				this.auxSuppliers = res.data;
 				this.sortSupplier(this.orderByField);
       } else {
@@ -114,7 +114,7 @@ export class SuppliersComponent implements OnInit {
 			this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
 				this.alertify.confirm(title, msg, () => {
 					this.supplierService.removeById$(id).subscribe(res => {
-						if (res.code === 200) {
+						if (res.code === CodeHttp.ok) {
 							this.getSuppliers();
 							this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
 								this.notification.success('', res);
