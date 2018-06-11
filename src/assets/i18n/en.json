@@ -134,5 +134,6 @@
     "Unregistered email" : "Unregistered email",
     "The business type already exists": "The business type already exists",
     "No records have been added yet": "No records have been added yet",
-    "The shipping address already exists": "The shipping address already exists"
+    "The shipping address already exists": "The shipping address already exists",
+    "Select a country by clicking on the map": "Select a country by clicking on the map"
 }
