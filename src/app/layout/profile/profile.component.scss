@@ -38,3 +38,15 @@ $custom-file-text: (
 .center-button {
   margin-top: 31px;
 }
+
+.container-edit{
+
+  text-align: right;
+
+  .btn-edit {
+    position: absolute;
+    margin-left: -80px;
+  }
+
+}
+

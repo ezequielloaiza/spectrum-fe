@@ -68,16 +68,16 @@ export class ProfileComponent implements OnInit {
       city            : ['', [ Validators.required]],
       postal          : ['', [ Validators.required]],
       phone           : [''],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmedPassword: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required]],
+      confirmedPassword: ['', [Validators.required]],
     }, {validator: this.passwordConfirming});
   }
 
   edit() {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;
     this.form.get('username').setValue(this.user.userResponse.username);
-    this.form.get('password').setValue("password");
-    this.form.get('confirmedPassword').setValue("password");
+    //this.form.get('password').setValue("password");
+    //this.form.get('confirmedPassword').setValue("password");
     this.form.get('email').setValue(this.user.userResponse.email);
     this.form.get('name').setValue(this.user.userResponse.name);
     this.form.get('phone').setValue(this.user.userResponse.phone);
