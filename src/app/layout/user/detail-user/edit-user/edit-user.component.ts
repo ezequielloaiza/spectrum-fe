@@ -41,7 +41,7 @@ export class EditUserComponent implements OnInit {
       country            : ['', [ Validators.required]],
       city               : ['', [ Validators.required]],
       postal             : ['', []],
-      phone     : ['', []]
+      phone     : ['', [Validators.required]]
       });
   }
 
@@ -97,6 +97,9 @@ export class EditUserComponent implements OnInit {
     this.form.get('postal').setValue(user.postal);
   }
 
+  save(): void {
+    console.log(this.form.value);
+  }
 
   get name() { return this.form.get('name'); }
   get email() { return this.form.get('email'); }
