@@ -6,7 +6,7 @@ import { ProductsComponent } from '../products/products.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
-import { UserComponent, ListUserComponent, DetailUserComponent, EditUserComponent } from './user';
+import { UserComponent, ListUserComponent, DetailUserComponent, EditUserComponent, EditCompanyComponent } from './user';
 import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSellerComponent } from './seller';
 
 const routes: Routes = [
@@ -28,8 +28,9 @@ const routes: Routes = [
                 { path: '', component: ListUserComponent },
                 { path: ':id', component: DetailUserComponent,
                   children: [
-                    { path: '', redirectTo: 'edit' },
-                    { path: 'edit', component: EditUserComponent }
+                    { path: '', redirectTo: 'edit', pathMatch: 'full' },
+                    { path: 'edit', component: EditUserComponent },
+                    { path: 'edit-company', component: EditCompanyComponent }
                   ]
                 }
               ]

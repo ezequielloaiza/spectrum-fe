@@ -105,20 +105,9 @@ export class EditUserComponent implements OnInit {
   get email() { return this.form.get('email'); }
   get address() { return this.form.get('address'); }
   get phone() { return this.form.get('phone'); }
-  get companyName() { return this.form.get('companyName'); }
-  get companyContactName() { return this.form.get('companyContactName'); }
-  get companyAddress() { return this.form.get('companyAddress'); }
-  get companyPhone() { return this.form.get('companyPhone'); }
-  get companyEmail() { return this.form.get('companyEmail'); }
-  get creditLimit() { return this.form.get('creditLimit'); }
-  get idBusinessType() { return this.form.get('idBusinessType'); }
   get city() { return this.form.get('city'); }
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
-  get companyCity() { return this.form.get('companyCity'); }
-  get companyState() { return this.form.get('companyState'); }
-  get companyCountry() { return this.form.get('companyCountry'); }
-  get companyPostal() { return this.form.get('companyPostal'); }
 
 }

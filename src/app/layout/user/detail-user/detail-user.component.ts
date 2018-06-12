@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detail-user',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailUserComponent implements OnInit {
 
-  constructor() { }
+  id: any;
+
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('id');
+    console.log('q', this.id);
   }
 
 }

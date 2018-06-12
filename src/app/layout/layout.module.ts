@@ -19,9 +19,10 @@ import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import { BusinessTypeModalComponent } from './business-type/modals/business-type-modal/business-type-modal.component';
 import { CategoryModalComponent } from './category/modals/category-modal/category-modal.component';
-import { UserComponent, UserModalComponent, ListUserComponent, DetailUserComponent, EditUserComponent } from './user';
-import { SellerComponent, ListSellerComponent, SellerModalComponent, DetailSellerComponent, EditSellerComponent, } from './seller';
+import { UserComponent, UserModalComponent, ListUserComponent, DetailUserComponent, EditUserComponent, EditCompanyComponent } from './user';
+import { SellerComponent, ListSellerComponent, SellerModalComponent, DetailSellerComponent, EditSellerComponent } from './seller';
 import { MembershipService} from '../shared/services/membership/membership.service';
+
 
 @NgModule({
     imports: [
@@ -54,7 +55,8 @@ import { MembershipService} from '../shared/services/membership/membership.servi
         ListSellerComponent,
         SellerModalComponent,
         DetailSellerComponent,
-        EditSellerComponent
+        EditSellerComponent,
+        EditCompanyComponent
     ],
     entryComponents: [ShippingAddressModalComponent, UserModalComponent, BusinessTypeModalComponent, CategoryModalComponent],
     providers: [
