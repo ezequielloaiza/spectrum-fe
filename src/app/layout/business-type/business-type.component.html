@@ -17,7 +17,13 @@
           <table class="table">
             <thead>
               <tr>
-                <th class="table-tr"> {{ 'Name' | translate }}</th>
+                <th class="table-tr header-column">
+                  <span title="Name" (click)="reverseSort = !reverseSort; sortBusinessType('name')">{{ 'Name' | translate }}</span>
+                  <span [hidden]="orderByField != 'name' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortBusinessType('name')"></i>  
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortBusinessType('name')"></i>
+                  </span>
+                </th>
                 <th class="table-tr"></th>
               </tr>
             </thead>
@@ -42,14 +48,15 @@
             </tbody>
           </table>
           <div class="table-empty" [hidden]="businessTypes.length !== 0" translate>
-            <p class="no-business">
+            <p class="no-records">
               {{ 'No records have been added yet' | translate }}
             </p>
           </div>
-          <div [hidden]="businessTypes.length === 0">
+          <div class="pagination-list" [hidden]="businessTypes.length === 0">
             <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxBusinessTypes.length"
               [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
             </ngb-pagination>
+            <span class="count-elements">{{ businessTypes.length + ' ' + ('of' | translate) + ' ' + auxBusinessTypes.length + ' ' + ('register(s)' | translate) }}</span>            
           </div>
         </div>
       </div>

@@ -75,7 +75,7 @@ export class SupplierModalComponent implements OnInit {
       this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.supplier.city);
     }
     if (this.action !== 'edit') {
-      /*update*/
+      /*save*/
       this.supplierService.save$(this.form.value).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.close(res.data);
@@ -93,7 +93,7 @@ export class SupplierModalComponent implements OnInit {
         console.log('error', error);
       });
     } else {
-      /*save*/
+      /*update*/
       this.supplierService.update$(this.form.value).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.close(res.data);

@@ -19,6 +19,10 @@ export class ShippingAddressComponent implements OnInit {
 	auxAddresses: Array<any> = new Array;
 	advancedPagination: number;
 	itemPerPage: number = 5;
+	/*initial order*/
+	orderByField = 'idAddress';
+	reverseSort = true;
+	typeSort = 0;
 
 	constructor(private modalService: NgbModal,
 							private shippingAddressService: ShippingAddressService,
@@ -37,9 +41,19 @@ export class ShippingAddressComponent implements OnInit {
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {
 			this.getAddress();
+			this.moveFirstPage();
 		} , (reason) => {
 
 		});
+	}
+
+	moveFirstPage() {
+		this.advancedPagination = 1;
+		this.reverseSort = true;
+		this.typeSort = 0;
+		this.orderByField = 'idSupplier';
+		this.sortAddress(this.orderByField);
+		this.pageChange(this.advancedPagination);
 	}
 
 	private getDismissReason(reason: any): string {
@@ -56,7 +70,8 @@ export class ShippingAddressComponent implements OnInit {
     this.shippingAddressService.findAll$().subscribe(res => {
       if (res.code === 200) {
 				this.auxAddresses = res.data;
-				this.addresses = this.auxAddresses.slice(0,this.itemPerPage);
+				this.sortAddress(this.orderByField);
+				//this.addresses = this.auxAddresses.slice(0,this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }
@@ -64,6 +79,34 @@ export class ShippingAddressComponent implements OnInit {
       console.log('error', error);
     });
 	}
+
+	sortAddress(key) {
+		if (this.orderByField !== key) {
+			this.typeSort = 0;
+			this.reverseSort = false;
+		}
+		this.orderByField = key;
+		if (this.orderByField !== 'idAddress') {
+			this.typeSort ++;
+			if (this.typeSort > 2) {
+				this.typeSort = 0;
+				this.orderByField = 'idAddress';
+				key = 'idAddress';
+				this.reverseSort = true;
+			}
+		}
+    let suppliersAddress = this.auxAddresses.sort(function(a, b) {
+        let x = a[key]; let y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		});
+		this.auxAddresses = suppliersAddress;
+		if (this.reverseSort) {
+			this.auxAddresses = suppliersAddress.reverse();
+		}
+		this.advancedPagination = 1;
+		this.pageChange(this.advancedPagination);
+	}
+
 
 	borrar(id) {
 		this.shippingAddressService.removeById$(id).subscribe(res => {
@@ -96,7 +139,6 @@ export class ShippingAddressComponent implements OnInit {
 	}
 
 	pageChange(event) {
-		event.page;
 		let startItem = (event - 1) * this.itemPerPage;
 		let endItem = event * this.itemPerPage;
 		this.addresses = this.auxAddresses.slice(startItem,endItem);
