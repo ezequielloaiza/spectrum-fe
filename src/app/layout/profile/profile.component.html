@@ -18,35 +18,36 @@
     <div class="col-sm-9">
       <hr>
       <form [formGroup]="form">
-        <div class="container-edit">
-          <button class="btn btn-main btn-edit" (click)="edit()" [disabled]="canEdit">{{ 'Edit' | translate }}&nbsp;
-            <i class="fa fa-edit"></i>
-          </button>
-        </div>
         <ngb-tabset>
           <ngb-tab title="{{ 'Personal Info'| translate}}">
             <ng-template ngbTabContent>
               <br>
+              <div class="container-edit">
+                <button class="btn btn-main btn-edit" (click)="editPersonal()" [disabled]="canEditPersonal">{{ 'Edit' | translate }}&nbsp;
+                  <i class="fa fa-edit"></i>
+                </button>
+              </div>
               <h4>Personal Info</h4>
+              <br>
               <div class="row">
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label>{{ 'Name' | translate }}</label>
-                    <h6 class="label-disabled" [hidden]="canEdit">{{ user.userResponse.name }}</h6>
-                    <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name" formControlName="name"
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.name }}</h6>
+                    <input [hidden]="!canEditPersonal" class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name" formControlName="name"
                       required>
                   </fieldset>
                   <div class="message-error" [hidden]="name.valid || name.pristine">
                     <span>{{ 'Name is required' | translate }}</span>
                   </div>
                 </div>
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label>{{ 'Email' | translate }}</label>
-                    <h6 class="label-disabled" [hidden]="canEdit">{{ user.userResponse.email }}</h6>
-                    <input [hidden]="!canEdit" type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email" formControlName="email"
-                      aria-describedby="emailHelpBlock" required>
-                      <!--
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.email }}</h6>
+                    <input [hidden]="!canEditPersonal" type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email"
+                      formControlName="email" aria-describedby="emailHelpBlock" required>
+                    <!--
                     <small [hidden]="!canEdit" id="emailHelpBlock" class="form-text text-muted">
                       {{'You can not edit your email' | translate }}
                     </small>
@@ -58,18 +59,19 @@
                     </span>
                   </div>
                 </div>
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label>{{ 'Phone' | translate }}</label>
-                    <h6 class="label-disabled" [hidden]="canEdit">{{ user.userResponse.phone }}</h6>
-                    <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.phone }}</h6>
+                    <int-phone-prefix [hidden]="!canEditPersonal" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right"
+                      title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
                   </fieldset>
                 </div>
                 <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label>{{ 'City' | translate }}</label>
-                    <h6 class="label-disabled" [hidden]="canEdit">{{ user.userResponse.city }}</h6>
-                    <input [hidden]="!canEdit" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt"
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.city }}</h6>
+                    <input [hidden]="!canEditPersonal" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt"
                       name="city" formControlName="city" [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead"
                       placeholder="{{ 'Enter city' | translate }}" required/>
                   </fieldset>
@@ -85,8 +87,8 @@
                 <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label>{{ 'State' | translate }}</label>
-                    <h6 class="label-disabled" [hidden]="canEdit">{{ user.userResponse.state }}</h6>
-                    <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state"
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.state }}</h6>
+                    <input [hidden]="!canEditPersonal" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state"
                       required>
                   </fieldset>
                   <div class="message-error" [hidden]="state.valid || state.pristine">
@@ -96,8 +98,8 @@
                 <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label>{{ 'Country' | translate }}</label>
-                    <h6 class="label-disabled" [hidden]="canEdit">{{ user.userResponse.country }}</h6>
-                    <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter country' | translate }}" name="country" formControlName="country"
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.country }}</h6>
+                    <input [hidden]="!canEditPersonal" class="form-control" placeholder="{{ 'Enter country' | translate }}" name="country" formControlName="country"
                       required>
                   </fieldset>
                   <div class="message-error" [hidden]="country.valid || country.pristine">
@@ -107,21 +109,30 @@
                 <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label>{{ 'Postal Code' | translate }}</label>
-                    <h6 class="label-disabled" [hidden]="canEdit">{{ user.userResponse.postalCode }}</h6>
-                    <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal"
-                      required>
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.postalCode }}</h6>
+                    <input [hidden]="!canEditPersonal" class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal"
+                      formControlName="postal" required>
                   </fieldset>
                   <div class="message-error" [hidden]="postal.valid || postal.pristine">
                     <span>{{ 'Postal code is required' | translate }}</span>
                   </div>
                 </div>
-                <div class="col-xl-12">
+                <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label>{{ 'Address' | translate }}</label>
-                    <h6 class="label-disabled" [hidden]="canEdit">{{ user.userResponse.address }}</h6>
-                    <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.address }}</h6>
+                    <input [hidden]="!canEditPersonal" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
                   </fieldset>
                 </div>
+              </div>
+              <div class="footer-form">
+                <button class="btn btn-main" (click)="savePersonal()" [disabled]="!canEditPersonal">{{ 'Save' | translate }}&nbsp;
+                  <i class="fa fa-save"></i>
+                </button>
+                &nbsp;&nbsp;
+                <button class="btn btn-secondary" (click)="editPersonal()" [disabled]="!canEditPersonal">{{ 'Cancel' | translate }}&nbsp;
+                  <i class="fa fa-times"></i>
+                </button>
               </div>
             </ng-template>
           </ngb-tab>
@@ -131,19 +142,25 @@
             </ng-template>
             <ng-template ngbTabContent>
               <br>
+              <div class="container-edit">
+                <button class="btn btn-main btn-edit" (click)="editAccount()" [disabled]="canEditAccount">{{ 'Edit' | translate }}&nbsp;
+                  <i class="fa fa-edit"></i>
+                </button>
+              </div>
               <div class="form-options">
                 <h4>{{ 'Account Info' | translate }}</h4>
               </div>
+              <br>
               <div class="row">
-                <div class="col-xl-4">
+                <div class="col-xl-12">
                   <fieldset class="form-group">
                     <label>{{ 'Username' | translate }}</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                      <h6 class="label-disabled" [hidden]="canEdit">{{ user.userResponse.username }}</h6>
-                      <input [hidden]="!canEdit" type="text" class="form-control" name="username" formControlName="username" placeholder="Username"
+                      <h6 class="label-disabled" [hidden]="canEditAccount">{{ user.userResponse.username }}</h6>
+                      <input [hidden]="!canEditAccount" type="text" class="form-control" name="username" formControlName="username" placeholder="Username"
                         aria-describedby="usernameHelpBlock" readonly required>
                     </div>
-                    <small id="usernameHelpBlock" class="form-text text-muted" [hidden]="!canEdit">
+                    <small id="usernameHelpBlock" class="form-text text-muted" [hidden]="!canEditAccount">
                       {{'You can not edit your username' | translate }}
                     </small>
                   </fieldset>
@@ -179,11 +196,11 @@
                       </div>
                     </div>
                     -->
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label for="password" class="control-label">{{'Password' | translate}}</label>
-                    <h6 class="label-disabled" [hidden]="canEdit">{{ 'The password is secret' | translate }}</h6>
-                    <input [hidden]="!canEdit" type="password" class="form-control" name="password" formControlName="password" aria-describedby="passwordHelpBlock">
+                    <h6 class="label-disabled" [hidden]="canEditAccount">{{ 'The password is secret' | translate }}</h6>
+                    <input [hidden]="!canEditAccount" type="password" class="form-control" name="password" formControlName="password" aria-describedby="passwordHelpBlock">
                     <!--
                           <small [hidden]="canEdit" id="passwordHelpBlock" class="form-text text-muted">
                             {{'If you want to edit the password press the change button' | translate }}
@@ -194,11 +211,12 @@
                     <span>{{ 'Password is not valid' | translate }}</span>
                   </div>
                 </div>
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label for="confirmedPassword" class="control-label">{{'Confirm Password' | translate}}</label>
-                    <h6 class="label-disabled" [hidden]="canEdit">{{ 'The password is secret' | translate }}</h6>
-                    <input [hidden]="!canEdit" type="password" class="form-control" name="confirmedPassword" formControlName="confirmedPassword" aria-describedby="passwordHelpBlock">
+                    <h6 class="label-disabled" [hidden]="canEditAccount">{{ 'The password is secret' | translate }}</h6>
+                    <input [hidden]="!canEditAccount" type="password" class="form-control" name="confirmedPassword" formControlName="confirmedPassword"
+                      aria-describedby="passwordHelpBlock">
                     <!--
                           <small [hidden]="!canEdit" id="passwordHelpBlock" class="form-text text-muted">
                             {{'Password must be at least 8 characters' | translate }}
@@ -210,20 +228,22 @@
                   </div>
                 </div>
               </div>
+              <br>
+              <div class="footer-form">
+                <button class="btn btn-main" (click)="saveAccount()" [disabled]="!canEditAccount">{{ 'Save' | translate }}&nbsp;
+                  <i class="fa fa-save"></i>
+                </button>
+                &nbsp;&nbsp;
+                <button class="btn btn-secondary" (click)="editAccount()" [disabled]="!canEditAccount">{{ 'Cancel' | translate }}&nbsp;
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
             </ng-template>
           </ngb-tab>
 
         </ngb-tabset>
         <br>
-        <div class="footer-form">
-          <button class="btn btn-main" (click)="save()" [disabled]="!canEdit">{{ 'Save' | translate }}&nbsp;
-            <i class="fa fa-save"></i>
-          </button>
-          &nbsp;&nbsp;
-          <button class="btn btn-secondary" (click)="edit()" [disabled]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
-            <i class="fa fa-times"></i>
-          </button>
-        </div>
+
       </form>
       <hr>
       <!--/tab-pane-->

@@ -15,7 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 
 export class ProfileComponent implements OnInit {
 
-  canEdit = false;
+  canEditPersonal = false;
+  canEditAccount = false;
   passwords: FormGroup;
   form: FormGroup;
   searching = false;
@@ -70,11 +71,11 @@ export class ProfileComponent implements OnInit {
       phone           : [''],
       password: ['', [Validators.required]],
       confirmedPassword: ['', [Validators.required]],
-    }, {validator: this.passwordConfirming});
+    });
   }
 
-  edit() {
-    this.canEdit === false ? this.canEdit = true : this.canEdit = false;
+  editPersonal() {
+    this.canEditPersonal === false ? this.canEditPersonal = true : this.canEditPersonal = false;
     this.form.get('username').setValue(this.user.userResponse.username);
     //this.form.get('password').setValue("password");
     //this.form.get('confirmedPassword').setValue("password");
@@ -88,7 +89,45 @@ export class ProfileComponent implements OnInit {
     this.form.get('address').setValue(this.user.userResponse.address);
   }
 
-  save(): void {
+  editAccount() {
+    this.canEditAccount === false ? this.canEditAccount = true : this.canEditAccount = false;
+    this.form.get('username').setValue(this.user.userResponse.username);
+    //this.form.get('password').setValue("password");
+    //this.form.get('confirmedPassword').setValue("password");
+    this.form.get('email').setValue(this.user.userResponse.email);
+    this.form.get('name').setValue(this.user.userResponse.name);
+    this.form.get('phone').setValue(this.user.userResponse.phone);
+    this.form.get('city').setValue({description: this.user.userResponse.city});
+    this.form.get('state').setValue(this.user.userResponse.state);
+    this.form.get('country').setValue(this.user.userResponse.country);
+    this.form.get('postal').setValue(this.user.userResponse.postalCode);
+    this.form.get('address').setValue(this.user.userResponse.address);
+  }
+
+  savePersonal(): void {
+    /*
+    if (this.form.get('city').value.description) {
+      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.user.city);
+    }
+    this.form.get('username').setValue(this.user.userResponse.username);
+    this.form.get('city').setValue(this.googleService.getCity());
+    //this.form.get('companyCity').setValue(this.googleService.getCity());
+    this.userService.signUp$(this.form.value).subscribe(res => {
+      this.notification.success('User save', 'Success');
+    });
+    */
+   debugger
+   this.form.get('city').setValue(this.form.value.city.description);
+   debugger
+   this.userService.updateUser$(this.form.value).subscribe(res => {
+     debugger
+     this.notification.success('User save', 'Success');
+     this.canEditPersonal = false;
+   });
+
+  }
+
+  saveAccount(): void {
     /*
     if (this.form.get('city').value.description) {
       this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.user.city);
@@ -101,7 +140,7 @@ export class ProfileComponent implements OnInit {
     });
     */
    this.notification.success('User save', 'Success');
-   this.canEdit = false;
+   this.canEditAccount = false;
   }
 
   findPlace(item): void {
