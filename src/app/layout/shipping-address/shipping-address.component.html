@@ -17,11 +17,41 @@
           <table class="table">
             <thead>
               <tr>
-                <th class="table-tr"> {{ 'Company' | translate }}</th>
-                <th class="table-tr"> {{ 'Address' | translate }}</th>
-                <th class="table-tr"> {{ 'City' | translate }}</th>
-                <th class="table-tr"> {{ 'State' | translate }}</th>
-                <th class="table-tr"> {{ 'Country' | translate }}</th>
+                <th class="table-tr header-column">
+                  <span title="Company" (click)="reverseSort = !reverseSort; sortAddress('company')">{{ 'Company' | translate }}</span>
+                  <span [hidden]="orderByField != 'company' || typeSort === 0" > 
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortAddress('company')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortAddress('company')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Address" (click)="reverseSort = !reverseSort; sortAddress('address')">{{ 'Address' | translate }}</span>
+                  <span [hidden]="orderByField != 'address' || typeSort === 0" > 
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortAddress('address')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortAddress('address')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="City" (click)="reverseSort = !reverseSort; sortAddress('city')">{{ 'City' | translate }}</span>
+                  <span [hidden]="orderByField != 'city' || typeSort === 0" > 
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortAddress('city')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortAddress('city')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="State" (click)="reverseSort = !reverseSort; sortAddress('state')">{{ 'State' | translate }}</span>
+                  <span [hidden]="orderByField != 'state' || typeSort === 0" > 
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortAddress('state')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortAddress('state')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Country" (click)="reverseSort = !reverseSort; sortAddress('country')">{{ 'Country' | translate }}</span>
+                  <span [hidden]="orderByField != 'country' || typeSort === 0" > 
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortAddress('country')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortAddress('country')"></i>
+                  </span>
+                </th>
                 <th class="table-tr"></th>
               </tr>
             </thead>
@@ -50,14 +80,15 @@
             </tbody>
           </table>
           <div class="table-empty" [hidden]="addresses.length !== 0" translate>
-            <p class="no-items">
+            <p class="no-records">
               {{ 'No records have been added yet' | translate }}
             </p>
           </div>
-          <div [hidden]="addresses.length === 0">
+          <div class="pagination-list" [hidden]="addresses.length === 0">
             <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxAddresses.length"
               [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
             </ngb-pagination>
+            <span class="count-elements">{{ addresses.length + ' ' + ('of' | translate) + ' ' + auxAddresses.length + ' ' + ('register(s)' | translate) }}</span>
           </div>
         </div>
       </div>
