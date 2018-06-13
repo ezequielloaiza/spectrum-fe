@@ -1,0 +1,15 @@
+@import '../../../../styles/spectrum/spectrum';
+
+@include tr-sizes((20%,20%,20%,20%,15%));
+
+.search {
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+
+  i {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: $bg-imput;
+  }
+}
