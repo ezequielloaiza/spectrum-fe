@@ -19,6 +19,10 @@ export class BusinessTypeComponent implements OnInit {
 	auxBusinessTypes: Array<any> = new Array;
 	advancedPagination: number;
 	itemPerPage: number = 5;
+	/*initial order*/
+	orderByField = 'idBusinessType';
+	reverseSort = true;
+	typeSort = 0;
 
   constructor(private modalService: NgbModal,
               private businessTypeService: BusinessTypeService,
@@ -37,9 +41,19 @@ export class BusinessTypeComponent implements OnInit {
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {
 			this.getBusinessType();
+			this.moveFirstPage();
 		} , (reason) => {
 
 		});
+	}
+
+	moveFirstPage() {
+		this.advancedPagination = 1;
+		this.reverseSort = true;
+		this.typeSort = 0;
+		this.orderByField = 'idBusinessType';
+		this.sortBusinessType(this.orderByField);
+		this.pageChange(this.advancedPagination);
 	}
 
   private getDismissReason(reason: any): string {
@@ -56,14 +70,42 @@ export class BusinessTypeComponent implements OnInit {
     this.businessTypeService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
 				this.auxBusinessTypes = res.data;
-				this.businessTypes = this.auxBusinessTypes.slice(0,this.itemPerPage);
+				this.sortBusinessType(this.orderByField);
+				//this.businessTypes = this.auxBusinessTypes.slice(0,this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }
     }, error => {
       console.log('error', error);
     });
-  }
+	}
+	
+	sortBusinessType(key) {
+		if (this.orderByField !== key) {
+			this.typeSort = 0;
+			this.reverseSort = false;
+		}
+		this.orderByField = key;
+		if (this.orderByField !== 'idBusinessType') {
+			this.typeSort ++;
+			if (this.typeSort > 2) {
+				this.typeSort = 0;
+				this.orderByField = 'idBusinessType';
+				key = 'idBusinessType';
+				this.reverseSort = true;
+			}
+		}
+    let businessTypeSort = this.auxBusinessTypes.sort(function(a, b) {
+        let x = a[key]; let y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		});
+		this.auxBusinessTypes = businessTypeSort;
+		if (this.reverseSort) {
+			this.auxBusinessTypes = businessTypeSort.reverse();
+		}
+		this.advancedPagination = 1;
+		this.pageChange(this.advancedPagination);
+	}
 
 
 	borrar(id) {
@@ -98,7 +140,6 @@ export class BusinessTypeComponent implements OnInit {
 	}
 
 	pageChange(event) {
-		event.page;
 		let startItem = (event - 1) * this.itemPerPage;
 		let endItem = event * this.itemPerPage;
 		this.businessTypes = this.auxBusinessTypes.slice(startItem,endItem);

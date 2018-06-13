@@ -1,7 +1,6 @@
 @import '../../../styles/spectrum/spectrum';
 
-@include tr-sizes((90%,10%));
-
+@include tr-sizes((22%,25%,15%,15%,20%));
 
 .card {
   border: 1px solid $border;

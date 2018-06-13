@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
 import { ProductsComponent } from '../products/products.component';
+import { SuppliersComponent } from './suppliers/suppliers.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
@@ -49,6 +50,7 @@ const routes: Routes = [
                 }
               ]
             },
+            { path: 'suppliers', component: SuppliersComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'category', component: CategoryComponent },
             { path: 'business-type', component: BusinessTypeComponent }
