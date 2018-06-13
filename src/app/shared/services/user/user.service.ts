@@ -33,4 +33,8 @@ export class UserService {
   public findById$(id): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/findById/' + id);
   }
+
+  public findByRole$(roleId): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/findByRole/' + roleId);
+  }
 }
