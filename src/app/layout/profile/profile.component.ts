@@ -70,7 +70,7 @@ export class ProfileComponent implements OnInit {
       state: ['', [Validators.required]],
       country: ['', [Validators.required]],
       city: ['', [Validators.required]],
-      postal: ['', [Validators.required]],
+      postal: [''],
       phone: [''],
       password: ['', [Validators.required]],
       confirmedPassword: ['', [Validators.required]],
@@ -80,8 +80,6 @@ export class ProfileComponent implements OnInit {
   editPersonal() {
     this.canEditPersonal === false ? this.canEditPersonal = true : this.canEditPersonal = false;
     this.form.get('username').setValue(this.user.userResponse.username);
-    //this.form.get('password').setValue("password");
-    //this.form.get('confirmedPassword').setValue("password");
     this.form.get('email').setValue(this.user.userResponse.email);
     this.form.get('name').setValue(this.user.userResponse.name);
     this.form.get('phone').setValue(this.user.userResponse.phone);
@@ -95,8 +93,6 @@ export class ProfileComponent implements OnInit {
   editAccount() {
     this.canEditAccount === false ? this.canEditAccount = true : this.canEditAccount = false;
     this.form.get('username').setValue(this.user.userResponse.username);
-    //this.form.get('password').setValue("password");
-    //this.form.get('confirmedPassword').setValue("password");
     this.form.get('email').setValue(this.user.userResponse.email);
     this.form.get('name').setValue(this.user.userResponse.name);
     this.form.get('phone').setValue(this.user.userResponse.phone);
