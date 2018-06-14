@@ -41,11 +41,11 @@
             <fieldset class="form-group">
               <label>{{ 'Business types' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-              <span [hidden]="canEdit">{{ company ? company.businessType.name : '' }}</span>
-              <select [hidden]="!canEdit" class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
-                <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name }}</option>
-              </select>
-            </div>
+                <span [hidden]="canEdit">{{ company ? company.businessType.name : '' }}</span>
+                <select [hidden]="!canEdit" class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
+                  <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name }}</option>
+                </select>
+              </div>
             </fieldset>
             <div class="message-error" [hidden]="idBusinessType.valid || idBusinessType.pristine">
               <span>{{ 'Business type is required' | translate }}</span>
@@ -123,17 +123,7 @@
               <span>{{ 'Postal code is required' | translate }}</span>
             </div>
           </div>
-          <div class="col-xl-6">
-            <fieldset class="form-group">
-              <label>{{ 'Phone' | translate }}</label>
-              <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ 04147418458 }}</span>
-                <input [hidden]="!canEdit" class="form-control" name="phone" formControlName="phone">
-               <!-- <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"
-                  required></int-phone-prefix>-->
-              </div>
-            </fieldset>
-          </div>
+
           <div class="col-xl-12">
             <fieldset class="form-group">
               <label>{{ 'Address' | translate }}</label>
@@ -143,6 +133,47 @@
               </div>
             </fieldset>
           </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Phone' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ 04147418458 }}</span>
+                <input [hidden]="!canEdit" class="form-control" name="phone" formControlName="phone">
+                <!-- <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"
+                    required></int-phone-prefix>-->
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-xl-6">
+            <label>{{ 'Credit limit' | translate }}</label>
+            <div class="mb-2 mr-sm-2 mb-sm-0">
+              <span [hidden]="canEdit">{{ company ? company.address : '' }}</span>
+              <div class="form-group input-group">
+                <input [hidden]="!canEdit" class="form-control" type="number" placeholder="{{ 'Enter credit limit' | translate }}" name="creditLimit"
+                  formControlName="creditLimit" required>
+                <div [hidden]="!canEdit" class="input-group-append">
+                  <span class="input-group-text">$</span>
+                </div>
+              </div>
+            </div>
+            <div class="message-error" [hidden]="creditLimit.valid || creditLimit.pristine">
+              <span>{{ 'Credit Limit is required' | translate }}</span>
+            </div>
+          </div>
+          <!-- <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Membership' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company ? company.address : '' }}</span>
+                <select [hidden]="!canEdit" class="form-control" name="membershipId" formControlName="membershipId" required>
+                  <option *ngFor="let membership of memberships" [ngValue]="membership.idMembership">{{ membership.name }}</option>
+                </select>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="membershipId.valid || membershipId.pristine">
+              <span>{{ 'Membership is required' | translate }}</span>
+            </div>
+          </div>-->
         </div>
         <br>
         <div class="footer-form">

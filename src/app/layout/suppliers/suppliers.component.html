@@ -1,0 +1,99 @@
+
+<app-page-header class="page-header-fixed" [heading]="'List of Suppliers'" [icon]="'fa-edit'"></app-page-header>
+<div class="sp-container">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All Suppliers' | translate }}
+          </div>
+          <div class="ml-auto p-2">
+            <button class="btn btn-main" (click)="open(content,'create')">{{ 'Add' | translate }}&nbsp;
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr header-column">
+                  <span title="Company Name" (click)="reverseSort = !reverseSort; sortSupplier('companyName')">{{ 'Company Name' | translate }}</span>
+                  <span [hidden]="orderByField != 'companyName' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortSupplier('companyName')"></i>  
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortSupplier('companyName')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Contact" (click)="reverseSort = !reverseSort; sortSupplier('contact')">{{ 'Contact' | translate }}</span>
+                  <span [hidden]="orderByField != 'contact' || typeSort === 0" > 
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortSupplier('contact')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortSupplier('contact')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Address" (click)="reverseSort = !reverseSort; sortSupplier('address')">{{ 'Address' | translate }}</span>
+                  <span [hidden]="orderByField != 'address' || typeSort === 0" > 
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortSupplier('address')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortSupplier('address')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Telephone" (click)="reverseSort = !reverseSort; sortSupplier('telephone')">{{ 'Telephone' | translate }}</span>
+                  <span [hidden]="orderByField != 'telephone' || typeSort === 0" >  
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortSupplier('telephone')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortSupplier('telephone')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Website" (click)="reverseSort = !reverseSort; sortSupplier('website')">{{ 'Website' | translate }}</span>
+                  <span [hidden]="orderByField != 'website' || typeSort === 0" >  
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortSupplier('website')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortSupplier('website')"></i>
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody [hidden]="suppliers.length === 0">
+              <tr *ngFor="let supplier of suppliers">
+                <td class="table-tr">{{supplier.companyName}}</td>
+                <td class="table-tr">{{supplier.contact}}</td>
+                <td class="table-tr">{{supplier.address}}</td>
+                <td class="table-tr">{{supplier.telephone}}</td>
+                <td class="table-tr">{{supplier.website}}</td>
+
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="open(supplier,'edit')">
+                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                        <button class="dropdown-item" (click)="delete(supplier.idSupplier)">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- EMPTY LIST -->
+          <div class="table-empty" [hidden]="suppliers.length !== 0" translate>
+            <p class="no-records">
+                {{ 'No records have been added yet' | translate }}
+            </p>
+          </div>
+          <div class="pagination-list" [hidden]="suppliers.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxSuppliers.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+            <span class="count-elements">{{ suppliers.length + ' ' + ('of' | translate) + ' ' + auxSuppliers.length + ' ' + ('register(s)' | translate) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

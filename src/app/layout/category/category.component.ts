@@ -19,7 +19,10 @@ export class CategoryComponent implements OnInit {
 	auxCategories: Array<any> = new Array;
 	advancedPagination: number;
 	itemPerPage: number = 5;
-
+	/*initial order*/
+	orderByField = 'idCategory';
+	reverseSort = true;
+	typeSort = 0;
 
   constructor(private modalService: NgbModal,
               private categoryService: CategoryService,
@@ -38,6 +41,7 @@ export class CategoryComponent implements OnInit {
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {
 			this.getCategories();
+			this.moveFirstPage();
 		} , (reason) => {
 
 		});
@@ -57,15 +61,51 @@ export class CategoryComponent implements OnInit {
     this.categoryService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
 				this.auxCategories = res.data;
-				this.categories = this.auxCategories.slice(0,this.itemPerPage);
+				this.sortCategory(this.orderByField);
+				//this.categories = this.auxCategories.slice(0,this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }
     }, error => {
       console.log('error', error);
     });
-  }
+	}
+	
+	moveFirstPage() {
+		this.advancedPagination = 1;
+		this.reverseSort = true;
+		this.typeSort = 0;
+		this.orderByField = 'idCategory';
+		this.sortCategory(this.orderByField);
+		this.pageChange(this.advancedPagination);
+	}
 
+	sortCategory(key) {
+		if (this.orderByField !== key) {
+			this.typeSort = 0;
+			this.reverseSort = false;
+		}
+		this.orderByField = key;
+		if (this.orderByField !== 'idCategory') {
+			this.typeSort ++;
+			if (this.typeSort > 2) {
+				this.typeSort = 0;
+				this.orderByField = 'idCategory';
+				key = 'idCategory';
+				this.reverseSort = true;
+			}
+		}
+    let suppliersCategory = this.auxCategories.sort(function(a, b) {
+        let x = a[key]; let y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		});
+		this.auxCategories = suppliersCategory;
+		if (this.reverseSort) {
+			this.auxCategories = suppliersCategory.reverse();
+		}
+		this.advancedPagination = 1;
+		this.pageChange(this.advancedPagination);
+	}
 
 	borrar(id) {
 		this.categoryService.removeById$(id).subscribe(res => {
@@ -98,7 +138,6 @@ export class CategoryComponent implements OnInit {
 	}
 
 	pageChange(event) {
-		event.page;
 		let startItem = (event - 1) * this.itemPerPage;
 		let endItem = event * this.itemPerPage;
 		this.categories = this.auxCategories.slice(startItem,endItem);

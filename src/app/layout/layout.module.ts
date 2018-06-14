@@ -15,6 +15,8 @@ import { HeaderModule } from '../shared/modules/header/header.module';
 import { HeaderComponent } from '../shared/modules/header/header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { InternationalPhoneModule } from 'ng4-intl-phone';
+import { SuppliersComponent } from './suppliers/suppliers.component';
+import { SupplierModalComponent } from './suppliers/modals/supplier-modal/supplier-modal.component';
 import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import { BusinessTypeModalComponent } from './business-type/modals/business-type-modal/business-type-modal.component';
@@ -56,9 +58,18 @@ import { MembershipService} from '../shared/services/membership/membership.servi
         SellerModalComponent,
         DetailSellerComponent,
         EditSellerComponent,
-        EditCompanyComponent
+        EditCompanyComponent,
+        SuppliersComponent,
+        SupplierModalComponent
     ],
-    entryComponents: [ShippingAddressModalComponent, UserModalComponent, BusinessTypeModalComponent, CategoryModalComponent,SellerModalComponent],
+    entryComponents: [
+      ShippingAddressModalComponent,
+      UserModalComponent,
+      BusinessTypeModalComponent,
+      CategoryModalComponent,
+      SupplierModalComponent,
+      SellerModalComponent
+    ],
     providers: [
       BusinessTypeService,
       AlertifyService,
