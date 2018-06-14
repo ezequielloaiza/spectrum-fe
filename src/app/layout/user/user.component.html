@@ -1,5 +1,23 @@
-<app-page-header class="page-header-fixed" [heading]="'Clients'"
-                   [icon]="'fa fa-users'"></app-page-header>
+
+<div class="row">
+<div class="header-body">
+  <h4 class="page-header">
+    {{ 'Clients' | translate }}
+  </h4>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+    </li>
+    <li class="breadcrumb-item active">
+      <a class="link" href="Javascript:void(0)" [routerLink]="['/user']"><i class="fa fa-users"></i> {{ 'List of Clients' | translate }}</a>
+    </li>
+    <li class="breadcrumb-item active">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/user']"><i class="fa fa-users"></i> {{ 'Clients' | translate }}</a>
+      </li>
+  </ol>
+</div>
+</div>
+
 <section class="main-container">
   <router-outlet></router-outlet>
 </section>

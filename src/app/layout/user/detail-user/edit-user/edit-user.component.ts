@@ -5,6 +5,8 @@ import { switchMap, debounceTime, distinctUntilChanged, tap, catchError, merge }
 import { UserService, GoogleService } from '../../../../shared/services';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { Observable, of } from 'rxjs';
+import { User } from '../../../../shared/models/user';
+
 
 @Component({
   selector: 'app-edit-user',
@@ -16,7 +18,7 @@ export class EditUserComponent implements OnInit {
   canEdit = false;
   form: FormGroup;
   id: any;
-  user: any;
+  user: User = new User();
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);

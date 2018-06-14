@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GoogleService, CompanyService, BusinessTypeService } from '../../../../shared/services';
 import { debounceTime, distinctUntilChanged, switchMap, tap, catchError, merge } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import { MembershipService } from '../../../../shared/services/membership/membership.service';
 
 @Component({
   selector: 'app-edit-company',
@@ -20,18 +21,21 @@ export class EditCompanyComponent implements OnInit {
   searching = false;
   searchFailed = false;
   businessTypes: Array<any> = new Array;
+  memberships: Array<any> = new Array;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private googleService: GoogleService,
               private companyService: CompanyService,
+              private membershipService: MembershipService,
               private businessTypeService: BusinessTypeService) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getBussinesAll();
     this.getCompany(this.id);
+    this.getMembershipAll();
     this.initializeForm();
   }
 
@@ -88,6 +92,14 @@ export class EditCompanyComponent implements OnInit {
     });
   }
 
+  getMembershipAll(): void {
+    this.membershipService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.memberships = res.data;
+      }
+    });
+  }
+
   edit() {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;
   }
@@ -113,6 +125,7 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('postal').setValue(company.postalCode);
     this.form.get('phone').setValue(company.phone);
     this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
+    this.form.get('membershipId').setValue(company.membership.idMembership);
   }
 
   save(): void {
@@ -131,5 +144,6 @@ export class EditCompanyComponent implements OnInit {
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
+  get membershipId() { return this.form.get('membershipId'); }
 
 }
