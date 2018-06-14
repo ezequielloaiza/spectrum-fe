@@ -96,7 +96,6 @@ export class ShippingAddressModalComponent implements OnInit {
         console.log('error', error);
       });
     } else {
-      console.log('save',this.form.value);
       this.shippingAddressService.update$(this.form.value).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {

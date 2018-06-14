@@ -29,4 +29,9 @@ export class UserService {
   public changeStatus$(id): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/changeStatus/' + id);
   }
+
+  public updateProfile$(user): Observable<any> {
+    return this.http.put(environment.apiUrl + 'user/updateProfile', user);
+  }
+
 }
