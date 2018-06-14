@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserModalComponent } from '../modals/user-modal/user-modal.component';
+import { Role } from '../../../shared/enum/role.enum';
 
 @Component({
   selector: 'app-list',
@@ -26,7 +27,7 @@ export class ListUserComponent implements OnInit {
   }
 
   getListUser(): void {
-    this.userService.allUserBySeller$().subscribe(res => {
+    this.userService.findByRole$(Role.User).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listUsers = res.data;
         this.listUsersAux = res.data;

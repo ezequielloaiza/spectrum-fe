@@ -4,6 +4,9 @@ import { AlertifyService } from '../../../shared/services/alertify/alertify.serv
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import { Role } from '../../../shared/enum/role.enum';
+import { SellerModalComponent } from '..';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list-seller',
@@ -18,14 +21,16 @@ export class ListSellerComponent implements OnInit {
   constructor(private userService: UserService,
     private alertify: AlertifyService,
     private notification: ToastrService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.getListSellers();
   }
 
   getListSellers(): void {
-    this.userService.findByRole$().subscribe(res => {
+
+    this.userService.findByRole$(Role.Seller).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listSellers = res.data;
         this.listSellersAux = res.data;
@@ -41,29 +46,68 @@ export class ListSellerComponent implements OnInit {
     if (val && val.trim() !== '') {
       this.listSellers = this.listSellers.filter((item) => {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-        (item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-        (item.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-        (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1));
+          (item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
   }
 
   changeStatus(id): void {
-    this.alertify.confirm('Delete Shipping Address', 'Are you sure do you want to delete this register?', () => {
-      this.userService.changeStatus$(id).subscribe(res => {
-        this.notification.success('User save', 'Success');
-        this.getListSellers();
+
+    this.translate.get("Seller's status", { value: "Seller's status" }).subscribe((title: string) => {
+      this.translate.get("Are you sure you want to change the status?", { value: "Are you sure you want to change the status?" }).subscribe((msg: string) => {
+        this.alertify.confirm(title, msg, () => {
+          this.userService.changeStatus$(id).subscribe(res => {
+            this.translate.get('Status changed', { value: 'Status changed' }).subscribe((res: string) => {
+              this.notification.success('', res);
+              this.getListSellers();
+            });
+          });
+        }, () => {
+        });
       });
-    }, () => { });
+    });
   }
 
   openModal(): void {
-   /* const modalRef = this.modalService.open(UserModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(SellerModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.result.then((result) => {
       this.getListSellers();
-    } , (reason) => {
-    });*/
+    }, (reason) => {
+    });
   }
+
+  borrar(id) {
+		this.userService.removeSeller$(id).subscribe(res => {
+			if (res.code === CodeHttp.ok) {
+				this.getListSellers();
+				this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
+					this.notification.success('', res);
+				});
+			} else if(res.code === CodeHttp.notAcceptable) {
+				this.translate.get('Can not be eliminated, is associated with a client', {value: 'Can not be eliminated, is associated with a company'}).subscribe((res: string) => {
+					this.notification.warning('', res);
+				});
+			}
+			else {
+				console.log(res.errors[0].detail);
+			}
+		}, error => {
+			console.log('error', error);
+		});
+	}
+
+	delete(id) {
+		this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
+			this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
+				this.alertify.confirm(title, msg, () => {
+					this.borrar(id);
+				}, () => {
+				});
+			});
+		});
+	}
 
 }
 

@@ -1,6 +1,5 @@
 <app-page-header class="page-header-fixed" [heading]="'List of Clients'" [icon]="'fa fa-users'"></app-page-header>
 
-
 <div class="sp-container">
   <div class="row search">
     <div class="col col-xl-4 col-lg-4">
@@ -25,19 +24,24 @@
           <table class="table">
             <thead>
               <tr>
+                <th class="table-tr">{{ 'Status' | translate }}</th>
                 <th class="table-tr">{{ 'Name' | translate }}</th>
                 <th class="table-tr">{{ 'Email' | translate }}</th>
                 <th class="table-tr">{{ 'Company Name' | translate }}</th>
                 <th class="table-tr">{{ 'Business Type' | translate}}</th>
+                <th class="table-tr">{{ 'Country' | translate}}</th>
                 <th class="table-tr"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let user of listUsers">
+                <td class="table-tr" class="active" *ngIf="user.status === 0">{{'Active'}}</td>
+                <td class="table-tr" class="inactive" *ngIf="user.status === 1">{{'Inactive'}}</td>
                 <td class="table-tr">{{user.name}}</td>
                 <td class="table-tr">{{user.email}}</td>
                 <td class="table-tr">{{user.company.companyName}}</td>
                 <td class="table-tr">{{user.company.businessType.name}}</td>
+                <td class="table-tr">{{user.company.country}}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">

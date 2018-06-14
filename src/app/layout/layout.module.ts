@@ -58,7 +58,7 @@ import { MembershipService} from '../shared/services/membership/membership.servi
         EditSellerComponent,
         EditCompanyComponent
     ],
-    entryComponents: [ShippingAddressModalComponent, UserModalComponent, BusinessTypeModalComponent, CategoryModalComponent],
+    entryComponents: [ShippingAddressModalComponent, UserModalComponent, BusinessTypeModalComponent, CategoryModalComponent,SellerModalComponent],
     providers: [
       BusinessTypeService,
       AlertifyService,

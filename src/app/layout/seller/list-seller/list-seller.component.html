@@ -16,9 +16,7 @@
             {{ 'All Sellers' | translate }}
           </div>
           <div class="ml-auto p-2">
-            <button type="button"
-                    class="btn btn-main"
-                    (click)="openModal()">{{ 'Add' | translate }}</button>
+            <button type="button" class="btn btn-main" (click)="openModal()">{{ 'Add' | translate }}</button>
           </div>
         </div>
         <div class="card-body table-responsive">
@@ -48,8 +46,12 @@
                       <div ngbDropdownMenu>
                         <button class="dropdown-item" routerLink="/seller/{{seller.idUser}}">
                           <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                        <button class="dropdown-item" (click)="changeStatus(seller.idUser)">
-                          <i class="fa fa-trash"></i> {{ 'deactivate' | translate }}</button>
+                        <button *ngIf="seller.status === 0" class="dropdown-item" (click)="changeStatus(seller.idUser)">
+                          <i class="fa fa-times"></i> {{ 'Deactivate' | translate }}</button>
+                        <button *ngIf="seller.status === 1" class="dropdown-item" (click)="changeStatus(seller.idUser)">
+                          <i class="fa fa-check"></i> {{ 'Activate' | translate }}</button>
+                        <button class="dropdown-item" (click)="delete(seller.idUser)">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
                       </div>
                     </div>
                   </div>

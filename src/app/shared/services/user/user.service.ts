@@ -34,7 +34,20 @@ export class UserService {
     return this.http.get(environment.apiUrl + 'user/findById/' + id);
   }
 
-  public findByRole$(): Observable<any> {
-    return this.http.get(environment.apiUrl + 'user/findByRole');
+  public findByRole$(roleId): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/findByRole/' + roleId);
   }
+
+  public registerSeller$(seller): Observable<any> {
+    return this.http.post(environment.apiUrl + 'user/registerSeller', seller);
+  }
+
+  public updateSeller$(seller): Observable<any> {
+    return this.http.put(environment.apiUrl + 'user/updateSeller', seller);
+  }
+
+  public removeSeller$(id): Observable<any> {
+    return this.http.delete(environment.apiUrl + 'user/removeSeller/' + id);
+  }
+
 }

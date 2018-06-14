@@ -155,5 +155,17 @@
     "List of Sellers":"Lista de vendedores",
     "All Sellers":"Todos los vendedores",
     "Active":"Activo",
-    "Inactive":"Inactivo"
+    "Inactive":"Inactivo",
+    "Sellers":"Vendedores",
+    "Account Info":"Info de la Cuenta",
+    "Customer Info":"Info de Cliente",
+    "Personal Info":"Info Personal",
+    "Deactivate":"Desactivar",
+    "Activate":"Activar",
+    "Status":"Estado",
+    "Seller's status":"Estado del vendedor",
+    "Are you sure you want to change the status?":"¿Seguro que quieres cambiar el estado?",
+    "Status changed":"Estado cambiado"
+
+
 }
