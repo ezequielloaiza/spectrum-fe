@@ -34,7 +34,6 @@ export class ProfileComponent implements OnInit {
     private translate: TranslateService,
   ) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
-    console.log(this.user = JSON.parse(userStorageService.getCurrentUser()));
   }
 
   ngOnInit() {
