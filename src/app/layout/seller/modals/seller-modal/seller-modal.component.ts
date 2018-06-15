@@ -59,13 +59,14 @@ export class SellerModalComponent implements OnInit {
   initializeForm() {
 
     this.form = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
-      address: [''],
-      state: ['', [Validators.required]],
-      country: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      postal: ['', [Validators.required]]
+      name     : ['', [Validators.required]],
+      email    : ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
+      address  : [''],
+      state    : ['', [Validators.required]],
+      country  : ['', [Validators.required]],
+      city     : ['', [Validators.required]],
+      postal   : ['', []],
+      phone    : ['', []]
     });
   }
 
@@ -83,7 +84,7 @@ export class SellerModalComponent implements OnInit {
         });
       } else if (res.code === CodeHttp.notAcceptable) {
         this.form.get('city').setValue({description: this.form.value.city});
-        this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
+        this.translate.get('The seller already exists', { value: 'The seller already exists' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
       } else {
@@ -111,6 +112,7 @@ export class SellerModalComponent implements OnInit {
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
+  get phone() { return this.form.get('phone'); }
 
 
   validatePhone(event) {

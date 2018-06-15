@@ -1,0 +1,54 @@
+@import '../../../../../../styles/spectrum/spectrum';
+
+@include tr-sizes((20%,20%,20%,20%,15%));
+
+.search {
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+
+  i {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: $bg-imput;
+  }
+}
+
+.active {
+  color: $bg-green;
+}
+
+.inactive {
+  color: $bg-red;
+}
+
+.sp-container {
+  padding-top: 0;
+}
+
+.modal-content-seller {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 110%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+
+span {
+  color: $color-text-menu;
+  font-weight: bold;
+}
+
+.footer-form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.label-disabled {
+  color: $bg-sidebar;
+}

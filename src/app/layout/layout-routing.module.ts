@@ -9,7 +9,7 @@ import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import { UserComponent, ListUserComponent, DetailUserComponent, EditUserComponent, EditCompanyComponent } from './user';
 import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSellerComponent } from './seller';
-
+import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller/client-seller.component';
 const routes: Routes = [
     {
         path: '',
@@ -45,7 +45,8 @@ const routes: Routes = [
                 { path: ':id', component: DetailSellerComponent,
                   children: [
                     { path: '', redirectTo: 'edit' },
-                    { path: 'edit', component: EditSellerComponent }
+                    { path: 'edit', component: EditSellerComponent },
+                    { path: 'client-seller', component: ClientSellerComponent }
                   ]
                 }
               ]

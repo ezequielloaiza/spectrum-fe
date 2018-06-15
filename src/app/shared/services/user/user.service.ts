@@ -50,4 +50,11 @@ export class UserService {
     return this.http.delete(environment.apiUrl + 'user/removeSeller/' + id);
   }
 
+  public allCustomersBySeller$(idSeller): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/allCustomersBySeller/'+idSeller);
+  }
+
+  public transferClient$(idCliente,idSeller): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/transferClient/'+idCliente+'/'+idSeller);
+  }
 }

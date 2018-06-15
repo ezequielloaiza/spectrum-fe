@@ -9,6 +9,7 @@ import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge }
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { Seller } from '../../../../shared/models/seller';
 
 @Component({
   selector: 'app-edit-seller',
@@ -20,7 +21,7 @@ export class EditSellerComponent implements OnInit {
   canEdit = false;
   form: FormGroup;
   idSeller: any;
-  seller: any;
+  seller: Seller = new Seller();
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
@@ -33,6 +34,7 @@ export class EditSellerComponent implements OnInit {
               private translate: TranslateService) { }
 
   ngOnInit() {
+    debugger
     this.idSeller = this.route.parent.snapshot.paramMap.get('id');
     this.getSeller(this.idSeller);
     this.initializeForm();
@@ -48,7 +50,7 @@ export class EditSellerComponent implements OnInit {
       country            : ['', [ Validators.required]],
       city               : ['', [ Validators.required]],
       postal             : ['', []],
-      phone              : ['', [Validators.required]]
+      phone              : ['', []]
       });
   }
 
@@ -72,10 +74,14 @@ export class EditSellerComponent implements OnInit {
     )
 
     getSeller(idSeller): void {
+    debugger
     this.userService.findById$(idSeller).subscribe( res => {
+      debugger
       if (res.code === CodeHttp.ok) {
         this.seller = res.data;
         this.setSeller(this.seller);
+        debugger
+        console.log("id vendedor set"+this.idSeller);
       }
     });
   }
@@ -95,6 +101,7 @@ export class EditSellerComponent implements OnInit {
   }
 
   setSeller(seller: any): void {
+    debugger
     this.form.get('id').setValue(seller.idUser);
     this.form.get('name').setValue(seller.name);
     this.form.get('email').setValue(seller.email);
@@ -108,15 +115,20 @@ export class EditSellerComponent implements OnInit {
 
   save(): void {
     this.form.get('city').setValue(this.form.value.city.description);
-    console.log(this.form.value);
     this.userService.updateSeller$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.form.get('city').setValue(this.form.value.city);
         this.seller = res.data;
+        this.setSeller(this.seller);
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
       this.canEdit = false;
+      }else if (res.code === CodeHttp.notAcceptable) {
+        this.form.get('city').setValue({description: this.form.value.city});
+        this.translate.get('The seller already exists', { value: 'The seller already exists' }).subscribe((res: string) => {
+          this.notification.warning('', res);
+        });
       } else {
         console.log(res.errors[0].detail);
       }

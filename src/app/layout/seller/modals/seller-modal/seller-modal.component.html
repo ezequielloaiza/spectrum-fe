@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title">{{ 'Information User' | translate }}</h4>
+    <h4 class="modal-title">{{ 'Information Seller' | translate }}</h4>
     <button type="button" class="close close-modal" aria-label="Close" (click)="close()">
       <span aria-hidden="true"> &times; </span>
     </button>
@@ -7,7 +7,6 @@
   <div class="content">
     <div class="modal-body">
       <form [formGroup]="form">
-        <h5>{{ 'Information Contact' | translate }}</h5>
         <div class="row">
           <div class="col-xl-6">
             <fieldset class="form-group">
@@ -66,11 +65,17 @@
           <div class="col-xl-6">
             <fieldset class="form-group">
               <label>{{ 'Postal Code' | translate }}</label>
-              <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal" required>
+              <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal">
             </fieldset>
             <div class="message-error" [hidden]="postal.valid || postal.pristine">
               <span>{{ 'Postal code is required' | translate }}</span>
             </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Phone' | translate }}</label>
+              <int-phone-prefix  name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
+            </fieldset>
           </div>
           <div class="col-xl-12">
             <fieldset class="form-group">
@@ -86,8 +91,8 @@
   
   
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-    <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">Save</button>
+    <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Close' | translate }}</button>
+    <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}</button>
   </div>
   <ng-template #rt let-r="result" let-t="term">
     {{ r.description}}

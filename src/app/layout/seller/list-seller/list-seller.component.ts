@@ -17,6 +17,8 @@ export class ListSellerComponent implements OnInit {
 
   listSellers: Array<any> = new Array;
   listSellersAux: Array<any> = new Array;
+  advancedPagination: number;
+  itemPerPage: number = 5;
 
   constructor(private userService: UserService,
     private alertify: AlertifyService,
@@ -26,6 +28,7 @@ export class ListSellerComponent implements OnInit {
 
   ngOnInit() {
     this.getListSellers();
+    this.advancedPagination = 1;
   }
 
   getListSellers(): void {
@@ -71,7 +74,7 @@ export class ListSellerComponent implements OnInit {
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open(SellerModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(SellerModalComponent, { size: 'lg', windowClass: 'modal-content-seller' });
     modalRef.result.then((result) => {
       this.getListSellers();
     }, (reason) => {
@@ -81,12 +84,12 @@ export class ListSellerComponent implements OnInit {
   borrar(id) {
 		this.userService.removeSeller$(id).subscribe(res => {
 			if (res.code === CodeHttp.ok) {
-				this.getListSellers();
 				this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
 					this.notification.success('', res);
-				});
+        });
+        this.getListSellers();
 			} else if(res.code === CodeHttp.notAcceptable) {
-				this.translate.get('Can not be eliminated, is associated with a client', {value: 'Can not be eliminated, is associated with a company'}).subscribe((res: string) => {
+				this.translate.get('It can not be deleted, it is associated with a client', {value: 'It can not be deleted, it is associated with a client'}).subscribe((res: string) => {
 					this.notification.warning('', res);
 				});
 			}
@@ -107,7 +110,14 @@ export class ListSellerComponent implements OnInit {
 				});
 			});
 		});
-	}
+  }
+  
+  pageChange(event) {
+		let startItem = (event - 1) * this.itemPerPage;
+		let endItem = event * this.itemPerPage;
+		this.listSellers = this.listSellersAux.slice(startItem,endItem);
+  }
+  
 
 }
 

@@ -16,7 +16,9 @@
             {{ 'All Sellers' | translate }}
           </div>
           <div class="ml-auto p-2">
-            <button type="button" class="btn btn-main" (click)="openModal()">{{ 'Add' | translate }}</button>
+            <button type="button" class="btn btn-main" (click)="openModal()">{{ 'Add' | translate }}
+              <i class="fa fa-plus"></i>
+            </button>
           </div>
         </div>
         <div class="card-body table-responsive">
@@ -33,8 +35,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let seller of listSellers">
-                <td *ngIf="seller.status === 0" class="table-tr">{{'Active' | translate }}</td>
-                <td *ngIf="seller.status === 1" class="table-tr">{{'Inactive' | translate }}</td>
+                <td *ngIf="seller.status === 0" class="table-tr" class="active">{{'Active' | translate }}</td>
+                <td *ngIf="seller.status === 1" class="table-tr" class="inactive">{{'Inactive' | translate }}</td>
                 <td class="table-tr">{{seller.name}}</td>
                 <td class="table-tr">{{seller.email}}</td>
                 <td class="table-tr">{{seller.country}}</td>
@@ -59,6 +61,18 @@
               </tr>
             </tbody>
           </table>
+          <div class="table-empty" [hidden]="listSellers.length !== 0" translate>
+            <p class="no-records">
+              {{ 'No records have been added yet' | translate }}
+            </p>
+          </div>
+          <div class="pagination-list" [hidden]="listSellers.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listSellersAux.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+            <span class="count-elements">{{ listSellers.length + ' ' + ('of' | translate) + ' ' + listSellersAux.length + ' ' + ('register(s)' | translate)
+              }}</span>
+          </div>
         </div>
       </div>
     </div>

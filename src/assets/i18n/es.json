@@ -176,13 +176,18 @@
     "Inactive":"Inactivo",
     "Sellers":"Vendedores",
     "Account Info":"Info de la Cuenta",
-    "Customer Info":"Info de Cliente",
-    "Personal Info":"Info Personal",
+    "Customer Data":"Datos Clientes",
+    "Personal information":"Datos personales",
     "Deactivate":"Desactivar",
     "Activate":"Activar",
     "Status":"Estado",
     "Seller's status":"Estado del vendedor",
     "Are you sure you want to change the status?":"¿Seguro que quieres cambiar el estado?",
     "Status changed":"Estado cambiado",
-    "The supplier already exists, verify the name of the company or the emails": "El proveedor ya existe, verifique nombre de la compañia o correos electrónicos"
+    "The supplier already exists, verify the name of the company or the emails": "El proveedor ya existe, verifique nombre de la compañia o correos electrónicos",
+    "The seller already exists":"El vendedor ya existe",
+    "It can not be deleted, it is associated with a client":"No se puede eliminar, esta asociado con un cliente",
+    "Information Seller":"Información Vendedor",
+    "To transfer":"Transferir",
+    "Client":"Cliente"
 }
