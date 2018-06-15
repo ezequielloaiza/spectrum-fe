@@ -15,7 +15,7 @@
             <fieldset class="form-group">
               <label>{{ 'Name' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company ? company.companyName : '' }}</span>
+                <span [hidden]="canEdit">{{ company.companyName }}</span>
                 <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name" formControlName="name"
                   required>
               </div>
@@ -28,7 +28,7 @@
             <fieldset class="form-group">
               <label>{{ 'Contact Name' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company ? company.contactName : '' }}</span>
+                <span [hidden]="canEdit">{{ company.contactName }}</span>
                 <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter contact name' | translate }}" name="name" formControlName="name"
                   required>
               </div>
@@ -41,7 +41,7 @@
             <fieldset class="form-group">
               <label>{{ 'Business types' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company ? company.businessType.name : '' }}</span>
+                <span [hidden]="canEdit">{{ company.businessType.name }}</span>
                 <select [hidden]="!canEdit" class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
                   <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name }}</option>
                 </select>
@@ -55,7 +55,7 @@
             <fieldset class="form-group">
               <label>{{ 'Email' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company ? company.email : '' }}</span>
+                <span [hidden]="canEdit">{{ company.email }}</span>
                 <input [hidden]="!canEdit" type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email" formControlName="email"
                   required>
               </div>
@@ -70,7 +70,7 @@
             <fieldset class="form-group">
               <label>{{ 'City' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company ? company.city : '' }}</span>
+                <span [hidden]="canEdit">{{ company.city }}</span>
                 <input [hidden]="!canEdit" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt"
                   name="city" formControlName="city" [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead"
                   placeholder="{{ 'Enter city' | translate }}" required />
@@ -89,7 +89,7 @@
             <fieldset class="form-group">
               <label>{{ 'State' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company ? company.state : '' }}</span>
+                <span [hidden]="canEdit">{{ company.state }}</span>
                 <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state"
                   required>
               </div>
@@ -102,7 +102,7 @@
             <fieldset class="form-group">
               <label>{{ 'Country' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company ? company.country : '' }}</span>
+                <span [hidden]="canEdit">{{ company.country }}</span>
                 <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter country' | translate }}" name="country" formControlName="country"
                   required>
               </div>
@@ -115,7 +115,7 @@
             <fieldset class="form-group">
               <label>{{ 'Postal Code' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company ? company.postalCode : '' }}</span>
+                <span [hidden]="canEdit">{{ company.postalCode }}</span>
                 <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal">
               </div>
             </fieldset>
@@ -128,7 +128,7 @@
             <fieldset class="form-group">
               <label>{{ 'Address' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company ? company.address : '' }}</span>
+                <span [hidden]="canEdit">{{ company.address }}</span>
                 <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
               </div>
             </fieldset>
@@ -147,7 +147,7 @@
           <div class="col-xl-6">
             <label>{{ 'Credit limit' | translate }}</label>
             <div class="mb-2 mr-sm-2 mb-sm-0">
-              <span [hidden]="canEdit">{{ company ? company.address : '' }}</span>
+              <span [hidden]="canEdit">{{ company.creditLimit }}</span>
               <div class="form-group input-group">
                 <input [hidden]="!canEdit" class="form-control" type="number" placeholder="{{ 'Enter credit limit' | translate }}" name="creditLimit"
                   formControlName="creditLimit" required>
@@ -181,7 +181,7 @@
             <i class="fa fa-save"></i>
           </button>
           &nbsp;&nbsp;
-          <button class="btn btn-secondary" (click)="edit()" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
+          <button class="btn btn-secondary" (click)="cancel()" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
             <i class="fa fa-times"></i>
           </button>
         </div>

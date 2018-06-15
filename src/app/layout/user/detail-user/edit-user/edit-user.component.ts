@@ -79,6 +79,11 @@ export class EditUserComponent implements OnInit {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;
   }
 
+  cancel(): void {
+    this.canEdit === false ? this.canEdit = true : this.canEdit = false;
+    this.setUser(this.user);
+  }
+
   findPlace(item): void {
     this.googleService.placeById$(item.item.place_id).subscribe(res => {
       this.googleService.setPlace(res.data.result);

@@ -6,6 +6,7 @@ import { GoogleService, CompanyService, BusinessTypeService } from '../../../../
 import { debounceTime, distinctUntilChanged, switchMap, tap, catchError, merge } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
+import { Company } from '../../../../shared/models/company';
 
 @Component({
   selector: 'app-edit-company',
@@ -17,7 +18,7 @@ export class EditCompanyComponent implements OnInit {
   canEdit = false;
   form: FormGroup;
   id: any;
-  company: any;
+  company: Company = new Company;
   searching = false;
   searchFailed = false;
   businessTypes: Array<any> = new Array;
@@ -100,8 +101,13 @@ export class EditCompanyComponent implements OnInit {
     });
   }
 
-  edit() {
+  edit(): void {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;
+  }
+
+  cancel(): void {
+    this.canEdit === false ? this.canEdit = true : this.canEdit = false;
+    this.setCompany(this.company);
   }
 
   findPlace(item): void {
@@ -126,6 +132,7 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('phone').setValue(company.phone);
     this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
     this.form.get('membershipId').setValue(company.membership.idMembership);
+    this.form.get('creditLimit').setValue(company.creditLimit);
   }
 
   save(): void {
