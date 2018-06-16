@@ -15,9 +15,7 @@ export class HeaderComponent implements OnInit {
     constructor(private translate: TranslateService, public router: Router, private userStorageService: UserStorageService) {
 
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
-        this.translate.setDefaultLang('en');
-        const browserLang = this.translate.getBrowserLang();
-        this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
+        this.translate.use(this.userStorageService.getLanguage());
         this.user = JSON.parse(userStorageService.getCurrentUser());
 
         this.router.events.subscribe(val => {
@@ -55,5 +53,6 @@ export class HeaderComponent implements OnInit {
 
     changeLang(language: string) {
         this.translate.use(language);
+        this.userStorageService.setLanguage(language);
     }
 }
