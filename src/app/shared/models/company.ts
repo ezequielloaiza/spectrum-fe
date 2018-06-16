@@ -13,7 +13,7 @@ export class Company {
   public postalCode: string;
   public phone: string;
   public creditLimit: number;
-  public businessType: BusinessType;
+  public businessType: BusinessType = new BusinessType();
 
   public Company() { }
 

@@ -7,6 +7,8 @@ import { debounceTime, distinctUntilChanged, switchMap, tap, catchError, merge }
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
 import { Company } from '../../../../shared/models/company';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-company',
@@ -22,21 +24,20 @@ export class EditCompanyComponent implements OnInit {
   searching = false;
   searchFailed = false;
   businessTypes: Array<any> = new Array;
-  memberships: Array<any> = new Array;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private googleService: GoogleService,
               private companyService: CompanyService,
-              private membershipService: MembershipService,
-              private businessTypeService: BusinessTypeService) { }
+              private businessTypeService: BusinessTypeService,
+              private translate: TranslateService,
+              private notification: ToastrService) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getBussinesAll();
     this.getCompany(this.id);
-    this.getMembershipAll();
     this.initializeForm();
   }
 
@@ -52,8 +53,8 @@ export class EditCompanyComponent implements OnInit {
       state         : ['', [ Validators.required]],
       country       : ['', [ Validators.required]],
       city          : ['', [ Validators.required]],
-      postal        : ['', []],
-      membershipId  : ['', [Validators.required]]
+      postalCode        : ['', []],
+      idCompany     : ['', []]
     });
   }
 
@@ -93,14 +94,6 @@ export class EditCompanyComponent implements OnInit {
     });
   }
 
-  getMembershipAll(): void {
-    this.membershipService.findAll$().subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.memberships = res.data;
-      }
-    });
-  }
-
   edit(): void {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;
   }
@@ -115,7 +108,7 @@ export class EditCompanyComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());
-      this.form.get('postal').setValue(this.googleService.getPostalCode());
+      this.form.get('postalCode').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({description: this.googleService.getCity()});
     });
   }
@@ -128,15 +121,27 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('state').setValue(company.state);
     this.form.get('country').setValue(company.country);
     this.form.get('city').setValue({description: company.city});
-    this.form.get('postal').setValue(company.postalCode);
+    this.form.get('postalCode').setValue(company.postalCode);
     this.form.get('phone').setValue(company.phone);
     this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
-    this.form.get('membershipId').setValue(company.membership.idMembership);
     this.form.get('creditLimit').setValue(company.creditLimit);
+    this.form.get('idCompany').setValue(company.idCompany);
   }
 
   save(): void {
-    console.log(this.form.value);
+    if (this.form.get('city').value.description) {
+      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.company.city);
+    }
+    this.companyService.update$(this.form.value).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.canEdit = false;
+        this.company = res.data;
+        this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((resTra: string) => {
+          this.notification.success('', resTra);
+        });
+      }
+    }, error => {
+    });
   }
 
 
@@ -150,7 +155,6 @@ export class EditCompanyComponent implements OnInit {
   get city() { return this.form.get('city'); }
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
-  get postal() { return this.form.get('postal'); }
-  get membershipId() { return this.form.get('membershipId'); }
+  get postalCode() { return this.form.get('postalCode'); }
 
 }

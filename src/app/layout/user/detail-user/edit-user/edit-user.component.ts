@@ -6,6 +6,7 @@ import { UserService, GoogleService } from '../../../../shared/services';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { Observable, of } from 'rxjs';
 import { User } from '../../../../shared/models/user';
+import { MembershipService } from '../../../../shared/services/membership/membership.service';
 
 
 @Component({
@@ -21,10 +22,12 @@ export class EditUserComponent implements OnInit {
   user: User = new User();
   searching = false;
   searchFailed = false;
+  memberships: Array<any> = new Array;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
+              private membershipService: MembershipService,
               private googleService: GoogleService,
               private userService: UserService) { }
 
@@ -71,6 +74,14 @@ export class EditUserComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.user = res.data;
         this.setUser(this.user);
+      }
+    });
+  }
+
+  getMembershipAll(): void {
+    this.membershipService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.memberships = res.data;
       }
     });
   }

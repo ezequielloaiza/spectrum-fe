@@ -29,7 +29,7 @@
               <label>{{ 'Contact Name' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.contactName }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter contact name' | translate }}" name="name" formControlName="name"
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter contact name' | translate }}" name="contactName" formControlName="contactName"
                   required>
               </div>
             </fieldset>
@@ -116,10 +116,10 @@
               <label>{{ 'Postal Code' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.postalCode }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal">
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postalCode" formControlName="postalCode">
               </div>
             </fieldset>
-            <div class="message-error" [hidden]="postal.valid || postal.pristine">
+            <div class="message-error" [hidden]="postalCode.valid || postalCode.pristine">
               <span>{{ 'Postal code is required' | translate }}</span>
             </div>
           </div>
