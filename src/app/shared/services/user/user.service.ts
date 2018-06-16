@@ -37,4 +37,8 @@ export class UserService {
   public findByRole$(roleId): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/findByRole/' + roleId);
   }
+  public updateProfile$(user): Observable<any> {
+    return this.http.put(environment.apiUrl + 'user/updateProfile', user);
+  }
+
 }
