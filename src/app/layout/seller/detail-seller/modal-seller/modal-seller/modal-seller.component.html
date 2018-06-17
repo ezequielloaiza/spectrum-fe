@@ -4,7 +4,7 @@
       <form [formGroup]="form">
         <div class="col-xl-4">
           <fieldset class="form-group">
-            <label>{{ 'Client' | translate }}
+            <label class="title">{{ 'Client' | translate }}
               <span> </span>
               <h6 class="label-disabled" [hidden]="canEdit">{{ client ? client.name : '' }}</h6>
             </label>
@@ -38,7 +38,7 @@
           <tbody>
             <tr *ngFor="let seller of listSellers">
               <td>
-                <input type="radio" name="radiogroup" [checked]="idx === 0" [value]="seller.idUser" (change)="onSelectionChange(seller)">
+                <input type="radio" name="radiogroup"  [value]="seller.idUser" (change)="onSelectionChange(seller)">
               </td>
               <td *ngIf="seller.status === 0" class="table-tr" class="active">{{'Active' | translate }}</td>
               <td *ngIf="seller.status === 1" class="table-tr" class="inactive">{{'Inactive' | translate }}</td>
@@ -49,10 +49,6 @@
             </tr>
           </tbody>
         </table>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}</button>
-            <button type="button" class="btn btn-main" (click)="submitResult()">{{ 'Save' | translate }}</button>
-          </div>
         <div class="table-empty" [hidden]="listSellers.length !== 0" translate>
           <p class="no-records">
             {{ 'No records have been added yet' | translate }}
@@ -65,6 +61,10 @@
           <span class="count-elements">{{ listSellers.length + ' ' + ('of' | translate) + ' ' + listSellersAux.length + ' ' + ('register(s)' | translate)
             }}
           </span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}</button>
+          <button type="button" class="btn btn-main" [disabled]="!valid" (click)="transfer()">{{ 'Save' | translate }}</button>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import { CodeHttp } from '../../../../../shared/enum/code-http.enum';
 import { Seller } from '../../../../../shared/models/seller';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
+import { User } from '../../../../../shared/models/user';
 
 @Component({
   selector: 'app-modal-seller',
@@ -21,9 +22,9 @@ export class ModalSellerComponent implements OnInit {
   listSellersAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number = 5;
-  result: Seller = new Seller();
-  selectedSeller;
+  selectedSeller:User = new User();
   client: any;
+  valid = false;
 
 
 
@@ -78,19 +79,15 @@ export class ModalSellerComponent implements OnInit {
     this.listSellers = this.listSellersAux.slice(startItem, endItem);
   }
 
-  submitResult() {
-    this.translate.get('Confirm Delete', { value: 'Confirm Delete' }).subscribe((title: string) => {
-      this.translate.get('Are you sure do you want to delete this register?', { value: 'Are you sure do you want to delete this register?' }).subscribe((msg: string) => {
+  transfer() {
+    this.translate.get('confirm transfer', { value: 'confirm transfer' }).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to transfer the client?', { value: 'Are you sure you want to transfer the client?' }).subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
           this.userService.transferClient$(this.client.idUser,this.selectedSeller.idUser).subscribe(res => {
             if (res.code === CodeHttp.ok) {
-              this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res: string) => {
+              this.close();
+              this.translate.get('Successfully transferred', { value: 'Successfully transferred' }).subscribe((res: string) => {
                 this.notification.success('', res);
-              });
-              this.getListSellers();
-            } else if (res.code === CodeHttp.notAcceptable) {
-              this.translate.get('It can not be deleted, it is associated with a client', { value: 'It can not be deleted, it is associated with a client' }).subscribe((res: string) => {
-                this.notification.warning('', res);
               });
             }
             else {
@@ -106,8 +103,8 @@ export class ModalSellerComponent implements OnInit {
   };
 
   onSelectionChange(seller) {
+    this.valid = true;
     this.selectedSeller = seller;
-    console.log("resultado" + this.selectedSeller.idUser);
   }
 
   close() {

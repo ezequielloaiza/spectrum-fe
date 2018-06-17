@@ -10,6 +10,7 @@ import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Seller } from '../../../../shared/models/seller';
+import { User } from '../../../../shared/models/user';
 
 @Component({
   selector: 'app-edit-seller',
@@ -21,7 +22,7 @@ export class EditSellerComponent implements OnInit {
   canEdit = false;
   form: FormGroup;
   idSeller: any;
-  seller: Seller = new Seller();
+  seller: User = new User();
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
@@ -34,7 +35,6 @@ export class EditSellerComponent implements OnInit {
               private translate: TranslateService) { }
 
   ngOnInit() {
-    debugger
     this.idSeller = this.route.parent.snapshot.paramMap.get('id');
     this.getSeller(this.idSeller);
     this.initializeForm();
@@ -74,14 +74,10 @@ export class EditSellerComponent implements OnInit {
     )
 
     getSeller(idSeller): void {
-    debugger
     this.userService.findById$(idSeller).subscribe( res => {
-      debugger
       if (res.code === CodeHttp.ok) {
         this.seller = res.data;
         this.setSeller(this.seller);
-        debugger
-        console.log("id vendedor set"+this.idSeller);
       }
     });
   }
@@ -101,7 +97,6 @@ export class EditSellerComponent implements OnInit {
   }
 
   setSeller(seller: any): void {
-    debugger
     this.form.get('id').setValue(seller.idUser);
     this.form.get('name').setValue(seller.name);
     this.form.get('email').setValue(seller.email);

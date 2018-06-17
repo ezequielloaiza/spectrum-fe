@@ -78,7 +78,7 @@ export class ClientSellerComponent implements OnInit {
 		const modalRef = this.modalService.open(ModalSellerComponent, { size: 'lg', windowClass: 'modal-content-border' });
 		modalRef.componentInstance.client = client;
 		modalRef.result.then((result) => {
-			this.getCustomers(client.idUser);
+			this.getCustomers(this.idSeller);
 		} , (reason) => {
 
 		});

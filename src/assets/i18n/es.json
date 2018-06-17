@@ -189,5 +189,8 @@
     "It can not be deleted, it is associated with a client":"No se puede eliminar, esta asociado con un cliente",
     "Information Seller":"Información Vendedor",
     "To transfer":"Transferir",
-    "Client":"Cliente"
+    "Client":"Cliente",
+    "confirm transfer":"Confirme transferencia",
+    "Are you sure you want to transfer the client?":"¿Estás seguro de que deseas transferir el cliente?",
+    "Successfully transferred":"Transferido con éxito"
 }
