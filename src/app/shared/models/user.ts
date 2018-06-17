@@ -1,3 +1,5 @@
+import { Membership } from './membership';
+
 export class User {
   public idUser: number;
   public userId: number;
@@ -14,6 +16,7 @@ export class User {
   public state: string;
   public postalCode: string;
   public phone: string;
+  public membership: Membership = new Membership();
 
   public constructor() { }
 

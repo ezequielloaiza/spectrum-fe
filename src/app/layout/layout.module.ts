@@ -6,7 +6,7 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
-import { PageHeaderModule } from './../shared';
+import { PageHeaderModule, BreadcrumbModule } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
 import { BusinessTypeService, GoogleService} from '../shared/services';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -26,6 +26,9 @@ import { SellerComponent, ListSellerComponent, SellerModalComponent, DetailSelle
 import { MembershipService} from '../shared/services/membership/membership.service';
 import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller/client-seller.component';
 import { ModalSellerComponent } from './seller/detail-seller/modal-seller/modal-seller/modal-seller.component';
+import { BreadcrumbService } from '../shared/modules/breadcrumb/breadcrumb.service';
+import { UserResolver } from './user/user.resolver';
+import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 
 
 @NgModule({
@@ -38,7 +41,8 @@ import { ModalSellerComponent } from './seller/detail-seller/modal-seller/modal-
         ReactiveFormsModule,
         FormsModule,
         HeaderModule,
-        InternationalPhoneModule
+        InternationalPhoneModule,
+        BreadcrumbModule
     ],
     declarations: [
         LayoutComponent,
@@ -80,7 +84,9 @@ import { ModalSellerComponent } from './seller/detail-seller/modal-seller/modal-
     providers: [
       BusinessTypeService,
       AlertifyService,
-      GoogleService
+      GoogleService,
+      BreadcrumbService,
+      UserResolver
     ]
 })
 export class LayoutModule {}

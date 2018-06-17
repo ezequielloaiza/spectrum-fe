@@ -35,8 +35,22 @@
             </fieldset>
             <div class="message-error" [hidden]="email.pristine">
               <span *ngIf="email.errors && !!email.errors.required">{{'Email is required' | translate }}</span>
-              <span *ngIf="email.errors && !!email.errors.email">{{ 'Email is not valid' | translate }}
+              <span *ngIf="email.errors && !!email.errors.pattern">{{ 'Email is not valid' | translate }}
               </span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Membership' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user.membership.name }}</span>
+                <select [hidden]="!canEdit" class="form-control" name="membershipId" formControlName="membershipId" required>
+                  <option *ngFor="let membership of memberships" [ngValue]="membership.idMembership">{{ membership.name }}</option>
+                </select>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="membershipId.valid || membershipId.pristine">
+              <span>{{ 'Membership is required' | translate }}</span>
             </div>
           </div>
           <div class="col-xl-6">
@@ -100,10 +114,10 @@
             <fieldset class="form-group">
               <label>{{ 'Phone' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ 04147418458 }}</span>
-                <input [hidden]="!canEdit" class="form-control" name="phone" formControlName="phone">
-               <!-- <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"
-                  required></int-phone-prefix>-->
+                <span [hidden]="canEdit">{{ user.phone }}</span>
+                <!--<input [hidden]="!canEdit" class="form-control" name="phone" formControlName="phone">-->
+                <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"
+                  ></int-phone-prefix>
               </div>
             </fieldset>
           </div>
@@ -119,11 +133,11 @@
         </div>
         <br>
         <div class="footer-form">
-          <button class="btn btn-main" (click)="save()" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
+          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
             <i class="fa fa-save"></i>
           </button>
           &nbsp;&nbsp;
-          <button class="btn btn-secondary" (click)="edit()" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
+          <button class="btn btn-secondary" (click)="cancel()" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
             <i class="fa fa-times"></i>
           </button>
         </div>

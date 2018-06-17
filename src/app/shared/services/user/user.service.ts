@@ -57,4 +57,16 @@ export class UserService {
   public transferClient$(idCliente,idSeller): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/transferClient/'+idCliente+'/'+idSeller);
   }
+  public updateProfile$(user): Observable<any> {
+    return this.http.put(environment.apiUrl + 'user/updateProfile', user);
+  }
+
+  public update$(user): Observable<any> {
+    return this.http.put(environment.apiUrl + 'user/update', user);
+  }
+
+  public findByIdFull$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/findByIdFull/' + id);
+  }
+
 }

@@ -5,6 +5,8 @@ import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, tap, merge } from 'rxjs/operators';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ToastrService } from 'ngx-toastr';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -15,7 +17,8 @@ import { ToastrService } from 'ngx-toastr';
 
 export class ProfileComponent implements OnInit {
 
-  canEdit = false;
+  canEditPersonal = false;
+  canEditAccount = false;
   passwords: FormGroup;
   form: FormGroup;
   searching = false;
@@ -24,21 +27,21 @@ export class ProfileComponent implements OnInit {
   user: any;
 
   constructor(private formBuilder: FormBuilder,
-              private googleService: GoogleService,
-              private userService: UserService,
-              private userStorageService: UserStorageService,
-              private notification: ToastrService,
-             ) {
-              this.user = JSON.parse(userStorageService.getCurrentUser());
-              console.log(this.user = JSON.parse(userStorageService.getCurrentUser()));
-             }
+    private googleService: GoogleService,
+    private userService: UserService,
+    private userStorageService: UserStorageService,
+    private notification: ToastrService,
+    private translate: TranslateService,
+  ) {
+    this.user = JSON.parse(userStorageService.getCurrentUser());
+  }
 
   ngOnInit() {
     this.initializeForm();
     //document.getElementById("FS").onchange = this.checkFileSize;
   }
 
-  formatter = (x: {description: string}) => x.description;
+  formatter = (x: { description: string }) => x.description;
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -59,49 +62,83 @@ export class ProfileComponent implements OnInit {
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      username        : ['', [ Validators.required]],
-      name            : ['', [ Validators.required]],
-      email           : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
-      address         : [''],
-      state           : ['', [ Validators.required]],
-      country         : ['', [ Validators.required]],
-      city            : ['', [ Validators.required]],
-      postal          : ['', [ Validators.required]],
-      phone           : [''],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmedPassword: ['', [Validators.required, Validators.minLength(8)]],
-    }, {validator: this.passwordConfirming});
+      username: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
+      address: [''],
+      state: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      postal: [''],
+      phone: [''],
+      password: ['', [Validators.required]],
+      confirmedPassword: ['', [Validators.required]],
+    });
   }
 
-  edit() {
-    this.canEdit === false ? this.canEdit = true : this.canEdit = false;
+  editPersonal() {
+    this.canEditPersonal === false ? this.canEditPersonal = true : this.canEditPersonal = false;
     this.form.get('username').setValue(this.user.userResponse.username);
-    this.form.get('password').setValue("password");
-    this.form.get('confirmedPassword').setValue("password");
     this.form.get('email').setValue(this.user.userResponse.email);
     this.form.get('name').setValue(this.user.userResponse.name);
     this.form.get('phone').setValue(this.user.userResponse.phone);
-    this.form.get('city').setValue({description: this.user.userResponse.city});
+    this.form.get('city').setValue({ description: this.user.userResponse.city });
     this.form.get('state').setValue(this.user.userResponse.state);
     this.form.get('country').setValue(this.user.userResponse.country);
     this.form.get('postal').setValue(this.user.userResponse.postalCode);
     this.form.get('address').setValue(this.user.userResponse.address);
   }
 
-  save(): void {
-    /*
-    if (this.form.get('city').value.description) {
-      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.user.city);
-    }
+  editAccount() {
+    this.canEditAccount === false ? this.canEditAccount = true : this.canEditAccount = false;
     this.form.get('username').setValue(this.user.userResponse.username);
-    this.form.get('city').setValue(this.googleService.getCity());
-    //this.form.get('companyCity').setValue(this.googleService.getCity());
-    this.userService.signUp$(this.form.value).subscribe(res => {
-      this.notification.success('User save', 'Success');
+    this.form.get('email').setValue(this.user.userResponse.email);
+    this.form.get('name').setValue(this.user.userResponse.name);
+    this.form.get('phone').setValue(this.user.userResponse.phone);
+    this.form.get('city').setValue({ description: this.user.userResponse.city });
+    this.form.get('state').setValue(this.user.userResponse.state);
+    this.form.get('country').setValue(this.user.userResponse.country);
+    this.form.get('postal').setValue(this.user.userResponse.postalCode);
+    this.form.get('address').setValue(this.user.userResponse.address);
+  }
+
+  savePersonal(): void {
+    this.form.get('city').setValue(this.form.value.city.description);
+    this.userService.updateProfile$(this.form.value).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.user.userResponse = res.data;
+        this.notification.success('User save', 'Success');
+        this.canEditPersonal = false;
+      } else if (res.code === CodeHttp.notAcceptable) {
+        this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
+          this.notification.warning('', res);
+        });
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
-    */
-   this.notification.success('User save', 'Success');
-   this.canEdit = false;
+
+  }
+
+  saveAccount(): void {
+    this.form.get('city').setValue(this.form.value.city.description);
+    this.userService.updateProfile$(this.form.value).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.user.userResponse = res.data;
+        this.notification.success('User save', 'Success');
+        this.canEditAccount = false;
+      } else if (res.code === CodeHttp.notAcceptable) {
+        this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
+          this.notification.warning('', res);
+        });
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   findPlace(item): void {
@@ -110,23 +147,23 @@ export class ProfileComponent implements OnInit {
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({description: this.googleService.getCity()});
+      this.form.get('city').setValue({ description: this.googleService.getCity() });
     });
   }
 
   passwordConfirming(c: AbstractControl): { invalid: boolean } {
     if (c.get('password').value !== c.get('confirmedPassword').value) {
-        return {invalid: true};
+      return { invalid: true };
     }
   }
 
   validatePhone(event) {
     const key = window.event ? event.keyCode : event.which;
     if (event.keyCode === 8 || event.keyCode === 32 || event.keyCode === 40 ||
-        event.keyCode === 41 || event.keyCode === 45  || event.keyCode === 46 ) {
-        return true;
-    } else if ( key < 48 || key > 57 ) {
-        return false;
+      event.keyCode === 41 || event.keyCode === 45 || event.keyCode === 46) {
+      return true;
+    } else if (key < 48 || key > 57) {
+      return false;
     } else {
       return true;
     }
