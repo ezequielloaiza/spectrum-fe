@@ -170,5 +170,6 @@
     "The category already exists":"La categoría ya existe",
     "Can not be eliminated, is associated with a product":"No se puede eliminar, se encuentra asociada a un producto",
     "Select a country by clicking on the map": "Seleccione un país haciendo click en el mapa",
-    "The supplier already exists, verify the name of the company or the emails": "El proveedor ya existe, verifique nombre de la compañia o correos electrónicos"
+    "The supplier already exists, verify the name of the company or the emails": "El proveedor ya existe, verifique nombre de la compañia o correos electrónicos",
+    "Client": "Cliente"
 }

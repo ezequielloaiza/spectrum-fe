@@ -9,6 +9,7 @@ import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import { UserComponent, ListUserComponent, DetailUserComponent, EditUserComponent, EditCompanyComponent } from './user';
 import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSellerComponent } from './seller';
+import { UserResolver } from './user/user.resolver';
 
 const routes: Routes = [
     {
@@ -25,12 +26,19 @@ const routes: Routes = [
             { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
             { path: 'user', component: UserComponent,
+              resolve: {
+                users: UserResolver
+              },
+              runGuardsAndResolvers: 'always',
               children: [
                 { path: '', component: ListUserComponent },
                 { path: ':id', component: DetailUserComponent,
+                  resolve: {
+                    users: UserResolver
+                  },
                   children: [
-                    { path: '', redirectTo: 'edit', pathMatch: 'full' },
-                    { path: 'edit', component: EditUserComponent },
+                    { path: '', redirectTo: 'edit', pathMatch: 'full'},
+                    { path: 'edit', component: EditUserComponent},
                     { path: 'edit-company', component: EditCompanyComponent }
                   ]
                 }

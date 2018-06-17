@@ -43,8 +43,7 @@ export const createTranslateLoader = (http: HttpClient) => {
         ReactiveFormsModule,
         LibHttpModule,
         ToastrModule.forRoot(),
-        PageHeaderModule,
-        
+        PageHeaderModule
     ],
     declarations: [AppComponent, RecoveryPasswordComponent],
     providers: [AuthGuard, UserStorageService],

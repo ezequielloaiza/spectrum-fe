@@ -15,6 +15,6 @@ export class Company {
   public creditLimit: number;
   public businessType: BusinessType = new BusinessType();
 
-  public Company() { }
+  public constructor() { }
 
 }

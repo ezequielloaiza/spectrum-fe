@@ -7,6 +7,8 @@ import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { Observable, of } from 'rxjs';
 import { User } from '../../../../shared/models/user';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -29,24 +31,29 @@ export class EditUserComponent implements OnInit {
               private route: ActivatedRoute,
               private membershipService: MembershipService,
               private googleService: GoogleService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private translate: TranslateService,
+              private notification: ToastrService) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
+    this.getMembershipAll();
     this.getUser(this.id);
     this.initializeForm();
   }
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      name               : ['', [ Validators.required]],
-      email              : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
-      address            : [''],
-      state              : ['', [ Validators.required]],
-      country            : ['', [ Validators.required]],
-      city               : ['', [ Validators.required]],
-      postal             : ['', []],
-      phone     : ['', [Validators.required]]
+      name        : ['', [ Validators.required]],
+      email       : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
+      address     : [''],
+      state       : ['', [ Validators.required]],
+      country     : ['', [ Validators.required]],
+      city        : ['', [ Validators.required]],
+      postal      : ['', []],
+      phone       : ['', []],
+      membershipId: ['', [Validators.required]],
+      id          : [this.id, [Validators.required]]
       });
   }
 
@@ -70,7 +77,7 @@ export class EditUserComponent implements OnInit {
     )
 
   getUser(id): void {
-    this.userService.findById$(id).subscribe( res => {
+    this.userService.findByIdFull$(id).subscribe( res => {
       if (res.code === CodeHttp.ok) {
         this.user = res.data;
         this.setUser(this.user);
@@ -111,12 +118,22 @@ export class EditUserComponent implements OnInit {
     this.form.get('address').setValue(user.address);
     this.form.get('state').setValue(user.state);
     this.form.get('country').setValue(user.country);
-    this.form.get('city').setValue(user.city);
+    this.form.get('city').setValue({description: user.city});
     this.form.get('postal').setValue(user.postal);
+    this.form.get('phone').setValue(user.phone);
+    this.form.get('membershipId').setValue(user.membership.idMembership);
   }
 
   save(): void {
-    console.log(this.form.value);
+    this.userService.update$(this.form.value).subscribe( res => {
+      if (CodeHttp.ok === res.code) {
+        this.canEdit = false;
+        this.user = res.data;
+        this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((resTra: string) => {
+          this.notification.success('', resTra);
+        });
+      }
+    }, error  => { });
   }
 
   get name() { return this.form.get('name'); }
@@ -127,5 +144,6 @@ export class EditUserComponent implements OnInit {
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
+  get membershipId() { return this.form.get('membershipId'); }
 
 }
