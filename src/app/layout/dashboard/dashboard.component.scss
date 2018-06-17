@@ -8,9 +8,6 @@
   margin-top: -50px !important;
   height: 90%;
 }
-
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,300,500,700");
 /*
  *
  *   INSPINIA - Responsive Admin Theme
@@ -3806,6 +3803,10 @@ body.body-small .footer.fixed {
 }
 .no-margins {
   margin: 0 !important;
+  &.card-text {
+    color: $bg-red;
+    font-weight: 600;
+  }
 }
 .no-top-border {
   border-top: 0 !important;
@@ -3942,7 +3943,7 @@ code {
   -moz-border-left-colors: none;
   -moz-border-right-colors: none;
   -moz-border-top-colors: none;
-  background-color: #ffffff;
+  background-color: $bg-title-card;
   border-color: #e7eaec;
   border-image: none;
   border-style: solid solid none;
@@ -3961,6 +3962,20 @@ code {
   border-style: solid solid none;
   border-width: 1px 0;
 }
+
+.info-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon-card {
+  font-size: 30px;
+  color: $bg-sidebar;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .ibox-footer {
   color: inherit;
   border-top: 1px solid #e7eaec;
