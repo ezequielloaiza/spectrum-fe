@@ -3,7 +3,7 @@
 @include tr-sizes((20%,20%,20%,20%,15%));
 
 .search {
-  padding-top: 1rem;
+  padding-top: 8rem;
   padding-bottom: 1.5rem;
 
   i {
@@ -15,11 +15,19 @@
 }
 
 .active {
-  color: $bg-green;
+  color: $bg-white;
+  > div {
+    background: $bg-green;
+    text-align: center;
+  }
 }
 
 .inactive {
-  color: $bg-red;
+  color: $bg-white;
+  > div {
+    background: #ffc107;
+    text-align: center;
+  }
 }
 
 .sp-container {

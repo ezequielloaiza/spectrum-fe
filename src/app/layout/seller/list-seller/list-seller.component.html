@@ -1,6 +1,3 @@
-<app-page-header class="page-header-fixed" [heading]="'List of Sellers'" [icon]="'fa fa-users'"></app-page-header>
-
-
 <div class="sp-container">
   <div class="row search">
     <div class="col col-xl-4 col-lg-4">
@@ -35,8 +32,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let seller of listSellers">
-                <td *ngIf="seller.status === 0" class="table-tr" class="active">{{'Active' | translate }}</td>
-                <td *ngIf="seller.status === 1" class="table-tr" class="inactive">{{'Inactive' | translate }}</td>
+                <td *ngIf="seller.status === 0" class="table-tr" class="active"><div>{{'Active' | translate}}</div></td>
+                <td *ngIf="seller.status === 1" class="table-tr" class="inactive"><div>{{'Inactive' | translate }}</div></td>
                 <td class="table-tr">{{seller.name}}</td>
                 <td class="table-tr">{{seller.email}}</td>
                 <td class="table-tr">{{seller.country}}</td>

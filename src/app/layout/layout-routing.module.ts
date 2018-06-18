@@ -9,63 +9,75 @@ import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import { UserComponent, ListUserComponent, DetailUserComponent, EditUserComponent, EditCompanyComponent } from './user';
 import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSellerComponent } from './seller';
-import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller/client-seller.component';
+import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller.component';
 import { UserResolver } from './user/user.resolver';
+import { SellerResolver } from './seller/seller.resolver';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: LayoutComponent,
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard' },
+      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+      { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
+      { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
+      { path: 'forms', loadChildren: './form/form.module#FormModule' },
+      { path: 'bs-element', loadChildren: './bs-element/bs-element.module#BsElementModule' },
+      { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
+      { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
+      { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
+      {
+        path: 'user', component: UserComponent,
+        resolve: {
+          users: UserResolver
+        },
+        runGuardsAndResolvers: 'always',
         children: [
-            { path: '', redirectTo: 'dashboard' },
-            { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-            { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
-            { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
-            { path: 'forms', loadChildren: './form/form.module#FormModule' },
-            { path: 'bs-element', loadChildren: './bs-element/bs-element.module#BsElementModule' },
-            { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
-            { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
-            { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
-            { path: 'user', component: UserComponent,
-              resolve: {
-                users: UserResolver
-              },
-              runGuardsAndResolvers: 'always',
-              children: [
-                { path: '', component: ListUserComponent },
-                { path: ':id', component: DetailUserComponent,
-                  resolve: {
-                    users: UserResolver
-                  },
-                  children: [
-                    { path: '', redirectTo: 'edit', pathMatch: 'full'},
-                    { path: 'edit', component: EditUserComponent},
-                    { path: 'edit-company', component: EditCompanyComponent }
-                  ]
-                }
-              ]
+          { path: '', component: ListUserComponent },
+          {
+            path: ':id', component: DetailUserComponent,
+            resolve: {
+              users: UserResolver
             },
-            { path: 'shipping-address', component: ShippingAddressComponent },
-            { path: 'category', component: CategoryComponent },
-            { path: 'business-type', component: BusinessTypeComponent },
-            { path: 'seller', component: SellerComponent,
-              children: [
-                { path: '', component: ListSellerComponent },
-                { path: ':id', component: DetailSellerComponent,
-                  children: [
-                    { path: '', redirectTo: 'edit' },
-                    { path: 'edit', component: EditSellerComponent },
-                    { path: 'client-seller', component: ClientSellerComponent }
-                  ]
-                }
-              ]
-            },
-            { path: 'suppliers', component: SuppliersComponent },
-            { path: 'profile', component: ProfileComponent },
-            { path: 'category', component: CategoryComponent },
-            { path: 'business-type', component: BusinessTypeComponent }
+            children: [
+              { path: '', redirectTo: 'edit', pathMatch: 'full' },
+              { path: 'edit', component: EditUserComponent },
+              { path: 'edit-company', component: EditCompanyComponent }
+            ]
+          }
         ]
-    }
+      },
+      { path: 'shipping-address', component: ShippingAddressComponent },
+      { path: 'category', component: CategoryComponent },
+      { path: 'business-type', component: BusinessTypeComponent },
+      {
+        path: 'seller', component: SellerComponent,
+        resolve: {
+          sellers: SellerResolver
+        },
+        runGuardsAndResolvers: 'always',
+        children: [
+          { path: '', component: ListSellerComponent },
+          {
+            path: ':id', component: DetailSellerComponent,
+            resolve: {
+              sellers: SellerResolver
+            },
+            children: [
+              { path: '', redirectTo: 'edit', pathMatch: 'full' },
+              { path: 'edit', component: EditSellerComponent },
+              { path: 'client-seller', component: ClientSellerComponent }
+            ]
+          }
+        ]
+      },
+      { path: 'suppliers', component: SuppliersComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'category', component: CategoryComponent },
+      { path: 'business-type', component: BusinessTypeComponent }
+    ]
+  }
 ];
 
 @NgModule({

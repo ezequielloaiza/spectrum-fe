@@ -69,4 +69,8 @@ export class UserService {
     return this.http.get(environment.apiUrl + 'user/findByIdFull/' + id);
   }
 
+  public findByRoleActive$(roleId): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/findByRoleActive/' + roleId);
+  }
+
 }

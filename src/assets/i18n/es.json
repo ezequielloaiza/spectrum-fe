@@ -192,6 +192,13 @@
     "Client":"Cliente",
     "confirm transfer":"Confirme transferencia",
     "Are you sure you want to transfer the client?":"¿Estás seguro de que deseas transferir el cliente?",
-    "Successfully transferred":"Transferido con éxito"
+    "Successfully transferred":"Transferido con éxito",
+    "Remove":"Retirar",
+    "Confirm withdrawal":"Confirme retiro",
+    "Are you sure you want to withdraw the client?":"¿Estás seguro de que quieres retirar el cliente?",
+    "Retired successfully":"Retirado exitosamente",
+    "Confirm reset key":"Confirmar restablecer clave",
+    "Are you sure you want to reset the key?":"¿Estás seguro de que quieres restablecer la clave?",
+    "Key successfully restored":"Clave restablecida exitosamente"
    
 }

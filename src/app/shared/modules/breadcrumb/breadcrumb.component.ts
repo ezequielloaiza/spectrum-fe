@@ -23,9 +23,16 @@ export class BreadcrumbComponent implements OnInit {
     const state: RouterState = this.router.routerState;
     if (state.snapshot.url === '/user') {
       this.breadcrumbList.push(new Breadcrumb('List of Clients', 'fa fa-users', './'));
-    } else {
+    } else if(state.snapshot.url.substring(0,5) ==='/user') {
       this.breadcrumbList.push(new Breadcrumb('List of Clients', 'fa fa-users', './'));
       this.breadcrumbService.push(new Breadcrumb('Client', 'fa fa-user', state.snapshot.url));
+    }
+    else if(state.snapshot.url === '/seller'){
+      this.breadcrumbList.push(new Breadcrumb('List of Sellers', 'fa fa-users', './'));
+    }
+    else{
+      this.breadcrumbList.push(new Breadcrumb('List of Sellers', 'fa fa-users', './'));
+      this.breadcrumbService.push(new Breadcrumb('Seller', 'fa fa-user', state.snapshot.url));
     }
   }
 
@@ -33,7 +40,7 @@ export class BreadcrumbComponent implements OnInit {
 
   getBreadcrumb(): void {
     this.breadcrumbService.get().subscribe( res => {
-      if (res.name === 'List of Clients') {
+      if (res.name === 'List of Clients' || res.name ==='List of Sellers') {
         this.breadcrumbList = new Array();
       }
       this.breadcrumbList.push(res);

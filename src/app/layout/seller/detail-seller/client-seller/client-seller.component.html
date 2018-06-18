@@ -28,8 +28,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let client of listCustomers">
-                <td class="table-tr" class="active" *ngIf="client.status === 0">{{'Active'}}</td>
-                <td class="table-tr" class="inactive" *ngIf="client.status === 1">{{'Inactive'}}</td>
+                <td class="table-tr" class="active" *ngIf="client.status === 0"><div>{{'Active' | translate }}</div></td>
+                <td class="table-tr" class="inactive" *ngIf="client.status === 1"><div>{{'Inactive' | translate }}</div></td>
                 <td class="table-tr">{{client.name}}</td>
                 <td class="table-tr">{{client.email}}</td>
                 <td class="table-tr">{{client.company.companyName}}</td>
@@ -42,6 +42,8 @@
                       <div ngbDropdownMenu>
                         <button class="dropdown-item" (click)="open(client,'edit')">
                           <i class="fa fa-exchange"></i> {{ 'To transfer' | translate }}</button>
+                        <button class="dropdown-item" (click)="remove(client.idUser)">
+                            <i class="fa fa-times"></i> {{ 'Remove' | translate }}</button>
                       </div>
                     </div>
                   </div>

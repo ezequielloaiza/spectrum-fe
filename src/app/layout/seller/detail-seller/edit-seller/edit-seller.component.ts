@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Seller } from '../../../../shared/models/seller';
 import { User } from '../../../../shared/models/user';
+import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
 
 @Component({
   selector: 'app-edit-seller',
@@ -28,11 +29,12 @@ export class EditSellerComponent implements OnInit {
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
   constructor(private formBuilder: FormBuilder,
-              private route: ActivatedRoute,
-              private googleService: GoogleService,
-              private userService: UserService,
-              private notification: ToastrService,
-              private translate: TranslateService) { }
+    private route: ActivatedRoute,
+    private googleService: GoogleService,
+    private userService: UserService,
+    private notification: ToastrService,
+    private translate: TranslateService,
+    private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.idSeller = this.route.parent.snapshot.paramMap.get('id');
@@ -42,19 +44,19 @@ export class EditSellerComponent implements OnInit {
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      id                 : ['', []],
-      name               : ['', [ Validators.required]],
-      email              : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
-      address            : [''],
-      state              : ['', [ Validators.required]],
-      country            : ['', [ Validators.required]],
-      city               : ['', [ Validators.required]],
-      postal             : ['', []],
-      phone              : ['', []]
-      });
+      id: ['', []],
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
+      address: [''],
+      state: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      postal: ['', []],
+      phone: ['', []]
+    });
   }
 
-  formatter = (x: {description: string}) => x.description;
+  formatter = (x: { description: string }) => x.description;
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -73,8 +75,8 @@ export class EditSellerComponent implements OnInit {
       merge(this.hideSearchingWhenUnsubscribed)
     )
 
-    getSeller(idSeller): void {
-    this.userService.findById$(idSeller).subscribe( res => {
+  getSeller(idSeller): void {
+    this.userService.findById$(idSeller).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.seller = res.data;
         this.setSeller(this.seller);
@@ -92,7 +94,7 @@ export class EditSellerComponent implements OnInit {
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({description: this.googleService.getCity()});
+      this.form.get('city').setValue({ description: this.googleService.getCity() });
     });
   }
 
@@ -103,7 +105,7 @@ export class EditSellerComponent implements OnInit {
     this.form.get('address').setValue(seller.address);
     this.form.get('state').setValue(seller.state);
     this.form.get('country').setValue(seller.country);
-    this.form.get('city').setValue({description: this.seller.city});
+    this.form.get('city').setValue({ description: this.seller.city });
     this.form.get('postal').setValue(seller.postalCode);
     this.form.get('phone').setValue(seller.phone);
   }
@@ -118,9 +120,9 @@ export class EditSellerComponent implements OnInit {
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
-      this.canEdit = false;
-      }else if (res.code === CodeHttp.notAcceptable) {
-        this.form.get('city').setValue({description: this.form.value.city});
+        this.canEdit = false;
+      } else if (res.code === CodeHttp.notAcceptable) {
+        this.form.get('city').setValue({ description: this.form.value.city });
         this.translate.get('The seller already exists', { value: 'The seller already exists' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
@@ -141,4 +143,26 @@ export class EditSellerComponent implements OnInit {
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
 
+  resetKey(seller) {
+    this.translate.get('Confirm reset key', { value: 'Confirm reset key' }).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to reset the key?', { value: 'Are you sure you want to reset the key?' }).subscribe((msg: string) => {
+        this.alertify.confirm(title, msg, () => {
+          this.userService.recoveryPassword$(seller).subscribe(res => {
+            if (res.code === CodeHttp.ok) {
+              this.translate.get('Key successfully restored', { value: 'Key successfully restored' }).subscribe((res: string) => {
+                this.notification.success('', res);
+              });
+            }
+            else {
+              console.log(res.errors[0].detail);
+            }
+          }, error => {
+            console.log('error', error);
+          });
+        }, () => {
+        });
+      });
+    });
+  };
 }
+

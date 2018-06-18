@@ -1,4 +1,4 @@
-@import '../../../../../../styles/spectrum/spectrum';
+@import '../../../../../styles/spectrum/spectrum';
 
 @include tr-sizes((10%, 15%, 15%, 15%, 15%, 15%, 15%));
 
@@ -15,11 +15,19 @@
 }
 
 .active {
-  color: $bg-green;
+  color: $bg-white;
+  > div {
+    background: $bg-green;
+    text-align: center;
+  }
 }
 
 .inactive {
-  color: $bg-red;
+  color: $bg-white;
+  > div {
+    background: #ffc107;
+    text-align: center;
+  }
 }
 
 .sp-container {

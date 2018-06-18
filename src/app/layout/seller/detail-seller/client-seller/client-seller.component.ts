@@ -3,11 +3,14 @@ import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { GoogleService, UserService } from '../../../../../shared/services';
-import { CodeHttp } from '../../../../../shared/enum/code-http.enum';
-import { User } from '../../../../../shared/models/user';
-import { ModalSellerComponent } from '../../modal-seller/modal-seller/modal-seller.component';
+import { GoogleService, UserService } from '../../../../shared/services';
+import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import { User } from '../../../../shared/models/user';
+import { ModalSellerComponent } from '../modal-seller/modal-seller.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-client-seller',
@@ -33,7 +36,10 @@ export class ClientSellerComponent implements OnInit {
               private route: ActivatedRoute,
               private googleService: GoogleService,
               private userService: UserService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              private translate: TranslateService,
+              private alertify: AlertifyService,
+              private notification: ToastrService) { }
 
   ngOnInit() {
     this.idSeller = this.route.parent.snapshot.paramMap.get('id');
@@ -82,5 +88,28 @@ export class ClientSellerComponent implements OnInit {
 		} , (reason) => {
 
 		});
-	}
+  }
+  
+  remove(id) {
+    this.translate.get('Confirm withdrawal', { value: 'Confirm withdrawal' }).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to withdraw the client?', { value: 'Are you sure you want to withdraw the client?' }).subscribe((msg: string) => {
+        this.alertify.confirm(title, msg, () => {
+          this.userService.transferClient$(id,0).subscribe(res => {
+            if (res.code === CodeHttp.ok) {
+              this.getCustomers(this.idSeller);
+              this.translate.get('Retired successfully', { value: 'Retired successfully' }).subscribe((res: string) => {
+                this.notification.success('', res);
+              });
+            }
+            else {
+              console.log(res.errors[0].detail);
+            }
+          }, error => {
+            console.log('error', error);
+          });
+        }, () => {
+        });
+      });
+    });
+  };
 }

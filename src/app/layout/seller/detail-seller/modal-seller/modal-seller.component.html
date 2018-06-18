@@ -27,7 +27,6 @@
           <thead>
             <tr>
               <th class="table-tr"></th>
-              <th class="table-tr">{{ 'Status' | translate }}</th>
               <th class="table-tr">{{ 'Name' | translate }}</th>
               <th class="table-tr">{{ 'Email' | translate }}</th>
               <th class="table-tr">{{ 'Country' | translate }}</th>
@@ -40,8 +39,6 @@
               <td>
                 <input type="radio" name="radiogroup"  [value]="seller.idUser" (change)="onSelectionChange(seller)">
               </td>
-              <td *ngIf="seller.status === 0" class="table-tr" class="active">{{'Active' | translate }}</td>
-              <td *ngIf="seller.status === 1" class="table-tr" class="inactive">{{'Inactive' | translate }}</td>
               <td class="table-tr">{{seller.name}}</td>
               <td class="table-tr">{{seller.email}}</td>
               <td class="table-tr">{{seller.country}}</td>
