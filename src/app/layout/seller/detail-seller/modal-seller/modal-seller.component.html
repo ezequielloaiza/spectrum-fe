@@ -1,6 +1,12 @@
-<div class="sp-container">
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'Information Seller' | translate }}</h4>
+  <button type="button" class="close close-modal" aria-label="Close" (click)="close()">
+    <span aria-hidden="true"> &times; </span>
+  </button>
+</div>
+<div class="container-modal">
   <div class="col col-xl-12 col-lg-12">
-    <div class="card mb-3">
+    <div class="mb-3">
       <form [formGroup]="form">
         <div class="col-xl-4">
           <fieldset class="form-group">
@@ -11,7 +17,7 @@
           </fieldset>
         </div>
       </form>
-      <div class="card-header d-flex">
+      <div class="title-header d-flex">
         <div class="align-self-center">
           {{ 'All Sellers' | translate }}
         </div>
@@ -59,11 +65,11 @@
             }}
           </span>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}</button>
-          <button type="button" class="btn btn-main" [disabled]="!valid" (click)="transfer()">{{ 'Save' | translate }}</button>
-        </div>
       </div>
     </div>
   </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}</button>
+  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="transfer()">{{ 'Save' | translate }}</button>
 </div>

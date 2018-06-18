@@ -70,7 +70,6 @@ import { SellerResolver } from './seller/seller.resolver';
         SupplierModalComponent,
         ClientSellerComponent,
         ModalSellerComponent
-   
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -80,7 +79,6 @@ import { SellerResolver } from './seller/seller.resolver';
       SupplierModalComponent,
       SellerModalComponent,
       ModalSellerComponent
-      
     ],
     providers: [
       BusinessTypeService,

@@ -5,8 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { Role } from '../../../shared/enum/role.enum';
-import { SellerModalComponent } from '..';
 import { TranslateService } from '@ngx-translate/core';
+import { SellerModalComponent } from '../modals/seller-modal/seller-modal.component';
 
 @Component({
   selector: 'app-list-seller',
@@ -88,7 +88,7 @@ export class ListSellerComponent implements OnInit {
 					this.notification.success('', res);
         });
         this.getListSellers();
-			} else if(res.code === CodeHttp.notAcceptable) {
+			} else if (res.code === CodeHttp.notAcceptable) {
 				this.translate.get('It can not be deleted, it is associated with a client', {value: 'It can not be deleted, it is associated with a client'}).subscribe((res: string) => {
 					this.notification.warning('', res);
 				});
@@ -111,13 +111,13 @@ export class ListSellerComponent implements OnInit {
 			});
 		});
   }
-  
+
   pageChange(event) {
-		let startItem = (event - 1) * this.itemPerPage;
-		let endItem = event * this.itemPerPage;
-		this.listSellers = this.listSellersAux.slice(startItem,endItem);
+    let startItem = (event - 1) * this.itemPerPage;
+    let endItem = event * this.itemPerPage;
+    this.listSellers = this.listSellersAux.slice(startItem, endItem);
   }
-  
+
 
 }
 

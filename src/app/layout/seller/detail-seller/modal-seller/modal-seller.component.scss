@@ -1,32 +1,32 @@
-@import '../../../../../styles/spectrum/spectrum';
+@import "../../../../../styles/spectrum/spectrum";
 
-@include tr-sizes((20%,20%,20%,20%,15%));
+@include tr-sizes((20%, 20%, 20%, 20%, 15%));
+.container-modal {
+  .search {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
 
-.search {
-  padding-top: 1rem;
-  padding-bottom: 1.5rem;
-
-  i {
-    position: absolute;
-    top: 10px;
-    right: 30px;
-    color: $bg-imput;
+    i {
+      position: absolute;
+      top: 10px;
+      right: 30px;
+      color: $bg-imput;
+    }
   }
-}
 
-.active {
-  color: $bg-green;
-}
+  .active {
+    color: $bg-green;
+  }
 
-.inactive {
-  color: $bg-red;
-}
+  .inactive {
+    color: $bg-red;
+  }
 
-.sp-container {
-  padding-top: 0;
-}
+  .sp-container {
+    padding-top: 0;
+  }
 
-.modal-content-seller {
+  .modal-content-seller {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -37,22 +37,31 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 0.3rem;
     outline: 0;
-}
+  }
 
-span {
-  color: $color-text-menu;
-  font-weight: bold;
-}
+  span {
+    color: $color-text-menu;
+    font-weight: bold;
+  }
 
-.footer-form {
-  display: flex;
-  justify-content: flex-end;
-}
+  .footer-form {
+    display: flex;
+    justify-content: flex-end;
+  }
 
-.label-disabled {
-  color: $bg-sidebar;
-}
-.title{
-  padding-top: 25px;
-  padding-right: 55px;
+  .label-disabled {
+    color: $bg-sidebar;
+  }
+
+  .title {
+    padding-top: 25px;
+    padding-right: 55px;
+  }
+
+  .title-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    font-size: 1.2rem;
+    color: $bg-blue;
+    font-weight: bold;
+  }
 }
