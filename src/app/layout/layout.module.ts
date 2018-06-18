@@ -24,9 +24,12 @@ import { CategoryModalComponent } from './category/modals/category-modal/categor
 import { UserComponent, UserModalComponent, ListUserComponent, DetailUserComponent, EditUserComponent, EditCompanyComponent } from './user';
 import { SellerComponent, ListSellerComponent, SellerModalComponent, DetailSellerComponent, EditSellerComponent } from './seller';
 import { MembershipService} from '../shared/services/membership/membership.service';
+import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller.component';
+import { ModalSellerComponent } from './seller/detail-seller/modal-seller/modal-seller.component';
 import { BreadcrumbService } from '../shared/modules/breadcrumb/breadcrumb.service';
 import { UserResolver } from './user/user.resolver';
 import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
+import { SellerResolver } from './seller/seller.resolver';
 
 
 @NgModule({
@@ -64,21 +67,28 @@ import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
         EditSellerComponent,
         EditCompanyComponent,
         SuppliersComponent,
-        SupplierModalComponent
+        SupplierModalComponent,
+        ClientSellerComponent,
+        ModalSellerComponent
+   
     ],
     entryComponents: [
       ShippingAddressModalComponent,
       UserModalComponent,
       BusinessTypeModalComponent,
       CategoryModalComponent,
-      SupplierModalComponent
+      SupplierModalComponent,
+      SellerModalComponent,
+      ModalSellerComponent
+      
     ],
     providers: [
       BusinessTypeService,
       AlertifyService,
       GoogleService,
       BreadcrumbService,
-      UserResolver
+      UserResolver,
+      SellerResolver
     ]
 })
 export class LayoutModule {}

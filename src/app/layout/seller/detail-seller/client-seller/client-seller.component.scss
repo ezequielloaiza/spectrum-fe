@@ -1,9 +1,9 @@
-@import '../../../../styles/spectrum/spectrum';
+@import '../../../../../styles/spectrum/spectrum';
 
-@include tr-sizes((20%,20%,20%,20%,15%));
+@include tr-sizes((10%, 15%, 15%, 15%, 15%, 15%, 15%));
 
 .search {
-  padding-top: 8rem;
+  padding-top: 1rem;
   padding-bottom: 1.5rem;
 
   i {
