@@ -199,6 +199,7 @@
     "Retired successfully":"Retirado exitosamente",
     "Confirm reset key":"Confirmar restablecer clave",
     "Are you sure you want to reset the key?":"¿Estás seguro de que quieres restablecer la clave?",
-    "Key successfully restored":"Clave restablecida exitosamente"
-   
+    "Key successfully restored":"Clave restablecida exitosamente",
+    "Password recovery":"Recuperación de clave",
+    "Cancel":"Cancelar"
 }

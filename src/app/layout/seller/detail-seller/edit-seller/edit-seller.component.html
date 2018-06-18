@@ -119,18 +119,18 @@
           </div>
           <a class="active" (click)="resetKey(seller)">
             <span>
-              <i class="fa fa-key"></i>&nbsp; {{ 'reset key' | translate }}
+              <i class="fa fa-key"></i>&nbsp; {{ 'Password recovery' | translate }}
             </span>
           </a>
         </div>
         <br>
         <div class="footer-form">
-          <button class="btn btn-main" (click)="save()" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
-            <i class="fa fa-save"></i>
-          </button>
-          &nbsp;&nbsp;
           <button class="btn btn-secondary" (click)="edit()" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
             <i class="fa fa-times"></i>
+          </button>
+          &nbsp;&nbsp;
+          <button class="btn btn-main" (click)="save()" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
+            <i class="fa fa-save"></i>
           </button>
         </div>
       </form>

@@ -199,6 +199,8 @@
     "Retired successfully":"Retired successfully",
     "Confirm reset key":"Confirm reset key",
     "Are you sure you want to reset the key?":"Are you sure you want to reset the key?",
-    "Key successfully restored":"Key successfully restored"
+    "Key successfully restored":"Key successfully restored",
+    "Password recovery":"Password recovery",
+    "Cancel":"Cancel"
    
 }
