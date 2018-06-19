@@ -164,5 +164,10 @@ export class EditSellerComponent implements OnInit {
       });
     });
   };
+
+  cancel(): void {
+    this.canEdit === false ? this.canEdit = true : this.canEdit = false;
+    this.setSeller(this.seller);
+  }
 }
 
