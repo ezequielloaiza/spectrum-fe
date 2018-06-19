@@ -9,7 +9,11 @@ import {
     NotificationComponent,
     ChatComponent
 } from './components';
-import { StatModule } from '../../shared';
+import { StatModule, PageHeaderModule } from '../../shared';
+import { ChartsModule as Ng2Charts } from 'ng2-charts';
+import { ChartsRoutingModule } from '../charts/charts-routing.module';
+import { ChartsComponent } from '../charts/charts.component';
+
 
 @NgModule({
     imports: [
@@ -17,13 +21,18 @@ import { StatModule } from '../../shared';
         NgbCarouselModule.forRoot(),
         NgbAlertModule.forRoot(),
         DashboardRoutingModule,
-        StatModule
+        StatModule,
+        Ng2Charts,
+        ChartsRoutingModule,
+        PageHeaderModule
+
     ],
     declarations: [
         DashboardComponent,
         TimelineComponent,
         NotificationComponent,
-        ChatComponent
+        ChatComponent,
+        ChartsComponent
     ]
 })
 export class DashboardModule {}
