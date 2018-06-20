@@ -213,11 +213,15 @@
   </div>
 </div>
 
-
 <div class="modal-footer">
-  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">Save</button>
-  <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+  <button type="button" class="btn btn-secondary" (click)="close()" translate>Close
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()" translate>Save
+      <i class="fa fa-save"></i>
+  </button>
 </div>
+
 <ng-template #rt let-r="result" let-t="term">
   {{ r.description}}
 </ng-template>

@@ -21,9 +21,14 @@
 
     </form>
   </div>
+
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}</button>
-    <button type="button" class="btn btn-main" [disabled]="form.invalid" (click)="save(action)">{{ 'Save' | translate }}</button>
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()" translate>Close
+      <i class="fa fa-times"></i>
+    </button>
+    <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save(action)" translate>Save
+        <i class="fa fa-save"></i>
+    </button>
   </div>
 
   <ng-template #rt let-r="result" let-t="term">

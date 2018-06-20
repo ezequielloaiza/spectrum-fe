@@ -19,38 +19,48 @@
             <thead>
               <tr>
                 <th class="table-tr header-column">
-                  <span title="Company Name" (click)="reverseSort = !reverseSort; sortSupplier('companyName')">{{ 'Company Name' | translate }}</span>
+                  <span title="Company Name">{{ 'Company Name' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSupplier('companyName')"></i>  
+                  </span>
                   <span [hidden]="orderByField != 'companyName' || typeSort === 0" >
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortSupplier('companyName')"></i>  
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortSupplier('companyName')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortSupplier('companyName')"></i>  
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortSupplier('companyName')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Contact" (click)="reverseSort = !reverseSort; sortSupplier('contact')">{{ 'Contact' | translate }}</span>
-                  <span [hidden]="orderByField != 'contact' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortSupplier('contact')"></i> 
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortSupplier('contact')"></i>
+                  <span title="Address">{{ 'Address' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSupplier('address')"></i>  
                   </span>
-                </th>
-                <th class="table-tr header-column">
-                  <span title="Address" (click)="reverseSort = !reverseSort; sortSupplier('address')">{{ 'Address' | translate }}</span>
                   <span [hidden]="orderByField != 'address' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortSupplier('address')"></i> 
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortSupplier('address')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortSupplier('address')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortSupplier('address')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Telephone" (click)="reverseSort = !reverseSort; sortSupplier('telephone')">{{ 'Telephone' | translate }}</span>
-                  <span [hidden]="orderByField != 'telephone' || typeSort === 0" >  
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortSupplier('telephone')"></i>
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortSupplier('telephone')"></i>
+                  <span title="Contact">{{ 'Contact' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSupplier('contact')"></i>  
+                  </span>
+                  <span [hidden]="orderByField != 'contact' || typeSort === 0" > 
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortSupplier('contact')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortSupplier('contact')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Website" (click)="reverseSort = !reverseSort; sortSupplier('website')">{{ 'Website' | translate }}</span>
+                  <span title="Website">{{ 'Website' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSupplier('website')"></i>  
+                  </span>
                   <span [hidden]="orderByField != 'website' || typeSort === 0" >  
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortSupplier('website')"></i>
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortSupplier('website')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortSupplier('website')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortSupplier('website')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Telephone">{{ 'Telephone' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSupplier('telephone')"></i>  
+                  </span>
+                  <span [hidden]="orderByField != 'telephone' || typeSort === 0" >  
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortSupplier('telephone')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortSupplier('telephone')"></i>
                   </span>
                 </th>
               </tr>
@@ -58,10 +68,10 @@
             <tbody [hidden]="suppliers.length === 0">
               <tr *ngFor="let supplier of suppliers">
                 <td class="table-tr">{{supplier.companyName}}</td>
-                <td class="table-tr">{{supplier.contact}}</td>
                 <td class="table-tr">{{supplier.address}}</td>
-                <td class="table-tr">{{supplier.telephone}}</td>
+                <td class="table-tr">{{supplier.contact}}</td>
                 <td class="table-tr">{{supplier.website}}</td>
+                <td class="table-tr">{{supplier.telephone}}</td>
 
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
