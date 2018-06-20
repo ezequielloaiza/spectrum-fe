@@ -123,7 +123,7 @@
                   </fieldset>
                 </div>
               </div>
-              <div class="footer-form">
+              <div class="footer-form" [hidden]="!canEditPersonal">
                 <button class="btn btn-secondary" (click)="editPersonal()" [disabled]="!canEditPersonal">{{ 'Cancel' | translate }}&nbsp;
                   <i class="fa fa-times"></i>
                 </button>
@@ -140,7 +140,7 @@
             </ng-template>
             <ng-template ngbTabContent>
               <br>
-              <div class="container-edit">
+              <div class="container-edit" >
                 <button class="btn btn-main btn-edit" (click)="editAccount()" [disabled]="canEditAccount">{{ 'Edit' | translate }}&nbsp;
                   <i class="fa fa-edit"></i>
                 </button>
@@ -194,14 +194,15 @@
                           </small>
                           -->
                   </fieldset>
-                  <div class="message-error" *ngIf="form.get(['password']).value != form.get(['confirmedPassword']).value
-                              && form.get(['confirmedPassword']).value != null">
+                  <div class="message-error"
+                       *ngIf="form.get(['password']).value != form.get(['confirmedPassword']).value
+                              && form.get(['confirmedPassword']).value != null && canEditAccount"  >
                     <span>{{ 'Passwords do not match' | translate }}</span>
                   </div>
                 </div>
               </div>
               <br>
-              <div class="footer-form">
+              <div class="footer-form" [hidden]="!canEditAccount">
                 <button class="btn btn-secondary" (click)="editAccount()" [disabled]="!canEditAccount">{{ 'Cancel' | translate }}&nbsp;
                   <i class="fa fa-times"></i>
                 </button>

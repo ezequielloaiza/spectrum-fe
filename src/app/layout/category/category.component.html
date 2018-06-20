@@ -18,17 +18,21 @@
             <thead>
               <tr>
                 <th class="table-tr header-column">
-                  <span title="Name" (click)="reverseSort = !reverseSort; sortCategory('name')">{{ 'Name' | translate }}</span>
+                  <span title="Name">{{ 'Name' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortCategory('name')"></i>
+                  </span>
                   <span [hidden]="orderByField != 'name' || typeSort === 0" >  
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortCategory('name')"></i>
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortCategory('name')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortCategory('name')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortCategory('name')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                    <span title="Description" (click)="reverseSort = !reverseSort; sortCategory('description')">{{ 'Description' | translate }}</span>
+                    <span title="Description">{{ 'Description' | translate }}
+                        <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortCategory('description')"></i>
+                    </span>
                     <span [hidden]="orderByField != 'description' || typeSort === 0" >  
-                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortCategory('description')"></i>
-                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortCategory('description')"></i>
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortCategory('description')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortCategory('description')"></i>
                     </span>
                   </th>
                 <th class="table-tr"></th>
