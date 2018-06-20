@@ -252,7 +252,7 @@
                   </fieldset>
                   <div class="message-error"
                        *ngIf="form.get(['password']).value != form.get(['confirmedPassword']).value
-                              && form.get(['confirmedPassword']).value != null">
+                              && form.get(['confirmedPassword']).value != null && canEditAccount"  >
                     <span>{{ 'Passwords do not match' | translate }}</span>
                   </div>
                 </div>
