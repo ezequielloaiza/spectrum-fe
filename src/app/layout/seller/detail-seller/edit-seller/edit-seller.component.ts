@@ -152,8 +152,7 @@ export class EditSellerComponent implements OnInit {
               this.translate.get('Key successfully restored', { value: 'Key successfully restored' }).subscribe((res: string) => {
                 this.notification.success('', res);
               });
-            }
-            else {
+            } else {
               console.log(res.errors[0].detail);
             }
           }, error => {
@@ -163,6 +162,6 @@ export class EditSellerComponent implements OnInit {
         });
       });
     });
-  };
+  }
 }
 

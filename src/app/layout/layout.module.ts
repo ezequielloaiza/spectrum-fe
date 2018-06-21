@@ -30,6 +30,7 @@ import { BreadcrumbService } from '../shared/modules/breadcrumb/breadcrumb.servi
 import { UserResolver } from './user/user.resolver';
 import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import { SellerResolver } from './seller/seller.resolver';
+import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-modal.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { SellerResolver } from './seller/seller.resolver';
         SuppliersComponent,
         SupplierModalComponent,
         ClientSellerComponent,
-        ModalSellerComponent
+        ModalSellerComponent,
+        ListUserModalComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -78,7 +80,8 @@ import { SellerResolver } from './seller/seller.resolver';
       CategoryModalComponent,
       SupplierModalComponent,
       SellerModalComponent,
-      ModalSellerComponent
+      ModalSellerComponent,
+      ListUserModalComponent
     ],
     providers: [
       BusinessTypeService,

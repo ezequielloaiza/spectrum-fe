@@ -4,7 +4,7 @@
       <br>
       <form [formGroup]="form">
         <div class="form-options">
-          <h4>{{ 'Account Info' | translate }}</h4>
+          <span class="sp-title">{{ 'Personal information' | translate }}</span>
           <button class="btn btn-main" (click)="edit()" [hidden]="canEdit">{{ 'Edit' | translate }}&nbsp;
             <i class="fa fa-edit"></i>
           </button>
@@ -129,6 +129,18 @@
                 <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
               </div>
             </fieldset>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Vendedor' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user.nameSeller }}</span>
+                <button class="btn btn-main" (click)="openSeller()" [hidden]="!canEdit">{{ 'assign seller' | translate }}&nbsp;</button>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="postal.valid || postal.pristine">
+              <span>{{ 'Postal code is required' | translate }}</span>
+            </div>
           </div>
         </div>
         <br>

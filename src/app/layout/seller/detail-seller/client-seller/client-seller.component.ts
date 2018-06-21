@@ -45,7 +45,6 @@ export class ClientSellerComponent implements OnInit {
     this.idSeller = this.route.parent.snapshot.paramMap.get('id');
     this.getCustomers(this.idSeller);
     this.advancedPagination = 1;
-  
   }
 
   getCustomers(idSeller): void {
@@ -62,7 +61,7 @@ export class ClientSellerComponent implements OnInit {
 		let endItem = event * this.itemPerPage;
 		this.listCustomers = this.listCustomersAux.slice(startItem,endItem);
   }
-  
+
   getItems(ev: any) {
     this.listCustomers = this.listCustomersAux;
 
@@ -89,7 +88,7 @@ export class ClientSellerComponent implements OnInit {
 
 		});
   }
-  
+
   remove(id) {
     this.translate.get('Confirm withdrawal', { value: 'Confirm withdrawal' }).subscribe((title: string) => {
       this.translate.get('Are you sure you want to withdraw the client?', { value: 'Are you sure you want to withdraw the client?' }).subscribe((msg: string) => {
@@ -111,5 +110,5 @@ export class ClientSellerComponent implements OnInit {
         });
       });
     });
-  };
+  }
 }

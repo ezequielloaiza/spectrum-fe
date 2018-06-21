@@ -9,6 +9,8 @@ import { User } from '../../../../shared/models/user';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ListUserModalComponent } from '../../modals/list-user-modal/list-user-modal.component';
 
 
 @Component({
@@ -33,7 +35,8 @@ export class EditUserComponent implements OnInit {
               private googleService: GoogleService,
               private userService: UserService,
               private translate: TranslateService,
-              private notification: ToastrService) { }
+              private notification: ToastrService,
+              private modalService: NgbModal) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
@@ -102,6 +105,15 @@ export class EditUserComponent implements OnInit {
     this.setUser(this.user);
   }
 
+  openSeller(): void {
+    const modalRef = this.modalService.open(ListUserModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.result.then((result) => {
+
+    } , (reason) => {
+
+    });
+  }
+
   findPlace(item): void {
     this.googleService.placeById$(item.item.place_id).subscribe(res => {
       this.googleService.setPlace(res.data.result);
@@ -125,6 +137,9 @@ export class EditUserComponent implements OnInit {
   }
 
   save(): void {
+    if (this.form.get('city').value.description) {
+      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.user.city);
+    }
     this.userService.update$(this.form.value).subscribe( res => {
       if (CodeHttp.ok === res.code) {
         this.canEdit = false;

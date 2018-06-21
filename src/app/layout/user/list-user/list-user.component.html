@@ -4,6 +4,24 @@
       <input class="form-control" (keyup)="getItems($event)" placeholder="Enter user search..">
       <i class="fa fa-search"></i>
     </div>
+    <div class="col col-xl-1 col-lg-1">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio1" name="customRadio" value="3" class="custom-control-input" (change)="filter(null)" checked>
+        <label class="custom-control-label" for="customRadio1">{{ 'All' | translate }}</label>
+      </div>
+    </div>
+    <div class="col col-xl-1 col-lg-1">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio2" name="customRadio" value="0" class="custom-control-input" (change)="filter(0)">
+        <label class="custom-control-label" for="customRadio2">{{ 'Active' | translate }}</label>
+      </div>
+    </div>
+    <div class="col col-xl-1 col-lg-1">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio3" name="customRadio" value="1" class="custom-control-input" (change)="filter(1)">
+        <label class="custom-control-label" for="customRadio3">{{ 'Inactive' | translate }}</label>
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="col col-xl-12 col-lg-12">

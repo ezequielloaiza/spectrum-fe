@@ -6,6 +6,7 @@ import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserModalComponent } from '../modals/user-modal/user-modal.component';
 import { Role } from '../../../shared/enum/role.enum';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-list',
@@ -64,6 +65,14 @@ export class ListUserComponent implements OnInit {
       this.getListUser();
     } , (reason) => {
     });
+  }
+
+  filter(value: number): void {
+    if (value !== null) {
+      this.listUsers = _.filter(this.listUsersAux, { 'status': value });
+      return;
+    }
+    this.listUsers = this.listUsersAux;
   }
 
 }

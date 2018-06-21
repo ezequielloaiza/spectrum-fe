@@ -1,10 +1,10 @@
 <div class="container bootstrap snippet">
   <div class="row">
     <div class="col-sm-12">
-      <hr>
+      <br>
       <form [formGroup]="form">
         <div class="form-options">
-          <h4>{{ 'Company Info' | translate }}</h4>
+          <span class="sp-title">{{ 'Company Info' | translate }}</span>
           <button class="btn btn-main" (click)="edit()" [hidden]="canEdit">{{ 'Edit' | translate }}&nbsp;
             <i class="fa fa-edit"></i>
           </button>
@@ -26,7 +26,7 @@
           </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
-              <label>{{ 'Contact Name' | translate }}</label>
+              <label>{{ 'Company contact name' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.contactName }}</span>
                 <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter company contact name' | translate }}" name="contactName" formControlName="contactName"
@@ -137,7 +137,7 @@
             <fieldset class="form-group">
               <label>{{ 'Phone' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ 04147418458 }}</span>
+                <span [hidden]="canEdit">{{ company.phone }}</span>
                 <input [hidden]="!canEdit" class="form-control" name="phone" formControlName="phone">
                 <!-- <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"
                     required></int-phone-prefix>-->
@@ -172,7 +172,7 @@
           </button>
         </div>
       </form>
-      <hr>
+      <br>
     </div>
   </div>
 </div>
