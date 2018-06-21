@@ -7,6 +7,7 @@ import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { Role } from '../../../shared/enum/role.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { SellerModalComponent } from '../modals/seller-modal/seller-modal.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-list-seller',
@@ -57,7 +58,6 @@ export class ListSellerComponent implements OnInit {
   }
 
   changeStatus(id): void {
-
     this.translate.get("Seller's status", { value: "Seller's status" }).subscribe((title: string) => {
       this.translate.get("Are you sure you want to change the status?", { value: "Are you sure you want to change the status?" }).subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
@@ -118,7 +118,13 @@ export class ListSellerComponent implements OnInit {
     this.listSellers = this.listSellersAux.slice(startItem, endItem);
   }
 
-
+  filter(value: number): void {
+    if (value !== null) {
+      this.listSellers = _.filter(this.listSellersAux, { 'status': value });
+      return;
+    }
+    this.listSellers = this.listSellersAux;
+  }
 }
 
 

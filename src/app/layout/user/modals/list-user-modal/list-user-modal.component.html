@@ -29,7 +29,8 @@
             <tr *ngFor="let seller of listSellers; let i = index">
               <td>
                 <div class="custom-control custom-radio">
-                  <input type="radio" id="customRadio{{i}}" name="customRadio" [value]="seller.idUser" (change)="onSelectionChange(seller)" class="custom-control-input">
+                  <input type="radio" id="customRadio{{i}}" name="customRadio" [value]="seller.idUser" (change)="onSelectionChange(seller)"
+                    class="custom-control-input">
                   <label class="custom-control-label" for="customRadio{{i}}"></label>
                 </div>
 
@@ -59,6 +60,10 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}</button>
-  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="transfer()">{{ 'Save' | translate }}</button>
+  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="transfer()">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
 </div>

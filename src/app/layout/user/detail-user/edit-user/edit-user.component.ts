@@ -144,7 +144,7 @@ export class EditUserComponent implements OnInit {
       if (CodeHttp.ok === res.code) {
         this.canEdit = false;
         this.user = res.data;
-        this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((resTra: string) => {
+        this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
         });
       }

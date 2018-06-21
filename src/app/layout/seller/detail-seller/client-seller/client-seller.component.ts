@@ -11,6 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-client-seller',
@@ -110,5 +111,13 @@ export class ClientSellerComponent implements OnInit {
         });
       });
     });
+  }
+
+  filter(value: number): void {
+    if (value !== null) {
+      this.listCustomers = _.filter(this.listCustomersAux, { 'status': value });
+      return;
+    }
+    this.listCustomers = this.listCustomersAux;
   }
 }

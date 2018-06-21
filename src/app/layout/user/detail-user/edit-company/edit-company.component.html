@@ -29,8 +29,8 @@
               <label>{{ 'Company contact name' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.contactName }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter company contact name' | translate }}" name="contactName" formControlName="contactName"
-                  required>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter company contact name' | translate }}" name="contactName"
+                  formControlName="contactName" required>
               </div>
             </fieldset>
             <div class="message-error" [hidden]="contactName.valid || contactName.pristine">
@@ -163,12 +163,12 @@
         </div>
         <br>
         <div class="footer-form">
-          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
-            <i class="fa fa-save"></i>
-          </button>
-          &nbsp;&nbsp;
           <button class="btn btn-secondary" (click)="cancel()" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
             <i class="fa fa-times"></i>
+          </button>
+          &nbsp;&nbsp;
+          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
+            <i class="fa fa-save"></i>
           </button>
         </div>
       </form>

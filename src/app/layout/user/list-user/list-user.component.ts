@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserModalComponent } from '../modals/user-modal/user-modal.component';
 import { Role } from '../../../shared/enum/role.enum';
 import * as _ from 'lodash';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list',
@@ -21,7 +22,8 @@ export class ListUserComponent implements OnInit {
   constructor(private userService: UserService,
     private alertify: AlertifyService,
     private notification: ToastrService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.getListUser();
@@ -51,12 +53,19 @@ export class ListUserComponent implements OnInit {
   }
 
   changeStatus(id): void {
-    this.alertify.confirm('Delete Shipping Address', 'Are you sure do you want to delete this register?', () => {
-      this.userService.changeStatus$(id).subscribe(res => {
-        this.notification.success('User save', 'Success');
-        this.getListUser();
+    this.translate.get("Customer status", { value: "Customer status" }).subscribe((title: string) => {
+      this.translate.get("Are you sure you want to change the status?", { value: "Are you sure you want to change the status?" }).subscribe((msg: string) => {
+        this.alertify.confirm(title, msg, () => {
+          this.userService.changeStatus$(id).subscribe(res => {
+            this.translate.get('Status changed', { value: 'Status changed' }).subscribe((res: string) => {
+              this.notification.success('', res);
+              this.getListUser();
+            });
+          });
+        }, () => {
+        });
       });
-    }, () => { });
+    });
   }
 
   openModal(): void {

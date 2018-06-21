@@ -15,10 +15,10 @@ export class SellerResolver implements Resolve<any> {
 
     const id = route.paramMap.get('id');
     if (state.url === '/seller') {
-      this.breadcrumbService.push(new Breadcrumb('List of Sellers', 'fa fa-shopping-bag', './'));
+      this.breadcrumbService.push(new Breadcrumb('List of Sellers', 'fa fa-users', './'));
     } else {
       if (id) {
-       this.breadcrumbService.push(new Breadcrumb('Seller', 'fa fa-shopping-bag', '/seller/' + id + '/edit'));
+       this.breadcrumbService.push(new Breadcrumb('Seller', 'fa fa-user', '/seller/' + id + '/edit'));
        }
     }
   }

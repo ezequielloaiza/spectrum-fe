@@ -171,7 +171,7 @@
     "The category already exists":"The category already exists",
     "Can not be eliminated, is associated with a product":"Can not be eliminated, is associated with a product",
     "The supplier already exists, verify the name of the company or the emails": "The supplier already exists, verify the name of the company or the emails",
-    "Client": "Client",
+    "Client:": "Client:",
     "List of Sellers":"List of Sellers",
     "All Sellers":"All Sellers",
     "Active":"Active",
@@ -202,6 +202,15 @@
     "Key successfully restored":"Key successfully restored",
     "Password recovery":"Password recovery",
     "Cancel":"Cancel",
-    "Unlink":"Unlink"
+    "Unlink":"Unlink",
+    "All":"All",
+    "Enter user search..":"Enter user search..",
+    "Seller":"Seller",
+    "Client":"Client",
+    "Assign seller":"Assign seller",
+    "Personal info":"Personal info",
+    "Company Info":"Company Info",
+    "Business types":"Business types",
+    "Customer status":"Customer status"
    
 }

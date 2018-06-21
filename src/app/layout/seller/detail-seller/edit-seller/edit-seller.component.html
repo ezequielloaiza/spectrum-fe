@@ -1,10 +1,10 @@
 <div class="container bootstrap snippet">
   <div class="row">
     <div class="col-sm-12">
-      <hr>
+      <br>
       <form [formGroup]="form">
         <div class="form-options">
-          <h4>{{ 'Personal information' | translate }}</h4>
+          <span class="sp-title">{{ 'Personal information' | translate }}</span>
           <button class="btn btn-main" (click)="edit()" [hidden]="canEdit">{{ 'Edit' | translate }}&nbsp;
             <i class="fa fa-edit"></i>
           </button>

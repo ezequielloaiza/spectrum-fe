@@ -21,7 +21,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Email' | translate }}</label>
-            <input type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email" formControlName="email" required>
+            <input type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email" formControlName="email"
+              required>
           </fieldset>
           <div class="message-error" [hidden]="email.pristine">
             <span *ngIf="email.errors && !!email.errors.required">{{'Email is required' | translate }}</span>
@@ -34,7 +35,8 @@
           <fieldset class="form-group">
             <label>{{ 'City' | translate }}</label>
             <input id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt" name="city" formControlName="city"
-              [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead" placeholder="{{ 'Enter city' | translate }}" required />
+              [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead" placeholder="{{ 'Enter city' | translate }}"
+              required />
           </fieldset>
           <div *ngIf="searching" class="spinner">
             <div class="bounce1"></div>
@@ -85,7 +87,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Company Name' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter company' | translate }}" name="companyName" formControlName="companyName" required>
+            <input class="form-control" placeholder="{{ 'Enter company' | translate }}" name="companyName" formControlName="companyName"
+              required>
           </fieldset>
           <div class="message-error" [hidden]="companyName.valid || companyName.pristine">
             <span>{{ 'Company name is required' | translate }}</span>
@@ -115,18 +118,20 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Email' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter email' | translate }}" name="companyEmail" formControlName="companyEmail" required>
+            <input class="form-control" placeholder="{{ 'Enter email' | translate }}" name="companyEmail" formControlName="companyEmail"
+              required>
           </fieldset>
           <div class="message-error" [hidden]="companyEmail.pristine">
-              <span *ngIf="companyEmail.errors && !!companyEmail.errors.required">{{'Email is required' | translate }}</span>
-              <span *ngIf="companyEmail.errors && !!companyEmail.errors.companyEmail">{{ 'Email is not valid' | translate }}
-              </span>
-            </div>        </div>
+            <span *ngIf="companyEmail.errors && !!companyEmail.errors.required">{{'Email is required' | translate }}</span>
+            <span *ngIf="companyEmail.errors && !!companyEmail.errors.companyEmail">{{ 'Email is not valid' | translate }}
+            </span>
+          </div>
+        </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Phone' | translate }}</label>
-            <input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter phone' | translate }}" name="companyPhone" formControlName="companyPhone"
-              required>
+            <input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter phone' | translate }}" name="companyPhone"
+              formControlName="companyPhone" required>
           </fieldset>
           <div class="message-error" [hidden]="companyPhone.valid || companyPhone.pristine">
             <span>{{ 'Phone is required' | translate }}</span>
@@ -135,8 +140,9 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'City' | translate }}</label>
-            <input id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt" name="companyCity" formControlName="companyCity"
-              [inputFormatter]="formatter" (selectItem)="findPlaceCompany($event)" #instance="ngbTypeahead" placeholder="{{ 'Enter city' | translate }}" required />
+            <input id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt" name="companyCity"
+              formControlName="companyCity" [inputFormatter]="formatter" (selectItem)="findPlaceCompany($event)" #instance="ngbTypeahead"
+              placeholder="{{ 'Enter city' | translate }}" required />
           </fieldset>
           <div *ngIf="searching" class="spinner">
             <div class="bounce1"></div>
@@ -150,7 +156,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'State' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter state' | translate }}" name="companyState" formControlName="companyState" required>
+            <input class="form-control" placeholder="{{ 'Enter state' | translate }}" name="companyState" formControlName="companyState"
+              required>
           </fieldset>
           <div class="message-error" [hidden]="companyState.valid || companyState.pristine">
             <span>{{ 'State is required' | translate }}</span>
@@ -159,7 +166,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Country' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter country' | translate }}" name="companyCountry" formControlName="companyCountry" required>
+            <input class="form-control" placeholder="{{ 'Enter country' | translate }}" name="companyCountry" formControlName="companyCountry"
+              required>
           </fieldset>
           <div class="message-error" [hidden]="companyCountry.valid || companyCountry.pristine">
             <span>{{ 'Country is required' | translate }}</span>
@@ -168,7 +176,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Postal Code' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="companyPostal" formControlName="companyPostal" required>
+            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="companyPostal" formControlName="companyPostal"
+              required>
           </fieldset>
           <div class="message-error" [hidden]="companyPostal.valid || companyPostal.pristine">
             <span>{{ 'Postal code is required' | translate }}</span>
@@ -178,7 +187,8 @@
           <fieldset class="form-group">
             <label>{{ 'Address' | translate }}
             </label>
-            <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="companyAddress" formControlName="companyAddress" required>
+            <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="companyAddress" formControlName="companyAddress"
+              required>
           </fieldset>
           <div class="message-error" [hidden]="companyAddress.valid || companyAddress.pristine">
             <span>{{ 'Address is required' | translate }}</span>
@@ -215,8 +225,12 @@
 
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">Save</button>
+  <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
 </div>
 <ng-template #rt let-r="result" let-t="term">
   {{ r.description}}

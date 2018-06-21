@@ -136,7 +136,7 @@ export class EditCompanyComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.canEdit = false;
         this.company = res.data;
-        this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((resTra: string) => {
+        this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
         });
       }

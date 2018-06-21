@@ -93,8 +93,12 @@
 
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Close' | translate }}</button>
-  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}</button>
+  <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
 </div>
 <ng-template #rt let-r="result" let-t="term">
   {{ r.description}}

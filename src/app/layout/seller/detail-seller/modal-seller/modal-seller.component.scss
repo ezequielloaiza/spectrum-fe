@@ -1,10 +1,11 @@
 @import "../../../../../styles/spectrum/spectrum";
 
-@include tr-sizes((20%, 20%, 20%, 20%, 15%));
+@include tr-sizes((5%, 20%, 25%, 25%, 25%));
 .container-modal {
   .search {
     padding-top: 1rem;
     padding-bottom: 1.5rem;
+    width: 125%;
 
     i {
       position: absolute;
@@ -50,12 +51,21 @@
   }
 
   .label-disabled {
-    color: $bg-sidebar;
+    color: #868e96;
+    font-weight: bold;
+  }
+
+  .h6-client {
+    font-weight: bold;
+    padding-top: 3px;
+    padding-right: 85px;
+    padding-left: 5px;
   }
 
   .title {
     padding-top: 25px;
     padding-right: 55px;
+    padding-left: 25px;
   }
 
   .title-header {

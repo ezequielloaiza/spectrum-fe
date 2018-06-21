@@ -1,7 +1,7 @@
 <div class="sp-container">
   <div class="row search">
     <div class="col col-xl-4 col-lg-4">
-      <input class="form-control" (keyup)="getItems($event)" placeholder="Enter user search..">
+      <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter user search..' | translate}}">
       <i class="fa fa-search"></i>
     </div>
     <div class="col col-xl-1 col-lg-1">
@@ -31,9 +31,9 @@
             {{ 'All Clients' | translate }}
           </div>
           <div class="ml-auto p-2">
-            <button type="button"
-                    class="btn btn-main"
-                    (click)="openModal()">{{ 'Add Client' | translate }}</button>
+            <button type="button" class="btn btn-main" (click)="openModal()">{{ 'Add' | translate }}
+              <i class="fa fa-plus"></i>
+            </button>
           </div>
         </div>
         <div class="card-body table-responsive">
@@ -51,8 +51,12 @@
             </thead>
             <tbody>
               <tr *ngFor="let user of listUsers">
-                <td class="table-tr" class="active" *ngIf="user.status === 0"><div>{{'Active' | translate}}</div></td>
-                <td class="table-tr" class="inactive" *ngIf="user.status === 1"><div>{{'Inactive' | translate}}</div></td>
+                <td class="table-tr" class="active" *ngIf="user.status === 0">
+                  <div>{{'Active' | translate}}</div>
+                </td>
+                <td class="table-tr" class="inactive" *ngIf="user.status === 1">
+                  <div>{{'Inactive' | translate}}</div>
+                </td>
                 <td class="table-tr">{{user.name}}</td>
                 <td class="table-tr">{{user.email}}</td>
                 <td class="table-tr">{{user.company.companyName}}</td>
@@ -65,8 +69,10 @@
                       <div ngbDropdownMenu>
                         <button class="dropdown-item" routerLink="/user/{{user.idUser}}">
                           <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                        <button class="dropdown-item" (click)="changeStatus(user.idUser)">
-                          <i class="fa fa-trash"></i> {{ 'deactivate' | translate }}</button>
+                        <button *ngIf="user.status === 0" class="dropdown-item" (click)="changeStatus(user.idUser)">
+                          <i class="fa fa-times"></i> {{ 'Deactivate' | translate }}</button>
+                        <button *ngIf="user.status === 1" class="dropdown-item" (click)="changeStatus(user.idUser)">
+                          <i class="fa fa-check"></i> {{ 'Activate' | translate }}</button>
                       </div>
                     </div>
                   </div>
