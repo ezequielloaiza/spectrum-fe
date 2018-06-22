@@ -1,12 +1,11 @@
-
-  <div class="modal-header">
-    <h4 class="modal-title">{{ 'Product category' | translate }}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="form">
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'Product category' | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
     <div class="row">
       <div class="col-xl-12">
         <fieldset class="form-group">
@@ -20,23 +19,22 @@
       <div class="col-xl-12">
         <fieldset class="form-group">
           <label>{{ 'Description' | translate }}</label>
-          <input class="form-control" placeholder="{{ 'Enter description' | translate }}" name="description" formControlName="description" required>
+          <input class="form-control" placeholder="{{ 'Enter description' | translate }}" name="description" formControlName="description"
+            required>
         </fieldset>
       </div>
     </div>
 
-    </form>
-  </div>
-
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()" translate>Close
-      <i class="fa fa-times"></i>
-    </button>
-    <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save(action)" translate>Save
-        <i class="fa fa-save"></i>
-    </button>
-  </div>
-
-  <ng-template #rt let-r="result" let-t="term">
-    {{ r.description}}
-  </ng-template>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" class="btn btn-main" [disabled]="form.invalid" (click)="save(action)">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.description}}
+</ng-template>

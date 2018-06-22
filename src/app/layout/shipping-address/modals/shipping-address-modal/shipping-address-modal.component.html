@@ -84,11 +84,11 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()" translate>Close
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
       <i class="fa fa-times"></i>
     </button>
-    <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save(action)" translate>Save
-        <i class="fa fa-save"></i>
+    <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save(action)">{{ 'Save' | translate }}&nbsp;
+      <i class="fa fa-save"></i>
     </button>
   </div>
 
