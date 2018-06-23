@@ -72,6 +72,7 @@
 
 <div class="container">
   <div class="row">
+    <!--FILTERS-->
     <div class="col-sm-3 col-md-3">
       <br>
       <ngb-accordion #acc="ngbAccordion" activeIds="filter1,filter2" type="dark">
@@ -133,10 +134,11 @@
         <input type="button" class="btn btn-primary" value="{{ 'Search' | translate }}">
       </div>
     </div>
+    <!--THUMBNAILS PRODUCTS-->
     <div class="col-sm-9 col-md-9 col-lg-9">
       <div class="container margin-list">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-4" *ngFor="let product of products">
             <figure class="card card-product">
               <div class="img-wrap">
                 <img src="assets/images/lentes.jpg">
@@ -145,143 +147,19 @@
               </div>
               <figcaption class="info-wrap">
                 <h6 class="title text-dots">
-                  <h4>Name of product</h4>
+                  <h4>{{ product.name }}</h4>
                 </h6>
                 <div class="action-wrap">
                   <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
                   <div class="price-wrap h5">
-                    <span class="price-new">$1280</span>
-                    <del class="price-old">$1980</del>
+                    <del class="price-base">{{ product.priceBase }}</del>
+                    <span class="price-new">{{ product.price1 }}</span>
                   </div>
-                  <!-- price-wrap.// -->
                 </div>
-                <!-- action-wrap -->
               </figcaption>
             </figure>
-            <!-- card // -->
           </div>
-          <!-- col // -->
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="#">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
-              </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$280</span>
-                  </div>
-                  <!-- price-wrap.// -->
-                </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
-          </div>
-          <!-- col // -->
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="#">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
-              </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$280</span>
-                  </div>
-                  <!-- price-wrap.// -->
-                </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
-          </div>
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="#">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
-              </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$280</span>
-                  </div>
-                  <!-- price-wrap.// -->
-                </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
-          </div>
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="#">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
-              </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$280</span>
-                  </div>
-                  <!-- price-wrap.// -->
-                </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
-          </div>
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="#">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
-              </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$280</span>
-                  </div>
-                  <!-- price-wrap.// -->
-                </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
-          </div>
-
-
-          <!-- col // -->
         </div>
-        <!-- row.// -->
       </div>
     </div>
   </div>

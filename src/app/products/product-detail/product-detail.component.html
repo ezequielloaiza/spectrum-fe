@@ -35,71 +35,91 @@
 			</aside>
 			<aside class="col-sm-7">
 				<article class="card-body p-5">
-					<h3 class="title mb-3">Original Version of Some product name</h3>
+					<h3 class="title mb-3">{{ product.name }}</h3>
 
 					<p class="price-detail-wrap">
 						<span class="price h3 text-warning">
 							<span class="currency">US $</span>
-							<span class="num">1299</span>
+							<span class="num">{{ product.price1 }}</span>
 						</span>
-						<span>/per kg</span>
 					</p>
+					<!-- price-detail-wrap .// -->
+					<dl class="item-property">
+						<dt>Material</dt>
+						<dd>
+							<p>{{ product.material }}</p>
+						</dd>
+					</dl>
 					<!-- price-detail-wrap .// -->
 					<dl class="item-property">
 						<dt>Description</dt>
 						<dd>
-							<p>Here goes description consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-								Ut enim ad minim veniam, quis nostrud exercitation ullamco </p>
+							<p>{{ product.description }}</p>
 						</dd>
 					</dl>
 					<dl class="param param-feature">
-						<dt>Model#</dt>
-						<dd>12345611</dd>
+						<dt>Available Types</dt>
+						<dd>
+							<label class="form-check form-check-inline" *ngFor="let type of product.types">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" ng-change="getParameters(product.id, $index)">
+								<span class="form-check-label">{{ type.name }}</span>
+							</label>
+						</dd>
+					</dl>
+					
+					<!-- item-property-hor .// -->
+					<dl class="param param-feature">
+						<dt>Colors</dt>
+						<dd>
+							<label class="form-check form-check-inline" *ngFor="let color of product.colors">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+								<span class="form-check-label">{{ color }}</span>
+							</label>
+						</dd>
 					</dl>
 					<!-- item-property-hor .// -->
 					<dl class="param param-feature">
-						<dt>Color</dt>
-						<dd>Black and white</dd>
-					</dl>
-					<!-- item-property-hor .// -->
-					<dl class="param param-feature">
-						<dt>Delivery</dt>
-						<dd>Russia, USA, and Europe</dd>
+						<dt>Parameters</dt>
+						<dd>
+							<label class="form-check form-check-inline" *ngFor="let parameter of parameters">
+								<span class="form-check-label">{{ parameter.name }}: </span>
+								<div *ngFor="let value of parameter.values">
+									<input type='number' max="{{ value.rangeEnd }}" min="{{ value.rangeStart }}" step="{{ value.step }}" value="{{ value.rangeStart }}">
+								</div>
+							</label>
+						</dd>
 					</dl>
 					<!-- item-property-hor .// -->
 
 					<hr>
 					<div class="row">
-						<div class="col-sm-5">
+						<div class="col-sm-3">
+							<!-- price-detail-wrap .// -->
+							<dl class="item-property">
+								<dt>Stock</dt>
+								<dd>
+									<p>{{ product.stock }}</p>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-3">
 							<dl class="param param-inline">
 								<dt>Quantity: </dt>
 								<dd>
-									<select class="form-control form-control-sm" style="width:70px;">
-										<option> 1 </option>
-										<option> 2 </option>
-										<option> 3 </option>
-									</select>
+									<input type='number' max="{{ product.stock }}" min="1" step="1" ng-disabled="product.stock === 0" value="1">
 								</dd>
 							</dl>
 							<!-- item-property .// -->
 						</div>
 						<!-- col.// -->
-						<div class="col-sm-7">
+						<div class="col-sm-6">
 							<dl class="param param-inline">
-								<dt>Size: </dt>
+								<dt>SubTotal: </dt>
 								<dd>
-									<label class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-										<span class="form-check-label">SM</span>
-									</label>
-									<label class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-										<span class="form-check-label">MD</span>
-									</label>
-									<label class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-										<span class="form-check-label">XXL</span>
-									</label>
+									<span class="price h3 text-warning">
+										<span class="currency">US $</span>
+										<span class="num">{{ product.price1 * 2 }}</span>
+									</span>
 								</dd>
 							</dl>
 							<!-- item-property .// -->
