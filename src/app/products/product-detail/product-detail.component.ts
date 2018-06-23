@@ -12,13 +12,14 @@ export class ProductDetailComponent implements OnInit {
   products: Array<any> = new Array;
   product: any;
   parameters: any;
+  valueCurrent: any;
   constructor(private productComponent:ProductsComponent) { }
 
   ngOnInit() {
     this.products = this.productComponent.products
 
     //simulando click en el primer producto
-    this.product = this.products[0];
+    this.product = this.products[1];
 
     //simulando click en el primer type del producto actual
     this.parameters = this.product.types[1].parameters;
@@ -30,13 +31,8 @@ export class ProductDetailComponent implements OnInit {
     this.parameters = this.product.types[1].parameters;*/
   }
 
-
-  getParameters(idProduct, indexType) {
-    //FUNCION QUE SE ENCARGARA DE DIBUJAR LOS PARAMETROS DEPENDIENDO DEL TYPE SELECCIONADO ... 
-    //HAY QUE ACOMODARLA NO ENTRA AL DEBUGGER
-    debugger
-    var product = _.find(this.products, {id: idProduct});
-    this.parameters = product.type[indexType].parameters;
+  getParameters(type) {
+    this.parameters = type.parameters;
 	}
 
 }

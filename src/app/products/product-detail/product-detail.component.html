@@ -61,7 +61,7 @@
 						<dt>Available Types</dt>
 						<dd>
 							<label class="form-check form-check-inline" *ngFor="let type of product.types">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" ng-change="getParameters(product.id, $index)">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" (change)="getParameters(type)">
 								<span class="form-check-label">{{ type.name }}</span>
 							</label>
 						</dd>
@@ -84,7 +84,22 @@
 							<label class="form-check form-check-inline" *ngFor="let parameter of parameters">
 								<span class="form-check-label">{{ parameter.name }}: </span>
 								<div *ngFor="let value of parameter.values">
-									<input type='number' max="{{ value.rangeEnd }}" min="{{ value.rangeStart }}" step="{{ value.step }}" value="{{ value.rangeStart }}">
+									<div *ngIf="parameter.values.length === 1">
+										<input *ngIf="parameter.type === 'number'" type='number' max="{{ value.rangeEnd }}" min="{{ value.rangeStart }}" step="{{ value.step }}" value="{{ value.rangeStart }}">
+										<div *ngIf="parameter.type === 'radio'"  class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2">
+											<span class="form-check-label">{{ value }}</span>
+										</div>
+									</div>
+									<div *ngIf="parameter.values.length > 1 && parameter.type === 'number'">
+										<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" (change)="valueCurrent = value">
+										<span class="form-check-label">{{ value.rangeStart + ' to ' + value.rangeEnd }}</span>
+									</div>
+								</div>
+								<div *ngIf="parameter.values.length > 1 && parameter.type === 'number' && valueCurrent">
+									<!--ACOMODAR SCSS -->
+									<br>
+									<input *ngIf="parameter.type === 'number'" type='number' max="{{ valueCurrent.rangeEnd }}" min="{{ valueCurrent.rangeStart }}" step="{{ valueCurrent.step }}" value="{{ valueCurrent.rangeStart }}">
 								</div>
 							</label>
 						</dd>
