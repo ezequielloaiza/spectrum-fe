@@ -2,197 +2,205 @@
 <br>
 <br>
 <div class="info-breadcrumbs">
-	<app-page-header class="info-top" [heading]="'Product Details'" [icon]="'fa-edit'"></app-page-header>
-	<a href="http://localhost:4200/products"><i class="fa fa-arrow-left">&nbsp;&nbsp;{{ 'Back' | translate }}</i></a>
+  <app-page-header class="info-top" [heading]="'Product Details'" [icon]="'fa-edit'"></app-page-header>
+  <br>
+  <a routerLink="/products">
+    <i class="fa fa-arrow-left">&nbsp;&nbsp;{{ 'Back' | translate }}</i>
+  </a>
 </div>
 <div class="container">
-	<hr>
-	<div class="card">
-		<div class="row">
-			<aside class="col-sm-5 border-right">
-				<article class="gallery-wrap">
-					<div class="img-big-wrap">
-						<div>
-							<a href="#">
-								<img src="assets/images/lentes.jpg">
-							</a>
-						</div>
-					</div>
-					<!-- slider-product.// -->
-					<div class="img-small-wrap">
-						<div class="item-gallery">
-							<img src="assets/images/lentes.jpg"> </div>
-						<div class="item-gallery">
-							<img src="assets/images/lentes.jpg"> </div>
-						<div class="item-gallery">
-							<img src="assets/images/lentes.jpg"> </div>
-						<div class="item-gallery">
-							<img src="assets/images/lentes.jpg"> </div>
-					</div>
-					<!-- slider-nav.// -->
-				</article>
-				<!-- gallery-wrap .end// -->
-			</aside>
-			<aside class="col-sm-7">
-				<article class="card-body p-5">
-					<h3 class="title mb-3">{{ product.name }}</h3>
+  <hr>
+  <div class="card">
+    <div class="row">
+      <aside class="col-sm-5 border-right">
+        <article class="gallery-wrap">
+          <div class="img-big-wrap">
+            <div>
+              <a href="#">
+                <img src="assets/images/lentes.jpg">
+              </a>
+            </div>
+          </div>
+          <!-- slider-product.// -->
+          <div class="img-small-wrap">
+            <div class="item-gallery">
+              <img src="assets/images/lentes.jpg"> </div>
+            <div class="item-gallery">
+              <img src="assets/images/lentes.jpg"> </div>
+            <div class="item-gallery">
+              <img src="assets/images/lentes.jpg"> </div>
+            <div class="item-gallery">
+              <img src="assets/images/lentes.jpg"> </div>
+          </div>
+          <!-- slider-nav.// -->
+        </article>
+        <!-- gallery-wrap .end// -->
+      </aside>
+      <aside class="col-sm-7">
+        <article class="card-body p-5">
+          <h3 class="title mb-3">{{ product.name }}</h3>
 
-					<p class="price-detail-wrap">
-						<span class="price h3 text-warning">
-							<span class="currency">US $</span>
-							<span class="num">{{ product.price1 }}</span>
-						</span>
-					</p>
-					<!-- price-detail-wrap .// -->
-					<dl class="item-property">
-						<dt>Material</dt>
-						<dd>
-							<p>{{ product.material }}</p>
-						</dd>
-					</dl>
-					<!-- price-detail-wrap .// -->
-					<dl class="item-property">
-						<dt>Description</dt>
-						<dd>
-							<p>{{ product.description }}</p>
-						</dd>
-					</dl>
-					<dl class="param param-feature">
-						<dt>Available Types</dt>
-						<dd>
-							<label class="form-check form-check-inline" *ngFor="let type of product.types">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" (change)="getParameters(type)">
-								<span class="form-check-label">{{ type.name }}</span>
-							</label>
-						</dd>
-					</dl>
-					
-					<!-- item-property-hor .// -->
-					<dl class="param param-feature">
-						<dt>Colors</dt>
-						<dd>
-							<label class="form-check form-check-inline" *ngFor="let color of product.colors">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-								<span class="form-check-label">{{ color }}</span>
-							</label>
-						</dd>
-					</dl>
-					<!-- item-property-hor .// -->
-					<dl class="param param-feature">
-						<dt>Parameters</dt>
-						<dd>
-							<label class="form-check form-check-inline" *ngFor="let parameter of parameters">
-								<span class="form-check-label">{{ parameter.name }}: </span>
-								<div *ngFor="let value of parameter.values">
-									<div *ngIf="parameter.values.length === 1">
-										<input *ngIf="parameter.type === 'number'" type='number' max="{{ value.rangeEnd }}" min="{{ value.rangeStart }}" step="{{ value.step }}" value="{{ value.rangeStart }}">
-										<div *ngIf="parameter.type === 'radio'"  class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2">
-											<span class="form-check-label">{{ value }}</span>
-										</div>
-									</div>
-									<div *ngIf="parameter.values.length > 1 && parameter.type === 'number'">
-										<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" (change)="valueCurrent = value">
-										<span class="form-check-label">{{ value.rangeStart + ' to ' + value.rangeEnd }}</span>
-									</div>
-								</div>
-								<div *ngIf="parameter.values.length > 1 && parameter.type === 'number' && valueCurrent">
-									<!--ACOMODAR SCSS -->
-									<br>
-									<input *ngIf="parameter.type === 'number'" type='number' max="{{ valueCurrent.rangeEnd }}" min="{{ valueCurrent.rangeStart }}" step="{{ valueCurrent.step }}" value="{{ valueCurrent.rangeStart }}">
-								</div>
-							</label>
-						</dd>
-					</dl>
-					<!-- item-property-hor .// -->
+          <p class="price-detail-wrap">
+            <span class="price h3 text-warning">
+              <span class="currency">US $</span>
+              <span class="num">{{ product.price1 }}</span>
+            </span>
+          </p>
+          <!-- price-detail-wrap .// -->
+          <dl class="item-property">
+            <dt>Material</dt>
+            <dd>
+              <p>{{ product.material }}</p>
+            </dd>
+          </dl>
+          <hr>
+          <!-- price-detail-wrap .// -->
+          <dl class="item-property">
+            <dt>Description</dt>
+            <dd>
+              <p>{{ product.description }}</p>
+            </dd>
+          </dl>
+          <hr>
+          <dl class="param param-feature">
+            <dt>Available Types</dt>
+            <dd>
+              <div class="custom-control custom-radio" name="types" *ngFor="let type of product.types">
+                <input type="radio" id="{{ type.name }}" name="types" class="custom-control-input" (change)="getParameters(type)">
+                <label class="custom-control-label" for="{{ type.name }}">{{ type.name }}</label>
+              </div>
+            </dd>
+          </dl>
+          <hr>
+          <!-- item-property-hor .// -->
+          <dl class="param param-feature">
+            <dt>Colors</dt>
+            <dd>
+              <div class="custom-control custom-radio" name="colors" *ngFor="let color of product.colors">
+                <input type="radio" id="{{ color }}" name="colors" class="custom-control-input">
+                <label class="custom-control-label" for="{{ color }}">{{ color }}</label>
+              </div>
+            </dd>
+          </dl>
+          <hr>
+          <!-- item-property-hor .// -->
+          <dl class="param param-feature">
+            <dt>Parameters</dt>
+            <dd>
+              <label class="form-check" *ngFor="let parameter of parameters">
+                <div>
+                  <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
+                  <div *ngFor="let value of parameter.values">
+                    <div *ngIf="parameter.values.length === 1">
+                      <input *ngIf="parameter.type === 'number'" type='number' max="{{ value.rangeEnd }}" min="{{ value.rangeStart }}" step="{{ value.step }}"
+                        value="{{ value.rangeStart }}" class="form-control">
+                      <div *ngIf="parameter.type === 'radio'" class="custom-control custom-radio" name="toric">
+                        <input class="custom-control-input" type="radio" name="toric" id="{{ value }}">
+                        <label class="custom-control-label" for="{{ value }}">{{ value }}</label>
+                      </div>
+                    </div>
+                    <div *ngIf="parameter.values.length > 1 && parameter.type === 'number'" class="custom-control custom-radio" name="range">
+                      <input class="custom-control-input" type="radio" name="range" id="{{ value.rangeStart }}" (change)="valueCurrent = value">
+                      <label class="custom-control-label" for="{{ value.rangeStart }}">{{ value.rangeStart + ' to ' + value.rangeEnd }}</label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="parameter.values.length > 1 && parameter.type === 'number' && valueCurrent">
+                  <!--ACOMODAR SCSS -->
+                  <input *ngIf="parameter.type === 'number'" type='number' max="{{ valueCurrent.rangeEnd }}" min="{{ valueCurrent.rangeStart }}"
+                    step="{{ valueCurrent.step }}" value="{{ valueCurrent.rangeStart }}" class="form-control">
+                </div>
+              </label>
+            </dd>
+          </dl>
+          <!-- item-property-hor .// -->
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <!-- price-detail-wrap .// -->
+              <dl class="item-property">
+                <dt>Stock</dt>
+                <dd>
+                  <p>{{ product.stock }}</p>
+                </dd>
+              </dl>
+            </div>
+            <div class="col-sm-3">
+              <dl class="param param-inline">
+                <dt>Quantity: </dt>
+                <dd>
+                  <input type='number' max="{{ product.stock }}" min="1" step="1" ng-disabled="product.stock === 0" value="1" class="form-control">
+                </dd>
+              </dl>
+              <!-- item-property .// -->
+            </div>
+            <!-- col.// -->
+            <div class="col-sm-6">
+              <dl class="param param-inline">
+                <dt>SubTotal: </dt>
+                <dd>
+                  <span class="price h3 text-warning">
+                    <span class="currency">US $</span>
+                    <span class="num">{{ product.price1 * 2 }}</span>
+                  </span>
+                </dd>
+              </dl>
+              <!-- item-property .// -->
+            </div>
+            <!-- col.// -->
+          </div>
+          <!-- row.// -->
+          <hr>
+          <a href="#" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>&nbsp;
+          <a href="#" class="btn btn-lg btn-outline-primary text-uppercase">
+            <i class="fa fa-cart-plus"></i> Add to cart </a>
+        </article>
+        <!-- card-body.// -->
+      </aside>
+      <!-- col.// -->
+    </div>
+    <!-- row.// -->
+  </div>
+  <!-- card.// -->
 
-					<hr>
-					<div class="row">
-						<div class="col-sm-3">
-							<!-- price-detail-wrap .// -->
-							<dl class="item-property">
-								<dt>Stock</dt>
-								<dd>
-									<p>{{ product.stock }}</p>
-								</dd>
-							</dl>
-						</div>
-						<div class="col-sm-3">
-							<dl class="param param-inline">
-								<dt>Quantity: </dt>
-								<dd>
-									<input type='number' max="{{ product.stock }}" min="1" step="1" ng-disabled="product.stock === 0" value="1">
-								</dd>
-							</dl>
-							<!-- item-property .// -->
-						</div>
-						<!-- col.// -->
-						<div class="col-sm-6">
-							<dl class="param param-inline">
-								<dt>SubTotal: </dt>
-								<dd>
-									<span class="price h3 text-warning">
-										<span class="currency">US $</span>
-										<span class="num">{{ product.price1 * 2 }}</span>
-									</span>
-								</dd>
-							</dl>
-							<!-- item-property .// -->
-						</div>
-						<!-- col.// -->
-					</div>
-					<!-- row.// -->
-					<hr>
-					<a href="#" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>&nbsp;
-					<a href="#" class="btn btn-lg btn-outline-primary text-uppercase">
-						<i class="fa fa-cart-plus"></i> Add to cart </a>
-				</article>
-				<!-- card-body.// -->
-			</aside>
-			<!-- col.// -->
-		</div>
-		<!-- row.// -->
-	</div>
-	<!-- card.// -->
-
-	<div class="card">
-		<div class="card-body">
-			<ngb-tabset>
-				<ngb-tab>
-					<ng-template ngbTabTitle>
-						{{ 'Characteristics' | translate}}
-					</ng-template>
-					<ng-template ngbTabContent>
-						<p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master
-							cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher
-							synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan
-							aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-					</ng-template>
-				</ngb-tab>
-				<ngb-tab>
-					<ng-template ngbTabTitle>
-						{{ 'Technical specifications' | translate}}
-					</ng-template>
-					<ng-template ngbTabContent>
-						<p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft
-							beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum
-							PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero
-							magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard
-							ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente
-							accusamus tattooed echo park.</p>
-					</ng-template>
-				</ngb-tab>
-				<ngb-tab title="Disabled" [disabled]="true">
-					<ng-template ngbTabContent>
-						<p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master
-							cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher
-							synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan
-							aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-					</ng-template>
-				</ngb-tab>
-			</ngb-tabset>
-		</div>
-	</div>
+  <div class="card">
+    <div class="card-body">
+      <ngb-tabset>
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            {{ 'Characteristics' | translate}}
+          </ng-template>
+          <ng-template ngbTabContent>
+            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+              master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+              dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+              iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            {{ 'Technical specifications' | translate}}
+          </ng-template>
+          <ng-template ngbTabContent>
+            <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
+              craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
+              vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica
+              VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
+              sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
+              tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Disabled" [disabled]="true">
+          <ng-template ngbTabContent>
+            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+              master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+              dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+              iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
 
 
 </div>

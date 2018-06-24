@@ -17,14 +17,14 @@ export class ProductsComponent implements OnInit {
         category: 'Contact Lenses',
         subCategory: 'MarkEnnovy Contact Lenses',
         material: 'Hidrogel, Filcon I 1 49%',
-        description: 'Its a product test',
+        description: 'It is a product test',
         replacementPeriod: '3 months',
         warranty: 'One year',
         stock: 10,
-        colors: ['blue', 'brown', 'green'],
+        colors: ['Blue', 'Brown', 'Green'],
         types: [
           {
-            name: 'Spheric & Toric', 
+            name: 'Spheric & Toric',
             parameters: [
               { name: 'Diameter', type:"number", values: [ { rangeStart: 13.00, rangeEnd: 14.50, step: null } ] },
               { name: 'Base Curve', type:"number", values: [ {rangeStart: 7.70, rangeEnd: 9.80, step: 0.30} ] },
@@ -35,7 +35,7 @@ export class ProductsComponent implements OnInit {
               { name: 'Multifocal Design', type:"radio", values: [ 'CD', 'CN' ] }
             ]
           },{
-            name: 'Multifocal', 
+            name: 'Multifocal',
             parameters: [
               { name: 'Diameter', type:"number", values: [ {rangeStart: 14.00, rangeEnd: 14.00, step: null} ] },
               { name: 'Base Curve', type:"number", values: [ {rangeStart: 8.00, rangeEnd: 9.00, step: 0.20} ] },
@@ -57,7 +57,7 @@ export class ProductsComponent implements OnInit {
               { name: 'Multifocal Design', type:"radio", values: [ 'CD', 'CN' ] }
             ]
           }],
-          
+
       },
       { id: 2, name: 'Xtensa',
         priceBase: 4000, price1: 3500, price2: 3600, price3: 3700,
@@ -68,10 +68,10 @@ export class ProductsComponent implements OnInit {
         replacementPeriod: '3 months',
         warranty: 'One year',
         stock: 10,
-        colors: ['blue', 'brown', 'green'],
+        colors: ['Blue', 'Brown', 'Green'],
         types: [
           {
-            name: 'Spheric & Toric & Rx Design', 
+            name: 'Spheric & Toric & Rx Design',
             parameters: [
               { name: 'Diameter', type:"number", values: [ {rangeStart: 14.40, rangeEnd: 14.40, step: null} ] },
               { name: 'Base Curve', type:"number", values: [ {rangeStart: 8.70, rangeEnd: 8.70, step: null} ] },
@@ -82,7 +82,7 @@ export class ProductsComponent implements OnInit {
               { name: 'Multifocal Design', type:"radio", values: [ 'CD', 'CN' ] }
             ]
           },{
-            name: 'Multifocal', 
+            name: 'Multifocal',
             parameters: [
               { name: 'Diameter', type:"number", values: [ {rangeStart: 14.30, rangeEnd: 14.30, step: null} ] },
               { name: 'Base Curve', type:"number", values: [ {rangeStart: 8.60, rangeEnd: 8.60, step: null} ] },
@@ -97,7 +97,7 @@ export class ProductsComponent implements OnInit {
               { name: 'Multifocal Design', type:"radio", values: [ 'CD', 'CN' ] }
             ]
           },{//DE AQUI PA ABAJO TA LOCO SOLO SIRVE EL NAME
-            name: 'Toric', 
+            name: 'Toric',
             parameters: [
               { name: 'Diameter', type:"number", values: [] },
               { name: 'Base Curve', type:"number", values: [] },
@@ -108,7 +108,7 @@ export class ProductsComponent implements OnInit {
               { name: 'Multifocal Design', type:"radio", values: [ 'CD' , 'CN' ] }
             ]
           },{//DE AQUI PA ABAJO TA LOCO SOLO SIRVE EL NAME
-            name: 'Toric & Rx Design', 
+            name: 'Toric & Rx Design',
             parameters: [
               { name: 'Diameter', type:"number", values: [] },
               { name: 'Base Curve', type:"number", values: [] },
@@ -119,7 +119,7 @@ export class ProductsComponent implements OnInit {
               { name: 'Multifocal Design', type:"radio", values: [ 'CD' , 'CN' ] }
             ]
           },{//DE AQUI PA ABAJO TA LOCO SOLO SIRVE EL NAME
-            name: 'Spheric', 
+            name: 'Spheric',
             parameters: [
               { name: 'Diameter', type:"number", values: [] },
               { name: 'Base Curve', type:"number", values: [] },
@@ -130,7 +130,7 @@ export class ProductsComponent implements OnInit {
               { name: 'Multifocal Design', type:"radio", values: [ 'CD' , 'CN' ] }
             ]
           }],
-          
+
       }
     ];
   }
