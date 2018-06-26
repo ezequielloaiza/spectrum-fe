@@ -9,6 +9,7 @@ import { SuppliersComponent } from './suppliers/suppliers.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
+import {ListOrderComponent} from './client/list-order/list-order.component';
 
 const routes: Routes = [
     {
@@ -30,7 +31,8 @@ const routes: Routes = [
             { path: 'suppliers', component: SuppliersComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'category', component: CategoryComponent },
-            { path: 'business-type', component: BusinessTypeComponent }
+            { path: 'business-type', component: BusinessTypeComponent },
+            { path: 'order-list-client', component: ListOrderComponent }
         ]
     }
 ];

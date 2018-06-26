@@ -170,5 +170,9 @@
     "The user already exists":"El usuario ya existe",
     "The category already exists":"La categoría ya existe",
     "Can not be eliminated, is associated with a product":"No se puede eliminar, se encuentra asociada a un producto",
-    "The supplier already exists, verify the name of the company or the emails": "El proveedor ya existe, verifique nombre de la compañia o correos electrónicos"
+    "The supplier already exists, verify the name of the company or the emails": "El proveedor ya existe, verifique nombre de la compañia o correos electrónicos",
+    "All orders":"Todas las ordenes",
+    "Orders List":"Lista de Ordenes",
+    "Pending":"Pendiente",
+    "Authorized":"Autorizada"
 }

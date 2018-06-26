@@ -51,7 +51,7 @@
 				<li class="nested" [class.expand]="showMenu === 'order'">
 					<ul class="submenu">
 						<li>
-							<a href="javascript:void(0)">
+							<a [routerLink]="['/order-list-client']" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
 							</a>

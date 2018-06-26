@@ -1,0 +1,69 @@
+<app-page-header class="page-header-fixed" [heading]="'Orders List'" [icon]="'fa fa-folder-open'"></app-page-header>
+
+<div class="sp-container">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All orders' | translate }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-3">
+            <fieldset class="form-group">
+              <label>{{ 'Status' | translate }}</label>
+              <select class="form-control" name="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)">
+                <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
+              </select>
+            </fieldset>
+          </div>
+          <div class="col-xl-3">
+            <div class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <img src="img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr">{{ 'Status' | translate }}</th>
+                <th class="table-tr">{{ 'Number' | translate }}</th>
+                <th class="table-tr">{{ 'Date' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of listOrders">
+                <td *ngIf='order.status==0' class="table-tr" translate>Pending</td>
+                <td *ngIf='order.status==1' class="table-tr" translate>Authorized</td>
+                <td class="table-tr">{{order.number}}</td>
+                <td class="table-tr">{{order.date | date:'yyyy-MM-dd'}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-empty" [hidden]="listOrders.length !== 0" translate>
+            <p class="no-records">
+              {{ 'No records have been added yet' | translate }}
+            </p>
+          </div>
+          <div class="pagination-list" [hidden]="listOrders.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listOrdersAux.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+            <span class="count-elements">{{ listOrders.length + ' ' + ('of' | translate) + ' ' + listOrdersAux.length + ' ' + ('register(s)' | translate)
+              }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
