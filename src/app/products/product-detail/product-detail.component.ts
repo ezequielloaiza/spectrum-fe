@@ -19,10 +19,10 @@ export class ProductDetailComponent implements OnInit {
     this.products = this.productComponent.products
 
     //simulando click en el primer producto
-    this.product = this.products[1];
+    this.product = this.products[0];
 
     //simulando click en el primer type del producto actual
-    this.parameters = this.product.types[1].parameters;
+    this.parameters = this.product.types[0].parameters;
 
     //DESCOMENTAR Y SIMULAR LO SIGUIENTE COMENTANDO LINEAS 21 y 24 y OBSERVAR PARAMETRO SPHERE EN LA VISTA DE PRODUCT/DETAILS
     //SI LO MIRAMOS BIEN EL COMPORTAMIENTO DE LOS STEPS ES PARA UN RANGO ESPECIFICO, INVESTIGAR SI ESO SE PUEDE HACER EN UN INPUT
@@ -31,17 +31,40 @@ export class ProductDetailComponent implements OnInit {
     this.parameters = this.product.types[1].parameters;*/
   }
 
+  setParameters(type) {
+    this.cleanTypeSelected();
+    type.selected = true;
+    this.parameters = type.parameters;
+  }
+
   cleanTypeSelected() {
     _.each(this.product.types, function(type) {
       type.selected = false;
     });
   }
 
-  getParameters(type) {
-    this.cleanTypeSelected();
-    type.selected = true;
-    this.parameters = type.parameters;
+  setColor(color) {
+    this.cleanColorSelected();
+    color.selected = true;
   }
+
+  cleanColorSelected() {
+    _.each(this.product.colors, function(color) {
+      color.selected = false;
+    });
+  }
+
+  setValue(value, values) {
+    this.cleanValueSelected(values);
+    value.selected = true;
+  }
+
+  cleanValueSelected(values) {
+    _.each(values, function(value) {
+      value.selected = false;
+    });
+  }
+
   
   buyNow() {
     console.log(this.product);
