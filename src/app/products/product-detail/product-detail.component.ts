@@ -31,8 +31,20 @@ export class ProductDetailComponent implements OnInit {
     this.parameters = this.product.types[1].parameters;*/
   }
 
+  cleanTypeSelected() {
+    _.each(this.product.types, function(type) {
+      type.selected = false;
+    });
+  }
+
   getParameters(type) {
+    this.cleanTypeSelected();
+    type.selected = true;
     this.parameters = type.parameters;
+  }
+  
+  buyNow() {
+    console.log(this.product);
 	}
 
 }

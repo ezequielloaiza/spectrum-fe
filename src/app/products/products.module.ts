@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageHeaderModule } from '../shared';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { PageHeaderModule } from '../shared';
     TranslateModule,
     HeaderModule,
     NgbModule.forRoot(),
-    PageHeaderModule
+    PageHeaderModule,
+    FormsModule
   ],
   declarations: [ProductsComponent, ProductsListsComponent, ProductDetailComponent]
 })
