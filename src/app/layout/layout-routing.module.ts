@@ -10,6 +10,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import {ListOrderComponent} from './client/list-order/list-order.component';
+import { ClientComponent } from './client/client.component';
 
 const routes: Routes = [
     {
@@ -32,7 +33,8 @@ const routes: Routes = [
             { path: 'profile', component: ProfileComponent },
             { path: 'category', component: CategoryComponent },
             { path: 'business-type', component: BusinessTypeComponent },
-            { path: 'order-list-client', component: ListOrderComponent }
+            { path: 'order-list-client', component: ListOrderComponent,
+            runGuardsAndResolvers: 'always'}
         ]
     }
 ];

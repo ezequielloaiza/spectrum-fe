@@ -174,5 +174,14 @@
     "All orders":"All orders",
     "Orders List":"Orders List",
     "Pending":"Pending",
-    "Authorized":"Authorized"
+    "Authorized":"Authorized",
+    "Sent":"Sent",
+    "Processed":"Processed",
+    "Pay":"Pay",
+    "Filters:":"Filters:",
+    "Date":"Date",
+    "Number":"Number",
+    "View Details":"View Details",
+    "Select":"Select",
+    "Clean":"Clean"
 }

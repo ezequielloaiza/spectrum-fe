@@ -174,5 +174,14 @@
     "All orders":"Todas las ordenes",
     "Orders List":"Lista de Ordenes",
     "Pending":"Pendiente",
-    "Authorized":"Autorizada"
+    "Authorized":"Autorizada",
+    "Sent":"Enviada",
+    "Processed":"Procesada",
+    "Pay":"Paga",
+    "Filters:":"Filtros:",
+    "Date":"Fecha",
+    "Number":"Número",
+    "View Details":"Ver Detalles",
+    "Select":"Seleccione",
+    "Clean":"Limpiar"
 }
