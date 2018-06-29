@@ -141,7 +141,8 @@
               <dl class="param param-inline">
                 <dt>Quantity: </dt>
                 <dd>
-                  <input type='number' max="{{ product.stock }}" min="1" step="1" ng-disabled="product.stock === 0" value="1" class="form-control">
+                  <input type='number' class="form-control" min="1" max="{{ product.stock }}" step="1"
+                         ng-disabled="product.stock === 0" [(ngModel)]="quantity">
                 </dd>
               </dl>
               <!-- item-property .// -->
@@ -149,11 +150,11 @@
             <!-- col.// -->
             <div class="col-sm-6">
               <dl class="param param-inline">
-                <dt>SubTotal: </dt>
+                <dt>Total: </dt>
                 <dd>
                   <span class="price h3 text-warning">
                     <span class="currency">US $</span>
-                    <span class="num">{{ product.price1 * 2 }}</span>
+                    <span class="num">{{ product.price1 * quantity }}</span>
                   </span>
                 </dd>
               </dl>
