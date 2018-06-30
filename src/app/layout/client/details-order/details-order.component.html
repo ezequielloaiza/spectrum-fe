@@ -1,0 +1,134 @@
+<app-page-header class="page-header-fixed" [heading]="'Order'" [icon]="'fa fa-folder-open'"></app-page-header>
+<div class="sp-container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header d-flex">
+                    <div class="align-self-center">
+                        <div class="card-header">{{ 'Order Details' | translate }}</div>
+                    </div>
+                </div>
+                <div class="div-order">{{'Ordered on'| translate}} June 18,2018
+                    <span>|</span>
+                    {{'Order#'| translate}} 111-5784369
+                </div>
+                <Br>
+                <div class="container pp rounded">
+                    <div class="row justify-content-md-center ">
+                        <div class="col">
+                            <p class="font-weight-bold text-left" [ngStyle]="{'padding-top':'15px','padding-left':'40px'}" translate>{{' Shipping Addresses'}}</p>
+                            <p class="font-weight-normal" [ngStyle]="{'padding-left':'40px'}" translate>
+                                <span>Manuel Vieira</span>
+                                <Br>
+                                <span>name</span>
+                                <Br>
+                                <span>Country</span>
+                                <Br>
+                                <span>City</span>
+                                <Br>
+                                <span>Pais</span>
+                            </p>
+                        </div>
+                        <div class="col"></div>
+                        <div class="col">
+                            <p class="font-weight-bold text-left" [ngStyle]="{'padding-top':'15px','padding-left':'40px'}" translate>{{'Order Summary'}}</p>
+                            <p class="font-weight-normal" [ngStyle]="{'padding-left':'40px'}" translate>
+                                <span translate>{{'Item(s) Subtotal'}}</span>
+                                <Br>
+                                <span translate>{{'Total before tax'}}</span>
+                                <Br>
+                                <span translate>{{'Estimated tax'}}</span>
+                            </p>
+                            <p class="font-weight-bold text-left" [ngStyle]="{'padding-top':'15px','padding-left':'40px'}" translate>{{'Total'}}</p>
+                        </div>
+                        <div class="col">
+                            <p class="font-weight-bold text-left" [ngStyle]="{'padding-top':'40px','padding-left':'40px'}"></p>
+                            <p class="font-weight-normal" [ngStyle]="{'padding-left':'40px'}" translate>
+                                <span>{{'$'}}{{'600'}}</span>
+                                <Br>
+                                <span>{{'$'}}{{'600'}}</span>
+                                <Br>
+                                <span>{{'$'}}{{'0'}}</span>
+                            </p>
+                            <p class="font-weight-bold text-left" [ngStyle]="{'padding-top':'15px','padding-left':'40px'}">{{'$'}}{{'600'}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container" *ngFor="let detail of listDetails">
+                    <hr>
+                    <div class="row">
+                        <aside>
+                            <article class="gallery-wrap">
+                                <div class="col-sm-3">
+                                    <div class="img-med-wrap">
+                                        <div>
+                                            <img src="assets/images/lentes.jpg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </aside>
+                        <aside class="col-sm-9">
+                            <article class="card-body p-5">
+                                <h3 class="title mb-3">Original Version of Some product name</h3>
+                                <p class="price-detail-wrap">
+                                    <span class="price h3 text-warning">
+                                        <span class="currency">US $</span>
+                                        <span class="num">{{detail}}</span>
+                                    </span>
+                                    <span>/per kg</span>
+                                </p>
+                                <!-- price-detail-wrap .// -->
+                                <dl class="item-property">
+                                    <dt>Description</dt>
+                                    <dd>
+                                        <p>Here goes description consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                                            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                            ullamco </p>
+                                    </dd>
+                                </dl>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <dl class="param param-feature">
+                                            <dt>Model#</dt>
+                                            <dd>12345611</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <dl class="param param-feature">
+                                            <dt>Color</dt>
+                                            <dd>Black and white</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <dl class="param param-feature">
+                                            <dt>Quantity:</dt>
+                                            <dd>1</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <dl class="param param-feature">
+                                            <dt>Size:</dt>
+                                            <dd>SM</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </article>
+                            <!-- card-body.// -->
+                        </aside>
+                        <!-- col.// -->
+                    </div>
+                    <!-- row.// -->
+                </div>
+                <div class="card-body table-responsive">
+                    <div class="pagination-list" [hidden]="listDetails.length === 0">
+                        <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listDetailsAux.length"
+                            [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+                        </ngb-pagination>
+                        <span class="count-elements">{{ listDetails.length + ' ' + ('of' | translate) + ' ' + listDetailsAux.length + ' ' + ('register(s)'
+                            | translate) }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>

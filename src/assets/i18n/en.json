@@ -183,5 +183,15 @@
     "Number":"Number",
     "View Details":"View Details",
     "Select":"Select",
-    "Clean":"Clean"
+    "Clean":"Clean",
+    "Order":"Order",
+    "Ordered on":"Ordered on",
+    "Order Details":"Order Details",
+    "Order#":"Order#",
+    "Shipping Addresses":"Shipping Addresses",
+    "Order Summary":"Order Summary",
+    "Item(s) Subtotal":"Item(s) Subtotal",
+    "Total before tax":"Total before tax",
+    "Estimated tax":"Estimated tax",
+    "Total":"Total"
 }
