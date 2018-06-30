@@ -28,7 +28,8 @@ export class ProductsComponent implements OnInit {
         ], //TODO --> preguntar si su existencia depende por types o por producto.
         types: [
           //TODO --> verificar la clasificacion por tipo y si son anidadas o no.
-          //TODO --> verificar las unidades de medidas para c/u de los parametros.
+          //TODO --> verificar las unidades de medidas para c/u de los parametros. 
+          /* DIAMETROS son milimetros */
           //TODO --> verificar si todos los parametros son requeridos para poder comprar.
           {
             name: 'Spheric & Toric',

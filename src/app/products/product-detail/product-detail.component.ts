@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsComponent } from '../products.component';
 import * as _ from 'lodash';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-detail',
@@ -11,26 +12,20 @@ export class ProductDetailComponent implements OnInit {
 
   products: Array<any> = new Array;
   product: any;
+  id: number;
   parameters: any;
   valueCurrent: any;
   quantity = 1;
   order: any;
-  constructor(private productComponent:ProductsComponent) { }
+  constructor(private productComponent:ProductsComponent, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.products = this.productComponent.products
-
-    //simulando click en el primer producto
-    this.product = this.products[0];
-
+    this.id = +this.route.snapshot.paramMap.get('id');
+    this.product = _.find(this.products, {id: this.id});
+    
     //simulando click en el primer type del producto actual
     this.parameters = this.product.types[0].parameters;
-
-    //DESCOMENTAR Y SIMULAR LO SIGUIENTE COMENTANDO LINEAS 21 y 24 y OBSERVAR PARAMETRO SPHERE EN LA VISTA DE PRODUCT/DETAILS
-    //SI LO MIRAMOS BIEN EL COMPORTAMIENTO DE LOS STEPS ES PARA UN RANGO ESPECIFICO, INVESTIGAR SI ESO SE PUEDE HACER EN UN INPUT
-    //SINO TOCA TRAMPEARLO CON HIDDEN INPUT Y COSAS ASI DEPENDIENDO DEL VALOR QUE TENGA EL INPUT EN UN MOMENTO DETERMINADO
-    /*this.product = this.products[1];
-    this.parameters = this.product.types[1].parameters;*/
   }
 
   setParameters(type) {
