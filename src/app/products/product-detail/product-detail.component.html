@@ -62,111 +62,17 @@
             </dd>
           </dl>
           <hr>
-          <dl class="param param-feature">
-            <dt>Available Types</dt>
-            <dd>
-              <!--TODO DEVS ..> verificar el select ya precargado en base al type.selected -->
-              <div class="custom-control custom-radio" *ngFor="let type of product.types">
-                <input type="radio" id="{{ type.name }}" name="type" class="custom-control-input" 
-                       [checked]="type.selected === true" (click)="setParameters(type)">
-                <label class="custom-control-label" for="{{ type.name }}">{{ type.name }}</label>
-              </div>
-            </dd>
-          </dl>
-          <hr>
           <!-- item-property-hor .// -->
           <dl class="param param-feature">
             <dt>Colors</dt>
             <dd>
               <div class="custom-control custom-radio" name="colors" *ngFor="let color of product.colors">
                 <input type="radio" id="{{ color.name }}" name="colors" class="custom-control-input"
-                       [checked]="color.selected === true" (click)="setColor(color)">
+                        [checked]="color.selected === true" (click)="setColor(color)">
                 <label class="custom-control-label" for="{{ color.name }}">{{ color.name }}</label>
               </div>
             </dd>
           </dl>
-          <hr>
-          <!-- item-property-hor .// -->
-          <dl class="param param-feature">
-            <dt>Parameters</dt>
-            <dd>
-              <label class="form-check" *ngFor="let parameter of parameters">
-                <div>
-                  <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
-                  <div *ngFor="let value of parameter.values">
-                    <!--One value in list values -->
-                    <div *ngIf="parameter.values.length === 1" >
-                      <input type='number' class="form-control" *ngIf="parameter.type === 'number'" [(ngModel)]="parameter.selected"
-                             max="{{ value.rangeEnd }}" min="{{ value.rangeStart }}" step="{{ value.step }}">
-                      <div *ngIf="parameter.type === 'radio'" class="custom-control custom-radio">
-                        <input class="custom-control-input" type="radio" id="{{ value.name }}" 
-                               [checked]="value.selected === true" (click)="setValue(value, parameter.values)">
-                        <label class="custom-control-label" for="{{ value.name }}">{{ value.name }}</label>
-                      </div>
-                    </div>
-                    <!--Two o more values in list values type number-->
-                    <div *ngIf="parameter.values.length > 1 && parameter.type === 'number'" class="custom-control custom-radio" name="range">
-                      <input class="custom-control-input" type="radio" name="range" id="{{ value.rangeStart }}" 
-                             (click)="valueCurrent = value; parameter.selected = value.rangeStart">
-                      <label class="custom-control-label" for="{{ value.rangeStart }}">{{ value.rangeStart + ' to ' + value.rangeEnd }}</label>
-                    </div>
-                    <!--Two o more values in list values type radio-->
-                    <div *ngIf="parameter.values.length > 1 && parameter.type === 'radio'" class="custom-control custom-radio">
-                      <input class="custom-control-input" type="radio" id="{{ value.name }}"
-                             [checked]="value.selected === true" (click)="setValue(value, parameter.values)">
-                      <label class="custom-control-label" for="{{ value.name }}">{{ value.name }}</label>
-                    </div>
-                  </div>
-                </div>
-                <div *ngIf="parameter.values.length > 1 && parameter.type === 'number' && valueCurrent">
-                  <input type='number' class="form-control" *ngIf="parameter.type === 'number'" [(ngModel)]="parameter.selected"
-                         max="{{ valueCurrent.rangeEnd }}" min="{{ valueCurrent.rangeStart }}" step="{{ valueCurrent.step }}">  
-                </div>
-              </label>
-            </dd>
-          </dl>
-          <!-- item-property-hor .// -->
-          <hr>
-          <div class="row">
-            <div class="col-sm-3">
-              <!-- price-detail-wrap .// -->
-              <dl class="item-property">
-                <dt>Stock</dt>
-                <dd>
-                  <p>{{ product.stock }}</p>
-                </dd>
-              </dl>
-            </div>
-            <div class="col-sm-3">
-              <dl class="param param-inline">
-                <dt>Quantity: </dt>
-                <dd>
-                  <input type='number' class="form-control" min="1" max="{{ product.stock }}" step="1"
-                         ng-disabled="product.stock === 0" [(ngModel)]="quantity">
-                </dd>
-              </dl>
-              <!-- item-property .// -->
-            </div>
-            <!-- col.// -->
-            <div class="col-sm-6">
-              <dl class="param param-inline">
-                <dt>Total: </dt>
-                <dd>
-                  <span class="price h3 text-warning">
-                    <span class="currency">US $</span>
-                    <span class="num">{{ product.price1 * quantity }}</span>
-                  </span>
-                </dd>
-              </dl>
-              <!-- item-property .// -->
-            </div>
-            <!-- col.// -->
-          </div>
-          <!-- row.// -->
-          <hr>
-          <a (click)="buyNow()" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>&nbsp;
-          <a href="#" class="btn btn-lg btn-outline-primary text-uppercase">
-            <i class="fa fa-cart-plus"></i> Add to cart </a>
         </article>
         <!-- card-body.// -->
       </aside>
@@ -175,8 +81,117 @@
     <!-- row.// -->
   </div>
   <!-- card.// -->
+  <div class="card">
+    <div class="card-body">
+      <ngb-tabset>
+        <ngb-tab  *ngFor="let type of product.types" >
+          <ng-template ngbTabTitle>
+            <div (click)="setParameters(type)">
+                {{ type.name }}
+            </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <!-- item-property-hor .// -->
+            <dl class="param param-feature">
+              <br>
+              <dt>{{ 'Parameters' | translate }}</dt>
+              <dd>
+                <label class="form-check" *ngFor="let parameter of parameters" class="col-sm-6"> 
+                  <div>
+                    <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
+                    <div *ngFor="let value of parameter.values">
+                      <!--One value in list values -->
+                      <div *ngIf="parameter.values.length === 1">
+                        <input type='number' class="form-control" *ngIf="parameter.type === 'number'" [(ngModel)]="parameter.selected"
+                              max="{{ value.rangeEnd }}" min="{{ value.rangeStart }}" step="{{ value.step }}">
+                        <div *ngIf="parameter.type === 'radio'" class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" id="{{ value.name }}" 
+                                [checked]="value.selected === true" (click)="setValue(value, parameter.values)">
+                          <label class="custom-control-label" for="{{ value.name }}">{{ value.name }}</label>
+                        </div>
+                      </div>
+                      <!--Two o more values in list values type number-->
+                      <div *ngIf="parameter.values.length > 1 && parameter.type === 'number'" class="custom-control custom-radio" name="range">
+                        <input class="custom-control-input" type="radio" name="range" id="{{ value.rangeStart }}" 
+                              (click)="valueCurrent = value; parameter.selected = value.rangeStart">
+                        <label class="custom-control-label" for="{{ value.rangeStart }}">{{ value.rangeStart + ' to ' + value.rangeEnd }}</label>
+                      </div>
+                      <!--Two o more values in list values type radio-->
+                      <div *ngIf="parameter.values.length > 1 && parameter.type === 'radio'" class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="{{ value.name }}"
+                              [checked]="value.selected === true" (click)="setValue(value, parameter.values)">
+                        <label class="custom-control-label" for="{{ value.name }}">{{ value.name }}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="parameter.values.length > 1 && parameter.type === 'number' && valueCurrent">
+                    <input type='number' class="form-control" *ngIf="parameter.type === 'number'" [(ngModel)]="parameter.selected"
+                          max="{{ valueCurrent.rangeEnd }}" min="{{ valueCurrent.rangeStart }}" step="{{ valueCurrent.step }}">  
+                  </div>
+                </label>
+              </dd>
+            </dl>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
 
   <div class="card">
+    <div class="row">
+        <aside class="col-sm-4"></aside>
+        <aside class="col-sm-7">
+          <article class="card-body p-5">
+            <!-- item-property-hor .// -->
+            <div class="row">
+              <div class="col-sm-3">
+                <!-- price-detail-wrap .// -->
+                <dl class="item-property">
+                  <dt>Stock</dt>
+                  <dd>
+                    <p>{{ product.stock }}</p>
+                  </dd>
+                </dl>
+              </div>
+              <div class="col-sm-3">
+                <dl class="param param-inline">
+                  <dt>Quantity: </dt>
+                  <dd>
+                    <input type='number' class="form-control" min="1" max="{{ product.stock }}" step="1"
+                          ng-disabled="product.stock === 0" [(ngModel)]="quantity">
+                  </dd>
+                </dl>
+                <!-- item-property .// -->
+              </div>
+              <!-- col.// -->
+              <div class="col-sm-6">
+                <dl class="param param-inline">
+                  <dt>Total: </dt>
+                  <dd>
+                    <span class="price h3 text-warning">
+                      <span class="currency">US $</span>
+                      <span class="num">{{ product.price1 * quantity }}</span>
+                    </span>
+                  </dd>
+                </dl>
+                <!-- item-property .// -->
+              </div>
+              <!-- col.// -->
+            </div>
+            <!-- row.// -->
+            <hr>
+            <a (click)="buyNow()" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>&nbsp;
+            <a href="#" class="btn btn-lg btn-outline-primary text-uppercase">
+              <i class="fa fa-cart-plus"></i> Add to cart 
+            </a>
+          </article>
+        </aside>
+    </div>
+  </div>
+
+  
+
+  <!--<div class="card">
     <div class="card-body">
       <ngb-tabset>
         <ngb-tab>
@@ -213,7 +228,7 @@
         </ngb-tab>
       </ngb-tabset>
     </div>
-  </div>
+  </div>-->
 
 
 </div>
