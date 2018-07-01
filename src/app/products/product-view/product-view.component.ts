@@ -4,11 +4,11 @@ import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-product-detail',
-  templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.scss']
+  selector: 'app-product-view',
+  templateUrl: './product-view.component.html',
+  styleUrls: ['./product-view.component.scss']
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductViewComponent implements OnInit {
 
   products: Array<any> = new Array;
   product: any;
