@@ -14,7 +14,6 @@ export class ProductDetailComponent implements OnInit {
   product: any;
   id: number;
   parameters: any;
-  valueCurrent: any;
   quantity = 1;
   order: any;
   constructor(private productComponent:ProductsComponent, private route: ActivatedRoute) { }
@@ -52,12 +51,12 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  setValue(value, values) {
-    this.cleanValueSelected(values);
+  setValueRadio(value, values) {
+    this.cleanValueRadio(values);
     value.selected = true;
   }
 
-  cleanValueSelected(values) {
+  cleanValueRadio(values) {
     _.each(values, function(value) {
       value.selected = false;
     });
@@ -98,6 +97,6 @@ export class ProductDetailComponent implements OnInit {
   buyNow() {
     this.order = this.buildOrder();
     console.log(this.order);
-	}
+  }
 
 }
