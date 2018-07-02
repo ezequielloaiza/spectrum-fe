@@ -96,7 +96,7 @@ export class ProductsComponent implements OnInit {
           }],
           infoAditional: [
             {
-              name: 'characteristics' , values: [
+              name: 'Characteristics' , values: [
                               {title:'More Custom', description:'Individually made for each eye in multiple designs.'},
                               {title:'More Comfort', description:'Proven Hydrogel (49%).'},
                               {title:'Vision Type', description:'Classic—vision satisfaction you have grown to trust.'}
@@ -237,7 +237,7 @@ export class ProductsComponent implements OnInit {
           }],
           infoAditional: [
             {
-              name: 'characteristics' , values: [
+              name: 'Characteristics' , values: [
                               {title:'More Custom', description:'Design flexibilities beyond other standard hydrogels.'},
                               {title:'More Comfort', description:'A high-performance Hydrogel (55%).'},
                               {title:'Vision Type', description:'Active—clear vision for your lifestyle.'}
