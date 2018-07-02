@@ -17,9 +17,11 @@ export class ProductsComponent implements OnInit {
         category: 'Contact Lenses',
         subCategory: 'MarkEnnovy Contact Lenses',
         material: 'Hidrogel, Filcon I 1 49%',
-        description: 'It is a product test',
+        descriptionShort: 'My description short by quattro',
+        description: 'Quattro is individually manufactured with the material mark’ennovy was founded on, Filcon I 1 49%. It is our classic line of lenses produced with the most advanced technology for mark’ennovy’s most experienced contact lens users.',
         replacementPeriod: '3 months',
         warranty: 'One year',
+        url: 'http://spctinternational.com/wp-content/uploads/2017/11/QUATTRO.pdf',
         stock: 10,
         colors: [
             { name: 'Blue', selected: true },
@@ -92,16 +94,42 @@ export class ProductsComponent implements OnInit {
             ],
             selected: false
           }],
-
+          infoAditional: [
+            {
+              name: 'characteristics' , values: [
+                              {title:'More Custom', description:'Individually made for each eye in multiple designs.'},
+                              {title:'More Comfort', description:'Proven Hydrogel (49%).'},
+                              {title:'Vision Type', description:'Classic—vision satisfaction you have grown to trust.'}
+                              
+              ]
+            },
+            {
+              name: 'Technical Specifications', values: [
+                                      {title: 'Material', description: 'Hydrogel, Filcon I 1 49%'},
+                                      {title: 'DK', description: '15'},
+                                      {title: 'MPa', description: '0.29'},
+                                      {title: 'Handling Tint', description: 'Yes'},
+                                      {title: 'UV Blocking', description: 'Yes'},
+                                      {title: 'Base Curve (mm)	', description: '7.70 to 9.80 Steps 0.30'},
+                                      {title: 'ØT (mm)	', description: '14.50 to 13.00'},
+                                      {title: 'Sphere (D)	', description: '-30.00 to +30.00 Steps 0.25'},
+                                      {title: 'Cylinder (D)	', description: '-0.75 to -8.00 Steps 0.25'},
+                                      {title: 'Axis (°)	', description: 'All Steps 5°'},
+                                      {title: 'Addition (D)	', description: 'A – B – C'}
+              ]
+            }
+          ]
       },
       { id: 2, name: 'Xtensa',
         priceBase: 4000, price1: 3500, price2: 3600, price3: 3700,
         category: 'Contact Lenses',
         subCategory: 'MarkEnnovy Contact Lenses',
         material: 'Hidrogel, Filcon IV I 55%',
-        description: 'Its a product test 2',
+        descriptionShort: 'My description short by xtensa',
+        description: 'Xtensa is a monthly soft contact lens for all audiences and lifestyles manufactured with our patented micro-precision technology.  Its consistent comfort and vision clarity make it ideal for the most dynamic and carefree contact lens users.',
         replacementPeriod: '3 months',
         warranty: 'One year',
+        url: 'http://spctinternational.com/wp-content/uploads/2017/11/XTENSA.pdf',
         stock: 10,
         colors: [
             { name: 'Blue', selected: true },
@@ -207,11 +235,32 @@ export class ProductsComponent implements OnInit {
             ],
             selected: false
           }],
+          infoAditional: [
+            {
+              name: 'characteristics' , values: [
+                              {title:'More Custom', description:'Design flexibilities beyond other standard hydrogels.'},
+                              {title:'More Comfort', description:'A high-performance Hydrogel (55%).'},
+                              {title:'Vision Type', description:'Active—clear vision for your lifestyle.'}
+                              
+              ]
+            },
+            {
+              name: 'Technical Specifications', values: [
+                                      {title: 'Material', description: 'Hydrogel, Filcon IV I 55%'},
+                                      {title: 'DK', description: '19'},
+                                      {title: 'Handling Tint', description: 'Yes'},
+                                      {title: 'UV Blocking', description: 'No'},
+                                      {title: 'Base Curve (mm)', description: '8.60'},
+                                      {title: 'ØT (mm)', description: '14.30'},
+                                      {title: 'Sphere (D)', description: '-10.00 to +10.00 (-6.00 to +4.00 Steps 0.25; -6.50 to -10.00 Steps 0.50; +4.50 to +10.00 Steps 0.50)'},
+                                      {title: 'Addition (D)', description: 'LOW – HIGH'},
+                                      {title: 'Design MF', description: 'CD – CN'}
+              ]
+            }
+          ]
 
       }
     ];
-
-    console.log(this.products);
   }
 
 }

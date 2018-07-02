@@ -47,16 +47,17 @@
               <span class="num">{{ product.price1 }}</span>
             </span>
           </p>
-          <!-- material -->
+          <!-- description -->
           <dl class="item-property">
-            <dt>Material</dt>
+            <dt>Description</dt>
             <dd>
-              <p>{{ product.material }}</p>
+              <p>{{ product.description }}</p>
             </dd>
           </dl>
-          <!-- material -->
+          <hr>
+          <!-- properties -->
           <dl class="item-property">
-            <dt>{{ 'Characteristics (aqui los iconos de SPHERIC, TORIC, UV' | translate }}</dt>
+            <dt>{{ 'Properties (aqui los iconos de SPHERIC, TORIC, UV' | translate }}</dt>
             <dd>
               <i class="fa fa-cart-plus"></i>
               <i class="fa fa-cart-plus"></i>
@@ -67,11 +68,11 @@
             </dd>
           </dl>
           <hr>
-          <!-- description -->
+          <!-- product sheet -->
           <dl class="item-property">
-            <dt>Description</dt>
+            <dt>Product Sheet</dt>
             <dd>
-              <p>{{ product.description }}</p>
+              <a href="{{ product.url }}">{{ 'download' }}</a>
             </dd>
           </dl>
           <hr>
@@ -115,8 +116,8 @@
           <!--buttons buy-->
           <hr>
           <div>
-            <a (click)="buyNow()" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>&nbsp;
-            <a href="#" class="btn btn-lg btn-outline-primary text-uppercase">
+            <a routerLink="/products/{{product.id}}/product-details/{{'toBuy'}}" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>&nbsp;
+            <a routerLink="/products/{{product.id}}/product-details/{{'toCart'}}" class="btn btn-lg btn-outline-primary text-uppercase">
               <i class="fa fa-cart-plus"></i> Add to cart 
             </a>
           </div>
@@ -131,98 +132,22 @@
   <div class="card">
     <div class="card-body">
       <ngb-tabset>
-        <ngb-tab  *ngFor="let type of product.types" >
+        <ngb-tab  *ngFor="let info of product.infoAditional">
           <ng-template ngbTabTitle>
-            <div (click)="setParameters(type)">
-              <label>{{ type.name }}</label>
+            <div>
+              <label>{{ info.name }}</label>
             </div>
           </ng-template>
           <ng-template ngbTabContent>
-            <!-- item-property-hor .// -->
-            <dl class="param param-feature">
+            <div *ngFor="let value of info.values">
+              <label>{{ value.title }}: {{ value.description }}</label>
               <br>
-              <dt>{{ 'Parameters' | translate }}</dt>
-              <dd>
-                <div *ngFor="let parameter of parameters" class="col-sm-6">
-                  <div *ngIf="parameter.values.length > 0">
-                    <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
-
-                    <!--One value in list values -->
-                    <div *ngIf="parameter.type === 'number'">
-                      <select class="form-control" name="value" (change)="parameter.selected = $event.target.value">
-                        <option *ngFor="let value of parameter.values">{{ value }}</option>
-                      </select>
-                    </div>
-  
-                    <div *ngIf="parameter.type === 'radio'" >
-                      <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
-                        <input class="custom-control-input" type="radio" id="{{ value.name }}"
-                              [checked]="value.selected === true" (click)="setValueRadio(value, parameter.values)">
-                        <label class="custom-control-label" for="{{ value.name }}">{{ value.name }}</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </dd>
-              <br>
-              <!-- colors -->
-              <dt>{{ 'Colors' | translate }}</dt>
-              <dd>
-                <div class="custom-control custom-radio" name="colors" *ngFor="let color of product.colors">
-                  <input type="radio" id="{{ color.name }}" name="colors" class="custom-control-input"
-                          [checked]="color.selected === true" (click)="setColor(color)">
-                  <label class="custom-control-label" for="{{ color.name }}">{{ color.name }}</label>
-                </div>
-              </dd>
-            </dl>
+            </div>
           </ng-template>
         </ngb-tab>
       </ngb-tabset>
     </div>
   </div>
-
-  
-
-  <!--<div class="card">
-    <div class="card-body">
-      <ngb-tabset>
-        <ngb-tab>
-          <ng-template ngbTabTitle>
-            {{ 'Characteristics' | translate}}
-          </ng-template>
-          <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-              master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-              dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-              iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab>
-          <ng-template ngbTabTitle>
-            {{ 'Technical specifications' | translate}}
-          </ng-template>
-          <ng-template ngbTabContent>
-            <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-              craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-              vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica
-              VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-              sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-              tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab title="Disabled" [disabled]="true">
-          <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-              master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-              dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-              iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-          </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
-    </div>
-  </div>-->
-
-
 </div>
 <!--container.//-->
 

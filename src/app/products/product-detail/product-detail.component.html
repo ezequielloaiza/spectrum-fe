@@ -4,129 +4,11 @@
 <div class="info-breadcrumbs">
   <app-page-header class="info-top" [heading]="'Product Details'" [icon]="'fa-edit'"></app-page-header>
   <br>
-  <a routerLink="/products">
+  <a routerLink="/products/{{product.id}}/product-view">
     <i class="fa fa-arrow-left">&nbsp;&nbsp;{{ 'Back' | translate }}</i>
   </a>
 </div>
 <div class="container">
-  <hr>
-  <div class="card">
-    <div class="row">
-      <aside class="col-sm-5 border-right">
-        <article class="gallery-wrap">
-          <div class="img-big-wrap">
-            <div>
-              <a href="#">
-                <img src="assets/images/lentes.jpg">
-              </a>
-            </div>
-          </div>
-          <!-- slider-product.// -->
-          <div class="img-small-wrap">
-            <div class="item-gallery">
-              <img src="assets/images/lentes.jpg"> </div>
-            <div class="item-gallery">
-              <img src="assets/images/lentes.jpg"> </div>
-            <div class="item-gallery">
-              <img src="assets/images/lentes.jpg"> </div>
-            <div class="item-gallery">
-              <img src="assets/images/lentes.jpg"> </div>
-          </div>
-          <!-- slider-nav.// -->
-        </article>
-        <!-- gallery-wrap .end// -->
-      </aside>
-      <aside class="col-sm-7">
-        <article class="card-body p-5">
-          <!-- name -->
-          <h3 class="title mb-3">{{ product.name }}</h3>
-          <!-- price -->
-          <p class="price-detail-wrap">
-            <span class="price h3 text-warning">
-              <span class="currency">US $</span>
-              <span class="num">{{ product.price1 }}</span>
-            </span>
-          </p>
-          <!-- material -->
-          <dl class="item-property">
-            <dt>Material</dt>
-            <dd>
-              <p>{{ product.material }}</p>
-            </dd>
-          </dl>
-          <!-- material -->
-          <dl class="item-property">
-            <dt>{{ 'Characteristics (aqui los iconos de SPHERIC, TORIC, UV' | translate }}</dt>
-            <dd>
-              <i class="fa fa-cart-plus"></i>
-              <i class="fa fa-cart-plus"></i>
-              <i class="fa fa-cart-plus"></i>
-              <i class="fa fa-cart-plus"></i>
-              <i class="fa fa-cart-plus"></i>
-              <i class="fa fa-cart-plus"></i>
-            </dd>
-          </dl>
-          <hr>
-          <!-- description -->
-          <dl class="item-property">
-            <dt>Description</dt>
-            <dd>
-              <p>{{ product.description }}</p>
-            </dd>
-          </dl>
-          <hr>
-          <!-- info buy-->
-          <div class="row">
-            <div class="col-sm-3">
-              <!-- price-detail-wrap .// -->
-              <dl class="item-property">
-                <dt>Stock</dt>
-                <dd>
-                  <p>{{ product.stock }}</p>
-                </dd>
-              </dl>
-            </div>
-            <div class="col-sm-3">
-              <dl class="param param-inline">
-                <dt>Quantity: </dt>
-                <dd>
-                  <input type='number' class="form-control" min="1" max="{{ product.stock }}" step="1"
-                        ng-disabled="product.stock === 0" [(ngModel)]="quantity">
-                </dd>
-              </dl>
-              <!-- item-property .// -->
-            </div>
-            <!-- col.// -->
-            <div class="col-sm-6">
-              <dl class="param param-inline">
-                <dt>Total: </dt>
-                <dd>
-                  <span class="price h3 text-warning">
-                    <span class="currency">US $</span>
-                    <span class="num">{{ product.price1 * quantity }}</span>
-                  </span>
-                </dd>
-              </dl>
-              <!-- item-property .// -->
-            </div>
-            <!-- col.// -->
-          </div>
-
-          <!--buttons buy-->
-          <hr>
-          <div>
-            <a (click)="buyNow()" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>&nbsp;
-            <a href="#" class="btn btn-lg btn-outline-primary text-uppercase">
-              <i class="fa fa-cart-plus"></i> Add to cart 
-            </a>
-          </div>
-        </article>
-        <!-- card-body.// -->
-      </aside>
-      <!-- col.// -->
-    </div>
-    <!-- row.// -->
-  </div>
   <!-- card.// -->
   <div class="card">
     <div class="card-body">
@@ -180,52 +62,8 @@
       </ngb-tabset>
     </div>
   </div>
-
-  
-
-  <!--<div class="card">
-    <div class="card-body">
-      <ngb-tabset>
-        <ngb-tab>
-          <ng-template ngbTabTitle>
-            {{ 'Characteristics' | translate}}
-          </ng-template>
-          <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-              master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-              dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-              iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab>
-          <ng-template ngbTabTitle>
-            {{ 'Technical specifications' | translate}}
-          </ng-template>
-          <ng-template ngbTabContent>
-            <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-              craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-              vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica
-              VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-              sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-              tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab title="Disabled" [disabled]="true">
-          <ng-template ngbTabContent>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-              master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-              dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-              iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-          </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
-    </div>
-  </div>-->
-
-
 </div>
 <!--container.//-->
-
 
 <br>
 <br>
