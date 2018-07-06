@@ -1,9 +1,17 @@
 @import '../../../styles/spectrum/spectrum';
 
-$custom-file-text: (
-  en: "Browse",
-  es: "Elegir"
+.custom-file-input {
+  $custom-file-text: (
+  placeholder: (
+    en: "Choose file...",
+    es: "Seleccionar archivo..."
+  ),
+  button-label: (
+    en: "Browse",
+    es: "Navegar"
+  )
 );
+}
 
 .container {
   padding: 100px 0px 0px 30px;
