@@ -9,7 +9,7 @@
       </div>
       <div class="custom-file">
         <input type="file" class="custom-file-input" id="FS" required>
-        <label class="custom-file-label" for="FS">Choose file...</label>
+        <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
         <div class="invalid-feedback">Example invalid custom file feedback</div>
       </div>
       <br>
@@ -27,7 +27,7 @@
                   <i class="fa fa-edit"></i>
                 </button>
               </div>
-              <h4>Personal Info</h4>
+              <h4 translate>Personal Info</h4>
               <br>
               <div class="row">
                 <div class="col-xl-6">
@@ -48,7 +48,7 @@
                     <input [hidden]="!canEditPersonal" type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email"
                       formControlName="email" aria-describedby="emailHelpBlock" required>
                   </fieldset>
-                  <div class="message-error" [hidden]="email.pristine">
+                  <div class="message-error" [hidden]="email.valid || email.pristine">
                     <span *ngIf="email.errors && !!email.errors.required">{{'Email is required' | translate }}</span>
                     <span *ngIf="email.errors && !!email.errors.email">{{ 'Email is not valid' | translate }}
                     </span>
@@ -62,6 +62,9 @@
                       title="{{'Select a country by clicking on the map' | translate }}">
                     </int-phone-prefix>
                   </fieldset>
+                  <div class="message-error" [hidden]="!canEditPersonal || phone.value.length === 0 || phone.value.length > 7">
+                    <span>{{ 'Phone not valid' | translate }}</span>
+                  </div>
                 </div>
                 <div class="col-xl-6">
                   <fieldset class="form-group">
@@ -128,7 +131,10 @@
                   <i class="fa fa-times"></i>
                 </button>
                 &nbsp;&nbsp;
-                <button class="btn btn-main" (click)="savePersonal()" [disabled]="!canEditPersonal">{{ 'Save' | translate }}&nbsp;
+                <button class="btn btn-main"
+                        (click)="savePersonal()"
+                        [disabled]="!canEditPersonal || !name.valid || !email.valid || !city.valid || !state.valid || !country.valid || phone.value.length < 8 && !!phone.value.length">
+                        {{ 'Save' | translate }}&nbsp;
                   <i class="fa fa-save"></i>
                 </button>
               </div>
@@ -140,7 +146,7 @@
             </ng-template>
             <ng-template ngbTabContent>
               <br>
-              <div class="container-edit" >
+              <div class="container-edit">
                 <button class="btn btn-main btn-edit" (click)="editAccount()" [disabled]="canEditAccount">{{ 'Edit' | translate }}&nbsp;
                   <i class="fa fa-edit"></i>
                 </button>
@@ -168,7 +174,8 @@
                 </div>
                 <div class="col-xl-6">
                   <fieldset class="form-group">
-                    <label for="password" class="control-label">{{'Password' | translate}}</label>
+                    <label for="password" class="control-label">{{'Password' | translate}}</label>&nbsp;&nbsp;
+                    <i class="fa fa-lock" placement="top" ngbTooltip="{{'For security your password is encrypted' | translate}}"></i>
                     <h6 class="label-disabled" [hidden]="canEditAccount">{{ 'The password is secret' | translate }}</h6>
                     <input [hidden]="!canEditAccount" type="password" class="form-control" name="password" formControlName="password" aria-describedby="passwordHelpBlock"
                       required>
@@ -179,12 +186,12 @@
                 </div>
                 <div class="col-xl-6">
                   <fieldset class="form-group">
-                    <label for="confirmedPassword" class="control-label">{{'Confirm Password' | translate}}</label>
+                    <label for="confirmedPassword" class="control-label">{{'Confirm Password' | translate}}</label>&nbsp;&nbsp;
+                    <i class="fa fa-lock" placement="top" ngbTooltip="{{'For security your password is encrypted' | translate}}"></i>
                     <h6 class="label-disabled" [hidden]="canEditAccount">{{ 'The password is secret' | translate }}</h6>
                     <input [hidden]="!canEditAccount" type="password" class="form-control" name="confirmedPassword" formControlName="confirmedPassword"
                       aria-describedby="passwordHelpBlock" [ngStyle]="{'border-left': (form.get(['password']).value != form.get(['confirmedPassword']).value
                                      && form.get(['confirmedPassword']).value != null
-                                     || password.pristine
                                      || form.get(['password']).value === ''
                                      || form.get(['confirmedPassword']).value === '') === false ? '5px solid green' : '5px solid red' }"
                       required>
@@ -194,9 +201,8 @@
                           </small>
                           -->
                   </fieldset>
-                  <div class="message-error"
-                       *ngIf="form.get(['password']).value != form.get(['confirmedPassword']).value
-                              && form.get(['confirmedPassword']).value != null && canEditAccount"  >
+                  <div class="message-error" *ngIf="form.get(['password']).value != form.get(['confirmedPassword']).value
+                              && form.get(['confirmedPassword']).value != null && canEditAccount">
                     <span>{{ 'Passwords do not match' | translate }}</span>
                   </div>
                 </div>

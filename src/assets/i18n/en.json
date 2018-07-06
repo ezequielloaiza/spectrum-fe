@@ -134,7 +134,7 @@
     "Confirm Delete" : "Confirm Delete",
     "Are you sure do you want to delete this register?" : "Are you sure do you want to delete this register?",
     "Temporary Password Sent" : "Temporary Password Sent",
-    "Unregistered email" : "Unregistered email", 
+    "Unregistered email" : "Unregistered email",
     "No product categories added yet":"No product categories added yet",
     "All product categories":"All product categories",
     "List Product Categories":"List Product Categories",
@@ -200,5 +200,18 @@
     "Price:":"Price:",
     "Material":"Material",
     "Replacement period":"Replacement period",
-    "Warranty":"Warranty"
+    "Warranty":"Warranty",
+    "Phone Number is not valid": "Phone Number is not valid",
+    "Personal Info": "Personal Info",
+    "Account Info": "Account Info",
+    "Username": "Username",
+    "Password": "Password",
+    "Confirm Password": "Confirm Password",
+    "The password is secret": "The password is secret",
+    "For security your password is encrypted" : "For security your password is encrypted",
+    "Password is not valid": "Password is not valid",
+    "You can not edit your username": "You can not edit your username",
+    "Username is required": "Username is required",
+    "Passwords do not match": "Passwords do not match",
+    "Choose file": "Choose file"
 }
