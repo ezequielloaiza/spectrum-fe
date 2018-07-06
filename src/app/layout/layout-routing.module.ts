@@ -12,7 +12,8 @@ import { BusinessTypeComponent } from './business-type/business-type.component';
 import { ListOrderComponent } from './client/list-order/list-order.component';
 import { ClientComponent } from './client/client.component';
 import { DetailsOrderComponent } from './client/details-order/details-order.component';
-
+import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
+import {DetailsOrderClientComponent} from './manage-customer-orders/details-order-client/details-order-client.component';
 const routes: Routes = [
     {
         path: '',
@@ -43,7 +44,9 @@ const routes: Routes = [
                     }
                 ]*/
             },
-           {path:'details-order/:id/view',component: DetailsOrderComponent}
+           {path:'details-order/:id/view',component: DetailsOrderComponent},
+           {path:'order-list-client-byseller',component:ListOrderClientComponent},
+           {path:'details-order-client/:id/view',component: DetailsOrderClientComponent},
         ]
     }
 ];

@@ -1,0 +1,120 @@
+<app-page-header class="page-header-fixed" [heading]="'Orders List'" [icon]="'fa fa-folder-open'"></app-page-header>
+
+<div class="sp-container">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All orders' | translate }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-1">
+            <div class="card-header">{{ 'Filters:' | translate }}</div>
+          </div>
+          <div class="col-xl-1">
+            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Client' | translate }}</h6>
+          </div>
+          <div class="col-xl-3 filter">
+            <div class="row search">
+              <div class="col col-xl-12 col-lg-12">
+                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter client search ...' | translate }}">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-1">
+            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Status' | translate }}</h6>
+          </div>
+          <div [formGroup]="formOrder" class="col-xl-2 filter">
+            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
+              formControlName="selectedStatOrd">
+              <option value="" disabled [selected]="true" translate>Select</option>
+              <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
+            </select>
+          </div>
+          <div class="col-xl-1">
+            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Date' | translate }}</h6>
+          </div>
+          <div class="col-xl-2 filter">
+            <div>
+              <div [formGroup]="formOrder1" class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(model1)"
+                  formControlName="fechaSelecOrd">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+              <!--<pre>Model: {{model1 | json  }}</pre>-->
+            </div>
+          </div>
+          <div class="col-xl-1 h5-filter">
+            <small>
+              <a class="ng-tns-c4-0" [routerLink]="" translate [hidden]="!valid1" (click)="clean()">Clean</a>
+            </small>
+          </div>
+          <div class="card-body table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="table-tr">{{ 'Status' | translate }}</th>
+                  <th class="table-tr">{{ 'Number' | translate }}</th>
+                  <th class="table-tr">{{ 'Client' | translate }}</th>
+                  <th class="table-tr">{{ 'Date' | translate }}</th>
+                  <th class="table-tr"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of listOrders">
+                  <td *ngIf='order.status==0' class="div-pending">
+                    <div translate>Pending</div>
+                  </td>
+                  <td *ngIf='order.status==1' class="div-processed">
+                    <div translate>Processed</div>
+                  </td>
+                  <td *ngIf='order.status==2' class="div-pay">
+                    <div translate>Pay</div>
+                  </td>
+                  <td *ngIf='order.status==3' class="div-sent">
+                    <div translate>Sent</div>
+                  </td>
+                  <td class="table-tr">{{order.number}}</td>
+                  <td class="table-tr">{{order.user.name}}</td>
+                  <td class="table-tr">{{order.date | date:'yyyy-MM-dd'}}</td>
+                  <td class="table-tr">
+                    <div class="d-flex flex-row justify-content-around">
+                      <div ngbDropdown class="d-inline-block dropdown">
+                        <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                        <div ngbDropdownMenu>
+                          <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
+                            <i class="fa fa-eye"></i> {{ 'View Details' | translate }}</button>
+                          <button class="dropdown-item">
+                            <i class="fa fa-edit"></i> {{ 'Change Status' | translate }}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="table-empty" [hidden]="listOrders.length !== 0" translate>
+              <p class="no-records">
+                {{ 'No records have been added yet' | translate }}
+              </p>
+            </div>
+            <div class="pagination-list" [hidden]="listOrders.length === 0">
+              <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listOrdersAux.length"
+                [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+              </ngb-pagination>
+              <span class="count-elements">{{ listOrders.length + ' ' + ('of' | translate) + ' ' + listOrdersAux.length + ' ' + ('register(s)' | translate)
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -28,6 +28,9 @@ import { MembershipService} from '../shared/services/membership/membership.servi
 import { ListOrderComponent } from './client/list-order/list-order.component';
 import { ClientComponent } from './client/client.component';
 import { DetailsOrderComponent } from './client/details-order/details-order.component';
+import { ManageCustomerOrdersComponent } from './manage-customer-orders/manage-customer-orders.component';
+import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
+import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
 
 @NgModule({
     imports: [
@@ -59,7 +62,10 @@ import { DetailsOrderComponent } from './client/details-order/details-order.comp
         SupplierModalComponent,
         ListOrderComponent,
         ClientComponent,
-        DetailsOrderComponent
+        DetailsOrderComponent,
+        ManageCustomerOrdersComponent,
+        ListOrderClientComponent,
+        DetailsOrderClientComponent
     ],
     entryComponents: [ShippingAddressModalComponent, UserModalComponent,BusinessTypeModalComponent,CategoryModalComponent, SupplierModalComponent],
     providers: [

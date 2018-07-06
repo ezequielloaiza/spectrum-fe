@@ -212,5 +212,6 @@
     "You can not edit your username": "No puede editar su usuario",
     "Username is required": "Usuario es requerido",
     "Passwords do not match": "Las contraseñas no coinciden",
-    "Choose file": "Elegir archivo"
+    "Choose file": "Elegir archivo",
+    "Enter client search ...":"Ingrese el nombre del cliente..."
 }

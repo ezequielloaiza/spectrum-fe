@@ -1,0 +1,78 @@
+@import '../../../../styles/spectrum/spectrum';
+
+@include tr-sizes((5%,20%,30%,15%,30%));
+
+
+.card {
+  border: 1px solid $border;
+  box-shadow: 0 2px 2px $box-shadow, 0 0 2px $box-shadow1;
+}
+.search {
+  padding-bottom: 1.4rem;
+
+  i {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: $bg-imput;
+  }
+}
+.div-pending {
+  color: $bg-white;
+  > div {
+    background: #e57373 ;
+    text-align: center;
+  }
+}
+
+.div-sent {
+  color: $bg-white;
+  > div {
+    background: $bg-green;
+    text-align: center;
+  }
+}
+
+
+.div-authorized {
+  color: $bg-white;
+  > div {
+    background: #ffc107;
+    text-align: center;
+  }
+}
+.div-processed {
+  color: $bg-white;
+  > div {
+    background:#b3e5fc;
+    text-align: center;
+  }
+}
+.div-pay {
+  color: $bg-white;
+  > div {
+    background:#b2ff59;
+    text-align: center;
+  }
+}
+.h5-filter{
+padding-top: 20px;
+}
+
+.filter{
+  padding-top: 10px;
+  }
+  
+
+.active {
+  cursor: pointer;
+
+  & span:hover {
+    color: $bg-blue;
+  }
+}
+
+a:link {
+  color: #007bff;
+}
+

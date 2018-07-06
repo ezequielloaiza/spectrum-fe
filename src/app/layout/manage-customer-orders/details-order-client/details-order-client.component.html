@@ -1,0 +1,164 @@
+<app-page-header class="page-header-fixed" [heading]="'Order'" [icon]="'fa fa-folder-open'"></app-page-header>
+<div class="sp-container">
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header d-flex">
+                    <div class="align-self-center">
+                        <div class="card-header">{{ 'Order Details' | translate }}</div>
+                    </div>
+                </div>
+                <div class="div-order">{{'Ordered on'| translate}} {{order.date | date:'mediumDate'}}
+                    <span>|</span>
+                    {{'Order#'| translate}} {{order? order.number:''}}
+                </div>
+                <Br>
+                <div class="container pp rounded">
+                    <div class="row justify-content-md-center ">
+                        <div class="col">
+                            <p class="font-weight-bold text-left" [ngStyle]="{'padding-top':'15px','padding-left':'40px'}" translate>{{' Shipping Addresses'}}</p>
+                            <p class="font-weight-normal" [ngStyle]="{'padding-left':'40px'}" translate>
+                                <span>{{order? order.nameUser:''}}</span>
+                                <Br>
+                                <span>{{order.address? order.address.name:''}}</span>
+                                <Br>
+                                <span>{{order.address? order.address.state:''}}</span>
+                                <Br>
+                                <span>{{order.address? order.address.city:''}}</span>
+                                <Br>
+                                <span>{{order.address? order.country:''}}</span>
+                            </p>
+                        </div>
+                        <div class="col"></div>
+                        <div class="col">
+                            <p class="font-weight-bold text-left" [ngStyle]="{'padding-top':'15px','padding-left':'40px'}" translate>{{'Order Summary'}}</p>
+                            <p class="font-weight-normal" [ngStyle]="{'padding-left':'40px'}" translate>
+                                <span translate>{{'Item(s) Subtotal'}}</span>
+                                <Br>
+                            </p>
+                            <p class="font-weight-bold text-left" [ngStyle]="{'padding-top':'15px','padding-left':'40px'}" translate>{{'Total'}}</p>
+                        </div>
+                        <div class="col">
+                            <p class="font-weight-bold text-left" [ngStyle]="{'padding-top':'40px','padding-left':'40px'}"></p>
+                            <p class="font-weight-normal" [ngStyle]="{'padding-left':'40px'}" translate>
+                                <span>{{'US $'}}{{order? order.subtotal:''}}</span>
+                            </p>
+                            <p class="font-weight-bold text-left" [ngStyle]="{'padding-top':'15px','padding-left':'40px'}">{{'US $'}}{{order? order.total:''}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container" *ngFor="let list of listDetails">
+                    <hr>
+                    <div class="row">
+                        <aside>
+                            <article class="gallery-wrap">
+                                <div class="col-sm-3">
+                                    <div class="img-med-wrap">
+                                        <div>
+                                            <img src={{list.urlImage}}>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </aside>
+                        <aside class="col-sm-9">
+                            <article class="card-body p-5">
+                                <h3 class="title mb-3">{{list.productRequested.product.name}}</h3>
+                                <div>
+                                    <div *ngFor="let specification of list.productRequested.detail">
+                                        <div class="container">
+                                            <div class="row justify-content-md-center ">
+                                                <div class="col">
+                                                    <dl class="param param-feature">
+                                                        <dt>{{'Quantity:'| translate}} <span [ngStyle]="{'font-weight':'normal'}">{{list.productRequested.quantity}}</span></dt>
+                                                    </dl>
+                                                </div>
+                                                <div class="col">
+                                                    <dl class="param param-feature">
+                                                        <dt>{{'Price:'| translate}}<span [ngStyle]="{'font-weight':'normal'}">{{'US $'}}{{list.productRequested.price}}</span>
+                                                            <span [ngStyle]="{'font-weight':'normal'}">/per kg</span>
+                                                        </dt>
+                                                    </dl>
+                                                </div>
+                                                <div class="col">
+                                                    <dl class="param param-feature">
+                                                        <dt>{{'Subtotal:'| translate}}
+                                                            <span class="text-warning">{{'US $'}}{{list.productRequested.price*list.productRequested.quantity}}</span>
+                                                        </dt>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p class="price-detail-wrap">
+                                            <span class="price h5 text-warning">
+                                                <span class="num" [ngStyle]="{'padding-top':'40px','padding-left':'35px'}">{{specification.name}}</span>
+                                            </span>
+                                        </p>
+                                        <div class="card-body table-responsive">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td [ngStyle]="{'font-weight':'bold'}">
+                                                            {{'Material'| translate}}
+                                                        </td>
+                                                        <td>
+                                                            {{list.productRequested.product.material}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td [ngStyle]="{'font-weight':'bold'}">
+                                                            {{'Replacement period'| translate}}
+                                                        </td>
+                                                        <td>
+                                                            {{list.productRequested.product.replacementPeriod}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td [ngStyle]="{'font-weight':'bold'}">
+                                                            {{'Warranty'| translate}}
+                                                        </td>
+                                                        <td>
+                                                            {{list.productRequested.product.warranty}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="card-body table-responsive">
+                                            <div class="card-header d-flex">
+                                                <div class="price h5">
+                                                    <div>{{'Technical specifications'| translate}}</div>
+                                                </div>
+                                            </div>
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr *ngFor="let param of specification.parameters">
+                                                        <td [ngStyle]="{'font-weight':'bold'}">
+                                                            {{param.name}}
+                                                        </td>
+                                                        <td>
+                                                            {{param.value}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </aside>
+                    </div>
+                </div>
+                <div class="card-body table-responsive">
+                    <div class="pagination-list" [hidden]="listDetails.length === 0">
+                        <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listDetailsAux.length"
+                            [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+                        </ngb-pagination>
+                        <span class="count-elements">{{ listDetails.length + ' ' + ('of' | translate) + ' ' + listDetailsAux.length + ' ' + ('register(s)'
+                            | translate) }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>

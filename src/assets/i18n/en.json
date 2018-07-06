@@ -213,5 +213,6 @@
     "You can not edit your username": "You can not edit your username",
     "Username is required": "Username is required",
     "Passwords do not match": "Passwords do not match",
-    "Choose file": "Choose file"
+    "Choose file": "Choose file",
+    "Enter client search ...":"Enter client search ..."
 }
