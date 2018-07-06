@@ -193,5 +193,12 @@
     "Item(s) Subtotal":"Item(s) Subtotal",
     "Total before tax":"Total before tax",
     "Estimated tax":"Estimated tax",
-    "Total":"Total"
+    "Total":"Total",
+    "Type":"Type",
+    "Specifications":"Specifications",
+    "Quantity:":"Quantity:",
+    "Price:":"Price:",
+    "Material":"Material",
+    "Replacement period":"Replacement period",
+    "Warranty":"Warranty"
 }

@@ -193,5 +193,11 @@
     "Item(s) Subtotal":"Artículo (s) Subtotal",
     "Total before tax":"Total antes de los impuestos",
     "Estimated tax":"Impuesto estimado",
-    "Total":"Total"
+    "Total":"Total",
+    "Type":"Tipo",
+    "Quantity:":"Cantidad:",
+    "Price:":"Precio:",
+    "Material":"Material",
+    "Replacement period":"Periodo de reemplazo",
+    "Warranty":"Garantía"
 }
