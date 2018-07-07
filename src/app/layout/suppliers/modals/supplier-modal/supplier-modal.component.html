@@ -20,8 +20,8 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Contact' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter contact' | translate }}" name="contact" formControlName="contact" required>
+            <label>{{ 'Contact Name' | translate }}</label>
+            <input class="form-control" placeholder="{{ 'Enter contact name' | translate }}" name="contact" formControlName="contact" required>
           </fieldset>
           <div class="message-error" [hidden]="contact.valid || contact.pristine">
             <span>{{ 'Contact is required' | translate }}</span>
@@ -39,11 +39,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Website' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter website' | translate }}" name="website" formControlName="website" required>
+            <input class="form-control" placeholder="{{ 'Enter website' | translate }}" name="website" formControlName="website">
           </fieldset>
-          <div class="message-error" [hidden]="website.valid || website.pristine">
-            <span>{{ 'Website is required' | translate }}</span>
-          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
@@ -66,18 +63,27 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Telephone' | translate }}</label>
-            <input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter telephone' | translate }}" name="telephone"
-              formControlName="telephone" required>
+            <!--<input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter telephone' | translate }}" name="telephone"
+              formControlName="telephone" required>-->
+            <int-phone-prefix name="telephone" formControlName="telephone" data-toggle="tooltip" data-placement="right"
+                              title="{{'Select a country by clicking on the map' | translate }}">
+            </int-phone-prefix>
           </fieldset>
-          <div class="message-error" [hidden]="telephone.valid || telephone.pristine">
-            <span>{{ 'Telephone is required' | translate }}</span>
+          <div class="message-error" [hidden]="telephone.value.length === 0 || telephone.value.length > 7">
+            <span>{{ 'Telephone not valid' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Telephone Secondary' | translate }}</label>
-            <input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter telephone secondary' | translate }}" name="telephone2" formControlName="telephone2">
+            <!--<input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter telephone secondary' | translate }}" name="telephone2" formControlName="telephone2">-->
+            <int-phone-prefix name="telephone2" formControlName="telephone2" data-toggle="tooltip" data-placement="right"
+                              title="{{'Select a country by clicking on the map' | translate }}">
+            </int-phone-prefix>
           </fieldset>
+          <div class="message-error" [hidden]="telephone2.value.length === 0 || telephone2.value.length > 7">
+            <span>{{ 'Telephone not valid' | translate }}</span>
+          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
@@ -97,7 +103,7 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'State' | translate }}</label>
-            <input class="form-control" placeholder="Enter email" name="state" formControlName="state" required>
+            <input class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state" required>
           </fieldset>
           <div class="message-error" [hidden]="state.valid || state.pristine">
             <span>{{ 'State is required' | translate }}</span>
@@ -106,7 +112,7 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Country' | translate }}</label>
-            <input class="form-control" placeholder="Enter email" name="country" formControlName="country" required>
+            <input class="form-control" placeholder="{{ 'Enter country' | translate }}" name="country" formControlName="country" required>
           </fieldset>
           <div class="message-error" [hidden]="country.valid || country.pristine">
             <span>{{ 'Country is required' | translate }}</span>
@@ -115,7 +121,7 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Postal Code' | translate }}</label>
-            <input class="form-control" placeholder="Enter postal code" name="postal" formControlName="postal" required>
+            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal" required>
           </fieldset>
         </div>
         <div class="col-xl-6">

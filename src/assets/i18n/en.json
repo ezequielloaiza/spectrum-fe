@@ -149,15 +149,15 @@
     "Select a country by clicking on the map": "Select a country by clicking on the map",
     "All Suppliers":"All Suppliers",
     "List of Suppliers":"List of Suppliers",
-    "Contact":"Contact",
+    "Contact Name":"Contact Name",
     "Telephone":"Telephone",
     "Website":"Website",
     "Email Secondary":"Email Secondary",
     "Telephone Secondary":"Telephone Secondary",
     "Enter company name":"Enter company name",
-    "Enter contact":"Enter contact",
+    "Enter contact name":"Enter contact name",
     "Enter website":"Enter website",
-    "Enter emails secondary":"Enter emails secondary",
+    "Enter email secondary":"Enter email secondary",
     "Enter telephone":"Enter telephone",
     "Enter telephone secondary":"Enter telephone secondary",
     "Information Supplier":"Information Supplier",
@@ -183,5 +183,8 @@
     "You can not edit your username": "You can not edit your username",
     "Username is required": "Username is required",
     "Passwords do not match": "Passwords do not match",
-    "Choose file": "Choose file"
+    "Choose file": "Choose file",
+    "Company is required" : "Company is required",
+    "Contact is required" : "Contact is required",
+    "Telephone not valid" : "Telephone not valid"
 }
