@@ -65,17 +65,21 @@
   margin-right: 0px;
 }
 
-.fa-caret-up{
-  margin-left: 5px;
-  cursor: pointer;
-  display: none;
-}
-
-.fa-caret-down{
+.fa-sort-up {
   margin-left: 5px;
   cursor: pointer;
 }
 
-.no-records{
+.fa-sort-down {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.fa-sort {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.no-records {
   text-align: center;
 }

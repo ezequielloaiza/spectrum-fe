@@ -175,7 +175,6 @@
     "Active":"Activo",
     "Inactive":"Inactivo",
     "Sellers":"Vendedores",
-    "Account Info":"Info de la Cuenta",
     "Customer Data":"Datos Clientes",
     "Personal information":"Datos personales",
     "Deactivate":"Desactivar",
@@ -209,5 +208,18 @@
     "Assign seller":"Asignar vendedor",
     "Personal info":"Datos Personales",
     "Company Info":"Datos de Compañía",
-    "Customer status":"Estado del Cliente"
+    "Customer status":"Estado del Cliente",
+    "Phone Number is not valid": "El número de teléfono no es válido",
+    "Personal Info": "Información personal",
+    "Account Info": "Información de cuenta",
+    "Username": "Usuario",
+    "Password": "Contraseña",
+    "Confirm Password": "Confirmación de contraseña",
+    "The password is secret": "La contraseña es secreta",
+    "For security your password is encrypted" : "Por seguridad su contraseña está encriptada",
+    "Password is not valid": "La contraseña no es válida",
+    "You can not edit your username": "No puede editar su usuario",
+    "Username is required": "Usuario es requerido",
+    "Passwords do not match": "Las contraseñas no coinciden",
+    "Choose file": "Elegir archivo"
 }

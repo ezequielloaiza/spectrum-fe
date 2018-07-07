@@ -18,38 +18,48 @@
             <thead>
               <tr>
                 <th class="table-tr header-column">
-                  <span title="Company" (click)="reverseSort = !reverseSort; sortAddress('company')">{{ 'Company' | translate }}</span>
+                  <span title="Company">{{ 'Company' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('company')"></i>  
+                  </span>
                   <span [hidden]="orderByField != 'company' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortAddress('company')"></i> 
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortAddress('company')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('company')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortAddress('company')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Address" (click)="reverseSort = !reverseSort; sortAddress('address')">{{ 'Address' | translate }}</span>
+                  <span title="Address">{{ 'Address' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('address')"></i>
+                  </span>
                   <span [hidden]="orderByField != 'address' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortAddress('address')"></i> 
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortAddress('address')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('address')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortAddress('address')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="City" (click)="reverseSort = !reverseSort; sortAddress('city')">{{ 'City' | translate }}</span>
+                  <span title="City">{{ 'City' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('city')"></i>
+                  </span>
                   <span [hidden]="orderByField != 'city' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortAddress('city')"></i> 
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortAddress('city')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('city')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortAddress('city')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="State" (click)="reverseSort = !reverseSort; sortAddress('state')">{{ 'State' | translate }}</span>
+                  <span title="State">{{ 'State' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('state')"></i>
+                  </span>
                   <span [hidden]="orderByField != 'state' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortAddress('state')"></i> 
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortAddress('state')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('state')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortAddress('state')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Country" (click)="reverseSort = !reverseSort; sortAddress('country')">{{ 'Country' | translate }}</span>
+                  <span title="Country">{{ 'Country' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('country')"></i>
+                  </span>
                   <span [hidden]="orderByField != 'country' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-chevron-down" (click)="reverseSort = !reverseSort; sortAddress('country')"></i> 
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-chevron-up" (click)="reverseSort = !reverseSort; sortAddress('country')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('country')"></i> 
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortAddress('country')"></i>
                   </span>
                 </th>
                 <th class="table-tr"></th>

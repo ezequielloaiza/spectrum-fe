@@ -211,6 +211,18 @@
     "Personal info":"Personal info",
     "Company Info":"Company Info",
     "Business types":"Business types",
-    "Customer status":"Customer status"
-
+    "Customer status":"Customer status",
+    "Phone Number is not valid": "Phone Number is not valid",
+    "Personal Info": "Personal Info",
+    "Account Info": "Account Info",
+    "Username": "Username",
+    "Password": "Password",
+    "Confirm Password": "Confirm Password",
+    "The password is secret": "The password is secret",
+    "For security your password is encrypted" : "For security your password is encrypted",
+    "Password is not valid": "Password is not valid",
+    "You can not edit your username": "You can not edit your username",
+    "Username is required": "Username is required",
+    "Passwords do not match": "Passwords do not match",
+    "Choose file": "Choose file"
 }

@@ -71,8 +71,8 @@ export class ProfileComponent implements OnInit {
       city: ['', [Validators.required]],
       postal: [''],
       phone: [''],
-      password: ['', [Validators.required]],
-      confirmedPassword: ['', [Validators.required]],
+      password: [Validators.required],
+      confirmedPassword: [Validators.required],
     });
   }
 
