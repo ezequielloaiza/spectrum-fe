@@ -88,7 +88,7 @@ export class ListSellerComponent implements OnInit {
 				this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
 					this.notification.success('', res);
         });
-        this.getListSellers();
+        this.getListSellers(-1);
 			} else if (res.code === CodeHttp.notAcceptable) {
 				this.translate.get('It can not be deleted, it is associated with a client', {value: 'It can not be deleted, it is associated with a client'}).subscribe((res: string) => {
 					this.notification.warning('', res);
