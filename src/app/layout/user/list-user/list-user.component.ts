@@ -18,6 +18,8 @@ export class ListUserComponent implements OnInit {
 
   listUsers: Array<any> = new Array;
   listUsersAux: Array<any> = new Array;
+  advancedPagination: number;
+  itemPerPage = 3;
 
   constructor(private userService: UserService,
     private alertify: AlertifyService,
@@ -26,14 +28,16 @@ export class ListUserComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit() {
-    this.getListUser();
+    this.getListUser(-1);
+    this.advancedPagination = 1;
   }
 
-  getListUser(): void {
-    this.userService.findByRole$(Role.User).subscribe(res => {
+  getListUser(filter): void {
+    this.userService.findByRole$(Role.User, filter).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listUsers = res.data;
         this.listUsersAux = res.data;
+        this.listUsers = this.listUsersAux.slice(0, this.itemPerPage);
       }
     });
   }
@@ -47,19 +51,21 @@ export class ListUserComponent implements OnInit {
       this.listUsers = this.listUsers.filter((item) => {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
         (item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+        (item.company.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
         (item.company.companyName.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
   }
 
   changeStatus(id): void {
-    this.translate.get("Customer status", { value: "Customer status" }).subscribe((title: string) => {
-      this.translate.get("Are you sure you want to change the status?", { value: "Are you sure you want to change the status?" }).subscribe((msg: string) => {
+    this.translate.get('Customer status', { value: 'Customer status' }).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to change the status?', { value: 'Are you sure you want to change the status?' })
+      .subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
           this.userService.changeStatus$(id).subscribe(res => {
             this.translate.get('Status changed', { value: 'Status changed' }).subscribe((res: string) => {
               this.notification.success('', res);
-              this.getListUser();
+              this.getListUser(-1);
             });
           });
         }, () => {
@@ -71,17 +77,19 @@ export class ListUserComponent implements OnInit {
   openModal(): void {
     const modalRef = this.modalService.open(UserModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.result.then((result) => {
-      this.getListUser();
+      this.getListUser(-1);
     } , (reason) => {
     });
   }
 
   filter(value: number): void {
-    if (value !== null) {
-      this.listUsers = _.filter(this.listUsersAux, { 'status': value });
-      return;
-    }
-    this.listUsers = this.listUsersAux;
+    this.getListUser(value);
+  }
+
+  pageChange(event) {
+    const startItem = (event - 1) * this.itemPerPage;
+    const endItem = event * this.itemPerPage;
+    this.listUsers = this.listUsersAux.slice(startItem, endItem);
   }
 
 }

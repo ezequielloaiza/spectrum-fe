@@ -24,6 +24,7 @@ export class EditUserComponent implements OnInit {
   form: FormGroup;
   id: any;
   user: User = new User();
+  nameSeller = '';
   searching = false;
   searchFailed = false;
   memberships: Array<any> = new Array;
@@ -56,7 +57,8 @@ export class EditUserComponent implements OnInit {
       postal      : ['', []],
       phone       : ['', []],
       membershipId: ['', [Validators.required]],
-      id          : [this.id, [Validators.required]]
+      id          : [this.id, [Validators.required]],
+      userId      : []
       });
   }
 
@@ -108,7 +110,8 @@ export class EditUserComponent implements OnInit {
   openSeller(): void {
     const modalRef = this.modalService.open(ListUserModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.result.then((result) => {
-
+      this.form.get('userId').setValue(result.idUser);
+      this.nameSeller = result.name;
     } , (reason) => {
 
     });
@@ -134,6 +137,7 @@ export class EditUserComponent implements OnInit {
     this.form.get('postal').setValue(user.postal);
     this.form.get('phone').setValue(user.phone);
     this.form.get('membershipId').setValue(user.membership.idMembership);
+    this.nameSeller = user.nameSeller;
   }
 
   save(): void {
@@ -160,5 +164,9 @@ export class EditUserComponent implements OnInit {
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
   get membershipId() { return this.form.get('membershipId'); }
+
+  unlink(): void {
+    this.nameSeller = '';
+  }
 
 }

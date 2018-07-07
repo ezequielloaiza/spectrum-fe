@@ -16,6 +16,7 @@ export class User {
   public state: string;
   public postalCode: string;
   public phone: string;
+  public nameSeller: string;
   public membership: Membership = new Membership();
 
   public constructor() { }

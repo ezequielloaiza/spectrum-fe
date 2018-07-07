@@ -33,3 +33,30 @@
 .sp-container {
   padding-top: 0;
 }
+
+.dropdown-menu {
+  left: -33px !important;
+
+  &::before {
+    position: absolute;
+    top: -7px;
+    left: 103px;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #CCC;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    content: '';
+  }
+
+  &::after {
+    position: absolute;
+    top: -6px;
+    left: 104px;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid $bg-white;
+    border-left: 6px solid transparent;
+    content: '';
+  }
+}

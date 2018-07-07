@@ -138,8 +138,9 @@
               <label>{{ 'Phone' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.phone }}</span>
-                <input [hidden]="!canEdit" class="form-control" name="phone" formControlName="phone">
-                <!-- <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"
+                <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
+                <!-- <input [hidden]="!canEdit" class="form-control" name="phone" formControlName="phone">
+                <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"
                     required></int-phone-prefix>-->
               </div>
             </fieldset>

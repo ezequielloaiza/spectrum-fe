@@ -134,7 +134,14 @@
               <label>{{ 'Seller' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.nameSeller }}</span>
-                <button class="btn btn-main" (click)="openSeller()" [hidden]="!canEdit">{{ 'Assign seller' | translate }}&nbsp;</button>
+                <button class="btn btn-main" (click)="openSeller()" *ngIf="canEdit && !nameSeller">{{ 'Assign seller' | translate }}&nbsp;</button>
+                <div *ngIf="canEdit && nameSeller">
+                  <span >{{ nameSeller }}</span>
+                  &nbsp;
+                  <a class="link" (click)="unlink()">{{ 'Unlink' | translate }}</a>
+                  &nbsp;
+                  <a class="link" (click)="openSeller()">{{ 'Edit' | translate }}</a>
+                </div>
               </div>
             </fieldset>
             <div class="message-error" [hidden]="postal.valid || postal.pristine">

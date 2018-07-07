@@ -83,7 +83,7 @@ export class ListUserModalComponent implements OnInit {
     this.selectedSeller = seller;
   }
 
-  close() {
-    this.modalReference.close('2533');
+  transfer() {
+    this.modalReference.close(this.selectedSeller);
   }
 }

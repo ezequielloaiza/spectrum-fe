@@ -34,8 +34,8 @@ export class UserService {
     return this.http.get(environment.apiUrl + 'user/findById/' + id);
   }
 
-  public findByRole$(roleId): Observable<any> {
-    return this.http.get(environment.apiUrl + 'user/findByRole/' + roleId);
+  public findByRole$(roleId, filter): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/findByRole/' + roleId + '?filter=' + filter);
   }
 
   public registerSeller$(seller): Observable<any> {
@@ -51,7 +51,7 @@ export class UserService {
   }
 
   public allCustomersBySeller$(idSeller): Observable<any> {
-    return this.http.get(environment.apiUrl + 'user/allCustomersBySeller/'+idSeller);
+    return this.http.get(environment.apiUrl + 'user/allCustomersBySeller/' + idSeller);
   }
 
   public transferClient$(idCliente, idSeller): Observable<any> {

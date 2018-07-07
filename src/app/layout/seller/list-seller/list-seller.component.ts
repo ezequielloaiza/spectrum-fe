@@ -28,16 +28,17 @@ export class ListSellerComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit() {
-    this.getListSellers();
+    this.getListSellers(-1);
     this.advancedPagination = 1;
   }
 
-  getListSellers(): void {
+  getListSellers(filter): void {
 
-    this.userService.findByRole$(Role.Seller).subscribe(res => {
+    this.userService.findByRole$(Role.Seller, filter).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listSellers = res.data;
         this.listSellersAux = res.data;
+        this.listSellers = this.listSellersAux.slice(0, this.advancedPagination);
       }
     });
   }
@@ -64,7 +65,7 @@ export class ListSellerComponent implements OnInit {
           this.userService.changeStatus$(id).subscribe(res => {
             this.translate.get('Status changed', { value: 'Status changed' }).subscribe((res: string) => {
               this.notification.success('', res);
-              this.getListSellers();
+              this.getListSellers(-1);
             });
           });
         }, () => {
@@ -76,7 +77,7 @@ export class ListSellerComponent implements OnInit {
   openModal(): void {
     const modalRef = this.modalService.open(SellerModalComponent, { size: 'lg', windowClass: 'modal-content-seller' });
     modalRef.result.then((result) => {
-      this.getListSellers();
+      this.getListSellers(-1);
     }, (reason) => {
     });
   }
@@ -119,11 +120,7 @@ export class ListSellerComponent implements OnInit {
   }
 
   filter(value: number): void {
-    if (value !== null) {
-      this.listSellers = _.filter(this.listSellersAux, { 'status': value });
-      return;
-    }
-    this.listSellers = this.listSellersAux;
+    this.getListSellers(value);
   }
 }
 
