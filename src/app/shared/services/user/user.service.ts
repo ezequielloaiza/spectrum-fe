@@ -22,7 +22,7 @@ export class UserService {
     return this.http.post(environment.apiUrl + 'user/recovery_password', user);
   }
 
-  public allUserBySeller$(): Observable<any> {
+  public allUserBySeller$(filter?): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/allUserBySeller');
   }
 
