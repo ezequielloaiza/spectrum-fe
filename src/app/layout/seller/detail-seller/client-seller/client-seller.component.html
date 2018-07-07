@@ -1,0 +1,87 @@
+<div class="sp-container">
+  <div class="row search">
+    <div class="col col-xl-4 col-lg-4">
+      <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter user search..' | translate}}">
+      <i class="fa fa-search"></i>
+    </div>
+    <div class="col col-xl-1 col-lg-1">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio1" name="customRadio" value="3" class="custom-control-input" (change)="filter(null)" checked>
+        <label class="custom-control-label" for="customRadio1">{{ 'All' | translate }}</label>
+      </div>
+    </div>
+    <div class="col col-xl-1 col-lg-1">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio2" name="customRadio" value="0" class="custom-control-input" (change)="filter(0)">
+        <label class="custom-control-label" for="customRadio2">{{ 'Active' | translate }}</label>
+      </div>
+    </div>
+    <div class="col col-xl-1 col-lg-1">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio3" name="customRadio" value="1" class="custom-control-input" (change)="filter(1)">
+        <label class="custom-control-label" for="customRadio3">{{ 'Inactive' | translate }}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All Clients' | translate }}
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr">{{ 'Status' | translate }}</th>
+                <th class="table-tr">{{ 'Name' | translate }}</th>
+                <th class="table-tr">{{ 'Email' | translate }}</th>
+                <th class="table-tr">{{ 'Company Name' | translate }}</th>
+                <th class="table-tr">{{ 'Business Type' | translate}}</th>
+                <th class="table-tr">{{ 'Country' | translate}}</th>
+                <th class="table-tr"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let client of listCustomers">
+                <td class="table-tr" class="active" *ngIf="client.status === 0"><div>{{'Active' | translate }}</div></td>
+                <td class="table-tr" class="inactive" *ngIf="client.status === 1"><div>{{'Inactive' | translate }}</div></td>
+                <td class="table-tr">{{client.name}}</td>
+                <td class="table-tr">{{client.email}}</td>
+                <td class="table-tr">{{client.company.companyName}}</td>
+                <td class="table-tr">{{client.company.businessType.name}}</td>
+                <td class="table-tr">{{client.company.country}}</td>
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="open(client,'edit')">
+                          <i class="fa fa-exchange"></i> {{ 'To transfer' | translate }}</button>
+                        <button class="dropdown-item" (click)="remove(client.idUser)">
+                            <i class="fa fa-times"></i> {{ 'Unlink' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-empty" [hidden]="listCustomers.length !== 0" translate>
+            <p class="no-records">
+              {{ 'No records have been added yet' | translate }}
+            </p>
+          </div>
+          <div class="pagination-list" [hidden]="listCustomers.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listCustomersAux.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+            <span class="count-elements">{{ listCustomers.length + ' ' + ('of' | translate) + ' ' + listCustomersAux.length + ' ' + ('register(s)' | translate)
+              }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

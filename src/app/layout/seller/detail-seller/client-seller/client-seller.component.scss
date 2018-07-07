@@ -1,0 +1,35 @@
+@import '../../../../../styles/spectrum/spectrum';
+
+@include tr-sizes((10%, 15%, 15%, 15%, 15%, 15%, 15%));
+
+.search {
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+
+  i {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: $bg-imput;
+  }
+}
+
+.active {
+  color: $bg-white;
+  > div {
+    background: $bg-green;
+    text-align: center;
+  }
+}
+
+.inactive {
+  color: $bg-white;
+  > div {
+    background: #ffc107;
+    text-align: center;
+  }
+}
+
+.sp-container {
+  padding-top: 0;
+}

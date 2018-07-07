@@ -112,7 +112,7 @@ export class UserModalComponent implements OnInit {
         this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
           this.notification.success('', res);
         });
-      }else if (res.code === CodeHttp.notAcceptable) {
+      } else if (res.code === CodeHttp.notAcceptable) {
         this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });

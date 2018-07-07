@@ -30,8 +30,47 @@ export class UserService {
     return this.http.get(environment.apiUrl + 'user/changeStatus/' + id);
   }
 
+  public findById$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/findById/' + id);
+  }
+
+  public findByRole$(roleId, filter): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/findByRole/' + roleId + '?filter=' + filter);
+  }
+
+  public registerSeller$(seller): Observable<any> {
+    return this.http.post(environment.apiUrl + 'user/registerSeller', seller);
+  }
+
+  public updateSeller$(seller): Observable<any> {
+    return this.http.put(environment.apiUrl + 'user/updateSeller', seller);
+  }
+
+  public removeSeller$(id): Observable<any> {
+    return this.http.delete(environment.apiUrl + 'user/removeSeller/' + id);
+  }
+
+  public allCustomersBySeller$(idSeller): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/allCustomersBySeller/' + idSeller);
+  }
+
+  public transferClient$(idCliente, idSeller): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/transferClient/'+idCliente+'/'+idSeller);
+  }
   public updateProfile$(user): Observable<any> {
     return this.http.put(environment.apiUrl + 'user/updateProfile', user);
+  }
+
+  public update$(user): Observable<any> {
+    return this.http.put(environment.apiUrl + 'user/update', user);
+  }
+
+  public findByIdFull$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/findByIdFull/' + id);
+  }
+
+  public findByRoleActive$(roleId): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/findByRoleActive/' + roleId);
   }
 
 }

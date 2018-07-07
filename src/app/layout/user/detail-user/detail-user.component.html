@@ -1,0 +1,23 @@
+<div class="context">
+<div class="menu">
+  <ul>
+    <li routerLink="/user/{{id}}/edit" [routerLinkActive]="['router-link-active']">
+      <a>
+        <span>
+            {{ 'Personal info' | translate }}
+        </span>
+      </a>
+    </li>
+    <li routerLink="/user/{{id}}/edit-company" [routerLinkActive]="['router-link-active']">
+      <a>
+        <span>
+            {{ 'Company Info' | translate }}
+        </span>
+      </a>
+    </li>
+  </ul>
+</div>
+<section >
+  <router-outlet></router-outlet>
+</section>
+</div>
