@@ -1,0 +1,16 @@
+<div class="row">
+	<div class="header-body">
+		<h4 class="page-header">
+			{{ breadcrumbList[breadcrumbList.length - 1].name | translate }}
+		</h4>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }} </a>
+      </li>
+        <li class="breadcrumb-item active" *ngFor="let breadcrum of breadcrumbList; let i = index">
+          <a *ngIf="(i+1) !== breadcrumbList.length" class="link" href="Javascript:void(0)" routerLink="{{breadcrum.link}}"><i class="fa {{breadcrum.icon}}"></i> {{ breadcrum.name | translate }}</a>
+          <a *ngIf="(i+1) === breadcrumbList.length"><i class="fa {{breadcrum.icon}}"></i> {{ breadcrum.name | translate }}</a>
+        </li>
+		</ol>
+	</div>
+</div>

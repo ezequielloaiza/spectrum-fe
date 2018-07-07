@@ -5,10 +5,8 @@ import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { UserComponent } from './user/user.component';
-import { UserModalComponent } from './user/modals/user-modal/user-modal.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
-import { PageHeaderModule } from './../shared';
+import { PageHeaderModule, BreadcrumbModule } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
 import { BusinessTypeService, GoogleService} from '../shared/services';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -17,14 +15,23 @@ import { HeaderModule } from '../shared/modules/header/header.module';
 import { HeaderComponent } from '../shared/modules/header/header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { InternationalPhoneModule } from 'ng4-intl-phone';
-import { CheckAccountComponent, FilterStatusPipe } from './user/check-account/check-account.component';
 import { SuppliersComponent } from './suppliers/suppliers.component';
 import { SupplierModalComponent } from './suppliers/modals/supplier-modal/supplier-modal.component';
 import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
 import { BusinessTypeModalComponent } from './business-type/modals/business-type-modal/business-type-modal.component';
 import { CategoryModalComponent } from './category/modals/category-modal/category-modal.component';
+import { UserComponent, UserModalComponent, ListUserComponent, DetailUserComponent, EditUserComponent, EditCompanyComponent } from './user';
+import { SellerComponent, ListSellerComponent, SellerModalComponent, DetailSellerComponent, EditSellerComponent } from './seller';
 import { MembershipService} from '../shared/services/membership/membership.service';
+import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller.component';
+import { ModalSellerComponent } from './seller/detail-seller/modal-seller/modal-seller.component';
+import { BreadcrumbService } from '../shared/modules/breadcrumb/breadcrumb.service';
+import { UserResolver } from './user/user.resolver';
+import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
+import { SellerResolver } from './seller/seller.resolver';
+import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-modal.component';
+
 
 @NgModule({
     imports: [
@@ -36,7 +43,8 @@ import { MembershipService} from '../shared/services/membership/membership.servi
         ReactiveFormsModule,
         FormsModule,
         HeaderModule,
-        InternationalPhoneModule
+        InternationalPhoneModule,
+        BreadcrumbModule
     ],
     declarations: [
         LayoutComponent,
@@ -45,21 +53,43 @@ import { MembershipService} from '../shared/services/membership/membership.servi
         ShippingAddressModalComponent,
         UserComponent,
         UserModalComponent,
-        CheckAccountComponent,
         ProfileComponent,
-        FilterStatusPipe,
         CategoryComponent,
         BusinessTypeComponent,
         BusinessTypeModalComponent,
         CategoryModalComponent,
+        ListUserComponent,
+        DetailUserComponent,
+        EditUserComponent,
+        SellerComponent,
+        ListSellerComponent,
+        SellerModalComponent,
+        DetailSellerComponent,
+        EditSellerComponent,
+        EditCompanyComponent,
         SuppliersComponent,
-        SupplierModalComponent
+        SupplierModalComponent,
+        ClientSellerComponent,
+        ModalSellerComponent,
+        ListUserModalComponent
     ],
-    entryComponents: [ShippingAddressModalComponent, UserModalComponent,BusinessTypeModalComponent,CategoryModalComponent, SupplierModalComponent],
+    entryComponents: [
+      ShippingAddressModalComponent,
+      UserModalComponent,
+      BusinessTypeModalComponent,
+      CategoryModalComponent,
+      SupplierModalComponent,
+      SellerModalComponent,
+      ModalSellerComponent,
+      ListUserModalComponent
+    ],
     providers: [
       BusinessTypeService,
       AlertifyService,
-      GoogleService
+      GoogleService,
+      BreadcrumbService,
+      UserResolver,
+      SellerResolver
     ]
 })
 export class LayoutModule {}

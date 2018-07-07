@@ -1,0 +1,69 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'List of Sellers' | translate }}</h4>
+  <button type="button" class="close close-modal" aria-label="Close" (click)="modalReference.dismiss()">
+    <span aria-hidden="true"> &times; </span>
+  </button>
+</div>
+<div class="container-modal">
+  <div class="col col-xl-12 col-lg-12">
+    <div class="mb-3">
+      <div class="row search">
+        <div class="col col-xl-5 col-lg-5">
+          <input class="form-control" (keyup)="getItems($event)" placeholder="Enter user search..">
+          <i class="fa fa-search"></i>
+        </div>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="table-tr"></th>
+              <th class="table-tr">{{ 'Name' | translate }}</th>
+              <th class="table-tr">{{ 'Email' | translate }}</th>
+              <th class="table-tr">{{ 'Country' | translate }}</th>
+              <th class="table-tr">{{ 'City' | translate}}</th>
+              <th class="table-tr"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let seller of listSellers; let i = index">
+              <td>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="customRadio{{i}}" name="customRadio" [value]="seller.idUser" (change)="onSelectionChange(seller)"
+                    class="custom-control-input">
+                  <label class="custom-control-label" for="customRadio{{i}}"></label>
+                </div>
+
+              </td>
+              <td class="table-tr">{{seller.name}}</td>
+              <td class="table-tr">{{seller.email}}</td>
+              <td class="table-tr">{{seller.country}}</td>
+              <td class="table-tr">{{seller.city}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-empty" [hidden]="listSellers.length !== 0" translate>
+          <p class="no-records">
+            {{ 'No records have been added yet' | translate }}
+          </p>
+        </div>
+        <div class="pagination-list" [hidden]="listSellers.length === 0">
+          <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listSellersAux.length"
+            [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+          </ngb-pagination>
+          <span class="count-elements">{{ listSellers.length + ' ' + ('of' | translate) + ' ' + listSellersAux.length + ' ' + ('register(s)' | translate)
+            }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="transfer()">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>

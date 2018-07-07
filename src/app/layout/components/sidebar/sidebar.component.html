@@ -147,7 +147,7 @@
 				<li class="nested" [class.expand]="showMenu === 'sellers'">
 					<ul class="submenu">
 						<li>
-							<a href="javascript:void(0)">
+							<a [routerLink]="['/seller']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 								<span>
 									<i class="fa fa-user-plus"></i>&nbsp; {{ 'New Seller' | translate }}</span>
 							</a>
