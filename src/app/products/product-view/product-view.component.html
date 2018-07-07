@@ -1,14 +1,14 @@
 <br>
 <br>
 <br>
-<div class="info-breadcrumbs">
+<div class="info-breadcrumbs" *ngIf="product">
   <app-page-header class="info-top" [heading]="'Product Details'" [icon]="'fa-edit'"></app-page-header>
   <br>
   <a routerLink="/products">
     <i class="fa fa-arrow-left">&nbsp;&nbsp;{{ 'Back' | translate }}</i>
   </a>
 </div>
-<div class="container">
+<div class="container" *ngIf="product">
   <hr>
   <div class="card">
     <div class="row">
@@ -72,7 +72,7 @@
           <dl class="item-property">
             <dt>Product Sheet</dt>
             <dd>
-              <a href="{{ product.url }}">{{ 'download' }}</a>
+              <a href="{{ product.url }}" target="_blank">{{ 'download' }}</a>
             </dd>
           </dl>
           <hr>
@@ -116,8 +116,8 @@
           <!--buttons buy-->
           <hr>
           <div>
-            <a routerLink="/products/{{product.id}}/product-details/{{'toBuy'}}" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>&nbsp;
-            <a routerLink="/products/{{product.id}}/product-details/{{'toCart'}}" class="btn btn-lg btn-outline-primary text-uppercase">
+            <a routerLink="/products/{{product.idProduct}}/product-details/{{'toBuy'}}" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>&nbsp;
+            <a routerLink="/products/{{product.idProduct}}/product-details/{{'toCart'}}" class="btn btn-lg btn-outline-primary text-uppercase">
               <i class="fa fa-cart-plus"></i> Add to cart 
             </a>
           </div>

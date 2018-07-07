@@ -17,6 +17,8 @@ export class Product {
   public warranty:string;
   public url:string;
   public stock:number;
+  public infoAditional:string;
+  public types:string;
     public constructor() { }
   
   }

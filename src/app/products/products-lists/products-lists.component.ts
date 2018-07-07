@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsComponent } from '../products.component';
+import { ProductService } from '../../shared/services/products/product.service';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
 
 @Component({
   selector: 'app-products-lists',
@@ -9,10 +10,22 @@ import { ProductsComponent } from '../products.component';
 export class ProductsListsComponent implements OnInit {
 
   products: Array<any> = new Array;
-  constructor(private productComponent:ProductsComponent) { }
+  constructor(private productService:ProductService) { }
 
   ngOnInit() {
-    this.products = this.productComponent.products
+    this.getProducts();
+  }
+
+  getProducts() {
+    this.productService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.products = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
 }

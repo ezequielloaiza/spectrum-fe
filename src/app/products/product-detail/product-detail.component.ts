@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsComponent } from '../products.component';
 import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
+import { ProductService } from '../../shared/services/products/product.service';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
 
 @Component({
   selector: 'app-product-detail',
@@ -16,14 +18,30 @@ export class ProductDetailComponent implements OnInit {
   parameters: any;
   quantity = 1;
   order: any;
-  constructor(private productComponent:ProductsComponent, private route: ActivatedRoute) { }
+  constructor(private productService:ProductService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.getProducts();
+  }
+
+  getProducts() {
+    this.productService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.products = res.data;
+        this.getProductView();
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  getProductView() {
     console.log(JSON.stringify(_.range(4, 10, 0.5)));
-    this.products = this.productComponent.products
     this.id = +this.route.snapshot.paramMap.get('id');
-    this.product = _.find(this.products, {id: this.id});
-    
+    this.product = _.find(this.products, {idProduct: this.id});
+    this.product.types = JSON.parse(this.product.types);
     //simulando click en el primer type del producto actual
     this.parameters = this.product.types[0].parameters;
   }
