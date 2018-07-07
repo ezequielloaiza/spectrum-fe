@@ -17,7 +17,7 @@
 				<li class="nested" [class.expand]="showMenu === 'account'">
 					<ul class="submenu">
 						<li>
-							<a href="javascript:void(0)">
+							<a routerLink="/profile" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-user-circle"></i>&nbsp; {{ 'Your Profile' | translate }}</span>
 							</a>
@@ -51,7 +51,7 @@
 				<li class="nested" [class.expand]="showMenu === 'order'">
 					<ul class="submenu">
 						<li>
-							<a href="javascript:void(0)">
+							<a [routerLink]="['/order-list-client']" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
 							</a>
@@ -537,7 +537,7 @@
 				<li class="nested" [class.expand]="showMenu === 'profile'">
 					<ul class="submenu">
 						<li>
-							<a href="javascript:void(0)">
+							<a routerLink="/profile" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</span>
 							</a>

@@ -25,6 +25,9 @@ import { BusinessTypeComponent } from './business-type/business-type.component';
 import { BusinessTypeModalComponent } from './business-type/modals/business-type-modal/business-type-modal.component';
 import { CategoryModalComponent } from './category/modals/category-modal/category-modal.component';
 import { MembershipService} from '../shared/services/membership/membership.service';
+import { ListOrderComponent } from './client/list-order/list-order.component';
+import { ClientComponent } from './client/client.component';
+import { DetailsOrderComponent } from './client/details-order/details-order.component';
 
 @NgModule({
     imports: [
@@ -53,7 +56,10 @@ import { MembershipService} from '../shared/services/membership/membership.servi
         BusinessTypeModalComponent,
         CategoryModalComponent,
         SuppliersComponent,
-        SupplierModalComponent
+        SupplierModalComponent,
+        ListOrderComponent,
+        ClientComponent,
+        DetailsOrderComponent
     ],
     entryComponents: [ShippingAddressModalComponent, UserModalComponent,BusinessTypeModalComponent,CategoryModalComponent, SupplierModalComponent],
     providers: [

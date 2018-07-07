@@ -9,6 +9,9 @@ import { SuppliersComponent } from './suppliers/suppliers.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CategoryComponent } from './category/category.component';
 import { BusinessTypeComponent } from './business-type/business-type.component';
+import { ListOrderComponent } from './client/list-order/list-order.component';
+import { ClientComponent } from './client/client.component';
+import { DetailsOrderComponent } from './client/details-order/details-order.component';
 
 const routes: Routes = [
     {
@@ -30,13 +33,23 @@ const routes: Routes = [
             { path: 'suppliers', component: SuppliersComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'category', component: CategoryComponent },
-            { path: 'business-type', component: BusinessTypeComponent }
+            { path: 'business-type', component: BusinessTypeComponent },
+            { path: 'order-list-client', component: ListOrderComponent,
+             //runGuardsAndResolvers: 'always',
+               /* children: [
+                    { path: '', component: ListOrderComponent },
+                    {
+                        path: ':id', component: DetailsOrderComponent
+                    }
+                ]*/
+            },
+           {path:'details-order/:id/view',component: DetailsOrderComponent}
         ]
     }
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class LayoutRoutingModule { }
