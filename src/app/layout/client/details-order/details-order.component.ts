@@ -18,7 +18,7 @@ export class DetailsOrderComponent implements OnInit {
   listDetails: Array<any> = new Array;
   listDetailsAux: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage: number = 1;
+  itemPerPage: number = 2;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -45,8 +45,9 @@ export class DetailsOrderComponent implements OnInit {
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
           console.log('image'+detailsOrder.urlImage);
         });
-        this.listDetails = this.order.listProductRequested;
+     //   this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
+        this.listDetails = this.listDetailsAux.slice(0,this.itemPerPage);
       }
     });
   }

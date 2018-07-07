@@ -91,7 +91,7 @@
                         <div ngbDropdownMenu>
                           <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
                             <i class="fa fa-eye"></i> {{ 'View Details' | translate }}</button>
-                          <button class="dropdown-item">
+                          <button class="dropdown-item" (click)="open(order)">
                             <i class="fa fa-edit"></i> {{ 'Change Status' | translate }}</button>
                         </div>
                       </div>

@@ -31,6 +31,7 @@ import { DetailsOrderComponent } from './client/details-order/details-order.comp
 import { ManageCustomerOrdersComponent } from './manage-customer-orders/manage-customer-orders.component';
 import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
 import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
+import { ModalStatusComponent } from './manage-customer-orders/modal-status/modal-status.component';
 
 @NgModule({
     imports: [
@@ -65,9 +66,10 @@ import { DetailsOrderClientComponent } from './manage-customer-orders/details-or
         DetailsOrderComponent,
         ManageCustomerOrdersComponent,
         ListOrderClientComponent,
-        DetailsOrderClientComponent
+        DetailsOrderClientComponent,
+        ModalStatusComponent
     ],
-    entryComponents: [ShippingAddressModalComponent, UserModalComponent,BusinessTypeModalComponent,CategoryModalComponent, SupplierModalComponent],
+    entryComponents: [ShippingAddressModalComponent, UserModalComponent,BusinessTypeModalComponent,CategoryModalComponent, SupplierModalComponent,ModalStatusComponent],
     providers: [
       BusinessTypeService,
       AlertifyService,

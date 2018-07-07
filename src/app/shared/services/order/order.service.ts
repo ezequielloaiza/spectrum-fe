@@ -22,4 +22,9 @@ export class OrderService {
   public findOrdersClientBySeller$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/findOrdersClientBySeller');
   }
+
+  public changeStatus$(idOrder,IdStatus): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/changeStatus/' + idOrder+'/'+IdStatus);
+  }
+
 }

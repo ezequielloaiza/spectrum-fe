@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { OrderService } from '../../../shared/services/order/order.service';
 import { FormBuilder } from '@angular/forms';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
+import { ModalStatusComponent } from '../modal-status/modal-status.component';
 
 @Component({
   selector: 'app-list-order-client',
@@ -27,8 +28,11 @@ export class ListOrderClientComponent implements OnInit {
   formOrder: FormGroup;
   formOrder1: FormGroup;
   tamano:String;
+  valorClient:String;
+  valorSta:String;
   constructor(private orderService: OrderService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.getListOrders();
@@ -36,6 +40,7 @@ export class ListOrderClientComponent implements OnInit {
     this.initializeForm();
     this.initializeForm1();
     this.model = {year:0,month:0,day:0};
+    this.valorSta="";
   }
 
   getListOrders(): void {
@@ -43,7 +48,6 @@ export class ListOrderClientComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
         this.listOrdersAux = res.data;
-        console.log('datos',res.data);
       }
     });
   }
@@ -56,6 +60,7 @@ export class ListOrderClientComponent implements OnInit {
 
   filter(value): void {
     if (value != "") {
+      this.valorSta=value;
       this.valid1 = true;
       if (this.tamano.length == 9) {
         this.listOrders = _.filter(this.listOrdersAux, { 'status': parseInt(value) });
@@ -63,14 +68,14 @@ export class ListOrderClientComponent implements OnInit {
         var fecha: String;
         //FechaFiltro
         fecha = this.getFecha();
-        this.listOrders = _.filter(this.listOrdersAux, function (orders) {
+        this.listOrders = _.filter(this.listOrdersAux, function (order) {
           var fechaList: String;
           var ord = [];
           var listOrder;
           //Fecha Listado
-          fechaList = _.toString(orders.date.slice(0, 10));
-          if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(value), orders.status))) {
-            listOrder = _(ord).push(orders);
+          fechaList = _.toString(order.date.slice(0, 10));
+          if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(value), order.status))) {
+            listOrder = _(ord).push(order);
             listOrder = listOrder.commit();
             return listOrder;
           }
@@ -88,24 +93,64 @@ export class ListOrderClientComponent implements OnInit {
       var fecha: String;
       //FechaFiltro
       fecha = this.getFecha();
-      this.listOrders = _.filter(this.listOrdersAux, function (orders) {
+      this.listOrders = _.filter(this.listOrdersAux, function (order) {
         var fechaList: String;
         var ord = [];
         var listOrder;
         //Fecha Listado
-        fechaList = _.toString(orders.date.slice(0, 10));
+        fechaList = _.toString(order.date.slice(0, 10));
         if (_.toString(valorStatus) == "") { //Si no ha seleccionado status
           if (_.isEqual(fecha, fechaList)) {
-            listOrder = _(ord).push(orders);
+            listOrder = _(ord).push(order);
             listOrder = listOrder.commit();
             return listOrder;
           }
-        } else if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(valorStatus), orders.status))) {
-            listOrder = _(ord).push(orders);
+        } else if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(valorStatus), order.status))) {
+            listOrder = _(ord).push(order);
             listOrder = listOrder.commit();
             return listOrder;
           }
       });
+    }
+  }
+
+  getItems(ev: any) {
+    this.listOrders = this.listOrdersAux;
+
+    const val = ev.target.value;
+    var valorStatus = this.formOrder.get('selectedStatOrd').value;
+    if (val && val.trim() !== '') {
+      if(this.tamano.length == 9 && (valorStatus=="" || valorStatus==null)){
+        this.listOrders = this.listOrders.filter((item) => {
+          return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
+        });
+      }
+      else if(valorStatus!="" && this.tamano.length == 9) {
+        this.listOrders = _.filter(this.listOrdersAux, function (order) {
+          var ord = [];
+          var list;
+          if ((_.includes(order.user.name.toLowerCase(),val.toLowerCase())) && (_.isEqual(parseInt(valorStatus), order.status))) {
+            list = _(ord).push(order);
+            list = list.commit();
+            return list;
+          }
+        });
+      }else if(valorStatus!="" && this.tamano.length != 9){
+         //FechaFiltro
+         var fecha: String;
+         fecha = this.getFecha();
+          this.listOrders = _.filter(this.listOrdersAux, function (order) {
+            var fechaList: String;
+            fechaList = _.toString(order.date.slice(0, 10));
+            var ord = [];
+            var list;
+            if ((_.includes(order.user.name.toLowerCase(),val.toLowerCase())) && (_.isEqual(parseInt(valorStatus), order.status)) && (_.isEqual(fecha, fechaList))) {
+              list = _(ord).push(order);
+              list = list.commit();
+              return list;
+            }
+        });
+      }
     }
   }
 
@@ -154,15 +199,13 @@ export class ListOrderClientComponent implements OnInit {
     return str;
   }
 
-  getItems(ev: any) {
-    this.listOrders = this.listOrdersAux;
-
-    const val = ev.target.value;
-
-    if (val && val.trim() !== '') {
-      this.listOrders = this.listOrders.filter((item) => {
-        return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
-      });
-    }
+  open(order) {
+		const modalRef = this.modalService.open(ModalStatusComponent);
+		modalRef.componentInstance.order = order;
+		modalRef.result.then((result) => {
+			this.getListOrders();
+		} , (reason) => {
+		});
   }
+  
 }
