@@ -38,7 +38,7 @@ export class ListSellerComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listSellers = res.data;
         this.listSellersAux = res.data;
-        this.listSellers = this.listSellersAux.slice(0, this.advancedPagination);
+        this.listSellers = this.listSellersAux.slice(0, this.itemPerPage);
       }
     });
   }

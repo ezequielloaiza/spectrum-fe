@@ -19,7 +19,7 @@ export class ListUserComponent implements OnInit {
   listUsers: Array<any> = new Array;
   listUsersAux: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage = 3;
+  itemPerPage = 5;
 
   constructor(private userService: UserService,
     private alertify: AlertifyService,
