@@ -224,5 +224,9 @@
     "You can not edit your username": "You can not edit your username",
     "Username is required": "Username is required",
     "Passwords do not match": "Passwords do not match",
-    "Choose file": "Choose file"
+    "Choose file": "Choose file",
+    "Full Name": "Full Name",
+    "User Inactive": "User Inactive",
+    "Username/Password": "Username/Password",
+    "User does not exist": "User does not exist"
 }

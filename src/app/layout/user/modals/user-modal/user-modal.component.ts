@@ -74,7 +74,7 @@ export class UserModalComponent implements OnInit {
       companyName: ['', [Validators.required]],
       companyContactName: ['', [Validators.required]],
       companyAddress: ['', [Validators.required]],
-      companyPhone: ['', [Validators.required]],
+      companyPhone: [''],
       companyEmail: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       creditLimit: ['', [Validators.required]],
       idBusinessType: ['', [Validators.required]],
@@ -87,7 +87,8 @@ export class UserModalComponent implements OnInit {
       companyCity: ['', [Validators.required]],
       companyPostal: ['', [Validators.required]],
       typeUser: ['USER'],
-      membershipId: ['', [Validators.required]]
+      membershipId: ['', [Validators.required]],
+      phone: ['']
     });
   }
 
@@ -164,6 +165,7 @@ export class UserModalComponent implements OnInit {
   get companyCountry() { return this.form.get('companyCountry'); }
   get companyPostal() { return this.form.get('companyPostal'); }
   get membershipId() { return this.form.get('membershipId'); }
+  get phone() { return this.form.get('phone'); }
 
   validatePhone(event) {
     const key = window.event ? event.keyCode : event.which;

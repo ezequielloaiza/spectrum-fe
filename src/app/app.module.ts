@@ -14,6 +14,7 @@ import { RecoveryPasswordComponent } from './login/recovery-password/recovery-pa
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { LibHttpModule } from './http/lib-http.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -32,6 +33,7 @@ export const createTranslateLoader = (http: HttpClient) => {
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
+        NgxSpinnerModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
