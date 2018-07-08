@@ -251,9 +251,9 @@
     "Username is required": "Usuario es requerido",
     "Passwords do not match": "Las contraseñas no coinciden",
     "Choose file": "Elegir archivo",
-    "Your Products": "Tus productos".
+    "Your Products": "Tus productos",
     "Full Name": "Nombre completo",
     "User Inactive": "Usuario inactivo",
-    "Username/Password": "Usuario/Contraseña",
+    "Incorrect password": "Contraseña incorrecta",
     "User does not exist": "Usuario no existe"
 }

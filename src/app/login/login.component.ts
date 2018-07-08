@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('');
         this.spinner.hide();
       } else if (res.code === CodeHttp.UNAUTHORIZED) {
-        this.translate.get('Username/Password', {value: 'Username/Password'}).subscribe((tras: string) => {
+        this.translate.get('Incorrect password', {value: 'Incorrect password'}).subscribe((tras: string) => {
           this.notification.error('', tras);
           this.spinner.hide();
         });
