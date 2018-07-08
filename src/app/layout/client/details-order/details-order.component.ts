@@ -37,11 +37,12 @@ export class DetailsOrderComponent implements OnInit {
   }
 
   getOrder(idOrder): void {
-     
+
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
         _.each(this.order.listProductRequested, function (detailsOrder) {
+          detailsOrder.productRequested.show = false;
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
           console.log('image'+detailsOrder.urlImage);
         });
