@@ -46,7 +46,7 @@
             </div>
           </div>
         </div>
-        <div class="card-header products-label">{{ 'Your Products' | translate }}</div>
+        <div class="card-header products-label" *ngIf="listDetails.length > 0">{{ 'Your Products' | translate }}</div>
         <div class="container product-list" *ngFor="let list of listDetails">
           <hr>
           <div class="row">

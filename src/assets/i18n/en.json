@@ -215,7 +215,7 @@
     "Seller's status":"Seller's status",
     "Are you sure you want to change the status?":"Are you sure you want to change the status?",
     "Status changed":"Status changed",
-    "The seller already exists":"The seller already exists",
+    "The seller already exists, check name or email":"The seller already exists, check name or email",
     "It can not be deleted, it is associated with a client":"It can not be deleted, it is associated with a client",
     "Information Seller":"Information Seller",
     "To transfer":"To transfer",

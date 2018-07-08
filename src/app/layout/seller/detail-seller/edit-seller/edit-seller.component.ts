@@ -123,7 +123,7 @@ export class EditSellerComponent implements OnInit {
         this.canEdit = false;
       } else if (res.code === CodeHttp.notAcceptable) {
         this.form.get('city').setValue({ description: this.form.value.city });
-        this.translate.get('The seller already exists', { value: 'The seller already exists' }).subscribe((res: string) => {
+        this.translate.get('The seller already exists, check name or email', { value: 'The seller already exists, check name or email' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
       } else {
