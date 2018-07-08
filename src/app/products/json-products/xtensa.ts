@@ -12,58 +12,58 @@ this.products = [
     "url": "http://spctinternational.com/wp-content/uploads/2017/11/XTENSA.pdf",
     "stock": 10,
     "colors": [
-        { "name": "Blue", "selected": true },
-        { "name": "Brown", "selected": false },
-        { "name": "Green", "selected": false }
+        { "name": "Blue", "selectedLeft": true, "selectedRight": true },
+        { "name": "Brown", "selectedLeft": false, "selectedRight": false },
+        { "name": "Green", "selectedLeft": false, "selectedRight": false  }
     ],
     "types": [
       {
         "name": "Spheric & Toric & Rx Design",
         "parameters": [
           { "name": "Addition", "type":"radio", "values": [
-                                                  { "name": "Low", "selected": true },
-                                                  { "name": "High", "selected": false }]
+                                                  { "name": "Low", "selectedLeft": true, "selectedRight": true },
+                                                  { "name": "High", "selectedLeft": false, "selectedRight": false }]
           },
           { "name": "Multifocal Design", "type":"radio", "values": [
-                                                            { "name": "CD", "selected": true },
-                                                            { "name": "CN", "selected": false }]
+                                                            { "name": "CD", "selectedLeft": true, "selectedRight": true },
+                                                            { "name": "CN", "selectedLeft": false, "selectedRight": false }]
           },
-          { "name": "Diameter", "type":"number", "values": [ "14.40" ], "selected": null},
-          { "name": "Base Curve", "type":"number", "values": [ "8.70" ], "selected": null },
-          { "name": "Axis Toric", "type":"number", "values": [], "selected": null },
-          { "name": "Cylinder Toric", "type":"number", "values": [], "selected": null },
-          { "name": "Sphere", "type":"number", "values": [], "selected": null  }
+          { "name": "Diameter", "type":"number", "values": [ "14.40" ], "selectedLeft": null, "selectedRight": null },
+          { "name": "Base Curve", "type":"number", "values": [ "8.70" ], "selectedLeft": null, "selectedRight": null },
+          { "name": "Axis Toric", "type":"number", "values": [], "selectedLeft": null, "selectedRight": null },
+          { "name": "Cylinder Toric", "type":"number", "values": [], "selectedLeft": null, "selectedRight": null },
+          { "name": "Sphere", "type":"number", "values": [], "selectedLeft": null, "selectedRight": null  }
         ],
         "selected": true
       },{
         "name": "Multifocal",
         "parameters": [
           { "name": "Addition", "type":"radio", "values": [
-                                                  { "name": "Low", "selected": true },
-                                                  { "name": "High", "selected": false }]
+                                                  { "name": "Low", "selectedLeft": true, "selectedRight": true },
+                                                  { "name": "High", "selectedLeft": false, "selectedRight": false }]
           },
           { "name": "Multifocal Design", "type":"radio", "values": [
-                                                            { "name": "CD", "selected": true },
-                                                            { "name": "CN", "selected": false }]
+                                                            { "name": "CD", "selectedLeft": true, "selectedRight": true },
+                                                            { "name": "CN", "selectedLeft": false, "selectedRight": false }]
           },
-          { "name": "Diameter", "type":"number", "values": [ "14.30" ], "selected": null },
-          { "name": "Base Curve", "type":"number", "values": [" 8.60" ], "selected": null },
-          { "name": "Axis Toric", "type":"number", "values": [], "selected": null },
-          { "name": "Cylinder Toric", "type":"number", "values": [], "selected": null },
-          { "name": "Sphere", "type":"number", "values": [ "-10.00","-9.50","-9.00","-8.50","-8.00","-7.50","-7.00","-6.50","-6.00","-5.75","-5.50","-5.25","-5.00","-4.75","-4.50","-4.25","-4.00","-3.75","-3.50","-3.25","-3.00","-2.75","-2.50","-2.25","-2.00","-1.75","-1.50","-1.25","-1.00","-0.75","-0.50","-0.25","0.00","0.25","0.50","0.75","1.00","1.25","1.50","1.75","2.00","2.25","2.50","2.75","3.00","3.25","3.50","3.75","4.00","4.50","5.00","5.50","6.00","6.50","7.00","7.50","8.00","8.50","9.00","9.50","10.00"], "selected": null }
+          { "name": "Diameter", "type":"number", "values": [ "14.30" ], "selectedLeft": null, "selectedRight": null },
+          { "name": "Base Curve", "type":"number", "values": [" 8.60" ], "selectedLeft": null, "selectedRight": null },
+          { "name": "Axis Toric", "type":"number", "values": [], "selectedLeft": null, "selectedRight": null },
+          { "name": "Cylinder Toric", "type":"number", "values": [], "selectedLeft": null, "selectedRight": null },
+          { "name": "Sphere", "type":"number", "values": [ "-10.00","-9.50","-9.00","-8.50","-8.00","-7.50","-7.00","-6.50","-6.00","-5.75","-5.50","-5.25","-5.00","-4.75","-4.50","-4.25","-4.00","-3.75","-3.50","-3.25","-3.00","-2.75","-2.50","-2.25","-2.00","-1.75","-1.50","-1.25","-1.00","-0.75","-0.50","-0.25","0.00","0.25","0.50","0.75","1.00","1.25","1.50","1.75","2.00","2.25","2.50","2.75","3.00","3.25","3.50","3.75","4.00","4.50","5.00","5.50","6.00","6.50","7.00","7.50","8.00","8.50","9.00","9.50","10.00"], "selectedLeft": null, "selectedRight": null }
         ],
         "selected": false
       },{
         "name": "Toric",
         "parameters": [
           { "name": "Addition", "type":"radio", "values": [
-                                                  { "name": "A", "selected": true },
-                                                  { "name": "B", "selected": false },
-                                                  { "name": "C", "selected": false }]
+                                                  { "name": "A", "selectedLeft": true, "selectedRight": true },
+                                                  { "name": "B", "selectedLeft": false, "selectedRight": false },
+                                                  { "name": "C", "selectedLeft": false, "selectedRight": false }]
           },
           { "name": "Multifocal Design", "type":"radio", "values": [
-                                                            { "name": "CD", "selected": true },
-                                                            { "name": "CN", "selected": false }]
+                                                            { "name": "CD", "selectedLeft": true, "selectedRight": true },
+                                                            { "name": "CN", "selectedLeft": false, "selectedRight": false }]
           },
           { "name": "Diameter", "type":"number", "values": [] },
           { "name": "Base Curve", "type":"number", "values": [] },
@@ -76,13 +76,13 @@ this.products = [
         "name": "Toric & Rx Design",
         "parameters": [
           { "name": "Addition", "type":"radio", "values": [
-                                                  { "name": "A", "selected": true },
-                                                  { "name": "B", "selected": false },
-                                                  { "name": "C", "selected": false }]
+                                                  { "name": "A", "selectedLeft": true, "selectedRight": true },
+                                                  { "name": "B", "selectedLeft": false, "selectedRight": false },
+                                                  { "name": "C", "selectedLeft": false, "selectedRight": false }]
           },
           { "name": "Multifocal Design", "type":"radio", "values": [
-                                                            { "name": "CD", "selected": true },
-                                                            { "name": "CN", "selected": false }]
+                                                            { "name": "CD", "selectedLeft": true, "selectedRight": true },
+                                                            { "name": "CN", "selectedLeft": false, "selectedRight": false }]
           },
           { "name": "Diameter", "type":"number", "values": [] },
           { "name": "Base Curve", "type":"number", "values": [] },
@@ -95,13 +95,13 @@ this.products = [
         "name": "Spheric",
         "parameters": [
           { "name": "Addition", "type":"radio", "values": [
-                                                  { "name": "A", "selected": true },
-                                                  { "name": "B", "selected": false },
-                                                  { "name": "C", "selected": false }]
+                                                  { "name": "A", "selectedLeft": true, "selectedRight": true },
+                                                  { "name": "B", "selectedLeft": false, "selectedRight": false },
+                                                  { "name": "C", "selectedLeft": false, "selectedRight": false }]
           },
           { "name": "Multifocal Design", "type":"radio", "values": [
-                                                            { "name": "CD", "selected": true },
-                                                            { "name": "CN", "selected": false }]
+                                                            { "name": "CD", "selectedLeft": true, "selectedRight": true },
+                                                            { "name": "CN", "selectedLeft": false, "selectedRight": false }]
           },
           { "name": "Diameter", "type":"number", "values": [] },
           { "name": "Base Curve", "type":"number", "values": [] },

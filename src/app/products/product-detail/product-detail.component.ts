@@ -13,6 +13,7 @@ import { CodeHttp } from '../../shared/enum/code-http.enum';
 export class ProductDetailComponent implements OnInit {
 
   products: Array<any> = new Array;
+  eyes: Array<any> = new Array;
   product: any;
   id: number;
   parameters: any;
@@ -21,7 +22,12 @@ export class ProductDetailComponent implements OnInit {
   constructor(private productService:ProductService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.setEyes();
     this.getProducts();
+  }
+
+  setEyes() {
+    this.eyes = [ { type: 'left', name: 'Eye Left' }, { type: 'right', name: 'Eye Right' }];
   }
 
   getProducts() {
@@ -69,14 +75,41 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  setValueRadio(value, values) {
-    this.cleanValueRadio(values);
-    value.selected = true;
+  changeSelect(typeEye, parameter, value) {
+    if (typeEye === 'left') {
+      parameter.selectedLeft = value;
+    } else {
+      parameter.selectedRight = value;
+    }
   }
 
-  cleanValueRadio(values) {
+  checkedRadio(typeEye, value) {
+    if (typeEye === 'left') {
+      if (value.selectedLeft === true) 
+        return true;
+    } else {
+      if (value.selectedRight === true) 
+        return true;
+    }
+    return false;
+  }
+
+  setValueRadio(typeEye, value, values) {
+    this.cleanValueRadio(typeEye, values);
+    if (typeEye === 'left') {
+      value.selectedLeft = true;
+    } else {
+      value.selectedRight = true;
+    }
+  }
+
+  cleanValueRadio(typeEye, values) {
     _.each(values, function(value) {
-      value.selected = false;
+      if (typeEye === 'left') {
+        value.selectedLeft = false;
+      } else {
+        value.selectedRight = false;
+      }
     });
   }
 
@@ -87,6 +120,20 @@ export class ProductDetailComponent implements OnInit {
 
     var type = _.find(this.product.types, function (type) { 
       return type.selected === true;
+    });
+
+    _.each(type.parameters, function(parameter, index) {
+      if (parameter.type === "radio") {
+        _.each(parameter.values, function(value) {
+          if (value.selectedLeft) {
+            parameter.selectedLeft = value.name;
+          }
+          if (value.selectedRight) {
+            parameter.selectedRight = value.name;
+          }
+        });
+      }
+      type.parameters[index] = _.omit(parameter, ['type', 'values']);
     });
 
     //verificar atributos del producto que se enviaran a la orden
@@ -104,7 +151,7 @@ export class ProductDetailComponent implements OnInit {
       replacementPeriod: this.product.replacementPeriod,
       warranty: this.product.warranty,
       stock: this.product.stock,
-      color: color.name,
+      color: 'falta traerselo',
       type,
       quantityBuy: this.quantity
     }
