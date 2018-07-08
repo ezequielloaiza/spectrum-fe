@@ -151,6 +151,8 @@ export class ListOrderClientComponent implements OnInit {
             }
         });
       }
+    }else{
+      this.filter(valorStatus);
     }
   }
 
@@ -174,7 +176,7 @@ export class ListOrderClientComponent implements OnInit {
     this.getListOrders();
     this.valid1 = false;
     this.formOrder.get('selectedStatOrd').setValue("");
-    this.formOrder1.get('fechaSelecOrd').setValue("");
+    this.formOrder1.get('fechaSelecOrd').reset();
     this.tamano= 'undefined';
   }
 

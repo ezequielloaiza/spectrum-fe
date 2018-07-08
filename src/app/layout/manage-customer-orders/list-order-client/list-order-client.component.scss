@@ -1,6 +1,6 @@
 @import '../../../../styles/spectrum/spectrum';
 
-@include tr-sizes((10%,20%,30%,15%,25%));
+@include tr-sizes((25%,20%,30%,15%,10%));
 
 
 .card {
@@ -17,44 +17,57 @@
     color: $bg-imput;
   }
 }
+
 .div-pending {
-  color: $bg-white;
-  > div {
-    background: #e57373 ;
+  >div {
     text-align: center;
+    background: $pending-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
   }
 }
 
 .div-sent {
-  color: $bg-white;
-  > div {
-    background: $bg-green;
+  >div {
     text-align: center;
+    background: $sent-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
   }
 }
-
 
 .div-authorized {
-  color: $bg-white;
-  > div {
-    background: #ffc107;
+  >div {
     text-align: center;
+    background: $authorized-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
   }
 }
+
 .div-processed {
-  color: $bg-white;
-  > div {
-    background:#b3e5fc;
+  >div {
     text-align: center;
+    background: $processed-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
   }
 }
+
 .div-pay {
-  color: $bg-white;
-  > div {
-    background:#b2ff59;
+  >div {
     text-align: center;
+    background: $paid-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
   }
 }
+
 .h5-filter{
 padding-top: 20px;
 }
