@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Name' | translate }}</label>
+            <label>{{ 'Full Name' | translate }}</label>
             <input class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name" formControlName="name" required>
           </fieldset>
           <div class="message-error" [hidden]="name.valid || name.pristine">
@@ -74,6 +74,17 @@
             <span>{{ 'Postal code is required' | translate }}</span>
           </div>
         </div>
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Phone' | translate }}</label>
+              <int-phone-prefix  name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right"
+                title="{{'Select a country by clicking on the map' | translate }}">
+              </int-phone-prefix>
+          </fieldset>
+          <div class="message-error" [hidden]="phone.value.length === 0 || phone.pristine || phone.value.length > 7">
+            <span>{{ 'Phone not valid' | translate }}</span>
+          </div>
+        </div>
         <div class="col-xl-12">
           <fieldset class="form-group">
             <label>{{ 'Address' | translate }}</label>
@@ -130,11 +141,14 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Phone' | translate }}</label>
-            <input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter phone' | translate }}" name="companyPhone"
-              formControlName="companyPhone" required>
+            <!--<input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter phone' | translate }}" name="companyPhone"
+              formControlName="companyPhone" required>-->
+              <int-phone-prefix  name="companyPhone" formControlName="companyPhone" data-toggle="tooltip" data-placement="right"
+                title="{{'Select a country by clicking on the map' | translate }}">
+              </int-phone-prefix>
           </fieldset>
-          <div class="message-error" [hidden]="companyPhone.valid || companyPhone.pristine">
-            <span>{{ 'Phone is required' | translate }}</span>
+          <div class="message-error" [hidden]="companyPhone.value.length === 0 || companyPhone.pristine || companyPhone.value.length > 7">
+            <span>{{ 'Phone not valid' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">
@@ -227,7 +241,7 @@
   <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+  <button type="button" [disabled]="form.invalid || companyPhone.value.length < 8 || phone.value.length < 8" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
 </div>
