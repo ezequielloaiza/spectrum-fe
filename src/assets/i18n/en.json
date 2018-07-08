@@ -189,15 +189,15 @@
     "Order Details":"Order Details",
     "Order#":"Order#",
     "Shipping Addresses":"Shipping Addresses",
-    "Order Summary":"Order Summary",
+    "Summary Costs":"Summary Costs",
     "Item(s) Subtotal":"Item(s) Subtotal",
     "Total before tax":"Total before tax",
     "Estimated tax":"Estimated tax",
     "Total":"Total",
     "Type":"Type",
     "Specifications":"Specifications",
-    "Quantity:":"Quantity:",
-    "Price:":"Price:",
+    "Quantity":"Quantity",
+    "Price":"Price",
     "Material":"Material",
     "Replacement period":"Replacement period",
     "Warranty":"Warranty",
@@ -213,5 +213,6 @@
     "You can not edit your username": "You can not edit your username",
     "Username is required": "Username is required",
     "Passwords do not match": "Passwords do not match",
-    "Choose file": "Choose file"
+    "Choose file": "Choose file",
+    "Your Products": "Your Products"
 }

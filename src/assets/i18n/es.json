@@ -189,14 +189,14 @@
     "Ordered on":"Ordenado en",
     "Order#":"Orden#",
     "Shipping Addresses":"Dirección de Envío",
-    "Order Summary":"Resumen del pedido",
+    "Summary Costs":"Resumen de costos",
     "Item(s) Subtotal":"Artículo (s) Subtotal",
     "Total before tax":"Total antes de los impuestos",
     "Estimated tax":"Impuesto estimado",
     "Total":"Total",
     "Type":"Tipo",
-    "Quantity:":"Cantidad:",
-    "Price:":"Precio:",
+    "Quantity":"Cantidad",
+    "Price":"Precio",
     "Material":"Material",
     "Replacement period":"Periodo de reemplazo",
     "Warranty":"Garantía",
@@ -212,5 +212,6 @@
     "You can not edit your username": "No puede editar su usuario",
     "Username is required": "Usuario es requerido",
     "Passwords do not match": "Las contraseñas no coinciden",
-    "Choose file": "Elegir archivo"
+    "Choose file": "Elegir archivo",
+    "Your Products": "Tus productos"
 }
