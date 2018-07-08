@@ -1,41 +1,24 @@
-<app-page-header class="page-header-fixed" [heading]="'List of Clients'"
-                   [icon]="'fa fa-users'"></app-page-header>
 
-<div class="sp-container">
-  <div class="row">
-    <div class="col col-xl-12 col-lg-12">
-      <div class="card mb-3">
-        <div class="card-header d-flex">
-          <div class="align-self-center">
-            {{ 'All Clients' | translate }}
-          </div>
-          <div class="ml-auto p-2">
-            <button type="button"
-                    class="btn btn-main"
-                    (click)="openModal()">{{ 'Add Client' | translate }}</button>
-          </div>
-        </div>
-        <div class="card-body table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="table-tr">{{ 'Name' | translate }}</th>
-                <th class="table-tr">{{ 'Email' | translate }}</th>
-                <th class="table-tr">{{ 'Company Name' | translate }}</th>
-                <th class="table-tr">{{ 'Business Type' | translate}}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let user of listUsers">
-                <td class="table-tr">{{user.name}}</td>
-                <td class="table-tr">{{user.email}}</td>
-                <td class="table-tr">{{user.company.companyName}}</td>
-                <td class="table-tr">{{user.company.businessType.name}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+<app-breadcrumb class="page-header-fixed" [heading]="'List of Clients'"></app-breadcrumb>
+<!--<div class="row">
+<div class="header-body">
+  <h4 class="page-header">
+    {{ 'Clients' | translate }}
+  </h4>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+    </li>
+    <li class="breadcrumb-item active">
+      <a class="link" href="Javascript:void(0)" [routerLink]="['/user']"><i class="fa fa-users"></i> {{ 'List of Clients' | translate }}</a>
+    </li>
+    <li class="breadcrumb-item active">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/user']"><i class="fa fa-users"></i> {{ 'Clients' | translate }}</a>
+      </li>
+  </ol>
 </div>
+</div>-->
+
+<section class="main-container">
+  <router-outlet></router-outlet>
+</section>

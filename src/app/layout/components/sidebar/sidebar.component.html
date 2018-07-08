@@ -112,11 +112,11 @@
 				<i class="fa fa-archive"></i>&nbsp;{{ 'Suppliers' | translate }}
 			</a>
 			<div class="nested-menu">
-				<a class="list-group-item" (click)="addExpandClass('users')">
+				<a class="list-group-item" [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 					<span>
 						<i class="fa fa-users"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
 				</a>
-				<li class="nested" [class.expand]="showMenu === 'users'">
+				<!--<li class="nested" [class.expand]="showMenu === 'users'">
 					<ul class="submenu">
 						<li>
 							<a [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
@@ -137,17 +137,17 @@
 							</a>
 						</li>
 					</ul>
-				</li>
+				</li>-->
 			</div>
 			<div class="nested-menu">
-				<a class="list-group-item" (click)="addExpandClass('sellers')">
+				<a class="list-group-item" [routerLink]="['/seller']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 					<span>
 						<i class="fa fa-shopping-bag"></i>&nbsp; {{ 'Manage Sellers' | translate }}</span>
 				</a>
-				<li class="nested" [class.expand]="showMenu === 'sellers'">
+				<!--<li class="nested" [class.expand]="showMenu === 'sellers'">
 					<ul class="submenu">
 						<li>
-							<a href="javascript:void(0)">
+							<a [routerLink]="['/seller']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 								<span>
 									<i class="fa fa-user-plus"></i>&nbsp; {{ 'New Seller' | translate }}</span>
 							</a>
@@ -165,7 +165,7 @@
 							</a>
 						</li>
 					</ul>
-				</li>
+				</li>-->
 			</div>
 			<div class="nested-menu">
 				<a class="list-group-item" (click)="addExpandClass('orders')">
@@ -272,11 +272,11 @@
 					</li>
 				</div>
 				<div class="nested-menu">
-					<a class="list-group-item" (click)="addExpandClass('users')">
+					<a class="list-group-item" [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 						<span>
 							<i class="fa fa-users"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
 					</a>
-					<li class="nested" [class.expand]="showMenu === 'users'">
+					<!--<li class="nested" [class.expand]="showMenu === 'users'">
 						<ul class="submenu">
 							<li>
 								<a [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
@@ -297,7 +297,7 @@
 								</a>
 							</li>
 						</ul>
-					</li>
+					</li>-->
 				</div>
 				<div class="nested-menu">
 					<a class="list-group-item" (click)="addExpandClass('orders')">

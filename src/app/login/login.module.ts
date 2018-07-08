@@ -6,6 +6,7 @@ import { LoginComponent } from './login.component';
 import {UserService} from '../shared/services/user/user.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
         LoginRoutingModule,
         FormsModule,
         HttpClientModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgxSpinnerModule
     ],
     declarations: [LoginComponent],
     providers: [UserService]
