@@ -96,4 +96,14 @@ $button-background-color: #1756a6;
         border-radius: 50%;
         border: 2px solid #fff;
     }
+
+    .button-login {
+      border: 2px solid;
+      background: #222222;
+
+      &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed
+    }
+  }
 }

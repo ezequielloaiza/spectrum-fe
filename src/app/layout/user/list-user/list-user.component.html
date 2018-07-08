@@ -1,0 +1,98 @@
+<div class="sp-container">
+  <div class="row search">
+    <div class="col col-xl-4 col-lg-4">
+      <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter user search..' | translate}}">
+      <i class="fa fa-search"></i>
+    </div>
+    <div class="col col-xl-1 col-lg-1">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio1" name="customRadio" value="3" class="custom-control-input" (change)="filter(-1)" checked>
+        <label class="custom-control-label" for="customRadio1">{{ 'All' | translate }}</label>
+      </div>
+    </div>
+    <div class="col col-xl-1 col-lg-1">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio2" name="customRadio" value="0" class="custom-control-input" (change)="filter(0)">
+        <label class="custom-control-label" for="customRadio2">{{ 'Active' | translate }}</label>
+      </div>
+    </div>
+    <div class="col col-xl-1 col-lg-1">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio3" name="customRadio" value="1" class="custom-control-input" (change)="filter(1)">
+        <label class="custom-control-label" for="customRadio3">{{ 'Inactive' | translate }}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All Clients' | translate }}
+          </div>
+          <div class="ml-auto p-2">
+            <button type="button" class="btn btn-main" (click)="openModal()">{{ 'Add' | translate }}
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr">{{ 'Status' | translate }}</th>
+                <th class="table-tr">{{ 'Name' | translate }}</th>
+                <th class="table-tr">{{ 'Email' | translate }}</th>
+                <th class="table-tr">{{ 'Company Name' | translate }}</th>
+                <th class="table-tr">{{ 'Business Type' | translate}}</th>
+                <th class="table-tr">{{ 'Country' | translate}}</th>
+                <th class="table-tr"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of listUsers">
+                <td class="table-tr" class="active" *ngIf="user.status === 0">
+                  <div>{{'Active' | translate}}</div>
+                </td>
+                <td class="table-tr" class="inactive" *ngIf="user.status === 1">
+                  <div>{{'Inactive' | translate}}</div>
+                </td>
+                <td class="table-tr">{{user.name}}</td>
+                <td class="table-tr">{{user.email}}</td>
+                <td class="table-tr">{{user.company.companyName}}</td>
+                <td class="table-tr">{{user.company.businessType.name}}</td>
+                <td class="table-tr">{{user.company.country}}</td>
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" routerLink="/user/{{user.idUser}}">
+                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                        <button *ngIf="user.status === 0" class="dropdown-item" (click)="changeStatus(user.idUser)">
+                          <i class="fa fa-times"></i> {{ 'Deactivate' | translate }}</button>
+                        <button *ngIf="user.status === 1" class="dropdown-item" (click)="changeStatus(user.idUser)">
+                          <i class="fa fa-check"></i> {{ 'Activate' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-empty" [hidden]="listUsers.length !== 0" translate>
+            <p class="no-records">
+              {{ 'No records have been added yet' | translate }}
+            </p>
+          </div>
+          <div class="pagination-list" [hidden]="listUsers.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listUsersAux.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+            <span class="count-elements">{{ listUsers.length + ' ' + ('of' | translate) + ' ' + listUsersAux.length + ' ' + ('register(s)' | translate)
+              }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
