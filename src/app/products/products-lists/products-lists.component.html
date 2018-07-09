@@ -17,7 +17,7 @@
     <div class="col-sm-9 vertical-align text-center">
       <form>
         <div class="row grid-space-1">
-          <div class="col col-xl-10 col-lg-10 search">
+          <div class="col col-xl-12 col-lg-12 search">
             <input class="form-control" placeholder=" {{ 'Enter product name...' | translate }} ">
             <i class="fa fa-search"></i>
           </div>
@@ -71,11 +71,10 @@
   <!-- end  row -->
 </div>
 
-<div class="container">
+<div class="padding-list">
   <div class="row">
     <!--FILTERS-->
-    <div class="col-sm-3 col-md-3">
-      <br>
+    <div class="col-sm-3 col-md-3 hidden-xs">
       <ngb-accordion #acc="ngbAccordion" activeIds="filter1,filter2" type="dark">
         <ngb-panel id="filter1">
           <ng-template ngbPanelTitle>
@@ -131,14 +130,14 @@
         <div class="col-md-4 box-shadow" *ngFor="let product of products">
           <div class="mb-4 box-shadow">
             <img class="card-img-top" src="assets/images/lentes.jpg">
-              <h4>{{ product.name }}</h4>
+            <h3 class="product-name">{{ product.name }}</h3>
             <div class="card-body">
               <p class="card-text"> {{ product.descriptionShort }}</p>
-                <div class="price-wrap h5">
-                    <del class="price-base">{{ product.priceBase }}</del>
-                    <span class="price-new">{{ product.price1 }}</span>
-                  </div>
-              <div class="d-flex justify-content-between align-items-center">
+              <div class="price-wrap h4">
+                <del class="price-base">${{ product.priceBase }}</del>&nbsp;
+                <span class="price-new text-warning">${{ product.price1 }}</span>
+              </div>
+              <div class="product-btns">
                 <div class="btn-group">
                   <button routerLink="/products/{{product.idProduct}}/product-view" type="button" class="btn btn-primary">View</button>
                   <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
@@ -150,5 +149,4 @@
       </div>
     </div>
   </div>
-
 </div>
