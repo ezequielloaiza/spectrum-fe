@@ -8,7 +8,7 @@
     <i class="fa fa-arrow-left">&nbsp;&nbsp;{{ 'Back' | translate }}</i>
   </a>
 </div>
-<div class="container" *ngIf="product">
+<div class="padding-detail" *ngIf="product">
   <!-- card.// -->
   <div class="card">
     <div class="card-body">
@@ -36,14 +36,14 @@
                         <div *ngFor="let parameter of parameters" class="col-sm-6">
                           <div *ngIf="parameter.values.length > 0">
                             <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
-        
+
                             <!--One value in list values -->
                             <div *ngIf="parameter.type === 'number'">
                               <select class="form-control" name="value" (change)="changeSelect(eye.type, parameter, $event.target.value)">
                                 <option *ngFor="let value of parameter.values">{{ value }}</option>
                               </select>
                             </div>
-          
+
                             <div *ngIf="parameter.type === 'radio'" >
                               <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
                                 <input class="custom-control-input" type="radio" id="{{ value.name }}"
