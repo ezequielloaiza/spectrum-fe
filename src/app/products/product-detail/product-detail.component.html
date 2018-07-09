@@ -9,12 +9,15 @@
   </a>
 </div>
 <div class="padding-detail" *ngIf="product">
+  <br>
+  <h4>Complete the specifications of your product <strong>{{ product.name }}</strong></h4>
+  <br>
   <!-- card.// -->
   <div class="card">
     <div class="card-body">
       <!--RIGHT EYE-->
       <div class="col-md-6" *ngFor="let eye of eyes">
-        <h3>{{eye.name}}</h3>
+        <h3 class="label-eye">{{eye.name}}</h3>
         <ngb-tabset>
           <ngb-tab *ngFor="let type of product.types">
             <ng-template ngbTabTitle>
@@ -28,21 +31,19 @@
                 <br>
                 <dt>{{ 'Parameters' | translate }}</dt>
                 <dd>
-                  <div *ngFor="let parameter of parameters" class="col-sm-6">
+                  <div *ngFor="let parameter of parameters" class="col-sm-12">
                     <div *ngIf="parameter.values.length > 0">
                       <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
-
                       <!--One value in list values -->
                       <div *ngIf="parameter.type === 'number'">
                         <select class="form-control" name="value" (change)="changeSelect(eye.type, parameter, $event.target.value)">
                           <option *ngFor="let value of parameter.values">{{ value }}</option>
                         </select>
                       </div>
-
                       <div *ngIf="parameter.type === 'radio'">
                         <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="{{ value.name }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter.values)">
-                          <label class="custom-control-label" for="{{ value.name }}">{{ value.name }}</label>
+                          <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter.values)">
+                          <label class="custom-control-label" for="{{ value.name + eye.type }}">{{ value.name }}</label>
                         </div>
                       </div>
                     </div>
@@ -65,7 +66,9 @@
       </div>
     </div>
   </div>
-  <a (click)="buyNow()" class="btn btn-lg btn-primary"> SAVE </a>&nbsp;
+  <div class="btn-save">
+    <a (click)="buyNow()" class="btn btn-lg btn-primary text-uppercase">Confirm Buy</a>&nbsp;
+  </div>
 </div>
 <!--container.//-->
 <br>
