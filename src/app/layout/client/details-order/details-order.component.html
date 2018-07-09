@@ -1,0 +1,173 @@
+<app-page-header class="page-header-fixed" [heading]="'Order'" [icon]="'fa fa-folder-open'"></app-page-header>
+<div class="sp-container">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            <div class="card-header">{{ 'Order Details' | translate }}</div>
+          </div>
+        </div>
+        <div class="div-order">{{'Ordered on'| translate}} {{order.date | date:'mediumDate'}}
+          <span>|</span>
+          {{'Order#'| translate}} {{order? order.number:''}}
+        </div>
+        <br>
+        <div class="container pp rounded">
+          <div class="row justify-content-md-center order-summary">
+            <div class="col-md-6">
+              <p class="font-weight-bold text-left">{{' Shipping Addresses'}}</p>
+              <span class="font-weight-bold">{{'Name' | translate }}:</span>&nbsp;
+              <span>{{order? order.nameUser:''}}</span>
+              <br>
+              <span class="font-weight-bold">{{'Address' | translate }}:</span>&nbsp;
+              <span>{{order.address? order.address.name:''}}</span>
+              <br>
+              <span class="font-weight-bold">{{'City' | translate }}:</span>&nbsp;
+              <span>{{order.address? order.address.city:''}}</span>
+              <br>
+              <span class="font-weight-bold">{{'State' | translate }}:</span>&nbsp;
+              <span>{{order.address? order.address.state:''}}</span>
+              <br>
+              <span class="font-weight-bold">{{'Country' | translate }}:</span>&nbsp;
+              <span>{{order.address? order.address.country:''}}</span>
+            </div>
+            <div class="col-md-4 pull-right">
+              <p class="font-weight-bold" translate>{{'Summary Costs'}}</p>
+              <p class="font-weight-normal" translate>{{'Item(s) Subtotal'}}</p>
+              <p class="font-weight-bold" translate>{{'Total'}}</p>
+            </div>
+            <div class="col-md-2">
+              <p class="font-weight-bold text-left">{{'Totals'}}</p>
+              <p class="font-weight-normal" translate>
+                <span>{{'US $'}}{{order? order.subtotal:''}}</span>
+              </p>
+              <p class="font-weight-bold text-left">{{'US $'}}{{order? order.total:''}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-header products-label" *ngIf="listDetails.length > 0">{{ 'Your Products' | translate }}</div>
+        <div class="container product-list" *ngFor="let list of listDetails">
+          <hr>
+          <div class="row">
+            <aside>
+              <article class="gallery-wrap">
+                <div class="col-sm-3">
+                  <div class="img-med-wrap">
+                    <div>
+                      <img src={{list.urlImage}}>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </aside>
+            <aside class="col-sm-9">
+              <article class="card-body p-5">
+                <div>
+                  <div *ngFor="let specification of list.productRequested.detail">
+                    <div class="container">
+                      <div class="div-name">
+                        <div>
+                          <h3>{{list.productRequested.product.name}}-</h3>
+                        </div>
+                        <div>
+                          <span class="price h5 text-warning">
+                            <h3>({{specification.name}})</h3>
+                          </span>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row justify-content-md-center">
+                        <div class="col">
+                          <dl class="param param-feature">
+                            <dt>{{'Quantity'| translate}} </dt>
+                            <dt><span [ngStyle]="{'font-weight':'normal'}">{{list.productRequested.quantity}}</span> </dt>
+                          </dl>
+                        </div>
+                        <div class="col">
+                          <dl class="param param-feature">
+                            <dt>{{'Price'| translate}}</dt>
+                            <dt><span [ngStyle]="{'font-weight':'normal'}">{{'US $'}}{{list.productRequested.price}}</span></dt>
+                          </dl>
+                        </div>
+                        <div class="col">
+                          <dl class="param param-feature">
+                            <dt>{{'Subtotal'| translate}}</dt>
+                            <dt><span class="text-warning">{{'US $'}}{{list.productRequested.price*list.productRequested.quantity}}</span></dt>
+                          </dl>
+                        </div>
+                      </div>
+                      <div class="row justify-content-md-center">
+                        <div class="col">
+                          <dl class="param param-feature">
+                            <dt>{{'Material'| translate}}</dt>
+                            <dt><span [ngStyle]="{'font-weight':'normal'}">{{list.productRequested.product.material}}</span></dt>
+                          </dl>
+                        </div>
+                        <div class="col">
+                          <dl class="param param-feature">
+                            <dt>{{'Replacement period'| translate}}</dt>
+                            <dt><span [ngStyle]="{'font-weight':'normal'}">{{list.productRequested.product.replacementPeriod}}</span></dt>
+                          </dl>
+                        </div>
+                        <div class="col">
+                          <dl class="param param-feature">
+                            <dt>{{'Warranty'| translate}}</dt>
+                            <dt><span class="text-warning">{{list.productRequested.product.warranty}}</span></dt>
+                          </dl>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="align-btn-detail">
+                      <button type="button" class="btn btn-outline-primary" (click)="list.productRequested.show = !list.productRequested.show"
+                        [attr.aria-expanded]="!list.productRequested.show" aria-controls="collapseExample">
+                        View Detail
+                      </button>
+                    </div>
+                    <!--START TOGGLE-->
+                    <div id="collapseExample" [ngbCollapse]="!list.productRequested.show">
+                      <ngb-tabset>
+                        <ngb-tab>
+                          <ng-template ngbTabTitle>{{'Technical specifications'| translate}}</ng-template>
+                          <ng-template ngbTabContent>
+                            <div class="card-body table-responsive">
+                              <div class="card-header d-flex">
+                              </div>
+                              <table class="table">
+                                <tbody>
+                                  <tr *ngFor="let param of specification.parameters">
+                                    <td [ngStyle]="{'font-weight':'bold'}">
+                                      {{param.name}}
+                                    </td>
+                                    <td>
+                                      {{param.value}}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </ng-template>
+                        </ngb-tab>
+                      </ngb-tabset>
+                    </div>
+                    <!--END TOGGLE-->
+                  </div>
+                </div>
+              </article>
+            </aside>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-body table-responsive">
+        <div class="pagination-list" [hidden]="listDetails.length === 0">
+          <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listDetailsAux.length"
+            [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+          </ngb-pagination>
+          <span class="count-elements">{{ listDetails.length + ' ' + ('of' | translate) + ' ' + listDetailsAux.length + ' ' + ('register(s)' | translate)
+            }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>

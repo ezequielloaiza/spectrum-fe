@@ -1,0 +1,79 @@
+@import '../../../../styles/spectrum/spectrum';
+@include tr-sizes((25%, 25%, 25%, 25%));
+.card {
+  border: 1px solid $border;
+  box-shadow: 0 2px 2px $box-shadow, 0 0 2px $box-shadow1;
+}
+
+.div-pending {
+  >div {
+    text-align: center;
+    background: $pending-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
+  }
+}
+
+.div-sent {
+  >div {
+    text-align: center;
+    background: $sent-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
+  }
+}
+
+.div-authorized {
+  >div {
+    text-align: center;
+    background: $authorized-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
+  }
+}
+
+.div-processed {
+  >div {
+    text-align: center;
+    background: $processed-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
+  }
+}
+
+.div-pay {
+  >div {
+    text-align: center;
+    background: $paid-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
+  }
+}
+
+.h5-filter {
+  padding-top: 20px;
+}
+
+.btn-clean {
+  padding-top: 10px;
+}
+
+.filter {
+  padding-top: 10px;
+}
+
+.active {
+  cursor: pointer;
+  & span:hover {
+    color: $bg-blue;
+  }
+}
+
+a:link {
+  color: #007bff;
+}

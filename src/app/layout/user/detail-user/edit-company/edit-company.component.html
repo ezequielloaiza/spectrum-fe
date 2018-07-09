@@ -1,0 +1,184 @@
+<div class="container bootstrap snippet">
+  <div class="row">
+    <div class="col-sm-12">
+      <br>
+      <form [formGroup]="form">
+        <div class="form-options">
+          <span class="sp-title">{{ 'Company Info' | translate }}</span>
+          <button class="btn btn-main" (click)="edit()" [hidden]="canEdit">{{ 'Edit' | translate }}&nbsp;
+            <i class="fa fa-edit"></i>
+          </button>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Name' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.companyName }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name" formControlName="name"
+                  required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="name.valid || name.pristine">
+              <span>{{ 'Name is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Company contact name' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.contactName }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter company contact name' | translate }}" name="contactName"
+                  formControlName="contactName" required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="contactName.valid || contactName.pristine">
+              <span>{{ 'Company contact name is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Business types' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.businessType.name }}</span>
+                <select [hidden]="!canEdit" class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
+                  <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name }}</option>
+                </select>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="idBusinessType.valid || idBusinessType.pristine">
+              <span>{{ 'Business type is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Email' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.email }}</span>
+                <input [hidden]="!canEdit" type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email" formControlName="email"
+                  required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="email.pristine">
+              <span *ngIf="email.errors && !!email.errors.required">{{'Email is required' | translate }}</span>
+              <span *ngIf="email.errors && !!email.errors.pattern">{{ 'Email is not valid' | translate }}
+              </span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'City' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.city }}</span>
+                <input [hidden]="!canEdit" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt"
+                  name="city" formControlName="city" [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead"
+                  placeholder="{{ 'Enter city' | translate }}" required />
+              </div>
+            </fieldset>
+            <div *ngIf="searching" class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+            <div class="message-error" [hidden]="city.valid || city.pristine">
+              <span>{{ 'City is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'State' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.state }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state"
+                  required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="state.valid || state.pristine">
+              <span>{{ 'State is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Country' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.country }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter country' | translate }}" name="country" formControlName="country"
+                  required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="country.valid || country.pristine">
+              <span>{{ 'Country is required' | translate }}</span>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Postal Code' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.postalCode }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postalCode" formControlName="postalCode">
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="postalCode.valid || postalCode.pristine">
+              <span>{{ 'Postal code is required' | translate }}</span>
+            </div>
+          </div>
+
+          <div class="col-xl-12">
+            <fieldset class="form-group">
+              <label>{{ 'Address' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.address }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Phone' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.phone }}</span>
+                <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
+                <!-- <input [hidden]="!canEdit" class="form-control" name="phone" formControlName="phone">
+                <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"
+                    required></int-phone-prefix>-->
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Credit limit' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.creditLimit | currency }}</span>
+                <div class="form-group input-group">
+                  <div [hidden]="!canEdit" class="input-group-append">
+                    <span class="input-group-text">$</span>
+                  </div>
+                  <input [hidden]="!canEdit" class="form-control" type="number" placeholder="{{ 'Enter credit limit' | translate }}" name="creditLimit"
+                    formControlName="creditLimit" required>
+                </div>
+              </div>
+              <div class="message-error" [hidden]="creditLimit.valid || creditLimit.pristine">
+                <span>{{ 'Credit Limit is required' | translate }}</span>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <br>
+        <div class="footer-form">
+          <button class="btn btn-secondary" (click)="cancel()" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
+            <i class="fa fa-times"></i>
+          </button>
+          &nbsp;&nbsp;
+          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
+            <i class="fa fa-save"></i>
+          </button>
+        </div>
+      </form>
+      <br>
+    </div>
+  </div>
+</div>
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.description}}
+</ng-template>
