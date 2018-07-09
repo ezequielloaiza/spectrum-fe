@@ -68,11 +68,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Postal Code' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal" required>
+            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal">
           </fieldset>
-          <div class="message-error" [hidden]="postal.valid || postal.pristine">
-            <span>{{ 'Postal code is required' | translate }}</span>
-          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
@@ -188,12 +185,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Postal Code' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="companyPostal" formControlName="companyPostal"
-              required>
+            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="companyPostal" formControlName="companyPostal">
           </fieldset>
-          <div class="message-error" [hidden]="companyPostal.valid || companyPostal.pristine">
-            <span>{{ 'Postal code is required' | translate }}</span>
-          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">

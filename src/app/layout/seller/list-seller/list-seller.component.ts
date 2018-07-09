@@ -20,6 +20,10 @@ export class ListSellerComponent implements OnInit {
   listSellersAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number = 5;
+  	/*initial order*/
+	orderByField = 'idUser';
+	reverseSort = true;
+	typeSort = 0;
 
   constructor(private userService: UserService,
     private alertify: AlertifyService,
@@ -38,10 +42,42 @@ export class ListSellerComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listSellers = res.data;
         this.listSellersAux = res.data;
-        this.listSellers = this.listSellersAux.slice(0, this.itemPerPage);
+        this.sortSeller(this.orderByField);
+       // this.listSellers = this.listSellersAux.slice(0, this.itemPerPage);
+      } else {
+        console.log(res.errors[0].detail);
       }
+    }, error => {
+      console.log('error', error);
     });
   }
+  
+  sortSeller(key) {
+		if (this.orderByField !== key) {
+			this.typeSort = 0;
+			this.reverseSort = false;
+		}
+		this.orderByField = key;
+		if (this.orderByField !== 'idUser') {
+			this.typeSort ++;
+			if (this.typeSort > 2) {
+				this.typeSort = 0;
+				this.orderByField = 'idUser';
+				key = 'idUser';
+				this.reverseSort = true;
+			}
+		}
+    let sellersSort = this.listSellersAux.sort(function(a, b) {
+      let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		});
+		this.listSellersAux = sellersSort;
+		if (this.reverseSort) {
+			this.listSellersAux = sellersSort.reverse();
+		}
+		this.advancedPagination = 1;
+		this.pageChange(this.advancedPagination);
+	}
 
   getItems(ev: any) {
     this.listSellers = this.listSellersAux;
