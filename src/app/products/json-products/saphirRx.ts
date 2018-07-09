@@ -4,12 +4,12 @@ this.products = [
     "priceBase": 6000, "price1": 5500, "price2": 5600, "price3": 5700,
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
-    "material": "Ori:gen Technology, 59%",
-    "descriptionShort": "My description short by Gentle 59",
-    "description": "Gentle 59 is a monthly soft contact lens individually manufactured with Ori:gen Technology, a next-generation hydrogel material designed to mimic the surface of the human cornea.Its low surface friction and dehydration rate are just a couple of outstanding characteristics that put Gentle 59 at the forefront of all-day comfort, health, and handling in contact lenses.",
+    "material": "Silicone Hydrogel, Filcon V3 75%",
+    "descriptionShort": "My description short by saphir",
+    "description": "Saphir represents a family of monthly and 3-monthly soft contact lenses individually manufactured with Silicone Hydrogel, the most advanced material on the market, which maximises oxygen flow to the eye. Its unique combination of comfort, breathability and vision quality suits even the most demanding contact lens user.",
     "replacementPeriod": "Monthly",
     "warranty": "",
-    "url": "http://spctinternational.com/wp-content/uploads/2017/11/GENTLE-59.pdf",
+    "url": "http://spctinternational.com/wp-content/uploads/2017/11/SAPHIR.pdf",
     "stock": 10,
     "colors": [
       { "name": "Blue", "selectedLeft": true, "selectedRight": true },
@@ -20,7 +20,7 @@ this.products = [
       {
         "name": "Default",
         "parameters": [
-          { "name": "Addition", "type": "number", "values": ["0.50", "1.00", "1.50", "2.00", "2.50", "3.00", "3.50", "4.00"], "selectedLeft": null, "selectedRight": null },,
+          { "name": "Addition", "type": "number", "values": ["0.50", "1.00", "1.50", "2.00", "2.50", "3.00", "3.50", "4.00"], "selectedLeft": null, "selectedRight": null },
           {
             "name": "Multifocal Design", "type": "radio", "values": [
               { "name": "CD", "selectedLeft": true, "selectedRight": true },
