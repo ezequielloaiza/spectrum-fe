@@ -255,5 +255,6 @@
     "Full Name": "Nombre completo",
     "User Inactive": "Usuario inactivo",
     "Incorrect password": "Contraseña incorrecta",
-    "User does not exist": "Usuario no existe"
+    "User does not exist": "Usuario no existe",
+    "Full Name is required":"Nombre completo es requerido"
 }

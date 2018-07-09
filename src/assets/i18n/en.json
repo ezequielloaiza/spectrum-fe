@@ -258,5 +258,6 @@
     "Full Name": "Full Name",
     "User Inactive": "User Inactive",
     "Incorrect password": "Incorrect password",
-    "User does not exist": "User does not exist"
+    "User does not exist": "User does not exist",
+    "Full Name is required":"Full Name is required"
 }
