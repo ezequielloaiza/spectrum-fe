@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsComponent } from './products.component';
 import { ProductsListsComponent } from './products-lists/products-lists.component';
+import { ProductViewComponent } from './product-view/product-view.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageHeaderModule } from '../shared';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -17,8 +19,9 @@ import { PageHeaderModule } from '../shared';
     TranslateModule,
     HeaderModule,
     NgbModule.forRoot(),
-    PageHeaderModule
+    PageHeaderModule,
+    FormsModule
   ],
-  declarations: [ProductsComponent, ProductsListsComponent, ProductDetailComponent]
+  declarations: [ProductsComponent, ProductsListsComponent, ProductViewComponent, ProductDetailComponent]
 })
 export class ProductsModule { }

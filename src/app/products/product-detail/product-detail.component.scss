@@ -2,8 +2,13 @@
   margin-left: 3%;
 }
 
+.padding-detail {
+  padding: 0px 40px 0px 40px;
+}
+
 .card-body {
   padding: 20px !important;
+  display: flex;
 }
 
 .gallery-wrap .img-big-wrap img {
@@ -32,4 +37,15 @@
   object-fit: cover;
   border-radius: 4px;
   cursor: zoom-in;
+}
+
+.label-eye {
+  color: #1756a6;
+  padding-bottom: 5px;
+}
+
+.btn-save {
+  text-align: center;
+  color: white;
+  padding-top: 20px;
 }
