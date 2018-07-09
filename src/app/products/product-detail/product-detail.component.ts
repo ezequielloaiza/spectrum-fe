@@ -161,7 +161,7 @@ export class ProductDetailComponent implements OnInit {
 
   buyNow() {
     this.order = this.buildOrder();
-    console.log(this.order);
+    console.log(JSON.stringify(this.order));
   }
 
 }
