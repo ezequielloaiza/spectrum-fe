@@ -40,6 +40,11 @@ export class ListUserComponent implements OnInit {
     this.userService.findByRole$(Role.User, filter).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listUsers = res.data;
+        _.each(this.listUsers,function(user){
+          user.companyName = user.company.companyName;
+          user.businessTypeName = user.company.businessType.name;
+          user.companyCountry = user.company.country;
+        });
         this.listUsersAux = res.data;
         this.sortUser(this.orderByField);
         //this.listUsers = this.listUsersAux.slice(0, this.itemPerPage);
@@ -65,11 +70,10 @@ export class ListUserComponent implements OnInit {
 				key = 'idUser';
 				this.reverseSort = true;
 			}
-		}
+    }
     let usersSort = this.listUsersAux.sort(function(a, b) {
-        let x = a[key]; let y = b[key];
-        console.log('a'+a[key]);
-        console.log('b'+a[key]);
+        let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
+        debugger
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 		});
 		this.listUsersAux = usersSort;
