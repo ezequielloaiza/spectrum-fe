@@ -129,8 +129,8 @@ export class ListOrderComponent implements OnInit {
   clean() {
     this.getListOrders();
     this.valid = false;
-    this.form.get('selectedStat').setValue("");
-    this.form1.get('fechaSelec').setValue("");
+    this.form.get('selectedStat').setValue('');
+    this.form1.get('fechaSelec').reset();
     this.tamano= 'undefined';
   }
 

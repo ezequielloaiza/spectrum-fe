@@ -85,10 +85,10 @@ export class ProductDetailComponent implements OnInit {
 
   checkedRadio(typeEye, value) {
     if (typeEye === 'left') {
-      if (value.selectedLeft === true) 
+      if (value.selectedLeft === true)
         return true;
     } else {
-      if (value.selectedRight === true) 
+      if (value.selectedRight === true)
         return true;
     }
     return false;
@@ -114,11 +114,11 @@ export class ProductDetailComponent implements OnInit {
   }
 
   buildOrder() {
-    var color = _.find(this.product.colors, function (color) { 
+    var color = _.find(this.product.colors, function (color) {
       return color.selected === true;
     });
 
-    var type = _.find(this.product.types, function (type) { 
+    var type = _.find(this.product.types, function (type) {
       return type.selected === true;
     });
 
@@ -158,10 +158,10 @@ export class ProductDetailComponent implements OnInit {
     return productToBuy;
   }
 
-  
+
   buyNow() {
     this.order = this.buildOrder();
-    console.log(this.order);
+    console.log(JSON.stringify(this.order));
   }
 
 }

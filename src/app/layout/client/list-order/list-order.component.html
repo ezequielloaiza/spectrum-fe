@@ -29,7 +29,7 @@
           <div class="col-xl-3 filter">
             <div>
               <div [formGroup]="form1" class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker"
+                <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker"
                   (ngModelChange)="filter1(model1)" formControlName="fechaSelec">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
@@ -40,10 +40,8 @@
               <!--<pre>Model: {{model1 | json  }}</pre>-->
             </div>
           </div>
-          <div class="col-xl-1 h5-filter">
-            <small>
-              <a class="ng-tns-c4-0" [routerLink]="['/order-list-client']" translate [hidden]="!valid" (click)="clean()">Clean</a>
-            </small>
+          <div class="col-xl-1 btn-clean">
+            <button class="btn btn-outline-secondary" [routerLink]="['/order-list-client']" translate [hidden]="!valid" (click)="clean()">Clean Filters</button>
           </div>
           <div class="card-body table-responsive">
             <table class="table">

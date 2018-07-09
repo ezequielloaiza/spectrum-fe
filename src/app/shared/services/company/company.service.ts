@@ -14,5 +14,13 @@ export class CompanyService {
     return this.http.get(environment.apiUrl + 'company/findAllBySeller/');
   }
 
+  public findByIdUser$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'company/findByIdUser/' + id);
+  }
+
+  public update$(company): Observable<any> {
+    return this.http.put(environment.apiUrl + 'company/update', company);
+  }
+
 
 }

@@ -42,7 +42,7 @@ export class ProductViewComponent implements OnInit {
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.infoAditional = JSON.parse(this.product.infoAditional);
     //simulando click en el primer type del producto actual
-    this.parameters = this.product.types[0].parameters;
+    //this.parameters = this.product.types[0].parameters;
   }
-  
+
 }
