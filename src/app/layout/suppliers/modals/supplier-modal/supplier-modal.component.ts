@@ -27,6 +27,7 @@ export class SupplierModalComponent implements OnInit {
   public model: any;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  valorCity:any;
 
   constructor(private modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -59,7 +60,9 @@ export class SupplierModalComponent implements OnInit {
       country     : [this.action === 'edit' ? this.supplier.country : '', [ Validators.required]],
       city        : [this.action === 'edit' ? {description: this.supplier.city} : '', [ Validators.required]],
       postal      : [this.action === 'edit' ? this.supplier.postalCode : '']
+      
     });
+    this.valorCity ={description: this.supplier.city};
   }
 
   close(data): void {
@@ -83,6 +86,7 @@ export class SupplierModalComponent implements OnInit {
             this.notification.success('', res);
           });
         } else if (res.code === CodeHttp.notAcceptable) {
+          this.form.get('city').setValue({description: this.form.value.city});
           this.translate.get('The supplier already exists, verify the name of the company or the emails', { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
@@ -101,6 +105,7 @@ export class SupplierModalComponent implements OnInit {
             this.notification.success('', res);
           });
         } else if (res.code === CodeHttp.notAcceptable) {
+          this.form.get('city').setValue(this.valorCity);
           this.translate.get('The supplier already exists, verify the name of the company or the emails', { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
@@ -137,6 +142,7 @@ export class SupplierModalComponent implements OnInit {
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({description: this.googleService.getCity()});
+      this.valorCity = {description: this.googleService.getCity()};
     });
   }
 
