@@ -8,9 +8,10 @@
 }
 
 .card {
-  border: none;
+  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;;
+  box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12) !important;
 
-  .card-header {  
+  .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -56,7 +57,7 @@
 
 .pagination-list {
   text-align: right;
-  line-height: 0 !important; 
+  line-height: 0 !important;
   font-weight: 300;
 }
 
@@ -81,4 +82,4 @@
 
 .no-records {
   text-align: center;
-} 
+}

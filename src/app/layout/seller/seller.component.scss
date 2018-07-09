@@ -1,6 +1,6 @@
-@import '../../../../styles/spectrum/spectrum';
+@import '../../../styles/spectrum/spectrum';
 
-@include tr-sizes((20%,20%,20%,20%,15%));
+@include tr-sizes((25%,25%,25%,25%));
 
 .card {
   border: 1px solid rgba(0, 0, 0, 0.125);
