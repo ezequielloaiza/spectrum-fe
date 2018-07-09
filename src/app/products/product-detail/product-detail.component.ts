@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsComponent } from '../products.component';
 import * as _ from 'lodash';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 
@@ -19,7 +19,7 @@ export class ProductDetailComponent implements OnInit {
   parameters: any;
   quantity = 1;
   order: any;
-  constructor(private productService:ProductService, private route: ActivatedRoute) { }
+  constructor(private productService:ProductService, private route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
     this.setEyes();
@@ -161,6 +161,9 @@ export class ProductDetailComponent implements OnInit {
 
   buyNow() {
     this.order = this.buildOrder();
+    this.getProducts();
+    alert('In construction.');
+    this.router.navigate(['/order-list-client']);
     console.log(JSON.stringify(this.order));
   }
 
