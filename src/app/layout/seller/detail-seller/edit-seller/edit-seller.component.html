@@ -104,9 +104,10 @@
                 <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
               </div>
             </fieldset>
-            <div class="message-error" [hidden]="phone.valid || phone.pristine">
-              <span>{{ 'Phone is required' | translate }}</span>
+            <div class="message-error" [hidden]="!canEdit || phone.value.length === 0 || phone.value.length > 7">
+              <span>{{ 'Phone Number is not valid' | translate }}</span>
             </div>
+
           </div>
           <div class="col-xl-12">
             <fieldset class="form-group">
