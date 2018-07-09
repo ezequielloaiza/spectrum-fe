@@ -96,7 +96,7 @@ export class ShippingAddressComponent implements OnInit {
 			}
 		}
     let suppliersAddress = this.auxAddresses.sort(function(a, b) {
-        let x = a[key]; let y = b[key];
+        let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 		});
 		this.auxAddresses = suppliersAddress;

@@ -40,12 +40,60 @@
           <table class="table">
             <thead>
               <tr>
-                <th class="table-tr">{{ 'Status' | translate }}</th>
-                <th class="table-tr">{{ 'Name' | translate }}</th>
-                <th class="table-tr">{{ 'Email' | translate }}</th>
-                <th class="table-tr">{{ 'Company Name' | translate }}</th>
-                <th class="table-tr">{{ 'Business Type' | translate}}</th>
-                <th class="table-tr">{{ 'Country' | translate}}</th>
+                <th class="table-tr header-column">
+                  <span title="Status">{{ 'Status' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortUser('status')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'status' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortUser('status')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortUser('status')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Full Name">{{ 'Full Name' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortUser('name')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'name' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortUser('name')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortUser('name')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Email">{{ 'Email' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortUser('email')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'email' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortUser('email')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortUser('email')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Company Name">{{ 'Company Name' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortUser('companyName')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'companyName' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortUser('companyName')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortUser('companyName')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Business Type">{{ 'Business Type' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortUser('businessTypeName')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'businessTypeName' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortUser('businessTypeName')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortUser('businessTypeName')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Country">{{ 'Country' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortUser('companyCountry')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'companyCountry' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortUser('companyCountry')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortUser('companyCountry')"></i>
+                  </span>
+                </th>
                 <th class="table-tr"></th>
               </tr>
             </thead>
@@ -90,7 +138,8 @@
               [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
             </ngb-pagination>
             <span class="count-elements">{{ listUsers.length + ' ' + ('of' | translate) + ' ' + listUsersAux.length + ' ' + ('register(s)' | translate)
-              }}</span>
+              }}
+            </span>
           </div>
         </div>
       </div>

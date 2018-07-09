@@ -20,6 +20,10 @@ export class ListUserComponent implements OnInit {
   listUsersAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage = 5;
+  	/*initial order*/
+	orderByField = 'idUser';
+	reverseSort = true;
+	typeSort = 0;
 
   constructor(private userService: UserService,
     private alertify: AlertifyService,
@@ -36,11 +40,48 @@ export class ListUserComponent implements OnInit {
     this.userService.findByRole$(Role.User, filter).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listUsers = res.data;
+        _.each(this.listUsers,function(user){
+          user.companyName = user.company.companyName;
+          user.businessTypeName = user.company.businessType.name;
+          user.companyCountry = user.company.country;
+        });
         this.listUsersAux = res.data;
-        this.listUsers = this.listUsersAux.slice(0, this.itemPerPage);
+        this.sortUser(this.orderByField);
+        //this.listUsers = this.listUsersAux.slice(0, this.itemPerPage);
+      } else {
+        console.log(res.errors[0].detail);
       }
+    }, error => {
+      console.log('error', error);
     });
   }
+
+  sortUser(key) {
+		if (this.orderByField !== key) {
+			this.typeSort = 0;
+			this.reverseSort = false;
+		}
+		this.orderByField = key;
+		if (this.orderByField !== 'idUser') {
+			this.typeSort ++;
+			if (this.typeSort > 2) {
+				this.typeSort = 0;
+				this.orderByField = 'idUser';
+				key = 'idUser';
+				this.reverseSort = true;
+			}
+    }
+    let usersSort = this.listUsersAux.sort(function(a, b) {
+        let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		});
+		this.listUsersAux = usersSort;
+		if (this.reverseSort) {
+			this.listUsersAux = usersSort.reverse();
+		}
+		this.advancedPagination = 1;
+		this.pageChange(this.advancedPagination);
+	}
 
   getItems(ev: any) {
     this.listUsers = this.listUsersAux;
