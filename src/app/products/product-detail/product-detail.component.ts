@@ -44,7 +44,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   getProductView() {
-    console.log(JSON.stringify(_.range(4, 10, 0.5)));
+    console.log(JSON.stringify(_.range(-8, -0.75, 0.25)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.types = JSON.parse(this.product.types);
