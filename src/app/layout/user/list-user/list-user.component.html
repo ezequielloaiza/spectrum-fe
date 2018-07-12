@@ -105,9 +105,9 @@
                 <td class="table-tr" class="inactive" *ngIf="user.status === 1">
                   <div>{{'Inactive' | translate}}</div>
                 </td>
-                <td class="table-tr">{{user.name}}</td>
-                <td class="table-tr">{{user.email}}</td>
-                <td class="table-tr">{{user.company.companyName}}</td>
+                <td class="table-tr td-table">{{user.name}}</td>
+                <td class="table-tr td-table">{{user.email}}</td>
+                <td class="table-tr td-table">{{user.company.companyName}}</td>
                 <td class="table-tr">{{user.company.businessType.name}}</td>
                 <td class="table-tr">{{user.company.country}}</td>
                 <td class="table-tr">
@@ -116,7 +116,7 @@
                       <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                       <div ngbDropdownMenu>
                         <button class="dropdown-item" routerLink="/user/{{user.idUser}}">
-                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                          <i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
                         <button *ngIf="user.status === 0" class="dropdown-item" (click)="changeStatus(user.idUser)">
                           <i class="fa fa-times"></i> {{ 'Deactivate' | translate }}</button>
                         <button *ngIf="user.status === 1" class="dropdown-item" (click)="changeStatus(user.idUser)">

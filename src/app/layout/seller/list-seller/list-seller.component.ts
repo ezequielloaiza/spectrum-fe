@@ -42,7 +42,6 @@ export class ListSellerComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listSellers = res.data;
         this.listSellersAux = res.data;
-        this.sortSeller(this.orderByField);
        // this.listSellers = this.listSellersAux.slice(0, this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
@@ -63,8 +62,9 @@ export class ListSellerComponent implements OnInit {
 			if (this.typeSort > 2) {
 				this.typeSort = 0;
 				this.orderByField = 'idUser';
-				key = 'idUser';
-				this.reverseSort = true;
+			 	key = 'idUser';
+        this.reverseSort = true;
+        this.getListSellers(-1);
 			}
 		}
     let sellersSort = this.listSellersAux.sort(function(a, b) {
