@@ -46,7 +46,7 @@ export class ListUserComponent implements OnInit {
           user.companyCountry = user.company.country;
         });
         this.listUsersAux = res.data;
-        //this.listUsers = this.listUsersAux.slice(0, this.itemPerPage);
+        this.listUsers = this.listUsersAux.slice(0, this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }
@@ -119,10 +119,16 @@ export class ListUserComponent implements OnInit {
     const modalRef = this.modalService.open(UserModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.result.then((result) => {
       this.getListUser(-1);
+      this.moveFirstPage();
     } , (reason) => {
     });
   }
 
+  moveFirstPage() {
+		this.advancedPagination = 1;
+		this.pageChange(this.advancedPagination);
+  }
+  
   filter(value: number): void {
     this.getListUser(value);
   }

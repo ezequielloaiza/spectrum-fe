@@ -42,7 +42,7 @@ export class ListSellerComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listSellers = res.data;
         this.listSellersAux = res.data;
-       // this.listSellers = this.listSellersAux.slice(0, this.itemPerPage);
+        this.listSellers = this.listSellersAux.slice(0, this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }
@@ -114,8 +114,14 @@ export class ListSellerComponent implements OnInit {
     const modalRef = this.modalService.open(SellerModalComponent, { size: 'lg', windowClass: 'modal-content-seller' });
     modalRef.result.then((result) => {
       this.getListSellers(-1);
+      this.moveFirstPage();
     }, (reason) => {
     });
+  }
+
+  moveFirstPage() {
+		this.advancedPagination = 1;
+		this.pageChange(this.advancedPagination);
   }
 
   borrar(id) {
