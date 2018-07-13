@@ -264,5 +264,6 @@
     "User does not exist": "User does not exist",
     "Full Name is required":"Full Name is required",
     "The user already exists, check the email":"The user already exists, check the email",
-    "View":"View"
+    "View":"View",
+    "No seller assigned": "No seller assigned"
 }

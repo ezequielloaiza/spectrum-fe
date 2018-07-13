@@ -261,5 +261,6 @@
     "User does not exist": "Usuario no existe",
     "Full Name is required":"Nombre completo es requerido",
     "The user already exists, check the email":"El usuario ya existe, verifica el correo",
-    "View":"Ver"
+    "View":"Ver",
+    "No seller assigned": "Sin vendedor asignado"
 }
