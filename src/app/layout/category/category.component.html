@@ -40,8 +40,8 @@
             </thead>
             <tbody [hidden]="categories.length === 0">
               <tr *ngFor="let category of categories">
-                <td class="table-tr"> {{ category.name }}</td>
-                <td class="table-tr"> {{ category.description }}</td>
+                <td class="table-tr td-table"> {{ category.name }}</td>
+                <td class="table-tr td-table"> {{ category.description }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">

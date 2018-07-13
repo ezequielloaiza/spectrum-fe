@@ -213,7 +213,7 @@
     "Material":"Material",
     "Replacement period":"Periodo de reemplazo",
     "Warranty":"Garantía",
-    "The seller already exists, check name or email":"El vendedor ya existe, verifique nombre o correo",
+    "The seller already exists, check the email":"El vendedor ya existe, verifique el correo",
     "It can not be deleted, it is associated with a client":"No se puede eliminar, esta asociado con un cliente",
     "Information Seller":"Información Vendedor",
     "To transfer":"Transferir",
@@ -259,5 +259,8 @@
     "User Inactive": "Usuario inactivo",
     "Incorrect password": "Contraseña incorrecta",
     "User does not exist": "Usuario no existe",
-    "Full Name is required":"Nombre completo es requerido"
+    "Full Name is required":"Nombre completo es requerido",
+    "The user already exists, check the email":"El usuario ya existe, verifica el correo",
+    "View":"Ver",
+    "No seller assigned": "Sin vendedor asignado"
 }

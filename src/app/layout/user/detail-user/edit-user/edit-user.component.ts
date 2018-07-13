@@ -144,12 +144,20 @@ export class EditUserComponent implements OnInit {
     if (this.form.get('city').value.description) {
       this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.user.city);
     }
+    if(this.nameSeller==""){
+      this.form.get('userId').setValue(null);
+    }
     this.userService.update$(this.form.value).subscribe( res => {
       if (CodeHttp.ok === res.code) {
         this.canEdit = false;
         this.user = res.data;
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
+        });
+      }else if(CodeHttp.notAcceptable === res.code) {
+        this.form.get('city').setValue({ description: this.form.value.city });
+        this.translate.get('The user already exists, check the email', { value: 'The user already exists, check the email' }).subscribe((res: string) => {
+          this.notification.warning('', res);
         });
       }
     }, error  => { });

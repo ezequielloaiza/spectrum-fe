@@ -215,7 +215,7 @@
     "Seller's status":"Seller's status",
     "Are you sure you want to change the status?":"Are you sure you want to change the status?",
     "Status changed":"Status changed",
-    "The seller already exists, check name or email":"The seller already exists, check name or email",
+    "The seller already exists, check the email":"The seller already exists, check the email",
     "It can not be deleted, it is associated with a client":"It can not be deleted, it is associated with a client",
     "Information Seller":"Information Seller",
     "To transfer":"To transfer",
@@ -262,5 +262,8 @@
     "User Inactive": "User Inactive",
     "Incorrect password": "Incorrect password",
     "User does not exist": "User does not exist",
-    "Full Name is required":"Full Name is required"
+    "Full Name is required":"Full Name is required",
+    "The user already exists, check the email":"The user already exists, check the email",
+    "View":"View",
+    "No seller assigned": "No seller assigned"
 }
