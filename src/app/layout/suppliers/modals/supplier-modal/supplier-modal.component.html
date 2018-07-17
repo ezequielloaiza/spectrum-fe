@@ -86,27 +86,27 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Telephone' | translate }}</label>
+            <label>{{ 'Phone' | translate }}</label>
             <!--<input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter telephone' | translate }}" name="telephone"
               formControlName="telephone" required>-->
-            <int-phone-prefix name="telephone" formControlName="telephone" data-toggle="tooltip" data-placement="right"
+            <int-phone-prefix name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right"
                               title="{{'Select a country by clicking on the map' | translate }}">
             </int-phone-prefix>
           </fieldset>
-          <div class="message-error" [hidden]="telephone.value.length === 0 || telephone.value.length > 7">
-            <span>{{ 'Telephone not valid' | translate }}</span>
+          <div class="message-error" [hidden]="phone.value.length === 0 || phone.value.length > 7">
+            <span>{{ 'Phone Number is not valid' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Telephone Secondary' | translate }}</label>
+            <label>{{ 'Phone Secondary' | translate }}</label>
             <!--<input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter telephone secondary' | translate }}" name="telephone2" formControlName="telephone2">-->
-            <int-phone-prefix name="telephone2" formControlName="telephone2" data-toggle="tooltip" data-placement="right"
+            <int-phone-prefix name="phone2" formControlName="phone2" data-toggle="tooltip" data-placement="right"
                               title="{{'Select a country by clicking on the map' | translate }}">
             </int-phone-prefix>
           </fieldset>
-          <div class="message-error" [hidden]="telephone2.value.length === 0 || telephone2.value.length > 7">
-            <span>{{ 'Telephone not valid' | translate }}</span>
+          <div class="message-error" [hidden]="phone2.value.length === 0 || phone2.value.length > 7">
+            <span>{{ 'Phone Number is not valid' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-12">
@@ -126,22 +126,22 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Plataform' | translate }}</label>
+            <label>{{ 'The supplier has a sales platform?' | translate }}</label>
             <div class="col col-xl-1 col-lg-1">
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="plataform" class="custom-control-input" (change)="assign_plataform(true)" [checked]="supplier.plataform">
+                <input type="radio" id="customRadio1" name="platform" class="custom-control-input" (change)="assignPlatform(true)" [checked]="supplier.platform">
                 <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
               </div>
             </div>
             <div class="col col-xl-1 col-lg-1">
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="plataform" class="custom-control-input" (change)="assign_plataform(false)" [checked]="!supplier.plataform">
+                <input type="radio" id="customRadio2" name="platform" class="custom-control-input" (change)="assignPlatform(false)" [checked]="!supplier.platform">
                 <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
               </div>
             </div>
           </fieldset>
-          <div class="message-error" [hidden]="plataform.valid || plataform.pristine">
-            <span>{{ 'plataform is required' | translate }}</span>
+          <div class="message-error" [hidden]="platform.valid || platform.pristine">
+            <span>{{ 'platform is required' | translate }}</span>
           </div>
         </div>
 
