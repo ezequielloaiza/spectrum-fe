@@ -129,13 +129,13 @@
             <label>{{ 'Plataform' | translate }}</label>
             <div class="col col-xl-1 col-lg-1">
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="customRadio" value="true" class="custom-control-input" (change)="assign_plataform(true)">
+                <input type="radio" id="customRadio1" name="plataform" class="custom-control-input" (change)="assign_plataform(true)" [checked]="supplier.plataform">
                 <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
               </div>
             </div>
             <div class="col col-xl-1 col-lg-1">
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="customRadio" value="false" class="custom-control-input" (change)="assign_plataform(false)">
+                <input type="radio" id="customRadio2" name="plataform" class="custom-control-input" (change)="assign_plataform(false)" [checked]="!supplier.plataform">
                 <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
               </div>
             </div>
