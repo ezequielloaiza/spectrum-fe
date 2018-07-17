@@ -60,7 +60,7 @@ export class SupplierModalComponent implements OnInit {
       country     : [this.action === 'edit' ? this.supplier.country : '', [ Validators.required]],
       city        : [this.action === 'edit' ? {description: this.supplier.city} : '', [ Validators.required]],
       postal      : [this.action === 'edit' ? this.supplier.postalCode : '']
-      
+
     });
     this.valorCity ={description: this.supplier.city};
   }
@@ -169,6 +169,12 @@ export class SupplierModalComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  assign_plataform(value:number){
+    console.log('value',value);
+    this.form.get('plataform').setValue(value);
+    console.log('plat',this.form.get('plataform').value);
   }
 
 }

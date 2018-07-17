@@ -161,7 +161,7 @@
     "Enter telephone":"Ingrese teléfono",
     "Enter telephone secondary":"Ingrese teléfono secundario",
     "Information Supplier":"Información Proveedor",
-    "Plataform":"Plataforma",
+    "Plataform":"¿El proveedor posee plataforma de ventas?",
     "Suppliers":"Proveedores",
     "register(s)":"registro(s)",
     "of":"de",
@@ -262,5 +262,7 @@
     "Full Name is required":"Nombre completo es requerido",
     "The user already exists, check the email":"El usuario ya existe, verifica el correo",
     "View":"Ver",
-    "No seller assigned": "Sin vendedor asignado"
+    "No seller assigned": "Sin vendedor asignado",
+    "Yes": "Si",
+    "No": "No"
 }

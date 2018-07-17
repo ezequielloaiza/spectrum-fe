@@ -126,10 +126,18 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <div class="check-plataform">
-              <label>{{ 'Plataform' | translate }}</label>
-              <input type="checkbox" class="form-control" placeholder="{{ 'Enter plataform' | translate }}" name="plataform" formControlName="plataform"
-                value="plataform">
+            <label>{{ 'Plataform' | translate }}</label>
+            <div class="col col-xl-1 col-lg-1">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio1" name="customRadio" value="true" class="custom-control-input" (change)="assign_plataform(true)">
+                <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
+              </div>
+            </div>
+            <div class="col col-xl-1 col-lg-1">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio2" name="customRadio" value="false" class="custom-control-input" (change)="assign_plataform(false)">
+                <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
+              </div>
             </div>
           </fieldset>
           <div class="message-error" [hidden]="plataform.valid || plataform.pristine">

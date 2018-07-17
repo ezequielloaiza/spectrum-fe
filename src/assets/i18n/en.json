@@ -161,7 +161,7 @@
     "Enter telephone":"Enter telephone",
     "Enter telephone secondary":"Enter telephone secondary",
     "Information Supplier":"Information Supplier",
-    "Plataform":"Plataform",
+    "Plataform":"The supplier has a sales plataform?",
     "Suppliers":"Suppliers",
     "register(s)":"register(s)",
     "of":"of",
@@ -265,5 +265,7 @@
     "Full Name is required":"Full Name is required",
     "The user already exists, check the email":"The user already exists, check the email",
     "View":"View",
-    "No seller assigned": "No seller assigned"
+    "No seller assigned": "No seller assigned",
+    "Yes": "Yes",
+    "No": "No"
 }
