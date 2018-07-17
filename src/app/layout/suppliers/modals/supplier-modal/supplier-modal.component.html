@@ -29,24 +29,9 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Address' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address" required>
-          </fieldset>
-          <div class="message-error" [hidden]="address.valid || address.pristine">
-            <span>{{ 'Address is required' | translate }}</span>
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <fieldset class="form-group">
-            <label>{{ 'Website' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter website' | translate }}" name="website" formControlName="website">
-          </fieldset>
-        </div>
-        <div class="col-xl-6">
-          <fieldset class="form-group">
             <label>{{ 'Email' | translate }}</label>
             <input type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email" formControlName="email"
-              required>
+                   required>
           </fieldset>
           <div class="message-error" [hidden]="email.pristine">
             <span *ngIf="email.errors && !!email.errors.required">{{'Email is required' | translate }}</span>
@@ -62,34 +47,9 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Telephone' | translate }}</label>
-            <!--<input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter telephone' | translate }}" name="telephone"
-              formControlName="telephone" required>-->
-            <int-phone-prefix name="telephone" formControlName="telephone" data-toggle="tooltip" data-placement="right"
-                              title="{{'Select a country by clicking on the map' | translate }}">
-            </int-phone-prefix>
-          </fieldset>
-          <div class="message-error" [hidden]="telephone.value.length === 0 || telephone.value.length > 7">
-            <span>{{ 'Telephone not valid' | translate }}</span>
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <fieldset class="form-group">
-            <label>{{ 'Telephone Secondary' | translate }}</label>
-            <!--<input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter telephone secondary' | translate }}" name="telephone2" formControlName="telephone2">-->
-            <int-phone-prefix name="telephone2" formControlName="telephone2" data-toggle="tooltip" data-placement="right"
-                              title="{{'Select a country by clicking on the map' | translate }}">
-            </int-phone-prefix>
-          </fieldset>
-          <div class="message-error" [hidden]="telephone2.value.length === 0 || telephone2.value.length > 7">
-            <span>{{ 'Telephone not valid' | translate }}</span>
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <fieldset class="form-group">
             <label>{{ 'City' | translate }}</label>
             <input id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt" name="city" formControlName="city"
-              [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead" required />
+                   [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead" required />
           </fieldset>
           <div *ngIf="searching" class="spinner">
             <div class="bounce1"></div>
@@ -126,14 +86,62 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <div class="check-plataform">
-              <label>{{ 'Plataform' | translate }}</label>
-              <input type="checkbox" class="form-control" placeholder="{{ 'Enter plataform' | translate }}" name="plataform" formControlName="plataform"
-                value="plataform">
+            <label>{{ 'Phone' | translate }}</label>
+            <!--<input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter telephone' | translate }}" name="telephone"
+              formControlName="telephone" required>-->
+            <int-phone-prefix name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right"
+                              title="{{'Select a country by clicking on the map' | translate }}">
+            </int-phone-prefix>
+          </fieldset>
+          <div class="message-error" [hidden]="phone.value.length === 0 || phone.value.length > 7">
+            <span>{{ 'Phone Number is not valid' | translate }}</span>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Phone Secondary' | translate }}</label>
+            <!--<input (keypress)="validatePhone($event)" class="form-control" placeholder="{{ 'Enter telephone secondary' | translate }}" name="telephone2" formControlName="telephone2">-->
+            <int-phone-prefix name="phone2" formControlName="phone2" data-toggle="tooltip" data-placement="right"
+                              title="{{'Select a country by clicking on the map' | translate }}">
+            </int-phone-prefix>
+          </fieldset>
+          <div class="message-error" [hidden]="phone2.value.length === 0 || phone2.value.length > 7">
+            <span>{{ 'Phone Number is not valid' | translate }}</span>
+          </div>
+        </div>
+        <div class="col-xl-12">
+          <fieldset class="form-group">
+            <label>{{ 'Address' | translate }}</label>
+            <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address" required>
+          </fieldset>
+          <div class="message-error" [hidden]="address.valid || address.pristine">
+            <span>{{ 'Address is required' | translate }}</span>
+          </div>
+        </div>
+        <div class="col-xl-12">
+          <fieldset class="form-group">
+            <label>{{ 'Website' | translate }}</label>
+            <input class="form-control" placeholder="{{ 'Enter website' | translate }}" name="website" formControlName="website">
+          </fieldset>
+        </div>
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'The supplier has a sales platform?' | translate }}</label>
+            <div class="col col-xl-1 col-lg-1">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio1" name="platform" class="custom-control-input" (change)="assignPlatform(true)" [checked]="supplier.platform">
+                <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
+              </div>
+            </div>
+            <div class="col col-xl-1 col-lg-1">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio2" name="platform" class="custom-control-input" (change)="assignPlatform(false)" [checked]="!supplier.platform">
+                <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
+              </div>
             </div>
           </fieldset>
-          <div class="message-error" [hidden]="plataform.valid || plataform.pristine">
-            <span>{{ 'plataform is required' | translate }}</span>
+          <div class="message-error" [hidden]="platform.valid || platform.pristine">
+            <span>{{ 'platform is required' | translate }}</span>
           </div>
         </div>
 
