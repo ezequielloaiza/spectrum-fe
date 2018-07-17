@@ -71,6 +71,7 @@ export class ProfileComponent implements OnInit {
       city: ['', [Validators.required]],
       postal: [''],
       phone: [''],
+      oldPassword: [Validators.required],
       password: [Validators.required],
       confirmedPassword: [Validators.required],
     });
@@ -151,6 +152,12 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  oldPasswordConfirming(c: AbstractControl): { invalid: boolean } {
+    if (c.get('oldPassword').value !== user.userResponse.password) {
+      return { invalid: true };
+    }
+  }
+
   passwordConfirming(c: AbstractControl): { invalid: boolean } {
     if (c.get('password').value !== c.get('confirmedPassword').value) {
       return { invalid: true };
@@ -187,6 +194,7 @@ export class ProfileComponent implements OnInit {
   */
 
   get username() { return this.form.get('username'); }
+  get oldPassword() { return this.form.get('oldPassword'); }
   get password() { return this.form.get('password'); }
   get confirmedPassword() { return this.form.get('confirmedPassword'); }
   get name() { return this.form.get('name'); }
