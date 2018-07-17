@@ -17,7 +17,7 @@
 .active {
   color: $bg-white;
   > div {
-    background: $bg-green;
+    background: $paid-status;
     text-align: center;
     border-radius: 12px;
   }
@@ -26,7 +26,7 @@
 .inactive {
   color: $bg-white;
   > div {
-    background: #ffc107;
+    background: $processed-status;
     text-align: center;
     border-radius: 12px;
   }
