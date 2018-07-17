@@ -18,96 +18,38 @@ this.products = [
     ],
     "types": [
       {
-        "name": "Spheric & Toric & Rx Design",
+        "name": "Spheric",
         "parameters": [
-          { "name": "Addition", "type":"radio", "values": [
-                                                  { "name": "Low", "selectedLeft": true, "selectedRight": true },
-                                                  { "name": "High", "selectedLeft": false, "selectedRight": false }]
-          },
-          { "name": "Multifocal Design", "type":"radio", "values": [
-                                                            { "name": "CD", "selectedLeft": true, "selectedRight": true },
-                                                            { "name": "CN", "selectedLeft": false, "selectedRight": false }]
-          },
-          { "name": "Diameter", "type":"number", "values": [ "14.40" ], "selectedLeft": null, "selectedRight": null },
+          { "name": "Diameter", "type": "number", "values": ["14.40"], "selectedLeft": null, "selectedRight": null },
           { "name": "Base Curve", "type":"number", "values": [ "8.70" ], "selectedLeft": null, "selectedRight": null },
-          { "name": "Axis Toric", "type":"number", "values": [], "selectedLeft": null, "selectedRight": null },
-          { "name": "Cylinder Toric", "type":"number", "values": [], "selectedLeft": null, "selectedRight": null },
-          { "name": "Sphere", "type":"number", "values": [], "selectedLeft": null, "selectedRight": null  }
+          { "name": "Sphere", "type":"number", "values": [ "-10.00","-9.50","-9.00","-8.50","-8.00","-7.50","-7.00","-6.50","-6.00","-5.75",-"5.50","-5.25","-5.00","-4.75","-4.50","-4.25","-4.00","-3.75","-3.50","-3.25","-3.00","-2.75","-2.50","-2.25","-2.00","-1.75","-1.50","-1.25","-1.00","-0.75","-0.50","-0.25","0.00","0.25","0.50","0.75","1.00","1.25","1.50","1.75","2.00","2.25","2.50","2.75","3.00","3.25","3.50","3.75","4.00","4.25","4.50","4.75","5.00","5.25","5.50","5.75","6.00","6.50","7.00","7.50","8.00"], "selected": null },
         ],
         "selected": true
+      },
+      {
+        "name": "Toric",
+        "parameters": [
+          { "name": "Diameter", "type": "number", "values": ["14.40"], "selectedLeft": null, "selectedRight": null },
+          { "name": "Base Curve", "type":"number", "values": [ "8.70" ], "selectedLeft": null, "selectedRight": null },
+          { "name": "Sphere", "type":"number", "values": [ "-8.00","-7.50","-7.00","-6.50","-6.00","-5.75",-"5.50","-5.25","-5.00","-4.75","-4.50","-4.25","-4.00","-3.75","-3.50","-3.25","-3.00","-2.75","-2.50","-2.25","-2.00","-1.75","-1.50","-1.25","-1.00","-0.75","-0.50","-0.25","0.00","0.25","0.50","0.75","1.00","1.25","1.50","1.75","2.00","2.25","2.50","2.75","3.00","3.25","3.50","3.75","4.00","4.50","5.00","5.50","6.00"], "selected": null },
+          { "name": "Cylinder Toric", "type": "number", "values": ["-2.75","-2.25","-1.75","-1.25","-0.75"], "selectedLeft": null, "selectedRight": null },
+          { "name": "Axis Toric", "type": "number", "values": ["10º", "20º","30º","40º","50º","60º","70º","80º","90º","100º","110º","120º","130º","140º","150º","160º","170º","180º"] }
+        ],
+        "selected": false
       },{
         "name": "Multifocal",
         "parameters": [
-          { "name": "Addition", "type":"radio", "values": [
-                                                  { "name": "Low", "selectedLeft": true, "selectedRight": true },
-                                                  { "name": "High", "selectedLeft": false, "selectedRight": false }]
-          },
-          { "name": "Multifocal Design", "type":"radio", "values": [
-                                                            { "name": "CD", "selectedLeft": true, "selectedRight": true },
-                                                            { "name": "CN", "selectedLeft": false, "selectedRight": false }]
-          },
           { "name": "Diameter", "type":"number", "values": [ "14.30" ], "selectedLeft": null, "selectedRight": null },
           { "name": "Base Curve", "type":"number", "values": [" 8.60" ], "selectedLeft": null, "selectedRight": null },
-          { "name": "Axis Toric", "type":"number", "values": [], "selectedLeft": null, "selectedRight": null },
-          { "name": "Cylinder Toric", "type":"number", "values": [], "selectedLeft": null, "selectedRight": null },
-          { "name": "Sphere", "type":"number", "values": [ "-10.00","-9.50","-9.00","-8.50","-8.00","-7.50","-7.00","-6.50","-6.00","-5.75","-5.50","-5.25","-5.00","-4.75","-4.50","-4.25","-4.00","-3.75","-3.50","-3.25","-3.00","-2.75","-2.50","-2.25","-2.00","-1.75","-1.50","-1.25","-1.00","-0.75","-0.50","-0.25","0.00","0.25","0.50","0.75","1.00","1.25","1.50","1.75","2.00","2.25","2.50","2.75","3.00","3.25","3.50","3.75","4.00","4.50","5.00","5.50","6.00","6.50","7.00","7.50","8.00","8.50","9.00","9.50","10.00"], "selectedLeft": null, "selectedRight": null }
-        ],
-        "selected": false
-      },{
-        "name": "Toric",
-        "parameters": [
+          { "name": "Sphere", "type":"number", "values": [ "-10.00","-9.50","-9.00","-8.50","-8.00","-7.50","-7.00","-6.50","-6.00","-5.75","-5.50","-5.25","-5.00","-4.75","-4.50","-4.25","-4.00","-3.75","-3.50","-3.25","-3.00","-2.75","-2.50","-2.25","-2.00","-1.75","-1.50","-1.25","-1.00","-0.75","-0.50","-0.25","0.00","0.25","0.50","0.75","1.00","1.25","1.50","1.75","2.00","2.25","2.50","2.75","3.00","3.25","3.50","3.75","4.00","4.50","5.00","5.50","6.00","6.50","7.00","7.50","8.00","8.50","9.00","9.50","10.00"], "selectedLeft": null, "selectedRight": null },
           { "name": "Addition", "type":"radio", "values": [
-                                                  { "name": "A", "selectedLeft": true, "selectedRight": true },
-                                                  { "name": "B", "selectedLeft": false, "selectedRight": false },
-                                                  { "name": "C", "selectedLeft": false, "selectedRight": false }]
+            { "name": "Low", "selectedLeft": true, "selectedRight": true },
+            { "name": "High", "selectedLeft": false, "selectedRight": false }]
           },
           { "name": "Multifocal Design", "type":"radio", "values": [
-                                                            { "name": "CD", "selectedLeft": true, "selectedRight": true },
-                                                            { "name": "CN", "selectedLeft": false, "selectedRight": false }]
-          },
-          { "name": "Diameter", "type":"number", "values": [] },
-          { "name": "Base Curve", "type":"number", "values": [] },
-          { "name": "Axis Toric", "type":"number", "values": [ ["(Pasos de 5°) Todos"] ] },
-          { "name": "Cylinder Toric", "type":"number", "values": [ "14.40" ] },
-          { "name": "Sphere", "type":"number", "values": [] }
-        ],
-        "selected": false
-      },{
-        "name": "Toric & Rx Design",
-        "parameters": [
-          { "name": "Addition", "type":"radio", "values": [
-                                                  { "name": "A", "selectedLeft": true, "selectedRight": true },
-                                                  { "name": "B", "selectedLeft": false, "selectedRight": false },
-                                                  { "name": "C", "selectedLeft": false, "selectedRight": false }]
-          },
-          { "name": "Multifocal Design", "type":"radio", "values": [
-                                                            { "name": "CD", "selectedLeft": true, "selectedRight": true },
-                                                            { "name": "CN", "selectedLeft": false, "selectedRight": false }]
-          },
-          { "name": "Diameter", "type":"number", "values": [] },
-          { "name": "Base Curve", "type":"number", "values": [] },
-          { "name": "Axis Toric", "type":"number", "values": [ ["(Pasos de 5°) Todos"] ] },
-          { "name": "Cylinder Toric", "type":"number", "values": [ "14.40" ] },
-          { "name": "Sphere", "type":"number", "values": [] }
-        ],
-        "selected": false
-      },{
-        "name": "Spheric",
-        "parameters": [
-          { "name": "Addition", "type":"radio", "values": [
-                                                  { "name": "A", "selectedLeft": true, "selectedRight": true },
-                                                  { "name": "B", "selectedLeft": false, "selectedRight": false },
-                                                  { "name": "C", "selectedLeft": false, "selectedRight": false }]
-          },
-          { "name": "Multifocal Design", "type":"radio", "values": [
-                                                            { "name": "CD", "selectedLeft": true, "selectedRight": true },
-                                                            { "name": "CN", "selectedLeft": false, "selectedRight": false }]
-          },
-          { "name": "Diameter", "type":"number", "values": [] },
-          { "name": "Base Curve", "type":"number", "values": [] },
-          { "name": "Axis Toric", "type":"number", "values": [ ["(Pasos de 5°) Todos"] ] },
-          { "name": "Cylinder Toric", "type":"number", "values": [ "14.40" ] },
-          { "name": "Sphere", "type":"number", "values": [] }
+                                { "name": "CD", "selectedLeft": true, "selectedRight": true },
+                                { "name": "CN", "selectedLeft": false, "selectedRight": false }]
+          }
         ],
         "selected": false
       }],
