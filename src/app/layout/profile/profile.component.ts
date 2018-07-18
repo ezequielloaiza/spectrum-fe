@@ -101,6 +101,9 @@ export class ProfileComponent implements OnInit {
     this.form.get('country').setValue(this.user.userResponse.country);
     this.form.get('postal').setValue(this.user.userResponse.postalCode);
     this.form.get('address').setValue(this.user.userResponse.address);
+    this.form.get('oldPassword').setValue('');
+    this.form.get('password').setValue('');
+    this.form.get('confirmedPassword').setValue('');
   }
 
   savePersonal(): void {
@@ -153,7 +156,7 @@ export class ProfileComponent implements OnInit {
   }
 
   oldPasswordConfirming(c: AbstractControl): { invalid: boolean } {
-    if (c.get('oldPassword').value !== user.userResponse.password) {
+    if (c.get('oldPassword').value !== this.user.userResponse.password) {
       return { invalid: true };
     }
   }
