@@ -177,11 +177,10 @@
                     <label for="oldPassword" class="control-label">{{'Old Password' | translate}}</label>&nbsp;&nbsp;
                     <i class="fa fa-lock" placement="top" ngbTooltip="{{'For security your password is encrypted' | translate}}"></i>
                     <h6 class="label-disabled" [hidden]="canEditAccount">{{ 'The password is secret' | translate }}</h6>
-                    <input [hidden]="!canEditAccount"  type="password" class="form-control" name="oldPassword" formControlName="oldPassword" aria-describedby="passwordHelpBlock" [ngStyle]="{'border-left': (form.get(['oldPassword']).value != user.userResponse.password) && ((form.get(['oldPassword']).value != null) || form.get(['oldPassword']).value === '' === false ? '5px solid green' : '5px solid red') }"
-                      required>
+                    <input [hidden]="!canEditAccount"  type="password" class="form-control" name="oldPassword" formControlName="oldPassword" aria-describedby="passwordHelpBlock" required>
                   </fieldset>
-                  <div class="message-error" *ngIf="(form.get(['oldPassword']).value != user.userResponse.password) && ((form.get(['oldPassword']).value != null) || (form.get(['oldPassword']).value === '')) && canEditAccount">
-                      <span>{{ 'Password do not match with old password' | translate }}</span>
+                  <div class="message-error" [hidden]="oldPassword.valid || password.pristine || !canEditAccount">
+                    <span>{{ 'Password is not valid' | translate }}</span>
                   </div>
                 </div>
                 <div class="col-xl-6"></div>
@@ -229,7 +228,8 @@
                 <button class="btn btn-main" (click)="saveAccount()" [disabled]="!canEditAccount || form.get(['password']).value != form.get(['confirmedPassword']).value
                                     && form.get(['confirmedPassword']).value != null
                                     || form.get(['password']).value === ''
-                                    || form.get(['confirmedPassword']).value === ''">{{ 'Save' | translate }}&nbsp;
+                                    || form.get(['confirmedPassword']).value === ''
+                                    || form.get(['oldPassword']).value === ''">{{ 'Save' | translate }}&nbsp;
                   <i class="fa fa-save"></i>
                 </button>
               </div>

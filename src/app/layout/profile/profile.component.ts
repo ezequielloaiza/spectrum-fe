@@ -128,7 +128,7 @@ export class ProfileComponent implements OnInit {
 
   saveAccount(): void {
     this.form.get('city').setValue(this.form.value.city.description);
-    this.userService.updateProfile$(this.form.value).subscribe(res => {
+    this.userService.changePassword$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.user.userResponse = res.data;
         this.notification.success('User save', 'Success');
@@ -153,12 +153,6 @@ export class ProfileComponent implements OnInit {
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
     });
-  }
-
-  oldPasswordConfirming(c: AbstractControl): { invalid: boolean } {
-    if (c.get('oldPassword').value !== this.user.userResponse.password) {
-      return { invalid: true };
-    }
   }
 
   passwordConfirming(c: AbstractControl): { invalid: boolean } {
