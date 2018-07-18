@@ -134,8 +134,8 @@ export class ProfileComponent implements OnInit {
         this.notification.success('User save', 'Success');
         this.canEditAccount = false;
       } else if (res.code === CodeHttp.notAcceptable) {
-        this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
-          this.notification.warning('', res);
+        this.translate.get('Password do not match with old password', { value: 'Password do not match with old password' }).subscribe((res: string) => {
+          this.notification.error('', res);
         });
       } else {
         console.log(res.errors[0].detail);
