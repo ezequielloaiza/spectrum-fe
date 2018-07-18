@@ -264,5 +264,7 @@
     "View":"Ver",
     "No seller assigned": "Sin vendedor asignado",
     "Yes": "Si",
-    "No": "No"
+    "No": "No",
+    "Define suppliers":"Definir proveedores",
+    "Number of defined suppliers:":"Cantidad de proveedores definidos:"
 }

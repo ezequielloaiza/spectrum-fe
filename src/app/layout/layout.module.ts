@@ -34,6 +34,7 @@ import { UserResolver } from './user/user.resolver';
 import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import { SellerResolver } from './seller/seller.resolver';
 import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-modal.component';
+import { ListSupplierModalComponent } from './user/modals/list-supplier-modal/list-supplier-modal.component';
 
 
 @NgModule({
@@ -77,7 +78,8 @@ import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-
         DetailsOrderComponent,
         ClientSellerComponent,
         ModalSellerComponent,
-        ListUserModalComponent
+        ListUserModalComponent,
+        ListSupplierModalComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -87,7 +89,8 @@ import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-
       SupplierModalComponent,
       SellerModalComponent,
       ModalSellerComponent,
-      ListUserModalComponent
+      ListUserModalComponent,
+      ListSupplierModalComponent
     ],
     providers: [
       BusinessTypeService,
