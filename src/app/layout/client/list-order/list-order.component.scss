@@ -77,3 +77,67 @@
 a:link {
   color: #007bff;
 }
+
+.list-orden {
+  border: solid 1px #bfbfbf;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 3px;
+  padding-bottom: 10px;
+
+  > div {
+    &:first-child {
+      border-bottom: 1px solid #bfbfbf;
+      font-size: .9em;
+      color: gray;
+      padding: .4em 0;
+
+      div:nth-child(2) {
+        color: grey;
+
+        > div {
+          text-align: center;
+        }
+      }
+
+      div:nth-child(3) {
+        font-size: .8em;
+        color: grey;
+        font-weight: bold;
+        text-align: right;
+      }
+    }
+
+    &.product {
+      padding-top: 1em;
+
+      div:nth-child(1) {
+        div:first-child {
+          font-weight: bold;
+        }
+
+        div:last-child {
+          font-weight: bold;
+        }
+      }
+
+      div:nth-child(2) {
+        font-size: 0.8em;
+        color: gray;
+
+        div:last-child {
+          color: #ffc107; font-weight: 600;
+        }
+      }
+
+      div:nth-child(3) > div {
+        text-align: center;
+      }
+
+      div:nth-child(4) > div {
+        color: #ffc107; font-weight: 600;
+      }
+    }
+  }
+
+}

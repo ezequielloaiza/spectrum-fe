@@ -29,8 +29,8 @@
           <div class="col-xl-3 filter">
             <div>
               <div [formGroup]="form1" class="input-group">
-                <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker"
-                  (ngModelChange)="filter1(model1)" formControlName="fechaSelec">
+                <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(model1)"
+                  formControlName="fechaSelec">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                     <i class="fa fa-calendar"></i>
@@ -98,3 +98,111 @@
       </div>
     </div>
   </div>
+  <div>
+  <div class="list-orden">
+    <div class="row">
+      <div class="col-lg-10">
+        <div>
+          <span>ORDEN</span>
+        </div>
+        <div>
+          <span>#1111-647416845-556454</span>
+        </div>
+      </div>
+      <div class="col-lg-1">
+        <div>
+          <span>Total</span>
+        </div>
+        <div>
+          <span>$2000.00</span>
+        </div>
+      </div>
+      <div class="col-lg-1">
+        <div>
+          <span>09/08/2014</span>
+        </div>
+        <div>
+          <a class="ng-tns-c4-0" routerLink="/details-order/view" translate>View Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="row product">
+      <div class="col-lg-3">
+        <div>
+          <span>Quattro</span>
+        </div>
+        <div>
+          <span>Spheric & Toric</span>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div>
+          <span>Material: Hidrogel, Filcon I 1 49%</span>
+        </div>
+        <div>
+          <span>Replacement period: 3 months</span>
+        </div>
+        <div>
+          <span>Warranty: One year</span>
+        </div>
+        <div>
+          <span>$100.25</span>
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div>
+          <span>Quanity</span>
+        </div>
+        <div>
+          <span>2</span>
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div>
+          <span>$500.00</span>
+        </div>
+      </div>
+    </div>
+    <div class="row product">
+      <div class="col-lg-3">
+        <div style="font-weight: bold;">
+          <span>Quattro</span>
+        </div>
+        <div style="color: #1756a6;">
+          <span>Multifocal</span>
+        </div>
+      </div>
+      <div class="col-lg-5" style="font-size: 0.8em;
+          color: gray;">
+        <div>
+          <span>Material: Hidrogel, Filcon I 1 49%</span>
+        </div>
+        <div>
+          <span>Replacement period: 3 months</span>
+        </div>
+        <div>
+          <span>Warranty: One year</span>
+        </div>
+        <div style="color: #ffc107; font-weight: 600;">
+          <span>$100.25</span>
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div style="text-align: center;">
+          <span>Quanity</span>
+        </div>
+        <div style="text-align: center;">
+          <span>2</span>
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div style="color: #ffc107; font-weight: 600;">
+          <span>$500.00</span>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <br>
+</div>
