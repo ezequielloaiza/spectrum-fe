@@ -133,8 +133,12 @@ export class ProfileComponent implements OnInit {
         this.user.userResponse = res.data;
         this.notification.success('User save', 'Success');
         this.canEditAccount = false;
-      } else if (res.code === CodeHttp.notAcceptable) {
+      } else if (res.code === CodeHttp.notFound) {
         this.translate.get('Password do not match with old password', { value: 'Password do not match with old password' }).subscribe((res: string) => {
+          this.notification.error('', res);
+        });
+      } else if (res.code === CodeHttp.notAcceptable) {
+        this.translate.get('Password matches with old password', { value: 'Password matches with old password' }).subscribe((res: string) => {
           this.notification.error('', res);
         });
       } else {
