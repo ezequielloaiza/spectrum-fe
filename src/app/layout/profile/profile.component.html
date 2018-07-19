@@ -179,7 +179,7 @@
                     <h6 class="label-disabled" [hidden]="canEditAccount">{{ 'The password is secret' | translate }}</h6>
                     <input [hidden]="!canEditAccount"  type="password" class="form-control" name="oldPassword" formControlName="oldPassword" aria-describedby="passwordHelpBlock" required>
                   </fieldset>
-                  <div class="message-error" [hidden]="oldPassword.valid || password.pristine || !canEditAccount">
+                  <div class="message-error" [hidden]="oldPassword.valid || oldPassword.pristine || !canEditAccount">
                     <span>{{ 'Password is not valid' | translate }}</span>
                   </div>
                 </div>

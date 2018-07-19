@@ -127,6 +127,7 @@ export class ProfileComponent implements OnInit {
   }
 
   saveAccount(): void {
+    this.form.get('city').setValue(this.form.value.city.description);
     this.userService.changePassword$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.user.userResponse = res.data;
