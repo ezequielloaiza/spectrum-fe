@@ -83,3 +83,10 @@
 .no-records {
   text-align: center;
 }
+
+.td-table{
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

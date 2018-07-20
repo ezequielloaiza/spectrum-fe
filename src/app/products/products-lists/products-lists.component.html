@@ -4,7 +4,8 @@
 
 <div class="margin-breadcrumb">
   <app-page-header [heading]="'Products List'" [icon]="'fa-edit'"></app-page-header>
-  <a href="http://localhost:4200/dashboard">
+  <br>
+  <a routerLink="/dashboard">
     <i class="fa fa-arrow-left">&nbsp;&nbsp;{{ 'Back' | translate }}</i>
   </a>
 </div>
@@ -16,11 +17,11 @@
     <div class="col-sm-9 vertical-align text-center">
       <form>
         <div class="row grid-space-1">
-          <div class="col col-xl-10 col-lg-10 search">
+          <div class="col col-xl-12 col-lg-12 search">
             <input class="form-control" placeholder=" {{ 'Enter product name...' | translate }} ">
             <i class="fa fa-search"></i>
           </div>
-          <!-- Categories 
+          <!-- Categories
           <div class="col-sm-4">
             <select class="form-control input-lg" name="category">
               <option value="all">All Categories</option>
@@ -70,29 +71,24 @@
   <!-- end  row -->
 </div>
 
-<div class="container">
+<div class="padding-list">
   <div class="row">
-    <div class="col-sm-3 col-md-3">
-      <br>
+    <!--FILTERS-->
+    <div class="col-sm-3 col-md-3 hidden-xs">
       <ngb-accordion #acc="ngbAccordion" activeIds="filter1,filter2" type="dark">
         <ngb-panel id="filter1">
           <ng-template ngbPanelTitle>
             <span class="title-collapse"> {{ 'Supplies' | translate }} </span>
           </ng-template>
           <ng-template ngbPanelContent>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="customCheck1">
-              <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="fluoStrips" name="types" class="custom-control-input">
+              <label class="custom-control-label" for="fluoStrips">{{ 'Fluo Strips' | translate }}</label>
             </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked=""> {{ 'Fluo Strips' | translate }}
-              </label>
-            </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked=""> {{ 'Spectrum Saline' | translate }}
-              </label>
+            <br>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="spectrumSaline" name="types" class="custom-control-input">
+              <label class="custom-control-label" for="spectrumSaline">{{ 'Spectrum Saline' | translate }}</label>
             </div>
           </ng-template>
         </ngb-panel>
@@ -102,28 +98,23 @@
           </ng-template>
           <ng-template ngbPanelContent>
             <div class="custom-control custom-radio">
-              <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-              <label class="custom-control-label" for="customRadio1">Toggle this custom radio</label>
+              <input type="radio" id="colorContactLenses" name="types" class="custom-control-input">
+              <label class="custom-control-label" for="colorContactLenses">{{ 'Color Contact Lenses' | translate }}</label>
             </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked=""> {{ 'Color Contact Lenses' | translate }}
-              </label>
+            <br>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="scleralLenses" name="types" class="custom-control-input">
+              <label class="custom-control-label" for="scleralLenses">{{ 'Scleral Lenses' | translate }}</label>
             </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> {{ 'Scleral Lenses' | translate }}
-              </label>
+            <br>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="spectrumBlueLight" name="types" class="custom-control-input">
+              <label class="custom-control-label" for="spectrumBlueLight">{{ 'Spectrum Blue Light' | translate }}</label>
             </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3"> {{ 'Spectrum Blue Light' | translate }}
-              </label>
-            </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3"> {{ 'MarkEnnovy Contact Lenses' | translate }}
-              </label>
+            <br>
+            <div class="custom-control custom-radio">
+              <input type="radio" id="markEnnovy" name="types" class="custom-control-input">
+              <label class="custom-control-label" for="markEnnovy">{{ 'MarkEnnovy Contact Lenses' | translate }}</label>
             </div>
           </ng-template>
         </ngb-panel>
@@ -133,157 +124,29 @@
         <input type="button" class="btn btn-primary" value="{{ 'Search' | translate }}">
       </div>
     </div>
+    <!--THUMBNAILS PRODUCTS-->
     <div class="col-sm-9 col-md-9 col-lg-9">
-      <div class="container margin-list">
-        <div class="row">
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="http://localhost:4200/products/product-detail">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
+      <div class="row">
+        <div class="col-md-4 box-shadow" *ngFor="let product of products">
+          <div class="mb-4 box-shadow">
+            <img class="card-img-top" src="assets/images/products/quattro.jpg">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <div class="card-body">
+              <p class="card-text"> {{ product.descriptionShort }}</p>
+              <div class="price-wrap h4">
+                <del class="price-base">${{ product.priceBase }}</del>&nbsp;
+                <span class="price-new text-warning">${{ product.price1 }}</span>
               </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$1280</span>
-                    <del class="price-old">$1980</del>
-                  </div>
-                  <!-- price-wrap.// -->
+              <div class="product-btns">
+                <div class="btn-group">
+                  <button routerLink="/products/{{product.idProduct}}/product-view" type="button" class="btn btn-primary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                 </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
-          </div>
-          <!-- col // -->
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="#">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
               </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$280</span>
-                  </div>
-                  <!-- price-wrap.// -->
-                </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
+            </div>
           </div>
-          <!-- col // -->
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="#">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
-              </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$280</span>
-                  </div>
-                  <!-- price-wrap.// -->
-                </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
-          </div>
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="#">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
-              </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$280</span>
-                  </div>
-                  <!-- price-wrap.// -->
-                </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
-          </div>
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="#">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
-              </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$280</span>
-                  </div>
-                  <!-- price-wrap.// -->
-                </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
-          </div>
-          <div class="col-md-4">
-            <figure class="card card-product">
-              <div class="img-wrap">
-                <img src="assets/images/lentes.jpg">
-                <a class="btn-overlay" href="#">
-                  <i class="fa fa-search-plus"></i> Quick view</a>
-              </div>
-              <figcaption class="info-wrap">
-                <h6 class="title text-dots">
-                  <h4>Name of product</h4>
-                </h6>
-                <div class="action-wrap">
-                  <a href="#" class="btn btn-primary btn-sm float-right"> Order </a>
-                  <div class="price-wrap h5">
-                    <span class="price-new">$280</span>
-                  </div>
-                  <!-- price-wrap.// -->
-                </div>
-                <!-- action-wrap -->
-              </figcaption>
-            </figure>
-            <!-- card // -->
-          </div>
-
-
-          <!-- col // -->
         </div>
-        <!-- row.// -->
       </div>
     </div>
   </div>
-
 </div>

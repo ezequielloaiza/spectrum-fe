@@ -15,7 +15,6 @@
 
 .container {
   padding: 0px;
-  margin-left: 3%;
 }
 
 .search {
@@ -29,12 +28,35 @@
   }
 }
 
+.middleBar {
+  padding: 0px 25px 15px 35px;
+
+  .display-table {
+    padding-right: 20px !important;
+  }
+}
+
+.padding-list {
+  padding: 0px 40px 0px 40px;
+}
+
 .btn-align{
   text-align: center;
+  padding-bottom: 20px;
 }
 
 .card {
   margin-top: 30px;
+}
+
+.card-img-top {
+  border-radius: 12px;
+}
+
+.product-name {
+  text-align: center;
+  color: $bg-blue;
+  padding-top: 10px;
 }
 
 .card-product:after {
@@ -48,7 +70,7 @@
   margin-right: 5px
 }
 
-.card-product .price-old {
+.price-base {
   color: #999;
 }
 
@@ -65,7 +87,7 @@
   max-width: 100%;
   object-fit: cover;
 }
-    
+
 .card-product .info-wrap {
   overflow: hidden;
   padding: 15px;
@@ -104,4 +126,8 @@ body {
 
 .panel-body .table {
   margin-bottom: 0px;
+}
+
+.product-btns {
+  text-align: right;
 }

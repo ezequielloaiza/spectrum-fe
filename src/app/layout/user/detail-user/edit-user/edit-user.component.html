@@ -133,7 +133,7 @@
             <fieldset class="form-group">
               <label>{{ 'Seller' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ user.nameSeller }}</span>
+                <span [hidden]="canEdit">{{ user.nameSeller ? user.nameSeller : ('No seller assigned' | translate) }}</span>
                 <button class="btn btn-main" (click)="openSeller()" *ngIf="canEdit && !nameSeller">{{ 'Assign seller' | translate }}&nbsp;</button>
                 <div *ngIf="canEdit && nameSeller">
                   <span >{{ nameSeller }}</span>

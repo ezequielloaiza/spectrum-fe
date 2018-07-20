@@ -27,6 +27,7 @@ export class SupplierModalComponent implements OnInit {
   public model: any;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  valorCity:any;
 
   constructor(private modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -51,15 +52,17 @@ export class SupplierModalComponent implements OnInit {
       address     : [this.action === 'edit' ? this.supplier.address : '', [ Validators.required]],
       email       : [this.action === 'edit' ? this.supplier.email : '', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       email2      : [this.action === 'edit' ? this.supplier.email2 : '', [ Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
-      telephone   : [this.action === 'edit' ? this.supplier.telephone : '', [ Validators.required]],
-      telephone2  : [this.action === 'edit' ? this.supplier.telephone2 : '', []],
-      plataform   : [this.action === 'edit' ? this.supplier.plataform : '', [ ]],
-      website     : [this.action === 'edit' ? this.supplier.website : '', [ Validators.required]],
+      phone       : [this.action === 'edit' ? this.supplier.phone : '', []],
+      phone2      : [this.action === 'edit' ? this.supplier.phone2 : '', []],
+      platform    : [this.action === 'edit' ? this.supplier.platform : '', [ ]],
+      website     : [this.action === 'edit' ? this.supplier.website : '', [] ],
       state       : [this.action === 'edit' ? this.supplier.state : '', [ Validators.required]],
       country     : [this.action === 'edit' ? this.supplier.country : '', [ Validators.required]],
       city        : [this.action === 'edit' ? {description: this.supplier.city} : '', [ Validators.required]],
       postal      : [this.action === 'edit' ? this.supplier.postalCode : '']
+
     });
+    this.valorCity ={description: this.supplier.city};
   }
 
   close(data): void {
@@ -83,6 +86,7 @@ export class SupplierModalComponent implements OnInit {
             this.notification.success('', res);
           });
         } else if (res.code === CodeHttp.notAcceptable) {
+          this.form.get('city').setValue({description: this.form.value.city});
           this.translate.get('The supplier already exists, verify the name of the company or the emails', { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
@@ -101,6 +105,7 @@ export class SupplierModalComponent implements OnInit {
             this.notification.success('', res);
           });
         } else if (res.code === CodeHttp.notAcceptable) {
+          this.form.get('city').setValue(this.valorCity);
           this.translate.get('The supplier already exists, verify the name of the company or the emails', { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
@@ -137,6 +142,7 @@ export class SupplierModalComponent implements OnInit {
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({description: this.googleService.getCity()});
+      this.valorCity = {description: this.googleService.getCity()};
     });
   }
 
@@ -145,9 +151,9 @@ export class SupplierModalComponent implements OnInit {
   get address() { return this.form.get('address'); }
   get email() { return this.form.get('email'); }
   get email2() { return this.form.get('email2'); }
-  get telephone() { return this.form.get('telephone'); }
-  get telephone2() { return this.form.get('telephone2'); }
-  get plataform() { return this.form.get('plataform'); }
+  get phone() { return this.form.get('phone'); }
+  get phone2() { return this.form.get('phone2'); }
+  get platform() { return this.form.get('platform'); }
   get website() { return this.form.get('website'); }
   get state() { return this.form.get('state'); }
   get city() { return this.form.get('city'); }
@@ -164,5 +170,7 @@ export class SupplierModalComponent implements OnInit {
       return true;
     }
   }
+
+  assignPlatform(value:number){ this.form.get('platform').setValue(value); }
 
 }

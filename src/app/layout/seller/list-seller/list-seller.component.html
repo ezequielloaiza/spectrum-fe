@@ -40,20 +40,64 @@
           <table class="table">
             <thead>
               <tr>
-                <th class="table-tr">{{ 'Status' | translate }}</th>
-                <th class="table-tr">{{ 'Name' | translate }}</th>
-                <th class="table-tr">{{ 'Email' | translate }}</th>
-                <th class="table-tr">{{ 'Country' | translate }}</th>
-                <th class="table-tr">{{ 'City' | translate}}</th>
+                <th class="table-tr header-column">
+                  <span title="Status">{{ 'Status' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSeller('status')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'status' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortSeller('status')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortSeller('status')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Full Name">{{ 'Full Name' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSeller('name')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'name' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortSeller('name')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortSeller('name')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Email">{{ 'Email' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSeller('email')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'email' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortSeller('email')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortSeller('email')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Country">{{ 'Country' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSeller('country')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'country' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortSeller('country')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortSeller('country')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="City">{{ 'City' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSeller('city')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'city' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortSeller('city')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortSeller('city')"></i>
+                  </span>
+                </th>
                 <th class="table-tr"></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let seller of listSellers">
-                <td *ngIf="seller.status === 0" class="table-tr" class="active"><div>{{'Active' | translate}}</div></td>
-                <td *ngIf="seller.status === 1" class="table-tr" class="inactive"><div>{{'Inactive' | translate }}</div></td>
-                <td class="table-tr">{{seller.name}}</td>
-                <td class="table-tr">{{seller.email}}</td>
+                <td *ngIf="seller.status === 0" class="table-tr" class="active">
+                  <div>{{'Active' | translate}}</div>
+                </td>
+                <td *ngIf="seller.status === 1" class="table-tr" class="inactive">
+                  <div>{{'Inactive' | translate }}</div>
+                </td>
+                <td class="table-tr td-table">{{seller.name}}</td>
+                <td class="table-tr td-table">{{seller.email}}</td>
                 <td class="table-tr">{{seller.country}}</td>
                 <td class="table-tr">{{seller.city}}</td>
                 <td class="table-tr">
@@ -62,7 +106,7 @@
                       <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                       <div ngbDropdownMenu>
                         <button class="dropdown-item" routerLink="/seller/{{seller.idUser}}">
-                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                          <i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
                         <button *ngIf="seller.status === 0" class="dropdown-item" (click)="changeStatus(seller.idUser)">
                           <i class="fa fa-times"></i> {{ 'Deactivate' | translate }}</button>
                         <button *ngIf="seller.status === 1" class="dropdown-item" (click)="changeStatus(seller.idUser)">
@@ -86,7 +130,8 @@
               [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
             </ngb-pagination>
             <span class="count-elements">{{ listSellers.length + ' ' + ('of' | translate) + ' ' + listSellersAux.length + ' ' + ('register(s)' | translate)
-              }}</span>
+              }}
+            </span>
           </div>
         </div>
       </div>

@@ -67,6 +67,7 @@ const routes: Routes = [
               users: UserResolver
             },
             children: [
+              { path: '', redirectTo: 'edit', pathMatch: 'full' },
               { path: 'edit', component: EditUserComponent },
               { path: 'edit-company', component: EditCompanyComponent }
             ]
