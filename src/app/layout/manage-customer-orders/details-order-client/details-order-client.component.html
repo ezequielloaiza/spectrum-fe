@@ -128,28 +128,7 @@
                     <div id="collapseExample" [ngbCollapse]="!list.productRequested.show">
                       <ngb-tabset>
                         <ngb-tab>
-                          <ng-template ngbTabTitle>{{'Technical specifications(eye right)'| translate}}</ng-template>
-                          <ng-template ngbTabContent>
-                            <div class="card-body table-responsive">
-                              <div class="card-header d-flex">
-                              </div>
-                              <table class="table">
-                                <tbody>
-                                  <tr *ngFor="let param of specification.parameters">
-                                    <td [ngStyle]="{'font-weight':'bold'}">
-                                      {{param.name}}
-                                    </td>
-                                    <td>
-                                      {{param.value}}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </ng-template>
-                        </ngb-tab>
-                        <ngb-tab>
-                          <ng-template ngbTabTitle>{{'Technical specifications(eye left)'| translate}}</ng-template>
+                          <ng-template ngbTabTitle>{{'Technical specifications'| translate}}</ng-template>
                           <ng-template ngbTabContent>
                             <div class="card-body table-responsive">
                               <div class="card-header d-flex">

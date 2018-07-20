@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderClient } from '../../../shared/models/orderclient';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../../shared/services/order/order.service';
-import { CodeHttp } from '../../../shared/enum/code-http.enum';
-import { OrderClient } from '../../../shared/models/orderclient';
-import * as _ from 'lodash';
-import { OrderClientProductRequested } from '../../../shared/models/orderclientproductrequested';
 import { ProductoimageService } from '../../../shared/services/productoimage/productoimage.service';
+import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import * as _ from 'lodash';
+
 @Component({
-  selector: 'app-details-order',
-  templateUrl: './details-order.component.html',
-  styleUrls: ['./details-order.component.scss']
+  selector: 'app-details-order-client',
+  templateUrl: './details-order-client.component.html',
+  styleUrls: ['./details-order-client.component.scss']
 })
-export class DetailsOrderComponent implements OnInit {
+export class DetailsOrderClientComponent implements OnInit {
 
   id: any;
   order: OrderClient = new OrderClient();
@@ -37,12 +37,11 @@ export class DetailsOrderComponent implements OnInit {
   }
 
   getOrder(idOrder): void {
-
+     
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
         _.each(this.order.listProductRequested, function (detailsOrder) {
-          detailsOrder.productRequested.show = false;
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
         });
         this.listDetails = this.order.listProductRequested;
@@ -50,5 +49,5 @@ export class DetailsOrderComponent implements OnInit {
       }
     });
   }
-}
 
+}

@@ -68,7 +68,7 @@
     "Delete" : "Delete",
     "Products" : "Products",
     "Characteristics" : "Characteristics",
-    "Technical specifications" : "Technical specifications",
+    "Technical specifications(eye right)" : "Technical specifications(eye right)",
     "Supplies": "Supplies",
     "Fluo Strips": "Fluo Strips",
     "Spectrum Saline" : "Spectrum Saline",
@@ -187,7 +187,7 @@
     "Order":"Order",
     "Ordered on":"Ordered on",
     "Order Details":"Order Details",
-    "Order#":"Order#",
+    "ORDER":"ORDER",
     "Shipping Addresses":"Shipping Addresses",
     "Summary Costs":"Summary Costs",
     "Item(s) Subtotal":"Item(s) Subtotal",
@@ -258,5 +258,9 @@
     "Full Name": "Full Name",
     "User Inactive": "User Inactive",
     "Incorrect password": "Incorrect password",
-    "User does not exist": "User does not exist"
+    "User does not exist": "User does not exist",
+    "Totals":"Totals",
+    "Enter client search ...":"Enter client search ...",
+    "Order's status":"Order's status",
+    "Technical specifications(eye left)":"Technical specifications(eye left)"
 }

@@ -34,7 +34,11 @@ import { UserResolver } from './user/user.resolver';
 import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import { SellerResolver } from './seller/seller.resolver';
 import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-modal.component';
-
+import { OrderResolver } from './client/order.resolver';
+import { ManageCustomerOrdersComponent } from './manage-customer-orders/manage-customer-orders.component';
+import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
+import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
+import { ModalsStatusComponent } from './manage-customer-orders/modals-status/modals-status.component';
 
 @NgModule({
     imports: [
@@ -77,7 +81,11 @@ import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-
         DetailsOrderComponent,
         ClientSellerComponent,
         ModalSellerComponent,
-        ListUserModalComponent
+        ListUserModalComponent,
+        ManageCustomerOrdersComponent,
+        ListOrderClientComponent,
+        DetailsOrderClientComponent,
+        ModalsStatusComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -87,7 +95,8 @@ import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-
       SupplierModalComponent,
       SellerModalComponent,
       ModalSellerComponent,
-      ListUserModalComponent
+      ListUserModalComponent,
+      ModalsStatusComponent
     ],
     providers: [
       BusinessTypeService,
@@ -95,7 +104,8 @@ import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-
       GoogleService,
       BreadcrumbService,
       UserResolver,
-      SellerResolver
+      SellerResolver,
+      OrderResolver
     ]
 })
 export class LayoutModule {}

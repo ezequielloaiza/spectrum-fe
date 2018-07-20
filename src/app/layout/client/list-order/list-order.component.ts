@@ -19,11 +19,10 @@ export class ListOrderComponent implements OnInit {
   advancedPagination: number;
   itemPerPage: number = 5;
   filterStatus = [{ id: 0, name: "Pending" },
-  { id: 1, name: "Authorized" },
-  { id: 2, name: "Processed" },
-  { id: 3, name: "Pay" },
-  { id: 4, name: "Sent" }
-  ];
+                  { id: 1, name: "Processed" },
+                  { id: 2, name: "Pay" },
+                  { id: 3, name: "Sent" }
+                ];
   model: NgbDateStruct;
   valid = false;
   form: FormGroup;
@@ -45,6 +44,11 @@ export class ListOrderComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
         this.listOrdersAux = res.data;
+        _.each(this.listOrders, function (order) {
+           _.each(order.listProductRequested,function(listDetails){
+            listDetails.productRequested.detail= JSON.parse(listDetails.productRequested.detail);
+          });
+        });
       }
     });
   }

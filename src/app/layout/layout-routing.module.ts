@@ -15,6 +15,10 @@ import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSeller
 import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller.component';
 import { UserResolver } from './user/user.resolver';
 import { SellerResolver } from './seller/seller.resolver';
+import { OrderResolver } from './client/order.resolver';
+import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
+import { DetailsOrderClientComponent} from './manage-customer-orders/details-order-client/details-order-client.component';
+
 
 const routes: Routes = [
   {
@@ -36,8 +40,19 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'category', component: CategoryComponent },
       { path: 'business-type', component: BusinessTypeComponent },
-      { path: 'order-list-client', component: ListOrderComponent },
-      { path: 'details-order/:id/view', component: DetailsOrderComponent },
+      {
+        path: 'order-list-client', component: ListOrderComponent,
+        resolve: {
+          orders: OrderResolver
+        },
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'details-order/:id/view', component: DetailsOrderComponent,
+        resolve: {
+          orders: OrderResolver
+        }
+      },
       {
         path: 'user', component: UserComponent,
         resolve: {
@@ -78,7 +93,10 @@ const routes: Routes = [
             ]
           }
         ]
-      }
+      },
+      {path:'order-list-client-byseller',component:ListOrderClientComponent},
+      {path:'details-order-client/:id/view',component: DetailsOrderClientComponent}
+
     ]
   }
 ];

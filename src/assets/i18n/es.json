@@ -68,7 +68,7 @@
     "Delete" : "Eliminar",
     "Products" : "Productos",
     "Characteristics" : "Características",
-    "Technical specifications" : "Especificaciones técnicas",
+    "Technical specifications(eye right)" : "Especificaciones técnicas(ojo derecho)",
     "Supplies": "Suministros",
     "Fluo Strips": "Fluo Strips",
     "Spectrum Saline" : "Spectrum Saline",
@@ -200,7 +200,7 @@
     "Order":"Orden",
     "Order Details":"Detalle de la orden",
     "Ordered on":"Ordenado en",
-    "Order#":"Orden#",
+    "ORDER":"ORDEN",
     "Shipping Addresses":"Dirección de Envío",
     "Summary Costs":"Resumen de costos",
     "Item(s) Subtotal":"Artículo (s) Subtotal",
@@ -255,5 +255,10 @@
     "Full Name": "Nombre completo",
     "User Inactive": "Usuario inactivo",
     "Incorrect password": "Contraseña incorrecta",
-    "User does not exist": "Usuario no existe"
+    "User does not exist": "Usuario no existe",
+    "Totals":"Totales",
+    "Enter client search ...":"Ingrese el nombre del cliente...",
+    "Order's status":"Estado de la Orden",
+    "Technical specifications(eye left)" : "Especificaciones técnicas(ojo izquierdo)"
+
 }
