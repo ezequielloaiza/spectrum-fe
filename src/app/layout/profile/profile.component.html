@@ -174,10 +174,22 @@
                 </div>
                 <div class="col-xl-6">
                   <fieldset class="form-group">
+                    <label for="oldPassword" class="control-label">{{'Old Password' | translate}}</label>&nbsp;&nbsp;
+                    <i class="fa fa-lock" placement="top" ngbTooltip="{{'For security your password is encrypted' | translate}}"></i>
+                    <h6 class="label-disabled" [hidden]="canEditAccount">{{ 'The password is secret' | translate }}</h6>
+                    <input [hidden]="!canEditAccount"  type="password" class="form-control" name="oldPassword" formControlName="oldPassword" aria-describedby="passwordHelpBlock" required>
+                  </fieldset>
+                  <div class="message-error" [hidden]="oldPassword.valid || oldPassword.pristine || !canEditAccount">
+                    <span>{{ 'Password is not valid' | translate }}</span>
+                  </div>
+                </div>
+                <div class="col-xl-6"></div>
+                <div class="col-xl-6">
+                  <fieldset class="form-group">
                     <label for="password" class="control-label">{{'Password' | translate}}</label>&nbsp;&nbsp;
                     <i class="fa fa-lock" placement="top" ngbTooltip="{{'For security your password is encrypted' | translate}}"></i>
                     <h6 class="label-disabled" [hidden]="canEditAccount">{{ 'The password is secret' | translate }}</h6>
-                    <input [hidden]="!canEditAccount" type="password" class="form-control" name="password" formControlName="password" aria-describedby="passwordHelpBlock"
+                    <input [hidden]="!canEditAccount"  type="password" class="form-control" name="password" formControlName="password" aria-describedby="passwordHelpBlock"
                       required>
                   </fieldset>
                   <div class="message-error" [hidden]="password.valid || password.pristine || !canEditAccount">
@@ -216,7 +228,8 @@
                 <button class="btn btn-main" (click)="saveAccount()" [disabled]="!canEditAccount || form.get(['password']).value != form.get(['confirmedPassword']).value
                                     && form.get(['confirmedPassword']).value != null
                                     || form.get(['password']).value === ''
-                                    || form.get(['confirmedPassword']).value === ''">{{ 'Save' | translate }}&nbsp;
+                                    || form.get(['confirmedPassword']).value === ''
+                                    || form.get(['oldPassword']).value === ''">{{ 'Save' | translate }}&nbsp;
                   <i class="fa fa-save"></i>
                 </button>
               </div>
