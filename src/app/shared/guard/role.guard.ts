@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, Router, CanActivateChild, RouterStateSnapshot } from '@angular/router';
 import { AuthorizationService } from '../services';
+import { Observable } from 'rxjs';
 
 @Injectable()
-export class RoleGuard implements CanActivate {
+export class RoleGuard implements CanActivateChild {
+
   constructor(protected router: Router, protected authorizationService: AuthorizationService) { }
-  canActivate(route: ActivatedRouteSnapshot): Promise<boolean> | boolean {
-    return this.hasRequiredPermission(route.data['option']);
+
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> | Observable<boolean> {
+     if (this.hasRequiredPermission(childRoute.data['option'])) {
+      return true;
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   protected hasRequiredPermission(authGroup: string): Promise<boolean> | boolean {
   //If user’s permissions already retrieved from the API
-    console.log("role.guard permissions",this.authorizationService.permissions);
     if (this.authorizationService.permissions) {
       if (authGroup) {
         return this.authorizationService.hasPermission(authGroup);

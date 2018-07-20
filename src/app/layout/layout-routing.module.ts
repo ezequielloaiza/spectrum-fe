@@ -21,9 +21,10 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivateChild: [RoleGuard],
     children: [
       { path: '', redirectTo: 'dashboard' },
-      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { option: 'Dashboard' }},
       { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
       { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
       { path: 'forms', loadChildren: './form/form.module#FormModule' },
@@ -34,15 +35,15 @@ const routes: Routes = [
       { path: 'shipping-address', component: ShippingAddressComponent },
       //{ path: 'consult-account', component: CheckAccountComponent },
       { path: 'suppliers', component: SuppliersComponent },
-      { path: 'profile', component: ProfileComponent, canActivate: [RoleGuard],
+      { path: 'profile', component: ProfileComponent,
         data: { option: 'Profile' }  },
-      { path: 'category', component: CategoryComponent, canActivate: [RoleGuard],
+      { path: 'category', component: CategoryComponent,
         data: { option: 'Category' }  },
-      { path: 'business-type', component: BusinessTypeComponent, canActivate: [RoleGuard],
+      { path: 'business-type', component: BusinessTypeComponent,
         data: { option: 'BusinessType' }  },
-      { path: 'order-list-client', component: ListOrderComponent, canActivate: [RoleGuard],
+      { path: 'order-list-client', component: ListOrderComponent,
         data: { option: 'Orders' }  },
-      { path: 'details-order/:id/view', component: DetailsOrderComponent, canActivate: [RoleGuard],
+      { path: 'details-order/:id/view', component: DetailsOrderComponent,
        data: { option: 'Orders' } },
       {
         path: 'user', component: UserComponent,
@@ -64,7 +65,7 @@ const routes: Routes = [
             ]
           }
         ],
-        canActivate: [RoleGuard], data: { option: 'Users' }
+        data: { option: 'Users' }
       },
       {
         path: 'seller', component: SellerComponent,
@@ -73,7 +74,7 @@ const routes: Routes = [
         },
         runGuardsAndResolvers: 'always',
         children: [
-          { path: '', component: ListSellerComponent, canActivate: [RoleGuard], data: { option: 'Sellers' } },
+          { path: '', component: ListSellerComponent, data: { option: 'Sellers' } },
           {
             path: ':id', component: DetailSellerComponent,
             resolve: {
@@ -86,7 +87,7 @@ const routes: Routes = [
             ]
           }
         ],
-        canActivate: [RoleGuard], data: { option: 'Sellers' }
+        data: { option: 'Sellers' }
       }
     ]
   },
@@ -95,6 +96,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],providers: [RoleGuard]
+  exports: [RouterModule]
 })
 export class LayoutRoutingModule { }

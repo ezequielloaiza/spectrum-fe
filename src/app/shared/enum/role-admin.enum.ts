@@ -1,4 +1,5 @@
 export enum RoleAdmin {
+  Dashboard,
   Category,
   Profile,
   BusinessType,

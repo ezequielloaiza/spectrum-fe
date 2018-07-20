@@ -9,7 +9,7 @@ const LANGUAGE     = 'language';
 @Injectable()
 export class UserStorageService {
 
-  currentUser = {token: '', role: '', roles: []};
+  currentUser = {token: '', role: {idRole: null, name: ''}, roles: []};
 
   constructor() { }
 
@@ -41,22 +41,23 @@ export class UserStorageService {
     return sessionStorage.getItem(LANGUAGE);
   }
   public getRoles(): Array<string> {
-		this.currentUser = JSON.parse(sessionStorage.getItem(CURRENT_USER));
+    this.currentUser = JSON.parse(sessionStorage.getItem(CURRENT_USER));
     let roles: Array<string>;
-    console.log("currentUser",this.currentUser.role);
-		switch(this.currentUser.role){
-			case "1":
-				roles = Object.keys(RoleAdmin);
-				break;
-			case "2":
-				roles = Object.keys(RoleSeller);
-				break;
-			case "3":
-				roles = Object.keys(RoleUser);
-				break;
-		}
+    console.log('currentUser', this.currentUser.role.idRole);
+    console.log('r', Object.keys(RoleAdmin));
+    switch (this.currentUser.role.idRole) {
+      case 1:
+        roles = Object.keys(RoleAdmin);
+          break;
+      case 2:
+        roles = Object.keys(RoleSeller);
+        break;
+      case 3:
+        roles = Object.keys(RoleUser);
+        break;
+    }
     roles = roles.slice(roles.length / 2);
-		return roles;
+    return roles;
   }
 
 }
