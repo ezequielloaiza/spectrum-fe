@@ -39,6 +39,14 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.initializeForm();
     //document.getElementById("FS").onchange = this.checkFileSize;
+    this.form.get('oldPassword').reset();
+    this.form.get('password').reset();
+    this.form.get('confirmedPassword').reset();
+  }
+
+  onReset() {
+    this.form.get('oldPassword').reset();
+    this.form.get('password').reset();
   }
 
   formatter = (x: { description: string }) => x.description;
@@ -71,9 +79,9 @@ export class ProfileComponent implements OnInit {
       city: ['', [Validators.required]],
       postal: [''],
       phone: [''],
-      oldPassword: [Validators.required],
-      password: [Validators.required],
-      confirmedPassword: [Validators.required],
+      oldPassword: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      confirmedPassword: ['', [Validators.required]],
     });
   }
 
@@ -101,6 +109,7 @@ export class ProfileComponent implements OnInit {
     this.form.get('country').setValue(this.user.userResponse.country);
     this.form.get('postal').setValue(this.user.userResponse.postalCode);
     this.form.get('address').setValue(this.user.userResponse.address);
+    this.onReset();
     this.form.get('oldPassword').setValue('');
     this.form.get('password').setValue('');
     this.form.get('confirmedPassword').setValue('');
@@ -113,6 +122,8 @@ export class ProfileComponent implements OnInit {
         this.user.userResponse = res.data;
         this.notification.success('User save', 'Success');
         this.canEditPersonal = false;
+        this.form.get('oldPassword').reset();
+        this.form.get('password').reset();
       } else if (res.code === CodeHttp.notAcceptable) {
         this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
           this.notification.warning('', res);
