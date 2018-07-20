@@ -39,9 +39,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.initializeForm();
     //document.getElementById("FS").onchange = this.checkFileSize;
-    this.form.get('oldPassword').reset();
-    this.form.get('password').reset();
-    this.form.get('confirmedPassword').reset();
   }
 
   onReset() {
