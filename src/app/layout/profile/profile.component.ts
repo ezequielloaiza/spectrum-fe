@@ -122,8 +122,6 @@ export class ProfileComponent implements OnInit {
         this.user.userResponse = res.data;
         this.notification.success('User save', 'Success');
         this.canEditPersonal = false;
-        this.form.get('oldPassword').reset();
-        this.form.get('password').reset();
       } else if (res.code === CodeHttp.notAcceptable) {
         this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
           this.notification.warning('', res);
