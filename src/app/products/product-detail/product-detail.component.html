@@ -37,12 +37,13 @@
                       <!--One value in list values -->
                       <div *ngIf="parameter.type === 'number'">
                         <select class="form-control" name="value" (change)="changeSelect(eye.type, parameter, $event.target.value)">
+                          <option value="">{{ 'Select option' }}</option>
                           <option *ngFor="let value of parameter.values">{{ value }}</option>
                         </select>
                       </div>
                       <div *ngIf="parameter.type === 'radio'">
                         <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter.values)">
+                          <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter)">
                           <label class="custom-control-label" for="{{ value.name + eye.type }}">{{ value.name }}</label>
                         </div>
                       </div>
