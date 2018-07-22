@@ -32,7 +32,7 @@
                 <dt>{{ 'Parameters' | translate }}</dt>
                 <dd>
                   <div *ngFor="let parameter of parameters" class="col-sm-12">
-                    <div *ngIf="parameter.values && parameter.values.length > 0">
+                    <div *ngIf="parameter.values && parameter.values.length > 0  && (!parameter.eye || eye.type === parameter.eye || eye.type === parameter.eye)">
                       <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
                       <!--One value in list values -->
                       <div *ngIf="parameter.type === 'number'">
