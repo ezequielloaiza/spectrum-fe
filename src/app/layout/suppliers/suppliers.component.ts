@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UserModalComponent } from '../user/modals/user-modal/user-modal.component';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
@@ -8,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SupplierModalComponent } from './modals/supplier-modal/supplier-modal.component';
 import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthorizationService } from '../../shared/services'
 
 @Component({
   selector: 'app-suppliers',
@@ -30,9 +32,14 @@ export class SuppliersComponent implements OnInit {
 							private supplierService: SupplierService,
 							private alertify: AlertifyService,
 							private notification: ToastrService,
-							private translate: TranslateService){}
+							private translate: TranslateService,
+							private authorizationService: AuthorizationService,
+							private router: Router){}
 
   ngOnInit() {
+	  	if(!this.authorizationService.hasPermission('Suppliers')){
+			this.router.navigate(['/dashboard']);
+		  }
 		this.advancedPagination = 1;
 		this.getSuppliers();
 	}

@@ -3,5 +3,7 @@ export enum RoleSeller {
   Profile,
   Orders,
   Warranties,
+  Users,
+  Products,
   Home
 }

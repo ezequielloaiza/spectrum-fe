@@ -34,7 +34,7 @@ const routes: Routes = [
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
       { path: 'shipping-address', component: ShippingAddressComponent },
       //{ path: 'consult-account', component: CheckAccountComponent },
-      { path: 'suppliers', component: SuppliersComponent },
+      { path: 'suppliers', component: SuppliersComponent, data: { option: 'Suppliers' } },
       { path: 'profile', component: ProfileComponent,
         data: { option: 'Profile' }  },
       { path: 'category', component: CategoryComponent,

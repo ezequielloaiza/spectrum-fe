@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../shared/services';
+import { UserService, AuthorizationService } from '../../../shared/services';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +8,7 @@ import { Role } from '../../../shared/enum/role.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { SellerModalComponent } from '../modals/seller-modal/seller-modal.component';
 import * as _ from 'lodash';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-seller',
@@ -29,9 +30,14 @@ export class ListSellerComponent implements OnInit {
     private alertify: AlertifyService,
     private notification: ToastrService,
     private modalService: NgbModal,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private authorizationService: AuthorizationService,
+    private router: Router) { }
 
   ngOnInit() {
+    if(!this.authorizationService.hasPermission('Sellers')){
+			this.router.navigate(['/dashboard']);
+		}
     this.getListSellers(-1);
     this.advancedPagination = 1;
   }

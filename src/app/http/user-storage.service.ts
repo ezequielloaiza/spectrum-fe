@@ -43,8 +43,6 @@ export class UserStorageService {
   public getRoles(): Array<string> {
     this.currentUser = JSON.parse(sessionStorage.getItem(CURRENT_USER));
     let roles: Array<string>;
-    console.log('currentUser', this.currentUser.role.idRole);
-    console.log('r', Object.keys(RoleAdmin));
     switch (this.currentUser.role.idRole) {
       case 1:
         roles = Object.keys(RoleAdmin);

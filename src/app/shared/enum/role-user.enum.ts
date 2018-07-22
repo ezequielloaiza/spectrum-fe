@@ -4,5 +4,6 @@ export enum RoleUser {
   Order,
   Warranties,
   Profile,
+  Products,
   Home
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as _ from 'lodash';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
+import { AuthorizationService } from '../../shared/services';
 
 @Component({
   selector: 'app-product-view',
@@ -17,9 +18,14 @@ export class ProductViewComponent implements OnInit {
   parameters: any;
   quantity = 1;
   order: any;
-  constructor(private productService:ProductService, private route: ActivatedRoute) { }
+  constructor(private productService:ProductService, private route: ActivatedRoute,
+              private authorizationService: AuthorizationService,
+              private router: Router) { }
 
   ngOnInit() {
+    if(!this.authorizationService.hasPermission('Products')){
+			this.router.navigate(['/dashboard']);
+		}
     this.getProducts();
   }
 

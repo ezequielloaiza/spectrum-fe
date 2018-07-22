@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { GoogleService, UserService } from '../../shared/services';
+import { GoogleService, UserService, AuthorizationService } from '../../shared/services';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, tap, merge } from 'rxjs/operators';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -32,11 +33,16 @@ export class ProfileComponent implements OnInit {
     private userStorageService: UserStorageService,
     private notification: ToastrService,
     private translate: TranslateService,
+    private authorizationService: AuthorizationService,
+    private router: Router
   ) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
 
   ngOnInit() {
+    if(!this.authorizationService.hasPermission('Profile')){
+			this.router.navigate(['/dashboard']);
+		}
     this.initializeForm();
     //document.getElementById("FS").onchange = this.checkFileSize;
   }
