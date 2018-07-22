@@ -34,6 +34,7 @@ import { UserResolver } from './user/user.resolver';
 import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import { SellerResolver } from './seller/seller.resolver';
 import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-modal.component';
+import { ChangePasswordTemporalComponent } from './user/change-password-temporal/change-password-temporal.component';
 
 
 @NgModule({
@@ -77,7 +78,8 @@ import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-
         DetailsOrderComponent,
         ClientSellerComponent,
         ModalSellerComponent,
-        ListUserModalComponent
+        ListUserModalComponent,
+        ChangePasswordTemporalComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
