@@ -1,9 +1,12 @@
 export enum RoleSeller {
   Dashboard,
   Profile,
-  Orders,
+  OrdersList,
+  OrdersDetail,
   Warranties,
   Users,
-  Products,
+  ProductsList,
+  ProductsView,
+  ProductsDetails,
   Home
 }

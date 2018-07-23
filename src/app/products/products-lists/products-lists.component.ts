@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
-import { Router } from '@angular/router';
-import { AuthorizationService } from '../../shared/services';
 
 @Component({
   selector: 'app-products-lists',
@@ -12,14 +10,9 @@ import { AuthorizationService } from '../../shared/services';
 export class ProductsListsComponent implements OnInit {
 
   products: Array<any> = new Array;
-  constructor(private productService:ProductService,
-              private authorizationService: AuthorizationService,
-              private router: Router) { }
+  constructor(private productService:ProductService) { }
 
   ngOnInit() {
-    if(!this.authorizationService.hasPermission('Products')){
-			this.router.navigate(['/dashboard']);
-		}
     this.getProducts();
   }
 

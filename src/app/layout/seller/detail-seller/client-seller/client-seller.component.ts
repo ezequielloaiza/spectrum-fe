@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { GoogleService, UserService, AuthorizationService } from '../../../../shared/services';
+import { GoogleService, UserService } from '../../../../shared/services';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { User } from '../../../../shared/models/user';
 import { ModalSellerComponent } from '../modal-seller/modal-seller.component';
@@ -40,14 +40,9 @@ export class ClientSellerComponent implements OnInit {
               private modalService: NgbModal,
               private translate: TranslateService,
               private alertify: AlertifyService,
-              private notification: ToastrService,
-              private authorizationService: AuthorizationService,
-              private router: Router) { }
+              private notification: ToastrService) { }
 
   ngOnInit() {
-    if(!this.authorizationService.hasPermission('Sellers')){
-			this.router.navigate(['/dashboard']);
-		}
     this.idSeller = this.route.parent.snapshot.paramMap.get('id');
     this.getCustomers(this.idSeller);
     this.advancedPagination = 1;

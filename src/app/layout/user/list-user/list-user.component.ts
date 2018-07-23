@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, AuthorizationService } from '../../../shared/services';
+import { UserService } from '../../../shared/services';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
@@ -8,7 +8,6 @@ import { UserModalComponent } from '../modals/user-modal/user-modal.component';
 import { Role } from '../../../shared/enum/role.enum';
 import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -30,14 +29,9 @@ export class ListUserComponent implements OnInit {
     private alertify: AlertifyService,
     private notification: ToastrService,
     private modalService: NgbModal,
-    private translate: TranslateService,
-    private authorizationService: AuthorizationService, 
-    private router: Router) { }
+    private translate: TranslateService) { }
 
   ngOnInit() {
-    if(!this.authorizationService.hasPermission('Users')){
-			this.router.navigate(['/dashboard']);
-		}
     this.getListUser(-1);
     this.advancedPagination = 1;
   }

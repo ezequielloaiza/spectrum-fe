@@ -32,9 +32,9 @@ const routes: Routes = [
       { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
       { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
-      { path: 'shipping-address', component: ShippingAddressComponent },
+      { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
       //{ path: 'consult-account', component: CheckAccountComponent },
-      { path: 'suppliers', component: SuppliersComponent, data: { option: 'Suppliers' } },
+      { path: 'suppliers', component: SuppliersComponent,runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
       { path: 'profile', component: ProfileComponent,
         data: { option: 'Profile' }  },
       { path: 'category', component: CategoryComponent,
@@ -42,9 +42,9 @@ const routes: Routes = [
       { path: 'business-type', component: BusinessTypeComponent,
         data: { option: 'BusinessType' }  },
       { path: 'order-list-client', component: ListOrderComponent,
-        data: { option: 'Orders' }  },
+        data: { option: 'OrdersList' }  },
       { path: 'details-order/:id/view', component: DetailsOrderComponent,
-       data: { option: 'Orders' } },
+       data: { option: 'OrdersDetail' } },
       {
         path: 'user', component: UserComponent,
         resolve: {

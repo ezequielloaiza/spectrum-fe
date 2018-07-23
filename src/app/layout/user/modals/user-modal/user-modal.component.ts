@@ -6,7 +6,7 @@ import {
   FormControl
 } from '@angular/forms';
 import { NgbModalRef, NgbActiveModal, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import { BusinessTypeService, UserService, AuthorizationService } from '../../../../shared/services';
+import { BusinessTypeService, UserService } from '../../../../shared/services';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged, map, catchError, tap, switchMap, merge } from 'rxjs/operators';
@@ -14,7 +14,6 @@ import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-modal',
@@ -40,14 +39,9 @@ export class UserModalComponent implements OnInit {
     private googleService: GoogleService,
     private translate: TranslateService,
     private membershipService: MembershipService,
-    private notification: ToastrService,
-    private authorizationService: AuthorizationService,
-    private router: Router) { }
+    private notification: ToastrService) { }
 
   ngOnInit() {
-    if(!this.authorizationService.hasPermission('Users')){
-			this.router.navigate(['/dashboard']);
-		}
     this.initializeForm();
     this.getBussinesAll();
     this.getMembershipAll();

@@ -6,7 +6,7 @@ import { RecoveryPasswordComponent } from './login/recovery-password/recovery-pa
 
 const routes: Routes = [
     { path: '', loadChildren: './layout/layout.module#LayoutModule', canActivate: [AuthGuard]},
-    { path: 'products', loadChildren: './products/products.module#ProductsModule', canActivate: [AuthGuard] },
+    { path: 'products', loadChildren: './products/products.module#ProductsModule', canActivate: [AuthGuard]},
     { path: 'signin', loadChildren: './login/login.module#LoginModule' },
     { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'recovery-password', component: RecoveryPasswordComponent },

@@ -6,8 +6,11 @@ export enum RoleAdmin {
   Suppliers,
   Users,
   Sellers,
-  Orders,
+  OrdersList,
+  OrdersDetail,
   Warranties,
-  Products,
+  ProductsList,
+  ProductsView,
+  ProductsDetails,
   Home
 }

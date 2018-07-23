@@ -1,9 +1,13 @@
 export enum RoleUser {
   Dashboard,
   Account,
-  Order,
+  OrdersList,
+  OrdersDetail,
   Warranties,
   Profile,
-  Products,
+  ProductsList,
+  ProductsView,
+  ProductsDetails,
+  ShippingAddress,
   Home
 }

@@ -13,8 +13,6 @@ import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
 import { SupplierService } from '../../../../shared/services/suppliers/supplier.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthorizationService } from '../../../../shared/services';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-supplier-modal',
@@ -37,14 +35,9 @@ export class SupplierModalComponent implements OnInit {
     private toastr: ToastrService,
     private notification: ToastrService,
     private googleService: GoogleService,
-    private translate: TranslateService,
-    private authorizationService: AuthorizationService,
-    private router: Router) { }
+    private translate: TranslateService) { }
 
   ngOnInit() {
-    if(!this.authorizationService.hasPermission('Suppliers')){
-			this.router.navigate(['/dashboard']);
-		}
     this.initializeForm();
   }
 

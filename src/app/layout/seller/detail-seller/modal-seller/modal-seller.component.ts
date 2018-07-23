@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, AuthorizationService } from '../../../../shared/services';
+import { UserService } from '../../../../shared/services';
 import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,6 @@ import { Seller } from '../../../../shared/models/seller';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { User } from '../../../../shared/models/user';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-seller',
@@ -35,14 +34,9 @@ export class ModalSellerComponent implements OnInit {
     private modalService: NgbModal,
     private translate: TranslateService,
     private formBuilder: FormBuilder,
-    public modalReference: NgbActiveModal,
-    private authorizationService: AuthorizationService,
-    private router: Router) { }
+    public modalReference: NgbActiveModal) { }
 
   ngOnInit() {
-    if(!this.authorizationService.hasPermission('Sellers')){
-			this.router.navigate(['/dashboard']);
-		}
     this.getListSellers();
     this.advancedPagination = 1;
     this.initializeForm();
