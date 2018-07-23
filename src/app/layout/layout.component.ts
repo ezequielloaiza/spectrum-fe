@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserStorageService } from '../http/user-storage.service';
 
 @Component({
     selector: 'app-layout',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-    constructor() {}
+    user: any;
+
+    constructor(private userService: UserStorageService) {
+        this.user = JSON.parse(userService.getCurrentUser());
+    }
 
     ngOnInit() {}
 }

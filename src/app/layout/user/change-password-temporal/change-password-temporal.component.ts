@@ -81,4 +81,9 @@ export class ChangePasswordTemporalComponent implements OnInit {
     });
   }
 
+  get username() { return this.form.get('username'); }
+  get oldPassword() { return this.form.get('oldPassword'); }
+  get password() { return this.form.get('password'); }
+  get confirmedPassword() { return this.form.get('confirmedPassword'); }
+
 }
