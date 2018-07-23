@@ -16,12 +16,12 @@
   <div class="card">
     <div class="card-body">
       <!--RIGHT EYE-->
-      <div class="col-md-6" *ngFor="let eye of eyes">
-        <h3 class="label-eye">{{eye.name}}</h3>
+      <div class="col-md-6">
+        <h3 class="label-eye">{{eyes[0].name}}</h3>
         <ngb-tabset>
           <ngb-tab *ngFor="let type of product.types">
             <ng-template ngbTabTitle>
-              <div (click)="setParameters(type)">
+              <div (click)="setParameters(type, eyes[0].type)">
                 <label>{{ type.name }}</label>
               </div>
             </ng-template>
@@ -31,20 +31,72 @@
                 <br>
                 <dt>{{ 'Parameters' | translate }}</dt>
                 <dd>
-                  <div *ngFor="let parameter of parameters" class="col-sm-12">
-                    <div *ngIf="parameter.values && parameter.values.length > 0  && (!parameter.eye || eye.type === parameter.eye || eye.type === parameter.eye)">
+                  <div *ngFor="let parameter of getParameters(type)" class="col-sm-12">
+                    <div *ngIf="parameter.values && parameter.values.length > 0  && (!parameter.eye || eyes[0].type === parameter.eye || eyes[0].type === parameter.eye)">
                       <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
                       <!--One value in list values -->
                       <div *ngIf="parameter.type === 'number'">
-                        <select class="form-control" name="value" (change)="changeSelect(eye.type, parameter, $event.target.value)">
+                        <select class="form-control" name="value" (change)="changeSelect(eyes[0].type, parameter, $event.target.value)">
                           <option value="">{{ 'Select option' }}</option>
                           <option *ngFor="let value of parameter.values">{{ value }}</option>
                         </select>
                       </div>
                       <div *ngIf="parameter.type === 'radio'">
                         <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter)">
-                          <label class="custom-control-label" for="{{ value.name + eye.type }}">{{ value.name }}</label>
+                          <input class="custom-control-input" type="radio" id="{{ value.name + eyes[0].type }}" [checked]="checkedRadio(eyes[0].type, value)" (click)="setValueRadio(eyes[0].type, value, parameter)">
+                          <label class="custom-control-label" for="{{ value.name + eyes[0].type }}">{{ value.name }}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </dd>
+                <br>
+                <!-- colors
+                <dt>{{ 'Colors' | translate }}</dt>
+                <dd>
+                  <div class="custom-control custom-radio" name="colors" *ngFor="let color of product.colors">
+                    <input type="radio" id="{{ color.name }}" name="colors" class="custom-control-input" [checked]="color.selected === true"
+                      (click)="setColor(color)">
+                    <label class="custom-control-label" for="{{ color.name }}">{{ color.name }}</label>
+                  </div>
+                </dd>
+                -->
+              </dl>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+
+      <!--LEFT EYE-->
+      <div class="col-md-6">
+        <h3 class="label-eye">{{eyes[1].name}}</h3>
+        <ngb-tabset>
+          <ngb-tab *ngFor="let type of product.types">
+            <ng-template ngbTabTitle>
+              <div (click)="setParameters(type, eyes[1].type)">
+                <label>{{ type.name }}</label>
+              </div>
+            </ng-template>
+            <ng-template ngbTabContent>
+              <!-- item-property-hor .// -->
+              <dl class="param param-feature">
+                <br>
+                <dt>{{ 'Parameters' | translate }}</dt>
+                <dd>
+                  <div *ngFor="let parameter of getParameters(type)" class="col-sm-12">
+                    <div *ngIf="parameter.values && parameter.values.length > 0  && (!parameter.eye || eyes[1].type === parameter.eye || eyes[1].type === parameter.eye)">
+                      <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
+                      <!--One value in list values -->
+                      <div *ngIf="parameter.type === 'number'">
+                        <select class="form-control" name="value" (change)="changeSelect(eyes[1].type, parameter, $event.target.value)">
+                          <option value="">{{ 'Select option' }}</option>
+                          <option *ngFor="let value of parameter.values">{{ value }}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="parameter.type === 'radio'">
+                        <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" id="{{ value.name + eyes[1].type }}" [checked]="checkedRadio(eyes[1].type, value)" (click)="setValueRadio(eyes[1].type, value, parameter)">
+                          <label class="custom-control-label" for="{{ value.name + eyes[1].type }}">{{ value.name }}</label>
                         </div>
                       </div>
                     </div>

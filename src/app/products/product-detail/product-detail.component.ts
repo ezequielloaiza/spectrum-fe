@@ -16,7 +16,8 @@ export class ProductDetailComponent implements OnInit {
   eyes: Array<any> = new Array;
   product: any;
   id: number;
-  parameters: any;
+  parametersRight: any;
+  parametersLeft: any;
   quantity = 1;
   order: any;
 
@@ -66,7 +67,9 @@ export class ProductDetailComponent implements OnInit {
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.types = JSON.parse(this.product.types);
     //simulando click en el primer type del producto actual
-    this.parameters = this.product.types[0].parameters;
+    this.parametersRight = this.product.types[0].parameters;
+    this.parametersLeft = this.product.types[0].parameters;
+    //this.parameters = this.product.types[0].parameters;
   }
 
   setAxesXtensa(){
@@ -84,15 +87,29 @@ export class ProductDetailComponent implements OnInit {
                         { "values": ["-5.75","-5.25","-4.75","-4.25","-3.75","-3.25","-2.75","-2.25","-1.75","-1.25","-0.75"] }];
   }
 
-  setParameters(type) {
-    this.cleanTypeSelected();
-    type.selected = true;
-    this.parameters = type.parameters;
+  setParameters(type, typeEye) {
+    this.cleanTypeSelected(typeEye);
+    if (typeEye === 'right') {
+      type.selectedRight = true;
+      this.parametersRight = type.parameters;
+    }else {
+      type.selectedLeft = true;
+      this.parametersLeft = type.parameters;
+    }
+    //this.parameters = type.parameters;
   }
 
-  cleanTypeSelected() {
+  getParameters(type) {
+    return type.parameters;
+  }
+
+  cleanTypeSelected(typeEye) {
     _.each(this.product.types, function(type) {
-      type.selected = false;
+      if (typeEye === 'right') {
+        type.selectedRight = false;
+      } else {
+        type.selectedLeft = false;
+      }
     });
   }
 
@@ -123,14 +140,14 @@ export class ProductDetailComponent implements OnInit {
 
   setValuesSpheresXtensa(typeEye, value) {
     if (typeEye === 'right') {
-     this.paramSpheresRight = _.find(this.parameters, { 'name': 'Sphere (D)', "eye": 'right'});
+     this.paramSpheresRight = _.find(this.parametersRight, { 'name': 'Sphere (D)', "eye": 'right'});
       if (!value) { //Xtensa without RXDesign
         this.paramSpheresRight.values = this.spheresXtensa[0].values;
       } else {
         this.paramSpheresRight.values = this.spheresXtensa[1].values;
       }
     } else {
-      this.paramSpheresLeft = _.find(this.parameters, { 'name': 'Sphere (D)', "eye": 'left'});
+      this.paramSpheresLeft = _.find(this.parametersLeft, { 'name': 'Sphere (D)', "eye": 'left'});
       if (!value) { //Xtensa without RXDesign
         this.paramSpheresLeft.values = this.spheresXtensa[0].values;
       } else {
@@ -141,14 +158,14 @@ export class ProductDetailComponent implements OnInit {
 
   setValuesCylindersXtensa(typeEye, value) {
     if (typeEye === 'right') {
-      this.paramCylindersRight = _.find(this.parameters, { 'name': 'Cylinder (D)', "eye": 'right'});
+      this.paramCylindersRight = _.find(this.parametersRight, { 'name': 'Cylinder (D)', "eye": 'right'});
       if (!value) { //Xtensa without RXDesign
         this.paramCylindersRight.values = this.cylindersXtensa[0].values;
       } else {
         this.paramCylindersRight.values = this.cylindersXtensa[1].values;
       }
     } else {
-      this.paramCylindersLeft = _.find(this.parameters, { 'name': 'Cylinder (D)', "eye": 'left'});
+      this.paramCylindersLeft = _.find(this.parametersLeft, { 'name': 'Cylinder (D)', "eye": 'left'});
       if (!value) { //Xtensa without RXDesign
         this.paramCylindersLeft.values = this.cylindersXtensa[0].values;
       } else {
@@ -160,14 +177,14 @@ export class ProductDetailComponent implements OnInit {
 
   setValuesAxesXtensa(typeEye, value) {
     if (typeEye === 'right') {
-      this.paramAxesRight = _.find(this.parameters, { 'name': 'Axes (º)', "eye": 'right'});
+      this.paramAxesRight = _.find(this.parametersRight, { 'name': 'Axes (º)', "eye": 'right'});
       if (parseFloat(value) <= -3.25) {
         this.paramAxesRight.values = this.axesXtensa[0].values;
       } else {
         this.paramAxesRight.values = this.axesXtensa[1].values;
       }
     } else {
-      this.paramAxesLeft = _.find(this.parameters, { 'name': 'Axes (º)', "eye": 'left'});
+      this.paramAxesLeft = _.find(this.parametersLeft, { 'name': 'Axes (º)', "eye": 'left'});
       if (parseFloat(value) <= -3.25) {
         this.paramAxesLeft.values = this.axesXtensa[0].values;
       } else {
@@ -222,35 +239,37 @@ export class ProductDetailComponent implements OnInit {
       return color.selected === true;
     });
 
-    var type = _.find(this.product.types, function (type) {
-      return type.selected === true;
+    var types = _.filter(this.product.types, function (type) {
+      return type.selectedRight === true || type.selectedLeft === true;
     });
 
-    _.each(type.parameters, function(parameter, index) {
-      if (parameter.type === "radio") {
-        _.each(parameter.values, function(value) {
-          if (value.selectedLeft) {
-            parameter.selectedLeft = value.name;
-          }
-          if (value.selectedRight) {
-            parameter.selectedRight = value.name;
-          }
-        });
-      }
+    _.each(types, function(type, index) {
+      _.each(type.parameters, function(parameter, index) {
+        if (parameter.type === "radio") {
+          _.each(parameter.values, function(value) {
+            if (value.selectedLeft) {
+              parameter.selectedLeft = value.name;
+            }
+            if (value.selectedRight) {
+              parameter.selectedRight = value.name;
+            }
+          });
+        }
 
-      if (parameter.eye === "right") {
-        var paramsEyes = _.filter(type.parameters, { 'name': parameter.name});
-        parameter.selectedLeft = paramsEyes[1].selectedLeft;
-      }
-      type.parameters[index] = _.omit(parameter, ['type', 'values']);
-    });
+        if (parameter.eye === "right") {
+          var paramsEyes:any = _.filter(type.parameters, { 'name': parameter.name});
+          parameter.selectedLeft = paramsEyes[1].selectedLeft;
+        }
+        type.parameters[index] = _.omit(parameter, ['type', 'values']);
+      });
 
-    _.remove(type.parameters, function (parameter) {
-      return parameter.eye === 'left';
-    })
+      _.remove(type.parameters, function (parameter:any) {
+        return parameter.eye === 'left';
+      })
 
-    _.each(type.parameters, function(parameter, index) {
-      type.parameters[index] = _.omit(parameter, ['eye']);
+      _.each(type.parameters, function(parameter, index) {
+        type.parameters[index] = _.omit(parameter, ['eye']);
+      });
     });
 
     //verificar atributos del producto que se enviaran a la orden
@@ -268,8 +287,9 @@ export class ProductDetailComponent implements OnInit {
       replacementPeriod: this.product.replacementPeriod,
       warranty: this.product.warranty,
       stock: this.product.stock,
-      color: 'falta traerselo',
-      type,
+      type: types.length === 1 ? types[0] : null,
+      typeRight: types.length > 1 ? types[0] : null,
+      typeLeft: types.length > 1 ? types[1] : null,
       quantityBuy: this.quantity
     }
     return productToBuy;
