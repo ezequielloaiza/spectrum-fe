@@ -1,5 +1,5 @@
 <app-header></app-header>
-<app-sidebar *ngIf="user.userResponse.pwsTemporal === false"></app-sidebar>
-<section class="main-container">
+<app-sidebar *ngIf="!user.userResponse.pwsTemporal"></app-sidebar>
+<section class="{{ !user.userResponse.pwsTemporal ? 'main-container-pws-temporal' : 'main-container'}}">
     <router-outlet></router-outlet>
 </section>

@@ -49,15 +49,6 @@ export class ChangePasswordTemporalComponent implements OnInit {
     });
   }
 
-  onReset() {
-    this.form.get('oldPassword').reset();
-    this.form.get('password').reset();
-  }
-
-  editAccount(): void {
-
-  }
-
   saveAccount(): void {
     this.userService.changePassword$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {

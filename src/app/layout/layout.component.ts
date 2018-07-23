@@ -9,8 +9,8 @@ import { UserStorageService } from '../http/user-storage.service';
 export class LayoutComponent implements OnInit {
     user: any;
 
-    constructor(private userService: UserStorageService) {
-        this.user = JSON.parse(userService.getCurrentUser());
+    constructor(private userStorageService: UserStorageService) {
+        this.user = JSON.parse(userStorageService.getCurrentUser());
     }
 
     ngOnInit() {}
