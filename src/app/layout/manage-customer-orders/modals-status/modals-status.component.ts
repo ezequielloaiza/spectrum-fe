@@ -18,8 +18,8 @@ export class ModalsStatusComponent implements OnInit {
   form: FormGroup;
   order: any;
   filterStatus = [{ id: 0, name: "Pending" },
-  { id: 1, name: "Processed" },
-  { id: 2, name: "Pay" },
+  { id: 1, name: "Pay" },
+  { id: 2, name: "Processed" },
   { id: 3, name: "Sent" }
   ];
   valid = false;
@@ -33,6 +33,12 @@ export class ModalsStatusComponent implements OnInit {
     private alertify: AlertifyService) { }
 
   ngOnInit() {
+    this.initializeForm();
+  }
+
+  initializeForm() {
+    this.form = this.formBuilder.group({
+    });
   }
 
   close() {

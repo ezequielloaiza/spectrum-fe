@@ -5,6 +5,11 @@ import { OrderService } from '../../../shared/services/order/order.service';
 import { ProductoimageService } from '../../../shared/services/productoimage/productoimage.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
 
 @Component({
   selector: 'app-details-order-client',
@@ -19,10 +24,15 @@ export class DetailsOrderClientComponent implements OnInit {
   listDetailsAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number = 1;
+  generar=false;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
-    public productImageService: ProductoimageService) { }
+    public productImageService: ProductoimageService,
+    private notification: ToastrService,
+    private translate: TranslateService,
+    private alertify: AlertifyService,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -41,6 +51,9 @@ export class DetailsOrderClientComponent implements OnInit {
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
+        if (this.order.status != 2 ){
+           this.generar = true;
+        }
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
         });
@@ -50,4 +63,12 @@ export class DetailsOrderClientComponent implements OnInit {
     });
   }
 
+  generateOrder(order): void {
+
+  	const modalRef = this.modalService.open(ModalsConfirmationComponent);
+		modalRef.componentInstance.order = order;
+		modalRef.result.then((result) => {
+		} , (reason) => {
+		});
+  }
 }

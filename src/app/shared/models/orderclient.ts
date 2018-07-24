@@ -11,6 +11,7 @@ export class OrderClient {
     public number:number;
     public subtotal:number;
     public total:number;
+    public status:number;
     public listProductRequested: Array<OrderClientProductRequested>;
 
     public constructor() { }

@@ -20,8 +20,8 @@ export class ListOrderClientComponent implements OnInit {
   advancedPagination: number;
   itemPerPage: number = 5;
   filterStatus = [{ id: 0, name: "Pending" },
-  { id: 1, name: "Processed" },
-  { id: 2, name: "Pay" },
+  { id: 1, name: "Pay" },
+  { id: 2, name: "Processed" },
   { id: 3, name: "Sent" }
   ];
   model: NgbDateStruct;

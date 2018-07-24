@@ -87,7 +87,7 @@ export class ProfileComponent implements OnInit {
     this.form.get('username').setValue(this.user.userResponse.username);
     this.form.get('email').setValue(this.user.userResponse.email);
     this.form.get('name').setValue(this.user.userResponse.name);
-    this.form.get('phone').setValue(this.user.userResponse.phone);
+    this.form.get('phone').setValue(this.user.userResponse.phone==null?'':this.user.userResponse.phone);
     this.form.get('city').setValue({ description: this.user.userResponse.city });
     this.form.get('state').setValue(this.user.userResponse.state);
     this.form.get('country').setValue(this.user.userResponse.country);
@@ -100,7 +100,7 @@ export class ProfileComponent implements OnInit {
     this.form.get('username').setValue(this.user.userResponse.username);
     this.form.get('email').setValue(this.user.userResponse.email);
     this.form.get('name').setValue(this.user.userResponse.name);
-    this.form.get('phone').setValue(this.user.userResponse.phone);
+    this.form.get('phone').setValue(this.user.userResponse.phone==null?'':this.user.userResponse.phone);
     this.form.get('city').setValue({ description: this.user.userResponse.city });
     this.form.get('state').setValue(this.user.userResponse.state);
     this.form.get('country').setValue(this.user.userResponse.country);

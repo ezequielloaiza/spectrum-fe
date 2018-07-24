@@ -31,5 +31,8 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/changeStatus/' + idOrder+'/'+IdStatus);
   }
 
+  public generateOrder$(idOrder): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/generateOrder/' + idOrder);
+  }
 
 }

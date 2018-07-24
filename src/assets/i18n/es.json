@@ -270,5 +270,9 @@
     "View":"Ver",
     "No seller assigned": "Sin vendedor asignado",
     "Yes": "Si",
-    "No": "No"
+    "No": "No",
+    "Generate Order":"Generar Orden",
+    "Order generated successfully":"Orden generada con exito",
+    "Are you sure you want to generate the order?":"¿Estás seguro de que quieres generar la orden?",
+    "to the provider":"al proveedor"
 }

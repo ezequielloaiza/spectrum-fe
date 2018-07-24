@@ -60,19 +60,19 @@
                       <span>{{ 'Status' | translate }}</span>
                     </div>
                     <div class="div-status">
-                        <span *ngIf='order.status==0' class="div-pending">
-                          <div translate>Pending</div>
-                        </span>
-                        <span *ngIf='order.status==1' class="div-processed">
-                          <div translate>Processed</div>
-                        </span>
-                        <span *ngIf='order.status==2' class="div-pay">
-                          <div translate>Pay</div>
-                        </span>
-                        <span *ngIf='order.status==3' class="div-sent">
-                          <div translate>Sent</div>
-                        </span>
-                      </div>
+                      <span *ngIf='order.status==0' class="div-pending">
+                        <div translate>Pending</div>
+                      </span>
+                      <span *ngIf='order.status==1' class="div-pay">
+                        <div translate>Pay</div>
+                      </span>
+                      <span *ngIf='order.status==2' class="div-processed">
+                        <div translate>Processed</div>
+                      </span>
+                      <span *ngIf='order.status==3' class="div-sent">
+                        <div translate>Sent</div>
+                      </span>
+                    </div>
                   </div>
                   <div class="col-lg-1">
                     <div>
