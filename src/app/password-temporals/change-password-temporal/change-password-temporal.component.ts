@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { routerTransition } from '../../../router.animations';
+import { routerTransition } from '../../router.animations';
 import { AbstractControl, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { GoogleService, UserService } from '../../../shared/services';
+import { GoogleService, UserService } from '../../shared/services';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, tap, merge } from 'rxjs/operators';
-import { UserStorageService } from '../../../http/user-storage.service';
+import { UserStorageService } from '../../http/user-storage.service';
 import { ToastrService } from 'ngx-toastr';
-import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-change-password-temporal',
@@ -17,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
   animations: [routerTransition()]
 })
 export class ChangePasswordTemporalComponent implements OnInit {
-  
+
   passwords: FormGroup;
   form: FormGroup;
   searching = false;
