@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
         });
       } else if (res.code === CodeHttp.forbidden) {
         this.userStorageService.saveCurrentUser(JSON.stringify(res.data));
-        this.router.navigateByUrl('change-password-temporal');
+        this.router.navigate(['/password-temporals']);
       }
     }, error => {
       console.log('error', error);

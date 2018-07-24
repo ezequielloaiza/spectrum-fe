@@ -25,18 +25,17 @@ export class ChangePasswordTemporalComponent implements OnInit {
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   user: any;
-  
+
   constructor(public router: Router, private formBuilder: FormBuilder,
     private googleService: GoogleService,
     private userService: UserService,
     private userStorageService: UserStorageService,
     private notification: ToastrService,
     private translate: TranslateService,
-  ) {
-    this.user = JSON.parse(userStorageService.getCurrentUser());
-  }
+  ) {}
 
   ngOnInit() {
+    this.user = JSON.parse(this.userStorageService.getCurrentUser());
     this.initializeForm();
     this.form.get('username').setValue(this.user.userResponse.username);
   }
@@ -53,8 +52,8 @@ export class ChangePasswordTemporalComponent implements OnInit {
   saveAccount(): void {
     this.userService.changePassword$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.user.userResponse = res.data;
-        this.userStorageService.saveCurrentUser(JSON.stringify(res.data));
+        this.user.userResponse.pwsTemporal = res.data.pwsTemporal;
+        this.userStorageService.saveCurrentUser(JSON.stringify(this.user));
         this.router.navigateByUrl('');
         this.notification.success('User save', 'Success');
       } else if (res.code === CodeHttp.notFound) {

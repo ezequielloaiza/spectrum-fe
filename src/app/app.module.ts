@@ -15,8 +15,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { LibHttpModule } from './http/lib-http.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { PasswordTemporalsComponent } from '../app/password-temporals/password-temporals.component';
-import { ChangePasswordTemporalComponent } from '../app/password-temporals/change-password-temporal/change-password-temporal.component';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -49,7 +47,7 @@ export const createTranslateLoader = (http: HttpClient) => {
         ToastrModule.forRoot(),
         PageHeaderModule
     ],
-    declarations: [AppComponent, RecoveryPasswordComponent, PasswordTemporalsComponent, ChangePasswordTemporalComponent],
+    declarations: [AppComponent, RecoveryPasswordComponent],
     providers: [AuthGuard, UserStorageService],
     bootstrap: [AppComponent]
 })

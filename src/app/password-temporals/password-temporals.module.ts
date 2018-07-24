@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageHeaderModule } from '../shared';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -18,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     HeaderModule,
     NgbModule.forRoot(),
     PageHeaderModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [PasswordTemporalsComponent, ChangePasswordTemporalComponent]
 })

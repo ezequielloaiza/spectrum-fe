@@ -10,7 +10,6 @@ import { BusinessTypeComponent } from './business-type/business-type.component';
 import { ListOrderComponent } from './client/list-order/list-order.component';
 import { ClientComponent } from './client/client.component';
 import { DetailsOrderComponent } from './client/details-order/details-order.component';
-import { ChangePasswordTemporalComponent } from '../password-temporals/change-password-temporal/change-password-temporal.component';
 import { UserComponent, ListUserComponent, DetailUserComponent, EditUserComponent, EditCompanyComponent} from './user';
 import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSellerComponent } from './seller';
 import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller.component';
@@ -39,7 +38,6 @@ const routes: Routes = [
       { path: 'business-type', component: BusinessTypeComponent },
       { path: 'order-list-client', component: ListOrderComponent },
       { path: 'details-order/:id/view', component: DetailsOrderComponent },
-      { path: 'change-password-temporal', component: ChangePasswordTemporalComponent },
       {
         path: 'user', component: UserComponent,
         resolve: {
