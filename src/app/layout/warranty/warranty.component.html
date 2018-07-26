@@ -1,0 +1,68 @@
+<app-page-header class="page-header-fixed" [heading]="'Warranties List'" [icon]="'fa fa-certificate'"></app-page-header>
+<div class="sp-container">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All Warranty' | translate }}
+          </div>
+          <div class="ml-auto p-2">
+            <button type="button" class="btn btn-main" (click)="open(content,'create')">{{ 'Add' | translate }}&nbsp;
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr header-column">
+                  <span title="Client">{{ 'Client' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('name')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'name' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('name')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('name')"></i>
+                  </span>
+                </th>
+                <th class="table-tr"></th>
+              </tr>
+            </thead>
+            <tbody [hidden]="warranties.length === 0">
+              <tr *ngFor="let warranty of warranties">
+                <td class="table-tr td-table"> {{ warranty.name }}</td>
+
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="open(warranty,'edit')">
+                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                        <button class="dropdown-item" (click)="delete(warranty.idWarranty)">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-empty" [hidden]="warranties.length !== 0" translate>
+            <p class="no-records">
+              {{ 'No records have been added yet' | translate }}
+            </p>
+          </div>
+          <div class="pagination-list" [hidden]="warranties.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxWarranties.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+            <span class="count-elements">{{ warranties.length + ' ' + ('of' | translate) + ' ' + auxWarranties.length + ' ' + ('register(s)' | translate) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

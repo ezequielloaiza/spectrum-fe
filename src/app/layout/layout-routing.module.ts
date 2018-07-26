@@ -16,6 +16,7 @@ import { ClientSellerComponent } from './seller/detail-seller/client-seller/clie
 import { UserResolver } from './user/user.resolver';
 import { SellerResolver } from './seller/seller.resolver';
 import { RoleGuard } from '../shared';
+import { WarrantyComponent } from './warranty/warranty.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
       { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
       { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
-      //{ path: 'consult-account', component: CheckAccountComponent },
+      // { path: 'consult-account', component: CheckAccountComponent },
       { path: 'suppliers', component: SuppliersComponent,runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
       { path: 'profile', component: ProfileComponent,
         data: { option: 'Profile' }  },
@@ -45,6 +46,7 @@ const routes: Routes = [
         data: { option: 'OrdersList' }  },
       { path: 'details-order/:id/view', component: DetailsOrderComponent,
        data: { option: 'OrdersDetail' } },
+      { path: 'warranty', component: WarrantyComponent },
       {
         path: 'user', component: UserComponent,
         resolve: {
