@@ -15,14 +15,16 @@ import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSeller
 import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller.component';
 import { UserResolver } from './user/user.resolver';
 import { SellerResolver } from './seller/seller.resolver';
+import { RoleGuard } from '../shared';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivateChild: [RoleGuard],
     children: [
       { path: '', redirectTo: 'dashboard' },
-      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { option: 'Dashboard' }},
       { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
       { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
       { path: 'forms', loadChildren: './form/form.module#FormModule' },
@@ -30,14 +32,19 @@ const routes: Routes = [
       { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
       { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
-      { path: 'shipping-address', component: ShippingAddressComponent },
+      { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
       //{ path: 'consult-account', component: CheckAccountComponent },
-      { path: 'suppliers', component: SuppliersComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'category', component: CategoryComponent },
-      { path: 'business-type', component: BusinessTypeComponent },
-      { path: 'order-list-client', component: ListOrderComponent },
-      { path: 'details-order/:id/view', component: DetailsOrderComponent },
+      { path: 'suppliers', component: SuppliersComponent,runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
+      { path: 'profile', component: ProfileComponent,
+        data: { option: 'Profile' }  },
+      { path: 'category', component: CategoryComponent,
+        data: { option: 'Category' }  },
+      { path: 'business-type', component: BusinessTypeComponent,
+        data: { option: 'BusinessType' }  },
+      { path: 'order-list-client', component: ListOrderComponent,
+        data: { option: 'OrdersList' }  },
+      { path: 'details-order/:id/view', component: DetailsOrderComponent,
+       data: { option: 'OrdersDetail' } },
       {
         path: 'user', component: UserComponent,
         resolve: {
@@ -57,7 +64,8 @@ const routes: Routes = [
               { path: 'edit-company', component: EditCompanyComponent }
             ]
           }
-        ]
+        ],
+        data: { option: 'Users' }
       },
       {
         path: 'seller', component: SellerComponent,
@@ -66,7 +74,7 @@ const routes: Routes = [
         },
         runGuardsAndResolvers: 'always',
         children: [
-          { path: '', component: ListSellerComponent },
+          { path: '', component: ListSellerComponent, data: { option: 'Sellers' } },
           {
             path: ':id', component: DetailSellerComponent,
             resolve: {
@@ -78,10 +86,12 @@ const routes: Routes = [
               { path: 'client-seller', component: ClientSellerComponent }
             ]
           }
-        ]
+        ],
+        data: { option: 'Sellers' }
       }
     ]
-  }
+  },
+  { path: '**', redirectTo: 'not-found' }
 ];
 
 @NgModule({
