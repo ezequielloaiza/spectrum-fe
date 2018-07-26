@@ -15,6 +15,8 @@ import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSeller
 import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller.component';
 import { UserResolver } from './user/user.resolver';
 import { SellerResolver } from './seller/seller.resolver';
+import { WarrantyComponent } from './warranty/warranty.component';
+
 
 const routes: Routes = [
   {
@@ -38,6 +40,7 @@ const routes: Routes = [
       { path: 'business-type', component: BusinessTypeComponent },
       { path: 'order-list-client', component: ListOrderComponent },
       { path: 'details-order/:id/view', component: DetailsOrderComponent },
+      { path: 'warranty', component: WarrantyComponent },
       {
         path: 'user', component: UserComponent,
         resolve: {
