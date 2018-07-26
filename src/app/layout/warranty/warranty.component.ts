@@ -28,11 +28,14 @@ export class WarrantyComponent implements OnInit {
   constructor(private modalService: NgbModal,
     private alertify: AlertifyService,
     private notification: ToastrService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private warrantyService: WarrantyService) { }
 
   ngOnInit() {
     this.advancedPagination = 1;
     this.itemPerPage = 5;
+    this.getListWarranties();
+    console.log('service', this.warranties);
   }
 
   open(warranty, action) {
@@ -55,6 +58,19 @@ export class WarrantyComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+  getListWarranties(): void {
+    this.warrantyService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.warranties = res.data;
+        this.auxWarranties = res.data;
+        this.warranties = this.auxWarranties.slice(0, this.itemPerPage);
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   getWarranty() {
