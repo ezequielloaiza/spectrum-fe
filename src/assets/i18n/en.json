@@ -269,5 +269,7 @@
     "View":"View",
     "No seller assigned": "No seller assigned",
     "Yes": "Yes",
-    "No": "No"
+    "No": "No",
+    "Change Temporal Password ": "Change Temporal Password",
+    "Should change the temporal password to access the system": "Should change the temporal password to access the system."
 }
