@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private userStorageService: UserStorageService,
     private notification: ToastrService,
-    private translate: TranslateService,
+    private translate: TranslateService
   ) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }

@@ -6,9 +6,9 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
-import { PageHeaderModule, BreadcrumbModule } from './../shared';
+import { PageHeaderModule, BreadcrumbModule, RoleGuard } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
-import { BusinessTypeService, GoogleService} from '../shared/services';
+import { BusinessTypeService, GoogleService, AuthorizationService} from '../shared/services';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AlertifyService } from '../shared/services/alertify/alertify.service';
 import { HeaderModule } from '../shared/modules/header/header.module';
@@ -108,7 +108,9 @@ import { ModalsConfirmationComponent } from './manage-customer-orders/modals-con
       BreadcrumbService,
       UserResolver,
       SellerResolver,
-      OrderResolver
+      OrderResolver,
+      RoleGuard,
+      AuthorizationService
     ]
 })
 export class LayoutModule {}

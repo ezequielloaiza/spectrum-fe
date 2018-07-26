@@ -30,7 +30,8 @@ export class SuppliersComponent implements OnInit {
 							private supplierService: SupplierService,
 							private alertify: AlertifyService,
 							private notification: ToastrService,
-							private translate: TranslateService){}
+							private translate: TranslateService
+	){}
 
   ngOnInit() {
 		this.advancedPagination = 1;

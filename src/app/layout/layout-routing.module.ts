@@ -17,16 +17,17 @@ import { UserResolver } from './user/user.resolver';
 import { SellerResolver } from './seller/seller.resolver';
 import { OrderResolver } from './client/order.resolver';
 import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
-import { DetailsOrderClientComponent} from './manage-customer-orders/details-order-client/details-order-client.component';
-
+import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
+import { RoleGuard } from '../shared';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivateChild: [RoleGuard],
     children: [
       { path: '', redirectTo: 'dashboard' },
-      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { option: 'Dashboard' } },
       { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
       { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
       { path: 'forms', loadChildren: './form/form.module#FormModule' },
@@ -34,14 +35,24 @@ const routes: Routes = [
       { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
       { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
-      { path: 'shipping-address', component: ShippingAddressComponent },
+      { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
       //{ path: 'consult-account', component: CheckAccountComponent },
-      { path: 'suppliers', component: SuppliersComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'category', component: CategoryComponent },
-      { path: 'business-type', component: BusinessTypeComponent },
+      { path: 'suppliers', component: SuppliersComponent, runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
+      {
+        path: 'profile', component: ProfileComponent,
+        data: { option: 'Profile' }
+      },
+      {
+        path: 'category', component: CategoryComponent,
+        data: { option: 'Category' }
+      },
+      {
+        path: 'business-type', component: BusinessTypeComponent,
+        data: { option: 'BusinessType' }
+      },
       {
         path: 'order-list-client', component: ListOrderComponent,
+        data: { option: 'OrdersList' },
         resolve: {
           orders: OrderResolver
         },
@@ -49,6 +60,7 @@ const routes: Routes = [
       },
       {
         path: 'details-order/:id/view', component: DetailsOrderComponent,
+        data: { option: 'OrdersDetail' },
         resolve: {
           orders: OrderResolver
         }
@@ -72,7 +84,8 @@ const routes: Routes = [
               { path: 'edit-company', component: EditCompanyComponent }
             ]
           }
-        ]
+        ],
+        data: { option: 'Users' }
       },
       {
         path: 'seller', component: SellerComponent,
@@ -81,7 +94,7 @@ const routes: Routes = [
         },
         runGuardsAndResolvers: 'always',
         children: [
-          { path: '', component: ListSellerComponent },
+          { path: '', component: ListSellerComponent, data: { option: 'Sellers' } },
           {
             path: ':id', component: DetailSellerComponent,
             resolve: {
@@ -93,13 +106,14 @@ const routes: Routes = [
               { path: 'client-seller', component: ClientSellerComponent }
             ]
           }
-        ]
+        ],
+        data: { option: 'Sellers' }
       },
-      {path:'order-list-client-byseller',component:ListOrderClientComponent},
-      {path:'details-order-client/:id/view',component: DetailsOrderClientComponent}
-
+      { path: 'order-list-client-byseller', component: ListOrderClientComponent },
+      { path: 'details-order-client/:id/view', component: DetailsOrderClientComponent }
     ]
-  }
+  },
+  { path: '**', redirectTo: 'not-found' }
 ];
 
 @NgModule({
