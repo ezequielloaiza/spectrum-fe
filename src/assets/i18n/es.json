@@ -266,5 +266,7 @@
     "View":"Ver",
     "No seller assigned": "Sin vendedor asignado",
     "Yes": "Si",
-    "No": "No"
+    "No": "No",
+    "Change Temporal Password": "Cambio de Contraseña Temporal",
+    "Should change the temporal password to access the system": "Debe cambiar la contraseña temporal para acceder al sistema."
 }

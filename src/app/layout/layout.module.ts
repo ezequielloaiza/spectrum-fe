@@ -35,7 +35,6 @@ import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import { SellerResolver } from './seller/seller.resolver';
 import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-modal.component';
 
-
 @NgModule({
     imports: [
         CommonModule,
