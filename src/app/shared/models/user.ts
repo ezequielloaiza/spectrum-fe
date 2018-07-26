@@ -17,6 +17,7 @@ export class User {
   public postalCode: string;
   public phone: string;
   public nameSeller: string;
+  public pwsTemporal: boolean;
   public membership: Membership = new Membership();
 
   public constructor() { }
