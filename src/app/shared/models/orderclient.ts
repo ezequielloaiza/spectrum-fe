@@ -12,6 +12,7 @@ export class OrderClient {
     public subtotal:number;
     public total:number;
     public status:number;
+    public patient:string;
     public listProductRequested: Array<OrderClientProductRequested>;
 
     public constructor() { }

@@ -279,5 +279,6 @@
     "Are you sure you want to generate the order?":"Are you sure you want to generate the order?",
     "to the provider":"to the provider",
     "Change Temporal Password ": "Change Temporal Password",
-    "Should change the temporal password to access the system": "Should change the temporal password to access the system."
+    "Should change the temporal password to access the system": "Should change the temporal password to access the system.",
+    "Patient":"Patient"
 }

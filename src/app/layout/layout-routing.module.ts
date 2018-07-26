@@ -109,8 +109,13 @@ const routes: Routes = [
         ],
         data: { option: 'Sellers' }
       },
-      { path: 'order-list-client-byseller', component: ListOrderClientComponent },
-      { path: 'details-order-client/:id/view', component: DetailsOrderClientComponent }
+      {
+        path: 'order-list-client-byseller', component: ListOrderClientComponent,
+        data: { option: 'OrdersBySellerList' }
+      },
+      { path: 'details-order-client/:id/view', component: DetailsOrderClientComponent,
+      data: { option: 'OrdersDetailSeller' }
+     }
     ]
   },
   { path: '**', redirectTo: 'not-found' }

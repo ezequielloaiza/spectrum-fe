@@ -276,5 +276,6 @@
     "Are you sure you want to generate the order?":"¿Estás seguro de que quieres generar la orden?",
     "to the provider":"al proveedor",
     "Change Temporal Password": "Cambio de Contraseña Temporal",
-    "Should change the temporal password to access the system": "Debe cambiar la contraseña temporal para acceder al sistema."
+    "Should change the temporal password to access the system": "Debe cambiar la contraseña temporal para acceder al sistema.",
+    "Patient":"Paciente"
 }

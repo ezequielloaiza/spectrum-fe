@@ -36,6 +36,10 @@
               <br>
               <span class="font-weight-bold">{{'Country' | translate }}:</span>&nbsp;
               <span>{{order.address? order.address.country:''}}</span>
+              <br>
+              <br>
+              <p class="price h5 text-warning">{{'Patient'| translate}}</p>
+              <span>{{order? order.patient:''}}</span>
             </div>
             <div class="col-md-4 pull-right">
               <p class="font-weight-bold" translate>{{'Summary Costs'}}</p>

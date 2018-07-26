@@ -328,70 +328,7 @@
 					</li>
 				</div>
 			</div>
-			<div class="nested-menu">
-				<a class="list-group-item" (click)="addExpandClass('orders')">
-					<span>
-						<i class="fa fa-folder-open"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
-				</a>
-				<li class="nested" [class.expand]="showMenu === 'orders'">
-					<ul class="submenu">
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-check"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-times"></i>&nbsp; {{ 'Cancel Order' | translate }}</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
-							</a>
-						</li>
-					</ul>
-				</li>
-			</div>
-			<div class="nested-menu">
-				<a class="list-group-item" (click)="addExpandClass('warranties')">
-					<span>
-						<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
-				</a>
-				<li class="nested" [class.expand]="showMenu === 'warranties'">
-					<ul class="submenu">
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Warranty' | translate }}</span>
-							</a>
-						</li>
-					</ul>
-				</li>
-			</div>
 		</div>
-    </div>
 
 		<!--
 		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
