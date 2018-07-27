@@ -18,21 +18,54 @@
             <thead>
               <tr>
                 <th class="table-tr header-column">
-                  <span title="Client">{{ 'Client' | translate }}
-                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('name')"></i>
+                  <span title="Status">{{ 'Status' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('status')"></i>
                   </span>
-                  <span [hidden]="orderByField != 'name' || typeSort === 0" >
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('name')"></i>
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('name')"></i>
+                  <span [hidden]="orderByField != 'status' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('status')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('status')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Client Name">{{ 'Client Name' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('clientName')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'clientName' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('clientName')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('clientName')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Order">{{ 'Order' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'companyName' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
                   </span>
                 </th>
                 <th class="table-tr"></th>
               </tr>
             </thead>
-            <tbody [hidden]="warranties.length === 0">
+            <tbody>
               <tr *ngFor="let warranty of warranties">
-                <td class="table-tr td-table"> {{ warranty.name }}</td>
-
+                <td *ngIf='warranty.status==0' class="div-pending">
+                  <div translate>Pending</div>
+                </td>
+                <td *ngIf='warranty.status==1' class="div-authorized">
+                  <div translate>Authorized</div>
+                </td>
+                <td *ngIf='warranty.status==2' class="div-processed">
+                  <div translate>Processed</div>
+                </td>
+                <td *ngIf='warranty.status==3' class="div-pay">
+                  <div translate>Pay</div>
+                </td>
+                <td *ngIf='warranty.status==4' class="div-sent">
+                  <div translate>Sent</div>
+                </td>
+                <td class="table-tr td-table"> {{ warranty.orderClient.user.name }}</td>
+                <td class="table-tr td-table"> {{ warranty.orderClient.number }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">

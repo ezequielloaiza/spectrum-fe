@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { WarrantyModalComponent } from './modals/warranty-modal/warranty-modal.component';
+import { Warranty } from '../../shared/models/warranty';
 
 
 @Component({
@@ -26,19 +27,25 @@ export class WarrantyComponent implements OnInit {
   typeSort = 0;
 
   constructor(private modalService: NgbModal,
-    private alertify: AlertifyService,
-    private notification: ToastrService,
-    private translate: TranslateService,
-    private warrantyService: WarrantyService) { }
+              private alertify: AlertifyService,
+              private notification: ToastrService,
+              private translate: TranslateService,
+              private warrantyService: WarrantyService) { }
 
   ngOnInit() {
+    this.getListWarranties();
     this.advancedPagination = 1;
     this.itemPerPage = 5;
-    this.getListWarranties();
-    console.log('service', this.warranties);
   }
 
   open(warranty, action) {
+    const modalRef = this.modalService.open(WarrantyModalComponent);
+    modalRef.componentInstance.warranty = warranty;
+    modalRef.componentInstance.action = action;
+    modalRef.result.then((result) => {
+      this.getListWarranties();
+      this.moveFirstPage();
+    } , (reason) => {	});
   }
 
   moveFirstPage() {
@@ -59,12 +66,14 @@ export class WarrantyComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
   getListWarranties(): void {
     this.warrantyService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.warranties = res.data;
         this.auxWarranties = res.data;
-        this.warranties = this.auxWarranties.slice(0, this.itemPerPage);
+        this.sortWarranty(this.orderByField);
+        // this.warranties = this.auxWarranties.slice(0, this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }
