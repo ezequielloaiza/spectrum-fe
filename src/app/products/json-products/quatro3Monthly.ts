@@ -1,13 +1,13 @@
 this.products = [
   {
-    "id": 1, "name": "Quattro",
+    "id": 1, "name": "Quattro 3-Monthly",
     "priceBase": 2000, "price1": 1500, "price2": 1600, "price3": 1700,
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
     "material": "Hidrogel, Filcon I 1 49%",
     "descriptionShort": "My description short by quattro",
     "description": "Quattro is individually manufactured with the material mark’ennovy was founded on, Filcon I 1 49%. It is our classic line of lenses produced with the most advanced technology for mark’ennovy’s most experienced contact lens users.",
-    "replacementPeriod": "Conventional",
+    "replacementPeriod": "3 months",
     "warranty": "One year",
     "url": "http://spctinternational.com/wp-content/uploads/2017/11/QUATTRO.pdf",
     "stock": 10,
