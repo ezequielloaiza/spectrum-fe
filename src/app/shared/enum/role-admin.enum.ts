@@ -12,5 +12,11 @@ export enum RoleAdmin {
   ProductsList,
   ProductsView,
   ProductsDetails,
-  Home
+  Home,
+  ViewUser,
+  EditUser,
+  EditCompany,
+  ViewSeller,
+  EditSeller,
+  ViewClient
 }
