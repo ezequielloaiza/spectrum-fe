@@ -8,7 +8,7 @@ export enum RoleAdmin {
   Sellers,
   OrdersList,
   OrdersDetail,
-  Warranties,
+  Warranty,
   ProductsList,
   ProductsView,
   ProductsDetails,

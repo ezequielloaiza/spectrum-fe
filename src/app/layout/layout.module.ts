@@ -90,7 +90,8 @@ import { WarrantyModalComponent } from './warranty/modals/warranty-modal/warrant
       SupplierModalComponent,
       SellerModalComponent,
       ModalSellerComponent,
-      ListUserModalComponent
+      ListUserModalComponent,
+      WarrantyModalComponent
     ],
     providers: [
       BusinessTypeService,

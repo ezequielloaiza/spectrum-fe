@@ -46,7 +46,8 @@ const routes: Routes = [
         data: { option: 'OrdersList' }  },
       { path: 'details-order/:id/view', component: DetailsOrderComponent,
        data: { option: 'OrdersDetail' } },
-      { path: 'warranty', component: WarrantyComponent },
+      { path: 'warranty', component: WarrantyComponent,
+        data: { option: 'Warranty' } },
       {
         path: 'user', component: UserComponent,
         resolve: {
@@ -69,7 +70,7 @@ const routes: Routes = [
               data: { option: 'EditUser' }
               },
               { path: 'edit-company', component: EditCompanyComponent,
-              data: { option: 'EditCompany' } 
+              data: { option: 'EditCompany' }
             }
             ]
           }

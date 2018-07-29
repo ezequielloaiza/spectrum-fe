@@ -1,3 +1,36 @@
-<p>
-  warranty-modal works!
-</p>
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'Warranty' | translate }}</h4>
+  <button type="button" class="close close-modal" aria-label="Close" (click)="close()">
+    <span aria-hidden="true"> &times; </span>
+  </button>
+</div>
+<div class="content">
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <h5>{{ 'Warranty Information' | translate }}</h5>
+      <div class="row">
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Client' | translate }}</label>
+            <select class="form-control" name="clientId" formControlName="clientId" required>
+              <option *ngFor="let client of listClients" [ngValue]="client.id">{{ client.name }}</option>
+            </select>
+          </fieldset>
+          <div class="message-error" [hidden]="clientId.valid || clientId.pristine">
+            <span>{{ 'Client is required' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" [disabled]="form.invalid" class="btn btn-main"
+    (click)="save()">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>
