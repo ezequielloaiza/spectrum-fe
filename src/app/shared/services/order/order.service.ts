@@ -14,8 +14,8 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/allOrderByUser');
   }
 
-  public allOrderByClient$(clientId): Observable<any> {
-    return this.http.get(environment.apiUrl + 'order/allOrderByUser' + clientId);
+  public allOrderByUserId$(userId): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrderByUser/' + userId);
   }
 
   public findId$(id): Observable<any> {

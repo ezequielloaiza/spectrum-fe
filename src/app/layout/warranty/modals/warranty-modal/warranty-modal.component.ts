@@ -5,6 +5,7 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
+import * as _ from 'lodash';
 import { NgbModalRef, NgbActiveModal, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { ToastrService } from 'ngx-toastr';
@@ -15,7 +16,6 @@ import { UserService,
          OrderService,
          WarrantyService } from '../../../../shared/services';
 import { Role } from '../../../../shared/enum/role.enum';
-
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -29,6 +29,7 @@ export class WarrantyModalComponent implements OnInit {
   warranty: any;
   listClients: Array<any> = new Array;
   listOrders: Array<any> = new Array;
+  listProducts: Array<any> = new Array;
   searching = false;
   action: string;
   public model: any;
@@ -53,8 +54,10 @@ export class WarrantyModalComponent implements OnInit {
   initializeForm() {
     this.form = this.formBuilder.group({
       id          : [this.action === 'edit' ? this.warranty.idWarranty : ''],
-      clientId    : [this.action === 'edit' ? this.warranty.orderClient.user.name : ''],
-      ordenId     : [this.action === 'edit' ? this.warranty.orderClient.id : '', [ Validators.required]],
+      clientId    : [this.action === 'edit' ? this.warranty.order.nameUser : ''],
+      orderId     : [this.action === 'edit' ? this.warranty.ordert.id : '', [ Validators.required]],
+      productId   : [this.action === 'edit' ? this.warranty.order.id : '', [ Validators.required]],
+      conditions  : [this.action === 'edit' ? this.warranty.conditions : '', [ Validators.required]],
       time        : [this.action === 'edit' ? this.warranty.time : '', [ Validators.required]]
     });
   }
@@ -79,17 +82,26 @@ export class WarrantyModalComponent implements OnInit {
     });
   }
 
+  onClientSelectionChanged(clientId): void {
+    this.getListOrders(parseInt(clientId.value, 10));
+  }
+
   getListOrders(clientId): void {
-    this.orderService.allOrderByClient$(clientId).subscribe(res => {
+    this.orderService.allOrderByUserId$(clientId).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
       }
     });
   }
 
+  filterProducts(orderId): void {}
+
   save(): void {}
 
   get clientId() { return this.form.get('clientId'); }
-
+  get orderId() { return this.form.get('orderId'); }
+  get productId() { return this.form.get('productId'); }
+  get condicions() { return this.form.get('condicions'); }
+  get time() { return this.form.get('time'); }
 
 }

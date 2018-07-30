@@ -39,7 +39,7 @@ export class WarrantyComponent implements OnInit {
   }
 
   open(warranty, action) {
-    const modalRef = this.modalService.open(WarrantyModalComponent);
+    const modalRef = this.modalService.open(WarrantyModalComponent , { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.warranty = warranty;
     modalRef.componentInstance.action = action;
     modalRef.result.then((result) => {
@@ -68,7 +68,7 @@ export class WarrantyComponent implements OnInit {
   }
 
   getListWarranties(): void {
-    this.warrantyService.findAll$().subscribe(res => {
+    this.warrantyService.findAllByUser$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.warranties = res.data;
         this.auxWarranties = res.data;
@@ -80,9 +80,6 @@ export class WarrantyComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
-  }
-
-  getWarranty() {
   }
 
   sortWarranty(key) {
@@ -100,12 +97,41 @@ export class WarrantyComponent implements OnInit {
         this.reverseSort = true;
       }
     }
+
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
   }
 
-  borrar(id) {
+  deleteWarranty(id) {
+    this.warrantyService.removeById$(id).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.getListWarranties();
+        // tslint:disable-next-line:no-shadowed-variable
+        this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
+      } else if (res.code === CodeHttp.notAcceptable) {
+        // tslint:disable-next-line:max-line-length
+        this.translate.get('Can not be eliminated, is associated with a product', {value: 'Can not be eliminated, is associated with a product'}).subscribe((res: string) => {
+          this.notification.warning('', res);
+        });
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   delete(id) {
+    this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
+      // tslint:disable-next-line:max-line-length
+      this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
+        this.alertify.confirm(title, msg, () => {
+          this.deleteWarranty(id);
+        }, () => { });
+      });
+    });
   }
 
   pageChange(event) {

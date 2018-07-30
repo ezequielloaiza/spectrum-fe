@@ -1,1 +1,53 @@
 @import '../../../styles/spectrum/spectrum';
+
+@include tr-sizes((10%, 15%, 15%, 15%, 15%, 15%, 15%));
+
+.div-pending {
+  >div {
+    text-align: center;
+    background: $pending-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
+  }
+}
+
+.div-sent {
+  >div {
+    text-align: center;
+    background: $sent-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
+  }
+}
+
+.div-authorized {
+  >div {
+    text-align: center;
+    background: $authorized-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
+  }
+}
+
+.div-processed {
+  >div {
+    text-align: center;
+    background: $processed-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
+  }
+}
+
+.div-pay {
+  >div {
+    text-align: center;
+    background: $paid-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 60%;
+  }
+}

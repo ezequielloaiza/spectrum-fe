@@ -11,18 +11,18 @@ export class WarrantyService {
   constructor(private http: HttpClient) { }
 
   public save$(warranty): Observable<any> {
-    return this.http.post(environment.apiUrl + 'warranties/save', warranty);
+    return this.http.post(environment.apiUrl + 'warranty/save', warranty);
   }
 
   public update$(warranty): Observable<any> {
-    return this.http.put(environment.apiUrl + 'warranties/update', warranty);
+    return this.http.put(environment.apiUrl + 'warranty/update', warranty);
   }
 
-  public findAll$(): Observable<any> {
-    return this.http.get(environment.apiUrl + 'warranties/findAll');
+  public findAllByUser$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'warranty/findAllByUser');
   }
 
   public removeById$(id): Observable<any> {
-    return this.http.delete(environment.apiUrl + 'warranties/removeById/' + id);
+    return this.http.delete(environment.apiUrl + 'warranty/removeById/' + id);
   }
 }

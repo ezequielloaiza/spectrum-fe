@@ -49,7 +49,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let warranty of warranties">
-                <td *ngIf='warranty.status==0' class="div-pending">
+                <td *ngIf='warranty.status=="PENDING"' class="div-pending">
                   <div translate>Pending</div>
                 </td>
                 <td *ngIf='warranty.status==1' class="div-authorized">
@@ -64,8 +64,8 @@
                 <td *ngIf='warranty.status==4' class="div-sent">
                   <div translate>Sent</div>
                 </td>
-                <td class="table-tr td-table"> {{ warranty.orderClient.user.name }}</td>
-                <td class="table-tr td-table"> {{ warranty.orderClient.number }}</td>
+                <td class="table-tr td-table"> {{ warranty.order.nameUser }}</td>
+                <td class="table-tr td-table"> {{ warranty.order.number }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">
