@@ -23,7 +23,7 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Created at' | translate }}</label>
-            <input class="form-control" [readOnly]="true" name="createdAt" formControlName="createdAt">
+            <input class="form-control" [readOnly]="true" name="createdAt" formControlName="createdAt" >
           </fieldset>
           <div class="message-error" [hidden]="createdAt.valid || createdAt.pristine">
             <span>{{ 'Created at is required' | translate }}</span>

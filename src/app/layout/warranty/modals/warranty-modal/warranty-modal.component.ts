@@ -16,6 +16,7 @@ import { UserService,
          WarrantyService } from '../../../../shared/services';
 import { Role } from '../../../../shared/enum/role.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { Warranty } from '../../../../shared/models/warranty';
 
 @Component({
   selector: 'app-warranty-modal',
@@ -27,6 +28,7 @@ export class WarrantyModalComponent implements OnInit {
   form: FormGroup;
   warranty: any;
   listTypes: Array<String> = new Array;
+  today: Date = new Date();
   searching = false;
   action: string;
   public model: any;
@@ -42,6 +44,7 @@ export class WarrantyModalComponent implements OnInit {
               private translate: TranslateService) { }
 
   ngOnInit() {
+    this.getDate();
     this.initializeForm();
     this.getType();
   }
@@ -49,10 +52,18 @@ export class WarrantyModalComponent implements OnInit {
   initializeForm() {
     this.form = this.formBuilder.group({
       billNumber  : [this.action === 'edit' ? this.warranty.billNumber : ''],
-      createdAt   : [this.action === 'edit' ? this.warranty.createdAt : Date.now()],
-      type        : [this.action === 'edit' ? this.warranty.type : '', [ Validators.required]],
+      createdAt   : [this.action === 'edit' ? this.warranty.createdAt : new Date()],
+      type        : [this.action === 'edit' ? this.warranty.type : this.today , [ Validators.required]],
       description : [this.action === 'edit' ? this.warranty.description : '', [ Validators.required]]
     });
+  }
+
+  getDate(): void {
+    if (this.action === 'edit') {
+      this.today = new Date(this.warranty.createdAt);
+    } else {
+      this.today = new Date();
+    }
   }
 
   getType(): void {
