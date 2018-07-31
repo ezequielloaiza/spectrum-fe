@@ -52,17 +52,16 @@ export class WarrantyModalComponent implements OnInit {
   initializeForm() {
     this.form = this.formBuilder.group({
       billNumber  : [this.action === 'edit' ? this.warranty.billNumber : ''],
-      createdAt   : [this.action === 'edit' ? this.warranty.createdAt : new Date()],
-      type        : [this.action === 'edit' ? this.warranty.type : this.today , [ Validators.required]],
-      description : [this.action === 'edit' ? this.warranty.description : '', [ Validators.required]]
+      createdAt   : [this.action === 'edit' ? this.warranty.createdAt : this.today],
+      type        : [this.action === 'edit' ? this.warranty.type : '', [ Validators.required]],
+      description : [this.action === 'edit' ? this.warranty.description : '', [ Validators.required]],
+      status      : [this.action === 'edit' ? this.warranty.status : 0]
     });
   }
 
   getDate(): void {
     if (this.action === 'edit') {
       this.today = new Date(this.warranty.createdAt);
-    } else {
-      this.today = new Date();
     }
   }
 

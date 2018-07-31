@@ -27,21 +27,30 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Client Name">{{ 'Client Name' | translate }}
-                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('clientName')"></i>
+                  <span title="Bill Number">{{ 'Bill Number' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
                   </span>
-                  <span [hidden]="orderByField != 'clientName' || typeSort === 0" >
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('clientName')"></i>
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('clientName')"></i>
+                  <span [hidden]="orderByField != 'billNumber' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Order">{{ 'Order' | translate }}
-                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
+                  <span title="Created at">{{ 'Created at' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('createdAt')"></i>
                   </span>
-                  <span [hidden]="orderByField != 'companyName' || typeSort === 0" >
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
+                  <span [hidden]="orderByField != 'createdAt' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('createdAt')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('createdAt')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Type">{{ 'Type' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('type')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'type' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('type')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('type')"></i>
                   </span>
                 </th>
                 <th class="table-tr"></th>
@@ -65,7 +74,7 @@
                   <div translate>Sent</div>
                 </td>
                 <td class="table-tr td-table"> {{ warranty.billNumber }}</td>
-                <td class="table-tr td-table"> {{ warranty.createdAt }}</td>
+                <td class="table-tr td-table"> {{ warranty.createdAt | date:'yyyy-MM-dd' }}</td>
                 <td class="table-tr td-table"> {{ warranty.type }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
