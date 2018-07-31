@@ -11,60 +11,48 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Client' | translate }}</label>
-            <select class="form-control" name="clientId" id="clientId" (change)="onClientSelectionChanged(clientId)"
-              formControlName="clientId" required>
-              <option value="" disabled [selected]="true" translate>Select</option>
-              <option *ngFor="let client of listClients" value="{{client.idUser}}">{{ client.name }}</option>
-            </select>
+            <label>{{ 'Bill Number' | translate }}</label>
+            <input class="form-control" placeholder="{{ 'Enter bill number' | translate }}" name="billNumber" formControlName="billNumber">
           </fieldset>
-          <div class="message-error" [hidden]="clientId.valid || clientId.pristine">
-            <span>{{ 'Client is required' | translate }}</span>
+          <div class="message-error" [hidden]="billNumber.valid || billNumber.pristine">
+            <span>{{ 'Bill Number is required' | translate }}</span>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Order' | translate }}</label>
-            <select class="form-control" name="orderId" id="orderId" formControlName="orderId" (change)="filterProducts(orderId)" required>
-              <option value="" disabled [selected]="true" translate>Select</option>
-              <option *ngFor="let order of listOrders" value="{{order.idOrder}}">{{ order.number }}</option>
-            </select>
+            <label>{{ 'Created at' | translate }}</label>
+            <input class="form-control" [readOnly]="true" name="createdAt" formControlName="createdAt">
           </fieldset>
-          <div class="message-error" [hidden]="orderId.valid || orderId.pristine">
-            <span>{{ 'Order is required' | translate }}</span>
+          <div class="message-error" [hidden]="createdAt.valid || createdAt.pristine">
+            <span>{{ 'Created at is required' | translate }}</span>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Product' | translate }}</label>
-            <select class="form-control" name="productId" id="productId" formControlName="productId" required>
+            <label>{{ 'Type' | translate }}</label>
+            <select class="form-control" name="type" formControlName="type" required>
               <option value="" disabled [selected]="true" translate>Select</option>
-              <option *ngFor="let product of listProducts" value="{{product.id}}">{{ product.name }}</option>
+              <option *ngFor="let type of listTypes" value="{{type}}">{{ type }}</option>
             </select>
           </fieldset>
-          <div class="message-error" [hidden]="productId.valid || productId.pristine">
-            <span>{{ 'Product is required' | translate }}</span>
+          <div class="message-error" [hidden]="type.valid || type.pristine">
+            <span>{{ 'Type is required' | translate }}</span>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Conditions' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter conditions' | translate }}" name="conditions" formControlName="conditions">
+            <label>{{ 'Description' | translate }}</label>
+            <textarea class="form-control" placeholder="{{ 'Enter description' | translate }}" name="description" formControlName="description" rows="3"></textarea>
           </fieldset>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xl-6">
-          <fieldset class="form-group">
-            <label>{{ 'Time' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter time' | translate }}" name="time" formControlName="time">
-          </fieldset>
+          <div class="message-error" [hidden]="description.valid || description.pristine">
+            <span>{{ 'Description is required' | translate }}</span>
+          </div>
         </div>
       </div>
     </form>

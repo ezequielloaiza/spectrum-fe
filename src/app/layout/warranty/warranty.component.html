@@ -52,20 +52,21 @@
                 <td *ngIf='warranty.status=="PENDING"' class="div-pending">
                   <div translate>Pending</div>
                 </td>
-                <td *ngIf='warranty.status==1' class="div-authorized">
+                <td *ngIf='warranty.status=="AUTHORIZED"' class="div-authorized">
                   <div translate>Authorized</div>
                 </td>
-                <td *ngIf='warranty.status==2' class="div-processed">
+                <td *ngIf='warranty.status=="PROCESSED"' class="div-processed">
                   <div translate>Processed</div>
                 </td>
-                <td *ngIf='warranty.status==3' class="div-pay">
+                <td *ngIf='warranty.status=="PAY"' class="div-pay">
                   <div translate>Pay</div>
                 </td>
-                <td *ngIf='warranty.status==4' class="div-sent">
+                <td *ngIf='warranty.status=="SENT"' class="div-sent">
                   <div translate>Sent</div>
                 </td>
-                <td class="table-tr td-table"> {{ warranty.order.nameUser }}</td>
-                <td class="table-tr td-table"> {{ warranty.order.number }}</td>
+                <td class="table-tr td-table"> {{ warranty.billNumber }}</td>
+                <td class="table-tr td-table"> {{ warranty.createdAt }}</td>
+                <td class="table-tr td-table"> {{ warranty.type }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">

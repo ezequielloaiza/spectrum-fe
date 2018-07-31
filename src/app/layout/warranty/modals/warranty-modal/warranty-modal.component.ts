@@ -5,7 +5,6 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
-import * as _ from 'lodash';
 import { NgbModalRef, NgbActiveModal, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { ToastrService } from 'ngx-toastr';
@@ -27,9 +26,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class WarrantyModalComponent implements OnInit {
   form: FormGroup;
   warranty: any;
-  listClients: Array<any> = new Array;
-  listOrders: Array<any> = new Array;
-  listProducts: Array<any> = new Array;
+  listTypes: Array<String> = new Array;
   searching = false;
   action: string;
   public model: any;
@@ -41,25 +38,25 @@ export class WarrantyModalComponent implements OnInit {
               private userService: UserService,
               private orderService: OrderService,
               private warrantyService: WarrantyService,
-              private toastr: ToastrService,
               private notification: ToastrService,
-              private googleService: GoogleService,
               private translate: TranslateService) { }
 
   ngOnInit() {
     this.initializeForm();
-    this.getListClient(-1);
+    this.getType();
   }
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      id          : [this.action === 'edit' ? this.warranty.idWarranty : ''],
-      clientId    : [this.action === 'edit' ? this.warranty.order.nameUser : ''],
-      orderId     : [this.action === 'edit' ? this.warranty.ordert.id : '', [ Validators.required]],
-      productId   : [this.action === 'edit' ? this.warranty.order.id : '', [ Validators.required]],
-      conditions  : [this.action === 'edit' ? this.warranty.conditions : '', [ Validators.required]],
-      time        : [this.action === 'edit' ? this.warranty.time : '', [ Validators.required]]
+      billNumber  : [this.action === 'edit' ? this.warranty.billNumber : ''],
+      createdAt   : [this.action === 'edit' ? this.warranty.createdAt : Date.now()],
+      type        : [this.action === 'edit' ? this.warranty.type : '', [ Validators.required]],
+      description : [this.action === 'edit' ? this.warranty.description : '', [ Validators.required]]
     });
+  }
+
+  getType(): void {
+    this.listTypes = ['By default', 'By change'];
   }
 
   close(): void {
@@ -70,38 +67,47 @@ export class WarrantyModalComponent implements OnInit {
     this.modalReference.dismiss();
   }
 
-  getListClient(filter): void {
-    this.userService.findByRole$(Role.User, filter).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.listClients = res.data;
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
+  save(): void {
+    if (this.action !== 'edit') {
+      this.warrantyService.save$(this.form.value).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.close();
+          this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
+        } else if (res.code === CodeHttp.notAcceptable) {
+          this.translate.get('The warranty type already exists', { value: 'The business type already exists' }).subscribe((res: string) => {
+            this.notification.warning('', res);
+          });
+        } else {
+          console.log(res.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    } else {
+      this.warrantyService.update$(this.form.value).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
+          this.close();
+        } else if (res.code === CodeHttp.notAcceptable) {
+          this.translate.get('The warranty type already exists', { value: 'The business type already exists' }).subscribe((res: string) => {
+            this.notification.warning('', res);
+          });
+        } else {
+          console.log(res.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    }
   }
 
-  onClientSelectionChanged(clientId): void {
-    this.getListOrders(parseInt(clientId.value, 10));
-  }
-
-  getListOrders(clientId): void {
-    this.orderService.allOrderByUserId$(clientId).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.listOrders = res.data;
-      }
-    });
-  }
-
-  filterProducts(orderId): void {}
-
-  save(): void {}
-
-  get clientId() { return this.form.get('clientId'); }
-  get orderId() { return this.form.get('orderId'); }
-  get productId() { return this.form.get('productId'); }
-  get condicions() { return this.form.get('condicions'); }
-  get time() { return this.form.get('time'); }
+  get billNumber() { return this.form.get('billNumber'); }
+  get createdAt() { return this.form.get('createdAt'); }
+  get type() { return this.form.get('type'); }
+  get description() { return this.form.get('description'); }
 
 }
