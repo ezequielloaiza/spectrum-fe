@@ -247,9 +247,11 @@
     "Username": "Username",
     "Password": "Password",
     "Confirm Password": "Confirm Password",
+    "Old Password": "Old Password",
     "The password is secret": "The password is secret",
     "For security your password is encrypted" : "For security your password is encrypted",
     "Password is not valid": "Password is not valid",
+    "Password do not match with old password": "Password do not match with old password",
     "You can not edit your username": "You can not edit your username",
     "Username is required": "Username is required",
     "Passwords do not match": "Passwords do not match",
@@ -267,5 +269,7 @@
     "View":"View",
     "No seller assigned": "No seller assigned",
     "Yes": "Yes",
-    "No": "No"
+    "No": "No",
+    "Change Temporal Password ": "Change Temporal Password",
+    "Should change the temporal password to access the system": "Should change the temporal password to access the system."
 }

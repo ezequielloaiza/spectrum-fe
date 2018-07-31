@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private userStorageService: UserStorageService,
     private notification: ToastrService,
-    private translate: TranslateService,
+    private translate: TranslateService
   ) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -39,6 +39,11 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.initializeForm();
     //document.getElementById("FS").onchange = this.checkFileSize;
+  }
+
+  onReset() {
+    this.form.get('oldPassword').reset();
+    this.form.get('password').reset();
   }
 
   formatter = (x: { description: string }) => x.description;
@@ -71,8 +76,9 @@ export class ProfileComponent implements OnInit {
       city: ['', [Validators.required]],
       postal: [''],
       phone: [''],
-      password: [Validators.required],
-      confirmedPassword: [Validators.required],
+      oldPassword: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      confirmedPassword: ['', [Validators.required]],
     });
   }
 
@@ -100,6 +106,10 @@ export class ProfileComponent implements OnInit {
     this.form.get('country').setValue(this.user.userResponse.country);
     this.form.get('postal').setValue(this.user.userResponse.postalCode);
     this.form.get('address').setValue(this.user.userResponse.address);
+    this.onReset();
+    this.form.get('oldPassword').setValue('');
+    this.form.get('password').setValue('');
+    this.form.get('confirmedPassword').setValue('');
   }
 
   savePersonal(): void {
@@ -124,14 +134,18 @@ export class ProfileComponent implements OnInit {
 
   saveAccount(): void {
     this.form.get('city').setValue(this.form.value.city.description);
-    this.userService.updateProfile$(this.form.value).subscribe(res => {
+    this.userService.changePassword$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.user.userResponse = res.data;
         this.notification.success('User save', 'Success');
         this.canEditAccount = false;
+      } else if (res.code === CodeHttp.notFound) {
+        this.translate.get('Password do not match with old password', { value: 'Password do not match with old password' }).subscribe((res: string) => {
+          this.notification.error('', res);
+        });
       } else if (res.code === CodeHttp.notAcceptable) {
-        this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
-          this.notification.warning('', res);
+        this.translate.get('Password matches with old password', { value: 'Password matches with old password' }).subscribe((res: string) => {
+          this.notification.error('', res);
         });
       } else {
         console.log(res.errors[0].detail);
@@ -187,6 +201,7 @@ export class ProfileComponent implements OnInit {
   */
 
   get username() { return this.form.get('username'); }
+  get oldPassword() { return this.form.get('oldPassword'); }
   get password() { return this.form.get('password'); }
   get confirmedPassword() { return this.form.get('confirmedPassword'); }
   get name() { return this.form.get('name'); }
