@@ -17,7 +17,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th class="table-tr header-column">
+                <th class="table-tr">
                   <span title="Status">{{ 'Status' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('status')"></i>
                   </span>
@@ -26,7 +26,7 @@
                     <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('status')"></i>
                   </span>
                 </th>
-                <th class="table-tr header-column">
+                <th class="table-tr">
                   <span title="Bill Number">{{ 'Bill Number' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
                   </span>
@@ -35,7 +35,7 @@
                     <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
                   </span>
                 </th>
-                <th class="table-tr header-column">
+                <th class="table-tr">
                   <span title="Created at">{{ 'Created at' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('createdAt')"></i>
                   </span>
@@ -44,7 +44,7 @@
                     <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('createdAt')"></i>
                   </span>
                 </th>
-                <th class="table-tr header-column">
+                <th class="table-tr">
                   <span title="Type">{{ 'Type' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('type')"></i>
                   </span>
@@ -83,7 +83,7 @@
                       <div ngbDropdownMenu>
                         <button class="dropdown-item" (click)="open(warranty,'edit')">
                           <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                        <button class="dropdown-item" (click)="delete(warranty.idWarranty)">
+                        <button class="dropdown-item" (click)="delete(warranty.id)">
                           <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
                       </div>
                     </div>

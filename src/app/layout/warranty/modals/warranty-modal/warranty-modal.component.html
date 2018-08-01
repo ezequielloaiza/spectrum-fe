@@ -35,7 +35,6 @@
           <fieldset class="form-group">
             <label>{{ 'Type' | translate }}</label>
             <select class="form-control" name="type" formControlName="type" required>
-              <option value="" disabled [selected]="true" translate>Select</option>
               <option *ngFor="let type of listTypes" value="{{type}}">{{ type }}</option>
             </select>
           </fieldset>

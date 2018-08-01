@@ -29,11 +29,7 @@ export class WarrantyModalComponent implements OnInit {
   warranty: any;
   listTypes: Array<String> = new Array;
   today: Date = new Date();
-  searching = false;
   action: string;
-  public model: any;
-  searchFailed = false;
-  hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
   constructor(private modalReference: NgbActiveModal,
               private formBuilder: FormBuilder,
@@ -45,17 +41,17 @@ export class WarrantyModalComponent implements OnInit {
 
   ngOnInit() {
     this.getDate();
-    this.initializeForm();
     this.getType();
+    this.initializeForm();
   }
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      billNumber  : [this.action === 'edit' ? this.warranty.billNumber : ''],
+      billNumber  : [this.action === 'edit' ? this.warranty.billNumber : '', [ Validators.required]],
       createdAt   : [this.action === 'edit' ? this.warranty.createdAt : this.today],
-      type        : [this.action === 'edit' ? this.warranty.type : '', [ Validators.required]],
+      type        : [this.action === 'edit' ? [this.warranty.type] : '', [ Validators.required]],
       description : [this.action === 'edit' ? this.warranty.description : '', [ Validators.required]],
-      status      : [this.action === 'edit' ? this.warranty.status : 0]
+      status      : [this.action === 'edit' ? parseInt(this.warranty.status, 10) : 0]
     });
   }
 
