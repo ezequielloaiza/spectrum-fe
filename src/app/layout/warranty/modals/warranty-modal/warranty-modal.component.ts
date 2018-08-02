@@ -119,8 +119,8 @@ export class WarrantyModalComponent implements OnInit {
     this.getOrders(parseInt(clientId.value, 10));
   }
 
-  filterProducts(): void {
-    this.getProducts();
+  filterProducts(orderId): void {
+    this.getProducts(parseInt(orderId.value, 10));
   }
 
   close(): void {
