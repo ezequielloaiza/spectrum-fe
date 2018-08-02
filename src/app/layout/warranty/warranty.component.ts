@@ -145,6 +145,8 @@ export class WarrantyComponent implements OnInit {
     });
   }
 
+  changeStatus(id) {}
+
   pageChange(event) {
   }
 }

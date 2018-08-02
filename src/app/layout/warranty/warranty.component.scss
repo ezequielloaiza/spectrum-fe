@@ -1,14 +1,12 @@
 @import '../../../styles/spectrum/spectrum';
 
-@include tr-sizes((10%, 15%, 15%, 15%, 15%, 15%, 15%));
-
 .div-pending {
   >div {
     text-align: center;
     background: $pending-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 60%;
+    width: 90%;
   }
 }
 
@@ -18,7 +16,7 @@
     background: $sent-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 60%;
+    width: 90%;
   }
 }
 
@@ -28,7 +26,7 @@
     background: $authorized-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 60%;
+    width: 90%;
   }
 }
 
@@ -38,7 +36,7 @@
     background: $processed-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 60%;
+    width: 90%;
   }
 }
 
@@ -48,6 +46,6 @@
     background: $paid-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 60%;
+    width: 90%;
   }
 }

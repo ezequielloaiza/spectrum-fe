@@ -8,6 +8,71 @@
   <div class="modal-body">
     <form [formGroup]="form">
       <h5>{{ 'Warranty Information' | translate }}</h5>
+      <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="row">
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Client' | translate }}</label>
+            <select class="form-control" name="clientId" id="clientId" (change)="filterOrders(clientId)"
+              formControlName="clientId" required>
+              <option value="" disabled [selected]="true" translate>Select</option>
+              <option *ngFor="let client of listClients" value="{{client.idUser}}">{{ client.name }}</option>
+            </select>
+          </fieldset>
+          <div class="message-error" [hidden]="clientId.valid || clientId.pristine">
+            <span>{{ 'Client is required' | translate }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Order' | translate }}</label>
+            <select class="form-control" name="orderId" id="orderId" formControlName="orderId" (change)="filterProducts(orderId)" required>
+              <option value="" disabled [selected]="true" translate>Select</option>
+              <option *ngFor="let order of listOrders" value="{{order.idOrder}}">{{ order.number }}</option>
+            </select>
+          </fieldset>
+          <div class="message-error" [hidden]="orderId.valid || orderId.pristine">
+            <span>{{ 'Order is required' | translate }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Product' | translate }}</label>
+            <select class="form-control" name="productId" id="productId" formControlName="productId" required>
+              <option value="" disabled [selected]="true" translate>Select</option>
+              <option *ngFor="let product of listProducts" value="{{product.id}}">{{ product.name }}</option>
+            </select>
+          </fieldset>
+          <div class="message-error" [hidden]="productId.valid || productId.pristine">
+            <span>{{ 'Product is required' | translate }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Lot Number' | translate }}</label>
+            <input class="form-control" placeholder="{{ 'Enter lot number' | translate }}" name="lotNumber" formControlName="lotNumber">
+          </fieldset>
+          <div class="message-error" [hidden]="lotNumber.valid || lotNumber.pristine">
+            <span>{{ 'Lot number is required' | translate }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Reference Number' | translate }}</label>
+            <input class="form-control" placeholder="{{ 'Enter reference number' | translate }}" name="referenceNumber" formControlName="referenceNumber">
+          </fieldset>
+          <div class="message-error" [hidden]="referenceNumber.valid || referenceNumber.pristine">
+            <span>{{ 'Reference number is required' | translate }}</span>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
@@ -35,6 +100,7 @@
           <fieldset class="form-group">
             <label>{{ 'Type' | translate }}</label>
             <select class="form-control" name="type" formControlName="type" required>
+              <option value="" disabled [selected]="true" translate>Select</option>
               <option *ngFor="let type of listTypes" value="{{type}}">{{ type }}</option>
             </select>
           </fieldset>
@@ -51,6 +117,17 @@
           </fieldset>
           <div class="message-error" [hidden]="description.valid || description.pristine">
             <span>{{ 'Description is required' | translate }}</span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="row">
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Notes' | translate }}</label>
+            <textarea class="form-control" placeholder="{{ 'Enter notes' | translate }}" name="notes" formControlName="notes" rows="3"></textarea>
+          </fieldset>
+          <div class="message-error" [hidden]="notes.valid || notes.pristine">
+            <span>{{ 'Notes is required' | translate }}</span>
           </div>
         </div>
       </div>
