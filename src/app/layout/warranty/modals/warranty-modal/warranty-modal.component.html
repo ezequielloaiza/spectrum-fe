@@ -43,7 +43,7 @@
             <label>{{ 'Product' | translate }}</label>
             <select class="form-control" name="productId" id="productId" formControlName="productId" required>
               <option value="" disabled [selected]="true" translate>Select</option>
-              <option *ngFor="let product of listProducts" value="{{product.id}}">{{ product.name }}</option>
+              <option *ngFor="let product of listProducts" value="{{product.id}}">{{ product.productRequested.product.name }}</option>
             </select>
           </fieldset>
           <div class="message-error" [hidden]="productId.valid || productId.pristine">

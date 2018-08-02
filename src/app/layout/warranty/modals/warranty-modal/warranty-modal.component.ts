@@ -100,9 +100,10 @@ export class WarrantyModalComponent implements OnInit {
   getProducts(orderId): void {
     this.productsRequestedService.AllProductsRequestedByOrder$(orderId).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.listOrders = res.data;
+        this.listProducts = res.data;
       }
     });
+    console.log('list', this.listProducts);
   }
 
   getDate(): void {
