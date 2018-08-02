@@ -60,7 +60,7 @@ export class WarrantyModalComponent implements OnInit {
     this.form = this.formBuilder.group({
       clientId    : [this.action === 'edit' ? this.warranty.clientId : '', [ Validators.required]],
       orderId     : [this.action === 'edit' ? this.warranty.orderId : '', [ Validators.required]],
-      productId   : [this.action === 'edit' ? this.warranty.productId : '', [ Validators.required]],
+      orderClientProductRequestId   : [this.action === 'edit' ? this.warranty.orderClientProductRequest.id : '', [ Validators.required]],
       billNumber  : [this.action === 'edit' ? this.warranty.billNumber : '', [ Validators.required]],
       createdAt   : [this.action === 'edit' ? this.warranty.createdAt : this.today],
       type        : [this.action === 'edit' ? [this.warranty.type] : '', [ Validators.required]],
@@ -68,7 +68,7 @@ export class WarrantyModalComponent implements OnInit {
       referenceNumber : [this.action === 'edit' ? this.warranty.referenceNumber : '', [ Validators.required]],
       lotNumber  :  [this.action === 'edit' ? this.warranty.lotNumber : '', [ Validators.required]],
       notes       :  [this.action === 'edit' ? this.warranty.notes : '', [ Validators.required]],
-      createdBy  : [this.action === 'edit' ? this.warranty.createdBy : this.user.id],
+      createdBy  : [this.action === 'edit' ? this.warranty.createdBy : this.user.userResponse.idUser],
       status      : [this.action === 'edit' ? parseInt(this.warranty.status, 10) : 0]
     });
   }
@@ -103,7 +103,6 @@ export class WarrantyModalComponent implements OnInit {
         this.listProducts = res.data;
       }
     });
-    console.log('list', this.listProducts);
   }
 
   getDate(): void {
@@ -122,6 +121,10 @@ export class WarrantyModalComponent implements OnInit {
 
   filterProducts(orderId): void {
     this.getProducts(parseInt(orderId.value, 10));
+  }
+
+  assingProduct(orderClientProductRequestId): void {
+    this.form.get('orderClientProductRequestId').setValue(orderClientProductRequestId.value);
   }
 
   close(): void {
@@ -172,7 +175,7 @@ export class WarrantyModalComponent implements OnInit {
 
   get clientId() { return this.form.get('clientId'); }
   get orderId() { return this.form.get('orderId'); }
-  get productId() { return this.form.get('productId'); }
+  get orderClientProductRequestId() { return this.form.get('orderClientProductRequestId'); }
   get lotNumber() { return this.form.get('lotNumber'); }
   get referenceNumber() { return this.form.get('referenceNumber'); }
   get billNumber() { return this.form.get('billNumber'); }

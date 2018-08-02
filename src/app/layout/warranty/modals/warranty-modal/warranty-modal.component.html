@@ -41,12 +41,13 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Product' | translate }}</label>
-            <select class="form-control" name="productId" id="productId" formControlName="productId" required>
+            <select class="form-control" name="orderClientProductRequestId" id="orderClientProductRequestId"
+              formControlName="orderClientProductRequestId" required>
               <option value="" disabled [selected]="true" translate>Select</option>
-              <option *ngFor="let product of listProducts" value="{{product.id}}">{{ product.productRequested.product.name }}</option>
+              <option *ngFor="let product of listProducts" value="{{product.idOrderClientProductRequested}}">{{ product.productRequested.product.name }}</option>
             </select>
           </fieldset>
-          <div class="message-error" [hidden]="productId.valid || productId.pristine">
+          <div class="message-error" [hidden]="orderClientProductRequestId.valid || orderClientProductRequestId.pristine">
             <span>{{ 'Product is required' | translate }}</span>
           </div>
         </div>
