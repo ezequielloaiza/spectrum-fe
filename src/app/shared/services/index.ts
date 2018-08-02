@@ -5,4 +5,5 @@ export * from './company/company.service';
 export * from './roles/authorization.service';
 export * from './order/order.service';
 export * from './warranty/warranty.service';
+export * from './productsRequested/products-requested.service';
 

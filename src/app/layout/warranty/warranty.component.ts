@@ -82,6 +82,9 @@ export class WarrantyComponent implements OnInit {
     });
   }
 
+  filterBy(value: string): void {
+  }
+
   sortWarranty(key) {
     if (this.orderByField !== key) {
       this.typeSort = 0;

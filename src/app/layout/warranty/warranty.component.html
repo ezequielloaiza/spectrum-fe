@@ -1,5 +1,28 @@
 <app-page-header class="page-header-fixed" [heading]="'Warranties List'" [icon]="'fa fa-certificate'"></app-page-header>
 <div class="sp-container">
+  <div class="row search">
+    <div class="col col-xl-3 col-lg-3">
+      <div>{{ 'Filters warranty by:' | translate }}</div>
+    </div>
+    <div class="col col-xl-2 col-lg-2">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio1" name="customRadio" value="3" class="custom-control-input" (change)="filterBy('all')" checked>
+        <label class="custom-control-label" for="customRadio1">{{ 'All' | translate }}</label>
+      </div>
+    </div>
+    <div class="col col-xl-2 col-lg-2">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio2" name="customRadio" value="0" class="custom-control-input" (change)="filterBy('client')">
+        <label class="custom-control-label" for="customRadio2">{{ 'Clients' | translate }}</label>
+      </div>
+    </div>
+    <div class="col col-xl-2 col-lg-2">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio3" name="customRadio" value="1" class="custom-control-input" (change)="filterBy('seller')">
+        <label class="custom-control-label" for="customRadio3">{{ 'Sellers' | translate }}</label>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
       <div class="card mb-3">

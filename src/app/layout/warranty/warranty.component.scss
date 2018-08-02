@@ -1,4 +1,15 @@
 @import '../../../styles/spectrum/spectrum';
+.search {
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+
+  i {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: $bg-imput;
+  }
+}
 
 .div-pending {
   >div {

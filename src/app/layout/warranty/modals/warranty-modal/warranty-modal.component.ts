@@ -13,7 +13,8 @@ import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
 import { UserService,
          OrderService,
-         WarrantyService } from '../../../../shared/services';
+         WarrantyService,
+         ProductsRequestedService } from '../../../../shared/services';
 import { UserStorageService } from '../../../../http/user-storage.service';
 import { Role } from '../../../../shared/enum/role.enum';
 import { TranslateService } from '@ngx-translate/core';
@@ -43,6 +44,7 @@ export class WarrantyModalComponent implements OnInit {
               private userService: UserService,
               private orderService: OrderService,
               private warrantyService: WarrantyService,
+              private productsRequestedService: ProductsRequestedService,
               private notification: ToastrService,
               private translate: TranslateService) { }
 
@@ -88,14 +90,19 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   getOrders(clientId): void {
-    this.orderService.allOrderByClient$(clientId).subscribe(res => {
+    this.orderService.allOrderByGivenId$(clientId).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
       }
     });
   }
 
-  getProducts(): void {
+  getProducts(orderId): void {
+    this.productsRequestedService.AllProductsRequestedByOrder$(orderId).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listOrders = res.data;
+      }
+    });
   }
 
   getDate(): void {
