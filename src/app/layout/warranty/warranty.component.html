@@ -90,22 +90,22 @@
             </thead>
             <tbody>
               <tr *ngFor="let warranty of warranties">
-                <td *ngIf='warranty.status=="PENDING"' class="div-pending">
+                <td *ngIf='warranty.status==0' class="div-pending">
                   <div translate>Pending</div>
                 </td>
-                <td *ngIf='warranty.status=="AUTHORIZED"' class="div-authorized">
-                  <div translate>Authorized</div>
+                <td *ngIf='warranty.status==1' class="div-in-process">
+                  <div translate>In process</div>
                 </td>
-                <td *ngIf='warranty.status=="PROCESSED"' class="div-processed">
+                <td *ngIf='warranty.status==2' class="div-processed">
                   <div translate>Processed</div>
                 </td>
-                <td *ngIf='warranty.status=="PAY"' class="div-pay">
+                <td *ngIf='warranty.status==3' class="div-pay">
                   <div translate>Pay</div>
                 </td>
                 <td *ngIf='warranty.status=="SENT"' class="div-sent">
                   <div translate>Sent</div>
                 </td>
-                <td class="table-tr td-table"> {{ warranty.id }}</td>
+                <td class="table-tr td-table"> {{ warranty.orderClientProductRequest.orderClient.user.name }}</td>
                 <td class="table-tr td-table"> {{ warranty.billNumber }}</td>
                 <td class="table-tr td-table"> {{ warranty.createdAt | date:'yyyy-MM-dd' }}</td>
                 <td class="table-tr td-table"> {{ warranty.type }}</td>

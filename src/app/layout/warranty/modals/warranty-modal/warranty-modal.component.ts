@@ -54,13 +54,15 @@ export class WarrantyModalComponent implements OnInit {
     this.getDate();
     this.getTypes();
     this.initializeForm();
+    if (this.action === 'edit') { this.getDataEdit(); }
   }
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      clientId    : [this.action === 'edit' ? this.warranty.clientId : '', [ Validators.required]],
-      orderId     : [this.action === 'edit' ? this.warranty.orderId : '', [ Validators.required]],
-      orderClientProductRequestId   : [this.action === 'edit' ? this.warranty.orderClientProductRequest.id : '', [ Validators.required]],
+      id  : [this.action === 'edit' ? this.warranty.id : '', [ Validators.required]],
+      clientId    : [this.action === 'edit' ? this.warranty.orderClientProductRequest.orderClient.user.idUser : '', [ Validators.required]],
+      orderId     : [this.action === 'edit' ? this.warranty.orderClientProductRequest.orderClient.idOrder : '', [ Validators.required]],
+      orderClientProductRequestId : [this.action === 'edit' ? this.warranty.orderClientProductRequest.idOrderClientProductRequested : '', [ Validators.required]],
       billNumber  : [this.action === 'edit' ? this.warranty.billNumber : '', [ Validators.required]],
       createdAt   : [this.action === 'edit' ? this.warranty.createdAt : this.today],
       type        : [this.action === 'edit' ? [this.warranty.type] : '', [ Validators.required]],
@@ -68,9 +70,15 @@ export class WarrantyModalComponent implements OnInit {
       referenceNumber : [this.action === 'edit' ? this.warranty.referenceNumber : '', [ Validators.required]],
       lotNumber  :  [this.action === 'edit' ? this.warranty.lotNumber : '', [ Validators.required]],
       notes       :  [this.action === 'edit' ? this.warranty.notes : '', [ Validators.required]],
-      createdBy  : [this.action === 'edit' ? this.warranty.createdBy : this.user.userResponse.idUser],
-      status      : [this.action === 'edit' ? parseInt(this.warranty.status, 10) : 0]
+      createdBy  : [this.action === 'edit' ? this.warranty.createdBy.idUser : this.user.userResponse.idUser],
+      status      : [this.action === 'edit' ? this.warranty.status : 0]
     });
+  }
+
+  getDataEdit(): void {
+    this.getOrders(this.form.get('clientId').value);
+    this.getProducts(this.form.get('orderId').value);
+    this.form.get('type').setValue([this.warranty.type]);
   }
 
   getUser(): void {
@@ -121,10 +129,6 @@ export class WarrantyModalComponent implements OnInit {
 
   filterProducts(orderId): void {
     this.getProducts(parseInt(orderId.value, 10));
-  }
-
-  assingProduct(orderClientProductRequestId): void {
-    this.form.get('orderClientProductRequestId').setValue(orderClientProductRequestId.value);
   }
 
   close(): void {
