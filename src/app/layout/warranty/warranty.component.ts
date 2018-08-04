@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { WarrantyService } from '../../shared/services/warranty/warranty.service';
+import { UserStorageService } from '../../http/user-storage.service';
+import { Role } from '../../shared/enum/role.enum';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { WarrantyModalComponent } from './modals/warranty-modal/warranty-modal.component';
 import { Warranty } from '../../shared/models/warranty';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -17,6 +20,7 @@ import { Warranty } from '../../shared/models/warranty';
 
 export class WarrantyComponent implements OnInit {
   closeResult: string;
+  user: any;
   warranties: Array<any> = new Array;
   auxWarranties: Array<any> = new Array;
   advancedPagination: number;
@@ -30,12 +34,18 @@ export class WarrantyComponent implements OnInit {
               private alertify: AlertifyService,
               private notification: ToastrService,
               private translate: TranslateService,
+              private userStorageService: UserStorageService,
               private warrantyService: WarrantyService) { }
 
   ngOnInit() {
+    this.getUser();
     this.getListWarranties();
     this.advancedPagination = 1;
     this.itemPerPage = 5;
+  }
+
+  getUser(): void {
+    this.user = JSON.parse(this.userStorageService.getCurrentUser());
   }
 
   open(warranty, action) {
@@ -83,6 +93,15 @@ export class WarrantyComponent implements OnInit {
   }
 
   filterBy(value: string): void {
+    if (value !== '') {
+      if (value === 'client') {
+        this.warranties = _.filter(this.auxWarranties, function (warranty) {
+          return warranty.orderClientProductRequest.orderClient.user.idUser === warranty.createdBy.idUser; });
+      } else if (value === 'seller') {
+        this.warranties = _.filter(this.auxWarranties, function (warranty) {
+          return warranty.orderClientProductRequest.orderClient.user.userId === warranty.createdBy.idUser; });
+      }
+    }
   }
 
   sortWarranty(key) {
@@ -147,8 +166,6 @@ export class WarrantyComponent implements OnInit {
       });
     });
   }
-
-  changeStatus(id) {}
 
   pageChange(event) {
   }

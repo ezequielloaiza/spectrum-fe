@@ -3,7 +3,8 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
-  FormControl
+  FormControl,
+  FormsModule
 } from '@angular/forms';
 import { NgbModalRef, NgbActiveModal, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
@@ -34,9 +35,14 @@ export class WarrantyModalComponent implements OnInit {
   listClients: Array<any> = new Array;
   listOrders: Array<any> = new Array;
   listProducts: Array<any> = new Array;
-  listTypes: Array<String> = new Array;
+  listTypes = ['By default', 'By change'];
   today: Date = new Date();
   action: string;
+  listStatus = [{ id: 0, name: 'Pending' },
+                { id: 1, name: 'In process' },
+                { id: 2, name: 'Approved' },
+                { id: 3, name: 'Reject' }
+               ];
 
   constructor(private modalReference: NgbActiveModal,
               private formBuilder: FormBuilder,
@@ -52,26 +58,28 @@ export class WarrantyModalComponent implements OnInit {
     this.getUser();
     this.getClients(-1);
     this.getDate();
-    this.getTypes();
     this.initializeForm();
-    if (this.action === 'edit') { this.getDataEdit(); }
+    if (this.action !== 'create') { this.getDataEdit(); }
   }
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      id  : [this.action === 'edit' ? this.warranty.id : '', [ Validators.required]],
-      clientId    : [this.action === 'edit' ? this.warranty.orderClientProductRequest.orderClient.user.idUser : '', [ Validators.required]],
-      orderId     : [this.action === 'edit' ? this.warranty.orderClientProductRequest.orderClient.idOrder : '', [ Validators.required]],
-      orderClientProductRequestId : [this.action === 'edit' ? this.warranty.orderClientProductRequest.idOrderClientProductRequested : '', [ Validators.required]],
-      billNumber  : [this.action === 'edit' ? this.warranty.billNumber : '', [ Validators.required]],
-      createdAt   : [this.action === 'edit' ? this.warranty.createdAt : this.today],
-      type        : [this.action === 'edit' ? [this.warranty.type] : '', [ Validators.required]],
-      description : [this.action === 'edit' ? this.warranty.description : '', [ Validators.required]],
-      referenceNumber : [this.action === 'edit' ? this.warranty.referenceNumber : '', [ Validators.required]],
-      lotNumber  :  [this.action === 'edit' ? this.warranty.lotNumber : '', [ Validators.required]],
-      notes       :  [this.action === 'edit' ? this.warranty.notes : '', [ Validators.required]],
-      createdBy  : [this.action === 'edit' ? this.warranty.createdBy.idUser : this.user.userResponse.idUser],
-      status      : [this.action === 'edit' ? this.warranty.status : 0]
+      id  : [this.action !== 'create' ? this.warranty.id : '', [ Validators.required]],
+      clientId    : [this.action !== 'create' ? this.warranty.orderClientProductRequest.orderClient.user.idUser : '',
+                    [ Validators.required]],
+      orderId     : [this.action !== 'create' ? this.warranty.orderClientProductRequest.orderClient.idOrder : '', [ Validators.required]],
+      orderClientProductRequestId : [this.action !== 'create' ? this.warranty.orderClientProductRequest.idOrderClientProductRequested : '',
+                                    [ Validators.required]],
+      billNumber  : [this.action !== 'create' ? this.warranty.billNumber : '', [ Validators.required]],
+      createdAt   : [this.action !== 'create' ? this.warranty.createdAt : this.today],
+      type        : [this.action === 'edit' ? [this.warranty.type] : this.action === 'create' ? '' : this.warranty.type,
+                    [ Validators.required]],
+      description : [this.action !== 'create' ? this.warranty.description : '', [ Validators.required]],
+      referenceNumber : [this.action !== 'create' ? this.warranty.referenceNumber : '', [ Validators.required]],
+      lotNumber  :  [this.action !== 'create' ? this.warranty.lotNumber : '', [ Validators.required]],
+      notes       :  [this.action !== 'create' ? this.warranty.notes : '', [ Validators.required]],
+      createdBy  : [this.action !== 'create' ? this.warranty.createdBy.idUser : this.user.userResponse.idUser],
+      status      : [this.action !== 'create' ? this.warranty.status : 0]
     });
   }
 
@@ -119,10 +127,6 @@ export class WarrantyModalComponent implements OnInit {
     }
   }
 
-  getTypes(): void {
-    this.listTypes = ['By default', 'By change'];
-  }
-
   filterOrders(clientId): void {
     this.getOrders(parseInt(clientId.value, 10));
   }
@@ -140,7 +144,7 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   save(): void {
-    if (this.action !== 'edit') {
+    if (this.action === 'create') {
       this.warrantyService.save$(this.form.value).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.close();
@@ -187,4 +191,5 @@ export class WarrantyModalComponent implements OnInit {
   get type() { return this.form.get('type'); }
   get description() { return this.form.get('description'); }
   get notes() { return this.form.get('notes'); }
+  get status() { return this.form.get('status'); }
 }

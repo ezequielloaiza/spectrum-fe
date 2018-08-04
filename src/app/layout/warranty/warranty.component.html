@@ -1,6 +1,6 @@
 <app-page-header class="page-header-fixed" [heading]="'Warranties List'" [icon]="'fa fa-certificate'"></app-page-header>
 <div class="sp-container">
-  <div class="row search">
+  <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="row search">
     <div class="col col-xl-3 col-lg-3">
       <div>{{ 'Filters warranty by:' | translate }}</div>
     </div>
@@ -96,14 +96,11 @@
                 <td *ngIf='warranty.status==1' class="div-in-process">
                   <div translate>In process</div>
                 </td>
-                <td *ngIf='warranty.status==2' class="div-processed">
-                  <div translate>Processed</div>
+                <td *ngIf='warranty.status==2' class="div-approved">
+                  <div translate>Approved</div>
                 </td>
-                <td *ngIf='warranty.status==3' class="div-pay">
-                  <div translate>Pay</div>
-                </td>
-                <td *ngIf='warranty.status=="SENT"' class="div-sent">
-                  <div translate>Sent</div>
+                <td *ngIf='warranty.status==3' class="div-reject">
+                  <div translate>Reject</div>
                 </td>
                 <td class="table-tr td-table"> {{ warranty.orderClientProductRequest.orderClient.user.name }}</td>
                 <td class="table-tr td-table"> {{ warranty.billNumber }}</td>
@@ -114,11 +111,11 @@
                     <div ngbDropdown class="d-inline-block dropdown">
                       <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                       <div ngbDropdownMenu>
-                        <button class="dropdown-item" (click)="open(warranty,'edit')">
+                        <button *ngIf="(user.role.idRole === 3 && warranty.status === 0) || user.role.idRole === 1 || user.role.idRole === 2" class="dropdown-item" (click)="open(warranty,'edit')">
                           <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                        <button class="dropdown-item" (click)="changeStatus(warranty.id)">
-                          <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}</button>
-                        <button class="dropdown-item" (click)="delete(warranty.id)">
+                        <button *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="dropdown-item" (click)="open(warranty,'statusChange')">
+                          <i class="fa fa-cog"></i> {{ 'Status Change' | translate }}</button>
+                        <button *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="dropdown-item" (click)="delete(warranty.id)">
                           <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
                       </div>
                     </div>
