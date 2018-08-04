@@ -40,6 +40,8 @@ export class ProductViewComponent implements OnInit {
     console.log(JSON.stringify(_.range(4, 10, 0.5)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
+    this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+    this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.product.infoAditional = JSON.parse(this.product.infoAditional);
     //simulando click en el primer type del producto actual
     //this.parameters = this.product.types[0].parameters;
