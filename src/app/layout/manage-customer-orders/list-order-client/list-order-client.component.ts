@@ -31,7 +31,7 @@ export class ListOrderClientComponent implements OnInit {
   tamano: String;
   user: any;
   valorClient: string;
-  mostrarStatus=false;
+  mostrarStatus = false;
 
   constructor(private orderService: OrderService,
     private formBuilder: FormBuilder,
@@ -96,7 +96,7 @@ export class ListOrderClientComponent implements OnInit {
         this.filterStatusNombre(nombre,value);
       } else if ((this.tamano.length == 15) && (this.valorClient.trim() !== '')) {
         var nombre = this.valorClient;
-        this.fullFilter(nombre,value); 
+        this.fullFilter(nombre,value);
       }
     }
   }
@@ -131,7 +131,7 @@ export class ListOrderClientComponent implements OnInit {
         this.fullFilter(this.valorClient,valorStatus);
      }
     }
-  
+
   }
 
   getItems(ev: any) {
@@ -152,7 +152,7 @@ export class ListOrderClientComponent implements OnInit {
       } else if (_.toString(valorStatus) == "" && this.tamano.length == 15) { // si no selecciono status y fecha si
           this.filterDateNombre(client);
       } else if (_.toString(valorStatus) != "" && this.tamano.length == 15) { // si escibio nombre y selecciono fecha
-          this.fullFilter(client, valorStatus); 
+          this.fullFilter(client, valorStatus);
       }
     } else if (_.toString(valorStatus) != "") { // si borro el nombre y selecciono status
       this.filter(valorStatus);
@@ -296,7 +296,7 @@ export class ListOrderClientComponent implements OnInit {
 		});
   }
 
- 
+
 }
 
 
