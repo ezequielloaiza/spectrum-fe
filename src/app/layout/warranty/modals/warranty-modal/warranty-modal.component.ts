@@ -105,7 +105,7 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   getOrders(clientId): void {
-    this.orderService.allOrderByGivenId$(clientId).subscribe(res => {
+    this.orderService.allOrderWarrantyByUserIdAndStatus$(clientId, 0).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
       }
@@ -113,11 +113,13 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   getProducts(orderId): void {
-    this.productsRequestedService.AllProductsRequestedByOrder$(orderId).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.listProducts = res.data;
+    for (let index = 0; index < this.listOrders.length; index++) {
+      const order = this.listOrders[index];
+      console.log('order: ', order);
+      if (order.idOrder == this.form.get('orderId').value) {
+       this.listProducts = order.listProductRequested;
       }
-    });
+    }
   }
 
   getDate(): void {
@@ -135,6 +137,18 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   close(): void {
+    console.log('clientId: ', this.form.get('clientId').valid);
+    console.log('orderId: ',  this.form.get('orderId').valid);
+    console.log('orderCPRId: ',  this.form.get('orderClientProductRequestId').valid);
+    console.log('lotNumb: ',  this.form.get('lotNumber').valid);
+    console.log('referenceNumb: ',  this.form.get('referenceNumber').valid);
+    console.log('billNumb: ',  this.form.get('billNumber').valid);
+    console.log('createdAt: ',  this.form.get('createdAt').valid);
+    console.log('type: ',  this.form.get('type').valid);
+    console.log('descr: ', this.form.get('description').valid);
+    console.log('notes: ',  this.form.get('notes').valid);
+    console.log('status: ',  this.form.get('status').valid);
+    console.log('formValid: ', this.form.valid);
     this.modalReference.close();
   }
 

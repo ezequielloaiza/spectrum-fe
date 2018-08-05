@@ -18,6 +18,10 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/allOrderByGivenId/' + clientId);
   }
 
+  public allOrderWarrantyByUserIdAndStatus$(userId, status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrderWarrantyByUserIdAndStatus/' + userId + '/' + status);
+  }
+
   public findId$(id): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/findId/' + id);
   }
