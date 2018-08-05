@@ -60,6 +60,16 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
+            <label>{{ 'Patient' | translate }}</label>
+            <div>
+              <span>{{warranty? warranty.orderClientProductRequest.patient : ''}}</span>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6">
+          <fieldset class="form-group">
             <label>{{ 'Lot Number' | translate }}</label>
             <div>
               <span *ngIf="action == 'statusChange'">{{ warranty.lotNumber }}</span>
@@ -70,8 +80,6 @@
             <span>{{ 'Lot number is required' | translate }}</span>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Reference Number' | translate }}</label>
@@ -84,6 +92,8 @@
             <span>{{ 'Reference number is required' | translate }}</span>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Bill Number' | translate }}</label>
@@ -96,8 +106,6 @@
             <span>{{ 'Bill Number is required' | translate }}</span>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Created at' | translate }}</label>
@@ -110,6 +118,8 @@
             <span>{{ 'Created at is required' | translate }}</span>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Type' | translate }}</label>
@@ -124,8 +134,6 @@
             <span>{{ 'Type is required' | translate }}</span>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Description' | translate }}</label>

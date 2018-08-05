@@ -1,4 +1,7 @@
 @import '../../../styles/spectrum/spectrum';
+
+@include tr-sizes((10%, 15%, 15%, 15%, 15%, 15%, 15%));
+
 .search {
   padding-top: 1rem;
   padding-bottom: 1.5rem;

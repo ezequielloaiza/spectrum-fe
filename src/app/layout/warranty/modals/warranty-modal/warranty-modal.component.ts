@@ -72,7 +72,7 @@ export class WarrantyModalComponent implements OnInit {
                                     [ Validators.required]],
       billNumber  : [this.action !== 'create' ? this.warranty.billNumber : '', [ Validators.required]],
       createdAt   : [this.action !== 'create' ? this.warranty.createdAt : this.today],
-      type        : [this.action === 'edit' ? [this.warranty.type] : this.action === 'create' ? '' : this.warranty.type,
+      type        : [this.action !== 'create' ? this.warranty.type : '',
                     [ Validators.required]],
       description : [this.action !== 'create' ? this.warranty.description : '', [ Validators.required]],
       referenceNumber : [this.action !== 'create' ? this.warranty.referenceNumber : '', [ Validators.required]],
@@ -86,7 +86,6 @@ export class WarrantyModalComponent implements OnInit {
   getDataEdit(): void {
     this.getOrders(this.form.get('clientId').value);
     this.getProducts(this.form.get('orderId').value);
-    this.form.get('type').setValue([this.warranty.type]);
   }
 
   getUser(): void {

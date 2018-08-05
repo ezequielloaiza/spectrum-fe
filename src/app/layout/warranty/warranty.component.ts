@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+  FormsModule
+} from '@angular/forms';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { WarrantyService } from '../../shared/services/warranty/warranty.service';
 import { UserStorageService } from '../../http/user-storage.service';
@@ -19,33 +26,49 @@ import * as _ from 'lodash';
 })
 
 export class WarrantyComponent implements OnInit {
+  form: FormGroup;
   closeResult: string;
   user: any;
   warranties: Array<any> = new Array;
   auxWarranties: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number;
+  startItem: number;
+  endItem: number;
   /*initial order*/
   orderByField = 'idWarranty';
   reverseSort = true;
   typeSort = 0;
+  listStatus = [{ id: 0, name: 'Pending' },
+                { id: 1, name: 'In process' },
+                { id: 2, name: 'Approved' },
+                { id: 3, name: 'Reject' }
+               ];
 
   constructor(private modalService: NgbModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
               private translate: TranslateService,
+              private formBuilder: FormBuilder,
               private userStorageService: UserStorageService,
               private warrantyService: WarrantyService) { }
 
   ngOnInit() {
     this.getUser();
     this.getListWarranties();
+    this.initializeForm();
     this.advancedPagination = 1;
     this.itemPerPage = 5;
   }
 
   getUser(): void {
     this.user = JSON.parse(this.userStorageService.getCurrentUser());
+  }
+
+  initializeForm() {
+    this.form = this.formBuilder.group({
+      selectedStat: ['']
+    });
   }
 
   open(warranty, action) {
@@ -92,15 +115,30 @@ export class WarrantyComponent implements OnInit {
     });
   }
 
-  filterBy(value: string): void {
+  filter(value): void {
     if (value !== '') {
-      if (value === 'client') {
-        this.warranties = _.filter(this.auxWarranties, function (warranty) {
-          return warranty.orderClientProductRequest.orderClient.user.idUser === warranty.createdBy.idUser; });
-      } else if (value === 'seller') {
-        this.warranties = _.filter(this.auxWarranties, function (warranty) {
-          return warranty.orderClientProductRequest.orderClient.user.userId === warranty.createdBy.idUser; });
-      }
+      this.warranties = _.filter(this.auxWarranties, { 'status': parseInt(value) } );
+    }
+  }
+
+  pageChange(event) {
+    this.startItem = (event - 1) * this.itemPerPage;
+    this.endItem = event * this.itemPerPage;
+    this.warranties = this.auxWarranties.slice(this.startItem, this.endItem);
+  }
+
+  getItems(ev: any) {
+    this.warranties = this.auxWarranties;
+    const val = ev.target.value;
+
+    if (val && val.trim() !== '') {
+      this.warranties = this.warranties.filter((item) => {
+        return ((item.orderClientProductRequest.orderClient.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.orderClientProductRequest.orderClient.numbertoLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.orderClientProductRequest.patient.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.billNumber.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.type.toLowerCase().indexOf(val.toLowerCase()) > -1));
+      });
     }
   }
 
@@ -165,8 +203,5 @@ export class WarrantyComponent implements OnInit {
         }, () => { });
       });
     });
-  }
-
-  pageChange(event) {
   }
 }

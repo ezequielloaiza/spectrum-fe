@@ -1,26 +1,19 @@
 <app-page-header class="page-header-fixed" [heading]="'Warranties List'" [icon]="'fa fa-certificate'"></app-page-header>
 <div class="sp-container">
   <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="row search">
-    <div class="col col-xl-3 col-lg-3">
-      <div>{{ 'Filters warranty by:' | translate }}</div>
+    <div class="col col-xl-4 col-lg-4">
+      <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter warranty search..' | translate}}">
+      <i class="fa fa-search"></i>
     </div>
-    <div class="col col-xl-2 col-lg-2">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio1" name="customRadio" value="3" class="custom-control-input" (change)="filterBy('all')" checked>
-        <label class="custom-control-label" for="customRadio1">{{ 'All' | translate }}</label>
-      </div>
+    <div class="col col-xl-1 col-lg-1">
+      <h6 class="ng-tns-c6-0 h5-filter">{{ 'Status' | translate }}</h6>
     </div>
-    <div class="col col-xl-2 col-lg-2">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio2" name="customRadio" value="0" class="custom-control-input" (change)="filterBy('client')">
-        <label class="custom-control-label" for="customRadio2">{{ 'Clients' | translate }}</label>
-      </div>
-    </div>
-    <div class="col col-xl-2 col-lg-2">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio3" name="customRadio" value="1" class="custom-control-input" (change)="filterBy('seller')">
-        <label class="custom-control-label" for="customRadio3">{{ 'Sellers' | translate }}</label>
-      </div>
+    <div [formGroup]="form" class="col col-xl-2 col-lg-2">
+      <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
+        formControlName="selectedStat">
+        <option value="" disabled [selected]="true" translate>Select</option>
+        <option *ngFor="let status of listStatus" value="{{status.id}}">{{ status.name | translate }}</option>
+      </select>
     </div>
   </div>
   <div class="row">
@@ -59,21 +52,30 @@
                   </span>
                 </th>
                 <th class="table-tr">
+                  <span title="Order">{{ 'Order' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'order' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
+                  </span>
+                </th>
+                <th class="table-tr">
+                  <span title="Patient">{{ 'Patient' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('patient')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'patient' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('patient')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('patient')"></i>
+                  </span>
+                </th>
+                <th class="table-tr">
                   <span title="Bill Number">{{ 'Bill Number' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
                   </span>
                   <span [hidden]="orderByField != 'billNumber' || typeSort === 0" >
                     <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
                     <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
-                  </span>
-                </th>
-                <th class="table-tr">
-                  <span title="Created at">{{ 'Created at' | translate }}
-                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('createdAt')"></i>
-                  </span>
-                  <span [hidden]="orderByField != 'createdAt' || typeSort === 0" >
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('createdAt')"></i>
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('createdAt')"></i>
                   </span>
                 </th>
                 <th class="table-tr">
@@ -103,19 +105,20 @@
                   <div translate>Reject</div>
                 </td>
                 <td class="table-tr td-table"> {{ warranty.orderClientProductRequest.orderClient.user.name }}</td>
+                <td class="table-tr td-table"> {{ warranty.orderClientProductRequest.orderClient.number }}</td>
+                <td class="table-tr td-table"> {{ warranty.orderClientProductRequest.patient }}</td>
                 <td class="table-tr td-table"> {{ warranty.billNumber }}</td>
-                <td class="table-tr td-table"> {{ warranty.createdAt | date:'yyyy-MM-dd' }}</td>
                 <td class="table-tr td-table"> {{ warranty.type }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">
                       <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                       <div ngbDropdownMenu>
-                        <button *ngIf="(user.role.idRole === 3 && warranty.status === 0) || user.role.idRole === 1 || user.role.idRole === 2" class="dropdown-item" (click)="open(warranty,'edit')">
+                        <button *ngIf="((user.role.idRole === 2 || user.role.idRole === 3) && warranty.status === 0) || user.role.idRole === 1" class="dropdown-item" (click)="open(warranty,'edit')">
                           <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
                         <button *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="dropdown-item" (click)="open(warranty,'statusChange')">
                           <i class="fa fa-cog"></i> {{ 'Status Change' | translate }}</button>
-                        <button *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="dropdown-item" (click)="delete(warranty.id)">
+                        <button *ngIf="user.role.idRole === 1" class="dropdown-item" (click)="delete(warranty.id)">
                           <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
                       </div>
                     </div>
