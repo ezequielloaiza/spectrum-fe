@@ -63,7 +63,7 @@
             <label>{{ 'Patient' | translate }}</label>
             <div>
               <span *ngIf="action == 'statusChange'">{{ warranty? warranty.orderClientProductRequest.patient : ''}}</span>
-              <input *ngIf="action != 'statusChange'" class="form-control" [readOnly]="true" name="patient" formControlName="patient" value="{{product? product[0].patient : ''}}" required>
+              <input *ngIf="action != 'statusChange'" class="form-control" [readOnly]="true" name="patient" formControlName="patient" value="{{product? product.patient : ''}}" required>
             </div>
           </fieldset>
         </div>

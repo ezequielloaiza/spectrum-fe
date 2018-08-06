@@ -116,9 +116,9 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   getProducts(orderId): void {
-    this.order = _.filter(this.listOrders, { 'idOrder': orderId});
-    if (this.order.length > 0) {
-      this.listProducts = this.order[0].listProductRequested;
+    this.order = _.find(this.listOrders, { 'idOrder': orderId});
+    if (this.order != null) {
+      this.listProducts = this.order.listProductRequested;
     }
   }
 
@@ -183,8 +183,8 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   assignPatient(orderClientProductRequestId) {
-    this.product =  _.filter(this.listProducts, { 'idOrderClientProductRequested': parseInt(orderClientProductRequestId.value, 10) } );
-    this.form.get('patient').setValue(this.product[0].patient);
+    this.product = _.find(this.listProducts, { 'idOrderClientProductRequested': parseInt(orderClientProductRequestId.value, 10) } );
+    this.form.get('patient').setValue(this.product.patient);
   }
 
   get clientId() { return this.form.get('clientId'); }

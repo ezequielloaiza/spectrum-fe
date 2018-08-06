@@ -104,9 +104,15 @@ export class WarrantyComponent implements OnInit {
     this.warrantyService.findAllByUser$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.warranties = res.data;
+        _.each(this.warranties, function(warranty) {
+          warranty.client = warranty.orderClientProductRequest.orderClient.user.name;
+          warranty.order = warranty.orderClientProductRequest.orderClient.number;
+          warranty.patient = warranty.orderClientProductRequest.patient;
+        });
+        this.auxWarranties = res.data;
         this.auxWarranties = res.data;
         this.sortWarranty(this.orderByField);
-        // this.warranties = this.auxWarranties.slice(0, this.itemPerPage);
+        this.warranties = this.auxWarranties.slice(0, this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }
@@ -134,7 +140,7 @@ export class WarrantyComponent implements OnInit {
     if (val && val.trim() !== '') {
       this.warranties = this.warranties.filter((item) => {
         return ((item.orderClientProductRequest.orderClient.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.orderClientProductRequest.orderClient.numbertoLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.orderClientProductRequest.orderClient.number.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.orderClientProductRequest.patient.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.billNumber.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.type.toLowerCase().indexOf(val.toLowerCase()) > -1));
