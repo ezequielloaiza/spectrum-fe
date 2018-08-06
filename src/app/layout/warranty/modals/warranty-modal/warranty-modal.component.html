@@ -48,7 +48,7 @@
             <div>
               <span *ngIf="action == 'statusChange'">{{ warranty.orderClientProductRequest.productRequested.product.name }}</span>
               <select *ngIf="action != 'statusChange'" class="form-control" name="orderClientProductRequestId" id="orderClientProductRequestId"
-                formControlName="orderClientProductRequestId" required>
+                (change)=assignPatient(orderClientProductRequestId) formControlName="orderClientProductRequestId" required>
                 <option value="" disabled [selected]="true" translate>Select</option>
                 <option *ngFor="let product of listProducts" value="{{product.idOrderClientProductRequested}}">{{ product.productRequested.product.name }}</option>
               </select>
@@ -62,7 +62,8 @@
           <fieldset class="form-group">
             <label>{{ 'Patient' | translate }}</label>
             <div>
-              <span>{{warranty? warranty.orderClientProductRequest.patient : ''}}</span>
+              <span *ngIf="action == 'statusChange'">{{ warranty? warranty.orderClientProductRequest.patient : ''}}</span>
+              <input *ngIf="action != 'statusChange'" class="form-control" [readOnly]="true" name="patient" formControlName="patient" value="{{product? product[0].patient : ''}}" required>
             </div>
           </fieldset>
         </div>

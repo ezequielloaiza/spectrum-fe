@@ -36,7 +36,7 @@ export class WarrantyComponent implements OnInit {
   startItem: number;
   endItem: number;
   /*initial order*/
-  orderByField = 'idWarranty';
+  orderByField = 'id';
   reverseSort = true;
   typeSort = 0;
   listStatus = [{ id: 0, name: 'Pending' },
@@ -85,7 +85,7 @@ export class WarrantyComponent implements OnInit {
     this.advancedPagination = 1;
     this.reverseSort = true;
     this.typeSort = 0;
-    this.orderByField = 'idWarranty';
+    this.orderByField = 'id';
     this.sortWarranty(this.orderByField);
     this.pageChange(this.advancedPagination);
   }
@@ -148,12 +148,12 @@ export class WarrantyComponent implements OnInit {
       this.reverseSort = false;
     }
     this.orderByField = key;
-    if (this.orderByField !== 'idWarranty') {
+    if (this.orderByField !== 'id') {
       this.typeSort ++;
       if (this.typeSort > 2) {
         this.typeSort = 0;
-        this.orderByField = 'idWarranty';
-        key = 'idWarranty';
+        this.orderByField = 'id';
+        key = 'id';
         this.reverseSort = true;
       }
     }
@@ -166,9 +166,6 @@ export class WarrantyComponent implements OnInit {
     if (this.reverseSort) {
       this.auxWarranties = warrantiesSort.reverse();
     }
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-
     this.advancedPagination = 1;
     this.pageChange(this.advancedPagination);
   }

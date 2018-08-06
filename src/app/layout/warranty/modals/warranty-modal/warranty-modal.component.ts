@@ -32,6 +32,8 @@ export class WarrantyModalComponent implements OnInit {
   form: FormGroup;
   user: any;
   warranty: any;
+  order: any;
+  product: any;
   listClients: Array<any> = new Array;
   listOrders: Array<any> = new Array;
   listProducts: Array<any> = new Array;
@@ -64,12 +66,13 @@ export class WarrantyModalComponent implements OnInit {
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      id  : [this.action !== 'create' ? this.warranty.id : '', [ Validators.required]],
+      id  : [this.action !== 'create' ? this.warranty.id : ''],
       clientId    : [this.action !== 'create' ? this.warranty.orderClientProductRequest.orderClient.user.idUser : '',
                     [ Validators.required]],
       orderId     : [this.action !== 'create' ? this.warranty.orderClientProductRequest.orderClient.idOrder : '', [ Validators.required]],
       orderClientProductRequestId : [this.action !== 'create' ? this.warranty.orderClientProductRequest.idOrderClientProductRequested : '',
                                     [ Validators.required]],
+      patient     : [this.action !== 'create' ? this.warranty.orderClientProductRequest.patient : ''],
       billNumber  : [this.action !== 'create' ? this.warranty.billNumber : '', [ Validators.required]],
       createdAt   : [this.action !== 'create' ? this.warranty.createdAt : this.today],
       type        : [this.action !== 'create' ? this.warranty.type : '',
@@ -105,7 +108,7 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   getOrders(clientId): void {
-    this.orderService.allOrderWarrantyByUserIdAndStatus$(clientId, 0).subscribe(res => {
+    this.orderService.allOrderWarrantyByUserIdAndStatus$(clientId, 1).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
       }
@@ -113,12 +116,9 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   getProducts(orderId): void {
-    for (let index = 0; index < this.listOrders.length; index++) {
-      const order = this.listOrders[index];
-      console.log('order: ', order);
-      if (order.idOrder == this.form.get('orderId').value) {
-       this.listProducts = order.listProductRequested;
-      }
+    this.order = _.filter(this.listOrders, { 'idOrder': orderId});
+    if (this.order.length > 0) {
+      this.listProducts = this.order[0].listProductRequested;
     }
   }
 
@@ -137,18 +137,6 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   close(): void {
-    console.log('clientId: ', this.form.get('clientId').valid);
-    console.log('orderId: ',  this.form.get('orderId').valid);
-    console.log('orderCPRId: ',  this.form.get('orderClientProductRequestId').valid);
-    console.log('lotNumb: ',  this.form.get('lotNumber').valid);
-    console.log('referenceNumb: ',  this.form.get('referenceNumber').valid);
-    console.log('billNumb: ',  this.form.get('billNumber').valid);
-    console.log('createdAt: ',  this.form.get('createdAt').valid);
-    console.log('type: ',  this.form.get('type').valid);
-    console.log('descr: ', this.form.get('description').valid);
-    console.log('notes: ',  this.form.get('notes').valid);
-    console.log('status: ',  this.form.get('status').valid);
-    console.log('formValid: ', this.form.valid);
     this.modalReference.close();
   }
 
@@ -194,6 +182,11 @@ export class WarrantyModalComponent implements OnInit {
     }
   }
 
+  assignPatient(orderClientProductRequestId) {
+    this.product =  _.filter(this.listProducts, { 'idOrderClientProductRequested': parseInt(orderClientProductRequestId.value, 10) } );
+    this.form.get('patient').setValue(this.product[0].patient);
+  }
+
   get clientId() { return this.form.get('clientId'); }
   get orderId() { return this.form.get('orderId'); }
   get orderClientProductRequestId() { return this.form.get('orderClientProductRequestId'); }
@@ -205,4 +198,5 @@ export class WarrantyModalComponent implements OnInit {
   get description() { return this.form.get('description'); }
   get notes() { return this.form.get('notes'); }
   get status() { return this.form.get('status'); }
+  get patient() { return this.form.get('patient'); }
 }

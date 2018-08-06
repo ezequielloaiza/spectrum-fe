@@ -72,26 +72,10 @@
 				</li>
 			</div>
 			<div class="nested-menu">
-				<a class="list-group-item" (click)="addExpandClass('warranty')">
+				<a  routerLink="/warranty" [routerLinkActive]="['router-link-active']" class="list-group-item">
 					<span>
-						<i class="fa fa-certificate"></i>&nbsp; {{ 'Your Warranties' | translate }}</span>
+						<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
 				</a>
-				<li class="nested" [class.expand]="showMenu === 'warranty'">
-					<ul class="submenu">
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-plus-circle"></i>&nbsp; {{ 'New Warranty' | translate }}</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Warranty' | translate }}</span>
-							</a>
-						</li>
-					</ul>
-				</li>
 			</div>
     </div>
 
@@ -302,20 +286,10 @@
 					</li>
 				</div>
 				<div class="nested-menu">
-					<a class="list-group-item" (click)="addExpandClass('warranties')">
-						<span>
-							<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
-					</a>
-					<li class="nested" [class.expand]="showMenu === 'warranties'">
-						<ul class="submenu">
-							<li>
-								<a href="javascript:void(0)">
-									<span>
-										<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Warranty' | translate }}</span>
-								</a>
-							</li>
-						</ul>
-					</li>
+					<a  routerLink="/warranty" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <span>
+              <i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
+          </a>
 				</div>
 			</div>
     </div>
