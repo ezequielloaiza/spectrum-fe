@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { CategoryModalComponent } from './modals/category-modal/category-modal.component';
+import { FtpService } from '../../shared/services/ftp/ftp.service';
 
 @Component({
   selector: 'app-category',
@@ -27,12 +28,18 @@ export class CategoryComponent implements OnInit {
   constructor(private modalService: NgbModal,
               private categoryService: CategoryService,
               private alertify: AlertifyService,
+              private ftpService: FtpService,
 							private notification: ToastrService,
 							private translate: TranslateService){ }
 
   ngOnInit() {
     this.getCategories();
-		this.advancedPagination = 1;
+    this.advancedPagination = 1;
+    this.ftpService.uploadFile$('ruta').subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        console.log('OK');
+      }
+    });
 	}
 
 	open(category,action) {
@@ -70,7 +77,7 @@ export class CategoryComponent implements OnInit {
       console.log('error', error);
     });
 	}
-	
+
 	moveFirstPage() {
 		this.advancedPagination = 1;
 		this.reverseSort = true;

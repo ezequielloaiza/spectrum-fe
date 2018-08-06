@@ -4,7 +4,6 @@ import { OrderService } from '../../../shared/services/order/order.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { OrderClient } from '../../../shared/models/orderclient';
 import * as _ from 'lodash';
-import { OrderClientProductRequested } from '../../../shared/models/orderclientproductrequested';
 import { ProductoimageService } from '../../../shared/services/productoimage/productoimage.service';
 @Component({
   selector: 'app-details-order',

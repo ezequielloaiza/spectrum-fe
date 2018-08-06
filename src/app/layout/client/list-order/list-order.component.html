@@ -73,9 +73,17 @@
                   <td class="table-tr">{{order.number}}</td>
                   <td class="table-tr">{{order.date | date:'yyyy-MM-dd'}}</td>
                   <td>
-                    <small>
-                      <a class="ng-tns-c4-0" routerLink="/details-order/{{order.idOrder}}/view" translate>View Details</a>
-                    </small>
+                    <div class="d-flex flex-row justify-content-around">
+                      <div ngbDropdown class="d-inline-block dropdown">
+                        <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                          <div ngbDropdownMenu>
+                            <button class="dropdown-item" routerLink="/details-order/{{order.idOrder}}/view">
+                              <i class="fa fa-edit"></i> {{ 'View Details' | translate }}</button>
+                            <button class="dropdown-item" (click)="upload()">
+                              <i class="fa fa-send"></i> {{ 'Send File' | translate }}</button>
+                          </div>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               </tbody>

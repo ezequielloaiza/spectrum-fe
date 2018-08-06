@@ -6,6 +6,8 @@ import * as _ from 'lodash';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { FtpService } from '../../../shared/services/ftp/ftp.service';
+import { UserStorageService } from '../../../http/user-storage.service';
 
 @Component({
   selector: 'app-list-order',
@@ -28,16 +30,24 @@ export class ListOrderComponent implements OnInit {
   valid = false;
   form: FormGroup;
   form1: FormGroup;
-  tamano:String;
+  tamano: String;
+  user: any;
   constructor(private orderService: OrderService,
+    private ftpService: FtpService,
+    private userStorageService: UserStorageService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.getUser();
     this.getListOrders();
     this.advancedPagination = 1;
     this.initializeForm();
     this.initializeForm1();
-    this.model = {year:0,month:0,day:0};
+    this.model = {year: 0, month: 0, day: 0};
+  }
+
+  getUser(): void {
+    this.user = JSON.parse(this.userStorageService.getCurrentUser());
   }
 
   getListOrders(): void {
@@ -45,6 +55,15 @@ export class ListOrderComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
         this.listOrdersAux = res.data;
+      }
+    });
+  }
+
+  upload(): void {
+    console.log('upload');
+    this.ftpService.uploadFile$('/home/naily/Descargas/prueba.jpg').subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        console.log('OK');
       }
     });
   }
