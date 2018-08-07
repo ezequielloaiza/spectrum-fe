@@ -1,17 +1,5 @@
-<div class="row page-header-fixed">
-	<div class="header-body">
-		<h4 class="page-header">
-			{{ 'Orders List' | translate }}
-		</h4>
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item">
-				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
-			</li>
-			<li class="breadcrumb-item active">
-				<i class="fa fa-folder-open"></i> {{ 'Orders List' | translate}}</li>
-		</ol>
-	</div>
-</div>
+<app-page-header class="page-header-fixed" [heading]="'Orders List'" [icon]="'fa fa-folder-open'"></app-page-header>
+
 <div class="sp-container">
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
@@ -26,11 +14,22 @@
             <div class="sp-card-header">{{ 'Filters:' | translate }}</div>
           </div>
           <div class="col-xl-1">
+            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Client' | translate }}</h6>
+          </div>
+          <div class="col-xl-2 filter">
+            <div class="row search">
+              <div class="col col-xl-12 col-lg-12">
+                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter client search ...' | translate }}">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-1">
             <h6 class="ng-tns-c6-0 h5-filter">{{ 'Status' | translate }}</h6>
           </div>
-          <div [formGroup]="form" class="col-xl-3 filter">
+          <div [formGroup]="formOrder" class="col-xl-2 filter">
             <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
-              formControlName="selectedStat">
+              formControlName="selectedStatOrd">
               <option value="" disabled [selected]="true" translate>Select</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
@@ -38,11 +37,11 @@
           <div class="col-xl-1">
             <h6 class="ng-tns-c6-0 h5-filter">{{ 'Date' | translate }}</h6>
           </div>
-          <div class="col-xl-3 filter">
+          <div class="col-xl-2 filter">
             <div>
-              <div [formGroup]="form1" class="input-group">
-                <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(model1)"
-                  formControlName="fechaSelec">
+              <div [formGroup]="formOrder1" class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(model1)"
+                  formControlName="fechaSelecOrd">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                     <i class="fa fa-calendar"></i>
@@ -52,8 +51,8 @@
               <!--<pre>Model: {{model1 | json  }}</pre>-->
             </div>
           </div>
-          <div class="col-xl-1 btn-clean">
-            <button class="btn btn-outline-secondary" [routerLink]="['/order-list-client']" translate [hidden]="!valid" (click)="clean()">Clean Filters</button>
+          <div class="col-xl-2 btn-clean">
+            <button class="btn btn-outline-secondary" [routerLink]="['/order-list-client-byseller']" translate [hidden]="!valid1" (click)="clean()">Clean Filters</button>
           </div>
           <div class="card-body table-responsive">
             <div>
@@ -67,7 +66,15 @@
                       <span>{{'#'}}{{order.number}}</span>
                     </div>
                   </div>
-                  <div class="col-lg-6">
+                  <div class="col-lg-1">
+                    <div>
+                      <span>{{'Client'| translate }}</span>
+                    </div>
+                    <div>
+                      <span>{{order? order.nameUser:''}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
                     <div class="title-status">
                       <span>{{ 'Status' | translate }}</span>
                     </div>
@@ -86,7 +93,7 @@
                       </span>
                     </div>
                   </div>
-                  <div class="col-lg-1">
+                  <div class="col-lg-2">
                     <div>
                       <span class="span_total">Total</span>
                     </div>
@@ -99,12 +106,13 @@
                       <span>{{order.date | date:'yyyy-MM-dd'}}</span>
                     </div>
                     <div class="div-date">
-                      <a class="ng-tns-c4-0" routerLink="/details-order/{{order.idOrder}}/view" translate>View Details</a>
+                      <a class="ng-tns-c4-0 link" routerLink="/details-order-client/{{order.idOrder}}/view" translate>View Details</a>&nbsp;
+                      <a [hidden]="!mostrarStatus" class="link" (click)="open(order)" translate>{{ 'Change Status' | translate }}</a>
                     </div>
                   </div>
                 </div>
                 <div class="row product" *ngFor="let listDetails of order.listProductRequested">
-                  <div class="col-lg-3">
+                  <div class="col-lg-2">
                     <div *ngFor="let specification of listDetails.productRequested.detail">
                       <span>{{listDetails.productRequested.product.name}}</span>
                     </div>
@@ -126,6 +134,9 @@
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
                     </div>
                     <div>
+                      <span>{{'Supplier'| translate}}{{': '}}{{order.supplier.companyName}}</span>
+                    </div>
+                    <div>
                       <span>{{'$'}}{{listDetails.productRequested.price}}</span>
                     </div>
                   </div>
@@ -137,7 +148,7 @@
                       <span>{{listDetails.productRequested.quantity}}</span>
                     </div>
                   </div>
-                  <div class="col-lg-2">
+                  <div class="col-lg-5">
                     <div>
                       <span>{{'$'}}{{listDetails.productRequested.price*listDetails.productRequested.quantity}}</span>
                     </div>

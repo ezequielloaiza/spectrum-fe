@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'Generate Order' | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form>
+    <div class="row txt">
+      <div class="col-xl-12">
+        <div>
+          <label translate>{{ 'Are you sure you want to generate the order?'}}</label>
+          <br>
+          &nbsp;
+          <label translate>{{ order.number}} <span>{{'to the provider'| translate}}{{' '}}{{order.supplier.companyName}}</span></label>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-main" (click)="generateOrder(order)">{{ 'Ok' | translate }}&nbsp;
+  </button>
+  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'No' | translate }}&nbsp;
+  </button>
+</div>
+
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.description}}
+</ng-template>

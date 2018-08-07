@@ -45,7 +45,7 @@ export class EditCompanyComponent implements OnInit {
     this.form = this.formBuilder.group({
       name          : ['', [Validators.required]],
       contactName   : ['', [Validators.required]],
-      phone         : ['', [Validators.required]],
+      phone         : ['', []],
       email         : ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       creditLimit   : ['', [Validators.required]],
       idBusinessType: ['', [Validators.required]],
@@ -122,7 +122,7 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('country').setValue(company.country);
     this.form.get('city').setValue({description: company.city});
     this.form.get('postalCode').setValue(company.postalCode);
-    this.form.get('phone').setValue(company.phone);
+    this.form.get('phone').setValue(this.company.phone==null?'':this.company.phone);
     this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
     this.form.get('creditLimit').setValue(company.creditLimit);
     this.form.get('idCompany').setValue(company.idCompany);

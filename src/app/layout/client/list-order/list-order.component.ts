@@ -17,18 +17,17 @@ export class ListOrderComponent implements OnInit {
   listOrders: Array<any> = new Array;
   listOrdersAux: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage: number = 5;
-  filterStatus = [{ id: 0, name: "Pending" },
-  { id: 1, name: "Authorized" },
-  { id: 2, name: "Processed" },
-  { id: 3, name: "Pay" },
-  { id: 4, name: "Sent" }
-  ];
+  itemPerPage = 5;
+  filterStatus = [{ id: 0, name: 'Pending' },
+                  { id: 1, name: 'Pay' },
+                  { id: 2, name: 'Processed' },
+                  { id: 3, name: 'Sent' }
+                 ];
   model: NgbDateStruct;
   valid = false;
   form: FormGroup;
   form1: FormGroup;
-  tamano:String;
+  tamano: String;
   constructor(private orderService: OrderService,
     private formBuilder: FormBuilder) { }
 
@@ -37,7 +36,7 @@ export class ListOrderComponent implements OnInit {
     this.advancedPagination = 1;
     this.initializeForm();
     this.initializeForm1();
-    this.model = {year:0,month:0,day:0};
+    this.model = {year: 0, month: 0, day: 0};
   }
 
   getListOrders(): void {
@@ -45,18 +44,23 @@ export class ListOrderComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
         this.listOrdersAux = res.data;
+        _.each(this.listOrders, function (order) {
+           _.each(order.listProductRequested, function(listDetails) {
+            listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
+          });
+        });
       }
     });
   }
 
   pageChange(event) {
-    let startItem = (event - 1) * this.itemPerPage;
-    let endItem = event * this.itemPerPage;
+    const startItem = (event - 1) * this.itemPerPage;
+    const endItem = event * this.itemPerPage;
     this.listOrders = this.listOrdersAux.slice(startItem, endItem);
   }
 
   filter(value): void {
-    if (value != "") {
+    if (value != '') {
       this.valid = true;
       if (this.tamano.length == 9) {
         this.listOrders = _.filter(this.listOrdersAux, { 'status': parseInt(value) });
@@ -82,25 +86,26 @@ export class ListOrderComponent implements OnInit {
 
   filter1(value): void {
     this.model = value;
-    var valorStatus = this.form.get('selectedStat').value;
+    const valorStatus = this.form.get('selectedStat').value;
     this.tamano = this.valueDate(this.model);
-    if (this.tamano.length == 15) {
+    if (this.tamano.length === 15) {
       this.valid = true;
-      var fecha: String;
-      //FechaFiltro
+      let fecha: String;
+      // FechaFiltro
       fecha = this.getFecha();
       this.listOrders = _.filter(this.listOrdersAux, function (orders) {
-        var fechaList: String;
-        var ord = [];
-        var listOrder;
-        //Fecha Listado
+        let fechaList: String;
+        let ord = [];
+        let listOrder;
+        // Fecha Listado
         fechaList = _.toString(orders.date.slice(0, 10));
-        if (_.toString(valorStatus) == "") { //Si no ha seleccionado status
+        if (_.toString(valorStatus) === '') { // Si no ha seleccionado status
           if (_.isEqual(fecha, fechaList)) {
             listOrder = _(ord).push(orders);
             listOrder = listOrder.commit();
             return listOrder;
           }
+        // tslint:disable-next-line:radix
         } else if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(valorStatus), orders.status))) {
             listOrder = _(ord).push(orders);
             listOrder = listOrder.commit();
@@ -111,10 +116,10 @@ export class ListOrderComponent implements OnInit {
   }
 
   getFecha(): String {
-    var ano;
-    var mes;
-    var dia;
-    var fecha: String;
+    let ano;
+    let mes;
+    let dia;
+    let fecha: String;
     //Ano
     ano = this.model.year;
     //Mes
@@ -131,7 +136,7 @@ export class ListOrderComponent implements OnInit {
     this.valid = false;
     this.form.get('selectedStat').setValue('');
     this.form1.get('fechaSelec').reset();
-    this.tamano= 'undefined';
+    this.tamano = 'undefined';
   }
 
   initializeForm() {
@@ -147,9 +152,9 @@ export class ListOrderComponent implements OnInit {
   }
 
   valueDate(valor): String {
-    var str: String;
-    var o = [];
-    var l = _(o).push(valor);
+    let str: String;
+    let o = [];
+    let l = _(o).push(valor);
     l = l.commit();
     str = _.toString(l);
     return str;
