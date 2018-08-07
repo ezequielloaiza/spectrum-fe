@@ -36,6 +36,11 @@ import { SellerResolver } from './seller/seller.resolver';
 import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-modal.component';
 import { WarrantyComponent } from './warranty/warranty.component';
 import { WarrantyModalComponent } from './warranty/modals/warranty-modal/warranty-modal.component';
+import { ManageCustomerOrdersComponent } from './manage-customer-orders/manage-customer-orders.component';
+import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
+import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
+import { ModalsStatusComponent } from './manage-customer-orders/modals-status/modals-status.component';
+import { ModalsConfirmationComponent } from './manage-customer-orders/modals-confirmation/modals-confirmation.component';
 
 @NgModule({
     imports: [
@@ -80,7 +85,12 @@ import { WarrantyModalComponent } from './warranty/modals/warranty-modal/warrant
         ModalSellerComponent,
         ListUserModalComponent,
         WarrantyComponent,
-        WarrantyModalComponent
+        WarrantyModalComponent,
+        ManageCustomerOrdersComponent,
+        ListOrderClientComponent,
+        DetailsOrderClientComponent,
+        ModalsStatusComponent,
+        ModalsConfirmationComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -91,7 +101,9 @@ import { WarrantyModalComponent } from './warranty/modals/warranty-modal/warrant
       SellerModalComponent,
       ModalSellerComponent,
       ListUserModalComponent,
-      WarrantyModalComponent
+      WarrantyModalComponent,
+      ModalsStatusComponent,
+      ModalsConfirmationComponent
     ],
     providers: [
       BusinessTypeService,

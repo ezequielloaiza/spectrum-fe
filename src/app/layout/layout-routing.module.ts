@@ -10,11 +10,13 @@ import { BusinessTypeComponent } from './business-type/business-type.component';
 import { ListOrderComponent } from './client/list-order/list-order.component';
 import { ClientComponent } from './client/client.component';
 import { DetailsOrderComponent } from './client/details-order/details-order.component';
-import { UserComponent, ListUserComponent, DetailUserComponent, EditUserComponent, EditCompanyComponent} from './user';
+import { UserComponent, ListUserComponent, DetailUserComponent, EditUserComponent, EditCompanyComponent } from './user';
 import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSellerComponent } from './seller';
 import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller.component';
 import { UserResolver } from './user/user.resolver';
 import { SellerResolver } from './seller/seller.resolver';
+import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
+import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
 import { RoleGuard } from '../shared';
 import { WarrantyComponent } from './warranty/warranty.component';
 
@@ -25,7 +27,7 @@ const routes: Routes = [
     canActivateChild: [RoleGuard],
     children: [
       { path: '', redirectTo: 'dashboard' },
-      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { option: 'Dashboard' }},
+      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { option: 'Dashboard' } },
       { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
       { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
       { path: 'forms', loadChildren: './form/form.module#FormModule' },
@@ -34,6 +36,7 @@ const routes: Routes = [
       { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
       { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
+<<<<<<< HEAD
       // { path: 'consult-account', component: CheckAccountComponent },
       { path: 'suppliers', component: SuppliersComponent, runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
       { path: 'profile', component: ProfileComponent,
@@ -48,6 +51,30 @@ const routes: Routes = [
        data: { option: 'OrdersDetail' } },
       { path: 'warranty', component: WarrantyComponent,
         data: { option: 'Warranty' } },
+=======
+      //{ path: 'consult-account', component: CheckAccountComponent },
+      { path: 'suppliers', component: SuppliersComponent, runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
+      {
+        path: 'profile', component: ProfileComponent,
+        data: { option: 'Profile' }
+      },
+      {
+        path: 'category', component: CategoryComponent,
+        data: { option: 'Category' }
+      },
+      {
+        path: 'business-type', component: BusinessTypeComponent,
+        data: { option: 'BusinessType' }
+      },
+      {
+        path: 'order-list-client', component: ListOrderComponent,
+        data: { option: 'OrdersList' }
+      },
+      {
+        path: 'details-order/:id/view', component: DetailsOrderComponent,
+        data: { option: 'OrdersDetail' },
+      },
+>>>>>>> develop
       {
         path: 'user', component: UserComponent,
         resolve: {
@@ -102,7 +129,14 @@ const routes: Routes = [
           }
         ],
         data: { option: 'Sellers' }
-      }
+      },
+      {
+        path: 'order-list-client-byseller', component: ListOrderClientComponent,
+        data: { option: 'OrdersBySellerList' }
+      },
+      { path: 'details-order-client/:id/view', component: DetailsOrderClientComponent,
+      data: { option: 'OrdersDetailSeller' }
+     }
     ]
   },
   { path: '**', redirectTo: 'not-found' }

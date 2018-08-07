@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../../shared/services/order/order.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
-import { OrderClient } from '../../../shared/models/orderclient';
+import { Order } from '../../../shared/models/order';
 import * as _ from 'lodash';
-import { OrderClientProductRequested } from '../../../shared/models/orderclientproductrequested';
 import { ProductoimageService } from '../../../shared/services/productoimage/productoimage.service';
 @Component({
   selector: 'app-details-order',
@@ -14,11 +13,11 @@ import { ProductoimageService } from '../../../shared/services/productoimage/pro
 export class DetailsOrderComponent implements OnInit {
 
   id: any;
-  order: OrderClient = new OrderClient();
+  order: Order = new Order();
   listDetails: Array<any> = new Array;
   listDetailsAux: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage: number = 1;
+  itemPerPage = 1;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -31,8 +30,8 @@ export class DetailsOrderComponent implements OnInit {
   }
 
   pageChange(event) {
-    let startItem = (event - 1) * this.itemPerPage;
-    let endItem = event * this.itemPerPage;
+    const startItem = (event - 1) * this.itemPerPage;
+    const endItem = event * this.itemPerPage;
     this.listDetails = this.listDetailsAux.slice(startItem, endItem);
   }
 
@@ -44,7 +43,6 @@ export class DetailsOrderComponent implements OnInit {
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.show = false;
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
-          console.log('image'+detailsOrder.urlImage);
         });
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
