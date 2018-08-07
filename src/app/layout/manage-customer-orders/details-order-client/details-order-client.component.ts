@@ -1,4 +1,4 @@
-import { Component, OnInit, leave } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { OrderClient } from '../../../shared/models/orderclient';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../../shared/services/order/order.service';
@@ -12,7 +12,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { Product } from '../../../shared/models/product';
-import { CreateOrder } from '../../../shared/models/createorder';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 
