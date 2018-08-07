@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { Oauth2Service } from '../../shared/services/oauth2/oauth2.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -160,7 +161,7 @@ export class DashboardComponent implements OnInit {
      */
   }
 
-  constructor() {
+  constructor(private oauth2Service: Oauth2Service,) {
     this.sliders.push(
       {
         imagePath: 'assets/images/slider1.jpg',
@@ -215,6 +216,11 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() { }
+
+  connect() {
+    this.oauth2Service.connectQuickbooks$();
+
+  }
 
   public closeAlert(alert: any) {
     const index: number = this.alerts.indexOf(alert);
