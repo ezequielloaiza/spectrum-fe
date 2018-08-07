@@ -118,6 +118,7 @@ export class WarrantyModalComponent implements OnInit {
   getProducts(orderId): void {
     this.order = _.find(this.listOrders, { 'idOrder': orderId});
     if (this.order != null) {
+      this.assignOrderNumer(this.order);
       this.listProducts = this.order.listProductRequested;
     }
   }
@@ -180,6 +181,10 @@ export class WarrantyModalComponent implements OnInit {
         console.log('error', error);
       });
     }
+  }
+
+  assignOrderNumer(order) {
+    this.form.get('referenceNumber').setValue(this.order.number);
   }
 
   assignPatient(orderClientProductRequestId) {

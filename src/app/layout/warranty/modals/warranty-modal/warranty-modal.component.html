@@ -47,7 +47,7 @@
             <label>{{ 'Reference Number' | translate }}</label>
             <div>
               <span *ngIf="action == 'statusChange'">{{ warranty.referenceNumber }}</span>
-              <input *ngIf="action != 'statusChange'" class="form-control" placeholder="{{ 'Enter reference number' | translate }}" name="referenceNumber" formControlName="referenceNumber">
+              <input *ngIf="action != 'statusChange'" class="form-control" [readOnly]="true" name="referenceNumber" formControlName="referenceNumber">
             </div>
           </fieldset>
           <div class="message-error" [hidden]="referenceNumber.valid || referenceNumber.pristine">

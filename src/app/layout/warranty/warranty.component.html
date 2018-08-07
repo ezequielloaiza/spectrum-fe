@@ -6,9 +6,9 @@
       <i class="fa fa-search"></i>
     </div>
     <div class="col col-xl-1 col-lg-1">
-      <h6 class="ng-tns-c6-0 h5-filter">{{ 'Status' | translate }}</h6>
+      <h6 class="ng-tns-c6-0 h5-filter d-flex">{{ 'Status' | translate }}</h6>
     </div>
-    <div [formGroup]="form" class="col col-xl-2 col-lg-2">
+    <div [formGroup]="form" class="d-flex col col-xl-2 col-lg-2">
       <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
         formControlName="selectedStat">
         <option value="" disabled [selected]="true" translate>Select</option>
@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
       <div class="card mb-3">
-        <div class="card-header d-flex">
+        <div class="card-header">
           <div class="align-self-center">
             {{ 'All Warranty' | translate }}
           </div>
@@ -33,7 +33,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th class="table-tr d-flex">
+                <th class="table-tr">
                   <span title="Status">{{ 'Status' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('status')"></i>
                   </span>
@@ -108,7 +108,7 @@
                 <td class="table-tr td-table"> {{ warranty.orderClientProductRequest.orderClient.number }}</td>
                 <td class="table-tr td-table"> {{ warranty.orderClientProductRequest.patient }}</td>
                 <td class="table-tr td-table"> {{ warranty.billNumber }}</td>
-                <td class="table-tr td-table"> {{ warranty.type }}</td>
+                <td class="table-tr td-table" translate> {{ warranty.type }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">

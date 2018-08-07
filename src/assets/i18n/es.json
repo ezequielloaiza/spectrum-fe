@@ -227,6 +227,8 @@
     "Notes": "Notas",
     "Patient": "Paciente",
     "Product": "Producto",
+    "By change": "Por cambio",
+    "By default": "Por defecto",
     "The seller already exists, check the email":"El vendedor ya existe, verifique el correo",
     "It can not be deleted, it is associated with a client":"No se puede eliminar, esta asociado con un cliente",
     "Information Seller":"Información Vendedor",
