@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../../shared/services/order/order.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
-import { OrderClient } from '../../../shared/models/orderclient';
+import { Order } from '../../../shared/models/order';
 import * as _ from 'lodash';
-import { OrderClientProductRequested } from '../../../shared/models/orderclientproductrequested';
 import { ProductoimageService } from '../../../shared/services/productoimage/productoimage.service';
 @Component({
   selector: 'app-details-order',
@@ -14,7 +13,7 @@ import { ProductoimageService } from '../../../shared/services/productoimage/pro
 export class DetailsOrderComponent implements OnInit {
 
   id: any;
-  order: OrderClient = new OrderClient();
+  order: Order = new Order();
   listDetails: Array<any> = new Array;
   listDetailsAux: Array<any> = new Array;
   advancedPagination: number;
@@ -43,7 +42,6 @@ export class DetailsOrderComponent implements OnInit {
         this.order = res.data;
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.show = false;
-          console.log('paciente', detailsOrder.patient);
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
         });
         this.listDetails = this.order.listProductRequested;

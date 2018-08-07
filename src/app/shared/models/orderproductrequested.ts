@@ -1,13 +1,12 @@
 import { ProductRequested } from '../../shared/models/productrequested';
-import { OrderClient } from '../../shared/models/orderclient';
+import { Order } from '../../shared/models/order';
 
-export class OrderClientProductRequested {
+export class OrderProductRequested {
 
   public  id: number;
   public  productRequested: ProductRequested;
-  public  order: OrderClient;
+  public  order: Order;
   public  urlImage: string;
-  public patient: string;
 
     public constructor() { }
 

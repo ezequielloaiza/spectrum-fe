@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { OrderClient } from '../../../shared/models/orderclient';
+import { Order } from '../../../shared/models/order';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../../shared/services/order/order.service';
 import { ProductoimageService } from '../../../shared/services/productoimage/productoimage.service';
@@ -23,7 +23,7 @@ import { FormBuilder } from '@angular/forms';
 export class DetailsOrderClientComponent implements OnInit {
 
   id: any;
-  order: OrderClient = new OrderClient();
+  order: Order = new Order();
   listDetails: Array<any> = new Array;
   listDetailsAux: Array<any> = new Array;
   advancedPagination: number;
