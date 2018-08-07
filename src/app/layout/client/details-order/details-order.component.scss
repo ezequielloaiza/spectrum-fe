@@ -6,6 +6,10 @@
     box-shadow: 0 2px 2px $box-shadow, 0 0 2px $box-shadow1;
   }
 
+  .container-list{
+    width: 1250px;
+  }
+
   .div-order{
     color: rgba(0, 0, 0, 0.9);
     font-weight: 300;
@@ -83,8 +87,21 @@
   .div-name {
     display: flex;
   }
-
   .products-label {
     margin-left: 50px;
     margin-top: 20px;
+  }
+
+  .label-specifications{
+    color: #0056b3;
+    font-size: 1.2rem;
+    padding-left: 50px;
+  }
+
+  .imag-product{
+    height: 180px;
+    width: auto;
+  }
+  .div-parametros{
+    padding-left: 50px;
   }

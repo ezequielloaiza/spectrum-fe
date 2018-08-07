@@ -18,7 +18,7 @@ export class DetailsOrderComponent implements OnInit {
   listDetails: Array<any> = new Array;
   listDetailsAux: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage: number = 1;
+  itemPerPage = 1;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -31,8 +31,8 @@ export class DetailsOrderComponent implements OnInit {
   }
 
   pageChange(event) {
-    let startItem = (event - 1) * this.itemPerPage;
-    let endItem = event * this.itemPerPage;
+    const startItem = (event - 1) * this.itemPerPage;
+    const endItem = event * this.itemPerPage;
     this.listDetails = this.listDetailsAux.slice(startItem, endItem);
   }
 
@@ -43,6 +43,7 @@ export class DetailsOrderComponent implements OnInit {
         this.order = res.data;
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.show = false;
+          console.log('paciente', detailsOrder.patient);
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
         });
         this.listDetails = this.order.listProductRequested;

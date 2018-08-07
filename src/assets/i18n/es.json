@@ -68,7 +68,6 @@
     "Delete" : "Eliminar",
     "Products" : "Productos",
     "Characteristics" : "Características",
-    "Technical specifications(eye right)" : "Especificaciones técnicas(ojo derecho)",
     "Supplies": "Suministros",
     "Fluo Strips": "Fluo Strips",
     "Spectrum Saline" : "Spectrum Saline",
@@ -264,7 +263,7 @@
     "Totals":"Totales",
     "Enter client search ...":"Ingrese el nombre del cliente...",
     "Order's status":"Estado de la Orden",
-    "Technical specifications(eye left)" : "Especificaciones técnicas(ojo izquierdo)",
+    "Technical specifications" : "Especificaciones técnicas",
     "Full Name is required":"Nombre completo es requerido",
     "The user already exists, check the email":"El usuario ya existe, verifica el correo",
     "View":"Ver",
@@ -277,5 +276,6 @@
     "to the provider":"al proveedor",
     "Change Temporal Password": "Cambio de Contraseña Temporal",
     "Should change the temporal password to access the system": "Debe cambiar la contraseña temporal para acceder al sistema.",
-    "Patient":"Paciente"
+    "Patient":"Paciente",
+    "Eye":"Ojo"
 }

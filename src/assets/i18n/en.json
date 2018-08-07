@@ -68,7 +68,6 @@
     "Delete" : "Delete",
     "Products" : "Products",
     "Characteristics" : "Characteristics",
-    "Technical specifications(eye right)" : "Technical specifications(eye right)",
     "Supplies": "Supplies",
     "Fluo Strips": "Fluo Strips",
     "Spectrum Saline" : "Spectrum Saline",
@@ -150,7 +149,6 @@
     "All Suppliers":"All Suppliers",
     "List of Suppliers":"List of Suppliers",
     "Contact Name":"Contact Name",
-    "Phone":"Phone",
     "Website":"Website",
     "Email Secondary":"Email Secondary",
     "Phone Secondary":"Phone Secondary",
@@ -158,7 +156,6 @@
     "Enter contact name":"Enter contact name",
     "Enter website":"Enter website",
     "Enter email secondary":"Enter email secondary",
-    "Enter phone":"Enter phone",
     "Enter phone secondary":"Enter phone secondary",
     "Information Supplier":"Information Supplier",
     "The supplier has a sales platform?":"The supplier has a sales platform?",
@@ -267,7 +264,7 @@
     "Totals":"Totals",
     "Enter client search ...":"Enter client search ...",
     "Order's status":"Order's status",
-    "Technical specifications(eye left)":"Technical specifications(eye left)",
+    "Technical specifications":"Technical specifications",
     "Full Name is required":"Full Name is required",
     "The user already exists, check the email":"The user already exists, check the email",
     "View":"View",
@@ -280,5 +277,6 @@
     "to the provider":"to the provider",
     "Change Temporal Password ": "Change Temporal Password",
     "Should change the temporal password to access the system": "Should change the temporal password to access the system.",
-    "Patient":"Patient"
+    "Patient":"Patient",
+    "Eye":"Eye"
 }

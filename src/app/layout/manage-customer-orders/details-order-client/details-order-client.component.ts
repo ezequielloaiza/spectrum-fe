@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, leave } from '@angular/core';
 import { OrderClient } from '../../../shared/models/orderclient';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../../shared/services/order/order.service';
@@ -10,6 +10,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
+import { ProductRequested } from '../../../shared/models/productrequested';
+import { Product } from '../../../shared/models/product';
+import { CreateOrder } from '../../../shared/models/createorder';
+import { FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-details-order-client',
@@ -23,8 +28,8 @@ export class DetailsOrderClientComponent implements OnInit {
   listDetails: Array<any> = new Array;
   listDetailsAux: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage: number = 1;
-  generar=false;
+  itemPerPage = 1;
+  generar = false;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -41,17 +46,16 @@ export class DetailsOrderClientComponent implements OnInit {
   }
 
   pageChange(event) {
-    let startItem = (event - 1) * this.itemPerPage;
-    let endItem = event * this.itemPerPage;
+    const startItem = (event - 1) * this.itemPerPage;
+    const endItem = event * this.itemPerPage;
     this.listDetails = this.listDetailsAux.slice(startItem, endItem);
   }
 
   getOrder(idOrder): void {
-     
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
-        if (this.order.status != 2 ){
+        if (this.order.status !== 2 ) {
            this.generar = true;
         }
         _.each(this.order.listProductRequested, function (detailsOrder) {
@@ -64,11 +68,11 @@ export class DetailsOrderClientComponent implements OnInit {
   }
 
   generateOrder(order): void {
-
-  	const modalRef = this.modalService.open(ModalsConfirmationComponent);
-		modalRef.componentInstance.order = order;
-		modalRef.result.then((result) => {
-		} , (reason) => {
-		});
+  const modalRef = this.modalService.open(ModalsConfirmationComponent);
+    modalRef.componentInstance.order = order;
+    modalRef.result.then((result) => {
+      } , (reason) => {
+});
   }
 }
+

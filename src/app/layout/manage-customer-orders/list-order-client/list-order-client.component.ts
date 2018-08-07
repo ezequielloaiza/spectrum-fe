@@ -18,11 +18,11 @@ export class ListOrderClientComponent implements OnInit {
   listOrders: Array<any> = new Array;
   listOrdersAux: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage: number = 5;
-  filterStatus = [{ id: 0, name: "Pending" },
-  { id: 1, name: "Pay" },
-  { id: 2, name: "Processed" },
-  { id: 3, name: "Sent" }
+  itemPerPage = 5;
+  filterStatus = [{ id: 0, name: 'Pending' },
+  { id: 1, name: 'Pay' },
+  { id: 2, name: 'Processed' },
+  { id: 3, name: 'Sent' }
   ];
   model: NgbDateStruct;
   valid1 = false;
@@ -31,7 +31,7 @@ export class ListOrderClientComponent implements OnInit {
   tamano: String;
   user: any;
   valorClient: string;
-  mostrarStatus=false;
+  mostrarStatus = false;
 
   constructor(private orderService: OrderService,
     private formBuilder: FormBuilder,
@@ -79,43 +79,44 @@ export class ListOrderClientComponent implements OnInit {
   }
 
   pageChange(event) {
-    let startItem = (event - 1) * this.itemPerPage;
-    let endItem = event * this.itemPerPage;
+    const startItem = (event - 1) * this.itemPerPage;
+    const endItem = event * this.itemPerPage;
     this.listOrders = this.listOrdersAux.slice(startItem, endItem);
   }
 
   filter(value): void {
-    if (value != "") {
+    if (value !== '') {
       this.valid1 = true;
-      if (this.tamano.length == 9 && (_.toString(this.valorClient).length == 0 || this.valorClient.trim() == '')) {
+      if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+        // tslint:disable-next-line:radix
         this.listOrders = _.filter(this.listOrdersAux, { 'status': parseInt(value) });
-      } else if (this.tamano.length == 15 && (_.toString(this.valorClient).length == 0 || this.valorClient.trim() == '')) {
+      } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
         this.filterStatusDate(value);
-      } else if (this.tamano.length == 9 && (this.valorClient.trim() !== '')) {
-        var nombre = this.valorClient;
-        this.filterStatusNombre(nombre,value);
-      } else if ((this.tamano.length == 15) && (this.valorClient.trim() !== '')) {
-        var nombre = this.valorClient;
-        this.fullFilter(nombre,value); 
+      } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
+        const nombre = this.valorClient;
+        this.filterStatusNombre(nombre , value);
+      } else if ((this.tamano.length === 15) && (this.valorClient.trim() !== '')) {
+        const nombre = this.valorClient;
+        this.fullFilter(nombre , value);
       }
     }
   }
 
   filter1(value): void {
     this.model = value;
-    var valorStatus = this.formOrder.get('selectedStatOrd').value;
+    const valorStatus = this.formOrder.get('selectedStatOrd').value;
     this.tamano = this.valueDate(this.model);
-    if (this.tamano.length == 15) {
+    if (this.tamano.length === 15) {
       this.valid1 = true;
-      if ((_.toString(valorStatus) == "") && (_.toString(this.valorClient).length == 0 || this.valorClient.trim() == '')) {
-       //FechaFiltro
-        var fecha: String;
+      if ((_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+       // FechaFiltro
+        let fecha: String;
         fecha = this.getFecha();
         this.listOrders = _.filter(this.listOrdersAux, function (orders) {
-          var fechaList: String;
-          var ord = [];
-          var listOrder;
-          //Fecha Listado
+          let fechaList: String;
+          const ord = [];
+          let listOrder;
+          // Fecha Listado
           fechaList = _.toString(orders.date.slice(0, 10));
             if (_.isEqual(fecha, fechaList)) {
               listOrder = _(ord).push(orders);
@@ -123,15 +124,14 @@ export class ListOrderClientComponent implements OnInit {
               return listOrder;
             }
       });
-     }else if((_.toString(valorStatus) != "") && (_.toString(this.valorClient).length == 0 || this.valorClient.trim() == '')){
+     } else if ((_.toString(valorStatus) !== '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
          this.filterStatusDate(valorStatus);
-     }else if((this.valorClient.trim() != "") && (_.toString(valorStatus) == "")){
+     } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) === '')) {
         this.filterDateNombre(this.valorClient);
-     }else if((this.valorClient.trim() != "") && (_.toString(valorStatus) != "")){
-        this.fullFilter(this.valorClient,valorStatus);
+     } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) !== '')) {
+        this.fullFilter(this.valorClient , valorStatus);
      }
     }
-  
   }
 
   getItems(ev: any) {
@@ -139,34 +139,34 @@ export class ListOrderClientComponent implements OnInit {
 
     const val = ev.target.value;
     this.valorClient = val;
-    var valorStatus = this.formOrder.get('selectedStatOrd').value;
+    const valorStatus = this.formOrder.get('selectedStatOrd').value;
     if (val && val.trim() !== '') {
-      var client = val;
-      if (_.toString(valorStatus) == "" && this.tamano.length == 9) { //Si no ha seleccionado status y fecha
+      const client = val;
+      if (_.toString(valorStatus) === '' && this.tamano.length === 9) { // Si no ha seleccionado status y fecha
         this.listOrders = this.listOrders.filter((item) => {
-          return ((item.nameUser.toLowerCase().indexOf(val.toLowerCase()) > -1)||
+          return ((item.nameUser.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
                  (item.supplier.companyName.toLowerCase().indexOf(val.toLowerCase()) > -1));
         });
-      } else if (_.toString(valorStatus) != "" && this.tamano.length == 9) {//si selecciono status y no fecha
-          this.filterStatusNombre(client,valorStatus);
-      } else if (_.toString(valorStatus) == "" && this.tamano.length == 15) { // si no selecciono status y fecha si
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
+          this.filterStatusNombre(client , valorStatus);
+      } else if (_.toString(valorStatus) === '' && this.tamano.length === 15) { // si no selecciono status y fecha si
           this.filterDateNombre(client);
-      } else if (_.toString(valorStatus) != "" && this.tamano.length == 15) { // si escibio nombre y selecciono fecha
-          this.fullFilter(client, valorStatus); 
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15) { // si escibio nombre y selecciono fecha
+          this.fullFilter(client, valorStatus);
       }
-    } else if (_.toString(valorStatus) != "") { // si borro el nombre y selecciono status
+    } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
       this.filter(valorStatus);
-    } else if (_.toString(valorStatus) == "") { // si borro el nombre y no selecciono status pero fecha si
-      if (this.tamano.length == 15) {
+    } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
+      if (this.tamano.length === 15) {
         this.valid1 = true;
-        var fecha: String;
-        //FechaFiltro
+        let fecha: String;
+        // FechaFiltro
         fecha = this.getFecha();
         this.listOrders = _.filter(this.listOrdersAux, function (orders) {
-          var fechaList: String;
-          var ord = [];
-          var listOrder;
-          //Fecha Listado
+          let fechaList: String;
+          const ord = [];
+          let listOrder;
+          // Fecha Listado
           fechaList = _.toString(orders.date.slice(0, 10));
           if (_.isEqual(fecha, fechaList)) {
             listOrder = _(ord).push(orders);
@@ -179,16 +179,20 @@ export class ListOrderClientComponent implements OnInit {
   }
 
   fullFilter(nombreCliente, status): void {
-    //FechaFiltro
-    var fecha: String;
+    // FechaFiltro
+    let fecha: String;
     fecha = this.getFecha();
-    //Lista actual
+    // Lista actual
     this.listOrders = _.filter(this.listOrdersAux, function (orders) {
-      var ord = [];
-      var listOrder;
-      //Fecha Listado
-      var fechaList = _.toString(orders.date.slice(0, 10));
-      if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase()))|| (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) || (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) && ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.status))) {
+      const ord = [];
+      let listOrder;
+      // Fecha Listado
+      const fechaList = _.toString(orders.date.slice(0, 10));
+      if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+       (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) ||
+       (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) &&
+       // tslint:disable-next-line:radix
+       ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.status))) {
         listOrder = _(ord).push(orders);
         listOrder = listOrder.commit();
         return listOrder;
@@ -196,11 +200,14 @@ export class ListOrderClientComponent implements OnInit {
     });
   }
 
-  filterStatusNombre(nombreCliente,status):void{
+  filterStatusNombre(nombreCliente, status): void {
     this.listOrders = _.filter(this.listOrdersAux, function (orders) {
-      var ord = [];
-      var listOrder;
-      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase()))|| (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) && (_.isEqual(parseInt(status), orders.status))) {
+      const ord = [];
+      let listOrder;
+      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+       (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) &&
+       // tslint:disable-next-line:radix
+       (_.isEqual(parseInt(status), orders.status))) {
         listOrder = _(ord).push(orders);
         listOrder = listOrder.commit();
         return listOrder;
@@ -208,15 +215,16 @@ export class ListOrderClientComponent implements OnInit {
     });
   }
 
-  filterDateNombre(nombreCliente):void{
-    var fecha: String;
-    //FechaFiltro
+  filterDateNombre(nombreCliente): void {
+    let fecha: String;
+    // FechaFiltro
     fecha = this.getFecha();
     this.listOrders = _.filter(this.listOrdersAux, function (orders) {
-      var ord = [];
-      var listOrder;
-      //Fecha Listado
-      var fechaList = _.toString(orders.date.slice(0, 10));
+      const ord = [];
+      let listOrder;
+      // Fecha Listado
+      const fechaList = _.toString(orders.date.slice(0, 10));
+      // tslint:disable-next-line:max-line-length
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) || (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) && ((_.isEqual(fecha, fechaList)))) {
         listOrder = _(ord).push(orders);
         listOrder = listOrder.commit();
@@ -225,16 +233,17 @@ export class ListOrderClientComponent implements OnInit {
     });
   }
 
-  filterStatusDate(status):void{
-    var fecha: String;
-    //FechaFiltro
+  filterStatusDate(status): void {
+    let fecha: String;
+    // FechaFiltro
     fecha = this.getFecha();
     this.listOrders = _.filter(this.listOrdersAux, function (orders) {
-      var fechaList: String;
-      var ord = [];
-      var listOrder;
-      //Fecha Listado
+      let fechaList: String;
+      const ord = [];
+      let listOrder;
+      // Fecha Listado
       fechaList = _.toString(orders.date.slice(0, 10));
+      // tslint:disable-next-line:radix
       if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), orders.status))) {
         listOrder = _(ord).push(orders);
         listOrder = listOrder.commit();
@@ -243,17 +252,17 @@ export class ListOrderClientComponent implements OnInit {
     });
   }
   getFecha(): String {
-    var ano;
-    var mes;
-    var dia;
-    var fecha: String;
-    //Ano
+    let ano;
+    let mes;
+    let dia;
+    let fecha: String;
+    // Ano
     ano = this.model.year;
-    //Mes
+    // Mes
     this.model.month < 10 ? mes = '0' + this.model.month : mes = this.model.month;
-    //Dia
+    // Dia
     this.model.day < 10 ? dia = '0' + this.model.day : dia = this.model.day;
-    //FechaFiltro
+    // FechaFiltro
     fecha = ano + '-' + mes + '-' + dia;
     return fecha;
   }
@@ -261,7 +270,7 @@ export class ListOrderClientComponent implements OnInit {
   clean() {
     this.getListOrders();
     this.valid1 = false;
-    this.formOrder.get('selectedStatOrd').setValue("");
+    this.formOrder.get('selectedStatOrd').setValue('');
     this.formOrder1.get('fechaSelecOrd').reset();
     this.tamano = 'undefined';
   }
@@ -279,24 +288,22 @@ export class ListOrderClientComponent implements OnInit {
   }
 
   valueDate(valor): String {
-    var str: String;
-    var o = [];
-    var l = _(o).push(valor);
+    let str: String;
+    const o = [];
+    let l = _(o).push(valor);
     l = l.commit();
     str = _.toString(l);
     return str;
   }
 
   open(order) {
-		const modalRef = this.modalService.open(ModalsStatusComponent);
-		modalRef.componentInstance.order = order;
-		modalRef.result.then((result) => {
-			this.getListOrders();
-		} , (reason) => {
-		});
-  }
-
- 
+    const modalRef = this.modalService.open(ModalsStatusComponent);
+    modalRef.componentInstance.order = order;
+    modalRef.result.then((result) => {
+          this.getListOrders();
+    } , (reason) => {
+    });
+    }
 }
 
 
