@@ -6,9 +6,9 @@
     box-shadow: 0 2px 2px $box-shadow, 0 0 2px $box-shadow1;
   }
 
-  .container-list{
-    width: 1250px;
-  }
+.container-list{
+  width: 1250px;
+}
 
   .div-order{
     color: rgba(0, 0, 0, 0.9);
@@ -40,7 +40,7 @@
   }
 
   .gallery-wrap .img-med-wrap img {
-    height: 170px;
+    height:170px;
     width: auto;
     display: inline-block;
     cursor: zoom-in;
@@ -87,6 +87,7 @@
   .div-name {
     display: flex;
   }
+
   .products-label {
     margin-left: 50px;
     margin-top: 20px;
@@ -104,31 +105,4 @@
   }
   .div-parametros{
     padding-left: 50px;
-  }
-  .page-header-fixed {
-    margin-left: 15px;
-  }
-
-  .header-body {
-    width: 100%;
-    background: $bg-white;
-    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
-
-    .link {
-      color: $bg-blue;
-      padding-left: 0px;
-    }
-
-    .breadcrumb {
-      background-color: transparent;
-      border-radius: 0px;
-      //padding-left: 15px;
-      border-bottom: 0px;
-      padding-top: 0px;
-      padding-bottom: 0px;
-    }
-
-    h4 {
-      padding-left: 15px;
-    }
   }
