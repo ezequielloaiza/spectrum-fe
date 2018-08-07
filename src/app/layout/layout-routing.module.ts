@@ -15,7 +15,6 @@ import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSeller
 import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller.component';
 import { UserResolver } from './user/user.resolver';
 import { SellerResolver } from './seller/seller.resolver';
-import { OrderResolver } from './client/order.resolver';
 import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
 import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
 import { RoleGuard } from '../shared';
@@ -52,18 +51,11 @@ const routes: Routes = [
       },
       {
         path: 'order-list-client', component: ListOrderComponent,
-        data: { option: 'OrdersList' },
-        resolve: {
-          orders: OrderResolver
-        },
-        runGuardsAndResolvers: 'always',
+        data: { option: 'OrdersList' }
       },
       {
         path: 'details-order/:id/view', component: DetailsOrderComponent,
         data: { option: 'OrdersDetail' },
-        resolve: {
-          orders: OrderResolver
-        }
       },
       {
         path: 'user', component: UserComponent,

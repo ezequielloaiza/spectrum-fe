@@ -1,9 +1,5 @@
 @import '../../../../styles/spectrum/spectrum';
 @include tr-sizes((25%, 25%, 25%, 25%));
-.card {
-  border: 1px solid $border;
-  box-shadow: 0 2px 2px $box-shadow, 0 0 2px $box-shadow1;
-}
 
 .search {
   padding-bottom: 1.4rem;
@@ -16,8 +12,26 @@
   }
 }
 
+.sp-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: $bg-white;
+
+  > div {
+    background-color: $bg-white;
+    border-bottom: 0;
+  }
+}
+
+.sp-card-header {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+}
+
 .div-pending {
-  >div {
+  > div {
     text-align: center;
     background: $pending-status;
     color: $bg-white;
@@ -27,7 +41,7 @@
 }
 
 .div-sent {
-  >div {
+  > div {
     text-align: center;
     background: $sent-status;
     color: $bg-white;
@@ -37,7 +51,7 @@
 }
 
 .div-authorized {
-  >div {
+  > div {
     text-align: center;
     background: $authorized-status;
     color: $bg-white;
@@ -47,7 +61,7 @@
 }
 
 .div-processed {
-  >div {
+  > div {
     text-align: center;
     background: $processed-status;
     color: $bg-white;
@@ -57,7 +71,7 @@
 }
 
 .div-pay {
-  >div {
+  > div {
     text-align: center;
     background: $paid-status;
     color: $bg-white;
@@ -107,6 +121,7 @@
   padding-right: 15px;
   border-radius: 3px;
   padding-bottom: 10px;
+  margin-top: .5em;
 
   > div {
     &:first-child {
