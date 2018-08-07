@@ -25,6 +25,8 @@
             <span>{{ 'Client is required' | translate }}</span>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Order' | translate }}</label>
@@ -38,6 +40,18 @@
           </fieldset>
           <div class="message-error" [hidden]="orderId.valid || orderId.pristine">
             <span>{{ 'Order is required' | translate }}</span>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Reference Number' | translate }}</label>
+            <div>
+              <span *ngIf="action == 'statusChange'">{{ warranty.referenceNumber }}</span>
+              <input *ngIf="action != 'statusChange'" class="form-control" placeholder="{{ 'Enter reference number' | translate }}" name="referenceNumber" formControlName="referenceNumber">
+            </div>
+          </fieldset>
+          <div class="message-error" [hidden]="referenceNumber.valid || referenceNumber.pristine">
+            <span>{{ 'Reference number is required' | translate }}</span>
           </div>
         </div>
       </div>
@@ -71,32 +85,6 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Lot Number' | translate }}</label>
-            <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.lotNumber }}</span>
-              <input *ngIf="action != 'statusChange'" class="form-control" placeholder="{{ 'Enter lot number' | translate }}" name="lotNumber" formControlName="lotNumber">
-            </div>
-          </fieldset>
-          <div class="message-error" [hidden]="lotNumber.valid || lotNumber.pristine">
-            <span>{{ 'Lot number is required' | translate }}</span>
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <fieldset class="form-group">
-            <label>{{ 'Reference Number' | translate }}</label>
-            <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.referenceNumber }}</span>
-              <input *ngIf="action != 'statusChange'" class="form-control" placeholder="{{ 'Enter reference number' | translate }}" name="referenceNumber" formControlName="referenceNumber">
-            </div>
-          </fieldset>
-          <div class="message-error" [hidden]="referenceNumber.valid || referenceNumber.pristine">
-            <span>{{ 'Reference number is required' | translate }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xl-6">
-          <fieldset class="form-group">
             <label>{{ 'Bill Number' | translate }}</label>
             <div>
               <span *ngIf="action == 'statusChange'">{{ warranty.billNumber }}</span>
@@ -109,6 +97,21 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
+            <label>{{ 'Lot Number' | translate }}</label>
+            <div>
+              <span *ngIf="action == 'statusChange'">{{ warranty.lotNumber }}</span>
+              <input *ngIf="action != 'statusChange'" class="form-control" placeholder="{{ 'Enter lot number' | translate }}" name="lotNumber" formControlName="lotNumber">
+            </div>
+          </fieldset>
+          <div class="message-error" [hidden]="lotNumber.valid || lotNumber.pristine">
+            <span>{{ 'Lot number is required' | translate }}</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-xl-6">
+          <fieldset class="form-group">
             <label>{{ 'Created at' | translate }}</label>
             <div>
               <span *ngIf="action == 'statusChange'">{{ warranty.createdAt | date:'yyyy-MM-dd' }}</span>
@@ -119,8 +122,6 @@
             <span>{{ 'Created at is required' | translate }}</span>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Type' | translate }}</label>
@@ -135,7 +136,9 @@
             <span>{{ 'Type is required' | translate }}</span>
           </div>
         </div>
-        <div class="col-xl-6">
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
           <fieldset class="form-group">
             <label>{{ 'Description' | translate }}</label>
             <div>
@@ -148,9 +151,8 @@
           </div>
         </div>
       </div>
-
       <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="row">
-        <div class="col-xl-6">
+        <div class="col-xl-12">
           <fieldset class="form-group">
             <label>{{ 'Notes' | translate }}</label>
             <div>
