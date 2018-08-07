@@ -126,6 +126,7 @@ img {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    margin-bottom: 10px;
   }
 }
 
@@ -139,6 +140,20 @@ img {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+
+  >div:nth-child(2) { //description
+    padding-top: 20px
+  }
+
+  >div:nth-child(3) { //characteristics
+    padding-top: 35px;
+
+   .info-content {
+      margin-top: 10px;
+    }
+  }
+
+  
 }
 
 .colors {
@@ -268,37 +283,43 @@ img {
   margin-bottom: 0px;
 }
 
-.characteristics {
-  margin-top: 3px;
-}
-
 .item-properties {
   img {
     width: 30px;
   }
 }
 
-.sub-section {
-  margin-top: 20px;
-}
+.more-info {
 
-#specifications {
-  margin-left: 5px;
+  >div:nth-child(1) { //specifications technicals
 
-  .header {
-    margin-left: 5px;
-  }
-
-  .content {
-    margin-left: 25px;
-
-    .label{
-      margin-top: 15px;
+    .header {
+      margin-left: 5px;
     }
 
-    .selection{
-      margin-top: 5px;
+    .content {
+      margin-left: 25px;
+
+      .label{
+        margin-top: 15px;
+      }
+
+      .selection{
+        margin-top: 5px;
+      }
+    }
+
+    >div:nth-child(4) {
+      margin-top: 35px;
+      margin-left: 5px;
+
+      >div:nth-child(2) {
+        max-width: 48%;
+      }
     }
   }
 
+  .filters {
+    margin-top: 10px;
+  }
 }

@@ -14,48 +14,7 @@
             <div class="tab-pane active" id="pic-1">
               <img src="assets/images/products/quattro.jpg" />
             </div>
-            <div class="row">
-              <!-- PROPERTIES -->
-              <div class="item-properties col-md-5">
-                <dt>{{ 'Properties' | translate }}</dt>
-                <p>
-                  <img placement="top" ngbTooltip="Toric" class="alignleft wp-image-1358" src="http://spctinternational.com/wp-content/uploads/2017/09/íconos-02-150x150.png"
-                    alt="Toric" width="30" height="30">&nbsp;
-                  <img placement="top" ngbTooltip="Multifocal" class="alignleft wp-image-1359" src="http://spctinternational.com/wp-content/uploads/2017/09/íconos-03-300x300.png"
-                    alt="Multifocal" width="30" height="30">&nbsp;
-                  <img placement="top" ngbTooltip="3-monthly"class="wp-image-1389 alignleft" src="http://spctinternational.com/wp-content/uploads/2017/10/íconos-09-273x300.png"
-                    alt="" width="30" height="33">&nbsp;
-                  <img placement="top" ngbTooltip="Sylicone Hydrogel" class="wp-image-1362 alignleft"src="http://spctinternational.com/wp-content/uploads/2017/09/íconos-06-250x300.png"
-                    alt="" width="28" height="33">&nbsp;
-                  <img placement="top" ngbTooltip="UV Filter" class="wp-image-1364 alignleft" src="http://spctinternational.com/wp-content/uploads/2017/09/íconos-08-300x286.png"
-                    alt="" width="35" height="33" srcset="http://spctinternational.com/wp-content/uploads/2017/09/íconos-08-300x286.png 300w, http://spctinternational.com/wp-content/uploads/2017/09/íconos-08.png 459w"
-                    sizes="(max-width: 35px) 100vw, 35px">&nbsp;
-                </p>
-              </div>
-              <!-- MATERIAL -->
-              <div class="col-md-4">
-                <dt>Material</dt>
-                <dd>
-                  <a>{{ product.material }}</a>
-                </dd>
-              </div>
-              <!-- PRODUCT SHEET -->
-              <div class="col-md-3">
-                <dt>Product Sheet</dt>
-                <dd>
-                  <a href="{{ product.url }}" target="_blank">{{ 'Download' }}</a>
-                </dd>
-              </div>
-              <!-- REPLACEMENT PERIOD / WARRANTY-->
-              <div class="col-md-5">
-                <dt>{{ 'Replacemente Period' | translate }}</dt>
-                <p>{{ product.replacementPeriod | translate }}</p>
-              </div>
-              <div class="col-md-4">
-                <dt>{{ 'Warranty' | translate }}</dt>
-                <p>{{ product.warranty | translate }}</p>
-              </div>
-            </div>
+            
           </div>
           
         </div>
@@ -66,9 +25,9 @@
           <div class="row">
             <div class="col-md-12">
               <h4 class="product-title">{{ product.name }}</h4>
-              <h2 class="price">
+              <h1 class="price">
                 <span>${{ product.price1 }}</span>
-              </h2>
+              </h1>
             </div>
           </div>
 
@@ -79,91 +38,189 @@
           </div>
           
           <!--CHARACTERISTICS-->
-          <div class="sub-section">
+          <div>
             <dt class="title">{{ 'Characteristics' | translate }}</dt>
-            <div class="info-content characteristics" *ngFor="let characteristic of product.infoAditional[0].values">
+            <div class="info-content" *ngFor="let characteristic of product.infoAditional[0].values">
               <a class="title">{{ characteristic.title }}</a>: <a>{{ characteristic.description }}</a>
             </div>
           </div>
+        </div>
+      </div>
 
-          <!--SPECIFICATIONS TECHNICALS-->
-          <div id="specifications" class="sub-section">
-            <dt class="title">{{ 'Specifications Technicals' | translate }}</dt>
+      <!--MORE INFO-->
+      <div class="row more-info">
 
-            <!--HEADER-->
-            <div class="row header">
-              <div class="col-md-4 title">{{ 'Parameter' | translate }}</div>
-              <div class="col-md-4 title">{{ 'Eye Right' | translate }}</div>
-              <div class="col-md-4 title">{{ 'Eye Left' | translate }}</div>
+        <!--SPECIFICATIONS TECHNICALS-->
+        <div class="col-md-6">
+          <dt class="title">{{ 'Specifications Technicals' | translate }}</dt>
+          
+          <!--HEADER-->
+          <div class="row header">
+            <div class="col-sm-4 title">{{ 'Parameter' | translate }}</div>
+            <div class="col-sm-4 title">
+              <input type="checkbox" class="form-check-label" (click)="setValueEye('right')" [checked]="product.eyeRight">
+              {{ 'Eye Right' | translate }}
             </div>
-
-            <!--CONTENT INFO-->
-            <div class="row content">
-              <!--PARAM NAME-->
-              <div class="col-md-4 title">
-                <div *ngFor="let parameter of product.parametersRight">
-                  <div *ngIf="parameter.values && parameter.values.length > 0">
-                    <div class="row label">
-                      <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--EYE RIGHT-->
-              <div class="col-md-4 title">
-                <div *ngFor="let parameter of product.parametersRight">
-                  <div *ngIf="parameter.values && parameter.values.length > 0">
-                    <div class="row selection">
-                      <div *ngIf="parameter.type === 'number'">
-                        <select class="form-control" name="value" (change)="changeSelect(eye.type, parameter, $event.target.value)">
-                          <option value="">{{ 'Select option' }}</option>
-                          <option *ngFor="let value of parameter.values">{{ value }}</option>
-                        </select>
-                      </div>
-                      <div *ngIf="parameter.type === 'radio'">
-                        <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter)">
-                          <label class="custom-control-label" for="{{ value.name + eye.type }}">{{ value.name }}</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--EYE LEFT-->
-              <div class="col-md-4 title">
-                <div *ngFor="let parameter of product.parametersLeft">
-                  <div *ngIf="parameter.values && parameter.values.length > 0">
-                    <div class="row selection">
-                      <div *ngIf="parameter.type === 'number'">
-                        <select class="form-control" name="value" (change)="changeSelect(eye.type, parameter, $event.target.value)">
-                          <option value="">{{ 'Select option' }}</option>
-                          <option *ngFor="let value of parameter.values">{{ value }}</option>
-                        </select>
-                      </div>
-                      <div *ngIf="parameter.type === 'radio'">
-                        <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter)">
-                          <label class="custom-control-label" for="{{ value.name + eye.type }}">{{ value.name }}</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div class="col-sm-4 title">
+              <input type="checkbox" class="form-check-label" (click)="setValueEye('left')" [checked]="product.eyeLeft">
+              {{ 'Eye Left' | translate }}
             </div>
           </div>
-          <br>
-          <!--buttons buy-->
-          <div class="buy-btns">
-            <a routerLink="/products/{{product.idProduct}}/product-details/{{'toBuy'}}" class="btn btn-lg btn-primary text-uppercase">
-              Buy now </a>&nbsp;
-            <a routerLink="/products/{{product.idProduct}}/product-details/{{'toCart'}}" class="btn btn-lg btn-outline-primary text-uppercase">
-              <i class="fa fa-cart-plus"></i> Add to cart
-            </a>
+
+          <!--CONTENT INFO-->
+          <div class="row content">
+
+            <!--PARAM NAME-->
+            <div class="col-sm-4 title">
+              <div *ngFor="let parameter of product.parametersRight">
+                <div *ngIf="parameter.values && parameter.values.length > 0">
+                  <div class="row label">
+                    <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--EYE RIGHT-->
+            <div class="col-sm-4 title">
+              <div *ngFor="let parameter of product.parametersRight">
+                <div *ngIf="parameter.values && parameter.values.length > 0">
+                  <div class="row selection">
+                    <div *ngIf="parameter.type === 'quantity'">
+                      <input class="form-control col-md-7" type="number" min="1" [(ngModel)]="parameter.selected">
+                    </div>
+                    <div *ngIf="parameter.type === 'selected'">
+                      <select class="form-control" name="value" (change)="changeSelect(parameter, $event.target.value)" [disabled]="!product.eyeRight">
+                        <option value="">{{ 'Select option' }}</option>
+                        <option *ngFor="let value of parameter.values">{{ value }}</option>
+                      </select>
+                    </div>
+                    <div *ngIf="parameter.type === 'radio'">
+                      <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter)">
+                        <label class="custom-control-label" for="{{ value.name + eye.type }}">{{ value.name }}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--EYE LEFT-->
+            <div class="col-sm-4 title">
+              <div *ngFor="let parameter of product.parametersLeft">
+                <div *ngIf="parameter.values && parameter.values.length > 0">
+                  <div class="row selection">
+                    <div *ngIf="parameter.type === 'quantity'">
+                      <input class="form-control col-md-7" type="number" min="1" [(ngModel)]="parameter.selected">
+                    </div>
+                    <div *ngIf="parameter.type === 'selected'">
+                      <select class="form-control" name="value" (change)="changeSelect(parameter, $event.target.value)" [disabled]="!product.eyeLeft">
+                        <option value="">{{ 'Select option' }}</option>
+                        <option *ngFor="let value of parameter.values">{{ value }}</option>
+                      </select>
+                    </div>
+                    <div *ngIf="parameter.type === 'radio'">
+                      <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter)">
+                        <label class="custom-control-label" for="{{ value.name + eye.type }}">{{ value.name }}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--PACIENT-->
+          <div class="row pacient">
+            <label class="title">{{ 'Pacient' | translate }}:</label>
+            <div class="col-md-6">
+                <input class="form-control" type="text" placeholder="{{ 'Introduce name pacient' | translate }}">
+            </div>
           </div>
         </div>
+
+        <div class="col-md-6">
+          <!-- PROPERTIES -->
+          <div class="row">
+            <div class="item-properties col-md-5">
+              <dt>{{ 'Properties' | translate }}</dt>
+              <p>
+                <img placement="top" ngbTooltip="Toric" class="alignleft wp-image-1358" src="http://spctinternational.com/wp-content/uploads/2017/09/íconos-02-150x150.png"
+                  alt="Toric" width="30" height="30">&nbsp;
+                <img placement="top" ngbTooltip="Multifocal" class="alignleft wp-image-1359" src="http://spctinternational.com/wp-content/uploads/2017/09/íconos-03-300x300.png"
+                  alt="Multifocal" width="30" height="30">&nbsp;
+                <img placement="top" ngbTooltip="3-monthly"class="wp-image-1389 alignleft" src="http://spctinternational.com/wp-content/uploads/2017/10/íconos-09-273x300.png"
+                  alt="" width="30" height="33">&nbsp;
+                <img placement="top" ngbTooltip="Sylicone Hydrogel" class="wp-image-1362 alignleft"src="http://spctinternational.com/wp-content/uploads/2017/09/íconos-06-250x300.png"
+                  alt="" width="28" height="33">&nbsp;
+                <img placement="top" ngbTooltip="UV Filter" class="wp-image-1364 alignleft" src="http://spctinternational.com/wp-content/uploads/2017/09/íconos-08-300x286.png"
+                  alt="" width="35" height="33" srcset="http://spctinternational.com/wp-content/uploads/2017/09/íconos-08-300x286.png 300w, http://spctinternational.com/wp-content/uploads/2017/09/íconos-08.png 459w"
+                  sizes="(max-width: 35px) 100vw, 35px">&nbsp;
+              </p>
+            </div>
+            <!-- MATERIAL -->
+            <div class="col-md-4">
+              <dt>Material</dt>
+              <dd>
+                <a>{{ product.material }}</a>
+              </dd>
+            </div>
+            <!-- PRODUCT SHEET -->
+            <div class="col-md-3">
+              <dt>Product Sheet</dt>
+              <dd>
+                <a href="{{ product.url }}" target="_blank">{{ 'Download' }}</a>
+              </dd>
+            </div>
+            <!-- REPLACEMENT PERIOD -->
+            <div class="col-md-5">
+              <dt>{{ 'Replacemente Period' | translate }}</dt>
+              <p>{{ product.replacementPeriod | translate }}</p>
+            </div>
+            <!-- WARRANTY -->
+            <div class="col-md-4">
+              <dt>{{ 'Warranty' | translate }}</dt>
+              <p>{{ product.warranty | translate }}</p>
+            </div>
+          </div>
+
+          <!--VIEW FILTER PRODUCTS-->
+          <dt class="filters">{{ 'View more products' | translate }}</dt>
+          <div class="row">
+            <!-- CATEGORY -->
+            <div class="col-md-5">
+              <dt>{{ 'Category' | translate }}</dt>
+              <a href="#" target="_blank">{{ product.category.name }}</a>
+            </div>
+            <!-- SUPPLIER -->
+            <div class="col-md-4">
+              <dt>{{ 'Supplier' | translate }}</dt>
+              <a href="#" target="_blank">{{ product.supplier.companyName }}</a>
+            </div>
+            <!-- FATHER PRODUCT -->
+            <div class="col-md-3">
+              <dt>{{ 'Product' | translate }}</dt>
+              <a href="#" target="_blank">{{ product.father }}</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <br>
+      <!--buttons buy-->
+      <div class="btn-save">
+        <a (click)="buyNow()" class="btn btn-lg btn-primary text-uppercase">Confirm Buy</a>&nbsp;
+      </div>
+
+      <div class="buy-btns">
+        <!--<a routerLink="/products/{{product.idProduct}}/product-details/{{'toBuy'}}" class="btn btn-lg btn-primary text-uppercase">
+          Buy now </a>&nbsp;-->
+        <a routerLink="/products/{{product.idProduct}}/product-details/{{'toCart'}}" class="btn btn-lg btn-outline-primary text-uppercase">
+          <i class="fa fa-cart-plus"></i> Add to cart
+        </a>
       </div>
     </div>
   </div>
