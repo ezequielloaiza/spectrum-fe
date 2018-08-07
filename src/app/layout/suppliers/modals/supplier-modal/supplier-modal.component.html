@@ -129,13 +129,13 @@
             <label>{{ 'The supplier has a sales platform?' | translate }}</label>
             <div class="col col-xl-1 col-lg-1">
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="platform" class="custom-control-input" (change)="assignPlatform(true)" [checked]="supplier.platform">
+                <input type="radio" id="customRadio1" name="platform" class="custom-control-input" (change)="assignPlatform(true)" [checked]="supplier ? supplier.platform : false">
                 <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
               </div>
             </div>
             <div class="col col-xl-1 col-lg-1">
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="platform" class="custom-control-input" (change)="assignPlatform(false)" [checked]="!supplier.platform">
+                <input type="radio" id="customRadio2" name="platform" class="custom-control-input" (change)="assignPlatform(false)" [checked]="supplier ? !supplier.platform : true">
                 <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
               </div>
             </div>

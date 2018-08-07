@@ -64,16 +64,23 @@ const routes: Routes = [
         },
         runGuardsAndResolvers: 'always',
         children: [
-          { path: '', component: ListUserComponent },
+          { path: '', component: ListUserComponent,
+          data: { option: 'Users' }
+          },
           {
             path: ':id', component: DetailUserComponent,
+            data: { option: 'ViewUser' },
             resolve: {
               users: UserResolver
             },
             children: [
               { path: '', redirectTo: 'edit', pathMatch: 'full' },
-              { path: 'edit', component: EditUserComponent },
-              { path: 'edit-company', component: EditCompanyComponent }
+              { path: 'edit', component: EditUserComponent,
+              data: { option: 'EditUser' }
+              },
+              { path: 'edit-company', component: EditCompanyComponent,
+              data: { option: 'EditCompany' } 
+            }
             ]
           }
         ],
@@ -89,13 +96,17 @@ const routes: Routes = [
           { path: '', component: ListSellerComponent, data: { option: 'Sellers' } },
           {
             path: ':id', component: DetailSellerComponent,
+            data: { option: 'ViewSeller' },
             resolve: {
               sellers: SellerResolver
             },
             children: [
               { path: '', redirectTo: 'edit', pathMatch: 'full' },
-              { path: 'edit', component: EditSellerComponent },
-              { path: 'client-seller', component: ClientSellerComponent }
+              { path: 'edit', component: EditSellerComponent,
+                data: { option: 'EditSeller' }
+              },
+              { path: 'client-seller', component: ClientSellerComponent,
+                data: { option: 'ViewClient' } }
             ]
           }
         ],
