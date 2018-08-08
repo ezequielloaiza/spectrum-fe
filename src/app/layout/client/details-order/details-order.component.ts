@@ -5,6 +5,7 @@ import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { Order } from '../../../shared/models/order';
 import * as _ from 'lodash';
 import { ProductoimageService } from '../../../shared/services/productoimage/productoimage.service';
+import { FtpService } from '../../../shared/services/ftp/ftp.service';
 @Component({
   selector: 'app-details-order',
   templateUrl: './details-order.component.html',
@@ -20,6 +21,7 @@ export class DetailsOrderComponent implements OnInit {
   itemPerPage = 1;
 
   constructor(private route: ActivatedRoute,
+    private ftpService: FtpService,
     private orderService: OrderService,
     public productImageService: ProductoimageService) { }
 
@@ -46,6 +48,16 @@ export class DetailsOrderComponent implements OnInit {
         });
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
+      }
+    });
+  }
+
+
+  upload(order): void {
+    console.log('upload', order);
+    this.ftpService.uploadFile$('/home/naily/Descargas/prueba.jpg').subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        console.log('OK');
       }
     });
   }

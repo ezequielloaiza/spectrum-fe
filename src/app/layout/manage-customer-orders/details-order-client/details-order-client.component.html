@@ -11,6 +11,10 @@
             <button [hidden]="!generar" type="button" (click)="generateOrder(order)" class="btn btn-outline-primary" translate>
               Generate Order
             </button>
+            <span>|</span>
+            <button [hidden]="!generar" type="button" (click)="upload(order)" class="btn btn-outline-primary" translate>
+              Send Order
+            </button>
           </div>
         </div>
         <div class="div-order">{{'Ordered on'| translate}} {{order.date | date:'mediumDate'}}

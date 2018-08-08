@@ -14,6 +14,7 @@ import { ProductRequested } from '../../../shared/models/productrequested';
 import { Product } from '../../../shared/models/product';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
+import { FtpService } from '../../../shared/services/ftp/ftp.service';
 
 @Component({
   selector: 'app-details-order-client',
@@ -32,6 +33,7 @@ export class DetailsOrderClientComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
+    private ftpService: FtpService,
     public productImageService: ProductoimageService,
     private notification: ToastrService,
     private translate: TranslateService,
@@ -72,6 +74,15 @@ export class DetailsOrderClientComponent implements OnInit {
     modalRef.result.then((result) => {
       } , (reason) => {
 });
+  }
+
+  upload(order): void {
+    console.log('upload', order);
+    this.ftpService.uploadFile$('/home/naily/Descargas/prueba.jpg').subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        console.log('OK');
+      }
+    });
   }
 }
 
