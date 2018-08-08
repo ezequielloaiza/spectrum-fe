@@ -1,6 +1,17 @@
 @import '../../../../styles/spectrum/spectrum';
 @include tr-sizes((25%, 25%, 25%, 25%));
 
+.search {
+  padding-bottom: 1.4rem;
+
+  i {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: $bg-imput;
+  }
+}
+
 .sp-card {
   position: relative;
   display: flex;
@@ -30,7 +41,7 @@
 }
 
 .div-sent {
-  >div {
+  > div {
     text-align: center;
     background: $sent-status;
     color: $bg-white;
@@ -40,7 +51,7 @@
 }
 
 .div-authorized {
-  >div {
+  > div {
     text-align: center;
     background: $authorized-status;
     color: $bg-white;
@@ -50,7 +61,7 @@
 }
 
 .div-processed {
-  >div {
+  > div {
     text-align: center;
     background: $processed-status;
     color: $bg-white;
@@ -60,7 +71,7 @@
 }
 
 .div-pay {
-  >div {
+  > div {
     text-align: center;
     background: $paid-status;
     color: $bg-white;
@@ -86,10 +97,6 @@
   & span:hover {
     color: $bg-blue;
   }
-}
-
-a:link {
-  color: #007bff;
 }
 
 .span_total{
@@ -170,32 +177,13 @@ a:link {
       }
     }
   }
-}
-
-.page-header-fixed {
-  margin-left: 15px;
-}
-
-.header-body {
-  width: 100%;
-  background: $bg-white;
-  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
-
   .link {
     color: $bg-blue;
-    padding-left: 0px;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
-  .breadcrumb {
-    background-color: transparent;
-    border-radius: 0px;
-    //padding-left: 15px;
-    border-bottom: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-  }
-
-  h4 {
-    padding-left: 15px;
-  }
 }

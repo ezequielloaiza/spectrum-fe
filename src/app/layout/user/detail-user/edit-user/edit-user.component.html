@@ -119,6 +119,12 @@
                 <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
               </div>
             </fieldset>
+            <div class="message-error" [hidden]="!canEdit || phone.value.length === 0 || phone.value.length > 7">
+              <span>{{ 'Phone not valid' | translate }}</span>
+            </div>
+            <div class="message-error" [hidden]="!canEdit || phone.value!=''">
+              <span>{{ 'Phone is required' | translate }}</span>
+            </div>
           </div>
           <div class="col-xl-12">
             <fieldset class="form-group">
@@ -136,7 +142,7 @@
                 <span [hidden]="canEdit">{{ user.nameSeller ? user.nameSeller : ('No seller assigned' | translate) }}</span>
                 <button class="btn btn-main" (click)="openSeller()" *ngIf="canEdit && !nameSeller">{{ 'Assign seller' | translate }}&nbsp;</button>
                 <div *ngIf="canEdit && nameSeller">
-                  <span >{{ nameSeller }}</span>
+                  <span>{{ nameSeller }}</span>
                   &nbsp;
                   <a class="link" (click)="unlink()">{{ 'Unlink' | translate }}</a>
                   &nbsp;
@@ -155,7 +161,7 @@
             <i class="fa fa-times"></i>
           </button>
           &nbsp;&nbsp;
-          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
+          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || phone.value =='' ||  phone.value.length < 8 && !!phone.value.length" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
             <i class="fa fa-save"></i>
           </button>
         </div>

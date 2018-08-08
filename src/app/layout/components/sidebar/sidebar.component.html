@@ -5,8 +5,8 @@
 		</a>
 		<a routerLink="/products" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-archive"></i>&nbsp;{{ 'Products' | translate }}
-    </a>
-    <!--USER MENU-->
+		</a>
+		<!--USER MENU-->
 		<div *ngIf="user.role.idRole === 3">
 			<!--<div>-->
 			<div class="nested-menu">
@@ -93,7 +93,7 @@
 					</ul>
 				</li>
 			</div>
-    </div>
+		</div>
 
 		<!--ADMIN MENU-->
 		<div *ngIf="user.role.idRole === 1">
@@ -181,7 +181,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="javascript:void(0)">
+							<a [routerLink]="['/order-list-client-byseller']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 								<span>
 									<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
 							</a>
@@ -279,7 +279,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="javascript:void(0)">
+								<a [routerLink]="['/order-list-client-byseller']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 									<span>
 										<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
 								</a>
@@ -328,9 +328,9 @@
 					</li>
 				</div>
 			</div>
-    </div>
+		</div>
 
-    <!--
+		<!--
 		<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Charts' | translate }}
     </a>
