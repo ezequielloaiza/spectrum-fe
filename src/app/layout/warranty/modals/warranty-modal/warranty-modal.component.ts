@@ -67,7 +67,7 @@ export class WarrantyModalComponent implements OnInit {
       clientId    : [this.action !== 'create' ? this.warranty.orderProductRequest.order.user.idUser : '',
                     [ Validators.required]],
       orderId     : [this.action !== 'create' ? this.warranty.orderProductRequest.order.idOrder : '', [ Validators.required]],
-      productRequestId : [this.action !== 'create' ? this.warranty.orderProductRequest.idProductRequested : '',
+      orderClientProductRequestId : [this.action !== 'create' ? this.warranty.orderProductRequest.idOrderProductRequested : '',
                                     [ Validators.required]],
       patient     : [this.action !== 'create' ? this.warranty.orderProductRequest.productRequested.patient : ''],
       billNumber  : [this.action !== 'create' ? this.warranty.billNumber : '', [ Validators.required]],
@@ -185,13 +185,13 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   assignPatient(productRequestId) {
-    this.product = _.find(this.listProducts, { 'idProductRequested': parseInt(productRequestId.value, 10) } );
-    this.form.get('patient').setValue(this.product.patient);
+    this.product = _.find(this.listProducts, { 'idOrderProductRequested': parseInt(productRequestId.value, 10) } );
+    this.form.get('patient').setValue(this.product.productRequested.patient);
   }
 
   get clientId() { return this.form.get('clientId'); }
   get orderId() { return this.form.get('orderId'); }
-  get productRequestId() { return this.form.get('productRequestId'); }
+  get orderClientProductRequestId() { return this.form.get('orderClientProductRequestId'); }
   get lotNumber() { return this.form.get('lotNumber'); }
   get referenceNumber() { return this.form.get('referenceNumber'); }
   get billNumber() { return this.form.get('billNumber'); }

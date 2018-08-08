@@ -105,8 +105,8 @@ export class WarrantyComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.warranties = res.data;
         _.each(this.warranties, function(warranty) {
-          warranty.client = warranty.orderProductRequest.orderClient.user.name;
-          warranty.order = warranty.orderProductRequest.orderClient.number;
+          warranty.client = warranty.orderProductRequest.order.user.name;
+          warranty.order = warranty.orderProductRequest.order.number;
           warranty.patient = warranty.orderProductRequest.productRequested.patient;
         });
         this.auxWarranties = res.data;
