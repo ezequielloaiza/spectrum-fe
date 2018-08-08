@@ -36,23 +36,7 @@ const routes: Routes = [
       { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
       { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
-<<<<<<< HEAD
       // { path: 'consult-account', component: CheckAccountComponent },
-      { path: 'suppliers', component: SuppliersComponent, runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
-      { path: 'profile', component: ProfileComponent,
-        data: { option: 'Profile' }  },
-      { path: 'category', component: CategoryComponent,
-        data: { option: 'Category' }  },
-      { path: 'business-type', component: BusinessTypeComponent,
-        data: { option: 'BusinessType' }  },
-      { path: 'order-list-client', component: ListOrderComponent,
-        data: { option: 'OrdersList' }  },
-      { path: 'details-order/:id/view', component: DetailsOrderComponent,
-       data: { option: 'OrdersDetail' } },
-      { path: 'warranty', component: WarrantyComponent,
-        data: { option: 'Warranty' } },
-=======
-      //{ path: 'consult-account', component: CheckAccountComponent },
       { path: 'suppliers', component: SuppliersComponent, runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
       {
         path: 'profile', component: ProfileComponent,
@@ -74,7 +58,10 @@ const routes: Routes = [
         path: 'details-order/:id/view', component: DetailsOrderComponent,
         data: { option: 'OrdersDetail' },
       },
->>>>>>> develop
+      {
+        path: 'warranty', component: WarrantyComponent,
+        data: { option: 'Warranty' }
+      },
       {
         path: 'user', component: UserComponent,
         resolve: {
