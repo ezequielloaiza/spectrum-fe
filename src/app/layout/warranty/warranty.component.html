@@ -104,9 +104,9 @@
                 <td *ngIf='warranty.status==3' class="div-reject">
                   <div translate>Reject</div>
                 </td>
-                <td class="table-tr td-table"> {{ warranty.orderClientProductRequest.orderClient.user.name }}</td>
-                <td class="table-tr td-table"> {{ warranty.orderClientProductRequest.orderClient.number }}</td>
-                <td class="table-tr td-table"> {{ warranty.orderClientProductRequest.patient }}</td>
+                <td class="table-tr td-table"> {{ warranty.orderProductRequest.order.user.name }}</td>
+                <td class="table-tr td-table"> {{ warranty.orderProductRequest.order.number }}</td>
+                <td class="table-tr td-table"> {{ warranty.orderProductRequest.productRequested.patient }}</td>
                 <td class="table-tr td-table"> {{ warranty.billNumber }}</td>
                 <td class="table-tr td-table" translate> {{ warranty.type }}</td>
                 <td class="table-tr">

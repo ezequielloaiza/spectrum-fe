@@ -6,12 +6,9 @@ import {
   FormControl,
   FormsModule
 } from '@angular/forms';
-import { NgbModalRef, NgbActiveModal, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged, map, catchError, tap, switchMap, merge } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-import { GoogleService } from '../../../../shared/services/google/google.service';
 import { UserService,
          OrderService,
          WarrantyService,
@@ -67,12 +64,12 @@ export class WarrantyModalComponent implements OnInit {
   initializeForm() {
     this.form = this.formBuilder.group({
       id  : [this.action !== 'create' ? this.warranty.id : ''],
-      clientId    : [this.action !== 'create' ? this.warranty.orderClientProductRequest.orderClient.user.idUser : '',
+      clientId    : [this.action !== 'create' ? this.warranty.orderProductRequest.order.user.idUser : '',
                     [ Validators.required]],
-      orderId     : [this.action !== 'create' ? this.warranty.orderClientProductRequest.orderClient.idOrder : '', [ Validators.required]],
-      orderClientProductRequestId : [this.action !== 'create' ? this.warranty.orderClientProductRequest.idOrderClientProductRequested : '',
+      orderId     : [this.action !== 'create' ? this.warranty.orderProductRequest.order.idOrder : '', [ Validators.required]],
+      productRequestId : [this.action !== 'create' ? this.warranty.orderProductRequest.idProductRequested : '',
                                     [ Validators.required]],
-      patient     : [this.action !== 'create' ? this.warranty.orderClientProductRequest.patient : ''],
+      patient     : [this.action !== 'create' ? this.warranty.orderProductRequest.productRequested.patient : ''],
       billNumber  : [this.action !== 'create' ? this.warranty.billNumber : '', [ Validators.required]],
       createdAt   : [this.action !== 'create' ? this.warranty.createdAt : this.today],
       type        : [this.action !== 'create' ? this.warranty.type : '',
@@ -187,14 +184,14 @@ export class WarrantyModalComponent implements OnInit {
     this.form.get('referenceNumber').setValue(this.order.number);
   }
 
-  assignPatient(orderClientProductRequestId) {
-    this.product = _.find(this.listProducts, { 'idOrderClientProductRequested': parseInt(orderClientProductRequestId.value, 10) } );
+  assignPatient(productRequestId) {
+    this.product = _.find(this.listProducts, { 'idProductRequested': parseInt(productRequestId.value, 10) } );
     this.form.get('patient').setValue(this.product.patient);
   }
 
   get clientId() { return this.form.get('clientId'); }
   get orderId() { return this.form.get('orderId'); }
-  get orderClientProductRequestId() { return this.form.get('orderClientProductRequestId'); }
+  get productRequestId() { return this.form.get('productRequestId'); }
   get lotNumber() { return this.form.get('lotNumber'); }
   get referenceNumber() { return this.form.get('referenceNumber'); }
   get billNumber() { return this.form.get('billNumber'); }
