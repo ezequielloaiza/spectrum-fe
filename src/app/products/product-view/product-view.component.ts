@@ -90,68 +90,22 @@ export class ProductViewComponent implements OnInit {
 
     _.each(this.productsSelected, function(productSelected, index) {
 
-      product.typeName = product.types[0].name;
+      productSelected.productId = product.id;
       productSelected.codClient = client; //TODO cambiar por el campo del COD
-      productSelected.code = product.code;
       productSelected.pacient = product.pacient;
+      productSelected.price = product.price; //TODO colocar precio por membresia del usuario logueado
 
       if (productSelected.eye === "Right") {
+        productSelected.quantity = product.quantityRight;
         productSelected.parameters = product.parametersRight;
       }
       if (productSelected.eye === "Left") {
+        productSelected.quantity = product.quantityLeft;
         productSelected.parameters = product.parametersLeft;
       }
-      /*_.each(type.parameters, function(parameter, index) {
-        if (parameter.type === "radio") {
-          _.each(parameter.values, function(value) {
-            if (value.selectedLeft) {
-              parameter.selectedLeft = value.name;
-            }
-            if (value.selectedRight) {
-              parameter.selectedRight = value.name;
-            }
-          });
-        }
-
-        if (parameter.eye === "right") {
-          var paramsEyes:any = _.filter(type.parameters, { 'name': parameter.name});
-          parameter.selectedLeft = paramsEyes[1].selectedLeft;
-        }
-        type.parameters[index] = _.omit(parameter, ['type', 'values']);
-      });
-
-      _.remove(type.parameters, function (parameter:any) {
-        return parameter.eye === 'left';
-      })
-
-      _.each(type.parameters, function(parameter, index) {
-        type.parameters[index] = _.omit(parameter, ['eye']);
-      });*/
     });
 
     debugger
-
-    //verificar atributos del producto que se enviaran a la orden
-    /*var productToBuy = {
-      id: this.product.id,
-      name: this.product.name,
-      priceBase: this.product.priceBase,
-      price1: this.product.price1,
-      price2: this.product.price2,
-      price3: this.product.price3,
-      category: this.product.category,
-      subCategory: this.product.subCategory,
-      material: this.product.material,
-      description: this.product.description,
-      replacementPeriod: this.product.replacementPeriod,
-      warranty: this.product.warranty,
-      stock: this.product.stock,
-      type: types.length === 1 ? types[0] : null,
-      typeRight: types.length > 1 ? types[0] : null,
-      typeLeft: types.length > 1 ? types[1] : null,
-      quantityBuy: this.quantity
-    }
-    return productToBuy;*/
   }
 
 

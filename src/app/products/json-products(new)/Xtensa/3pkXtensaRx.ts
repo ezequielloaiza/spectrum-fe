@@ -16,7 +16,6 @@ this.products = [
       {
         "name": "Toric",
         "parameters": [
-          { "name": "Quantity", "type": "quantity", "values": [1], "selected": null },
           { "name": "Rx Design", "type": "radio", "values": [
                                                       { "name": "Yes", "selected": true }]
           },
