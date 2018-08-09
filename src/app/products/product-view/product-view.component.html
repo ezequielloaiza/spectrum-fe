@@ -87,7 +87,7 @@
                 <div *ngIf="parameter.values && parameter.values.length > 0">
                   <div class="row selection">
                     <div *ngIf="parameter.type === 'quantity'">
-                      <input class="form-control col-md-7" type="number" min="1" [(ngModel)]="parameter.selected">
+                      <input class="form-control col-md-7" type="number" step=1 min="1" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                     </div>
                     <div *ngIf="parameter.type === 'selected'">
                       <select class="form-control" name="value" (change)="changeSelect(parameter, $event.target.value)" [disabled]="!product.eyeRight">
@@ -112,7 +112,7 @@
                 <div *ngIf="parameter.values && parameter.values.length > 0">
                   <div class="row selection">
                     <div *ngIf="parameter.type === 'quantity'">
-                      <input class="form-control col-md-7" type="number" min="1" [(ngModel)]="parameter.selected">
+                      <input class="form-control col-md-7" type="number" step=1 min="1" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                     </div>
                     <div *ngIf="parameter.type === 'selected'">
                       <select class="form-control" name="value" (change)="changeSelect(parameter, $event.target.value)" [disabled]="!product.eyeLeft">
@@ -136,7 +136,7 @@
           <div class="row pacient">
             <label class="title">{{ 'Pacient' | translate }}:</label>
             <div class="col-md-6">
-                <input class="form-control" type="text" placeholder="{{ 'Introduce name pacient' | translate }}">
+                <input class="form-control" type="text" placeholder="{{ 'Introduce name pacient' | translate }}" [(ngModel)]="product.pacient">
             </div>
           </div>
         </div>

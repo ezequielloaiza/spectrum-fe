@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
+import { UserStorageService } from '../../http/user-storage.service';
 
 @Component({
   selector: 'app-product-view',
@@ -18,7 +19,10 @@ export class ProductViewComponent implements OnInit {
   quantity = 1;
   order: any;
   productsSelected: Array<any> = new Array;
-  constructor(private productService:ProductService, private route: ActivatedRoute) { }
+  currentUser: any;
+  constructor(private productService:ProductService, private route: ActivatedRoute, private userStorageService: UserStorageService) {
+    this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
+   }
 
   ngOnInit() {
     this.getProducts();
@@ -82,8 +86,15 @@ export class ProductViewComponent implements OnInit {
 
     this.setEyeSelected();
     let product = this.product;
+    let client = this.currentUser;
 
     _.each(this.productsSelected, function(productSelected, index) {
+
+      product.typeName = product.types[0].name;
+      productSelected.codClient = client; //TODO cambiar por el campo del COD
+      productSelected.code = product.code;
+      productSelected.pacient = product.pacient;
+
       if (productSelected.eye === "Right") {
         productSelected.parameters = product.parametersRight;
       }
