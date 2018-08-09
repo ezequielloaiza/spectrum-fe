@@ -24,7 +24,6 @@ export class BusinessTypeModalComponent implements OnInit {
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   public model: any;
 
-
   constructor(
     public modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -34,6 +33,7 @@ export class BusinessTypeModalComponent implements OnInit {
     private translate: TranslateService) { }
 
   initializeForm() {
+
     this.form = this.formBuilder.group({
       id: [this.action === 'edit' ? this.businesstype.idBusinessType : ''],
       name: [this.action === 'edit' ? this.businesstype.name : '', [Validators.required]],
@@ -42,6 +42,17 @@ export class BusinessTypeModalComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
+  }
+
+  traductor(): void {
+    console.log('value', this.form.get('name'));
+    this.googleService.translate$(this.form.get('name').value).subscribe(
+      (res: any)  => {
+      console.log(res.data);
+    }, err  => {
+      console.log(err);
+    }
+    );
   }
 
   save(): void {

@@ -26,6 +26,10 @@ export class GoogleService {
     return this.http.get(environment.apiUrl + 'google/placeById/' + placeId);
   }
 
+  public translate$(text: string): Observable<any> {
+    return this.http.get(environment.apiUrl + 'google/text/' + text);
+  }
+
   public setPlace(_place) {
     this.place = _place;
   }
