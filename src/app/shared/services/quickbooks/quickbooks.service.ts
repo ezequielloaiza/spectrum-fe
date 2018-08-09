@@ -6,12 +6,13 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class Oauth2Service {
+export class QuickbooksService {
 
   constructor(private http: HttpClient) { }
 
   public connectQuickbooks$(): Observable<any> {
-    return this.http.get(environment.apiUrl + 'oauth2/connectQuickbooks');
+    debugger
+    return this.http.get(environment.apiUrl + 'connectQuickbooks');
   }
 
 }

@@ -11,6 +11,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   public signIn$(user): Observable<any> {
+    debugger
     return this.http.post(environment.apiUrl + 'sign_in', user);
   }
 

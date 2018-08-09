@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
-import { Oauth2Service } from '../../shared/services/oauth2/oauth2.service';
+import { QuickbooksService } from '../../shared/services/quickbooks/quickbooks.service';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
+import { Window } from 'selenium-webdriver';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -161,7 +164,7 @@ export class DashboardComponent implements OnInit {
      */
   }
 
-  constructor(private oauth2Service: Oauth2Service,) {
+  constructor(private quickbooksService: QuickbooksService,) {
     this.sliders.push(
       {
         imagePath: 'assets/images/slider1.jpg',
@@ -218,9 +221,18 @@ export class DashboardComponent implements OnInit {
   ngOnInit() { }
 
   connect() {
-    this.oauth2Service.connectQuickbooks$();
-
-  }
+    this.quickbooksService.connectQuickbooks$().subscribe(res => {
+      console.log(res.data);
+      if (res.code === CodeHttp.ok) {
+        window.open(res.data,"Quickbooks","menubar=1,resizable=1,width=650,height=650");
+				//this.businessTypes = this.auxBusinessTypes.slice(0,this.itemPerPage);
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+	}
 
   public closeAlert(alert: any) {
     const index: number = this.alerts.indexOf(alert);
