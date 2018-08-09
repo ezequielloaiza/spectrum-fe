@@ -106,3 +106,30 @@
   .div-parametros{
     padding-left: 50px;
   }
+  .page-header-fixed {
+    margin-left: 15px;
+  }
+
+  .header-body {
+    width: 100%;
+    background: $bg-white;
+    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
+
+    .link {
+      color: $bg-blue;
+      padding-left: 0px;
+    }
+
+    .breadcrumb {
+      background-color: transparent;
+      border-radius: 0px;
+      //padding-left: 15px;
+      border-bottom: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    h4 {
+      padding-left: 15px;
+    }
+  }

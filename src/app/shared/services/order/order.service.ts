@@ -35,4 +35,11 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/generateOrder/' + idOrder);
   }
 
+  public saveOrder$(idUser): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/saveOrder/' + idUser);
+  }
+
+  public saveOrderDirect$(productRequested): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/saveOrderDirect', productRequested);
+  }
 }
