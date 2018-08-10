@@ -69,6 +69,7 @@ export class DetailsOrderClientComponent implements OnInit {
   const modalRef = this.modalService.open(ModalsConfirmationComponent);
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
+        this.generar = false;
       } , (reason) => {
 });
   }
