@@ -224,7 +224,7 @@ export class DashboardComponent implements OnInit {
     this.quickbooksService.connectQuickbooks$().subscribe(res => {
       console.log(res.data);
       if (res.code === CodeHttp.ok) {
-        window.open(res.data,"Quickbooks","menubar=1,resizable=1,width=650,height=650");
+        window.open(res.data,"Quickbooks","menubar=1,resizable=1,width=650,height=680,left=350");
 				//this.businessTypes = this.auxBusinessTypes.slice(0,this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
