@@ -85,7 +85,6 @@ export class WarrantyModalComponent implements OnInit {
 
   getDataEdit(): void {
     this.getOrders(this.form.get('clientId').value);
-    this.getProducts(this.form.get('orderId').value);
   }
 
   getUser(): void {
@@ -108,6 +107,9 @@ export class WarrantyModalComponent implements OnInit {
     this.orderService.allOrderWarrantyByUserIdAndStatus$(clientId, 1).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
+        if (this.action !== 'create') {
+          this.getProducts(this.form.get('orderId').value);
+        }
       }
     });
   }
@@ -117,6 +119,9 @@ export class WarrantyModalComponent implements OnInit {
     if (this.order != null) {
       this.assignOrderNumer(this.order);
       this.listProducts = this.order.listProductRequested;
+      if (this.action !== 'create') {
+        this.assignPatient(this.form.get('orderClientProductRequestId'));
+      }
     }
   }
 
@@ -127,10 +132,12 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   filterOrders(clientId): void {
+    this.cleanOrder();
     this.getOrders(parseInt(clientId.value, 10));
   }
 
   filterProducts(orderId): void {
+    this.cleanProduct();
     this.getProducts(parseInt(orderId.value, 10));
   }
 
@@ -187,6 +194,19 @@ export class WarrantyModalComponent implements OnInit {
   assignPatient(productRequestId) {
     this.product = _.find(this.listProducts, { 'idOrderProductRequested': parseInt(productRequestId.value, 10) } );
     this.form.get('patient').setValue(this.product.productRequested.patient);
+  }
+
+  cleanOrder() {
+    this.listOrders = new Array;
+    this.form.get('orderId').setValue('');
+    this.form.get('referenceNumber').setValue('');
+    this.cleanProduct();
+  }
+
+  cleanProduct() {
+    this.listProducts = new Array;
+    this.form.get('orderClientProductRequestId').setValue('');
+    this.form.get('patient').setValue('');
   }
 
   get clientId() { return this.form.get('clientId'); }

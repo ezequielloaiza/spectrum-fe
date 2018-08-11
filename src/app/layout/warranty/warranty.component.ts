@@ -110,9 +110,8 @@ export class WarrantyComponent implements OnInit {
           warranty.patient = warranty.orderProductRequest.productRequested.patient;
         });
         this.auxWarranties = res.data;
-        this.auxWarranties = res.data;
         this.sortWarranty(this.orderByField);
-        this.warranties = this.auxWarranties.slice(0, this.itemPerPage);
+        // this.warranties = this.auxWarranties.slice(0, this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }
@@ -139,9 +138,9 @@ export class WarrantyComponent implements OnInit {
 
     if (val && val.trim() !== '') {
       this.warranties = this.warranties.filter((item) => {
-        return ((item.productRequest.order.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.productRequest.order.number.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.productRequest.patient.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+        return ((item.client.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.order.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.patient.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.billNumber.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.type.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
