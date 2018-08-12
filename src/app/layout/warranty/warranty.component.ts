@@ -18,7 +18,6 @@ import { WarrantyModalComponent } from './modals/warranty-modal/warranty-modal.c
 import { Warranty } from '../../shared/models/warranty';
 import * as _ from 'lodash';
 
-
 @Component({
   selector: 'app-warranty',
   templateUrl: './warranty.component.html',
@@ -101,17 +100,29 @@ export class WarrantyComponent implements OnInit {
   }
 
   getListWarranties(): void {
-    this.warrantyService.findAllByUser$().subscribe(res => {
+    this.warrantyService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.warranties = res.data;
+        this.auxWarranties = res.data;
+
         _.each(this.warranties, function(warranty) {
           warranty.client = warranty.orderProductRequest.order.user.name;
           warranty.order = warranty.orderProductRequest.order.number;
           warranty.patient = warranty.orderProductRequest.productRequested.patient;
+          warranty.seller = warranty.orderProductRequest.order.user.userId;
+          warranty.clientId = warranty.orderProductRequest.order.user.idUser;
         });
-        this.auxWarranties = res.data;
+
+        // filter list by role
+        if (this.user.role.idRole === Role.Seller) {
+          this.warranties = _.filter(this.warranties, { 'seller': this.user.userResponse.idUser } );
+          this.auxWarranties = this.warranties.slice(0, this.warranties.length);
+        } else if (this.user.role.idRole === Role.User) {
+          this.warranties = _.filter(this.warranties, { 'clientId': this.user.userResponse.idUser } );
+          this.auxWarranties = this.warranties.slice(0, this.warranties.length);
+        }
+
         this.sortWarranty(this.orderByField);
-        // this.warranties = this.auxWarranties.slice(0, this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }

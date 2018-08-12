@@ -22,6 +22,10 @@ export class WarrantyService {
     return this.http.get(environment.apiUrl + 'warranty/findAllByUser');
   }
 
+  public findAll$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'warranty/findAll');
+  }
+
   public removeById$(id): Observable<any> {
     return this.http.delete(environment.apiUrl + 'warranty/removeById/' + id);
   }

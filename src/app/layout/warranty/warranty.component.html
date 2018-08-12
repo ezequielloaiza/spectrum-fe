@@ -6,7 +6,7 @@
       <i class="fa fa-search"></i>
     </div>
     <div class="col col-xl-1 col-lg-1">
-      <h6 class="ng-tns-c6-0 h5-filter d-flex">{{ 'Status' | translate }}</h6>
+      <h6 class="d-flex flex-row">{{ 'Status' | translate }}</h6>
     </div>
     <div [formGroup]="form" class="d-flex col col-xl-2 col-lg-2">
       <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
@@ -111,7 +111,7 @@
                 <td class="table-tr td-table" translate> {{ warranty.type }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
-                    <div ngbDropdown class="d-inline-block dropdown">
+                    <div *ngIf="((user.role.idRole === 2 || user.role.idRole === 3) && warranty.status === 0) || user.role.idRole === 1" ngbDropdown class="d-inline-block dropdown">
                       <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                       <div ngbDropdownMenu>
                         <button *ngIf="((user.role.idRole === 2 || user.role.idRole === 3) && warranty.status === 0) || user.role.idRole === 1" class="dropdown-item" (click)="open(warranty,'edit')">

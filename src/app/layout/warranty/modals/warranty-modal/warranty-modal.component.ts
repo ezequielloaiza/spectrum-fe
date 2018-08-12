@@ -37,6 +37,7 @@ export class WarrantyModalComponent implements OnInit {
   listTypes = ['By default', 'By change'];
   today: Date = new Date();
   action: string;
+  clientIdForm: string;
   listStatus = [{ id: 0, name: 'Pending' },
                 { id: 1, name: 'In process' },
                 { id: 2, name: 'Approved' },
@@ -55,7 +56,12 @@ export class WarrantyModalComponent implements OnInit {
 
   ngOnInit() {
     this.getUser();
-    this.getClients(-1);
+    this.getClientIdForm();
+    if (this.user.role.idRole === Role.User) {
+      this.getOrders(this.user.userResponse.idUser);
+    } else {
+      this.getClients(-1);
+    }
     this.getDate();
     this.initializeForm();
     if (this.action !== 'create') { this.getDataEdit(); }
@@ -64,8 +70,7 @@ export class WarrantyModalComponent implements OnInit {
   initializeForm() {
     this.form = this.formBuilder.group({
       id  : [this.action !== 'create' ? this.warranty.id : ''],
-      clientId    : [this.action !== 'create' ? this.warranty.orderProductRequest.order.user.idUser : '',
-                    [ Validators.required]],
+      clientId    : [ this.clientIdForm, [ Validators.required]],
       orderId     : [this.action !== 'create' ? this.warranty.orderProductRequest.order.idOrder : '', [ Validators.required]],
       orderClientProductRequestId : [this.action !== 'create' ? this.warranty.orderProductRequest.idOrderProductRequested : '',
                                     [ Validators.required]],
@@ -77,10 +82,20 @@ export class WarrantyModalComponent implements OnInit {
       description : [this.action !== 'create' ? this.warranty.description : '', [ Validators.required]],
       referenceNumber : [this.action !== 'create' ? this.warranty.referenceNumber : '', [ Validators.required]],
       lotNumber  :  [this.action !== 'create' ? this.warranty.lotNumber : '', [ Validators.required]],
-      notes       :  [this.action !== 'create' ? this.warranty.notes : '', [ Validators.required]],
+      notes       :  [this.action !== 'create' ? this.warranty.notes : ''],
       createdBy  : [this.action !== 'create' ? this.warranty.createdBy.idUser : this.user.userResponse.idUser],
       status      : [this.action !== 'create' ? this.warranty.status : 0]
     });
+  }
+
+  getClientIdForm() {
+    if (this.action !== 'create') {
+      this.clientIdForm = this.warranty.orderProductRequest.order.user.idUser;
+    } else if (this.user.role.idRole === Role.User) {
+      this.clientIdForm = this.user.userResponse.idUser;
+    } else {
+      this.clientIdForm = '';
+    }
   }
 
   getDataEdit(): void {
@@ -92,15 +107,27 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   getClients(filter): void {
-    this.userService.findByRole$(Role.User, filter).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.listClients = res.data;
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
+    if (this.user.role.idRole === Role.Administrative) {
+      this.userService.allCustomersWithOrders$().subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.listClients = res.data;
+        } else {
+          console.log(res.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    } else if (this.user.role.idRole === 2) {
+      this.userService.allCustomersBySellerWithOrders$(this.user.userResponse.idUser).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.listClients = res.data;
+        } else {
+          console.log(res.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    }
   }
 
   getOrders(clientId): void {
