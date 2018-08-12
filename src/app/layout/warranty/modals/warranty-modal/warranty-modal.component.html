@@ -30,7 +30,7 @@
             <label>{{ 'Created at' | translate }}</label>
             <div>
               <span *ngIf="action == 'statusChange'">{{ warranty.createdAt | date:'yyyy-MM-dd' }}</span>
-              <span *ngIf="action != 'statusChange'" name="createdAt" formControlName="createdAt">{{ today | date:'yyyy-MM-dd' }}</span>
+              <span *ngIf="action != 'statusChange'" name="createdAt" formControlName="createdAt" ngDefaultControl>{{ today | date:'yyyy-MM-dd' }}</span>
             </div>
           </fieldset>
         </div>
