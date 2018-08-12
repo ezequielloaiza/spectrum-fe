@@ -14,6 +14,12 @@
   }
 }
 
+.status {
+  display: flex;
+  align-items: center;
+  padding: 10px 0 0 40px;
+}
+
 .div-pending {
   >div {
     text-align: center;

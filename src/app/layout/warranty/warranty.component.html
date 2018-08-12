@@ -6,7 +6,7 @@
       <i class="fa fa-search"></i>
     </div>
     <div class="col col-xl-1 col-lg-1">
-      <h6 class="d-flex flex-row">{{ 'Status' | translate }}</h6>
+      <h6 class="status">{{ 'Status' | translate }}</h6>
     </div>
     <div [formGroup]="form" class="d-flex col col-xl-2 col-lg-2">
       <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
