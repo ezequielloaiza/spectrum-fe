@@ -62,7 +62,7 @@ export class SupplierModalComponent implements OnInit {
       postal      : [this.action === 'edit' ? this.supplier.postalCode : '']
 
     });
-    this.valorCity ={description: this.supplier.city};
+    this.valorCity = [this.action === 'edit' ? {description: this.supplier.city} : ''];
   }
 
   close(data): void {
