@@ -18,6 +18,7 @@ import { SellerResolver } from './seller/seller.resolver';
 import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
 import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
 import { RoleGuard } from '../shared';
+import { WarrantyComponent } from './warranty/warranty.component';
 
 const routes: Routes = [
   {
@@ -35,7 +36,7 @@ const routes: Routes = [
       { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
       { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
-      //{ path: 'consult-account', component: CheckAccountComponent },
+      // { path: 'consult-account', component: CheckAccountComponent },
       { path: 'suppliers', component: SuppliersComponent, runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
       {
         path: 'profile', component: ProfileComponent,
@@ -56,6 +57,10 @@ const routes: Routes = [
       {
         path: 'details-order/:id/view', component: DetailsOrderComponent,
         data: { option: 'OrdersDetail' },
+      },
+      {
+        path: 'warranty', component: WarrantyComponent,
+        data: { option: 'Warranty' }
       },
       {
         path: 'user', component: UserComponent,
@@ -79,7 +84,7 @@ const routes: Routes = [
               data: { option: 'EditUser' }
               },
               { path: 'edit-company', component: EditCompanyComponent,
-              data: { option: 'EditCompany' } 
+              data: { option: 'EditCompany' }
             }
             ]
           }
