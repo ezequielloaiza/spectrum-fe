@@ -1,0 +1,146 @@
+<app-page-header class="page-header-fixed" [heading]="'Warranties List'" [icon]="'fa fa-certificate'"></app-page-header>
+<div class="sp-container">
+  <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="row search">
+    <div class="col col-xl-4 col-lg-4">
+      <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter warranty search..' | translate}}">
+      <i class="fa fa-search"></i>
+    </div>
+    <div class="col col-xl-1 col-lg-1">
+      <h6 class="status">{{ 'Status' | translate }}</h6>
+    </div>
+    <div [formGroup]="form" class="d-flex col col-xl-2 col-lg-2">
+      <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
+        formControlName="selectedStat">
+        <option value="" disabled [selected]="true" translate>Select</option>
+        <option *ngFor="let status of listStatus" value="{{status.id}}">{{ status.name | translate }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="align-self-center">
+            {{ 'All Warranty' | translate }}
+          </div>
+          <div class="ml-auto p-2">
+            <button type="button" class="btn btn-main" (click)="open(content, 'create')">{{ 'Add' | translate }}&nbsp;
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr">
+                  <span title="Status">{{ 'Status' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('status')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'status' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('status')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('status')"></i>
+                  </span>
+                </th>
+                <th class="table-tr">
+                  <span title="Client">{{ 'Client' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('client')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'client' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('client')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('client')"></i>
+                  </span>
+                </th>
+                <th class="table-tr">
+                  <span title="Order">{{ 'Order' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'order' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('order')"></i>
+                  </span>
+                </th>
+                <th class="table-tr">
+                  <span title="Patient">{{ 'Patient' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('patient')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'patient' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('patient')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('patient')"></i>
+                  </span>
+                </th>
+                <th class="table-tr">
+                  <span title="Bill Number">{{ 'Bill Number' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'billNumber' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('billNumber')"></i>
+                  </span>
+                </th>
+                <th class="table-tr">
+                  <span title="Type">{{ 'Type' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('type')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'type' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortWarranty('type')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortWarranty('type')"></i>
+                  </span>
+                </th>
+                <th class="table-tr"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let warranty of warranties">
+                <td *ngIf='warranty.status==0' class="div-pending">
+                  <div translate>Pending</div>
+                </td>
+                <td *ngIf='warranty.status==1' class="div-in-process">
+                  <div translate>In process</div>
+                </td>
+                <td *ngIf='warranty.status==2' class="div-approved">
+                  <div translate>Approved</div>
+                </td>
+                <td *ngIf='warranty.status==3' class="div-reject">
+                  <div translate>Reject</div>
+                </td>
+                <td class="table-tr td-table"> {{ warranty.orderProductRequest.order.user.name }}</td>
+                <td class="table-tr td-table"> {{ warranty.orderProductRequest.order.number }}</td>
+                <td class="table-tr td-table"> {{ warranty.orderProductRequest.productRequested.patient }}</td>
+                <td class="table-tr td-table"> {{ warranty.billNumber }}</td>
+                <td class="table-tr td-table" translate> {{ warranty.type }}</td>
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div *ngIf="((user.role.idRole === 2 || user.role.idRole === 3) && warranty.status === 0) || user.role.idRole === 1" ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button *ngIf="((user.role.idRole === 2 || user.role.idRole === 3) && warranty.status === 0) || user.role.idRole === 1" class="dropdown-item" (click)="open(warranty,'edit')">
+                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                        <button *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="dropdown-item" (click)="open(warranty,'statusChange')">
+                          <i class="fa fa-cog"></i> {{ 'Status Change' | translate }}</button>
+                        <button *ngIf="user.role.idRole === 1" class="dropdown-item" (click)="delete(warranty.id)">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-empty" [hidden]="warranties.length !== 0" translate>
+            <p class="no-records">
+              {{ 'No records have been added yet' | translate }}
+            </p>
+          </div>
+          <div class="pagination-list" [hidden]="warranties.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxWarranties.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+            <span class="count-elements">{{ warranties.length + ' ' + ('of' | translate) + ' ' + auxWarranties.length + ' ' + ('register(s)' | translate) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

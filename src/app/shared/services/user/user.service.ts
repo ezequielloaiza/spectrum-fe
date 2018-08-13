@@ -79,4 +79,13 @@ export class UserService {
     return this.http.get(environment.apiUrl + 'user/findByRoleActive/' + roleId);
   }
 
+
+  public allCustomersWithOrders$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/allCustomersBySellerWithOrders');
+  }
+
+  public allCustomersBySellerWithOrders$(idSeller): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/allCustomersBySellerWithOrders/' + idSeller);
+  }
+
 }

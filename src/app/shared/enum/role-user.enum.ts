@@ -3,7 +3,7 @@ export enum RoleUser {
   Account,
   OrdersList,
   OrdersDetail,
-  Warranties,
+  Warranty,
   Profile,
   ProductsList,
   ProductsView,

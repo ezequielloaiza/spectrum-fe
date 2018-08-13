@@ -1,5 +1,5 @@
 export class Product {
-  
+
   public idProduct:number;
   public name:string ;
   public price_base:number;
@@ -14,12 +14,11 @@ export class Product {
   public description_short:string;
   public description:string;
   public replacementPeriod:string;
-  public warranty:string;
+  public warranty:number;
   public url:string;
   public stock:number;
   public infoAditional:string;
   public types:string;
     public constructor() { }
-  
+
   }
-  
