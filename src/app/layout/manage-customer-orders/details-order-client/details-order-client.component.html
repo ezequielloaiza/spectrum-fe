@@ -1,4 +1,20 @@
-<app-page-header class="page-header-fixed" [heading]="'Order'" [icon]="'fa fa-folder-open'"></app-page-header>
+<div class="row page-header-fixed">
+	<div class="header-body">
+		<h4 class="page-header">
+			{{ 'Orders List' | translate }}
+		</h4>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item">
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/order-list-client-byseller']"><i class="fa fa-folder-open"></i> {{ 'Orders List' | translate }}</a>
+      </li>
+			<li class="breadcrumb-item active">
+				<i class="fa fa-folder-open"></i> {{ 'Order' | translate}}</li>
+		</ol>
+	</div>
+</div>
 <div class="sp-container">
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
