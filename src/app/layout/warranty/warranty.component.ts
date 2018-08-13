@@ -34,6 +34,7 @@ export class WarrantyComponent implements OnInit {
   itemPerPage: number;
   startItem: number;
   endItem: number;
+  valid = false;
   /*initial order*/
   orderByField = 'id';
   reverseSort = true;
@@ -133,6 +134,7 @@ export class WarrantyComponent implements OnInit {
 
   filter(value): void {
     if (value !== '') {
+      this.valid = true;
       this.warranties = _.filter(this.auxWarranties, { 'status': parseInt(value) } );
     }
   }
@@ -184,6 +186,12 @@ export class WarrantyComponent implements OnInit {
     }
     this.advancedPagination = 1;
     this.pageChange(this.advancedPagination);
+  }
+
+  clean() {
+    this.valid = false;
+    this.getListWarranties();
+    this.form.get('selectedStat').setValue('');
   }
 
   deleteWarranty(id) {
