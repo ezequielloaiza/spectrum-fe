@@ -64,8 +64,7 @@ export class ProductViewComponent implements OnInit {
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.product.infoAditional = JSON.parse(this.product.infoAditional);
-    //simulando click en el primer type del producto actual
-    //this.parameters = this.product.types[0].parameters;
+    this.setPrice();
   }
 
   changeSelect(eye, parameter, value) {
@@ -112,20 +111,35 @@ export class ProductViewComponent implements OnInit {
     }
   }
 
-  
+  setPrice() {
+    let membership = this.currentUser.membership.idMembership;
+    switch (membership) {
+      case 1:
+        this.product.priceSale = this.product.price1;
+        break;
+      case 2:
+        this.product.priceSale = this.product.price2;
+        break;
+      case 3:
+        this.product.priceSale = this.product.price3;
+        break;
+    }
+  }
 
+  
   buildOrder() {
 
     this.setEyeSelected();
     let product = this.product;
     let client = this.currentUser;
+    let productsSelected = this.productsSelected;
 
-    _.each(this.productsSelected, function(productSelected, index) {
+    _.each(productsSelected, function(productSelected, index) {
 
       productSelected.productId = product.idProduct;
       productSelected.codClient = client; //TODO cambiar por el campo del COD
       productSelected.pacient = product.pacient;
-      productSelected.price = product.price; //TODO colocar precio por membresia del usuario logueado
+      productSelected.price = product.priceSale;
 
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
@@ -134,6 +148,7 @@ export class ProductViewComponent implements OnInit {
         });
         productSelected.parameters = product.parametersRight;
       }
+      
       if (productSelected.eye === "Left") {
         productSelected.quantity = product.quantityLeft;
         _.each(product.parametersLeft, function(parameter, index) {
@@ -141,9 +156,10 @@ export class ProductViewComponent implements OnInit {
         });
         productSelected.parameters = product.parametersLeft;
       }
-    });
 
-    debugger
+      productSelected.detail = { name: product.name, eye: productSelected.eye, parameters: productSelected.parameters };
+      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye'])
+    });
   }
 
 

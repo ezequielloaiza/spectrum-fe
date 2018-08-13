@@ -26,7 +26,7 @@
             <div class="col-md-12">
               <h4 class="product-title">{{ product.name }}</h4>
               <h1 class="price">
-                <span>${{ product.price1 }}</span>
+                <span>${{ product.priceSale }}</span>
               </h1>
             </div>
           </div>
@@ -112,7 +112,7 @@
             <!--EYE LEFT-->
             <div class="col-sm-4 title">
               <div class="row selection">
-                <input class="form-control col-md-7" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                <input class="form-control col-md-7" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
               </div>
               <div *ngFor="let parameter of product.parametersLeft">
                 <div *ngIf="parameter.values && parameter.values.length > 0">
