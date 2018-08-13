@@ -1,0 +1,70 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'List of Suppliers' | translate }}</h4>
+  <button type="button" class="close close-modal" aria-label="Close" (click)="close()">
+    <span aria-hidden="true"> &times; </span>
+  </button>
+</div>
+<div class="container-modal">
+  <div class="col col-xl-12 col-lg-12">
+    <div class="mb-3">
+      <div class="row search">
+        <div class="col col-xl-5 col-lg-5">
+          <input class="form-control" (keyup)="getItems($event)" placeholder="Enter user search..">
+          <i class="fa fa-search"></i>
+        </div>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+
+              </th>
+              <th class="table-tr header-column">{{ 'Company Name' | translate }}</th>
+              <th class="table-tr header-column">{{ 'Country' | translate }}</th>
+              <th class="table-tr header-column">{{ 'Contact Name' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody [hidden]="suppliers.length === 0">
+            <tr *ngFor="let supplier of suppliers; let i = index">
+              <td>
+                <div class="custom-control check-plataform">
+                  <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="supplier.idSupplier" [(ngModel)]="supplier.checked" (change)="onSelection(supplier.idSupplier,supplier.checked)"
+                    class="custom-control-input">
+                  <label class="custom-control-label" for="checkbox{{i}}"></label> 
+                </div>
+                <h1>{{supplier.marcado}}</h1>
+              </td>
+              <td class="table-tr td-table">{{supplier.companyName}}</td>
+              <td class="table-tr">{{supplier.country}}</td>
+              <td class="table-tr td-table">{{supplier.contact}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- EMPTY LIST -->
+        <div class="table-empty" [hidden]="suppliers.length !== 0" translate>
+          <p class="no-records">
+            {{ 'No records have been added yet' | translate }}
+          </p>
+        </div>
+        <div class="pagination-list" [hidden]="suppliers.length === 0">
+          <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxSuppliers.length"
+            [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+          </ngb-pagination>
+          <span class="count-elements">{{ suppliers.length + ' ' + ('of' | translate) + ' ' + auxSuppliers.length + ' ' + ('register(s)' | translate)
+            }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  &nbsp;&nbsp;
+  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="save()">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>

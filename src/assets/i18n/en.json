@@ -296,6 +296,8 @@
     "No seller assigned": "No seller assigned",
     "Yes": "Yes",
     "No": "No",
+    "Define suppliers":"Define suppliers",
+    "Number of defined suppliers:":"Number of defined suppliers:",
     "Generate Order":"Generate Order",
     "Order generated successfully":"Order generated successfully",
     "Are you sure you want to generate the order?":"Are you sure you want to generate the order?",
