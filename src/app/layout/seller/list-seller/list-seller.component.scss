@@ -18,6 +18,7 @@
   color: $bg-white;
   > div {
     background: $bg-green;
+    border-radius: 12px;
     text-align: center;
   }
 }
@@ -25,7 +26,8 @@
 .inactive {
   color: $bg-white;
   > div {
-    background: #ffc107;
+    color: $bg-red;
+    border-radius: 12px;
     text-align: center;
   }
 }
