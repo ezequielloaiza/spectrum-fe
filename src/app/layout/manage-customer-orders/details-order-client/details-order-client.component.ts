@@ -12,8 +12,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { Product } from '../../../shared/models/product';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-details-order-client',
@@ -42,6 +40,7 @@ export class DetailsOrderClientComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.advancedPagination = 1;
     this.getOrder(this.id);
+
   }
 
   pageChange(event) {
@@ -70,6 +69,7 @@ export class DetailsOrderClientComponent implements OnInit {
   const modalRef = this.modalService.open(ModalsConfirmationComponent);
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
+        this.generar = false;
       } , (reason) => {
 });
   }
