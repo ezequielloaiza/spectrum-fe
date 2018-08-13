@@ -20,12 +20,26 @@ export class ProductViewComponent implements OnInit {
   order: any;
   productsSelected: Array<any> = new Array;
   currentUser: any;
+
+  //configuration XTENSA product
+  paramAxesRight: any;
+  paramAxesLeft: any;
+  axesXtensa     : Array<any> = new Array;
+
   constructor(private productService:ProductService, private route: ActivatedRoute, private userStorageService: UserStorageService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
    }
 
   ngOnInit() {
     this.getProducts();
+
+    /* var product xtensa */
+    this.setAxesXtensa();
+  }
+
+  setAxesXtensa(){
+    this.axesXtensa = [ { "values": ["5º","10º","15º","20º","25º","30º","35º","40º","45º","50º","55º","60º","65º","70º","75º","80º","85º","90º","95º","100º","105º","110º","115º","120º","125º","130º","135º","140º","145º","150º","155º","160º","165º","170º","175º","180º"] },
+                        { "values": ["10º", "20º","30º","40º","50º","60º","70º","80º","90º","100º","110º","120º","130º","140º","150º","160º","170º","180º"] }];
   }
 
   getProducts() {
@@ -54,10 +68,28 @@ export class ProductViewComponent implements OnInit {
     //this.parameters = this.product.types[0].parameters;
   }
 
-  changeSelect(parameter, value) {
+  changeSelect(eye, parameter, value) {
     parameter.selected = value;
-    if (this.product.name === "Xtensa" && parameter.name === 'Cylinder (D)'){
-      //this.setValuesAxesXtensa(typeEye, value);
+    if (this.product.father === "Xtensa" && parameter.name === 'Cylinder (D)'){
+      this.setValuesAxesXtensa(eye, value);
+    }
+  }
+
+  setValuesAxesXtensa(eye, value) {
+    if (eye === 'right') {
+      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
+      if (parseFloat(value) <= -3.25) {
+        this.paramAxesRight.values = this.axesXtensa[0].values;
+      } else {
+        this.paramAxesRight.values = this.axesXtensa[1].values;
+      }
+    } else {
+      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
+      if (parseFloat(value) <= -3.25) {
+        this.paramAxesLeft.values = this.axesXtensa[0].values;
+      } else {
+        this.paramAxesLeft.values = this.axesXtensa[1].values;
+      }
     }
   }
 
@@ -90,17 +122,23 @@ export class ProductViewComponent implements OnInit {
 
     _.each(this.productsSelected, function(productSelected, index) {
 
-      productSelected.productId = product.id;
+      productSelected.productId = product.idProduct;
       productSelected.codClient = client; //TODO cambiar por el campo del COD
       productSelected.pacient = product.pacient;
       productSelected.price = product.price; //TODO colocar precio por membresia del usuario logueado
 
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
+        _.each(product.parametersRight, function(parameter, index) {
+          product.parametersRight[index] = _.omit(parameter, ['type', 'values']);
+        });
         productSelected.parameters = product.parametersRight;
       }
       if (productSelected.eye === "Left") {
         productSelected.quantity = product.quantityLeft;
+        _.each(product.parametersLeft, function(parameter, index) {
+          product.parametersLeft[index] = _.omit(parameter, ['type', 'values']);
+        });
         productSelected.parameters = product.parametersLeft;
       }
     });
