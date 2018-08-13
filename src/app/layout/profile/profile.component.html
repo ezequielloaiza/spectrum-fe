@@ -54,7 +54,22 @@
                     </span>
                   </div>
                 </div>
-                <div class="col-xl-6">
+                <div class="col-xl-6" *ngIf="user.role.idRole==3">
+                  <fieldset class="form-group">
+                    <label>{{ 'Phone' | translate }}</label>
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.phone }}</h6>
+                    <int-phone-prefix [hidden]="!canEditPersonal" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right"
+                      title="{{'Select a country by clicking on the map' | translate }}">
+                    </int-phone-prefix>
+                  </fieldset>
+                  <div class="message-error" [hidden]="!canEditPersonal || phone.value.length === 0 || phone.value.length > 7">
+                    <span>{{ 'Phone not valid' | translate }}</span>
+                  </div>
+                  <div class="message-error" [hidden]="!canEditPersonal || phone.value!=''">
+                    <span>{{ 'Phone is required' | translate }}</span>
+                  </div>
+                </div>
+                <div class="col-xl-6" *ngIf="user.role.idRole==1 || user.role.idRole==2">
                   <fieldset class="form-group">
                     <label>{{ 'Phone' | translate }}</label>
                     <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.phone }}</h6>
@@ -131,10 +146,12 @@
                   <i class="fa fa-times"></i>
                 </button>
                 &nbsp;&nbsp;
-                <button class="btn btn-main"
-                        (click)="savePersonal()"
-                        [disabled]="!canEditPersonal || !name.valid || !email.valid || !city.valid || !state.valid || !country.valid || phone.value.length < 8 && !!phone.value.length">
-                        {{ 'Save' | translate }}&nbsp;
+                <button [hidden]="user.role.idRole!=3" class="btn btn-main" (click)="savePersonal()" [disabled]="!canEditPersonal || !name.valid || !email.valid || !city.valid || !state.valid || !country.valid || phone.value =='' ||  phone.value.length < 8 && !!phone.value.length">
+                  {{ 'Save' | translate }}&nbsp;
+                  <i class="fa fa-save"></i>
+                </button>
+                <button [hidden]="user.role.idRole==3" class="btn btn-main" (click)="savePersonal()" [disabled]="!canEditPersonal || !name.valid || !email.valid || !city.valid || !state.valid || !country.valid || phone.value.length < 8 && !!phone.value.length">
+                  {{ 'Save' | translate }}&nbsp;
                   <i class="fa fa-save"></i>
                 </button>
               </div>
@@ -172,6 +189,19 @@
                     <span>{{ 'Username is required' | translate }}</span>
                   </div>
                 </div>
+                <div class="col-xl-6">
+                  <fieldset class="form-group">
+                    <label for="oldPassword" class="control-label">{{'Old Password' | translate}}</label>&nbsp;&nbsp;
+                    <i class="fa fa-lock" placement="top" ngbTooltip="{{'For security your password is encrypted' | translate}}"></i>
+                    <h6 class="label-disabled" [hidden]="canEditAccount">{{ 'The password is secret' | translate }}</h6>
+                    <input [hidden]="!canEditAccount" type="password" class="form-control" name="oldPassword" formControlName="oldPassword" aria-describedby="passwordHelpBlock"
+                      required>
+                  </fieldset>
+                  <div class="message-error" [hidden]="oldPassword.valid || oldPassword.pristine || !canEditAccount">
+                    <span>{{ 'Password is not valid' | translate }}</span>
+                  </div>
+                </div>
+                <div class="col-xl-6"></div>
                 <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label for="password" class="control-label">{{'Password' | translate}}</label>&nbsp;&nbsp;
@@ -216,7 +246,8 @@
                 <button class="btn btn-main" (click)="saveAccount()" [disabled]="!canEditAccount || form.get(['password']).value != form.get(['confirmedPassword']).value
                                     && form.get(['confirmedPassword']).value != null
                                     || form.get(['password']).value === ''
-                                    || form.get(['confirmedPassword']).value === ''">{{ 'Save' | translate }}&nbsp;
+                                    || form.get(['confirmedPassword']).value === ''
+                                    || form.get(['oldPassword']).value === ''">{{ 'Save' | translate }}&nbsp;
                   <i class="fa fa-save"></i>
                 </button>
               </div>

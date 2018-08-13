@@ -6,9 +6,9 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
-import { PageHeaderModule, BreadcrumbModule } from './../shared';
+import { PageHeaderModule, BreadcrumbModule, RoleGuard } from './../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
-import { BusinessTypeService, GoogleService} from '../shared/services';
+import { BusinessTypeService, GoogleService, AuthorizationService} from '../shared/services';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AlertifyService } from '../shared/services/alertify/alertify.service';
 import { HeaderModule } from '../shared/modules/header/header.module';
@@ -35,7 +35,13 @@ import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import { SellerResolver } from './seller/seller.resolver';
 import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-modal.component';
 import { ListSupplierModalComponent } from './user/modals/list-supplier-modal/list-supplier-modal.component';
-
+import { WarrantyComponent } from './warranty/warranty.component';
+import { WarrantyModalComponent } from './warranty/modals/warranty-modal/warranty-modal.component';
+import { ManageCustomerOrdersComponent } from './manage-customer-orders/manage-customer-orders.component';
+import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
+import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
+import { ModalsStatusComponent } from './manage-customer-orders/modals-status/modals-status.component';
+import { ModalsConfirmationComponent } from './manage-customer-orders/modals-confirmation/modals-confirmation.component';
 
 @NgModule({
     imports: [
@@ -79,7 +85,14 @@ import { ListSupplierModalComponent } from './user/modals/list-supplier-modal/li
         ClientSellerComponent,
         ModalSellerComponent,
         ListUserModalComponent,
-        ListSupplierModalComponent
+        ListSupplierModalComponent,
+        WarrantyComponent,
+        WarrantyModalComponent,
+        ManageCustomerOrdersComponent,
+        ListOrderClientComponent,
+        DetailsOrderClientComponent,
+        ModalsStatusComponent,
+        ModalsConfirmationComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -90,7 +103,10 @@ import { ListSupplierModalComponent } from './user/modals/list-supplier-modal/li
       SellerModalComponent,
       ModalSellerComponent,
       ListUserModalComponent,
-      ListSupplierModalComponent
+      ListSupplierModalComponent,
+      WarrantyModalComponent,
+      ModalsStatusComponent,
+      ModalsConfirmationComponent
     ],
     providers: [
       BusinessTypeService,
@@ -98,7 +114,9 @@ import { ListSupplierModalComponent } from './user/modals/list-supplier-modal/li
       GoogleService,
       BreadcrumbService,
       UserResolver,
-      SellerResolver
+      SellerResolver,
+      RoleGuard,
+      AuthorizationService
     ]
 })
 export class LayoutModule {}

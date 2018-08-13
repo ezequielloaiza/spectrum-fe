@@ -57,8 +57,13 @@ export class UserService {
   public transferClient$(idCliente, idSeller): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/transferClient/'+idCliente+'/'+idSeller);
   }
+
   public updateProfile$(user): Observable<any> {
     return this.http.put(environment.apiUrl + 'user/updateProfile', user);
+  }
+
+  public changePassword$(user): Observable<any> {
+    return this.http.put(environment.apiUrl + 'user/changePassword', user);
   }
 
   public update$(user): Observable<any> {
@@ -71,6 +76,15 @@ export class UserService {
 
   public findByRoleActive$(roleId): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/findByRoleActive/' + roleId);
+  }
+
+
+  public allCustomersWithOrders$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/allCustomersBySellerWithOrders');
+  }
+
+  public allCustomersBySellerWithOrders$(idSeller): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/allCustomersBySellerWithOrders/' + idSeller);
   }
 
 }

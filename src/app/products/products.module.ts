@@ -9,8 +9,10 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { PageHeaderModule } from '../shared';
+import { PageHeaderModule, RoleGuard } from '../shared';
 import { FormsModule } from '@angular/forms';
+import { AuthorizationService } from '../shared/services';
+
 
 @NgModule({
   imports: [
@@ -22,6 +24,10 @@ import { FormsModule } from '@angular/forms';
     PageHeaderModule,
     FormsModule
   ],
-  declarations: [ProductsComponent, ProductsListsComponent, ProductViewComponent, ProductDetailComponent]
+  declarations: [ProductsComponent, ProductsListsComponent, ProductViewComponent, ProductDetailComponent],
+  providers: [
+    RoleGuard,
+    AuthorizationService
+  ]
 })
 export class ProductsModule { }

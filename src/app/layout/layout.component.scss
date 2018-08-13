@@ -9,8 +9,19 @@
     overflow: hidden;
     //background-color: #FAFAFA;
 }
+
+.main-container-pws-temporal {
+    margin-top: 56px;
+    padding: 15px;
+    -ms-overflow-x: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: relative;
+    overflow: hidden;
+}
+
 @media screen and (max-width: 992px) {
-    .main-container {
+    .main-container, .main-container-pws-temporal {
         margin-left: 0px !important;
     }
 }

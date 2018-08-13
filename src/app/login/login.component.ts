@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
 
   signIn(user: any): void {
     this.spinner.show();
+    user.password = user.password.trim();
     this.userService.signIn$(user).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.userStorageService.saveCurrentUser(JSON.stringify(res.data));
@@ -63,6 +64,9 @@ export class LoginComponent implements OnInit {
           this.notification.error('', tras);
           this.spinner.hide();
         });
+      } else if (res.code === CodeHttp.forbidden) {
+        this.userStorageService.saveCurrentUser(JSON.stringify(res.data));
+        this.router.navigate(['/password-temporals']);
       }
     }, error => {
       console.log('error', error);

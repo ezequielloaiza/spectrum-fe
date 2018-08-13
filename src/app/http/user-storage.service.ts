@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-
+import { RoleAdmin } from '../shared/enum/role-admin.enum';
+import { RoleSeller } from '../shared/enum/role-seller.enum';
+import { RoleUser } from '../shared/enum/role-user.enum';
 
 const CURRENT_USER = 'currentUser';
 const LANGUAGE     = 'language';
@@ -7,7 +9,7 @@ const LANGUAGE     = 'language';
 @Injectable()
 export class UserStorageService {
 
-  currentUser = {token: ''};
+  currentUser = {token: '', role: {idRole: null, name: ''}, roles: []};
 
   constructor() { }
 
@@ -38,4 +40,22 @@ export class UserStorageService {
   public getLanguage(): string {
     return sessionStorage.getItem(LANGUAGE);
   }
+  public getRoles(): Array<string> {
+    this.currentUser = JSON.parse(sessionStorage.getItem(CURRENT_USER));
+    let roles: Array<string>;
+    switch (this.currentUser.role.idRole) {
+      case 1:
+        roles = Object.keys(RoleAdmin);
+          break;
+      case 2:
+        roles = Object.keys(RoleSeller);
+        break;
+      case 3:
+        roles = Object.keys(RoleUser);
+        break;
+    }
+    roles = roles.slice(roles.length / 2);
+    return roles;
+  }
+
 }

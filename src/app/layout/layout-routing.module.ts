@@ -15,14 +15,19 @@ import { SellerComponent, ListSellerComponent, DetailSellerComponent, EditSeller
 import { ClientSellerComponent } from './seller/detail-seller/client-seller/client-seller.component';
 import { UserResolver } from './user/user.resolver';
 import { SellerResolver } from './seller/seller.resolver';
+import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
+import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
+import { RoleGuard } from '../shared';
+import { WarrantyComponent } from './warranty/warranty.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivateChild: [RoleGuard],
     children: [
       { path: '', redirectTo: 'dashboard' },
-      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { option: 'Dashboard' } },
       { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
       { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
       { path: 'forms', loadChildren: './form/form.module#FormModule' },
@@ -30,14 +35,33 @@ const routes: Routes = [
       { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
       { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
-      { path: 'shipping-address', component: ShippingAddressComponent },
-      //{ path: 'consult-account', component: CheckAccountComponent },
-      { path: 'suppliers', component: SuppliersComponent },
-      { path: 'profile', component: ProfileComponent },
-      { path: 'category', component: CategoryComponent },
-      { path: 'business-type', component: BusinessTypeComponent },
-      { path: 'order-list-client', component: ListOrderComponent },
-      { path: 'details-order/:id/view', component: DetailsOrderComponent },
+      { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
+      // { path: 'consult-account', component: CheckAccountComponent },
+      { path: 'suppliers', component: SuppliersComponent, runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
+      {
+        path: 'profile', component: ProfileComponent,
+        data: { option: 'Profile' }
+      },
+      {
+        path: 'category', component: CategoryComponent,
+        data: { option: 'Category' }
+      },
+      {
+        path: 'business-type', component: BusinessTypeComponent,
+        data: { option: 'BusinessType' }
+      },
+      {
+        path: 'order-list-client', component: ListOrderComponent,
+        data: { option: 'OrdersList' }
+      },
+      {
+        path: 'details-order/:id/view', component: DetailsOrderComponent,
+        data: { option: 'OrdersDetail' },
+      },
+      {
+        path: 'warranty', component: WarrantyComponent,
+        data: { option: 'Warranty' }
+      },
       {
         path: 'user', component: UserComponent,
         resolve: {
@@ -45,19 +69,27 @@ const routes: Routes = [
         },
         runGuardsAndResolvers: 'always',
         children: [
-          { path: '', component: ListUserComponent },
+          { path: '', component: ListUserComponent,
+          data: { option: 'Users' }
+          },
           {
             path: ':id', component: DetailUserComponent,
+            data: { option: 'ViewUser' },
             resolve: {
               users: UserResolver
             },
             children: [
               { path: '', redirectTo: 'edit', pathMatch: 'full' },
-              { path: 'edit', component: EditUserComponent },
-              { path: 'edit-company', component: EditCompanyComponent }
+              { path: 'edit', component: EditUserComponent,
+              data: { option: 'EditUser' }
+              },
+              { path: 'edit-company', component: EditCompanyComponent,
+              data: { option: 'EditCompany' }
+            }
             ]
           }
-        ]
+        ],
+        data: { option: 'Users' }
       },
       {
         path: 'seller', component: SellerComponent,
@@ -66,22 +98,35 @@ const routes: Routes = [
         },
         runGuardsAndResolvers: 'always',
         children: [
-          { path: '', component: ListSellerComponent },
+          { path: '', component: ListSellerComponent, data: { option: 'Sellers' } },
           {
             path: ':id', component: DetailSellerComponent,
+            data: { option: 'ViewSeller' },
             resolve: {
               sellers: SellerResolver
             },
             children: [
               { path: '', redirectTo: 'edit', pathMatch: 'full' },
-              { path: 'edit', component: EditSellerComponent },
-              { path: 'client-seller', component: ClientSellerComponent }
+              { path: 'edit', component: EditSellerComponent,
+                data: { option: 'EditSeller' }
+              },
+              { path: 'client-seller', component: ClientSellerComponent,
+                data: { option: 'ViewClient' } }
             ]
           }
-        ]
-      }
+        ],
+        data: { option: 'Sellers' }
+      },
+      {
+        path: 'order-list-client-byseller', component: ListOrderClientComponent,
+        data: { option: 'OrdersBySellerList' }
+      },
+      { path: 'details-order-client/:id/view', component: DetailsOrderClientComponent,
+      data: { option: 'OrdersDetailSeller' }
+     }
     ]
-  }
+  },
+  { path: '**', redirectTo: 'not-found' }
 ];
 
 @NgModule({
