@@ -3,7 +3,7 @@ export enum RoleSeller {
   Profile,
   OrdersList,
   OrdersDetail,
-  Warranties,
+  Warranty,
   Users,
   ProductsList,
   ProductsView,
