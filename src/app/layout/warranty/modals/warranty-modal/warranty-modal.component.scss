@@ -1,0 +1,27 @@
+@import '../../../../../styles/spectrum/spectrum';
+
+.content {
+  overflow-y: auto;
+  max-height: 600px;
+
+  h5 {
+    font-weight: 600;
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    top: 62px;
+    left: 340px;
+
+    > div {
+      width: 10px;
+      height: 10px;
+    }
+  }
+}
+
+.textarea {
+  overflow-x: hidden;
+  overflow-y: auto;
+}

@@ -1,9 +1,21 @@
-<app-page-header class="page-header-fixed" [heading]="'Orders List'" [icon]="'fa fa-folder-open'"></app-page-header>
-
+<div class="row page-header-fixed">
+	<div class="header-body">
+		<h4 class="page-header">
+			{{ 'Orders List' | translate }}
+		</h4>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<i class="fa fa-folder-open"></i> {{ 'Orders List' | translate}}</li>
+		</ol>
+	</div>
+</div>
 <div class="sp-container">
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
-      <div class="card mb-3">
+      <div class="sp-card mb-3">
         <div class="card-header d-flex">
           <div class="align-self-center">
             {{ 'All orders' | translate }}
@@ -11,7 +23,7 @@
         </div>
         <div class="row">
           <div class="col-xl-1">
-            <div class="card-header">{{ 'Filters:' | translate }}</div>
+            <div class="sp-card-header">{{ 'Filters:' | translate }}</div>
           </div>
           <div class="col-xl-1">
             <h6 class="ng-tns-c6-0 h5-filter">{{ 'Status' | translate }}</h6>
@@ -29,8 +41,8 @@
           <div class="col-xl-3 filter">
             <div>
               <div [formGroup]="form1" class="input-group">
-                <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker"
-                  (ngModelChange)="filter1(model1)" formControlName="fechaSelec">
+                <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(model1)"
+                  formControlName="fechaSelec">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                     <i class="fa fa-calendar"></i>
@@ -44,42 +56,96 @@
             <button class="btn btn-outline-secondary" [routerLink]="['/order-list-client']" translate [hidden]="!valid" (click)="clean()">Clean Filters</button>
           </div>
           <div class="card-body table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th class="table-tr">{{ 'Status' | translate }}</th>
-                  <th class="table-tr">{{ 'Number' | translate }}</th>
-                  <th class="table-tr">{{ 'Date' | translate }}</th>
-                  <th class="table-tr"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let order of listOrders">
-                  <td *ngIf='order.status==0' class="div-pending">
-                    <div translate>Pending</div>
-                  </td>
-                  <td *ngIf='order.status==1' class="div-authorized">
-                    <div translate>Authorized</div>
-                  </td>
-                  <td *ngIf='order.status==2' class="div-processed">
-                    <div translate>Processed</div>
-                  </td>
-                  <td *ngIf='order.status==3' class="div-pay">
-                    <div translate>Pay</div>
-                  </td>
-                  <td *ngIf='order.status==4' class="div-sent">
-                    <div translate>Sent</div>
-                  </td>
-                  <td class="table-tr">{{order.number}}</td>
-                  <td class="table-tr">{{order.date | date:'yyyy-MM-dd'}}</td>
-                  <td>
-                    <small>
+            <div>
+              <div class="list-orden" *ngFor="let order of listOrders">
+                <div class="row">
+                  <div class="col-lg-2">
+                    <div>
+                      <span>{{'ORDER'| translate }}</span>
+                    </div>
+                    <div>
+                      <span>{{'#'}}{{order.number}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="title-status">
+                      <span>{{ 'Status' | translate }}</span>
+                    </div>
+                    <div class="div-status">
+                      <span *ngIf='order.status==0' class="div-pending">
+                        <div translate>Pending</div>
+                      </span>
+                      <span *ngIf='order.status==1' class="div-pay">
+                        <div translate>Pay</div>
+                      </span>
+                      <span *ngIf='order.status==2' class="div-processed">
+                        <div translate>Processed</div>
+                      </span>
+                      <span *ngIf='order.status==3' class="div-sent">
+                        <div translate>Sent</div>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-1">
+                    <div>
+                      <span class="span_total">Total</span>
+                    </div>
+                    <div>
+                      <span class="span_total">{{'$'}}{{order.total}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="div-date">
+                      <span>{{order.date | date:'yyyy-MM-dd'}}</span>
+                    </div>
+                    <div class="div-date">
                       <a class="ng-tns-c4-0" routerLink="/details-order/{{order.idOrder}}/view" translate>View Details</a>
-                    </small>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="row product" *ngFor="let listDetails of order.listProductRequested">
+                  <div class="col-lg-3">
+                    <div *ngFor="let specification of listDetails.productRequested.detail">
+                      <span>{{listDetails.productRequested.product.name}}</span>
+                    </div>
+                    <div>
+                      <span>{{listDetails.productRequested.detail[0].name}}</span>
+                    </div>
+                    <div>
+                      <span>{{listDetails.productRequested.detail[0].eye}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div>
+                      <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>
+                    </div>
+                    <div>
+                      <span>{{'Replacement period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
+                    </div>
+                    <div>
+                      <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
+                    </div>
+                    <div>
+                      <span>{{'$'}}{{listDetails.productRequested.price}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-2">
+                    <div>
+                      <span>{{'Quantity'| translate}}</span>
+                    </div>
+                    <div>
+                      <span>{{listDetails.productRequested.quantity}}</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-2">
+                    <div>
+                      <span>{{'$'}}{{listDetails.productRequested.price*listDetails.productRequested.quantity}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+            </div>
             <div class="table-empty" [hidden]="listOrders.length !== 0" translate>
               <p class="no-records">
                 {{ 'No records have been added yet' | translate }}

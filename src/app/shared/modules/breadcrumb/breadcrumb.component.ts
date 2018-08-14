@@ -29,10 +29,13 @@ export class BreadcrumbComponent implements OnInit {
     }
     else if(state.snapshot.url === '/seller'){
       this.breadcrumbList.push(new Breadcrumb('List of Sellers', 'fa fa-users', './'));
-    }
-    else{
+    }else if(state.snapshot.url.substring(0,5) ==='/seller'){
       this.breadcrumbList.push(new Breadcrumb('List of Sellers', 'fa fa-users', './'));
       this.breadcrumbService.push(new Breadcrumb('Seller', 'fa fa-user', state.snapshot.url));
+    }
+    else if (state.snapshot.url === '/order-list-client'){
+      this.breadcrumbList.push(new Breadcrumb('Orders List', 'fa fa-folder-open', './'));
+      this.breadcrumbService.push(new Breadcrumb('Order', 'fa fa-folder-open', state.snapshot.url));
     }
   }
 
@@ -40,7 +43,7 @@ export class BreadcrumbComponent implements OnInit {
 
   getBreadcrumb(): void {
     this.breadcrumbService.get().subscribe( res => {
-      if (res.name === 'List of Clients' || res.name ==='List of Sellers') {
+      if (res.name === 'List of Clients' || res.name ==='List of Sellers' || res.name ==='order-list-client') {
         this.breadcrumbList = new Array();
       }
       this.breadcrumbList.push(res);
