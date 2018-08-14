@@ -305,5 +305,11 @@
     "Change Temporal Password ": "Change Temporal Password",
     "Should change the temporal password to access the system": "Should change the temporal password to access the system.",
     "Patient":"Patient",
-    "Eye":"Eye"
+    "Eye":"Eye",
+    "Enter patient search ...":"Enter patient search ...",
+    "Basket":"Basket",
+    "All Basket":"All Basket",
+    "To buy":"To buy",
+    "Confirm Purchase":"Confirm Purchase",
+    "Are you sure you want to buy the entire basket?":"Are you sure you want to buy the entire basket?"
 }
