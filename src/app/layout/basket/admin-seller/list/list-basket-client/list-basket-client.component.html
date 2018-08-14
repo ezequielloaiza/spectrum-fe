@@ -1,0 +1,85 @@
+<div class="row page-header-fixed">
+  <div class="header-body">
+    <h4 class="page-header">
+      {{ 'Basket' | translate }}
+    </h4>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-shopping-cart"></i> {{ 'Basket' | translate}}</li>
+    </ol>
+  </div>
+</div>
+<div class="sp-container">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="sp-card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All Basket' | translate }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-1">
+            <div class="sp-card-header">{{ 'Filters:' | translate }}</div>
+          </div>
+          <div class="col-xl-1">
+            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Client' | translate }}</h6>
+          </div>
+          <div class="col-xl-3 filter">
+            <div class="row search">
+              <div class="col col-xl-12 col-lg-12">
+                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter patient search ...' | translate }}">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+          </div>
+          <div class="card-body table-responsive">
+            <div class="padding-list">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div class="row">
+                    <div class="col-md-3 box-shadow" *ngFor="let basket of listBasket">
+                      <div class="mb-4 box-shadow">
+                        <i class="fa fa-shopping-cart icon-basket card-img-top"></i>
+                        <h3 class="product-name">{{basket.user.name}}</h3>
+                        <div class="card-body">
+                          <div class="price-wrap h4">
+                            <span class="price-base">{{basket.quantity}}</span>&nbsp;
+                            <span *ngIf="(basket.quantity) ==1" class="price-new text-warning">ud.</span>&nbsp;
+                            <span *ngIf="(basket.quantity) > 1" class="price-new text-warning">uds.</span>&nbsp;
+                            <div class="btn-group">
+                              <button routerLink="/list-basket-detail/{{basket.user.idUser}}/view" type="button" class="btn btn-primary">{{ 'To buy' | translate }}</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="table-empty" [hidden]="listBasket.length !== 0" translate>
+              <p class="no-records">
+                {{ 'No records have been added yet' | translate }}
+              </p>
+            </div>
+            <div class="pagination-list" [hidden]="listBasket.length === 0">
+              <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listBasketAux.length"
+                [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+              </ngb-pagination>
+              <span class="count-elements">{{ listBasket.length + ' ' + ('of' | translate) + ' ' + listBasketAux.length + ' ' + ('register(s)' | translate)
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="padding-list">
+
+</div>-->

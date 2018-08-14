@@ -19,7 +19,9 @@ import { ListOrderClientComponent } from './manage-customer-orders/list-order-cl
 import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
 import { RoleGuard } from '../shared';
 import { WarrantyComponent } from './warranty/warranty.component';
-
+import { ListBasketComponent } from './basket/client/list/list-basket/list-basket.component';
+import { ListBasketClientComponent } from './basket/admin-seller/list/list-basket-client/list-basket-client.component';
+import { DetailsBasketClientComponent } from './basket/admin-seller/details/details-basket-client/details-basket-client.component';
 const routes: Routes = [
   {
     path: '',
@@ -123,7 +125,16 @@ const routes: Routes = [
       },
       { path: 'details-order-client/:id/view', component: DetailsOrderClientComponent,
       data: { option: 'OrdersDetailSeller' }
-     }
+      },
+      { path: 'list-basket-client', component: ListBasketComponent,
+      data: { option: 'ListBasketClient' }
+      },
+      { path: 'list-basket', component: ListBasketClientComponent,
+      data: { option: 'ListBasket' }
+      },
+      { path: 'list-basket-detail/:id/view', component: DetailsBasketClientComponent,
+      data: { option: 'ListBasketDetail' }
+      }
     ]
   },
   { path: '**', redirectTo: 'not-found' }

@@ -307,5 +307,11 @@
     "Change Temporal Password": "Cambio de Contraseña Temporal",
     "Should change the temporal password to access the system": "Debe cambiar la contraseña temporal para acceder al sistema.",
     "Patient":"Paciente",
-    "Eye":"Ojo"
+    "Eye":"Ojo",
+    "Enter patient search ...":"Ingrese el nombre del paciente...",
+    "Basket":"Cesta",
+    "All Basket":"Toda la cesta",
+    "To buy":"Comprar",
+    "Confirm Purchase":"Confirmar compra",
+    "Are you sure you want to buy the entire basket?":"¿Estás seguro de que deseas comprar toda la cesta?"
 }

@@ -10,5 +10,7 @@ export enum RoleSeller {
   ProductsDetails,
   Home,
   OrdersBySellerList,
-  OrdersDetailSeller
+  OrdersDetailSeller,
+  ListBasket,
+  ListBasketDetail
 }
