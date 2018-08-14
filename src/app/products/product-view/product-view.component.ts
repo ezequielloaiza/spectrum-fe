@@ -137,12 +137,12 @@ export class ProductViewComponent implements OnInit {
     _.each(productsSelected, function(productSelected, index) {
 
       productSelected.productId = product.idProduct;
-      productSelected.codClient = client; //TODO cambiar por el campo del COD
       productSelected.pacient = product.pacient;
       productSelected.price = product.priceSale;
 
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
+        productSelected.observations = product.observationsRight;
         _.each(product.parametersRight, function(parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values']);
         });
@@ -151,6 +151,7 @@ export class ProductViewComponent implements OnInit {
       
       if (productSelected.eye === "Left") {
         productSelected.quantity = product.quantityLeft;
+        productSelected.observations = product.observationsLeft;
         _.each(product.parametersLeft, function(parameter, index) {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values']);
         });

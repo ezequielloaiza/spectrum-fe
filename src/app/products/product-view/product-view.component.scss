@@ -291,35 +291,72 @@ img {
 
 .more-info {
 
-  >div:nth-child(1) { //specifications technicals
-
-    .header {
-      margin-left: 5px;
+  >div:nth-child(1) { 
+    >div:nth-child(1) { //specifications technicals
+      .header {
+        margin-left: 5px;
+      }
+  
+      .content {
+        margin-left: 25px;
+  
+        .label{
+          margin-top: 17px;
+        }
+  
+        .selection{
+          margin-top: 5px;
+        }
+      }
+  
+      >div:nth-child(4) {
+        margin-top: 35px;
+        margin-left: 5px;
+  
+        >div:nth-child(2) {
+          max-width: 48%;
+        }
+      }
     }
 
-    .content {
-      margin-left: 25px;
+    >div:nth-child(2) { //comments
+      margin-top: 30px;
 
-      .label{
-        margin-top: 17px;
+      .header {
+        margin-left: 15px;
       }
-
-      .selection{
-        margin-top: 5px;
-      }
-    }
-
-    >div:nth-child(4) {
-      margin-top: 35px;
-      margin-left: 5px;
-
-      >div:nth-child(2) {
-        max-width: 48%;
+  
+      .content {
+        margin-left: 15px;
       }
     }
   }
 
-  .filters {
-    margin-top: 10px;
+  >div:nth-child(2) {
+
+    >div:nth-child(2) {
+      margin-top: 30px;
+      .row {
+        .title {
+          margin-left: 15px;
+        }
+      }
+    }
+
+    >div:nth-child(3) {
+      margin-top: 30px;
+      .row {
+        .title {
+          margin-left: 15px;
+        }
+      }
+    }
+
+    .filters {
+      margin-top: 10px;
+    }
+
   }
+
+  
 }
