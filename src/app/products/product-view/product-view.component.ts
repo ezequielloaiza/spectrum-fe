@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
+import { ProductRequested } from '../../shared/models/productrequested';
 
 @Component({
   selector: 'app-product-view',
@@ -61,6 +62,7 @@ export class ProductViewComponent implements OnInit {
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
+    this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.product.infoAditional = JSON.parse(this.product.infoAditional);
@@ -127,8 +129,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   
-  buildOrder() {
-
+  buildProductsSelected() {
     this.setEyeSelected();
     let product = this.product;
     let client = this.currentUser;
@@ -136,8 +137,8 @@ export class ProductViewComponent implements OnInit {
 
     _.each(productsSelected, function(productSelected, index) {
 
-      productSelected.productId = product.idProduct;
-      productSelected.pacient = product.pacient;
+      productSelected.id = product.idProduct;
+      productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
 
       if (productSelected.eye === "Right") {
@@ -158,14 +159,34 @@ export class ProductViewComponent implements OnInit {
         productSelected.parameters = product.parametersLeft;
       }
 
-      productSelected.detail = { name: product.name, eye: productSelected.eye, parameters: productSelected.parameters };
+      productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye'])
     });
+
+    return productsSelected;
+  }
+
+  addToCart() {
+    let productsRequested = [];
+    let productsSelected = this.buildProductsSelected();
+    _.each(productsSelected, function (product) {
+      let productRequest: ProductRequested = new ProductRequested();
+      productRequest.product = product.id;
+      productRequest.quantity = product.quantity;
+      productRequest.price = product.price;
+      productRequest.detail = JSON.stringify(product.detail);
+      productRequest.patient = product.patient;
+      productRequest.observations = product.observations;
+      productsRequested.push(productRequest);
+    });
+
+    let client = this.currentUser;
+    debugger
   }
 
 
   buyNow() {
-    this.order = this.buildOrder();
+    this.order = this.buildProductsSelected();
     this.getProducts();
     /*alert('In construction.');
     this.router.navigate(['/order-list-client']);*/
