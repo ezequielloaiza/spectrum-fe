@@ -15,13 +15,16 @@
         <option *ngFor="let status of listStatus" value="{{status.id}}">{{ status.name | translate }}</option>
       </select>
     </div>
+    <div class="col col-xl-1 col-lg-1">
+      <button class="btn btn-outline-secondary" [routerLink]="['/warranty']" translate [hidden]="!valid" (click)="clean()">Clean Filters</button>
+    </div>
   </div>
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
       <div class="card mb-3">
         <div class="card-header">
           <div class="align-self-center">
-            {{ 'All Warranty' | translate }}
+            {{ 'All Warranties' | translate }}
           </div>
           <div class="ml-auto p-2">
             <button type="button" class="btn btn-main" (click)="open(content, 'create')">{{ 'Add' | translate }}&nbsp;
@@ -79,7 +82,7 @@
                   </span>
                 </th>
                 <th class="table-tr">
-                  <span title="Type">{{ 'Type' | translate }}
+                  <span title="Type">{{ 'Warranty Type' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortWarranty('type')"></i>
                   </span>
                   <span [hidden]="orderByField != 'type' || typeSort === 0" >
