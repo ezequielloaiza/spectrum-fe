@@ -120,11 +120,11 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Warranty type' | translate }}</label>
+            <label>{{ 'Warranty Type' | translate }}</label>
             <div>
               <span *ngIf="action == 'statusChange'">{{ warranty.type }}</span>
               <select *ngIf="action != 'statusChange'" class="form-control" name="type" formControlName="type" required>
-                <option *ngFor="let type of listTypes" value="{{type}}">{{ type }}</option>
+                <option *ngFor="let type of listTypes" value="{{type}}">{{ type | translate }}</option>
               </select>
             </div>
           </fieldset>
