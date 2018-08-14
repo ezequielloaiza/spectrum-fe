@@ -1,26 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { BasketService} from '../../../../../shared/services/basket/basket.service';
+import { BasketService } from '../../../../../shared/services/basket/basket.service';
 import { BasketproductrequestedService } from '../../../../../shared/services/basketproductrequested/basketproductrequested.service';
-import { OrderService } from '../../../../../shared/services/order/order.service';
-import { CodeHttp } from '../../../../../shared/enum/code-http.enum';
-import * as _ from 'lodash';
+import { OrderService } from '../../../../../shared/services';
+import { UserStorageService } from '../../../../../http/user-storage.service';
 import { AlertifyService } from '../../../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { UserStorageService } from '../../../../../http/user-storage.service';
+import { CodeHttp } from '../../../../../shared/enum/code-http.enum';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-list-basket',
-  templateUrl: './list-basket.component.html',
-  styleUrls: ['./list-basket.component.scss']
+  selector: 'app-details-basket-client',
+  templateUrl: './details-basket-client.component.html',
+  styleUrls: ['./details-basket-client.component.scss']
 })
-export class ListBasketComponent implements OnInit {
+export class DetailsBasketClientComponent implements OnInit {
 
   listBasket: Array<any> = new Array;
   listBasketAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage = 5;
   user: any;
+  id: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -28,17 +29,19 @@ export class ListBasketComponent implements OnInit {
     private userService: UserStorageService,
     private alertify: AlertifyService,
     private notification: ToastrService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private route: ActivatedRoute) {
       this.user = JSON.parse(userService.getCurrentUser());
     }
 
   ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('id');
     this.getListBasket();
     this.advancedPagination = 1;
   }
 
   getListBasket(): void {
-      this.basketService.allBasketByUser$(this.user.userResponse.idUser).subscribe(res => {
+      this.basketService.allBasketByUser$(this.id).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listBasket = res.data;
           this.listBasketAux = res.data;
@@ -104,7 +107,7 @@ export class ListBasketComponent implements OnInit {
       }
 
     generateOrder() {
-      this.orderService.saveOrder$(this.user.userResponse.idUser).subscribe(res => {
+      this.orderService.saveOrder$(this.id).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.getListBasket();
           this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {

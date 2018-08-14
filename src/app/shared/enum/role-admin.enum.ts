@@ -20,5 +20,7 @@ export enum RoleAdmin {
   EditCompany,
   ViewSeller,
   EditSeller,
-  ViewClient
+  ViewClient,
+  ListBasket,
+  ListBasketDetail
 }

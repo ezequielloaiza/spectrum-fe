@@ -43,6 +43,8 @@ import { DetailsOrderClientComponent } from './manage-customer-orders/details-or
 import { ModalsStatusComponent } from './manage-customer-orders/modals-status/modals-status.component';
 import { ModalsConfirmationComponent } from './manage-customer-orders/modals-confirmation/modals-confirmation.component';
 import { ListBasketComponent } from './basket/client/list/list-basket/list-basket.component';
+import { ListBasketClientComponent } from './basket/admin-seller/list/list-basket-client/list-basket-client.component';
+import { DetailsBasketClientComponent } from './basket/admin-seller/details/details-basket-client/details-basket-client.component';
 
 @NgModule({
     imports: [
@@ -94,7 +96,9 @@ import { ListBasketComponent } from './basket/client/list/list-basket/list-baske
         DetailsOrderClientComponent,
         ModalsStatusComponent,
         ModalsConfirmationComponent,
-        ListBasketComponent
+        ListBasketComponent,
+        ListBasketClientComponent,
+        DetailsBasketClientComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,

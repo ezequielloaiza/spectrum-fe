@@ -11,7 +11,15 @@ export class BasketService {
 
   constructor(private http: HttpClient) { }
 
-  public allBasketByUser$(): Observable<any> {
-    return this.http.get(environment.apiUrl + 'basket/allBasketByUser');
+  public allBasketByUser$(idUser): Observable<any> {
+    return this.http.get(environment.apiUrl + 'basket/allBasketByUser/' + idUser);
+  }
+
+  public findBasketClientBySeller$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'basket/findBasketClientBySeller');
+  }
+
+  public allBasket$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'basket/allBasket');
   }
 }

@@ -97,7 +97,10 @@
 			</li>
       -->
       <li class="nav-item dropdown">
-				<a class="nav-link" [routerLink]="['/list-basket-client']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+				<a *ngIf="user.role.idRole==1 || user.role.idRole==2" class="nav-link" [routerLink]="['/list-basket']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+					<i class="fa fa-shopping-cart"></i>
+        </a>
+        <a *ngIf="user.role.idRole==3" class="nav-link" [routerLink]="['/list-basket-client']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 					<i class="fa fa-shopping-cart"></i>
 				</a>
 			</li>
