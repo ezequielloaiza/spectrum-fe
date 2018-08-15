@@ -44,13 +44,13 @@
                   <div class="row">
                     <div class="col-md-3 box-shadow" *ngFor="let basket of listBasket">
                       <div class="mb-4 box-shadow">
-                        <i class="fa fa-shopping-cart icon-basket card-img-top"></i>
+                        <i class="fa fa-shopping-cart icon-basket card-img-top"><div>{{ basket.quantity }}</div></i>
                         <h3 class="product-name">{{basket.user.name}}</h3>
                         <div class="card-body">
                           <div class="price-wrap h4">
-                            <span class="price-base">{{basket.quantity}}</span>&nbsp;
+                            <!--<span class="price-base">{{basket.quantity}}</span>&nbsp;
                             <span *ngIf="(basket.quantity) ==1" class="price-new text-warning">ud.</span>&nbsp;
-                            <span *ngIf="(basket.quantity) > 1" class="price-new text-warning">uds.</span>&nbsp;
+                            <span *ngIf="(basket.quantity) > 1" class="price-new text-warning">uds.</span>&nbsp;-->
                             <div class="btn-group">
                               <button routerLink="/list-basket-detail/{{basket.user.idUser}}/view" type="button" class="btn btn-primary">{{ 'To buy' | translate }}</button>
                             </div>

@@ -21,6 +21,7 @@ export class ListBasketComponent implements OnInit {
   advancedPagination: number;
   itemPerPage = 5;
   user: any;
+  productRequestedToyBuy: Array<any> = new Array;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -74,47 +75,60 @@ export class ListBasketComponent implements OnInit {
   delete(id) {
     this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
       this.translate.get('Are you sure do you want to delete this register?',
-       {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
-         this.alertify.confirm(title, msg, () => {
-           this.borrar(id);
+      {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
+        this.alertify.confirm(title, msg, () => {
+          this.borrar(id);
+          }, () => {});
+        });
+      });
+  }
+
+  getItems(ev: any) {
+    this.listBasket = this.listBasketAux;
+    const val = ev.target.value;
+    if (val && val.trim() !== '') {
+        this.listBasket = this.listBasket.filter((item) => {
+          return ((item.productRequested.patient.toLowerCase().indexOf(val.toLowerCase()) > -1));
+        });
+    }
+  }
+
+  buy() {
+    this.translate.get('Confirm Purchase', {value: 'Confirm Purchase'}).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to buy the entire basket?',
+        {value: 'Are you sure you want to buy the entire basket?'}).subscribe((msg: string) => {
+          this.alertify.confirm(title, msg, () => {
+            this.generateOrder();
           }, () => {});
         });
       });
     }
 
-    getItems(ev: any) {
-      this.listBasket = this.listBasketAux;
-      const val = ev.target.value;
-      if (val && val.trim() !== '') {
-          this.listBasket = this.listBasket.filter((item) => {
-            return ((item.productRequested.patient.toLowerCase().indexOf(val.toLowerCase()) > -1));
-          });
-      }
-    }
-
-    buy() {
-      this.translate.get('Confirm Purchase', {value: 'Confirm Purchase'}).subscribe((title: string) => {
-        this.translate.get('Are you sure you want to buy the entire basket?',
-         {value: 'Are you sure you want to buy the entire basket?'}).subscribe((msg: string) => {
-           this.alertify.confirm(title, msg, () => {
-             this.generateOrder();
-            }, () => {});
-          });
+  generateOrder() {
+    this.orderService.saveOrder$(this.user.userResponse.idUser).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.getListBasket();
+        this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+          this.notification.success('', res);
         });
+      } else {
+        console.log(res.errors[0].detail);
       }
+    }, error => {
+      console.log('error', error);
+    });
+  }
 
-    generateOrder() {
-      this.orderService.saveOrder$(this.user.userResponse.idUser).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.getListBasket();
-          this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-            this.notification.success('', res);
-          });
-        } else {
-          console.log(res.errors[0].detail);
-        }
-      }, error => {
-        console.log('error', error);
+  onSelection(basket, checked) {
+    let id = basket.idBasketProductRequested;
+    let exist = _.includes(this.productRequestedToyBuy, id);
+    if (exist) {
+      _.remove(this.productRequestedToyBuy,  function (product)  {
+        return product === id;
       });
+    } else {
+      this.productRequestedToyBuy = _.concat(this.productRequestedToyBuy, id);
     }
+    basket.checked = !basket.checked;
+  }
 }

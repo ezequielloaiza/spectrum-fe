@@ -32,7 +32,11 @@
   padding: 0px 40px 0px 80px;
 }
 
-
+.card-body {
+  .btn-group {
+    padding-left: 58px;
+  }
+}
 .card {
   margin-top: 30px;
 }
@@ -42,9 +46,9 @@
 }
 
 .product-name {
-  text-align: center;
   color: $bg-blue;
-  padding-top: 10px;
+  padding-top: 58px;
+  padding-left: 45px;
 }
 
 .card-product:after {
@@ -187,4 +191,11 @@ body {
   font-size: 150px;
   color: #bdbdbd;
   padding-left: 40px;
+
+  div {
+    font-size: 40px;
+    color: #666666;
+    margin-top: -106px;
+    margin-left: 70px;
+  }
 }
