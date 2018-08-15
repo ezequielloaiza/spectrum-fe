@@ -1,5 +1,4 @@
 @import '../../../../../../styles/spectrum/spectrum';
-@include tr-sizes((25%, 25%, 25%, 25%));
 
 .search {
   padding-bottom: 1.4rem;
@@ -39,46 +38,66 @@
   }
 }
 
-.div-date{
-  padding-left: 200px;
-}
-
-
-.title-eye{
-  padding-right: 500px;
-  font-size: 13px;
-}
-
-.list-orden {
+.list-basket {
   border: solid 1px #bfbfbf;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 15px;
   border-radius: 3px;
-  padding-bottom: 10px;
-  margin-top: .5em;
+  margin-top: 1.5em;
+  margin-left: 50px;
 
-  > div {
-    &:first-child {
-      border-bottom: 1px solid #bfbfbf;
-      font-size: .9em;
-      color: gray;
-      padding: .4em 0;
+  .img-product{
+    width: 100%;
+  }
 
-      div:nth-child(2) {
-        color: grey;
+  .details {
+    text-align: center;
+    span {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
 
-        > div {
-          text-align: center;
-        }
+  .params {
+    display: flex;
+    align-items: center;
+    padding-left: 0px !important;
+
+    .param {
+
+      display: flex;
+      justify-content: space-between;
+
+      >dt:nth-child(1) {
+        font-size: 14px;
       }
 
-      div:nth-child(3) {
-        font-size: .8em;
-        color: grey;
-        font-weight: bold;
-        text-align: right;
+      >dt:nth-child(2) {
+        font-weight: 300;
+        font-size: 12px;
       }
     }
+  }
+
+  >div:nth-child(1) {
+    .fa-trash {
+      font-size: 24px;
+      color: #666666;
+    }
+
+    .fa-trash:hover {
+      cursor: pointer;
+    }
+
+    >div:nth-child(2) {
+      display: flex;
+      justify-content: flex-end;
+      color: #f8ac59;
+    }
+  }
+
+  
+
+  > div {
 
     &.product {
       padding-top: 1em;
@@ -96,27 +115,15 @@
       div:nth-child(2) {
         font-size: 0.8em;
         color: gray;
-
-       /* div:last-child {
-          color: #ffc107; font-weight: 600;
-        }*/
       }
-
-   /*   div:nth-child(3) > div {
-        text-align: center;
-      }
-
-      div:nth-child(4) > div {
-        color: #ffc107; font-weight: 600;
-      }*/
     }
-  }
-  .link {
-    color: $bg-blue;
-    cursor: pointer;
+    .link {
+      color: $bg-blue;
+      cursor: pointer;
 
-    &:hover {
-      text-decoration: underline;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }
@@ -149,14 +156,6 @@
   }
 }
 
-.imag-product{
-  width: 150px;
- }
-
- .div-parametros{
-  padding-left: 50px;
-}
-
 .h5-filter {
   padding-top: 20px;
 }
@@ -168,3 +167,13 @@
 .align-btn-detail {
   text-align: right;
 }
+
+ .check-plataform {
+  display: flex;
+
+  >input:nth-child(1) {
+    width: 20px;
+    height: 10px;
+    margin-left: 20px; 
+  }
+}   
