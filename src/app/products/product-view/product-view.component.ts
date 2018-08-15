@@ -5,6 +5,13 @@ import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ProductRequested } from '../../shared/models/productrequested';
+import { FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { BasketService } from '../../shared/services/basket/basket.service';
+import { AlertifyService } from '../../shared/services/alertify/alertify.service';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { Product } from '../../shared/models/product';
 
 @Component({
   selector: 'app-product-view',
@@ -21,19 +28,26 @@ export class ProductViewComponent implements OnInit {
   order: any;
   productsSelected: Array<any> = new Array;
   currentUser: any;
-
+  form: FormGroup;
   //configuration XTENSA product
   paramAxesRight: any;
   paramAxesLeft: any;
   axesXtensa     : Array<any> = new Array;
 
-  constructor(private productService:ProductService, private route: ActivatedRoute, private userStorageService: UserStorageService) {
+  constructor(private productService: ProductService,
+              private route: ActivatedRoute,
+              private userStorageService: UserStorageService,
+              private formBuilder: FormBuilder,
+              private basketService: BasketService,
+              private alertify: AlertifyService,
+              private notification: ToastrService,
+              private translate: TranslateService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
    }
 
   ngOnInit() {
     this.getProducts();
-
+    this.initializeForm();
     /* var product xtensa */
     this.setAxesXtensa();
   }
@@ -128,7 +142,7 @@ export class ProductViewComponent implements OnInit {
     }
   }
 
-  
+
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.product;
@@ -149,7 +163,7 @@ export class ProductViewComponent implements OnInit {
         });
         productSelected.parameters = product.parametersRight;
       }
-      
+
       if (productSelected.eye === "Left") {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
@@ -171,7 +185,9 @@ export class ProductViewComponent implements OnInit {
     let productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
       let productRequest: ProductRequested = new ProductRequested();
-      productRequest.product = product.id;
+      let productoSelect: Product = new Product();
+      productoSelect.idProduct = product.id;
+      productRequest.product = productoSelect;
       productRequest.quantity = product.quantity;
       productRequest.price = product.price;
       productRequest.detail = JSON.stringify(product.detail);
@@ -181,7 +197,20 @@ export class ProductViewComponent implements OnInit {
     });
 
     let client = this.currentUser;
-    debugger
+    this.form.get('idUser').setValue(client.idUser);
+    this.form.get('productRequestedList').setValue(productsRequested);
+    this.basketService.saveBasket$(this.form.value).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
+          this.notification.success('', res);
+        });
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+   // debugger
   }
 
 
@@ -193,4 +222,13 @@ export class ProductViewComponent implements OnInit {
     console.log(JSON.stringify(this.order));
   }
 
+  initializeForm() {
+    this.form = this.formBuilder.group({
+      idUser: [''],
+      productRequestedList: [''],
+    });
+  }
+
+  get idUser() { return this.form.get('idUser'); }
+  get productRequestedList() { return this.form.get('productRequestedList'); }
 }

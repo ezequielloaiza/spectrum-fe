@@ -22,4 +22,8 @@ export class BasketService {
   public allBasket$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'basket/allBasket');
   }
+
+  public saveBasket$(Basket): Observable<any> {
+    return this.http.put(environment.apiUrl + 'basket/saveBasket', Basket);
+  }
 }
