@@ -19,13 +19,9 @@
       height: 10px;
     }
   }
+}
 
-  .link {
-    color: $bg-blue;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+.textarea {
+  overflow-x: hidden;
+  overflow-y: auto;
 }

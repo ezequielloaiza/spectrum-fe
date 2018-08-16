@@ -34,6 +34,9 @@ import { UserResolver } from './user/user.resolver';
 import { RouterStateSnapshot, ActivatedRoute } from '@angular/router';
 import { SellerResolver } from './seller/seller.resolver';
 import { ListUserModalComponent } from './user/modals/list-user-modal/list-user-modal.component';
+import { ListSupplierModalComponent } from './user/modals/list-supplier-modal/list-supplier-modal.component';
+import { WarrantyComponent } from './warranty/warranty.component';
+import { WarrantyModalComponent } from './warranty/modals/warranty-modal/warranty-modal.component';
 import { ManageCustomerOrdersComponent } from './manage-customer-orders/manage-customer-orders.component';
 import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
 import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
@@ -82,6 +85,9 @@ import { ModalsConfirmationComponent } from './manage-customer-orders/modals-con
         ClientSellerComponent,
         ModalSellerComponent,
         ListUserModalComponent,
+        ListSupplierModalComponent,
+        WarrantyComponent,
+        WarrantyModalComponent,
         ManageCustomerOrdersComponent,
         ListOrderClientComponent,
         DetailsOrderClientComponent,
@@ -97,6 +103,8 @@ import { ModalsConfirmationComponent } from './manage-customer-orders/modals-con
       SellerModalComponent,
       ModalSellerComponent,
       ListUserModalComponent,
+      ListSupplierModalComponent,
+      WarrantyModalComponent,
       ModalsStatusComponent,
       ModalsConfirmationComponent
     ],

@@ -223,6 +223,11 @@
             <span>{{ 'Membership is required' | translate }}</span>
           </div>
         </div>
+        <div class="col-xl-6">
+          <span [hidden]="listSuppliers.length === 0">{{'Number of defined suppliers:' | translate}} {{listSuppliers.length}} </span>
+          <a [hidden]="listSuppliers.length === 0" class="link" (click)="openModalSupplier()">{{ 'Edit' | translate }}</a>
+          <a [hidden]="listSuppliers.length !== 0" class="link" (click)="openModalSupplier()">{{ 'Define suppliers' | translate }}</a>
+        </div>
       </div>
     </form>
   </div>
@@ -232,8 +237,8 @@
   <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" [disabled]="form.invalid || companyPhone.value.length < 8 || phone.value.length < 8" class="btn btn-main"
-    (click)="save()">{{ 'Save' | translate }}&nbsp;
+  <button type="button" [disabled]="form.invalid || companyPhone.value.length < 8 || phone.value.length < 8 || listSuppliers.length === 0"
+    class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
 </div>

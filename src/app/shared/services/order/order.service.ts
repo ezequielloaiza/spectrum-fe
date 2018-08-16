@@ -14,6 +14,13 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/allOrderByUser');
   }
 
+  public allOrderByGivenId$(clientId): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrderByGivenId/' + clientId);
+  }
+
+  public allOrderWarrantyByUserIdAndStatus$(userId, status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrderWarrantyByUserIdAndStatus/' + userId + '/' + status);
+  }
 
   public findId$(id): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/findId/' + id);
@@ -35,4 +42,11 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/generateOrder/' + idOrder);
   }
 
+  public saveOrder$(idUser): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/saveOrder/' + idUser);
+  }
+
+  public saveOrderDirect$(productRequested): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/saveOrderDirect', productRequested);
+  }
 }
