@@ -27,7 +27,7 @@ export class GoogleService {
   }
 
   public translate$(text: string): Observable<any> {
-    return this.http.get(environment.apiUrl + 'google/text/' + text);
+    return this.http.get(environment.apiUrl + 'google/translate/' + text);
   }
 
   public setPlace(_place) {

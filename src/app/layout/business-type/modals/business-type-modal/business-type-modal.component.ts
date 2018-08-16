@@ -45,7 +45,6 @@ export class BusinessTypeModalComponent implements OnInit {
   }
 
   traductor(): void {
-    console.log('value', this.form.get('name'));
     this.googleService.translate$(this.form.get('name').value).subscribe(
       (res: any)  => {
       console.log(res.data);
