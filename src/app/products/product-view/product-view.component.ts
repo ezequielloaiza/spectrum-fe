@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
+import { BasketRequest } from '../../shared/models/basketrequest';
 
 @Component({
   selector: 'app-product-view',
@@ -30,32 +31,27 @@ export class ProductViewComponent implements OnInit {
   order: any;
   productsSelected: Array<any> = new Array;
   currentUser: any;
-  form: FormGroup;
   //configuration XTENSA product
   paramAxesRight: any;
   paramAxesLeft: any;
-  axesXtensa     : Array<any> = new Array;
+  axesXtensa: Array<any> = new Array;
+  basketRequestModal: BasketRequest = new BasketRequest();
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
               private userStorageService: UserStorageService,
-              private formBuilder: FormBuilder,
               private basketService: BasketService,
-              private alertify: AlertifyService,
-              private notification: ToastrService,
-              private translate: TranslateService,
               private modalService: NgbModal) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
    }
 
   ngOnInit() {
     this.getProducts();
-    this.initializeForm();
     /* var product xtensa */
     this.setAxesXtensa();
   }
 
-  setAxesXtensa(){
+  setAxesXtensa() {
     this.axesXtensa = [ { "values": ["5º","10º","15º","20º","25º","30º","35º","40º","45º","50º","55º","60º","65º","70º","75º","80º","85º","90º","95º","100º","105º","110º","115º","120º","125º","130º","135º","140º","145º","150º","155º","160º","165º","170º","175º","180º"] },
                         { "values": ["10º", "20º","30º","40º","50º","60º","70º","80º","90º","100º","110º","120º","130º","140º","150º","160º","170º","180º"] }];
   }
@@ -184,46 +180,30 @@ export class ProductViewComponent implements OnInit {
   }
 
   addToCart() {
-    let productsRequested = [];
-    let productsSelected = this.buildProductsSelected();
+    const productsRequested = [];
+    const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
-      let productRequest: ProductRequested = new ProductRequested();
-      let productoSelect: Product = new Product();
+      const productRequest: ProductRequested = new ProductRequested();
+      const productoSelect: Product = new Product();
       productoSelect.idProduct = product.id;
       productRequest.product = productoSelect;
       productRequest.quantity = product.quantity;
       productRequest.price = product.price;
-      productRequest.detail = '[' + JSON.stringify(productRequest.detail) + ']';
+      productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
       productRequest.patient = product.patient;
       productRequest.observations = product.observations;
       productsRequested.push(productRequest);
     });
-
-    let client = this.currentUser;
-    this.form.get('idUser').setValue(client.idUser);
-    this.form.get('productRequestedList').setValue(productsRequested);
-    console.log("form" , this.form.value);
-   /* this.basketService.saveBasket$(this.form.value).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
-          this.notification.success('', res);
-        });
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });*/
-   // debugger
-   this.openModal();
+    this.basketRequestModal.idUser = this.currentUser.idUser;
+    this.basketRequestModal.productRequestedList = productsRequested;
+    this.openModal();
   }
 
   openModal(): void {
     const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
-    modalRef.componentInstance.datos = this.form.value;
+    modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
-    modalRef.result.then((result) => {
-    } , (reason) => {
+    modalRef.result.then((result) => {} , (reason) => {
     });
   }
 
@@ -235,14 +215,4 @@ export class ProductViewComponent implements OnInit {
     this.router.navigate(['/order-list-client']);*/
     console.log(JSON.stringify(this.order));
   }
-
-  initializeForm() {
-    this.form = this.formBuilder.group({
-      idUser: [''],
-      productRequestedList: [''],
-    });
-  }
-
-  get idUser() { return this.form.get('idUser'); }
-  get productRequestedList() { return this.form.get('productRequestedList'); }
 }

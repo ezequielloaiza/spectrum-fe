@@ -41,9 +41,16 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-6 align-btn-detail">
-            <button  type="button" (click)="buy()" class="btn btn-outline-primary">
-                {{ 'To buy' | translate }}
+          <div class="col-lg-5 align-select">
+            <div class="custom-control check-plataform">
+              <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="checkboxModel.value1" (click)="onSelectionAll(checkboxModel.value1)"
+                class="custom-control-input">
+              <label class="custom-control-label" for="checkboxAll">{{ 'Select all' | translate }}</label>
+            </div>
+          </div>
+          <div class="col-xl-1 align-btn-detail">
+            <button type="button" (click)="buy()" class="btn btn-outline-primary">
+              {{ 'To buy' | translate }}
             </button>
           </div>
 
@@ -111,14 +118,6 @@
               <p class="no-records">
                 {{ 'No records have been added yet' | translate }}
               </p>
-            </div>
-            <div class="pagination-list" [hidden]="listBasket.length === 0">
-              <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listBasketAux.length"
-                [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
-              </ngb-pagination>
-              <span class="count-elements">{{ listBasket.length + ' ' + ('of' | translate) + ' ' + listBasketAux.length + ' ' + ('register(s)' | translate)
-                }}
-              </span>
             </div>
           </div>
         </div>

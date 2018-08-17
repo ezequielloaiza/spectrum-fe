@@ -8,6 +8,7 @@ import { AlertifyService } from '../../../../../shared/services/alertify/alertif
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { UserStorageService } from '../../../../../http/user-storage.service';
+import { Buy } from '../../../../../shared/models/buy';
 
 @Component({
   selector: 'app-list-basket',
@@ -18,10 +19,13 @@ export class ListBasketComponent implements OnInit {
 
   listBasket: Array<any> = new Array;
   listBasketAux: Array<any> = new Array;
-  advancedPagination: number;
-  itemPerPage = 5;
   user: any;
-  productRequestedToyBuy: Array<any> = new Array;
+  buyBasket: Buy = new Buy();
+  productRequestedToBuy: Array<any> = new Array;
+   checkboxModel = {
+    value1 : false,
+    value2 : 'NO'
+  };
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -35,7 +39,6 @@ export class ListBasketComponent implements OnInit {
 
   ngOnInit() {
     this.getListBasket();
-    this.advancedPagination = 1;
   }
 
   getListBasket(): void {
@@ -44,18 +47,12 @@ export class ListBasketComponent implements OnInit {
           this.listBasket = res.data;
           this.listBasketAux = res.data;
           _.each(this.listBasket, function (basket) {
+            basket.checked = false;
             basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
           });
         }
       });
   }
-
-  pageChange(event) {
-    const startItem = (event - 1) * this.itemPerPage;
-    const endItem = event * this.itemPerPage;
-    this.listBasket = this.  listBasketAux.slice(startItem, endItem);
-  }
-
   borrar(id): void {
     this.basketProductRequestedService.removeById$(id).subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -105,9 +102,13 @@ export class ListBasketComponent implements OnInit {
     }
 
   generateOrder() {
-    this.orderService.saveOrder$(this.user.userResponse.idUser).subscribe(res => {
+   // console.log('lista', this.productRequestedToBuy);
+    this.buyBasket.idUser = this.user.userResponse.idUser;
+    this.buyBasket.listBasket = this.productRequestedToBuy;
+    this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.getListBasket();
+        this.productRequestedToBuy = new Array;
         this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
           this.notification.success('', res);
         });
@@ -120,15 +121,35 @@ export class ListBasketComponent implements OnInit {
   }
 
   onSelection(basket, checked) {
+    basket.checked = !checked;
     let id = basket.idBasketProductRequested;
-    let exist = _.includes(this.productRequestedToyBuy, id);
+    let exist = _.includes(this.productRequestedToBuy, id);
     if (exist) {
-      _.remove(this.productRequestedToyBuy,  function (product)  {
+      _.remove(this.productRequestedToBuy,  function (product)  {
         return product === id;
       });
     } else {
-      this.productRequestedToyBuy = _.concat(this.productRequestedToyBuy, id);
+      this.productRequestedToBuy = _.concat(this.productRequestedToBuy, id);
     }
-    basket.checked = !basket.checked;
   }
+
+  onSelectionAll(valueChecked) {
+    let arrayAux = this.productRequestedToBuy;
+   _.each(this.listBasket, function(item) {
+       item.checked = !valueChecked;
+        let id = item.idBasketProductRequested;
+        let exist = _.includes(arrayAux, id);
+        if (exist) {
+            if (valueChecked === true) {
+            _.remove(arrayAux,  function (product)  {
+              return product === id;
+            });
+          }
+        } else {
+          arrayAux = _.concat(arrayAux, id);
+        }
+      });
+      this.productRequestedToBuy = arrayAux;
+  }
+
 }
