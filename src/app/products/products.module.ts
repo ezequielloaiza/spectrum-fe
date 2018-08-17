@@ -12,6 +12,7 @@ import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageHeaderModule, RoleGuard } from '../shared';
 import { FormsModule } from '@angular/forms';
 import { AuthorizationService } from '../shared/services';
+import { ConfirmationBuyComponent } from './modals/confirmation-buy/confirmation-buy.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AuthorizationService } from '../shared/services';
     PageHeaderModule,
     FormsModule
   ],
-  declarations: [ProductsComponent, ProductsListsComponent, ProductViewComponent, ProductDetailComponent],
+  declarations: [ProductsComponent, ProductsListsComponent, ProductViewComponent, ProductDetailComponent, ConfirmationBuyComponent],
+  entryComponents: [ConfirmationBuyComponent],
   providers: [
     RoleGuard,
     AuthorizationService

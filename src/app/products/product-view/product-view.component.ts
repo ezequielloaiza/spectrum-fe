@@ -12,6 +12,8 @@ import { AlertifyService } from '../../shared/services/alertify/alertify.service
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 
 @Component({
   selector: 'app-product-view',
@@ -41,7 +43,8 @@ export class ProductViewComponent implements OnInit {
               private basketService: BasketService,
               private alertify: AlertifyService,
               private notification: ToastrService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private modalService: NgbModal) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
    }
 
@@ -190,7 +193,7 @@ export class ProductViewComponent implements OnInit {
       productRequest.product = productoSelect;
       productRequest.quantity = product.quantity;
       productRequest.price = product.price;
-      productRequest.detail = JSON.stringify(product.detail);
+      productRequest.detail = '[' + JSON.stringify(productRequest.detail) + ']';
       productRequest.patient = product.patient;
       productRequest.observations = product.observations;
       productsRequested.push(productRequest);
@@ -199,7 +202,8 @@ export class ProductViewComponent implements OnInit {
     let client = this.currentUser;
     this.form.get('idUser').setValue(client.idUser);
     this.form.get('productRequestedList').setValue(productsRequested);
-    this.basketService.saveBasket$(this.form.value).subscribe(res => {
+    console.log("form" , this.form.value);
+   /* this.basketService.saveBasket$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
           this.notification.success('', res);
@@ -209,8 +213,18 @@ export class ProductViewComponent implements OnInit {
       }
     }, error => {
       console.log('error', error);
-    });
+    });*/
    // debugger
+   this.openModal();
+  }
+
+  openModal(): void {
+    const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.componentInstance.datos = this.form.value;
+    modalRef.componentInstance.product = this.product;
+    modalRef.result.then((result) => {
+    } , (reason) => {
+    });
   }
 
 

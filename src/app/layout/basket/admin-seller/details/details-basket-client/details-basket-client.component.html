@@ -42,71 +42,71 @@
             </div>
           </div>
           <div class="col-xl-6 align-btn-detail">
-            <button type="button" (click)="buy()" class="btn btn-outline-primary">
-              {{ 'To buy' | translate }}
+            <button  type="button" (click)="buy()" class="btn btn-outline-primary">
+                {{ 'To buy' | translate }}
             </button>
           </div>
+
+          <!--PRODUCTS BASKET-->
           <div class="card-body table-responsive">
-            <div>
-              <div class="list-orden" *ngFor="let basket of listBasket">
+            <div class="row">
+              <div class="list-basket col-lg-5" *ngFor="let basket of listBasket; let i = index">
                 <div class="row">
-                  <div class="col-lg-3">
-                    <div>
-                      <span>{{basket.productRequested.product.name}}</span>
-                    </div>
-                    <div class="price h5 text-warning">
-                      <h6>{{basket.productRequested.detail[0].name}}</h6>
-                    </div>
-                  </div>
-                  <div class="col-lg-2">
-                    <div>
-                      <span>{{'Patient'| translate }}</span>
-                    </div>
-                    <div>
-                      <span>{{basket.productRequested.patient}}</span>
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="title-eye">
-                      <span>{{ 'Eye' | translate }}</span>
-                    </div>
-                    <div class="title-eye price h5 text-warning">
-                      <span>{{basket.productRequested.detail[0].eye}}</span>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="div-date">
-                      <span>{{basket.date | date:'yyyy-MM-dd'}}</span>
-                    </div>
-                    <div class="div-date">
-                      <a class="ng-tns-c4-0 link" (click)="delete(basket.idBasketProductRequested)" translate>Delete</a>&nbsp;
-                    </div>
-                  </div>
-                </div>
-                <div class="row product">
-                  <div class="col-lg-2">
-                    <div>
-                      <img class="imag-product" src={{basket.urlImage}}>
+                  <div class="col-lg-1">
+                    <div class="custom-control check-plataform">
+                      <input id="checkbox{{i}}" type="checkbox" name="checkboxGroup" [(ngModel)]="basket.checked" (click)="onSelection(basket, basket.checked)"
+                        class="custom-control-input">
+                      <label class="custom-control-label" for="checkbox{{i}}"></label>
                     </div>
                   </div>
                   <div class="col-lg-10">
-                    <div *ngFor="let specification of basket.productRequested.detail">
-                      <div class="row justify-content-md-center div-parametros">
-                        <div class="col" *ngFor="let param of specification.parameters">
-                          <dl class="param param-feature">
-                            <dt>{{param.name}}</dt>
-                            <dt>
-                              <span [ngStyle]="{'font-weight':'normal'}"> {{param.selected}}</span>
-                            </dt>
-                          </dl>
-                        </div>
+                    <span>{{ basket.date | date:'yyyy-MM-dd' }}</span>
+                  </div>
+                  <div class="col-lg-1">
+                    <i class="fa fa-trash" (click)="delete(basket.idBasketProductRequested)" placement="top" ngbTooltip="{{ 'Delete' | translate }}"></i>
+                    <!--<a class="ng-tns-c4-0 link" (click)="delete(basket.idBasketProductRequested)" translate>Delete</a>&nbsp;-->
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-8">
+                    <!--Image-->
+                    <div>
+                      <img class="img-product" src={{basket.urlImage}}>
+                    </div>
+                    <!--Details-->
+                    <div class="details">
+                      <div>
+                        <span>{{ basket.productRequested.product.name }}</span>
+                      </div>
+                      <div class="price h5 text-warning">
+                        <h6>{{ basket.productRequested.detail[0].name }}</h6>
+                      </div>
+                      <div>
+                        <span>{{ 'Eye' | translate }} {{ basket.productRequested.detail[0].eye }}</span>
+                      </div>
+                      <div>
+                        <span>{{ basket.productRequested.patient }}</span>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-lg-4 params">
+                    <div class="col-lg-12" *ngFor="let specification of basket.productRequested.detail">
+                      <div *ngFor="let param of specification.parameters">
+                        <dl class="param">
+                          <dt>{{ param.name }}:</dt>
+                          <dt>{{ param.selected }}</dt>
+                        </dl>
                       </div>
                     </div>
                   </div>
+
                 </div>
               </div>
-              <br>
             </div>
+
+            <br>
             <div class="table-empty" [hidden]="listBasket.length !== 0" translate>
               <p class="no-records">
                 {{ 'No records have been added yet' | translate }}

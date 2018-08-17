@@ -1,0 +1,50 @@
+@import "../../../../styles/spectrum/spectrum";
+
+.list-basket {
+  border: solid 1px#bfbfbf;
+  padding: 15px;
+  border-radius: 3px;
+  margin-top: 1.5em;
+  margin-left: 50px;
+
+  .img-product {
+    width: 55%;
+  }
+
+  .details {
+    text-align: center;
+    span {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+
+  .params {
+    display: flex;
+    align-items: center;
+    padding-left: 0px !important;
+
+    .param {
+      display: flex;
+      justify-content: space-between;
+
+      > dt:nth-child(1) {
+        font-size: 14px;
+      }
+
+      > dt:nth-child(2) {
+        font-weight: 300;
+        font-size: 12px;
+      }
+    }
+  }
+
+  > div:nth-child(1) {
+    > div:nth-child(2) {
+     // display: flex;
+      justify-content: flex-end;
+      color: #f8ac59;
+    }
+  }
+
+}
