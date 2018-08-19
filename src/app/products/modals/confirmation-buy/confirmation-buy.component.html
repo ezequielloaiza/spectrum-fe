@@ -36,21 +36,16 @@
             <div class="row">
               <!--<div class="col-lg-4">{{ 'Parameter' | translate }}</div>-->
               <div class="col-lg-6"></div>
-              <div class="col-lg-3" *ngFor="let item of listBasket; let i = index">
-                <div *ngFor="let specification of item.detail">
-                  <span [hidden]="specification.eye==='Left'">
-                    {{ 'Right' | translate }}
-                  </span>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <span [hidden]="specification.eye==='Right'">
-                    {{ 'Left' | translate }}
-                  </span>
-                </div>
+              <div class="col-lg-3 param" *ngFor="let eye of eyesSelected">
+                <span>
+                  {{ eye | translate }}
+                </span>
               </div>
             </div>
              <!--CONTENT INFO-->
             <div class="row">
               <!--PARAM NAME-->
-              <div class="col-sm-6 title">
+              <div class="col-sm-6">
                 <dl>
                   <dt>{{ 'Quantity' }}:</dt>
                 </dl>
@@ -60,37 +55,18 @@
                   </dl>
                 </div>
               </div>
-              <!--EYE RIGHT-->
-              <div class="col-sm-3 title">
-                <div *ngFor="let item of listBasket">
-                  <div *ngFor="let specification of item.detail">
-                    <div [hidden]="specification.eye === 'Left'">
-                      <dl class="param-right">
-                        <dt>{{ item.quantity }}</dt>
-                      </dl>
-                      <div *ngFor="let param of specification.parameters">
-                        <dl class="param-right">
-                          <dt>{{ param.selected }}</dt>
-                        </dl>
-                      </div>
-                    </div>
-                  </div>
+              <!--EYES-->
+              <div class="col-sm-3" *ngFor="let item of listBasket"> <!--iteration by Eye, (right, left)-->
+                <div>
+                  <dl class="param">
+                    <dt>{{ item.quantity }}</dt>
+                  </dl>
                 </div>
-              </div>
-              <!--EYE LEFT-->
-              <div class="col-sm-3 title">
-                <div *ngFor="let item of listBasket">
-                  <div *ngFor="let specification of item.detail">
-                    <div [hidden]="specification.eye==='Right'">
-                      <dl class="param-left">
-                        <dt>{{ item.quantity }}</dt>
-                      </dl>
-                      <div *ngFor="let param of specification.parameters">
-                        <dl class="param-left">
-                          <dt>{{ param.selected }}</dt>
-                        </dl>
-                      </div>
-                    </div>
+                <div *ngFor="let specification of item.detail">
+                  <div *ngFor="let param of specification.parameters">
+                    <dl class="param">
+                      <dt>{{ param.selected }}</dt>
+                    </dl>
                   </div>
                 </div>
               </div>

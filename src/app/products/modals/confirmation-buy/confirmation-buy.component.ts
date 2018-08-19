@@ -24,6 +24,7 @@ export class ConfirmationBuyComponent implements OnInit {
   listNameParameters: Array<any> = new Array;
   namePatient: any;
   basketRequest: BasketRequest = new BasketRequest();
+  eyesSelected: any;
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
@@ -40,12 +41,18 @@ export class ConfirmationBuyComponent implements OnInit {
 
   getDatos() {
     let patient;
+    let eyesSelected = [];
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
-    _.each(this.listBasket, function (productRequested1) {
-      patient = productRequested1.patient;
-      productRequested1.detail = JSON.parse(productRequested1.detail);
+    _.each(this.listBasket, function (productRequested) {
+      patient = productRequested.patient;
+      var details = JSON.parse(productRequested.detail);
+      _.each(details, function (detail) {
+        eyesSelected.push(detail.eye);
+      });
+      productRequested.detail = JSON.parse(productRequested.detail);
     });
+    this.eyesSelected = eyesSelected;
     this.namePatient = patient;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
   }

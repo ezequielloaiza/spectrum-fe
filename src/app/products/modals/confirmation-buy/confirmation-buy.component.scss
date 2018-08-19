@@ -29,32 +29,9 @@
       padding-top: 15px;
     }
 
-    .param-left {
-      text-align: right;
-      margin-right: 12px;
-
-      > dt:nth-child(1) {
-        font-size: 14px;
-      }
-
-      > dt:nth-child(2) {
-        font-weight: 300;
-        font-size: 12px;
-      }
-    }
-
-    .param-right {
-      text-align: right;
-      margin-right: 24px;
-
-      > dt:nth-child(1) {
-        font-size: 14px;
-      }
-
-      > dt:nth-child(2) {
-        font-weight: 300;
-        font-size: 12px;
-      }
+    .param {
+      display: flex;
+      justify-content: flex-end;
     }
   }
 
