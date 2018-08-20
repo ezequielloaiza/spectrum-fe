@@ -305,5 +305,8 @@
     "Change Temporal Password ": "Change Temporal Password",
     "Should change the temporal password to access the system": "Should change the temporal password to access the system.",
     "Patient":"Patient",
-    "Eye":"Eye"
+    "Eye":"Eye",
+    "Main":"Main",
+    "Are you sure you want to define the shipping address as the primary?":"Are you sure you want to define the shipping address as the primary?",
+    "Confirm change":"Confirm change"
 }
