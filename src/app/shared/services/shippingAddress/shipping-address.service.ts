@@ -26,5 +26,9 @@ export class ShippingAddressService {
     return this.http.delete(environment.apiUrl + 'address/removeById/' + id);
   }
 
-  
+  public defineMain$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'address/defineMain/' + id);
+  }
+
+
 }
