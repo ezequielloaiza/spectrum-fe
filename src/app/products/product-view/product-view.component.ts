@@ -91,14 +91,14 @@ export class ProductViewComponent implements OnInit {
 
   setValuesAxesXtensa(eye, value) {
     if (eye === 'right') {
-      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
+      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axis (º)' });
       if (parseFloat(value) <= -3.25) {
         this.paramAxesRight.values = this.axesXtensa[0].values;
       } else {
         this.paramAxesRight.values = this.axesXtensa[1].values;
       }
     } else {
-      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
+      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axis (º)' });
       if (parseFloat(value) <= -3.25) {
         this.paramAxesLeft.values = this.axesXtensa[0].values;
       } else {

@@ -177,14 +177,14 @@ export class ProductDetailComponent implements OnInit {
 
   setValuesAxesXtensa(typeEye, value) {
     if (typeEye === 'right') {
-      this.paramAxesRight = _.find(this.parametersRight, { 'name': 'Axes (º)', "eye": 'right'});
+      this.paramAxesRight = _.find(this.parametersRight, { 'name': 'Axis (º)', "eye": 'right'});
       if (parseFloat(value) <= -3.25) {
         this.paramAxesRight.values = this.axesXtensa[0].values;
       } else {
         this.paramAxesRight.values = this.axesXtensa[1].values;
       }
     } else {
-      this.paramAxesLeft = _.find(this.parametersLeft, { 'name': 'Axes (º)', "eye": 'left'});
+      this.paramAxesLeft = _.find(this.parametersLeft, { 'name': 'Axis (º)', "eye": 'left'});
       if (parseFloat(value) <= -3.25) {
         this.paramAxesLeft.values = this.axesXtensa[0].values;
       } else {

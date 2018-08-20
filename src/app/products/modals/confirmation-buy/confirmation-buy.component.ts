@@ -55,6 +55,7 @@ export class ConfirmationBuyComponent implements OnInit {
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
+    debugger
   }
 
   save(): void {
