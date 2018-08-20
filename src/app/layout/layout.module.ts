@@ -42,6 +42,7 @@ import { ListOrderClientComponent } from './manage-customer-orders/list-order-cl
 import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
 import { ModalsStatusComponent } from './manage-customer-orders/modals-status/modals-status.component';
 import { ModalsConfirmationComponent } from './manage-customer-orders/modals-confirmation/modals-confirmation.component';
+import { ModalsSendInvoiceComponent } from './manage-customer-orders/modals-send-invoice/modals-send-invoice.component';
 
 @NgModule({
     imports: [
@@ -92,7 +93,8 @@ import { ModalsConfirmationComponent } from './manage-customer-orders/modals-con
         ListOrderClientComponent,
         DetailsOrderClientComponent,
         ModalsStatusComponent,
-        ModalsConfirmationComponent
+        ModalsConfirmationComponent,
+        ModalsSendInvoiceComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -106,7 +108,8 @@ import { ModalsConfirmationComponent } from './manage-customer-orders/modals-con
       ListSupplierModalComponent,
       WarrantyModalComponent,
       ModalsStatusComponent,
-      ModalsConfirmationComponent
+      ModalsConfirmationComponent,
+      ModalsSendInvoiceComponent
     ],
     providers: [
       BusinessTypeService,

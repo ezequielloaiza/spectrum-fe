@@ -12,6 +12,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { Product } from '../../../shared/models/product';
+import { QuickbooksService } from '../../../shared/services/quickbooks/quickbooks.service';
+import { ModalsSendInvoiceComponent } from '../modals-send-invoice/modals-send-invoice.component';
 
 @Component({
   selector: 'app-details-order-client',
@@ -71,7 +73,16 @@ export class DetailsOrderClientComponent implements OnInit {
     modalRef.result.then((result) => {
         this.generar = false;
       } , (reason) => {
-});
+    });
   }
-}
 
+  openModalSendInvoice(order): void {
+    const modalRef = this.modalService.open(ModalsSendInvoiceComponent);
+    modalRef.componentInstance.order = order;
+    modalRef.result.then((result) => {
+        this.generar = false;
+      } , (reason) => {
+    });
+  }
+
+}

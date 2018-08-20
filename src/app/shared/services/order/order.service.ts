@@ -49,4 +49,9 @@ export class OrderService {
   public saveOrderDirect$(productRequested): Observable<any> {
     return this.http.put(environment.apiUrl + 'order/saveOrderDirect', productRequested);
   }
+
+  public sendInvoice$(idOrder): Observable<any> {
+    debugger
+    return this.http.get(environment.apiUrl + 'order/sendInvoice/' + idOrder);
+  }
 }
