@@ -179,7 +179,7 @@ export class ProductViewComponent implements OnInit {
     return productsSelected;
   }
 
-  addToCart() {
+  addToCart(type) {
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -196,18 +196,19 @@ export class ProductViewComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.currentUser.idUser;
     this.basketRequestModal.productRequestedList = productsRequested;
-    this.openModal();
+
+    this.openModal(type);
   }
 
-  openModal(): void {
+
+  openModal(type): void {
     const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.typeBuy = type;
     modalRef.result.then((result) => {} , (reason) => {
     });
   }
-
-
   buyNow() {
     this.order = this.buildProductsSelected();
     this.getProducts();

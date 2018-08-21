@@ -14,9 +14,9 @@
             <div class="tab-pane active" id="pic-1">
               <img src="assets/images/products/quattro.jpg" />
             </div>
-            
+
           </div>
-          
+
         </div>
         <!--INFO-->
         <div class="details col-md-6">
@@ -36,7 +36,7 @@
             <dt class="title">{{ 'Description' | translate }}</dt>
             <p class="info-content">{{ product.description }}</p>
           </div>
-          
+
           <!--CHARACTERISTICS-->
           <div>
             <dt class="title">{{ 'Characteristics' | translate }}</dt>
@@ -140,7 +140,7 @@
           <!--comments-->
           <div class="col-md-12">
             <dt class="title">{{ 'Comments' | translate }}</dt>
-  
+
             <!--HEADER-->
             <div class="row header">
               <div class="col-sm-6 title">{{ 'Eye Right' | translate }}</div>
@@ -235,7 +235,7 @@
           </div>
 
           <!-- client -->
-          <div>  
+          <div>
             <dt class="title">{{ 'Client' | translate }}</dt>
             <div class="row">
               <!--name client-->
@@ -255,7 +255,7 @@
             </div>
           </div>
 
-          
+
 
         </div>
 
@@ -273,7 +273,10 @@
         <a routerLink="/products/{{product.idProduct}}/product-details/{{'toCart'}}" class="btn btn-lg btn-outline-primary text-uppercase">
           <i class="fa fa-cart-plus"></i> Add to cart
         </a>-->
-        <a class="btn btn-lg btn-outline-primary text-uppercase" (click)="addToCart()">
+        <a class="btn btn-lg btn-outline-primary text-uppercase" (click)="addToCart(2)">
+          {{ 'Buy now' | translate }}
+        </a>
+        <a class="btn btn-lg btn-outline-primary text-uppercase" (click)="addToCart(1)">
           <i class="fa fa-cart-plus"></i> Add to cart
         </a>
       </div>

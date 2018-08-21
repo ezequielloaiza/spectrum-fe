@@ -10,6 +10,8 @@ import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { BasketRequest } from '../../../shared/models/basketrequest';
+import { BuyNow } from '../../../shared/models/buynow';
+import { OrderService } from '../../../shared/services';
 
 @Component({
   selector: 'app-confirmation-buy',
@@ -24,12 +26,15 @@ export class ConfirmationBuyComponent implements OnInit {
   listNameParameters: Array<any> = new Array;
   namePatient: any;
   basketRequest: BasketRequest = new BasketRequest();
+  buyNow: BuyNow = new BuyNow();
   eyesSelected: any;
+  typeBuy: any;
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
               private translate: TranslateService,
-              private basketService: BasketService) { }
+              private basketService: BasketService,
+              private orderService: OrderService) { }
 
   ngOnInit() {
    this.getDatos();
@@ -46,7 +51,7 @@ export class ConfirmationBuyComponent implements OnInit {
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     _.each(this.listBasket, function (productRequested) {
       patient = productRequested.patient;
-      var details = JSON.parse(productRequested.detail);
+      let details = JSON.parse(productRequested.detail);
       _.each(details, function (detail) {
         eyesSelected.push(detail.eye);
       });
@@ -55,24 +60,39 @@ export class ConfirmationBuyComponent implements OnInit {
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
-    debugger
   }
 
   save(): void {
-    this.basketRequest.idUser = this.datos.idUser;
-    this.basketRequest.productRequestedList = this.lista;
-
-    this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.close();
-        this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
-          this.notification.success('', res);
-        });
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
-   }
+    if (this.typeBuy === 1) {
+      this.basketRequest.idUser = this.datos.idUser;
+      this.basketRequest.productRequestedList = this.lista;
+      this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            this.close();
+            this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
+              this.notification.success('', res);
+            });
+          } else {
+            console.log(res.errors[0].detail);
+          }
+        }, error => {
+          console.log('error', error);
+      });
+    } else {
+      this.buyNow.idUser = this.datos.idUser;
+      this.buyNow.productRequestedList = this.lista;
+      this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.close();
+          this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+            this.notification.success('', res);
+          });
+        } else {
+          console.log(res.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    }
+  }
 }
