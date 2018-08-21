@@ -66,13 +66,13 @@
               </span>
             </div>
           </div>
-          <div class="col-xl-6">
+          <div class="col-xl-6 place">
             <fieldset class="form-group">
               <label>{{ 'City' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.city }}</span>
-                <input [hidden]="!canEdit" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt"
-                  name="city" formControlName="city" [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead"
+                <input [hidden]="!canEdit" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="result"
+                  name="cityPlace" formControlName="cityPlace" [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead"
                   placeholder="{{ 'Enter city' | translate }}" required />
               </div>
             </fieldset>
@@ -81,7 +81,7 @@
               <div class="bounce2"></div>
               <div class="bounce3"></div>
             </div>
-            <div class="message-error" [hidden]="city.valid || city.pristine">
+            <div class="message-error" [hidden]="cityPlace.valid || cityPlace.pristine">
               <span>{{ 'City is required' | translate }}</span>
             </div>
           </div>
@@ -129,7 +129,7 @@
               <label>{{ 'Address' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.address }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" maxlength="255" formControlName="address">
               </div>
             </fieldset>
           </div>
@@ -139,9 +139,6 @@
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.phone }}</span>
                 <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
-                <!-- <input [hidden]="!canEdit" class="form-control" name="phone" formControlName="phone">
-                <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"
-                    required></int-phone-prefix>-->
               </div>
             </fieldset>
             <div class="message-error" [hidden]="!canEdit || phone.value.length === 0 || phone.value.length > 7">
@@ -172,11 +169,11 @@
         </div>
         <br>
         <div class="footer-form">
-          <button class="btn btn-secondary" (click)="cancel()" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
+          <button class="btn btn-secondary" (click)="cancel()" [disabled]="saving" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
             <i class="fa fa-times"></i>
           </button>
           &nbsp;&nbsp;
-          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || phone.value =='' ||  phone.value.length < 8 && !!phone.value.length" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
+          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || phone.value =='' || (phone.value.length < 8 && !!phone.value.length) || saving" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
             <i class="fa fa-save"></i>
           </button>
         </div>
@@ -185,6 +182,6 @@
     </div>
   </div>
 </div>
-<ng-template #rt let-r="result" let-t="term">
+<ng-template #result let-r="result" let-t="term">
   {{ r.description}}
 </ng-template>

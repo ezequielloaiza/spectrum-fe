@@ -314,5 +314,8 @@
     "Are you sure you want to buy the entire basket?":"Are you sure you want to buy the entire basket?",
     "Confirm purchase":"Confirm purchase",
     "Select all":"Select all",
-    "Buy now":"Buy now"
+    "Buy now":"Buy now",
+    "Main":"Main",
+    "Are you sure you want to define the shipping address as the primary?":"Are you sure you want to define the shipping address as the primary?",
+    "Confirm change":"Confirm change"
 }
