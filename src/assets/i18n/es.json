@@ -307,5 +307,8 @@
     "Change Temporal Password": "Cambio de Contraseña Temporal",
     "Should change the temporal password to access the system": "Debe cambiar la contraseña temporal para acceder al sistema.",
     "Patient":"Paciente",
-    "Eye":"Ojo"
+    "Eye":"Ojo",
+    "Main":"Principal",
+    "Are you sure you want to define the shipping address as the primary?":"¿Está seguro que desea definir la dirección de envío como principal?",
+    "Confirm change":"Confirme cambio"
 }

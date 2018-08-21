@@ -142,6 +142,28 @@ export class ShippingAddressComponent implements OnInit {
 		let startItem = (event - 1) * this.itemPerPage;
 		let endItem = event * this.itemPerPage;
 		this.addresses = this.auxAddresses.slice(startItem,endItem);
-	}
+  }
+
+  is_main (id) {
+    this.translate.get('Confirm change', {value: 'Confirm change'}).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to define the shipping address as the primary?',
+            {value: 'Are you sure you want to define the shipping address as the primary?'}).subscribe((msg: string) => {
+              this.alertify.confirm(title, msg, () => {
+                this.shippingAddressService.defineMain$(id).subscribe(res => {
+                  if (res.code === CodeHttp.ok) {
+                    this.getAddress();
+                    this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((res: string) => {
+                      this.notification.success('', res);
+                    });
+                  } else {
+                    console.log(res.errors[0].detail);
+                  }
+                }, error => {
+                    console.log('error', error);
+                });
+              }, () => {});
+            });
+    });
+  }
 
 }
