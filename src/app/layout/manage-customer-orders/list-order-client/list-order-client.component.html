@@ -39,9 +39,8 @@
           <div class="col-xl-1">
             <h6 class="ng-tns-c6-0 h5-filter">{{ 'Status' | translate }}</h6>
           </div>
-          <div [formGroup]="formOrder" class="col-xl-2 filter">
-            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
-              formControlName="selectedStatOrd">
+          <div class="col-xl-2 filter">
+            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
               <option value="" disabled [selected]="true" translate>Select</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
@@ -51,9 +50,8 @@
           </div>
           <div class="col-xl-2 filter">
             <div>
-              <div [formGroup]="formOrder1" class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(model1)"
-                  formControlName="fechaSelecOrd">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOrd" [(ngModel)]="fechaSelecOrd" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOrd)">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                     <i class="fa fa-calendar"></i>
