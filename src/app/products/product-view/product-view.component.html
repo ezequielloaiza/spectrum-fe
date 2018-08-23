@@ -87,16 +87,23 @@
               <!--EYE RIGHT-->
               <div class="col-sm-4 title">
                 <div class="row selection">
-                  <input class="form-control col-md-7" type="number" step=1 min="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                  <input class="form-control col-sm-8" type="number" step=1 min="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                 </div>
                 <div *ngFor="let parameter of product.parametersRight">
                   <div *ngIf="parameter.values && parameter.values.length > 0">
                     <div class="row selection">
-                      <div *ngIf="parameter.type === 'selected'">
-                        <select class="form-control" name="value" (change)="changeSelect('right', parameter, $event.target.value)" [disabled]="!product.eyeRight">
+                      <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-9">
+                        <!--<select class="form-control" name="value" (change)="changeSelect('right', parameter, $event.target.value)" [disabled]="!product.eyeRight">
                           <option value="">{{ 'Select option' }}</option>
                           <option *ngFor="let value of parameter.values">{{ value }}</option>
-                        </select>
+                        </select>-->
+                        <ng-select (change)="changeSelect('right', parameter, $event)"
+                                   [items]="parameter.values" [disabled]="!product.eyeRight" 
+                                   [(ngModel)]="parameter.sel"
+                                   bindLabel="item" bindValue="item"
+                                   placeholder="{{ 'Select value' | translate }}">
+                          {{item}}
+                        </ng-select>
                       </div>
                       <!--<div *ngIf="parameter.type === 'radio'">
                         <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
@@ -112,16 +119,23 @@
               <!--EYE LEFT-->
               <div class="col-sm-4 title">
                 <div class="row selection">
-                  <input class="form-control col-md-7" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                  <input class="form-control col-sm-8" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                 </div>
                 <div *ngFor="let parameter of product.parametersLeft">
                   <div *ngIf="parameter.values && parameter.values.length > 0">
                     <div class="row selection">
-                      <div *ngIf="parameter.type === 'selected'">
-                        <select class="form-control" name="value" (change)="changeSelect('left', parameter, $event.target.value)" [disabled]="!product.eyeLeft">
+                      <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-9">
+                        <!--<select class="form-control" name="value" (change)="changeSelect('left', parameter, $event.target.value)" [disabled]="!product.eyeLeft">
                           <option value="">{{ 'Select option' }}</option>
                           <option *ngFor="let value of parameter.values">{{ value }}</option>
-                        </select>
+                        </select>-->
+                        <ng-select (change)="changeSelect('left', parameter, $event)"
+                                    [items]="parameter.values" [disabled]="!product.eyeLeft"
+                                    [(ngModel)]="parameter.sel" 
+                                    bindLabel="item" bindValue="item"
+                                    placeholder="{{ 'Select value' | translate }}">
+                          {{item}}
+                        </ng-select>
                       </div>
                       <!--<div *ngIf="parameter.type === 'radio'">
                         <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
@@ -149,10 +163,12 @@
             <!--CONTENT-->
             <div class="row content">
               <div class="col-md-6">
-                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"></textarea>
+                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight"
+                          [disabled]="!product.eyeRight" placeholder="{{ 'Introduces right eye observations' | translate }}"></textarea>
               </div>
               <div class="col-md-6">
-                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"></textarea>
+                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft"
+                          [disabled]="!product.eyeLeft" placeholder="{{ 'Introduces right left observations' | translate }}"></textarea>
               </div>
             </div>
           </div>
@@ -229,14 +245,15 @@
               <div class="col-md-6" [hidden]="false">
                 <span class="title">{{ 'Full Name' | translate }}:</span>
                 <div class="col-md-12">
-                  <input class="form-control" type="text" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="product.patient">
+                  <input class="form-control" type="text" placeholder="{{ 'Introduce name patient' | translate }}" 
+                         [(ngModel)]="product.client" [disabled]="product.userClient">
                 </div>
               </div>
               <!--shipping address-->
               <div class="col-md-6">
                 <span class="title">{{ 'Shipping Address' | translate }}:</span>
                 <div class="col-md-12">
-                  <textarea class="form-control" type="text" [(ngModel)]="product.patient"></textarea>
+                  <textarea class="form-control" type="text" [(ngModel)]="product.shippingAddress" disabled></textarea>
                 </div>
               </div>
             </div>
@@ -260,23 +277,14 @@
       </div>
 
       <br>
-      <!--buttons buy-->
-      <div class="btn-save">
-        <a (click)="buyNow()" class="btn btn-lg btn-primary text-uppercase">Confirm Buy</a>&nbsp;
-      </div>
 
       <div class="buy-btns">
-        <!--<a routerLink="/products/{{product.idProduct}}/product-details/{{'toBuy'}}" class="btn btn-lg btn-primary text-uppercase">
-          Buy now </a>&nbsp;
-        <a routerLink="/products/{{product.idProduct}}/product-details/{{'toCart'}}" class="btn btn-lg btn-outline-primary text-uppercase">
-          <i class="fa fa-cart-plus"></i> Add to cart
-        </a>-->
-        <a class="btn btn-lg btn-outline-primary text-uppercase" (click)="addToCart(2)">
+        <button class="btn btn-lg btn-primary btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
           {{ 'Buy now' | translate }}
-        </a>
-        <a class="btn btn-lg btn-outline-primary text-uppercase" (click)="addToCart(1)">
+        </button>
+        <button class="btn btn-lg btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(1)" [disabled]="!formIsValid()">
           <i class="fa fa-cart-plus"></i> Add to cart
-        </a>
+        </button>
       </div>
     </div>
   </div>

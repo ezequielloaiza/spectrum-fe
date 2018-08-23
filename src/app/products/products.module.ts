@@ -13,6 +13,7 @@ import { PageHeaderModule, RoleGuard } from '../shared';
 import { FormsModule } from '@angular/forms';
 import { AuthorizationService } from '../shared/services';
 import { ConfirmationBuyComponent } from './modals/confirmation-buy/confirmation-buy.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ConfirmationBuyComponent } from './modals/confirmation-buy/confirmation
     HeaderModule,
     NgbModule.forRoot(),
     PageHeaderModule,
-    FormsModule
+    FormsModule,
+    NgSelectModule
   ],
   declarations: [ProductsComponent, ProductsListsComponent, ProductViewComponent, ProductDetailComponent, ConfirmationBuyComponent],
   entryComponents: [ConfirmationBuyComponent],

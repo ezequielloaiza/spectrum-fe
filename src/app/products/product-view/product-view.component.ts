@@ -31,6 +31,7 @@ export class ProductViewComponent implements OnInit {
   order: any;
   productsSelected: Array<any> = new Array;
   currentUser: any;
+  ngSelect: any;
   //configuration XTENSA product
   paramAxesRight: any;
   paramAxesLeft: any;
@@ -79,6 +80,7 @@ export class ProductViewComponent implements OnInit {
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.product.infoAditional = JSON.parse(this.product.infoAditional);
+    this.setClient();
     this.setPrice();
   }
 
@@ -126,6 +128,19 @@ export class ProductViewComponent implements OnInit {
     }
   }
 
+  setClient() {
+    /*
+    this.product.userClient = false;
+    if (this.currentUser.rol.name === "user") {
+      this.product.client = this.currentUser.name;
+      this.product.userClient = true;
+    }*/
+    this.product.client = this.currentUser.name;
+    this.product.shippingAddress = this.currentUser.city + ' ' + this.currentUser.country;
+
+    this.product.userClient = true; //to remove post uncomment
+  }
+
   setPrice() {
     let membership = this.currentUser.membership.idMembership;
     switch (membership) {
@@ -140,7 +155,6 @@ export class ProductViewComponent implements OnInit {
         break;
     }
   }
-
 
   buildProductsSelected() {
     this.setEyeSelected();
@@ -200,7 +214,6 @@ export class ProductViewComponent implements OnInit {
     this.openModal(type);
   }
 
-
   openModal(type): void {
     const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
@@ -209,11 +222,36 @@ export class ProductViewComponent implements OnInit {
     modalRef.result.then((result) => {} , (reason) => {
     });
   }
-  buyNow() {
+
+  /*buyNow() {
     this.order = this.buildProductsSelected();
     this.getProducts();
-    /*alert('In construction.');
-    this.router.navigate(['/order-list-client']);*/
+    alert('In construction.');
+    this.router.navigate(['/order-list-client']);
     console.log(JSON.stringify(this.order));
+  }*/
+
+  formIsValid() {
+    var isValid = true;
+    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient){
+      return false;
+    }
+
+    if (this.product.eyeRight) {
+      _.each(this.product.parametersRight, function (param){
+        if (param.selected === null) {
+          isValid = false;
+        }
+      });
+    }
+
+    if (this.product.eyeLeft) {
+      _.each(this.product.parametersLeft, function (param){
+        if (param.selected === null) {
+          isValid = false;
+        }
+      });
+    }
+    return isValid;
   }
 }
