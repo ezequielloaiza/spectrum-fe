@@ -137,6 +137,7 @@ export class ListOrderComponent implements OnInit {
     this.valid = false;
     this.tamano = 'undefined';
     this.selectedStatus = '';
+    this.fechaSelec = null;
   }
 
   valueDate(valor): String {
