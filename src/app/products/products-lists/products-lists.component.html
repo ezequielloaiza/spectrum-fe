@@ -133,7 +133,7 @@
             <h3 class="product-name">{{ product.name }}</h3>
             <div class="card-body">
               <p class="card-text"> {{ product.descriptionShort }}</p>
-              <div class="price-wrap h4">
+              <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
                 <!--<del class="price-base">${{ product.priceBase }}</del>&nbsp;-->
                 <span class="price-new text-warning">${{ product.priceSale }}</span>
               </div>

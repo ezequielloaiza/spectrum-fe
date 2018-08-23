@@ -15,6 +15,8 @@ import { Product } from '../../shared/models/product';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 import { BasketRequest } from '../../shared/models/basketrequest';
+import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
+import { UserService } from '../../shared/services';
 
 @Component({
   selector: 'app-product-view',
@@ -31,19 +33,26 @@ export class ProductViewComponent implements OnInit {
   order: any;
   productsSelected: Array<any> = new Array;
   currentUser: any;
+  user: any;
   ngSelect: any;
   //configuration XTENSA product
   paramAxesRight: any;
   paramAxesLeft: any;
   axesXtensa: Array<any> = new Array;
   basketRequestModal: BasketRequest = new BasketRequest();
-
+  client: any;
+  listCustomers: Array<any> = new Array;
+  listCustomersAux: Array<any> = new Array;
+  CustomersSelected: any;
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
               private userStorageService: UserStorageService,
               private basketService: BasketService,
+              private shippingAddressService: ShippingAddressService,
+              private userService: UserService,
               private modalService: NgbModal) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
+    this.user = JSON.parse(userStorageService.getCurrentUser());
    }
 
   ngOnInit() {
@@ -80,6 +89,7 @@ export class ProductViewComponent implements OnInit {
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.product.infoAditional = JSON.parse(this.product.infoAditional);
+    this.product.priceSale = '';
     this.setClient();
     this.setPrice();
   }
@@ -117,7 +127,7 @@ export class ProductViewComponent implements OnInit {
     }
   }
 
-  setEyeSelected(){
+  setEyeSelected() {
     this.productsSelected = [];
 
     if (this.product.eyeRight) {
@@ -129,20 +139,52 @@ export class ProductViewComponent implements OnInit {
   }
 
   setClient() {
-    /*
-    this.product.userClient = false;
-    if (this.currentUser.rol.name === "user") {
+    if (this.user.role.idRole === 3) {
+      this.client = this.currentUser.idUser;
       this.product.client = this.currentUser.name;
-      this.product.userClient = true;
-    }*/
-    this.product.client = this.currentUser.name;
-    this.product.shippingAddress = this.currentUser.city + ' ' + this.currentUser.country;
+      this.findShippingAddress(this.client);
+    } else if ( this.user.role.idRole === 2 ) {
+      this.userService.allCustomersBySeller$(this.currentUser.idUser).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.listCustomers = res.data;
+          console.log('lista', this.listCustomers);
+        }
+      });
+    }
+  }
 
-    this.product.userClient = true; //to remove post uncomment
+  onSelectedClient(clienteSelect) {
+    if (clienteSelect !== undefined) {
+      this.client = clienteSelect.idUser;
+      this.findShippingAddress(this.client);
+      this.definePrice(clienteSelect.membership.idMembership);
+    } else {
+      this.client = '';
+      this.product.shippingAddress = '';
+      this.product.priceSale = '';
+    }
+  }
+
+  findShippingAddress(idCliente) {
+    this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country;
+      } else if (res.code === CodeHttp.notContent) {
+        this.product.shippingAddress = '';
+      } else {
+        this.product.shippingAddress = '';
+      }
+    });
   }
 
   setPrice() {
-    let membership = this.currentUser.membership.idMembership;
+    if (this.user.role.idRole === 3) {
+      const membership = this.currentUser.membership.idMembership;
+       this.definePrice(membership);
+    }
+  }
+
+  definePrice(membership) {
     switch (membership) {
       case 1:
         this.product.priceSale = this.product.price1;
@@ -159,7 +201,6 @@ export class ProductViewComponent implements OnInit {
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.product;
-    let client = this.currentUser;
     let productsSelected = this.productsSelected;
 
     _.each(productsSelected, function(productSelected, index) {
@@ -208,7 +249,7 @@ export class ProductViewComponent implements OnInit {
       productRequest.observations = product.observations;
       productsRequested.push(productRequest);
     });
-    this.basketRequestModal.idUser = this.currentUser.idUser;
+    this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
 
     this.openModal(type);

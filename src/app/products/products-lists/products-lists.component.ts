@@ -13,9 +13,11 @@ export class ProductsListsComponent implements OnInit {
 
   products: Array<any> = new Array;
   currentUser: any;
+  user: any;
 
-  constructor(private productService:ProductService, private userStorageService: UserStorageService) { 
+  constructor(private productService:ProductService, private userStorageService: UserStorageService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
+    this.user = JSON.parse(userStorageService.getCurrentUser())
   }
 
   ngOnInit() {
@@ -36,6 +38,7 @@ export class ProductsListsComponent implements OnInit {
   }
 
   setPrice() {
+    if (this.user.role.idRole === 3) {
     let membership = this.currentUser.membership.idMembership;
     _.each(this.products, function (product) {
       switch (membership) {
@@ -50,7 +53,7 @@ export class ProductsListsComponent implements OnInit {
           break;
       }
     });
-    
   }
+}
 
 }
