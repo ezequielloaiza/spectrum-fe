@@ -143,11 +143,17 @@ export class ProductViewComponent implements OnInit {
       this.client = this.currentUser.idUser;
       this.product.client = this.currentUser.name;
       this.findShippingAddress(this.client);
-    } else if ( this.user.role.idRole === 2 ) {
-      this.userService.allCustomersBySeller$(this.currentUser.idUser).subscribe(res => {
+
+    } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+      this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          this.listCustomers = res.data;
-          console.log('lista', this.listCustomers);
+          this.listCustomersAux = res.data;
+          // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
+          this.listCustomers = _.filter(this.listCustomersAux, function(u) {
+            return !(u.cardCode === null || u.cardCode === '');
+          });
+           // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
+           // todavia no se agregado ese campo en la bd
         }
       });
     }

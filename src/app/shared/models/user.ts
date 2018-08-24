@@ -19,6 +19,7 @@ export class User {
   public nameSeller: string;
   public pwsTemporal: boolean;
   public membership: Membership = new Membership();
+  public cardCode: string;
 
   public constructor() { }
 
