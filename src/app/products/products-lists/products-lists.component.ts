@@ -37,8 +37,6 @@ export class ProductsListsComponent implements OnInit {
           this.productsAux = res.data;
           this.products = res.data;
           this.associatedSuppliers();
-          debugger
-
         } else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
           this.products = res.data;
         }
@@ -54,7 +52,6 @@ export class ProductsListsComponent implements OnInit {
     this.supplierUserService.findIdUser$(this.currentUser.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
          this.listSupplierAux = res.data;
-         console.log('lista proveedores' ,this.listSupplierAux);
          const userConc = this.currentUser;
          this.listSupplier = _.filter(this.listSupplierAux, function(u) {
            const idSupp = u.supplier.idSupplier;
@@ -74,24 +71,21 @@ export class ProductsListsComponent implements OnInit {
             }
         });
         this.productAvailable();
-        console.log('lista provee' ,this.listSupplier);
       }
       });
   }
 
   productAvailable() {
     const lista = this.listSupplier;
-    this.products =  _.filter(this.products, function (product) {
-   // console.log('lista', lista.length);
-      const valido = _.includes(lista, function (item) {
-          return product.supplier.idSupplier === 2; // === item.supplier.idSupplier;
+    const productsFiltered = [];
+    _.each(this.products, function (product) {
+      _.each(lista, function (item) {
+        if (product.supplier.idSupplier === item.supplier.idSupplier) {
+          productsFiltered.push(product);
+        }
       });
-      if (valido) {
-        return product;
-      }
-      // return false;
     });
-    console.log('list prod' , this.products);
+    this.products = productsFiltered;
     this.setPrice();
   }
 
