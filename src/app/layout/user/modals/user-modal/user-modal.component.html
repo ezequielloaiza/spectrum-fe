@@ -224,6 +224,9 @@
           </div>
         </div>
         <div class="col-xl-6">
+          <div class="message-error">
+            <span [hidden]="listSuppliers.length !== 0">{{'Should define at least one seller to save' | translate}}</span>
+          </div>
           <span [hidden]="listSuppliers.length === 0">{{'Number of defined suppliers:' | translate}} {{listSuppliers.length}} </span>
           <a [hidden]="listSuppliers.length === 0" class="link" (click)="openModalSupplier()">{{ 'Edit' | translate }}</a>
           <a [hidden]="listSuppliers.length !== 0" class="link" (click)="openModalSupplier()">{{ 'Define suppliers' | translate }}</a>

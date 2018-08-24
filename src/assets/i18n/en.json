@@ -100,6 +100,8 @@
     "No business types added yet":"No business types added yet",
     "Phone" : "Phone",
     "Credit limit" : "Credit limit",
+    "Card Code": "Card Code",
+    "Certification code": "Certification code",
     "Name is required" : "Name is required",
     "Email is required" : "Email is required",
     "City is required" : "City is required",
@@ -308,5 +310,6 @@
     "Eye":"Eye",
     "Main":"Main",
     "Are you sure you want to define the shipping address as the primary?":"Are you sure you want to define the shipping address as the primary?",
-    "Confirm change":"Confirm change"
+    "Confirm change":"Confirm change",
+    "Should define at least one seller to save": "Should define at least one seller to save"
 }
