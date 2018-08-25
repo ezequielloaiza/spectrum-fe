@@ -100,6 +100,8 @@
     "No business types added yet":"No hay tipos de negocios agregados todavía",
     "Phone" : "Teléfono",
     "Credit limit" : "Límite de crédito",
+    "Card Code": "Código de tarjeta",
+    "Certification Code": "Código de certificación",
     "Name is required" : "Nombre es requerido",
     "Email is required" : "Correo es requerido",
     "City is required" : "Ciudad es requerido",
@@ -124,6 +126,8 @@
     "Enter company contact name" : "Ingrese nombre contacto compañía",
     "Enter phone" : "Ingrese teléfono",
     "Enter credit limit" : "Ingrese límite de crédito",
+    "Enter card code" : "Ingrese código de tarjeta",
+    "Enter certification code" : "Ingrese código de certificación",
     "Save" : "Guardar",
     "Close" : "Cerrar",
     "Shipping Address" : "Direcciones de Envío",
@@ -310,5 +314,6 @@
     "Eye":"Ojo",
     "Main":"Principal",
     "Are you sure you want to define the shipping address as the primary?":"¿Está seguro que desea definir la dirección de envío como principal?",
-    "Confirm change":"Confirme cambio"
+    "Confirm change":"Confirme cambio",
+    "Should define at least one supplier": "Debe definir al menos un proveedor"
 }
