@@ -315,5 +315,5 @@
     "Main":"Principal",
     "Are you sure you want to define the shipping address as the primary?":"¿Está seguro que desea definir la dirección de envío como principal?",
     "Confirm change":"Confirme cambio",
-    "Should define at least one seller to save": "Debe definir al menos un vendedor para guardar"
+    "Should define at least one supplier": "Debe definir al menos un proveedor"
 }
