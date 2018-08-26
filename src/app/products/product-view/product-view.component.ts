@@ -17,6 +17,9 @@ import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmatio
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
+import { FileProductRequested } from '../../shared/models/fileproductrequested';
+const URL = 'http://localhost:8080/api/v1/fileProductRequested/uploader';
 
 @Component({
   selector: 'app-product-view',
@@ -44,6 +47,12 @@ export class ProductViewComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  //Upload files
+  listFiles: Array<FileProductRequested> = new Array;
+  public hasBaseDropZoneOver: Boolean = false;
+  public hasAnotherDropZoneOver: Boolean = false;
+  public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'files'});
+
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
               private userStorageService: UserStorageService,
@@ -53,7 +62,7 @@ export class ProductViewComponent implements OnInit {
               private modalService: NgbModal) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
-   }
+  }
 
   ngOnInit() {
     this.getProducts();
@@ -241,6 +250,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   addToCart(type) {
+    const files = this.buildFileProductRequested();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -253,6 +263,7 @@ export class ProductViewComponent implements OnInit {
       productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
       productRequest.patient = product.patient;
       productRequest.observations = product.observations;
+      productRequest.files = files;
       productsRequested.push(productRequest);
     });
     this.basketRequestModal.idUser = this.client;
@@ -300,5 +311,26 @@ export class ProductViewComponent implements OnInit {
       });
     }
     return isValid;
+  }
+
+  buildFileProductRequested() {
+    const listFiles = [];
+
+    if (this.uploader.queue) {
+      _.each(this.uploader.queue, function (fileItem) {
+        const fileProductRequest: FileProductRequested = new FileProductRequested();
+        //fileProductRequest.url = fileItem.file.rawFile.webkitRelativePath;
+        fileProductRequest.name = fileItem.file.name;
+        fileProductRequest.size = fileItem.file.size;
+        fileProductRequest.createdAt = new Date();
+        fileProductRequest.file = fileItem.file.rawFile;
+        listFiles.push(fileProductRequest);
+      });
+    }
+    return listFiles;
+  }
+
+  public onChangeFiles($event: any): void {
+    // this.fileUploadService.addToQueue($event.srcElement.files);
   }
 }

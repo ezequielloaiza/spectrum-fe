@@ -1,4 +1,5 @@
 import { Product } from '../../shared/models/product';
+import { FileProductRequested } from '../../shared/models/fileproductrequested';
 
 export class ProductRequested {
 
@@ -9,6 +10,7 @@ export class ProductRequested {
   public  show: boolean;
   public  patient: string;
   public  observations: string;
+  public  files: Array<FileProductRequested>;
 
     public constructor() { }
 
