@@ -311,5 +311,6 @@
     "Main":"Main",
     "Are you sure you want to define the shipping address as the primary?":"Are you sure you want to define the shipping address as the primary?",
     "Confirm change":"Confirm change",
-    "Should define at least one supplier": "Should define at least one supplier"
+    "Should define at least one supplier": "Should define at least one supplier",
+    "It can not be deleted, it is associated with a client":"It can not be deleted, it is associated with a client"
 }

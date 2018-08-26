@@ -315,5 +315,6 @@
     "Main":"Principal",
     "Are you sure you want to define the shipping address as the primary?":"¿Está seguro que desea definir la dirección de envío como principal?",
     "Confirm change":"Confirme cambio",
-    "Should define at least one supplier": "Debe definir al menos un proveedor"
+    "Should define at least one supplier": "Debe definir al menos un proveedor",
+    "It can not be deleted, it is associated with a client":"No se puede eliminar, esta asociado con un cliente"
 }
