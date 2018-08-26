@@ -12,6 +12,7 @@ import { FormGroup } from '@angular/forms';
 import { BasketRequest } from '../../../shared/models/basketrequest';
 import { BuyNow } from '../../../shared/models/buynow';
 import { OrderService } from '../../../shared/services';
+import { FileProductRequested } from '../../../shared/models/fileproductrequested';
 
 @Component({
   selector: 'app-confirmation-buy',
@@ -21,6 +22,7 @@ import { OrderService } from '../../../shared/services';
 export class ConfirmationBuyComponent implements OnInit {
   datos: any;
   product: any;
+  files: Array<FileProductRequested> = new Array;
   listBasket: Array<ProductRequested> = new Array;
   lista: Array<ProductRequested> = new Array;
   listNameParameters: Array<any> = new Array;
@@ -66,6 +68,7 @@ export class ConfirmationBuyComponent implements OnInit {
     if (this.typeBuy === 1) {
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
+      this.basketRequest.fileProductRequestedList = this.files;
       this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
           if (res.code === CodeHttp.ok) {
             this.close();

@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthorizationService } from '../shared/services';
 import { ConfirmationBuyComponent } from './modals/confirmation-buy/confirmation-buy.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgbModule.forRoot(),
     PageHeaderModule,
     FormsModule,
-    NgSelectModule
+    NgSelectModule,
+    FileUploadModule
   ],
   declarations: [ProductsComponent, ProductsListsComponent, ProductViewComponent, ProductDetailComponent, ConfirmationBuyComponent],
   entryComponents: [ConfirmationBuyComponent],
