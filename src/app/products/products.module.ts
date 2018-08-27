@@ -5,7 +5,7 @@ import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsComponent } from './products.component';
 import { ProductsListsComponent } from './products-lists/products-lists.component';
 import { ProductViewComponent } from './product-view/product-view.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductViewEuropaComponent } from './product-view-europa/product-view-europa.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -27,7 +27,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     NgSelectModule
   ],
-  declarations: [ProductsComponent, ProductsListsComponent, ProductViewComponent, ProductDetailComponent, ConfirmationBuyComponent],
+  declarations: [ProductsComponent, ProductsListsComponent, ProductViewComponent, ProductViewEuropaComponent, ConfirmationBuyComponent],
   entryComponents: [ConfirmationBuyComponent],
   providers: [
     RoleGuard,

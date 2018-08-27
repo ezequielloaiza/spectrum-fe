@@ -19,11 +19,11 @@ import { ShippingAddressService } from '../../shared/services/shippingAddress/sh
 import { UserService } from '../../shared/services';
 
 @Component({
-  selector: 'app-product-view',
-  templateUrl: './product-view.component.html',
-  styleUrls: ['./product-view.component.scss']
+  selector: 'app-product-view-europa',
+  templateUrl: './product-view-europa.component.html',
+  styleUrls: ['./product-view-europa.component.scss']
 })
-export class ProductViewComponent implements OnInit {
+export class ProductViewEuropaComponent implements OnInit {
 
   products: Array<any> = new Array;
   product: any;
