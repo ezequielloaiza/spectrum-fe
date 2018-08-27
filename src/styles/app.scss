@@ -4,6 +4,7 @@
 @import "utils";
 @import "rtl";
 @import "responsive";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 .alertify-notifier .ajs-message.ajs-success {
   background-color: #00cc00 !important;
