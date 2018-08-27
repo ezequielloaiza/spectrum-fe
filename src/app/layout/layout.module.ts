@@ -42,6 +42,9 @@ import { ListOrderClientComponent } from './manage-customer-orders/list-order-cl
 import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
 import { ModalsStatusComponent } from './manage-customer-orders/modals-status/modals-status.component';
 import { ModalsConfirmationComponent } from './manage-customer-orders/modals-confirmation/modals-confirmation.component';
+import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-supplier.component';
+import { SupplierUserModalComponent } from './user/modals/supplier-user-modal/supplier-user-modal.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     imports: [
@@ -54,7 +57,8 @@ import { ModalsConfirmationComponent } from './manage-customer-orders/modals-con
         FormsModule,
         HeaderModule,
         InternationalPhoneModule,
-        BreadcrumbModule
+        BreadcrumbModule,
+        NgSelectModule
     ],
     declarations: [
         LayoutComponent,
@@ -92,7 +96,9 @@ import { ModalsConfirmationComponent } from './manage-customer-orders/modals-con
         ListOrderClientComponent,
         DetailsOrderClientComponent,
         ModalsStatusComponent,
-        ModalsConfirmationComponent
+        ModalsConfirmationComponent,
+        EditSupplierComponent,
+        SupplierUserModalComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -106,7 +112,8 @@ import { ModalsConfirmationComponent } from './manage-customer-orders/modals-con
       ListSupplierModalComponent,
       WarrantyModalComponent,
       ModalsStatusComponent,
-      ModalsConfirmationComponent
+      ModalsConfirmationComponent,
+      SupplierUserModalComponent
     ],
     providers: [
       BusinessTypeService,
