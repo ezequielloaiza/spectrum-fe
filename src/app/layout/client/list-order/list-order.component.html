@@ -28,9 +28,8 @@
           <div class="col-xl-1">
             <h6 class="ng-tns-c6-0 h5-filter">{{ 'Status' | translate }}</h6>
           </div>
-          <div [formGroup]="form" class="col-xl-3 filter">
-            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
-              formControlName="selectedStat">
+          <div class="col-xl-3 filter">
+            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
               <option value="" disabled [selected]="true" translate>Select</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
@@ -40,16 +39,15 @@
           </div>
           <div class="col-xl-3 filter">
             <div>
-              <div [formGroup]="form1" class="input-group">
-                <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(model1)"
-                  formControlName="fechaSelec">
+              <div class="input-group">
+                <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="fechaSelec" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelec)">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                     <i class="fa fa-calendar"></i>
                   </button>
                 </div>
               </div>
-              <!--<pre>Model: {{model1 | json  }}</pre>-->
+              <!--<pre>Model: {{fechaSelec | json  }}</pre>-->
             </div>
           </div>
           <div class="col-xl-1 btn-clean">

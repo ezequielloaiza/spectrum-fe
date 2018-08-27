@@ -100,6 +100,8 @@
     "No business types added yet":"No business types added yet",
     "Phone" : "Phone",
     "Credit limit" : "Credit limit",
+    "Card Code": "Card Code",
+    "Certification code": "Certification code",
     "Name is required" : "Name is required",
     "Email is required" : "Email is required",
     "City is required" : "City is required",
@@ -313,5 +315,7 @@
     "Supplier": "Supplier",
     "Saved success": "Saved success.",
     "Supplier deleted": "Supplier deleted",
-    "Supplier Info": "Supplier Info"
+    "Supplier Info": "Supplier Info",
+    "Should define at least one supplier": "Should define at least one supplier",
+    "It can not be deleted, it is associated with a client":"It can not be deleted, it is associated with a client"
 }

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup } from '@angular/forms';
+import { NgbDateStruct, NgbModal, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { OrderService } from '../../../shared/services/order/order.service';
-import { FormBuilder } from '@angular/forms';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
 import { UserStorageService } from '../../../http/user-storage.service';
@@ -26,15 +24,13 @@ export class ListOrderClientComponent implements OnInit {
   ];
   model: NgbDateStruct;
   valid1 = false;
-  formOrder: FormGroup;
-  formOrder1: FormGroup;
   tamano: String;
   user: any;
   valorClient: string;
   mostrarStatus = false;
-
+  fechaSelecOrd: NgbDatepicker;
+  selectedStatus: any;
   constructor(private orderService: OrderService,
-    private formBuilder: FormBuilder,
     private userService: UserStorageService,
     private modalService: NgbModal
 ) {
@@ -44,8 +40,8 @@ export class ListOrderClientComponent implements OnInit {
   ngOnInit() {
     this.getListOrders();
     this.advancedPagination = 1;
-    this.initializeForm();
-    this.initializeForm1();
+    this.selectedStatus = '';
+    this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
   }
 
@@ -76,6 +72,7 @@ export class ListOrderClientComponent implements OnInit {
         }
       });
     }
+    this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
   }
 
   pageChange(event) {
@@ -84,27 +81,27 @@ export class ListOrderClientComponent implements OnInit {
     this.listOrders = this.listOrdersAux.slice(startItem, endItem);
   }
 
-  filter(value): void {
-    if (value !== '') {
+  filter(): void {
+    if (this.selectedStatus !== '') {
       this.valid1 = true;
       if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
         // tslint:disable-next-line:radix
-        this.listOrders = _.filter(this.listOrdersAux, { 'status': parseInt(value) });
+        this.listOrders = _.filter(this.listOrdersAux, { 'status': parseInt(this.selectedStatus) });
       } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        this.filterStatusDate(value);
+        this.filterStatusDate(this.selectedStatus);
       } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
         const nombre = this.valorClient;
-        this.filterStatusNombre(nombre , value);
+        this.filterStatusNombre(nombre , this.selectedStatus);
       } else if ((this.tamano.length === 15) && (this.valorClient.trim() !== '')) {
         const nombre = this.valorClient;
-        this.fullFilter(nombre , value);
+        this.fullFilter(nombre , this.selectedStatus);
       }
     }
   }
 
   filter1(value): void {
     this.model = value;
-    const valorStatus = this.formOrder.get('selectedStatOrd').value;
+    const valorStatus = this.selectedStatus;
     this.tamano = this.valueDate(this.model);
     if (this.tamano.length === 15) {
       this.valid1 = true;
@@ -139,7 +136,7 @@ export class ListOrderClientComponent implements OnInit {
 
     const val = ev.target.value;
     this.valorClient = val;
-    const valorStatus = this.formOrder.get('selectedStatOrd').value;
+    const valorStatus = this.selectedStatus;
     if (val && val.trim() !== '') {
       const client = val;
       if (_.toString(valorStatus) === '' && this.tamano.length === 9) { // Si no ha seleccionado status y fecha
@@ -155,7 +152,7 @@ export class ListOrderClientComponent implements OnInit {
           this.fullFilter(client, valorStatus);
       }
     } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
-      this.filter(valorStatus);
+      this.filter();
     } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
       if (this.tamano.length === 15) {
         this.valid1 = true;
@@ -270,21 +267,9 @@ export class ListOrderClientComponent implements OnInit {
   clean() {
     this.getListOrders();
     this.valid1 = false;
-    this.formOrder.get('selectedStatOrd').setValue('');
-    this.formOrder1.get('fechaSelecOrd').reset();
+    this.selectedStatus = '';
     this.tamano = 'undefined';
-  }
-
-  initializeForm() {
-    this.formOrder = this.formBuilder.group({
-      selectedStatOrd: ['']
-    });
-  }
-
-  initializeForm1() {
-    this.formOrder1 = this.formBuilder.group({
-      fechaSelecOrd: ['']
-    });
+    this.fechaSelecOrd = null;
   }
 
   valueDate(valor): String {
