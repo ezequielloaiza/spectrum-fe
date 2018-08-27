@@ -308,5 +308,10 @@
     "Eye":"Eye",
     "Main":"Main",
     "Are you sure you want to define the shipping address as the primary?":"Are you sure you want to define the shipping address as the primary?",
-    "Confirm change":"Confirm change"
+    "Confirm change":"Confirm change",
+    "Are you sure you want to delete this supplier?": "Are you sure you want to delete this supplier?",
+    "Supplier": "Supplier",
+    "Saved success": "Saved success.",
+    "Supplier deleted": "Supplier deleted",
+    "Supplier Info": "Supplier Info"
 }

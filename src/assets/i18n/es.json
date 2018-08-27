@@ -310,5 +310,10 @@
     "Eye":"Ojo",
     "Main":"Principal",
     "Are you sure you want to define the shipping address as the primary?":"¿Está seguro que desea definir la dirección de envío como principal?",
-    "Confirm change":"Confirme cambio"
+    "Confirm change":"Confirme cambio",
+    "Are you sure you want to delete this supplier?": "¿Seguro que quieres eliminar este proveedor?",
+    "Supplier": "Proveedor",
+    "Saved success": "Guardado con éxito.",
+    "Supplier deleted": "Proveedor eliminado",
+    "Supplier Info": "Infomación de Proveedor"
 }

@@ -25,4 +25,16 @@ export class SupplierService {
   public removeById$(id): Observable<any> {
     return this.http.delete(environment.apiUrl + 'suppliers/removeById/' + id);
   }
+
+  public findByUser$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'suppliers/findByUser/' + id);
+  }
+
+  public saveSupplierUser$(supplier): Observable<any> {
+    return this.http.post(environment.apiUrl + 'suppliers/saveSupplierUser', supplier);
+  }
+
+  public removeSupplierUser$(supplier): Observable<any> {
+    return this.http.post(environment.apiUrl + 'suppliers/removeSupplierUser', supplier);
+  }
 }
