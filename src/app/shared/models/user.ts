@@ -21,7 +21,6 @@ export class User {
   public certificationCode: string;
   public pwsTemporal: boolean;
   public membership: Membership = new Membership();
-  public cardCode: string;
 
   public constructor() { }
 
