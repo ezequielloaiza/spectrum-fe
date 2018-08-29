@@ -57,6 +57,8 @@ export class EditUserComponent implements OnInit {
       cityPlace   : ['', [ Validators.required]],
       postal      : ['', []],
       phone       : ['', []],
+      cardCode    : [''],
+      certificationCode: [''],
       membershipId: ['', [Validators.required]],
       id          : [this.id, [Validators.required]],
       userId      : [],
@@ -140,6 +142,8 @@ export class EditUserComponent implements OnInit {
     this.form.get('city').setValue(user.city);
     this.form.get('postal').setValue(user.postalCode);
     this.form.get('phone').setValue(this.user.phone == null ? '' : this.user.phone);
+    this.form.get('cardCode').setValue(this.user.cardCode);
+    this.form.get('certificationCode').setValue(this.user.certificationCode);
     this.form.get('membershipId').setValue(user.membership.idMembership);
     this.nameSeller = user.nameSeller;
     this.form.get('userId').setValue(user.idSeller);
@@ -177,6 +181,8 @@ export class EditUserComponent implements OnInit {
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
+  get cardCode() { return this.form.get('cardCode'); }
+  get certificationCode() { return this.form.get('cerfiticationCode'); }
   get membershipId() { return this.form.get('membershipId'); }
 
   unlink(): void {

@@ -29,6 +29,7 @@ export class ConfirmationBuyComponent implements OnInit {
   buyNow: BuyNow = new BuyNow();
   eyesSelected: any;
   typeBuy: any;
+  quantity: any;
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
@@ -46,10 +47,12 @@ export class ConfirmationBuyComponent implements OnInit {
 
   getDatos() {
     let patient;
+    let  quantityAcum = 0;
     let eyesSelected = [];
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     _.each(this.listBasket, function (productRequested) {
+      quantityAcum =  quantityAcum + productRequested.quantity;
       patient = productRequested.patient;
       let details = JSON.parse(productRequested.detail);
       _.each(details, function (detail) {
@@ -59,6 +62,7 @@ export class ConfirmationBuyComponent implements OnInit {
     });
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;
+    this.quantity = quantityAcum;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
   }
 

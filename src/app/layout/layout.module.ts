@@ -45,6 +45,9 @@ import { ModalsConfirmationComponent } from './manage-customer-orders/modals-con
 import { ListBasketComponent } from './basket/client/list/list-basket/list-basket.component';
 import { ListBasketClientComponent } from './basket/admin-seller/list/list-basket-client/list-basket-client.component';
 import { DetailsBasketClientComponent } from './basket/admin-seller/details/details-basket-client/details-basket-client.component';
+import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-supplier.component';
+import { SupplierUserModalComponent } from './user/modals/supplier-user-modal/supplier-user-modal.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     imports: [
@@ -57,7 +60,8 @@ import { DetailsBasketClientComponent } from './basket/admin-seller/details/deta
         FormsModule,
         HeaderModule,
         InternationalPhoneModule,
-        BreadcrumbModule
+        BreadcrumbModule,
+        NgSelectModule
     ],
     declarations: [
         LayoutComponent,
@@ -98,7 +102,9 @@ import { DetailsBasketClientComponent } from './basket/admin-seller/details/deta
         ModalsConfirmationComponent,
         ListBasketComponent,
         ListBasketClientComponent,
-        DetailsBasketClientComponent
+        DetailsBasketClientComponent,
+        EditSupplierComponent,
+        SupplierUserModalComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -112,7 +118,8 @@ import { DetailsBasketClientComponent } from './basket/admin-seller/details/deta
       ListSupplierModalComponent,
       WarrantyModalComponent,
       ModalsStatusComponent,
-      ModalsConfirmationComponent
+      ModalsConfirmationComponent,
+      SupplierUserModalComponent
     ],
     providers: [
       BusinessTypeService,

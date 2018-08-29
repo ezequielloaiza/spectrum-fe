@@ -60,13 +60,13 @@ export class ProductsListsComponent implements OnInit {
            const idSupp = u.supplier.idSupplier;
            switch (idSupp) {
               case 1: // Markennoy
-                return !(userConc.cardCode === null);
+                return !(userConc.cardCode === null || userConc.cardCode === '');
               case 2: // Europa
                return u;
               case 3: // Lenticon
                return u;
               case 4: // Euclid
-               return u;
+               return !(userConc.certificationCode === null || userConc.certificationCode === '');
               case 5: // Magic Look
                return u;
               case 6: // Blue Light

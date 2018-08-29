@@ -22,6 +22,8 @@ import { WarrantyComponent } from './warranty/warranty.component';
 import { ListBasketComponent } from './basket/client/list/list-basket/list-basket.component';
 import { ListBasketClientComponent } from './basket/admin-seller/list/list-basket-client/list-basket-client.component';
 import { DetailsBasketClientComponent } from './basket/admin-seller/details/details-basket-client/details-basket-client.component';
+import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-supplier.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -87,7 +89,10 @@ const routes: Routes = [
               },
               { path: 'edit-company', component: EditCompanyComponent,
               data: { option: 'EditCompany' }
-            }
+              },
+              { path: 'edit-supplier', component: EditSupplierComponent,
+              data: { option: 'EditCompany' }
+              }
             ]
           }
         ],

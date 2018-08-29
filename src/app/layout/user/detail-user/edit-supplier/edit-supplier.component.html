@@ -1,0 +1,80 @@
+<div class="container bootstrap snippet">
+  <div class="row">
+    <div class="col-sm-12">
+      <br>
+      <div class="form-options">
+        <span class="sp-title">{{ 'Supplier Info' | translate }}</span> 
+      </div>
+      <br>
+    </div>
+    <div class="col-sm-12">
+      <table class="table table-hover" [hidden]="listSupplierUser.length === 0">
+        <thead>
+          <tr>               
+            <th class="table-tr header-column">
+              <span title="Name">{{ 'Name' | translate }}</span>
+            </th>
+            <th class="table-tr header-column">
+              <span title="Email">{{ 'Email' | translate }}</span>
+            </th>
+            <th class="table-tr header-column">
+              <span title="Phone">{{ 'Phone' | translate }}</span>
+            </th>
+            <th class="table-tr header-column">
+              <span title="Country">{{ 'Country' | translate }}</span>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let supplier of listSupplierUser">
+            <td class="table-tr td-table">{{ supplier.companyName }}</td>
+            <td class="table-tr td-table">{{ supplier.email }}</td>
+            <td class="table-tr td-table">{{ supplier.phone }}</td>
+            <td class="table-tr td-table">{{ supplier.country }}</td>
+            <td class="table-tr"><i (click)="remove(supplier.idSupplier)" class="fa fa-trash-o" aria-hidden="true" [hidden]="!canEdit"></i></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-empty" [hidden]="listSupplierUser.length !== 0 || !canEdit" translate>
+        <p class="no-records">
+          {{ 'No records have been added yet' | translate }}
+        </p>
+      </div>
+    </div>
+    <div class="col-sm-8 select-supplier" [hidden]="canEdit">
+      <ng-select [items]="listSupplier" [(ngModel)]="selectedSupplier" bindLabel="companyName" bindValue="idSupplier">
+        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+          <div class="supplier-body">
+            <h5 [ngOptionHighlight]="search">{{ item.companyName }}</h5>            
+            <h6>{{ item.city }} {{ item.country }}</h6>
+            <div>
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+              <p>{{ item.email }}</p>
+            </div>
+            <div>
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <p>{{ item.phone }}</p>
+            </div>          
+          </div>
+        </ng-template>
+      </ng-select>
+    </div>
+  </div>
+  <div class="row btn-footer">
+    <div class="col-sm-6">
+      <button class="btn btn-main" (click)="add()" [hidden]="!canEdit">{{ 'Add' | translate }}&nbsp;
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div class="col-sm-6 btn-two" [hidden]="canEdit">
+      <button type="button" class="btn btn-secondary" (click)="cancel()">{{ 'Cancel' | translate }}&nbsp;
+        <i class="fa fa-times"></i>
+      </button>
+      <button type="button" 
+        class="btn btn-main" [disabled]="selectedSupplier === null" (click)="save()">{{ 'Save' | translate }}&nbsp;
+        <i class="fa fa-save"></i>
+      </button>
+    </div>
+  </div>
+</div>
