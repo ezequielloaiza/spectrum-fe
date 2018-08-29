@@ -10,11 +10,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageHeaderModule, RoleGuard } from '../shared';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthorizationService } from '../shared/services';
 import { ConfirmationBuyComponent } from './modals/confirmation-buy/confirmation-buy.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-
+import { EditProductComponent } from './modals/edit-product/edit-product.component';
 
 @NgModule({
   imports: [
@@ -25,13 +25,18 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgbModule.forRoot(),
     PageHeaderModule,
     FormsModule,
+    ReactiveFormsModule,
     NgSelectModule
   ],
-  declarations: [ProductsComponent, ProductsListsComponent, ProductViewComponent, ProductViewEuropaComponent, ConfirmationBuyComponent],
-  entryComponents: [ConfirmationBuyComponent],
-  providers: [
-    RoleGuard,
-    AuthorizationService
-  ]
+  declarations: [
+    ProductsComponent,
+    ProductsListsComponent,
+    ProductViewComponent,
+    ProductViewEuropaComponent,
+    ConfirmationBuyComponent,
+    EditProductComponent
+  ],
+  entryComponents: [ConfirmationBuyComponent, EditProductComponent],
+  providers: [RoleGuard, AuthorizationService]
 })
-export class ProductsModule { }
+export class ProductsModule {}

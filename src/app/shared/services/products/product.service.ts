@@ -14,4 +14,8 @@ export class ProductService {
     return this.http.get(environment.apiUrl + 'products/findAll');
   }
 
+  public update$(product): Observable<any> {
+    return this.http.put(environment.apiUrl + 'products/update', product);
+  }
+
 }
