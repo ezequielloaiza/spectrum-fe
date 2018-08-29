@@ -21,6 +21,7 @@ import { OrderService } from '../../../shared/services';
 export class ConfirmationBuyComponent implements OnInit {
   datos: any;
   product: any;
+  role: any;
   listBasket: Array<ProductRequested> = new Array;
   lista: Array<ProductRequested> = new Array;
   listNameParameters: Array<any> = new Array;
@@ -85,6 +86,7 @@ export class ConfirmationBuyComponent implements OnInit {
     } else {
       this.buyNow.idUser = this.datos.idUser;
       this.buyNow.productRequestedList = this.lista;
+      this.buyNow.idRole = this.role;
       this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.close();
