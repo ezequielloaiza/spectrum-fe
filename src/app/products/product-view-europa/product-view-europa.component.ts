@@ -88,6 +88,8 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+    this.product.headerRight = JSON.parse(this.product.types)[0].header;
+    this.product.headerLeft = JSON.parse(this.product.types)[0].header;
     this.product.infoAditional = JSON.parse(this.product.infoAditional);
     this.product.priceSale = '';
     this.setClient();
@@ -301,4 +303,20 @@ export class ProductViewEuropaComponent implements OnInit {
     }
     return isValid;
   }
+
+  checkedRadio(value) {
+    return value.selected ? true : false;
+  }
+
+  setValueRadio(value, header) {
+    this.cleanValueRadio(header.values);
+    value.selected = true;
+  }
+
+  cleanValueRadio(values) {
+    _.each(values, function(value) {
+      value.selected = false;
+    });
+  }
+
 }

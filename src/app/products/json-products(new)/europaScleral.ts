@@ -15,9 +15,15 @@ this.products = [
       {
         "name": "Toric",
         "header": [
-          { "name": "contamac", "type":"selected", "values": [ "Extra", "Xtreme" ], "selected": null },
-          { "name": "hidrapeg", "type":"radio", "selected": "false" },
-          { "name": "insertores", "type":"radio", "selected": "false" }
+          { "name": "Contamac", "type":"selected", "values": [ "Extra", "Xtreme" ], "selected": null },
+          { "name": "Hydrapeg", "type":"radio", "values": [
+                                                            { "name": "No", "selected": true },
+                                                            { "name": "Yes", "selected": false }
+                                                          ], "selected": null },
+          { "name": "Insertors", "type":"radio", "values": [ 
+                                                            { "name": "No", "selected": true },
+                                                            { "name": "Yes", "selected": false }
+                                                           ], "selected": null }
         ],
         "parameters": [
           { "name": "Base Curve (mm)", "type":"input", "values": [ ], "selected": null },
