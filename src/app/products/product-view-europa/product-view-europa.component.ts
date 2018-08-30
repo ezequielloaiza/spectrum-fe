@@ -88,6 +88,8 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+    this.product.headerRight = JSON.parse(this.product.types)[0].header;
+    this.product.headerLeft = JSON.parse(this.product.types)[0].header;
     this.product.infoAditional = JSON.parse(this.product.infoAditional);
     this.product.priceSale = '';
     this.setClient();
@@ -103,14 +105,14 @@ export class ProductViewEuropaComponent implements OnInit {
 
   /*setValuesAxesXtensa(eye, value) {
     if (eye === 'right') {
-      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axis (º)' });
+      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
       if (parseFloat(value) <= -3.25) {
         this.paramAxesRight.values = this.axesXtensa[0].values;
       } else {
         this.paramAxesRight.values = this.axesXtensa[1].values;
       }
     } else {
-      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axis (º)' });
+      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
       if (parseFloat(value) <= -3.25) {
         this.paramAxesLeft.values = this.axesXtensa[0].values;
       } else {
@@ -301,4 +303,20 @@ export class ProductViewEuropaComponent implements OnInit {
     }
     return isValid;
   }
+
+  checkedRadio(value) {
+    return value.selected ? true : false;
+  }
+
+  setValueRadio(value, header) {
+    this.cleanValueRadio(header.values);
+    value.selected = true;
+  }
+
+  cleanValueRadio(values) {
+    _.each(values, function(value) {
+      value.selected = false;
+    });
+  }
+
 }

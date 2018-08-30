@@ -109,6 +109,7 @@ export class DetailsBasketClientComponent implements OnInit {
   generateOrder() {
      this.buyBasket.idUser = this.id;
      this.buyBasket.listBasket = this.productRequestedToBuy;
+     this.buyBasket.idRole = this.user.role.idRole;
      this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.getListBasket();

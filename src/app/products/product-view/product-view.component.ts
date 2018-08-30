@@ -50,7 +50,10 @@ export class ProductViewComponent implements OnInit {
               private basketService: BasketService,
               private shippingAddressService: ShippingAddressService,
               private userService: UserService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private alertify: AlertifyService,
+              private notification: ToastrService,
+              private translate: TranslateService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
    }
@@ -80,7 +83,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   getProductView() {
-    console.log(JSON.stringify(_.range(4, 10, 0.5)));
+    console.log(JSON.stringify(_.range(-15, -0.25, 0.25)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;
@@ -103,14 +106,14 @@ export class ProductViewComponent implements OnInit {
 
   /*setValuesAxesXtensa(eye, value) {
     if (eye === 'right') {
-      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axis (º)' });
+      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
       if (parseFloat(value) <= -3.25) {
         this.paramAxesRight.values = this.axesXtensa[0].values;
       } else {
         this.paramAxesRight.values = this.axesXtensa[1].values;
       }
     } else {
-      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axis (º)' });
+      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
       if (parseFloat(value) <= -3.25) {
         this.paramAxesLeft.values = this.axesXtensa[0].values;
       } else {
@@ -149,11 +152,18 @@ export class ProductViewComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
           // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
-          this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-            return !(u.cardCode === null || u.cardCode === '');
-          });
-           // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
-           // todavia no se agregado ese campo en la bd
+          if (this.product.supplier.idSupplier === 1) {
+            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
+              return !(u.cardCode === null || u.cardCode === '');
+            });
+          } else if ( this.product.supplier.idSupplier === 4) {
+            // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
+            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
+              return !(u.certificationCode === null || u.certificationCode === '');
+            });
+          } else {
+            this.listCustomers = this.listCustomersAux;
+          }
         }
       });
     }
@@ -177,6 +187,10 @@ export class ProductViewComponent implements OnInit {
         this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country;
       } else if (res.code === CodeHttp.notContent) {
         this.product.shippingAddress = '';
+        this.translate.get('You must enter a main address in the shipping address module',
+         {value: 'You must enter a main address in the shipping address module'}).subscribe(( res: string) => {
+          this.notification.warning('', res);
+        });
       } else {
         this.product.shippingAddress = '';
       }
@@ -265,6 +279,7 @@ export class ProductViewComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
     modalRef.result.then((result) => {} , (reason) => {
     });

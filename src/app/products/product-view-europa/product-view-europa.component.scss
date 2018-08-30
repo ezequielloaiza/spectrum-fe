@@ -296,7 +296,7 @@ img {
 .more-info {
 
   >div:nth-child(1) { 
-    >div:nth-child(1) { //specifications technicals
+    >div:nth-child(1) { //header
       .header {
         margin-left: 5px;
       }
@@ -323,7 +323,34 @@ img {
       }
     }
 
-    >div:nth-child(2) { //comments
+    >div:nth-child(2) { //specifications technicals
+      .header {
+        margin-left: 5px;
+      }
+  
+      .content {
+        margin-left: 25px;
+  
+        .label{
+          margin-top: 17px;
+        }
+  
+        .selection{
+          margin-top: 5px;
+        }
+      }
+  
+      >div:nth-child(4) {
+        margin-top: 35px;
+        margin-left: 5px;
+  
+        >div:nth-child(2) {
+          max-width: 48%;
+        }
+      }
+    }
+
+    >div:nth-child(3) { //comments
       margin-top: 30px;
 
       .header {
@@ -360,6 +387,12 @@ img {
       margin-top: 10px;
     }
 
+  }
+
+  .radio-scleral {
+    width: 120px;
+    display: flex;
+    justify-content: space-between;
   }
 
   

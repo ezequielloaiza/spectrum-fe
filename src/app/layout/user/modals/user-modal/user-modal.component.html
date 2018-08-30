@@ -226,7 +226,10 @@
         <div class="col-xl-6">
           <span [hidden]="listSuppliers.length === 0">{{'Number of defined suppliers:' | translate}} {{listSuppliers.length}} </span>
           <a [hidden]="listSuppliers.length === 0" class="link" (click)="openModalSupplier()">{{ 'Edit' | translate }}</a>
-          <a [hidden]="listSuppliers.length !== 0" class="link" (click)="openModalSupplier()">{{ 'Define suppliers' | translate }}</a>
+          <a [hidden]="listSuppliers.length !== 0" class="link" (click)="openModalSupplier()">{{ 'Define suppliers' | translate }}</a><br><br>
+          <div class="message-error">
+            <span [hidden]="listSuppliers.length !== 0">{{'Should define at least one supplier' | translate}}</span>
+          </div>
         </div>
       </div>
     </form>

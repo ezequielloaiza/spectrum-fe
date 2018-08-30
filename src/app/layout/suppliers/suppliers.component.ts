@@ -50,7 +50,7 @@ export class SuppliersComponent implements OnInit {
       console.log('error', error);
     });
 	}
-	
+
 	sortSupplier(key) {
 		if (this.orderByField !== key) {
 			this.typeSort = 0;
@@ -83,7 +83,7 @@ export class SuppliersComponent implements OnInit {
 		let endItem = event * this.itemPerPage;
 		this.suppliers = this.auxSuppliers.slice(startItem,endItem);
 	}
-  
+
   open(supplier,action) {
 		const modalRef = this.modalService.open(SupplierModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
 		modalRef.componentInstance.supplier = supplier;
@@ -108,30 +108,43 @@ export class SuppliersComponent implements OnInit {
 		this.orderByField = 'idSupplier';
 		this.sortSupplier(this.orderByField);
 		this.pageChange(this.advancedPagination);
-	}
-	
-	delete(id) {
-		this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
-			this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
-				this.alertify.confirm(title, msg, () => {
-					this.supplierService.removeById$(id).subscribe(res => {
-						if (res.code === CodeHttp.ok) {
-							this.getSuppliers();
-							this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
-								this.notification.success('', res);
-							});
-						} else {
-							this.translate.get('Can not be eliminated', {value: 'Can not be eliminated'}).subscribe((res: string) => {
-								this.notification.warning('', res);
-							});
-						}
-					}, error => {
-						console.log('error', error);
-					});
-				}, () => {
-				});
-			});
-		});
-	}
+  }
+
+  delete(id) {
+    this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
+      this.translate.get('Are you sure do you want to delete this register?',
+      {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
+        this.alertify.confirm(title, msg, () => {
+          this.supplierService.removeById$(id).subscribe(res => {
+            if (res.code === CodeHttp.ok) {
+              this.getSuppliers();
+              this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe((res: string) => {
+                this.notification.success('', res);
+              });
+            } else if (res.code === CodeHttp.notAcceptable) {
+              if (res.data === 1) {
+                this.translate.get('Can not be eliminated, is associated with a product',
+                {value: 'Can not be eliminated, is associated with a product'}).subscribe((res: string) => {
+                  this.notification.warning('', res);
+                });
+              } else {
+                this.translate.get('It can not be deleted, it is associated with a client',
+                {value: 'It can not be deleted, it is associated with a client'}).subscribe((res: string) => {
+                  this.notification.warning('', res);
+                });
+              }
+            } else {
+              this.translate.get('Can not be eliminated', {value: 'Can not be eliminated'}).subscribe((res: string) => {
+                this.notification.warning('', res);
+              });
+            }
+          }, error => {
+            console.log('error', error);
+          });
+        }, () => {
+        });
+      });
+    });
+  }
 
 }
