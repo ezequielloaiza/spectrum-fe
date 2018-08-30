@@ -130,17 +130,10 @@ export class ProductsListsComponent implements OnInit {
     modalRef.componentInstance.product = product;
     modalRef.componentInstance.action = action;
     modalRef.result.then(
-      result => {
-        if (action === 'edit') {
-          const index = _.findIndex(this.products, {
-            idProduct: result.idProduct
-          });
-          this.products[index] = result;
-        } else {
-          this.products.push(result);
-        }
+      (result) => {
+        this.getProducts();
       },
-      reason => {}
+      (reason) => {}
     );
   }
 }

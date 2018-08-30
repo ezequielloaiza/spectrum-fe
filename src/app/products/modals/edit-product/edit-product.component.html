@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{ 'Product detail' | translate }}</h4>
+  <h4 class="modal-title">{{ 'Product Detail' | translate }}</h4>
   <button type="button" class="close close-modal" aria-label="Close" (click)="dismiss()">
     <span aria-hidden="true"> &times; </span>
   </button>
@@ -7,11 +7,12 @@
 <div class="content">
   <div class="modal-body">
     <form [formGroup]="form">
+        <h5>{{ 'Product Information' | translate }}</h5>
         <div class="row">
             <div class="col-xl-6">
                 <fieldset class="form-group">
                   <label>{{ 'Name' | translate }}</label>
-                  <input class="form-control" placeholder="{{ 'Enter product name' | translate }}" name="name" formControlName="name"
+                  <input class="form-control" maxlength="40" placeholder="{{ 'Enter product name' | translate }}" name="name" formControlName="name"
                     required>
                 </fieldset>
                 <div class="message-error" [hidden]="name.valid || name.pristine">
@@ -20,19 +21,19 @@
               </div>
               <div class="col-xl-6">
                 <fieldset class="form-group">
-                  <label>{{ 'Description' | translate }}</label>
-                  <input class="form-control" placeholder="{{ 'Enter description' | translate }}" name="description" formControlName="description" required>
+                  <label>{{ 'Description short' | translate }}</label>
+                  <input class="form-control" maxlength="40" placeholder="{{ 'Enter description' | translate }}" name="descriptionShort" formControlName="descriptionShort" required>
                 </fieldset>
-                <div class="message-error" [hidden]="description.valid || description.pristine">
-                  <span>{{ 'Description is required' | translate }}</span>
+                <div class="message-error" [hidden]="descriptionShort.valid || descriptionShort.pristine">
+                  <span>{{ 'Description short is required' | translate }}</span>
                 </div>
               </div>
               <div class="col-xl-6">
                 <fieldset class="form-group">
                   <label>{{ 'Price Base' | translate }}</label>
-                  <input type="number" class="form-control" placeholder="{{ 'Enter price base' | translate }}" name="price_base" formControlName="price_base">
+                  <input type="number" class="form-control" placeholder="{{ 'Enter price base' | translate }}" name="priceBase" formControlName="priceBase">
                 </fieldset>
-                <div class="message-error" [hidden]="price_base.valid || price_base.pristine">
+                <div class="message-error" [hidden]="priceBase.valid || priceBase.pristine">
                   <span>{{ 'Price base is required' | translate }}</span>
                 </div>
               </div>
@@ -83,7 +84,7 @@
   <button type="button" class="btn btn-secondary" (click)="dismiss()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
 </div>

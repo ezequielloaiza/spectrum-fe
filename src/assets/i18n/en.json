@@ -317,5 +317,17 @@
     "Buy now":"Buy now",
     "Main":"Main",
     "Are you sure you want to define the shipping address as the primary?":"Are you sure you want to define the shipping address as the primary?",
-    "Confirm change":"Confirm change"
+    "Confirm change":"Confirm change",
+    "Product Information":"Product Information",
+    "Price Base":"Price Base",
+    "Price 1":"Price 1",
+    "Price 2":"Price 2",
+    "Price 3":"Price 3",
+    "Product Detail":"Product Detail",
+    "Description short":"Description short",
+    "Description short is required":"Description short is required",
+    "Price base is required": "Price base is required",
+    "Price 1 is required": "Price 1 is required",
+    "Price 2 is required": "Price 2 is required",
+    "Price 3 is required": "Price 3 is required"
 }
