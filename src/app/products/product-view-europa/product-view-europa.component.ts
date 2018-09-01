@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as _ from 'lodash';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
@@ -50,20 +50,14 @@ export class ProductViewEuropaComponent implements OnInit {
               private basketService: BasketService,
               private shippingAddressService: ShippingAddressService,
               private userService: UserService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              public router: Router) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
    }
 
   ngOnInit() {
     this.getProducts();
-    /* var product xtensa */
-    this.setAxesXtensa();
-  }
-
-  setAxesXtensa() {
-    this.axesXtensa = [ { "values": ["5º","10º","15º","20º","25º","30º","35º","40º","45º","50º","55º","60º","65º","70º","75º","80º","85º","90º","95º","100º","105º","110º","115º","120º","125º","130º","135º","140º","145º","150º","155º","160º","165º","170º","175º","180º"] },
-                        { "values": ["10º", "20º","30º","40º","50º","60º","70º","80º","90º","100º","110º","120º","130º","140º","150º","160º","170º","180º"] }];
   }
 
   getProducts() {
@@ -100,28 +94,10 @@ export class ProductViewEuropaComponent implements OnInit {
 
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
-    /*if (this.product.father === "Xtensa" && parameter.name === 'Cylinder (D)'){
-      this.setValuesAxesXtensa(eye, value);
-    }*/
-  }
-
-  /*setValuesAxesXtensa(eye, value) {
-    if (eye === 'right') {
-      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesRight.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesRight.values = this.axesXtensa[1].values;
-      }
-    } else {
-      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesLeft.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesLeft.values = this.axesXtensa[1].values;
-      }
+    if (parameter.name === 'Hidrapeg'|| parameter.name === 'Inserts'){
+      parameter.selected = parameter.selected === "Yes" ? true : false;
     }
-  }*/
+  }
 
   setValueEye(eye) {
     if (eye === "right") {
@@ -222,23 +198,60 @@ export class ProductViewEuropaComponent implements OnInit {
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
+
+        /* headers*/
+        _.each(product.headerRight, function(parameter, index) {
+          product.headerRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
+        });
+        productSelected.header = product.headerRight;
+
+        /*params*/
         _.each(product.parametersRight, function(parameter, index) {
-          product.parametersRight[index] = _.omit(parameter, ['type', 'values']);
+          product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
         productSelected.parameters = product.parametersRight;
+
+        /*steps*/
+        _.each(product.pasosRight, function(PC) {
+          _.each(PC.values, function(step) {
+            _.each(step.values, function(value, index) {
+              step.values[index] = _.omit(value, ['type', 'sel']);
+            });
+          });
+        });
+        productSelected.pasos = product.pasosRight;
+        
       }
 
       if (productSelected.eye === "Left") {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
+
+        /* headers*/
+        _.each(product.headerLeft, function(parameter, index) {
+          product.headerLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
+        });
+        productSelected.header = product.headerLeft;
+
+        /*params*/
         _.each(product.parametersLeft, function(parameter, index) {
-          product.parametersLeft[index] = _.omit(parameter, ['type', 'values']);
+          product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
         productSelected.parameters = product.parametersLeft;
+
+        /*steps*/
+        _.each(product.pasosLeft, function(PC) {
+          _.each(PC.values, function(step) {
+            _.each(step.values, function(value, index) {
+              step.values[index] = _.omit(value, ['type', 'sel']);
+            });
+          });
+        });
+        productSelected.pasos = product.pasosLeft;
       }
 
-      productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
-      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye'])
+      productSelected.detail = { name: product.type, eye: productSelected.eye, header: productSelected.header, parameters: productSelected.parameters, pasos:productSelected.pasos };
+      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header'])
     });
 
     return productsSelected;
@@ -270,17 +283,12 @@ export class ProductViewEuropaComponent implements OnInit {
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;
-    modalRef.result.then((result) => {} , (reason) => {
+    modalRef.result.then((result) => {
+      this.getProducts();
+    }, (reason) => {
+      //dismiss
     });
   }
-
-  /*buyNow() {
-    this.order = this.buildProductsSelected();
-    this.getProducts();
-    alert('In construction.');
-    this.router.navigate(['/order-list-client']);
-    console.log(JSON.stringify(this.order));
-  }*/
 
   formIsValid() {
     var isValid = true;
@@ -306,19 +314,16 @@ export class ProductViewEuropaComponent implements OnInit {
     return isValid;
   }
 
-  checkedRadio(value) {
-    return value.selected ? true : false;
+  setChecked(value, header) {
+    value.selected = !value.selected;
   }
 
-  setValueRadio(value, header) {
-    this.cleanValueRadio(header.values);
-    value.selected = true;
-  }
-
-  cleanValueRadio(values) {
-    _.each(values, function(value) {
-      value.selected = false;
-    });
+  setNotch(parameter) {
+    if (parameter.values[0].selected === null || parameter.values[1].selected === null) {
+      parameter.selected = null;
+    } else {
+      parameter.selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
+    }
   }
 
 }

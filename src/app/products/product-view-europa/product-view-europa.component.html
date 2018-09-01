@@ -94,12 +94,6 @@
                             {{item}}
                           </ng-select>
                         </div>
-                        <!--<div *ngIf="header.type === 'radio'" class="radio-scleral">
-                          <div *ngFor="let value of header.values" class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="{{ header.name + value.name + 'right' }}" [checked]="checkedRadio(value)" (click)="setValueRadio(value, header)">
-                            <label class="custom-control-label" for="{{ header.name + value.name + 'right' }}">{{ value.name }}</label>
-                          </div>
-                        </div>-->
                       </div>
                     </div>
                   </div>
@@ -120,12 +114,6 @@
                             {{item}}
                           </ng-select>
                         </div>
-                        <!--<div *ngIf="header.type === 'radio'" class="radio-scleral">
-                          <div *ngFor="let value of header.values" class="custom-control custom-radio">
-                            <input class="custom-control-input" type="radio" id="{{ header.name + value.name + 'left' }}" [checked]="checkedRadio(value)" (click)="setValueRadio(value, header)">
-                            <label class="custom-control-label" for="{{ header.name + value.name + 'left' }}">{{ value.name }}</label>
-                          </div>
-                        </div>-->
                       </div>
                     </div>
                   </div>
@@ -176,7 +164,7 @@
                                 {{item}}
                               </ng-select>-->
                               <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
-                                     [(ngModel)]="parameter.values[0].selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                                     [(ngModel)]="parameter.values[0].selected" (blur)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                             </div>
                             <div class="col-sm-6">
                               <!--<ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values[1].values" [disabled]="!product.eyeRight"
@@ -184,7 +172,7 @@
                                 {{item}}
                               </ng-select>-->
                               <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
-                                     [(ngModel)]="parameter.values[1].selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                                     [(ngModel)]="parameter.values[1].selected" (blur)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                             </div>
                           </div>
                         </div>
@@ -263,8 +251,8 @@
                     <div *ngFor="let paso of PC.values">
                       <div class="row selection">
                         <div *ngFor="let value of paso.values" class="custom-control check-steps">
-                          <input class="custom-control-input" type="checkbox" id="{{ value.name }}" [checked]="checkedRadio('right', value)" (click)="setValueRadio('right', value, parameter)">
-                          <label class="custom-control-label" for="{{ value.name }}">{{ value.name }}</label>
+                          <input class="custom-control-input" type="checkbox" id="{{ 'right' + PC.name + paso.name + value.name }}" [(ngModel)]="value.selected" (click)="setChecked(value, paso)">
+                          <label class="custom-control-label" for="{{ 'right'  + PC.name + paso.name + value.name }}">{{ value.name }}</label>
                         </div>
                       </div>
                     </div>
@@ -277,8 +265,8 @@
                     <div *ngFor="let paso of PC.values">
                       <div class="row selection">
                         <div *ngFor="let value of paso.values" class="custom-control check-steps">
-                          <input class="custom-control-input" type="checkbox" id="{{ value.name }}" [checked]="checkedRadio('left', value)" (click)="setValueRadio('left', value, parameter)">
-                          <label class="custom-control-label" for="{{ value.name }}">{{ value.name }}</label>
+                          <input class="custom-control-input" type="checkbox" id="{{ 'left'  + PC.name + paso.name + value.name }}" [(ngModel)]="value.selected" (click)="setChecked(value, paso)">
+                          <label class="custom-control-label" for="{{ 'left'  + PC.name + paso.name + value.name }}">{{ value.name }}</label>
                         </div>
                       </div>
                     </div>
