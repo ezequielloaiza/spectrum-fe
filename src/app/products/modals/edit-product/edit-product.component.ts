@@ -95,7 +95,7 @@ export class EditProductComponent implements OnInit {
             .subscribe((res: string) => {
               this.notification.success('', res);
             });
-          this.dismiss();
+          this.close(res);
         } else if (res.code === CodeHttp.notAcceptable) {
           this.translate.get('The product already exists', {
               value: 'The product already exists'

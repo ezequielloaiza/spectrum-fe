@@ -89,7 +89,7 @@
                     <div *ngIf="header.values && header.values.length > 0">
                       <div class="row selection">
                         <div *ngIf="header.type === 'selected'" class="select-values col-sm-10">
-                          <ng-select (change)="changeSelect('right', parameter, $event)" [items]="header.values" [disabled]="!product.eyeRight"
+                          <ng-select (change)="changeSelect('right', header, $event)" [items]="header.values" [disabled]="!product.eyeRight"
                             [(ngModel)]="header.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
                             {{item}}
                           </ng-select>
