@@ -19,7 +19,11 @@ import { ShippingAddressService } from '../../shared/services/shippingAddress/sh
 import { UserService } from '../../shared/services';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
-const URL = 'http://localhost:8080/api/v1/fileProductRequested/uploader';
+import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { environment } from '../../../../src/environments/environment';
+
+const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
 @Component({
   selector: 'app-product-view',
@@ -49,9 +53,13 @@ export class ProductViewComponent implements OnInit {
   CustomersSelected: any;
   //Upload files
   listFiles: Array<FileProductRequested> = new Array;
+  file: any;
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: {percentage: number} = {percentage: 0};
   public hasBaseDropZoneOver: Boolean = false;
   public hasAnotherDropZoneOver: Boolean = false;
-  public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'files'});
+  public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'files', authToken: this.userStorageService.getToke()});
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
@@ -59,6 +67,7 @@ export class ProductViewComponent implements OnInit {
               private basketService: BasketService,
               private shippingAddressService: ShippingAddressService,
               private userService: UserService,
+              private fileProductRequestedService: FileProductRequestedService,
               private modalService: NgbModal) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
@@ -268,7 +277,7 @@ export class ProductViewComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-    this.basketRequestModal.fileProductRequestedList = this.buildFileProductRequested();;
+    this.basketRequestModal.fileProductRequestedList = this.buildFileProductRequested();
     this.openModal(type);
   }
 
@@ -277,6 +286,7 @@ export class ProductViewComponent implements OnInit {
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.files = this.buildFileProductRequested();
+    modalRef.componentInstance.file = this.selectedFiles[0];
     modalRef.componentInstance.typeBuy = type;
     modalRef.result.then((result) => {} , (reason) => {
     });
@@ -314,13 +324,32 @@ export class ProductViewComponent implements OnInit {
     return isValid;
   }
 
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
+
+  upload() {
+    this.progress.percentage = 0;
+    this.currentFileUpload = this.selectedFiles.item[0];
+    this.fileProductRequestedService.uploader$(this.currentFileUpload).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progress.percentage = Math.round(100 * event.loaded / event.total);
+      } else if (event instanceof HttpResponse) {
+        console.log('File is completely uploaded!');
+      }
+    }, error => {
+      console.log('error', error);
+  });
+    this.selectedFiles = undefined;
+  }
+
   buildFileProductRequested() {
     const listFiles = [];
 
     if (this.uploader.queue) {
       _.each(this.uploader.queue, function (fileItem) {
         const fileProductRequest: FileProductRequested = new FileProductRequested();
-        //fileProductRequest.url = fileItem.file.rawFile.webkitRelativePath;
+        // fileProductRequest.url = fileItem.file.rawFile.webkitRelativePath;
         fileProductRequest.name = fileItem.file.name;
         fileProductRequest.size = fileItem.file.size;
         fileProductRequest.createdAt = new Date();
@@ -328,6 +357,7 @@ export class ProductViewComponent implements OnInit {
         listFiles.push(fileProductRequest);
       });
     }
+
     return listFiles;
   }
 

@@ -22,6 +22,7 @@ import { FileProductRequested } from '../../../shared/models/fileproductrequeste
 export class ConfirmationBuyComponent implements OnInit {
   datos: any;
   product: any;
+  file: File;
   files: Array<FileProductRequested> = new Array;
   listBasket: Array<ProductRequested> = new Array;
   lista: Array<ProductRequested> = new Array;
@@ -69,7 +70,8 @@ export class ConfirmationBuyComponent implements OnInit {
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
       this.basketRequest.fileProductRequestedList = this.files;
-      this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
+      console.log('files cb:', this.file);
+      this.basketService.saveBasket$(this.basketRequest, this.file).subscribe(res => {
           if (res.code === CodeHttp.ok) {
             this.close();
             this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {

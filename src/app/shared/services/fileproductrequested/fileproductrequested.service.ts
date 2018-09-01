@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
@@ -10,7 +10,15 @@ export class FileProductRequestedService {
 
   constructor(private http: HttpClient) { }
 
-  public uploader$(id): Observable<any> {
-    return this.http.delete(environment.apiUrl + 'fileProductRequested/uploader/');
+  public uploader$(file: File): Observable<HttpEvent<{}>> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    const header = new HttpHeaders({'Content-Type': undefined});
+    const req = new HttpRequest('POST', environment.apiUrl + 'fileProductRequested/uploader', formData, {
+      headers: header,
+      reportProgress: true,
+      responseType: 'text'
+    });
+    return this.http.request(req);
   }
 }
