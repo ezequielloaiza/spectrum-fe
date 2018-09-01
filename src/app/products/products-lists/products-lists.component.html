@@ -140,7 +140,7 @@
               <div class="product-btns">
                 <div class="btn-group">
                   <button (click)="redirectView(product)" type="button" class="btn btn-primary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  <button (click)="open(product,'edit')" [hidden]="user.role.idRole!==1" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                 </div>
               </div>
             </div>

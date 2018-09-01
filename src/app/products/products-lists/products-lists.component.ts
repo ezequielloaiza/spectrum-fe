@@ -4,6 +4,8 @@ import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import * as _ from 'lodash';
 import { SupplieruserService } from '../../shared/services/supplieruser/supplieruser.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditProductComponent } from '../modals/edit-product/edit-product.component';
 import { Router } from '@angular/router';
 
 
@@ -13,16 +15,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./products-lists.component.scss']
 })
 export class ProductsListsComponent implements OnInit {
-
-  products: Array<any> = new Array;
-  productsAux: Array<any> = new Array;
-  listSupplier: Array<any> = new Array;
-  listSupplierAux: Array<any> = new Array;
+  products: Array<any> = new Array();
+  productsAux: Array<any> = new Array();
+  listSupplier: Array<any> = new Array();
+  listSupplierAux: Array<any> = new Array();
   currentUser: any;
   user: any;
 
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
+              private modalService: NgbModal,
               private supplierUserService: SupplieruserService,
               public router: Router) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
@@ -34,55 +36,63 @@ export class ProductsListsComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService.findAll$().subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        if (this.user.role.idRole === 3) {
-          this.productsAux = res.data;
-          this.products = res.data;
-          this.associatedSuppliers();
-        } else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
-          this.products = res.data;
+    this.productService.findAll$().subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          if (this.user.role.idRole === 3) {
+            this.productsAux = res.data;
+            this.products = res.data;
+            this.associatedSuppliers();
+          } else if (
+            this.user.role.idRole === 1 ||
+            this.user.role.idRole === 2
+          ) {
+            this.products = res.data;
+          }
+        } else {
+          console.log(res.errors[0].detail);
         }
-      } else {
-        console.log(res.errors[0].detail);
+      },
+      error => {
+        console.log('error', error);
       }
-    }, error => {
-      console.log('error', error);
-    });
+    );
   }
 
   associatedSuppliers() {
-    this.supplierUserService.findIdUser$(this.currentUser.idUser).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-         this.listSupplierAux = res.data;
-         const userConc = this.currentUser;
-         this.listSupplier = _.filter(this.listSupplierAux, function(u) {
-           const idSupp = u.supplier.idSupplier;
-           switch (idSupp) {
+    this.supplierUserService
+      .findIdUser$(this.currentUser.idUser)
+      .subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.listSupplierAux = res.data;
+          const userConc = this.currentUser;
+          this.listSupplier = _.filter(this.listSupplierAux, function(u) {
+            const idSupp = u.supplier.idSupplier;
+            switch (idSupp) {
               case 1: // Markennoy
                 return !(userConc.cardCode === null || userConc.cardCode === '');
               case 2: // Europa
-               return u;
+                return u;
               case 3: // Lenticon
-               return u;
+                return u;
               case 4: // Euclid
                return !(userConc.certificationCode === null || userConc.certificationCode === '');
               case 5: // Magic Look
-               return u;
+                return u;
               case 6: // Blue Light
-               return u;
+                return u;
             }
-        });
-        this.productAvailable();
-      }
+          });
+          this.productAvailable();
+        }
       });
   }
 
   productAvailable() {
     const lista = this.listSupplier;
     const productsFiltered = [];
-    _.each(this.products, function (product) {
-      _.each(lista, function (item) {
+    _.each(this.products, function(product) {
+      _.each(lista, function(item) {
         if (product.supplier.idSupplier === item.supplier.idSupplier) {
           productsFiltered.push(product);
         }
@@ -122,4 +132,18 @@ export class ProductsListsComponent implements OnInit {
     }
   }
 
+  open(product, action) {
+    const modalRef = this.modalService.open(EditProductComponent, {
+      size: 'lg',
+      windowClass: 'modal-content-border'
+    });
+    modalRef.componentInstance.product = product;
+    modalRef.componentInstance.action = action;
+    modalRef.result.then(
+      (result) => {
+        this.getProducts();
+      },
+      (reason) => {}
+    );
+  }
 }
