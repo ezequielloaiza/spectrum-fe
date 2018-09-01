@@ -27,6 +27,7 @@ export class ProductViewComponent implements OnInit {
 
   products: Array<any> = new Array;
   product: any;
+  productCopy: any;
   id: any;
   parameters: any;
   quantity = 1;
@@ -220,7 +221,7 @@ export class ProductViewComponent implements OnInit {
 
   buildProductsSelected() {
     this.setEyeSelected();
-    let product = this.product;
+    let product = this.productCopy;
     let productsSelected = this.productsSelected;
 
     _.each(productsSelected, function(productSelected, index) {
@@ -255,6 +256,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   addToCart(type) {
+    this.productCopy = JSON.parse(JSON.stringify(this.product));
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -284,14 +286,6 @@ export class ProductViewComponent implements OnInit {
     modalRef.result.then((result) => {} , (reason) => {
     });
   }
-
-  /*buyNow() {
-    this.order = this.buildProductsSelected();
-    this.getProducts();
-    alert('In construction.');
-    this.router.navigate(['/order-list-client']);
-    console.log(JSON.stringify(this.order));
-  }*/
 
   formIsValid() {
     var isValid = true;

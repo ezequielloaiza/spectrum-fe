@@ -27,6 +27,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   products: Array<any> = new Array;
   product: any;
+  productCopy: any;
   id: any;
   parameters: any;
   quantity = 1;
@@ -51,7 +52,10 @@ export class ProductViewEuropaComponent implements OnInit {
               private shippingAddressService: ShippingAddressService,
               private userService: UserService,
               private modalService: NgbModal,
-              public router: Router) {
+              public router: Router,
+              private alertify: AlertifyService,
+              private notification: ToastrService,
+              private translate: TranslateService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
    }
@@ -157,6 +161,10 @@ export class ProductViewEuropaComponent implements OnInit {
         this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country;
       } else if (res.code === CodeHttp.notContent) {
         this.product.shippingAddress = '';
+        this.translate.get('You must enter a main address in the shipping address module',
+         {value: 'You must enter a main address in the shipping address module'}).subscribe(( res: string) => {
+          this.notification.warning('', res);
+        });
       } else {
         this.product.shippingAddress = '';
       }
@@ -186,7 +194,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   buildProductsSelected() {
     this.setEyeSelected();
-    let product = this.product;
+    let product = this.productCopy;
     let productsSelected = this.productsSelected;
 
     _.each(productsSelected, function(productSelected, index) {
@@ -258,6 +266,7 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   addToCart(type) {
+    this.productCopy = JSON.parse(JSON.stringify(this.product));
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
