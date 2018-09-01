@@ -285,6 +285,8 @@ img {
 .info-content {
   margin-left: 15px;
   margin-bottom: 0px;
+  line-height: 30px;
+
 }
 
 .item-properties {
@@ -296,6 +298,7 @@ img {
 .more-info {
 
   >div:nth-child(1) { 
+    
     >div:nth-child(1) { //header
       .header {
         margin-left: 5px;
@@ -312,53 +315,24 @@ img {
           margin-top: 5px;
         }
       }
-  
-      >div:nth-child(4) {
-        margin-top: 35px;
-        margin-left: 5px;
-  
-        >div:nth-child(2) {
-          max-width: 48%;
-        }
-      }
-    }
 
-    >div:nth-child(2) { //specifications technicals
-      .header {
-        margin-left: 5px;
-      }
-  
-      .content {
-        margin-left: 25px;
-  
-        .label{
-          margin-top: 17px;
-        }
-  
-        .selection{
-          margin-top: 5px;
-        }
-      }
-  
-      >div:nth-child(4) {
-        margin-top: 35px;
-        margin-left: 5px;
-  
-        >div:nth-child(2) {
-          max-width: 48%;
-        }
-      }
-    }
+      >div:nth-child(3), >div:nth-child(4), >div:nth-child(5) {
+        padding-left: 5px;
 
-    >div:nth-child(3) { //comments
-      margin-top: 30px;
-
-      .header {
-        margin-left: 15px;
-      }
-  
-      .content {
-        margin-left: 15px;
+        .content-steps {
+          margin-left: 25px;
+    
+          .label{
+            margin-top: 17px;
+          }
+          .sub-label{
+            margin-top: 5px;
+          }
+    
+          .selection{
+            margin-top: 5px;
+          }
+        }
       }
     }
   }
@@ -383,6 +357,10 @@ img {
       }
     }
 
+    >div:nth-child(5) {
+      margin-top: 30px;
+    }
+
     .filters {
       margin-top: 10px;
     }
@@ -390,10 +368,45 @@ img {
   }
 
   .radio-scleral {
+    margin-top: 10px;
     width: 120px;
     display: flex;
     justify-content: space-between;
   }
 
   
+}
+
+.check-steps {
+  display: flex;
+
+  >input:nth-child(1) {
+    width: 20px;
+    height: 10px;
+    margin-left: 20px;
+  }
+}
+
+
+.content-steps {
+  >div:nth-child(2), >div:nth-child(3) {
+    >div:nth-child(1), >div:nth-child(2), >div:nth-child(3) {
+      .selection {
+        >div:nth-child(1) {
+          padding-right: 1.5rem;
+        }
+      }
+      
+      padding-top: 40px;
+    }
+  }
+}
+
+.selected-double {
+  >div:nth-child(1) {
+    padding-right: 0px;
+  }
+  >div:nth-child(2) {
+    padding-left: 2px;
+  }
 }

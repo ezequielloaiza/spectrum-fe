@@ -90,6 +90,8 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.product.headerRight = JSON.parse(this.product.types)[0].header;
     this.product.headerLeft = JSON.parse(this.product.types)[0].header;
+    this.product.pasosRight = JSON.parse(this.product.types)[0].pasos;
+    this.product.pasosLeft = JSON.parse(this.product.types)[0].pasos;
     this.product.infoAditional = JSON.parse(this.product.infoAditional);
     this.product.priceSale = '';
     this.setClient();

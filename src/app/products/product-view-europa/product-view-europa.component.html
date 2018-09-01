@@ -38,14 +38,7 @@
             <p class="info-content">{{ product.description }}</p>
           </div>
 
-          <!--CHARACTERISTICS-->
-          <div>
-            <dt class="title">{{ 'Characteristics' | translate }}</dt>
-            <div class="info-content" *ngFor="let characteristic of product.infoAditional[0].values">
-              <a class="title">{{ characteristic.title }}</a>:
-              <a>{{ characteristic.description }}</a>
-            </div>
-          </div>
+          
         </div>
       </div>
 
@@ -68,186 +61,250 @@
               </div>
             </div>
 
-            <!--CONTENT INFO-->
-            <div class="row content">
-
-              <!--PARAM NAME-->
-              <div class="col-sm-4 title">
-                <div class="row label">
-                  <label class="form-check-label">{{ 'Quantity' }}:</label>&nbsp;&nbsp;
+            <!--quantity / contamac / hydrapeg / insertors-->
+            <div class="col-md-12">
+              <div class="row content">
+                
+                <!--PARAM NAME-->
+                <div class="col-sm-4 title">
+                  <div class="row label">
+                    <label class="form-check-label">{{ 'Quantity' }}:</label>&nbsp;&nbsp;
+                  </div>
+                  <div *ngFor="let header of product.headerRight">
+                    <div *ngIf="header.values && header.values.length > 0">
+                      <div class="row label">
+                        <label class="form-check-label">{{ header.name }}:</label>&nbsp;&nbsp;
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div *ngFor="let header of product.headerRight">
-                  <div *ngIf="header.values && header.values.length > 0">
+
+                <!--EYE RIGHT-->
+                <div class="col-sm-4 title">
+                  <div class="row selection">
+                    <input class="form-control col-sm-9" type="number" step=1 min="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
+                      [disabled]="!product.eyeRight">
+                  </div>
+                  <div *ngFor="let header of product.headerRight">
+                    <div *ngIf="header.values && header.values.length > 0">
+                      <div class="row selection">
+                        <div *ngIf="header.type === 'selected'" class="select-values col-sm-10">
+                          <ng-select (change)="changeSelect('right', parameter, $event)" [items]="header.values" [disabled]="!product.eyeRight"
+                            [(ngModel)]="header.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                            {{item}}
+                          </ng-select>
+                        </div>
+                        <!--<div *ngIf="header.type === 'radio'" class="radio-scleral">
+                          <div *ngFor="let value of header.values" class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" id="{{ header.name + value.name + 'right' }}" [checked]="checkedRadio(value)" (click)="setValueRadio(value, header)">
+                            <label class="custom-control-label" for="{{ header.name + value.name + 'right' }}">{{ value.name }}</label>
+                          </div>
+                        </div>-->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--EYE LEFT-->
+                <div class="col-sm-4 title">
+                  <div class="row selection">
+                    <input class="form-control col-sm-9" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');"
+                      [disabled]="!product.eyeLeft">
+                  </div>
+                  <div *ngFor="let header of product.headerLeft">
+                    <div *ngIf="header.values && header.values.length > 0">
+                      <div class="row selection">
+                        <div *ngIf="header.type === 'selected'" class="select-values col-sm-10">
+                          <ng-select (change)="changeSelect('left', header, $event)" [items]="header.values" [disabled]="!product.eyeLeft" [(ngModel)]="header.sel"
+                            bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                            {{item}}
+                          </ng-select>
+                        </div>
+                        <!--<div *ngIf="header.type === 'radio'" class="radio-scleral">
+                          <div *ngFor="let value of header.values" class="custom-control custom-radio">
+                            <input class="custom-control-input" type="radio" id="{{ header.name + value.name + 'left' }}" [checked]="checkedRadio(value)" (click)="setValueRadio(value, header)">
+                            <label class="custom-control-label" for="{{ header.name + value.name + 'left' }}">{{ value.name }}</label>
+                          </div>
+                        </div>-->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+              </div>
+            </div>
+
+            <!--params-->
+            <div class="col-md-12">
+
+              <!--CONTENT INFO-->
+              <div class="row content">
+
+                <!--PARAM NAME-->
+                <div class="col-sm-4 title">
+                  <div *ngFor="let parameter of product.parametersRight">
+                    <div *ngIf="parameter.values && parameter.values.length > 0">
+                      <div class="row label">
+                        <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--EYE RIGHT-->
+                <div class="col-sm-4 title">
+                  <div *ngFor="let parameter of product.parametersRight">
+                    <div *ngIf="parameter.values && parameter.values.length > 0">
+                      <div class="row selection">
+                        <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-10">
+                          <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight"
+                            [(ngModel)]="parameter.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                            {{item}}
+                          </ng-select>
+                        </div>
+
+                        <div *ngIf="parameter.type === 'input'" class="select-values col-sm-10">
+                            <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                            [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                        </div>
+                        
+                        <div *ngIf="parameter.type === 'selected-double'" class="select-values col-sm-10">
+                          <div class="row selected-double">
+                            <div class="col-sm-6">
+                              <!--<ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values[0].values" [disabled]="!product.eyeRight"
+                                [(ngModel)]="parameter.values[0].selected" bindLabel="item" ng-pla bindValue="item" placeholder="{{ 'depth' | translate }}">
+                                {{item}}
+                              </ng-select>-->
+                              <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
+                                     [(ngModel)]="parameter.values[0].selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                            </div>
+                            <div class="col-sm-6">
+                              <!--<ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values[1].values" [disabled]="!product.eyeRight"
+                                [(ngModel)]="parameter.values[1].selected" bindLabel="item" bindValue="item" placeholder="{{ 'length' | translate }}">
+                                {{item}}
+                              </ng-select>-->
+                              <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
+                                     [(ngModel)]="parameter.values[1].selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--EYE LEFT-->
+                <div class="col-sm-4 title">
+                  <div *ngFor="let parameter of product.parametersLeft">
+                    <div *ngIf="parameter.values && parameter.values.length > 0">
+                      <div class="row selection">
+                        <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-10">
+                          <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft" [(ngModel)]="parameter.sel"
+                            bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                            {{item}}
+                          </ng-select>
+                        </div>
+
+                        <div *ngIf="parameter.type === 'input'" class="select-values col-sm-10">
+                            <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                            [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                        </div>
+                        
+                        <div *ngIf="parameter.type === 'selected-double'" class="select-values col-sm-10">
+                          <div class="row selected-double">
+                            <div class="col-sm-6">
+                              <!--<ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values[0].values" [disabled]="!product.eyeRight"
+                                [(ngModel)]="parameter.values[0].selected" bindLabel="item" ng-pla bindValue="item" placeholder="{{ 'depth' | translate }}">
+                                {{item}}
+                              </ng-select>-->
+                              <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
+                                     [(ngModel)]="parameter.values[0].selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                            </div>
+                            <div class="col-sm-6">
+                              <!--<ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values[1].values" [disabled]="!product.eyeRight"
+                                [(ngModel)]="parameter.values[1].selected" bindLabel="item" bindValue="item" placeholder="{{ 'length' | translate }}">
+                                {{item}}
+                              </ng-select>-->
+                              <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
+                                     [(ngModel)]="parameter.values[1].selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!--steps-->
+            <div class="col-md-12">
+
+              <!--CONTENT INFO-->
+              <div class="row content-steps">
+
+                <!--PARAM NAME-->
+                <div class="col-sm-4 title">
+                  <div *ngFor="let PC of product.pasosRight">
                     <div class="row label">
-                      <label class="form-check-label">{{ header.name }}:</label>&nbsp;&nbsp;
+                      <label class="form-check-label">{{ PC.name }}:</label>&nbsp;&nbsp;
+                      <div class="col-md-12 sub-label" *ngFor="let paso of PC.values">
+                        <label class="form-check-label">{{ paso.name }}:</label>&nbsp;&nbsp;
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <!--EYE RIGHT-->
-              <div class="col-sm-4 title">
-                <div class="row selection">
-                  <input class="form-control col-sm-8" type="number" step=1 min="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
-                    [disabled]="!product.eyeRight">
-                </div>
-                <div *ngFor="let header of product.headerRight">
-                  <div *ngIf="header.values && header.values.length > 0">
-                    <div class="row selection">
-                      <div *ngIf="header.type === 'selected'" class="select-values col-sm-9">
-                        <!--<select class="form-control" name="value" (change)="changeSelect('right', parameter, $event.target.value)" [disabled]="!product.eyeRight">
-                          <option value="">{{ 'Select option' }}</option>
-                          <option *ngFor="let value of parameter.values">{{ value }}</option>
-                        </select>-->
-                        <ng-select (change)="changeSelect('right', parameter, $event)" [items]="header.values" [disabled]="!product.eyeRight"
-                          [(ngModel)]="header.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                          {{item}}
-                        </ng-select>
-                      </div>
-                      <div *ngIf="header.type === 'radio'" class="radio-scleral">
-                        <div *ngFor="let value of header.values" class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="{{ header.name + value.name + 'right' }}" [checked]="checkedRadio(value)" (click)="setValueRadio(value, header)">
-                          <label class="custom-control-label" for="{{ header.name + value.name + 'right' }}">{{ value.name }}</label>
+                <!--EYE RIGHT-->
+                <div class="col-sm-4 title">
+                  <div *ngFor="let PC of product.pasosRight">
+                    <div *ngFor="let paso of PC.values">
+                      <div class="row selection">
+                        <div *ngFor="let value of paso.values" class="custom-control check-steps">
+                          <input class="custom-control-input" type="checkbox" id="{{ value.name }}" [checked]="checkedRadio('right', value)" (click)="setValueRadio('right', value, parameter)">
+                          <label class="custom-control-label" for="{{ value.name }}">{{ value.name }}</label>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <!--EYE LEFT-->
-              <div class="col-sm-4 title">
-                <div class="row selection">
-                  <input class="form-control col-sm-8" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');"
-                    [disabled]="!product.eyeLeft">
-                </div>
-                <div *ngFor="let header of product.headerLeft">
-                  <div *ngIf="header.values && header.values.length > 0">
-                    <div class="row selection">
-                      <div *ngIf="header.type === 'selected'" class="select-values col-sm-9">
-                        <!--<select class="form-control" name="value" (change)="changeSelect('left', parameter, $event.target.value)" [disabled]="!product.eyeLeft">
-                          <option value="">{{ 'Select option' }}</option>
-                          <option *ngFor="let value of parameter.values">{{ value }}</option>
-                        </select>-->
-                        <ng-select (change)="changeSelect('left', header, $event)" [items]="header.values" [disabled]="!product.eyeLeft" [(ngModel)]="header.sel"
-                          bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                          {{item}}
-                        </ng-select>
-                      </div>
-                      <div *ngIf="header.type === 'radio'" class="radio-scleral">
-                        <div *ngFor="let value of header.values" class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="{{ header.name + value.name + 'left' }}" [checked]="checkedRadio(value)" (click)="setValueRadio(value, header)">
-                          <label class="custom-control-label" for="{{ header.name + value.name + 'left' }}">{{ value.name }}</label>
+                <!--EYE LEFT-->
+                <div class="col-sm-4 title">
+                  <div *ngFor="let PC of product.pasosLeft">
+                    <div *ngFor="let paso of PC.values">
+                      <div class="row selection">
+                        <div *ngFor="let value of paso.values" class="custom-control check-steps">
+                          <input class="custom-control-input" type="checkbox" id="{{ value.name }}" [checked]="checkedRadio('left', value)" (click)="setValueRadio('left', value, parameter)">
+                          <label class="custom-control-label" for="{{ value.name }}">{{ value.name }}</label>
                         </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!--params-->
-          <div class="col-md-12">
-
-            <!--CONTENT INFO-->
-            <div class="row content">
-
-              <!--PARAM NAME-->
-              <div class="col-sm-4 title">
-                <div *ngFor="let parameter of product.parametersRight">
-                  <div *ngIf="parameter.values && parameter.values.length > 0">
-                    <div class="row label">
-                      <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!--EYE RIGHT-->
-              <div class="col-sm-4 title">
-                <div *ngFor="let parameter of product.parametersRight">
-                  <div *ngIf="parameter.values && parameter.values.length > 0">
-                    <div class="row selection">
-                      <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-9">
-                        <!--<select class="form-control" name="value" (change)="changeSelect('right', parameter, $event.target.value)" [disabled]="!product.eyeRight">
-                          <option value="">{{ 'Select option' }}</option>
-                          <option *ngFor="let value of parameter.values">{{ value }}</option>
-                        </select>-->
-                        <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight"
-                          [(ngModel)]="parameter.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                          {{item}}
-                        </ng-select>
                       </div>
-                      <!--<div *ngIf="parameter.type === 'radio'">
-                        <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter)">
-                          <label class="custom-control-label" for="{{ value.name + eye.type }}">{{ value.name }}</label>
-                        </div>
-                      </div>-->
                     </div>
                   </div>
                 </div>
+
               </div>
 
-              <!--EYE LEFT-->
-              <div class="col-sm-4 title">
-                <div class="row selection">
-                  <input class="form-control col-sm-8" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');"
-                    [disabled]="!product.eyeLeft">
-                </div>
-                <div *ngFor="let parameter of product.parametersLeft">
-                  <div *ngIf="parameter.values && parameter.values.length > 0">
-                    <div class="row selection">
-                      <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-9">
-                        <!--<select class="form-control" name="value" (change)="changeSelect('left', parameter, $event.target.value)" [disabled]="!product.eyeLeft">
-                          <option value="">{{ 'Select option' }}</option>
-                          <option *ngFor="let value of parameter.values">{{ value }}</option>
-                        </select>-->
-                        <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft" [(ngModel)]="parameter.sel"
-                          bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                          {{item}}
-                        </ng-select>
-                      </div>
-                      <!--<div *ngIf="parameter.type === 'radio'">
-                        <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter)">
-                          <label class="custom-control-label" for="{{ value.name + eye.type }}">{{ value.name }}</label>
-                        </div>
-                      </div>-->
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
-          </div>
-
-          <!--comments-->
-          <div class="col-md-12">
-            <dt class="title">{{ 'Comments' | translate }}</dt>
-
-            <!--HEADER-->
-            <div class="row header">
-              <div class="col-sm-6 title">{{ 'Eye Right' | translate }}</div>
-              <div class="col-sm-6 title">{{ 'Eye Left' | translate }}</div>
-            </div>
-            <!--CONTENT-->
-            <div class="row content">
-              <div class="col-md-6">
-                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"
-                  placeholder="{{ 'Introduces right eye observations' | translate }}"></textarea>
-              </div>
-              <div class="col-md-6">
-                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"
-                  placeholder="{{ 'Introduces right left observations' | translate }}"></textarea>
-              </div>
-            </div>
+            
           </div>
         </div>
 
         <!--PROPERTIES / FILTERS / PATIENT / CLIENT-->
         <div class="col-md-6">
+
+          <!--CHARACTERISTICS-->
+          <div>
+            <dt class="title">{{ 'Characteristics' | translate }}</dt>
+            <div class="info-content" *ngFor="let characteristic of product.infoAditional[0].values">
+              <a class="title">{{ characteristic.title }}</a>
+              <a>{{ characteristic.description }}</a>
+            </div>
+          </div>
+
           <!-- properties -->
           <div class="row">
             <div class="item-properties col-md-5">
@@ -292,23 +349,6 @@
             </div>
           </div>
 
-          <!--filters products
-          <dt class="filters">{{ 'View more products' | translate }}</dt>
-          <div class="row">
-            <div class="col-md-5">
-              <dt>{{ 'Category' | translate }}</dt>
-              <a href="#" target="_blank">{{ product.category.name }}</a>
-            </div>
-            <div class="col-md-4">
-              <dt>{{ 'Supplier' | translate }}</dt>
-              <a href="#" target="_blank">{{ product.supplier.companyName }}</a>
-            </div>
-            <div class="col-md-3">
-              <dt>{{ 'Product' | translate }}</dt>
-              <a href="#" target="_blank">{{ product.father }}</a>
-            </div>
-          </div>-->
-
           <!-- client -->
           <div>
             <dt class="title">{{ 'Client' | translate }}</dt>
@@ -348,6 +388,28 @@
                 <div class="col-md-12">
                   <input class="form-control" type="text" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="product.patient">
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <!--comments-->
+          <div>
+            <dt class="title">{{ 'Comments' | translate }}</dt>
+
+            <!--HEADER-->
+            <div class="row header">
+              <div class="col-sm-6 title">{{ 'Eye Right' | translate }}</div>
+              <div class="col-sm-6 title">{{ 'Eye Left' | translate }}</div>
+            </div>
+            <!--CONTENT-->
+            <div class="row content">
+              <div class="col-md-6">
+                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"
+                  placeholder="{{ 'Introduces right eye observations' | translate }}"></textarea>
+              </div>
+              <div class="col-md-6">
+                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"
+                  placeholder="{{ 'Introduces right left observations' | translate }}"></textarea>
               </div>
             </div>
           </div>
