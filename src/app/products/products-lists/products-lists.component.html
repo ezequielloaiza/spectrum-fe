@@ -139,7 +139,7 @@
               </div>
               <div class="product-btns">
                 <div class="btn-group">
-                  <button routerLink="/products/{{product.idProduct}}/product-view" type="button" class="btn btn-primary">View</button>
+                  <button (click)="redirectView(product)" type="button" class="btn btn-primary">View</button>
                   <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                 </div>
               </div>

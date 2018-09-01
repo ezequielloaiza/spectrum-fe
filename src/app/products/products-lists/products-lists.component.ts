@@ -4,6 +4,8 @@ import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import * as _ from 'lodash';
 import { SupplieruserService } from '../../shared/services/supplieruser/supplieruser.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-products-lists',
@@ -21,7 +23,8 @@ export class ProductsListsComponent implements OnInit {
 
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
-              private supplierUserService: SupplieruserService) {
+              private supplierUserService: SupplieruserService,
+              public router: Router) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -57,13 +60,13 @@ export class ProductsListsComponent implements OnInit {
            const idSupp = u.supplier.idSupplier;
            switch (idSupp) {
               case 1: // Markennoy
-                return !(userConc.cardCode === null);
+                return !(userConc.cardCode === null || userConc.cardCode === '');
               case 2: // Europa
                return u;
               case 3: // Lenticon
                return u;
               case 4: // Euclid
-               return u;
+               return !(userConc.certificationCode === null || userConc.certificationCode === '');
               case 5: // Magic Look
                return u;
               case 6: // Blue Light
@@ -91,21 +94,32 @@ export class ProductsListsComponent implements OnInit {
 
   setPrice() {
     if (this.user.role.idRole === 3) {
-    let membership = this.currentUser.membership.idMembership;
-    _.each(this.products, function (product) {
-      switch (membership) {
-        case 1:
-          product.priceSale = product.price1;
-          break;
-        case 2:
-          product.priceSale = product.price2;
-          break;
-        case 3:
-          product.priceSale = product.price3;
-          break;
-      }
-    });
+      let membership = this.currentUser.membership.idMembership;
+      _.each(this.products, function (product) {
+        switch (membership) {
+          case 1:
+            product.priceSale = product.price1;
+            break;
+          case 2:
+            product.priceSale = product.price2;
+            break;
+          case 3:
+            product.priceSale = product.price3;
+            break;
+        }
+      });
+    }
   }
-}
+
+  redirectView(product) {
+    switch (product.supplier.idSupplier) {
+      case 1: //markennovy
+        this.router.navigate(['/products/' + product.idProduct + '/product-view']);
+        break;
+      case 2: //europa
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
+        break;
+    }
+  }
 
 }

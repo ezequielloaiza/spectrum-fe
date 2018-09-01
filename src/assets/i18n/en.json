@@ -100,6 +100,8 @@
     "No business types added yet":"No business types added yet",
     "Phone" : "Phone",
     "Credit limit" : "Credit limit",
+    "Card Code": "Card Code",
+    "Certification code": "Certification code",
     "Name is required" : "Name is required",
     "Email is required" : "Email is required",
     "City is required" : "City is required",
@@ -317,5 +319,12 @@
     "Buy now":"Buy now",
     "Main":"Main",
     "Are you sure you want to define the shipping address as the primary?":"Are you sure you want to define the shipping address as the primary?",
-    "Confirm change":"Confirm change"
+    "Confirm change":"Confirm change",
+    "Are you sure you want to delete this supplier?": "Are you sure you want to delete this supplier?",
+    "Supplier": "Supplier",
+    "Saved success": "Saved success.",
+    "Supplier deleted": "Supplier deleted",
+    "Supplier Info": "Supplier Info",
+    "Should define at least one supplier": "Should define at least one supplier",
+    "You must enter a main address in the shipping address module":"You must enter a main address in the shipping address module"
 }

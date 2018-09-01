@@ -126,6 +126,24 @@
               <span>{{ 'Phone is required' | translate }}</span>
             </div>
           </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Card Code' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user.cardCode }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter card code' | translate }}" name="cardCode" formControlName="cardCode">
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Certification Code' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user.certificationCode }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter certification code' | translate }}" name="certificationCode" formControlName="certificationCode">
+              </div>
+            </fieldset>
+          </div>
           <div class="col-xl-12">
             <fieldset class="form-group">
               <label>{{ 'Address' | translate }}</label>

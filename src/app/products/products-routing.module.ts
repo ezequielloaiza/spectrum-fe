@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProductsComponent } from './products.component';
 import { ProductsListsComponent } from './products-lists/products-lists.component';
 import { ProductViewComponent } from './product-view/product-view.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ProductViewEuropaComponent } from './product-view-europa/product-view-europa.component';
 import { RoleGuard } from '../shared';
 
 const routes: Routes = [
@@ -14,7 +14,7 @@ const routes: Routes = [
     children: [
         { path: '', component: ProductsListsComponent, data: { option: 'ProductsList' }  },
         { path: ':id/product-view', component: ProductViewComponent, data: { option: 'ProductsView' }},
-        { path: ':id/product-details/:type', component: ProductDetailComponent, data: { option: 'ProductsDetails' }},
+        { path: ':id/product-view-europa', component: ProductViewEuropaComponent, data: { option: 'ProductsViewEuropa' }},
     ] , data: { option: 'ProductsList' }
 }
 
