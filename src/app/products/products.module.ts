@@ -15,7 +15,7 @@ import { ConfirmationBuyComponent } from './modals/confirmation-buy/confirmation
 import { NgSelectModule } from '@ng-select/ng-select';
 import { EditProductComponent } from './modals/edit-product/edit-product.component';
 import { FileUploadModule } from 'ng2-file-upload';
-
+import { ProductViewEuclidComponent } from './product-view-euclid/product-view-euclid.component';
 
 @NgModule({
   imports: [
@@ -35,6 +35,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     ProductsListsComponent,
     ProductViewComponent,
     ProductViewEuropaComponent,
+    ProductViewEuclidComponent,
     ConfirmationBuyComponent,
     EditProductComponent
   ],

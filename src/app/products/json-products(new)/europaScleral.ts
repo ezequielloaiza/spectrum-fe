@@ -8,12 +8,12 @@ this.products = [
     "descriptionShort": "",
     "description": "The EUROPA SCLERAL contact lens is available in a 16.0 18.0 & 20.0mm diameter lens. EUROPA SCLERAL lenses rest on the sclera and completely vault the cornea allowing it to hold a fluid reservoir. It was uniquely designed so that it can successfully fit a wide variety of corneal and scleral geometries. Multiple fitting sets are not necessary to fit oblate and prolate corneas, as is often the case with other available scleral lens designs. The EUROPA SCLERAL contact lens is designed to manage mild to severe levels of corneal irregularity and ocular surface disease.",
     "replacementPeriod": "Monthly",
-    "warranty": "",
+    "warranty": "90",
     "url": "http://spctinternational.com/scleral-contact-lenses/",
     "stock": 10,
     "types": [
       {
-        "name": "Toric",
+        "name": "",
         "header": [
           { "name": "Contamac", "type":"selected", "values": [ "Extra", "Xtreme" ], "selected": null },
           { "name": "Hidrapeg", "type":"selected", "values": [ "Yes", "No" ], "selected": null },
