@@ -27,6 +27,8 @@ export class EditProductComponent implements OnInit {
   hideSearchingWhenUnsubscribed = new Observable(() => () =>
     (this.searching = false)
   );
+  filterStatus = [{ id: 0, name: 'Inactive' },
+  { id: 1, name: 'Active' }];
 
   constructor(
     private modalReference: NgbActiveModal,
@@ -38,6 +40,7 @@ export class EditProductComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
+    console.log('product:', this.product);
   }
 
   formatter = (x: { description: string }) => x.description;
@@ -63,11 +66,11 @@ export class EditProductComponent implements OnInit {
       warranty   : [this.action === 'edit' ? this.product.warranty : ''],
       url        : [this.action === 'edit' ? this.product.url : ''],
       stock      : [this.action === 'edit' ? this.product.stock : ''],
-      infoAdicional: [this.action === 'edit' ? this.product.infoAdicional : ''],
+      infoAditional: [this.action === 'edit' ? this.product.infoAditional : ''],
       types      : [this.action === 'edit' ? this.product.types : ''],
       idSupplier : [this.action === 'edit' ? this.product.supplier.idSupplier : ''],
       idCategory : [this.action === 'edit' ? this.product.category.idCategory : ''],
-      status     : [this.action === 'edit' ? this.product.status : '']
+      status     : [this.action === 'edit' ? this.product.status : '', ]
     });
   }
 
@@ -78,6 +81,8 @@ export class EditProductComponent implements OnInit {
   dismiss(): void {
     this.modalReference.dismiss();
   }
+
+  assignStatus(value: number) { this.form.get('status').setValue(value); }
 
   get status() { return this.form.get('status'); }
   get name() { return this.form.get('name'); }
@@ -92,16 +97,16 @@ export class EditProductComponent implements OnInit {
       res => {
         if (res.code === CodeHttp.ok) {
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' })
-            .subscribe((res: string) => {
-              this.notification.success('', res);
+            .subscribe((rest: string) => {
+              this.notification.success('', rest);
             });
           this.close(res);
         } else if (res.code === CodeHttp.notAcceptable) {
           this.translate.get('The product already exists', {
               value: 'The product already exists'
             })
-            .subscribe((res: string) => {
-              this.notification.warning('', res);
+            .subscribe((rest: string) => {
+              this.notification.warning('', rest);
             });
         } else {
           console.log(res.errors[0].detail);
