@@ -52,14 +52,12 @@ export class ProductViewComponent implements OnInit {
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
   // Upload files
-  listFiles: Array<FileProductRequested> = new Array;
-  file: any;
-  selectedFiles: FileList;
-  currentFileUpload: File;
-  progress: {percentage: number} = {percentage: 0};
-  public hasBaseDropZoneOver: Boolean = false;
-  public hasAnotherDropZoneOver: Boolean = false;
-  public uploader: FileUploader = new FileUploader({url: URL, itemAlias: 'files', authToken: this.userStorageService.getToke()});
+  listFileBasket: Array<FileProductRequested> = new Array;
+  private uploadResult: any = null;
+  public uploader: FileUploader = new FileUploader({url: URL,
+                                                    itemAlias: 'files',
+                                                    authToken: this.userStorageService.getToke(),
+                                                    autoUpload: false});
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
@@ -74,6 +72,18 @@ export class ProductViewComponent implements OnInit {
               private translate: TranslateService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
+
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResult = {'success': true, 'item': item, 'response':
+                           response, 'status': status, 'headers': headers};
+      if (this.uploadResult) {
+        this.buildFileProductRequested();
+      }
+    };
+    this.uploader.onErrorItem = (item, response, status, headers) => {
+        this.uploadResult = {'success': true, 'item': item, 'response':
+                             response, 'status': status, 'headers': headers};
+    };
   }
 
   ngOnInit() {
@@ -273,7 +283,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   addToCart(type) {
-    const files = this.buildFileProductRequested();
+    this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -286,12 +296,11 @@ export class ProductViewComponent implements OnInit {
       productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
       productRequest.patient = product.patient;
       productRequest.observations = product.observations;
-      productRequest.files = files;
       productsRequested.push(productRequest);
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-    this.basketRequestModal.fileProductRequestedList = this.buildFileProductRequested();
+    this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
@@ -299,10 +308,10 @@ export class ProductViewComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
-    modalRef.componentInstance.files = this.buildFileProductRequested();
-    modalRef.componentInstance.file = this.selectedFiles.item[0];
+    modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.uploader = this.uploader;
     modalRef.result.then((result) => {} , (reason) => {
     });
   }
@@ -339,24 +348,25 @@ export class ProductViewComponent implements OnInit {
     return isValid;
   }
 
-  buildFileProductRequested() {
-    const listFiles = [];
-
+  saveFiles(): void {
     if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (fileItem) {
-        const fileProductRequest: FileProductRequested = new FileProductRequested();
-        // fileProductRequest.url = fileItem.file.rawFile.webkitRelativePath;
-        fileProductRequest.name = fileItem.file.name;
-        fileProductRequest.size = fileItem.file.size;
-        fileProductRequest.createdAt = new Date();
-        fileProductRequest.file = fileItem.file.rawFile;
-        listFiles.push(fileProductRequest);
+      _.each(this.uploader.queue, function (item) {
+        item.upload();
       });
     }
-    return listFiles;
   }
 
-  public onChangeFiles($event: any): void {
-    // this.fileUploadService.addToQueue($event.srcElement.files);
+  private buildFileProductRequested() {
+    if (this.uploadResult.success) {
+      const fileProductRequest: FileProductRequested = new FileProductRequested();
+      debugger
+      fileProductRequest.url  = this.uploadResult.response;
+      fileProductRequest.name = this.uploadResult.item.file.name;
+      fileProductRequest.size = this.uploadResult.item.file.size;
+      fileProductRequest.createdAt = new Date();
+      this.listFileBasket.push(fileProductRequest);
+    } else {
+      console.log('error file');
+    }
   }
 }

@@ -1,5 +1,5 @@
-import { ProductRequested } from '../../shared/models/productrequested';
-import { FileProductRequested } from '../../shared/models/fileproductrequested';
+import { ProductRequested } from './productrequested';
+import { FileProductRequested } from './fileproductrequested';
 
 export class BasketRequest {
 

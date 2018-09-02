@@ -24,7 +24,7 @@ export class ConfirmationBuyComponent implements OnInit {
   product: any;
   file: File;
   role: any;
-  files: Array<FileProductRequested> = new Array;
+  listFileBasket: Array<FileProductRequested> = new Array;
   listBasket: Array<ProductRequested> = new Array;
   lista: Array<ProductRequested> = new Array;
   listNameParameters: Array<any> = new Array;
@@ -34,12 +34,14 @@ export class ConfirmationBuyComponent implements OnInit {
   eyesSelected: any;
   typeBuy: any;
   quantity: any;
+
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
               private translate: TranslateService,
               private basketService: BasketService,
-              private orderService: OrderService) { }
+              private orderService: OrderService) {
+  }
 
   ngOnInit() {
    this.getDatos();
@@ -74,10 +76,9 @@ export class ConfirmationBuyComponent implements OnInit {
     if (this.typeBuy === 1) {
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
-      this.basketRequest.fileProductRequestedList = this.files;
-      console.log('files cb:', this.file);
-      this.basketService.saveBasket$(this.basketRequest, this.file).subscribe(res => {
-          if (res.code === CodeHttp.ok) {
+      this.basketRequest.fileProductRequestedList = this.listFileBasket;
+      this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
             this.close();
             this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
               this.notification.success('', res);
@@ -92,7 +93,7 @@ export class ConfirmationBuyComponent implements OnInit {
       this.buyNow.idUser = this.datos.idUser;
       this.buyNow.productRequestedList = this.lista;
       this.buyNow.idRole = this.role;
-      this.buyNow.fileProductRequestedList = this.files;
+      this.buyNow.fileProductRequestedList = this.listFileBasket;
       this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.close();
