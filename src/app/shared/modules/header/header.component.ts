@@ -17,7 +17,6 @@ export class HeaderComponent implements OnInit {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
         this.translate.use(this.userStorageService.getLanguage());
         this.user = JSON.parse(userStorageService.getCurrentUser());
-        console.log('rol', this.user.role.idRole);
         this.router.events.subscribe(val => {
             if (
                 val instanceof NavigationEnd &&

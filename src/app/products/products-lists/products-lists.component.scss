@@ -51,12 +51,14 @@
 
 .card-img-top {
   border-radius: 12px;
+  cursor: pointer;
 }
 
 .product-name {
   text-align: center;
   color: $bg-blue;
   padding-top: 10px;
+  cursor: pointer;
 }
 
 .card-product:after {
