@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { List } from 'lodash';
 
 
 @Injectable({
@@ -25,5 +26,16 @@ export class BasketService {
 
   public saveBasket$(Basket): Observable<any> {
     return this.http.put(environment.apiUrl + 'basket/saveBasket', Basket);
+
+    // const formData: FormData = new FormData();
+    // formData.append('files', file);
+    // formData.append('basket', basket);
+    // const header = new HttpHeaders({'Content-Type': undefined});
+    // const req = new HttpRequest('PUT', environment.apiUrl + 'basket/saveBasket', formData, {
+    //  headers: header,
+    //  reportProgress: true,
+    //  responseType: 'text'
+    // });
+    // return this.http.request(req);
   }
 }

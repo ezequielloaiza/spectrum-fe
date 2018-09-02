@@ -157,7 +157,7 @@ img {
     }
   }
 
-  
+
 }
 
 .colors {
@@ -295,28 +295,28 @@ img {
 
 .more-info {
 
-  >div:nth-child(1) { 
+  >div:nth-child(1) {
     >div:nth-child(1) { //specifications technicals
       .header {
         margin-left: 5px;
       }
-  
+
       .content {
         margin-left: 25px;
-  
+
         .label{
           margin-top: 17px;
         }
-  
+
         .selection{
           margin-top: 5px;
         }
       }
-  
+
       >div:nth-child(4) {
         margin-top: 35px;
         margin-left: 5px;
-  
+
         >div:nth-child(2) {
           max-width: 48%;
         }
@@ -329,7 +329,7 @@ img {
       .header {
         margin-left: 15px;
       }
-  
+
       .content {
         margin-left: 15px;
       }
@@ -361,6 +361,22 @@ img {
     }
 
   }
+}
 
-  
+.my-drop-zone { border: dotted 3px lightgray; }
+.nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+.another-file-over-class { border: dotted 3px green; }
+
+.custom-file-input {
+  cursor: pointer;
+  $custom-file-text: (
+  placeholder: (
+    en: "Choose file...",
+    es: "Seleccionar archivo..."
+  ),
+  button-label: (
+    en: "Browse",
+    es: "Navegar"
+  )
+);
 }

@@ -1,5 +1,5 @@
-import { Address } from '../../shared/models/address';
-import { OrderProductRequested} from '../../shared/models/orderproductrequested';
+import { Address } from './address';
+import { OrderProductRequested} from './orderproductrequested';
 export class Order {
 
     public idOrder: number;

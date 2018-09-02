@@ -339,5 +339,9 @@
     "Supplier deleted": "Proveedor eliminado",
     "Supplier Info": "Infomación de Proveedor",
     "Should define at least one supplier": "Debe definir al menos un proveedor",
-    "You must enter a main address in the shipping address module":"Debe ingresar una dirección principal en el módulo de direcciones de envío"
+    "You must enter a main address in the shipping address module":"Debe ingresar una dirección principal en el módulo de direcciones de envío",
+    "Documents": "Documentos",
+    "Size": "Tamaño",
+    "Remove": "Eliminar",
+    "Remove all": "Eliminar todos"
 }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsComponent } from './products.component';
 import { ProductsListsComponent } from './products-lists/products-lists.component';
@@ -15,6 +14,8 @@ import { AuthorizationService } from '../shared/services';
 import { ConfirmationBuyComponent } from './modals/confirmation-buy/confirmation-buy.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { EditProductComponent } from './modals/edit-product/edit-product.component';
+import { FileUploadModule } from 'ng2-file-upload';
+
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { EditProductComponent } from './modals/edit-product/edit-product.compone
     PageHeaderModule,
     FormsModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
+    FileUploadModule
   ],
   declarations: [
     ProductsComponent,

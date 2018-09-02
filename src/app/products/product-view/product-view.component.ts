@@ -17,6 +17,13 @@ import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmatio
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
+import { FileProductRequested } from '../../shared/models/fileproductrequested';
+import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { environment } from '../../../../src/environments/environment';
+
+const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
 @Component({
   selector: 'app-product-view',
@@ -36,7 +43,7 @@ export class ProductViewComponent implements OnInit {
   currentUser: any;
   user: any;
   ngSelect: any;
-  //configuration XTENSA product
+  // configuration XTENSA product
   paramAxesRight: any;
   paramAxesLeft: any;
   axesXtensa: Array<any> = new Array;
@@ -45,19 +52,40 @@ export class ProductViewComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  // Upload files
+  listFileBasket: Array<FileProductRequested> = new Array;
+  private uploadResult: any = null;
+  public uploader: FileUploader = new FileUploader({url: URL,
+                                                    itemAlias: 'files',
+                                                    authToken: this.userStorageService.getToke(),
+                                                    autoUpload: false});
+
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
               private userStorageService: UserStorageService,
               private basketService: BasketService,
               private shippingAddressService: ShippingAddressService,
               private userService: UserService,
+              private fileProductRequestedService: FileProductRequestedService,
               private modalService: NgbModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
               private translate: TranslateService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
-   }
+
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResult = {'success': true, 'item': item, 'response':
+                           response, 'status': status, 'headers': headers};
+      if (this.uploadResult) {
+        this.buildFileProductRequested();
+      }
+    };
+    this.uploader.onErrorItem = (item, response, status, headers) => {
+        this.uploadResult = {'success': true, 'item': item, 'response':
+                             response, 'status': status, 'headers': headers};
+    };
+  }
 
   ngOnInit() {
     this.getProducts();
@@ -257,6 +285,7 @@ export class ProductViewComponent implements OnInit {
 
   addToCart(type) {
     this.productCopy = JSON.parse(JSON.stringify(this.product));
+    this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -273,7 +302,7 @@ export class ProductViewComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-
+    this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
@@ -281,9 +310,13 @@ export class ProductViewComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
-    modalRef.result.then((result) => {} , (reason) => {
+    modalRef.componentInstance.uploader = this.uploader;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    } , (reason) => {
     });
   }
 
@@ -309,5 +342,27 @@ export class ProductViewComponent implements OnInit {
       });
     }
     return isValid;
+  }
+
+  saveFiles(): void {
+    if (this.uploader.queue) {
+      _.each(this.uploader.queue, function (item) {
+        item.upload();
+      });
+    }
+  }
+
+  private buildFileProductRequested() {
+    if (this.uploadResult.success) {
+      const fileProductRequest: FileProductRequested = new FileProductRequested();
+      debugger
+      fileProductRequest.url  = this.uploadResult.response;
+      fileProductRequest.name = this.uploadResult.item.file.name;
+      fileProductRequest.size = this.uploadResult.item.file.size;
+      fileProductRequest.createdAt = new Date();
+      this.listFileBasket.push(fileProductRequest);
+    } else {
+      console.log('error file');
+    }
   }
 }

@@ -12,6 +12,7 @@ import { FormGroup } from '@angular/forms';
 import { BasketRequest } from '../../../shared/models/basketrequest';
 import { BuyNow } from '../../../shared/models/buynow';
 import { OrderService } from '../../../shared/services';
+import { FileProductRequested } from '../../../shared/models/fileproductrequested';
 
 @Component({
   selector: 'app-confirmation-buy',
@@ -21,7 +22,9 @@ import { OrderService } from '../../../shared/services';
 export class ConfirmationBuyComponent implements OnInit {
   datos: any;
   product: any;
+  file: File;
   role: any;
+  listFileBasket: Array<FileProductRequested> = new Array;
   listBasket: Array<ProductRequested> = new Array;
   lista: Array<ProductRequested> = new Array;
   listNameParameters: Array<any> = new Array;
@@ -31,12 +34,14 @@ export class ConfirmationBuyComponent implements OnInit {
   eyesSelected: any;
   typeBuy: any;
   quantity: any;
+
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
               private translate: TranslateService,
               private basketService: BasketService,
-              private orderService: OrderService) { }
+              private orderService: OrderService) {
+  }
 
   ngOnInit() {
    this.getDatos();
@@ -71,8 +76,9 @@ export class ConfirmationBuyComponent implements OnInit {
     if (this.typeBuy === 1) {
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
+      this.basketRequest.fileProductRequestedList = this.listFileBasket;
       this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
-          if (res.code === CodeHttp.ok) {
+        if (res.code === CodeHttp.ok) {
             this.close();
             this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
               this.notification.success('', res);
@@ -87,6 +93,7 @@ export class ConfirmationBuyComponent implements OnInit {
       this.buyNow.idUser = this.datos.idUser;
       this.buyNow.productRequestedList = this.lista;
       this.buyNow.idRole = this.role;
+      this.buyNow.fileProductRequestedList = this.listFileBasket;
       this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.close();
