@@ -68,18 +68,21 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Status' | translate }}</label>
-            <div class="col col-xl-1 col-lg-1">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="status" class="custom-control-input" (change)="assignStatus(0)" [checked]="(product.status === 0) ? true : false">
-                <label class="custom-control-label" for="customRadio1">{{ 'Inactive' | translate }}</label>
+            <div class="status">
+              <div>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="customRadio1" name="status" class="custom-control-input" (change)="assignStatus(0)" [checked]="(product.status === 0) ? true : false">
+                  <label class="custom-control-label" for="customRadio1">{{ 'Inactive' | translate }}</label>
+                </div>
+              </div>
+              <div>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="customRadio2" name="status" class="custom-control-input" (change)="assignStatus(1)" [checked]="(product.status === 1) ? true : false">
+                  <label class="custom-control-label" for="customRadio2">{{ 'Active' | translate }}</label>
+                </div>
               </div>
             </div>
-            <div class="col col-xl-1 col-lg-1">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="status" class="custom-control-input" (change)="assignStatus(1)" [checked]="(product.status === 1) ? true : false">
-                <label class="custom-control-label" for="customRadio2">{{ 'Active' | translate }}</label>
-              </div>
-            </div>
+            
           </fieldset>
         </div>
       </div>
