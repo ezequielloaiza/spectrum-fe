@@ -116,8 +116,15 @@
                       <span>{{order.date | date:'yyyy-MM-dd'}}</span>
                     </div>
                     <div class="div-date">
-                      <a class="ng-tns-c4-0 link" routerLink="/details-order-client/{{order.idOrder}}/view" translate>View Details</a>&nbsp;
-                      <a [hidden]="!mostrarStatus" class="link" (click)="open(order)" translate>{{ 'Change Status' | translate }}</a>
+                      <div ngbDropdown class="d-inline-block dropdown">
+                        <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                        <div ngbDropdownMenu>
+                          <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
+                            {{ 'View Details' | translate }}</button>
+                          <button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
+                               {{ 'Change Status' | translate }}</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
