@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "X4E", "name": "Quattro Toric (14.50) 3-Monthly 2pk",
+    "code": "X4E", "name": "Quattro Toric Neg. (14.50) 3-Monthly 2pk",
     "priceBase": 2000, "price1": 1500, "price2": 1600, "price3": 1700,
     "father": "Quattro 3-Monthly",
     "category": "Contact Lenses",
