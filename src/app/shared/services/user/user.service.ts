@@ -86,4 +86,8 @@ export class UserService {
     return this.http.get(environment.apiUrl + 'user/allCustomersBySellerWithOrders/' + idSeller);
   }
 
+  public allCustomersAvailableBuy$(idSupplier): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/allCustomersAvailableBuy/' + idSupplier);
+  }
+
 }

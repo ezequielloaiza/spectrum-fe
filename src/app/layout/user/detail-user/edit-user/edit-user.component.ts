@@ -146,6 +146,7 @@ export class EditUserComponent implements OnInit {
     this.form.get('certificationCode').setValue(this.user.certificationCode);
     this.form.get('membershipId').setValue(user.membership.idMembership);
     this.nameSeller = user.nameSeller;
+    this.form.get('userId').setValue(user.idSeller);
   }
 
   save(): void {
