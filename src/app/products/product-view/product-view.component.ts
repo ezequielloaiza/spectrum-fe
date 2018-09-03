@@ -364,4 +364,5 @@ export class ProductViewComponent implements OnInit {
       console.log('error file');
     }
   }
+
 }

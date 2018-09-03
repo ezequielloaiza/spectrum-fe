@@ -5,7 +5,6 @@ import { BusinessTypeService } from '../../../../shared/services/businessType/bu
 import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge } from 'rxjs/operators';
-import { GoogleService } from '../../../../shared/services';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -29,7 +28,6 @@ export class BusinessTypeModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private businessTypeService: BusinessTypeService,
     private notification: ToastrService,
-    private googleService: GoogleService,
     private translate: TranslateService) { }
 
   initializeForm() {
@@ -42,16 +40,6 @@ export class BusinessTypeModalComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-  }
-
-  traductor(): void {
-    this.googleService.translate$(this.form.get('name').value).subscribe(
-      (res: any)  => {
-      console.log(res.data);
-    }, err  => {
-      console.log(err);
-    }
-    );
   }
 
   save(): void {

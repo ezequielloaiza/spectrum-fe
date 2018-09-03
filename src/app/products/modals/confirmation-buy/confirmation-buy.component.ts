@@ -14,6 +14,7 @@ import { BuyNow } from '../../../shared/models/buynow';
 import { OrderService } from '../../../shared/services';
 import { FileProductRequested } from '../../../shared/models/fileproductrequested';
 import { UserStorageService } from '../../../http/user-storage.service';
+import { GoogleService } from '../../../shared/services';
 
 @Component({
   selector: 'app-confirmation-buy',
@@ -41,6 +42,7 @@ export class ConfirmationBuyComponent implements OnInit {
               private notification: ToastrService,
               private translate: TranslateService,
               private basketService: BasketService,
+              private googleService: GoogleService,
               private orderService: OrderService) {
   }
 
@@ -71,6 +73,18 @@ export class ConfirmationBuyComponent implements OnInit {
     this.namePatient = patient;
     this.quantity = quantityAcum;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
+  }
+  // Código no usado -- en espera de uso
+  traductor(value) {
+    this.googleService.translate$(value).subscribe(
+      (res: any)  => {
+        console.log(res.data);
+        return res.data;
+    }, err  => {
+      console.log(err);
+      return value;
+    }
+    );
   }
 
   save(): void {
