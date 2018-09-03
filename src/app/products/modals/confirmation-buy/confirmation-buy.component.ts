@@ -13,6 +13,7 @@ import { BasketRequest } from '../../../shared/models/basketrequest';
 import { BuyNow } from '../../../shared/models/buynow';
 import { OrderService } from '../../../shared/services';
 import { FileProductRequested } from '../../../shared/models/fileproductrequested';
+import { UserStorageService } from '../../../http/user-storage.service';
 
 @Component({
   selector: 'app-confirmation-buy',

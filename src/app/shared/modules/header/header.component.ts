@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.use(this.userStorageService.getLanguage());
     this.user = JSON.parse(userStorageService.getCurrentUser());
-    debugger
     this.router.events.subscribe(val => {
       if (
         val instanceof NavigationEnd &&
@@ -60,15 +59,4 @@ export class HeaderComponent implements OnInit {
     this.translate.use(language);
     this.userStorageService.setLanguage(language);
   }
-
-  /*
-  cartSize() {
-    this.basketService.allBasketByUser$(this.user.userResponse.idUser).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        debugger
-        return res.data.length;
-      }
-    });;
-  }
-  */
 }
