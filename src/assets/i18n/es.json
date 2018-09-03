@@ -321,5 +321,10 @@
     "Supplier deleted": "Proveedor eliminado",
     "Supplier Info": "Infomación de Proveedor",
     "Should define at least one supplier": "Debe definir al menos un proveedor",
-    "It can not be deleted, it is associated with a client":"No se puede eliminar, esta asociado con un cliente"
+    "Toric Haptics":"Hapticas Toricas",
+    "More info":"Más información",
+    "Steps":"Pasos",
+    "Comments":"Comentarios",
+    "Test Set":"Set de Prueba"
+
 }

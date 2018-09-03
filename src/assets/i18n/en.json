@@ -317,5 +317,9 @@
     "Supplier deleted": "Supplier deleted",
     "Supplier Info": "Supplier Info",
     "Should define at least one supplier": "Should define at least one supplier",
-    "It can not be deleted, it is associated with a client":"It can not be deleted, it is associated with a client"
+    "Toric Haptics":"Toric Haptics",
+    "More info":"More info",
+    "Steps":"Steps",
+    "Comments":"Comments",
+    "Test Set":"Test Set"
 }

@@ -59,28 +59,26 @@ export class ListOrderComponent implements OnInit {
 
   filter(): void {
    const status = this.selectedStatus;
+   const lista = [];
   if (this.selectedStatus !== '') {
       this.valid = true;
       if (this.tamano.length === 9) {
         // tslint:disable-next-line:radix
         this.listOrders = _.filter(this.listOrdersAux, { 'status': parseInt(this.selectedStatus) });
       } else {
-        let fecha: String;
+         let fecha: String;
         // FechaFiltro
-        fecha = this.getFecha();
-        this.listOrders = _.filter(this.listOrdersAux, function (orders) {
+         fecha = this.getFecha();
+        _.filter(this.listOrdersAux, function (orders) {
           let fechaList: String;
-          const ord = [];
-          let listOrder;
           // Fecha Listado
           fechaList = _.toString(orders.date.slice(0, 10));
           // tslint:disable-next-line:radix
           if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), orders.status))) {
-            listOrder = _(ord).push(orders);
-            listOrder = listOrder.commit();
-            return listOrder;
+            lista.push(orders);
           }
         });
+        this.listOrders = lista;
       }
     }
   }
@@ -89,30 +87,26 @@ export class ListOrderComponent implements OnInit {
     this.model = value;
     const valorStatus = this.selectedStatus;
     this.tamano = this.valueDate(this.model);
+    const lista = [];
     if (this.tamano.length === 15) {
       this.valid = true;
       let fecha: String;
       // FechaFiltro
       fecha = this.getFecha();
-      this.listOrders = _.filter(this.listOrdersAux, function (orders) {
-        let fechaList: String;
-        const ord = [];
-        let listOrder;
-        // Fecha Listado
-        fechaList = _.toString(orders.date.slice(0, 10));
-        if (_.toString(valorStatus) === '') { // Si no ha seleccionado status
-          if (_.isEqual(fecha, fechaList)) {
-            listOrder = _(ord).push(orders);
-            listOrder = listOrder.commit();
-            return listOrder;
-          }
-        // tslint:disable-next-line:radix
-        } else if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(valorStatus), orders.status))) {
-            listOrder = _(ord).push(orders);
-            listOrder = listOrder.commit();
-            return listOrder;
+      _.filter(this.listOrdersAux, function (orders) {
+          let fechaList: String;
+          // Fecha Listado
+          fechaList = _.toString(orders.date.slice(0, 10));
+          if (_.toString(valorStatus) === '') { // Si no ha seleccionado status
+            if (_.isEqual(fecha, fechaList)) {
+              lista.push(orders);
+            }
+          // tslint:disable-next-line:radix
+          } else if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(valorStatus), orders.status))) {
+              lista.push(orders);
           }
       });
+      this.listOrders = lista;
     }
   }
 
@@ -143,9 +137,8 @@ export class ListOrderComponent implements OnInit {
   valueDate(valor): String {
     let str: String;
     const o = [];
-    let l = _(o).push(valor);
-    l = l.commit();
-    str = _.toString(l);
+    o.push(valor);
+    str = _.toString(o);
     return str;
   }
 }
