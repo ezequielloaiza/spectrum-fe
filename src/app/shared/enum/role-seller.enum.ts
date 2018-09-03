@@ -8,6 +8,7 @@ export enum RoleSeller {
   ProductsList,
   ProductsView,
   ProductsViewEuropa,
+  ProductsViewEuclid,
   Home,
   OrdersBySellerList,
   OrdersDetailSeller,

@@ -129,8 +129,11 @@
       <div class="row">
         <div class="col-md-4 box-shadow" *ngFor="let product of products">
           <div class="mb-4 box-shadow">
-            <img class="card-img-top" src="assets/images/products/quattro.jpg">
-            <h3 class="product-name">{{ product.name }}</h3>
+            <img class="card-img-top" src="assets/images/products/quattro.jpg" (click)="redirectView(product)">
+            <h3 class="product-name" (click)="redirectView(product)">
+              <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
+              {{ product.name }}
+            </h3>
             <div class="card-body">
               <p class="card-text"> {{ product.descriptionShort }}</p>
               <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
@@ -139,8 +142,8 @@
               </div>
               <div class="product-btns">
                 <div class="btn-group">
-                  <button (click)="redirectView(product)" type="button" class="btn btn-primary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  <button (click)="redirectView(product)" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-primary">View</button>
+                  <button (click)="open(product,'edit')" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                 </div>
               </div>
             </div>
