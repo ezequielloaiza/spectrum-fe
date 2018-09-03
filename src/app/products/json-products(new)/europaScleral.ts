@@ -2,7 +2,7 @@ this.products = [
   {
     "code": "", "name": "Europa Scleral",
     "priceBase": 1000, "price1": 500, "price2": 600, "price3": 700,
-    "category": "Contact Lenses",
+    "category": "Europa Scleral",
     "subCategory": "Europa",
     "material": "Ori:gen Technology, 59%",
     "descriptionShort": "",

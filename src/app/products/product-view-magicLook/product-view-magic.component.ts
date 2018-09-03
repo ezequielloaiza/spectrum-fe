@@ -26,13 +26,14 @@ import { environment } from '../../../environments/environment';
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
 @Component({
-  selector: 'app-product-view-euclid',
-  templateUrl: './product-view-euclid.component.html',
-  styleUrls: ['./product-view-euclid.component.scss']
+  selector: 'app-product-view-magic',
+  templateUrl: './product-view-magic.component.html',
+  styleUrls: ['./product-view-magic.component.scss']
 })
-export class ProductViewEuclidComponent implements OnInit {
+export class ProductViewMagicComponent implements OnInit {
 
   products: Array<any> = new Array;
+  tones: Array<any> = new Array;
   product: any;
   productCopy: any;
   id: any;
@@ -128,9 +129,23 @@ export class ProductViewEuclidComponent implements OnInit {
 
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
-    if (parameter.name === 'Warranty'){
-      parameter.selected = parameter.selected === "Yes" ? true : false;
+    if (value) {
+      switch (value) {
+        case "1 TONE":
+          this.tones = JSON.parse(this.product.types)[0].parameters[1].values[0];
+          debugger
+          break;
+        case "2 TONE":
+        this.tones = JSON.parse(this.product.types)[0].parameters[1].values[1];
+          break;
+        case "3 TONE":
+        this.tones = JSON.parse(this.product.types)[0].parameters[1].values[2];
+          break;
+      }
     }
+    /*if (this.product.father === "Xtensa" && parameter.name === 'Cylinder (D)'){
+      this.setValuesAxesXtensa(eye, value);
+    }*/
   }
 
   /*setValuesAxesXtensa(eye, value) {
@@ -262,7 +277,7 @@ export class ProductViewEuclidComponent implements OnInit {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
         _.each(product.parametersRight, function(parameter, index) {
-          product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          product.parametersRight[index] = _.omit(parameter, ['type', 'values']);
         });
         productSelected.parameters = product.parametersRight;
       }
@@ -271,7 +286,7 @@ export class ProductViewEuclidComponent implements OnInit {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
         _.each(product.parametersLeft, function(parameter, index) {
-          product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          product.parametersLeft[index] = _.omit(parameter, ['type', 'values']);
         });
         productSelected.parameters = product.parametersLeft;
       }

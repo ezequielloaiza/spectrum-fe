@@ -2,7 +2,7 @@ this.products = [
   {
     "code": "", "name": "Euclid",
     "priceBase": 6000, "price1": 5500, "price2": 5600, "price3": 5700,
-    "father": "Saphir Rx",
+    "father": "Euclid",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
     "material": "Silicone Hydrogel, Filcon V3 75%",

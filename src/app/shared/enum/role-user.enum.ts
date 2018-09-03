@@ -9,6 +9,7 @@ export enum RoleUser {
   ProductsView,
   ProductsViewEuropa,
   ProductsViewEuclid,
+  ProductsViewMagic,
   ShippingAddress,
   Home,
   ListBasketClient
