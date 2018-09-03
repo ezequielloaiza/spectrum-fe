@@ -18,34 +18,34 @@ this.products = [
         "parameters": [
           { "name": "Tone", "type": "selected", "values": ["1 TONE", "2 TONE", "3 TONE"], "selected": null },
           { "name": "Color", "type": "image", "values": [ [
-                                                            {"image": "assets/images/products/MAGICLOOK/1TONE-1.png", "value":"GRAY"},
-                                                            {"image": "assets/images/products/MAGICLOOK/1TONE-2.png", "value":"BROWN"},
-                                                            {"image": "assets/images/products/MAGICLOOK/1TONE-3.png", "value":"GREEN"},
-                                                            {"image": "assets/images/products/MAGICLOOK/1TONE-4.png", "value":"TRUE SAPPHIRE"}
+                                                            {"image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY"},
+                                                            {"image": "assets/images/products/magiclook/1TONE-2.png", "value":"BROWN"},
+                                                            {"image": "assets/images/products/magiclook/1TONE-3.png", "value":"GREEN"},
+                                                            {"image": "assets/images/products/magiclook/1TONE-4.png", "value":"TRUE SAPPHIRE"}
                                                           ],
                                                           [
-                                                            {"image": "assets/images/products/MAGICLOOK/2TONE-1.png", "value":"GRAY"},
-                                                            {"image": "assets/images/products/MAGICLOOK/2TONE-2.png", "value":"BROWN"},
-                                                            {"image": "assets/images/products/MAGICLOOK/2TONE-3.png", "value":"GREEN"},
-                                                            {"image": "assets/images/products/MAGICLOOK/2TONE-4.png", "value":"TURQUOISE"},
-                                                            {"image": "assets/images/products/MAGICLOOK/2TONE-5.png", "value":"TRUE SAPPHIRE"},
-                                                            {"image": "assets/images/products/MAGICLOOK/2TONE-6.png", "value":"AMETHYST"},
-                                                            {"image": "assets/images/products/MAGICLOOK/2TONE-7.png", "value":"HONEY"},
-                                                            {"image": "assets/images/products/MAGICLOOK/2TONE-8.png", "value":"HAZEL"},
-                                                            {"image": "assets/images/products/MAGICLOOK/2TONE-9.png", "value":"TRUE HAZEL"}
+                                                            {"image": "assets/images/products/magiclook/2TONE-1.png", "value":"GRAY"},
+                                                            {"image": "assets/images/products/magiclook/2TONE-2.png", "value":"BROWN"},
+                                                            {"image": "assets/images/products/magiclook/2TONE-3.png", "value":"GREEN"},
+                                                            {"image": "assets/images/products/magiclook/2TONE-4.png", "value":"TURQUOISE"},
+                                                            {"image": "assets/images/products/magiclook/2TONE-5.png", "value":"TRUE SAPPHIRE"},
+                                                            {"image": "assets/images/products/magiclook/2TONE-6.png", "value":"AMETHYST"},
+                                                            {"image": "assets/images/products/magiclook/2TONE-7.png", "value":"HONEY"},
+                                                            {"image": "assets/images/products/magiclook/2TONE-8.png", "value":"HAZEL"},
+                                                            {"image": "assets/images/products/magiclook/2TONE-9.png", "value":"TRUE HAZEL"}
                                                           ],
                                                           [
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-1.png", "value":"SUGAR GRAY"},
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-2.png", "value":"DARK GRAY"},
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-3.png", "value":"JADE GREEN"},
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-4.png", "value":"GREEN"},
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-5.png", "value":"AQUA MARIN"},
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-6.png", "value":"PURE HAZEL"},
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-7.png", "value":"TOPAZ BLUE"},
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-8.png", "value":"BLUE"},
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-9.png", "value":"SWEET VIOLET"},
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-10.png", "value":"CHESNUT"},
-                                                            {"image": "assets/images/products/MAGICLOOK/3TONE-11.png", "value":"HONEY"}
+                                                            {"image": "assets/images/products/magiclook/3TONE-1.png", "value":"SUGAR GRAY"},
+                                                            {"image": "assets/images/products/magiclook/3TONE-2.png", "value":"DARK GRAY"},
+                                                            {"image": "assets/images/products/magiclook/3TONE-3.png", "value":"JADE GREEN"},
+                                                            {"image": "assets/images/products/magiclook/3TONE-4.png", "value":"GREEN"},
+                                                            {"image": "assets/images/products/magiclook/3TONE-5.png", "value":"AQUA MARIN"},
+                                                            {"image": "assets/images/products/magiclook/3TONE-6.png", "value":"PURE HAZEL"},
+                                                            {"image": "assets/images/products/magiclook/3TONE-7.png", "value":"TOPAZ BLUE"},
+                                                            {"image": "assets/images/products/magiclook/3TONE-8.png", "value":"BLUE"},
+                                                            {"image": "assets/images/products/magiclook/3TONE-9.png", "value":"SWEET VIOLET"},
+                                                            {"image": "assets/images/products/magiclook/3TONE-10.png", "value":"CHESNUT"},
+                                                            {"image": "assets/images/products/magiclook/3TONE-11.png", "value":"HONEY"}
                                                           ]
                                                         ], "selected": null },
           { "name": "Base Curve (mm)", "type": "selected", "values": ["8.6"], "selected": null },
