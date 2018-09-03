@@ -13,6 +13,7 @@ import { BasketRequest } from '../../../shared/models/basketrequest';
 import { BuyNow } from '../../../shared/models/buynow';
 import { OrderService } from '../../../shared/services';
 import { FileProductRequested } from '../../../shared/models/fileproductrequested';
+import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
 
 @Component({
   selector: 'app-confirmation-buy',
@@ -34,13 +35,16 @@ export class ConfirmationBuyComponent implements OnInit {
   eyesSelected: any;
   typeBuy: any;
   quantity: any;
+  // boolean for delete file
+  save_success: Boolean = false;
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
               private translate: TranslateService,
               private basketService: BasketService,
-              private orderService: OrderService) {
+              private orderService: OrderService,
+              private fileProductRequestedService: FileProductRequestedService) {
   }
 
   ngOnInit() {
@@ -48,6 +52,10 @@ export class ConfirmationBuyComponent implements OnInit {
   }
 
   close() {
+    debugger
+    if (!this.save_success) {
+      this.deleteAllFile();
+    }
     this.modalReference.close();
   }
 
@@ -79,6 +87,7 @@ export class ConfirmationBuyComponent implements OnInit {
       this.basketRequest.fileProductRequestedList = this.listFileBasket;
       this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
         if (res.code === CodeHttp.ok) {
+            this.save_success = true;
             this.close();
             this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
               this.notification.success('', res);
@@ -96,6 +105,7 @@ export class ConfirmationBuyComponent implements OnInit {
       this.buyNow.fileProductRequestedList = this.listFileBasket;
       this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
+          this.save_success = true;
           this.close();
           this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
             this.notification.success('', res);
@@ -107,5 +117,19 @@ export class ConfirmationBuyComponent implements OnInit {
         console.log('error', error);
       });
     }
+  }
+
+  deleteAllFile(): void {
+    this.fileProductRequestedService.deleteAllFile$(this.listFileBasket).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.translate.get('Delete files', {value: 'Delete file'}).subscribe(( res: string) => {
+          this.notification.success('', res);
+        });
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 }

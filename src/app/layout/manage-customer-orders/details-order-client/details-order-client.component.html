@@ -169,6 +169,35 @@
                 </div>
               </div>
             </div>
+            <!-- Documents -->
+            <div class="card-body table-responsive" *ngIf="list.fileProductRequestedList.length > 0">
+              <label class="label-specifications">{{'Documents'| translate}}</label>
+              <br>
+              <div class="row justify-content-md-center div-parametros">
+
+                <table class="table" >
+                  <thead>
+                    <tr>
+                      <th width="50%">{{ 'Name' | translate }}</th>
+                      <th>{{ 'Size' | translate }}</th>
+                      <th>{{ 'Actions' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of list.fileProductRequestedList">
+                      <td><strong>{{ item?.name }}</strong></td>
+                      <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td nowrap>
+                        <button type="button" class="btn btn-success btn-xs">
+                          <span class="glyphicon glyphicon-upload"></span> Download
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <br>
+              </div>
+            </div>
           </div>
         </div>
       </div>

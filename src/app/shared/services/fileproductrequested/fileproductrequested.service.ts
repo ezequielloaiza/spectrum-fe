@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpHeaders, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { FileProductRequested } from '../../models/fileproductrequested';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,9 @@ export class FileProductRequestedService {
       responseType: 'text'
     });
     return this.http.request(req);
+  }
+
+  public deleteAllFile$(listFiles: Array<FileProductRequested>): Observable<any> {
+    return this.http.put(environment.apiUrl + 'fileProductRequested/deleteAllFile', listFiles);
   }
 }
