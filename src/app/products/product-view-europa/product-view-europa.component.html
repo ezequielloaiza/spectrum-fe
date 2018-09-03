@@ -12,7 +12,7 @@
         <div class="preview col-md-6">
           <div class="preview-pic tab-content">
             <div class="tab-pane active" id="pic-1">
-              <img src="assets/images/products/quattro.jpg" />
+              <img src="{{ product.mainImg }}" />
             </div>
 
           </div>
@@ -37,7 +37,7 @@
             <p class="info-content">{{ product.description }}</p>
           </div>
 
-          
+
         </div>
       </div>
 
@@ -63,7 +63,7 @@
             <!--quantity / contamac / hydrapeg / insertors-->
             <div class="col-md-12">
               <div class="row content">
-                
+
                 <!--PARAM NAME-->
                 <div class="col-sm-4 title">
                   <div class="row label">
@@ -117,7 +117,7 @@
                     </div>
                   </div>
                 </div>
-              
+
               </div>
             </div>
 
@@ -154,7 +154,7 @@
                             <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                             [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                         </div>
-                        
+
                         <div *ngIf="parameter.type === 'selected-double'" class="select-values col-sm-10">
                           <div class="row selected-double">
                             <div class="col-sm-6">
@@ -197,7 +197,7 @@
                             <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                             [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                         </div>
-                        
+
                         <div *ngIf="parameter.type === 'selected-double'" class="select-values col-sm-10">
                           <div class="row selected-double">
                             <div class="col-sm-6">
@@ -276,7 +276,7 @@
 
             </div>
 
-            
+
           </div>
         </div>
 
