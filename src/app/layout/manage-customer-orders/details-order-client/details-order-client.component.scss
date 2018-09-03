@@ -49,9 +49,15 @@
 .product-list {
   padding-bottom: 30px;
 
-  .imag-product{
-    height: 200px;
-    width: auto;
+  .container-img {
+    padding: 2em;
+
+    .imag-product{
+      background-size: 100%;
+      width: 100%;
+      background-repeat: no-repeat;
+      height: 100%;
+    }
   }
 
   .container-list{
