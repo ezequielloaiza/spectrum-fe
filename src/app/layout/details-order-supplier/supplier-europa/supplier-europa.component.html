@@ -1,0 +1,119 @@
+<ngb-tabset>
+  <ngb-tab title="{{'Technical specifications'| translate}}">
+    <ng-template ngbTabContent>
+      <div class="card-body table-responsive">
+        <div *ngFor="let specification of lista.detail">
+          <div class="row justify-content-md-center div-parametros">
+            <div class="col-sm-3" *ngFor="let param of specification.parameters">
+              <div *ngIf="param.name!=='Diopters' && param.name!=='Meridian'" class="container-supplier">
+                <dl class="align-item">
+                  <dt>{{param.name}}</dt>
+                  <dt>
+                    <span class="font-text"> {{param.selected}}</span>
+                    <hr>
+                  </dt>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>{{'Toric Haptics'| translate}}</ng-template>
+    <ng-template ngbTabContent>
+      <div class="card-body table-responsive">
+        <div *ngFor="let specification of lista.detail">
+          <div class="row  div-parametros">
+            <div class="col-sm-2" *ngFor="let param of specification.parameters">
+              <div *ngIf="param.name==='Diopters' || param.name==='Meridian'" class="container-supplier">
+                <dl class="align-item">
+                  <dt>{{param.name}}</dt>
+                  <dt>
+                    <span class="font-text"> {{param.selected}}</span>
+                    <hr>
+                  </dt>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>{{'Steps'| translate}}</ng-template>
+    <ng-template ngbTabContent>
+      <div class="card-body table-responsive">
+        <div *ngFor="let specification of lista.detail">
+          <div class="row justify-content-md-center div-parametros">
+            <div class="col-sm-4" *ngFor="let param of specification.Pasos">
+              <div class="container-supplier">
+                <dl>
+                  <dt>{{param.name}}</dt>
+                  <br>
+                  <dl *ngFor="let item of  param.values">
+                    <dt>
+                      <span class="text-warning"> {{ item.name}}</span>
+                      <span>
+                        <dt *ngFor="let val of  item.values" class="font-text">
+                          <span>{{val.name}}:</span>&nbsp;
+                          <span *ngIf="val.selected==='true'">{{'Yes'| translate}}</span>
+                          <span *ngIf="val.selected==='false'">{{'No'| translate}}</span>
+                        </dt>
+                      </span>
+                      <hr>
+                    </dt>
+                  </dl>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>{{'More info'| translate}}</ng-template>
+    <ng-template ngbTabContent>
+      <div class="card-body table-responsive">
+        <div *ngFor="let specification of lista.detail">
+          <div class="row  div-parametros">
+            <div class="col-sm-2" *ngFor="let param of specification.header">
+              <div class="container-supplier">
+                <dl class="align-item">
+                  <dt>{{param.name}}</dt>
+                  <dt *ngIf="param.name!=='hidrapeg'&& param.name!=='Inserts'">
+                    <span class="font-text"> {{param.selected}}</span>
+                    <hr>
+                  </dt>
+                  <dt *ngIf="param.name==='hidrapeg'|| param.name==='Inserts'">
+                    <span *ngIf="param.selected==='true'" class="font-text">{{'Yes'| translate}}</span>
+                    <span *ngIf="param.selected==='false'" class="font-text">{{'No'| translate}}</span>
+                    <hr>
+                  </dt>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="{{'Comments'| translate}}">
+    <ng-template ngbTabContent>
+      <div class="card-body table-responsive">
+        <div class="row justify-content-md-center div-parametros">
+          <div class="col-sm-12">
+            <dl>
+              <dt>
+                <span class="font-text">{{lista.observations}}</span>
+              </dt>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

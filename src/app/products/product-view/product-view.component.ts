@@ -355,7 +355,6 @@ export class ProductViewComponent implements OnInit {
   private buildFileProductRequested() {
     if (this.uploadResult.success) {
       const fileProductRequest: FileProductRequested = new FileProductRequested();
-      debugger
       fileProductRequest.url  = this.uploadResult.response;
       fileProductRequest.name = this.uploadResult.item.file.name;
       fileProductRequest.size = this.uploadResult.item.file.size;

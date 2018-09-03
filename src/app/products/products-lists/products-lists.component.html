@@ -63,7 +63,7 @@
       <div class="row">
         <div class="col-md-4 box-shadow" *ngFor="let product of products">
           <div class="mb-4 box-shadow">
-            <img class="card-img-top" src="assets/images/products/quattro.jpg" (click)="redirectView(product)">
+            <img class="card-img-top" src="{{ product.url }}" (click)="redirectView(product)">
             <h3 class="product-name" (click)="redirectView(product)">
               <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
               {{ product.name }}
