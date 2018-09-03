@@ -206,7 +206,7 @@
                                 {{item}}
                               </ng-select>-->
                               <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
-                                     [(ngModel)]="parameter.values[0].selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                                     [(ngModel)]="parameter.values[0].selected" (blur)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                             </div>
                             <div class="col-sm-6">
                               <!--<ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values[1].values" [disabled]="!product.eyeRight"
@@ -214,7 +214,7 @@
                                 {{item}}
                               </ng-select>-->
                               <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
-                                     [(ngModel)]="parameter.values[1].selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                                     [(ngModel)]="parameter.values[1].selected" (blur)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                             </div>
                           </div>
                         </div>
