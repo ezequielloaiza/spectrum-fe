@@ -36,10 +36,6 @@ export class ProductViewEuropaComponent implements OnInit {
   currentUser: any;
   user: any;
   ngSelect: any;
-  //configuration XTENSA product
-  paramAxesRight: any;
-  paramAxesLeft: any;
-  axesXtensa: Array<any> = new Array;
   basketRequestModal: BasketRequest = new BasketRequest();
   client: any;
   listCustomers: Array<any> = new Array;

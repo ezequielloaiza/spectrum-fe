@@ -26,11 +26,11 @@ import { environment } from '../../../environments/environment';
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
 @Component({
-  selector: 'app-product-view-euclid',
-  templateUrl: './product-view-euclid.component.html',
-  styleUrls: ['./product-view-euclid.component.scss']
+  selector: 'app-product-view-blue',
+  templateUrl: './product-view-blue.component.html',
+  styleUrls: ['./product-view-blue.component.scss']
 })
-export class ProductViewEuclidComponent implements OnInit {
+export class ProductViewBlueComponent implements OnInit {
 
   products: Array<any> = new Array;
   product: any;

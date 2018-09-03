@@ -6,6 +6,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
 import { ProductViewEuropaComponent } from './product-view-europa/product-view-europa.component';
 import { ProductViewEuclidComponent } from './product-view-euclid/product-view-euclid.component';
 import { ProductViewMagicComponent } from './product-view-magicLook/product-view-magic.component';
+import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.component';
 import { RoleGuard } from '../shared';
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
         { path: ':id/product-view-europa', component: ProductViewEuropaComponent, data: { option: 'ProductsViewEuropa' }},
         { path: ':id/product-view-euclid', component: ProductViewEuclidComponent, data: { option: 'ProductsViewEuclid' }},
         { path: ':id/product-view-magic', component: ProductViewMagicComponent, data: { option: 'ProductsViewMagic' }},
+        { path: ':id/product-view-blue', component: ProductViewBlueComponent, data: { option: 'ProductsViewBlue' }},
     ] , data: { option: 'ProductsList' }
 }
 

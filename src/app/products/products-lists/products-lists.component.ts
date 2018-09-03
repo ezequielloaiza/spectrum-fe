@@ -141,11 +141,14 @@ export class ProductsListsComponent implements OnInit {
       case 2: //europa
         this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
         break;
-      case 4: //euclid
+      case 4:  //euclid
         this.router.navigate(['/products/' + product.idProduct + '/product-view-euclid']);
         break;
       case 5: //magic look
         this.router.navigate(['/products/' + product.idProduct + '/product-view-magic']);
+        break;
+      case 6:  //magic blue
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
         break;
     }
   }

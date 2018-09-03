@@ -14,6 +14,7 @@ export enum RoleAdmin {
   ProductsViewEuropa,
   ProductsViewEuclid,
   ProductsViewMagic,
+  ProductsViewBlue,
   Home,
   OrdersBySellerList,
   OrdersDetailSeller,
