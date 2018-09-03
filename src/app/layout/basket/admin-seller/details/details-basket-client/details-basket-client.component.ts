@@ -30,7 +30,6 @@ export class DetailsBasketClientComponent implements OnInit {
   };
 
 
-
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
     private orderService: OrderService,

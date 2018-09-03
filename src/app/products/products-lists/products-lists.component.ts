@@ -4,9 +4,11 @@ import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import * as _ from 'lodash';
 import { SupplieruserService } from '../../shared/services/supplieruser/supplieruser.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EditProductComponent } from '../modals/edit-product/edit-product.component';
 import { Router } from '@angular/router';
+import { SupplierService } from '../../shared/services/suppliers/supplier.service';
+import { CategoryService } from '../../shared/services/category/category.service';
 
 
 @Component({
@@ -19,20 +21,28 @@ export class ProductsListsComponent implements OnInit {
   productsAux: Array<any> = new Array();
   listSupplier: Array<any> = new Array();
   listSupplierAux: Array<any> = new Array();
+  listSupplierFilter: Array<any> = new Array();
+  listSupplierFilterAux: Array<any> = new Array();
+  auxCategories: Array<any> = new Array;
   currentUser: any;
   user: any;
+  visible: boolean;
 
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
               private modalService: NgbModal,
               private supplierUserService: SupplieruserService,
-              public router: Router) {
+              public router: Router,
+              private supplierService: SupplierService,
+              private categoryService: CategoryService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
 
   ngOnInit() {
+    this.getSuppliers();
     this.getProducts();
+    this.visible = false;
   }
 
   getProducts() {
@@ -48,6 +58,7 @@ export class ProductsListsComponent implements OnInit {
             this.user.role.idRole === 2
           ) {
             this.products = res.data;
+            this.productsAux = res.data;
           }
         } else {
           console.log(res.errors[0].detail);
@@ -99,6 +110,7 @@ export class ProductsListsComponent implements OnInit {
       });
     });
     this.products = productsFiltered;
+    this.productsAux = productsFiltered;
     this.setPrice();
   }
 
@@ -151,5 +163,89 @@ export class ProductsListsComponent implements OnInit {
       },
       (reason) => {}
     );
+  }
+
+  getSuppliers() {
+    this.supplierService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listSupplierFilterAux = res.data;
+        this.listSupplierFilter = this.listSupplierFilterAux;
+        let array = [{idSupplier: 1000, companyName: 'All'}];
+        this.listSupplierFilter = _.concat(this.listSupplierFilter, array);
+        this.listSupplierFilterAux = _.orderBy(this.listSupplierFilter, ['idSupplier'], ['desc']);
+        this.listSupplierFilter = this.listSupplierFilterAux;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  getCategories() {
+    this.categoryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.auxCategories = res.data;
+        this.visible = true;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  onSelectionSupplier(idSupplier) {
+   const productsFiltered = [];
+   _.each(this.productsAux, function(product) {
+        if (product.supplier.idSupplier === idSupplier) {
+          productsFiltered.push(product);
+        }
+    });
+    this.products = productsFiltered;
+    switch (idSupplier) {
+      case 1:
+       this.getCategories();
+       break;
+      case 1000:
+        this.all();
+        break;
+    }
+    if (idSupplier > 1 ) {
+      this.visible = false;
+    }
+  }
+
+  onSelectionCategory(idCategory) {
+    const productsFiltered = [];
+    _.each(this.productsAux, function(product) {
+        if (product.supplier.idSupplier === 1 && product.category.idCategory === idCategory) {
+          productsFiltered.push(product);
+        }
+    });
+    this.products = productsFiltered;
+  }
+
+  all() {
+    this.products = this.productsAux;
+    this.visible = false;
+  }
+
+  public beforeChange($event: NgbPanelChangeEvent) {
+    if ($event.panelId === 'filter2' && $event.nextState === false) {
+      $event.preventDefault();
+    }
+  }
+
+  getItems(ev: any) {
+    this.products = this.productsAux;
+
+    const val = ev.target.value;
+
+    if (val && val.trim() !== '') {
+      this.products = this.products.filter((item) => {
+        return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
+      });
+    }
   }
 }
