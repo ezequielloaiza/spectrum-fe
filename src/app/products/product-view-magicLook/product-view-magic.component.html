@@ -93,10 +93,6 @@
                   <div *ngIf="parameter.values && parameter.values.length > 0">
                     <div class="row selection">
                       <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-9">
-                        <!--<select class="form-control" name="value" (change)="changeSelect('right', parameter, $event.target.value)" [disabled]="!product.eyeRight">
-                          <option value="">{{ 'Select option' }}</option>
-                          <option *ngFor="let value of parameter.values">{{ value }}</option>
-                        </select>-->
                         <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight"
                           [(ngModel)]="parameter.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
                           {{item}}
@@ -104,13 +100,11 @@
                       </div>
 
                       <div *ngIf="parameter.type === 'image'" class="select-values col-sm-9">
-                        <ng-select [items]="tones" [(ngModel)]="parameter.selected" bindLabel="name" bindValue="name">
+                        <ng-select [items]="tones" [(ngModel)]="parameter.selected" bindLabel="value" bindValue="value"
+                                   placeholder="{{ 'Select value' | translate }}" [disabled]="!product.parametersRight[0].selected || !product.eyeRight">
                             <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                                <div style="margin: 10px 0;" class="card" *ngIf="item.name !== 'Kaunas'">
-                                    <div class="card-body">
-                                        <h5 class="card-title" [ngOptionHighlight]="search">{{item.value}}</h5>
-                                        <img height="40" width="40" [src]="item.image"/>
-                                    </div>
+                                <div>
+                                  <img height="125" width="125" [src]="item.image"/>
                                 </div>
                             </ng-template>
                         </ng-select>
@@ -130,21 +124,22 @@
                   <div *ngIf="parameter.values && parameter.values.length > 0">
                     <div class="row selection">
                       <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-9">
-                        <!--<select class="form-control" name="value" (change)="changeSelect('left', parameter, $event.target.value)" [disabled]="!product.eyeLeft">
-                          <option value="">{{ 'Select option' }}</option>
-                          <option *ngFor="let value of parameter.values">{{ value }}</option>
-                        </select>-->
                         <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft" [(ngModel)]="parameter.sel"
                           bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
                           {{item}}
                         </ng-select>
                       </div>
-                      <!--<div *ngIf="parameter.type === 'radio'">
-                        <div *ngFor="let value of parameter.values" class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="{{ value.name + eye.type }}" [checked]="checkedRadio(eye.type, value)" (click)="setValueRadio(eye.type, value, parameter)">
-                          <label class="custom-control-label" for="{{ value.name + eye.type }}">{{ value.name }}</label>
+
+                      <div *ngIf="parameter.type === 'image'" class="select-values col-sm-9">
+                          <ng-select [items]="tones" [(ngModel)]="parameter.selected" bindLabel="value" bindValue="value"
+                                     placeholder="{{ 'Select value' | translate }}" [disabled]="!product.parametersLeft[0].selected || !product.eyeLeft">
+                              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                  <div>
+                                    <img height="125" width="125" [src]="item.image"/>
+                                  </div>
+                              </ng-template>
+                          </ng-select>
                         </div>
-                      </div>-->
                     </div>
                   </div>
                 </div>

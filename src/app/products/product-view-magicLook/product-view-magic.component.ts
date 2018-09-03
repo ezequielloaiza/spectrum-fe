@@ -44,10 +44,6 @@ export class ProductViewMagicComponent implements OnInit {
   currentUser: any;
   user: any;
   ngSelect: any;
-  // configuration XTENSA product
-  paramAxesRight: any;
-  paramAxesLeft: any;
-  axesXtensa: Array<any> = new Array;
   basketRequestModal: BasketRequest = new BasketRequest();
   client: any;
   listCustomers: Array<any> = new Array;
@@ -90,13 +86,6 @@ export class ProductViewMagicComponent implements OnInit {
 
   ngOnInit() {
     this.getProducts();
-    /* var product xtensa */
-    this.setAxesXtensa();
-  }
-
-  setAxesXtensa() {
-    this.axesXtensa = [ { "values": ["5º","10º","15º","20º","25º","30º","35º","40º","45º","50º","55º","60º","65º","70º","75º","80º","85º","90º","95º","100º","105º","110º","115º","120º","125º","130º","135º","140º","145º","150º","155º","160º","165º","170º","175º","180º"] },
-                        { "values": ["10º", "20º","30º","40º","50º","60º","70º","80º","90º","100º","110º","120º","130º","140º","150º","160º","170º","180º"] }];
   }
 
   getProducts() {
@@ -129,11 +118,10 @@ export class ProductViewMagicComponent implements OnInit {
 
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
-    if (value) {
+    if (parameter.name === "Tone") {
       switch (value) {
         case "1 TONE":
           this.tones = JSON.parse(this.product.types)[0].parameters[1].values[0];
-          debugger
           break;
         case "2 TONE":
         this.tones = JSON.parse(this.product.types)[0].parameters[1].values[1];
@@ -142,29 +130,13 @@ export class ProductViewMagicComponent implements OnInit {
         this.tones = JSON.parse(this.product.types)[0].parameters[1].values[2];
           break;
       }
+      if (eye === 'right') {
+        this.product.parametersRight[1].selected = null;
+      } else {
+        this.product.parametersLeft[1].selected = null;
+      }
     }
-    /*if (this.product.father === "Xtensa" && parameter.name === 'Cylinder (D)'){
-      this.setValuesAxesXtensa(eye, value);
-    }*/
   }
-
-  /*setValuesAxesXtensa(eye, value) {
-    if (eye === 'right') {
-      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesRight.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesRight.values = this.axesXtensa[1].values;
-      }
-    } else {
-      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesLeft.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesLeft.values = this.axesXtensa[1].values;
-      }
-    }
-  }*/
 
   setValueEye(eye) {
     if (eye === "right") {
@@ -277,7 +249,7 @@ export class ProductViewMagicComponent implements OnInit {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
         _.each(product.parametersRight, function(parameter, index) {
-          product.parametersRight[index] = _.omit(parameter, ['type', 'values']);
+          product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersRight;
       }
@@ -286,7 +258,7 @@ export class ProductViewMagicComponent implements OnInit {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
         _.each(product.parametersLeft, function(parameter, index) {
-          product.parametersLeft[index] = _.omit(parameter, ['type', 'values']);
+          product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersLeft;
       }
