@@ -1,5 +1,5 @@
-import { ProductRequested } from '../../shared/models/productrequested';
-import { Order } from '../../shared/models/order';
+import { ProductRequested } from './productrequested';
+import { Order } from './order';
 
 export class OrderProductRequested {
 

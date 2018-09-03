@@ -25,6 +25,7 @@ export class EditCompanyComponent implements OnInit {
   searchFailed = false;
   businessTypes: Array<any> = new Array;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  saving = false;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -52,9 +53,11 @@ export class EditCompanyComponent implements OnInit {
       address       : [''],
       state         : ['', [ Validators.required]],
       country       : ['', [ Validators.required]],
-      city          : ['', [ Validators.required]],
-      postalCode        : ['', []],
-      idCompany     : ['', []]
+      cityPlace          : ['', [ Validators.required]],
+      postalCode    : ['', []],
+      idCompany     : ['', []],
+      idUser        : [this.id, []],
+      city          : ['', []]
     });
   }
 
@@ -109,7 +112,8 @@ export class EditCompanyComponent implements OnInit {
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postalCode').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({description: this.googleService.getCity()});
+      this.form.get('cityPlace').setValue({description: this.googleService.getCity()});
+      this.form.get('city').setValue(this.googleService.getCity());
     });
   }
 
@@ -120,27 +124,28 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('address').setValue(company.address);
     this.form.get('state').setValue(company.state);
     this.form.get('country').setValue(company.country);
-    this.form.get('city').setValue({description: company.city});
+    this.form.get('cityPlace').setValue({description: company.city});
     this.form.get('postalCode').setValue(company.postalCode);
     this.form.get('phone').setValue(this.company.phone==null?'':this.company.phone);
     this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
     this.form.get('creditLimit').setValue(company.creditLimit);
     this.form.get('idCompany').setValue(company.idCompany);
+    this.form.get('city').setValue(company.city);
   }
 
   save(): void {
-    if (this.form.get('city').value.description) {
-      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.company.city);
-    }
+    this.saving = true;
     this.companyService.update$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.canEdit = false;
         this.company = res.data;
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
-        });
+        });      
       }
+      this.saving = false;
     }, error => {
+      this.saving = false;
     });
   }
 
@@ -152,7 +157,7 @@ export class EditCompanyComponent implements OnInit {
   get email() { return this.form.get('email'); }
   get address() { return this.form.get('address'); }
   get phone() { return this.form.get('phone'); }
-  get city() { return this.form.get('city'); }
+  get cityPlace() { return this.form.get('cityPlace'); }
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postalCode() { return this.form.get('postalCode'); }

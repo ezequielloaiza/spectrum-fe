@@ -11,7 +11,10 @@ export enum RoleAdmin {
   Warranty,
   ProductsList,
   ProductsView,
-  ProductsDetails,
+  ProductsViewEuropa,
+  ProductsViewEuclid,
+  ProductsViewMagic,
+  ProductsViewBlue,
   Home,
   OrdersBySellerList,
   OrdersDetailSeller,
@@ -20,5 +23,7 @@ export enum RoleAdmin {
   EditCompany,
   ViewSeller,
   EditSeller,
-  ViewClient
+  ViewClient,
+  ListBasket,
+  ListBasketDetail
 }

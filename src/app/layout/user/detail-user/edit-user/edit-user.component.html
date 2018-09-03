@@ -59,7 +59,7 @@
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.city }}</span>
                 <input [hidden]="!canEdit" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt"
-                  name="city" formControlName="city" [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead"
+                  name="cityPlace" formControlName="cityPlace" [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead"
                   placeholder="{{ 'Enter city' | translate }}" required />
               </div>
             </fieldset>
@@ -68,7 +68,7 @@
               <div class="bounce2"></div>
               <div class="bounce3"></div>
             </div>
-            <div class="message-error" [hidden]="city.valid || city.pristine">
+            <div class="message-error" [hidden]="cityPlace.valid || cityPlace.pristine">
               <span>{{ 'City is required' | translate }}</span>
             </div>
           </div>
@@ -126,12 +126,30 @@
               <span>{{ 'Phone is required' | translate }}</span>
             </div>
           </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Card Code' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user.cardCode }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter card code' | translate }}" name="cardCode" formControlName="cardCode">
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Certification Code' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ user.certificationCode }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter certification code' | translate }}" name="certificationCode" formControlName="certificationCode">
+              </div>
+            </fieldset>
+          </div>
           <div class="col-xl-12">
             <fieldset class="form-group">
               <label>{{ 'Address' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.address }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" maxlength="255" name="address" formControlName="address">
               </div>
             </fieldset>
           </div>
@@ -157,11 +175,11 @@
         </div>
         <br>
         <div class="footer-form">
-          <button class="btn btn-secondary" (click)="cancel()" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
+          <button class="btn btn-secondary" (click)="cancel()" [disabled]="saving" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
             <i class="fa fa-times"></i>
           </button>
           &nbsp;&nbsp;
-          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || phone.value =='' ||  phone.value.length < 8 && !!phone.value.length" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
+          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || phone.value =='' ||  (phone.value.length < 8 && !!phone.value.length) || saving" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
             <i class="fa fa-save"></i>
           </button>
         </div>

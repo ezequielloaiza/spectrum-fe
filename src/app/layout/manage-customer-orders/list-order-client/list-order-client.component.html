@@ -39,9 +39,8 @@
           <div class="col-xl-1">
             <h6 class="ng-tns-c6-0 h5-filter">{{ 'Status' | translate }}</h6>
           </div>
-          <div [formGroup]="formOrder" class="col-xl-2 filter">
-            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
-              formControlName="selectedStatOrd">
+          <div class="col-xl-2 filter">
+            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
               <option value="" disabled [selected]="true" translate>Select</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
@@ -51,9 +50,8 @@
           </div>
           <div class="col-xl-2 filter">
             <div>
-              <div [formGroup]="formOrder1" class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(model1)"
-                  formControlName="fechaSelecOrd">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOrd" [(ngModel)]="fechaSelecOrd" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOrd)">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                     <i class="fa fa-calendar"></i>
@@ -118,8 +116,15 @@
                       <span>{{order.date | date:'yyyy-MM-dd'}}</span>
                     </div>
                     <div class="div-date">
-                      <a class="ng-tns-c4-0 link" routerLink="/details-order-client/{{order.idOrder}}/view" translate>View Details</a>&nbsp;
-                      <a [hidden]="!mostrarStatus" class="link" (click)="open(order)" translate>{{ 'Change Status' | translate }}</a>
+                      <div ngbDropdown class="d-inline-block dropdown">
+                        <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                        <div ngbDropdownMenu>
+                          <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
+                            {{ 'View Details' | translate }}</button>
+                          <button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
+                               {{ 'Change Status' | translate }}</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

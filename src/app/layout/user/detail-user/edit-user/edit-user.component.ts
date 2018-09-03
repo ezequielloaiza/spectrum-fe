@@ -29,6 +29,7 @@ export class EditUserComponent implements OnInit {
   searchFailed = false;
   memberships: Array<any> = new Array;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  saving = false;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -53,12 +54,15 @@ export class EditUserComponent implements OnInit {
       address     : [''],
       state       : ['', [ Validators.required]],
       country     : ['', [ Validators.required]],
-      city        : ['', [ Validators.required]],
+      cityPlace   : ['', [ Validators.required]],
       postal      : ['', []],
       phone       : ['', []],
+      cardCode    : [''],
+      certificationCode: [''],
       membershipId: ['', [Validators.required]],
       id          : [this.id, [Validators.required]],
-      userId      : []
+      userId      : [],
+      city        : []
       });
   }
 
@@ -123,7 +127,8 @@ export class EditUserComponent implements OnInit {
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({description: this.googleService.getCity()});
+      this.form.get('cityPlace').setValue({description: this.googleService.getCity()});
+      this.form.get('city').setValue(this.googleService.getCity());
     });
   }
 
@@ -133,18 +138,20 @@ export class EditUserComponent implements OnInit {
     this.form.get('address').setValue(user.address);
     this.form.get('state').setValue(user.state);
     this.form.get('country').setValue(user.country);
-    this.form.get('city').setValue({description: user.city});
-    this.form.get('postal').setValue(user.postal);
-    this.form.get('phone').setValue(this.user.phone==null?'':this.user.phone);
+    this.form.get('cityPlace').setValue({description: user.city});
+    this.form.get('city').setValue(user.city);
+    this.form.get('postal').setValue(user.postalCode);
+    this.form.get('phone').setValue(this.user.phone == null ? '' : this.user.phone);
+    this.form.get('cardCode').setValue(this.user.cardCode);
+    this.form.get('certificationCode').setValue(this.user.certificationCode);
     this.form.get('membershipId').setValue(user.membership.idMembership);
     this.nameSeller = user.nameSeller;
+    this.form.get('userId').setValue(user.idSeller);
   }
 
   save(): void {
-    if (this.form.get('city').value.description) {
-      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.user.city);
-    }
-    if(this.nameSeller==""){
+    this.saving = true;
+    if(this.nameSeller == '') {
       this.form.get('userId').setValue(null);
     }
     this.userService.update$(this.form.value).subscribe( res => {
@@ -155,22 +162,27 @@ export class EditUserComponent implements OnInit {
           this.notification.success('', resTra);
         });
       }else if(CodeHttp.notAcceptable === res.code) {
-        this.form.get('city').setValue({ description: this.form.value.city });
+        this.form.get('cityPlace').setValue({ description: this.form.value.city });
         this.translate.get('The user already exists, check the email', { value: 'The user already exists, check the email' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
       }
-    }, error  => { });
+      this.saving = false;
+    }, error  => {
+      this.saving = false;
+    });
   }
 
   get name() { return this.form.get('name'); }
   get email() { return this.form.get('email'); }
   get address() { return this.form.get('address'); }
   get phone() { return this.form.get('phone'); }
-  get city() { return this.form.get('city'); }
+  get cityPlace() { return this.form.get('cityPlace'); }
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
+  get cardCode() { return this.form.get('cardCode'); }
+  get certificationCode() { return this.form.get('cerfiticationCode'); }
   get membershipId() { return this.form.get('membershipId'); }
 
   unlink(): void {
