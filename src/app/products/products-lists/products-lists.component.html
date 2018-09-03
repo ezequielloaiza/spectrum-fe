@@ -18,50 +18,9 @@
       <form>
         <div class="row grid-space-1">
           <div class="col col-xl-12 col-lg-12 search">
-            <input class="form-control" placeholder=" {{ 'Enter product name...' | translate }} ">
+            <input class="form-control" (keyup)="getItems($event)" placeholder=" {{ 'Enter product name...' | translate }} ">
             <i class="fa fa-search"></i>
           </div>
-          <!-- Categories
-          <div class="col-sm-4">
-            <select class="form-control input-lg" name="category">
-              <option value="all">All Categories</option>
-              <optgroup label="Mens">
-                <option value="shirts">Shirts</option>
-                <option value="coats-jackets">Coats & Jackets</option>
-                <option value="underwear">Underwear</option>
-                <option value="sunglasses">Sunglasses</option>
-                <option value="socks">Socks</option>
-                <option value="belts">Belts</option>
-              </optgroup>
-              <optgroup label="Womens">
-                <option value="bresses">Bresses</option>
-                <option value="t-shirts">T-shirts</option>
-                <option value="skirts">Skirts</option>
-                <option value="jeans">Jeans</option>
-                <option value="pullover">Pullover</option>
-              </optgroup>
-              <option value="kids">Kids</option>
-              <option value="fashion">Fashion</option>
-              <optgroup label="Sportwear">
-                <option value="shoes">Shoes</option>
-                <option value="bags">Bags</option>
-                <option value="pants">Pants</option>
-                <option value="swimwear">Swimwear</option>
-                <option value="bicycles">Bicycles</option>
-              </optgroup>
-              <option value="bags">Bags</option>
-              <option value="shoes">Shoes</option>
-              <option value="hoseholds">HoseHolds</option>
-              <optgroup label="Technology">
-                <option value="tv">TV</option>
-                <option value="camera">Camera</option>
-                <option value="speakers">Speakers</option>
-                <option value="mobile">Mobile</option>
-                <option value="pc">PC</option>
-              </optgroup>
-            </select>
-          </div>
-          <!-- end col -->
         </div>
         <!-- end row -->
       </form>
@@ -75,72 +34,50 @@
   <div class="row">
     <!--FILTERS-->
     <div class="col-sm-3 col-md-3 hidden-xs">
-      <ngb-accordion #acc="ngbAccordion" activeIds="filter1,filter2" type="dark">
-        <ngb-panel id="filter1">
-          <ng-template ngbPanelTitle>
-            <span class="title-collapse"> {{ 'Supplies' | translate }} </span>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <div class="custom-control custom-radio">
-              <input type="radio" id="fluoStrips" name="types" class="custom-control-input">
-              <label class="custom-control-label" for="fluoStrips">{{ 'Fluo Strips' | translate }}</label>
-            </div>
-            <br>
-            <div class="custom-control custom-radio">
-              <input type="radio" id="spectrumSaline" name="types" class="custom-control-input">
-              <label class="custom-control-label" for="spectrumSaline">{{ 'Spectrum Saline' | translate }}</label>
-            </div>
-          </ng-template>
-        </ngb-panel>
+      <ngb-accordion activeIds="filter2" type="dark" (panelChange)="beforeChange($event)">
         <ngb-panel id="filter2">
           <ng-template ngbPanelTitle>
             <span class="title-collapse">{{ 'Contact Lenses' | translate }}</span>
           </ng-template>
           <ng-template ngbPanelContent>
-            <div class="custom-control custom-radio">
-              <input type="radio" id="colorContactLenses" name="types" class="custom-control-input">
-              <label class="custom-control-label" for="colorContactLenses">{{ 'Color Contact Lenses' | translate }}</label>
+            <div *ngFor="let supplier of listSupplierFilter; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radioGroupSupplier{{i}}" name="radioGroupSupplier" [value]="supplier.idSupplier" (change)="onSelectionSupplier(supplier.idSupplier)" [checked]="supplier.idSupplier===1000"
+                  class="custom-control-input">
+                <label class="custom-control-label" for="radioGroupSupplier{{i}}">{{ supplier.companyName | translate }}</label>
+              </div>
             </div>
-            <br>
-            <div class="custom-control custom-radio">
-              <input type="radio" id="scleralLenses" name="types" class="custom-control-input">
-              <label class="custom-control-label" for="scleralLenses">{{ 'Scleral Lenses' | translate }}</label>
-            </div>
-            <br>
-            <div class="custom-control custom-radio">
-              <input type="radio" id="spectrumBlueLight" name="types" class="custom-control-input">
-              <label class="custom-control-label" for="spectrumBlueLight">{{ 'Spectrum Blue Light' | translate }}</label>
-            </div>
-            <br>
-            <div class="custom-control custom-radio">
-              <input type="radio" id="markEnnovy" name="types" class="custom-control-input">
-              <label class="custom-control-label" for="markEnnovy">{{ 'MarkEnnovy Contact Lenses' | translate }}</label>
+            <div class="col-sm-12" *ngFor="let category of auxCategories; let i = index" [hidden]="!visible">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radioGroupCategory{{i}}" name="radioGroupCategory" [value]="category.idCategory" (change)="onSelectionCategory(category.idCategory)"
+                  class="custom-control-input">
+                <label class="custom-control-label" for="radioGroupCategory{{i}}">{{ category.name | translate }}</label>
+              </div>
             </div>
           </ng-template>
         </ngb-panel>
       </ngb-accordion>
-      <br>
-      <div class="btn-align">
-        <input type="button" class="btn btn-primary" value="{{ 'Search' | translate }}">
-      </div>
     </div>
     <!--THUMBNAILS PRODUCTS-->
     <div class="col-sm-9 col-md-9 col-lg-9">
       <div class="row">
         <div class="col-md-4 box-shadow" *ngFor="let product of products">
           <div class="mb-4 box-shadow">
-            <img class="card-img-top" src="assets/images/products/quattro.jpg">
-            <h3 class="product-name">{{ product.name }}</h3>
+            <img class="card-img-top" src="{{ product.mainImg }}" (click)="redirectView(product)">
+            <h3 class="product-name" (click)="redirectView(product)">
+              <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
+              {{ product.name }}
+            </h3>
             <div class="card-body">
               <p class="card-text"> {{ product.descriptionShort }}</p>
-              <div class="price-wrap h4">
-                <del class="price-base">${{ product.priceBase }}</del>&nbsp;
-                <span class="price-new text-warning">${{ product.price1 }}</span>
+              <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
+                <!--<del class="price-base">${{ product.priceBase }}</del>&nbsp;-->
+                <span class="price-new text-warning">${{ product.priceSale }}</span>
               </div>
               <div class="product-btns">
                 <div class="btn-group">
-                  <button routerLink="/products/{{product.idProduct}}/product-view" type="button" class="btn btn-primary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  <button (click)="redirectView(product)" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-primary">View</button>
+                  <button (click)="open(product,'edit')" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                 </div>
               </div>
             </div>
