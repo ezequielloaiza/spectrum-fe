@@ -9,6 +9,9 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { UserStorageService } from '../../../../../http/user-storage.service';
 import { Buy } from '../../../../../shared/models/buy';
+import { DetailProductModalComponent } from '../../modals/detail-product/detail-product';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-list-basket',
@@ -26,6 +29,7 @@ export class ListBasketComponent implements OnInit {
     value1 : false,
     value2 : 'NO'
   };
+  basket: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -33,6 +37,7 @@ export class ListBasketComponent implements OnInit {
     private userService: UserStorageService,
     private alertify: AlertifyService,
     private notification: ToastrService,
+    private modalService: NgbModal,
     private translate: TranslateService) {
       this.user = JSON.parse(userService.getCurrentUser());
     }
@@ -151,6 +156,15 @@ export class ListBasketComponent implements OnInit {
         }
       });
       this.productRequestedToBuy = arrayAux;
+  }
+
+  openParams(basket) {
+    const modalRef = this.modalService.open( DetailProductModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.componentInstance.basket = basket;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    } , (reason) => {
+    });
   }
 
 }

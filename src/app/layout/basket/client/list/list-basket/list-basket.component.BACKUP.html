@@ -8,10 +8,6 @@
         <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']">
           <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
       </li>
-      <li class="breadcrumb-item">
-        <a class="link" href="Javascript:void(0)" [routerLink]="['/list-basket']">
-          <i class="fa fa-shopping-cart"></i> {{ 'All Basket' | translate }}</a>
-      </li>
       <li class="breadcrumb-item active">
         <i class="fa fa-shopping-cart"></i> {{ 'Basket' | translate}}</li>
     </ol>
@@ -49,11 +45,10 @@
             </div>
           </div>
           <div class="col-xl-1 align-btn-detail">
-            <button type="button" (click)="buy()" class="btn btn-outline-primary" [disabled]="productRequestedToBuy.length === 0">
-              {{ 'Buy Now' | translate }}
+            <button  type="button" (click)="buy()" class="btn btn-outline-primary" [disabled]="productRequestedToBuy.length === 0">
+                {{ 'Buy' | translate }}
             </button>
           </div>
-
           <!--PRODUCTS BASKET-->
           <div class="card-body table-responsive">
             <div class="row">
@@ -71,7 +66,6 @@
                   </div>
                   <div class="col-lg-1">
                     <i class="fa fa-trash" (click)="delete(basket.idBasketProductRequested)" placement="top" ngbTooltip="{{ 'Delete' | translate }}"></i>
-                    <!--<a class="ng-tns-c4-0 link" (click)="delete(basket.idBasketProductRequested)" translate>Delete</a>&nbsp;-->
                   </div>
                 </div>
                 <div class="row">
@@ -89,7 +83,7 @@
                         <h6>{{ basket.productRequested.detail[0].name }}</h6>
                       </div>
                       <div>
-                        <span>{{ basket.productRequested.detail[0].eye }} {{ 'Eye' | translate }} </span>
+                        <span>{{ basket.productRequested.detail[0].eye }} {{ 'Eye' | translate }}</span>
                       </div>
                       <div>
                         <span>{{ basket.productRequested.patient }}</span>
