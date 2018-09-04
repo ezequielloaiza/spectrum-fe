@@ -196,7 +196,7 @@
     "Date":"Fecha",
     "Number":"Número",
     "View Details":"Ver Detalles",
-    "Select":"Seleccione",
+    "Select Status":"Seleccione Estado",
     "Clean Filters":"Limpiar filtros",
     "Order":"Orden",
     "Order Details":"Detalle de la orden",
@@ -314,7 +314,7 @@
     "All Basket":"Toda la cesta",
     "To buy":"Comprar",
     "Confirm Purchase":"Confirmar compra",
-    "Are you sure you want to buy the entire basket?":"¿Estás seguro de que deseas comprar toda la cesta?",
+    "You are sure you want to buy the selected products":"¿Estás seguro que deseas comprar los productos seleccionados",
     "Confirm purchase":"Confirme compra",
     "Select all":"Seleccionar Todo",
     "Buy now":"Comprar ahora",
@@ -351,7 +351,11 @@
     "Test Set":"Set de Prueba",
     "Field required for MarkEnnovy": "Campo requerido para MarkEnnovy",
     "Field required for Euclid": "Campo requerido para Euclid",
-    "Warranty's status": "Estado de la Garantía",
-    "Change Status": "Cambiar estado",
-    "Reject": "Rechazada"
+    "Left":"Izquierdo",
+    "Right":"Derecho",
+    "Change Status":"Cambiar Estado",
+    "View Basket":"Ver Cesta",
+    "Summary products":"Resumen Productos",
+    "Shipping Costs":"Costos de envío",
+    "Warranty's status": "Estado de la Garantía"
 }
