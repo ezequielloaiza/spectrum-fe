@@ -16,20 +16,14 @@
 <div class="sp-container">
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
-      <div class="sp-card mb-3">
-        <div class="card-header d-flex">
+      <div class="card mb-3">
+        <div class="card-header">
           <div class="align-self-center">
             {{ 'All Basket' | translate }}
           </div>
         </div>
         <div class="row">
-          <div class="col-xl-1">
-            <div class="sp-card-header">{{ 'Filters:' | translate }}</div>
-          </div>
-          <div class="col-xl-1">
-            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Client' | translate }}</h6>
-          </div>
-          <div class="col-xl-3 filter">
+          <div class="col-xl-6 filter">
             <div class="row search">
               <div class="col col-xl-12 col-lg-12">
                 <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter patient search ...' | translate }}">

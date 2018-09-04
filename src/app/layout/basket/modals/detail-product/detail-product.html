@@ -33,13 +33,13 @@
               <!--PARAM NAME-->
               <div class="col-sm-6">
                 <dl>
-                  <dt>{{ 'Patient' }}:</dt>
+                  <dt>{{ 'Patient' | translate }}:</dt>
                 </dl>
                 <dl>
-                  <dt>{{ 'Eye' }}:</dt>
+                  <dt>{{ 'Eye' | translate }}:</dt>
                 </dl>
                 <dl>
-                  <dt>{{ 'Quantity' }}:</dt>
+                  <dt>{{ 'Quantity' | translate }}:</dt>
                 </dl>
                 <div *ngFor="let parameter of detail.parameters">
                   <dl>
@@ -56,7 +56,8 @@
                 </div>
                 <div class="selected">
                   <dl class="param">
-                    <dt>{{ detail.eye }}</dt>
+                    <dt *ngIf="detail.eye==='Left'">{{ 'Left' | translate }}</dt>
+                    <dt *ngIf="detail.eye==='Right'">{{ 'Right' | translate }}</dt>
                   </dl>
                 </div>
                 <div class="selected">

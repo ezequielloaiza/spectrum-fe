@@ -15,27 +15,18 @@
 <div class="sp-container">
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
-      <div class="sp-card mb-3">
-        <div class="card-header d-flex">
+      <div class="card mb-3">
+        <div class="card-header">
           <div class="align-self-center">
             {{ 'All orders' | translate }}
           </div>
         </div>
         <div class="row">
-          <div class="col-xl-1">
-            <div class="sp-card-header">{{ 'Filters:' | translate }}</div>
-          </div>
-          <div class="col-xl-1">
-            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Status' | translate }}</h6>
-          </div>
           <div class="col-xl-3 filter">
             <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
-              <option value="" disabled [selected]="true" translate>Select</option>
+              <option value="" disabled [selected]="true" translate>Select Status</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
-          </div>
-          <div class="col-xl-1">
-            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Date' | translate }}</h6>
           </div>
           <div class="col-xl-3 filter">
             <div>
