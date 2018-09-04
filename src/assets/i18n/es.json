@@ -343,5 +343,7 @@
     "Documents": "Documentos",
     "Size": "Tamaño",
     "Remove": "Eliminar",
-    "Remove all": "Eliminar todos"
+    "Remove all": "Eliminar todos",
+    "Max file size ":"Tamaño máximo de documentos",
+    "Max file ":"Cantidad máxima de documentos"
 }

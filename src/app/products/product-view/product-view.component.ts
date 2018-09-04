@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
@@ -53,10 +53,16 @@ export class ProductViewComponent implements OnInit {
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
   // Upload files
+  @ViewChild('selectedFiles') selectedFiles: any;
+  queueLimit = 5;
+  maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
   private uploadResult: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
+                                                    queueLimit: this.queueLimit,
+                                                    maxFileSize: this.maxFileSize,
+                                                    removeAfterUpload: false,
                                                     authToken: this.userStorageService.getToke(),
                                                     autoUpload: false});
 
@@ -84,6 +90,7 @@ export class ProductViewComponent implements OnInit {
     this.uploader.onErrorItem = (item, response, status, headers) => {
         this.uploadResult = {'success': true, 'item': item, 'response':
                              response, 'status': status, 'headers': headers};
+      debugger
     };
   }
 
@@ -91,6 +98,7 @@ export class ProductViewComponent implements OnInit {
     this.getProducts();
     /* var product xtensa */
     this.setAxesXtensa();
+    this.clearFiles();
   }
 
   setAxesXtensa() {
@@ -313,7 +321,6 @@ export class ProductViewComponent implements OnInit {
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
-    modalRef.componentInstance.uploader = this.uploader;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
@@ -342,6 +349,22 @@ export class ProductViewComponent implements OnInit {
       });
     }
     return isValid;
+  }
+
+  removeFile(item) {
+    this.uploader.removeFromQueue(item);
+    this.clearSelectedFile();
+  }
+
+  clearSelectedFile() {
+    this.selectedFiles.nativeElement.value = '';
+  }
+
+  clearFiles() {
+    if (this.uploader.queue.length) {
+      this.uploader.clearQueue();
+      this.clearSelectedFile();
+    }
   }
 
   saveFiles(): void {

@@ -25,7 +25,6 @@ export class ConfirmationBuyComponent implements OnInit {
   product: any;
   file: File;
   role: any;
-  listFileBasket: Array<FileProductRequested> = new Array;
   listBasket: Array<ProductRequested> = new Array;
   lista: Array<ProductRequested> = new Array;
   listNameParameters: Array<any> = new Array;
@@ -35,6 +34,9 @@ export class ConfirmationBuyComponent implements OnInit {
   eyesSelected: any;
   typeBuy: any;
   quantity: any;
+  // list for File
+  listFileBasket: Array<FileProductRequested> = new Array;
+  listUrlFiles: Array<String> = new Array;
   // boolean for delete file
   save_success: Boolean = false;
 
@@ -52,10 +54,11 @@ export class ConfirmationBuyComponent implements OnInit {
   }
 
   close() {
-    debugger
     if (!this.save_success) {
+      this.listUrlFiles = this.buildUrlFiles();
       this.deleteAllFile();
     }
+    this.modalReference.dismiss();
     this.modalReference.close();
   }
 
@@ -119,12 +122,18 @@ export class ConfirmationBuyComponent implements OnInit {
     }
   }
 
+  buildUrlFiles() {
+    const listUrlFiles = [];
+    _.each(this.listFileBasket, function (file) {
+      listUrlFiles.push(file.url);
+    });
+    return listUrlFiles;
+  }
+
   deleteAllFile(): void {
-    this.fileProductRequestedService.deleteAllFile$(this.listFileBasket).subscribe(res => {
+    this.fileProductRequestedService.deleteAllFile$(this.listUrlFiles).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.translate.get('Delete files', {value: 'Delete file'}).subscribe(( res: string) => {
-          this.notification.success('', res);
-        });
+        console.log('Delete files');
       } else {
         console.log(res.errors[0].detail);
       }
