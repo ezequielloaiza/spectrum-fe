@@ -17,6 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { WarrantyModalComponent } from './modals/warranty-modal/warranty-modal.component';
 import { Warranty } from '../../shared/models/warranty';
 import * as _ from 'lodash';
+import { ModalsChangeStatusComponent } from './modals/modals-change-status/modals-change-status.component';
 
 @Component({
   selector: 'app-warranty',
@@ -75,6 +76,15 @@ export class WarrantyComponent implements OnInit {
     const modalRef = this.modalService.open(WarrantyModalComponent , { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.warranty = warranty;
     modalRef.componentInstance.action = action;
+    modalRef.result.then((result) => {
+      this.getListWarranties();
+      this.moveFirstPage();
+    } , (reason) => {	});
+  }
+
+  changeStatus(warranty) {
+    const modalRef = this.modalService.open(ModalsChangeStatusComponent);
+    modalRef.componentInstance.warranty = warranty;
     modalRef.result.then((result) => {
       this.getListWarranties();
       this.moveFirstPage();

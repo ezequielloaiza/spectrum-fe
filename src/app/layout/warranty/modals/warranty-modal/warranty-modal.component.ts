@@ -41,7 +41,7 @@ export class WarrantyModalComponent implements OnInit {
   listStatus = [{ id: 0, name: 'Pending' },
                 { id: 1, name: 'In process' },
                 { id: 2, name: 'Approved' },
-                { id: 3, name: 'Reject' }
+                { id: 3, name: 'Rejected' }
                ];
 
   constructor(private modalReference: NgbActiveModal,
@@ -131,7 +131,7 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   getOrders(clientId): void {
-    this.orderService.allOrderWarrantyByUserIdAndStatus$(clientId, 1).subscribe(res => {
+    this.orderService.allOrderWarrantyByUserIdAndStatus$(clientId, 3).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
         if (this.action !== 'create') {
