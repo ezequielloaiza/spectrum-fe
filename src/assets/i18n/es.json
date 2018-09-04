@@ -38,7 +38,7 @@
     "Your Warranties" : "Tus Garantías",
     "New Warranty" : "Nueva Garantía",
     "Consult Warranty" : "Consultar Garantía",
-    "Manage Users" : "Gestionar Usuarios",
+    "Manage Clients" : "Gestionar Clientes",
     "New Account" : "Nueva Cuenta",
     "Consult Account" : "Consultar Cuenta",
     "Consult Payments" : "Consultar Pagos",
@@ -220,7 +220,7 @@
     "Enter warranty search..": "Ingrese la búsqueda de garantía..",
     "In process": "En proceso",
     "Approved": "Aprobado",
-    "Reject": "Rechazado",
+    "Rejected": "Rechazada",
     "Filters warranty by": "Filtras garantías por",
     "Bill Number": "Número de factura",
     "Created at": "Fecha de creación",
@@ -306,8 +306,8 @@
     "Order generated successfully":"Orden generada con exito",
     "Are you sure you want to generate the order?":"¿Estás seguro de que quieres generar la orden?",
     "to the provider":"al proveedor",
-    "Change Temporal Password": "Cambio de Contraseña Temporal",
-    "Should change the temporal password to access the system": "Debe cambiar la contraseña temporal para acceder al sistema.",
+    "Change Temporary Password": "Cambio de Contraseña Temporal",
+    "Please change the temporary password to access the system": "Por favor, cambie la contraseña temporal para acceder al sistema",
     "Patient":"Paciente",
     "Eye":"Ojo",
     "Basket":"Cesta",
@@ -350,6 +350,7 @@
     "More info":"Más información",
     "Steps":"Pasos",
     "Comments":"Comentarios",
-    "Test Set":"Set de Prueba"
-
+    "Test Set":"Set de Prueba",
+    "Field required for MarkEnnovy": "Campo requerido para MarkEnnovy",
+    "Field required for Euclid": "Campo requerido para Euclid"
 }
