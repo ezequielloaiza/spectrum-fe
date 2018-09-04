@@ -28,7 +28,7 @@
           <tbody [hidden]="suppliers.length === 0">
             <tr *ngFor="let supplier of suppliers; let i = index">
               <td>
-                <div class="custom-control check-plataform">
+                <div class="custom-control custom-checkbox">
                   <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="supplier.idSupplier" [(ngModel)]="supplier.checked" (change)="onSelection(supplier.idSupplier,supplier.checked)"
                     class="custom-control-input">
                   <label class="custom-control-label" for="checkbox{{i}}"></label> 

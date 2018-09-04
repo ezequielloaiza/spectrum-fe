@@ -423,3 +423,7 @@ img {
     padding-left: 2px;
   }
 }
+
+.custom-control-label::before {
+  border: solid 1px #c3c2c2;
+}

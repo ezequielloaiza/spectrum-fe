@@ -15,7 +15,7 @@ export class ListSupplierModalComponent implements OnInit {
   suppliers: Array<any> = new Array;
   auxSuppliers: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage: number = 5;
+  itemPerPage: number = 6;
   form: FormGroup;
   valid = false;
   listSupp: any;

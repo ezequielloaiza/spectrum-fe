@@ -42,7 +42,7 @@
             </div>
           </div>
           <div class="col-lg-5 align-select">
-            <div class="custom-control check-plataform">
+            <div class="custom-control custom-checkbox">
               <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="checkboxModel.value1" (click)="onSelectionAll(checkboxModel.value1)"
                 class="custom-control-input">
               <label class="custom-control-label" for="checkboxAll">{{ 'Select all' | translate }}</label>
@@ -60,7 +60,7 @@
               <div class="list-basket col-lg-5" *ngFor="let basket of listBasket; let i = index">
                 <div class="row">
                   <div class="col-lg-1">
-                    <div class="custom-control check-plataform">
+                    <div class="custom-control custom-checkbox">
                       <input id="checkbox{{i}}" type="checkbox" name="checkboxGroup" [(ngModel)]="basket.checked" (click)="onSelection(basket, basket.checked)"
                         class="custom-control-input">
                       <label class="custom-control-label" for="checkbox{{i}}"></label>
