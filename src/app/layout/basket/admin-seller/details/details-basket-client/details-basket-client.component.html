@@ -50,7 +50,7 @@
           </div>
           <div class="col-xl-1 align-btn-detail">
             <button type="button" (click)="buy()" class="btn btn-outline-primary">
-              {{ 'To buy' | translate }}
+              {{ 'Buy' | translate }}
             </button>
           </div>
 
@@ -89,7 +89,7 @@
                         <h6>{{ basket.productRequested.detail[0].name }}</h6>
                       </div>
                       <div>
-                        <span>{{ 'Eye' | translate }} {{ basket.productRequested.detail[0].eye }}</span>
+                        <span>{{ basket.productRequested.detail[0].eye }} {{ 'Eye' | translate }} </span>
                       </div>
                       <div>
                         <span>{{ basket.productRequested.patient }}</span>

@@ -38,7 +38,7 @@
     "Your Warranties" : "Your Warranties",
     "New Warranty" : "New Warranty",
     "Consult Warranty" : "Consult Warranty",
-    "Manage Users" : "Manage Users",
+    "Manage Clients" : "Manage Clients",
     "New Account" : "New Account",
     "Consult Account" : "Consult Account",
     "Consult Payments" : "Consult Payments",
@@ -206,7 +206,7 @@
     "Filters warranty by": "Filters warranty by",
     "In process": "In process",
     "Approved": "Approved",
-    "Reject": "Reject",
+    "Rejected": "Rejected",
     "Bill Number": "Bill Number",
     "Created at": "Created at",
     "Lot Number": "Lot Number",
@@ -304,8 +304,8 @@
     "Order generated successfully":"Order generated successfully",
     "Are you sure you want to generate the order?":"Are you sure you want to generate the order?",
     "to the provider":"to the provider",
-    "Change Temporal Password ": "Change Temporal Password",
-    "Should change the temporal password to access the system": "Should change the temporal password to access the system.",
+    "Change Temporary Password ": "Change Temporary Password",
+    "Please change the temporary password to access the system": "Please change the temporary password to access the system",
     "Patient":"Patient",
     "Eye":"Eye",
     "Enter patient search ...":"Enter patient search ...",
@@ -343,5 +343,7 @@
     "More info":"More info",
     "Steps":"Steps",
     "Comments":"Comments",
-    "Test Set":"Test Set"
+    "Test Set":"Test Set",
+    "Field required for MarkEnnovy": "Field required for MarkEnnovy",
+    "Field required for Euclid": "Field required for Euclid"
 }

@@ -47,7 +47,7 @@
                 <label class="custom-control-label" for="radioGroupSupplier{{i}}">{{ supplier.companyName | translate }}</label>
               </div>
             </div>
-            <div class="col-sm-12" *ngFor="let category of auxCategories; let i = index" [hidden]="!visible">
+            <div class="col-sm-12" *ngFor="let category of auxCategories; let i = index" [hidden]="!visible || category.name === 'Other'">
               <div class="custom-control custom-radio">
                 <input type="radio" id="radioGroupCategory{{i}}" name="radioGroupCategory" [value]="category.idCategory" (change)="onSelectionCategory(category.idCategory)"
                   class="custom-control-input">
