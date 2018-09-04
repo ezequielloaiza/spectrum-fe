@@ -53,10 +53,20 @@
             <div class="row header">
               <div class="col-sm-4 title">{{ 'Parameter' | translate }}</div>
               <div class="col-sm-4 title">
-                <input type="checkbox" class="form-check-label" (click)="setValueEye('right')" [checked]="product.eyeRight"> {{ 'Right Eye' | translate }}
+                <div class="custom-control custom-checkbox">
+                  <input id="right" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('right')" [checked]="product.eyeRight"
+                    class="custom-control-input">
+                  <label class="custom-control-label" for="right">{{ 'Eye Right' | translate }}</label>
+                </div>
+                <!--<input type="checkbox" class="form-check-label" (click)="setValueEye('right')" [checked]="product.eyeRight"> {{ 'Eye Right' | translate }}-->
               </div>
               <div class="col-sm-4 title">
-                <input type="checkbox" class="form-check-label" (click)="setValueEye('left')" [checked]="product.eyeLeft"> {{ 'Left Eye' | translate }}
+                <div class="custom-control custom-checkbox">
+                  <input id="left" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('left')" [checked]="product.eyeLeft"
+                    class="custom-control-input">
+                  <label class="custom-control-label" for="left">{{ 'Eye Left' | translate }}</label>
+                </div>
+                <!--<input type="checkbox" class="form-check-label" (click)="setValueEye('left')" [checked]="product.eyeLeft"> {{ 'Eye Left' | translate }}-->
               </div>
             </div>
 
