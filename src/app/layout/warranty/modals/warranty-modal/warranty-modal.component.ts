@@ -131,7 +131,7 @@ export class WarrantyModalComponent implements OnInit {
   }
 
   getOrders(clientId): void {
-    this.orderService.allOrderWarrantyByUserIdAndStatus$(clientId, 1).subscribe(res => {
+    this.orderService.allOrderWarrantyByUserIdAndStatus$(clientId, 3).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
         if (this.action !== 'create') {

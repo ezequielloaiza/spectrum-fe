@@ -119,8 +119,8 @@
                       <div ngbDropdownMenu>
                         <button *ngIf="((user.role.idRole === 2 || user.role.idRole === 3) && warranty.status === 0) || user.role.idRole === 1" class="dropdown-item" (click)="open(warranty,'edit')">
                           <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                        <button *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="dropdown-item" (click)="open(warranty,'statusChange')">
-                          <i class="fa fa-cog"></i> {{ 'Status Change' | translate }}</button>
+                        <button *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="dropdown-item" (click)="changeStatus(warranty)">
+                          <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}</button>
                         <button *ngIf="user.role.idRole === 1" class="dropdown-item" (click)="delete(warranty.id)">
                           <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
                       </div>
