@@ -70,8 +70,8 @@
         <div class="container product-list" *ngFor="let list of listDetails">
           <hr>
           <div class="row">
-            <aside class="col-sm-3">
-              <img class="imag-product" src={{list.urlImage}}>
+            <aside class="col-sm-3 container-img">
+              <div class="imag-product" [style.backgroundImage]="'url('+ list.urlImage +')'"></div>
             </aside>
             <aside class="col-sm-9">
               <article class="card-body p-5">

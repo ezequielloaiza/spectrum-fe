@@ -181,7 +181,7 @@
     "Date":"Date",
     "Number":"Number",
     "View Details":"View Details",
-    "Select":"Select",
+    "Select Status":"Select Status",
     "Clean Filters":"Clean Filters",
     "Order":"Order",
     "Ordered on":"Ordered on",
@@ -313,7 +313,7 @@
     "All Basket":"All Basket",
     "To buy":"To buy",
     "Confirm Purchase":"Confirm Purchase",
-    "Are you sure you want to buy the entire basket?":"Are you sure you want to buy the entire basket?",
+    "You are sure you want to buy the selected products":"You are sure you want to buy the selected products",
     "Confirm purchase":"Confirm purchase",
     "Select all":"Select all",
     "Buy now":"Buy now",
@@ -346,7 +346,11 @@
     "Test Set":"Test Set",
     "Field required for MarkEnnovy": "Field required for MarkEnnovy",
     "Field required for Euclid": "Field required for Euclid",
-    "Warranty's status": "Warranty's status",
-    "Change Status": "Change Status",
-    "Reject": "Reject"
+    "Left":"Left",
+    "Right":"Right",
+    "Change Status":"Change Status",
+    "View Basket":"View Basket",
+    "Summary products":"Summary products",
+    "Shipping Costs":"Shipping Costs",
+    "Warranty's status": "Warranty's status"
 }
