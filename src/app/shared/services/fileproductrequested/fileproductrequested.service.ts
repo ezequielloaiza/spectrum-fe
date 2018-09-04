@@ -25,4 +25,8 @@ export class FileProductRequestedService {
   public deleteAllFile$(listFiles: Array<String>): Observable<any> {
     return this.http.put(environment.apiUrl + 'fileProductRequested/deleteAllFile', listFiles);
   }
+
+  public downloadFile$(url): Observable<any> {
+    return this.http.get(environment.apiUrl + 'fileProductRequested/downloadFile/' + url);
+  }
 }
