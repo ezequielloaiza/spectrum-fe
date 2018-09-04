@@ -29,8 +29,6 @@ export class DetailsBasketClientComponent implements OnInit {
     value2 : 'NO'
   };
 
-
-
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
     private orderService: OrderService,

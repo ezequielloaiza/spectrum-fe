@@ -104,6 +104,10 @@ export class ListBasketComponent implements OnInit {
   generateOrder() {
    // console.log('lista', this.productRequestedToBuy);
     this.buyBasket.idUser = this.user.userResponse.idUser;
+<<<<<<< HEAD
+=======
+    this.buyBasket.idRole = this.user.role.idRole;
+>>>>>>> develop
     this.buyBasket.listBasket = this.productRequestedToBuy;
     this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
       if (res.code === CodeHttp.ok) {

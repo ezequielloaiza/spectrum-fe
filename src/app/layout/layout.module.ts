@@ -48,6 +48,12 @@ import { DetailsBasketClientComponent } from './basket/admin-seller/details/deta
 import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-supplier.component';
 import { SupplierUserModalComponent } from './user/modals/supplier-user-modal/supplier-user-modal.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SupplierEuropaComponent } from './details-order-supplier/supplier-europa/supplier-europa.component';
+import { SupplierMarkennovyComponent } from './details-order-supplier/supplier-markennovy/supplier-markennovy.component';
+import { SupplierLenticonComponent } from './details-order-supplier/supplier-lenticon/supplier-lenticon.component';
+import { SupplierEuclidComponent } from './details-order-supplier/supplier-euclid/supplier-euclid.component';
+import { SupplierMagicLookComponent } from './details-order-supplier/supplier-magic-look/supplier-magic-look.component';
+import { SupplierBlueLightComponent } from './details-order-supplier/supplier-blue-light/supplier-blue-light.component';
 
 @NgModule({
     imports: [
@@ -104,7 +110,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
         ListBasketClientComponent,
         DetailsBasketClientComponent,
         EditSupplierComponent,
-        SupplierUserModalComponent
+        SupplierUserModalComponent,
+        SupplierEuropaComponent,
+        SupplierMarkennovyComponent,
+        SupplierLenticonComponent,
+        SupplierEuclidComponent,
+        SupplierMagicLookComponent,
+        SupplierBlueLightComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,

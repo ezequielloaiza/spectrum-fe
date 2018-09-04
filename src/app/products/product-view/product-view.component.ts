@@ -90,7 +90,6 @@ export class ProductViewComponent implements OnInit {
     this.uploader.onErrorItem = (item, response, status, headers) => {
         this.uploadResult = {'success': true, 'item': item, 'response':
                              response, 'status': status, 'headers': headers};
-      debugger
     };
   }
 

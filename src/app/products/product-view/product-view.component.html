@@ -12,7 +12,7 @@
         <div class="preview col-md-6">
           <div class="preview-pic tab-content">
             <div class="tab-pane active" id="pic-1">
-              <img src="assets/images/products/quattro.jpg" />
+              <img src="{{ product.mainImg }}"/>
             </div>
 
           </div>
@@ -54,15 +54,15 @@
         <div class="col-md-6">
           <!--specifications technicals-->
           <div class="col-md-12">
-            <dt class="title">{{ 'Specifications Technicals' | translate }}</dt>
+            <dt class="title">{{ 'Technicals Specifications' | translate }}</dt>
             <!--HEADER-->
             <div class="row header">
               <div class="col-sm-4 title">{{ 'Parameter' | translate }}</div>
               <div class="col-sm-4 title">
-                <input type="checkbox" class="form-check-label" (click)="setValueEye('right')" [checked]="product.eyeRight"> {{ 'Eye Right' | translate }}
+                <input type="checkbox" class="form-check-label" (click)="setValueEye('right')" [checked]="product.eyeRight"> {{ 'Right Eye' | translate }}
               </div>
               <div class="col-sm-4 title">
-                <input type="checkbox" class="form-check-label" (click)="setValueEye('left')" [checked]="product.eyeLeft"> {{ 'Eye Left' | translate }}
+                <input type="checkbox" class="form-check-label" (click)="setValueEye('left')" [checked]="product.eyeLeft"> {{ 'Left Eye' | translate }}
               </div>
             </div>
 
@@ -83,7 +83,7 @@
                 </div>
               </div>
 
-              <!--EYE RIGHT-->
+              <!--Right Eye-->
               <div class="col-sm-4 title">
                 <div class="row selection">
                   <input class="form-control col-sm-8" type="number" step=1 min="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
@@ -113,7 +113,7 @@
                 </div>
               </div>
 
-              <!--EYE LEFT-->
+              <!--Left Eye-->
               <div class="col-sm-4 title">
                 <div class="row selection">
                   <input class="form-control col-sm-8" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');"
@@ -152,8 +152,8 @@
 
             <!--HEADER-->
             <div class="row header">
-              <div class="col-sm-6 title">{{ 'Eye Right' | translate }}</div>
-              <div class="col-sm-6 title">{{ 'Eye Left' | translate }}</div>
+              <div class="col-sm-6 title">{{ 'Right Eye' | translate }}</div>
+              <div class="col-sm-6 title">{{ 'Left Eye' | translate }}</div>
             </div>
             <!--CONTENT-->
             <div class="row content">

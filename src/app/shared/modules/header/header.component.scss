@@ -1,39 +1,67 @@
+@import '../../../../styles/spectrum/spectrum';
+
 $topnav-background-color: #222;
+
 :host {
-    .navbar {
-        background-color: $topnav-background-color;
-        box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
-        .navbar-brand {
-            color: #fff;
-        }
-        .nav-item > a {
-            color: #999;
-            &:hover {
-                color: #fff;
-            }
-        }
+  .navbar {
+    background-color: $topnav-background-color;
+    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
+
+    .navbar-brand {
+      color: #fff;
     }
-    .messages {
-        width: 300px;
-        .media {
-            border-bottom: 1px solid #ddd;
-            padding: 5px 10px;
-            &:last-child {
-                border-bottom: none;
-            }
-        }
-        .media-body {
-            h5 {
-                font-size: 13px;
-                font-weight: 600;
-            }
-            .small {
-                margin: 0;
-            }
-            .last {
-                font-size: 12px;
-                margin: 0;
-            }
-        }
+
+    .nav-item>a {
+      color: #999;
+
+      &:hover {
+        color: #fff;
+      }
+
+      .cart {
+        margin-right: 20px;
+        font-size: 22px;
+      }
+
+      .size-cart {
+        line-height: 12px;
+        padding: 4px 5px;
+        position: absolute;
+        right: 10px;
+        top: -5px;
+        background-color: $bg-text-select;
+        color: $bg-white;
+        border-radius: 12px;
+      }
     }
+  }
+
+  .messages {
+    width: 300px;
+
+    .media {
+      border-bottom: 1px solid #ddd;
+      padding: 5px 10px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .media-body {
+      h5 {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .small {
+        margin: 0;
+      }
+
+      .last {
+        font-size: 12px;
+        margin: 0;
+      }
+    }
+  }
 }

@@ -110,8 +110,8 @@ export class UserModalComponent implements OnInit {
   }
 
   save(): void {
-    this.form.get('city').setValue(this.googleService.getCity());
-    this.form.get('companyCity').setValue(this.googleService.getCity());
+    this.form.get('city').setValue(this.valorCity.description);
+    this.form.get('companyCity').setValue(this.valorCompanyCity.description);
     this.form.get('suppliers').setValue(this.listSuppliers);
     this.userSerice.signUp$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -141,7 +141,7 @@ export class UserModalComponent implements OnInit {
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
-      this.valorCity={ description: this.googleService.getCity() };
+      this.valorCity = { description: this.googleService.getCity() };
     });
   }
 

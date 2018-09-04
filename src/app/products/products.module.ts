@@ -16,6 +16,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { EditProductComponent } from './modals/edit-product/edit-product.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ProductViewEuclidComponent } from './product-view-euclid/product-view-euclid.component';
+import { ProductViewMagicComponent } from './product-view-magicLook/product-view-magic.component';
+import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.component';
 
 @NgModule({
   imports: [
@@ -36,6 +38,8 @@ import { ProductViewEuclidComponent } from './product-view-euclid/product-view-e
     ProductViewComponent,
     ProductViewEuropaComponent,
     ProductViewEuclidComponent,
+    ProductViewMagicComponent,
+    ProductViewBlueComponent,
     ConfirmationBuyComponent,
     EditProductComponent
   ],
