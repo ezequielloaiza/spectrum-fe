@@ -41,10 +41,10 @@
   }
 }
 
-.div-sent {
-  > div {
+.div-shipped {
+  >div {
     text-align: center;
-    background: $sent-status;
+    background:$paid-status;
     color: $bg-white;
     border-radius: 12px;
     width: 30%;
@@ -74,13 +74,13 @@
   }
 }
 
-.div-pay {
-  > div {
+.div-ready {
+  >div {
     text-align: center;
-    background: $paid-status;
+    background: $sent-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
+    width: 35%;
     margin-left: 15px;
   }
 }
@@ -117,7 +117,7 @@
 
 
 .title-status{
-  padding-right: 220px;
+  padding-right: 230px;
 }
 
 .list-orden {
