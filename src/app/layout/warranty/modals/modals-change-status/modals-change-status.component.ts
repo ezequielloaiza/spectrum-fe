@@ -19,7 +19,7 @@ export class ModalsChangeStatusComponent implements OnInit {
     { id: 0, name: 'Pending' },
     { id: 1, name: 'In process' },
     { id: 2, name: 'Approved' },
-    { id: 3, name: 'Reject' }
+    { id: 3, name: 'Rejected' }
   ];
   valid = false;
   idStatus: any;
