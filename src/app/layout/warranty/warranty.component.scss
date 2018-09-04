@@ -23,7 +23,7 @@
 .div-pending {
   >div {
     text-align: center;
-    background: $pending-status;
+    background: $processed-status;
     color: $bg-white;
     border-radius: 12px;
     width: 90%;
@@ -33,7 +33,7 @@
 .div-in-process {
   >div {
     text-align: center;
-    background: $processed-status;
+    background: $authorized-status;
     color: $bg-white;
     border-radius: 12px;
     width: 90%;

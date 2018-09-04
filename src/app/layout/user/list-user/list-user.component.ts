@@ -42,7 +42,7 @@ export class ListUserComponent implements OnInit {
         this.listUsers = res.data;
         _.each(this.listUsers,function(user){
           user.companyName = user.company.companyName;
-          user.businessTypeName = user.company.businessType.name;
+          user.username = user.username;
           user.companyCountry = user.company.country;
         });
         this.listUsersAux = res.data;
@@ -128,7 +128,7 @@ export class ListUserComponent implements OnInit {
 		this.advancedPagination = 1;
 		this.pageChange(this.advancedPagination);
   }
-  
+
   filter(value: number): void {
     this.getListUser(value);
   }
