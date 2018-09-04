@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProductRequested } from '../../../shared/models/productrequested';
+import { FileProductRequested } from '../../../shared/models/fileproductrequested';
 
 @Component({
   selector: 'app-supplier-markennovy',
@@ -9,8 +10,13 @@ import { ProductRequested } from '../../../shared/models/productrequested';
 export class SupplierMarkennovyComponent implements OnInit {
 
   @Input() lista: Array<ProductRequested>;
+  @Input() files: Array<FileProductRequested>;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  downloadFile(item) {
+
   }
 }

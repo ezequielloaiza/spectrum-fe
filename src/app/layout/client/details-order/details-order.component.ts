@@ -47,6 +47,7 @@ export class DetailsOrderComponent implements OnInit {
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.show = false;
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
+          //detailsOrder.productRequested.fileProductRequestedList = detailsOrder.fileProductRequestedList;
         });
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
