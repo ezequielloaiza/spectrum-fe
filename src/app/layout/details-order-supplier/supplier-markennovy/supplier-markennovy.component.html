@@ -52,8 +52,7 @@
                 <td><strong>{{ item?.name }}</strong></td>
                 <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
                 <td nowrap>
-                  <button type="button" class="btn btn-success btn-xs"
-                  (click)="downloadFile(item)">
+                  <button type="button" class="btn btn-success btn-xs">
                     <span class="glyphicon glyphicon-upload"></span> Download
                   </button>
                 </td>
