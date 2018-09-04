@@ -56,6 +56,8 @@ import { SupplierMagicLookComponent } from './details-order-supplier/supplier-ma
 import { SupplierBlueLightComponent } from './details-order-supplier/supplier-blue-light/supplier-blue-light.component';
 import { DetailProductModalComponent } from './basket/modals/detail-product/detail-product';
 import { SummaryProductsComponent } from './basket/modals/summary-products/summary-products.component';
+//import { DetailProductModalComponent } from './basket/client/modals/detail-product/detail-product';
+import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
 
 @NgModule({
     imports: [
@@ -120,7 +122,8 @@ import { SummaryProductsComponent } from './basket/modals/summary-products/summa
         SupplierMagicLookComponent,
         SupplierBlueLightComponent,
         DetailProductModalComponent,
-        SummaryProductsComponent
+        SummaryProductsComponent,
+        ModalsChangeStatusComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -137,7 +140,8 @@ import { SummaryProductsComponent } from './basket/modals/summary-products/summa
       ModalsConfirmationComponent,
       SupplierUserModalComponent,
       DetailProductModalComponent,
-      SummaryProductsComponent
+      SummaryProductsComponent,
+      ModalsChangeStatusComponent
     ],
     providers: [
       BusinessTypeService,

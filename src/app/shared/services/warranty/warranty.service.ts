@@ -18,6 +18,10 @@ export class WarrantyService {
     return this.http.put(environment.apiUrl + 'warranty/update', warranty);
   }
 
+  public changeStatus$(idWarranty, IdStatus): Observable<any> {
+    return this.http.get(environment.apiUrl + 'warranty/changeStatus/' + idWarranty + '/' + IdStatus);
+  }
+
   public findAllByUser$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'warranty/findAllByUser');
   }
