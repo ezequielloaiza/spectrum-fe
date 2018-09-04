@@ -26,11 +26,7 @@ import { environment } from '../../../environments/environment';
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
 @Component({
-<<<<<<< HEAD
-  selector: 'app-product-view',
-=======
   selector: 'app-product-view-euclid',
->>>>>>> develop
   templateUrl: './product-view-euclid.component.html',
   styleUrls: ['./product-view-euclid.component.scss']
 })
@@ -47,13 +43,6 @@ export class ProductViewEuclidComponent implements OnInit {
   currentUser: any;
   user: any;
   ngSelect: any;
-<<<<<<< HEAD
-  // configuration XTENSA product
-  paramAxesRight: any;
-  paramAxesLeft: any;
-  axesXtensa: Array<any> = new Array;
-=======
->>>>>>> develop
   basketRequestModal: BasketRequest = new BasketRequest();
   client: any;
   listCustomers: Array<any> = new Array;
@@ -96,16 +85,6 @@ export class ProductViewEuclidComponent implements OnInit {
 
   ngOnInit() {
     this.getProducts();
-<<<<<<< HEAD
-    /* var product xtensa */
-    this.setAxesXtensa();
-  }
-
-  setAxesXtensa() {
-    this.axesXtensa = [ { "values": ["5º","10º","15º","20º","25º","30º","35º","40º","45º","50º","55º","60º","65º","70º","75º","80º","85º","90º","95º","100º","105º","110º","115º","120º","125º","130º","135º","140º","145º","150º","155º","160º","165º","170º","175º","180º"] },
-                        { "values": ["10º", "20º","30º","40º","50º","60º","70º","80º","90º","100º","110º","120º","130º","140º","150º","160º","170º","180º"] }];
-=======
->>>>>>> develop
   }
 
   getProducts() {

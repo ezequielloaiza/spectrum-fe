@@ -9,11 +9,8 @@ export enum RoleSeller {
   ProductsView,
   ProductsViewEuropa,
   ProductsViewEuclid,
-<<<<<<< HEAD
-=======
   ProductsViewMagic,
   ProductsViewBlue,
->>>>>>> develop
   Home,
   OrdersBySellerList,
   OrdersDetailSeller,

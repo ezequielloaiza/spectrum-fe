@@ -13,11 +13,8 @@ export enum RoleAdmin {
   ProductsView,
   ProductsViewEuropa,
   ProductsViewEuclid,
-<<<<<<< HEAD
-=======
   ProductsViewMagic,
   ProductsViewBlue,
->>>>>>> develop
   Home,
   OrdersBySellerList,
   OrdersDetailSeller,
