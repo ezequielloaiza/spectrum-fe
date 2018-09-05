@@ -22,6 +22,7 @@ import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../../src/environments/environment';
+import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -55,7 +56,7 @@ export class ProductViewComponent implements OnInit {
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
-  maxFileSize = 25 * 1024 * 1024; // 25 MB
+  maxFileSize = 15 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
   private uploadResult: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
@@ -80,6 +81,19 @@ export class ProductViewComponent implements OnInit {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
+    this.uploader.onAfterAddingFile = (item) => {
+      const maxSize = this.maxFilesSize();
+
+      if (maxSize > this.maxFileSize) {
+        this.removeFile(item);
+        const msj = 'Maximum upload size exceeded ( ' +
+                    (item.file.size / 1024 / 1024).toFixed(2) +
+                    ' MB of ' + (this.maxFileSize / 1024 / 1024) + ' MB allowed) for document ' + item.file.name;
+        this.translate.get(msj, {value: msj}).subscribe(( res: string) => {
+          this.notification.error('', res);
+        });
+      }
+    };
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       this.uploadResult = {'success': true, 'item': item, 'response':
                            response, 'status': status, 'headers': headers};
@@ -98,6 +112,17 @@ export class ProductViewComponent implements OnInit {
     /* var product xtensa */
     this.setAxesXtensa();
     this.clearFiles();
+  }
+
+  maxFilesSize() {
+    let maxFileSize = 0;
+
+    if (this.uploader.queue) {
+      _.each(this.uploader.queue, function (item) {
+        maxFileSize = maxFileSize + item.file.size;
+      });
+    }
+    return maxFileSize;
   }
 
   setAxesXtensa() {
