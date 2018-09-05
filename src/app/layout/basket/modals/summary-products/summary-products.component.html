@@ -7,16 +7,16 @@
   </div>
   <div class="card-body table-responsive row">
     <div class="confirm">
-      <span>{{ 'You are sure you want to buy the selected products' | translate }} {{ '(' }}{{ quantity }}{{ ') ?' }}</span>
+      <span>{{ 'Please confirm the selected products' | translate }} {{ '(' }}{{ quantity }}{{ ') ?' }}</span>
     </div>
     <br>
     <div class="container pp rounded">
       <div class="row justify-content-md-center order-summary">
         <div class="col-md-4 pull-right">
-          <p class="font-weight-bold" translate>{{'Summary Costs'}}</p>
+          <p class="font-weight-bold" translate>{{'Order Summary'}}</p>
           <p class="font-weight-normal" translate>{{'Item(s) Subtotal'}}</p>
-          <p class="font-weight-normal" translate>{{'Shipping Costs'}}</p>
-          <p class="font-weight-bold" translate>{{'Total'}}</p>
+          <p class="font-weight-normal" translate>{{'Shipping & handling'}}</p>
+          <p class="font-weight-bold" translate>{{'Order Total'}}</p>
         </div>
         <div class="col-md-2">
           <p class="font-weight-bold text-left" translate>{{'Totals'}}</p>
@@ -35,7 +35,7 @@
     <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
       <i class="fa fa-times"></i>
     </button>
-    <button type="button" class="btn btn-main" (click)="generateOrder()">{{ 'Save' | translate }}&nbsp;
+    <button type="button" class="btn btn-main" (click)="generateOrder()">{{ 'Place Order' | translate }}&nbsp;
       <i class="fa fa-save"></i>
     </button>
   </div>
