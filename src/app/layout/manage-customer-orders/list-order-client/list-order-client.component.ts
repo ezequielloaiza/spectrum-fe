@@ -66,7 +66,7 @@ export class ListOrderClientComponent implements OnInit {
         }
       });
     } else if (this.user.role.idRole === 1) {
-      this.orderService.allOrder$().subscribe(res => {
+      this.orderService.allOrderWithStatusNot$(4).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.mostrarStatus = true;
           this.listOrders = res.data;
@@ -283,9 +283,10 @@ export class ListOrderClientComponent implements OnInit {
     } , (reason) => {
     });
     }
-    cancel(order): void {
-      this.translate.get('Cancel Order', { value: 'Cancel Order' }).subscribe((title: string) => {
-        this.translate.get('Are you sure you want to cancel the order? You must notify the provider this change.',
+
+  cancel(order): void {
+    this.translate.get('Cancel Order', { value: 'Cancel Order' }).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to cancel the order? You must notify the provider this change.',
         { value: 'Are you sure you want to cancel the order? You must notify the provider this change.' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
               this.orderService.changeStatus$(order.idOrder, 4).subscribe(res => {
@@ -302,8 +303,8 @@ export class ListOrderClientComponent implements OnInit {
               });
             }, () => {
           });
-        })
-      })
+        });
+      });
     }
 }
 
