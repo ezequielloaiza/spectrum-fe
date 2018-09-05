@@ -352,5 +352,7 @@
     "View Basket":"View Basket",
     "Summary products":"Summary products",
     "Shipping Costs":"Shipping Costs",
-    "Warranty's status": "Warranty's status"
+    "Warranty's status": "Warranty's status",
+    "Canceled": "Canceled",
+    "Are you sure you want to cancel the order? You must notify the provider this change.": "Are you sure you want to cancel the order? You must notify the provider this change."
 }
