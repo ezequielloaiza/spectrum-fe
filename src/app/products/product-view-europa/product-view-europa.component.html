@@ -254,7 +254,7 @@
                   <div *ngFor="let PC of product.pasosRight">
                     <div *ngFor="let paso of PC.values">
                       <div class="row selection">
-                        <div *ngFor="let value of paso.values" class="custom-control check-steps">
+                        <div *ngFor="let value of paso.values" class="custom-control custom-checkbox">
                           <input class="custom-control-input" type="checkbox" id="{{ 'right' + PC.name + paso.name + value.name }}" [(ngModel)]="value.selected" (click)="setChecked(value, paso)">
                           <label class="custom-control-label" for="{{ 'right'  + PC.name + paso.name + value.name }}">{{ value.name }}</label>
                         </div>
@@ -268,7 +268,7 @@
                   <div *ngFor="let PC of product.pasosLeft">
                     <div *ngFor="let paso of PC.values">
                       <div class="row selection">
-                        <div *ngFor="let value of paso.values" class="custom-control check-steps">
+                        <div *ngFor="let value of paso.values" class="custom-control custom-checkbox">
                           <input class="custom-control-input" type="checkbox" id="{{ 'left'  + PC.name + paso.name + value.name }}" [(ngModel)]="value.selected" (click)="setChecked(value, paso)">
                           <label class="custom-control-label" for="{{ 'left'  + PC.name + paso.name + value.name }}">{{ value.name }}</label>
                         </div>
@@ -364,7 +364,7 @@
               <div class="col-md-6">
                 <span class="title">{{ 'Shipping Address' | translate }}:</span>
                 <div class="col-md-12">
-                  <textarea class="form-control" type="text" [(ngModel)]="product.shippingAddress" disabled></textarea>
+                  <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.shippingAddress" disabled></textarea>
                 </div>
               </div>
             </div>
@@ -395,11 +395,11 @@
             <!--CONTENT-->
             <div class="row content">
               <div class="col-md-6">
-                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"
+                <textarea style="overflow-x: hidden;" class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"
                   placeholder="{{ 'Introduces right eye observations' | translate }}"></textarea>
               </div>
               <div class="col-md-6">
-                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"
+                <textarea style="overflow-x: hidden;" class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"
                   placeholder="{{ 'Introduces right eye observations' | translate }}"></textarea>
               </div>
             </div>

@@ -17,11 +17,11 @@ export class ListOrderClientComponent implements OnInit {
   listOrdersAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage = 5;
-  filterStatus = [{ id: 0, name: 'Pending' },
-  { id: 1, name: 'Pay' },
-  { id: 2, name: 'Processed' },
-  { id: 3, name: 'Sent' }
-  ];
+  filterStatus = [{ id: 0, name: "Pending" },
+                  { id: 1, name: "Processed" },
+                  { id: 2, name: "Ready to Ship" },
+                  { id: 3, name: "Shipped" }
+                ];
   model: NgbDateStruct;
   valid1 = false;
   tamano: String;

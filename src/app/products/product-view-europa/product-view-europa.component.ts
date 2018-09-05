@@ -288,6 +288,7 @@ export class ProductViewEuropaComponent implements OnInit {
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.result.then((result) => {
       this.getProducts();
     }, (reason) => {

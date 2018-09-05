@@ -1,4 +1,4 @@
-@import "../../../../styles/spectrum/spectrum";
+@import "../../../../../styles/spectrum/spectrum";
 
 .card-body {
   >div:nth-child(1) {
@@ -20,6 +20,11 @@
       font-size: 18px;
       font-weight: 600;
     }
+
+    >div:nth-child(2) {
+      margin-top: 5px;
+      color: #f8ac59;
+    }
   }
 
   .params {
@@ -31,15 +36,12 @@
 
     .param {
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
     }
-  }
 
-  > div:nth-child(1) {
-    > div:nth-child(2) {
-     // display: flex;
-      justify-content: flex-end;
-      color: $bg-sidebar;
+    .selected {
+      display: flex;
+      justify-content: flex-start;
     }
   }
 

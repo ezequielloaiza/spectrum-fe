@@ -170,11 +170,11 @@
             <!--CONTENT-->
             <div class="row content">
               <div class="col-md-6">
-                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"
+                <textarea style="overflow-x: hidden;" class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"
                   placeholder="{{ 'Introduces right eye observations' | translate }}"></textarea>
               </div>
               <div class="col-md-6">
-                <textarea class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"
+                <textarea style="overflow-x: hidden;" class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"
                   placeholder="{{ 'Introduces right eye observations' | translate }}"></textarea>
               </div>
             </div>
@@ -316,7 +316,7 @@
               <div class="col-md-6">
                 <span class="title">{{ 'Shipping Address' | translate }}:</span>
                 <div class="col-md-12">
-                  <textarea class="form-control" type="text" [(ngModel)]="product.shippingAddress" disabled></textarea>
+                  <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.shippingAddress" disabled></textarea>
                 </div>
               </div>
             </div>

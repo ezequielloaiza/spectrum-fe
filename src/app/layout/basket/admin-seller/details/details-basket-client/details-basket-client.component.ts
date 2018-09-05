@@ -10,6 +10,9 @@ import { CodeHttp } from '../../../../../shared/enum/code-http.enum';
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { Buy } from '../../../../../shared/models/buy';
+import { DetailProductModalComponent } from '../../../modals/detail-product/detail-product';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SummaryProductsComponent } from '../../../modals/summary-products/summary-products.component';
 
 @Component({
   selector: 'app-details-basket-client',
@@ -23,6 +26,8 @@ export class DetailsBasketClientComponent implements OnInit {
   user: any;
   id: any;
   buyBasket: Buy = new Buy();
+  subtotal: any;
+  total: any;
   productRequestedToBuy: Array<any> = new Array;
    checkboxModel = {
     value1 : false,
@@ -36,7 +41,8 @@ export class DetailsBasketClientComponent implements OnInit {
     private alertify: AlertifyService,
     private notification: ToastrService,
     private translate: TranslateService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private modalService: NgbModal) {
       this.user = JSON.parse(userService.getCurrentUser());
     }
 
@@ -51,6 +57,7 @@ export class DetailsBasketClientComponent implements OnInit {
           this.listBasket = res.data;
           this.listBasketAux = res.data;
           _.each(this.listBasket, function (basket) {
+            basket.checked = false;
             basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
           });
         }
@@ -94,34 +101,9 @@ export class DetailsBasketClientComponent implements OnInit {
   }
 
   buy() {
-    this.translate.get('Confirm Purchase', {value: 'Confirm Purchase'}).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to buy the entire basket?',
-        {value: 'Are you sure you want to buy the entire basket?'}).subscribe((msg: string) => {
-          this.alertify.confirm(title, msg, () => {
-            this.generateOrder();
-          }, () => {});
-        });
-      });
-    }
-
-  generateOrder() {
-     this.buyBasket.idUser = this.id;
-     this.buyBasket.listBasket = this.productRequestedToBuy;
-     this.buyBasket.idRole = this.user.role.idRole;
-     this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.getListBasket();
-          this.productRequestedToBuy = new Array;
-          this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-            this.notification.success('', res);
-          });
-        } else {
-          console.log(res.errors[0].detail);
-        }
-      }, error => {
-        console.log('error', error);
-      });
-    }
+    this.calculationsSummary();
+    this.openSumary();
+  }
 
   onSelection(basket, checked) {
     basket.checked = !checked;
@@ -153,5 +135,44 @@ export class DetailsBasketClientComponent implements OnInit {
         }
       });
       this.productRequestedToBuy = arrayAux;
+  }
+
+  openParams(basket) {
+    const modalRef = this.modalService.open( DetailProductModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.componentInstance.basket = basket;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    } , (reason) => {
+    });
+  }
+
+  openSumary() {
+    this.buyBasket.idUser = this.id;
+    this.buyBasket.listBasket = this.productRequestedToBuy;
+    this.buyBasket.idRole = this.user.role.idRole;
+    const modalRef = this.modalService.open( SummaryProductsComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.componentInstance.subtotal = this.subtotal;
+    modalRef.componentInstance.total = this.total;
+    modalRef.componentInstance.buyBasket = this.buyBasket;
+    modalRef.componentInstance.quantity = this.productRequestedToBuy.length;
+    modalRef.result.then((result) => {
+      this.getListBasket();
+      this.productRequestedToBuy = new Array;
+    } , (reason) => {
+    });
+  }
+
+  calculationsSummary() {
+    let subtotal = 0;
+    const listSelect = this.productRequestedToBuy;
+    _.each(this.listBasket, function(item) {
+        _.each(listSelect, function(itemBasket) {
+          if (item.idBasketProductRequested === itemBasket) {
+            subtotal = subtotal + (item.productRequested.quantity  * item.productRequested.price);
+          }
+        });
+      });
+      this.subtotal = subtotal;
+      this.total = subtotal;
   }
 }

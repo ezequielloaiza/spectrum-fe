@@ -9,8 +9,9 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { UserStorageService } from '../../../../../http/user-storage.service';
 import { Buy } from '../../../../../shared/models/buy';
-import { DetailProductModalComponent } from '../../modals/detail-product/detail-product';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { DetailProductModalComponent } from '../../../modals/detail-product/detail-product';
+import { SummaryProductsComponent } from '../../../modals/summary-products/summary-products.component';
 
 
 @Component({
@@ -24,6 +25,8 @@ export class ListBasketComponent implements OnInit {
   listBasketAux: Array<any> = new Array;
   user: any;
   buyBasket: Buy = new Buy();
+  subtotal: any;
+  total: any;
   productRequestedToBuy: Array<any> = new Array;
    checkboxModel = {
     value1 : false,
@@ -96,35 +99,9 @@ export class ListBasketComponent implements OnInit {
   }
 
   buy() {
-    this.translate.get('Confirm Purchase', {value: 'Confirm Purchase'}).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to buy the entire basket?',
-        {value: 'Are you sure you want to buy the entire basket?'}).subscribe((msg: string) => {
-          this.alertify.confirm(title, msg, () => {
-            this.generateOrder();
-          }, () => {});
-        });
-      });
+    this.calculationsSummary();
+    this.openSumary();
     }
-
-  generateOrder() {
-   // console.log('lista', this.productRequestedToBuy);
-    this.buyBasket.idUser = this.user.userResponse.idUser;
-    this.buyBasket.idRole = this.user.role.idRole;
-    this.buyBasket.listBasket = this.productRequestedToBuy;
-    this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.getListBasket();
-        this.productRequestedToBuy = new Array;
-        this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-          this.notification.success('', res);
-        });
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
-  }
 
   onSelection(basket, checked) {
     basket.checked = !checked;
@@ -165,6 +142,36 @@ export class ListBasketComponent implements OnInit {
       this.ngOnInit();
     } , (reason) => {
     });
+  }
+
+  openSumary() {
+    this.buyBasket.idUser = this.user.userResponse.idUser;
+    this.buyBasket.listBasket = this.productRequestedToBuy;
+    this.buyBasket.idRole = this.user.role.idRole;
+    const modalRef = this.modalService.open( SummaryProductsComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.componentInstance.subtotal = this.subtotal;
+    modalRef.componentInstance.total = this.total;
+    modalRef.componentInstance.buyBasket = this.buyBasket;
+    modalRef.componentInstance.quantity = this.productRequestedToBuy.length;
+    modalRef.result.then((result) => {
+      this.getListBasket();
+      this.productRequestedToBuy = new Array;
+    } , (reason) => {
+    });
+  }
+
+  calculationsSummary() {
+    let subtotal = 0;
+    const listSelect = this.productRequestedToBuy;
+    _.each(this.listBasket, function(item) {
+        _.each(listSelect, function(itemBasket) {
+          if (item.idBasketProductRequested === itemBasket) {
+            subtotal = subtotal + (item.productRequested.quantity  * item.productRequested.price);
+          }
+        });
+      });
+      this.subtotal = subtotal;
+      this.total = subtotal;
   }
 
 }
