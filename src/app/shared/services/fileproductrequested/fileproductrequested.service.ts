@@ -27,6 +27,7 @@ export class FileProductRequestedService {
   }
 
   public downloadFile$(url): Observable<any> {
+    debugger
     return this.http.get(environment.apiUrl + 'fileProductRequested/downloadFile/' + url);
   }
 }

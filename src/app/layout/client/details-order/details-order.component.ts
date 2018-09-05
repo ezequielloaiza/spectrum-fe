@@ -47,24 +47,10 @@ export class DetailsOrderComponent implements OnInit {
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.show = false;
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
-          //detailsOrder.productRequested.fileProductRequestedList = detailsOrder.fileProductRequestedList;
         });
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
       }
     });
   }
-
-  downloadFile(item) {
-    this.fileProductRequestedService.downloadFile$(item.url).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        console.log('Delete files');
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
-  }
 }
-
