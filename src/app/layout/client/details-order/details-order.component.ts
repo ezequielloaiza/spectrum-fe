@@ -10,6 +10,7 @@ import { ProductoimageService } from '../../../shared/services/productoimage/pro
   templateUrl: './details-order.component.html',
   styleUrls: ['./details-order.component.scss']
 })
+
 export class DetailsOrderComponent implements OnInit {
 
   id: any;

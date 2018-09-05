@@ -33,13 +33,15 @@
 								<span>
 									<i class="fa fa-credit-card"></i>&nbsp; {{ 'Your Payments' | translate }}</span>
 							</a>
-						</li>
+            </li>
+            <!--
 						<li>
 							<a href="javascript:void(0)">
 								<span>
 									<i class="fa fa-tasks"></i>&nbsp; {{ 'Activity' | translate }}</span>
 							</a>
-						</li>
+            </li>
+            -->
 					</ul>
 				</li>
 			</div>
@@ -82,9 +84,9 @@
 		<!--ADMIN MENU-->
 		<div *ngIf="user.role.idRole === 1">
 			<!--<div>-->
-			<a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+			<!--<a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-tags"></i>&nbsp;{{ 'Product categories' | translate }}
-			</a>
+			</a>-->
 			<a routerLink="/profile" [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-user"></i>&nbsp; {{ 'Profile' | translate }}
 			</a>
@@ -98,7 +100,7 @@
 			<div class="nested-menu">
 				<a class="list-group-item" [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 					<span>
-						<i class="fa fa-users"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
+						<i class="fa fa-users"></i>&nbsp; {{ 'Manage Clients' | translate }}</span>
 				</a>
 				<!--<li class="nested" [class.expand]="showMenu === 'users'">
 					<ul class="submenu">
@@ -159,7 +161,7 @@
 				<li class="nested" [class.expand]="showMenu === 'orders'">
 					<ul class="submenu">
 						<li>
-							<a href="javascript:void(0)">
+							<a routerLink="/products" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
 							</a>
@@ -175,19 +177,23 @@
 								<span>
 									<i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
 							</a>
-						</li>
+            </li>
+            <!--
 						<li>
 							<a href="javascript:void(0)">
 								<span>
 									<i class="fa fa-check"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>
 							</a>
-						</li>
+            </li>
+            -->
+            <!--
 						<li>
 							<a href="javascript:void(0)">
 								<span>
 									<i class="fa fa-times"></i>&nbsp; {{ 'Cancel Order' | translate }}</span>
 							</a>
-						</li>
+            </li>
+            -->
 						<li>
 							<a href="javascript:void(0)">
 								<span>
@@ -247,7 +253,7 @@
 					<li class="nested" [class.expand]="showMenu === 'orders'">
 						<ul class="submenu">
 							<li>
-								<a href="javascript:void(0)">
+								<a routerLink="/products" [routerLinkActive]="['router-link-active']">
 									<span>
 										<i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
 								</a>
@@ -263,19 +269,23 @@
 									<span>
 										<i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
 								</a>
-							</li>
+              </li>
+              <!--
 							<li>
 								<a href="javascript:void(0)">
 									<span>
 										<i class="fa fa-check"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>
 								</a>
-							</li>
+              </li>
+              -->
+             <!--
 							<li>
 								<a href="javascript:void(0)">
 									<span>
 										<i class="fa fa-times"></i>&nbsp; {{ 'Cancel Order' | translate }}</span>
 								</a>
-							</li>
+              </li>
+              -->
 							<li>
 								<a href="javascript:void(0)">
 									<span>

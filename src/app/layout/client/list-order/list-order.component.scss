@@ -26,16 +26,18 @@
     color: $bg-white;
     border-radius: 12px;
     width: 30%;
+    margin-left: 15px;
   }
 }
 
-.div-sent {
+.div-shipped {
   >div {
     text-align: center;
-    background: $sent-status;
+    background:$paid-status;
     color: $bg-white;
     border-radius: 12px;
     width: 30%;
+    margin-left: 15px;
   }
 }
 
@@ -46,6 +48,7 @@
     color: $bg-white;
     border-radius: 12px;
     width: 30%;
+    margin-left: 15px;
   }
 }
 
@@ -56,16 +59,18 @@
     color: $bg-white;
     border-radius: 12px;
     width: 30%;
+    margin-left: 15px;
   }
 }
 
-.div-pay {
+.div-ready {
   >div {
     text-align: center;
-    background: $paid-status;
+    background: $sent-status;
     color: $bg-white;
     border-radius: 12px;
     width: 30%;
+    margin-left: 15px;
   }
 }
 
@@ -79,6 +84,7 @@
 
 .filter {
   padding-top: 10px;
+  padding-left: 25px;
 }
 
 .active {

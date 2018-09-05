@@ -51,12 +51,23 @@
 
 .card-img-top {
   border-radius: 12px;
+  cursor: pointer;
+  height: 220px;
+  width: 80%;
+  margin-left: 10%;
+  padding: 5%;
+}
+
+.card-body {
+  padding-top: 2px;
 }
 
 .product-name {
   text-align: center;
   color: $bg-blue;
   padding-top: 10px;
+  cursor: pointer;
+  height: 75px;
 }
 
 .card-product:after {
@@ -130,4 +141,8 @@ body {
 
 .product-btns {
   text-align: right;
+}
+
+.fa-exclamation-triangle {
+  color: $bg-red;
 }

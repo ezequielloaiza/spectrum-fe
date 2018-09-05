@@ -1,0 +1,117 @@
+<div class="row page-header-fixed">
+  <div class="header-body">
+    <h4 class="page-header">
+      {{ 'Basket' | translate }}
+    </h4>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-shopping-cart"></i> {{ 'Basket' | translate}}</li>
+    </ol>
+  </div>
+</div>
+<div class="sp-container">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="align-self-center">
+            {{ 'All Basket' | translate }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-4 filter">
+            <div class="row search">
+              <div class="col col-xl-12 col-lg-12">
+                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter patient search ...' | translate }}">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!--PRODUCTS BASKET-->
+          <div class="col col-xl-12 actions-product">
+            <div>
+              <div class="custom-control custom-checkbox">
+                <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="checkboxModel.value1" (click)="onSelectionAll(checkboxModel.value1)"
+                  class="custom-control-input">
+                <label class="custom-control-label select-all" for="checkboxAll">{{ 'Select all' | translate }}</label>
+              </div>
+            </div>
+            <div>
+              <button type="button" (click)="buy()" class="btn btn-outline-primary" [disabled]="productRequestedToBuy.length === 0">
+                {{ 'Buy Now' | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="card-body table-responsive">
+            <div class="row">
+              <div class="col-lg-4" *ngFor="let basket of listBasket; let i = index">
+                <div class="list-basket">
+                  <div class="row">
+                    <div class="col-lg-1">
+                      <div class="custom-control custom-checkbox">
+                        <input id="checkbox{{i}}" type="checkbox" name="checkboxGroup" [(ngModel)]="basket.checked" (click)="onSelection(basket, basket.checked)"
+                          class="custom-control-input">
+                        <label class="custom-control-label" for="checkbox{{i}}"></label>
+                      </div>
+                    </div>
+                    <div class="col-lg-10">
+                      <span>{{ basket.date | date:'yyyy-MM-dd' }}</span>
+                    </div>
+                    <div class="col-lg-1 actions">
+                      <i class="fa fa-eye" (click)="openParams(basket)" placement="top" ngbTooltip="{{ 'View' | translate }}"></i>
+                      <i class="fa fa-trash" (click)="delete(basket.idBasketProductRequested)" placement="top" ngbTooltip="{{ 'Delete' | translate }}"></i>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-10">
+                      <!--Image-->
+                      <div>
+                        <img class="img-product" src={{basket.urlImage}}>
+                      </div>
+                      <!--Details-->
+                      <div class="details">
+                        <div class="title">
+                          <span>{{ basket.productRequested.product.name }}</span>
+                        </div>
+                        <div class="price title">
+                          <span>{{ '$' + basket.productRequested.price }}</span>
+                        </div>
+                        <div class="row info">
+                          <div class="col-lg-5">
+                            <span class="title">{{ 'Patient' | translate }}</span>
+                            <span>{{ basket.productRequested.patient }}</span>
+                          </div>
+                          <div class="col-lg-3">
+                            <span class="title">{{ 'Eye' | translate }}</span>
+                            <span>{{ basket.productRequested.detail[0].eye }}</span>
+                          </div>
+                          <div class="col-lg-4">
+                            <span class="title">{{ 'Quantity' | translate }}</span>
+                            <span>{{ basket.productRequested.quantity }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <br>
+            <div class="table-empty" [hidden]="listBasket.length !== 0" translate>
+              <p class="no-records">
+                {{ 'No records have been added yet' | translate }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

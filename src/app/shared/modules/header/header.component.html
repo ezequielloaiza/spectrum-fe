@@ -95,7 +95,17 @@
 					</a>
 				</div>
 			</li>
-			-->
+      -->
+      <li class="nav-item dropdown">
+				<a *ngIf="user.role.idRole==1 || user.role.idRole==2" class="nav-link" [routerLink]="['/list-basket']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+          <i class="fa fa-shopping-cart cart"></i>
+          <span class="size-cart" (change)="user.userResponse.cartSize">{{ user.userResponse.cartSize }}</span>
+        </a>
+        <a *ngIf="user.role.idRole==3" class="nav-link" [routerLink]="['/list-basket-client']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+          <i class="fa fa-shopping-cart cart"></i>
+          <span class="size-cart">{{ user.userResponse.cartSize }}</span>
+				</a>
+			</li>
 			<li class="nav-item dropdown" ngbDropdown>
 				<a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
 					<i class="fa fa-language"></i> {{ 'Language' | translate }}

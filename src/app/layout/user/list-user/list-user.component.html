@@ -77,12 +77,12 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Business Type">{{ 'Business Type' | translate }}
-                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortUser('businessTypeName')"></i>
+                  <span title="Username">{{ 'Username' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortUser('username')"></i>
                   </span>
-                  <span [hidden]="orderByField != 'businessTypeName' || typeSort === 0">
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortUser('businessTypeName')"></i>
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortUser('businessTypeName')"></i>
+                  <span [hidden]="orderByField != 'username' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortUser('username')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortUser('username')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
@@ -108,7 +108,7 @@
                 <td class="table-tr td-table">{{user.name}}</td>
                 <td class="table-tr td-table">{{user.email}}</td>
                 <td class="table-tr td-table">{{user.company.companyName}}</td>
-                <td class="table-tr">{{user.company.businessType.name}}</td>
+                <td class="table-tr">{{user.username}}</td>
                 <td class="table-tr">{{user.company.country}}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">

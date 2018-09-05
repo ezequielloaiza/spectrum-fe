@@ -1,0 +1,93 @@
+<div *ngIf="namePatient">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ 'Confirm purchase' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="card-body table-responsive row">
+    <div>
+      <div class="list-basket">
+
+        <div class="row">
+          <div class="col-lg-6">
+            <!--Image-->
+            <div>
+              <img class="img-product" src="{{ product.mainImg }}">
+            </div>
+            <!--Details-->
+            <div class="details">
+              <div>
+                <span>{{ product.name }}</span>
+              </div>
+              <div *ngFor="let item of listBasket; let i = index">
+                <div class="price h5 text-warning" [hidden]="i===1">
+                  <h6>{{ item.detail[0].name }}</h6>
+                </div>
+              </div>
+              <div>
+                <span>{{ ('Patient' | translate) + ': ' + namePatient }}</span>
+              </div>
+              <div>
+                <span>${{ product.priceSale * quantity }}</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6 params">
+            <div class="row">
+              <!--<div class="col-lg-4">{{ 'Parameter' | translate }}</div>-->
+              <div class="col-lg-6"></div>
+              <div class="col-lg-3 param" *ngFor="let eye of eyesSelected">
+                <span>
+                  {{ eye | translate }}
+                </span>
+              </div>
+            </div>
+             <!--CONTENT INFO-->
+            <div class="row">
+              <!--PARAM NAME-->
+              <div class="col-sm-6">
+                <dl>
+                  <dt>{{ 'Quantity' }}:</dt>
+                </dl>
+                <div *ngFor="let parameter of listNameParameters">
+                  <dl>
+                    <dt>{{ parameter.name }}:</dt>
+                  </dl>
+                </div>
+              </div>
+              <!--EYES-->
+              <div class="col-sm-3" *ngFor="let item of listBasket"> <!--iteration by Eye, (right, left)-->
+                <div>
+                  <dl class="param">
+                    <dt>{{ item.quantity }}</dt>
+                  </dl>
+                </div>
+                <div *ngFor="let specification of item.detail">
+                  <div *ngFor="let param of specification.parameters">
+                    <dl class="param">
+                      <dt>{{ param.selected }}</dt>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+      <i class="fa fa-times"></i>
+    </button>
+    <button type="button" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+      <i class="fa fa-save"></i>
+    </button>
+  </div>
+  <ng-template #rt let-r="result" let-t="term">
+    {{ r.description}}
+  </ng-template>
+</div>

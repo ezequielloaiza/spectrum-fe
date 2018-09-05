@@ -6,7 +6,7 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ShippingAddressComponent } from './shipping-address/shipping-address.component';
-import { PageHeaderModule, BreadcrumbModule, RoleGuard } from './../shared';
+import { PageHeaderModule, BreadcrumbModule, RoleGuard } from '../shared';
 import { ShippingAddressModalComponent } from './shipping-address/modals/shipping-address-modal/shipping-address-modal.component';
 import { BusinessTypeService, GoogleService, AuthorizationService} from '../shared/services';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -42,9 +42,22 @@ import { ListOrderClientComponent } from './manage-customer-orders/list-order-cl
 import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
 import { ModalsStatusComponent } from './manage-customer-orders/modals-status/modals-status.component';
 import { ModalsConfirmationComponent } from './manage-customer-orders/modals-confirmation/modals-confirmation.component';
+import { ListBasketComponent } from './basket/client/list/list-basket/list-basket.component';
+import { ListBasketClientComponent } from './basket/admin-seller/list/list-basket-client/list-basket-client.component';
+import { DetailsBasketClientComponent } from './basket/admin-seller/details/details-basket-client/details-basket-client.component';
 import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-supplier.component';
 import { SupplierUserModalComponent } from './user/modals/supplier-user-modal/supplier-user-modal.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SupplierEuropaComponent } from './details-order-supplier/supplier-europa/supplier-europa.component';
+import { SupplierMarkennovyComponent } from './details-order-supplier/supplier-markennovy/supplier-markennovy.component';
+import { SupplierLenticonComponent } from './details-order-supplier/supplier-lenticon/supplier-lenticon.component';
+import { SupplierEuclidComponent } from './details-order-supplier/supplier-euclid/supplier-euclid.component';
+import { SupplierMagicLookComponent } from './details-order-supplier/supplier-magic-look/supplier-magic-look.component';
+import { SupplierBlueLightComponent } from './details-order-supplier/supplier-blue-light/supplier-blue-light.component';
+import { DetailProductModalComponent } from './basket/modals/detail-product/detail-product';
+import { SummaryProductsComponent } from './basket/modals/summary-products/summary-products.component';
+//import { DetailProductModalComponent } from './basket/client/modals/detail-product/detail-product';
+import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
 
 @NgModule({
     imports: [
@@ -97,8 +110,20 @@ import { NgSelectModule } from '@ng-select/ng-select';
         DetailsOrderClientComponent,
         ModalsStatusComponent,
         ModalsConfirmationComponent,
+        ListBasketComponent,
+        ListBasketClientComponent,
+        DetailsBasketClientComponent,
         EditSupplierComponent,
-        SupplierUserModalComponent
+        SupplierUserModalComponent,
+        SupplierEuropaComponent,
+        SupplierMarkennovyComponent,
+        SupplierLenticonComponent,
+        SupplierEuclidComponent,
+        SupplierMagicLookComponent,
+        SupplierBlueLightComponent,
+        DetailProductModalComponent,
+        SummaryProductsComponent,
+        ModalsChangeStatusComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -113,7 +138,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
       WarrantyModalComponent,
       ModalsStatusComponent,
       ModalsConfirmationComponent,
-      SupplierUserModalComponent
+      SupplierUserModalComponent,
+      DetailProductModalComponent,
+      SummaryProductsComponent,
+      ModalsChangeStatusComponent
     ],
     providers: [
       BusinessTypeService,

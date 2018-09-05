@@ -15,20 +15,14 @@
 <div class="sp-container">
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
-      <div class="sp-card mb-3">
-        <div class="card-header d-flex">
+      <div class="card mb-3">
+        <div class="card-header">
           <div class="align-self-center">
             {{ 'All orders' | translate }}
           </div>
         </div>
         <div class="row">
-          <div class="col-xl-1">
-            <div class="sp-card-header">{{ 'Filters:' | translate }}</div>
-          </div>
-          <div class="col-xl-1">
-            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Client' | translate }}</h6>
-          </div>
-          <div class="col-xl-2 filter">
+          <div class="col-xl-3 filter">
             <div class="row search">
               <div class="col col-xl-12 col-lg-12">
                 <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter client search ...' | translate }}">
@@ -36,19 +30,13 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-1">
-            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Status' | translate }}</h6>
-          </div>
-          <div class="col-xl-2 filter">
+          <div class="col-xl-3 filter">
             <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
-              <option value="" disabled [selected]="true" translate>Select</option>
+              <option value="" disabled [selected]="true" translate>Select Status</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
           </div>
-          <div class="col-xl-1">
-            <h6 class="ng-tns-c6-0 h5-filter">{{ 'Date' | translate }}</h6>
-          </div>
-          <div class="col-xl-2 filter">
+          <div class="col-xl-3 filter">
             <div>
               <div class="input-group">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOrd" [(ngModel)]="fechaSelecOrd" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOrd)">
@@ -92,14 +80,14 @@
                       <span *ngIf='order.status==0' class="div-pending">
                         <div translate>Pending</div>
                       </span>
-                      <span *ngIf='order.status==1' class="div-pay">
-                        <div translate>Pay</div>
-                      </span>
-                      <span *ngIf='order.status==2' class="div-processed">
+                      <span *ngIf='order.status==1' class="div-processed">
                         <div translate>Processed</div>
                       </span>
-                      <span *ngIf='order.status==3' class="div-sent">
-                        <div translate>Sent</div>
+                      <span *ngIf='order.status==2' class="div-ready">
+                        <div translate>Ready to Ship</div>
+                      </span>
+                      <span *ngIf='order.status==3' class="div-shipped">
+                        <div translate>Shipped</div>
                       </span>
                     </div>
                   </div>
@@ -116,8 +104,15 @@
                       <span>{{order.date | date:'yyyy-MM-dd'}}</span>
                     </div>
                     <div class="div-date">
-                      <a class="ng-tns-c4-0 link" routerLink="/details-order-client/{{order.idOrder}}/view" translate>View Details</a>&nbsp;
-                      <a [hidden]="!mostrarStatus" class="link" (click)="open(order)" translate>{{ 'Change Status' | translate }}</a>
+                      <div ngbDropdown class="d-inline-block dropdown">
+                        <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                        <div ngbDropdownMenu>
+                          <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
+                            {{ 'View Details' | translate }}</button>
+                          <button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
+                               {{ 'Change Status' | translate }}</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

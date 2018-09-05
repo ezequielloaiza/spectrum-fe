@@ -1,19 +1,21 @@
 <div class="row page-header-fixed">
-	<div class="header-body">
-		<h4 class="page-header">
-			{{ 'Orders List' | translate }}
-		</h4>
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item">
-				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+  <div class="header-body">
+    <h4 class="page-header">
+      {{ 'Orders List' | translate }}
+    </h4>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
       </li>
       <li class="breadcrumb-item">
-				<a class="link" href="Javascript:void(0)" [routerLink]="['/order-list-client-byseller']"><i class="fa fa-folder-open"></i> {{ 'Orders List' | translate }}</a>
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/order-list-client-byseller']">
+          <i class="fa fa-folder-open"></i> {{ 'Orders List' | translate }}</a>
       </li>
-			<li class="breadcrumb-item active">
-				<i class="fa fa-folder-open"></i> {{ 'Order' | translate}}</li>
-		</ol>
-	</div>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-folder-open"></i> {{ 'Order' | translate}}</li>
+    </ol>
+  </div>
 </div>
 <div class="sp-container">
   <div class="row">
@@ -56,7 +58,7 @@
               <br>
             </div>
             <div class="col-md-4 pull-right">
-              <p class="font-weight-bold" translate>{{'Summary Costs'}}</p>
+              <p class="font-weight-bold" translate>{{'Order Summary'}}</p>
               <p class="font-weight-normal" translate>{{'Item(s) Subtotal'}}</p>
               <p class="font-weight-bold" translate>{{'Total'}}</p>
             </div>
@@ -73,9 +75,9 @@
         <div class="container product-list" *ngFor="let list of listDetails">
           <hr>
           <div class="row">
-            <aside class="col-sm-3">
-              <img class="imag-product" src={{list.urlImage}}>
-            </aside>
+            <div class="col-sm-3 container-img">
+              <div class="imag-product" [style.backgroundImage]="'url('+ list.urlImage +')'"></div>
+            </div>
             <aside class="col-sm-9">
               <article class="card-body p-5">
                 <div>
@@ -83,63 +85,63 @@
                     <div class="container-list">
                       <div class="div-name">
                         <div>
-                          <h3>{{list.productRequested.product.name}} - </h3>
+                          <h3>{{list.productRequested.product.name}} </h3>
                         </div>
-                        <div>
+                        <div *ngIf="specification.name!==''">
                           <span class="price h5 text-warning">
-                            <h3> ({{specification.name}})</h3>
+                            <h3>-({{specification.name}})</h3>
                           </span>
                         </div>
                         <br>
                         <br>
                       </div>
-                      <div class="row justify-content-md-center">
+                      <div class="row">
                         <div class="col-sm-2">
-                          <dl class="param param-feature">
-                            <dt>{{'Patient'| translate}}
+                          <dl class="align-item">
+                            <dt>{{'Supplier'| translate}}
+                            </dt>
                             <dt>
+                              <span class="font-text">{{list.productRequested.product.supplier.companyName}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-2">
+                          <dl class="align-item">
+                            <dt>{{'Patient'| translate}}</dt>
                             <dt>
-                              <span [ngStyle]="{'font-weight':'normal'}">{{list.productRequested.patient}}</span>
+                              <span class="font-text">{{list.productRequested.patient}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-1" [hidden]="specification.eye===''">
+                          <dl class="align-item">
+                            <dt>{{'Eye'| translate}}</dt>
+                            <dt>
+                              <span class="font-text">{{specification.eye}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <div class="col-sm-2">
+                          <dl class="align-item">
+                            <dt>{{'Quantity'| translate}} </dt>
+                            <dt>
+                              <span class="font-text">{{list.productRequested.quantity}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-2 ">
+                          <dl class="align-item">
+                            <dt>{{'Price'| translate}}</dt>
+                            <dt>
+                              <span class="font-text">{{'US $'}}{{list.productRequested.price}}</span>
                             </dt>
                           </dl>
                         </div>
                         <div class="col-sm-1">
-                          <dl class="param param-feature">
-                            <dt>{{'Eye'| translate}}
-                            </dt>
-                            <dt>
-                              <span [ngStyle]="{'font-weight':'normal'}">{{specification.eye}}</span>
-                            </dt>
-                          </dl>
-                        </div>
-                        <div class="col">
-                            <dl class="param param-feature">
-                              <dt>
-                                <span [ngStyle]="{'font-weight':'normal'}"></span>
-                              </dt>
-                            </dl>
-                        </div>
-                      </div>
-                      <br>
-                      <div class="row justify-content-md-center">
-                        <div class="col-sm-2">
-                          <dl class="param param-feature">
-                            <dt>{{'Quantity'| translate}} </dt>
-                            <dt>
-                              <span [ngStyle]="{'font-weight':'normal'}">{{list.productRequested.quantity}}</span>
-                            </dt>
-                          </dl>
-                        </div>
-                        <div class="col-sm-2">
-                          <dl class="param param-feature">
-                            <dt>{{'Price'| translate}}</dt>
-                            <dt>
-                              <span [ngStyle]="{'font-weight':'normal'}">{{'US $'}}{{list.productRequested.price}}</span>
-                            </dt>
-                          </dl>
-                        </div>
-                        <div class="col">
-                          <dl class="param param-feature">
+                          <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
                               <span class="text-warning">{{'US $'}}{{list.productRequested.price*list.productRequested.quantity}}</span>
@@ -152,35 +154,37 @@
                 </div>
               </article>
             </aside>
-            <div class="card-body table-responsive">
-              <div *ngFor="let specification of list.productRequested.detail">
-                <label class="label-specifications">{{'Technical specifications'| translate}}</label>
-                <br>
-                <br>
-                <div class="row justify-content-md-center div-parametros">
-                  <div class="col" *ngFor="let param of specification.parameters">
-                    <dl class="param param-feature">
-                      <dt>{{param.name}}</dt>
-                      <dt>
-                        <span [ngStyle]="{'font-weight':'normal'}"> {{param.selected}}</span>
-                      </dt>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
-      </div>
-      <div class="card-body table-responsive">
-        <div class="pagination-list" [hidden]="listDetails.length === 0">
-          <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listDetailsAux.length"
-            [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
-          </ngb-pagination>
-          <span class="count-elements">{{ listDetails.length + ' ' + ('of' | translate) + ' ' + listDetailsAux.length + ' ' + ('register(s)' | translate)
-            }}
-          </span>
+          <!--Markennovy-->
+          <app-supplier-markennovy [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
+          <!--Find Markennovy-->
+          <!--Europa-->
+          <app-supplier-europa [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
+          <!--Fin Europa-->
+          <!--Lenticon-->
+          <app-supplier-lenticon [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
+          <!--Fin Lenticon-->
+          <!--Euclid-->
+          <app-supplier-euclid [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
+          <!--Fin Euclid-->
+          <!--Magic Look-->
+          <app-supplier-magic-look [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
+          <!--Fin Magic Look-->
+          <!--Blue Light-->
+          <app-supplier-blue-light [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
+          <!--Fin Blue Light-->
         </div>
       </div>
     </div>
+    <div class="card-body table-responsive">
+      <div class="pagination-list" [hidden]="listDetails.length === 0">
+        <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listDetailsAux.length"
+          [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+        </ngb-pagination>
+        <span class="count-elements">{{ listDetails.length + ' ' + ('of' | translate) + ' ' + listDetailsAux.length + ' ' + ('register(s)' | translate)
+          }}
+        </span>
+      </div>
+    </div>
   </div>
+</div>

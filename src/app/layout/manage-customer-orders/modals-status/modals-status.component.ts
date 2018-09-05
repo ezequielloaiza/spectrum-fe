@@ -18,9 +18,9 @@ export class ModalsStatusComponent implements OnInit {
   form: FormGroup;
   order: any;
   filterStatus = [{ id: 0, name: "Pending" },
-  { id: 1, name: "Pay" },
-  { id: 2, name: "Processed" },
-  { id: 3, name: "Sent" }
+  { id: 1, name: "Processed" },
+  { id: 2, name: "Ready to Ship" },
+  { id: 3, name: "Shipped" }
   ];
   valid = false;
   idStatus: any;

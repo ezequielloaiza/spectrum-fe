@@ -1,0 +1,223 @@
+@import "../../../../../../styles/spectrum/spectrum";
+
+.search {
+  padding-bottom: 1.4rem;
+
+  i {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: $bg-imput;
+  }
+}
+
+.sp-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: $bg-white;
+
+  > div {
+    background-color: $bg-white;
+    border-bottom: 0;
+  }
+}
+
+.sp-card-header {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  padding-top: 1.1rem;
+}
+
+.active {
+  cursor: pointer;
+  & span:hover {
+    color: $bg-blue;
+  }
+}
+
+.list-basket {
+  border: solid 1px #bfbfbf;
+  padding: 15px;
+  border-radius: 3px;
+  margin-top: 1.5em;
+
+  .img-product {
+    width: 100%;
+    height: 9.5em;
+  }
+
+  .details {
+    text-align: center;
+
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .price {
+      color: #f8ac59;
+      margin-bottom: 20px;
+    }
+
+    .info {
+      > div:nth-child(1),
+      > div:nth-child(2),
+      > div:nth-child(3) {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  .params {
+    display: flex;
+    align-items: center;
+    padding-left: 0px !important;
+
+    .param {
+      display: flex;
+      justify-content: space-between;
+
+      > dt:nth-child(1) {
+        font-size: 14px;
+      }
+
+      > dt:nth-child(2) {
+        font-weight: 300;
+        font-size: 12px;
+      }
+    }
+  }
+
+  > div:nth-child(1) {
+    .actions {
+      padding-left: 10px;
+    }
+
+    .fa-trash {
+      font-size: 24px;
+      color: #666666;
+      margin-left: 3px;
+    }
+
+    .fa-eye {
+      font-size: 24px;
+      color: #666666;
+    }
+
+    .fa-trash:hover,
+    .fa-eye:hover {
+      cursor: pointer;
+    }
+
+    > div:nth-child(2) {
+      display: flex;
+      justify-content: flex-end;
+      color: #f8ac59;
+    }
+  }
+
+  > div:nth-child(2) {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  > div {
+    &.product {
+      padding-top: 1em;
+
+      div:nth-child(1) {
+        div:first-child {
+          font-weight: bold;
+        }
+
+        div:last-child {
+          font-weight: bold;
+        }
+      }
+
+      div:nth-child(2) {
+        font-size: 0.8em;
+        color: gray;
+      }
+    }
+    .link {
+      color: $bg-blue;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.page-header-fixed {
+  margin-left: 15px;
+}
+
+.header-body {
+  width: 100%;
+  background: $bg-white;
+  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
+
+  .link {
+    color: $bg-blue;
+    padding-left: 0px;
+  }
+
+  .breadcrumb {
+    background-color: transparent;
+    border-radius: 0px;
+    //padding-left: 15px;
+    border-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
+  h4 {
+    padding-left: 15px;
+  }
+}
+
+.h5-filter {
+  padding-top: 20px;
+}
+
+.filter {
+  padding-top: 10px;
+  padding-left: 25px;
+}
+
+.align-btn-detail {
+  text-align: right;
+  padding-top: 10px;
+}
+.align-select {
+  text-align: right;
+  padding-left: 380px;
+  padding-top: 15px;
+}
+
+.check-plataform {
+  display: flex;
+
+  > input:nth-child(1) {
+    width: 20px;
+    height: 10px;
+    margin-left: 20px;
+  }
+}
+
+.actions-product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 50px 0px 35px;
+}
+
+.select-all{
+  color:$color-text-menu;
+}
