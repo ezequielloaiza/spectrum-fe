@@ -21,21 +21,21 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Description short' | translate }}</label>
+            <label>{{ 'Short description' | translate }}</label>
             <input class="form-control" maxlength="40" placeholder="{{ 'Enter description' | translate }}" name="descriptionShort" formControlName="descriptionShort"
               required>
           </fieldset>
           <div class="message-error" [hidden]="descriptionShort.valid || descriptionShort.pristine">
-            <span>{{ 'Description short is required' | translate }}</span>
+            <span>{{ 'Short description is required' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Price Base' | translate }}</label>
-            <input type="number" class="form-control" placeholder="{{ 'Enter price base' | translate }}" name="priceBase" formControlName="priceBase">
+            <label>{{ 'Base Price' | translate }}</label>
+            <input type="number" class="form-control" placeholder="{{ 'Enter base price' | translate }}" name="priceBase" formControlName="priceBase">
           </fieldset>
           <div class="message-error" [hidden]="priceBase.valid || priceBase.pristine">
-            <span>{{ 'Price base is required' | translate }}</span>
+            <span>{{ 'Base price is required' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">
@@ -82,7 +82,7 @@
                 </div>
               </div>
             </div>
-            
+
           </fieldset>
         </div>
       </div>
