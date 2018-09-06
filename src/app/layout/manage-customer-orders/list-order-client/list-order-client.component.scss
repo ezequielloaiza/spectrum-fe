@@ -85,6 +85,17 @@
   }
 }
 
+.div-canceled {
+  >div {
+    text-align: center;
+    background:$cancel-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 30%;
+    margin-left: 15px;
+  }
+}
+
 .h5-filter {
   padding-top: 20px;
 }

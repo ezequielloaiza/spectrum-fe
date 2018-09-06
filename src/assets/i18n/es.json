@@ -359,5 +359,7 @@
     "Shipping & handling":"Envío y manejo",
     "Warranty's status": "Estado de la Garantía",
     "Order Total": "Total Orden",
-    "Place Order": "Realizar pedido"
+    "Place Order": "Realizar pedido",
+    "Canceled": "Cancelada",
+    "Are you sure you want to cancel the order? You must notify the provider this change.": "¿Está seguro que quiere cancelar esta orden? Debe notificar al proveedor este cambio"
 }
