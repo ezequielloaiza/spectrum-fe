@@ -56,7 +56,7 @@ export class ProductViewComponent implements OnInit {
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
-  maxFileSize = 15 * 1024 * 1024; // 25 MB
+  maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
   private uploadResult: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
@@ -112,17 +112,6 @@ export class ProductViewComponent implements OnInit {
     /* var product xtensa */
     this.setAxesXtensa();
     this.clearFiles();
-  }
-
-  maxFilesSize() {
-    let maxFileSize = 0;
-
-    if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        maxFileSize = maxFileSize + item.file.size;
-      });
-    }
-    return maxFileSize;
   }
 
   setAxesXtensa() {
@@ -375,6 +364,17 @@ export class ProductViewComponent implements OnInit {
     return isValid;
   }
 
+  maxFilesSize() {
+    let maxFileSize = 0;
+
+    if (this.uploader.queue) {
+      _.each(this.uploader.queue, function (item) {
+        maxFileSize = maxFileSize + item.file.size;
+      });
+    }
+    return maxFileSize;
+  }
+
   removeFile(item) {
     this.uploader.removeFromQueue(item);
     this.clearSelectedFile();
@@ -404,6 +404,7 @@ export class ProductViewComponent implements OnInit {
       const fileProductRequest: FileProductRequested = new FileProductRequested();
       fileProductRequest.url  = JSON.parse(this.uploadResult.response).data;
       fileProductRequest.name = this.uploadResult.item.file.name;
+      fileProductRequest.type = this.uploadResult.item.file.type;
       fileProductRequest.size = this.uploadResult.item.file.size;
       fileProductRequest.createdAt = new Date();
       this.listFileBasket.push(fileProductRequest);

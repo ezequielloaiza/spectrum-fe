@@ -23,6 +23,7 @@ export class SupplierMarkennovyComponent implements OnInit {
 
   downloadFile(item) {
     this.fileProductRequestedService.downloadFile$(item.name).subscribe(res => {
+      debugger
       if (res.code === CodeHttp.ok) {
         console.log('Delete files');
       } else {
