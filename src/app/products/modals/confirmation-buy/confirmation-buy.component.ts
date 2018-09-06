@@ -123,7 +123,7 @@ export class ConfirmationBuyComponent implements OnInit {
   }
 
   buildUrlFiles() {
-    const listUrlFiles = [];
+    const listUrlFiles: Array<String> = new Array;
     _.each(this.listFileBasket, function (file) {
       listUrlFiles.push(file.url);
     });
@@ -131,7 +131,7 @@ export class ConfirmationBuyComponent implements OnInit {
   }
 
   deleteAllFile(): void {
-    this.fileProductRequestedService.deleteAllFile$(this.listUrlFiles).subscribe(res => {
+    this.fileProductRequestedService.deleteAllFile$(this.buildUrlFiles()).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         console.log('Delete files');
       } else {
