@@ -27,6 +27,8 @@ export class FileProductRequestedService {
   }
 
   public downloadFile$(name): Observable<any> {
-    return this.http.get(environment.apiUrl + 'fileProductRequested/downloadFile/' + name);
+    return this.http.get(environment.apiUrl + 'fileProductRequested/downloadFile/' + name, {
+      responseType: 'blob'
+    });
   }
 }
