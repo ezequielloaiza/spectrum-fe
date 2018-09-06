@@ -89,6 +89,9 @@
                       <span *ngIf='order.status==3' class="div-shipped">
                         <div translate>Shipped</div>
                       </span>
+                      <span *ngIf='order.status==4' class="div-canceled">
+                        <div translate>Canceled</div>
+                      </span>
                     </div>
                   </div>
                   <div class="col-lg-2">
@@ -111,6 +114,8 @@
                             {{ 'View Details' | translate }}</button>
                           <button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
                                {{ 'Change Status' | translate }}</button>
+                          <button [hidden]="user.role.idRole!==1 || (order.status===4)" class="dropdown-item" (click)="cancel(order)">
+                                {{ 'Cancel Order' | translate }}</button>
                         </div>
                       </div>
                     </div>
