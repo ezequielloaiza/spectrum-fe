@@ -34,6 +34,14 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/allOrder');
   }
 
+  public allOrderWithStatus$(idStatus): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrderWithStatus/' + idStatus);
+  }
+
+  public allOrderWithStatusNot$(idStatus): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrderWithStatusNot/' + idStatus);
+  }
+
   public changeStatus$(idOrder, IdStatus): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/changeStatus/' + idOrder + '/' + IdStatus);
   }

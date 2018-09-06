@@ -354,5 +354,7 @@
     "Shipping & handling":"Shipping & handling",
     "Warranty's status": "Warranty's status",
     "Order Total": "Order Total",
-    "Place Order": "Place Order"
+    "Place Order": "Place Order",
+    "Canceled": "Canceled",
+    "Are you sure you want to cancel the order? You must notify the provider this change.": "Are you sure you want to cancel the order? You must notify the provider this change."
 }

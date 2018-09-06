@@ -5,6 +5,9 @@ import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { ModalsStatusComponent} from '../modals-status/modals-status.component';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 
 @Component({
   selector: 'app-list-order-client',
@@ -20,7 +23,8 @@ export class ListOrderClientComponent implements OnInit {
   filterStatus = [{ id: 0, name: "Pending" },
                   { id: 1, name: "Processed" },
                   { id: 2, name: "Ready to Ship" },
-                  { id: 3, name: "Shipped" }
+                  { id: 3, name: "Shipped" },
+                  { id: 4, name: "Canceled" }
                 ];
   model: NgbDateStruct;
   valid1 = false;
@@ -32,7 +36,10 @@ export class ListOrderClientComponent implements OnInit {
   selectedStatus: any;
   constructor(private orderService: OrderService,
     private userService: UserStorageService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private notification: ToastrService,
+    private translate: TranslateService,
+    private alertify: AlertifyService
 ) {
     this.user = JSON.parse(userService.getCurrentUser());
   }
@@ -59,7 +66,7 @@ export class ListOrderClientComponent implements OnInit {
         }
       });
     } else if (this.user.role.idRole === 1) {
-      this.orderService.allOrder$().subscribe(res => {
+      this.orderService.allOrderWithStatusNot$(4).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.mostrarStatus = true;
           this.listOrders = res.data;
@@ -275,6 +282,29 @@ export class ListOrderClientComponent implements OnInit {
           this.getListOrders();
     } , (reason) => {
     });
+    }
+
+  cancel(order): void {
+    this.translate.get('Cancel Order', { value: 'Cancel Order' }).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to cancel the order? You must notify the provider this change.',
+        { value: 'Are you sure you want to cancel the order? You must notify the provider this change.' }).subscribe((msg: string) => {
+          this.alertify.confirm(title, msg, () => {
+              this.orderService.changeStatus$(order.idOrder, 4).subscribe(res => {
+                if (res.code === CodeHttp.ok) {
+                  this.getListOrders();
+                  this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res1: string) => {
+                    this.notification.success('', res1);
+                  });
+                } else {
+                  console.log(res.errors[0].detail);
+                }
+              }, error => {
+                console.log('error', error);
+              });
+            }, () => {
+          });
+        });
+      });
     }
 }
 
