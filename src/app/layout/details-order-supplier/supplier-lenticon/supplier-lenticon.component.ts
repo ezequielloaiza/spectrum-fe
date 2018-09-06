@@ -4,6 +4,7 @@ import { FileProductRequested } from '../../../shared/models/fileproductrequeste
 import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { environment } from '../../../../../src/environments/environment';
+import { saveAs } from 'file-saver';
 
 const URL = environment.apiUrl + 'fileProductRequested/downloadFile/';
 
@@ -23,11 +24,7 @@ export class SupplierLenticonComponent implements OnInit {
 
   downloadFile(item) {
     this.fileProductRequestedService.downloadFile$(item.name).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        console.log('Delete files');
-      } else {
-        console.log(res.errors[0].detail);
-      }
+      saveAs(res);
     }, error => {
       console.log('error', error);
     });
