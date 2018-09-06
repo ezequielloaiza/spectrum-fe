@@ -378,6 +378,7 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   saveFiles(): void {
+    this.listFileBasket = new Array;
     if (this.uploader.queue) {
       _.each(this.uploader.queue, function (item) {
         item.upload();

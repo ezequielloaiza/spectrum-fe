@@ -77,6 +77,7 @@ export class ProductViewBlueComponent implements OnInit {
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
     this.uploader.onAfterAddingFile = (item) => {
+      debugger
       const maxSize = this.maxFilesSize();
 
       if (maxSize > this.maxFileSize) {
@@ -380,6 +381,7 @@ export class ProductViewBlueComponent implements OnInit {
   }
 
   saveFiles(): void {
+    this.listFileBasket = new Array;
     if (this.uploader.queue) {
       _.each(this.uploader.queue, function (item) {
         item.upload();

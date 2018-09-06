@@ -50,7 +50,7 @@ export class ConfirmationBuyComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.getDatos();
+    this.getDatos();
   }
 
   close() {
