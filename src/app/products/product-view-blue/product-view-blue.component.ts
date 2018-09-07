@@ -77,7 +77,6 @@ export class ProductViewBlueComponent implements OnInit {
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
     this.uploader.onAfterAddingFile = (item) => {
-      debugger
       const maxSize = this.maxFilesSize();
 
       if (maxSize > this.maxFileSize) {
