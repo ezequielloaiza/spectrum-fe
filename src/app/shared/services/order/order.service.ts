@@ -26,8 +26,8 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/findId/' + id);
   }
 
-  public findOrdersClientBySeller$(): Observable<any> {
-    return this.http.get(environment.apiUrl + 'order/findOrdersClientBySeller');
+  public findOrdersClientBySeller$(status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/findOrdersClientBySeller/' + status);
   }
 
   public allOrder$(): Observable<any> {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NgbDateStruct, NgbModal, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { OrderService } from '../../../shared/services/order/order.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
@@ -34,17 +35,23 @@ export class ListOrderClientComponent implements OnInit {
   mostrarStatus = false;
   fechaSelecOrd: NgbDatepicker;
   selectedStatus: any;
+  status: any;
+
   constructor(private orderService: OrderService,
     private userService: UserStorageService,
     private modalService: NgbModal,
     private notification: ToastrService,
     private translate: TranslateService,
-    private alertify: AlertifyService
-) {
+    private alertify: AlertifyService,
+    private route: ActivatedRoute) {
     this.user = JSON.parse(userService.getCurrentUser());
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.status = params.status;
+    });
+    debugger
     this.getListOrders();
     this.advancedPagination = 1;
     this.selectedStatus = '';
@@ -53,9 +60,11 @@ export class ListOrderClientComponent implements OnInit {
   }
 
   getListOrders(): void {
+    debugger
     if (this.user.role.idRole === 2) {
-      this.orderService.findOrdersClientBySeller$().subscribe(res => {
+      this.orderService.findOrdersClientBySeller$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
+          debugger
           this.listOrders = res.data;
           this.listOrdersAux = res.data;
           _.each(this.listOrders, function (order) {
@@ -66,7 +75,7 @@ export class ListOrderClientComponent implements OnInit {
         }
       });
     } else if (this.user.role.idRole === 1) {
-      this.orderService.allOrderWithStatusNot$(4).subscribe(res => {
+      this.orderService.allOrderWithStatus$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.mostrarStatus = true;
           this.listOrders = res.data;

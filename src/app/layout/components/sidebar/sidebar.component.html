@@ -165,13 +165,37 @@
 								<span>
 									<i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
 							</a>
-						</li>
-						<li>
-							<a [routerLink]="['/order-list-client-byseller']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+            </li>
+            <li>
+							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 								<span>
-									<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
+									<i class="fa fa-eye"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>
+							</a>
+            </li>
+            <li>
+							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 1}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+								<span>
+									<i class="fa fa-eye"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>
+							</a>
+            </li>
+            <li>
+							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 2}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+								<span>
+									<i class="fa fa-eye"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>
+							</a>
+            </li>
+            <li>
+							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 3}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+								<span>
+									<i class="fa fa-eye"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>
 							</a>
 						</li>
+            <li>
+							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 4}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+								<span>
+									<i class="fa fa-times"></i>&nbsp; {{ 'Canceled Orders' | translate }}</span>
+							</a>
+            </li>
 						<li>
 							<a href="javascript:void(0)">
 								<span>
@@ -186,14 +210,7 @@
 							</a>
             </li>
             -->
-            <!--
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-times"></i>&nbsp; {{ 'Cancel Order' | translate }}</span>
-							</a>
-            </li>
-            -->
+
 						<li>
 							<a href="javascript:void(0)">
 								<span>
