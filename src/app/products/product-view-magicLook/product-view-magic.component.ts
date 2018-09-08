@@ -82,10 +82,7 @@ export class ProductViewMagicComponent implements OnInit {
 
       if (maxSize > this.maxFileSize) {
         this.removeFile(item);
-        const msj = 'Maximum upload size exceeded ( ' +
-                    (item.file.size / 1024 / 1024).toFixed(2) +
-                    ' MB of ' + (this.maxFileSize / 1024 / 1024) + ' MB allowed) for document ' + item.file.name;
-        this.translate.get(msj, {value: msj}).subscribe(( res: string) => {
+        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
           this.notification.error('', res);
         });
       }
