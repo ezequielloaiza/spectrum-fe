@@ -84,21 +84,33 @@
                         <div class="title">
                           <span>{{ basket.productRequested.product.name }}</span>
                         </div>
-                        <div class="price title">
-                          <span>{{ '$' + basket.productRequested.price }}</span>
-                        </div>
+                        <br>
                         <div class="row info">
-                          <div class="col-lg-5">
+                          <div class="col-lg-6">
                             <span class="title">{{ 'Patient' | translate }}</span>
                             <span>{{ basket.productRequested.patient }}</span>
                           </div>
-                          <div class="col-lg-3">
+                          <div class="col-lg-6">
                             <span class="title">{{ 'Eye' | translate }}</span>
                             <span>{{ basket.productRequested.detail[0].eye }}</span>
                           </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <div class="row info">
                           <div class="col-lg-4">
-                            <span class="title">{{ 'Quantity' | translate }}</span>
+                            <span class="title select-all">{{ 'Quantity' | translate }}</span>
                             <span>{{ basket.productRequested.quantity }}</span>
+                          </div>
+                          <div class="col-lg-3">
+                            <span class="title select-all">{{ 'Price' | translate }}</span>
+                            <span>{{ '$' + basket.productRequested.price }}</span>
+                          </div>
+                          <div class="col-lg-5">
+                            <span class="title select-all">{{ 'Subtotal' | translate }}</span>
+                            <div class="price title">
+                              <span>{{ '$' + basket.productRequested.price * basket.productRequested.quantity }}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
