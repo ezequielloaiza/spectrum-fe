@@ -174,7 +174,8 @@
               <div class="col-md-12">
                 <dt class="title">{{ 'Documents' | translate }}</dt>
                 <div class="custom-file">
-                  <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader" multiple  />
+                  <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader"
+                    [disabled]="uploader.queue.length > 4" multiple  />
                   <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
                   <div class="invalid-feedback">Example invalid custom file feedback</div>
                   <div class="message-error">
