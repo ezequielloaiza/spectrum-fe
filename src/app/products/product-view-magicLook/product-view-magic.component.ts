@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
@@ -50,10 +50,16 @@ export class ProductViewMagicComponent implements OnInit {
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
   // Upload files
+  @ViewChild('selectedFiles') selectedFiles: any;
+  queueLimit = 5;
+  maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
   private uploadResult: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
+                                                    queueLimit: this.queueLimit,
+                                                    maxFileSize: this.maxFileSize,
+                                                    removeAfterUpload: false,
                                                     authToken: this.userStorageService.getToke(),
                                                     autoUpload: false});
 
@@ -71,6 +77,16 @@ export class ProductViewMagicComponent implements OnInit {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
+    this.uploader.onAfterAddingFile = (item) => {
+      const maxSize = this.maxFilesSize();
+
+      if (maxSize > this.maxFileSize) {
+        this.removeFile(item);
+        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
+          this.notification.error('', res);
+        });
+      }
+    };
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       this.uploadResult = {'success': true, 'item': item, 'response':
                            response, 'status': status, 'headers': headers};
@@ -86,6 +102,7 @@ export class ProductViewMagicComponent implements OnInit {
 
   ngOnInit() {
     this.getProducts();
+    this.clearFiles();
   }
 
   getProducts() {
@@ -300,7 +317,6 @@ export class ProductViewMagicComponent implements OnInit {
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
-    modalRef.componentInstance.uploader = this.uploader;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
@@ -331,7 +347,35 @@ export class ProductViewMagicComponent implements OnInit {
     return isValid;
   }
 
+  maxFilesSize() {
+    let maxFileSize = 0;
+
+    if (this.uploader.queue) {
+      _.each(this.uploader.queue, function (item) {
+        maxFileSize = maxFileSize + item.file.size;
+      });
+    }
+    return maxFileSize;
+  }
+
+  removeFile(item) {
+    this.uploader.removeFromQueue(item);
+    this.clearSelectedFile();
+  }
+
+  clearSelectedFile() {
+    this.selectedFiles.nativeElement.value = '';
+  }
+
+  clearFiles() {
+    if (this.uploader.queue.length) {
+      this.uploader.clearQueue();
+      this.clearSelectedFile();
+    }
+  }
+
   saveFiles(): void {
+    this.listFileBasket = new Array;
     if (this.uploader.queue) {
       _.each(this.uploader.queue, function (item) {
         item.upload();
@@ -342,9 +386,9 @@ export class ProductViewMagicComponent implements OnInit {
   private buildFileProductRequested() {
     if (this.uploadResult.success) {
       const fileProductRequest: FileProductRequested = new FileProductRequested();
-      debugger
-      fileProductRequest.url  = this.uploadResult.response;
+      fileProductRequest.url  = JSON.parse(this.uploadResult.response).data;
       fileProductRequest.name = this.uploadResult.item.file.name;
+      fileProductRequest.type = this.uploadResult.item.file.type;
       fileProductRequest.size = this.uploadResult.item.file.size;
       fileProductRequest.createdAt = new Date();
       this.listFileBasket.push(fileProductRequest);

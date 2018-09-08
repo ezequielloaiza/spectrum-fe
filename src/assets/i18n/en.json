@@ -356,5 +356,10 @@
     "Order Total": "Order Total",
     "Place Order": "Place Order",
     "Canceled": "Canceled",
-    "Are you sure you want to cancel the order? You must notify the provider this change.": "Are you sure you want to cancel the order? You must notify the provider this change."
+    "Are you sure you want to cancel the order? You must notify the provider this change.": "Are you sure you want to cancel the order? You must notify the provider this change.",
+    "Download": "Download",
+    "Exceeds the maximum size allowed": "Exceeds the maximum size allowed",
+    "Max files size:": "Max files size:",
+    "Maximum files number:": "Maximum files number:",
+    "Browse": "Browse"
 }
