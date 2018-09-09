@@ -30,7 +30,7 @@ this.products = [
           { "name": "Bitorico", "type": "selected", "values": ["-15.00","-14.75","-14.50","-14.25","-14.00","-13.75","-13.50","-13.25","-13.00","-12.75","-12.50","-12.25","-12.00","-11.75","-11.50","-11.25","-11.00","-10.75","-10.50","-10.25","-10.00","-9.75","-9.50","-9.25","-9.00","-8.75","-8.50","-8.25","-8.00","-7.75","-7.50","-7.25","-7.00","-6.75","-6.50","-6.25","-6.00","-5.75","-5.50","-5.25","-5.00","-4.75","-4.50","-4.25","-4.00","-3.75","-3.50","-3.25","-3.00","-2.75","-2.50","-2.25","-2.00","-1.75","-1.50","-1.25","-1.00","-0.75","-0.50","-0.25"], "selected": null },
           { "name": "M.F", "type": "selected", "values": ["1.00", "1.50", "2.00", "2.50", "3.00", "3.50"], "selected": null },
           { "name": "TPC", "type": "selected", "values": ["0.50", "1.00", "1.50", "2.00", "2.50", "3.00", "3.50", "4.00", "4.50", "5.00", "5.50", "6.00", "6.50", "7.00", "7.50", "8.00"], "selected": null },
-          { "name": "Notch (mm)", "type": "selected-double", "values": [ 
+          { "name": "Notch (mm)", "type": "selected-double", "values": [
                                                       { "name":"profundidad",
                                                         "type":"input",
                                                         "values":["any"],
@@ -45,55 +45,55 @@ this.products = [
                                                       }
                                                     ], "selected": null },
           { "name": "Thickness", "type": "input", "values": ["any"], "placeholder":"Ex. 3.00", "selected": null },
-          { "name": "Diopters", "type": "selected", "values": ["0.50", "1.00", "1.50", "2.00", "2.50", "3.00", "3.50", "4.00", "4.50", "5.00", "5.50", "6.00", "6.50", "7.00", "7.50", "8.00"], "selected": null }, 
+          { "name": "Diopters", "type": "selected", "values": ["0.50", "1.00", "1.50", "2.00", "2.50", "3.00", "3.50", "4.00", "4.50", "5.00", "5.50", "6.00", "6.50", "7.00", "7.50", "8.00"], "selected": null },
           { "name": "Meridian", "type": "selected", "values": [ "horizontal", "vertical"], "selected": null }
         ],
         "pasos": [
           { "name": "PC1",
-            "values": [ 
+            "values": [
               { "name": "Step 1",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
-                ]  
+                ]
               },
               { "name": "Step 2",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
-                ]  
+                ]
               }
             ]
           },
           { "name": "PC2",
-            "values": [ 
+            "values": [
               { "name": "Step 1",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
-                ]  
+                ]
               },
               { "name": "Step 2",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
-                ]  
+                ]
               }
             ]
           },
           { "name": "PC3",
-            "values": [ 
+            "values": [
               { "name": "Step 1",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
-                ]  
+                ]
               },
               { "name": "Step 2",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
-                ]  
+                ]
               }
             ]
           }

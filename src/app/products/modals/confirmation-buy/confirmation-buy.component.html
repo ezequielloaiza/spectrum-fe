@@ -1,7 +1,7 @@
 <div *ngIf="namePatient">
   <div class="modal-header">
     <h4 class="modal-title">{{ 'Confirm purchase' | translate }}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+    <button type="button" class="close" aria-label="Close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -80,7 +80,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+    <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
       <i class="fa fa-times"></i>
     </button>
     <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy===2">{{ 'Save' | translate }}&nbsp;

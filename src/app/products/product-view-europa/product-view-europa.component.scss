@@ -157,7 +157,7 @@ img {
     }
   }
 
-  
+
 }
 
 .colors {
@@ -297,20 +297,20 @@ img {
 
 .more-info {
 
-  >div:nth-child(1) { 
-    
+  >div:nth-child(1) {
+
     >div:nth-child(1) { //header
       .header {
         margin-left: 5px;
       }
-  
+
       .content {
         margin-left: 25px;
-  
+
         .label{
           margin-top: 17px;
         }
-  
+
         .selection{
           margin-top: 5px;
         }
@@ -321,14 +321,14 @@ img {
 
         .content-steps {
           margin-left: 25px;
-    
+
           .label{
             margin-top: 17px;
           }
           .sub-label{
             margin-top: 5px;
           }
-    
+
           .selection{
             margin-top: 5px;
           }
@@ -364,7 +364,7 @@ img {
           margin-left: 15px;
         }
       }
-      
+
     }
 
     >div:nth-child(5) {
@@ -387,7 +387,7 @@ img {
     justify-content: space-between;
   }
 
-  
+
 }
 
 .check-steps {
@@ -409,7 +409,7 @@ img {
           padding-right: 1.5rem;
         }
       }
-      
+
       padding-top: 40px;
     }
   }
@@ -422,6 +422,21 @@ img {
   >div:nth-child(2) {
     padding-left: 2px;
   }
+}
+
+
+.custom-file-input {
+  cursor: pointer;
+  $custom-file-text: (
+  placeholder: (
+    en: "Choose file...",
+    es: "Seleccionar archivo..."
+  ),
+  button-label: (
+    en: "Browse",
+    es: "Navegar"
+  )
+);
 }
 
 .custom-control-label::before {
