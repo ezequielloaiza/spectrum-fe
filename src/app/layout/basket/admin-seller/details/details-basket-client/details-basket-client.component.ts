@@ -33,6 +33,7 @@ export class DetailsBasketClientComponent implements OnInit {
     value1 : false,
     value2 : 'NO'
   };
+  checkedAll: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -97,6 +98,13 @@ export class DetailsBasketClientComponent implements OnInit {
         this.listBasket = this.listBasket.filter((item) => {
           return ((item.productRequested.patient.toLowerCase().indexOf(val.toLowerCase()) > -1));
         });
+    } else {
+      if (this.checkedAll === false) {
+        _.each(this.listBasket, function(item) {
+            item.checked = true;
+         });
+        this.productRequestedToBuy = this.listBasket;
+      }
     }
   }
 
@@ -119,6 +127,7 @@ export class DetailsBasketClientComponent implements OnInit {
   }
 
   onSelectionAll(valueChecked) {
+    this.checkedAll = valueChecked;
     let arrayAux = this.productRequestedToBuy;
   _.each(this.listBasket, function(item) {
       item.checked = !valueChecked;
@@ -157,6 +166,7 @@ export class DetailsBasketClientComponent implements OnInit {
     modalRef.componentInstance.quantity = this.productRequestedToBuy.length;
     modalRef.result.then((result) => {
       this.getListBasket();
+      this.checkboxModel.value1 = false;
       this.productRequestedToBuy = new Array;
     } , (reason) => {
     });
