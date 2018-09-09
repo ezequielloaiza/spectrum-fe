@@ -72,7 +72,7 @@
               <p class="card-text"> {{ product.descriptionShort }}</p>
               <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
                 <!--<del class="price-base">${{ product.priceBase }}</del>&nbsp;-->
-                <span class="price-new text-warning">${{ product.priceSale }}</span>
+                <span class="price-new text-warning">{{ product.priceSale | currency : "USD $" }}</span>
               </div>
               <div class="product-btns">
                 <div class="btn-group">
