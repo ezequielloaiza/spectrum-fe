@@ -21,7 +21,7 @@
                 <span>{{ product.name }}</span>
               </div>
               <div>
-                <span>${{ productRequested.price * productRequested.quantity }}</span>
+                <span>{{ productRequested.price * productRequested.quantity  | currency : "USD $" }}</span>
               </div>
             </div>
 

@@ -56,6 +56,16 @@
       font-weight: 600;
     }
 
+    .font-title{
+      font-size: 15px;
+      font-weight: 1000;
+    }
+
+    .font-item{
+      font-size: 14px;
+      font-weight: 1000;
+    }
+
     .price {
       color: #f8ac59;
       margin-bottom: 20px;
@@ -221,3 +231,9 @@
 .select-all{
   color:$color-text-menu;
 }
+
+.separators {
+  border-top: 1.5px solid $bg-imput;
+}
+
+
