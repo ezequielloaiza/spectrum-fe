@@ -83,8 +83,11 @@
     <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
       <i class="fa fa-times"></i>
     </button>
-    <button type="button" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+    <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy===2">{{ 'Save' | translate }}&nbsp;
       <i class="fa fa-save"></i>
+    </button>
+    <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy===1">{{ 'Buy' | translate }}&nbsp;
+      <i class="fa fa-check"></i>
     </button>
   </div>
   <ng-template #rt let-r="result" let-t="term">
