@@ -312,7 +312,7 @@
     "Eye":"Ojo",
     "Basket":"Cesta",
     "All Basket":"Toda la cesta",
-    "To buy":"Comprar",
+    "Buy":"Comprar",
     "Confirm Purchase":"Confirmar compra",
     "Please confirm the selected products":"Por favor confirme los productos seleccionados",
     "Confirm purchase":"Confirme compra",
@@ -361,5 +361,10 @@
     "Order Total": "Total Orden",
     "Place Order": "Realizar pedido",
     "Canceled": "Cancelada",
-    "Are you sure you want to cancel the order? You must notify the provider this change.": "¿Está seguro que quiere cancelar esta orden? Debe notificar al proveedor este cambio"
+    "Are you sure you want to cancel the order? You must notify the provider this change.": "¿Está seguro que quiere cancelar esta orden? Debe notificar al proveedor este cambio",
+    "Download": "Descargar",
+    "Exceeds the maximum size allowed": "Excede el tamaño máximo permitido",
+    "Max files size:": "Tamaño máximo de archivos:",
+    "Maximum files number:": "Número máximo de archivos:",
+    "Browse": "Buscar"
 }

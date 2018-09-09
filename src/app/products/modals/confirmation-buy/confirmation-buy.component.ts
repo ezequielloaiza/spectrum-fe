@@ -13,7 +13,7 @@ import { BasketRequest } from '../../../shared/models/basketrequest';
 import { BuyNow } from '../../../shared/models/buynow';
 import { OrderService } from '../../../shared/services';
 import { FileProductRequested } from '../../../shared/models/fileproductrequested';
-import { UserStorageService } from '../../../http/user-storage.service';
+import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
 
 @Component({
   selector: 'app-confirmation-buy',
@@ -25,7 +25,6 @@ export class ConfirmationBuyComponent implements OnInit {
   product: any;
   file: File;
   role: any;
-  listFileBasket: Array<FileProductRequested> = new Array;
   listBasket: Array<ProductRequested> = new Array;
   lista: Array<ProductRequested> = new Array;
   listNameParameters: Array<any> = new Array;
@@ -35,20 +34,31 @@ export class ConfirmationBuyComponent implements OnInit {
   eyesSelected: any;
   typeBuy: any;
   quantity: any;
+  // list for File
+  listFileBasket: Array<FileProductRequested> = new Array;
+  listUrlFiles: Array<String> = new Array;
+  // boolean for delete file
+  save_success: Boolean = false;
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
               private translate: TranslateService,
               private basketService: BasketService,
-              private orderService: OrderService) {
+              private orderService: OrderService,
+              private fileProductRequestedService: FileProductRequestedService) {
   }
 
   ngOnInit() {
-   this.getDatos();
+    this.getDatos();
   }
 
   close() {
+    if (!this.save_success) {
+      this.listUrlFiles = this.buildUrlFiles();
+      this.deleteAllFile();
+    }
+    this.modalReference.dismiss();
     this.modalReference.close();
   }
 
@@ -80,6 +90,7 @@ export class ConfirmationBuyComponent implements OnInit {
       this.basketRequest.fileProductRequestedList = this.listFileBasket;
       this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
         if (res.code === CodeHttp.ok) {
+            this.save_success = true;
             this.close();
             this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
               this.notification.success('', res);
@@ -97,6 +108,7 @@ export class ConfirmationBuyComponent implements OnInit {
       this.buyNow.fileProductRequestedList = this.listFileBasket;
       this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
+          this.save_success = true;
           this.close();
           this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
             this.notification.success('', res);
@@ -108,5 +120,25 @@ export class ConfirmationBuyComponent implements OnInit {
         console.log('error', error);
       });
     }
+  }
+
+  buildUrlFiles() {
+    const listUrlFiles: Array<String> = new Array;
+    _.each(this.listFileBasket, function (file) {
+      listUrlFiles.push(file.url);
+    });
+    return listUrlFiles;
+  }
+
+  deleteAllFile(): void {
+    this.fileProductRequestedService.deleteAllFile$(this.buildUrlFiles()).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        console.log('Delete files');
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 }
