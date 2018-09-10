@@ -26,7 +26,7 @@
             <div class="col-md-12">
               <h4 class="product-title">{{ product.name }}</h4>
               <h1 class="price" [hidden]="product.priceSale===''">
-                <span>${{ product.priceSale }}</span>
+                <span>{{ product.priceSale | currency : "USD $" }}</span>
               </h1>
             </div>
           </div>
@@ -36,7 +36,6 @@
             <dt class="title">{{ 'Description' | translate }}</dt>
             <p class="info-content">{{ product.description }}</p>
           </div>
-
 
         </div>
       </div>
@@ -73,7 +72,6 @@
             <!--quantity / contamac / hydrapeg / insertors-->
             <div class="col-md-12">
               <div class="row content">
-
                 <!--PARAM NAME-->
                 <div class="col-sm-4 title">
                   <div class="row label">
@@ -127,7 +125,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -164,7 +161,6 @@
                             <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                             [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                         </div>
-
                         <div *ngIf="parameter.type === 'selected-double'" class="select-values col-sm-10">
                           <div class="row selected-double">
                             <div class="col-sm-6">
@@ -207,7 +203,6 @@
                             <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                             [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                         </div>
-
                         <div *ngIf="parameter.type === 'selected-double'" class="select-values col-sm-10">
                           <div class="row selected-double">
                             <div class="col-sm-6">
@@ -285,7 +280,6 @@
               </div>
 
             </div>
-
 
           </div>
         </div>
@@ -410,7 +404,57 @@
               </div>
             </div>
           </div>
-
+          <br>
+          <!--files-->
+          <div>
+            <dt class="title">{{ 'Documents' | translate }}</dt>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="custom-file">
+                  <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader"
+                    [disabled]="uploader.queue.length > 4" multiple  />
+                  <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                  <div class="invalid-feedback">Example invalid custom file feedback</div>
+                  <div class="message-error">
+                    <span translate>{{'Max files size:' | translate}} 25MB</span>
+                    <span> / </span>
+                    <span translate>{{'Maximum files number:' | translate }} 5</span>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="col-md-12" style="margin-bottom: 40px" *ngIf="uploader.queue.length > 0">
+                <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
+                  <button type="button" class="btn btn-danger btn-s"
+                    (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                    <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                  </button>
+                </div>
+                <br>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th width="50%">{{ 'Name' | translate }}</th>
+                      <th>{{ 'Size' | translate }}</th>
+                      <th>{{ 'Actions' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of uploader.queue">
+                      <td><strong>{{ item?.file?.name }}</strong></td>
+                      <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td nowrap>
+                        <button type="button" class="btn btn-danger btn-xs"
+                          (click)="removeFile(item)">
+                          <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>

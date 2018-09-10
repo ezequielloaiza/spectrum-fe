@@ -5,6 +5,8 @@ import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { Order } from '../../../shared/models/order';
 import * as _ from 'lodash';
 import { ProductoimageService } from '../../../shared/services/productoimage/productoimage.service';
+import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
+
 @Component({
   selector: 'app-details-order',
   templateUrl: './details-order.component.html',
@@ -22,7 +24,8 @@ export class DetailsOrderComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
-    public productImageService: ProductoimageService) { }
+    public productImageService: ProductoimageService,
+    private fileProductRequestedService: FileProductRequestedService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -51,4 +54,3 @@ export class DetailsOrderComponent implements OnInit {
     });
   }
 }
-

@@ -1,4 +1,4 @@
-@import '../../../../../../styles/spectrum/spectrum';
+@import "../../../../../../styles/spectrum/spectrum";
 .search {
   padding-bottom: 1.4rem;
 
@@ -26,9 +26,8 @@
 .sp-card-header {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
-  padding-top: 1.10rem;
+  padding-top: 1.1rem;
 }
-
 
 .active {
   cursor: pointer;
@@ -43,7 +42,7 @@
   border-radius: 3px;
   margin-top: 1.5em;
 
-  .img-product{
+  .img-product {
     width: 100%;
     height: 9.5em;
   }
@@ -56,15 +55,27 @@
       font-weight: 600;
     }
 
+    .font-title {
+      font-size: 15px;
+      font-weight: 1000;
+    }
+
+    .font-item {
+      font-size: 14px;
+      font-weight: 1000;
+    }
+
     .price {
       color: #f8ac59;
       margin-bottom: 20px;
     }
 
     .info {
-      >div:nth-child(1), >div:nth-child(2), >div:nth-child(3) {
+      > div:nth-child(1),
+      > div:nth-child(2),
+      > div:nth-child(3) {
         display: flex;
-        flex-direction: column
+        flex-direction: column;
       }
     }
   }
@@ -75,58 +86,54 @@
     padding-left: 0px !important;
 
     .param {
-
       display: flex;
       justify-content: space-between;
 
-      >dt:nth-child(1) {
+      > dt:nth-child(1) {
         font-size: 14px;
       }
 
-      >dt:nth-child(2) {
+      > dt:nth-child(2) {
         font-weight: 300;
         font-size: 12px;
       }
     }
   }
 
-  >div:nth-child(1) {
-
+  > div:nth-child(1) {
     .actions {
       padding-left: 10px;
     }
 
-    .fa-trash{
+    .fa-trash {
       font-size: 24px;
       color: #666666;
       margin-left: 3px;
     }
 
-    .fa-eye{
+    .fa-eye {
       font-size: 24px;
       color: #666666;
     }
 
-    .fa-trash:hover, .fa-eye:hover{
+    .fa-trash:hover,
+    .fa-eye:hover {
       cursor: pointer;
     }
 
-    >div:nth-child(2) {
+    > div:nth-child(2) {
       display: flex;
       justify-content: flex-end;
       color: #f8ac59;
     }
   }
 
-  >div:nth-child(2) {
+  > div:nth-child(2) {
     display: flex;
     justify-content: space-around;
   }
 
-
-
   > div {
-
     &.product {
       padding-top: 1em;
 
@@ -155,7 +162,6 @@
     }
   }
 }
-
 
 .page-header-fixed {
   margin-left: 15px;
@@ -208,7 +214,7 @@
 .check-plataform {
   display: flex;
 
-  >input:nth-child(1) {
+  > input:nth-child(1) {
     width: 20px;
     height: 10px;
     margin-left: 20px;
@@ -222,6 +228,10 @@
   padding: 0px 50px 0px 35px;
 }
 
-.select-all{
-  color:$color-text-menu;
+.select-all {
+  color: $color-text-menu;
+}
+
+.separators {
+  border-top: 1.5px solid $bg-imput;
 }

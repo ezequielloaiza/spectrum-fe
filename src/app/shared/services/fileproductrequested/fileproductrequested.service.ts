@@ -21,4 +21,14 @@ export class FileProductRequestedService {
     });
     return this.http.request(req);
   }
+
+  public deleteAllFile$(listFiles: Array<String>): Observable<any> {
+    return this.http.put(environment.apiUrl + 'fileProductRequested/deleteAllFile', listFiles);
+  }
+
+  public downloadFile$(name): Observable<any> {
+    return this.http.get(environment.apiUrl + 'fileProductRequested/downloadFile/' + name, {
+      responseType: 'blob'
+    });
+  }
 }

@@ -26,7 +26,7 @@
             <div class="col-md-12">
               <h4 class="product-title">{{ product.name }}</h4>
               <h1 class="price" [hidden]="product.priceSale===''">
-                <span>${{ product.priceSale }}</span>
+                <span>{{ product.priceSale | currency : "USD $" }}</span>
               </h1>
             </div>
           </div>
@@ -184,13 +184,26 @@
               <div class="col-md-12">
                 <dt class="title">{{ 'Documents' | translate }}</dt>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader" multiple  />
+                  <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader" multiple
+                    [disabled]="uploader.queue.length > 4" />
                   <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
                   <div class="invalid-feedback">Example invalid custom file feedback</div>
+                  <div class="message-error">
+                    <span translate>{{'Max files size:' | translate}} 25MB</span>
+                    <span> / </span>
+                    <span translate>{{'Maximum files number:' | translate }} 5</span>
+                  </div>
                 </div>
               </div>
               <br>
-              <div class="col-md-12" style="margin-bottom: 40px">
+              <div class="col-md-12" style="margin-bottom: 40px" *ngIf="uploader.queue.length > 0">
+                <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
+                  <button type="button" class="btn btn-danger btn-s"
+                    (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                    <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                  </button>
+                </div>
+                <br>
                 <table class="table">
                   <thead>
                     <tr>
@@ -204,24 +217,14 @@
                       <td><strong>{{ item?.file?.name }}</strong></td>
                       <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                       <td nowrap>
-                        <!--<button type="button" class="btn btn-success btn-xs"
-                          (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                          <span class="glyphicon glyphicon-upload"></span> Upload
-                        </button>-->
                         <button type="button" class="btn btn-danger btn-xs"
-                          (click)="item.remove()">
-                          <span class="glyphicon glyphicon-trash"></span> {{ 'Remove' | translate }}
+                          (click)="removeFile(item)">
+                          <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
                         </button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-                <div>
-                  <button type="button" class="btn btn-danger btn-s"
-                    (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                    <span class="glyphicon glyphicon-trash"></span> {{ 'Remove all' | translate }}
-                  </button>
-                </div>
               </div>
             </div>
           </div>

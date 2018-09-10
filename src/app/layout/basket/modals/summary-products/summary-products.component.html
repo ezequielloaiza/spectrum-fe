@@ -7,7 +7,7 @@
   </div>
   <div class="card-body table-responsive row">
     <div class="confirm">
-      <span>{{ 'Please confirm the selected products' | translate }} {{ '(' }}{{ quantity }}{{ ') ?' }}</span>
+      <span>{{ 'Please confirm the selected products' | translate }} {{ '(' + quantity + ') ?' }}</span>
     </div>
     <br>
     <div class="container pp rounded">
@@ -18,15 +18,15 @@
           <p class="font-weight-normal" translate>{{'Shipping & handling'}}</p>
           <p class="font-weight-bold" translate>{{'Order Total'}}</p>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
           <p class="font-weight-bold text-left" translate>{{'Totals'}}</p>
           <p class="font-weight-normal" translate>
-            <span>{{'US $'}}{{subtotal}}</span>
+            <span>{{subtotal | currency : "USD $" }}</span>
           </p>
           <p class="font-weight-normal" translate>
-            <span>{{'US $'}}{{'0'}}</span>
+            <span>{{'0' | currency : "USD $" }}</span>
           </p>
-          <p class="font-weight-bold text-left">{{'US $'}}{{total}}</p>
+          <p class="font-weight-bold text-left">{{total | currency : "USD $" }}</p>
         </div>
       </div>
     </div>

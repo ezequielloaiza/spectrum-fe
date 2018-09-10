@@ -60,9 +60,9 @@
             <div class="col-md-2">
               <p class="font-weight-bold text-left" translate>{{'Totals'}}</p>
               <p class="font-weight-normal" translate>
-                <span>{{'US $'}}{{order? order.subtotal:''}}</span>
+                <span>{{ (order? order.subtotal:'') | currency : "USD $" }}</span>
               </p>
-              <p class="font-weight-bold text-left">{{'US $'}}{{order? order.total:''}}</p>
+              <p class="font-weight-bold text-left">{{ (order? order.total:'') | currency : "USD $" }}</p>
             </div>
           </div>
         </div>
@@ -108,7 +108,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-1" [hidden]="specification.eye===''">
+                        <div class="col-sm-2" [hidden]="specification.eye===''">
                           <dl class="align-item">
                             <dt>{{'Eye'| translate}}</dt>
                             <dt>
@@ -131,15 +131,15 @@
                           <dl class="align-item">
                             <dt>{{'Price'| translate}}</dt>
                             <dt>
-                              <span class="font-text">{{'US $'}}{{list.productRequested.price}}</span>
+                              <span class="font-text">{{ list.productRequested.price | currency : "USD $" }}</span>
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-1">
+                        <div class="col-sm-2">
                           <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
-                              <span class="text-warning">{{'US $'}}{{list.productRequested.price*list.productRequested.quantity}}</span>
+                              <span class="text-warning">{{ list.productRequested.price * list.productRequested.quantity | currency : "USD $" }}</span>
                             </dt>
                           </dl>
                         </div>
@@ -151,22 +151,22 @@
             </aside>
           </div>
           <!--Markennovy-->
-          <app-supplier-markennovy [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
+          <app-supplier-markennovy [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
           <!--Find Markennovy-->
           <!--Europa-->
-          <app-supplier-europa [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
+          <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
           <!--Fin Europa-->
           <!--Lenticon-->
-          <app-supplier-lenticon [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
+          <app-supplier-lenticon [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
           <!--Fin Lenticon-->
           <!--Euclid-->
-          <app-supplier-euclid [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
+          <app-supplier-euclid [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
           <!--Fin Euclid-->
           <!--Magic Look-->
-          <app-supplier-magic-look [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
+          <app-supplier-magic-look [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
            <!--Blue Light-->
-          <app-supplier-blue-light [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
+          <app-supplier-blue-light [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
            <!--Fin Blue Light-->
         </div>
       </div>
