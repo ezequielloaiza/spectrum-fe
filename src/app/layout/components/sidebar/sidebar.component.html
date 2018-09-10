@@ -52,18 +52,48 @@
 				</a>
 				<li class="nested" [class.expand]="showMenu === 'order'">
 					<ul class="submenu">
-						<li>
-							<a [routerLink]="['/order-list-client']" [routerLinkActive]="['router-link-active']">
-								<span>
-									<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0)">
-								<span>
-									<i class="fa fa-money"></i>&nbsp; {{ 'Attach Payment' | translate }}</span>
-							</a>
-						</li>
+            <li>
+              <a routerLink="/products" [routerLinkActive]="['router-link-active']">
+                <span>
+                <i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                <span>
+                <i class="fa fa-file"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 1}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                <span>
+                <i class="fa fa-file"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 2}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                <span>
+                <i class="fa fa-file"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 3}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                <span>
+                  <i class="fa fa-file"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <span>
+                  <i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <span>
+                  <i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
+              </a>
+            </li>
 						<li>
 							<a href="javascript:void(0)">
 								<span>
@@ -169,25 +199,25 @@
             <li>
 							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 								<span>
-									<i class="fa fa-eye"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>
+									<i class="fa fa-file"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>
 							</a>
             </li>
             <li>
 							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 1}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 								<span>
-									<i class="fa fa-eye"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>
+									<i class="fa fa-file"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>
 							</a>
             </li>
             <li>
 							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 2}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 								<span>
-									<i class="fa fa-eye"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>
+									<i class="fa fa-file"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>
 							</a>
             </li>
             <li>
 							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 3}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 								<span>
-									<i class="fa fa-eye"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>
+									<i class="fa fa-file"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>
 							</a>
 						</li>
             <li>
@@ -267,50 +297,61 @@
 						<span>
 							<i class="fa fa-folder-open"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
 					</a>
-					<li class="nested" [class.expand]="showMenu === 'orders'">
-						<ul class="submenu">
-							<li>
-								<a routerLink="/products" [routerLinkActive]="['router-link-active']">
-									<span>
-										<i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
-								</a>
-							</li>
-							<li>
-								<a [routerLink]="['/order-list-client-byseller']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
-									<span>
-										<i class="fa fa-eye"></i>&nbsp; {{ 'Consult Order' | translate }}</span>
-								</a>
-							</li>
-							<li>
-								<a href="javascript:void(0)">
-									<span>
-										<i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
-								</a>
+          <li class="nested" [class.expand]="showMenu === 'orders'">
+            <ul class="submenu">
+              <li>
+                <a routerLink="/products" [routerLinkActive]="['router-link-active']">
+                  <span>
+                    <i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                  <span>
+                    <i class="fa fa-file"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 1}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                  <span>
+                    <i class="fa fa-file"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 2}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                  <span>
+                    <i class="fa fa-file"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 3}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                  <span>
+                    <i class="fa fa-file"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <span>
+                    <i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
+                </a>
               </li>
               <!--
-							<li>
-								<a href="javascript:void(0)">
-									<span>
-										<i class="fa fa-check"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>
-								</a>
+              <li>
+                <a href="javascript:void(0)">
+                  <span>
+                    <i class="fa fa-check"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>
+                </a>
               </li>
               -->
-             <!--
-							<li>
-								<a href="javascript:void(0)">
-									<span>
-										<i class="fa fa-times"></i>&nbsp; {{ 'Cancel Order' | translate }}</span>
-								</a>
+
+              <li>
+                <a href="javascript:void(0)">
+                  <span>
+                    <i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
+                </a>
               </li>
-              -->
-							<li>
-								<a href="javascript:void(0)">
-									<span>
-										<i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
-								</a>
-							</li>
-						</ul>
-					</li>
+            </ul>
+          </li>
 				</div>
 				<div class="nested-menu">
 					<a  routerLink="/warranty" [routerLinkActive]="['router-link-active']" class="list-group-item">

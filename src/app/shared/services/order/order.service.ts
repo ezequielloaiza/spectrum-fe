@@ -57,4 +57,8 @@ export class OrderService {
   public saveOrderDirect$(buyNow): Observable<any> {
     return this.http.put(environment.apiUrl + 'order/saveOrderDirect', buyNow);
   }
+
+  public allOrderByUserIdAndStatus$(idUser, IdStatus): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrderByUserIdAndStatus/' + idUser + '/' + IdStatus);
+  }
 }
