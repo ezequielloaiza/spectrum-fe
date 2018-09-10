@@ -33,6 +33,7 @@ export class ListBasketComponent implements OnInit {
     value2 : 'NO'
   };
   basket: any;
+  checkedAll: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -96,6 +97,12 @@ export class ListBasketComponent implements OnInit {
           return ((item.productRequested.patient.toLowerCase().indexOf(val.toLowerCase()) > -1));
         });
     }
+    if (this.checkedAll === false) {
+        _.each(this.listBasket, function(item) {
+            item.checked = true;
+         });
+        this.productRequestedToBuy = this.listBasket;
+    }
   }
 
   buy() {
@@ -104,6 +111,9 @@ export class ListBasketComponent implements OnInit {
     }
 
   onSelection(basket, checked) {
+    if (this.checkedAll === false && checked === true) {
+      this.checkboxModel.value1 = false;
+    }
     basket.checked = !checked;
     let id = basket.idBasketProductRequested;
     let exist = _.includes(this.productRequestedToBuy, id);
@@ -114,9 +124,13 @@ export class ListBasketComponent implements OnInit {
     } else {
       this.productRequestedToBuy = _.concat(this.productRequestedToBuy, id);
     }
+    if (checked === false && this.productRequestedToBuy.length === this.listBasket.length) {
+      this.checkboxModel.value1 = true;
+    }
   }
 
   onSelectionAll(valueChecked) {
+    this.checkedAll = valueChecked;
     let arrayAux = this.productRequestedToBuy;
    _.each(this.listBasket, function(item) {
        item.checked = !valueChecked;
@@ -155,6 +169,7 @@ export class ListBasketComponent implements OnInit {
     modalRef.componentInstance.quantity = this.productRequestedToBuy.length;
     modalRef.result.then((result) => {
       this.getListBasket();
+      this.checkboxModel.value1 = false;
       this.productRequestedToBuy = new Array;
     } , (reason) => {
     });
