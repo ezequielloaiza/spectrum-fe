@@ -98,13 +98,12 @@ export class DetailsBasketClientComponent implements OnInit {
         this.listBasket = this.listBasket.filter((item) => {
           return ((item.productRequested.patient.toLowerCase().indexOf(val.toLowerCase()) > -1));
         });
-    } else {
-      if (this.checkedAll === false) {
-        _.each(this.listBasket, function(item) {
+    }
+    if (this.checkedAll === false) {
+      _.each(this.listBasket, function(item) {
             item.checked = true;
          });
-        this.productRequestedToBuy = this.listBasket;
-      }
+      this.productRequestedToBuy = this.listBasket;
     }
   }
 
@@ -114,6 +113,9 @@ export class DetailsBasketClientComponent implements OnInit {
   }
 
   onSelection(basket, checked) {
+    if (this.checkedAll === false && checked === true) {
+      this.checkboxModel.value1 = false;
+    }
     basket.checked = !checked;
     let id = basket.idBasketProductRequested;
     let exist = _.includes(this.productRequestedToBuy, id);
@@ -123,6 +125,9 @@ export class DetailsBasketClientComponent implements OnInit {
       });
     } else {
       this.productRequestedToBuy = _.concat(this.productRequestedToBuy, id);
+    }
+    if (checked === false && this.productRequestedToBuy.length === this.listBasket.length) {
+      this.checkboxModel.value1 = true;
     }
   }
 
