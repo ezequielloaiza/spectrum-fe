@@ -80,7 +80,7 @@
                       <span class="span_total">Total</span>
                     </div>
                     <div>
-                      <span class="span_total">{{'$'}}{{order.total}}</span>
+                      <span>{{order.total | currency : "USD $" }}</span>
                     </div>
                   </div>
                   <div class="col-lg-3">
@@ -115,7 +115,7 @@
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
                     </div>
                     <div>
-                      <span>{{'$'}}{{listDetails.productRequested.price}}</span>
+                      <span>{{listDetails.productRequested.price | currency : "USD $" }}</span>
                     </div>
                   </div>
                   <div class="col-lg-2">
@@ -128,7 +128,7 @@
                   </div>
                   <div class="col-lg-2">
                     <div>
-                      <span>{{'$'}}{{listDetails.productRequested.price*listDetails.productRequested.quantity}}</span>
+                      <span>{{listDetails.productRequested.price * listDetails.productRequested.quantity | currency : "USD $" }}</span>
                     </div>
                   </div>
                 </div>
