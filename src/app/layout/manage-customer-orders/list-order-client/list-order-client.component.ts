@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { NgbDateStruct, NgbModal, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { OrderService } from '../../../shared/services/order/order.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
@@ -14,7 +15,7 @@ import { AlertifyService } from '../../../shared/services/alertify/alertify.serv
   templateUrl: './list-order-client.component.html',
   styleUrls: ['./list-order-client.component.scss']
 })
-export class ListOrderClientComponent implements OnInit {
+export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   listOrders: Array<any> = new Array;
   listOrdersAux: Array<any> = new Array;
@@ -34,27 +35,48 @@ export class ListOrderClientComponent implements OnInit {
   mostrarStatus = false;
   fechaSelecOrd: NgbDatepicker;
   selectedStatus: any;
+  status: any;
+  navigationSubscription;
+
   constructor(private orderService: OrderService,
     private userService: UserStorageService,
     private modalService: NgbModal,
     private notification: ToastrService,
     private translate: TranslateService,
-    private alertify: AlertifyService
-) {
+    private alertify: AlertifyService,
+    private route: ActivatedRoute,
+    private router: Router) {
     this.user = JSON.parse(userService.getCurrentUser());
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      if (e instanceof NavigationEnd) {
+        this.ngOnInit();
+        this.getListOrders();
+      }
+    });
   }
 
   ngOnInit() {
-    this.getListOrders();
+    this.route.queryParams.subscribe(params => {
+      this.status = params.status;
+    });
+
+    
     this.advancedPagination = 1;
     this.selectedStatus = '';
     this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
   }
 
+  ngOnDestroy() {
+    if (this.navigationSubscription) {  
+      this.navigationSubscription.unsubscribe();
+    }
+  }
+
   getListOrders(): void {
+    
     if (this.user.role.idRole === 2) {
-      this.orderService.findOrdersClientBySeller$().subscribe(res => {
+      this.orderService.findOrdersClientBySeller$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listOrders = res.data;
           this.listOrdersAux = res.data;
@@ -66,7 +88,7 @@ export class ListOrderClientComponent implements OnInit {
         }
       });
     } else if (this.user.role.idRole === 1) {
-      this.orderService.allOrderWithStatusNot$(4).subscribe(res => {
+      this.orderService.allOrderWithStatus$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.mostrarStatus = true;
           this.listOrders = res.data;

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { OrderService } from '../../../shared/services/order/order.service';
+import { UserStorageService } from '../../../http/user-storage.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { StatusOrder } from '../../../shared/enum/status-order.enum';
 import * as _ from 'lodash';
@@ -10,7 +12,7 @@ import { NgbDateAdapter, NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-b
   templateUrl: './list-order.component.html',
   styleUrls: ['./list-order.component.scss'],
 })
-export class ListOrderComponent implements OnInit {
+export class ListOrderComponent implements OnInit, OnDestroy {
 
   listOrders: Array<any> = new Array;
   listOrdersAux: Array<any> = new Array;
@@ -26,18 +28,42 @@ export class ListOrderComponent implements OnInit {
   tamano: String;
   selectedStatus: any;
   fechaSelec: NgbDatepicker;
-  constructor(private orderService: OrderService) { }
+  user: any;
+  status: any;
+  navigationSubscription;
+
+  constructor(private orderService: OrderService,
+              private userService: UserStorageService,
+              private route: ActivatedRoute,
+              private router: Router) {
+    this.user = JSON.parse(userService.getCurrentUser());
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      if (e instanceof NavigationEnd) {
+        this.ngOnInit();
+        this.getListOrders();
+      }
+    });
+  }
 
   ngOnInit() {
-    this.getListOrders();
+    this.route.queryParams.subscribe(params => {
+      this.status = params.status;
+    });
+
     this.advancedPagination = 1;
     this.model = {year: 0, month: 0, day: 0};
     this.selectedStatus = '';
     this.tamano = 'undefined';
   }
 
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
+  }
+
   getListOrders(): void {
-    this.orderService.allOrderByUser$().subscribe(res => {
+    this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, this.status).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
         this.listOrdersAux = res.data;
