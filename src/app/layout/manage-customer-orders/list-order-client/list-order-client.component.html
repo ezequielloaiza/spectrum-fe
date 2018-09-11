@@ -119,6 +119,17 @@
                         </div>
                       </div>
                     </div>
+                    <div class="div-date">
+                        <div [hidden]="order.status!==2" ngbDropdown class="d-inline-block dropdown">
+                          <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Generate Invoice' | translate }}</button>
+                          <div ngbDropdownMenu>
+                            <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
+                              {{ 'To Provider' | translate }}</button>
+                            <button class="dropdown-item" (click)="open(order)">
+                                 {{ 'To Client' | translate }}</button>
+                          </div>
+                        </div>
+                      </div>
                   </div>
                 </div>
                 <div class="row product" *ngFor="let listDetails of order.listProductRequested">
