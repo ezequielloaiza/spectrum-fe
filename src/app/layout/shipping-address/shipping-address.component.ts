@@ -96,8 +96,16 @@ export class ShippingAddressComponent implements OnInit {
 			}
 		}
     let addressSort = this.auxAddresses.sort(function(a, b) {
-        let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
+      if (a[key] && b[key]) {
+        let x = a[key].toString().toLowerCase();
+        let y = b[key].toString().toLowerCase();
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      } else {
+        let x = a.idAddress.toString().toLowerCase();
+        let y = b.idAddress.toString().toLowerCase();
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      }
+
 		});
 		this.auxAddresses = addressSort;
 		if (this.reverseSort) {
