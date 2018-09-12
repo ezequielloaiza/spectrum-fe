@@ -51,7 +51,7 @@ export class ShippingAddressComponent implements OnInit {
 		this.advancedPagination = 1;
 		this.reverseSort = true;
 		this.typeSort = 0;
-		this.orderByField = 'idSupplier';
+		this.orderByField = 'idAddress';
 		this.sortAddress(this.orderByField);
 		this.pageChange(this.advancedPagination);
 	}
@@ -68,9 +68,9 @@ export class ShippingAddressComponent implements OnInit {
 
 	getAddress() {
     this.shippingAddressService.findAll$().subscribe(res => {
-      if (res.code === 200) {
+      if (res.code === CodeHttp.ok) {
 				this.auxAddresses = res.data;
-				this.sortAddress(this.orderByField);
+        this.sortAddress(this.orderByField);
 				//this.addresses = this.auxAddresses.slice(0,this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
@@ -95,13 +95,21 @@ export class ShippingAddressComponent implements OnInit {
 				this.reverseSort = true;
 			}
 		}
-    let suppliersAddress = this.auxAddresses.sort(function(a, b) {
-        let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
+    let addressSort = this.auxAddresses.sort(function(a, b) {
+      if (a[key] && b[key]) {
+        let x = a[key].toString().toLowerCase();
+        let y = b[key].toString().toLowerCase();
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      } else {
+        let x = a.idAddress.toString().toLowerCase();
+        let y = b.idAddress.toString().toLowerCase();
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      }
+
 		});
-		this.auxAddresses = suppliersAddress;
+		this.auxAddresses = addressSort;
 		if (this.reverseSort) {
-			this.auxAddresses = suppliersAddress.reverse();
+			this.auxAddresses = addressSort.reverse();
 		}
 		this.advancedPagination = 1;
 		this.pageChange(this.advancedPagination);
