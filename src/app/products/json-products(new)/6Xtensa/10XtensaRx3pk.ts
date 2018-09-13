@@ -1,6 +1,6 @@
 
 this.products = [
-  { "code": "XQE", "name": "3pk Xtensa Rx",
+  { "code": "XQE", "name": "Xtensa Rx 3pk",
     "priceBase": 4000, "price1": 3500, "price2": 3600, "price3": 3700,
     "father": "Xtensa",
     "category": "Contact Lenses",
