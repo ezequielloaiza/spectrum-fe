@@ -60,7 +60,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       this.status = params.status;
     });
 
-    
+
     this.advancedPagination = 1;
     this.selectedStatus = '';
     this.tamano = 'undefined';
@@ -68,13 +68,13 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.navigationSubscription) {  
+    if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
     }
   }
 
   getListOrders(): void {
-    
+
     if (this.user.role.idRole === 2) {
       this.orderService.findOrdersClientBySeller$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -305,6 +305,21 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     } , (reason) => {
     });
     }
+
+  generateInvoice(order) {
+    this.orderService.generateInvoice$(order).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.getListOrders();
+        this.translate.get('Successfully Generated', { value: 'Successfully Generated' }).subscribe((res1: string) => {
+          this.notification.success('', res1);
+        });
+      } else {
+        console.log(res.code);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
 
   cancel(order): void {
     this.translate.get('Cancel Order', { value: 'Cancel Order' }).subscribe((title: string) => {
