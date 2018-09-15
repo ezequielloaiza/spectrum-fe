@@ -58,6 +58,7 @@ import { DetailProductModalComponent } from './basket/modals/detail-product/deta
 import { SummaryProductsComponent } from './basket/modals/summary-products/summary-products.component';
 //import { DetailProductModalComponent } from './basket/client/modals/detail-product/detail-product';
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
+import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 
 @NgModule({
     imports: [
@@ -123,7 +124,8 @@ import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-sta
         SupplierBlueLightComponent,
         DetailProductModalComponent,
         SummaryProductsComponent,
-        ModalsChangeStatusComponent
+        ModalsChangeStatusComponent,
+        GenerateInvoiceComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -141,7 +143,8 @@ import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-sta
       SupplierUserModalComponent,
       DetailProductModalComponent,
       SummaryProductsComponent,
-      ModalsChangeStatusComponent
+      ModalsChangeStatusComponent,
+      GenerateInvoiceComponent
     ],
     providers: [
       BusinessTypeService,

@@ -9,6 +9,7 @@ import { ModalsStatusComponent} from '../modals-status/modals-status.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
+import { GenerateInvoiceComponent } from '../generate-invoice/generate-invoice.component';
 
 @Component({
   selector: 'app-list-order-client',
@@ -307,17 +308,11 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     }
 
   generateInvoice(order) {
-    this.orderService.generateInvoice$(order).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.getListOrders();
-        this.translate.get('Successfully Generated', { value: 'Successfully Generated' }).subscribe((res1: string) => {
-          this.notification.success('', res1);
-        });
-      } else {
-        console.log(res.code);
-      }
-    }, error => {
-      console.log('error', error);
+    const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.componentInstance.order = order;
+    modalRef.result.then((result) => {
+          this.getListOrders();
+    } , (reason) => {
     });
   }
 

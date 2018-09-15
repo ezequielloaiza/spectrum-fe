@@ -1,5 +1,6 @@
 import { Address } from './address';
 import { OrderProductRequested} from './orderproductrequested';
+import { User } from './user';
 export class Order {
 
     public idOrder: number;
@@ -10,6 +11,7 @@ export class Order {
     public subtotal: number;
     public total: number;
     public status: number;
+    public user: User;
     public listProductRequested: Array<OrderProductRequested>;
 
     public constructor() { }
