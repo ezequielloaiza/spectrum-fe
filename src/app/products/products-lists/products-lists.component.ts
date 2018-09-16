@@ -40,7 +40,6 @@ export class ProductsListsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getSuppliers();
     this.getProducts();
     this.visible = false;
   }
@@ -59,6 +58,7 @@ export class ProductsListsComponent implements OnInit {
           ) {
             this.products = res.data;
             this.productsAux = res.data;
+            this.getSuppliers();
           }
         } else {
           console.log(res.errors[0].detail);
@@ -95,6 +95,7 @@ export class ProductsListsComponent implements OnInit {
             }
           });
           this.productAvailable();
+          this.getSuppliers();
         }
       });
   }
@@ -171,12 +172,25 @@ export class ProductsListsComponent implements OnInit {
   getSuppliers() {
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.listSupplierFilterAux = res.data;
-        this.listSupplierFilter = this.listSupplierFilterAux;
-        let array = [{idSupplier: 1000, companyName: 'All'}];
-        this.listSupplierFilter = _.concat(this.listSupplierFilter, array);
-        this.listSupplierFilterAux = _.orderBy(this.listSupplierFilter, ['idSupplier'], ['desc']);
-        this.listSupplierFilter = this.listSupplierFilterAux;
+          this.listSupplierFilterAux = res.data;
+          this.listSupplierFilter = this.listSupplierFilterAux;
+          if (this.user.role.idRole === 3) {
+            const lista = this.listSupplier; // los asociado a los clientes
+            const supplierFiltered = [];
+            _.each(this.listSupplierFilter, function(supplier) {
+              _.each(lista, function(item) {
+                if (supplier.idSupplier === item.supplier.idSupplier) {
+                  supplierFiltered.push(supplier);
+                }
+              });
+            });
+            this.listSupplier = supplierFiltered;
+            this.listSupplierFilter = supplierFiltered;
+            this.orderList();
+          } else {
+            this.listSupplier = this.listSupplierFilter;
+            this.orderList();
+          }
       } else {
         console.log(res.errors[0].detail);
       }
@@ -250,5 +264,12 @@ export class ProductsListsComponent implements OnInit {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
+  }
+
+  orderList(){
+    let array = [{idSupplier: 1000, companyName: 'All'}];
+    this.listSupplierFilter = _.concat(this.listSupplierFilter, array);
+    this.listSupplierFilterAux = _.orderBy(this.listSupplierFilter, ['idSupplier'], ['desc']);
+    this.listSupplierFilter = this.listSupplierFilterAux;
   }
 }
