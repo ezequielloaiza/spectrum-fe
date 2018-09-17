@@ -2,7 +2,6 @@ export class Product {
 
   public idProduct: number;
   public name: string ;
-  public price_base: number;
   public price1: number;
   public price2: number;
   public price3: number;
