@@ -50,7 +50,6 @@ export class EditProductComponent implements OnInit {
       id         : [this.action === 'edit' ? this.product.idProduct : ''],
       name       : [this.action === 'edit' ? this.product.name : '', [Validators.required]],
       descriptionShort: [this.action === 'edit' ? this.product.descriptionShort : '', [Validators.required]],
-      priceBase  : [this.action === 'edit' ? this.product.priceBase : '', [Validators.required]],
       price1     : [this.action === 'edit' ? this.product.price1 : '', [Validators.required]],
       price2     : [this.action === 'edit' ? this.product.price2 : '', [Validators.required]],
       price3     : [this.action === 'edit' ? this.product.price3 : '', [Validators.required]],
@@ -87,7 +86,6 @@ export class EditProductComponent implements OnInit {
   get status() { return this.form.get('status'); }
   get name() { return this.form.get('name'); }
   get descriptionShort() { return this.form.get('descriptionShort'); }
-  get priceBase() { return this.form.get('priceBase'); }
   get price1() { return this.form.get('price1'); }
   get price2() { return this.form.get('price2'); }
   get price3() { return this.form.get('price3'); }
