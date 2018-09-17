@@ -156,7 +156,7 @@
             </aside>
           </div>
           <!--Markennovy-->
-          <app-supplier-markennovy [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
+          <app-supplier-markennovy [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
           <!--Find Markennovy-->
           <!--Europa-->
           <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
