@@ -15,5 +15,9 @@ export enum RoleSeller {
   OrdersBySellerList,
   OrdersDetailSeller,
   ListBasket,
-  ListBasketDetail
+  ListBasketDetail,
+  ViewUser,
+  EditUser,
+  EditCompany,
+  EditSupplier
 }
