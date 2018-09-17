@@ -16,72 +16,91 @@ import { InvoiceProductRequested } from '../../../shared/models/invoiceproductre
   styleUrls: ['./generate-invoice.component.scss']
 })
 export class GenerateInvoiceComponent implements OnInit {
-
   form: FormGroup;
   order: any;
   today: Date = new Date();
   invoice: Invoice = new Invoice();
 
-  constructor(public modalReference: NgbActiveModal,
+  constructor(
+    public modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
     private orderService: OrderService,
     private notification: ToastrService,
     private translate: TranslateService,
-    private alertify: AlertifyService) { }
+    private alertify: AlertifyService
+  ) {}
 
-    ngOnInit() {
-      console.log('order:', this.order);
-      this.initializeForm();
-      this.loadInvoice();
-      console.log('invoice:', this.invoice);
-    }
+  ngOnInit() {
+    console.log('order:', this.order);
+    this.initializeForm();
+    this.loadInvoice();
+    console.log('invoice:', this.invoice);
+  }
 
-    initializeForm() {
-      this.form = this.formBuilder.group({
-      });
-    }
+  initializeForm() {
+    this.form = this.formBuilder.group({});
+  }
 
-    close() {
-      this.modalReference.close();
-    }
+  close() {
+    this.modalReference.close();
+  }
 
-    loadInvoice() {
-      const productReq = [];
-      this.invoice.address = this.order.address;
-      this.invoice.date = this.today;
-      this.invoice.user = this.order.user;
-      this.invoice.idOrder = this.order.idOrder;
-      this.invoice.number = this.order.number;
-      this.invoice.subtotal = this.order.subtotal;
-      this.invoice.total = this.order.total;
-      _.each(this.order.listProductRequested, function (pRequested) {
-          const productR = new InvoiceProductRequested();
-          productR.productRequested = pRequested.productRequested;
-          /*productR.invoice = this.invoice;*/
-          productR.urlImage = pRequested.productRequested.urlImage;
-          productR.price = pRequested.productRequested.price;
-          productR.netAmount = pRequested.productRequested.price * pRequested.productRequested.quantity;
-          productReq.push(productR);
-      });
-      this.invoice.listProductRequested = productReq;
-    }
-
-    updateUnitPrice(value, index) {
-      this.invoice.listProductRequested[index].price = value;
-    }
-
-    generateInvoice(order) {
-    this.orderService.generateInvoice$(order, this.invoice).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.translate.get('Successfully Generated', { value: 'Successfully Generated' }).subscribe((res1: string) => {
-          this.notification.success('', res1);
-        });
-      } else {
-        console.log(res.code);
-      }
-    }, error => {
-      console.log('error', error);
+  loadInvoice() {
+    const productReq = [];
+    this.invoice.address = this.order.address;
+    this.invoice.date = this.today;
+    this.invoice.user = this.order.user;
+    this.invoice.idOrder = this.order.idOrder;
+    this.invoice.number = this.order.number;
+    this.invoice.subtotal = this.order.subtotal;
+    this.invoice.total = this.order.total;
+    _.each(this.order.listProductRequested, function(pRequested) {
+      const productR = new InvoiceProductRequested();
+      productR.productRequested = pRequested.productRequested;
+      productR.urlImage = pRequested.productRequested.urlImage;
+      productR.price = pRequested.productRequested.price;
+      productR.netAmount =
+        pRequested.productRequested.price *
+        pRequested.productRequested.quantity;
+      productReq.push(productR);
     });
-    }
+    this.invoice.listProductRequested = productReq;
+  }
 
+  updateUnitPrice($event, index) {
+    console.log('event', $event.target.value);
+    this.invoice.listProductRequested[index].price = $event.target.value;
+    this.invoice.listProductRequested[index].netAmount =
+      this.invoice.listProductRequested[index].price *
+      this.invoice.listProductRequested[index].productRequested.quantity;
+    this.sumNetAmount();
+  }
+
+  sumNetAmount() {
+    let sum = 0;
+    _.each(this.invoice.listProductRequested, function(pRequested) {
+      sum += pRequested.netAmount;
+    });
+    this.invoice.subtotal = sum;
+    this.invoice.total = sum;
+  }
+
+  generateInvoice(order) {
+    this.orderService.generateInvoice$(order, this.invoice).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          this.translate
+            .get('Successfully Generated', { value: 'Successfully Generated' })
+            .subscribe((res1: string) => {
+              this.notification.success('', res1);
+            });
+        } else {
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    );
+  }
 }

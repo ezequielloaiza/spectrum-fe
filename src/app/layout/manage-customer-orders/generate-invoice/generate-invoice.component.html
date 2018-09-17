@@ -88,7 +88,7 @@
                 <td class="table-tr">{{(productR.productRequested.product.name + " - "+ productR.productRequested.product.description)}}</td>
                 <td class="table-tr">
                   <fieldset>
-                    <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice(value, i)" placeholder="{{ 'Enter unit price' | translate }}" name="unitPrice" formControlName="unitPrice"
+                    <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice($event, i)" placeholder="{{ 'Enter unit price' | translate }}"
                     required>
                 </fieldset>
                 </td>
@@ -111,10 +111,10 @@
           </div>
           <div class="col-xl-6 deliver">
             <label class="label-amount">{{ 'Subtotal Amount' | translate }}</label>
-            <label class="label-amount">{{order.subtotal}}</label>
+            <label class="label-amount">{{invoice.subtotal}}</label>
             <br>
             <label class="label-amount">{{ 'Total Amount' | translate }}</label>
-            <label class="label-amount">{{order.total}}</label>
+            <label class="label-amount">{{invoice.total}}</label>
           </div>
         </div>
       </div>
@@ -125,10 +125,10 @@
   <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="generateInvoice(order)">{{ 'Save' | translate }}&nbsp;
+  <button type="button" class="btn btn-main" (click)="generateInvoice(order)">{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
-  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="generateInvoice(order)">{{ 'Save and Send' | translate }}&nbsp;
+  <button type="button" class="btn btn-main" (click)="generateInvoice(order)">{{ 'Save and Send' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
 </div>
