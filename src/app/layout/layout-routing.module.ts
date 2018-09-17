@@ -91,7 +91,7 @@ const routes: Routes = [
               data: { option: 'EditCompany' }
               },
               { path: 'edit-supplier', component: EditSupplierComponent,
-              data: { option: 'EditCompany' }
+              data: { option: 'EditSupplier' }
               }
             ]
           }
