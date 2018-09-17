@@ -83,11 +83,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let productR of order.listProductRequested">
+              <tr *ngFor="let productR of invoice.listProductRequested; let i = index">
                 <td class="table-tr">{{productR.productRequested.quantity}}</td>
                 <td class="table-tr">{{(productR.productRequested.product.name + " - "+ productR.productRequested.product.description)}}</td>
-                <td class="table-tr">{{productR.productRequested.price}}</td>
-                <td class="table-tr">{{(productR.productRequested.quantity*productR.productRequested.price)}}</td>
+                <td class="table-tr">
+                  <fieldset>
+                    <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice(value, i)" placeholder="{{ 'Enter unit price' | translate }}" name="unitPrice" formControlName="unitPrice"
+                    required>
+                </fieldset>
+                </td>
+                <td class="table-tr">{{(productR.netAmount | currency : "USD $")}}</td>
               </tr>
             </tbody>
           </table>
@@ -104,9 +109,12 @@
             <label>{{order? (order.address.city + ' - '+order.address.state):''}}</label>
             <label>{{order? (order.address.country):''}}</label>
           </div>
-          <div class="col-xl-6">
-            <label class="label">{{ 'Total Amount' | translate }}</label>
-            <label class="label-value">{{order.total}}</label>
+          <div class="col-xl-6 deliver">
+            <label class="label-amount">{{ 'Subtotal Amount' | translate }}</label>
+            <label class="label-amount">{{order.subtotal}}</label>
+            <br>
+            <label class="label-amount">{{ 'Total Amount' | translate }}</label>
+            <label class="label-amount">{{order.total}}</label>
           </div>
         </div>
       </div>
@@ -117,7 +125,10 @@
   <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" class="btn btn-main" [disabled]="!valid">{{ 'Save' | translate }}&nbsp;
+  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="generateInvoice(order)">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="generateInvoice(order)">{{ 'Save and Send' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
 </div>

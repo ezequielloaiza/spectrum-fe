@@ -58,8 +58,8 @@ export class OrderService {
     return this.http.put(environment.apiUrl + 'order/saveOrderDirect', buyNow);
   }
 
-  public generateInvoice$(order): Observable<any> {
-    return this.http.put(environment.apiUrl + 'order/generateInvoice', order);
+  public generateInvoice$(order, invoice): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/generateInvoice', order, invoice);
   }
 
   public allOrderByUserIdAndStatus$(idUser, IdStatus): Observable<any> {
