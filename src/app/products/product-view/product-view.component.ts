@@ -17,14 +17,9 @@ import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmatio
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
-import { FileProductRequested } from '../../shared/models/fileproductrequested';
-import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../../src/environments/environment';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
-
-const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
 @Component({
   selector: 'app-product-view',
@@ -53,19 +48,6 @@ export class ProductViewComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
-  // Upload files
-  @ViewChild('selectedFiles') selectedFiles: any;
-  queueLimit = 5;
-  maxFileSize = 25 * 1024 * 1024; // 25 MB
-  listFileBasket: Array<FileProductRequested> = new Array;
-  private uploadResult: any = null;
-  public uploader: FileUploader = new FileUploader({url: URL,
-                                                    itemAlias: 'files',
-                                                    queueLimit: this.queueLimit,
-                                                    maxFileSize: this.maxFileSize,
-                                                    removeAfterUpload: false,
-                                                    authToken: this.userStorageService.getToke(),
-                                                    autoUpload: false});
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
@@ -73,42 +55,18 @@ export class ProductViewComponent implements OnInit {
               private basketService: BasketService,
               private shippingAddressService: ShippingAddressService,
               private userService: UserService,
-              private fileProductRequestedService: FileProductRequestedService,
               private modalService: NgbModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
               private translate: TranslateService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
-
-    this.uploader.onAfterAddingFile = (item) => {
-      const maxSize = this.maxFilesSize();
-
-      if (maxSize > this.maxFileSize) {
-        this.removeFile(item);
-        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
-          this.notification.error('', res);
-        });
-      }
-    };
-    this.uploader.onSuccessItem = (item, response, status, headers) => {
-      this.uploadResult = {'success': true, 'item': item, 'response':
-                           response, 'status': status, 'headers': headers};
-      if (this.uploadResult) {
-        this.buildFileProductRequested();
-      }
-    };
-    this.uploader.onErrorItem = (item, response, status, headers) => {
-        this.uploadResult = {'success': true, 'item': item, 'response':
-                             response, 'status': status, 'headers': headers};
-    };
   }
 
   ngOnInit() {
     this.getProducts();
     /* var product xtensa */
     this.setAxesXtensa();
-    this.clearFiles();
   }
 
   setAxesXtensa() {
@@ -303,7 +261,6 @@ export class ProductViewComponent implements OnInit {
 
   addToCart(type) {
     this.productCopy = JSON.parse(JSON.stringify(this.product));
-    this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -320,7 +277,6 @@ export class ProductViewComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-    this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
@@ -328,7 +284,6 @@ export class ProductViewComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
-    modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
     modalRef.result.then((result) => {
@@ -359,55 +314,5 @@ export class ProductViewComponent implements OnInit {
       });
     }
     return isValid;
-  }
-
-  maxFilesSize() {
-    let maxFileSize = 0;
-
-    if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        maxFileSize = maxFileSize + item.file.size;
-      });
-    }
-    return maxFileSize;
-  }
-
-  removeFile(item) {
-    this.uploader.removeFromQueue(item);
-    this.clearSelectedFile();
-  }
-
-  clearSelectedFile() {
-    this.selectedFiles.nativeElement.value = '';
-  }
-
-  clearFiles() {
-    if (this.uploader.queue.length) {
-      this.uploader.clearQueue();
-      this.clearSelectedFile();
-    }
-  }
-
-  saveFiles(): void {
-    this.listFileBasket = new Array;
-    if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        item.upload();
-      });
-    }
-  }
-
-  private buildFileProductRequested() {
-    if (this.uploadResult.success) {
-      const fileProductRequest: FileProductRequested = new FileProductRequested();
-      fileProductRequest.url  = JSON.parse(this.uploadResult.response).data;
-      fileProductRequest.name = this.uploadResult.item.file.name;
-      fileProductRequest.type = this.uploadResult.item.file.type;
-      fileProductRequest.size = this.uploadResult.item.file.size;
-      fileProductRequest.createdAt = new Date();
-      this.listFileBasket.push(fileProductRequest);
-    } else {
-      console.log('error file');
-    }
   }
 }
