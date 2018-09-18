@@ -77,11 +77,10 @@ export class ProfileComponent implements OnInit {
 
   initializeAvatar() {
     if (this.user.userResponse.avatar) {
-      this.avatar = this.user.userResponse.avatar.split('src/').pop();
+      this.avatar = this.user.userResponse.avatar;
     } else {
       this.avatar = 'assets/images/user.png';
     }
-    debugger
   }
 
   onReset() {
@@ -259,7 +258,7 @@ export class ProfileComponent implements OnInit {
   private updateAvatar() {
     if (this.uploadResult.success) {
       const url = JSON.parse(this.uploadResult.response).data;
-      this.avatar = url.split('src/').pop();
+      this.avatar = url;
     } else {
       console.log('error file');
     }
