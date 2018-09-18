@@ -49,6 +49,7 @@ export class ProfileComponent implements OnInit {
     private notification: ToastrService,
     private translate: TranslateService) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
+    this.initializeAvatar();
 
     this.uploader.onAfterAddingFile = (item) => {
       const ext = item.file.name.split('.').pop();
@@ -80,6 +81,7 @@ export class ProfileComponent implements OnInit {
     } else {
       this.avatar = 'assets/images/user.png';
     }
+    debugger
   }
 
   onReset() {
