@@ -369,20 +369,6 @@ img {
   }
 }
 
-.custom-file-input {
-  cursor: pointer;
-  $custom-file-text: (
-  placeholder: (
-    en: "Choose file...",
-    es: "Seleccionar archivo..."
-  ),
-  button-label: (
-    en: "Browse",
-    es: "Navegar"
-  )
-);
-}
-
 .custom-control-label::before {
   border: solid 1px #c3c2c2;
 }
