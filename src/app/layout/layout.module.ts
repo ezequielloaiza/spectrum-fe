@@ -58,6 +58,7 @@ import { DetailProductModalComponent } from './basket/modals/detail-product/deta
 import { SummaryProductsComponent } from './basket/modals/summary-products/summary-products.component';
 //import { DetailProductModalComponent } from './basket/client/modals/detail-product/detail-product';
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
     imports: [
@@ -71,7 +72,8 @@ import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-sta
         HeaderModule,
         InternationalPhoneModule,
         BreadcrumbModule,
-        NgSelectModule
+        NgSelectModule,
+        FileUploadModule
     ],
     declarations: [
         LayoutComponent,
