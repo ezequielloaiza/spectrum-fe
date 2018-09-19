@@ -1,6 +1,7 @@
 @import '../../../styles/spectrum/spectrum';
 
 .custom-file-input {
+  cursor: pointer;
   $custom-file-text: (
   placeholder: (
     en: "Choose file...",
