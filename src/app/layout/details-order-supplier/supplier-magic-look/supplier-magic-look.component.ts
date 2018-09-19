@@ -25,7 +25,7 @@ export class SupplierMagicLookComponent implements OnInit {
 
   downloadFile(item) {
     this.fileProductRequestedService.downloadFile$(item.name).subscribe(res => {
-      saveAs(res);
+      saveAs(res, item.name);
     }, error => {
       console.log('error', error);
     });
