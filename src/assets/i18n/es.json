@@ -370,5 +370,7 @@
     "Exceeds the maximum size allowed": "Excede el tamaño máximo permitido",
     "Max files size:": "Tamaño máximo de archivos:",
     "Maximum files number:": "Número máximo de archivos:",
-    "Browse": "Buscar"
+    "Browse": "Buscar",
+    "Generate Invoice": "Generar Factura",
+    "Save and Send": "Guardar y Enviar"
 }

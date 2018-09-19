@@ -34,12 +34,9 @@ export class GenerateInvoiceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('order:', this.order);
     this.initializeForm();
     this.user = JSON.parse(this. userStorageService.getCurrentUser()).userResponse;
-    console.log('user', this.user);
     this.loadInvoice();
-    console.log('invoice:', this.invoice);
   }
 
   initializeForm() {
@@ -93,8 +90,8 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.total = sum;
   }
 
-  generateInvoice(idOrder) {
-    this.orderService.generateInvoice$(idOrder, this.invoice).subscribe(
+  generateInvoice(send, idOrder) {
+    this.orderService.generateInvoice$(idOrder, send, this.invoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.translate

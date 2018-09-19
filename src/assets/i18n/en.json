@@ -364,5 +364,7 @@
     "Exceeds the maximum size allowed": "Exceeds the maximum size allowed",
     "Max files size:": "Max files size:",
     "Maximum files number:": "Maximum files number:",
-    "Browse": "Browse"
+    "Browse": "Browse",
+    "Generate Invoice": "Generate Invoice",
+    "Save and Send": "Save and Send"
 }
