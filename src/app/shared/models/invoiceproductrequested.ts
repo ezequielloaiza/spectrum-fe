@@ -5,6 +5,7 @@ export class InvoiceProductRequested {
 
   public  id: number;
   public  productRequested: ProductRequested;
+  public  idProductRequested: number;
   public  invoice: Invoice;
   public  urlImage: string;
   public  price: number;

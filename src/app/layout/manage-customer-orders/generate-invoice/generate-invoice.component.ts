@@ -9,6 +9,7 @@ import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { Invoice } from '../../../shared/models/invoice';
 import * as _ from 'lodash';
 import { InvoiceProductRequested } from '../../../shared/models/invoiceproductrequested';
+import { UserStorageService } from '../../../http/user-storage.service';
 
 @Component({
   selector: 'app-generate-invoice',
@@ -18,6 +19,7 @@ import { InvoiceProductRequested } from '../../../shared/models/invoiceproductre
 export class GenerateInvoiceComponent implements OnInit {
   form: FormGroup;
   order: any;
+  user: any;
   today: Date = new Date();
   invoice: Invoice = new Invoice();
 
@@ -27,12 +29,15 @@ export class GenerateInvoiceComponent implements OnInit {
     private orderService: OrderService,
     private notification: ToastrService,
     private translate: TranslateService,
-    private alertify: AlertifyService
+    private alertify: AlertifyService,
+    private userStorageService: UserStorageService
   ) {}
 
   ngOnInit() {
     console.log('order:', this.order);
     this.initializeForm();
+    this.user = JSON.parse(this. userStorageService.getCurrentUser()).userResponse;
+    console.log('user', this.user);
     this.loadInvoice();
     console.log('invoice:', this.invoice);
   }
@@ -48,14 +53,18 @@ export class GenerateInvoiceComponent implements OnInit {
   loadInvoice() {
     const productReq = [];
     this.invoice.address = this.order.address;
+    this.invoice.idAddress = this.order.address.idAddress;
     this.invoice.date = this.today;
     this.invoice.user = this.order.user;
     this.invoice.idOrder = this.order.idOrder;
     this.invoice.number = this.order.number;
     this.invoice.subtotal = this.order.subtotal;
     this.invoice.total = this.order.total;
+    this.invoice.user = this.user;
+    this.invoice.idUser = this.user.idUser;
     _.each(this.order.listProductRequested, function(pRequested) {
       const productR = new InvoiceProductRequested();
+      productR.idProductRequested = pRequested.productRequested.idProductRequested;
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.productRequested.urlImage;
       productR.price = pRequested.productRequested.price;
@@ -68,7 +77,6 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateUnitPrice($event, index) {
-    console.log('event', $event.target.value);
     this.invoice.listProductRequested[index].price = $event.target.value;
     this.invoice.listProductRequested[index].netAmount =
       this.invoice.listProductRequested[index].price *
@@ -85,8 +93,8 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.total = sum;
   }
 
-  generateInvoice(order) {
-    this.orderService.generateInvoice$(order, this.invoice).subscribe(
+  generateInvoice(idOrder) {
+    this.orderService.generateInvoice$(idOrder, this.invoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.translate
