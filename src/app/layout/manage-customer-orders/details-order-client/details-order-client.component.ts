@@ -59,7 +59,7 @@ export class DetailsOrderClientComponent implements OnInit {
            this.generar = true;
         }
 
-        if (this.order.status === 3 && res.data.supplier.idSupplier !== 1) {
+        if (this.order.status !== 0 && res.data.supplier.idSupplier !== 1) {
           this.download = true;
         }
         _.each(this.order.listProductRequested, function (detailsOrder) {
@@ -82,7 +82,8 @@ export class DetailsOrderClientComponent implements OnInit {
 
   downloadOrder(order) {
     this.orderService.downloadOrder$(order.number).subscribe(res => {
-      saveAs(res);
+      const filename = order.number + '.pdf';
+      saveAs(res, filename);
     }, error => {
       console.log('error', error);
     });
