@@ -5,10 +5,10 @@
       <!--left col-->
       <div class="text-center">
         <br>
-        <img src="assets/images/user.png" class="avatar img-circle img-thumbnail" alt="avatar">
+        <img src={{avatar}} class="avatar img-circle img-thumbnail" alt="avatar">
       </div>
       <div class="custom-file">
-        <input type="file" class="custom-file-input" id="FS" required>
+        <input type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader" required />
         <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
         <div class="invalid-feedback">Example invalid custom file feedback</div>
       </div>

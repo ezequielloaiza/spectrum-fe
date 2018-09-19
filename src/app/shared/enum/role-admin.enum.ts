@@ -21,6 +21,7 @@ export enum RoleAdmin {
   ViewUser,
   EditUser,
   EditCompany,
+  EditSupplier,
   ViewSeller,
   EditSeller,
   ViewClient,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
@@ -88,6 +88,18 @@ export class UserService {
 
   public allCustomersAvailableBuy$(idSupplier): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/allCustomersAvailableBuy/' + idSupplier);
+  }
+
+  public uploaderAvatar$(file: File): Observable<HttpEvent<{}>> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    const header = new HttpHeaders({'Content-Type': undefined});
+    const req = new HttpRequest('POST', environment.apiUrl + 'fileProductRequested/uploader', formData, {
+      headers: header,
+      reportProgress: true,
+      responseType: 'text'
+    });
+    return this.http.request(req);
   }
 
 }

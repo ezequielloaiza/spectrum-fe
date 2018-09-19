@@ -59,6 +59,7 @@ import { SummaryProductsComponent } from './basket/modals/summary-products/summa
 //import { DetailProductModalComponent } from './basket/client/modals/detail-product/detail-product';
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
 import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
     imports: [
@@ -72,7 +73,8 @@ import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invo
         HeaderModule,
         InternationalPhoneModule,
         BreadcrumbModule,
-        NgSelectModule
+        NgSelectModule,
+        FileUploadModule
     ],
     declarations: [
         LayoutComponent,
