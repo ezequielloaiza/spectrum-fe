@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { Product } from '../../../shared/models/product';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-details-order-client',
@@ -27,6 +28,7 @@ export class DetailsOrderClientComponent implements OnInit {
   advancedPagination: number;
   itemPerPage = 1;
   generar = false;
+  download = false;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -56,6 +58,10 @@ export class DetailsOrderClientComponent implements OnInit {
         if (this.order.status !== 1 ) {
            this.generar = true;
         }
+
+        if (this.order.status === 3 && res.data.supplier.idSupplier !== 1) {
+          this.download = true;
+        }
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
         });
@@ -71,7 +77,15 @@ export class DetailsOrderClientComponent implements OnInit {
     modalRef.result.then((result) => {
         this.generar = false;
       } , (reason) => {
-});
+    });
+  }
+
+  downloadOrder(order) {
+    this.orderService.downloadOrder$(order.number).subscribe(res => {
+      saveAs(res);
+    }, error => {
+      console.log('error', error);
+    });
   }
 }
 
