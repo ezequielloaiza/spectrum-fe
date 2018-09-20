@@ -22,11 +22,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   advancedPagination: number;
   itemPerPage = 5;
   filterStatus = [{ id: 0, name: "Pending" },
-                  { id: 1, name: "Processed" },
-                  { id: 2, name: "Ready to Ship" },
-                  { id: 3, name: "Shipped" },
-                  { id: 4, name: "Canceled" }
-                ];
+                  { id: 1, name: "Paid" }
+                  ];
   model: NgbDateStruct;
   valid1 = false;
   tamano: String;
@@ -60,7 +57,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       this.status = params.status;
     });
 
-    
+
     this.advancedPagination = 1;
     this.selectedStatus = '';
     this.tamano = 'undefined';
@@ -68,13 +65,13 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.navigationSubscription) {  
+    if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
     }
   }
 
   getListOrders(): void {
-    
+
     if (this.user.role.idRole === 2) {
       this.orderService.findOrdersClientBySeller$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -115,7 +112,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       this.valid1 = true;
       if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
         // tslint:disable-next-line:radix
-        this.listOrders = _.filter(this.listOrdersAux, { 'status': parseInt(this.selectedStatus) });
+        this.listOrders = _.filter(this.listOrdersAux, { 'paymentStatus': parseInt(this.selectedStatus) });
       } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
         this.filterStatusDate(this.selectedStatus);
       } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
@@ -212,7 +209,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) ||
        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) &&
        // tslint:disable-next-line:radix
-       ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.status))) {
+       ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
       }
     });
@@ -225,7 +222,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) &&
        // tslint:disable-next-line:radix
-       (_.isEqual(parseInt(status), orders.status))) {
+       (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
       }
     });
@@ -259,7 +256,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       // Fecha Listado
       fechaList = _.toString(orders.date.slice(0, 10));
       // tslint:disable-next-line:radix
-      if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), orders.status))) {
+      if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
       }
     });
