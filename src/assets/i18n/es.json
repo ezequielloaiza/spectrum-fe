@@ -200,7 +200,7 @@
     "Date":"Fecha",
     "Number":"Número",
     "View Details":"Ver Detalles",
-    "Select Status":"Seleccione Estado",
+    "Select payment status":"Seleccione estado del pago",
     "Clean Filters":"Limpiar filtros",
     "Order":"Orden",
     "Order Details":"Detalle de la orden",
@@ -370,5 +370,8 @@
     "Exceeds the maximum size allowed": "Excede el tamaño máximo permitido",
     "Max files size:": "Tamaño máximo de archivos:",
     "Maximum files number:": "Número máximo de archivos:",
-    "Browse": "Buscar"
+    "Browse": "Buscar",
+    "Order Status":"Estado de la Orden",
+    "Payment Status":"Estado del Pago",
+    "Paid":"Pagada"
 }
