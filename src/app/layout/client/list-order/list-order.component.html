@@ -24,7 +24,7 @@
         <div class="row">
           <div class="col-xl-3 filter">
             <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
-              <option value="" disabled [selected]="true" translate>Select Status</option>
+              <option value="" disabled [selected]="true" translate>Select payment status</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
           </div>
@@ -56,9 +56,9 @@
                       <span>{{'#'}}{{order.number}}</span>
                     </div>
                   </div>
-                  <div class="col-lg-6">
+                  <div class="col-lg-3">
                     <div class="title-status">
-                      <span>{{ 'Status' | translate }}</span>
+                      <span>{{ 'Order Status' | translate }}</span>
                     </div>
                     <div class="div-status">
                       <span *ngIf='order.status==0' class="div-pending">
@@ -72,6 +72,19 @@
                       </span>
                       <span *ngIf='order.status==3' class="div-shipped">
                         <div translate>Shipped</div>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="title-payment">
+                      <span>{{ 'Payment Status' | translate }}</span>
+                    </div>
+                    <div class="div-status">
+                      <span *ngIf='order.paymentStatus==0' class="div-pending">
+                        <div translate>Pending</div>
+                      </span>
+                      <span *ngIf='order.paymentStatus==1' class="div-shipped">
+                        <div translate>Paid</div>
                       </span>
                     </div>
                   </div>

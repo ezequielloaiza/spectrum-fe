@@ -185,7 +185,7 @@
     "Date":"Date",
     "Number":"Number",
     "View Details":"View Details",
-    "Select Status":"Select Status",
+    "Select payment status":"Select payment status",
     "Clean Filters":"Clean Filters",
     "Order":"Order",
     "Ordered on":"Ordered on",
@@ -364,5 +364,8 @@
     "Exceeds the maximum size allowed": "Exceeds the maximum size allowed",
     "Max files size:": "Max files size:",
     "Maximum files number:": "Maximum files number:",
-    "Browse": "Browse"
+    "Browse": "Browse",
+    "Order Status":"Order Status",
+    "Payment Status":"Payment Status",
+    "Paid":"Paid"
 }

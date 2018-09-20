@@ -10,6 +10,7 @@ export class Order {
     public subtotal: number;
     public total: number;
     public status: number;
+    public paymentStatus: number;
     public listProductRequested: Array<OrderProductRequested>;
 
     public constructor() { }
