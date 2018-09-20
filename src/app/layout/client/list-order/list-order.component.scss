@@ -25,8 +25,9 @@
     background: $pending-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+    //margin-left: 15px;
   }
 }
 
@@ -36,8 +37,9 @@
     background:$paid-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+    //margin-left: 15px;
   }
 }
 
@@ -47,8 +49,9 @@
     background: $authorized-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+    //margin-left: 15px;
   }
 }
 
@@ -58,8 +61,9 @@
     background: $processed-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+    //margin-left: 15px;
   }
 }
 
@@ -69,8 +73,9 @@
     background: $sent-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+    //margin-left: 15px;
   }
 }
 
@@ -103,7 +108,8 @@ a:link {
   font-size: 14px;
 }
 .div-status{
-  padding-left: 140px;
+  padding-left: 65px;
+  font-size: 14px;
 }
 
 .div-date{
@@ -112,7 +118,13 @@ a:link {
 
 
 .title-status{
-  padding-right: 220px;
+  padding-right: 20px;
+  font-size: 14px;
+}
+
+.title-payment{
+  padding-right: 120px;
+  font-size: 14px;
 }
 
 .list-orden {
