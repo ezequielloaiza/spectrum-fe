@@ -7,10 +7,10 @@
 <div class="modal-body">
   <div class="col col-xl-12 col-lg-12">
     <div class="row">
-      <div class="col-xl-4">
-        <img src="assets/images/spectrumLogo.png" width="200px" class="" />
+      <div class="col-xl-2">
+        <img src="assets/images/spectrumIcon.png" width="100px" class="" />
       </div>
-      <div class="col-xl-8">
+      <div class="col-xl-10">
         <h4>Spectrum International</h4>
         <h6>Dallas, TX - Atlanta, GA</h6>
         <h6>Tel : +1 678 557 3322</h6>
@@ -18,35 +18,12 @@
     </div>
   </div>
   <form [formGroup]="form">
-    <span style="display: block;width: 50%;margin: 10px 0px;border-top: 0.5px solid #0a0a0a;margin: 20px auto;"></span>
+    <span style="display: block;width: 70%;margin: 10px 0px;border-top: 1px solid #0a0a0a;margin: 20px auto;"></span>
     <div class="col col-xl-12 col-lg-12">
       <div class="row">
-        <div class="col-xl-6">
-          <label>{{order? order.nameUser:''}}</label>
-          <label></label>
-        </div>
         <div class="col-xl-6">
           <label class="label">{{ 'Order No' | translate }}</label>
           <label class="label-value">{{order.number}}</label>
-        </div>
-      </div>
-    </div>
-    <div class="col col-xl-12 col-lg-12">
-      <div class="row">
-        <div class="col-xl-6">
-          <label>{{order? order.user.email:''}}</label>
-          <label></label>
-        </div>
-        <div class="col-xl-6">
-          <label class="label">{{ 'Order Date' | translate }}</label>
-          <label class="label-value">{{order.date | date:'yyyy-MM-dd'}}</label>
-        </div>
-      </div>
-    </div>
-    <div class="col col-xl-12 col-lg-12">
-      <div class="row">
-        <div class="col-xl-6">
-          <label>{{order? order.address.name :''}}</label>
         </div>
         <div class="col-xl-6">
           <label class="label">{{ 'Invoice No' | translate }}</label>
@@ -57,18 +34,12 @@
     <div class="col col-xl-12 col-lg-12">
       <div class="row">
         <div class="col-xl-6">
-          <label>{{order? (order.address.city + ' - '+order.address.state):''}}</label>
+          <label class="label">{{ 'Order Date' | translate }}</label>
+          <label class="label-value">{{order.date | date:'yyyy-MM-dd'}}</label>
         </div>
         <div class="col-xl-6">
           <label class="label" >{{ 'Invoice Date ' | translate }}</label>
           <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
-        </div>
-      </div>
-    </div>
-    <div class="col col-xl-12 col-lg-12">
-      <div class="row">
-        <div class="col-xl-6">
-          <label>{{order? (order.address.country):''}}</label>
         </div>
       </div>
     </div>
@@ -99,7 +70,7 @@
     </div>
     <div class="col col-xl-12 col-lg-12">
         <div class="row">
-          <div class="col-xl-6 deliver">
+          <div class="col-xl-6">
             <label>{{order? order.nameUser:''}}</label>
             <br>
             <label>{{order? order.user.email:''}}</label>
@@ -110,12 +81,12 @@
             <br>
             <label>{{order? (order.address.country):''}}</label>
           </div>
-          <div class="col-xl-6 deliver">
+          <div class="col-xl-6">
             <label class="label-amount">{{ 'Subtotal Amount' | translate }}</label>
-            <label class="label-amount">{{invoice.subtotal}}</label>
+            <label class="label-amount">{{invoice.subtotal | currency : "USD $"}}</label>
             <br>
             <label class="label-amount">{{ 'Total Amount' | translate }}</label>
-            <label class="label-amount">{{invoice.total}}</label>
+            <label class="label-amount">{{invoice.total | currency : "USD $"}}</label>
           </div>
         </div>
       </div>
