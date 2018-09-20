@@ -1,13 +1,16 @@
 <br>
 <br>
 <br>
-
 <div class="margin-breadcrumb">
-  <app-page-header [heading]="'Products List'" [icon]="'fa-edit'"></app-page-header>
-  <br>
-  <a routerLink="/dashboard">
-    <i class="fa fa-arrow-left">&nbsp;&nbsp;{{ 'Back' | translate }}</i>
-  </a>
+	<div class="header-body">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<i class="fa fa-edit"></i> {{ 'Products List' | translate}}</li>
+		</ol>
+	</div>
 </div>
 <div class="middleBar">
   <div class="row display-table">
