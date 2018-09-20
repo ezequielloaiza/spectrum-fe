@@ -12,6 +12,7 @@ export class Order {
     public total: number;
     public status: number;
     public user: User;
+    public paymentStatus: number;
     public listProductRequested: Array<OrderProductRequested>;
 
     public constructor() { }

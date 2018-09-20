@@ -36,8 +36,9 @@
     background: $pending-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+ //   margin-left: 15px;
   }
 }
 
@@ -47,8 +48,9 @@
     background:$paid-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+  //  margin-left: 15px;
   }
 }
 
@@ -58,8 +60,9 @@
     background: $authorized-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+   // margin-left: 15px;
   }
 }
 
@@ -69,8 +72,9 @@
     background: $processed-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+  //  margin-left: 15px;
   }
 }
 
@@ -80,8 +84,9 @@
     background: $sent-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 35%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+   // margin-left: 15px;
   }
 }
 
@@ -91,8 +96,9 @@
     background:$cancel-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 30%;
-    margin-left: 15px;
+    width: 65%;
+    font-size: 13px;
+    //margin-left: 15px;
   }
 }
 
@@ -117,10 +123,10 @@
 }
 
 .span_total{
-  padding-left: 35px;
+  //padding-left: 35px;
 }
 .div-status{
-  padding-left: 140px;
+  //padding-left: 10px;
 }
 
 .div-date{
@@ -129,9 +135,15 @@
 
 
 .title-status{
-  padding-right: 240px;
+  padding-right: 75px;
   font-size: 14px;
-  font-weight:450px;
+  font-weight: 600;
+}
+
+.title-payment{
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .list-orden {

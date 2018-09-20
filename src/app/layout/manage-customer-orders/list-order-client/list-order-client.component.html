@@ -32,7 +32,7 @@
           </div>
           <div class="col-xl-3 filter">
             <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
-              <option value="" disabled [selected]="true" translate>Select Status</option>
+              <option value="" disabled [selected]="true" translate>Select payment status</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
           </div>
@@ -72,11 +72,11 @@
                       <span>{{order? order.nameUser:''}}</span>
                     </div>
                   </div>
-                  <div class="col-lg-3">
+                  <div class="col-lg-2">
                     <div>
-                      <span class="title-status">{{ 'Status' | translate }}</span>
+                      <span class="title-status">{{ 'Order Status' | translate }}</span>
                     </div>
-                    <div>
+                    <div class="div-status">
                       <span *ngIf='order.status==0' class="div-pending">
                         <div translate>Pending</div>
                       </span>
@@ -95,6 +95,19 @@
                     </div>
                   </div>
                   <div class="col-lg-2">
+                    <div class="title-payment">
+                      <span>{{ 'Payment Status' | translate }}</span>
+                    </div>
+                    <div class="div-status">
+                      <span *ngIf='order.paymentStatus==0' class="div-pending">
+                        <div translate>Pending</div>
+                      </span>
+                      <span *ngIf='order.paymentStatus==1' class="div-shipped">
+                        <div translate>Paid</div>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-1">
                     <div>
                       <span class="span_total">Total</span>
                     </div>

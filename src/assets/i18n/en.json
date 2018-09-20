@@ -185,7 +185,7 @@
     "Date":"Date",
     "Number":"Number",
     "View Details":"View Details",
-    "Select Status":"Select Status",
+    "Select payment status":"Select payment status",
     "Clean Filters":"Clean Filters",
     "Order":"Order",
     "Ordered on":"Ordered on",
@@ -366,5 +366,8 @@
     "Maximum files number:": "Maximum files number:",
     "Browse": "Browse",
     "Generate Invoice": "Generate Invoice",
-    "Save and Send": "Save and Send"
+    "Save and Send": "Save and Send",
+    "Order Status":"Order Status",
+    "Payment Status":"Payment Status",
+    "Paid":"Paid"
 }

@@ -19,9 +19,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   advancedPagination: number;
   itemPerPage = 5;
   filterStatus = [{ id: 0, name: "Pending" },
-                  { id: 1, name: "Processed" },
-                  { id: 2, name: "Ready to Ship" },
-                  { id: 3, name: "Shipped" }
+                  { id: 1, name: "Paid" }
                 ];
   model: NgbDateStruct;
   valid = false;
@@ -90,7 +88,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
       this.valid = true;
       if (this.tamano.length === 9) {
         // tslint:disable-next-line:radix
-        this.listOrders = _.filter(this.listOrdersAux, { 'status': parseInt(this.selectedStatus) });
+        this.listOrders = _.filter(this.listOrdersAux, { 'paymentStatus': parseInt(this.selectedStatus) });
       } else {
          let fecha: String;
         // FechaFiltro
@@ -100,7 +98,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
           // Fecha Listado
           fechaList = _.toString(orders.date.slice(0, 10));
           // tslint:disable-next-line:radix
-          if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), orders.status))) {
+          if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
             lista.push(orders);
           }
         });
@@ -128,7 +126,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
               lista.push(orders);
             }
           // tslint:disable-next-line:radix
-          } else if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(valorStatus), orders.status))) {
+          } else if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(valorStatus), orders.paymentStatus))) {
               lista.push(orders);
           }
       });

@@ -200,7 +200,7 @@
     "Date":"Fecha",
     "Number":"Número",
     "View Details":"Ver Detalles",
-    "Select Status":"Seleccione Estado",
+    "Select payment status":"Seleccione estado del pago",
     "Clean Filters":"Limpiar filtros",
     "Order":"Orden",
     "Order Details":"Detalle de la orden",
@@ -372,5 +372,8 @@
     "Maximum files number:": "Número máximo de archivos:",
     "Browse": "Buscar",
     "Generate Invoice": "Generar Factura",
-    "Save and Send": "Guardar y Enviar"
+    "Save and Send": "Guardar y Enviar",
+    "Order Status":"Estado de la Orden",
+    "Payment Status":"Estado del Pago",
+    "Paid":"Pagada"
 }
