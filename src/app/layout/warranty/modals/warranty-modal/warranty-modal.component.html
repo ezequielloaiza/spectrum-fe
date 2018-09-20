@@ -73,7 +73,7 @@
               <select *ngIf="action != 'statusChange'" class="form-control" name="orderClientProductRequestId" id="orderClientProductRequestId"
                 (change)=assignPatient(orderClientProductRequestId) formControlName="orderClientProductRequestId" required>
                 <option value="" disabled [selected]="true" translate>Select</option>
-                <option *ngFor="let product of listProducts" value="{{product.idOrderProductRequested}}">{{ product.productRequested.product.name }}</option>
+                <option *ngFor="let product of listProducts" value="{{product.idOrderProductRequested}}">{{ product.label }}</option>
               </select>
             </div>
           </fieldset>
