@@ -47,7 +47,7 @@ export class DetailsOrderComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
 
-        if (this.order.status !== 0 && res.data.supplier.idSupplier !== 1) {
+        if (res.data.dateSend !== null && res.data.supplier.idSupplier !== 1) {
           this.download = true;
         }
         _.each(this.order.listProductRequested, function (detailsOrder) {
