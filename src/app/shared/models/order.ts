@@ -11,6 +11,7 @@ export class Order {
     public total: number;
     public status: number;
     public paymentStatus: number;
+    public dateSend: Date;
     public listProductRequested: Array<OrderProductRequested>;
 
     public constructor() { }
