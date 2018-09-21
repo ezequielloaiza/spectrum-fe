@@ -15,15 +15,15 @@
 
     .supplier-body {
       padding: .5em;
-  
+
       > div {
         display: flex;
         align-items: baseline;
-  
+
         > i {
           padding-right: .5em;
         }
-  
+
         > p {
           margin-bottom: 0;
           color: #8c8c8c;
@@ -32,22 +32,22 @@
           font-size: .9em;
         }
       }
-  
+
       > h5 {
         margin-bottom: 0;
         text-transform: uppercase;
         color: #495057;
         font-weight: 600;
       }
-  
+
       h6 {
         margin-bottom: 0;
       }
     }
   }
- 
+
   .table {
-  
+
     >tbody >tr:nth-last-child(1) {
       height: 0;
     }
@@ -59,10 +59,14 @@
 
     .btn-two {
       text-align: right;
-  
+
       > .btn-secondary {
         margin-right: 1em;
       }
     }
-  } 
+  }
+
+  .add-supplier{
+    margin-left: 380px;
+  }
 }
