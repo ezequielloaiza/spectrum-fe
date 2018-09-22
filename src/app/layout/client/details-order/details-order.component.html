@@ -25,6 +25,12 @@
           <div class="align-self-center">
             <div class="card-header">{{ 'Order Details' | translate }}</div>
           </div>
+          <div class="align-btn-detail">
+            <button [hidden]="!download" type="button" class="btn btn-success btn-xs"
+              (click)="downloadOrder(order)" translate>
+              <span class="fa fa-download"></span> Download Order
+            </button>
+          </div>
         </div>
         <div class="div-order">{{'Ordered on'| translate}} {{order.date | date:'mediumDate'}}
           <span>|</span>

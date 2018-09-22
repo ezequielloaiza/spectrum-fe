@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { Product } from '../../../shared/models/product';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-details-order-client',
@@ -27,6 +28,7 @@ export class DetailsOrderClientComponent implements OnInit {
   advancedPagination: number;
   itemPerPage = 1;
   generar = false;
+  download = false;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -53,8 +55,12 @@ export class DetailsOrderClientComponent implements OnInit {
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
-        if (this.order.status !== 1 ) {
+        if (this.order.status !== 1 && this.order.dateSend === null) {
            this.generar = true;
+        }
+
+        if (res.data.dateSend !== null && res.data.supplier.idSupplier !== 1) {
+          this.download = true;
         }
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
@@ -71,7 +77,16 @@ export class DetailsOrderClientComponent implements OnInit {
     modalRef.result.then((result) => {
         this.generar = false;
       } , (reason) => {
-});
+    });
+  }
+
+  downloadOrder(order) {
+    this.orderService.downloadOrder$(order.number).subscribe(res => {
+      const filename = order.number + '.pdf';
+      saveAs(res, filename);
+    }, error => {
+      console.log('error', error);
+    });
   }
 }
 

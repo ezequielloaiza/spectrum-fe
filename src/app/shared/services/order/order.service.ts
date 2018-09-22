@@ -65,4 +65,10 @@ export class OrderService {
   public allOrderByUserIdAndStatus$(idUser, IdStatus): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/allOrderByUserIdAndStatus/' + idUser + '/' + IdStatus);
   }
+
+  public downloadOrder$(name): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/downloadOrder/' + name, {
+      responseType: 'blob'
+    });
+  }
 }
