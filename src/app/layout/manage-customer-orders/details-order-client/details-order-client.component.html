@@ -29,6 +29,11 @@
             <button [hidden]="!generar" type="button" (click)="generateOrder(order)" class="btn btn-outline-primary" translate>
               Generate Order
             </button>
+            <span> </span>
+            <button [hidden]="!download" type="button" class="btn btn-success btn-xs"
+              (click)="downloadOrder(order)" translate>
+              <span class="fa fa-download"></span> Download Order
+            </button>
           </div>
         </div>
         <div class="div-order">{{'Ordered on'| translate}} {{order.date | date:'mediumDate'}}
