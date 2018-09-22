@@ -6,6 +6,7 @@ import { Order } from '../../../shared/models/order';
 import * as _ from 'lodash';
 import { ProductoimageService } from '../../../shared/services/productoimage/productoimage.service';
 import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-details-order',
@@ -21,6 +22,7 @@ export class DetailsOrderComponent implements OnInit {
   listDetailsAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage = 1;
+  download = false;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -44,6 +46,10 @@ export class DetailsOrderComponent implements OnInit {
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
+
+        if (res.data.dateSend !== null && res.data.supplier.idSupplier !== 1) {
+          this.download = true;
+        }
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.show = false;
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
@@ -51,6 +57,15 @@ export class DetailsOrderComponent implements OnInit {
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
       }
+    });
+  }
+
+  downloadOrder(order) {
+    this.orderService.downloadOrder$(order.number).subscribe(res => {
+      const filename = order.number + '.pdf';
+      saveAs(res, filename);
+    }, error => {
+      console.log('error', error);
     });
   }
 }
