@@ -58,7 +58,7 @@ export class DetailsOrderClientComponent implements OnInit {
         if (this.order.status !== 1 && this.order.dateSend === null) {
            this.generar = true;
         }
-        debugger
+
         if (res.data.dateSend !== null && res.data.supplier.idSupplier !== 1) {
           this.download = true;
         }
