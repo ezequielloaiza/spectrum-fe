@@ -4,6 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+<div class="content">
 <div class="modal-body">
   <div class="col col-xl-12 col-lg-12">
     <div class="row">
@@ -38,7 +39,7 @@
           <label class="label-value">{{order.date | date:'yyyy-MM-dd'}}</label>
         </div>
         <div class="col-xl-6">
-          <label class="label" >{{ 'Invoice Date ' | translate }}</label>
+          <label class="label" >{{ 'Invoice Date' | translate }}</label>
           <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
         </div>
       </div>
@@ -56,7 +57,7 @@
             <tbody>
               <tr *ngFor="let productR of invoice.listProductRequested; let i = index">
                 <td class="table-tr">{{productR.productRequested.quantity}}</td>
-                <td class="table-tr">{{(productR.productRequested.product.name + " - "+ productR.productRequested.product.description_short)}}</td>
+                <td class="table-tr">{{(productR.productRequested.product.name + " - "+ productR.productRequested.product.material )}}</td>
                 <td class="table-tr">
                   <fieldset>
                     <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice($event, i)" placeholder="{{ 'Enter unit price' | translate }}"
@@ -70,7 +71,7 @@
     </div>
     <div class="col col-xl-12 col-lg-12">
         <div class="row">
-          <div class="col-xl-6">
+          <div class="col-xl-5">
             <label>{{order? order.nameUser:''}}</label>
             <br>
             <label>{{order? order.user.email:''}}</label>
@@ -81,7 +82,7 @@
             <br>
             <label>{{order? (order.address.country):''}}</label>
           </div>
-          <div class="col-xl-6">
+          <div class="col-xl-7">
             <label class="label-amount">{{ 'Subtotal Amount' | translate }}</label>
             <label class="label-amount">{{invoice.subtotal | currency : "USD $"}}</label>
             <br>
@@ -92,6 +93,7 @@
       </div>
 
   </form>
+</div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;

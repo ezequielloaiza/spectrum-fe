@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { OrderService } from '../../../shared/services';
+import { OrderService, ProductsRequestedService } from '../../../shared/services';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
@@ -30,7 +30,8 @@ export class GenerateInvoiceComponent implements OnInit {
     private notification: ToastrService,
     private translate: TranslateService,
     private alertify: AlertifyService,
-    private userStorageService: UserStorageService
+    private userStorageService: UserStorageService,
+    private productRequestedService: ProductsRequestedService
   ) {}
 
   ngOnInit() {
@@ -48,7 +49,7 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   loadInvoice() {
-    const productReq = [];
+    let productReq = [];
     this.invoice.address = this.order.address;
     this.invoice.idAddress = this.order.address.idAddress;
     this.invoice.date = this.today;
@@ -70,6 +71,7 @@ export class GenerateInvoiceComponent implements OnInit {
         pRequested.productRequested.quantity;
       productReq.push(productR);
     });
+
     this.invoice.listProductRequested = productReq;
   }
 
@@ -94,6 +96,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.orderService.generateInvoice$(idOrder, send, this.invoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
+          this.close();
           this.translate
             .get('Successfully Generated', { value: 'Successfully Generated' })
             .subscribe((res1: string) => {

@@ -375,5 +375,15 @@
     "Save and Send": "Guardar y Enviar",
     "Order Status":"Estado de la Orden",
     "Payment Status":"Estado del Pago",
-    "Paid":"Pagada"
+    "Paid":"Pagada",
+    "Order No": "Orden No",
+    "Invoice No": "Factura No",
+    "Order Date": "Fecha de la Orden",
+    "Invoice Date": "Fecha de la Factura",
+    "QUANTITY": "CANTIDAD",
+    "DESCRIPTION": "DESCRIPCION",
+    "UNIT PRICE": "PRECIO UNITARIO",
+    "NET AMOUNT": "IMPORTE NETO",
+    "Subtotal Amount": "Monto Subtotal",
+    "Total Amount": "Monto Total"
 }
