@@ -55,7 +55,7 @@ export class DetailsOrderClientComponent implements OnInit {
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
-        if (this.order.status !== 1 ) {
+        if (this.order.status !== 1 && this.order.dateSend === null) {
            this.generar = true;
         }
         debugger
