@@ -1,0 +1,34 @@
+@import '../../../../styles/spectrum/spectrum';
+@include tr-sizes((15%,35%,25%,25%));
+.label-value {
+  width: 200px;
+  padding-left: 10px;
+}
+
+.label {
+  width: 110px;
+  padding-left: 10px;
+  font-weight: bold;
+}
+
+.label-amount {
+  text-align: right;
+  padding-right: 15px;
+  width: 170px;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.total {
+  text-align: right;
+  padding-right: 15px;
+}
+
+.content {
+  overflow-y: auto;
+  max-height: 600px;
+}
+
+
