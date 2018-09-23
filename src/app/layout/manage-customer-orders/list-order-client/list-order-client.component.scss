@@ -133,6 +133,10 @@
   padding-left: 150px;
 }
 
+.div-dropdown{
+  padding-right: 50px;
+  text-align: right;
+}
 
 .title-status{
   padding-right: 75px;
@@ -247,7 +251,7 @@
 }
 
 .dropdown-menu {
-  left: -33px !important;
+  left: 40px !important;
 
   &::before {
     position: absolute;

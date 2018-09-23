@@ -380,5 +380,7 @@
     "UNIT PRICE": "UNIT PRICE",
     "NET AMOUNT": "NET AMOUNT",
     "Subtotal Amount": "Subtotal Amount",
-    "Total Amount": "Total Amount"
+    "Total Amount": "Total Amount",
+    "To Provider": "To Provider",
+    "To Client": "To Client"
 }

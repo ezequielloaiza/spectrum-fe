@@ -386,5 +386,7 @@
     "UNIT PRICE": "PRECIO UNITARIO",
     "NET AMOUNT": "IMPORTE NETO",
     "Subtotal Amount": "Monto Subtotal",
-    "Total Amount": "Monto Total"
+    "Total Amount": "Monto Total",
+    "To Provider": "Para el Proveedor",
+    "To Client": "Para el Cliente"
 }

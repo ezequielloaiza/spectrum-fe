@@ -10,6 +10,7 @@ import { Invoice } from '../../../shared/models/invoice';
 import * as _ from 'lodash';
 import { InvoiceProductRequested } from '../../../shared/models/invoiceproductrequested';
 import { UserStorageService } from '../../../http/user-storage.service';
+import { InvoiceService } from '../../../shared/services/invoice/invoice.service';
 
 @Component({
   selector: 'app-generate-invoice',
@@ -31,7 +32,7 @@ export class GenerateInvoiceComponent implements OnInit {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private productRequestedService: ProductsRequestedService
+    private invoiceService: InvoiceService
   ) {}
 
   ngOnInit() {
@@ -49,6 +50,26 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   loadInvoice() {
+    this.invoiceService.allInvoiceByOrder$(this.order.idOrder).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          const invoices = res.data;
+          if (invoices.length > 0) {
+            this.invoice = invoices[0];
+          } else {
+            this.loadInvoiceFromOrder();
+          }
+        } else {
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    );
+  }
+
+  loadInvoiceFromOrder() {
     let productReq = [];
     this.invoice.address = this.order.address;
     this.invoice.idAddress = this.order.address.idAddress;

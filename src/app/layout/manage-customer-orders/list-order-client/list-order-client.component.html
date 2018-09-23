@@ -119,7 +119,7 @@
                     <div class="div-date">
                       <span>{{order.date | date:'yyyy-MM-dd'}}</span>
                     </div>
-                    <div class="div-date">
+                    <div class="div-dropdown">
                       <div ngbDropdown class="d-inline-block dropdown">
                         <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                         <div ngbDropdownMenu>
@@ -132,7 +132,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="div-date">
+                    <div class="div-dropdown">
                         <div [hidden]="order.status!==2" ngbDropdown class="d-inline-block dropdown">
                           <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Generate Invoice' | translate }}</button>
                           <div ngbDropdownMenu>

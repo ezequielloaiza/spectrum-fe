@@ -8,12 +8,17 @@
 .label {
   width: 110px;
   padding-left: 10px;
+  font-weight: bold;
 }
 
 .label-amount {
   text-align: right;
   padding-right: 15px;
   width: 170px;
+}
+
+.bold{
+  font-weight: bold;
 }
 
 .total {

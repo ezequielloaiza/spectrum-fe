@@ -48,10 +48,10 @@
         <table class="table">
             <thead>
               <tr>
-                <th class="table-tr">{{ 'QUANTITY' | translate }}</th>
-                <th class="table-tr">{{ 'DESCRIPTION' | translate }}</th>
-                <th class="table-tr">{{ 'UNIT PRICE' | translate }}</th>
-                <th class="table-tr">{{ 'NET AMOUNT' | translate}}</th>
+                <th class="table-tr bold">{{ 'QUANTITY' | translate }}</th>
+                <th class="table-tr bold">{{ 'DESCRIPTION' | translate }}</th>
+                <th class="table-tr bold">{{ 'UNIT PRICE' | translate }}</th>
+                <th class="table-tr bold">{{ 'NET AMOUNT' | translate}}</th>
               </tr>
             </thead>
             <tbody>
@@ -83,10 +83,10 @@
             <label>{{order? (order.address.country):''}}</label>
           </div>
           <div class="col-xl-7">
-            <label class="label-amount">{{ 'Subtotal Amount' | translate }}</label>
+            <label class="label-amount bold">{{ 'Subtotal Amount' | translate }}</label>
             <label class="label-amount">{{invoice.subtotal | currency : "USD $"}}</label>
             <br>
-            <label class="label-amount">{{ 'Total Amount' | translate }}</label>
+            <label class="label-amount bold">{{ 'Total Amount' | translate }}</label>
             <label class="label-amount">{{invoice.total | currency : "USD $"}}</label>
           </div>
         </div>
