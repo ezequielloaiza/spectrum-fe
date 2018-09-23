@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { OrderService } from '../../../shared/services/order/order.service';
-import { UserStorageService } from '../../../http/user-storage.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { StatusOrder } from '../../../shared/enum/status-order.enum';
 import * as _ from 'lodash';

@@ -62,6 +62,7 @@ export class DetailsOrderComponent implements OnInit {
     });
   }
 
+  /*
   upload(order): void {
     console.log('upload', order);
     this.ftpService.uploadFile$('/home/naily/Descargas/prueba.jpg').subscribe(res => {
@@ -70,7 +71,7 @@ export class DetailsOrderComponent implements OnInit {
       }
     });
   }
-}
+  */
 
   downloadOrder(order) {
     this.orderService.downloadOrder$(order.number).subscribe(res => {
