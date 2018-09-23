@@ -48,6 +48,7 @@ export class ProductViewEuclidComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  warranty = false;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
@@ -134,8 +135,13 @@ export class ProductViewEuclidComponent implements OnInit {
 
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
-    if (parameter.name === 'Warranty'){
-      parameter.selected = parameter.selected === "Yes" ? true : false;
+    if (parameter.name === 'Warranty') {
+      parameter.selected = parameter.selected === 'Yes' ? true : false;
+      if (parameter.selected) {
+        this.warranty = true;
+      } else {
+        this.warranty = false;
+      }
     }
   }
 
