@@ -58,6 +58,7 @@ import { DetailProductModalComponent } from './basket/modals/detail-product/deta
 import { SummaryProductsComponent } from './basket/modals/summary-products/summary-products.component';
 //import { DetailProductModalComponent } from './basket/client/modals/detail-product/detail-product';
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
+import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.component';
 
@@ -127,7 +128,8 @@ import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.co
         DetailProductModalComponent,
         SummaryProductsComponent,
         ModalsChangeStatusComponent,
-        MagicLookComponent
+        MagicLookComponent,
+        GenerateInvoiceComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -146,7 +148,8 @@ import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.co
       DetailProductModalComponent,
       SummaryProductsComponent,
       ModalsChangeStatusComponent,
-      MagicLookComponent
+      MagicLookComponent,
+      GenerateInvoiceComponent
     ],
     providers: [
       BusinessTypeService,

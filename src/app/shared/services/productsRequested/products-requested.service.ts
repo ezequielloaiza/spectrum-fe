@@ -10,8 +10,8 @@ export class ProductsRequestedService {
 
   constructor(private http: HttpClient) { }
 
-  public AllProductsRequestedByOrder$(orderId): Observable<any> {
-    return this.http.get(environment.apiUrl + 'productsRequested/allProductsRequestedByOrder/' + orderId);
+  public allProductsRequestedByOrder$(orderId): Observable<any> {
+    return this.http.get(environment.apiUrl + 'orderProductsRequested/allProductsRequestedByOrder/' + orderId);
   }
 
 
