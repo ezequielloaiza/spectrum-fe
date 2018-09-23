@@ -1,0 +1,42 @@
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ 'Summary products' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="card-body table-responsive row">
+    <div class="confirm">
+      <span>{{ 'Please confirm the selected products' | translate }} {{ '(' + quantity + ') ?' }}</span>
+    </div>
+    <br>
+    <div class="container pp rounded">
+      <div class="row justify-content-md-center order-summary">
+        <div class="col-md-4 pull-right">
+          <p class="font-weight-bold" translate>{{'Order Summary'}}</p>
+          <p class="font-weight-normal" translate>{{'Item(s) Subtotal'}}</p>
+          <p class="font-weight-normal" translate>{{'Shipping & handling'}}</p>
+          <p class="font-weight-bold" translate>{{'Order Total'}}</p>
+        </div>
+        <div class="col-md-4">
+          <p class="font-weight-bold text-left" translate>{{'Totals'}}</p>
+          <p class="font-weight-normal" translate>
+            <span>{{subtotal | currency : "USD $" }}</span>
+          </p>
+          <p class="font-weight-normal" translate>
+            <span>{{'0' | currency : "USD $" }}</span>
+          </p>
+          <p class="font-weight-bold text-left">{{total | currency : "USD $" }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
+      <i class="fa fa-times"></i>
+    </button>
+    <button type="button" class="btn btn-main" (click)="generateOrder()">{{ 'Place Order' | translate }}&nbsp;
+      <i class="fa fa-save"></i>
+    </button>
+  </div>
+</div>

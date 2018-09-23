@@ -1,0 +1,68 @@
+<ngb-tabset>
+  <ngb-tab title="{{'Technical specifications'| translate}}">
+    <ng-template ngbTabContent>
+      <div class="card-body table-responsive">
+        <div *ngFor="let specification of lista.detail">
+          <div class="d-flex flex-lg-wrap">
+            <div class="col-sm-3" *ngFor="let param of specification.parameters">
+              <dl class="align-item">
+                <dt>{{param.name}}</dt>
+                <dt>
+                  <span class="font-text"> {{param.selected}}</span>
+                  <hr>
+                </dt>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="{{'Comments'| translate}}">
+    <ng-template ngbTabContent>
+      <div class="card-body table-responsive">
+        <div class="row justify-content-md-center div-parametros">
+          <div class="col-sm-12">
+            <dl>
+              <dt>
+                <span class="font-text">{{lista.observations}}</span>
+              </dt>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab *ngIf="files.length > 0" title="{{'Documents'| translate}}">
+    <ng-template ngbTabContent>
+      <!-- Documents -->
+      <div class="card-body table-responsive" >
+        <br>
+        <div class="row justify-content-md-center div-parametros">
+          <table class="table" >
+            <thead>
+              <tr>
+                <th width="50%">{{ 'Name' | translate }}</th>
+                <th>{{ 'Size' | translate }}</th>
+                <th>{{ 'Actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of files">
+                <td><strong>{{ item?.name }}</strong></td>
+                <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
+                <td nowrap>
+                  <button type="button" class="btn btn-success btn-xs"
+                    (click)="downloadFile(item)">
+                    <span class="fa fa-download"></span> Download
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

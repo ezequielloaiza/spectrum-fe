@@ -18,6 +18,11 @@ import { SellerResolver } from './seller/seller.resolver';
 import { ListOrderClientComponent } from './manage-customer-orders/list-order-client/list-order-client.component';
 import { DetailsOrderClientComponent } from './manage-customer-orders/details-order-client/details-order-client.component';
 import { RoleGuard } from '../shared';
+import { WarrantyComponent } from './warranty/warranty.component';
+import { ListBasketComponent } from './basket/client/list/list-basket/list-basket.component';
+import { ListBasketClientComponent } from './basket/admin-seller/list/list-basket-client/list-basket-client.component';
+import { DetailsBasketClientComponent } from './basket/admin-seller/details/details-basket-client/details-basket-client.component';
+import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-supplier.component';
 
 const routes: Routes = [
   {
@@ -35,7 +40,7 @@ const routes: Routes = [
       { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
       { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
       { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
-      //{ path: 'consult-account', component: CheckAccountComponent },
+      // { path: 'consult-account', component: CheckAccountComponent },
       { path: 'suppliers', component: SuppliersComponent, runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
       {
         path: 'profile', component: ProfileComponent,
@@ -56,6 +61,10 @@ const routes: Routes = [
       {
         path: 'details-order/:id/view', component: DetailsOrderComponent,
         data: { option: 'OrdersDetail' },
+      },
+      {
+        path: 'warranty', component: WarrantyComponent,
+        data: { option: 'Warranty' }
       },
       {
         path: 'user', component: UserComponent,
@@ -79,8 +88,11 @@ const routes: Routes = [
               data: { option: 'EditUser' }
               },
               { path: 'edit-company', component: EditCompanyComponent,
-              data: { option: 'EditCompany' } 
-            }
+              data: { option: 'EditCompany' }
+              },
+              { path: 'edit-supplier', component: EditSupplierComponent,
+              data: { option: 'EditSupplier' }
+              }
             ]
           }
         ],
@@ -118,7 +130,16 @@ const routes: Routes = [
       },
       { path: 'details-order-client/:id/view', component: DetailsOrderClientComponent,
       data: { option: 'OrdersDetailSeller' }
-     }
+      },
+      { path: 'list-basket-client', component: ListBasketComponent,
+      data: { option: 'ListBasketClient' }
+      },
+      { path: 'list-basket', component: ListBasketClientComponent,
+      data: { option: 'ListBasket' }
+      },
+      { path: 'list-basket-detail/:id/view', component: DetailsBasketClientComponent,
+      data: { option: 'ListBasketDetail' }
+      }
     ]
   },
   { path: '**', redirectTo: 'not-found' }

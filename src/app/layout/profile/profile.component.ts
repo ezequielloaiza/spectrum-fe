@@ -7,7 +7,10 @@ import { UserStorageService } from '../../http/user-storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
+import { environment } from '../../../../src/environments/environment';
 
+const URL = environment.apiUrl + 'user/uploaderAvatar';
 
 @Component({
   selector: 'app-profile',
@@ -25,20 +28,59 @@ export class ProfileComponent implements OnInit {
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   user: any;
+  avatar: any;
+  // Upload avatar
+  queueLimit = 1;
+  maxFileSize = 25 * 1024 * 1024; // 25 MB
+  private uploadResult: any = null;
+  public uploader: FileUploader = new FileUploader({url: URL,
+                                                    itemAlias: 'files',
+                                                    queueLimit: this.queueLimit,
+                                                    maxFileSize: this.maxFileSize,
+                                                    removeAfterUpload: false,
+                                                    authToken: this.userStorageService.getToke(),
+                                                    autoUpload: true});
+
 
   constructor(private formBuilder: FormBuilder,
     private googleService: GoogleService,
     private userService: UserService,
     private userStorageService: UserStorageService,
     private notification: ToastrService,
-    private translate: TranslateService
-  ) {
+    private translate: TranslateService) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
+    this.initializeAvatar();
+
+    this.uploader.onAfterAddingFile = (item) => {
+      const ext = item.file.name.split('.').pop();
+
+      item.file.name = this.user.userResponse.username + '.' + ext;
+    };
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResult = {'success': true, 'item': item, 'response':
+                           response, 'status': status, 'headers': headers};
+
+      if (this.uploadResult) {
+        this.updateAvatar();
+      }
+    };
+    this.uploader.onErrorItem = (item, response, status, headers) => {
+        this.uploadResult = {'success': true, 'item': item, 'response':
+                             response, 'status': status, 'headers': headers};
+    };
   }
 
   ngOnInit() {
     this.initializeForm();
-    //document.getElementById("FS").onchange = this.checkFileSize;
+    this.initializeAvatar();
+  }
+
+  initializeAvatar() {
+    if (this.user.userResponse.avatar) {
+      this.avatar = this.user.userResponse.avatar;
+    } else {
+      this.avatar = 'assets/images/user.png';
+    }
   }
 
   onReset() {
@@ -212,5 +254,14 @@ export class ProfileComponent implements OnInit {
   get country() { return this.form.get('country'); }
   get postal() { return this.form.get('postal'); }
   get phone() { return this.form.get('phone'); }
+
+  private updateAvatar() {
+    if (this.uploadResult.success) {
+      const url = JSON.parse(this.uploadResult.response).data;
+      this.avatar = url;
+    } else {
+      console.log('error file');
+    }
+  }
 
 }

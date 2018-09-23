@@ -17,6 +17,9 @@ export class User {
   public postalCode: string;
   public phone: string;
   public nameSeller: string;
+  public cardCode: string;
+  public certificationCode: string;
+  public avatar: string;
   public pwsTemporal: boolean;
   public membership: Membership = new Membership();
 

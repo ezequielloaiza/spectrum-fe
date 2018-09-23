@@ -19,10 +19,10 @@
               <tr>
                 <th class="table-tr header-column">
                   <span title="Company">{{ 'Company' | translate }}
-                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('company')"></i>  
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('company')"></i>
                   </span>
-                  <span [hidden]="orderByField != 'company' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('company')"></i> 
+                  <span [hidden]="orderByField != 'company' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('company')"></i>
                     <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortAddress('company')"></i>
                   </span>
                 </th>
@@ -30,8 +30,8 @@
                   <span title="Address">{{ 'Address' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('address')"></i>
                   </span>
-                  <span [hidden]="orderByField != 'address' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('address')"></i> 
+                  <span [hidden]="orderByField != 'address' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('address')"></i>
                     <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortAddress('address')"></i>
                   </span>
                 </th>
@@ -39,8 +39,8 @@
                   <span title="City">{{ 'City' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('city')"></i>
                   </span>
-                  <span [hidden]="orderByField != 'city' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('city')"></i> 
+                  <span [hidden]="orderByField != 'city' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('city')"></i>
                     <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortAddress('city')"></i>
                   </span>
                 </th>
@@ -48,8 +48,8 @@
                   <span title="State">{{ 'State' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('state')"></i>
                   </span>
-                  <span [hidden]="orderByField != 'state' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('state')"></i> 
+                  <span [hidden]="orderByField != 'state' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('state')"></i>
                     <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortAddress('state')"></i>
                   </span>
                 </th>
@@ -57,10 +57,13 @@
                   <span title="Country">{{ 'Country' | translate }}
                       <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('country')"></i>
                   </span>
-                  <span [hidden]="orderByField != 'country' || typeSort === 0" > 
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('country')"></i> 
+                  <span [hidden]="orderByField != 'country' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortAddress('country')"></i>
                     <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortAddress('country')"></i>
                   </span>
+                </th>
+                <th class="table-tr">
+                  <span title="Country">{{ 'Main' | translate }}</span>
                 </th>
                 <th class="table-tr"></th>
               </tr>
@@ -72,6 +75,12 @@
                 <td class="table-tr"> {{ address.city }}</td>
                 <td class="table-tr"> {{ address.state }}</td>
                 <td class="table-tr"> {{ address.country }}</td>
+                <td>
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="address.isMain" class="custom-control-input" [checked]="address.isMain===true" disabled>
+                    <label class="custom-control-label" for="radioGroup{{i}}"></label>
+                  </div>
+                </td>
 
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
@@ -82,6 +91,8 @@
                           <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
                         <button class="dropdown-item" (click)="delete(address.idAddress)">
                           <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                        <button class="dropdown-item" (click)="is_main(address.idAddress)">
+                          <i class="fa fa-check"></i> {{ 'Main' | translate }}</button>
                       </div>
                     </div>
                   </div>

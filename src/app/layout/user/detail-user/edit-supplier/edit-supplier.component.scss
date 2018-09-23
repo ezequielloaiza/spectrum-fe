@@ -1,0 +1,72 @@
+@import '../../../../../styles/spectrum/spectrum';
+
+.container {
+  box-shadow: 0 1px 1px rgba(0,0,0,.24), 0 0 1px rgba(0,0,0,.12) !important;
+  padding-right: 50px;
+  padding-left: 50px;
+
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .select-supplier {
+    padding-bottom: 2em;
+
+    .supplier-body {
+      padding: .5em;
+
+      > div {
+        display: flex;
+        align-items: baseline;
+
+        > i {
+          padding-right: .5em;
+        }
+
+        > p {
+          margin-bottom: 0;
+          color: #8c8c8c;
+          font-weight: 550;
+          font-style: italic;
+          font-size: .9em;
+        }
+      }
+
+      > h5 {
+        margin-bottom: 0;
+        text-transform: uppercase;
+        color: #495057;
+        font-weight: 600;
+      }
+
+      h6 {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .table {
+
+    >tbody >tr:nth-last-child(1) {
+      height: 0;
+    }
+  }
+
+  .btn-footer {
+    padding-bottom: 2em;
+    padding-top: 2em;
+
+    .btn-two {
+      text-align: right;
+
+      > .btn-secondary {
+        margin-right: 1em;
+      }
+    }
+  }
+
+  .add-supplier{
+    margin-left: 380px;
+  }
+}

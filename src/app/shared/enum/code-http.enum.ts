@@ -3,5 +3,6 @@ export enum CodeHttp {
   notFound = 404,
   notAcceptable = 406,
   UNAUTHORIZED = 401,
-  forbidden = 403
+  forbidden = 403,
+  notContent = 204
 }

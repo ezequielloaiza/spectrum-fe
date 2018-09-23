@@ -3,11 +3,15 @@ export enum RoleUser {
   Account,
   OrdersList,
   OrdersDetail,
-  Warranties,
+  Warranty,
   Profile,
   ProductsList,
   ProductsView,
-  ProductsDetails,
+  ProductsViewEuropa,
+  ProductsViewEuclid,
+  ProductsViewMagic,
+  ProductsViewBlue,
   ShippingAddress,
-  Home
+  Home,
+  ListBasketClient
 }

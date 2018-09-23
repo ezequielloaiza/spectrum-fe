@@ -15,6 +15,7 @@ import { Product } from '../../../shared/models/product';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FtpService } from '../../../shared/services/ftp/ftp.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-details-order-client',
@@ -30,6 +31,7 @@ export class DetailsOrderClientComponent implements OnInit {
   advancedPagination: number;
   itemPerPage = 1;
   generar = false;
+  download = false;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -44,6 +46,7 @@ export class DetailsOrderClientComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.advancedPagination = 1;
     this.getOrder(this.id);
+
   }
 
   pageChange(event) {
@@ -56,8 +59,12 @@ export class DetailsOrderClientComponent implements OnInit {
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
-        if (this.order.status !== 2 ) {
+        if (this.order.status !== 1 && this.order.dateSend === null) {
            this.generar = true;
+        }
+
+        if (res.data.dateSend !== null && res.data.supplier.idSupplier !== 1) {
+          this.download = true;
         }
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
@@ -72,10 +79,21 @@ export class DetailsOrderClientComponent implements OnInit {
   const modalRef = this.modalService.open(ModalsConfirmationComponent);
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
+        this.generar = false;
       } , (reason) => {
-});
+    });
   }
 
+  downloadOrder(order) {
+    this.orderService.downloadOrder$(order.number).subscribe(res => {
+      const filename = order.number + '.pdf';
+      saveAs(res, filename);
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  /*
   upload(order): void {
     console.log('upload', order);
     this.ftpService.uploadFile$('/home/naily/Descargas/prueba.jpg').subscribe(res => {
@@ -84,5 +102,6 @@ export class DetailsOrderClientComponent implements OnInit {
       }
     });
   }
+  */
 }
 

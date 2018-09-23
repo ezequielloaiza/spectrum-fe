@@ -5,7 +5,7 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
-import { NgbModalRef, NgbActiveModal, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbActiveModal, NgbTypeaheadSelectItemEvent, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BusinessTypeService, UserService } from '../../../../shared/services';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +14,7 @@ import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
-
+import { ListSupplierModalComponent } from '../list-supplier-modal/list-supplier-modal.component';
 @Component({
   selector: 'app-user-modal',
   templateUrl: './user-modal.component.html',
@@ -30,6 +30,7 @@ export class UserModalComponent implements OnInit {
   memberships: Array<any> = new Array;
   valorCity:any;
   valorCompanyCity:any;
+  listSuppliers: Array<any> = new Array;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -39,7 +40,8 @@ export class UserModalComponent implements OnInit {
     private googleService: GoogleService,
     private translate: TranslateService,
     private membershipService: MembershipService,
-    private notification: ToastrService) { }
+    private notification: ToastrService,
+    private modalService: NgbModal,) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -90,7 +92,8 @@ export class UserModalComponent implements OnInit {
       companyPostal: ['', []],
       typeUser: ['USER'],
       membershipId: ['', [Validators.required]],
-      phone: ['']
+      phone: [''],
+      suppliers:['']
     });
   }
 
@@ -107,8 +110,9 @@ export class UserModalComponent implements OnInit {
   }
 
   save(): void {
-    this.form.get('city').setValue(this.googleService.getCity());
-    this.form.get('companyCity').setValue(this.googleService.getCity());
+    this.form.get('city').setValue(this.valorCity.description);
+    this.form.get('companyCity').setValue(this.valorCompanyCity.description);
+    this.form.get('suppliers').setValue(this.listSuppliers);
     this.userSerice.signUp$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.modal.close();
@@ -137,7 +141,7 @@ export class UserModalComponent implements OnInit {
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
-      this.valorCity={ description: this.googleService.getCity() };
+      this.valorCity = { description: this.googleService.getCity() };
     });
   }
 
@@ -172,6 +176,7 @@ export class UserModalComponent implements OnInit {
   get companyPostal() { return this.form.get('companyPostal'); }
   get membershipId() { return this.form.get('membershipId'); }
   get phone() { return this.form.get('phone'); }
+  get suppliers(){return this.form.get('suppliers');}
 
   validatePhone(event) {
     const key = window.event ? event.keyCode : event.which;
@@ -193,4 +198,11 @@ export class UserModalComponent implements OnInit {
     });
   }
 
+  openModalSupplier(): void {
+    const modalRef = this.modalService.open(ListSupplierModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.result.then((result) => {
+      this.listSuppliers = result;
+    } , (reason) => {
+    });
+  }
 }
