@@ -1,20 +1,21 @@
 import { Address } from './address';
-import { OrderProductRequested} from './orderproductrequested';
+import { InvoiceProductRequested} from './invoiceproductrequested';
 import { User } from './user';
-export class Order {
+export class Invoice {
 
     public idOrder: number;
+    public idInvoice: number;
     public nameUser: string;
     public address: Address;
+    public idAddress: number;
     public date: Date;
     public number: number;
     public subtotal: number;
     public total: number;
     public status: number;
     public user: User;
-    public paymentStatus: number;
-    public dateSend: Date;
-    public listProductRequested: Array<OrderProductRequested>;
+    public idUser: number;
+    public listProductRequested: Array<InvoiceProductRequested>;
 
     public constructor() { }
 

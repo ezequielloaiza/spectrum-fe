@@ -58,6 +58,7 @@ import { DetailProductModalComponent } from './basket/modals/detail-product/deta
 import { SummaryProductsComponent } from './basket/modals/summary-products/summary-products.component';
 //import { DetailProductModalComponent } from './basket/client/modals/detail-product/detail-product';
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
+import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
@@ -125,7 +126,8 @@ import { FileUploadModule } from 'ng2-file-upload';
         SupplierBlueLightComponent,
         DetailProductModalComponent,
         SummaryProductsComponent,
-        ModalsChangeStatusComponent
+        ModalsChangeStatusComponent,
+        GenerateInvoiceComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -143,7 +145,8 @@ import { FileUploadModule } from 'ng2-file-upload';
       SupplierUserModalComponent,
       DetailProductModalComponent,
       SummaryProductsComponent,
-      ModalsChangeStatusComponent
+      ModalsChangeStatusComponent,
+      GenerateInvoiceComponent
     ],
     providers: [
       BusinessTypeService,

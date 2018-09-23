@@ -365,8 +365,22 @@
     "Max files size:": "Max files size:",
     "Maximum files number:": "Maximum files number:",
     "Browse": "Browse",
+    "Generate Invoice": "Generate Invoice",
+    "Save and Send": "Save and Send",
     "Download Order": "Download Order",
     "Order Status":"Order Status",
     "Payment Status":"Payment Status",
-    "Paid":"Paid"
+    "Paid":"Paid",
+    "Order No": "Order No",
+    "Invoice No": "Invoice No",
+    "Order Date": "Order Date",
+    "Invoice Date": "Invoice Date",
+    "QUANTITY": "QUANTITY",
+    "DESCRIPTION": "DESCRIPTION",
+    "UNIT PRICE": "UNIT PRICE",
+    "NET AMOUNT": "NET AMOUNT",
+    "Subtotal Amount": "Subtotal Amount",
+    "Total Amount": "Total Amount",
+    "To Provider": "To Provider",
+    "To Client": "To Client"
 }
