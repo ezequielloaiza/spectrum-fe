@@ -13,4 +13,9 @@ export class ProductsRequestedService {
   public AllProductsRequestedByOrder$(orderId): Observable<any> {
     return this.http.get(environment.apiUrl + 'productsRequested/allProductsRequestedByOrder/' + orderId);
   }
+
+
+  public update$(productsRequested): Observable<any> {
+    return this.http.put(environment.apiUrl + 'productsRequested/update', productsRequested);
+  }
 }

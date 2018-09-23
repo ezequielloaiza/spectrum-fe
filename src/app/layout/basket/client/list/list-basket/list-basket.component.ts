@@ -12,6 +12,7 @@ import { Buy } from '../../../../../shared/models/buy';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { DetailProductModalComponent } from '../../../modals/detail-product/detail-product';
 import { SummaryProductsComponent } from '../../../modals/summary-products/summary-products.component';
+import { MagicLookComponent } from '../../../edit-order/magic-look/magic-look.component';
 
 
 @Component({
@@ -156,6 +157,28 @@ export class ListBasketComponent implements OnInit {
       this.ngOnInit();
     } , (reason) => {
     });
+  }
+
+  openEdit(basket) {
+   let  idSupplier = basket.productRequested.product.supplier.idSupplier;
+   switch (idSupplier) {
+    case 1: // Markennovy
+      break;
+    case 2: // Europa
+      break;
+    case 3: // Lenticon
+      break;
+    case 4: // Euclid
+      break;
+    case 5: // Magic Look
+        const modalRef = this.modalService.open( MagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRef.componentInstance.basket = basket;
+        modalRef.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
+    }
   }
 
   openSumary() {
