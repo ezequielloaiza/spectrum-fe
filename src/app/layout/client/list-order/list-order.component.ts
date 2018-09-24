@@ -68,7 +68,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   }
 
   getUser(): void {
-    this.user = JSON.parse(this.userStorageService.getCurrentUser());
+    this.user = JSON.parse(this.userService.getCurrentUser());
   }
 
   getListOrders(): void {
