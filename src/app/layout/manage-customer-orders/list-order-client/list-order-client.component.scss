@@ -107,6 +107,7 @@
 .filter {
   padding-top: 10px;
   padding-left: 25px;
+  padding-right: 25px;
 }
 
 .active {
@@ -305,6 +306,7 @@
   
         div:nth-child(4) > div {
           color: #ffc107; font-weight: 600;
+          padding-left: 0px;
         }
       }
     }
@@ -328,5 +330,65 @@
   .div-dropdown{
     padding-right: 0px;
     text-align: left;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .list-orden {
+  
+    > div {
+      &:first-child {
+        font-size: .8em;
+        padding: .4em 0;
+  
+        div:nth-child(2) {
+          > div {
+            text-align: left;
+          }
+        }
+  
+        div:nth-child(3) {
+          font-size: .8em;
+          text-align: left;
+        }
+      }
+  
+      &.product {
+        padding-top: 1em;
+  
+  
+        div:nth-child(3) > div {
+          text-align: left;
+        }
+  
+        div:nth-child(4) > div {
+          color: #ffc107; font-weight: 600;
+        }
+      }
+    }
+
+    .link {
+      color: $bg-blue;
+      cursor: pointer;
+  
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .div-date{
+    text-align: right;
+    padding-left: 0px;
+  }
+  .title-payment{
+    padding-left: 0px;
+  }
+
+  .btn-dd{
+    font-size: 0.8rem;
+    padding-left: 0px;
+    word-wrap: break-word;
+    text-align: right;
+    white-space: initial;
   }
 }
