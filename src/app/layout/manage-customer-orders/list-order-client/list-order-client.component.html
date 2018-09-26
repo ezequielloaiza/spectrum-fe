@@ -107,7 +107,7 @@
                       </span>
                     </div>
                   </div>
-                  <div class="col-lg-1">
+                  <div class="col-lg-2">
                     <div>
                       <span class="span_total">Total</span>
                     </div>
@@ -115,14 +115,14 @@
                       <span>{{order.total | currency : "USD $" }}</span>
                     </div>
                   </div>
-                  <div class="col-lg-3">
+                  <div class="col-lg-2">
                     <div class="div-date">
                       <span>{{order.date | date:'yyyy-MM-dd'}}</span>
                     </div>
                     <div class="div-dropdown">
                       <div ngbDropdown class="d-inline-block dropdown">
-                        <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
-                        <div ngbDropdownMenu>
+                        <button class="btn btn-dropdown-main btn-dd" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                        <div ngbDropdownMenu class="dropdown-menu-actions">
                           <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
                             {{ 'View Details' | translate }}</button>
                           <button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
@@ -134,8 +134,8 @@
                     </div>
                     <div class="div-dropdown">
                         <div [hidden]="order.status!==2" ngbDropdown class="d-inline-block dropdown">
-                          <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Generate Invoice' | translate }}</button>
-                          <div ngbDropdownMenu>
+                          <button class="btn btn-dropdown-main btn-dd" ngbDropdownToggle>{{ 'Generate Invoice' | translate }}</button>
+                          <div ngbDropdownMenu class="dropdown-menu-invoice">
                             <button class="dropdown-item" (click)="generateInvoice(order)">
                               {{ 'To Provider' | translate }}</button>
                             <button class="dropdown-item" (click)="open(order)">
