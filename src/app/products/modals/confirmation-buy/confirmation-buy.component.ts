@@ -14,6 +14,8 @@ import { BuyNow } from '../../../shared/models/buynow';
 import { OrderService } from '../../../shared/services';
 import { FileProductRequested } from '../../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
+import { UserStorageService } from '../../../http/user-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirmation-buy',
@@ -34,6 +36,7 @@ export class ConfirmationBuyComponent implements OnInit {
   eyesSelected: any;
   typeBuy: any;
   quantity: any;
+  user: any;
   // list for File
   listFileBasket: Array<FileProductRequested> = new Array;
   listUrlFiles: Array<String> = new Array;
@@ -46,7 +49,10 @@ export class ConfirmationBuyComponent implements OnInit {
               private translate: TranslateService,
               private basketService: BasketService,
               private orderService: OrderService,
-              private fileProductRequestedService: FileProductRequestedService) {
+              private fileProductRequestedService: FileProductRequestedService,
+              public router: Router,
+              private userStorageService: UserStorageService) {
+    this.user = JSON.parse(userStorageService.getCurrentUser());
   }
 
   ngOnInit() {
@@ -95,6 +101,7 @@ export class ConfirmationBuyComponent implements OnInit {
             this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
               this.notification.success('', res);
             });
+            this.redirectListBasket();
           } else {
             console.log(res.errors[0].detail);
           }
@@ -113,6 +120,7 @@ export class ConfirmationBuyComponent implements OnInit {
           this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
             this.notification.success('', res);
           });
+          this.redirectListOrder();
         } else {
           console.log(res.errors[0].detail);
         }
@@ -140,5 +148,21 @@ export class ConfirmationBuyComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+  }
+
+  redirectListBasket(): void {
+    if (this.user.role.idRole === 3) {
+      this.router.navigate(['/list-basket-client']);
+    } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+      this.router.navigate(['/list-basket']);
+    }
+  }
+
+  redirectListOrder(): void {
+    if (this.user.role.idRole === 3) {
+      this.router.navigate(['/order-list-client'], { queryParams: { status: 0 } });
+    } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+      this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 1 } });
+    }
   }
 }
