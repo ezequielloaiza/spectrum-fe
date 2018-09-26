@@ -35,7 +35,7 @@
                 <dl>
                   <dt>{{ 'Patient' | translate }}:</dt>
                 </dl>
-                <dl>
+                <dl [hidden]="detail.eye===''">
                   <dt>{{ 'Eye' | translate }}:</dt>
                 </dl>
                 <dl>
@@ -54,7 +54,7 @@
                     <dt>{{ productRequested.patient }}</dt>
                   </dl>
                 </div>
-                <div class="selected">
+                <div class="selected" [hidden]="detail.eye===''">
                   <dl class="param">
                     <dt *ngIf="detail.eye==='Left'">{{ 'Left' | translate }}</dt>
                     <dt *ngIf="detail.eye==='Right'">{{ 'Right' | translate }}</dt>

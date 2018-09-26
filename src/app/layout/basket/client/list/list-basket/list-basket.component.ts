@@ -13,6 +13,7 @@ import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { DetailProductModalComponent } from '../../../modals/detail-product/detail-product';
 import { SummaryProductsComponent } from '../../../modals/summary-products/summary-products.component';
 import { MagicLookComponent } from '../../../edit-order/magic-look/magic-look.component';
+import { BlueLightComponent } from '../../../edit-order/blue-light/blue-light.component';
 
 
 @Component({
@@ -171,9 +172,17 @@ export class ListBasketComponent implements OnInit {
     case 4: // Euclid
       break;
     case 5: // Magic Look
-        const modalRef = this.modalService.open( MagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
-        modalRef.componentInstance.basket = basket;
-        modalRef.result.then((result) => {
+        const modalRefMagic = this.modalService.open( MagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefMagic.componentInstance.basket = basket;
+        modalRefMagic.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
+    case 6: // Blue Light
+        const modalRefBlue = this.modalService.open( BlueLightComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefBlue.componentInstance.basket = basket;
+        modalRefBlue.result.then((result) => {
           this.ngOnInit();
         } , (reason) => {
         });

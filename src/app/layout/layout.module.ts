@@ -61,6 +61,7 @@ import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-sta
 import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.component';
+import { BlueLightComponent } from './basket/edit-order/blue-light/blue-light.component';
 
 @NgModule({
     imports: [
@@ -129,7 +130,8 @@ import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.co
         SummaryProductsComponent,
         ModalsChangeStatusComponent,
         MagicLookComponent,
-        GenerateInvoiceComponent
+        GenerateInvoiceComponent,
+        BlueLightComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -149,7 +151,8 @@ import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.co
       SummaryProductsComponent,
       ModalsChangeStatusComponent,
       MagicLookComponent,
-      GenerateInvoiceComponent
+      GenerateInvoiceComponent,
+      BlueLightComponent
     ],
     providers: [
       BusinessTypeService,

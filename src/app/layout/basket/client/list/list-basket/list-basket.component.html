@@ -82,7 +82,13 @@
                           <span>{{ basket.productRequested.product.name }}</span>
                         </div>
                         <br>
-                        <div class="row info">
+                        <div class="row info" *ngIf="basket.productRequested.detail[0].eye===''">
+                          <div class="col-lg-12">
+                            <span class="title">{{ 'Patient' | translate }}</span>
+                            <span>{{ basket.productRequested.patient }}</span>
+                          </div>
+                        </div>
+                        <div class="row info" *ngIf="basket.productRequested.detail[0].eye!==''">
                           <div class="col-lg-6">
                             <span class="title">{{ 'Patient' | translate }}</span>
                             <span>{{ basket.productRequested.patient }}</span>

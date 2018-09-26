@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import * as _ from 'lodash';
 import { ProductsRequestedService } from '../../../../shared/services';
-import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-magic-look',
-  templateUrl: './magic-look.component.html',
-  styleUrls: ['./magic-look.component.scss']
+  selector: 'app-blue-light',
+  templateUrl: './blue-light.component.html',
+  styleUrls: ['./blue-light.component.scss']
 })
-export class MagicLookComponent implements OnInit {
+export class BlueLightComponent implements OnInit {
 
   basket: any;
   productRequested: any;
@@ -56,51 +56,14 @@ export class MagicLookComponent implements OnInit {
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
     let paramet = this.product.parameters;
-    let tono = this.product.types;
-    let tonesAux;
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
            productSelected.selected = item.selected;
         }
-        if (productSelected.name === "Tone") {
-          switch ( item.selected) {
-            case "1 TONE":
-              tonesAux = JSON.parse(tono)[0].parameters[1].values[0];
-              break;
-            case "2 TONE":
-              tonesAux = JSON.parse(tono)[0].parameters[1].values[1];
-              break;
-            case "3 TONE":
-              tonesAux = JSON.parse(tono)[0].parameters[1].values[2];
-              break;
-          }
-        }
      });
     });
-    this.tones = tonesAux;
     this.product.parameters = paramet;
-  }
-
-  changeSelect(parameter, value) {
-    parameter.selected = value === undefined ? null : value;
-    let tonesAux = this.tones;
-    let tono = this.product.types;
-      if (parameter.name === "Tone") {
-        this.cleanImage();
-        switch (value) {
-          case "1 TONE":
-            tonesAux = JSON.parse(tono)[0].parameters[1].values[0];
-            break;
-          case "2 TONE":
-            tonesAux = JSON.parse(tono)[0].parameters[1].values[1];
-            break;
-          case "3 TONE":
-            tonesAux = JSON.parse(tono)[0].parameters[1].values[2];
-            break;
-        }
-      }
-   this.tones = tonesAux;
   }
 
   save() {
@@ -144,14 +107,5 @@ export class MagicLookComponent implements OnInit {
           valido = false;
      }
      return valido;
-  }
-
-  cleanImage() {
-     let paramet1 = this.product.parameters;
-    _.each(paramet1, function(productSelected1) {
-      if (productSelected1.type === 'image') {
-          productSelected1.selected = null;
-      }
-    });
   }
 }
