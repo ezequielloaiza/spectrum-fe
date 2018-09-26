@@ -36,7 +36,7 @@
     background: $pending-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 65%;
+    width: 85%;
     font-size: 13px;
   }
 }
@@ -47,7 +47,7 @@
     background:$paid-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 65%;
+    width: 85%;
     font-size: 13px;
   }
 }
@@ -58,7 +58,7 @@
     background: $authorized-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 65%;
+    width: 85%;
     font-size: 13px;
   }
 }
@@ -69,7 +69,7 @@
     background: $processed-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 65%;
+    width: 85%;
     font-size: 13px;
   }
 }
@@ -80,7 +80,7 @@
     background: $sent-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 65%;
+    width: 85%;
     font-size: 13px;
   }
 }
@@ -91,7 +91,7 @@
     background:$cancel-status;
     color: $bg-white;
     border-radius: 12px;
-    width: 65%;
+    width: 85%;
     font-size: 13px;
   }
 }
@@ -333,7 +333,7 @@
   }
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 992px) and (max-width: 1280px) {
   .list-orden {
   
     > div {
