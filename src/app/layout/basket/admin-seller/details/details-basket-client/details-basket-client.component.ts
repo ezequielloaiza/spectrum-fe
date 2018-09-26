@@ -15,6 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SummaryProductsComponent } from '../../../modals/summary-products/summary-products.component';
 import { MagicLookComponent } from '../../../edit-order/magic-look/magic-look.component';
 import { BlueLightComponent } from '../../../edit-order/blue-light/blue-light.component';
+import { EuclidComponent } from '../../../edit-order/euclid/euclid.component';
 
 @Component({
   selector: 'app-details-basket-client',
@@ -172,7 +173,13 @@ export class DetailsBasketClientComponent implements OnInit {
      case 3: // Lenticon
        break;
      case 4: // Euclid
-       break;
+          const modalRefEuclid = this.modalService.open( EuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefEuclid.componentInstance.basket = basket;
+          modalRefEuclid.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
      case 5: // Magic Look
           const modalRefMagic = this.modalService.open( MagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
           modalRefMagic.componentInstance.basket = basket;

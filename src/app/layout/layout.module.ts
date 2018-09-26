@@ -62,6 +62,7 @@ import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invo
 import { FileUploadModule } from 'ng2-file-upload';
 import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.component';
 import { BlueLightComponent } from './basket/edit-order/blue-light/blue-light.component';
+import { EuclidComponent } from './basket/edit-order/euclid/euclid.component';
 
 @NgModule({
     imports: [
@@ -131,7 +132,8 @@ import { BlueLightComponent } from './basket/edit-order/blue-light/blue-light.co
         ModalsChangeStatusComponent,
         MagicLookComponent,
         GenerateInvoiceComponent,
-        BlueLightComponent
+        BlueLightComponent,
+        EuclidComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -152,7 +154,8 @@ import { BlueLightComponent } from './basket/edit-order/blue-light/blue-light.co
       ModalsChangeStatusComponent,
       MagicLookComponent,
       GenerateInvoiceComponent,
-      BlueLightComponent
+      BlueLightComponent,
+      EuclidComponent
     ],
     providers: [
       BusinessTypeService,

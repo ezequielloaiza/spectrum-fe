@@ -66,8 +66,12 @@
                   </dl>
                 </div>
                 <div class="selected" *ngFor="let parameter of detail.parameters">
-                  <dl>
+                  <dl *ngIf="parameter.selected !==true && parameter.selected !==false">
                     <dt>{{ parameter.selected }}</dt>
+                  </dl>
+                  <dl *ngIf="parameter.selected ===true || parameter.selected ===false">
+                    <dt *ngIf="parameter.selected === true">{{ 'Yes' | translate }}</dt>
+                    <dt *ngIf="parameter.selected === false">{{ 'No' | translate }}</dt>
                   </dl>
                 </div>
               </div>
