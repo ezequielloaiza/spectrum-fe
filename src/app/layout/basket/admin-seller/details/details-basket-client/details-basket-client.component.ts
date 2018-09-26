@@ -16,6 +16,7 @@ import { SummaryProductsComponent } from '../../../modals/summary-products/summa
 import { MagicLookComponent } from '../../../edit-order/magic-look/magic-look.component';
 import { BlueLightComponent } from '../../../edit-order/blue-light/blue-light.component';
 import { EuclidComponent } from '../../../edit-order/euclid/euclid.component';
+import { MarkennovyComponent } from '../../../edit-order/markennovy/markennovy.component';
 
 @Component({
   selector: 'app-details-basket-client',
@@ -167,7 +168,13 @@ export class DetailsBasketClientComponent implements OnInit {
     let  idSupplier = basket.productRequested.product.supplier.idSupplier;
     switch (idSupplier) {
      case 1: // Markennovy
-       break;
+          const modalRefMarkennovy = this.modalService.open( MarkennovyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefMarkennovy.componentInstance.basket = basket;
+          modalRefMarkennovy.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
      case 2: // Europa
        break;
      case 3: // Lenticon
