@@ -70,8 +70,7 @@
             <dt class="title">{{ 'Technicals Specifications' | translate }}</dt>
             <!--HEADER-->
             <div class="row header">
-              <div class="col-sm-4 title">{{ 'Parameter' | translate }}</div>
-              <div class="col-sm-4 title">
+              <div class="col-sm-6 title">
                 <div class="custom-control custom-checkbox">
                   <input id="right" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('right')" [checked]="product.eyeRight"
                     class="custom-control-input">
@@ -79,7 +78,7 @@
                 </div>
                 <!--<input type="checkbox" class="form-check-label" (click)="setValueEye('right')" [checked]="product.eyeRight"> {{ 'Eye Right' | translate }}-->
               </div>
-              <div class="col-sm-4 title">
+              <div class="col-sm-6 title">
                 <div class="custom-control custom-checkbox">
                   <input id="left" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('left')" [checked]="product.eyeLeft"
                     class="custom-control-input">
@@ -91,64 +90,51 @@
 
             <!--CONTENT INFO-->
             <div class="row content">
-
-              <!--PARAM NAME-->
-              <div class="col-sm-4 title">
-                <div class="row label">
-                  <label class="form-check-label">{{ 'Quantity' }}:</label>&nbsp;&nbsp;
-                </div>
-                <div *ngFor="let parameter of product.parametersRight">
-                  <div>
-                    <div class="row label">
-                      <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
-                    </div>
+              <!--Right Eye-->
+              <div class="col-sm-6">
+                <div class="row selection">
+                  <div class="select-values col-sm-11">
+                    <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
+                      [disabled]="!product.eyeRight" placeholder="{{ 'Quantity' | translate }}">
                   </div>
                 </div>
-              </div>
-
-              <!--Right Eye-->
-              <div class="col-sm-4 title">
-                <div class="row selection">
-                  <input class="form-control col-sm-8" type="number" step=1 min="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
-                    [disabled]="!product.eyeRight">
-                </div>
                 <div *ngFor="let parameter of product.parametersRight">
-                  <div>
-                    <div class="row selection">
-                      <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-9">
-                        <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight"
-                          [(ngModel)]="parameter.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                          {{item}}
-                        </ng-select>
-                      </div>
+                  <div class="row selection">
+                    <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-11">
+                      <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight"
+                        [(ngModel)]="parameter.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select ' + parameter.name | translate }}">
+                        {{item}}
+                      </ng-select>
+                    </div>
 
-                      <div *ngIf="parameter.type === 'input'" class="select-values col-sm-9">
-                          <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
-                      </div>
+                    <div *ngIf="parameter.type === 'input'" class="select-values col-sm-11">
+                        <input class="form-control" type="number" placeholder="{{ parameter.name | translate }}"
+                        [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                     </div>
                   </div>
                 </div>
               </div>
 
               <!--Left Eye-->
-              <div class="col-sm-4 title">
+              <div class="col-sm-6">
                 <div class="row selection">
-                  <input class="form-control col-sm-8" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');"
-                    [disabled]="!product.eyeLeft">
+                  <div class="select-values col-sm-11">
+                    <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');"
+                      [disabled]="!product.eyeLeft" placeholder="{{ 'Quantity' | translate }}">
+                  </div>
                 </div>
                 <div *ngFor="let parameter of product.parametersLeft">
                   <div>
                     <div class="row selection">
-                      <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-9">
+                      <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-11">
                         <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft" [(ngModel)]="parameter.sel"
-                          bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                          bindLabel="item" bindValue="item" placeholder="{{ 'Select ' + parameter.name | translate }}">
                           {{item}}
                         </ng-select>
                       </div>
 
-                      <div *ngIf="parameter.type === 'input'" class="select-values col-sm-9">
-                          <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                      <div *ngIf="parameter.type === 'input'" class="select-values col-sm-11">
+                          <input class="form-control" type="number" placeholder="{{ parameter.name | translate }}"
                           [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                       </div>
                     </div>
