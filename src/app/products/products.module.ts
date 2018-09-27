@@ -18,6 +18,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { ProductViewEuclidComponent } from './product-view-euclid/product-view-euclid.component';
 import { ProductViewMagicComponent } from './product-view-magicLook/product-view-magic.component';
 import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    FileUploadModule
+    FileUploadModule,
+    NgxSpinnerModule
   ],
   declarations: [
     ProductsComponent,
