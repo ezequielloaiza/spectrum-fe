@@ -28,7 +28,7 @@
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
           </div>
-          <div class="col-xl-3 filter">
+          <div class="col-xl-4 filter">
             <div>
               <div class="input-group">
                 <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="fechaSelec" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelec)">
@@ -88,7 +88,7 @@
                       </span>
                     </div>
                   </div>
-                  <div class="col-lg-1">
+                  <div class="col-lg-2">
                     <div>
                       <span class="span_total">Total</span>
                     </div>
@@ -96,7 +96,7 @@
                       <span>{{order.total | currency : "USD $" }}</span>
                     </div>
                   </div>
-                  <div class="col-lg-3">
+                  <div class="col-lg-2">
                     <div class="div-date">
                       <span>{{order.date | date:'yyyy-MM-dd'}}</span>
                     </div>
