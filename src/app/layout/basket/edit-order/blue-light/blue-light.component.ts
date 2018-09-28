@@ -24,7 +24,8 @@ export class BlueLightComponent implements OnInit {
   price: any;
   editPrice = false;
   user: any;
-  cl = ['row', 'selection', 'label-title'];
+  patient: any;
+  cl = ['row', 'selection', 'label-title', 'width-input'];
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -40,7 +41,7 @@ export class BlueLightComponent implements OnInit {
     this.getProductView();
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
-      this.cl = ['row', 'selection'];
+      this.cl = ['row', 'selection', 'width-input'];
     }
 
   }
@@ -55,6 +56,7 @@ export class BlueLightComponent implements OnInit {
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
+    this.patient = this.productRequested.patient;
     let paramet = this.product.parameters;
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
@@ -81,6 +83,7 @@ export class BlueLightComponent implements OnInit {
     this.productRequested.price = this.price;
     this.productRequested.quantity = this.quantity;
     this.productRequested.product = this.product.idProduct;
+    this.productRequested.patient = this.patient;
     this.productRequestedService.update$(this.productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
@@ -103,7 +106,7 @@ export class BlueLightComponent implements OnInit {
            valido = false;
           }
      });
-     if (this.quantity === null  || this.price === null) {
+     if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '')) {
           valido = false;
      }
      return valido;

@@ -61,12 +61,12 @@
                         <label class="custom-control-label" for="checkbox{{i}}"></label>
                       </div>
                     </div>
-                    <div class="col-lg-10">
+                    <div class="col-lg-4">
                       <span>{{ basket.date | date:'yyyy-MM-dd' }}</span>
                     </div>
-                    <div class="col-lg-1 actions">
+                    <div class="col-lg-7 actions">
                       <i class="fa fa-eye" (click)="openParams(basket)" placement="top" ngbTooltip="{{ 'View' | translate }}"></i>
-                      <i class="fa fa-edit icon-edit" (click)="openEdit(basket)" placement="top" ngbTooltip="{{ 'Edit' | translate }}"></i>
+                      <i class="fa fa-edit" (click)="openEdit(basket)" placement="top" ngbTooltip="{{ 'Edit' | translate }}"></i>
                       <i class="fa fa-trash" (click)="delete(basket.idBasketProductRequested)" placement="top" ngbTooltip="{{ 'Delete' | translate }}"></i>
                     </div>
                   </div>

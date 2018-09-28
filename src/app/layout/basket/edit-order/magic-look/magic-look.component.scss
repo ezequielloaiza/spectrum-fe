@@ -1,6 +1,7 @@
 @import "../../../../../styles/spectrum/spectrum";
 
 .card-body {
+  height: 450px;
   >div:nth-child(1) {
     padding-right: 25px;
   }
@@ -38,11 +39,12 @@
     }
 
     .info {
-      > div:nth-child(1),
-      > div:nth-child(2),
-      > div:nth-child(3) {
-        display: flex;
-        flex-direction: column;
+      > div:nth-child(1){
+          padding-top: 10px;
+          .input-patient{
+            width: 300px;
+            margin-left: 40px;
+          }
       }
     }
   }
@@ -79,3 +81,6 @@
   padding-left: 0px;
 }
 
+.width-input{
+  width: 150px;
+}

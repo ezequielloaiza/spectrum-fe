@@ -384,5 +384,12 @@
     "Subtotal Amount": "Subtotal Amount",
     "Total Amount": "Total Amount",
     "To Provider": "To Provider",
-    "To Client": "To Client"
+    "To Client": "To Client",
+    "Edit Product":"Edit Product",
+    "Tone":"Tone",
+    "Base Curve (mm)":"Base Curve (mm)",
+    "Diameter (mm)":"Diameter (mm)",
+    "Sphere (D)":"Sphere (D)",
+    "Cylinder (D)":"Cylinder (D)",
+    "Axes (º)":"Ejes (º)"
 }

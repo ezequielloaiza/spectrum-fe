@@ -38,6 +38,11 @@
     }
 
     .info {
+      > div:nth-child(1) {
+        .input-patient {
+          width: 300px;
+        }
+      }
       > div:nth-child(1),
       > div:nth-child(2),
       > div:nth-child(3) {
@@ -79,3 +84,14 @@
   padding-left: 0px;
 }
 
+
+.width-input{
+  width: 150px;
+}
+
+.comment{
+  width: 206px;
+}
+.div-comment{
+  padding-left: 70px;
+}
