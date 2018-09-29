@@ -16,6 +16,7 @@ import { FileProductRequested } from '../../../shared/models/fileproductrequeste
 import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-confirmation-buy',
@@ -51,7 +52,8 @@ export class ConfirmationBuyComponent implements OnInit {
               private orderService: OrderService,
               private fileProductRequestedService: FileProductRequestedService,
               public router: Router,
-              private userStorageService: UserStorageService) {
+              private userStorageService: UserStorageService,
+              private spinner: NgxSpinnerService) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
 
@@ -90,6 +92,7 @@ export class ConfirmationBuyComponent implements OnInit {
   }
 
   save(): void {
+    this.spinner.show();
     if (this.typeBuy === 1) {
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
@@ -101,12 +104,14 @@ export class ConfirmationBuyComponent implements OnInit {
             this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
               this.notification.success('', res);
             });
+            this.spinner.hide();
             this.redirectListBasket();
-          } else {
-            console.log(res.errors[0].detail);
-          }
-        }, error => {
-          console.log('error', error);
+        } else {
+          console.log(res.errors[0].detail);
+          this.spinner.hide();
+        }
+      }, error => {
+        console.log('error', error);
       });
     } else {
       this.buyNow.idUser = this.datos.idUser;
@@ -116,6 +121,7 @@ export class ConfirmationBuyComponent implements OnInit {
       this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.save_success = true;
+          this.spinner.hide();
           this.close();
           this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
             this.notification.success('', res);
@@ -123,6 +129,7 @@ export class ConfirmationBuyComponent implements OnInit {
           this.redirectListOrder();
         } else {
           console.log(res.errors[0].detail);
+          this.spinner.hide();
         }
       }, error => {
         console.log('error', error);
