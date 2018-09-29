@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Buy } from '../../../../shared/models/buy';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { OrderService } from '../../../../shared/services';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-summary-products',
@@ -20,7 +21,8 @@ export class SummaryProductsComponent implements OnInit {
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
-              private orderService: OrderService) { }
+              private orderService: OrderService,
+              private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
   }
@@ -30,17 +32,20 @@ export class SummaryProductsComponent implements OnInit {
   }
 
   generateOrder() {
+    this.spinner.show();
     this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
-       if (res.code === CodeHttp.ok) {
-         this.close();
-         this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-           this.notification.success('', res);
-         });
-       } else {
-         console.log(res.errors[0].detail);
-       }
-     }, error => {
-       console.log('error', error);
-     });
-   }
+      if (res.code === CodeHttp.ok) {
+        this.close();
+        this.spinner.hide();
+        this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+          this.notification.success('', res);
+        });
+      } else {
+        console.log(res.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
 }

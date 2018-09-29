@@ -64,6 +64,7 @@ import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.co
 import { BlueLightComponent } from './basket/edit-order/blue-light/blue-light.component';
 import { EuclidComponent } from './basket/edit-order/euclid/euclid.component';
 import { MarkennovyComponent } from './basket/edit-order/markennovy/markennovy.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
     imports: [
@@ -78,7 +79,8 @@ import { MarkennovyComponent } from './basket/edit-order/markennovy/markennovy.c
         InternationalPhoneModule,
         BreadcrumbModule,
         NgSelectModule,
-        FileUploadModule
+        FileUploadModule,
+        NgxSpinnerModule
     ],
     declarations: [
         LayoutComponent,
