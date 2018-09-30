@@ -383,5 +383,12 @@
     "Subtotal Amount": "Subtotal Amount",
     "Total Amount": "Total Amount",
     "To Provider": "To Provider",
-    "To Client": "To Client"
+    "To Client": "To Client",
+    "Payment Method": "Payment Method",
+    "Prepaid": "Prepaid",
+    "Postpaid": "Postpaid",
+    "Credit Days": "Credit Days",
+    "days": "days",
+    "Payment Method is required": "Payment Method is required",
+    "Credit Days is required": "Credit Days is required"
 }

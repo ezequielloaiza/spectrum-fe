@@ -13,6 +13,8 @@ export class Company {
   public postalCode: string;
   public phone: string;
   public creditLimit: number;
+  public paymentMethod: number;
+  public creditDays: number;
   public businessType: BusinessType = new BusinessType();
 
   public constructor() { }
