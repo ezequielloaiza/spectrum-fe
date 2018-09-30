@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { SageService } from '../../shared/services/sage/sage.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -160,7 +161,7 @@ export class DashboardComponent implements OnInit {
      */
   }
 
-  constructor() {
+  constructor(private sage: SageService) {
     this.sliders.push(
       {
         imagePath: 'assets/images/slider1.jpg',
@@ -219,5 +220,11 @@ export class DashboardComponent implements OnInit {
   public closeAlert(alert: any) {
     const index: number = this.alerts.indexOf(alert);
     this.alerts.splice(index, 1);
+  }
+
+  public loginSage() {
+    this.sage.findAll$().subscribe((res) => {
+      window.open(res.data,"Sage","menubar=1,resizable=1,width=650,height=680,left=350");
+    })
   }
 }
