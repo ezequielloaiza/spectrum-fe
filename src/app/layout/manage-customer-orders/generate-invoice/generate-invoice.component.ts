@@ -116,7 +116,6 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   generateInvoice(send, idOrder) {
-    console.log('invoice', this.invoice);
     this.orderService.generateInvoice$(idOrder, send, this.invoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {

@@ -58,11 +58,12 @@
               <tr *ngFor="let productR of invoice.listProductRequested; let i = index">
                 <td class="table-tr">{{productR.productRequested.quantity}}</td>
                 <td class="table-tr">{{(productR.productRequested.product.name + " - "+ productR.productRequested.product.material )}}</td>
-                <td class="table-tr">
+                <td class="table-tr" [hidden]="!pilot"> {{productR.price  | currency : "USD $"}}</td>
+                <td class="table-tr" [hidden]="pilot">
                   <fieldset>
                     <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice($event, i)" placeholder="{{ 'Enter unit price' | translate }}"
                     required>
-                </fieldset>
+                  </fieldset>
                 </td>
                 <td class="table-tr">{{(productR.netAmount | currency : "USD $")}}</td>
               </tr>
@@ -96,13 +97,13 @@
 </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+  <button [hidden]="!pilot" type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{  'Back' | translate }}&nbsp;
+     <i class="fa fa-arrow-left"></i>
+  </button>
+  <button [hidden]="pilot" type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button [hidden]="pilot && (invoice.status===1 || invoice.status===0)" type="button" class="btn btn-main" (click)="generateInvoice(0, order.idOrder)">{{ 'Save' | translate }}&nbsp;
-    <i class="fa fa-save"></i>
-  </button>
-  <button [hidden]="pilot && invoice.status===1" type="button" class="btn btn-main" (click)="generateInvoice(1, order.idOrder)">{{ 'Save and Send' | translate }}&nbsp;
+  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1, order.idOrder)">{{ 'Save and Send' | translate }}&nbsp;
     <i class="fa fa-send"></i>
   </button> 
 </div>
