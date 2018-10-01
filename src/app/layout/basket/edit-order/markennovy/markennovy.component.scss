@@ -63,6 +63,9 @@
       display: flex;
       justify-content: flex-start;
     }
+    .separator{
+      margin-bottom:5px;
+    }
   }
 
 }
@@ -88,4 +91,8 @@
 }
 .div-comment{
   padding-left: 70px;
+}
+
+.separator-comment{
+  padding-top: 24px;
 }

@@ -24,7 +24,7 @@ export class EuclidComponent implements OnInit {
   price: any;
   editPrice = false;
   user: any;
-  cl = ['row', 'selection', 'label-title', 'width-input'];
+  cl = ['row', 'selection', 'label-title', 'width-input', 'separator'];
   warranty = false;
   patient: any;
   constructor(public modalReference: NgbActiveModal,
@@ -42,7 +42,7 @@ export class EuclidComponent implements OnInit {
     this.getProductView();
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
-      this.cl = ['row', 'selection', 'width-input'];
+      this.cl = ['row', 'selection', 'width-input', 'separator'];
     }
 
   }

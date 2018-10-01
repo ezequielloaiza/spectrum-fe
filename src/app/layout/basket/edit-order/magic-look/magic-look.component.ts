@@ -25,7 +25,7 @@ export class MagicLookComponent implements OnInit {
   editPrice = false;
   user: any;
   patient: any;
-  cl = ['row', 'selection', 'label-title', 'width-input'];
+  cl = ['row', 'selection', 'label-title', 'width-input', 'separator'];
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -41,7 +41,7 @@ export class MagicLookComponent implements OnInit {
     this.getProductView();
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
-      this.cl = ['row', 'selection', 'width-input'];
+      this.cl = ['row', 'selection', 'width-input', 'separator'];
     }
 
   }

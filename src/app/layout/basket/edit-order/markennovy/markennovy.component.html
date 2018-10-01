@@ -33,21 +33,20 @@
                 </div>
               </div>
             </div>
-
           </div>
 
           <div class="col-lg-3 params">
             <!--CONTENT INFO-->
             <!--PARAM NAME-->
             <div class="col-sm-12 title">
-              <div class="row label" [hidden]="!editPrice">
+              <div class="row label separator" [hidden]="!editPrice">
                 <label class="form-check-label">{{ 'Price' | translate }}:</label>
               </div>
               <div class="row label-title">
                 <label class="form-check-label">{{ 'Quantity' | translate }}:</label>&nbsp;&nbsp;
               </div>
               <div *ngFor="let parameter of product.parameters">
-                <div class="row label-title" *ngIf="parameter.name !=='Dominancia'">
+                <div class="row label-title separator" *ngIf="parameter.name !=='Dominancia'">
                   <label class="form-check-label">{{ parameter.name | translate }}:</label>&nbsp;&nbsp;
                 </div>
               </div>
@@ -56,7 +55,7 @@
           <div class="col-lg-3 params">
             <!--PARAMETERS-->
             <div class="col-sm-12 title">
-              <div class="row selection width-input" [hidden]="!editPrice">
+              <div class="row selection width-input separator" [hidden]="!editPrice">
                 <input type="number" class="form-control col-sm-11" placeholder="{{ 'Enter price' | translate }}" name="price1" [(ngModel)]="price">
               </div>
               <div [ngClass]="cl">
@@ -65,14 +64,13 @@
               <div *ngFor="let parameter of product.parameters">
                 <div>
                   <div class="row selection">
-                    <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
+                    <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12 separator">
                       <ng-select *ngIf="parameter.name !=='Dominancia'" (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected"
                         bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
                         {{item}}
                       </ng-select>
                     </div>
-
-                    <div *ngIf="parameter.type === 'input'" class="select-values width-input">
+                    <div *ngIf="parameter.type === 'input'" class="select-values width-input separator">
                       <input class="form-control col-sm-11" type="number" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
                         oninput="validity.valid||(value='');">
                     </div>
@@ -104,7 +102,7 @@
           </div>
           <div class="col-md-6 label-title">
             <!--CONTENT-->
-            <div class="row label-title">
+            <div class="row separator-comment">
               <div class="col-md-2">
                 <label class="title">{{ 'Comments' | translate }}:</label>&nbsp;&nbsp;
               </div>
