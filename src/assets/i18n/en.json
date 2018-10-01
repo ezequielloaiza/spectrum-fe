@@ -383,5 +383,8 @@
     "Subtotal Amount": "Subtotal Amount",
     "Total Amount": "Total Amount",
     "To Provider": "To Provider",
-    "To Client": "To Client"
+    "To Client": "To Client",
+    "Invoices List": "Invoices List",
+    "All invoices": "All invoices",
+    "Are you sure you want to delete the invoice? You must notify the provider this change.": "Are you sure you want to delete the invoice? You must notify the provider this change."
 }

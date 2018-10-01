@@ -73,6 +73,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.initializeForm();
     this.initializeAvatar();
+    console.log('user:', this.user);
   }
 
   initializeAvatar() {

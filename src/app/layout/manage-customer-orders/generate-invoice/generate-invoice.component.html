@@ -99,10 +99,10 @@
   <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" class="btn btn-main" (click)="generateInvoice(0, order.idOrder)">{{ 'Save' | translate }}&nbsp;
+  <button [hidden]="pilot && (invoice.status===1 || invoice.status===0)" type="button" class="btn btn-main" (click)="generateInvoice(0, order.idOrder)">{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
-  <button type="button" class="btn btn-main" (click)="generateInvoice(1, order.idOrder)">{{ 'Save and Send' | translate }}&nbsp;
+  <button [hidden]="pilot && invoice.status===1" type="button" class="btn btn-main" (click)="generateInvoice(1, order.idOrder)">{{ 'Save and Send' | translate }}&nbsp;
     <i class="fa fa-send"></i>
-  </button>
+  </button> 
 </div>

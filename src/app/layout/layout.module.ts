@@ -60,6 +60,7 @@ import { SummaryProductsComponent } from './basket/modals/summary-products/summa
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
 import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 
 @NgModule({
     imports: [
@@ -127,7 +128,8 @@ import { FileUploadModule } from 'ng2-file-upload';
         DetailProductModalComponent,
         SummaryProductsComponent,
         ModalsChangeStatusComponent,
-        GenerateInvoiceComponent
+        GenerateInvoiceComponent,
+        ManageInvoiceComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,

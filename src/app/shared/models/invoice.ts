@@ -15,6 +15,8 @@ export class Invoice {
     public status: number;
     public user: User;
     public idUser: number;
+    public client: User;
+    public idClient: number;
     public listProductRequested: Array<InvoiceProductRequested>;
 
     public constructor() { }
