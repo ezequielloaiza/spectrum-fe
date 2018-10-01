@@ -9,7 +9,7 @@ import { EditProductComponent } from '../modals/edit-product/edit-product.compon
 import { Router } from '@angular/router';
 import { SupplierService } from '../../shared/services/suppliers/supplier.service';
 import { CategoryService } from '../../shared/services/category/category.service';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-products-lists',
@@ -34,7 +34,8 @@ export class ProductsListsComponent implements OnInit {
               private supplierUserService: SupplieruserService,
               public router: Router,
               private supplierService: SupplierService,
-              private categoryService: CategoryService) {
+              private categoryService: CategoryService,
+              private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -45,6 +46,7 @@ export class ProductsListsComponent implements OnInit {
   }
 
   getProducts() {
+    this.spinner.show();
     this.productService.findAll$().subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
@@ -60,8 +62,10 @@ export class ProductsListsComponent implements OnInit {
             this.productsAux = res.data;
             this.getSuppliers();
           }
+          this.spinner.hide();
         } else {
           console.log(res.errors[0].detail);
+          this.spinner.hide();
         }
       },
       error => {
