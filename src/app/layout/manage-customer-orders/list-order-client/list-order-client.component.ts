@@ -307,6 +307,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   generateInvoice(order) {
     const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.order = order;
+    modalRef.componentInstance.pilot = false;
     modalRef.result.then((result) => {
           this.getListOrders();
     } , (reason) => {
