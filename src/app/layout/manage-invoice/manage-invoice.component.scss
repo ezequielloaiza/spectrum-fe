@@ -1,0 +1,96 @@
+@import '../../../styles/spectrum/spectrum';
+
+@include tr-sizes((13%,24%,23%,20%,20%));
+
+.search {
+  padding-top: 8rem;
+  padding-bottom: 1.5rem;
+
+  i {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    color: $bg-imput;
+  }
+}
+
+.body-fixed {
+  padding-top: 10%;
+}
+
+/*.active {
+  color: $bg-white;
+  > div {
+    background: $paid-status;
+    border-radius: 12px;
+    text-align: center;
+  }
+}
+
+.inactive {
+  color: $bg-white;
+  > div {
+    background: $bg-red;
+    border-radius: 12px;
+    text-align: center;
+  }
+}*/
+
+.page-header-fixed {
+  margin-left: 15px;
+}
+
+.header-body {
+  width: 100%;
+  background: $bg-white;
+  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
+
+  .link {
+    color: $bg-blue;
+    padding-left: 0px;
+  }
+
+  .breadcrumb {
+    background-color: transparent;
+    border-radius: 0px;
+    //padding-left: 15px;
+    border-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
+  h4 {
+    padding-left: 15px;
+  }
+}
+
+.sp-container {
+  padding-top: 0;
+}
+
+.dropdown-menu {
+  left: -33px !important;
+
+  &::before {
+    position: absolute;
+    top: -7px;
+    left: 103px;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #CCC;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    content: '';
+  }
+
+  &::after {
+    position: absolute;
+    top: -6px;
+    left: 104px;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid $bg-white;
+    border-left: 6px solid transparent;
+    content: '';
+  }
+}
