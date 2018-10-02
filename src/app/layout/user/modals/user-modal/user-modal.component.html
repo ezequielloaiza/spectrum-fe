@@ -214,6 +214,33 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
+            <label>{{ 'Payment Method' | translate }}</label>
+            <div class="row">
+              <div class="col-xl-6" *ngFor="let method of listPaymentMethod; let i = index">
+                <div class="col-xl-5 custom-control custom-radio">
+                  <input type="radio" id="paymentMethod{{i}}" name="paymentMethod" [value]="method.id" (change)="assignCreditDays(method)" class="custom-control-input" >
+                  <label class="custom-control-label" for="paymentMethod{{i}}">{{ method.name | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <div class="message-error" [hidden]="paymentMethod.valid || paymentMethod.pristine">
+            <span>{{ 'Payment Method is required' | translate }}</span>
+          </div>
+        </div>
+        <div *ngIf="postpaid" class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Credit Days' | translate }}</label>
+            <select class="form-control" name="creditDays" formControlName="creditDays" required>
+              <option *ngFor="let creditDays of listCreditDays" value="{{creditDays}}">{{ creditDays + ' '}}{{ 'days' | translate }}</option>
+            </select>
+          </fieldset>
+          <div class="message-error" [hidden]="creditDays.valid || creditDays.pristine">
+            <span>{{ 'Credit Days is required' | translate }}</span>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <fieldset class="form-group">
             <label>{{ 'Membership' | translate }}</label>
             <select class="form-control" name="membershipId" formControlName="membershipId" required>
               <option *ngFor="let membership of memberships" [ngValue]="membership.idMembership">{{ membership.name }}</option>
