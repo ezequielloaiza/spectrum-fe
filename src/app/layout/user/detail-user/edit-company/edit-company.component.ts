@@ -26,6 +26,11 @@ export class EditCompanyComponent implements OnInit {
   businessTypes: Array<any> = new Array;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   saving = false;
+  listPaymentMethod = [{ id: 0, name: 'Prepaid' },
+                       { id: 1, name: 'Postpaid' }];
+  listCreditDays = [ '15', '30', '60' ];
+  postpaid = false;
+  method: any;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -57,7 +62,9 @@ export class EditCompanyComponent implements OnInit {
       postalCode    : ['', []],
       idCompany     : ['', []],
       idUser        : [this.id, []],
-      city          : ['', []]
+      city          : ['', []],
+      paymentMethod : ['', []],
+      creditDays    : ['', []]
     });
   }
 
@@ -129,6 +136,10 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('phone').setValue(this.company.phone==null?'':this.company.phone);
     this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
     this.form.get('creditLimit').setValue(company.creditLimit);
+    this.form.get('paymentMethod').setValue(company.paymentMethod);
+    this.method = company.paymentMethod === 1 ? 'Postpaid' : 'Prepaid'
+    this.postpaid = company.paymentMethod === 1 ? true : false;
+    this.form.get('creditDays').setValue(company.creditDays);
     this.form.get('idCompany').setValue(company.idCompany);
     this.form.get('city').setValue(company.city);
   }
@@ -139,9 +150,11 @@ export class EditCompanyComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.canEdit = false;
         this.company = res.data;
+        this.method = this.company.paymentMethod === 1 ? 'Postpaid' : 'Prepaid'
+        this.postpaid = this.company.paymentMethod === 1 ? true : false;
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
-        });      
+        });
       }
       this.saving = false;
     }, error => {
@@ -161,5 +174,18 @@ export class EditCompanyComponent implements OnInit {
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postalCode() { return this.form.get('postalCode'); }
+  get paymentMethod() {return this.form.get('paymentMethod'); }
+  get creditDays() {return this.form.get('creditDays'); }
+
+  assignCreditDays(value: number) {
+    if (value === 1) {
+      this.postpaid = true;
+      this.form.get('creditDays').setValue(null);
+    } else {
+      this.postpaid = false;
+      this.form.get('creditDays').setValue(0);
+    }
+    this.form.get('paymentMethod').setValue(value);
+  }
 
 }
