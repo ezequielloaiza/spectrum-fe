@@ -23,6 +23,7 @@ export class GenerateInvoiceComponent implements OnInit {
   user: any;
   today: Date = new Date();
   invoice: Invoice = new Invoice();
+  pilot: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -50,23 +51,25 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   loadInvoice() {
-    this.invoiceService.allInvoiceByOrder$(this.order.idOrder).subscribe(
-      res => {
-        if (res.code === CodeHttp.ok) {
-          const invoices = res.data;
-          if (invoices.length > 0) {
-            this.invoice = invoices[0];
+    if (this.order !== undefined) {
+      this.invoiceService.allInvoiceByOrder$(this.order.idOrder).subscribe(
+        res => {
+          if (res.code === CodeHttp.ok) {
+            const invoices = res.data;
+            if (invoices.length > 0) {
+              this.invoice = invoices[0];
+            } else {
+              this.loadInvoiceFromOrder();
+            }
           } else {
-            this.loadInvoiceFromOrder();
+            console.log(res.code);
           }
-        } else {
-          console.log(res.code);
+        },
+        error => {
+          console.log('error', error);
         }
-      },
-      error => {
-        console.log('error', error);
-      }
-    );
+      );
+    }
   }
 
   loadInvoiceFromOrder() {
@@ -79,8 +82,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.number = this.order.number;
     this.invoice.subtotal = this.order.subtotal;
     this.invoice.total = this.order.total;
-    this.invoice.user = this.user;
-    this.invoice.idUser = this.user.idUser;
+    this.invoice.idUser = this.order.user.idUser;
     _.each(this.order.listProductRequested, function(pRequested) {
       const productR = new InvoiceProductRequested();
       productR.idProductRequested = pRequested.productRequested.idProductRequested;

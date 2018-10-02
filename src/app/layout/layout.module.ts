@@ -56,10 +56,11 @@ import { SupplierMagicLookComponent } from './details-order-supplier/supplier-ma
 import { SupplierBlueLightComponent } from './details-order-supplier/supplier-blue-light/supplier-blue-light.component';
 import { DetailProductModalComponent } from './basket/modals/detail-product/detail-product';
 import { SummaryProductsComponent } from './basket/modals/summary-products/summary-products.component';
-//import { DetailProductModalComponent } from './basket/client/modals/detail-product/detail-product';
+// import { DetailProductModalComponent } from './basket/client/modals/detail-product/detail-product';
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
 import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
@@ -129,7 +130,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
         DetailProductModalComponent,
         SummaryProductsComponent,
         ModalsChangeStatusComponent,
-        GenerateInvoiceComponent
+        GenerateInvoiceComponent,
+        ManageInvoiceComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,

@@ -389,5 +389,8 @@
     "Subtotal Amount": "Monto Subtotal",
     "Total Amount": "Monto Total",
     "To Provider": "Para el Proveedor",
-    "To Client": "Para el Cliente"
+    "To Client": "Para el Cliente",
+    "Invoices List": "Lista de Facturas",
+    "All invoices": "Todas las Facturas",
+    "Are you sure you want to delete the invoice? You must notify the provider this change.":"¿Está seguro que quiere eliminar esta factura? Debe notificar al proveedor este cambio."
 }
