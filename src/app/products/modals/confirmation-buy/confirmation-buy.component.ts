@@ -204,8 +204,8 @@ export class ConfirmationBuyComponent implements OnInit {
 
   validateAvailableBalance() {
     let available = true;
-    if ((this.product.priceSale * this.quantity) > this.balace) {
-         available = false;
+    if (this.company.paymentMethod === 1 && ((this.product.priceSale * this.quantity) > this.balace)) { // Postpago
+        available = false;
     }
     this.available = available;
   }
