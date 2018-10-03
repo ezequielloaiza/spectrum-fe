@@ -67,7 +67,6 @@ export class ConfirmationBuyComponent implements OnInit {
   ngOnInit() {
     this.getDatos();
     this.getBalance();
-    this.validateAvailableBalance();
   }
 
   close() {

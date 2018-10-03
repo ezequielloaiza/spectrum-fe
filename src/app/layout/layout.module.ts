@@ -62,6 +62,7 @@ import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invo
 import { FileUploadModule } from 'ng2-file-upload';
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
 
 @NgModule({
     imports: [
@@ -131,7 +132,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
         SummaryProductsComponent,
         ModalsChangeStatusComponent,
         GenerateInvoiceComponent,
-        ManageInvoiceComponent
+        ManageInvoiceComponent,
+        NotificationBalanceOrderComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -150,7 +152,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
       DetailProductModalComponent,
       SummaryProductsComponent,
       ModalsChangeStatusComponent,
-      GenerateInvoiceComponent
+      GenerateInvoiceComponent,
+      NotificationBalanceOrderComponent
     ],
     providers: [
       BusinessTypeService,
