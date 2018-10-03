@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { BasketService } from '../../../shared/services/basket/basket.service';
@@ -11,12 +11,14 @@ import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { BasketRequest } from '../../../shared/models/basketrequest';
 import { BuyNow } from '../../../shared/models/buynow';
-import { OrderService } from '../../../shared/services';
+import { OrderService, UserService } from '../../../shared/services';
 import { FileProductRequested } from '../../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Company } from '../../../shared/models/company';
+import { NotificationBalanceComponent } from '../notification-balance/notification-balance.component';
 
 @Component({
   selector: 'app-confirmation-buy',
@@ -38,11 +40,14 @@ export class ConfirmationBuyComponent implements OnInit {
   typeBuy: any;
   quantity: any;
   user: any;
+  balace: any;
   // list for File
   listFileBasket: Array<FileProductRequested> = new Array;
   listUrlFiles: Array<String> = new Array;
   // boolean for delete file
   save_success: Boolean = false;
+  company: Company = new Company();
+  available: any;
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
@@ -53,12 +58,16 @@ export class ConfirmationBuyComponent implements OnInit {
               private fileProductRequestedService: FileProductRequestedService,
               public router: Router,
               private userStorageService: UserStorageService,
-              private spinner: NgxSpinnerService) {
+              private spinner: NgxSpinnerService,
+              private userService: UserService,
+              private modalService: NgbModal) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
 
   ngOnInit() {
     this.getDatos();
+    this.getBalance();
+    this.validateAvailableBalance();
   }
 
   close() {
@@ -92,8 +101,8 @@ export class ConfirmationBuyComponent implements OnInit {
   }
 
   save(): void {
-    this.spinner.show();
     if (this.typeBuy === 1) {
+      this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
       this.basketRequest.fileProductRequestedList = this.listFileBasket;
@@ -118,7 +127,9 @@ export class ConfirmationBuyComponent implements OnInit {
       this.buyNow.productRequestedList = this.lista;
       this.buyNow.idRole = this.role;
       this.buyNow.fileProductRequestedList = this.listFileBasket;
-      this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
+      this.validateAvailableBalance();
+      if (this.available) {
+        this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.save_success = true;
           this.spinner.hide();
@@ -134,6 +145,9 @@ export class ConfirmationBuyComponent implements OnInit {
       }, error => {
         console.log('error', error);
       });
+      } else {
+        this.openModal(); // No tiene disponible el balance de credito
+      }
     }
   }
 
@@ -168,8 +182,41 @@ export class ConfirmationBuyComponent implements OnInit {
   redirectListOrder(): void {
     if (this.user.role.idRole === 3) {
       this.router.navigate(['/order-list-client'], { queryParams: { status: 0 } });
-    } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+    } else if ( this.user.role.idRole === 1) {
       this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 1 } });
+    } else if ( this.user.role.idRole === 2) {
+      this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
     }
+  }
+
+  getBalance() {
+    this.userService.findById$(this.datos.idUser).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+         this.company = res.data.company;
+         this.balace = this.company.balance;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  validateAvailableBalance() {
+    let available = true;
+    if ((this.product.priceSale * this.quantity) > this.balace) {
+         available = false;
+    }
+    this.available = available;
+  }
+
+  openModal(): void {
+    const modalRef = this.modalService.open( NotificationBalanceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.componentInstance.buyNowModal = this.buyNow;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    } , (reason) => {
+      this.close();
+    });
   }
 }
