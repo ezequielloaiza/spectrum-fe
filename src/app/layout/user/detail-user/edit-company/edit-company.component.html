@@ -166,6 +166,45 @@
               </div>
             </fieldset>
           </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Payment Method' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ method | translate}}</span>
+                <div [hidden]="!canEdit" class="row">
+                  <div class="col-xl-6">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" id="customRadio1" name="paymentMethod" class="custom-control-input" (change)="assignCreditDays(0)" [checked]="company && company.paymentMethod === 0 ? true : false">
+                      <label class="custom-control-label" for="customRadio1">{{ 'Prepaid' | translate }}</label>
+                    </div>
+                  </div>
+                  <div class="col-xl-6">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" id="customRadio2" name="paymentMethod" class="custom-control-input" (change)="assignCreditDays(1)" [checked]="company && company.paymentMethod === 1 ? true : false">
+                      <label class="custom-control-label" for="customRadio2">{{ 'Postpaid' | translate }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="paymentMethod.valid || paymentMethod.pristine">
+              <span>{{ 'Payment Method is required' | translate }}</span>
+            </div>
+          </div>
+          <div *ngIf="postpaid" class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Credit Days' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.creditDays + ' '}}{{ 'days' | translate }}</span>
+                <select [hidden]="!canEdit" class="form-control" name="creditDays" formControlName="creditDays" required>
+                  <option *ngFor="let creditDays of listCreditDays" value="{{creditDays}}">{{ creditDays + ' '}}{{ 'days' | translate }}</option>
+                </select>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="creditDays.valid || creditDays.pristine">
+              <span>{{ 'Credit Days is required' | translate }}</span>
+            </div>
+          </div>
         </div>
         <br>
         <div class="footer-form">

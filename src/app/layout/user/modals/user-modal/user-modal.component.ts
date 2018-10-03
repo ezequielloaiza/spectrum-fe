@@ -15,11 +15,13 @@ import { GoogleService } from '../../../../shared/services/google/google.service
 import { TranslateService } from '@ngx-translate/core';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
 import { ListSupplierModalComponent } from '../list-supplier-modal/list-supplier-modal.component';
+
 @Component({
   selector: 'app-user-modal',
   templateUrl: './user-modal.component.html',
   styleUrls: ['./user-modal.component.scss']
 })
+
 export class UserModalComponent implements OnInit {
   form: FormGroup;
   businessTypes: Array<any> = new Array;
@@ -28,9 +30,13 @@ export class UserModalComponent implements OnInit {
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   public model: any;
   memberships: Array<any> = new Array;
-  valorCity:any;
-  valorCompanyCity:any;
+  valorCity: any;
+  valorCompanyCity: any;
   listSuppliers: Array<any> = new Array;
+  listPaymentMethod = [{ id: 0, name: 'Prepaid' },
+                       { id: 1, name: 'Postpaid' }];
+  listCreditDays = [ '15', '30', '60' ];
+  postpaid = false;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -41,7 +47,7 @@ export class UserModalComponent implements OnInit {
     private translate: TranslateService,
     private membershipService: MembershipService,
     private notification: ToastrService,
-    private modalService: NgbModal,) { }
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -93,7 +99,9 @@ export class UserModalComponent implements OnInit {
       typeUser: ['USER'],
       membershipId: ['', [Validators.required]],
       phone: [''],
-      suppliers:['']
+      suppliers: [''],
+      paymentMethod: ['', [Validators.required]],
+      creditDays: ['']
     });
   }
 
@@ -176,7 +184,9 @@ export class UserModalComponent implements OnInit {
   get companyPostal() { return this.form.get('companyPostal'); }
   get membershipId() { return this.form.get('membershipId'); }
   get phone() { return this.form.get('phone'); }
-  get suppliers(){return this.form.get('suppliers');}
+  get suppliers() {return this.form.get('suppliers'); }
+  get paymentMethod() {return this.form.get('paymentMethod'); }
+  get creditDays() {return this.form.get('creditDays'); }
 
   validatePhone(event) {
     const key = window.event ? event.keyCode : event.which;
@@ -204,5 +214,17 @@ export class UserModalComponent implements OnInit {
       this.listSuppliers = result;
     } , (reason) => {
     });
+  }
+
+  assignCreditDays(method) {
+    if (method.id === 1) {
+      this.postpaid = true;
+      this.form.get('creditDays').setValue(null);
+    } else {
+      this.postpaid = false;
+      this.form.get('creditDays').setValue(0);
+    }
+
+    this.form.get('paymentMethod').setValue(method.id);
   }
 }

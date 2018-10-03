@@ -389,5 +389,15 @@
     "The Client does not have the available credit balance, the order will remain in pending status until authorized.":"The Client does not have the available credit balance, the order will remain in pending status until authorized.",
     "The Client does not have the available credit balance.":"The Client does not have the available credit balance.",
     "Notification":"Notification",
-    "Accept":"Accept"
+    "Accept":"Accept",
+    "Payment Method": "Payment Method",
+    "Prepaid": "Prepaid",
+    "Postpaid": "Postpaid",
+    "Credit Days": "Credit Days",
+    "days": "days",
+    "Payment Method is required": "Payment Method is required",
+    "Credit Days is required": "Credit Days is required",
+    "Invoices List": "Invoices List",
+    "All invoices": "All invoices",
+    "Are you sure you want to delete the invoice? You must notify the provider this change.": "Are you sure you want to delete the invoice? You must notify the provider this change."
 }
