@@ -140,6 +140,13 @@
                     <input [hidden]="!canEditPersonal" class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
                   </fieldset>
                 </div>
+
+                <ng-select (change)="print(country)"  placeholder="{{ 'Country' | translate }}">
+                  <ng-option *ngFor="let item of countrys | translateOptions | async " 
+                          [value]="item.key">
+                      {{ item }}
+                  </ng-option>
+                </ng-select>
               </div>
               <div class="footer-form" [hidden]="!canEditPersonal">
                 <button class="btn btn-secondary" (click)="editPersonal()" [disabled]="!canEditPersonal">{{ 'Cancel' | translate }}&nbsp;

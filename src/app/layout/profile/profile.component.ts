@@ -9,6 +9,8 @@ import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { environment } from '../../../../src/environments/environment';
+import { User } from '../../shared/models/user';
+import * as _ from 'lodash';
 
 const URL = environment.apiUrl + 'user/uploaderAvatar';
 
@@ -29,6 +31,8 @@ export class ProfileComponent implements OnInit {
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   user: any;
   avatar: any;
+  users: User[] = [];
+  countrys: any;
   // Upload avatar
   queueLimit = 1;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
@@ -73,6 +77,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.initializeForm();
     this.initializeAvatar();
+    this.initializeData();
   }
 
   initializeAvatar() {
@@ -83,6 +88,26 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  initializeData() {
+    let countrysTest = [];
+    this.userService.allCustomersWithOrders$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.users = res.data;
+        _.each(this.users, function(user) {
+          countrysTest.push(user.country);
+        });
+        console.log('countrys', countrysTest);
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+    this.countrys = countrysTest;
+  }
+  print(country) {
+    console.log('item', country);
+  }
   onReset() {
     this.form.get('oldPassword').reset();
     this.form.get('password').reset();

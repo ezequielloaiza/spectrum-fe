@@ -61,6 +61,7 @@ import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-sta
 import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { TranslateOptionsPipe } from './translate-options.pipe';
 
 @NgModule({
     imports: [
@@ -129,7 +130,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
         DetailProductModalComponent,
         SummaryProductsComponent,
         ModalsChangeStatusComponent,
-        GenerateInvoiceComponent
+        GenerateInvoiceComponent,
+        TranslateOptionsPipe
     ],
     entryComponents: [
       ShippingAddressModalComponent,
