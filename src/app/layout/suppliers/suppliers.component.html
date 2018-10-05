@@ -68,7 +68,7 @@
             <tbody [hidden]="suppliers.length === 0">
               <tr *ngFor="let supplier of suppliers">
                 <td class="table-tr td-table">{{supplier.companyName}}</td>
-                <td class="table-tr">{{supplier.country}}</td>
+                <td class="table-tr">{{supplier.country | translate}}</td>
                 <td class="table-tr td-table">{{supplier.contact}}</td>
                 <td class="table-tr td-table">{{supplier.website}}</td>
                 <td class="table-tr">{{supplier.phone}}</td>

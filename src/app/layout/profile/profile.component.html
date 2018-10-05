@@ -112,9 +112,20 @@
                 <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label>{{ 'Country' | translate }}</label>
-                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.country }}</h6>
-                    <input [hidden]="!canEditPersonal" class="form-control" placeholder="{{ 'Enter country' | translate }}" name="country" formControlName="country"
-                      required>
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.country | translate }}</h6>
+                    <ng-select [hidden]="!canEditPersonal" [items]="listCountries" formControlName="country" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
+                      [(ngModel)]="selectedCountry" bindValue="name" placeholder="{{ 'Select country' | translate }}" required>
+                      <ng-template ng-label-tmp let-item="item">
+                        <div class="supplier-body">
+                          <span>{{ item.name | translate }}</span>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                        <div class="supplier-body">
+                          <h6 [ngOptionHighlight]="search">{{ item.name | translate }}</h6>
+                        </div>
+                      </ng-template>
+                    </ng-select>
                   </fieldset>
                   <div class="message-error" [hidden]="country.valid || country.pristine">
                     <span>{{ 'Country is required' | translate }}</span>

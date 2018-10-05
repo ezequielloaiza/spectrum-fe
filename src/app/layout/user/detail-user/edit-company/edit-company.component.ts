@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { GoogleService, CompanyService, BusinessTypeService } from '../../../../shared/services';
+import { GoogleService, CompanyService, BusinessTypeService, CountryService } from '../../../../shared/services';
 import { debounceTime, distinctUntilChanged, switchMap, tap, catchError, merge } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
@@ -31,6 +31,8 @@ export class EditCompanyComponent implements OnInit {
   listCreditDays = [ '15', '30', '60' ];
   postpaid = false;
   method: any;
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -38,13 +40,15 @@ export class EditCompanyComponent implements OnInit {
               private companyService: CompanyService,
               private businessTypeService: BusinessTypeService,
               private translate: TranslateService,
-              private notification: ToastrService) { }
+              private notification: ToastrService,
+              private countryService: CountryService) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getBussinesAll();
     this.getCompany(this.id);
     this.initializeForm();
+    this.getCountries();
   }
 
   initializeForm() {
@@ -103,6 +107,19 @@ export class EditCompanyComponent implements OnInit {
       }
     });
   }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
 
   edit(): void {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;

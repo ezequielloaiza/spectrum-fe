@@ -3,6 +3,7 @@ import { ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShippingAddressService } from '../../../../shared/services/shippingAddress/shipping-address.service';
 import { CompanyService } from '../../../../shared/services/company/company.service';
+import { CountryService } from '../../../../shared/services/country/country.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge } from 'rxjs/operators';
@@ -26,7 +27,8 @@ export class ShippingAddressModalComponent implements OnInit {
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   public model: any;
-
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -35,7 +37,8 @@ export class ShippingAddressModalComponent implements OnInit {
     private companyService: CompanyService,
     private notification: ToastrService,
     private googleService: GoogleService,
-    private translate: TranslateService ) {
+    private translate: TranslateService,
+    private countryService: CountryService ) {
    }
 
   initializeForm() {
@@ -48,11 +51,13 @@ export class ShippingAddressModalComponent implements OnInit {
       city      : [this.action === 'edit' ? {description: this.address.city} : '', [ Validators.required]],
       postal    : [this.action === 'edit' ? this.address.postalCode : '']
     });
+    this.selectedCountry = this.action === 'edit' ? this.address.country : '';
   }
 
   ngOnInit() {
     this.initializeForm();
     this.getCompanies();
+    this.getCountries();
   }
 
   formatter = (x: {description: string}) => x.description;
@@ -126,6 +131,18 @@ export class ShippingAddressModalComponent implements OnInit {
       console.log('error', error);
     });
 
+  }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   close() {

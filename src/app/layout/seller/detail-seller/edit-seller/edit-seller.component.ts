@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { GoogleService, UserService } from '../../../../shared/services';
+import { GoogleService, UserService, CountryService } from '../../../../shared/services';
 import { Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
@@ -27,6 +27,8 @@ export class EditSellerComponent implements OnInit {
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -34,12 +36,14 @@ export class EditSellerComponent implements OnInit {
     private userService: UserService,
     private notification: ToastrService,
     private translate: TranslateService,
-    private alertify: AlertifyService) { }
+    private alertify: AlertifyService,
+    private countryService: CountryService) { }
 
   ngOnInit() {
     this.idSeller = this.route.parent.snapshot.paramMap.get('id');
     this.getSeller(this.idSeller);
     this.initializeForm();
+    this.getCountries();
   }
 
   initializeForm() {
@@ -53,6 +57,18 @@ export class EditSellerComponent implements OnInit {
       city: ['', [Validators.required]],
       postal: ['', []],
       phone: ['', []]
+    });
+  }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
   }
 

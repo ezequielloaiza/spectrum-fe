@@ -14,6 +14,7 @@ import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
+import { CountryService } from '../../../../shared/services/country/country.service';
 import { ListSupplierModalComponent } from '../list-supplier-modal/list-supplier-modal.component';
 
 @Component({
@@ -37,6 +38,8 @@ export class UserModalComponent implements OnInit {
                        { id: 1, name: 'Postpaid' }];
   listCreditDays = [ '15', '30', '60' ];
   postpaid = false;
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -47,12 +50,14 @@ export class UserModalComponent implements OnInit {
     private translate: TranslateService,
     private membershipService: MembershipService,
     private notification: ToastrService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private countryService: CountryService) { }
 
   ngOnInit() {
     this.initializeForm();
     this.getBussinesAll();
     this.getMembershipAll();
+    this.getCountriesAll();
   }
 
   formatter = (x: { description: string }) => x.description;
@@ -114,6 +119,18 @@ export class UserModalComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.businessTypes = res.data;
       }
+    });
+  }
+
+  getCountriesAll() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
   }
 

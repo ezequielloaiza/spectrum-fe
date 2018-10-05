@@ -31,12 +31,12 @@
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="supplier.idSupplier" [(ngModel)]="supplier.checked" (change)="onSelection(supplier.idSupplier,supplier.checked)"
                     class="custom-control-input">
-                  <label class="custom-control-label" for="checkbox{{i}}"></label> 
+                  <label class="custom-control-label" for="checkbox{{i}}"></label>
                 </div>
                 <h1>{{supplier.marcado}}</h1>
               </td>
               <td class="table-tr td-table">{{supplier.companyName}}</td>
-              <td class="table-tr">{{supplier.country}}</td>
+              <td class="table-tr">{{supplier.country | translate}}</td>
               <td class="table-tr td-table">{{supplier.contact}}</td>
             </tr>
           </tbody>

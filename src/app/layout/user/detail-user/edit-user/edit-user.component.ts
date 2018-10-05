@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap, debounceTime, distinctUntilChanged, tap, catchError, merge } from 'rxjs/operators';
-import { UserService, GoogleService } from '../../../../shared/services';
+import { UserService, GoogleService, CountryService } from '../../../../shared/services';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { Observable, of } from 'rxjs';
 import { User } from '../../../../shared/models/user';
@@ -11,7 +11,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ListUserModalComponent } from '../../modals/list-user-modal/list-user-modal.component';
-
 
 @Component({
   selector: 'app-edit-user',
@@ -30,6 +29,8 @@ export class EditUserComponent implements OnInit {
   memberships: Array<any> = new Array;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   saving = false;
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -38,13 +39,15 @@ export class EditUserComponent implements OnInit {
               private userService: UserService,
               private translate: TranslateService,
               private notification: ToastrService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              private countryService: CountryService) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getMembershipAll();
     this.getUser(this.id);
     this.initializeForm();
+    this.getCountries();
   }
 
   initializeForm() {
@@ -101,6 +104,19 @@ export class EditUserComponent implements OnInit {
       }
     });
   }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
 
   edit() {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;

@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
-import { UserService, GoogleService } from '../../../../shared/services';
+import { UserService, GoogleService, CountryService } from '../../../../shared/services';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators } from '@angular/forms';
@@ -17,13 +17,15 @@ import { CodeHttp } from '../../../../shared/enum/code-http.enum';
   styleUrls: ['./seller-modal.component.scss']
 })
 export class SellerModalComponent implements OnInit {
-  
+
   form: FormGroup;
   businessTypes: Array<any> = new Array;
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   public model: any;
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -31,12 +33,14 @@ export class SellerModalComponent implements OnInit {
     private toastr: ToastrService,
     private googleService: GoogleService,
     private translate: TranslateService,
-    private notification: ToastrService) { }
+    private notification: ToastrService,
+    private countryService: CountryService) { }
 
   ngOnInit() {
     this.initializeForm();
-
+    this.getCountries();
   }
+
   formatter = (x: { description: string }) => x.description;
 
   search = (text$: Observable<string>) =>
@@ -67,6 +71,18 @@ export class SellerModalComponent implements OnInit {
       city     : ['', [Validators.required]],
       postal   : ['', []],
       phone    : ['', []]
+    });
+  }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
   }
 

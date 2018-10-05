@@ -89,9 +89,19 @@
             <fieldset class="form-group">
               <label>{{ 'Country' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ user.country }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter country' | translate }}" name="country" formControlName="country"
-                  required>
+                <span [hidden]="canEdit">{{ user.country | translate}}</span>
+                <ng-select [hidden]="!canEdit" [items]="listCountries" formControlName="country" notFoundText="{{ 'No country found' | translate }}" [(ngModel)]="country" bindValue="name" placeholder="{{ 'Select country' | translate }}" [searchable]="false" required>
+                  <ng-template ng-label-tmp let-item="item">
+                    <div class="supplier-body">
+                      <span>{{ item.name | translate }}</span>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <div class="supplier-body">
+                      <h6 [ngOptionHighlight]="search">{{ item.name | translate }}</h6>
+                    </div>
+                  </ng-template>
+                </ng-select>
               </div>
             </fieldset>
             <div class="message-error" [hidden]="country.valid || country.pristine">

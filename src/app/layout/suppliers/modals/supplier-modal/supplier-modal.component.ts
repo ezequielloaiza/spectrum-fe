@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, map, catchError, tap, switchMap, me
 import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
 import { SupplierService } from '../../../../shared/services/suppliers/supplier.service';
+import { CountryService } from '../../../../shared/services/country/country.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -27,7 +28,9 @@ export class SupplierModalComponent implements OnInit {
   public model: any;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
-  valorCity:any;
+  valorCity: any;
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
 
   constructor(private modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -35,16 +38,29 @@ export class SupplierModalComponent implements OnInit {
     private toastr: ToastrService,
     private notification: ToastrService,
     private googleService: GoogleService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private countryService: CountryService) { }
 
   ngOnInit() {
     this.initializeForm();
+    this.getCountries();
+  }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   formatter = (x: {description: string}) => x.description;
 
   initializeForm() {
-
     this.form = this.formBuilder.group({
       id          : [this.action === 'edit' ? this.supplier.idSupplier : ''],
       companyName : [this.action === 'edit' ? this.supplier.companyName : '', [ Validators.required]],
@@ -63,6 +79,7 @@ export class SupplierModalComponent implements OnInit {
 
     });
     this.valorCity = [this.action === 'edit' ? {description: this.supplier.city} : ''];
+    this.selectedCountry = this.action === 'edit' ? this.supplier.country : '';
   }
 
   close(data): void {

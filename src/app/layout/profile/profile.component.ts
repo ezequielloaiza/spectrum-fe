@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { GoogleService, UserService } from '../../shared/services';
+import { GoogleService, UserService, CountryService } from '../../shared/services';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, tap, merge } from 'rxjs/operators';
 import { UserStorageService } from '../../http/user-storage.service';
@@ -29,6 +29,8 @@ export class ProfileComponent implements OnInit {
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   user: any;
   avatar: any;
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
   // Upload avatar
   queueLimit = 1;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
@@ -47,7 +49,8 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private userStorageService: UserStorageService,
     private notification: ToastrService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private countryService: CountryService) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
     this.initializeAvatar();
 
@@ -73,6 +76,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.initializeForm();
     this.initializeAvatar();
+    this.getCountries();
     console.log('user:', this.user);
   }
 
@@ -122,6 +126,18 @@ export class ProfileComponent implements OnInit {
       oldPassword: ['', [Validators.required]],
       password: ['', [Validators.required]],
       confirmedPassword: ['', [Validators.required]],
+    });
+  }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
   }
 
