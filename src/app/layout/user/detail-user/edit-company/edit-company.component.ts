@@ -137,7 +137,7 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
     this.form.get('creditLimit').setValue(company.creditLimit);
     this.form.get('paymentMethod').setValue(company.paymentMethod);
-    this.method = company.paymentMethod === 1 ? 'Postpaid' : 'Prepaid'
+    this.method = company.paymentMethod === 1 ? 'Postpaid' : 'Prepaid';
     this.postpaid = company.paymentMethod === 1 ? true : false;
     this.form.get('creditDays').setValue(company.creditDays);
     this.form.get('idCompany').setValue(company.idCompany);
@@ -150,7 +150,7 @@ export class EditCompanyComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.canEdit = false;
         this.company = res.data;
-        this.method = this.company.paymentMethod === 1 ? 'Postpaid' : 'Prepaid'
+        this.method = this.company.paymentMethod === 1 ? 'Postpaid' : 'Prepaid';
         this.postpaid = this.company.paymentMethod === 1 ? true : false;
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
@@ -181,9 +181,11 @@ export class EditCompanyComponent implements OnInit {
     if (value === 1) {
       this.postpaid = true;
       this.form.get('creditDays').setValue(null);
+      this.form.get('creditLimit').setValue(null);
     } else {
       this.postpaid = false;
       this.form.get('creditDays').setValue(0);
+      this.form.get('creditLimit').setValue(0);
     }
     this.form.get('paymentMethod').setValue(value);
   }

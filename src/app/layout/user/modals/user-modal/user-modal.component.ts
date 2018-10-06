@@ -220,9 +220,11 @@ export class UserModalComponent implements OnInit {
     if (method.id === 1) {
       this.postpaid = true;
       this.form.get('creditDays').setValue(null);
+      this.form.get('creditLimit').setValue(null);
     } else {
       this.postpaid = false;
       this.form.get('creditDays').setValue(0);
+      this.form.get('creditLimit').setValue(0);
     }
 
     this.form.get('paymentMethod').setValue(method.id);
