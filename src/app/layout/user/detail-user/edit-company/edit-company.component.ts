@@ -64,7 +64,8 @@ export class EditCompanyComponent implements OnInit {
       idUser        : [this.id, []],
       city          : ['', []],
       paymentMethod : ['', []],
-      creditDays    : ['', []]
+      creditDays    : ['', []],
+      balance   : ['', [Validators.required]],
     });
   }
 
@@ -142,6 +143,7 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('creditDays').setValue(company.creditDays);
     this.form.get('idCompany').setValue(company.idCompany);
     this.form.get('city').setValue(company.city);
+    this.form.get('balance').setValue(company.balance);
   }
 
   save(): void {
@@ -176,18 +178,42 @@ export class EditCompanyComponent implements OnInit {
   get postalCode() { return this.form.get('postalCode'); }
   get paymentMethod() {return this.form.get('paymentMethod'); }
   get creditDays() {return this.form.get('creditDays'); }
+  get balance() {return this.form.get('balance'); }
 
   assignCreditDays(value: number) {
     if (value === 1) {
       this.postpaid = true;
       this.form.get('creditDays').setValue(null);
       this.form.get('creditLimit').setValue(null);
+      this.form.get('balance').setValue(null);
     } else {
       this.postpaid = false;
       this.form.get('creditDays').setValue(0);
       this.form.get('creditLimit').setValue(0);
+      this.form.get('balance').setValue(0);
     }
     this.form.get('paymentMethod').setValue(value);
+  }
+
+  newBalance(ev: any) {
+    const val = ev.target.value; // nuevo limite
+    if (val !== this.company.creditLimit) { // Solo se realizara cambios cuando el limite sea distinto al anterior guardado
+      if (this.company.balance !== null) {
+          let oldAmount = this.company.creditLimit - (this.company.balance); // lo que ha gastado
+          if (val <= this.company.balance) {
+              if (oldAmount === 0) { // No ha gastado
+                this.form.get('balance').setValue(val);
+              } else { // Si habia gastado
+                this.form.get('balance').setValue(val - oldAmount);
+              }
+          } else if ((this.company.balance === 0  || val > this.company.balance) ) {
+              // Lo disponible sera el nuevo limite menos lo que habia gastado
+              this.form.get('balance').setValue(val - oldAmount);
+          }
+      } else {
+          this.form.get('balance').setValue(val);
+      }
+    }
   }
 
 }

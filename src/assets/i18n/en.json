@@ -652,5 +652,8 @@
     "Djibouti": "Djibouti",
     "Yugoslavia": "Yugoslavia",
     "Zambia": "Zambia",
-    "Zimbabwe":	"Zimbabwe"
+    "Zimbabwe":	"Zimbabwe",
+    "Credit balance":"Credit balance",
+    "Enter credit balance":"Enter credit balance",
+    "Credit balance is required":"Credit balance is required"
 }
