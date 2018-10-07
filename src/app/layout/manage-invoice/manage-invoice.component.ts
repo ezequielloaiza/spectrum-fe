@@ -43,7 +43,7 @@ export class ManageInvoiceComponent implements OnInit {
   }
 
   getListInvoices(): void {
-    this.invoiceService.allInvoiceByStatus$(0).subscribe(
+    this.invoiceService.allInvoiceByStatus$(1).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;

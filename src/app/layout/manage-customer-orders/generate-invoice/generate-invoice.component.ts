@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
-import { Invoice } from '../../../shared/models/invoice';
+import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
 import * as _ from 'lodash';
 import { InvoiceProductRequested } from '../../../shared/models/invoiceproductrequested';
 import { UserStorageService } from '../../../http/user-storage.service';
@@ -22,7 +22,7 @@ export class GenerateInvoiceComponent implements OnInit {
   order: any;
   user: any;
   today: Date = new Date();
-  invoice: Invoice = new Invoice();
+  invoice: InvoiceSupplier = new InvoiceSupplier();
   pilot: any;
 
   constructor(

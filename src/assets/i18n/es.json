@@ -382,12 +382,11 @@
     "Invoice No": "Factura No",
     "Order Date": "Fecha de la Orden",
     "Invoice Date": "Fecha de la Factura",
-    "QUANTITY": "CANTIDAD",
-    "DESCRIPTION": "DESCRIPCION",
-    "UNIT PRICE": "PRECIO UNITARIO",
-    "NET AMOUNT": "IMPORTE NETO",
-    "Subtotal Amount": "Monto Subtotal",
-    "Total Amount": "Monto Total",
+    "Qty": "Cant",
+    "Price in USD": "Precio en USD",
+    "Tax Rate": "Tasa de Impuesto",
+    "Subtotal": "Subtotal",
+    "Amount Due": "Monto Total",
     "To Provider": "Para el Proveedor",
     "To Client": "Para el Cliente",
     "Payment Method": "Modalidad de Pago",
@@ -399,5 +398,6 @@
     "Credit Days is required": "Días de Crédito es requerido",
     "Invoices List": "Lista de Facturas",
     "All invoices": "Todas las Facturas",
-    "Are you sure you want to delete the invoice? You must notify the provider this change.":"¿Está seguro que quiere eliminar esta factura? Debe notificar al proveedor este cambio."
+    "Are you sure you want to delete the invoice? You must notify the provider this change.":"¿Está seguro que quiere eliminar esta factura? Debe notificar al proveedor este cambio.",
+    "No Tax": "Sin impuestos"
 }

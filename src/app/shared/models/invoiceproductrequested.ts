@@ -1,12 +1,12 @@
 import { ProductRequested } from './productrequested';
-import { Invoice } from './invoice';
+import { InvoiceSupplier } from './invoice-supplier';
 
 export class InvoiceProductRequested {
 
   public  id: number;
   public  productRequested: ProductRequested;
   public  idProductRequested: number;
-  public  invoice: Invoice;
+  public  invoice: InvoiceSupplier;
   public  urlImage: string;
   public  price: number;
   public  netAmount: number;
