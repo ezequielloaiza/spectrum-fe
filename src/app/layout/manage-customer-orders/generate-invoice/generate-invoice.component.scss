@@ -3,27 +3,24 @@
 
 .label-value {
   width: 100px;
-  font-size: 0.7rem;
 }
 
 .label {
-  width: 80px;
+  width: 100px;
   font-weight: bold;
-  font-size: 0.7rem;
 }
 
 .address {
   width: 150px;
-  font-size: 0.7rem;
 }
 
 .address-client {
-
+  padding-left: 50px;
+  width: 250px;
 }
 
 .address-spectrum {
   text-align: right;
-  font-size: 0.7rem;
 }
 .title {
   color: lightblue;
@@ -64,4 +61,19 @@
   border-bottom: 2px solid cornflowerblue;
 }
 
+.address-top {
+  border-top: lightgray solid 1px;
+  border-left: lightgray solid 1px;
+  border-right: lightgray solid 1px;
+}
+.address-down {
+  border-bottom: lightgray solid 1px;
+  border-left: lightgray solid 1px;
+  border-right: lightgray solid 1px;
+}
+
+.address-middle {
+  border-left: lightgray solid 1px;
+  border-right: lightgray solid 1px;
+}
 

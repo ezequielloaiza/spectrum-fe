@@ -8,9 +8,9 @@ import { AlertifyService } from '../../../shared/services/alertify/alertify.serv
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
 import * as _ from 'lodash';
-import { InvoiceProductRequested } from '../../../shared/models/invoiceproductrequested';
+import { InvoiceSupplierProductRequested } from '../../../shared/models/invoicesupplierproductrequested';
 import { UserStorageService } from '../../../http/user-storage.service';
-import { InvoiceService } from '../../../shared/services/invoice/invoice.service';
+import { InvoiceService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
 
 @Component({
   selector: 'app-generate-invoice',
@@ -83,12 +83,16 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.subtotal = this.order.subtotal;
     this.invoice.total = this.order.total;
     this.invoice.idUser = this.order.user.idUser;
+    const ship = 0;
+    this.invoice.shipping = ship;
+    this.invoice.due = this.order.total;
     _.each(this.order.listProductRequested, function(pRequested) {
-      const productR = new InvoiceProductRequested();
+      const productR = new InvoiceSupplierProductRequested();
       productR.idProductRequested = pRequested.productRequested.idProductRequested;
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.productRequested.urlImage;
       productR.price = pRequested.productRequested.price;
+      productR.tax = pRequested.tax;
       productR.netAmount =
         pRequested.productRequested.price *
         pRequested.productRequested.quantity;
@@ -113,6 +117,7 @@ export class GenerateInvoiceComponent implements OnInit {
     });
     this.invoice.subtotal = sum;
     this.invoice.total = sum;
+    this.invoice.due = sum;
   }
 
   generateInvoice(send, idOrder) {

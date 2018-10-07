@@ -103,10 +103,10 @@
               <tbody>
                 <tr *ngFor="let invoice of listInvoices">
                   <td *ngIf="invoice.status === 0" class="table-tr" class="active">
-                    <div>{{'Active' | translate}}</div>
+                    <div>{{'Pending' | translate}}</div>
                   </td>
                   <td *ngIf="invoice.status === 1" class="table-tr" class="inactive">
-                    <div>{{'Inactive' | translate }}</div>
+                    <div>{{'Sent' | translate }}</div>
                   </td>
                   <td class="table-tr td-table">{{invoice.number}}</td>
                   <td class="table-tr td-table">{{invoice.date  | date:'yyyy-MM-dd'}}</td>

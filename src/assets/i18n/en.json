@@ -376,12 +376,15 @@
     "Invoice No": "Invoice No",
     "Order Date": "Order Date",
     "Invoice Date": "Invoice Date",
+    "Due Date": "Due Date",
     "Qty": "Qty",
     "UNIT PRICE": "UNIT PRICE",
     "Price in USD": "Price in USD",
     "Tax Rate": "Tax Rate",
     "Subtotal": "Subtotal",
+    "Shipping": "Shipping",
     "Amount Due": "Amount Due",
+    "Amount": "Amount",
     "To Provider": "To Provider",
     "To Client": "To Client",
     "Payment Method": "Payment Method",
@@ -394,5 +397,11 @@
     "Invoices List": "Invoices List",
     "All invoices": "All invoices",
     "Are you sure you want to delete the invoice? You must notify the provider this change.": "Are you sure you want to delete the invoice? You must notify the provider this change.",
-    "No Tax": "No Tax"
+    "No Tax": "No Tax",
+    "Terms and Conditions": "Terms and Conditions",
+    "Net 30": "Net 30",
+    "3.5% Fee for CC Payments": "3.5% Fee for CC Payments",
+    "Thank you for your trust and preference": "Thank you for your trust and preference",
+    "Manage Invoices": "Manage Invoices",
+    "Sent": "Sent"
 }

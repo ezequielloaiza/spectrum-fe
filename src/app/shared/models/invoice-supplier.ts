@@ -1,5 +1,5 @@
 import { Address } from './address';
-import { InvoiceProductRequested} from './invoiceproductrequested';
+import { InvoiceSupplierProductRequested} from './invoicesupplierproductrequested';
 import { User } from './user';
 export class InvoiceSupplier {
 
@@ -19,7 +19,7 @@ export class InvoiceSupplier {
     public idUser: number;
     public client: User;
     public idClient: number;
-    public listProductRequested: Array<InvoiceProductRequested>;
+    public listProductRequested: Array<InvoiceSupplierProductRequested>;
 
     public constructor() { }
 

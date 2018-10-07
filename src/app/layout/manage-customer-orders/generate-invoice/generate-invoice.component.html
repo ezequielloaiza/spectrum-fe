@@ -19,54 +19,54 @@
           </div>
         </div>
         <div class="row row-height">
-          <div class="col-xl-4">
+          <div class="col-xl-5">
             <label class="label">{{ 'Invoice No' | translate }}</label>
             <label class="label-value">{{invoice.number}}</label>
           </div>
           <div class="col-xl-4">
             <label class="label">{{ 'Deliver To' | translate }}</label>
           </div>
-          <div class="col-xl-4">
+          <div class="col-xl-3">
           </div>
         </div>
         <div class="row row-height">
-          <div class="col-xl-4">
+          <div class="col-xl-5">
             <label class="label">{{ 'Invoice Date' | translate }}</label>
             <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
           </div>
           <div class="col-xl-4">
             <label class="address">{{order? order.nameUser:''}}</label>
           </div>
-          <div class="col-xl-4">
+          <div class="col-xl-3">
           </div>
         </div>
         <div class="row row-height">
-          <div class="col-xl-4">
+          <div class="col-xl-5">
             <label class="label">{{ 'Due Date' | translate }}</label>
             <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
           </div>
           <div class="col-xl-4">
             <label class="address">{{order? order.address.name :''}}</label>
           </div>
-          <div class="col-xl-4">
+          <div class="col-xl-3">
           </div>
         </div>
         <div class="row row-height">
-          <div class="col-xl-4">
+          <div class="col-xl-5">
           </div>
           <div class="col-xl-4">
             <label class="address">{{order? (order.address.city + ' - '+order.address.state):''}}</label>
           </div>
-          <div class="col-xl-4">
+          <div class="col-xl-3">
           </div>
         </div>
         <div class="row row-height">
-          <div class="col-xl-4">
+          <div class="col-xl-5">
           </div>
           <div class="col-xl-4">
             <label class="address">{{order? (order.address.country):''}}</label>
           </div>
-          <div class="col-xl-4">
+          <div class="col-xl-3">
           </div>
         </div>
       </div>
@@ -79,32 +79,32 @@
           </div>
         </div>
         <div class="row row-height">
-          <div class="col-xl-6">
-            <label class="address">{{order? order.nameUser:''}}</label>
+          <div class="col-xl-6 address-top">
+            <label class="address-client">{{order? order.nameUser:''}}</label>
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">3522 ASHFORD DUNWOODY ROAD NE</label>
           </div>
         </div>
         <div class="row row-height">
-          <div class="col-xl-6">
-            <label class="address">{{order? order.address.name :''}}</label>
+          <div class="col-xl-6 address-middle">
+            <label class="address-client">{{order? order.address.name :''}}</label>
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">#293</label>
           </div>
         </div>
         <div class="row row-height">
-          <div class="col-xl-6">
-            <label class="address">{{order? (order.address.city + ' - '+order.address.state):''}}</label>
+          <div class="col-xl-6 address-middle">
+            <label class="address-client">{{order? (order.address.city + ' - '+order.address.state):''}}</label>
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">ATLANTA GA 30319</label>
           </div>
         </div>
         <div class="row row-height">
-          <div class="col-xl-6">
-            <label class="address">{{order? (order.address.country):''}}</label>
+          <div class="col-xl-6 address-down">
+            <label class="address-client">{{order? (order.address.country):''}}</label>
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">United States</label>
@@ -162,6 +162,13 @@
       <div class="col col-xl-12 col-lg-12">
         <div class="row">
           <div class="col-xl-6">
+            <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
+            <br>
+            <label class="">{{ 'Net 30' | translate }}</label>
+            <br>
+            <label class="">{{ '3.5% Fee for CC Payments' | translate }}</label>
+            <br>
+            <label class="">{{ 'Thank you for your trust and preference' | translate }}</label>
           </div>
           <div class="col-xl-6">
             <label class="label-amount bold">{{ 'Subtotal' | translate }}</label>
