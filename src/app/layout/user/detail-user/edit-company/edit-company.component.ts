@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { GoogleService, CompanyService, BusinessTypeService } from '../../../../shared/services';
+import { GoogleService, CompanyService, BusinessTypeService, OrderService } from '../../../../shared/services';
 import { debounceTime, distinctUntilChanged, switchMap, tap, catchError, merge } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
@@ -31,6 +31,7 @@ export class EditCompanyComponent implements OnInit {
   listCreditDays = [ '15', '30', '60' ];
   postpaid = false;
   method: any;
+  quantityProcessed: any;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -38,13 +39,15 @@ export class EditCompanyComponent implements OnInit {
               private companyService: CompanyService,
               private businessTypeService: BusinessTypeService,
               private translate: TranslateService,
-              private notification: ToastrService) { }
+              private notification: ToastrService,
+              private orderService: OrderService) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getBussinesAll();
     this.getCompany(this.id);
     this.initializeForm();
+    this.getOrderProcessed(this.id);
   }
 
   initializeForm() {
@@ -197,7 +200,6 @@ export class EditCompanyComponent implements OnInit {
 
   newBalance(ev: any) {
     const val = ev.target.value; // nuevo limite
-    if (val !== this.company.creditLimit) { // Solo se realizara cambios cuando el limite sea distinto al anterior guardado
       if (this.company.balance !== null) {
           let oldAmount = this.company.creditLimit - (this.company.balance); // lo que ha gastado
           if (val <= this.company.balance) {
@@ -206,7 +208,9 @@ export class EditCompanyComponent implements OnInit {
               } else { // Si habia gastado
                 this.form.get('balance').setValue(val - oldAmount);
               }
-          } else if ((this.company.balance === 0  || val > this.company.balance) ) {
+          } else if ((this.company.balance === 0 && this.quantityProcessed === 0)) {
+                this.form.get('balance').setValue(val);
+          } else if ((this.company.balance === 0 && this.quantityProcessed > 0) || val > this.company.balance) {
               // Lo disponible sera el nuevo limite menos lo que habia gastado
               this.form.get('balance').setValue(val - oldAmount);
           }
@@ -214,6 +218,12 @@ export class EditCompanyComponent implements OnInit {
           this.form.get('balance').setValue(val);
       }
     }
-  }
 
+    getOrderProcessed(id): void {
+      this.orderService.findOrderProcessedByUser$(id).subscribe( res => {
+        if (res.code === CodeHttp.ok) {
+          this.quantityProcessed = res.data.length;
+        }
+      });
+    }
 }

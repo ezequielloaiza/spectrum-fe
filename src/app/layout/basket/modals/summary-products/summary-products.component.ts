@@ -67,6 +67,7 @@ export class SummaryProductsComponent implements OnInit {
       });
    } else {
      this.openModal();
+     this.close();
    }
   }
 
