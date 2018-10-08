@@ -66,6 +66,7 @@ import { EuclidComponent } from './basket/edit-order/euclid/euclid.component';
 import { MarkennovyComponent } from './basket/edit-order/markennovy/markennovy.component';
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
 
 @NgModule({
     imports: [
@@ -140,7 +141,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
         EuclidComponent,
         MarkennovyComponent,
         GenerateInvoiceComponent,
-        ManageInvoiceComponent
+        ManageInvoiceComponent,
+        NotificationBalanceOrderComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -163,7 +165,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
       GenerateInvoiceComponent,
       BlueLightComponent,
       EuclidComponent,
-      MarkennovyComponent
+      MarkennovyComponent,
+      GenerateInvoiceComponent,
+      NotificationBalanceOrderComponent
     ],
     providers: [
       BusinessTypeService,
