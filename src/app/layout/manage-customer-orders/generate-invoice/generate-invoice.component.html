@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{ 'Generate Invoice' | translate }}</h4>
+  <h4 class="modal-title">{{ 'Generate Invoice to Provider' | translate }}</h4>
   <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -12,10 +12,10 @@
           <div class="col-xl-4">
             <h3 class="title">{{ 'Invoice' | translate }}</h3>
           </div>
-          <div class="col-xl-4">
+          <div class="col-xl-3">
           </div>
-          <div class="col-xl-4">
-            <img src="assets/images/spectrumLogo1.jpg" width="250px" class="" />
+          <div class="col-xl-5">
+            <img src="assets/images/spectrumLogo1.jpg" width="300px" class="" />
           </div>
         </div>
         <div class="row row-height">
@@ -35,7 +35,7 @@
             <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
           </div>
           <div class="col-xl-4">
-            <label class="address">{{order? order.nameUser:''}}</label>
+            <label class="address">{{ pilot ? invoice.user.name : order.nameUser }}</label>
           </div>
           <div class="col-xl-3">
           </div>
@@ -46,7 +46,7 @@
             <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
           </div>
           <div class="col-xl-4">
-            <label class="address">{{order? order.address.name :''}}</label>
+            <label class="address">{{order? order.address.name : invoice.address.name}}</label>
           </div>
           <div class="col-xl-3">
           </div>
@@ -80,7 +80,7 @@
         </div>
         <div class="row row-height">
           <div class="col-xl-6 address-top">
-            <label class="address-client">{{order? order.nameUser:''}}</label>
+            <label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">3522 ASHFORD DUNWOODY ROAD NE</label>
