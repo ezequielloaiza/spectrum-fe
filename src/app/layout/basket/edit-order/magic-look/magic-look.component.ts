@@ -26,6 +26,10 @@ export class MagicLookComponent implements OnInit {
   user: any;
   patient: any;
   cl = ['row', 'selection', 'label-title', 'width-input', 'separator'];
+  // NUEVO
+  parametList: Array<any> = new Array;
+  listBoxes:  Array<any> = new Array;
+
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -53,6 +57,7 @@ export class MagicLookComponent implements OnInit {
   getProductView() {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
+    this.listBoxes = this.detail.boxes;
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
@@ -65,47 +70,78 @@ export class MagicLookComponent implements OnInit {
         if (productSelected.name === item.name) {
            productSelected.selected = item.selected;
         }
-        if (productSelected.name === "Tone") {
-          switch ( item.selected) {
-            case "1 TONE":
-              tonesAux = JSON.parse(tono)[0].parameters[1].values[0];
-              break;
-            case "2 TONE":
-              tonesAux = JSON.parse(tono)[0].parameters[1].values[1];
-              break;
-            case "3 TONE":
-              tonesAux = JSON.parse(tono)[0].parameters[1].values[2];
-              break;
-          }
-        }
      });
     });
-    this.tones = tonesAux;
+
+    let parametAux = this.product.parameters; // Parametros del producto
+    let auxList =[];
+    let tonoValue = this.product.types;
+    let index = 0;
+    _.each(this.listBoxes, function(itemTone) {
+      _.each(parametAux, function(itemParamet) {
+        if (itemParamet.name === 'Tone') {
+          index = index + 1;
+          switch ( itemTone.Tone) {
+            case '1 TONE':
+              tonesAux = JSON.parse(tonoValue)[0].parameters[1].values[0];
+              break;
+            case '2 TONE':
+              tonesAux = JSON.parse(tonoValue)[0].parameters[1].values[1];
+              break;
+            case '3 TONE':
+              tonesAux = JSON.parse(tonoValue)[0].parameters[1].values[2];
+              break;
+          }
+          let tono = {'id': index,
+                      'name': itemParamet.name,
+                      'type': itemParamet.type,
+                      'values': itemParamet.values,
+                      'selected': itemTone.Tone,
+                      'quantitySelected': itemTone.Quantity,
+                      'color': tonesAux,
+                      'colorSelected': itemTone.Color};
+           auxList.push(tono);
+        }
+      });
+    });
+    this.parametList = auxList;
     this.product.parameters = paramet;
   }
 
-  changeSelect(parameter, value) {
+  changeTono(id, parameter, value) {
     parameter.selected = value === undefined ? null : value;
-    let tonesAux = this.tones;
+    let tonesAux;
     let tono = this.product.types;
-      if (parameter.name === "Tone") {
-        this.cleanImage();
-        switch (value) {
-          case "1 TONE":
-            tonesAux = JSON.parse(tono)[0].parameters[1].values[0];
-            break;
-          case "2 TONE":
-            tonesAux = JSON.parse(tono)[0].parameters[1].values[1];
-            break;
-          case "3 TONE":
-            tonesAux = JSON.parse(tono)[0].parameters[1].values[2];
-            break;
-        }
+      switch (value) {
+        case '1 TONE':
+          tonesAux = JSON.parse(tono)[0].parameters[1].values[0];
+          break;
+        case '2 TONE':
+          tonesAux = JSON.parse(tono)[0].parameters[1].values[1];
+          break;
+        case '3 TONE':
+          tonesAux = JSON.parse(tono)[0].parameters[1].values[2];
+          break;
+    }
+    _.each(this.parametList, function(productSelected1) {
+      if (productSelected1.id === id) {
+        productSelected1.colorSelected = null;
+        productSelected1.color = tonesAux;
       }
-   this.tones = tonesAux;
+    });
+  }
+
+  changeQuantity(id, value) {
+    let cant = 0;
+    _.each(this.parametList, function(productSelected1) {
+         // tslint:disable-next-line:radix
+         cant = cant + parseInt(productSelected1.quantitySelected);
+    });
+    this.quantity = cant;
   }
 
   save() {
+    // parameters
     let paramet = this.product.parameters;
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
@@ -114,7 +150,19 @@ export class MagicLookComponent implements OnInit {
           }
      });
     });
-    this.productRequested.detail = { name: '', eye: '', parameters: this.detail.parameters};
+    // boxes
+    let boxesAux = this.parametList;
+    _.each(this.listBoxes, function(itemBoxe) {
+      _.each(boxesAux, function(itemAux) {
+        // tslint:disable-next-line:radix
+        if (itemAux.id === parseInt(itemBoxe.id)) {
+          itemBoxe.Tone = itemAux.selected;
+          itemBoxe.Color = itemAux.colorSelected;
+          itemBoxe.Quantity = itemAux.quantitySelected;
+          }
+     });
+    });
+    this.productRequested.detail = { name: '', eye: '', parameters: this.detail.parameters, boxes: this.listBoxes};
     this.productRequested.detail = '[' + JSON.stringify(this.productRequested.detail) + ']';
     this.productRequested.observations = this.observations;
     this.productRequested.price = this.price;
@@ -139,23 +187,23 @@ export class MagicLookComponent implements OnInit {
     let valido = true;
     let paramet = this.product.parameters;
       _.each(paramet, function(productSelected) {
-        if (productSelected.selected === null || productSelected.selected === undefined) {
-           valido = false;
+        if (productSelected.name !== 'Tone' && productSelected.name !== 'Color') {
+          if (productSelected.selected === null || productSelected.selected === undefined) {
+               valido = false;
+            }
           }
      });
-     if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '')) {
+     _.each(this.parametList, function(boxeSelected) {
+        if ((boxeSelected.selected === null || boxeSelected.selected === undefined) ||
+           (boxeSelected.quantitySelected === null || boxeSelected.quantitySelected === undefined) ||
+           (boxeSelected.colorSelected === null || boxeSelected.colorSelected === undefined)) {
+             valido = false;
+          }
+      });
+     if (this.quantity === null || this.quantity < 250 || this.price === null || (this.patient === null || this.patient === '')) {
           valido = false;
      }
      return valido;
-  }
-
-  cleanImage() {
-     let paramet1 = this.product.parameters;
-    _.each(paramet1, function(productSelected1) {
-      if (productSelected1.type === 'image') {
-          productSelected1.selected = null;
-      }
-    });
   }
 
 }
