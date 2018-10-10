@@ -27,6 +27,7 @@ export class NotificationBalanceOrderComponent implements OnInit {
   user: any;
   message: any;
   visibleAdmin = false;
+  newStatus: any;
   constructor(public modalReference: NgbActiveModal,
               private basketService: BasketService,
               private alertify: AlertifyService,
@@ -73,7 +74,7 @@ export class NotificationBalanceOrderComponent implements OnInit {
       }, error => {
         console.log('error', error);
       });
-    } else { // Genera desde el detalle de la orden
+    } else if (this.type === 2) { // Genera desde el detalle de la orden
       this.orderService.generateOrder$(this.order.idOrder).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.translate.get('Order generated successfully', { value: 'Order generated successfully' }).subscribe((res: string) => {
@@ -89,7 +90,23 @@ export class NotificationBalanceOrderComponent implements OnInit {
       }, error => {
         console.log('error', error);
       });
-    }
+    } else { // Cambiar status
+        this.orderService.changeStatus$(this.order.idOrder, this.newStatus).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            this.spinner.hide();
+            this.close();
+            this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: this.newStatus } });
+            this.translate.get('Successfully Update', { value: 'Successfully Update' }).subscribe((res: string) => {
+              this.notification.success('', res);
+            });
+          } else {
+            console.log(res.errors[0].detail);
+            this.spinner.hide();
+          }
+          }, error => {
+            console.log('error', error);
+          });
+      }
   }
 
   close() {
