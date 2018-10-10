@@ -115,7 +115,7 @@
           <fieldset class="form-group">
             <label>{{ 'Business types' | translate }}</label>
             <select class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
-              <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name }}</option>
+              <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name | translate }}</option>
             </select>
           </fieldset>
           <div class="message-error" [hidden]="idBusinessType.valid || idBusinessType.pristine">
@@ -210,6 +210,10 @@
                 </div>
               </div>
             </div>
+            <br>
+            <div class="message-error">
+              <span [hidden]="!msjPayment">{{'Should define the payment method' | translate}}</span>
+            </div>
           </fieldset>
           <div class="message-error" [hidden]="paymentMethod.valid || paymentMethod.pristine">
             <span>{{ 'Payment Method is required' | translate }}</span>
@@ -243,7 +247,7 @@
           <fieldset class="form-group">
             <label>{{ 'Membership' | translate }}</label>
             <select class="form-control" name="membershipId" formControlName="membershipId" required>
-              <option *ngFor="let membership of memberships" [ngValue]="membership.idMembership">{{ membership.name }}</option>
+              <option *ngFor="let membership of memberships" [ngValue]="membership.idMembership">{{ membership.name | translate}}</option>
             </select>
           </fieldset>
           <div class="message-error" [hidden]="membershipId.valid || membershipId.pristine">
@@ -267,7 +271,7 @@
   <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" [disabled]="form.invalid || companyPhone.value.length < 8 || phone.value.length < 8 || listSuppliers.length === 0"
+  <button type="button" [disabled]="form.invalid || (companyPhone.value.length > 1 && companyPhone.value.length < 8) || (phone.value.length > 1 && phone.value.length < 8) || listSuppliers.length === 0"
     class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
