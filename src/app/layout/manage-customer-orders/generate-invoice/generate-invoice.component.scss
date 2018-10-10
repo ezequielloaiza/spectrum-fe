@@ -1,24 +1,45 @@
 @import '../../../../styles/spectrum/spectrum';
-@include tr-sizes((15%,35%,25%,25%));
+@include tr-sizes((10%,30%,10%,20%,10%,20%));
+
 .label-value {
-  width: 200px;
-  padding-left: 10px;
+  width: 100px;
 }
 
 .label {
-  width: 110px;
-  padding-left: 10px;
+  width: 100px;
   font-weight: bold;
 }
 
+.address {
+  width: 150px;
+}
+
+.address-client {
+  padding-left: 50px;
+  width: 250px;
+}
+
+.address-spectrum {
+  text-align: right;
+}
+.title {
+  color: lightblue;
+}
+.row-height {
+  height: 20px;
+}
 .label-amount {
   text-align: right;
   padding-right: 15px;
-  width: 170px;
+  width: 150px;
 }
 
 .bold{
   font-weight: bold;
+}
+
+.border-bottom {
+  border-bottom: 2px solid cornflowerblue;
 }
 
 .total {
@@ -29,6 +50,30 @@
 .content {
   overflow-y: auto;
   max-height: 600px;
+  font-size: 0.8rem;
 }
 
+.table > tbody > tr > td {
+  border-bottom: 2px solid lightgray;
+}
+
+.table > thead > tr > th {
+  border-bottom: 2px solid cornflowerblue;
+}
+
+.address-top {
+  border-top: lightgray solid 1px;
+  border-left: lightgray solid 1px;
+  border-right: lightgray solid 1px;
+}
+.address-down {
+  border-bottom: lightgray solid 1px;
+  border-left: lightgray solid 1px;
+  border-right: lightgray solid 1px;
+}
+
+.address-middle {
+  border-left: lightgray solid 1px;
+  border-right: lightgray solid 1px;
+}
 
