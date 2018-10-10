@@ -9,6 +9,7 @@ import { MembershipService } from '../../../../shared/services/membership/member
 import { Company } from '../../../../shared/models/company';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { UserStorageService } from '../../../../http/user-storage.service';
 
 @Component({
   selector: 'app-edit-company',
@@ -33,6 +34,7 @@ export class EditCompanyComponent implements OnInit {
   method: any;
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
+  locale: any;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -41,7 +43,8 @@ export class EditCompanyComponent implements OnInit {
               private businessTypeService: BusinessTypeService,
               private translate: TranslateService,
               private notification: ToastrService,
-              private countryService: CountryService) { }
+              private countryService: CountryService,
+              private userStorageService: UserStorageService) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
@@ -49,6 +52,7 @@ export class EditCompanyComponent implements OnInit {
     this.getCompany(this.id);
     this.initializeForm();
     this.getCountries();
+    this.locale = this.userStorageService.getLanguage();
   }
 
   initializeForm() {
@@ -80,7 +84,7 @@ export class EditCompanyComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -131,7 +135,8 @@ export class EditCompanyComponent implements OnInit {
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());
@@ -150,7 +155,7 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('country').setValue(company.country);
     this.form.get('cityPlace').setValue({description: company.city});
     this.form.get('postalCode').setValue(company.postalCode);
-    this.form.get('phone').setValue(this.company.phone==null?'':this.company.phone);
+    this.form.get('phone').setValue(this.company.phone == null ? '' : this.company.phone);
     this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
     this.form.get('creditLimit').setValue(company.creditLimit);
     this.form.get('paymentMethod').setValue(company.paymentMethod);

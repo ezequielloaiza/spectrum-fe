@@ -11,6 +11,7 @@ import { GoogleService } from '../../../../shared/services';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import { UserStorageService } from '../../../../http/user-storage.service';
 
 @Component({
   selector: 'app-shipping-address-modal',
@@ -29,6 +30,7 @@ export class ShippingAddressModalComponent implements OnInit {
   public model: any;
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
+  locale: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -38,13 +40,14 @@ export class ShippingAddressModalComponent implements OnInit {
     private notification: ToastrService,
     private googleService: GoogleService,
     private translate: TranslateService,
-    private countryService: CountryService ) {
+    private countryService: CountryService,
+    private userStorageService: UserStorageService) {
    }
 
   initializeForm() {
     this.form = this.formBuilder.group({
       id        : [this.action === 'edit' ? this.address.idAddress : ''],
-      companyId : [this.action === 'edit' ? this.address.company.idCompany : '',[ Validators.required]],
+      companyId : [this.action === 'edit' ? this.address.company.idCompany : '', [ Validators.required]],
       name      : [this.action === 'edit' ? this.address.name : '', [ Validators.required]],
       state     : [this.action === 'edit' ? this.address.state : '', [ Validators.required]],
       country   : [this.action === 'edit' ? this.address.country : '', [ Validators.required]],
@@ -58,6 +61,7 @@ export class ShippingAddressModalComponent implements OnInit {
     this.initializeForm();
     this.getCompanies();
     this.getCountries();
+    this.locale = this.userStorageService.getLanguage();
   }
 
   formatter = (x: {description: string}) => x.description;
@@ -68,7 +72,7 @@ export class ShippingAddressModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -150,7 +154,8 @@ export class ShippingAddressModalComponent implements OnInit {
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());

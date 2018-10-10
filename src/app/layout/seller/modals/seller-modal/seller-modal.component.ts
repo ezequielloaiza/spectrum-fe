@@ -10,6 +10,7 @@ import { Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap, catchError, merge } from 'rxjs/operators';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import { UserStorageService } from '../../../../http/user-storage.service';
 
 @Component({
   selector: 'app-seller-modal',
@@ -26,6 +27,7 @@ export class SellerModalComponent implements OnInit {
   public model: any;
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
+  locale: any;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -34,11 +36,13 @@ export class SellerModalComponent implements OnInit {
     private googleService: GoogleService,
     private translate: TranslateService,
     private notification: ToastrService,
-    private countryService: CountryService) { }
+    private countryService: CountryService,
+    private userStorageService: UserStorageService) { }
 
   ngOnInit() {
     this.initializeForm();
     this.getCountries();
+    this.locale = this.userStorageService.getLanguage();
   }
 
   formatter = (x: { description: string }) => x.description;
@@ -49,7 +53,7 @@ export class SellerModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -112,7 +116,8 @@ export class SellerModalComponent implements OnInit {
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());

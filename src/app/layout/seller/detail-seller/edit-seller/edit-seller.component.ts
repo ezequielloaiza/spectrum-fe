@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Seller } from '../../../../shared/models/seller';
 import { User } from '../../../../shared/models/user';
 import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
+import { UserStorageService } from '../../../../http/user-storage.service';
 
 @Component({
   selector: 'app-edit-seller',
@@ -29,6 +30,7 @@ export class EditSellerComponent implements OnInit {
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
+  locale: any;
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -37,13 +39,15 @@ export class EditSellerComponent implements OnInit {
     private notification: ToastrService,
     private translate: TranslateService,
     private alertify: AlertifyService,
-    private countryService: CountryService) { }
+    private countryService: CountryService,
+    private userStorageService: UserStorageService) { }
 
   ngOnInit() {
     this.idSeller = this.route.parent.snapshot.paramMap.get('id');
     this.getSeller(this.idSeller);
     this.initializeForm();
     this.getCountries();
+    this.locale = this.userStorageService.getLanguage();
   }
 
   initializeForm() {
@@ -80,7 +84,7 @@ export class EditSellerComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -105,7 +109,7 @@ export class EditSellerComponent implements OnInit {
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());

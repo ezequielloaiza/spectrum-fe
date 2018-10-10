@@ -14,6 +14,7 @@ import { GoogleService } from '../../../../shared/services/google/google.service
 import { SupplierService } from '../../../../shared/services/suppliers/supplier.service';
 import { CountryService } from '../../../../shared/services/country/country.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UserStorageService } from '../../../../http/user-storage.service';
 
 @Component({
   selector: 'app-supplier-modal',
@@ -31,6 +32,7 @@ export class SupplierModalComponent implements OnInit {
   valorCity: any;
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
+  locale: any;
 
   constructor(private modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -39,11 +41,13 @@ export class SupplierModalComponent implements OnInit {
     private notification: ToastrService,
     private googleService: GoogleService,
     private translate: TranslateService,
-    private countryService: CountryService) { }
+    private countryService: CountryService,
+    private userStorageService: UserStorageService) { }
 
   ngOnInit() {
     this.initializeForm();
     this.getCountries();
+    this.locale = this.userStorageService.getLanguage();
   }
 
   getCountries() {
@@ -141,7 +145,7 @@ export class SupplierModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -153,7 +157,8 @@ export class SupplierModalComponent implements OnInit {
     )
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());
@@ -188,6 +193,6 @@ export class SupplierModalComponent implements OnInit {
     }
   }
 
-  assignPlatform(value:number){ this.form.get('platform').setValue(value); }
+  assignPlatform(value: number) { this.form.get('platform').setValue(value); }
 
 }

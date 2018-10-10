@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ListUserModalComponent } from '../../modals/list-user-modal/list-user-modal.component';
+import { UserStorageService } from '../../../../http/user-storage.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -31,6 +32,7 @@ export class EditUserComponent implements OnInit {
   saving = false;
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
+  locale: any;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -40,6 +42,7 @@ export class EditUserComponent implements OnInit {
               private translate: TranslateService,
               private notification: ToastrService,
               private modalService: NgbModal,
+              private userStorageService: UserStorageService,
               private countryService: CountryService) { }
 
   ngOnInit() {
@@ -48,6 +51,7 @@ export class EditUserComponent implements OnInit {
     this.getUser(this.id);
     this.initializeForm();
     this.getCountries();
+    this.locale = this.userStorageService.getLanguage();
   }
 
   initializeForm() {
@@ -77,7 +81,7 @@ export class EditUserComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -138,7 +142,8 @@ export class EditUserComponent implements OnInit {
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());

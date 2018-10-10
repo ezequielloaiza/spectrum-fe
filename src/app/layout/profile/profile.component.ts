@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   user: any;
+  locale: any;
   avatar: any;
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
@@ -77,6 +78,7 @@ export class ProfileComponent implements OnInit {
     this.initializeForm();
     this.initializeAvatar();
     this.getCountries();
+    this.locale = this.userStorageService.getLanguage();
     console.log('user:', this.user);
   }
 
@@ -101,7 +103,7 @@ export class ProfileComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -215,7 +217,8 @@ export class ProfileComponent implements OnInit {
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());

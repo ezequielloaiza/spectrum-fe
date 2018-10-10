@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
 import { CountryService } from '../../../../shared/services/country/country.service';
 import { ListSupplierModalComponent } from '../list-supplier-modal/list-supplier-modal.component';
+import { UserStorageService } from '../../../../http/user-storage.service';
 
 @Component({
   selector: 'app-user-modal',
@@ -40,6 +41,7 @@ export class UserModalComponent implements OnInit {
   postpaid = false;
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
+  locale: any;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -47,6 +49,7 @@ export class UserModalComponent implements OnInit {
     private userSerice: UserService,
     private toastr: ToastrService,
     private googleService: GoogleService,
+    private userStorageService: UserStorageService,
     private translate: TranslateService,
     private membershipService: MembershipService,
     private notification: ToastrService,
@@ -58,6 +61,7 @@ export class UserModalComponent implements OnInit {
     this.getBussinesAll();
     this.getMembershipAll();
     this.getCountriesAll();
+    this.locale = this.userStorageService.getLanguage();
   }
 
   formatter = (x: { description: string }) => x.description;
@@ -68,7 +72,7 @@ export class UserModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -160,7 +164,8 @@ export class UserModalComponent implements OnInit {
 
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
       this.form.get('country').setValue(this.googleService.getCountry());
       this.form.get('state').setValue(this.googleService.getState());
@@ -171,7 +176,8 @@ export class UserModalComponent implements OnInit {
   }
 
   findPlaceCompany(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
       this.form.get('companyCountry').setValue(this.googleService.getCountry());
       this.form.get('companyState').setValue(this.googleService.getState());
