@@ -31,7 +31,7 @@
                 <label class="form-check-label">{{ 'Price' | translate }}:</label>
               </div>
               <div class="row label-title separator">
-                <label class="form-check-label">{{ 'Quantity' | translate }}:</label>&nbsp;&nbsp;
+                <label class="form-check-label">{{ 'Total Quantity' | translate }}:</label>&nbsp;&nbsp;
               </div>
               <div *ngFor="let parameter of product.parameters">
                 <div *ngIf="parameter.values && parameter.values.length > 0  && parameter.name!=='Tone' && parameter.name!=='Color'">
@@ -105,8 +105,7 @@
                 <dl class="align-item">
                   <dt>
                     <div [ngClass]="cl">
-                      <input class="form-control col-sm-11" type="number" step=1 min="50" (change)="changeQuantity(parameter.id, $event)" [(ngModel)]="parameter.quantitySelected"
-                        oninput="validity.valid||(value='');">
+                      <input class="form-control col-sm-11" type="number" step="50" min="50" (change)="changeQuantity(parameter.id, $event)" [(ngModel)]="parameter.quantitySelected">
                     </div>
                   </dt>
                 </dl>

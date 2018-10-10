@@ -123,21 +123,39 @@ export class MagicLookComponent implements OnInit {
           tonesAux = JSON.parse(tono)[0].parameters[1].values[2];
           break;
     }
-    _.each(this.parametList, function(productSelected1) {
-      if (productSelected1.id === id) {
-        productSelected1.colorSelected = null;
-        productSelected1.color = tonesAux;
-      }
-    });
+    const productSelected1 = _.find(this.parametList, { 'id': id});
+    productSelected1.colorSelected = null;
+    productSelected1.color = tonesAux;
   }
 
-  changeQuantity(id, value) {
+  changeQuantity(id, ev) {
+    const val = ev.target.value;
+    let modulo: number;
     let cant = 0;
-    _.each(this.parametList, function(productSelected1) {
-         // tslint:disable-next-line:radix
-         cant = cant + parseInt(productSelected1.quantitySelected);
-    });
-    this.quantity = cant;
+   if (val !== '') {
+        modulo = (parseInt(val) % 50);
+        if (modulo === 0) {
+          // Actualizo la cantidad Total
+          _.each(this.parametList, function(productSelected1) {
+              // tslint:disable-next-line:radix
+              cant = cant + parseInt(productSelected1.quantitySelected);
+          });
+          this.quantity = cant;
+        } else {
+            const productSelected1 = _.find(this.parametList, { 'id': id});
+            productSelected1.quantitySelected = null;
+        }
+     } else {
+        // Actualizo la cantidad Total
+      _.each(this.parametList, function(productSelected1) {
+        // tslint:disable-next-line:radix
+          if (productSelected1.quantitySelected != null) {
+              // tslint:disable-next-line:radix
+              cant = cant + parseInt(productSelected1.quantitySelected);
+          }
+       });
+       this.quantity = cant;
+     }
   }
 
   save() {
@@ -194,8 +212,9 @@ export class MagicLookComponent implements OnInit {
           }
      });
      _.each(this.parametList, function(boxeSelected) {
+       let modulo = parseInt(boxeSelected.quantitySelected)%50;
         if ((boxeSelected.selected === null || boxeSelected.selected === undefined) ||
-           (boxeSelected.quantitySelected === null || boxeSelected.quantitySelected === undefined) ||
+           (modulo !== 0 || boxeSelected.quantitySelected === null || boxeSelected.quantitySelected === undefined) ||
            (boxeSelected.colorSelected === null || boxeSelected.colorSelected === undefined)) {
              valido = false;
           }
