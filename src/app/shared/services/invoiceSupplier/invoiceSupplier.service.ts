@@ -11,14 +11,14 @@ export class InvoiceService {
   constructor(private http: HttpClient) { }
 
   public allInvoiceByOrder$(id): Observable<any> {
-    return this.http.get(environment.apiUrl + 'invoices/allInvoiceByOrder/' + id);
+    return this.http.get(environment.apiUrl + 'invoicesSupplier/allInvoiceByOrder/' + id);
   }
 
   public allInvoiceByStatus$(status): Observable<any> {
-    return this.http.get(environment.apiUrl + 'invoices/allInvoiceByStatus/' + status);
+    return this.http.get(environment.apiUrl + 'invoicesSupplier/allInvoiceByStatus/' + status);
   }
 
   public delete$(id): Observable<any> {
-    return this.http.delete(environment.apiUrl + 'invoices/delete/' + id);
+    return this.http.delete(environment.apiUrl + 'invoicesSupplier/delete/' + id);
   }
 }
