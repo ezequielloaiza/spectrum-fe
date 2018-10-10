@@ -210,6 +210,10 @@
                 </div>
               </div>
             </div>
+            <br>
+            <div class="message-error">
+              <span [hidden]="!msjPayment">{{'Should define the payment method' | translate}}</span>
+            </div>
           </fieldset>
           <div class="message-error" [hidden]="paymentMethod.valid || paymentMethod.pristine">
             <span>{{ 'Payment Method is required' | translate }}</span>
