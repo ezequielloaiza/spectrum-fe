@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
-import { InvoiceService } from '../../shared/services/invoice/invoice.service';
+import { InvoiceService } from '../../shared/services/invoiceSupplier/invoiceSupplier.service';
 import { UserStorageService } from '../../http/user-storage.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { GenerateInvoiceComponent } from '../manage-customer-orders/generate-invoice/generate-invoice.component';
@@ -43,7 +43,7 @@ export class ManageInvoiceComponent implements OnInit {
   }
 
   getListInvoices(): void {
-    this.invoiceService.allInvoiceByStatus$(0).subscribe(
+    this.invoiceService.allInvoiceByStatus$(1).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;
