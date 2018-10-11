@@ -37,6 +37,7 @@ export class UserModalComponent implements OnInit {
                        { id: 1, name: 'Postpaid' }];
   listCreditDays = [ '15', '30', '60' ];
   postpaid = false;
+  msjPayment = true;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -230,7 +231,7 @@ export class UserModalComponent implements OnInit {
       this.form.get('creditLimit').setValue(0);
       this.form.get('balance').setValue(0);
     }
-
+    this.msjPayment = false;
     this.form.get('paymentMethod').setValue(method.id);
   }
 }
