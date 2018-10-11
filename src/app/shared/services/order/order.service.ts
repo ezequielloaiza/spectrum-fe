@@ -71,4 +71,8 @@ export class OrderService {
       responseType: 'blob'
     });
   }
+
+  public findOrderProcessedByUser$(idUser): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/findOrderProcessedByUser/' + idUser);
+  }
 }
