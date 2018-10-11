@@ -102,7 +102,8 @@ export class UserModalComponent implements OnInit {
       phone: [''],
       suppliers: [''],
       paymentMethod: ['', [Validators.required]],
-      creditDays: ['']
+      creditDays: [''],
+      balance: ['']
     });
   }
 
@@ -188,6 +189,7 @@ export class UserModalComponent implements OnInit {
   get suppliers() {return this.form.get('suppliers'); }
   get paymentMethod() {return this.form.get('paymentMethod'); }
   get creditDays() {return this.form.get('creditDays'); }
+  get balance() {return this.form.get('balance'); }
 
   validatePhone(event) {
     const key = window.event ? event.keyCode : event.which;
@@ -222,10 +224,12 @@ export class UserModalComponent implements OnInit {
       this.postpaid = true;
       this.form.get('creditDays').setValue(null);
       this.form.get('creditLimit').setValue(null);
+      this.form.get('balance').setValue(null);
     } else {
       this.postpaid = false;
       this.form.get('creditDays').setValue(0);
       this.form.get('creditLimit').setValue(0);
+      this.form.get('balance').setValue(0);
     }
     this.msjPayment = false;
     this.form.get('paymentMethod').setValue(method.id);
