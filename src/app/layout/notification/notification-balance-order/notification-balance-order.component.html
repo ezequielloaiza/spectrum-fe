@@ -13,13 +13,13 @@
     <div class="confirm" [hidden]="!visibleAdmin">
       <span>{{ 'Are you sure you want to place the order?' | translate }}</span>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
-        <i class="fa fa-times"></i>
-      </button>
-      <button type="button" class="btn btn-main" (click)="save()">{{ 'Accept' | translate }}&nbsp;
-        <i class="fa fa-check"></i>
-      </button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
+      <i class="fa fa-times"></i>
+    </button>
+    <button type="button" class="btn btn-main" (click)="save()">{{ 'Accept' | translate }}&nbsp;
+      <i class="fa fa-check"></i>
+    </button>
   </div>
 </div>

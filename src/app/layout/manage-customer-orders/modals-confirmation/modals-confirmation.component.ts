@@ -65,6 +65,7 @@ export class ModalsConfirmationComponent implements OnInit {
       });
     } else {
        this.openModal();
+       this.close();
     }
   }
   getBalance() {

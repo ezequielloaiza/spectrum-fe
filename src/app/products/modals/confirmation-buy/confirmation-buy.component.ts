@@ -146,6 +146,7 @@ export class ConfirmationBuyComponent implements OnInit {
       });
       } else {
         this.openModal(); // No tiene disponible el balance de credito
+        this.close();
       }
     }
   }
