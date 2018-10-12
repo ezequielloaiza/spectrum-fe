@@ -5,80 +5,65 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="card-body table-responsive row">
+  <div>
     <div>
       <div class="list-basket">
-
         <div class="row">
-          <div class="col-lg-5">
-            <!--Image-->
+          <div class="col-lg-12 main-info">
             <div>
+              <span class="title">{{ product.name }}</span>
+            </div>
+            <!--Image-->
+            <div class="label-title">
               <img class="img-product" src="{{ basket.urlImage }}">
             </div>
-            <!--Details-->
-            <div class="details">
-              <div>
-                <span class="title">{{ product.name }}</span>
+            <div class="col-lg-12 title label-title patient-info">
+              <span>{{ 'Patient' | translate }}</span>
+              <div class="col-lg-12 main-info">
+                <input class="form-control main-info" type="text" placeholder="{{ 'Introduce name patient' | translate }}"
+                  [(ngModel)]="patient">
               </div>
             </div>
-
           </div>
-          <div class="col-lg-3 params">
+          <div class="col-lg-12 display-row padding-params">
             <!--CONTENT INFO-->
             <!--PARAM NAME-->
-            <div class="col-sm-12 title">
-              <div class="row label separator" [hidden]="!editPrice">
+            <div class="col-sm-3 title">
+              <div class="label-title separator" [hidden]="!editPrice">
                 <label class="form-check-label">{{ 'Price' | translate }}:</label>
               </div>
+              <div [hidden]="!editPrice">
+                <input type="number" class="form-control col-sm-11" placeholder="{{ 'Enter price' | translate }}" name="price1"
+                  [(ngModel)]="price">
+              </div>
+            </div>
+            <div class="col-sm-3 title">
               <div class="row label-title separator">
                 <label class="form-check-label">{{ 'Total Quantity' | translate }}:</label>&nbsp;&nbsp;
               </div>
+              <div [ngClass]="cl">
+                <input class="form-control col-sm-11" type="number" step=1 min="1" [disabled]='true' [(ngModel)]="quantity"
+                  oninput="validity.valid||(value='');">
+              </div>
+            </div>
+            <div class="col-sm-6 title display-row spec-params label-title">
               <div *ngFor="let parameter of product.parameters">
                 <div *ngIf="parameter.values && parameter.values.length > 0  && parameter.name!=='Tone' && parameter.name!=='Color'">
-                  <div class="row label-title separator">
-                    <label class="form-check-label">{{ parameter.name | translate }}:</label>&nbsp;&nbsp;
+                  <label class="form-check-label">{{ parameter.name | translate }}:</label>&nbsp;&nbsp;
+                  <div *ngIf="parameter.type === 'selected' && parameter.name!=='Tone'" class="select-values col-sm-12  separator">
+                    <ng-select [items]="parameter.values" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
+                      placeholder="{{ 'Select value' | translate }}">
+                      {{item}}
+                    </ng-select>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-lg-3 params">
-            <!--PARAMETERS-->
-            <div class="col-sm-12 title">
-              <div class="row selection width-input separator" [hidden]="!editPrice">
-                <input type="number" class="form-control col-sm-11" placeholder="{{ 'Enter price' | translate }}" name="price1" [(ngModel)]="price">
-              </div>
-              <div [ngClass]="cl">
-                <input class="form-control col-sm-11" type="number" step=1 min="1" [disabled]='true' [(ngModel)]="quantity" oninput="validity.valid||(value='');">
-              </div>
-              <div *ngFor="let parameter of product.parameters">
-                <div *ngIf="parameter.values && parameter.values.length > 0">
-                  <div class="row selection">
-                    <div *ngIf="parameter.type === 'selected' && parameter.name!=='Tone'" class="select-values col-sm-12  separator">
-                      <ng-select [items]="parameter.values" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                        {{item}}
-                      </ng-select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--Fin parameters-->
           </div>
           <!--BOXES-->
-          <div class="col-lg-5">
-            <div class="row info">
-              <div class="col-lg-12">
-                <span class="title-patient">{{ 'Patient' | translate }}</span>
-                <div class="col-lg-9 input-patient">
-                  <input class="form-control" type="text" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-7 params">
+          <div class="col-lg-12 label-title">
             <!--CONTENT INFO-->
-            <div class="row">
+            <div class="row padding-params">
               <div class="col-sm-4">
                 <dl class="align-item">
                   <dt>{{'Quantity'| translate}}
@@ -96,16 +81,13 @@
                 </dl>
               </div>
             </div>
-          </div>
-          <div class="col-lg-5">
-          </div>
-          <div class="col-lg-7 params">
-            <div class="row" *ngFor="let parameter of parametList">
+            <div class="row padding-params" *ngFor="let parameter of parametList">
               <div class="col-sm-4">
                 <dl class="align-item">
                   <dt>
-                    <div [ngClass]="cl">
-                      <input class="form-control col-sm-11" type="number" step="50" min="50" (change)="changeQuantity(parameter.id, $event)" [(ngModel)]="parameter.quantitySelected">
+                    <div>
+                      <input class="form-control col-sm-11" type="number" step="50" min="50" (change)="changeQuantity(parameter.id, $event)"
+                        [(ngModel)]="parameter.quantitySelected">
                     </div>
                   </dt>
                 </dl>
@@ -114,8 +96,8 @@
                 <dl class="align-item">
                   <dt>
                     <div class="select-values col-sm-12  separator">
-                      <ng-select (change)="changeTono(parameter.id, parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected"
-                        bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                      <ng-select (change)="changeTono(parameter.id, parameter, $event)" [items]="parameter.values"
+                        [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
                         {{item}}
                       </ng-select>
                     </div>
@@ -126,10 +108,11 @@
                 <dl class="align-item">
                   <dt>
                     <div class="select-values col-sm-12 separator">
-                      <ng-select [items]="parameter.color" [(ngModel)]="parameter.colorSelected" bindLabel="value" bindValue="value" placeholder="{{ 'Select value' | translate }}">
+                      <ng-select [items]="parameter.color" [(ngModel)]="parameter.colorSelected" bindLabel="value"
+                        bindValue="value" placeholder="{{ 'Select value' | translate }}" placement="top-right">
                         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                          <div>
-                            <img height="100" width="100" [src]="item.image" />
+                          <div style="text-align: center">
+                            <img height="100" width="125" [src]="item.image" />
                           </div>
                         </ng-template>
                       </ng-select>
@@ -148,7 +131,8 @@
     <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
       <i class="fa fa-times"></i>
     </button>
-    <button type="button" class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">{{ 'Save' | translate }}&nbsp;
+    <button type="button" class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">{{ 'Save' | translate
+      }}&nbsp;
       <i class="fa fa-save"></i>
     </button>
   </div>
