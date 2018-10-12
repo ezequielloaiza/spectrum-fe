@@ -109,7 +109,7 @@
                 <td class="table-tr td-table">{{user.email}}</td>
                 <td class="table-tr td-table">{{user.company.companyName}}</td>
                 <td class="table-tr">{{user.username}}</td>
-                <td class="table-tr">{{user.company.country | translate}}</td>
+                <td class="table-tr">{{user.company.country? user.company.country.name : ''| translate}}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">

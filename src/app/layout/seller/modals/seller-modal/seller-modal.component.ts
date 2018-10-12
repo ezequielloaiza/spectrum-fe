@@ -11,6 +11,7 @@ import { debounceTime, distinctUntilChanged, tap, catchError, merge } from 'rxjs
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-seller-modal',
@@ -71,7 +72,7 @@ export class SellerModalComponent implements OnInit {
       email    : ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       address  : [''],
       state    : ['', [Validators.required]],
-      country  : ['', [Validators.required]],
+      idCountry  : ['', [Validators.required]],
       city     : ['', [Validators.required]],
       postal   : ['', []],
       phone    : ['', []]
@@ -116,10 +117,12 @@ export class SellerModalComponent implements OnInit {
   }
 
   findPlace(item): void {
+    const countries = this.listCountries;
     this.locale = this.userStorageService.getLanguage();
     this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
@@ -131,7 +134,7 @@ export class SellerModalComponent implements OnInit {
   get address() { return this.form.get('address'); }
   get city() { return this.form.get('city'); }
   get state() { return this.form.get('state'); }
-  get country() { return this.form.get('country'); }
+  get idCountry() { return this.form.get('idCountry'); }
   get postal() { return this.form.get('postal'); }
   get phone() { return this.form.get('phone'); }
 

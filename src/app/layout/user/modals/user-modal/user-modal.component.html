@@ -59,8 +59,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Country' | translate }}</label>
-            <ng-select [items]="listCountries" formControlName="country" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
-              [(ngModel)]="country" bindValue="name" placeholder="{{ 'Select country' | translate }}" required>
+            <ng-select [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
+              [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}" required>
               <ng-template ng-label-tmp let-item="item">
                 <div class="supplier-body">
                   <span>{{ item.name | translate }}</span>
@@ -73,7 +73,7 @@
               </ng-template>
             </ng-select>
           </fieldset>
-          <div class="message-error" [hidden]="country.valid || country.pristine">
+          <div class="message-error" [hidden]="idCountry.valid || idCountry.pristine">
             <span>{{ 'Country is required' | translate }}</span>
           </div>
         </div>
@@ -187,8 +187,8 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Country' | translate }}</label>
-            <ng-select [items]="listCountries" formControlName="companyCountry" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
-              [(ngModel)]="companyCountry" bindValue="name" placeholder="{{ 'Select country' | translate }}" required>
+            <ng-select [items]="listCountriesCompany" formControlName="idCompanyCountry" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
+              [(ngModel)]="selectedCountryCompany" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}" required>
               <ng-template ng-label-tmp let-item="item">
                 <div class="supplier-body">
                   <span>{{ item.name | translate }}</span>
@@ -201,7 +201,7 @@
               </ng-template>
             </ng-select>
           </fieldset>
-          <div class="message-error" [hidden]="companyCountry.valid || companyCountry.pristine">
+          <div class="message-error" [hidden]="idCompanyCountry.valid || idCompanyCountry.pristine">
             <span>{{ 'Country is required' | translate }}</span>
           </div>
         </div>

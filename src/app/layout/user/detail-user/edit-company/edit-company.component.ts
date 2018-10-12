@@ -10,6 +10,7 @@ import { Company } from '../../../../shared/models/company';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-edit-company',
@@ -65,7 +66,7 @@ export class EditCompanyComponent implements OnInit {
       idBusinessType: ['', [Validators.required]],
       address       : [''],
       state         : ['', [ Validators.required]],
-      country       : ['', [ Validators.required]],
+      idCountry       : ['', [ Validators.required]],
       cityPlace          : ['', [ Validators.required]],
       postalCode    : ['', []],
       idCompany     : ['', []],
@@ -135,14 +136,16 @@ export class EditCompanyComponent implements OnInit {
   }
 
   findPlace(item): void {
+    const countries = this.listCountries;
     this.locale = this.userStorageService.getLanguage();
     this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postalCode').setValue(this.googleService.getPostalCode());
       this.form.get('cityPlace').setValue({description: this.googleService.getCity()});
-      this.form.get('city').setValue(this.googleService.getCity());
+      this.form.get('city').setValue({ description: this.googleService.getCity() });
     });
   }
 
@@ -152,7 +155,7 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('email').setValue(company.email);
     this.form.get('address').setValue(company.address);
     this.form.get('state').setValue(company.state);
-    this.form.get('country').setValue(company.country);
+    this.form.get('idCountry').setValue(company.country == null ? '' : company.country.idCountry);
     this.form.get('cityPlace').setValue({description: company.city});
     this.form.get('postalCode').setValue(company.postalCode);
     this.form.get('phone').setValue(this.company.phone == null ? '' : this.company.phone);
@@ -194,7 +197,7 @@ export class EditCompanyComponent implements OnInit {
   get phone() { return this.form.get('phone'); }
   get cityPlace() { return this.form.get('cityPlace'); }
   get state() { return this.form.get('state'); }
-  get country() { return this.form.get('country'); }
+  get idCountry() { return this.form.get('idCountry'); }
   get postalCode() { return this.form.get('postalCode'); }
   get paymentMethod() {return this.form.get('paymentMethod'); }
   get creditDays() {return this.form.get('creditDays'); }

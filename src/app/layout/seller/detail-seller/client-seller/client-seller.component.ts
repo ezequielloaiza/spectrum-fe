@@ -72,7 +72,7 @@ export class ClientSellerComponent implements OnInit {
       this.listCustomers = this.listCustomers.filter((item) => {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.country.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1)||
           (item.company.companyName.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.company.businessType.name.toLowerCase().indexOf(val.toLowerCase()) > -1));

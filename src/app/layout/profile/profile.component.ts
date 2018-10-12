@@ -9,6 +9,7 @@ import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { environment } from '../../../../src/environments/environment';
+import * as _ from 'lodash';
 
 const URL = environment.apiUrl + 'user/uploaderAvatar';
 
@@ -121,7 +122,7 @@ export class ProfileComponent implements OnInit {
       email: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       address: [''],
       state: ['', [Validators.required]],
-      country: ['', [Validators.required]],
+      idCountry: ['', [Validators.required]],
       city: ['', [Validators.required]],
       postal: [''],
       phone: [''],
@@ -151,7 +152,7 @@ export class ProfileComponent implements OnInit {
     this.form.get('phone').setValue(this.user.userResponse.phone==null?'':this.user.userResponse.phone);
     this.form.get('city').setValue({ description: this.user.userResponse.city });
     this.form.get('state').setValue(this.user.userResponse.state);
-    this.form.get('country').setValue(this.user.userResponse.country);
+    this.form.get('idCountry').setValue(this.user.userResponse.country==null?'':this.user.userResponse.country.idCountry);
     this.form.get('postal').setValue(this.user.userResponse.postalCode);
     this.form.get('address').setValue(this.user.userResponse.address);
   }
@@ -164,7 +165,7 @@ export class ProfileComponent implements OnInit {
     this.form.get('phone').setValue(this.user.userResponse.phone==null?'':this.user.userResponse.phone);
     this.form.get('city').setValue({ description: this.user.userResponse.city });
     this.form.get('state').setValue(this.user.userResponse.state);
-    this.form.get('country').setValue(this.user.userResponse.country);
+    this.form.get('idCountry').setValue(this.user.userResponse.country==null?'':this.user.userResponse.country.idCountry);
     this.form.get('postal').setValue(this.user.userResponse.postalCode);
     this.form.get('address').setValue(this.user.userResponse.address);
     this.onReset();
@@ -217,10 +218,12 @@ export class ProfileComponent implements OnInit {
   }
 
   findPlace(item): void {
+    const countries = this.listCountries;
     this.locale = this.userStorageService.getLanguage();
     this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
@@ -271,7 +274,7 @@ export class ProfileComponent implements OnInit {
   get address() { return this.form.get('address'); }
   get city() { return this.form.get('city'); }
   get state() { return this.form.get('state'); }
-  get country() { return this.form.get('country'); }
+  get idCountry() { return this.form.get('idCountry'); }
   get postal() { return this.form.get('postal'); }
   get phone() { return this.form.get('phone'); }
 

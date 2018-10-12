@@ -57,7 +57,7 @@ export class ListSupplierModalComponent implements OnInit {
     if (val && val.trim() !== '') {
       this.suppliers = this.suppliers.filter((item) => {
         return ((item.companyName.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.country.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.contact.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }

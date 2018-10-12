@@ -12,6 +12,7 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-shipping-address-modal',
@@ -50,11 +51,11 @@ export class ShippingAddressModalComponent implements OnInit {
       companyId : [this.action === 'edit' ? this.address.company.idCompany : '', [ Validators.required]],
       name      : [this.action === 'edit' ? this.address.name : '', [ Validators.required]],
       state     : [this.action === 'edit' ? this.address.state : '', [ Validators.required]],
-      country   : [this.action === 'edit' ? this.address.country : '', [ Validators.required]],
+      countryId   : [this.action === 'edit' && this.address.country ? this.address.country.idCountry : '', [ Validators.required]],
       city      : [this.action === 'edit' ? {description: this.address.city} : '', [ Validators.required]],
       postal    : [this.action === 'edit' ? this.address.postalCode : '']
     });
-    this.selectedCountry = this.action === 'edit' ? this.address.country : '';
+    this.selectedCountry = this.action === 'edit' && this.address.country ? this.address.country.idCountry : '';
   }
 
   ngOnInit() {
@@ -154,20 +155,22 @@ export class ShippingAddressModalComponent implements OnInit {
   }
 
   findPlace(item): void {
+    const countries = this.listCountries;
     this.locale = this.userStorageService.getLanguage();
     this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      this.form.get('countryId').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({description: this.googleService.getCity()});
+      this.form.get('city').setValue({ description: this.googleService.getCity() });
     });
   }
 
   get companyId() { return this.form.get('companyId'); }
   get state() { return this.form.get('state'); }
   get city() { return this.form.get('city'); }
-  get country() { return this.form.get('country'); }
+  get countryId() { return this.form.get('countryId'); }
   get name() { return this.form.get('name'); }
 
 }

@@ -58,7 +58,7 @@
               <span>{{order.address? order.address.state:''}}</span>
               <br>
               <span class="font-weight-bold">{{'Country' | translate }}:</span>&nbsp;
-              <span>{{order.address? order.address.country:'' | translate}}</span>
+              <span>{{order.address? (order.address.country? order.address.country.name:''):'' | translate}}</span>
               <br>
               <br>
             </div>

@@ -92,7 +92,7 @@ export class ListUserComponent implements OnInit {
       this.listUsers = this.listUsers.filter((item) => {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
         (item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-        (item.company.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+        (item.company.country.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
         (item.company.companyName.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }

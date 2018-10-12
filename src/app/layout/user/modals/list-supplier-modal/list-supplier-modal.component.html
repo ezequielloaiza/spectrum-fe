@@ -36,7 +36,7 @@
                 <h1>{{supplier.marcado}}</h1>
               </td>
               <td class="table-tr td-table">{{supplier.companyName}}</td>
-              <td class="table-tr">{{supplier.country | translate}}</td>
+              <td class="table-tr">{{supplier.country? supplier.country.name : '' | translate}}</td>
               <td class="table-tr td-table">{{supplier.contact}}</td>
             </tr>
           </tbody>

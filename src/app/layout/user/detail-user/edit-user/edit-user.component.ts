@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ListUserModalComponent } from '../../modals/list-user-modal/list-user-modal.component';
 import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-edit-user',
@@ -60,7 +61,7 @@ export class EditUserComponent implements OnInit {
       email       : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       address     : [''],
       state       : ['', [ Validators.required]],
-      country     : ['', [ Validators.required]],
+      idCountry   : ['', [ Validators.required]],
       cityPlace   : ['', [ Validators.required]],
       postal      : ['', []],
       phone       : ['', []],
@@ -142,10 +143,12 @@ export class EditUserComponent implements OnInit {
   }
 
   findPlace(item): void {
+    const countries = this.listCountries;
     this.locale = this.userStorageService.getLanguage();
     this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('cityPlace').setValue({description: this.googleService.getCity()});
@@ -158,7 +161,7 @@ export class EditUserComponent implements OnInit {
     this.form.get('email').setValue(user.email);
     this.form.get('address').setValue(user.address);
     this.form.get('state').setValue(user.state);
-    this.form.get('country').setValue(user.country);
+    this.form.get('idCountry').setValue(user.country == null ? '' : user.country.idCountry);
     this.form.get('cityPlace').setValue({description: user.city});
     this.form.get('city').setValue(user.city);
     this.form.get('postal').setValue(user.postalCode);
@@ -200,7 +203,7 @@ export class EditUserComponent implements OnInit {
   get phone() { return this.form.get('phone'); }
   get cityPlace() { return this.form.get('cityPlace'); }
   get state() { return this.form.get('state'); }
-  get country() { return this.form.get('country'); }
+  get idCountry() { return this.form.get('idCountry'); }
   get postal() { return this.form.get('postal'); }
   get cardCode() { return this.form.get('cardCode'); }
   get certificationCode() { return this.form.get('cerfiticationCode'); }
