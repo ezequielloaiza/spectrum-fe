@@ -8,12 +8,12 @@
     width: 100%;
     background: $bg-white;
     box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
-  
+
     .link {
       color: $bg-blue;
       padding-left: 0px;
     }
-  
+
     .breadcrumb {
       background-color: transparent;
       border-radius: 0px;
@@ -22,7 +22,7 @@
       padding-top: 0px;
       padding-bottom: 0px;
     }
-  
+
     h4 {
       padding-left: 15px;
     }
@@ -34,8 +34,16 @@
 
   .card {
     background: #eee;
-    padding: 2em;
+    padding: 3em;
     line-height: 1.5em;
+
+    .main-info {
+      text-align: center;
+
+      .img-color {
+        border-radius: 35px;
+      }
+    }
   }
 }
 
@@ -87,7 +95,9 @@
 
   #pic-1 {
     img {
-      height: 20em;
+      height: 15em;
+      width: 25em;
+      border-radius: 12px;
     }
   }
 
@@ -128,22 +138,34 @@
   font-weight: bold;
 }
 
+.hand-over {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .product-title {
   margin-top: 0;
 }
 
 .product-info {
-  padding-top: 20px;
+  padding-top: 3em;
 
   .item-properties {
     img {
       width: 30px;
+      cursor: pointer;
     }
   }
 }
 
 .specifications {
-  padding-top: 20px;
+  padding-top: 2em;
+  align-items: center;
+
+  .generals {
+    display: flex;
+  }
 
   .params {
     display: flex;
@@ -152,6 +174,10 @@
     .select-values {
       padding-left: 0px;
     }
+  }
+
+  &.btn-box {
+    justify-content: flex-start;
   }
 }
 
@@ -183,7 +209,13 @@ img {
 }
 
 .buy-btns {
-  text-align: right;
+  padding-top: 3em;
+  display: flex;
+  justify-content: flex-end;
+
+  :first-child {
+    padding-right: 1em;
+  }
 }
 
 
@@ -216,6 +248,14 @@ img {
 
 .title {
   font-weight: 600;
+
+  &.align-title {
+    padding-left: 1em;
+  }
+}
+
+.readonly-input {
+  background-color: $bg-white;
 }
 
 .files {
@@ -224,7 +264,7 @@ img {
   >div:nth-child(1) {
     padding-left: 0;
     display: flex;
-    
+
     .title {
       flex: auto;
       max-width: 15.75%;
