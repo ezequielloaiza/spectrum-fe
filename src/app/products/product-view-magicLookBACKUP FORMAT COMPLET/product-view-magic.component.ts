@@ -26,13 +26,14 @@ import { environment } from '../../../environments/environment';
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
 @Component({
-  selector: 'app-product-view-euclid',
-  templateUrl: './product-view-euclid.component.html',
-  styleUrls: ['./product-view-euclid.component.scss']
+  selector: 'app-product-view-magic',
+  templateUrl: './product-view-magic.component.html',
+  styleUrls: ['./product-view-magic.component.scss']
 })
-export class ProductViewEuclidComponent implements OnInit {
+export class ProductViewMagicComponent implements OnInit {
 
   products: Array<any> = new Array;
+  tones: Array<any> = new Array;
   product: any;
   productCopy: any;
   id: any;
@@ -48,7 +49,6 @@ export class ProductViewEuclidComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
-  warranty = false;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
@@ -135,33 +135,25 @@ export class ProductViewEuclidComponent implements OnInit {
 
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
-    if (parameter.name === 'Warranty') {
-      parameter.selected = parameter.selected === 'Yes' ? true : false;
-      if (parameter.selected) {
-        this.warranty = true;
+    if (parameter.name === "Tone") {
+      switch (value) {
+        case "1 TONE":
+          this.tones = JSON.parse(this.product.types)[0].parameters[1].values[0];
+          break;
+        case "2 TONE":
+        this.tones = JSON.parse(this.product.types)[0].parameters[1].values[1];
+          break;
+        case "3 TONE":
+        this.tones = JSON.parse(this.product.types)[0].parameters[1].values[2];
+          break;
+      }
+      if (eye === 'right') {
+        this.product.parametersRight[1].selected = null;
       } else {
-        this.warranty = false;
+        this.product.parametersLeft[1].selected = null;
       }
     }
   }
-
-  /*setValuesAxesXtensa(eye, value) {
-    if (eye === 'right') {
-      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesRight.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesRight.values = this.axesXtensa[1].values;
-      }
-    } else {
-      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesLeft.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesLeft.values = this.axesXtensa[1].values;
-      }
-    }
-  }*/
 
   setValueEye(eye) {
     if (eye === "right") {
@@ -274,7 +266,7 @@ export class ProductViewEuclidComponent implements OnInit {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
         _.each(product.parametersRight, function(parameter, index) {
-          product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersRight;
       }
@@ -283,7 +275,7 @@ export class ProductViewEuclidComponent implements OnInit {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
         _.each(product.parametersLeft, function(parameter, index) {
-          product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersLeft;
       }
@@ -291,6 +283,7 @@ export class ProductViewEuclidComponent implements OnInit {
       productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye'])
     });
+
     return productsSelected;
   }
 
