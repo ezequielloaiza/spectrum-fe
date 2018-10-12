@@ -1,108 +1,205 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{ 'Generate Invoice' | translate }}</h4>
+  <h4 class="modal-title">{{ 'Generate Invoice to Provider' | translate }}</h4>
   <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="content">
-<div class="modal-body">
-  <div class="col col-xl-12 col-lg-12">
-    <div class="row">
-      <div class="col-xl-2">
-        <img src="assets/images/spectrumIcon.png" width="100px" class="" />
-      </div>
-      <div class="col-xl-10">
-        <h4>Spectrum International</h4>
-        <h6>Dallas, TX - Atlanta, GA</h6>
-        <h6>Tel : +1 678 557 3322</h6>
-      </div>
-    </div>
-  </div>
-  <form [formGroup]="form">
-    <span style="display: block;width: 70%;margin: 10px 0px;border-top: 1px solid #0a0a0a;margin: 20px auto;"></span>
-    <div class="col col-xl-12 col-lg-12">
-      <div class="row">
-        <div class="col-xl-6">
-          <label class="label">{{ 'Order No' | translate }}</label>
-          <label class="label-value">{{order.number}}</label>
-        </div>
-        <div class="col-xl-6">
-          <label class="label">{{ 'Invoice No' | translate }}</label>
-          <label class="label-value">{{invoice.number}}</label>
-        </div>
-      </div>
-    </div>
-    <div class="col col-xl-12 col-lg-12">
-      <div class="row">
-        <div class="col-xl-6">
-          <label class="label">{{ 'Order Date' | translate }}</label>
-          <label class="label-value">{{order.date | date:'yyyy-MM-dd'}}</label>
-        </div>
-        <div class="col-xl-6">
-          <label class="label" >{{ 'Invoice Date' | translate }}</label>
-          <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
-        </div>
-      </div>
-    </div>
-    <div class="card-body table-responsive">
-        <table class="table">
-            <thead>
-              <tr>
-                <th class="table-tr bold">{{ 'QUANTITY' | translate }}</th>
-                <th class="table-tr bold">{{ 'DESCRIPTION' | translate }}</th>
-                <th class="table-tr bold">{{ 'UNIT PRICE' | translate }}</th>
-                <th class="table-tr bold">{{ 'NET AMOUNT' | translate}}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let productR of invoice.listProductRequested; let i = index">
-                <td class="table-tr">{{productR.productRequested.quantity}}</td>
-                <td class="table-tr">{{(productR.productRequested.product.name + " - "+ productR.productRequested.product.material )}}</td>
-                <td class="table-tr">
-                  <fieldset>
-                    <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice($event, i)" placeholder="{{ 'Enter unit price' | translate }}"
-                    required>
-                </fieldset>
-                </td>
-                <td class="table-tr">{{(productR.netAmount | currency : "USD $")}}</td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
-    <div class="col col-xl-12 col-lg-12">
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="col col-xl-12 col-lg-12">
         <div class="row">
-          <div class="col-xl-5">
-            <label>{{order? order.nameUser:''}}</label>
-            <br>
-            <label>{{order? order.user.email:''}}</label>
-            <br>
-            <label>{{order? order.address.name :''}}</label>
-            <br>
-            <label>{{order? (order.address.city + ' - '+order.address.state):''}}</label>
-            <br>
-            <label>{{order? (order.address.country):''}}</label>
+          <div class="col-xl-4">
+            <h3 class="title">{{ 'Invoice' | translate }}</h3>
           </div>
-          <div class="col-xl-7">
-            <label class="label-amount bold">{{ 'Subtotal Amount' | translate }}</label>
-            <label class="label-amount">{{invoice.subtotal | currency : "USD $"}}</label>
+          <div class="col-xl-3">
+          </div>
+          <div class="col-xl-5">
+            <img src="assets/images/spectrumLogo1.jpg" width="300px" class="" />
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-5">
+            <label class="label">{{ 'Invoice No' | translate }}</label>
+            <label class="label-value">{{invoice.number}}</label>
+          </div>
+          <div class="col-xl-4">
+            <label class="label">{{ 'Deliver To' | translate }}</label>
+          </div>
+          <div class="col-xl-3">
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-5">
+            <label class="label">{{ 'Invoice Date' | translate }}</label>
+            <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
+          </div>
+          <div class="col-xl-4">
+            <label class="address">{{ pilot ? invoice.user.name : order.nameUser }}</label>
+          </div>
+          <div class="col-xl-3">
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-5">
+            <label class="label">{{ 'Due Date' | translate }}</label>
+            <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
+          </div>
+          <div class="col-xl-4">
+            <label class="address">{{order? order.address.name : invoice.address.name}}</label>
+          </div>
+          <div class="col-xl-3">
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-5">
+          </div>
+          <div class="col-xl-4">
+            <label class="address">{{order? (order.address.city + ' - '+order.address.state):''}}</label>
+          </div>
+          <div class="col-xl-3">
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-5">
+          </div>
+          <div class="col-xl-4">
+            <label class="address">{{order? (order.address.country):''}}</label>
+          </div>
+          <div class="col-xl-3">
+          </div>
+        </div>
+      </div>
+      <div class="col col-xl-12 col-lg-12">
+        <div class="row row-height">
+          <div class="col-xl-6">
+          </div>
+          <div class="col-xl-6 address-spectrum">
+            <label class="address-spectrum">SPECTRUM INTERNATIONAL GROUP, LLC</label>
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-6 address-top">
+            <label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>
+          </div>
+          <div class="col-xl-6 address-spectrum">
+            <label class="address-spectrum">3522 ASHFORD DUNWOODY ROAD NE</label>
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-6 address-middle">
+            <label class="address-client">{{order? order.address.name :''}}</label>
+          </div>
+          <div class="col-xl-6 address-spectrum">
+            <label class="address-spectrum">#293</label>
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-6 address-middle">
+            <label class="address-client">{{order? (order.address.city + ' - '+order.address.state):''}}</label>
+          </div>
+          <div class="col-xl-6 address-spectrum">
+            <label class="address-spectrum">ATLANTA GA 30319</label>
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-6 address-down">
+            <label class="address-client">{{order? (order.address.country):''}}</label>
+          </div>
+          <div class="col-xl-6 address-spectrum">
+            <label class="address-spectrum">United States</label>
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-6">
+          </div>
+          <div class="col-xl-6 address-spectrum">
+            <label class="address-spectrum">www.spctinternational.com</label>
+          </div>
+        </div>
+        <div class="row row-height">
+          <div class="col-xl-6">
+          </div>
+          <div class="col-xl-6 address-spectrum">
+            <label class="address-spectrum">marketing@spctinternational.com</label>
+          </div>
+        </div>
+      </div>
+      <div class="col col-xl-12 col-lg-12">
+
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="table-tr bold">{{ 'Description' | translate }}</th>
+              <th class="table-tr bold"></th>
+              <th class="table-tr bold">{{ 'Qty' | translate }}</th>
+              <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
+              <th class="table-tr bold">{{ 'Tax Rate' | translate }}</th>
+              <th class="table-tr bold">{{ 'Amount' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let productR of invoice.listProductRequested; let i = index">
+              <td class="table-tr">{{productR.productRequested.product.code}}</td>
+              <td class="table-tr">{{(productR.productRequested.product.name + " - "+
+                productR.productRequested.product.material )}}</td>
+              <td class="table-tr">{{productR.productRequested.quantity}}</td>
+              <td class="table-tr" [hidden]="!pilot"> {{productR.price | currency }}</td>
+              <td class="table-tr" [hidden]="pilot">
+                <fieldset>
+                  <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice($event, i)"
+                    placeholder="{{ 'Enter unit price' | translate }}" required>
+                </fieldset>
+              </td>
+              <td class="table-tr">{{ 'No Tax' | translate }}</td>
+              <td class="table-tr">{{(productR.netAmount | currency )}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col col-xl-12 col-lg-12">
+        <div class="row">
+          <div class="col-xl-6">
+            <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
             <br>
-            <label class="label-amount bold">{{ 'Total Amount' | translate }}</label>
-            <label class="label-amount">{{invoice.total | currency : "USD $"}}</label>
+            <label class="">{{ 'Net 30' | translate }}</label>
+            <br>
+            <label class="">{{ '3.5% Fee for CC Payments' | translate }}</label>
+            <br>
+            <label class="">{{ 'Thank you for your trust and preference' | translate }}</label>
+          </div>
+          <div class="col-xl-6">
+            <label class="label-amount bold">{{ 'Subtotal' | translate }}</label>
+            <label class="label-amount">{{invoice.subtotal | currency }}</label>
+            <br>
+            <label class="label-amount bold">{{ 'Shipping' | translate }}</label>
+            <label class="label-amount">{{invoice.shipping | currency }}</label>
+            <br>
+            <label class="label-amount bold">{{ 'Total' | translate }}</label>
+            <label class="label-amount">{{invoice.total | currency }}</label>
+            <br>
+            <label class="label-amount bold">{{ 'Amount Due' | translate }}</label>
+            <label class="label-amount">{{invoice.due | currency : "USD $" }}</label>
           </div>
         </div>
       </div>
 
-  </form>
-</div>
+    </form>
+  </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+  <button [hidden]="!pilot" type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Back' |
+    translate }}&nbsp;
+    <i class="fa fa-arrow-left"></i>
+  </button>
+  <button [hidden]="pilot" type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' |
+    translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" class="btn btn-main" (click)="generateInvoice(0, order.idOrder)">{{ 'Save' | translate }}&nbsp;
-    <i class="fa fa-save"></i>
-  </button>
-  <button type="button" class="btn btn-main" (click)="generateInvoice(1, order.idOrder)">{{ 'Save and Send' | translate }}&nbsp;
+  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1, order.idOrder)">{{ 'Save and
+    Send' | translate }}&nbsp;
     <i class="fa fa-send"></i>
   </button>
 </div>

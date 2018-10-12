@@ -6,11 +6,11 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
-import { Invoice } from '../../../shared/models/invoice';
+import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
 import * as _ from 'lodash';
-import { InvoiceProductRequested } from '../../../shared/models/invoiceproductrequested';
+import { InvoiceSupplierProductRequested } from '../../../shared/models/invoicesupplierproductrequested';
 import { UserStorageService } from '../../../http/user-storage.service';
-import { InvoiceService } from '../../../shared/services/invoice/invoice.service';
+import { InvoiceService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
 
 @Component({
   selector: 'app-generate-invoice',
@@ -22,7 +22,8 @@ export class GenerateInvoiceComponent implements OnInit {
   order: any;
   user: any;
   today: Date = new Date();
-  invoice: Invoice = new Invoice();
+  invoice: InvoiceSupplier = new InvoiceSupplier();
+  pilot: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -50,23 +51,28 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   loadInvoice() {
-    this.invoiceService.allInvoiceByOrder$(this.order.idOrder).subscribe(
-      res => {
-        if (res.code === CodeHttp.ok) {
-          const invoices = res.data;
-          if (invoices.length > 0) {
-            this.invoice = invoices[0];
+    console.log('order', this.order);
+    if (this.order !== undefined) {
+      this.invoiceService.allInvoiceByOrder$(this.order.idOrder).subscribe(
+        res => {
+          if (res.code === CodeHttp.ok) {
+            const invoices = res.data;
+            if (invoices.length > 0) {
+              this.invoice = invoices[0];
+            } else {
+              this.loadInvoiceFromOrder();
+            }
+
+    console.log('invoice', this.invoice);
           } else {
-            this.loadInvoiceFromOrder();
+            console.log(res.code);
           }
-        } else {
-          console.log(res.code);
+        },
+        error => {
+          console.log('error', error);
         }
-      },
-      error => {
-        console.log('error', error);
-      }
-    );
+      );
+    }
   }
 
   loadInvoiceFromOrder() {
@@ -79,14 +85,17 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.number = this.order.number;
     this.invoice.subtotal = this.order.subtotal;
     this.invoice.total = this.order.total;
-    this.invoice.user = this.user;
-    this.invoice.idUser = this.user.idUser;
+    this.invoice.idUser = this.order.user.idUser;
+    const ship = 0;
+    this.invoice.shipping = ship;
+    this.invoice.due = this.order.total;
     _.each(this.order.listProductRequested, function(pRequested) {
-      const productR = new InvoiceProductRequested();
+      const productR = new InvoiceSupplierProductRequested();
       productR.idProductRequested = pRequested.productRequested.idProductRequested;
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.productRequested.urlImage;
       productR.price = pRequested.productRequested.price;
+      productR.tax = pRequested.tax;
       productR.netAmount =
         pRequested.productRequested.price *
         pRequested.productRequested.quantity;
@@ -111,6 +120,7 @@ export class GenerateInvoiceComponent implements OnInit {
     });
     this.invoice.subtotal = sum;
     this.invoice.total = sum;
+    this.invoice.due = sum;
   }
 
   generateInvoice(send, idOrder) {

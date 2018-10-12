@@ -13,6 +13,7 @@ import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confi
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { Product } from '../../../shared/models/product';
 import { saveAs } from 'file-saver';
+import { UserStorageService } from '../../../http/user-storage.service';
 
 @Component({
   selector: 'app-details-order-client',
@@ -29,14 +30,17 @@ export class DetailsOrderClientComponent implements OnInit {
   itemPerPage = 1;
   generar = false;
   download = false;
-
+  user: any;
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
     public productImageService: ProductoimageService,
     private notification: ToastrService,
     private translate: TranslateService,
     private alertify: AlertifyService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private userStorageService: UserStorageService) {
+        this.user = JSON.parse(userStorageService.getCurrentUser());
+     }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -55,7 +59,7 @@ export class DetailsOrderClientComponent implements OnInit {
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
-        if (this.order.status !== 1 && this.order.dateSend === null) {
+        if (this.order.status !== 1 && this.order.dateSend === null && this.user.role.idRole === 1) {
            this.generar = true;
         }
 
@@ -75,8 +79,8 @@ export class DetailsOrderClientComponent implements OnInit {
   const modalRef = this.modalService.open(ModalsConfirmationComponent);
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
-        this.generar = false;
       } , (reason) => {
+        this.ngOnInit();
     });
   }
 

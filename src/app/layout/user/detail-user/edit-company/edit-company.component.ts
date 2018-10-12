@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { GoogleService, CompanyService, BusinessTypeService } from '../../../../shared/services';
+import { GoogleService, CompanyService, BusinessTypeService, OrderService } from '../../../../shared/services';
 import { debounceTime, distinctUntilChanged, switchMap, tap, catchError, merge } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
@@ -26,6 +26,12 @@ export class EditCompanyComponent implements OnInit {
   businessTypes: Array<any> = new Array;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   saving = false;
+  listPaymentMethod = [{ id: 0, name: 'Prepaid' },
+                       { id: 1, name: 'Postpaid' }];
+  listCreditDays = [ '15', '30', '60' ];
+  postpaid = false;
+  method: any;
+  quantityProcessed: any;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -33,13 +39,15 @@ export class EditCompanyComponent implements OnInit {
               private companyService: CompanyService,
               private businessTypeService: BusinessTypeService,
               private translate: TranslateService,
-              private notification: ToastrService) { }
+              private notification: ToastrService,
+              private orderService: OrderService) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getBussinesAll();
     this.getCompany(this.id);
     this.initializeForm();
+    this.getOrderProcessed(this.id);
   }
 
   initializeForm() {
@@ -57,7 +65,10 @@ export class EditCompanyComponent implements OnInit {
       postalCode    : ['', []],
       idCompany     : ['', []],
       idUser        : [this.id, []],
-      city          : ['', []]
+      city          : ['', []],
+      paymentMethod : ['', []],
+      creditDays    : ['', []],
+      balance   : ['', [Validators.required]],
     });
   }
 
@@ -129,8 +140,13 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('phone').setValue(this.company.phone==null?'':this.company.phone);
     this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
     this.form.get('creditLimit').setValue(company.creditLimit);
+    this.form.get('paymentMethod').setValue(company.paymentMethod);
+    this.method = company.paymentMethod === 1 ? 'Postpaid' : 'Prepaid';
+    this.postpaid = company.paymentMethod === 1 ? true : false;
+    this.form.get('creditDays').setValue(company.creditDays);
     this.form.get('idCompany').setValue(company.idCompany);
     this.form.get('city').setValue(company.city);
+    this.form.get('balance').setValue(company.balance);
   }
 
   save(): void {
@@ -139,9 +155,11 @@ export class EditCompanyComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.canEdit = false;
         this.company = res.data;
+        this.method = this.company.paymentMethod === 1 ? 'Postpaid' : 'Prepaid';
+        this.postpaid = this.company.paymentMethod === 1 ? true : false;
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
-        });      
+        });
       }
       this.saving = false;
     }, error => {
@@ -161,5 +179,51 @@ export class EditCompanyComponent implements OnInit {
   get state() { return this.form.get('state'); }
   get country() { return this.form.get('country'); }
   get postalCode() { return this.form.get('postalCode'); }
+  get paymentMethod() {return this.form.get('paymentMethod'); }
+  get creditDays() {return this.form.get('creditDays'); }
+  get balance() {return this.form.get('balance'); }
 
+  assignCreditDays(value: number) {
+    if (value === 1) {
+      this.postpaid = true;
+      this.form.get('creditDays').setValue(null);
+      this.form.get('creditLimit').setValue(null);
+      this.form.get('balance').setValue(null);
+    } else {
+      this.postpaid = false;
+      this.form.get('creditDays').setValue(0);
+      this.form.get('creditLimit').setValue(0);
+      this.form.get('balance').setValue(0);
+    }
+    this.form.get('paymentMethod').setValue(value);
+  }
+
+  newBalance(ev: any) {
+    const val = ev.target.value; // nuevo limite
+      if (this.company.balance !== null) {
+          let oldAmount = this.company.creditLimit - (this.company.balance); // lo que ha gastado
+          if (val <= this.company.balance) {
+              if (oldAmount === 0) { // No ha gastado
+                this.form.get('balance').setValue(val);
+              } else { // Si habia gastado
+                this.form.get('balance').setValue(val - oldAmount);
+              }
+          } else if ((this.company.balance === 0 && this.quantityProcessed === 0)) {
+                this.form.get('balance').setValue(val);
+          } else if ((this.company.balance === 0 && this.quantityProcessed > 0) || val > this.company.balance) {
+              // Lo disponible sera el nuevo limite menos lo que habia gastado
+              this.form.get('balance').setValue(val - oldAmount);
+          }
+      } else {
+          this.form.get('balance').setValue(val);
+      }
+    }
+
+    getOrderProcessed(id): void {
+      this.orderService.findOrderProcessedByUser$(id).subscribe( res => {
+        if (res.code === CodeHttp.ok) {
+          this.quantityProcessed = res.data.length;
+        }
+      });
+    }
 }

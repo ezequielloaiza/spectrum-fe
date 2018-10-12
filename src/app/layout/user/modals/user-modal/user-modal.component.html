@@ -115,7 +115,7 @@
           <fieldset class="form-group">
             <label>{{ 'Business types' | translate }}</label>
             <select class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
-              <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name }}</option>
+              <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name | translate }}</option>
             </select>
           </fieldset>
           <div class="message-error" [hidden]="idBusinessType.valid || idBusinessType.pristine">
@@ -200,23 +200,63 @@
           </div>
         </div>
         <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Payment Method' | translate }}</label>
+            <div class="row">
+              <div class="col-xl-6" *ngFor="let method of listPaymentMethod; let i = index">
+                <div class="col-xl-5 custom-control custom-radio">
+                  <input type="radio" id="paymentMethod{{i}}" name="paymentMethod" [value]="method.id" (change)="assignCreditDays(method)" class="custom-control-input" >
+                  <label class="custom-control-label" for="paymentMethod{{i}}">{{ method.name | translate }}</label>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="message-error">
+              <span [hidden]="!msjPayment">{{'Should define the payment method' | translate}}</span>
+            </div>
+          </fieldset>
+          <div class="message-error" [hidden]="paymentMethod.valid || paymentMethod.pristine">
+            <span>{{ 'Payment Method is required' | translate }}</span>
+          </div>
+        </div>
+        <div *ngIf="postpaid" class="col-xl-6">
           <label>{{ 'Credit limit' | translate }}</label>
           <div class="form-group input-group">
             <div class="input-group-append">
               <span class="input-group-text">$</span>
             </div>
-            <input class="form-control" type="number" placeholder="{{ 'Enter credit limit' | translate }}" name="creditLimit" formControlName="creditLimit"
+            <input class="form-control" type="number"  min="1" placeholder="{{ 'Enter credit limit' | translate }}" name="creditLimit" formControlName="creditLimit"
               required>
           </div>
           <div class="message-error" [hidden]="creditLimit.valid || creditLimit.pristine">
             <span>{{ 'Credit Limit is required' | translate }}</span>
           </div>
         </div>
+        <div *ngIf="postpaid" class="col-xl-6">
+          <label>{{ 'Credit balance' | translate }}</label>
+          <div class="form-group input-group">
+            <div class="input-group-append">
+              <span class="input-group-text">$</span>
+            </div>
+            <input class="form-control" type="number" placeholder="{{ 'Enter credit balance' | translate }}" name="balance" formControlName="balance">
+          </div>
+        </div>
+        <div *ngIf="postpaid" class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Credit Days' | translate }}</label>
+            <select class="form-control" name="creditDays" formControlName="creditDays" required>
+              <option *ngFor="let creditDays of listCreditDays" value="{{creditDays}}">{{ creditDays + ' '}}{{ 'days' | translate }}</option>
+            </select>
+          </fieldset>
+          <div class="message-error" [hidden]="creditDays.valid || creditDays.pristine">
+            <span>{{ 'Credit Days is required' | translate }}</span>
+          </div>
+        </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Membership' | translate }}</label>
             <select class="form-control" name="membershipId" formControlName="membershipId" required>
-              <option *ngFor="let membership of memberships" [ngValue]="membership.idMembership">{{ membership.name }}</option>
+              <option *ngFor="let membership of memberships" [ngValue]="membership.idMembership">{{ membership.name | translate}}</option>
             </select>
           </fieldset>
           <div class="message-error" [hidden]="membershipId.valid || membershipId.pristine">
@@ -240,7 +280,7 @@
   <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" [disabled]="form.invalid || companyPhone.value.length < 8 || phone.value.length < 8 || listSuppliers.length === 0"
+  <button type="button" [disabled]="form.invalid || (companyPhone.value.length > 1 && companyPhone.value.length < 8) || (phone.value.length > 1 && phone.value.length < 8) || listSuppliers.length === 0"
     class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>

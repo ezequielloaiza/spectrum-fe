@@ -18,6 +18,8 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { ProductViewEuclidComponent } from './product-view-euclid/product-view-euclid.component';
 import { ProductViewMagicComponent } from './product-view-magicLook/product-view-magic.component';
 import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NotificationBalanceComponent } from './modals/notification-balance/notification-balance.component';
 
 @NgModule({
   imports: [
@@ -30,7 +32,8 @@ import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    FileUploadModule
+    FileUploadModule,
+    NgxSpinnerModule
   ],
   declarations: [
     ProductsComponent,
@@ -41,9 +44,10 @@ import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.
     ProductViewMagicComponent,
     ProductViewBlueComponent,
     ConfirmationBuyComponent,
-    EditProductComponent
+    EditProductComponent,
+    NotificationBalanceComponent
   ],
-  entryComponents: [ConfirmationBuyComponent, EditProductComponent],
+  entryComponents: [ConfirmationBuyComponent, EditProductComponent, NotificationBalanceComponent],
   providers: [RoleGuard, AuthorizationService]
 })
 export class ProductsModule {}

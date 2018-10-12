@@ -23,6 +23,7 @@ import { ListBasketComponent } from './basket/client/list/list-basket/list-baske
 import { ListBasketClientComponent } from './basket/admin-seller/list/list-basket-client/list-basket-client.component';
 import { DetailsBasketClientComponent } from './basket/admin-seller/details/details-basket-client/details-basket-client.component';
 import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-supplier.component';
+import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 
 const routes: Routes = [
   {
@@ -65,6 +66,10 @@ const routes: Routes = [
       {
         path: 'warranty', component: WarrantyComponent,
         data: { option: 'Warranty' }
+      },
+      {
+        path: 'invoice', component: ManageInvoiceComponent,
+        data: { option: 'Invoice' }
       },
       {
         path: 'user', component: UserComponent,
