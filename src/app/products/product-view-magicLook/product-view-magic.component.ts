@@ -269,8 +269,8 @@ export class ProductViewMagicComponent implements OnInit {
     let parameters = product.parameters;
 
     //parameters boxes
-    _.each(boxes, function(box){
-      let boxProduct = { "tone": box.parameters[0].selected , "color" :box.parameters[1].selected , "quantity": box.quantity };
+    _.each(boxes, function(box, index){
+      let boxProduct = { "id":index+1, "tone": box.parameters[0].selected , "color" :box.parameters[1].selected , "quantity": box.quantity };
       boxesProduct.push(boxProduct); 
     });
 

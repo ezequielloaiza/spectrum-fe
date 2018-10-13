@@ -13,7 +13,7 @@
 		</ol>
 	</div>
 </div>
-<div class="middleBar">
+<div class="middleBar" [hidden]="showSuppliers">
   <div class="row display-table">
     <div class="col-sm-3 vertical-align text-left hidden-xs">
     </div>
@@ -36,7 +36,7 @@
 
 <div class="padding-list">
   <div class="row">
-    <!--FILTERS-->
+    <!--FILTERS
     <div class="col-sm-3 col-md-3 hidden-xs">
       <ngb-accordion activeIds="filter2" type="dark" (panelChange)="beforeChange($event)">
         <ngb-panel id="filter2">
@@ -61,9 +61,20 @@
           </ng-template>
         </ngb-panel>
       </ngb-accordion>
-    </div>
+    </div>-->
     <!--THUMBNAILS PRODUCTS-->
-    <div class="col-sm-9 col-md-9 col-lg-9">
+    <div class="col-sm-1 col-md-1 col-lg-1"></div>
+    <div class="col-sm-10 col-md-10 col-lg-10" [hidden]="!showSuppliers">
+      <div class="row">
+        <div class="col-md-4 box-shadow" *ngFor="let supplier of listSupplier">
+          <div class="mb-4 box-shadow">
+            <img class="card-img-top" src="{{ supplier.image }}" (click)="onSelectionSupplier(supplier.idSupplier)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-10 col-md-10 col-lg-10" [hidden]="showSuppliers">
       <div class="row">
         <div class="col-md-4 box-shadow" *ngFor="let product of products">
           <div class="mb-4 box-shadow">

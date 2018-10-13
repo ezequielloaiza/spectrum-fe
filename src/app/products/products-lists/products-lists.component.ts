@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
@@ -11,6 +11,8 @@ import { SupplierService } from '../../shared/services/suppliers/supplier.servic
 import { CategoryService } from '../../shared/services/category/category.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+const SHOWSUPPLIERS = 'showSuppliers';
+
 @Component({
   selector: 'app-products-lists',
   templateUrl: './products-lists.component.html',
@@ -22,11 +24,11 @@ export class ProductsListsComponent implements OnInit {
   listSupplier: Array<any> = new Array();
   listSupplierAux: Array<any> = new Array();
   listSupplierFilter: Array<any> = new Array();
-  listSupplierFilterAux: Array<any> = new Array();
   auxCategories: Array<any> = new Array;
   currentUser: any;
   user: any;
-  visible: boolean;
+  //visible: boolean;
+  showSuppliers: boolean;
 
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
@@ -40,9 +42,17 @@ export class ProductsListsComponent implements OnInit {
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
 
+  @HostListener('window:popstate', ['$event']) //back button pressed
+  onPopState(event) {
+    if (!this.showSuppliers) {
+      event.preventDefault();
+      history.go(1);
+    }
+  }
+
   ngOnInit() {
     this.getProducts();
-    this.visible = false;
+    this.showSuppliers = true;
   }
 
   getProducts() {
@@ -176,8 +186,7 @@ export class ProductsListsComponent implements OnInit {
   getSuppliers() {
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-          this.listSupplierFilterAux = res.data;
-          this.listSupplierFilter = this.listSupplierFilterAux;
+          this.listSupplierFilter = res.data;
           if (this.user.role.idRole === 3) {
             const lista = this.listSupplier; // los asociado a los clientes
             const supplierFiltered = [];
@@ -195,6 +204,7 @@ export class ProductsListsComponent implements OnInit {
             this.listSupplier = this.listSupplierFilter;
             this.orderList();
           }
+          this.setImageSupplier();
       } else {
         console.log(res.errors[0].detail);
       }
@@ -203,11 +213,36 @@ export class ProductsListsComponent implements OnInit {
     });
   }
 
+  setImageSupplier() {
+    _.each(this.listSupplier, function(supplier){
+      switch (supplier.idSupplier) {
+        case 1: // Markennoy
+          supplier.image = 'assets/images/suppliers/markennovy.jpg';
+          break
+        case 2: // Europa
+          supplier.image = 'assets/images/suppliers/europa.jpg';
+          break
+        case 3: // Lenticon
+          supplier.image = 'assets/images/suppliers/lenticon.jpg';
+          break
+        case 4: // Euclid
+          supplier.image = 'assets/images/suppliers/euclid.jpg';
+          break
+        case 5: // Magic Look
+          supplier.image = 'assets/images/suppliers/magiclook.png';
+          break
+        case 6: // Blue Light
+          supplier.image = 'assets/images/suppliers/bluelight.png';
+          break
+      }
+    });
+  }
+
   getCategories() {
     this.categoryService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.auxCategories = res.data;
-        this.visible = true;
+        //this.visible = true;
       } else {
         console.log(res.errors[0].detail);
       }
@@ -232,9 +267,12 @@ export class ProductsListsComponent implements OnInit {
         this.all();
         break;
     }
-    if (idSupplier > 1 ) {
+    /*if (idSupplier > 1 ) {
       this.visible = false;
-    }
+    }*/
+
+    this.showSuppliers = false;
+
   }
 
   onSelectionCategory(idCategory) {
@@ -249,7 +287,7 @@ export class ProductsListsComponent implements OnInit {
 
   all() {
     this.products = this.productsAux;
-    this.visible = false;
+    //this.visible = false;
   }
 
   public beforeChange($event: NgbPanelChangeEvent) {
@@ -273,7 +311,6 @@ export class ProductsListsComponent implements OnInit {
   orderList(){
     let array = [{idSupplier: 1000, companyName: 'All'}];
     this.listSupplierFilter = _.concat(this.listSupplierFilter, array);
-    this.listSupplierFilterAux = _.orderBy(this.listSupplierFilter, ['idSupplier'], ['desc']);
-    this.listSupplierFilter = this.listSupplierFilterAux;
+    this.listSupplierFilter = _.orderBy(this.listSupplierFilter, ['idSupplier'], ['desc']);
   }
 }
