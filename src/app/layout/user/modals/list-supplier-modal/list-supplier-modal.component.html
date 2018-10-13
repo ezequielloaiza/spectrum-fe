@@ -17,8 +17,12 @@
         <table class="table">
           <thead>
             <tr>
-              <th>
-
+              <th class="table-tr header-column">
+                <div class="custom-control custom-checkbox">
+                  <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll" (click)="onSelectionAll(selectedAll)" [checked]="selectedAll"
+                    class="custom-control-input">
+                  <label class="custom-control-label select-all" for="checkboxAll"></label>
+                </div>
               </th>
               <th class="table-tr header-column">{{ 'Company Name' | translate }}</th>
               <th class="table-tr header-column">{{ 'Country' | translate }}</th>
@@ -59,6 +63,7 @@
     </div>
   </div>
 </div>
+<br>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>

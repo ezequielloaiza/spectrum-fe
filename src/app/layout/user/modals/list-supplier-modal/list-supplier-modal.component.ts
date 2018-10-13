@@ -21,6 +21,7 @@ export class ListSupplierModalComponent implements OnInit {
   listSupp: any;
   listAux = [];
   list2: any;
+  selectedAll: any;
 
   constructor(private supplierService: SupplierService,
     private modal: NgbActiveModal) { }
@@ -35,6 +36,7 @@ export class ListSupplierModalComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.auxSuppliers = res.data;
         this.suppliers = this.auxSuppliers.slice(0, this.itemPerPage);
+        this.selectedAll = false;
       } else {
         console.log(res.errors[0].detail);
       }
@@ -79,6 +81,29 @@ export class ListSupplierModalComponent implements OnInit {
     } else {
       this.listAux = _.concat(this.listAux, id);
     }
+    this.selectedAll = false;
+    this.listAux.length > 0 ? this.valid = true : this.valid = false;
+  }
+
+  onSelectionAll(checked) {
+    let arrayAux = this.listAux;
+    _.each(this.suppliers, function(item) {
+      item.checked = true;
+      let existe: boolean;
+      const id = item.idSupplier;
+      existe = _.includes(arrayAux, id);
+      if (existe) {
+        if (!checked) {
+          _.remove(arrayAux,  function (n)  {
+            return n === id;
+          });
+        }
+      } else {
+        arrayAux = _.concat(arrayAux, id);
+      }
+    });
+    this.selectedAll = true;
+    this.listAux = arrayAux;
     this.listAux.length > 0 ? this.valid = true : this.valid = false;
   }
 

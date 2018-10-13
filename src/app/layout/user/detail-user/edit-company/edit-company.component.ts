@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { GoogleService, CompanyService, BusinessTypeService, CountryService } from '../../../../shared/services';
+import { GoogleService, CompanyService, BusinessTypeService, CountryService, OrderService } from '../../../../shared/services';
 import { debounceTime, distinctUntilChanged, switchMap, tap, catchError, merge } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
@@ -36,6 +36,7 @@ export class EditCompanyComponent implements OnInit {
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
   locale: any;
+  quantityProcessed: any;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -45,7 +46,8 @@ export class EditCompanyComponent implements OnInit {
               private translate: TranslateService,
               private notification: ToastrService,
               private countryService: CountryService,
-              private userStorageService: UserStorageService) { }
+              private userStorageService: UserStorageService,
+              private orderService: OrderService) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
@@ -54,6 +56,7 @@ export class EditCompanyComponent implements OnInit {
     this.initializeForm();
     this.getCountries();
     this.locale = this.userStorageService.getLanguage();
+    this.getOrderProcessed(this.id);
   }
 
   initializeForm() {
@@ -73,7 +76,8 @@ export class EditCompanyComponent implements OnInit {
       idUser        : [this.id, []],
       city          : ['', []],
       paymentMethod : ['', []],
-      creditDays    : ['', []]
+      creditDays    : ['', []],
+      balance   : ['', [Validators.required]],
     });
   }
 
@@ -167,6 +171,7 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('creditDays').setValue(company.creditDays);
     this.form.get('idCompany').setValue(company.idCompany);
     this.form.get('city').setValue(company.city);
+    this.form.get('balance').setValue(company.balance);
   }
 
   save(): void {
@@ -201,18 +206,49 @@ export class EditCompanyComponent implements OnInit {
   get postalCode() { return this.form.get('postalCode'); }
   get paymentMethod() {return this.form.get('paymentMethod'); }
   get creditDays() {return this.form.get('creditDays'); }
+  get balance() {return this.form.get('balance'); }
 
   assignCreditDays(value: number) {
     if (value === 1) {
       this.postpaid = true;
       this.form.get('creditDays').setValue(null);
       this.form.get('creditLimit').setValue(null);
+      this.form.get('balance').setValue(null);
     } else {
       this.postpaid = false;
       this.form.get('creditDays').setValue(0);
       this.form.get('creditLimit').setValue(0);
+      this.form.get('balance').setValue(0);
     }
     this.form.get('paymentMethod').setValue(value);
   }
 
+  newBalance(ev: any) {
+    const val = ev.target.value; // nuevo limite
+      if (this.company.balance !== null) {
+          let oldAmount = this.company.creditLimit - (this.company.balance); // lo que ha gastado
+          if (val <= this.company.balance) {
+              if (oldAmount === 0) { // No ha gastado
+                this.form.get('balance').setValue(val);
+              } else { // Si habia gastado
+                this.form.get('balance').setValue(val - oldAmount);
+              }
+          } else if ((this.company.balance === 0 && this.quantityProcessed === 0)) {
+                this.form.get('balance').setValue(val);
+          } else if ((this.company.balance === 0 && this.quantityProcessed > 0) || val > this.company.balance) {
+              // Lo disponible sera el nuevo limite menos lo que habia gastado
+              this.form.get('balance').setValue(val - oldAmount);
+          }
+      } else {
+          this.form.get('balance').setValue(val);
+      }
+    }
+
+    getOrderProcessed(id): void {
+      this.orderService.findOrderProcessedByUser$(id).subscribe( res => {
+        if (res.code === CodeHttp.ok) {
+          this.quantityProcessed = res.data.length;
+        }
+      });
+    }
 }
