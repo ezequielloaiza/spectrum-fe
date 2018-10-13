@@ -38,11 +38,11 @@
               </div>
             </div>
             <div class="col-sm-3 title">
-              <div class="row label-title separator">
+              <div class="label-title separator">
                 <label class="form-check-label">{{ 'Total Quantity' | translate }}:</label>&nbsp;&nbsp;
               </div>
-              <div [ngClass]="cl">
-                <input class="form-control col-sm-11" type="number" step=1 min="1" [disabled]='true' [(ngModel)]="quantity"
+              <div>
+                <input class="form-control" type="number" step=1 min="1" [disabled]='true' [(ngModel)]="quantity"
                   oninput="validity.valid||(value='');">
               </div>
             </div>
@@ -50,7 +50,7 @@
               <div *ngFor="let parameter of product.parameters">
                 <div *ngIf="parameter.values && parameter.values.length > 0  && parameter.name!=='Tone' && parameter.name!=='Color'">
                   <label class="form-check-label">{{ parameter.name | translate }}:</label>&nbsp;&nbsp;
-                  <div *ngIf="parameter.type === 'selected' && parameter.name!=='Tone'" class="select-values col-sm-12  separator">
+                  <div *ngIf="parameter.type === 'selected' && parameter.name!=='Tone'">
                     <ng-select [items]="parameter.values" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
                       placeholder="{{ 'Select value' | translate }}">
                       {{item}}
@@ -95,7 +95,7 @@
               <div class="col-sm-4">
                 <dl class="align-item">
                   <dt>
-                    <div class="select-values col-sm-12  separator">
+                    <div>
                       <ng-select (change)="changeTono(parameter.id, parameter, $event)" [items]="parameter.values"
                         [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
                         {{item}}
@@ -107,7 +107,7 @@
               <div class="col-sm-4">
                 <dl class="align-item">
                   <dt>
-                    <div class="select-values col-sm-12 separator">
+                    <div>
                       <ng-select [items]="parameter.color" [(ngModel)]="parameter.colorSelected" bindLabel="value"
                         bindValue="value" placeholder="{{ 'Select value' | translate }}" placement="top-right">
                         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
