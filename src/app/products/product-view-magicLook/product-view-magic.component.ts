@@ -33,6 +33,8 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 export class ProductViewMagicComponent implements OnInit {
 
   products: Array<any> = new Array;
+  boxes: Array<any> = new Array;
+  boxesCopy: any;
   tones: Array<any> = new Array;
   product: any;
   productCopy: any;
@@ -40,7 +42,6 @@ export class ProductViewMagicComponent implements OnInit {
   parameters: any;
   quantity = 1;
   order: any;
-  productsSelected: Array<any> = new Array;
   currentUser: any;
   user: any;
   ngSelect: any;
@@ -122,55 +123,53 @@ export class ProductViewMagicComponent implements OnInit {
     console.log(JSON.stringify(_.range(-15, -0.25, 0.25)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
-    this.product.eyeRight = false;
-    this.product.eyeLeft = false;
     this.product.type = JSON.parse(this.product.types)[0].name;
-    this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
-    this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
-    this.product.infoAditional = JSON.parse(this.product.infoAditional);
+    this.product.parameters = JSON.parse(this.product.types)[0].parameters;
+    this.product.parametersBoxes = JSON.parse(this.product.types)[0].parametersBoxes;
+    this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.priceSale = '';
+
+    //adding first box in array boxes
+    let parametersBox = { parameters: JSON.parse(JSON.stringify(this.product.parametersBoxes))};
+    this.boxes.push(parametersBox);
     this.setClient();
     this.setPrice();
   }
 
-  changeSelect(eye, parameter, value) {
+  addBox() {
+    let parametersBox = { parameters: JSON.parse(JSON.stringify(this.product.parametersBoxes))};
+    this.boxes.push(parametersBox);
+  }
+
+  removeBox(index) {
+    if (this.boxes.length > 1) {
+      this.boxes.splice(index, 1);
+    }
+  }
+
+  changeSelect(parameter, value) {
     parameter.selected = value;
     if (parameter.name === "Tone") {
       switch (value) {
         case "1 TONE":
-          this.tones = JSON.parse(this.product.types)[0].parameters[1].values[0];
+          this.tones[value] = this.product.parametersBoxes[1].values[0];
           break;
         case "2 TONE":
-        this.tones = JSON.parse(this.product.types)[0].parameters[1].values[1];
+          this.tones[value] = this.product.parametersBoxes[1].values[1];
           break;
         case "3 TONE":
-        this.tones = JSON.parse(this.product.types)[0].parameters[1].values[2];
+          this.tones[value] = this.product.parametersBoxes[1].values[2];
           break;
       }
-      if (eye === 'right') {
-        this.product.parametersRight[1].selected = null;
-      } else {
-        this.product.parametersLeft[1].selected = null;
+      this.product.parametersBoxes[0].selected = null;
       }
     }
-  }
 
   setValueEye(eye) {
     if (eye === "right") {
       this.product.eyeRight = !this.product.eyeRight;
     } else {
       this.product.eyeLeft = !this.product.eyeLeft;
-    }
-  }
-
-  setEyeSelected() {
-    this.productsSelected = [];
-
-    if (this.product.eyeRight) {
-      this.productsSelected.push({eye: 'Right'});
-    }
-    if (this.product.eyeLeft) {
-      this.productsSelected.push({eye: 'Left'});
     }
   }
 
@@ -252,46 +251,46 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   buildProductsSelected() {
-    this.setEyeSelected();
+    let productsSelected = [];
     let product = this.productCopy;
-    let productsSelected = this.productsSelected;
+    let boxes = this.boxesCopy;
+    let boxesProduct = [];
 
-    _.each(productsSelected, function(productSelected, index) {
+    let productSelected = {
+      id      : product.idProduct,
+      quantity: 0,
+      price   : product.priceSale,
+      detail  : {},
+      patient : product.patient,
+    };
 
-      productSelected.id = product.idProduct;
-      productSelected.patient = product.patient;
-      productSelected.price = product.priceSale;
+    //parameters generals
+    _.each(product.parameters, function(parameter, index) {
+      product.parameters[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+    });
+    let parameters = product.parameters;
 
-      if (productSelected.eye === "Right") {
-        productSelected.quantity = product.quantityRight;
-        productSelected.observations = product.observationsRight;
-        _.each(product.parametersRight, function(parameter, index) {
-          product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
-        });
-        productSelected.parameters = product.parametersRight;
-      }
-
-      if (productSelected.eye === "Left") {
-        productSelected.quantity = product.quantityLeft;
-        productSelected.observations = product.observationsLeft;
-        _.each(product.parametersLeft, function(parameter, index) {
-          product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
-        });
-        productSelected.parameters = product.parametersLeft;
-      }
-
-      productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
-      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye'])
+    //parameters boxes
+    _.each(boxes, function(box, index){
+      let boxProduct = { "id":index+1, "tone": box.parameters[0].selected , "color" :box.parameters[1].selected , "quantity": box.quantity };
+      boxesProduct.push(boxProduct); 
     });
 
+    var totalQuantity = _.sumBy(boxes, 'quantity');
+
+    productSelected.detail = { name: '', eye: '', parameters: parameters, boxes: boxesProduct };
+    productSelected.quantity = totalQuantity;
+
+    productsSelected.push(productSelected);
     return productsSelected;
   }
 
   addToCart(type) {
     this.productCopy = JSON.parse(JSON.stringify(this.product));
+    this.boxesCopy = JSON.parse(JSON.stringify(this.boxes));
     this.saveFiles();
-    const productsRequested = [];
-    const productsSelected = this.buildProductsSelected();
+    let productsRequested = [];
+    let productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
       const productRequest: ProductRequested = new ProductRequested();
       const productoSelect: Product = new Product();
@@ -301,7 +300,6 @@ export class ProductViewMagicComponent implements OnInit {
       productRequest.price = product.price;
       productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
       productRequest.patient = product.patient;
-      productRequest.observations = product.observations;
       productsRequested.push(productRequest);
     });
     this.basketRequestModal.idUser = this.client;
@@ -325,25 +323,18 @@ export class ProductViewMagicComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient){
+    var totalQuantity =_.sumBy(this.boxes, 'quantity');
+    if ( totalQuantity < 250 || !this.product.patient){
       return false;
     }
 
-    if (this.product.eyeRight) {
-      _.each(this.product.parametersRight, function (param){
+    _.each(this.boxes, function(product) {
+      _.each(product.parameters, function(param){
         if (param.selected === null) {
           isValid = false;
         }
       });
-    }
-
-    if (this.product.eyeLeft) {
-      _.each(this.product.parametersLeft, function (param){
-        if (param.selected === null) {
-          isValid = false;
-        }
       });
-    }
     return isValid;
   }
 

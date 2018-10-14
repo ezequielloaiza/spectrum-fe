@@ -8,6 +8,7 @@ import { ProductViewEuclidComponent } from './product-view-euclid/product-view-e
 import { ProductViewMagicComponent } from './product-view-magicLook/product-view-magic.component';
 import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.component';
 import { RoleGuard } from '../shared';
+import { ProductsListInternalComponent } from './products-lists-internal/products-lists-internal.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
     canActivateChild: [RoleGuard],
     children: [
         { path: '', component: ProductsListsComponent, data: { option: 'ProductsList' }  },
+        { path: ':idSupplier/internal', component: ProductsListInternalComponent, data: { option: 'ProductsListInternal' }},
         { path: ':id/product-view', component: ProductViewComponent, data: { option: 'ProductsView' }},
         { path: ':id/product-view-europa', component: ProductViewEuropaComponent, data: { option: 'ProductsViewEuropa' }},
         { path: ':id/product-view-euclid', component: ProductViewEuclidComponent, data: { option: 'ProductsViewEuclid' }},

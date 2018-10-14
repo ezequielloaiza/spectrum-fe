@@ -6,6 +6,7 @@ export enum RoleSeller {
   Warranty,
   Users,
   ProductsList,
+  ProductsListInternal,
   ProductsView,
   ProductsViewEuropa,
   ProductsViewEuclid,
