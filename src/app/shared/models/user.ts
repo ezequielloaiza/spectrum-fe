@@ -1,4 +1,5 @@
 import { Membership } from './membership';
+import { Country } from './country';
 
 export class User {
   public idUser: number;
@@ -11,7 +12,7 @@ export class User {
   public status: number;
   public email: string;
   public username: string;
-  public country: string;
+  public country: Country = new Country();
   public city: string;
   public state: string;
   public postalCode: string;

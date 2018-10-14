@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { GoogleService, UserService } from '../../shared/services';
+import { GoogleService, UserService, CountryService } from '../../shared/services';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, catchError, tap, merge } from 'rxjs/operators';
 import { UserStorageService } from '../../http/user-storage.service';
@@ -9,6 +9,7 @@ import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { environment } from '../../../../src/environments/environment';
+import * as _ from 'lodash';
 
 const URL = environment.apiUrl + 'user/uploaderAvatar';
 
@@ -28,7 +29,10 @@ export class ProfileComponent implements OnInit {
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   user: any;
+  locale: any;
   avatar: any;
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
   // Upload avatar
   queueLimit = 1;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
@@ -47,7 +51,8 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private userStorageService: UserStorageService,
     private notification: ToastrService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private countryService: CountryService) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
     this.initializeAvatar();
 
@@ -73,6 +78,8 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.initializeForm();
     this.initializeAvatar();
+    this.getCountries();
+    this.locale = this.userStorageService.getLanguage();
     console.log('user:', this.user);
   }
 
@@ -97,7 +104,7 @@ export class ProfileComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -115,13 +122,25 @@ export class ProfileComponent implements OnInit {
       email: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       address: [''],
       state: ['', [Validators.required]],
-      country: ['', [Validators.required]],
+      idCountry: ['', [Validators.required]],
       city: ['', [Validators.required]],
       postal: [''],
       phone: [''],
       oldPassword: ['', [Validators.required]],
       password: ['', [Validators.required]],
       confirmedPassword: ['', [Validators.required]],
+    });
+  }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
   }
 
@@ -133,7 +152,7 @@ export class ProfileComponent implements OnInit {
     this.form.get('phone').setValue(this.user.userResponse.phone==null?'':this.user.userResponse.phone);
     this.form.get('city').setValue({ description: this.user.userResponse.city });
     this.form.get('state').setValue(this.user.userResponse.state);
-    this.form.get('country').setValue(this.user.userResponse.country);
+    this.form.get('idCountry').setValue(this.user.userResponse.country==null?'':this.user.userResponse.country.idCountry);
     this.form.get('postal').setValue(this.user.userResponse.postalCode);
     this.form.get('address').setValue(this.user.userResponse.address);
   }
@@ -146,7 +165,7 @@ export class ProfileComponent implements OnInit {
     this.form.get('phone').setValue(this.user.userResponse.phone==null?'':this.user.userResponse.phone);
     this.form.get('city').setValue({ description: this.user.userResponse.city });
     this.form.get('state').setValue(this.user.userResponse.state);
-    this.form.get('country').setValue(this.user.userResponse.country);
+    this.form.get('idCountry').setValue(this.user.userResponse.country==null?'':this.user.userResponse.country.idCountry);
     this.form.get('postal').setValue(this.user.userResponse.postalCode);
     this.form.get('address').setValue(this.user.userResponse.address);
     this.onReset();
@@ -199,9 +218,12 @@ export class ProfileComponent implements OnInit {
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    const countries = this.listCountries;
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
@@ -252,7 +274,7 @@ export class ProfileComponent implements OnInit {
   get address() { return this.form.get('address'); }
   get city() { return this.form.get('city'); }
   get state() { return this.form.get('state'); }
-  get country() { return this.form.get('country'); }
+  get idCountry() { return this.form.get('idCountry'); }
   get postal() { return this.form.get('postal'); }
   get phone() { return this.form.get('phone'); }
 

@@ -291,7 +291,6 @@ export class ProductViewEuclidComponent implements OnInit {
       productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye'])
     });
-
     return productsSelected;
   }
 

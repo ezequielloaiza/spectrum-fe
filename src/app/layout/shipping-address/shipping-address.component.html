@@ -74,7 +74,7 @@
                 <td class="table-tr td-table"> {{ address.name }}</td>
                 <td class="table-tr"> {{ address.city }}</td>
                 <td class="table-tr"> {{ address.state }}</td>
-                <td class="table-tr"> {{ address.country }}</td>
+                <td class="table-tr"> {{ address.country? address.country.name : '' | translate}}</td>
                 <td>
                   <div class="custom-control custom-radio">
                     <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="address.isMain" class="custom-control-input" [checked]="address.isMain===true" disabled>

@@ -67,7 +67,7 @@ export class ModalSellerComponent implements OnInit {
       this.listSellers = this.listSellers.filter((item) => {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.country.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
