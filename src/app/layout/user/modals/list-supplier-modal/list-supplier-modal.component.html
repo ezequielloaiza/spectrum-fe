@@ -19,7 +19,7 @@
             <tr>
               <th class="table-tr header-column">
                 <div class="custom-control custom-checkbox">
-                  <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll" (click)="onSelectionAll(selectedAll)" [checked]="selectedAll"
+                  <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll" (click)="onSelectionAll($event)" [checked]="selectedAll"
                     class="custom-control-input">
                   <label class="custom-control-label select-all" for="checkboxAll"></label>
                 </div>
