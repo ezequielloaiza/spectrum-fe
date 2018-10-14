@@ -16,14 +16,14 @@ export class GoogleService {
 
   constructor(private http: HttpClient) { }
 
-  public searchCities$(input: string): Observable<any> {
-    return this.http.get(environment.apiUrl + 'google/searchCities/' + input).pipe(
+  public searchCities$(input: string, locale: string): Observable<any> {
+    return this.http.get(environment.apiUrl + 'google/searchCities/' + input + '/' + locale).pipe(
       map(response => response['predictions'])
     );
   }
 
-  public placeById$(placeId: string): Observable<any> {
-    return this.http.get(environment.apiUrl + 'google/placeById/' + placeId);
+  public placeById$(placeId: string, locale: string): Observable<any> {
+    return this.http.get(environment.apiUrl + 'google/placeById/' + placeId + '/' + locale);
   }
 
   public setPlace(_place) {

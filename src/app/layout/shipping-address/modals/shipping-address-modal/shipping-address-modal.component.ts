@@ -3,6 +3,7 @@ import { ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShippingAddressService } from '../../../../shared/services/shippingAddress/shipping-address.service';
 import { CompanyService } from '../../../../shared/services/company/company.service';
+import { CountryService } from '../../../../shared/services/country/country.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge } from 'rxjs/operators';
@@ -10,6 +11,8 @@ import { GoogleService } from '../../../../shared/services';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-shipping-address-modal',
@@ -26,7 +29,9 @@ export class ShippingAddressModalComponent implements OnInit {
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   public model: any;
-
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
+  locale: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -35,24 +40,29 @@ export class ShippingAddressModalComponent implements OnInit {
     private companyService: CompanyService,
     private notification: ToastrService,
     private googleService: GoogleService,
-    private translate: TranslateService ) {
+    private translate: TranslateService,
+    private countryService: CountryService,
+    private userStorageService: UserStorageService) {
    }
 
   initializeForm() {
     this.form = this.formBuilder.group({
       id        : [this.action === 'edit' ? this.address.idAddress : ''],
-      companyId : [this.action === 'edit' ? this.address.company.idCompany : '',[ Validators.required]],
+      companyId : [this.action === 'edit' ? this.address.company.idCompany : '', [ Validators.required]],
       name      : [this.action === 'edit' ? this.address.name : '', [ Validators.required]],
       state     : [this.action === 'edit' ? this.address.state : '', [ Validators.required]],
-      country   : [this.action === 'edit' ? this.address.country : '', [ Validators.required]],
+      countryId   : [this.action === 'edit' && this.address.country ? this.address.country.idCountry : '', [ Validators.required]],
       city      : [this.action === 'edit' ? {description: this.address.city} : '', [ Validators.required]],
       postal    : [this.action === 'edit' ? this.address.postalCode : '']
     });
+    this.selectedCountry = this.action === 'edit' && this.address.country ? this.address.country.idCountry : '';
   }
 
   ngOnInit() {
     this.initializeForm();
     this.getCompanies();
+    this.getCountries();
+    this.locale = this.userStorageService.getLanguage();
   }
 
   formatter = (x: {description: string}) => x.description;
@@ -63,7 +73,7 @@ export class ShippingAddressModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -128,24 +138,39 @@ export class ShippingAddressModalComponent implements OnInit {
 
   }
 
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
   close() {
     this.modalReference.close();
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    const countries = this.listCountries;
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      this.form.get('countryId').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({description: this.googleService.getCity()});
+      this.form.get('city').setValue({ description: this.googleService.getCity() });
     });
   }
 
   get companyId() { return this.form.get('companyId'); }
   get state() { return this.form.get('state'); }
   get city() { return this.form.get('city'); }
-  get country() { return this.form.get('country'); }
+  get countryId() { return this.form.get('countryId'); }
   get name() { return this.form.get('name'); }
 
 }
