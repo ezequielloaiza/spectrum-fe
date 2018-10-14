@@ -140,7 +140,7 @@
       </div>
       <div class="row specifications" *ngFor="let box of boxes; let index = index">
         <div class="col-md-1 title">
-          <label class="form-check-label">{{ 'Box' }}:</label>
+          <label class="form-check-label">{{ 'Box' | translate }} {{ ' ' + (index+1) }}:</label>
         </div>
         <!--QANTITY-->
         <div class="col-md-2">
@@ -148,7 +148,7 @@
             <label class="form-check-label">{{ 'Quantity' }}:</label>
           </div>
           <div class="row">
-            <input class="form-control" type="number" step="50" min="50" [(ngModel)]="box.quantity" oninput="validity.valid||(value='');">
+            <input class="form-control" [ngClass]="{'error-quantity':  box.quantity && box.quantity%50 !== 0 }" type="number" step="50" min="50" [(ngModel)]="box.quantity" (change)="box.quantity%50 !== 0 ? box.quantity = '' : '';">
           </div>
         </div>
         <!--PARAMS-->

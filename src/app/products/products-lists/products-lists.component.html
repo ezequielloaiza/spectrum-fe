@@ -13,27 +13,7 @@
 		</ol>
 	</div>
 </div>
-<div class="middleBar" [hidden]="showSuppliers">
-  <div class="row display-table">
-    <div class="col-sm-3 vertical-align text-left hidden-xs">
-    </div>
-    <!-- end col -->
-    <div class="col-sm-9 vertical-align text-center">
-      <form>
-        <div class="row grid-space-1">
-          <div class="col col-xl-12 col-lg-12 search">
-            <input class="form-control" (keyup)="getItems($event)" placeholder=" {{ 'Enter product name...' | translate }} ">
-            <i class="fa fa-search"></i>
-          </div>
-        </div>
-        <!-- end row -->
-      </form>
-    </div>
-    <!-- end col -->
-  </div>
-  <!-- end  row -->
-</div>
-
+<br><br><br><br>
 <div class="padding-list">
   <div class="row">
     <!--FILTERS
@@ -64,38 +44,11 @@
     </div>-->
     <!--THUMBNAILS PRODUCTS-->
     <div class="col-sm-1 col-md-1 col-lg-1"></div>
-    <div class="col-sm-10 col-md-10 col-lg-10" [hidden]="!showSuppliers">
+    <div class="col-sm-10 col-md-10 col-lg-10">
       <div class="row">
         <div class="col-md-4 box-shadow" *ngFor="let supplier of listSupplier">
           <div class="mb-4 box-shadow">
             <img class="card-img-top" src="{{ supplier.image }}" (click)="onSelectionSupplier(supplier.idSupplier)">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-10 col-md-10 col-lg-10" [hidden]="showSuppliers">
-      <div class="row">
-        <div class="col-md-4 box-shadow" *ngFor="let product of products">
-          <div class="mb-4 box-shadow">
-            <img class="card-img-top" src="{{ product.mainImg }}" (click)="redirectView(product)">
-            <h3 class="product-name" (click)="redirectView(product)">
-              <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
-              {{ product.name }}
-            </h3>
-            <div class="card-body">
-              <p class="card-text"> {{ product.descriptionShort }}</p>
-              <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
-                <!--<del class="price-base">${{ product.priceBase }}</del>&nbsp;-->
-                <span class="price-new text-warning">{{ product.priceSale | currency : "USD $" }}</span>
-              </div>
-              <div class="product-btns">
-                <div class="btn-group">
-                  <button (click)="redirectView(product)" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-primary">View</button>
-                  <button (click)="open(product,'edit')" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

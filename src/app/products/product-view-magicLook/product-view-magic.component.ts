@@ -142,7 +142,9 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   removeBox(index) {
-    this.boxes.splice(index, 1);
+    if (this.boxes.length > 1) {
+      this.boxes.splice(index, 1);
+    }
   }
 
   changeSelect(parameter, value) {
