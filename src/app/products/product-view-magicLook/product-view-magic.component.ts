@@ -121,7 +121,6 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   getProductView() {
-    console.log(JSON.stringify(_.range(-15, -0.25, 0.25)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.type = JSON.parse(this.product.types)[0].name;

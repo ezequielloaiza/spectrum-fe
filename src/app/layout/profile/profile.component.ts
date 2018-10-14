@@ -80,7 +80,6 @@ export class ProfileComponent implements OnInit {
     this.initializeAvatar();
     this.getCountries();
     this.locale = this.userStorageService.getLanguage();
-    console.log('user:', this.user);
   }
 
   initializeAvatar() {

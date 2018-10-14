@@ -22,10 +22,10 @@ export class BreadcrumbComponent implements OnInit {
     this.getBreadcrumb();
     const state: RouterState = this.router.routerState;
     if (state.snapshot.url === '/user') {
-      this.breadcrumbList.push(new Breadcrumb('List of Clients', 'fa fa-users', './'));
+      this.breadcrumbList.push(new Breadcrumb('List of Customers', 'fa fa-users', './'));
     } else if(state.snapshot.url.substring(0,5) ==='/user') {
-      this.breadcrumbList.push(new Breadcrumb('List of Clients', 'fa fa-users', './'));
-      this.breadcrumbService.push(new Breadcrumb('Client', 'fa fa-user', state.snapshot.url));
+      this.breadcrumbList.push(new Breadcrumb('List of Customers', 'fa fa-users', './'));
+      this.breadcrumbService.push(new Breadcrumb('Customer', 'fa fa-user', state.snapshot.url));
     }
     else if(state.snapshot.url === '/seller'){
       this.breadcrumbList.push(new Breadcrumb('List of Sellers', 'fa fa-users', './'));
@@ -43,7 +43,7 @@ export class BreadcrumbComponent implements OnInit {
 
   getBreadcrumb(): void {
     this.breadcrumbService.get().subscribe( res => {
-      if (res.name === 'List of Clients' || res.name ==='List of Sellers' || res.name ==='order-list-client') {
+      if (res.name === 'List of Customers' || res.name ==='List of Sellers' || res.name ==='order-list-client') {
         this.breadcrumbList = new Array();
       }
       this.breadcrumbList.push(res);
