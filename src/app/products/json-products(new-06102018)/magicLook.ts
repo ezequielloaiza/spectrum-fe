@@ -10,7 +10,7 @@ this.products = [
     "description": "Saphir represents a family of monthly and 3-monthly soft contact lenses individually manufactured with Silicone Hydrogel, the most advanced material on the market, which maximises oxygen flow to the eye. Its unique combination of comfort, breathability and vision quality suits even the most demanding contact lens user.",
     "replacementPeriod": "Monthly",
     "warranty": "90",
-    "url": "http://spctinternational.com/wp-content/uploads/2017/11/SAPHIR.pdf",
+    "url": "http://spctinternational.com/contacts/",
     "stock": 10,
     "types": [
       {
