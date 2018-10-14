@@ -3,7 +3,7 @@ export class Country {
     public name: string;
     public code: string;
     public dialCode: string;
-    public nacionality: string;
+    public nationality: string;
 
     public constructor() { }
 
