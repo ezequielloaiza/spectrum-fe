@@ -50,7 +50,7 @@ export class ListSellerComponent implements OnInit {
       console.log('error', error);
     });
   }
-  
+
   sortSeller(key) {
 		if (this.orderByField !== key) {
 			this.typeSort = 0;
@@ -88,7 +88,7 @@ export class ListSellerComponent implements OnInit {
       this.listSellers = this.listSellers.filter((item) => {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.country.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }

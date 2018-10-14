@@ -3,13 +3,15 @@ import { FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
-import { UserService, GoogleService } from '../../../../shared/services';
+import { UserService, GoogleService, CountryService } from '../../../../shared/services';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap, catchError, merge } from 'rxjs/operators';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-seller-modal',
@@ -17,13 +19,16 @@ import { CodeHttp } from '../../../../shared/enum/code-http.enum';
   styleUrls: ['./seller-modal.component.scss']
 })
 export class SellerModalComponent implements OnInit {
-  
+
   form: FormGroup;
   businessTypes: Array<any> = new Array;
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
   public model: any;
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
+  locale: any;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -31,12 +36,16 @@ export class SellerModalComponent implements OnInit {
     private toastr: ToastrService,
     private googleService: GoogleService,
     private translate: TranslateService,
-    private notification: ToastrService) { }
+    private notification: ToastrService,
+    private countryService: CountryService,
+    private userStorageService: UserStorageService) { }
 
   ngOnInit() {
     this.initializeForm();
-
+    this.getCountries();
+    this.locale = this.userStorageService.getLanguage();
   }
+
   formatter = (x: { description: string }) => x.description;
 
   search = (text$: Observable<string>) =>
@@ -45,7 +54,7 @@ export class SellerModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.locale).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -63,10 +72,22 @@ export class SellerModalComponent implements OnInit {
       email    : ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       address  : [''],
       state    : ['', [Validators.required]],
-      country  : ['', [Validators.required]],
+      idCountry  : ['', [Validators.required]],
       city     : ['', [Validators.required]],
       postal   : ['', []],
       phone    : ['', []]
+    });
+  }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
   }
 
@@ -96,9 +117,12 @@ export class SellerModalComponent implements OnInit {
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    const countries = this.listCountries;
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
@@ -110,7 +134,7 @@ export class SellerModalComponent implements OnInit {
   get address() { return this.form.get('address'); }
   get city() { return this.form.get('city'); }
   get state() { return this.form.get('state'); }
-  get country() { return this.form.get('country'); }
+  get idCountry() { return this.form.get('idCountry'); }
   get postal() { return this.form.get('postal'); }
   get phone() { return this.form.get('phone'); }
 

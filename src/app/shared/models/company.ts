@@ -1,4 +1,5 @@
 import { BusinessType } from './business-type';
+import { Country } from './country';
 
 export class Company {
   public idCompany: number;
@@ -7,7 +8,7 @@ export class Company {
   public name: string;
   public address: string;
   public email: string;
-  public country: string;
+  public country: Country = new Country();
   public city: string;
   public state: string;
   public postalCode: string;
