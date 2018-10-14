@@ -45,18 +45,18 @@
             </div>
             <div class="col-lg-8 display-row padding-params">
               <div *ngFor="let parameter of detail.parameters" class="col-sm-6 title">
-                  <div >
-                    <dl class="align-item">
-                      <dt>{{ parameter.name | translate }}
+                <div>
+                  <dl class="align-item">
+                    <dt>{{ parameter.name | translate }}
+                    </dt>
+                    <hr>
+                    <dl class="items">
+                      <dt>
+                        {{ parameter.selected}}
                       </dt>
-                      <hr>
-                      <dl class="items">
-                        <dt>
-                          {{ parameter.selected}}
-                        </dt>
-                      </dl>
                     </dl>
-                  </div>
+                  </dl>
+                </div>
               </div>
             </div>
           </div>

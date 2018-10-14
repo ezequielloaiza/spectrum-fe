@@ -273,8 +273,8 @@ export class ProductViewMagicComponent implements OnInit {
 
     //parameters boxes
     _.each(boxes, function(box, index){
-      let boxProduct = { "id":index+1, "tone": box.parameters[0].selected , "color" :box.parameters[1].selected , "quantity": box.quantity };
-      boxesProduct.push(boxProduct); 
+      let boxProduct = { "id":index+1, "Tone": box.parameters[0].selected , "Color" :box.parameters[1].selected , "Quantity": box.quantity };
+      boxesProduct.push(boxProduct);
     });
 
     var totalQuantity = _.sumBy(boxes, 'quantity');

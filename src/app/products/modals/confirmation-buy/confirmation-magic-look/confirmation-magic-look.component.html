@@ -63,46 +63,46 @@
             </div>
           </div>
           <!--FIN PARAMETERS-->
-           <!--BOXES-->
-           <div class="col-lg-12 display-row padding-params">
-              <div class="col-sm-4">
-                <dl class="align-item">
-                  <dt>{{'Quantity'| translate}}
+          <!--BOXES-->
+          <div class="col-lg-12 display-row padding-params">
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Quantity'| translate}}
+                </dt>
+                <hr>
+                <dl *ngFor="let parameter of listBasket[0].detail[0].boxes">
+                  <dt class="items">
+                    {{ parameter.Quantity}}
                   </dt>
-                  <hr>
-                  <dl *ngFor="let parameter of listBasket[0].detail[0].boxes">
-                    <dt class="items">
-                      {{ parameter.Quantity}}
-                    </dt>
-                  </dl>
                 </dl>
-              </div>
-              <div class="col-sm-4">
-                <dl class="align-item">
-                  <dt>{{'Tone'| translate}}
-                  </dt>
-                  <hr>
-                  <dl *ngFor="let parameter of listBasket[0].detail[0].boxes">
-                    <dt class="items">
-                      {{ parameter.Tone}}
-                    </dt>
-                  </dl>
-                </dl>
-              </div>
-              <div class="col-sm-4">
-                <dl class="align-item">
-                  <dt>{{'Color'| translate}}
-                  </dt>
-                  <hr>
-                  <dl *ngFor="let parameter of listBasket[0].detail[0].boxes">
-                    <dt class="items">
-                      {{ parameter.Color}}
-                    </dt>
-                  </dl>
-                </dl>
-              </div>
+              </dl>
             </div>
-            <!--Fin Boxes-->
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Tone'| translate}}
+                </dt>
+                <hr>
+                <dl *ngFor="let parameter of listBasket[0].detail[0].boxes">
+                  <dt class="items">
+                    {{ parameter.Tone}}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Color'| translate}}
+                </dt>
+                <hr>
+                <dl *ngFor="let parameter of listBasket[0].detail[0].boxes">
+                  <dt class="items">
+                    {{ parameter.Color}}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
+          </div>
+          <!--Fin Boxes-->
         </div>
       </div>
     </div>
