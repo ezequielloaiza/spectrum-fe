@@ -11,7 +11,7 @@
       <div class="row">
         <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Client' | translate }}</label>
+            <label>{{ 'Customer' | translate }}</label>
             <div>
               <span *ngIf="action === 'statusChange'">{{ warranty.orderProductRequest.order.user.name }}</span>
               <select *ngIf="action != 'statusChange'" class="form-control" name="clientId" id="clientId" (change)="filterOrders(clientId)"
@@ -22,7 +22,7 @@
             </div>
           </fieldset>
           <div class="message-error" [hidden]="clientId.valid || clientId.pristine">
-            <span>{{ 'Client is required' | translate }}</span>
+            <span>{{ 'Customer is required' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">

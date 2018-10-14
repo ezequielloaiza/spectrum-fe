@@ -51,7 +51,6 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   loadInvoice() {
-    console.log('order', this.order);
     if (this.order !== undefined) {
       this.invoiceService.allInvoiceByOrder$(this.order.idOrder).subscribe(
         res => {
@@ -62,8 +61,6 @@ export class GenerateInvoiceComponent implements OnInit {
             } else {
               this.loadInvoiceFromOrder();
             }
-
-    console.log('invoice', this.invoice);
           } else {
             console.log(res.code);
           }
