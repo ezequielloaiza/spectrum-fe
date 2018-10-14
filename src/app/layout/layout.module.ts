@@ -67,6 +67,7 @@ import { MarkennovyComponent } from './basket/edit-order/markennovy/markennovy.c
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
+import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-magic-look/detail-magic-look.component';
 
 @NgModule({
     imports: [
@@ -142,7 +143,8 @@ import { NotificationBalanceOrderComponent } from './notification/notification-b
         MarkennovyComponent,
         GenerateInvoiceComponent,
         ManageInvoiceComponent,
-        NotificationBalanceOrderComponent
+        NotificationBalanceOrderComponent,
+        DetailMagicLookComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -167,7 +169,8 @@ import { NotificationBalanceOrderComponent } from './notification/notification-b
       EuclidComponent,
       MarkennovyComponent,
       GenerateInvoiceComponent,
-      NotificationBalanceOrderComponent
+      NotificationBalanceOrderComponent,
+      DetailMagicLookComponent
     ],
     providers: [
       BusinessTypeService,

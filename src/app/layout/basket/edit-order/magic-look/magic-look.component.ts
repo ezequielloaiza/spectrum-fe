@@ -57,6 +57,7 @@ export class MagicLookComponent implements OnInit {
   getProductView() {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
+    this.product.boxes = JSON.parse(this.product.types)[0].parametersBoxes; ///
     this.listBoxes = this.detail.boxes;
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
@@ -73,7 +74,7 @@ export class MagicLookComponent implements OnInit {
      });
     });
 
-    let parametAux = this.product.parameters; // Parametros del producto
+    let parametAux = this.product.boxes; // Parametros del producto boxes
     let auxList =[];
     let tonoValue = this.product.types;
     let index = 0;
@@ -83,13 +84,13 @@ export class MagicLookComponent implements OnInit {
           index = index + 1;
           switch ( itemTone.Tone) {
             case '1 TONE':
-              tonesAux = JSON.parse(tonoValue)[0].parameters[1].values[0];
+              tonesAux = JSON.parse(tonoValue)[0].parametersBoxes[1].values[0];
               break;
             case '2 TONE':
-              tonesAux = JSON.parse(tonoValue)[0].parameters[1].values[1];
+              tonesAux = JSON.parse(tonoValue)[0].parametersBoxes[1].values[1];
               break;
             case '3 TONE':
-              tonesAux = JSON.parse(tonoValue)[0].parameters[1].values[2];
+              tonesAux = JSON.parse(tonoValue)[0].parametersBoxes[1].values[2];
               break;
           }
           let tono = {'id': index,
@@ -114,13 +115,13 @@ export class MagicLookComponent implements OnInit {
     let tono = this.product.types;
       switch (value) {
         case '1 TONE':
-          tonesAux = JSON.parse(tono)[0].parameters[1].values[0];
+          tonesAux = JSON.parse(tono)[0].parametersBoxes[1].values[0];
           break;
         case '2 TONE':
-          tonesAux = JSON.parse(tono)[0].parameters[1].values[1];
+          tonesAux = JSON.parse(tono)[0].parametersBoxes[1].values[1];
           break;
         case '3 TONE':
-          tonesAux = JSON.parse(tono)[0].parameters[1].values[2];
+          tonesAux = JSON.parse(tono)[0].parametersBoxes[1].values[2];
           break;
     }
     const productSelected1 = _.find(this.parametList, { 'id': id});

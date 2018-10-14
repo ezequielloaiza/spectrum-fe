@@ -1,0 +1,64 @@
+@import "../../../../../../styles/spectrum/spectrum";
+
+.list-basket {
+  max-height: 630px;
+  padding: 2em;
+
+  .main-info {
+    text-align: center;
+  }
+
+  .img-product {
+    width: 40%;
+    border-radius: 12px;
+  }
+
+  .display-row {
+    display: flex;
+    justify-content: space-between;
+
+    .spec-params {
+      margin-left: -4em;
+    }
+
+  }
+
+  .padding-params {
+    padding: 0 2em;
+  }
+
+  .params {
+    padding-top: 1em;
+
+    .separator {
+      margin-bottom: 1em;
+    }
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .label-title {
+    padding-top: 1.5em;
+  }
+
+  .patient-info {
+    padding-bottom: 1.5em;
+  }
+
+  .align-item{
+    text-align: center;
+  }
+
+  .items{
+   font-weight:0px;
+    color:#868e96;
+
+  }
+
+  .param{
+    color: #f8ac59;
+  }
+
+}
