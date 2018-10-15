@@ -127,7 +127,8 @@
                       <div class="row">
                         <div class="col-sm-2">
                           <dl class="align-item">
-                            <dt>{{'Quantity'| translate}} </dt>
+                            <dt [hidden]="list.productRequested.product.supplier.idSupplier===5">{{'Quantity'| translate}} </dt>
+                            <dt *ngIf="list.productRequested.product.supplier.idSupplier===5">{{'Total Quantity'| translate}} </dt>
                             <dt>
                               <span class="font-text">{{list.productRequested.quantity}}</span>
                             </dt>
@@ -169,7 +170,7 @@
           <app-supplier-euclid [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
           <!--Fin Euclid-->
           <!--Magic Look-->
-          <app-supplier-magic-look [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
+          <app-supplier-magic-look [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
            <!--Blue Light-->
           <app-supplier-blue-light [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>

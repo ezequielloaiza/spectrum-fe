@@ -6,7 +6,7 @@
           <div class="d-flex flex-lg-wrap">
             <div class="col-sm-3" *ngFor="let param of specification.parameters">
               <dl class="align-item">
-                <dt>{{param.name}}</dt>
+                <dt>{{param.name  | translate }}</dt>
                 <dt>
                   <span class="font-text"> {{param.selected}}</span>
                   <hr>

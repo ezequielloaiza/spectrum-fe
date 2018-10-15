@@ -6,7 +6,7 @@
           <div class="d-flex flex-lg-wrap">
             <div class="col-sm-3" *ngFor="let param of specification.parameters">
               <dl class="align-item">
-                <dt>{{param.name}}</dt>
+                <dt>{{param.name  | translate }}</dt>
                 <dt>
                   <span class="font-text"> {{param.selected}}</span>
                   <hr>
@@ -25,7 +25,7 @@
           <div class="row justify-content-md-center div-parametros">
             <div class="col-sm-4" *ngFor="let param of specification.set">
               <dl class="align-item" *ngIf="param.name!=='Pupillary diameter'">
-                <dt>{{param.name}}</dt>
+                <dt>{{param.name  | translate }}</dt>
                 <dt>
                   <span class="font-text"> {{param.selected}}</span>
                   <hr>
@@ -36,7 +36,7 @@
           <div class="row">
             <div class="col-sm-6" *ngFor="let param of specification.set">
               <dl class="align-item pupillary-diameter" *ngIf="param.name==='Pupillary diameter'">
-                <dt class="text-warning">{{param.name}}</dt>
+                <dt class="text-warning">{{param.name  | translate }}</dt>
                 <dt>
                   <span class="font-text"> {{param.selected}}</span>
                 </dt>

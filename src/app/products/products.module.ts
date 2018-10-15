@@ -21,6 +21,7 @@ import { ProductViewMagicComponent } from './product-view-magicLook/product-view
 import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceComponent } from './modals/notification-balance/notification-balance.component';
+import { ConfirmationMagicLookComponent } from './modals/confirmation-buy/confirmation-magic-look/confirmation-magic-look.component';
 
 @NgModule({
   imports: [
@@ -47,9 +48,14 @@ import { NotificationBalanceComponent } from './modals/notification-balance/noti
     ProductViewBlueComponent,
     ConfirmationBuyComponent,
     EditProductComponent,
-    NotificationBalanceComponent
+    NotificationBalanceComponent,
+    ConfirmationMagicLookComponent
   ],
-  entryComponents: [ConfirmationBuyComponent, EditProductComponent, NotificationBalanceComponent],
+  entryComponents: [ConfirmationBuyComponent,
+                    EditProductComponent,
+                    NotificationBalanceComponent,
+                    ConfirmationMagicLookComponent
+                   ],
   providers: [RoleGuard, AuthorizationService]
 })
 export class ProductsModule {}
