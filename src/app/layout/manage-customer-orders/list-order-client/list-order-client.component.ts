@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { GenerateInvoiceComponent } from '../generate-invoice/generate-invoice.component';
+import { InvoiceClientService } from '../../../shared/services/invoiceClient/invoice-client.service';
 
 @Component({
   selector: 'app-list-order-client',
@@ -42,6 +43,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     private notification: ToastrService,
     private translate: TranslateService,
     private alertify: AlertifyService,
+    private invoiceClientService: InvoiceClientService,
     private route: ActivatedRoute,
     private router: Router) {
     this.user = JSON.parse(userService.getCurrentUser());
@@ -296,13 +298,15 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   open(order) {
-    const modalRef = this.modalService.open(ModalsStatusComponent);
+debugger
+    this.invoiceClientService.generateInvoiceClient$(order.idOrder).subscribe();
+    /*const modalRef = this.modalService.open(ModalsStatusComponent);
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
           this.getListOrders();
     } , (reason) => {
-    });
-    }
+    });*/
+  }
 
   generateInvoice(order) {
     const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });

@@ -63,6 +63,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
+import { InvoiceClientService } from '../shared/services/invoiceClient/invoice-client.service';
 
 @NgModule({
     imports: [
@@ -163,7 +164,8 @@ import { NotificationBalanceOrderComponent } from './notification/notification-b
       UserResolver,
       SellerResolver,
       RoleGuard,
-      AuthorizationService
+      AuthorizationService,
+      InvoiceClientService
     ]
 })
 export class LayoutModule {}
