@@ -22,6 +22,7 @@ import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ConfirmationMagicLookComponent } from '../modals/confirmation-buy/confirmation-magic-look/confirmation-magic-look.component';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -215,7 +216,7 @@ export class ProductViewMagicComponent implements OnInit {
   findShippingAddress(idCliente) {
     this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country;
+        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
       } else if (res.code === CodeHttp.notContent) {
         this.product.shippingAddress = '';
         this.translate.get('You must enter a main address in the shipping address module',
@@ -271,7 +272,7 @@ export class ProductViewMagicComponent implements OnInit {
 
     //parameters boxes
     _.each(boxes, function(box, index){
-      let boxProduct = { "id":index+1, "tone": box.parameters[0].selected , "color" :box.parameters[1].selected , "quantity": box.quantity };
+      let boxProduct = { "id":index+1, "Tone": box.parameters[0].selected , "Color" :box.parameters[1].selected , "Quantity": box.quantity };
       boxesProduct.push(boxProduct);
     });
 
@@ -308,7 +309,7 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationMagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;

@@ -29,7 +29,7 @@
             <div class="col-sm-2" *ngFor="let param of specification.parameters">
               <div *ngIf="param.name==='Diopters' || param.name==='Meridian'" class="container-supplier">
                 <dl class="align-item">
-                  <dt>{{param.name}}</dt>
+                  <dt>{{param.name  | translate }}</dt>
                   <dt>
                     <span class="font-text"> {{param.selected}}</span>
                     <hr>
@@ -51,7 +51,7 @@
             <div class="col-sm-4" *ngFor="let param of specification.pasos">
               <div class="container-supplier">
                 <dl>
-                  <dt>{{param.name}}</dt>
+                  <dt>{{param.name  | translate }}</dt>
                   <br>
                   <dl *ngFor="let item of  param.values">
                     <dt>
@@ -83,7 +83,7 @@
             <div class="col-sm-2" *ngFor="let param of specification.header">
               <div class="container-supplier">
                 <dl class="align-item">
-                  <dt>{{param.name}}</dt>
+                  <dt>{{param.name  | translate }}</dt>
                   <dt *ngIf="param.name!=='hidrapeg'&& param.name!=='Inserts'">
                     <span class="font-text"> {{param.selected}}</span>
                     <hr>

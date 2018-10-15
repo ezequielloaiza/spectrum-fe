@@ -308,32 +308,32 @@
   .list-orden {
     padding-left: 15px;
     padding-right: 15px;
-  
+
     > div {
       &:first-child {
         font-size: .8em;
         padding: .4em 0;
-  
+
         div:nth-child(2) {
           > div {
             text-align: left;
           }
         }
-  
+
         div:nth-child(3) {
           font-size: .8em;
           text-align: left;
         }
       }
-  
+
       &.product {
         padding-top: 1em;
-  
-  
+
+
         div:nth-child(3) > div {
           text-align: left;
         }
-  
+
         div:nth-child(4) > div {
           color: #ffc107; font-weight: 600;
           padding-left: 0px;
@@ -344,7 +344,7 @@
     .link {
       color: $bg-blue;
       cursor: pointer;
-  
+
       &:hover {
         text-decoration: underline;
       }
@@ -377,7 +377,7 @@
       border-bottom-color: rgba(0, 0, 0, 0.2);
       content: '';
     }
-  
+
     &::after {
       position: absolute;
       top: -6px;
@@ -389,7 +389,7 @@
       content: '';
     }
   }
-  
+
   .dropdown-menu-invoice{
     left: 10% !important;
     top: 80% !important;
@@ -406,7 +406,7 @@
       border-bottom-color: rgba(0, 0, 0, 0.2);
       content: '';
     }
-  
+
     &::after {
       position: absolute;
       top: -6px;
@@ -418,37 +418,37 @@
       content: '';
     }
   }
-  
+
 }
 
 @media screen and (min-width: 992px) and (max-width: 1280px) {
   .list-orden {
-  
+
     > div {
       &:first-child {
         font-size: .8em;
         padding: .4em 0;
-  
+
         div:nth-child(2) {
           > div {
             text-align: left;
           }
         }
-  
+
         div:nth-child(3) {
           font-size: .8em;
           text-align: left;
         }
       }
-  
+
       &.product {
         padding-top: 1em;
-  
-  
+
+
         div:nth-child(3) > div {
           text-align: left;
         }
-  
+
         div:nth-child(4) > div {
           color: #ffc107; font-weight: 600;
         }
@@ -458,7 +458,7 @@
     .link {
       color: $bg-blue;
       cursor: pointer;
-  
+
       &:hover {
         text-decoration: underline;
       }
@@ -495,7 +495,7 @@
       border-bottom-color: rgba(0, 0, 0, 0.2);
       content: '';
     }
-  
+
     &::after {
       position: absolute;
       top: -6px;
@@ -507,7 +507,7 @@
       content: '';
     }
   }
-  
+
   .dropdown-menu-invoice{
     left: -43% !important;
     top: 85% !important;
@@ -524,7 +524,7 @@
       border-bottom-color: rgba(0, 0, 0, 0.2);
       content: '';
     }
-  
+
     &::after {
       position: absolute;
       top: -6px;

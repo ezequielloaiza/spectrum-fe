@@ -47,10 +47,10 @@
         <div class="col-md-4 box-shadow" *ngFor="let product of products">
           <div class="mb-4 box-shadow">
             <img class="card-img-top" src="{{ product.mainImg }}" (click)="redirectView(product)">
-            <h3 class="product-name" (click)="redirectView(product)">
+            <h4 class="product-name" (click)="redirectView(product)">
               <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
               {{ product.name }}
-            </h3>
+            </h4>
             <div class="card-body">
               <p class="card-text"> {{ product.descriptionShort }}</p>
               <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
