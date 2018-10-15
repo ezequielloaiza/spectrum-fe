@@ -1,12 +1,10 @@
 @import "../../../../../styles/spectrum/spectrum";
 
-.body{
-  overflow-y: auto;
-}
-
 .list-basket {
   max-height: 630px;
   padding: 2em;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   .main-info {
     text-align: center;
