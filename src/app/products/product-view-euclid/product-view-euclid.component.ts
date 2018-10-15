@@ -225,7 +225,7 @@ export class ProductViewEuclidComponent implements OnInit {
   findShippingAddress(idCliente) {
     this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country;
+        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
       } else if (res.code === CodeHttp.notContent) {
         this.product.shippingAddress = '';
         this.translate.get('You must enter a main address in the shipping address module',

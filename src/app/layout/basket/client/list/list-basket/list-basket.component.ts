@@ -157,13 +157,34 @@ export class ListBasketComponent implements OnInit {
   openParams(basket) {
     let  idSupplier = basket.productRequested.product.supplier.idSupplier;
     switch (idSupplier) {
-     case 1: // Markennovy
+      case 1: // Markennovy
+          const modalRefMarkennovy = this.modalService.open(DetailProductModalComponent,
+          { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefMarkennovy.componentInstance.basket = basket;
+          modalRefMarkennovy.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
           break;
      case 2: // Europa
+          const modalRefEuropa = this.modalService.open(DetailProductModalComponent,
+          { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefEuropa.componentInstance.basket = basket;
+          modalRefEuropa.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
        break;
      case 3: // Lenticon
        break;
      case 4: // Euclid
+          const modalRefEuclid = this.modalService.open(DetailProductModalComponent,
+          { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefEuclid.componentInstance.basket = basket;
+          modalRefEuclid.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
           break;
      case 5: // Magic Look
           const modalRefMagic = this.modalService.open( DetailMagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
@@ -174,6 +195,13 @@ export class ListBasketComponent implements OnInit {
           });
           break;
      case 6: // Blue Light
+        const modalRefBlue = this.modalService.open(DetailProductModalComponent,
+          { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefBlue.componentInstance.basket = basket;
+          modalRefBlue.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
           break;
      }
   }
