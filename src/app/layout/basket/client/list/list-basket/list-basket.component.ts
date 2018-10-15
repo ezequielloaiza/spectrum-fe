@@ -12,6 +12,11 @@ import { Buy } from '../../../../../shared/models/buy';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { DetailProductModalComponent } from '../../../modals/detail-product/detail-product';
 import { SummaryProductsComponent } from '../../../modals/summary-products/summary-products.component';
+import { MagicLookComponent } from '../../../edit-order/magic-look/magic-look.component';
+import { BlueLightComponent } from '../../../edit-order/blue-light/blue-light.component';
+import { EuclidComponent } from '../../../edit-order/euclid/euclid.component';
+import { MarkennovyComponent } from '../../../edit-order/markennovy/markennovy.component';
+import { DetailMagicLookComponent } from '../../../modals/detail-product/detail-magic-look/detail-magic-look.component';
 
 
 @Component({
@@ -150,12 +155,69 @@ export class ListBasketComponent implements OnInit {
   }
 
   openParams(basket) {
-    const modalRef = this.modalService.open( DetailProductModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
-    modalRef.componentInstance.basket = basket;
-    modalRef.result.then((result) => {
-      this.ngOnInit();
-    } , (reason) => {
-    });
+    let  idSupplier = basket.productRequested.product.supplier.idSupplier;
+    switch (idSupplier) {
+     case 1: // Markennovy
+          break;
+     case 2: // Europa
+       break;
+     case 3: // Lenticon
+       break;
+     case 4: // Euclid
+          break;
+     case 5: // Magic Look
+          const modalRefMagic = this.modalService.open( DetailMagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefMagic.componentInstance.basket = basket;
+          modalRefMagic.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
+     case 6: // Blue Light
+          break;
+     }
+  }
+
+  openEdit(basket) {
+   let  idSupplier = basket.productRequested.product.supplier.idSupplier;
+   switch (idSupplier) {
+    case 1: // Markennovy
+        const modalRefMarkennovy = this.modalService.open( MarkennovyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefMarkennovy.componentInstance.basket = basket;
+        modalRefMarkennovy.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
+    case 2: // Europa
+      break;
+    case 3: // Lenticon
+      break;
+    case 4: // Euclid
+        const modalRefEuclid = this.modalService.open( EuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefEuclid.componentInstance.basket = basket;
+        modalRefEuclid.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
+    case 5: // Magic Look
+        const modalRefMagic = this.modalService.open( MagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefMagic.componentInstance.basket = basket;
+        modalRefMagic.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
+    case 6: // Blue Light
+        const modalRefBlue = this.modalService.open( BlueLightComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefBlue.componentInstance.basket = basket;
+        modalRefBlue.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
+    }
   }
 
   openSumary() {

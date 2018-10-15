@@ -35,7 +35,7 @@
                 <dl>
                   <dt>{{ 'Patient' | translate }}:</dt>
                 </dl>
-                <dl>
+                <dl [hidden]="detail.eye===''">
                   <dt>{{ 'Eye' | translate }}:</dt>
                 </dl>
                 <dl>
@@ -43,7 +43,7 @@
                 </dl>
                 <div *ngFor="let parameter of detail.parameters">
                   <dl>
-                    <dt>{{ parameter.name }}:</dt>
+                    <dt>{{ parameter.name | translate }}:</dt>
                   </dl>
                 </div>
               </div>
@@ -54,7 +54,7 @@
                     <dt>{{ productRequested.patient }}</dt>
                   </dl>
                 </div>
-                <div class="selected">
+                <div class="selected" [hidden]="detail.eye===''">
                   <dl class="param">
                     <dt *ngIf="detail.eye==='Left'">{{ 'Left' | translate }}</dt>
                     <dt *ngIf="detail.eye==='Right'">{{ 'Right' | translate }}</dt>
@@ -66,8 +66,12 @@
                   </dl>
                 </div>
                 <div class="selected" *ngFor="let parameter of detail.parameters">
-                  <dl>
+                  <dl *ngIf="parameter.selected !==true && parameter.selected !==false">
                     <dt>{{ parameter.selected }}</dt>
+                  </dl>
+                  <dl *ngIf="parameter.selected ===true || parameter.selected ===false">
+                    <dt *ngIf="parameter.selected === true">{{ 'Yes' | translate }}</dt>
+                    <dt *ngIf="parameter.selected === false">{{ 'No' | translate }}</dt>
                   </dl>
                 </div>
               </div>
