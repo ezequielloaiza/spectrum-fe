@@ -4,7 +4,7 @@ import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
-import { ComponentFactoryResolver } from '@angular/core/src/render3';
+
 @Component({
   selector: 'app-list-supplier-modal',
   templateUrl: './list-supplier-modal.component.html',
