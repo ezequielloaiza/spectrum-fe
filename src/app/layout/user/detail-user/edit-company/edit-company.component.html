@@ -90,8 +90,7 @@
               <label>{{ 'State' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.state }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state"
-                  required>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state">
               </div>
             </fieldset>
             <div class="message-error" [hidden]="state.valid || state.pristine">

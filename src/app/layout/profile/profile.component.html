@@ -102,8 +102,7 @@
                   <fieldset class="form-group">
                     <label>{{ 'State' | translate }}</label>
                     <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.state }}</h6>
-                    <input [hidden]="!canEditPersonal" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state"
-                      required>
+                    <input [hidden]="!canEditPersonal" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state">
                   </fieldset>
                   <div class="message-error" [hidden]="state.valid || state.pristine">
                     <span>{{ 'State is required' | translate }}</span>
@@ -157,11 +156,11 @@
                   <i class="fa fa-times"></i>
                 </button>
                 &nbsp;&nbsp;
-                <button [hidden]="user.role.idRole!=3" class="btn btn-main" (click)="savePersonal()" [disabled]="!canEditPersonal || !name.valid || !email.valid || !city.valid || !state.valid || !idCountry.valid || phone.value =='' ||  phone.value.length < 8 && !!phone.value.length">
+                <button [hidden]="user.role.idRole!=3" class="btn btn-main" (click)="savePersonal()" [disabled]="!canEditPersonal || !name.valid || !email.valid || !city.valid || !idCountry.valid || phone.value =='' ||  phone.value.length < 8 && !!phone.value.length">
                   {{ 'Save' | translate }}&nbsp;
                   <i class="fa fa-save"></i>
                 </button>
-                <button [hidden]="user.role.idRole==3" class="btn btn-main" (click)="savePersonal()" [disabled]="!canEditPersonal || !name.valid || !email.valid || !city.valid || !state.valid || !idCountry.valid || phone.value.length < 8 && !!phone.value.length">
+                <button [hidden]="user.role.idRole==3" class="btn btn-main" (click)="savePersonal()" [disabled]="!canEditPersonal || !name.valid || !email.valid || !city.valid || !idCountry.valid || phone.value.length < 8 && !!phone.value.length">
                   {{ 'Save' | translate }}&nbsp;
                   <i class="fa fa-save"></i>
                 </button>

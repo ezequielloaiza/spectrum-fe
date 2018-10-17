@@ -65,7 +65,6 @@ export class UserModalComponent implements OnInit {
     this.getBussinesAll();
     this.getMembershipAll();
     this.getCountriesAll();
-    this.locale = this.userStorageService.getLanguage();
   }
 
   formatter = (x: { description: string }) => x.description;
@@ -76,7 +75,7 @@ export class UserModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term, this.locale).pipe(
+        this.googleService.searchCities$(term, this.userStorageService.getLanguage()).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -101,11 +100,11 @@ export class UserModalComponent implements OnInit {
       companyEmail: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       creditLimit: ['', [Validators.required]],
       idBusinessType: ['', [Validators.required]],
-      state: ['', [Validators.required]],
+      state: [''],
       idCountry: ['', [Validators.required]],
       city: ['', [Validators.required]],
       postal: ['', []],
-      companyState: ['', [Validators.required]],
+      companyState: [''],
       idCompanyCountry: ['', [Validators.required]],
       companyCity: ['', [Validators.required]],
       companyPostal: ['', []],
@@ -174,7 +173,8 @@ export class UserModalComponent implements OnInit {
     this.locale = this.userStorageService.getLanguage();
     this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      const country = this.translate.instant(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': country } );
       this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
@@ -188,7 +188,8 @@ export class UserModalComponent implements OnInit {
     this.locale = this.userStorageService.getLanguage();
     this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.selectedCountryCompany = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      const country = this.translate.instant(this.googleService.getCountry());
+      this.selectedCountryCompany = _.filter(countries, { 'name': country } );
       this.form.get('idCompanyCountry').setValue(this.selectedCountryCompany[0].idCountry);
       this.form.get('companyState').setValue(this.googleService.getState());
       this.form.get('companyPostal').setValue(this.googleService.getPostalCode());
