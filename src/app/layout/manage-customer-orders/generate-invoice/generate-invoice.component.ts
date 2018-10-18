@@ -66,7 +66,6 @@ export class GenerateInvoiceComponent implements OnInit {
               this.invoice = invoices[0];
             } else {
               this.loadInvoiceFromOrder();
-              console.log('inv',this.invoice);
             }
           } else {
             console.log(res.code);
