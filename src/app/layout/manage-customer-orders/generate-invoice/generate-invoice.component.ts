@@ -24,6 +24,7 @@ export class GenerateInvoiceComponent implements OnInit {
   today: Date = new Date();
   invoice: InvoiceSupplier = new InvoiceSupplier();
   pilot: any;
+  titleModal: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -40,6 +41,11 @@ export class GenerateInvoiceComponent implements OnInit {
     this.initializeForm();
     this.user = JSON.parse(this. userStorageService.getCurrentUser()).userResponse;
     this.loadInvoice();
+    this.translate
+            .get("Provider's Invoice", { value: "Provider's Invoice" })
+            .subscribe((res1: string) => {
+              this.titleModal = res1;
+            });
   }
 
   initializeForm() {
@@ -60,6 +66,7 @@ export class GenerateInvoiceComponent implements OnInit {
               this.invoice = invoices[0];
             } else {
               this.loadInvoiceFromOrder();
+              console.log('inv',this.invoice);
             }
           } else {
             console.log(res.code);
