@@ -35,7 +35,7 @@
               <dl class="align-item">
                 <dt>{{'Total Quantity'| translate}}
                 </dt>
-                <hr>
+                <hr class="separators">
                 <dl>
                   <dt class="items">
                     {{ productRequested.quantity}}
@@ -49,7 +49,7 @@
                   <dl class="align-item">
                     <dt>{{ parameter.name | translate }}
                     </dt>
-                    <hr>
+                    <hr class="separators">
                     <dl class="items">
                       <dt>
                         {{ parameter.selected}}
@@ -67,7 +67,7 @@
               <dl class="align-item">
                 <dt>{{'Quantity'| translate}}
                 </dt>
-                <hr>
+                <hr class="separators">
                 <dl *ngFor="let parameter of detail.boxes">
                   <dt class="items">
                     {{ parameter.Quantity}}
@@ -79,7 +79,7 @@
               <dl class="align-item">
                 <dt>{{'Tone'| translate}}
                 </dt>
-                <hr>
+                <hr class="separators">
                 <dl *ngFor="let parameter of detail.boxes">
                   <dt class="items">
                     {{ parameter.Tone}}
@@ -91,7 +91,7 @@
               <dl class="align-item">
                 <dt>{{'Color'| translate}}
                 </dt>
-                <hr>
+                <hr class="separators">
                 <dl *ngFor="let parameter of detail.boxes">
                   <dt class="items">
                     {{ parameter.Color}}

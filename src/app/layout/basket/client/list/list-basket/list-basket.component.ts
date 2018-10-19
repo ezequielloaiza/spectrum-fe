@@ -17,6 +17,7 @@ import { BlueLightComponent } from '../../../edit-order/blue-light/blue-light.co
 import { EuclidComponent } from '../../../edit-order/euclid/euclid.component';
 import { MarkennovyComponent } from '../../../edit-order/markennovy/markennovy.component';
 import { DetailMagicLookComponent } from '../../../modals/detail-product/detail-magic-look/detail-magic-look.component';
+import { DetailMarkennovyComponent } from '../../../modals/detail-product/detail-markennovy/detail-markennovy.component';
 
 
 @Component({
@@ -158,7 +159,7 @@ export class ListBasketComponent implements OnInit {
     let  idSupplier = basket.productRequested.product.supplier.idSupplier;
     switch (idSupplier) {
       case 1: // Markennovy
-          const modalRefMarkennovy = this.modalService.open(DetailProductModalComponent,
+          const modalRefMarkennovy = this.modalService.open(DetailMarkennovyComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
           modalRefMarkennovy.componentInstance.basket = basket;
           modalRefMarkennovy.result.then((result) => {
