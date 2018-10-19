@@ -185,15 +185,6 @@
   }
 }
 
-.comments {
-  padding-top: 20px;
-
-  .title {
-    flex: auto;
-    max-width: 14.75%;
-  }
-}
-
 img {
   max-width: 100%;
 }
@@ -260,39 +251,6 @@ img {
 
 .readonly-input {
   background-color: $bg-white;
-}
-
-.files {
-  padding-top: 20px;
-
-  >div:nth-child(1) {
-    padding-left: 0;
-    display: flex;
-
-    .title {
-      flex: auto;
-      max-width: 15.75%;
-    }
-  }
-
-  .message-error {
-    margin-top: 0;
-  }
-}
-
-
-.custom-file-input {
-  cursor: pointer;
-  $custom-file-text: (
-  placeholder: (
-    en: "Choose file...",
-    es: "Seleccionar archivo..."
-  ),
-  button-label: (
-    en: "Browse",
-    es: "Navegar"
-  )
-);
 }
 
 .custom-control-label::before {

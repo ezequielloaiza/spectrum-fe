@@ -103,7 +103,7 @@
                 <div class="col-sm-4 title">
                   <div class="row selection">
                     <input class="form-control col-sm-9" type="number" step=1 min="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
-                      [disabled]="!product.eyeRight">
+                      readonly>
                   </div>
                   <div *ngFor="let header of product.headerRight">
                     <div *ngIf="header.values && header.values.length > 0">
@@ -123,7 +123,7 @@
                 <div class="col-sm-4 title">
                   <div class="row selection">
                     <input class="form-control col-sm-9" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');"
-                      [disabled]="!product.eyeLeft">
+                      readonly>
                   </div>
                   <div *ngFor="let header of product.headerLeft">
                     <div *ngIf="header.values && header.values.length > 0">
@@ -268,7 +268,7 @@
                     <div *ngFor="let paso of PC.values">
                       <div class="row selection">
                         <div *ngFor="let value of paso.values" class="custom-control custom-checkbox">
-                          <input class="custom-control-input" type="checkbox" id="{{ 'right' + PC.name + paso.name + value.name }}" [(ngModel)]="value.selected" (click)="setChecked(value, paso)">
+                          <input class="custom-control-input" type="checkbox" id="{{ 'right' + PC.name + paso.name + value.name }}" [(ngModel)]="value.selected" (click)="setChecked(value, PC)">
                           <label class="custom-control-label" for="{{ 'right'  + PC.name + paso.name + value.name }}">{{ value.name }}</label>
                         </div>
                       </div>
@@ -282,7 +282,7 @@
                     <div *ngFor="let paso of PC.values">
                       <div class="row selection">
                         <div *ngFor="let value of paso.values" class="custom-control custom-checkbox">
-                          <input class="custom-control-input" type="checkbox" id="{{ 'left'  + PC.name + paso.name + value.name }}" [(ngModel)]="value.selected" (click)="setChecked(value, paso)">
+                          <input class="custom-control-input" type="checkbox" id="{{ 'left'  + PC.name + paso.name + value.name }}" [(ngModel)]="value.selected" (click)="setChecked(value, PC)">
                           <label class="custom-control-label" for="{{ 'left'  + PC.name + paso.name + value.name }}">{{ value.name }}</label>
                         </div>
                       </div>

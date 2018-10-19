@@ -124,7 +124,7 @@
 
                       <div *ngIf="parameter.type === 'input'" class="select-values col-sm-9">
                           <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                          [ngModel]="parameter.selected | number:'2.2-2'" (ngModelChange)="parameter.selected=$event" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                       </div>
                     </div>
                   </div>

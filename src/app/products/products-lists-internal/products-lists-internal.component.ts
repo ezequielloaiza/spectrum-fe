@@ -20,6 +20,8 @@ export class ProductsListInternalComponent implements OnInit {
   user: any;
   idSupplier: any;
   nameSupplier: String;
+  filterName: any;
+  filterMarkennovy: any;
 
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
@@ -34,6 +36,8 @@ export class ProductsListInternalComponent implements OnInit {
   ngOnInit() {
     this.idSupplier = +this.route.snapshot.paramMap.get('idSupplier');
     this.getProducts();
+    this.filterMarkennovy = 'All';
+    this.filterName = '';
   }
 
   getProducts() {
@@ -115,9 +119,8 @@ export class ProductsListInternalComponent implements OnInit {
     );
   }
 
-  getItems(ev: any) {
-    this.products = this.productsAux;
-    const val = ev.target.value;
+  getItems() {
+    const val = this.filterName;
 
     if (val && val.trim() !== '') {
       this.products = this.products.filter((item) => {
@@ -125,6 +128,32 @@ export class ProductsListInternalComponent implements OnInit {
       });
     }
   }
+
+  filter(type) {
+    this.products = this.productsAux;
+
+    if (type !== 'byName') {
+      this.filterMarkennovy = type;
+    }
+
+    if (this.filterMarkennovy === 'All') {
+      this.getItems();
+      return;
+    }
+
+    const val = this.filterName;
+
+    this.products = this.products.filter((item) => {
+      return item.replacementPeriod === this.filterMarkennovy;
+    });
+
+    if (val && val.trim() !== '') {
+      this.products = this.products.filter((item) => {
+        return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
+      });
+    }
+  }
+
 
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === 'filter2' && $event.nextState === false) {

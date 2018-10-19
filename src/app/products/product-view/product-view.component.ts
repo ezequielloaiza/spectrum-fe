@@ -96,7 +96,7 @@ export class ProductViewComponent implements OnInit {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
-    this.product.infoAditional = JSON.parse(this.product.infoAditional);
+    this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.priceSale = '';
     this.setClient();
     this.setPrice();
