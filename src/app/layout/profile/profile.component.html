@@ -111,7 +111,7 @@
                 <div class="col-xl-6">
                   <fieldset class="form-group">
                     <label>{{ 'Country' | translate }}</label>
-                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.country ? user.userResponse.country.name : '' | translate }}</h6>
+                    <h6 class="label-disabled" [hidden]="canEditPersonal">{{ user.userResponse.country ? (user.userResponse.country.name | translate) : ''  }}</h6>
                     <ng-select [hidden]="!canEditPersonal" [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
                       [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}" required>
                       <ng-template ng-label-tmp let-item="item">

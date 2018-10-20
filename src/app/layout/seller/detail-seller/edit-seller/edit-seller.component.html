@@ -74,7 +74,7 @@
             <fieldset class="form-group">
               <label>{{ 'Country' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ seller && seller.country ? seller.country.name : '' | translate}}</span>
+                <span [hidden]="canEdit">{{ seller && seller.country ? (seller.country.name | translate) : '' }}</span>
                 <ng-select [hidden]="!canEdit" [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
                   [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}" required>
                   <ng-template ng-label-tmp let-item="item">
