@@ -354,6 +354,10 @@ export class ProductViewEuclidComponent implements OnInit {
     return isValid;
   }
 
+  format(parameter) {
+    debugger
+  }
+
   maxFilesSize() {
     let maxFileSize = 0;
 

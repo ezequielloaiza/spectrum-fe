@@ -151,14 +151,15 @@ export class ProductViewMagicComponent implements OnInit {
     parameter.selected = value;
     if (parameter.name === "Tone") {
       switch (value) {
-        case "1 TONE":
+        /*case "1 TONE":
           this.tones[value] = this.product.parametersBoxes[1].values[0];
           break;
         case "2 TONE":
           this.tones[value] = this.product.parametersBoxes[1].values[1];
-          break;
+          break;*/
         case "3 TONE":
-          this.tones[value] = this.product.parametersBoxes[1].values[2];
+          //this.tones[value] = this.product.parametersBoxes[1].values[2];
+          this.tones[value] = this.product.parametersBoxes[1].values[0];
           break;
       }
       this.product.parametersBoxes[0].selected = null;
@@ -261,7 +262,7 @@ export class ProductViewMagicComponent implements OnInit {
       quantity: 0,
       price   : product.priceSale,
       detail  : {},
-      patient : product.patient,
+      patient : '',
     };
 
     //parameters generals
@@ -299,7 +300,7 @@ export class ProductViewMagicComponent implements OnInit {
       productRequest.quantity = product.quantity;
       productRequest.price = product.price;
       productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
-      productRequest.patient = product.patient;
+      productRequest.patient = '';
       productsRequested.push(productRequest);
     });
     this.basketRequestModal.idUser = this.client;
@@ -324,7 +325,7 @@ export class ProductViewMagicComponent implements OnInit {
   formIsValid() {
     var isValid = true;
     var totalQuantity =_.sumBy(this.boxes, 'quantity');
-    if ( totalQuantity < 250 || !this.product.patient){
+    if ( totalQuantity < 250 ){
       return false;
     }
 

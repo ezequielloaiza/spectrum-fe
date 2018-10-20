@@ -33,7 +33,7 @@
   padding: 10px 40px 10px 40px;
 
   .card {
-    background: #eee;
+    background: #fbfbfb;
     padding: 3em;
     line-height: 1.5em;
 
@@ -156,6 +156,10 @@
       width: 30px;
       cursor: pointer;
     }
+  }
+
+  .input-align {
+    padding-left: 0px;
   }
 }
 
