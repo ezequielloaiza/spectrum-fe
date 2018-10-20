@@ -48,7 +48,6 @@ export class SupplierModalComponent implements OnInit {
   ngOnInit() {
     this.initializeForm();
     this.getCountries();
-    this.locale = this.userStorageService.getLanguage();
   }
 
   getCountries() {
@@ -77,7 +76,7 @@ export class SupplierModalComponent implements OnInit {
       phone2      : [this.action === 'edit' ? this.supplier.phone2 : '', []],
       platform    : [this.action === 'edit' ? this.supplier.platform : '', [ ]],
       website     : [this.action === 'edit' ? this.supplier.website : '', [] ],
-      state       : [this.action === 'edit' ? this.supplier.state : '', [ Validators.required]],
+      state       : [this.action === 'edit' ? this.supplier.state : ''],
       idCountry   : [this.action === 'edit' && this.supplier.country ? this.supplier.country.idCountry : '', [ Validators.required]],
       city        : [this.action === 'edit' ? {description: this.supplier.city} : '', [ Validators.required]],
       postal      : [this.action === 'edit' ? this.supplier.postalCode : '']
@@ -146,7 +145,7 @@ export class SupplierModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term, this.locale).pipe(
+        this.googleService.searchCities$(term, this.userStorageService.getLanguage()).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -162,7 +161,8 @@ export class SupplierModalComponent implements OnInit {
     this.locale = this.userStorageService.getLanguage();
     this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      const country = this.translate.instant(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': country } );
       this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
