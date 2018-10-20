@@ -63,7 +63,7 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'State' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state" required>
+            <input class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state">
           </fieldset>
           <div class="message-error" [hidden]="state.valid || state.pristine">
             <span>{{ 'State is required' | translate }}</span>
