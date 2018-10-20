@@ -1,5 +1,5 @@
 
-@import "../../../../../styles/spectrum/spectrum";
+@import "../../../../../../styles/spectrum/spectrum";
 
 .list-basket {
   //max-height: 630px;
@@ -57,5 +57,21 @@
 
   .align-item{
     text-align: center;
+  }
+
+  .items{
+     color:#868e96;
+   }
+
+   .comments{
+    padding: 0 2.5em;
+  }
+
+  .separators {
+    border-top: 1.5px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .param{
+    color: #f8ac59;
   }
 }
