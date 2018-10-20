@@ -147,7 +147,7 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
         ManageInvoiceComponent,
         NotificationBalanceOrderComponent,
         DetailMagicLookComponent,
-        DetailMarkennovyComponent
+        DetailMarkennovyComponent,
         DetailBlueLightComponent
     ],
     entryComponents: [
@@ -175,7 +175,7 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
       GenerateInvoiceComponent,
       NotificationBalanceOrderComponent,
       DetailMagicLookComponent,
-      DetailMarkennovyComponent
+      DetailMarkennovyComponent,
       DetailBlueLightComponent
     ],
     providers: [

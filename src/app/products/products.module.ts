@@ -52,21 +52,15 @@ import { ConfirmationBlueLightComponent } from './modals/confirmation-buy/confir
     EditProductComponent,
     NotificationBalanceComponent,
     ConfirmationMagicLookComponent,
-<<<<<<< HEAD
-    ConfirmationMarkennovyComponent
-=======
+    ConfirmationMarkennovyComponent,
     ConfirmationBlueLightComponent
->>>>>>> 3ef28ad28db5c688a389f272214387e1b7b473b4
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
                     NotificationBalanceComponent,
                     ConfirmationMagicLookComponent,
-<<<<<<< HEAD
-                    ConfirmationMarkennovyComponent
-=======
+                    ConfirmationMarkennovyComponent,
                     ConfirmationBlueLightComponent
->>>>>>> 3ef28ad28db5c688a389f272214387e1b7b473b4
                    ],
   providers: [RoleGuard, AuthorizationService]
 })
