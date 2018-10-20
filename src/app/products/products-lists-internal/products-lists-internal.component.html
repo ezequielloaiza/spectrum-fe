@@ -1,0 +1,72 @@
+<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
+<br>
+<br>
+<br>
+<div class="margin-breadcrumb">
+	<div class="header-body">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item">
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/products']"><i class="fa fa-dashboard"></i> {{ 'Products List' | translate }}</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<i class="fa fa-edit"></i> {{ nameSupplier }}</li>
+		</ol>
+	</div>
+</div>
+<div class="middleBar" [hidden]="showSuppliers">
+  <div class="row display-table">
+    <div class="col-sm-1 vertical-align text-left hidden-xs">
+    </div>
+    <!-- end col -->
+    <div class="col-sm-10 vertical-align text-center">
+      <form>
+        <div class="row grid-space-1">
+          <div class="col col-xl-12 col-lg-12 search">
+            <input class="form-control" (keyup)="getItems($event)" placeholder=" {{ 'Enter product name...' | translate }} ">
+            <i class="fa fa-search"></i>
+          </div>
+        </div>
+        <!-- end row -->
+      </form>
+    </div>
+    <!-- end col -->
+  </div>
+  <!-- end  row -->
+</div>
+
+<div class="padding-list">
+  <div class="row">
+    <!--THUMBNAILS PRODUCTS-->
+    <div class="col-sm-1 col-md-1 col-lg-1"></div>
+
+    <div class="col-sm-10 col-md-10 col-lg-10">
+      <div class="row">
+        <div class="col-md-4 box-shadow" *ngFor="let product of products">
+          <div class="mb-4 box-shadow">
+            <img class="card-img-top" src="{{ product.mainImg }}" (click)="redirectView(product)">
+            <h4 class="product-name" (click)="redirectView(product)">
+              <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
+              {{ product.name }}
+            </h4>
+            <div class="card-body">
+              <p class="card-text"> {{ product.descriptionShort }}</p>
+              <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
+                <!--<del class="price-base">${{ product.priceBase }}</del>&nbsp;-->
+                <span class="price-new text-warning">{{ product.priceSale | currency : "USD $" }}</span>
+              </div>
+              <div class="product-btns">
+                <div class="btn-group">
+                  <button (click)="redirectView(product)" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-primary">View</button>
+                  <button (click)="open(product,'edit')" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

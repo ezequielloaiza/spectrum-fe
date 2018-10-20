@@ -14,7 +14,10 @@ import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
+import { CountryService } from '../../../../shared/services/country/country.service';
 import { ListSupplierModalComponent } from '../list-supplier-modal/list-supplier-modal.component';
+import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-user-modal',
@@ -37,6 +40,11 @@ export class UserModalComponent implements OnInit {
                        { id: 1, name: 'Postpaid' }];
   listCreditDays = [ '15', '30', '60' ];
   postpaid = false;
+  listCountries: Array<any> = new Array;
+  listCountriesCompany: Array<any> = new Array;
+  selectedCountry: any = null;
+  selectedCountryCompany: any = null;
+  locale: any;
   msjPayment = true;
 
   constructor(private modal: NgbActiveModal,
@@ -45,15 +53,18 @@ export class UserModalComponent implements OnInit {
     private userSerice: UserService,
     private toastr: ToastrService,
     private googleService: GoogleService,
+    private userStorageService: UserStorageService,
     private translate: TranslateService,
     private membershipService: MembershipService,
     private notification: ToastrService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private countryService: CountryService) { }
 
   ngOnInit() {
     this.initializeForm();
     this.getBussinesAll();
     this.getMembershipAll();
+    this.getCountriesAll();
   }
 
   formatter = (x: { description: string }) => x.description;
@@ -64,7 +75,7 @@ export class UserModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.userStorageService.getLanguage()).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -89,12 +100,12 @@ export class UserModalComponent implements OnInit {
       companyEmail: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       creditLimit: ['', [Validators.required]],
       idBusinessType: ['', [Validators.required]],
-      state: ['', [Validators.required]],
-      country: ['', [Validators.required]],
+      state: [''],
+      idCountry: ['', [Validators.required]],
       city: ['', [Validators.required]],
       postal: ['', []],
-      companyState: ['', [Validators.required]],
-      companyCountry: ['', [Validators.required]],
+      companyState: [''],
+      idCompanyCountry: ['', [Validators.required]],
       companyCity: ['', [Validators.required]],
       companyPostal: ['', []],
       typeUser: ['USER'],
@@ -116,6 +127,19 @@ export class UserModalComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.businessTypes = res.data;
       }
+    });
+  }
+
+  getCountriesAll() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+        this.listCountriesCompany = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
   }
 
@@ -145,9 +169,13 @@ export class UserModalComponent implements OnInit {
 
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    const countries = this.listCountries;
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      const country = this.translate.instant(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': country } );
+      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
@@ -156,9 +184,13 @@ export class UserModalComponent implements OnInit {
   }
 
   findPlaceCompany(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    const countries = this.listCountriesCompany;
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('companyCountry').setValue(this.googleService.getCountry());
+      const country = this.translate.instant(this.googleService.getCountry());
+      this.selectedCountryCompany = _.filter(countries, { 'name': country } );
+      this.form.get('idCompanyCountry').setValue(this.selectedCountryCompany[0].idCountry);
       this.form.get('companyState').setValue(this.googleService.getState());
       this.form.get('companyPostal').setValue(this.googleService.getPostalCode());
       this.form.get('companyCity').setValue({ description: this.googleService.getCity() });
@@ -178,11 +210,11 @@ export class UserModalComponent implements OnInit {
   get idBusinessType() { return this.form.get('idBusinessType'); }
   get city() { return this.form.get('city'); }
   get state() { return this.form.get('state'); }
-  get country() { return this.form.get('country'); }
+  get idCountry() { return this.form.get('idCountry'); }
   get postal() { return this.form.get('postal'); }
   get companyCity() { return this.form.get('companyCity'); }
   get companyState() { return this.form.get('companyState'); }
-  get companyCountry() { return this.form.get('companyCountry'); }
+  get idCompanyCountry() { return this.form.get('idCompanyCountry'); }
   get companyPostal() { return this.form.get('companyPostal'); }
   get membershipId() { return this.form.get('membershipId'); }
   get phone() { return this.form.get('phone'); }
@@ -213,6 +245,7 @@ export class UserModalComponent implements OnInit {
 
   openModalSupplier(): void {
     const modalRef = this.modalService.open(ListSupplierModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.componentInstance.listSuppliers = this.listSuppliers;
     modalRef.result.then((result) => {
       this.listSuppliers = result;
     } , (reason) => {

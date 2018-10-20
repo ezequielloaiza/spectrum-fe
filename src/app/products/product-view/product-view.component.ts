@@ -20,6 +20,7 @@ import { UserService } from '../../shared/services';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../../src/environments/environment';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
+import { ConfirmationMarkennovyComponent } from '../modals/confirmation-buy/confirmation-markennovy/confirmation-markennovy.component';
 
 @Component({
   selector: 'app-product-view',
@@ -189,7 +190,7 @@ export class ProductViewComponent implements OnInit {
   findShippingAddress(idCliente) {
     this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country;
+        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
       } else if (res.code === CodeHttp.notContent) {
         this.product.shippingAddress = '';
         this.translate.get('You must enter a main address in the shipping address module',
@@ -281,7 +282,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationMarkennovyComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.role = this.user.role.idRole;

@@ -60,10 +60,17 @@ import { SummaryProductsComponent } from './basket/modals/summary-products/summa
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
 import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.component';
+import { BlueLightComponent } from './basket/edit-order/blue-light/blue-light.component';
+import { EuclidComponent } from './basket/edit-order/euclid/euclid.component';
+import { MarkennovyComponent } from './basket/edit-order/markennovy/markennovy.component';
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
 import { InvoiceClientService } from '../shared/services/invoiceClient/invoice-client.service';
+import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-magic-look/detail-magic-look.component';
+import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail-markennovy/detail-markennovy.component';
+import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
 
 @NgModule({
     imports: [
@@ -132,9 +139,17 @@ import { InvoiceClientService } from '../shared/services/invoiceClient/invoice-c
         DetailProductModalComponent,
         SummaryProductsComponent,
         ModalsChangeStatusComponent,
+        MagicLookComponent,
+        GenerateInvoiceComponent,
+        BlueLightComponent,
+        EuclidComponent,
+        MarkennovyComponent,
         GenerateInvoiceComponent,
         ManageInvoiceComponent,
-        NotificationBalanceOrderComponent
+        NotificationBalanceOrderComponent,
+        DetailMagicLookComponent,
+        DetailMarkennovyComponent,
+        DetailBlueLightComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -153,8 +168,16 @@ import { InvoiceClientService } from '../shared/services/invoiceClient/invoice-c
       DetailProductModalComponent,
       SummaryProductsComponent,
       ModalsChangeStatusComponent,
+      MagicLookComponent,
       GenerateInvoiceComponent,
-      NotificationBalanceOrderComponent
+      BlueLightComponent,
+      EuclidComponent,
+      MarkennovyComponent,
+      GenerateInvoiceComponent,
+      NotificationBalanceOrderComponent,
+      DetailMagicLookComponent,
+      DetailMarkennovyComponent,
+      DetailBlueLightComponent
     ],
     providers: [
       BusinessTypeService,

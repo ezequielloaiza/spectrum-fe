@@ -6,6 +6,7 @@ export enum RoleUser {
   Warranty,
   Profile,
   ProductsList,
+  ProductsListInternal,
   ProductsView,
   ProductsViewEuropa,
   ProductsViewEuclid,

@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { GoogleService, CompanyService, BusinessTypeService, OrderService } from '../../../../shared/services';
+import { GoogleService, CompanyService, BusinessTypeService, CountryService, OrderService } from '../../../../shared/services';
 import { debounceTime, distinctUntilChanged, switchMap, tap, catchError, merge } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
 import { Company } from '../../../../shared/models/company';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-edit-company',
@@ -31,6 +33,9 @@ export class EditCompanyComponent implements OnInit {
   listCreditDays = [ '15', '30', '60' ];
   postpaid = false;
   method: any;
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
+  locale: any;
   quantityProcessed: any;
 
   constructor(private formBuilder: FormBuilder,
@@ -40,6 +45,8 @@ export class EditCompanyComponent implements OnInit {
               private businessTypeService: BusinessTypeService,
               private translate: TranslateService,
               private notification: ToastrService,
+              private countryService: CountryService,
+              private userStorageService: UserStorageService,
               private orderService: OrderService) { }
 
   ngOnInit() {
@@ -47,6 +54,7 @@ export class EditCompanyComponent implements OnInit {
     this.getBussinesAll();
     this.getCompany(this.id);
     this.initializeForm();
+    this.getCountries();
     this.getOrderProcessed(this.id);
   }
 
@@ -59,8 +67,8 @@ export class EditCompanyComponent implements OnInit {
       creditLimit   : ['', [Validators.required]],
       idBusinessType: ['', [Validators.required]],
       address       : [''],
-      state         : ['', [ Validators.required]],
-      country       : ['', [ Validators.required]],
+      state         : [''],
+      idCountry       : ['', [ Validators.required]],
       cityPlace          : ['', [ Validators.required]],
       postalCode    : ['', []],
       idCompany     : ['', []],
@@ -80,7 +88,7 @@ export class EditCompanyComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.userStorageService.getLanguage()).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -108,6 +116,19 @@ export class EditCompanyComponent implements OnInit {
     });
   }
 
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+
   edit(): void {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;
   }
@@ -118,13 +139,17 @@ export class EditCompanyComponent implements OnInit {
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    const countries = this.listCountries;
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      const country = this.translate.instant(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': country } );
+      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postalCode').setValue(this.googleService.getPostalCode());
       this.form.get('cityPlace').setValue({description: this.googleService.getCity()});
-      this.form.get('city').setValue(this.googleService.getCity());
+      this.form.get('city').setValue({ description: this.googleService.getCity() });
     });
   }
 
@@ -134,10 +159,10 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('email').setValue(company.email);
     this.form.get('address').setValue(company.address);
     this.form.get('state').setValue(company.state);
-    this.form.get('country').setValue(company.country);
+    this.form.get('idCountry').setValue(company.country == null ? '' : company.country.idCountry);
     this.form.get('cityPlace').setValue({description: company.city});
     this.form.get('postalCode').setValue(company.postalCode);
-    this.form.get('phone').setValue(this.company.phone==null?'':this.company.phone);
+    this.form.get('phone').setValue(this.company.phone == null ? '' : this.company.phone);
     this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
     this.form.get('creditLimit').setValue(company.creditLimit);
     this.form.get('paymentMethod').setValue(company.paymentMethod);
@@ -177,7 +202,7 @@ export class EditCompanyComponent implements OnInit {
   get phone() { return this.form.get('phone'); }
   get cityPlace() { return this.form.get('cityPlace'); }
   get state() { return this.form.get('state'); }
-  get country() { return this.form.get('country'); }
+  get idCountry() { return this.form.get('idCountry'); }
   get postalCode() { return this.form.get('postalCode'); }
   get paymentMethod() {return this.form.get('paymentMethod'); }
   get creditDays() {return this.form.get('creditDays'); }

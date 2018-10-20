@@ -25,7 +25,7 @@
           <div class="col-xl-3 filter">
             <div class="row search">
               <div class="col col-xl-12 col-lg-12">
-                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter client search ...' | translate }}">
+                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter customer search ...' | translate }}">
                 <i class="fa fa-search"></i>
               </div>
             </div>
@@ -66,7 +66,7 @@
                   </div>
                   <div class="col-lg-2">
                     <div>
-                      <span>{{'Client'| translate }}</span>
+                      <span>{{'Customer'| translate }}</span>
                     </div>
                     <div>
                       <span>{{order? order.nameUser:''}}</span>
@@ -139,7 +139,7 @@
                             <button class="dropdown-item" (click)="generateInvoice(order)">
                               {{ 'To Provider' | translate }}</button>
                             <button class="dropdown-item" (click)="open(order)">
-                                 {{ 'To Client' | translate }}</button>
+                                 {{ 'To Customer' | translate }}</button>
                           </div>
                         </div>
                       </div>

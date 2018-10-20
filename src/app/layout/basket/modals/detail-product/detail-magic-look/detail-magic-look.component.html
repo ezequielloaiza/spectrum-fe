@@ -1,0 +1,113 @@
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ 'Product Detail' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="body">
+    <div>
+      <div class="list-basket">
+        <div class="row">
+          <div class="col-lg-12 main-info">
+            <div>
+              <span class="title">{{ product.name }}</span>
+            </div>
+            <!--Image-->
+            <div class="label-title">
+              <img class="img-product" src="{{ basket.urlImage }}">
+            </div>
+            <!--Patient-->
+            <div class="col-lg-12 title label-title patient-info">
+              <span>{{ 'Patient' | translate }}</span>
+              <dl>
+                <dt>{{ productRequested.patient }}</dt>
+              </dl>
+              <dl class="param">
+                <dt>{{ productRequested.price * productRequested.quantity | currency : "USD $" }}</dt>
+              </dl>
+            </div>
+          </div>
+          <div class="col-lg-12 display-row padding-params">
+            <!--CONTENT INFO-->
+            <!--PARAMETERS-->
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Total Quantity'| translate}}
+                </dt>
+                <hr class="separators">
+                <dl>
+                  <dt class="items">
+                    {{ productRequested.quantity}}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
+            <div class="col-lg-8 display-row padding-params">
+              <div *ngFor="let parameter of detail.parameters" class="col-sm-6 title">
+                <div>
+                  <dl class="align-item">
+                    <dt>{{ parameter.name | translate }}
+                    </dt>
+                    <hr class="separators">
+                    <dl class="items">
+                      <dt>
+                        {{ parameter.selected}}
+                      </dt>
+                    </dl>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--FIN PARAMETERS-->
+          <!--BOXES-->
+          <div class="col-lg-12 display-row padding-params">
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Quantity'| translate}}
+                </dt>
+                <hr class="separators">
+                <dl *ngFor="let parameter of detail.boxes">
+                  <dt class="items">
+                    {{ parameter.Quantity}}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Tone'| translate}}
+                </dt>
+                <hr class="separators">
+                <dl *ngFor="let parameter of detail.boxes">
+                  <dt class="items">
+                    {{ parameter.Tone}}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Color'| translate}}
+                </dt>
+                <hr class="separators">
+                <dl *ngFor="let parameter of detail.boxes">
+                  <dt class="items">
+                    {{ parameter.Color}}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
+          </div>
+          <!--Fin Boxes-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+</div>

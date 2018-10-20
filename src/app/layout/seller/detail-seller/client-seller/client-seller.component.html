@@ -28,7 +28,7 @@
       <div class="card mb-3">
         <div class="card-header d-flex">
           <div class="align-self-center">
-            {{ 'All Clients' | translate }}
+            {{ 'All Customers' | translate }}
           </div>
         </div>
         <div class="card-body table-responsive">
@@ -52,7 +52,7 @@
                 <td class="table-tr">{{client.email}}</td>
                 <td class="table-tr">{{client.company.companyName}}</td>
                 <td class="table-tr">{{client.username}}</td>
-                <td class="table-tr">{{client.company.country}}</td>
+                <td class="table-tr">{{client.company.country ? (client.company.country.name | translate) : '' }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">

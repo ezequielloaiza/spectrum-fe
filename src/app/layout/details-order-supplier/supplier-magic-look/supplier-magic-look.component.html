@@ -6,7 +6,7 @@
           <div class="row justify-content-md-center div-parametros">
             <div class="col-sm-2" *ngFor="let param of specification.parameters">
               <dl class="align-item">
-                <dt>{{param.name}}</dt>
+                <dt>{{param.name | translate }}</dt>
                 <dt>
                   <span class="font-text"> {{param.selected}}</span>
                   <hr>
@@ -16,51 +16,55 @@
           </div>
         </div>
       </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab title="{{'Comments'| translate}}">
-    <ng-template ngbTabContent>
       <div class="card-body table-responsive">
-        <div class="row justify-content-md-center div-parametros">
-          <div class="col-sm-12">
-            <dl>
-              <dt>
-                <span class="font-text">{{lista.observations}}</span>
+        <div class="row">
+          <div class="col-sm-4">
+            <dl class="align-item">
+              <dt>{{'Quantity'| translate}}
+                <hr>
+              </dt>
+            </dl>
+          </div>
+          <div class="col-sm-4 ">
+            <dl class="align-item">
+              <dt>{{'Tone'| translate}}
+                <hr>
+              </dt>
+            </dl>
+          </div>
+          <div class="col-sm-4">
+            <dl class="align-item">
+              <dt>{{'Color'| translate}}
+                <hr>
               </dt>
             </dl>
           </div>
         </div>
-      </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab *ngIf="files.length > 0" title="{{'Documents'| translate}}">
-    <ng-template ngbTabContent>
-      <!-- Documents -->
-      <div class="card-body table-responsive" >
-        <br>
-        <div class="row justify-content-md-center div-parametros">
-          <table class="table" >
-            <thead>
-              <tr>
-                <th width="50%">{{ 'Name' | translate }}</th>
-                <th>{{ 'Size' | translate }}</th>
-                <th>{{ 'Actions' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of files">
-                <td><strong>{{ item?.name }}</strong></td>
-                <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
-                <td nowrap>
-                  <button type="button" class="btn btn-success btn-xs"
-                    (click)="downloadFile(item)">
-                    <span class="fa fa-download"></span> Download
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <br>
+        <div *ngFor="let specification of lista.detail">
+          <div class="row justify-content-md-center div-parametros">
+            <div class="col-sm-12" *ngFor="let param of specification.boxes">
+              <div class="row">
+                <div class="col-sm-4">
+                  <dl class="align-item">
+                    <span class="font-text"> {{param.Quantity}}</span>
+                    <hr>
+                  </dl>
+                </div>
+                <div class="col-sm-4 ">
+                  <dl class="align-item">
+                    <span class="font-text"> {{param.Tone}}</span>
+                    <hr>
+                  </dl>
+                </div>
+                <div class="col-sm-4">
+                  <dl class="align-item">
+                    <span class="font-text"> {{param.Color}}</span>
+                    <hr>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </ng-template>

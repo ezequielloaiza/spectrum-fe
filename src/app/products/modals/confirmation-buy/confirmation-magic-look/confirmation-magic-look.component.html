@@ -1,0 +1,124 @@
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-beat"></ngx-spinner>
+<div *ngIf="namePatient">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ 'Confirm purchase' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="body">
+    <div>
+      <div class="list-basket">
+
+        <div class="row">
+          <div class="col-lg-12 main-info">
+            <div>
+              <span class="title">{{ product.name }}</span>
+            </div>
+            <!--Image-->
+            <div class="label-title">
+              <img class="img-product" src="{{ product.mainImg }}">
+            </div>
+            <!--Patient-->
+            <div class="col-lg-12 title label-title patient-info">
+              <span>{{ 'Patient' | translate }}</span>
+              <dl>
+                <dt>{{ namePatient}}</dt>
+              </dl>
+              <dl class="param">
+                <dt>{{ product.priceSale * quantity | currency : "USD $" }}</dt>
+              </dl>
+            </div>
+          </div>
+          <div class="col-lg-12 display-row padding-params">
+            <!--CONTENT INFO-->
+            <!--PARAMETERS-->
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Total Quantity'| translate}}
+                </dt>
+                <hr class="separators">
+                <dl>
+                  <dt class="items">
+                    {{ listBasket[0].quantity }}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
+            <div class="col-lg-8 display-row padding-params">
+              <div *ngFor="let parameter of listBasket[0].detail[0].parameters" class="col-sm-6 title">
+                <div>
+                  <dl class="align-item">
+                    <dt>{{ parameter.name | translate }}
+                    </dt>
+                    <hr class="separators">
+                    <dl class="items">
+                      <dt>
+                        {{ parameter.selected}}
+                      </dt>
+                    </dl>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--FIN PARAMETERS-->
+          <!--BOXES-->
+          <div class="col-lg-12 display-row padding-params">
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Quantity'| translate}}
+                </dt>
+                <hr class="separators">
+                <dl *ngFor="let parameter of listBasket[0].detail[0].boxes">
+                  <dt class="items">
+                    {{ parameter.Quantity}}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Tone'| translate}}
+                </dt>
+                <hr class="separators">
+                <dl *ngFor="let parameter of listBasket[0].detail[0].boxes">
+                  <dt class="items">
+                    {{ parameter.Tone}}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
+            <div class="col-sm-4">
+              <dl class="align-item">
+                <dt>{{'Color'| translate}}
+                </dt>
+                <hr class="separators">
+                <dl *ngFor="let parameter of listBasket[0].detail[0].boxes">
+                  <dt class="items">
+                    {{ parameter.Color}}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
+          </div>
+          <!--Fin Boxes-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
+      <i class="fa fa-times"></i>
+    </button>
+    <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy===2">{{ 'Save' | translate }}&nbsp;
+      <i class="fa fa-save"></i>
+    </button>
+    <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy===1">{{ 'Buy' | translate }}&nbsp;
+      <i class="fa fa-check"></i>
+    </button>
+  </div>
+  <ng-template #rt let-r="result" let-t="term">
+    {{ r.description}}
+  </ng-template>
+</div>

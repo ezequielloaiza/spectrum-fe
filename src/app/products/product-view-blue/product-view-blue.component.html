@@ -116,8 +116,8 @@
                   <div>
                     <div class="row selection">
                       <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-9">
-                        <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight"
-                          [(ngModel)]="parameter.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                        <ng-select [items]="parameter.values" [disabled]="!product.eyeRight"
+                          [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
                           {{item}}
                         </ng-select>
                       </div>
@@ -298,7 +298,7 @@
 
           <!-- client -->
           <div>
-            <dt class="title">{{ 'Client' | translate }}</dt>
+            <dt class="title">{{ 'Customer' | translate }}</dt>
             <div class="row">
               <!--name client-->
               <div class="col-md-6" [hidden]="user.role.idRole!==3">
