@@ -18,6 +18,7 @@ import { BlueLightComponent } from '../../../edit-order/blue-light/blue-light.co
 import { EuclidComponent } from '../../../edit-order/euclid/euclid.component';
 import { MarkennovyComponent } from '../../../edit-order/markennovy/markennovy.component';
 import { DetailMagicLookComponent } from '../../../modals/detail-product/detail-magic-look/detail-magic-look.component';
+import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-blue-light/detail-blue-light.component';
 
 @Component({
   selector: 'app-details-basket-client',
@@ -197,7 +198,7 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
      case 6: // Blue Light
-        const modalRefBlue = this.modalService.open(DetailProductModalComponent,
+        const modalRefBlue = this.modalService.open(DetailBlueLightComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
           modalRefBlue.componentInstance.basket = basket;
           modalRefBlue.result.then((result) => {
