@@ -68,6 +68,7 @@ import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.componen
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
 import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-magic-look/detail-magic-look.component';
+import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
 
 @NgModule({
     imports: [
@@ -144,7 +145,8 @@ import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-
         GenerateInvoiceComponent,
         ManageInvoiceComponent,
         NotificationBalanceOrderComponent,
-        DetailMagicLookComponent
+        DetailMagicLookComponent,
+        DetailBlueLightComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -170,7 +172,8 @@ import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-
       MarkennovyComponent,
       GenerateInvoiceComponent,
       NotificationBalanceOrderComponent,
-      DetailMagicLookComponent
+      DetailMagicLookComponent,
+      DetailBlueLightComponent
     ],
     providers: [
       BusinessTypeService,

@@ -1,37 +1,35 @@
 @import "../../../../../styles/spectrum/spectrum";
 
-.list-basket {
-  //max-height: 630px;
-  padding: 2em;
+.body{
   overflow-y: auto;
-  overflow-x: hidden;
+}
+
+.list-basket {
+  max-height: 630px;
+  padding: 2em;
 
   .main-info {
     text-align: center;
   }
 
-  .details {
-    text-align: center;
-  }
-
   .img-product {
     width: 40%;
-    max-height: 163.65px;
     border-radius: 12px;
-    margin-top: 1em;
+    max-height: 163.65px;
   }
 
   .display-row {
     display: flex;
     justify-content: space-between;
-  }
 
-  .display-price {
-    justify-content: center;
+    .spec-params {
+      margin-left: -4em;
+    }
+
   }
 
   .padding-params {
-    padding:  0 2em;
+    padding: 0 2em;
   }
 
   .params {
@@ -57,4 +55,15 @@
   .align-item{
     text-align: center;
   }
+
+  .items{
+   font-weight:0px;
+    color:#868e96;
+
+  }
+
+  .param{
+    color: #f8ac59;
+  }
+
 }
