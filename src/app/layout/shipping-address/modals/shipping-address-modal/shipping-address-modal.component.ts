@@ -50,7 +50,7 @@ export class ShippingAddressModalComponent implements OnInit {
       id        : [this.action === 'edit' ? this.address.idAddress : ''],
       companyId : [this.action === 'edit' ? this.address.company.idCompany : '', [ Validators.required]],
       name      : [this.action === 'edit' ? this.address.name : '', [ Validators.required]],
-      state     : [this.action === 'edit' ? this.address.state : '', [ Validators.required]],
+      state     : [this.action === 'edit' ? this.address.state : ''],
       countryId   : [this.action === 'edit' && this.address.country ? this.address.country.idCountry : '', [ Validators.required]],
       city      : [this.action === 'edit' ? {description: this.address.city} : '', [ Validators.required]],
       postal    : [this.action === 'edit' ? this.address.postalCode : '']
@@ -62,7 +62,6 @@ export class ShippingAddressModalComponent implements OnInit {
     this.initializeForm();
     this.getCompanies();
     this.getCountries();
-    this.locale = this.userStorageService.getLanguage();
   }
 
   formatter = (x: {description: string}) => x.description;
@@ -73,7 +72,7 @@ export class ShippingAddressModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term, this.locale).pipe(
+        this.googleService.searchCities$(term, this.userStorageService.getLanguage()).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -159,7 +158,8 @@ export class ShippingAddressModalComponent implements OnInit {
     this.locale = this.userStorageService.getLanguage();
     this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      const country = this.translate.instant(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': country } );
       this.form.get('countryId').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());

@@ -69,6 +69,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
 import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail-markennovy/detail-markennovy.component';
+import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
 
 @NgModule({
     imports: [
@@ -147,6 +148,7 @@ import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail
         NotificationBalanceOrderComponent,
         DetailMagicLookComponent,
         DetailMarkennovyComponent
+        DetailBlueLightComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -174,6 +176,7 @@ import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail
       NotificationBalanceOrderComponent,
       DetailMagicLookComponent,
       DetailMarkennovyComponent
+      DetailBlueLightComponent
     ],
     providers: [
       BusinessTypeService,
