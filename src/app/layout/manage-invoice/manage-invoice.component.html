@@ -119,6 +119,8 @@
                         <div ngbDropdownMenu>
                           <button class="dropdown-item" (click)="open(invoice)">
                             <i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
+                          <button class="dropdown-item" (click)="downloadInvoice(invoice)">
+                            <i class="fa fa-download"></i> {{ 'Download Invoice' | translate }}</button>
                           <button class="dropdown-item" (click)="delete(invoice)">
                             <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
                         </div>
