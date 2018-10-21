@@ -88,7 +88,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   getProductView() {
-    console.log(JSON.stringify(_.range(-15, -0.25, 0.25)));
+    console.log(JSON.stringify(_.range(-3, -1.75, 0.25)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;
@@ -300,7 +300,7 @@ export class ProductViewComponent implements OnInit {
 
     if (this.product.eyeRight) {
       _.each(this.product.parametersRight, function (param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
@@ -308,7 +308,7 @@ export class ProductViewComponent implements OnInit {
 
     if (this.product.eyeLeft) {
       _.each(this.product.parametersLeft, function (param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });

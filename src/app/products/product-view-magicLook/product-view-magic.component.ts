@@ -331,7 +331,7 @@ export class ProductViewMagicComponent implements OnInit {
 
     _.each(this.boxes, function(product) {
       _.each(product.parameters, function(param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });

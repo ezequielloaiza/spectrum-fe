@@ -333,7 +333,7 @@ export class ProductViewBlueComponent implements OnInit {
 
     if (this.product.eyeRight) {
       _.each(this.product.parametersRight, function (param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
@@ -341,7 +341,7 @@ export class ProductViewBlueComponent implements OnInit {
 
     if (this.product.eyeLeft) {
       _.each(this.product.parametersLeft, function (param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });

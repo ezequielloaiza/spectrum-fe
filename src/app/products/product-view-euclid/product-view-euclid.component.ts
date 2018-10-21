@@ -127,7 +127,7 @@ export class ProductViewEuclidComponent implements OnInit {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
-    this.product.infoAditional = JSON.parse(this.product.infoAditional);
+    this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.priceSale = '';
     this.setClient();
     this.setPrice();
@@ -338,7 +338,7 @@ export class ProductViewEuclidComponent implements OnInit {
 
     if (this.product.eyeRight) {
       _.each(this.product.parametersRight, function (param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
@@ -346,7 +346,7 @@ export class ProductViewEuclidComponent implements OnInit {
 
     if (this.product.eyeLeft) {
       _.each(this.product.parametersLeft, function (param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
