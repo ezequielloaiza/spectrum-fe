@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import { InvoiceSupplierProductRequested } from '../../../shared/models/invoicesupplierproductrequested';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { InvoiceService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-generate-invoice',
@@ -34,7 +35,8 @@ export class GenerateInvoiceComponent implements OnInit {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -127,6 +129,7 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   generateInvoice(send, idOrder) {
+    this.spinner.show();
     this.orderService.generateInvoice$(idOrder, send, this.invoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
@@ -136,7 +139,9 @@ export class GenerateInvoiceComponent implements OnInit {
             .subscribe((res1: string) => {
               this.notification.success('', res1);
             });
+          this.spinner.hide();
         } else {
+          this.spinner.hide();
           console.log(res.code);
         }
       },

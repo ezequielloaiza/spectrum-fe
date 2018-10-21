@@ -132,8 +132,8 @@
                         </div>
                       </div>
                     </div>
-                    <div class="div-dropdown">
-                        <div [hidden]="order.status!==2" ngbDropdown class="d-inline-block dropdown">
+                    <div class="div-dropdown" [hidden]="order.status===0 || order.status===4">
+                        <div  ngbDropdown class="d-inline-block dropdown">
                           <button class="btn btn-dropdown-main btn-dd" ngbDropdownToggle>{{ 'Generate Invoice' | translate }}</button>
                           <div ngbDropdownMenu class="dropdown-menu-invoice">
                             <button class="dropdown-item" (click)="generateInvoice(order)">
