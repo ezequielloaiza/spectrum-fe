@@ -25,7 +25,7 @@
         <div class="preview col-md-12">
           <!-- name-price -->
           <div class="main-info">
-            <!--<h4 class="product-title">{{ product.name }}</h4>-->
+            <h4 class="product-title">{{ product.name }}</h4>
             <h1 class="price" [hidden]="product.priceSale===''">
               <span>{{ product.priceSale | currency : "USD $" }}</span>
             </h1>
@@ -156,6 +156,14 @@
                   </div>
                 </div>
               </div>
+
+              <!--prices aditional-->
+              <div class="row" [hidden]="!warrantyRight || !product.quantityRight">
+                <span>{{ 'Additional by Warranty' | translate }}</span>
+                <h4 class="price" >
+                  <span>{{ product.additional * product.quantityRight | currency : "USD $" }}</span>
+                </h4>
+              </div>
             </div>
           </div>
         </div>
@@ -203,6 +211,14 @@
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <!--prices aditional-->
+              <div class="row" [hidden]="!warrantyLeft || !product.quantityLeft">
+                <span>{{ 'Additional by Warranty' | translate }}</span>
+                <h4 class="price" >
+                  <span>{{ product.additional * product.quantityLeft | currency : "USD $" }}</span>
+                </h4>
               </div>
             </div>
           </div>

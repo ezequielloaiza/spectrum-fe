@@ -37,6 +37,16 @@ this.products = [
           { "title": "Sylicone Hydrogel", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" },
           { "title": "UV Filter", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" }
         ]
+      }, 
+      {
+        "name": "Prices", "values": [
+          { "title": "Warranty", "values":[
+                                            {"name": "Preferred", "additional": 10 },
+                                            {"name": "Diamond", "additional": 20 },
+                                            {"name": "Gold", "additional": 30 }
+                                          ]
+          }
+        ]
       }
     ]
   }

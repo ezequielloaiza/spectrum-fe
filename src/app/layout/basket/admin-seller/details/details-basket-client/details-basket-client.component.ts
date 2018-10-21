@@ -273,7 +273,7 @@ export class DetailsBasketClientComponent implements OnInit {
     _.each(this.listBasket, function(item) {
         _.each(listSelect, function(itemBasket) {
           if (item.idBasketProductRequested === itemBasket) {
-            subtotal = subtotal + (item.productRequested.quantity  * item.productRequested.price);
+            subtotal = subtotal + item.productRequested.price;
           }
         });
       });

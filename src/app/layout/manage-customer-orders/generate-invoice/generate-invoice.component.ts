@@ -91,11 +91,10 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.idProductRequested = pRequested.productRequested.idProductRequested;
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.productRequested.urlImage;
-      productR.price = pRequested.productRequested.price;
+      productR.price = pRequested.productRequested.price / pRequested.productRequested.quantity;
       productR.tax = pRequested.tax;
       productR.netAmount =
-        pRequested.productRequested.price *
-        pRequested.productRequested.quantity;
+        pRequested.productRequested.price;
       productReq.push(productR);
     });
 

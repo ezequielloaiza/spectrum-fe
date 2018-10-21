@@ -128,7 +128,7 @@
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
                     </div>
                     <div>
-                      <span>{{listDetails.productRequested.price | currency : "USD $" }}</span>
+                      <span>{{ (listDetails.productRequested.price / listDetails.productRequested.quantity) | currency : "USD $" }}</span>
                     </div>
                   </div>
                   <div class="col-lg-2">
@@ -141,7 +141,7 @@
                   </div>
                   <div class="col-lg-2">
                     <div>
-                      <span>{{listDetails.productRequested.price * listDetails.productRequested.quantity | currency : "USD $" }}</span>
+                      <span>{{listDetails.productRequested.price | currency : "USD $" }}</span>
                     </div>
                   </div>
                 </div>
