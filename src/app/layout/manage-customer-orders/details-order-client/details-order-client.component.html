@@ -58,7 +58,7 @@
               <span>{{order.address? order.address.state:''}}</span>
               <br>
               <span class="font-weight-bold">{{'Country' | translate }}:</span>&nbsp;
-              <span>{{order.address? (order.address.country? order.address.country.name:''):'' | translate}}</span>
+              <span>{{order.address? (order.address.country? (order.address.country.name | translate) : '') :'' }}</span>
               <br>
               <br>
             </div>
@@ -177,7 +177,7 @@
           <app-supplier-magic-look [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
           <!--Blue Light-->
-          <app-supplier-blue-light [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
+          <app-supplier-blue-light [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
         </div>
       </div>

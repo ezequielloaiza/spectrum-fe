@@ -21,4 +21,10 @@ export class InvoiceService {
   public delete$(id): Observable<any> {
     return this.http.delete(environment.apiUrl + 'invoicesSupplier/delete/' + id);
   }
+
+  public downloadInvoice$(name): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesSupplier/downloadInvoice/' + name, {
+      responseType: 'blob'
+    });
+  }
 }

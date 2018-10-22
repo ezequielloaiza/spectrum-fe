@@ -86,20 +86,20 @@
                           <span>{{ basket.productRequested.product.name }}</span>
                         </div>
                         <br>
-                        <div class="row info" *ngIf="basket.productRequested.detail[0].eye===''">
+                        <div class="row info" *ngIf="!basket.productRequested.detail[0].eye">
                           <div class="col-lg-12">
                             <span class="title">{{ 'Patient' | translate }}</span>
                             <span>{{ basket.productRequested.patient }}</span>
                           </div>
                         </div>
-                        <div class="row info" *ngIf="basket.productRequested.detail[0].eye!==''">
+                        <div class="row info" *ngIf="basket.productRequested.detail[0].eye">
                           <div class="col-lg-6">
                             <span class="title">{{ 'Patient' | translate }}</span>
                             <span>{{ basket.productRequested.patient }}</span>
                           </div>
                           <div class="col-lg-6">
                             <span class="title">{{ 'Eye' | translate }}</span>
-                            <span>{{ basket.productRequested.detail[0].eye }}</span>
+                            <span>{{ basket.productRequested.detail[0].eye  | translate }}</span>
                           </div>
                         </div>
                         <br>
@@ -109,7 +109,7 @@
                             <span class="select-all font-title">{{ 'Quantity' | translate }}</span>
                             <span class="font-item">{{ basket.productRequested.quantity }}</span>
                           </div>
-                          <div class="col-lg-4">
+                          <div class="col-lg-4 details">
                             <span class="select-all font-title">{{ 'Price' | translate }}</span>
                             <span class="font-item">{{ basket.productRequested.price | currency : "USD $" }}</span>
                           </div>

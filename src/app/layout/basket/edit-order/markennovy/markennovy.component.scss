@@ -1,98 +1,61 @@
+
 @import "../../../../../styles/spectrum/spectrum";
 
-.card-body {
-  >div:nth-child(1) {
-    padding-right: 25px;
-  }
-}
-
 .list-basket {
-  padding: 15px;
-  margin-top: 1.5em;
+  //max-height: 630px;
+  padding: 2em;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .main-info {
+    text-align: center;
+  }
 
   .img-product {
-    width: 100%;
+    width: 40%;
+    border-radius: 12px;
+    margin-top: 1em;
   }
 
-  .details {
-    text-align: center;
+  .display-row {
+    display: flex;
+    justify-content: space-between;
+  }
 
-    .title {
-      font-size: 16px;
-      font-weight: 600;
-    }
+  .display-price {
+    justify-content: center;
+  }
 
-    .font-title{
-      font-size: 14px;
-      font-weight: 1000;
-    }
-
-    .font-item{
-      font-size: 14px;
-      font-weight: 1000;
-    }
-
-    .price {
-      color: #f8ac59;
-      margin-bottom: 20px;
-    }
-
-    .info {
-      > div:nth-child(1),
-      > div:nth-child(2),
-      > div:nth-child(3) {
-        display: flex;
-        flex-direction: column;
-      }
-    }
+  .padding-params {
+    padding:  0 2em;
   }
 
   .params {
-    /*display: flex;
-    align-items: center;*/
-    >div:nth-child(2) {
-      padding-top: 15px;
-    }
+    padding-top: 1em;
 
-    .param {
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    .selected {
-      display: flex;
-      justify-content: flex-start;
-    }
-    .separator{
-      margin-bottom:5px;
+    .separator {
+      margin-bottom: 1em;
     }
   }
 
-}
+  .title {
+    font-weight: 600;
+  }
 
-.title {
-  font-weight: 600;
-}
+  .label-title {
+    padding-top: 1.5em;
+  }
 
-.label-title{
-  padding-top: 15px;
-}
-.select-values {
-  padding-left: 0px;
-}
+  .patient-info {
+    padding-bottom: 1.5em;
+  }
 
-.width-input{
-  width: 150px;
-}
+  .eye-info {
+    color:#868e96;
+    padding: 0 2em;
+  }
 
-
-.comment{
-  width: 206px;
-}
-.div-comment{
-  padding-left: 70px;
-}
-
-.separator-comment{
-  padding-top: 24px;
+  .align-item{
+    text-align: center;
+  }
 }

@@ -79,7 +79,6 @@ export class ProfileComponent implements OnInit {
     this.initializeForm();
     this.initializeAvatar();
     this.getCountries();
-    this.locale = this.userStorageService.getLanguage();
   }
 
   initializeAvatar() {
@@ -103,7 +102,7 @@ export class ProfileComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term, this.locale).pipe(
+        this.googleService.searchCities$(term, this.userStorageService.getLanguage()).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -120,7 +119,7 @@ export class ProfileComponent implements OnInit {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       address: [''],
-      state: ['', [Validators.required]],
+      state: [''],
       idCountry: ['', [Validators.required]],
       city: ['', [Validators.required]],
       postal: [''],
@@ -221,7 +220,8 @@ export class ProfileComponent implements OnInit {
     this.locale = this.userStorageService.getLanguage();
     this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.selectedCountry = _.filter(countries, { 'name': this.googleService.getCountry() } );
+      const country = this.translate.instant(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': country } );
       this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());

@@ -22,6 +22,8 @@ import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceComponent } from './modals/notification-balance/notification-balance.component';
 import { ConfirmationMagicLookComponent } from './modals/confirmation-buy/confirmation-magic-look/confirmation-magic-look.component';
+import { ConfirmationMarkennovyComponent } from './modals/confirmation-buy/confirmation-markennovy/confirmation-markennovy.component';
+import { ConfirmationBlueLightComponent } from './modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
 
 @NgModule({
   imports: [
@@ -49,12 +51,16 @@ import { ConfirmationMagicLookComponent } from './modals/confirmation-buy/confir
     ConfirmationBuyComponent,
     EditProductComponent,
     NotificationBalanceComponent,
-    ConfirmationMagicLookComponent
+    ConfirmationMagicLookComponent,
+    ConfirmationMarkennovyComponent,
+    ConfirmationBlueLightComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
                     NotificationBalanceComponent,
-                    ConfirmationMagicLookComponent
+                    ConfirmationMagicLookComponent,
+                    ConfirmationMarkennovyComponent,
+                    ConfirmationBlueLightComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })
