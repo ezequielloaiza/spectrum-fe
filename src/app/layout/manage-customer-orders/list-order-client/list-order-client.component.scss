@@ -119,6 +119,8 @@
 
 .div-status{
   text-align: center;
+  padding-left: 15%;
+  font-size: 14px;
 }
 
 .div-date{
@@ -141,10 +143,16 @@
   text-align: center;
 }
 
-.title-payment{
+.title_payment{
   padding-left: 10px;
   font-size: 14px;
   font-weight: 600;
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+  font-size: 14px;
 }
 
 .list-orden {
@@ -469,6 +477,7 @@
     padding-left: 0px;
   }
   .title-payment{
+    text-align: center;
     padding-left: 0px;
   }
 
@@ -537,3 +546,5 @@
     }
   }
 }
+
+

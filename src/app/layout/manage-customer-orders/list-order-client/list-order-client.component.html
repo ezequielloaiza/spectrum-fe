@@ -57,7 +57,7 @@
               <div class="list-orden" *ngFor="let order of listOrders">
                 <div class="row">
                   <div class="col-lg-2">
-                    <div>
+                    <div class="title">
                       <span>{{'ORDER'| translate }}</span>
                     </div>
                     <div>
@@ -73,8 +73,8 @@
                     </div>
                   </div>
                   <div class="col-lg-2">
-                    <div>
-                      <span class="title-status">{{ 'Order Status' | translate }}</span>
+                    <div class="title-status">
+                      <span>{{ 'Order Status' | translate }}</span>
                     </div>
                     <div class="div-status">
                       <span *ngIf='order.status==0' class="div-pending">
@@ -95,7 +95,7 @@
                     </div>
                   </div>
                   <div class="col-lg-2">
-                    <div class="title-payment">
+                    <div class="title_payment">
                       <span>{{ 'Payment Status' | translate }}</span>
                     </div>
                     <div class="div-status">
@@ -107,9 +107,9 @@
                       </span>
                     </div>
                   </div>
-                  <div class="col-lg-2">
+                  <div class="col-lg-2 title">
                     <div>
-                      <span class="span_total">Total</span>
+                      <span>Total</span>
                     </div>
                     <div>
                       <span>{{order.total | currency : "USD $" }}</span>
