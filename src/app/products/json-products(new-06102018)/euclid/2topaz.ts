@@ -1,7 +1,7 @@
 this.products = [
   {
     "code": "", "name": "Euclid",
-    "priceBase": 6000, "price1": 5500, "price2": 5600, "price3": 5700,
+    "priceBase": 110, "price1": 100, "price2": 100, "price3": 110,
     "father": "Euclid",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
@@ -41,9 +41,9 @@ this.products = [
       {
         "name": "Prices", "values": [
           { "title": "Warranty", "values":[
-                                            {"name": "Preferred", "additional": 10 },
-                                            {"name": "Diamond", "additional": 20 },
-                                            {"name": "Gold", "additional": 30 }
+                                            {"name": "Preferred", "price": 140 },
+                                            {"name": "Diamond", "price": 140 },
+                                            {"name": "Gold", "price": 150 }
                                           ]
           }
         ]

@@ -1,7 +1,7 @@
 this.products = [
   {
     "code": "", "name": "Emerald",
-    "priceBase": 6000, "price1": 5500, "price2": 5600, "price3": 5700,
+    "priceBase": 100, "price1": 90, "price2": 90, "price3": 100,
     "father": "Euclid",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
@@ -36,6 +36,16 @@ this.products = [
           { "title": "3-Monthly", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" },
           { "title": "Sylicone Hydrogel", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" },
           { "title": "UV Filter", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" }
+        ]
+      }, 
+      {
+        "name": "Prices", "values": [
+          { "title": "Warranty", "values":[
+                                            {"name": "Preferred", "price": 110 },
+                                            {"name": "Diamond", "price": 110 },
+                                            {"name": "Gold", "price": 120 }
+                                          ]
+          }
         ]
       }
     ]

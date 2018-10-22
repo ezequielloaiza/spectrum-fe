@@ -223,9 +223,7 @@ export class ProductViewEuclidComponent implements OnInit {
   findShippingAddress(idCliente) {
     this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state;
-
-        //this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
+        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
       } else if (res.code === CodeHttp.notContent) {
         this.product.shippingAddress = '';
         this.translate.get('You must enter a main address in the shipping address module',
@@ -249,15 +247,15 @@ export class ProductViewEuclidComponent implements OnInit {
     switch (membership) {
       case 1:
         this.product.priceSale = this.product.price1;
-        this.product.additional = this.product.pricesAditionalWarranties.values[0].additional;
+        this.product.additional = this.product.pricesAditionalWarranties.values[0].price - this.product.price1;
         break;
       case 2:
         this.product.priceSale = this.product.price2;
-        this.product.additional = this.product.pricesAditionalWarranties.values[1].additional;
+        this.product.additional = this.product.pricesAditionalWarranties.values[1].price - this.product.price2;
         break;
       case 3:
         this.product.priceSale = this.product.price3;
-        this.product.additional = this.product.pricesAditionalWarranties.values[2].additional;
+        this.product.additional = this.product.pricesAditionalWarranties.values[2].price - this.product.price3;
         break;
     }
   }
@@ -299,7 +297,7 @@ export class ProductViewEuclidComponent implements OnInit {
         _.each(product.parametersLeft, function(parameter, index) {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
-        
+
         productSelected.parameters = product.parametersLeft;
       }
 
