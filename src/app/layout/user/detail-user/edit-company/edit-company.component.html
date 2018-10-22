@@ -144,6 +144,20 @@
               </div>
             </fieldset>
           </div>
+          <div class="col-xl-12">
+            <fieldset class="form-group">
+              <label>{{ 'Shipping Instructions' | translate }}
+              </label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.shippingInstructions }}</span>                
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions" formControlName="shippingInstructions" maxlength="255" 
+                required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="shippingInstructions.valid || shippingInstructions.pristine">
+              <span>{{ 'Shipping instructions is required' | translate }}</span>
+            </div>
+          </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
               <label>{{ 'Phone' | translate }}</label>
