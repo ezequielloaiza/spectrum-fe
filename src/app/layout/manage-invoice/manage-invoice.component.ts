@@ -8,6 +8,7 @@ import { UserStorageService } from '../../http/user-storage.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { GenerateInvoiceComponent } from '../manage-customer-orders/generate-invoice/generate-invoice.component';
 import { OrderService } from '../../shared/services';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-manage-invoice',
@@ -134,4 +135,13 @@ export class ManageInvoiceComponent implements OnInit {
         });
       });
     }
+
+  downloadInvoice(invoice): void {
+    this.invoiceService.downloadInvoice$(invoice.number).subscribe(res => {
+      const filename = 'I-' + invoice.number + '.pdf';
+      saveAs(res, filename);
+    }, error => {
+      console.log('error', error);
+    });
+  }
 }
