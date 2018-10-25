@@ -691,5 +691,8 @@
     "Credit balance":"Credit balance",
     "Enter credit balance":"Enter credit balance",
     "Credit balance is required":"Credit balance is required",
-    "Generate Invoice": "Generate Invoice"
+    "Generate Invoice": "Generate Invoice",
+    "Up to 1000 boxes":"Up to 1000 boxes",
+    "Up to 2000 boxes":"Up to 2000 boxes",
+    "Greater than 2000 boxes":"Greater than 2000 boxes"
 }

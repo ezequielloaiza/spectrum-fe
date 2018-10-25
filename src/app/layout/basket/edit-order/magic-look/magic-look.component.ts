@@ -25,7 +25,6 @@ export class MagicLookComponent implements OnInit {
   editPrice = false;
   user: any;
   patient: any;
-  cl = ['row', 'selection', 'label-title', 'width-input', 'separator'];
   // NUEVO
   parametList: Array<any> = new Array;
   listBoxes:  Array<any> = new Array;
@@ -45,9 +44,7 @@ export class MagicLookComponent implements OnInit {
     this.getProductView();
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
-      this.cl = ['row', 'selection', 'width-input', 'separator'];
     }
-
   }
 
   close() {
@@ -132,31 +129,40 @@ export class MagicLookComponent implements OnInit {
   changeQuantity(id, ev) {
     const val = ev.target.value;
     let modulo: number;
-    let cant = 0;
-   if (val !== '') {
-        modulo = (parseInt(val) % 50);
-        if (modulo === 0) {
-          // Actualizo la cantidad Total
-          _.each(this.parametList, function(productSelected1) {
-              // tslint:disable-next-line:radix
-              cant = cant + parseInt(productSelected1.quantitySelected);
-          });
-          this.quantity = cant;
-        } else {
-            const productSelected1 = _.find(this.parametList, { 'id': id});
-            productSelected1.quantitySelected = null;
-        }
-     } else {
-        // Actualizo la cantidad Total
-      _.each(this.parametList, function(productSelected1) {
-        // tslint:disable-next-line:radix
-          if (productSelected1.quantitySelected != null) {
-              // tslint:disable-next-line:radix
-              cant = cant + parseInt(productSelected1.quantitySelected);
-          }
-       });
-       this.quantity = cant;
-     }
+    modulo = (parseInt(val) % 50);
+    if (modulo === 0) {
+      // Actualizo la cantidad Total
+      this.quantity = _.sumBy(this.parametList, 'quantitySelected');
+    } else {
+        const productSelected1 = _.find(this.parametList, { 'id': id});
+        productSelected1.quantitySelected = null;
+    }
+    this.quantity = _.sumBy(this.parametList, 'quantitySelected');
+    let membership = this.basket.basket.user.membership.idMembership;
+    let info = JSON.parse(this.basket.productRequested.product.infoAditional);
+    let pos;
+      if (this.quantity >= 250 && this.quantity <= 1000 ) {
+         pos = 0;
+      } else if (this.quantity >= 1001 && this.quantity <= 2000) {
+         pos = 1;
+      } else if (this.quantity >= 2001) {
+         pos = 2;
+      }
+    if (this.quantity >= 250) {
+      switch (membership) {
+        case 1: // Gold
+          this.price = parseFloat(info[1].values[pos].price);
+          break;
+        case 2: // Diamond
+          this.price = parseFloat(info[2].values[pos].price);
+          break;
+        case 3: // Preferred
+        this.price = parseFloat(info[3].values[pos].price);
+          break;
+      }
+    } else {
+      this.price = '';
+    }
   }
 
   save() {

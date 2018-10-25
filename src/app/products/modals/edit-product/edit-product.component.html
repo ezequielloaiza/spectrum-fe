@@ -31,17 +31,31 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Price (Preferred)' | translate }}</label>
-            <input type="number" class="form-control" placeholder="{{ 'Enter price 1' | translate }}" name="price1" formControlName="price1">
+            <label>{{ 'Price (Gold)' | translate }}</label>
+            <div class="mb-2 mr-sm-2 mb-sm-0">
+              <div class="form-group input-group">
+                <div class="input-group-append">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="number" class="form-control" placeholder="{{ 'Enter price 3' | translate }}" name="price3" formControlName="price3">
+              </div>
+            </div>
           </fieldset>
-          <div class="message-error" [hidden]="price1.valid || price1.pristine">
-            <span>{{ 'Price (Preferred) is required' | translate }}</span>
+          <div class="message-error" [hidden]="price3.valid || price3.pristine">
+            <span>{{ 'Price (Gold) is required' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Price (Diamond)' | translate }}</label>
-            <input type="number" class="form-control" placeholder="{{ 'Enter price 2' | translate }}" name="price2" formControlName="price2">
+            <div class="mb-2 mr-sm-2 mb-sm-0">
+              <div class="form-group input-group">
+                <div class="input-group-append">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="number" class="form-control" placeholder="{{ 'Enter price 2' | translate }}" name="price2" formControlName="price2">
+              </div>
+            </div>
           </fieldset>
           <div class="message-error" [hidden]="price2.valid || price2.pristine">
             <span>{{ 'Price (Diamond) is required' | translate }}</span>
@@ -49,11 +63,18 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Price (Gold)' | translate }}</label>
-            <input type="number" class="form-control" placeholder="{{ 'Enter price 3' | translate }}" name="price3" formControlName="price3">
+            <label>{{ 'Price (Preferred)' | translate }}</label>
+            <div class="mb-2 mr-sm-2 mb-sm-0">
+              <div class="form-group input-group">
+                <div class="input-group-append">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="number" class="form-control" placeholder="{{ 'Enter price 1' | translate }}" name="price1" formControlName="price1">
+              </div>
+            </div>
           </fieldset>
-          <div class="message-error" [hidden]="price3.valid || price3.pristine">
-            <span>{{ 'Price (Gold) is required' | translate }}</span>
+          <div class="message-error" [hidden]="price1.valid || price1.pristine">
+            <span>{{ 'Price (Preferred) is required' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">
