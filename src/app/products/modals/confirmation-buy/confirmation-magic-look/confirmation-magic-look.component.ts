@@ -37,7 +37,7 @@ export class ConfirmationMagicLookComponent implements OnInit {
   buyNow: BuyNow = new BuyNow();
   eyesSelected: any;
   typeBuy: any;
-  quantity: any;
+  price: any;
   user: any;
   balace: any;
   // list for File
@@ -79,12 +79,12 @@ export class ConfirmationMagicLookComponent implements OnInit {
 
   getDatos() {
     let patient;
-    let  quantityAcum = 0;
+    let  priceAcum = 0;
     let eyesSelected = [];
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     _.each(this.listBasket, function (productRequested) {
-      quantityAcum =  quantityAcum + productRequested.quantity;
+      priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
       patient = productRequested.patient;
       let details = JSON.parse(productRequested.detail);
       _.each(details, function (detail) {
@@ -94,7 +94,7 @@ export class ConfirmationMagicLookComponent implements OnInit {
     });
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;
-    this.quantity = quantityAcum;
+    this.price = priceAcum;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
   }
 
@@ -203,7 +203,7 @@ export class ConfirmationMagicLookComponent implements OnInit {
 
   validateAvailableBalance() {
     let available = true;
-    if (this.company.paymentMethod === 1 && ((this.product.priceSale * this.quantity) > this.balace)) { // Postpago
+    if (this.company.paymentMethod === 1 && ((this.price) > this.balace)) { // Postpago
         available = false;
     }
     this.available = available;

@@ -23,23 +23,23 @@
             <dt>{{ namePatient}}</dt>
           </dl>
           <dl class="param">
-            <dt>{{ product.priceSale * quantity | currency : "USD $" }}</dt>
+            <dt>{{ price | currency : "USD $" }}</dt>
           </dl>
         </div>
       </div>
       <!--PARAMETERS-->
       <div class="card-body table-responsive">
-        <div class="row justify-content-md-center div-parametros">
+        <div class="row justify-content-md-center div-parametros" *ngFor="let list of listBasket">
           <div class="col-sm-3">
             <dl class="align-item">
               <dt>{{ 'Quantity' | translate }}</dt>
               <hr>
               <dt>
-                <span class="items"> {{ quantity }}</span>
+                <span class="items"> {{ list.quantity }}</span>
               </dt>
             </dl>
           </div>
-          <div class="col-sm-3" *ngFor="let parameter of listBasket[0].detail[0].parameters">
+          <div class="col-sm-3" *ngFor="let parameter of list.detail[0].parameters">
             <dl class="align-item">
               <dt>{{parameter.name | translate }}</dt>
               <hr>
