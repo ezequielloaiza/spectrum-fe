@@ -8,8 +8,8 @@ this.products = [
     "material": "Hidrogel, Filcon IV I 55%",
     "descriptionShort": "My description short by xtensa",
     "description": "Xtensa is a monthly soft contact lens for all audiences and lifestyles manufactured with our patented micro-precision technology.  Its consistent comfort and vision clarity make it ideal for the most dynamic and carefree contact lens users.",
-    "replacementPeriod": "3 months",
-    "warranty": "One year",
+    "replacementPeriod": "Monthly",
+    "warranty": "",
     "url": "http://spctinternational.com/wp-content/uploads/2017/11/XTENSA.pdf",
     "stock": 10,
     "types": [{
@@ -24,29 +24,19 @@ this.products = [
         "eyeLeft": null,
         "eyeRight": null
       }],
-      "infoAditional": [
-        {
-          "name": "Characteristics" , "values": [
-                          {"title":"More Custom", "description":"Design flexibilities beyond other standard hydrogels."},
-                          {"title":"More Comfort", "description":"A high-performance Hydrogel (55%)."},
-                          {"title":"Vision Type", "description":"Active—clear vision for your lifestyle."}
-                          
-          ]
-        },
-        {
-          "name": "Technical Specifications", "values": [
-                                  {"title": "Material", "description": "Hydrogel, Filcon IV I 55%"},
-                                  {"title": "DK", "description": "19"},
-                                  {"title": "Handling Tint", "description": "Yes"},
-                                  {"title": "UV Blocking", "description": "No"},
-                                  {"title": "Base Curve (mm)", "description": "8.60"},
-                                  {"title": "ØT (mm)", "description": "14.30"},
-                                  {"title": "Sphere (D)", "description": "-10.00 to +10.00 (-6.00 to +4.00 Steps 0.25; -6.50 to -10.00 Steps 0.50; +4.50 to +10.00 Steps 0.50)"},
-                                  {"title": "Addition (D)", "description": "LOW – HIGH"},
-                                  {"title": "Design MF", "description": "CD – CN"}
-          ]
-        }
-      ]
-
+    "infoAditional": [
+      {
+        "name": "Properties", 
+        "values": [
+          { "title": "k2", "image": ""},
+          { "title": "Aspheric", "image": "assets/images/properties/aspheric.png"},
+          { "title": "Toric", "image": "assets/images/properties/toric.png"},
+          { "title": "Multifocal", "image": "assets/images/properties/multifocal.png"},
+          { "title": "Monthly", "image": "assets/images/properties/monthly.png"},
+          { "title": "Hydrogel", "image": ""},
+          { "title": "RX DESIGN", "image": ""},
+        ]
+      }
+    ]
   }
 ];
