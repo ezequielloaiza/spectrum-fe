@@ -80,14 +80,14 @@ export class MagicLookComponent implements OnInit {
         if (itemParamet.name === 'Tone') {
           index = index + 1;
           switch ( itemTone.Tone) {
-            case '1 TONE':
+            /*case '1 TONE':
               tonesAux = JSON.parse(tonoValue)[0].parametersBoxes[1].values[0];
               break;
             case '2 TONE':
               tonesAux = JSON.parse(tonoValue)[0].parametersBoxes[1].values[1];
-              break;
+              break;*/
             case '3 TONE':
-              tonesAux = JSON.parse(tonoValue)[0].parametersBoxes[1].values[2];
+              tonesAux = JSON.parse(tonoValue)[0].parametersBoxes[1].values[0];
               break;
           }
           let tono = {'id': index,
@@ -111,14 +111,14 @@ export class MagicLookComponent implements OnInit {
     let tonesAux;
     let tono = this.product.types;
       switch (value) {
-        case '1 TONE':
+        /*case '1 TONE':
           tonesAux = JSON.parse(tono)[0].parametersBoxes[1].values[0];
           break;
         case '2 TONE':
           tonesAux = JSON.parse(tono)[0].parametersBoxes[1].values[1];
-          break;
+          break;*/
         case '3 TONE':
-          tonesAux = JSON.parse(tono)[0].parametersBoxes[1].values[2];
+          tonesAux = JSON.parse(tono)[0].parametersBoxes[1].values[0];
           break;
     }
     const productSelected1 = _.find(this.parametList, { 'id': id});
@@ -226,7 +226,7 @@ export class MagicLookComponent implements OnInit {
              valido = false;
           }
       });
-     if (this.quantity === null || this.quantity < 250 || this.price === null || (this.patient === null || this.patient === '')) {
+     if (this.quantity === null || this.quantity < 250 || this.price === null) {
           valido = false;
      }
      return valido;
