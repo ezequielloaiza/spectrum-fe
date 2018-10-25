@@ -1,15 +1,15 @@
 this.products = [
   {
     "code": "S0E", "name": "Quattro Sph (14.50) x1 Conv",
-    "priceBase": 2000, "price1": 1500, "price2": 1600, "price3": 1700,
+    "priceBase": 20, "price1": 15, "price2": 15, "price3": 20,
     "father": "Quattro Conv",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
-    "material": "Hidrogel, Filcon I 1 49%",
-    "descriptionShort": "My description short by quattro",
+    "material": "Hidrogel, Filcon I 1 49% H2O",
+    "descriptionShort": "My description short by quattro conventional",
     "description": "Quattro is individually manufactured with the material mark’ennovy was founded on, Filcon I 1 49%. It is our classic line of lenses produced with the most advanced technology for mark’ennovy’s most experienced contact lens users.",
     "replacementPeriod": "Conventional",
-    "warranty": "One year",
+    "warranty": "",
     "url": "http://spctinternational.com/wp-content/uploads/2017/11/QUATTRO.pdf",
     "stock": 10,
     "types": [
@@ -26,26 +26,16 @@ this.products = [
     ],
     "infoAditional": [
       {
-        "name": "Characteristics", "values": [
-          { "title": "More Custom", "description": "Individually made for each eye in multiple designs." },
-          { "title": "More Comfort", "description": "Proven Hydrogel (49%)." },
-          { "title": "Vision Type", "description": "Classic—vision satisfaction you have grown to trust." }
-
-        ]
-      },
-      {
-        "name": "Technical Specifications", "values": [
-          { "title": "Material", "description": "Hydrogel, Filcon I 1 49%" },
-          { "title": "DK", "description": "15" },
-          { "title": "MPa", "description": "0.29" },
-          { "title": "Handling Tint", "description": "Yes" },
-          { "title": "UV Blocking", "description": "Yes" },
-          { "title": "Base Curve (mm)", "description": "7.70 to 9.80 Steps 0.30" },
-          { "title": "ØT (mm)", "description": "14.50 to 13.00" },
-          { "title": "Sphere (D)", "description": "-30.00 to +30.00 Steps 0.25" },
-          { "title": "Cylinder (D)", "description": "-0.75 to -8.00 Steps 0.25" },
-          { "title": "Axis (°)", "description": "All Steps 5°" },
-          { "title": "Addition (D)", "description": "A – B – C" }
+        "name": "Properties",
+        "values": [
+          { "title": "k1", "image": ""},
+          { "title": "Aspheric", "image": "assets/images/properties/aspheric.png"},
+          { "title": "Toric", "image": "assets/images/properties/toric.png"},
+          { "title": "Multifocal", "image": "assets/images/properties/multifocal.png"},
+          { "title": "Conventional", "image": "assets/images/properties/convencional.png"},
+          { "title": "Silicone Hydrogel", "image": "assets/images/properties/silicone-hydrogel.png"},
+          { "title": "RX DESIGN", "image": ""},
+          { "title": "UV Blocking", "image": "assets/images/properties/uv-blocking.png"}
         ]
       }
     ]

@@ -34,7 +34,6 @@ this.products = [
           { "title": "Aspheric", "image": "assets/images/properties/aspheric.png"},
           { "title": "Toric", "image": "assets/images/properties/toric.png"},
           { "title": "Multifocal", "image": "assets/images/properties/multifocal.png"},
-          { "title": "Multifocal Toric", "image": "assets/images/properties/multifocal-toric.png"},
           { "title": "3 Monthly", "image": "assets/images/properties/3-monthly.png"},
           { "title": "Silicone Hydrogel", "image": "assets/images/properties/silicone-hydrogel.png"},
           { "title": "RX DESIGN", "image": ""},
