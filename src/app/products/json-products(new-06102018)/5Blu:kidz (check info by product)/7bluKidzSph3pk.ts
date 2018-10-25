@@ -1,11 +1,11 @@
 this.products = [
   {
     "code": "BZ1", "name": "Blu:kidz Sph 3pk",
-    "priceBase": 1000, "price1": 500, "price2": 600, "price3": 700,
+    "priceBase": 45, "price1": 45, "price2": 45, "price3": 45,
     "father": "Blu:kidz",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
-    "material": "Silicone Hydrogel, 75%",
+    "material": "Silicone Hydrogel, 75% H2O",
     "descriptionShort": "My description short by Blu:kidz",
     "description": "Blu:kidz is a monthly silicone hydrogel soft contact lens that combines a selective blue light blocking filter with a 1st Class UV Filter. It features a high water content, low dehydration material, a low modulus (0.25 MPa), and our broadest range of parameters.",
     "replacementPeriod": "Monthly",
@@ -26,29 +26,16 @@ this.products = [
     ],
     "infoAditional": [
       {
-        "name": "Characteristics", "values": [
-          { "title": "", "description": "Blue Light & First Class UV Filters." },
-          { "title": "More Comfort", "description": "Extended range of diameters and base curves." },
-          { "title": "Vision Type", "description": "High water content, low dehydration Silicone Hydrogel." }
-
-        ]
-      },
-      {
-        "name": "Technical Specifications", "values": [
-          { "title": "Material", "description": "Silicone Hydrogel, 75%" },
-          { "title": "DK", "description": "60" },
-          { "title": "MPa", "description": "0.25" },
-          { "title": "Handling Tint", "description": "Yes" },
-          { "title": "UV Blocking", "description": "Yes" },
-          { "title": "1st Class UV Filter", "description": "Yes" },
-          { "title": "Base Curve (mm)", "description": "6.50 to 9.80 Steps 0.30" },
-          { "title": "ØT (mm)", "description": "11.50 to 16.00 Steps 0.50" },
-          { "title": "Sphere (D)", "description": "-30.00 to +30.00 Steps 0.25" },
-          { "title": "Cylinder (D)", "description": "-0.75 to -8.00 Steps 0.25" },
-          { "title": "Axis (°)", "description": "All Steps 1°" },
-          { "title": "Addition (D)", "description": "+0.50 to +4.00 Steps 0.50" },
-          { "title": "Desing MF", "description": "CD – CN" }
-
+        "name": "Properties", 
+        "values": [
+          { "title": "Aspheric", "image": "assets/images/properties/aspheric.png"},
+          { "title": "Toric", "image": "assets/images/properties/toric.png"},
+          { "title": "Multifocal", "image": "assets/images/properties/multifocal.png"},
+          { "title": "Multifocal Toric", "image": "assets/images/properties/multifocal-toric.png"},
+          { "title": "Monthly", "image": "assets/images/properties/monthly.png"},
+          { "title": "Silicone Hydrogel", "image": "assets/images/properties/silicone-hydrogel.png"},
+          { "title": "Blue Light Filter", "image": "assets/images/properties/blue-light-filter.png"},
+          { "title": "UV Blocking", "image": "assets/images/properties/uv-blocking.png"},
         ]
       }
     ]
