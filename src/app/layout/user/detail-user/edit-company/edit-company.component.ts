@@ -67,6 +67,7 @@ export class EditCompanyComponent implements OnInit {
       creditLimit   : ['', [Validators.required]],
       idBusinessType: ['', [Validators.required]],
       address       : [''],
+      shippingInstructions : ['', [Validators.required]],
       state         : [''],
       idCountry       : ['', [ Validators.required]],
       cityPlace          : ['', [ Validators.required]],
@@ -172,6 +173,7 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('idCompany').setValue(company.idCompany);
     this.form.get('city').setValue(company.city);
     this.form.get('balance').setValue(company.balance);
+    this.form.get('shippingInstructions').setValue(company.shippingInstructions);
   }
 
   save(): void {
@@ -207,6 +209,7 @@ export class EditCompanyComponent implements OnInit {
   get paymentMethod() {return this.form.get('paymentMethod'); }
   get creditDays() {return this.form.get('creditDays'); }
   get balance() {return this.form.get('balance'); }
+  get shippingInstructions() {return this.form.get('shippingInstructions'); }
 
   assignCreditDays(value: number) {
     if (value === 1) {

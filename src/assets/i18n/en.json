@@ -692,5 +692,8 @@
     "Enter credit balance":"Enter credit balance",
     "Credit balance is required":"Credit balance is required",
     "Generate Invoice": "Generate Invoice",
+    "Shipping Instructions": "Shipping Instructions",
+    "Enter shipping instructions":"Enter shipping instructions",
+    "Shipping instructions are required":"Shipping instructions are required",
     "Pending Warranties": "Pending Warranties"
 }
