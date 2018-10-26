@@ -1,6 +1,6 @@
 <div class="container bootstrap snippet">
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12 col-lg-12">
       <br>
       <form [formGroup]="form">
         <div class="form-options">
@@ -134,7 +134,7 @@
             </div>
           </div>
 
-          <div class="col-xl-12">
+          <div class="col-xl-6">
             <fieldset class="form-group">
               <label>{{ 'Address' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
@@ -143,6 +143,21 @@
                   formControlName="address">
               </div>
             </fieldset>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Phone' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.phone }}</span>
+                <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="!canEdit || phone.value.length === 0 || phone.value.length > 7">
+              <span>{{ 'Phone not valid' | translate }}</span>
+            </div>
+            <div class="message-error" [hidden]="!canEdit || phone.value!=''">
+              <span>{{ 'Phone is required' | translate }}</span>
+            </div>
           </div>
           <div class="col-xl-12">
             <fieldset class="form-group">
@@ -160,32 +175,17 @@
           </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
-              <label>{{ 'Phone' | translate }}</label>
-              <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company.phone }}</span>
-                <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
-              </div>
-            </fieldset>
-            <div class="message-error" [hidden]="!canEdit || phone.value.length === 0 || phone.value.length > 7">
-              <span>{{ 'Phone not valid' | translate }}</span>
-            </div>
-            <div class="message-error" [hidden]="!canEdit || phone.value!=''">
-              <span>{{ 'Phone is required' | translate }}</span>
-            </div>
-          </div>
-          <div class="col-xl-6">
-            <fieldset class="form-group">
               <label>{{ 'Payment Method' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ method | translate}}</span>
                 <div [hidden]="!canEdit" class="row">
-                  <div class="col-xl-6">
+                  <div class="col-xl-3">
                     <div class="custom-control custom-radio">
                       <input type="radio" id="customRadio1" name="paymentMethod" class="custom-control-input" (change)="assignCreditDays(0)" [checked]="company && company.paymentMethod === 0 ? true : false">
                       <label class="custom-control-label" for="customRadio1">{{ 'Prepaid' | translate }}</label>
                     </div>
                   </div>
-                  <div class="col-xl-6">
+                  <div class="col-xl-3">
                     <div class="custom-control custom-radio">
                       <input type="radio" id="customRadio2" name="paymentMethod" class="custom-control-input" (change)="assignCreditDays(1)" [checked]="company && company.paymentMethod === 1 ? true : false">
                       <label class="custom-control-label" for="customRadio2">{{ 'Postpaid' | translate }}</label>
@@ -249,7 +249,7 @@
             </div>
           </div>
         </div>
-        <br>
+        <!--br>-->
         <div class="footer-form">
           <button class="btn btn-secondary" (click)="cancel()" [disabled]="saving" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
             <i class="fa fa-times"></i>
