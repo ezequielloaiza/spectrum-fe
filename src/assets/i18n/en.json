@@ -694,5 +694,6 @@
     "Generate Invoice": "Generate Invoice",
     "Shipping Instructions": "Shipping Instructions",
     "Enter shipping instructions":"Enter shipping instructions",
-    "Shipping instructions are required":"Shipping instructions are required"
+    "Shipping instructions are required":"Shipping instructions are required",
+    "Pending Warranties": "Pending Warranties"
 }
