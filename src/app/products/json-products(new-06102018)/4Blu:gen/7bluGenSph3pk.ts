@@ -35,7 +35,7 @@ this.products = [
           { "title": "Monthly", "image": "assets/images/properties/monthly.png"},
           { "title": "Silicone Hydrogel", "image": "assets/images/properties/silicone-hydrogel.png"},
           { "title": "Blue Light Filter", "image": "assets/images/properties/blue-light-filter.png"},
-          { "title": "UV Blocking", "image": "assets/images/properties/uv-blocking.png"},
+          { "title": "UV Blocking", "image": "assets/images/properties/uv-blocking.png"}
         ]
       }
     ]

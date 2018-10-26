@@ -31,8 +31,9 @@ this.products = [
           { "title": "Aspheric", "image": "assets/images/properties/aspheric.png"},
           { "title": "Toric", "image": "assets/images/properties/toric.png"},
           { "title": "Multifocal", "image": "assets/images/properties/multifocal.png"},
-          { "title": "Monthly", "image": "assets/images/properties/monthly.png"},            { "title": "Hydrogel", "image": ""},
-          { "title": "RX DESIGN", "image": ""},
+          { "title": "Monthly", "image": "assets/images/properties/monthly.png"},
+          { "title": "Hydrogel", "image": ""},
+          { "title": "RX DESIGN", "image": ""}
         ]
       }
     ]

@@ -8,7 +8,7 @@ this.products = [
     "material": "Hidrogel, Filcon I 1 49% H2O",
     "descriptionShort": "My description short by quattro",
     "description": "Quattro is individually manufactured with the material mark’ennovy was founded on, Filcon I 1 49%. It is our classic line of lenses produced with the most advanced technology for mark’ennovy’s most experienced contact lens users.",
-    "replacementPeriod": "3 months",
+    "replacementPeriod": "3-Monthly",
     "warranty": "",
     "url": "http://spctinternational.com/wp-content/uploads/2017/11/QUATTRO.pdf",
     "stock": 10,

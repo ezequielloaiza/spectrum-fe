@@ -35,7 +35,7 @@ this.products = [
           { "title": "Multifocal", "image": "assets/images/properties/multifocal.png"},
           { "title": "Monthly", "image": "assets/images/properties/monthly.png"},
           { "title": "Hydrogel", "image": ""},
-          { "title": "RX DESIGN", "image": ""},
+          { "title": "RX DESIGN", "image": ""}
         ]
       }
     ]
