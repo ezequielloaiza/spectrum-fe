@@ -52,7 +52,6 @@ export class EditProductMagicLookComponent implements OnInit {
   ngOnInit() {
     this.getPrices();
     this.initializeForm();
-    console.log('product:', this.product);
   }
 
   formatter = (x: { description: string }) => x.description;
