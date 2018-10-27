@@ -24,6 +24,7 @@ import { NotificationBalanceComponent } from './modals/notification-balance/noti
 import { ConfirmationMagicLookComponent } from './modals/confirmation-buy/confirmation-magic-look/confirmation-magic-look.component';
 import { ConfirmationMarkennovyComponent } from './modals/confirmation-buy/confirmation-markennovy/confirmation-markennovy.component';
 import { ConfirmationBlueLightComponent } from './modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
+import { EditProductMagicLookComponent } from './modals/edit-product/edit-product-magic-look/edit-product-magic-look.component';
 
 @NgModule({
   imports: [
@@ -53,14 +54,16 @@ import { ConfirmationBlueLightComponent } from './modals/confirmation-buy/confir
     NotificationBalanceComponent,
     ConfirmationMagicLookComponent,
     ConfirmationMarkennovyComponent,
-    ConfirmationBlueLightComponent
+    ConfirmationBlueLightComponent,
+    EditProductMagicLookComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
                     NotificationBalanceComponent,
                     ConfirmationMagicLookComponent,
                     ConfirmationMarkennovyComponent,
-                    ConfirmationBlueLightComponent
+                    ConfirmationBlueLightComponent,
+                    EditProductMagicLookComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })

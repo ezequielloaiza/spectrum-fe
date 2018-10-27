@@ -23,13 +23,6 @@
       <!-- row (name-price-image) -->
       <div class="row wrapper">
         <div class="preview col-md-12">
-          <!-- name-price -->
-          <div class="main-info">
-            <!--<h4 class="product-title">{{ product.name }}</h4>-->
-            <h1 class="price" [hidden]="product.priceSale===''">
-              <span>{{ product.priceSale | currency : "USD $" }}</span>
-            </h1>
-          </div>
           <!-- image -->
           <div class="preview-pic tab-content main-info">
             <div class="tab-pane active" id="pic-1">
@@ -97,6 +90,16 @@
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
               readonly>
           </div>
+        </div>
+        <!--Price-->
+        <div class="col-md-3">
+          <h4 class="padding-price" [hidden]="(priceFrom==='' && priceUp==='') || product.priceSale !==''">
+            <span>{{ priceFrom | currency : "USD $"}}{{priceFrom ? ' - ':''}}{{ priceUp | currency : "$"}}</span>
+            <span></span>
+          </h4>
+          <h4 class="padding-price" [hidden]="product.priceSale===''">
+            <span>{{ product.priceSale | currency : "USD $" }}</span>
+          </h4>
         </div>
       </div>
 
@@ -190,8 +193,7 @@
           </button>
         </div>
         <div>
-          <button class="btn btn-lg btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(1)"
-            [disabled]="!formIsValid()">
+          <button class="btn btn-lg btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(1)" [disabled]="!formIsValid()">
             <i class="fa fa-cart-plus"></i> Add to cart
           </button>
         </div>

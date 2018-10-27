@@ -48,20 +48,32 @@
             <!--
                 <span class="label label-info pull-right">Annual</span>
                 -->
-            <h5>Pending Orders</h5>
+            <h5>{{ 'Pending Orders' | translate }}</h5>
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">12</h1>
+              <h1 class="no-margins card-text">{{ordersS}}</h1>
               <i class="fa fa-file"></i>
             </div>
             <br>
-            <div class="stat-percent font-bold text-info">20%
-              <i class="fa fa-level-up"></i>
+            <div *ngIf="user.role.idRole === 3">
+              <div class="stat-percent text-info">
+                <small>
+                  <a [routerLink]="['/order-list-client']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                    {{ 'View Details' | translate }}
+                  </a>
+                </small>
+              </div>
             </div>
-            <small>
-              <a href="">View Details</a>
-            </small>
+            <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
+              <div class="stat-percent text-info">
+                <small>
+                  <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                    {{ 'View Details' | translate }}
+                  </a>
+                </small>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -83,7 +95,7 @@
               <i class="fa fa-level-up"></i>
             </div>
             <small>
-              <a href="">View Details</a>
+              <a href="">{{ 'View Details' | translate }}</a>
             </small>
           </div>
         </div>
@@ -94,20 +106,21 @@
             <!--
                 <span class="label label-danger pull-right">Low value</span>
                 -->
-            <h5>Pending Warranties</h5>
+            <h5>{{ 'Pending Warranties' | translate }}</h5>
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">02</h1>
-              <i class="fa fa-check"></i>
+              <h1 class="no-margins card-text">{{warrantiesS}}</h1>
+              <i class="fa fa-certificate"></i>
             </div>
             <br>
-            <div class="stat-percent font-bold text-danger">38%
-              <i class="fa fa-level-down"></i>
+            <div class="stat-percent text-info">
+              <small>
+                <a routerLink="/warranty" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
             </div>
-            <small>
-              <a href="">View Details</a>
-            </small>
           </div>
         </div>
       </div>

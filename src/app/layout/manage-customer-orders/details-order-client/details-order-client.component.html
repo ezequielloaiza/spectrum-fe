@@ -59,6 +59,9 @@
               <span class="font-weight-bold">{{'Country' | translate }}:</span>&nbsp;
               <span>{{order.address? (order.address.country? (order.address.country.name | translate) : '') :'' }}</span>
               <br>
+              <span class="font-weight-bold">{{'Shipping Instructions' | translate }}:</span>&nbsp;
+              <span>{{order.user? order.user.company.shippingInstructions :'' }}</span>
+              <br>
               <br>
             </div>
             <div class="col-md-4 pull-right">
@@ -158,7 +161,7 @@
                           <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
-                              <span class="text-warning">{{ list.productRequested.price * list.productRequested.quantity | currency : "USD $" }}</span>
+                              <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
                             </dt>
                           </dl>
                         </div>

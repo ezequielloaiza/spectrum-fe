@@ -64,6 +64,7 @@ export class ListBasketComponent implements OnInit {
           this.listBasketAux = res.data;
           _.each(this.listBasket, function (basket) {
             basket.checked = false;
+            basket.supplier = basket.productRequested.product.supplier.idSupplier;
             basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
           });
         }

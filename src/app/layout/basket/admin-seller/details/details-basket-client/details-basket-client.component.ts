@@ -20,6 +20,7 @@ import { MarkennovyComponent } from '../../../edit-order/markennovy/markennovy.c
 import { DetailMagicLookComponent } from '../../../modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from '../../../modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-blue-light/detail-blue-light.component';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-details-basket-client',
@@ -66,6 +67,7 @@ export class DetailsBasketClientComponent implements OnInit {
           this.listBasketAux = res.data;
           _.each(this.listBasket, function (basket) {
             basket.checked = false;
+            basket.supplier = basket.productRequested.product.supplier.idSupplier;
             basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
           });
         }
