@@ -31,9 +31,8 @@
 
 .padding-detail {
   padding: 10px 40px 10px 40px;
-
   .card {
-    background: #fbfbfb;
+    background: #ffffff; //#fbfbfb;
     padding: 3em;
     line-height: 1.5em;
 
@@ -259,4 +258,8 @@ img {
 
 .custom-control-label::before {
   border: solid 1px #c3c2c2;
+}
+
+.padding-price{
+  padding-top: 1.1em;
 }

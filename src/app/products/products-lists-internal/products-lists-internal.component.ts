@@ -7,6 +7,7 @@ import { NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EditProductComponent } from '../modals/edit-product/edit-product.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EditProductMagicLookComponent } from '../modals/edit-product/edit-product-magic-look/edit-product-magic-look.component';
 
 @Component({
   selector: 'app-products-lists-internal',
@@ -22,7 +23,8 @@ export class ProductsListInternalComponent implements OnInit {
   nameSupplier: String;
   filterName: any;
   filterMarkennovy: any;
-
+  priceFrom: any;
+  priceUp: any;
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
               private modalService: NgbModal,
@@ -68,19 +70,41 @@ export class ProductsListInternalComponent implements OnInit {
   setPrice() {
     if (this.user.role.idRole === 3) {
       let membership = this.currentUser.membership.idMembership;
+      let priceFrom;
+      let priceUp;
       _.each(this.products, function (product) {
-        switch (membership) {
-          case 1:
-            product.priceSale = product.price1;
-            break;
-          case 2:
-            product.priceSale = product.price2;
-            break;
-          case 3:
-            product.priceSale = product.price3;
-            break;
+        if (product.supplier.idSupplier !== 5) {
+          switch (membership) {
+            case 1:
+              product.priceSale = product.price1;
+              break;
+            case 2:
+              product.priceSale = product.price2;
+              break;
+            case 3:
+              product.priceSale = product.price3;
+              break;
+          }
+        } else {
+          let info = JSON.parse(product.infoAditional);
+          switch (membership) {
+            case 1: // Gold
+                priceFrom = parseFloat(info[1].values[2].price);
+                priceUp = parseFloat(info[1].values[0].price);
+              break;
+            case 2: // Diamond
+                priceFrom = parseFloat(info[2].values[2].price);
+                priceUp = parseFloat(info[2].values[0].price);
+              break;
+            case 3: // Preferred
+              priceFrom = parseFloat(info[3].values[2].price);
+              priceUp = parseFloat(info[3].values[0].price);
+              break;
+          }
         }
       });
+      this.priceFrom = priceFrom;
+      this.priceUp = priceUp;
     }
   }
 
@@ -105,18 +129,33 @@ export class ProductsListInternalComponent implements OnInit {
   }
 
   open(product, action) {
-    const modalRef = this.modalService.open(EditProductComponent, {
-      size: 'lg',
-      windowClass: 'modal-content-border'
-    });
-    modalRef.componentInstance.product = product;
-    modalRef.componentInstance.action = action;
-    modalRef.result.then(
-      (result) => {
-        this.getProducts();
-      },
-      (reason) => {}
-    );
+    if (product.supplier.idSupplier !== 5) {
+      const modalRef = this.modalService.open(EditProductComponent, {
+        size: 'lg',
+        windowClass: 'modal-content-border'
+      });
+      modalRef.componentInstance.product = product;
+      modalRef.componentInstance.action = action;
+      modalRef.result.then(
+        (result) => {
+          this.getProducts();
+        },
+        (reason) => {}
+      );
+    } else {
+      const modalRef = this.modalService.open(EditProductMagicLookComponent, {
+        size: 'lg',
+        windowClass: 'modal-content-border'
+      });
+      modalRef.componentInstance.product = product;
+      modalRef.componentInstance.action = action;
+      modalRef.result.then(
+        (result) => {
+          this.getProducts();
+        },
+        (reason) => {}
+      );
+    }
   }
 
   getItems() {

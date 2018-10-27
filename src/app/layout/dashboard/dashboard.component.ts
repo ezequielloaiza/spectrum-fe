@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { TranslateService } from '@ngx-translate/core';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
+import { Role } from '../../shared/enum/role.enum';
+import { UserStorageService } from '../../http/user-storage.service';
+import { WarrantyService } from '../../shared/services/warranty/warranty.service';
+import { OrderService } from '../../shared/services/order/order.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +14,16 @@ import { routerTransition } from '../../router.animations';
   styleUrls: ['./dashboard.component.scss'],
   animations: [routerTransition()]
 })
+
 export class DashboardComponent implements OnInit {
   public alerts: Array<any> = [];
   public sliders: Array<any> = [];
+  warrantiesList: Array<any> = new Array;
+  user: any;
+  orders = 0;
+  warranties = 0;
+  warrantiesS: any;
+  ordersS: any;
 
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
@@ -24,8 +38,8 @@ export class DashboardComponent implements OnInit {
     '2011',
     '2012'
   ];
-  public barChartType: string = 'bar';
-  public barChartLegend: boolean = true;
+  public barChartType: String = 'bar';
+  public barChartLegend: Boolean = true;
 
   public barChartData: any[] = [
     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
@@ -39,7 +53,7 @@ export class DashboardComponent implements OnInit {
     'Mail-Order Sales'
   ];
   public doughnutChartData: number[] = [350, 450, 100];
-  public doughnutChartType: string = 'doughnut';
+  public doughnutChartType: String = 'doughnut';
 
   // Radar
   public radarChartLabels: string[] = [
@@ -55,7 +69,7 @@ export class DashboardComponent implements OnInit {
     { data: [65, 59, 90, 81, 56, 55, 40], label: 'Series A' },
     { data: [28, 48, 40, 19, 96, 27, 100], label: 'Series B' }
   ];
-  public radarChartType: string = 'radar';
+  public radarChartType: String = 'radar';
 
   // Pie
   public pieChartLabels: string[] = [
@@ -64,7 +78,7 @@ export class DashboardComponent implements OnInit {
     'Mail Sales'
   ];
   public pieChartData: number[] = [300, 500, 100];
-  public pieChartType: string = 'pie';
+  public pieChartType: String = 'pie';
 
   // PolarArea
   public polarAreaChartLabels: string[] = [
@@ -75,9 +89,9 @@ export class DashboardComponent implements OnInit {
     'Corporate Sales'
   ];
   public polarAreaChartData: number[] = [300, 500, 100, 40, 120];
-  public polarAreaLegend: boolean = true;
+  public polarAreaLegend: Boolean = true;
 
-  public polarAreaChartType: string = 'polarArea';
+  public polarAreaChartType: String = 'polarArea';
 
   // lineChart
   public lineChartData: Array<any> = [
@@ -126,8 +140,8 @@ export class DashboardComponent implements OnInit {
       pointHoverBorderColor: 'rgba(148,159,177,0.8)'
     }
   ];
-  public lineChartLegend: boolean = true;
-  public lineChartType: string = 'line';
+  public lineChartLegend: Boolean = true;
+  public lineChartType: String = 'line';
 
   // events
   public chartClicked(e: any): void {
@@ -160,7 +174,11 @@ export class DashboardComponent implements OnInit {
      */
   }
 
-  constructor() {
+  constructor(private translate: TranslateService,
+              private userService: UserStorageService,
+              private orderService: OrderService,
+              private warrantyService: WarrantyService) {
+    this.user = JSON.parse(userService.getCurrentUser());
     this.sliders.push(
       {
         imagePath: 'assets/images/slider1.jpg',
@@ -214,10 +232,67 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.getOrdersPendings();
+    this.getWarrantiesPendings();
+  }
 
   public closeAlert(alert: any) {
     const index: number = this.alerts.indexOf(alert);
     this.alerts.splice(index, 1);
   }
+
+  getOrdersPendings(): void {
+    if (this.user.role.idRole === 3) {
+      this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 0).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.orders = res.data.length;
+          this.ordersS = this.orders < 10 ? '0' + this.orders.toString() : this.orders.toString();
+        }
+      });
+    } else if (this.user.role.idRole === 2) {
+      this.orderService.findOrdersClientBySeller$(0).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.orders = res.data.length;
+          this.ordersS = this.orders < 10 ? '0' + this.orders.toString() : this.orders.toString();
+        }
+      });
+    } else if (this.user.role.idRole === 1) {
+      this.orderService.allOrderWithStatus$(0).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.orders = res.data.length;
+          this.ordersS = this.orders < 10 ? '0' + this.orders.toString() : this.orders.toString();
+        }
+      });
+    }
+  }
+
+  getWarrantiesPendings(): void {
+    this.warrantyService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.warrantiesList = res.data;
+
+        _.each(this.warrantiesList, function(warranty) {
+          warranty.seller = warranty.orderProductRequest.order.user.userId;
+          warranty.clientId = warranty.orderProductRequest.order.user.idUser;
+        });
+
+        // filter list by role
+        if (this.user.role.idRole === Role.Seller) {
+          this.warrantiesList = _.filter(this.warrantiesList, { 'seller': this.user.userResponse.idUser, status: 0 } );
+        } else if (this.user.role.idRole === Role.User) {
+          this.warrantiesList = _.filter(this.warrantiesList, { 'clientId': this.user.userResponse.idUser, status: 0 } );
+        } else {
+          this.warrantiesList = _.filter(this.warrantiesList, { status: 0 } );
+        }
+        this.warranties = this.warrantiesList.length;
+        this.warrantiesS = this.warranties < 10 ? '0' + this.warranties.toString() : this.warranties.toString();
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
 }
