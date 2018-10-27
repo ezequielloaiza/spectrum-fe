@@ -12,6 +12,7 @@ export class Company {
   public city: string;
   public state: string;
   public postalCode: string;
+  public shippingInstructions: string;
   public phone: string;
   public creditLimit: number;
   public balance: number;

@@ -12,16 +12,13 @@
 
         <div class="row">
           <div class="col-lg-12 main-info">
-            <div>
-              <span class="title">{{ product.name }}</span>
-            </div>
             <!--Image-->
             <div class="label-title">
               <img class="img-product" src="{{ product.mainImg }}">
             </div>
             <!--Patient-->
             <div class="col-lg-12 title label-title patient-info">
-              <dl class="param">
+              <dl>
                 <dt>{{ price | currency : "USD $" }}</dt>
               </dl>
             </div>

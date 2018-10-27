@@ -1,6 +1,6 @@
 <div class="container bootstrap snippet">
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12 col-lg-12">
       <br>
       <form [formGroup]="form">
         <div class="form-options">
@@ -134,7 +134,7 @@
             </div>
           </div>
 
-          <div class="col-xl-12">
+          <div class="col-xl-6">
             <fieldset class="form-group">
               <label>{{ 'Address' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
@@ -159,19 +159,33 @@
               <span>{{ 'Phone is required' | translate }}</span>
             </div>
           </div>
+          <div class="col-xl-12">
+            <fieldset class="form-group">
+              <label>{{ 'Shipping Instructions' | translate }}
+              </label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.shippingInstructions }}</span>                
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions" formControlName="shippingInstructions" maxlength="255" 
+                required>
+              </div>
+            </fieldset>
+            <div class="message-error" [hidden]="shippingInstructions.valid || shippingInstructions.pristine">
+              <span>{{ 'Shipping instructions are required' | translate }}</span>
+            </div>
+          </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
               <label>{{ 'Payment Method' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ method | translate}}</span>
                 <div [hidden]="!canEdit" class="row">
-                  <div class="col-xl-6">
+                  <div class="col-xl-3">
                     <div class="custom-control custom-radio">
                       <input type="radio" id="customRadio1" name="paymentMethod" class="custom-control-input" (change)="assignCreditDays(0)" [checked]="company && company.paymentMethod === 0 ? true : false">
                       <label class="custom-control-label" for="customRadio1">{{ 'Prepaid' | translate }}</label>
                     </div>
                   </div>
-                  <div class="col-xl-6">
+                  <div class="col-xl-3">
                     <div class="custom-control custom-radio">
                       <input type="radio" id="customRadio2" name="paymentMethod" class="custom-control-input" (change)="assignCreditDays(1)" [checked]="company && company.paymentMethod === 1 ? true : false">
                       <label class="custom-control-label" for="customRadio2">{{ 'Postpaid' | translate }}</label>
@@ -235,7 +249,7 @@
             </div>
           </div>
         </div>
-        <br>
+        <!--br>-->
         <div class="footer-form">
           <button class="btn btn-secondary" (click)="cancel()" [disabled]="saving" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
             <i class="fa fa-times"></i>

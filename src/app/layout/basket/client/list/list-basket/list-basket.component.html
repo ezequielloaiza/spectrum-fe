@@ -77,12 +77,12 @@
                         <img class="img-product" src={{basket.urlImage}}>
                       </div>
                       <!--Details-->
-                      <div class="details">
-                        <div class="title">
-                          <span>{{ basket.productRequested.product.name }}</span>
+                      <div class="details" [ngClass]="{detailm: basket.supplier ===5 , detailb: basket.supplier ===6}">
+                        <div *ngIf="basket.supplier !==5 && basket.supplier !==6">
+                          <span class="title">{{ basket.productRequested.product.name }}</span>
                         </div>
                         <br>
-                        <div *ngIf="basket.productRequested.product.supplier.idSupplier !==5">
+                        <div *ngIf="basket.supplier !==5">
                           <div class="row info">
                             <div class="col-lg-6">
                               <span class="title">{{ 'Patient' | translate }}</span>
