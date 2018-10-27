@@ -77,7 +77,7 @@
           <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
           <div class=" row col-md-12">
             <input class="form-control" type="text" placeholder="{{ 'Introduce name patient' | translate }}"
-              [(ngModel)]="product.patient">
+              [(ngModel)]="product.patient" required>
           </div>
         </div>
 
@@ -90,7 +90,7 @@
           </div>
           <div class="col-md-12" [hidden]="user.role.idRole === 3">
             <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
-              [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Select value' | translate }}">
+              [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Select value' | translate }}" required>
             </ng-select>
           </div>
         </div>
@@ -126,8 +126,8 @@
                 <label class="form-check-label">{{ 'Quantity' }}:</label>
               </div>
               <div class="row">
-                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityRight" 
-                          oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityRight"
+                          oninput="validity.valid||(value='');" [disabled]="!product.eyeRight" [required]="product.eyeRight">
               </div>
             </div>
             <!--params right-->
@@ -143,14 +143,14 @@
                     <div class="selection">
                       <div *ngIf="parameter.type === 'selected'" class="select-values">
                         <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight"
-                          [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                          [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeRight">
                           {{item}}
                         </ng-select>
                       </div>
 
                       <div *ngIf="parameter.type === 'input'" class="select-values">
                         <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight" [required]="product.eyeRight">
                       </div>
                     </div>
                   </div>
@@ -182,8 +182,8 @@
                 <label class="form-check-label">{{ 'Quantity' }}:</label>
               </div>
               <div class="row">
-                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" 
-                          oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft"
+                          oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" [required]="product.eyeLeft">
               </div>
             </div>
             <!--params left-->
@@ -199,14 +199,14 @@
                     <div class="selection">
                       <div *ngIf="parameter.type === 'selected'" class="select-values">
                         <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft" [(ngModel)]="parameter.selected"
-                          bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                          bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeLeft">
                           {{item}}
                         </ng-select>
                       </div>
-  
+
                       <div *ngIf="parameter.type === 'input'" class="select-values">
                         <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" [required]="product.eyeLeft">
                       </div>
                     </div>
                   </div>

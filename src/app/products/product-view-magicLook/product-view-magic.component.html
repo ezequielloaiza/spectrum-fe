@@ -74,12 +74,12 @@
         <div class="col-md-3">
           <dt class="title">{{ 'Customer Full Name' | translate }}</dt>
           <div class="col-md-12 input-align" [hidden]="user.role.idRole !== 3">
-            <input class="form-control" type="text" placeholder="{{ 'Introduce name client' | translate }}" [(ngModel)]="product.client"
-              disabled>
+            <input class="form-control" type="text" placeholder="{{ 'Introduce name client' | translate }}"
+              [(ngModel)]="product.client" disabled required>
           </div>
           <div class="col-md-12 input-align" [hidden]="user.role.idRole === 3">
-            <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected" [virtualScroll]="true"
-              bindLabel="name" bindValue="idUser" placeholder="{{ 'Introduce name client' | translate }}">
+            <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
+              [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Introduce name client' | translate }}" required>
             </ng-select>
           </div>
         </div>
@@ -147,8 +147,7 @@
             <label class="form-check-label">{{ 'Quantity' }}:</label>
           </div>
           <div class="row">
-            <input class="form-control" [ngClass]="{'error-quantity':  box.quantity && box.quantity%50 !== 0 }" type="number" step="50"
-              min="50" [(ngModel)]="box.quantity" (change)="box.quantity%50 !== 0 ? box.quantity = '' : '';setPriceBoxes(box.quantity);">
+            <input class="form-control" [ngClass]="{'error-quantity':  box.quantity && box.quantity%50 !== 0 }" type="number" step="50" min="50" [(ngModel)]="box.quantity" (change)="box.quantity%50 !== 0 ? box.quantity = '' : '';" required>
           </div>
         </div>
         <!--PARAMS-->
@@ -160,14 +159,14 @@
               </div>
               <div class="col-md-12">
                 <div *ngIf="parameter.type === 'selected'" class="select-values">
-                  <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.sel" bindLabel="item"
-                    bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                  <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.sel"
+                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" required>
                     {{item}}
                   </ng-select>
                 </div>
                 <div *ngIf="parameter.type === 'image'" class="select-values ">
-                  <ng-select [items]="tones[box.parameters[0].selected]" [(ngModel)]="parameter.selected" bindLabel="value" bindValue="value"
-                    placeholder="{{ 'Select value' | translate }}" [disabled]="!box.parameters[0].selected">
+                  <ng-select [items]="tones[box.parameters[0].selected]" [(ngModel)]="parameter.selected" bindLabel="value"
+                    bindValue="value" placeholder="{{ 'Select value' | translate }}" [disabled]="!box.parameters[0].selected" required>
                     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                       <div class="main-info">
                         <img height="100" width="125" [src]="item.image" class="img-color" />
