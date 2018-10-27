@@ -1,14 +1,14 @@
 this.products = [
   {
     "code": "USE", "name": "Saphir Sph 2pk 3-Monthly",
-    "priceBase": 6000, "price1": 5500, "price2": 5600, "price3": 5700,
+    "priceBase": 46, "price1": 36, "price2": 39, "price3": 46,
     "father": "Saphir",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
-    "material": "Silicone Hydrogel, Filcon V3 75%",
+    "material": "Silicone Hydrogel, Filcon V3 75%, H20",
     "descriptionShort": "My description short by saphir",
     "description": "Saphir represents a family of monthly and 3-monthly soft contact lenses individually manufactured with Silicone Hydrogel, the most advanced material on the market, which maximises oxygen flow to the eye. Its unique combination of comfort, breathability and vision quality suits even the most demanding contact lens user.",
-    "replacementPeriod": "Monthly",
+    "replacementPeriod": "3-Monthly",
     "warranty": "",
     "url": "http://spctinternational.com/wp-content/uploads/2017/11/SAPHIR.pdf",
     "stock": 10,

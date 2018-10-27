@@ -1,11 +1,11 @@
 this.products = [
   {
     "code": "MDS", "name": "Gentle 59 MF CD Single",
-    "priceBase": 1000, "price1": 500, "price2": 600, "price3": 700,
+    "priceBase": 12, "price1": 12, "price2": 12, "price3": 12,
     "father": "Gentle 59",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
-    "material": "Ori:gen Technology, 59%",
+    "material": "Ori:gen Technology, 59%, H20, UV Blocking",
     "descriptionShort": "My description short by Gentle 59",
     "description": "Gentle 59 is a monthly soft contact lens individually manufactured with Ori:gen Technology, a next-generation hydrogel material designed to mimic the surface of the human cornea.Its low surface friction and dehydration rate are just a couple of outstanding characteristics that put Gentle 59 at the forefront of all-day comfort, health, and handling in contact lenses.",
     "replacementPeriod": "Monthly",
@@ -28,30 +28,17 @@ this.products = [
     ],
     "infoAditional": [
       {
-        "name": "Characteristics", "values": [
-          { "title": "Custom-made", "description": "Individually manufactured for each eye in all designs." },
-          { "title": "More Comfort", "description": "Ori:gen Technology provides enhanced wettability and a low friction coefficient." },
-          { "title": "Vision Type", "description": "Relaxed—all day comfort." }
-
-        ]
-      },
-      {
-        "name": "Technical Specifications", "values": [
-          { "title": "Material", "description": "Ori:gen Technology, 59%" },
-          { "title": "DK", "description": "30" },
-          { "title": "MPa", "description": "0.36" },
-          { "title": "Handling Tint", "description": "Yes" },
-          { "title": "UV Blocking", "description": "Yes" },
-          { "title": "Friction coefficient", "description": "0.05" },
-          { "title": "Dehydration", "description": "<1%" },
-          { "title": "Base Curve (mm)", "description": "7.10 to 9.80 Steps 0.30" },
-          { "title": "ØT (mm)", "description": "13.00 to 16.00 Steps 0.50" },
-          { "title": "Sphere (D)", "description": "-30.00 to +30.00 Steps 0.25" },
-          { "title": "Cylinder (D)", "description": "-0.75 to -8.00 Steps 0.25" },
-          { "title": "Axis (°)", "description": "All Steps 1°" },
-          { "title": "Addition (D)", "description": "+0.50 to +4.00 Steps 0.50" },
-          { "title": "Desing MF", "description": "CD – CN" }
-
+        "name": "Properties",
+        "values": [
+          { "title": "k2", "image": ""},
+          { "title": "Aspheric", "image": "assets/images/properties/aspheric.png"},
+          { "title": "Toric", "image": "assets/images/properties/toric.png"},
+          { "title": "Multifocal", "image": "assets/images/properties/multifocal.png"},
+          { "title": "Multifocal Toric", "image": "assets/images/properties/multifocal-toric.png"},
+          { "title": "Monthly", "image": "assets/images/properties/monthly.png"},
+          { "title": "Ori:gen Technology", "image": "assets/images/properties/origen-technology.png"},
+          { "title": "UV Blocking", "image": "assets/images/properties/uv-filter.png"},
+          { "title": "RX DESIGN", "image": ""}
         ]
       }
     ]
