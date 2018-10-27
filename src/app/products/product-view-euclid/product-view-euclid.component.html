@@ -127,7 +127,7 @@
               </div>
               <div class="row">
                   <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityRight"
-                          oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                          oninput="validity.valid||(value='');" [disabled]="!product.eyeRight" [required]="product.eyeRight">
               </div>
             </div>
             <!--params right-->
@@ -143,14 +143,14 @@
                     <div class="selection">
                       <div *ngIf="parameter.type === 'selected'" class="select-values">
                         <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight"
-                          [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                          [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeRight">
                           {{item}}
                         </ng-select>
                       </div>
 
                       <div *ngIf="parameter.type === 'input'" class="select-values">
                         <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight" [required]="product.eyeRight">
                       </div>
                     </div>
                   </div>
@@ -183,7 +183,7 @@
               </div>
               <div class="row">
                   <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft"
-                          oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                          oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" [required]="product.eyeLeft">
               </div>
             </div>
             <!--params left-->
@@ -199,14 +199,14 @@
                     <div class="selection">
                       <div *ngIf="parameter.type === 'selected'" class="select-values">
                         <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft" [(ngModel)]="parameter.selected"
-                          bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                          bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeLeft">
                           {{item}}
                         </ng-select>
                       </div>
 
                       <div *ngIf="parameter.type === 'input'" class="select-values">
                         <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" [required]="product.eyeLeft">
                       </div>
                     </div>
                   </div>
