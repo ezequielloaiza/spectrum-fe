@@ -53,22 +53,8 @@ export class EditProductComponent implements OnInit {
       price1     : [this.action === 'edit' ? this.product.price1 : '', [Validators.required]],
       price2     : [this.action === 'edit' ? this.product.price2 : '', [Validators.required]],
       price3     : [this.action === 'edit' ? this.product.price3 : '', [Validators.required]],
-      father     : [this.action === 'edit' ? this.product.father : ''],
-      code       : [this.action === 'edit' ? this.product.code : ''],
-      priceType  : [this.action === 'edit' ? this.product.priceType : ''],
-      minimum    : [this.action === 'edit' ? this.product.minimum : ''],
-      maximum    : [this.action === 'edit' ? this.product.maximum : ''],
-      increment  : [this.action === 'edit' ? this.product.increment : ''],
-      material   : [this.action === 'edit' ? this.product.material : ''],
-      description: [this.action === 'edit' ? this.product.description : ''],
-      replacementPeriod: [this.action === 'edit' ? this.product.replacementPeriod : ''],
-      warranty   : [this.action === 'edit' ? this.product.warranty : ''],
-      url        : [this.action === 'edit' ? this.product.url : ''],
-      stock      : [this.action === 'edit' ? this.product.stock : ''],
       infoAditional: [this.action === 'edit' ? this.product.infoAditional : ''],
-      types      : [this.action === 'edit' ? this.product.types : ''],
       idSupplier : [this.action === 'edit' ? this.product.supplier.idSupplier : ''],
-      idCategory : [this.action === 'edit' ? this.product.category.idCategory : ''],
       status     : [this.action === 'edit' ? this.product.status : '', ]
     });
   }

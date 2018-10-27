@@ -9,9 +9,6 @@
     <div class="list-basket">
       <div class="row">
         <div class="col-lg-12 main-info">
-          <div>
-            <span class="title">{{ product.name }}</span>
-          </div>
           <!--Image-->
           <div class="label-title">
             <img class="img-product" src="{{ basket.urlImage }}">
@@ -20,8 +17,8 @@
         <div class="col-lg-12 display-row padding-params">
           <!--CONTENT INFO-->
           <!--PARAM NAME-->
-          <div class="col-sm-3 title">
-            <div class="label-title separator" [hidden]="!editPrice">
+          <div class="col-sm-3 title" [hidden]="!editPrice">
+            <div class="label-title separator">
               <label class="form-check-label">{{ 'Price' | translate }}:</label>
             </div>
             <div [hidden]="!editPrice">

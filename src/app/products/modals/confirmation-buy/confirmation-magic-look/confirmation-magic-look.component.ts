@@ -69,10 +69,6 @@ export class ConfirmationMagicLookComponent implements OnInit {
   }
 
   close() {
-    if (!this.save_success) {
-      this.listUrlFiles = this.buildUrlFiles();
-      this.deleteAllFile();
-    }
     this.modalReference.dismiss();
     this.modalReference.close();
   }
@@ -148,26 +144,6 @@ export class ConfirmationMagicLookComponent implements OnInit {
         this.close();
       }
     }
-  }
-
-  buildUrlFiles() {
-    const listUrlFiles: Array<String> = new Array;
-    _.each(this.listFileBasket, function (file) {
-      listUrlFiles.push(file.url);
-    });
-    return listUrlFiles;
-  }
-
-  deleteAllFile(): void {
-    this.fileProductRequestedService.deleteAllFile$(this.buildUrlFiles()).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        console.log('Delete files');
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
   }
 
   redirectListBasket(): void {

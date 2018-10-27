@@ -154,7 +154,7 @@
                           <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
-                              <span class="text-warning">{{ list.productRequested.price * list.productRequested.quantity | currency : "USD $" }}</span>
+                              <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
                             </dt>
                           </dl>
                         </div>

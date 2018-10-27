@@ -14,6 +14,7 @@ import { ProductRequested } from '../../../shared/models/productrequested';
 import { Product } from '../../../shared/models/product';
 import { saveAs } from 'file-saver';
 import { UserStorageService } from '../../../http/user-storage.service';
+import { CompanyService } from '../../../shared/services';
 
 @Component({
   selector: 'app-details-order-client',
@@ -31,6 +32,7 @@ export class DetailsOrderClientComponent implements OnInit {
   generar = false;
   download = false;
   user: any;
+  company: any;
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
     public productImageService: ProductoimageService,
@@ -38,6 +40,7 @@ export class DetailsOrderClientComponent implements OnInit {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private modalService: NgbModal,
+    private companyService: CompanyService,
     private userStorageService: UserStorageService) {
         this.user = JSON.parse(userStorageService.getCurrentUser());
      }
@@ -46,7 +49,6 @@ export class DetailsOrderClientComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.advancedPagination = 1;
     this.getOrder(this.id);
-
   }
 
   pageChange(event) {
@@ -67,6 +69,7 @@ export class DetailsOrderClientComponent implements OnInit {
           this.download = true;
         }
         _.each(this.order.listProductRequested, function (detailsOrder) {
+          detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
           detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
         });
         this.listDetails = this.order.listProductRequested;
