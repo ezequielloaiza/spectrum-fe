@@ -694,5 +694,9 @@
     "Generate Invoice": "Generate Invoice",
     "Up to 1000 boxes":"Up to 1000 boxes",
     "Up to 2000 boxes":"Up to 2000 boxes",
-    "Greater than 2000 boxes":"Greater than 2000 boxes"
+    "Greater than 2000 boxes":"Greater than 2000 boxes",
+    "Shipping Instructions": "Shipping Instructions",
+    "Enter shipping instructions":"Enter shipping instructions",
+    "Shipping instructions are required":"Shipping instructions are required",
+    "Pending Warranties": "Pending Warranties"
 }

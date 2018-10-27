@@ -871,5 +871,9 @@
     "Zimbabue":	"Zimbabwe",
     "Up to 1000 boxes":"Hasta 1000 cajas",
     "Up to 2000 boxes":"Hasta 2000 cajas",
-    "Greater than 2000 boxes":"Más de 2000 cajas"
+    "Greater than 2000 boxes":"Más de 2000 cajas",
+    "Shipping Instructions": "Instrucciones de Envío",
+    "Enter shipping instructions":"Ingrese instrucciones de envío",
+    "Shipping instructions are required":"Instrucciones de envío son requeridas",
+    "Pending Warranties": "Garantías Pendientes"
 }
