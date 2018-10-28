@@ -320,7 +320,7 @@
     "Please confirm the selected products":"Please confirm the selected products",
     "Confirm purchase":"Confirm purchase",
     "Select all":"Select all",
-    "Buy now":"Buy now",
+    "Buy Now":"Buy Now",
     "Main":"Main",
     "Are you sure you want to define the shipping address as the primary?":"Are you sure you want to define the shipping address as the primary?",
     "Confirm change":"Confirm change",
@@ -698,5 +698,15 @@
     "Shipping Instructions": "Shipping Instructions",
     "Enter shipping instructions":"Enter shipping instructions",
     "Shipping instructions are required":"Shipping instructions are required",
-    "Pending Warranties": "Pending Warranties"
+    "Pending Warranties": "Pending Warranties",
+    "Product Sheet": "Product Sheet",
+    "Add to cart": "Add to cart",
+    "Properties": "Properties",
+    "Replacemente Period": "Replacemente Period",
+    "Customer Full Name": "Customer Full Name",
+    "General Parameters": "General Parameters",
+    "Please specific your product": "Please specific your product",
+    "Box": "Box",
+    "Delete Box": "Delete Box",
+    "Add Box": "Add Box"
 }

@@ -42,7 +42,7 @@
           </p>
         </div>
         <div class="col-md-3">
-          <dt>Material</dt>
+          <dt>{{ 'Material' | translate }}</dt>
           <dd>
             <a>{{ product.material }}</a>
           </dd>
@@ -52,7 +52,7 @@
           <p>{{ product.replacementPeriod | translate }}</p>
         </div>
         <div class="col-md-2">
-          <dt>Product Sheet</dt>
+          <dt>{{ 'Product Sheet' | translate }}</dt>
           <dd>
             <a href="{{ product.url }}" target="_blank">{{ 'Download' }}</a>
           </dd>
@@ -85,7 +85,7 @@
         </div>
         <!--shipping address-->
         <div class="col-md-6">
-          <span class="title">{{ 'Shipping Address' | translate }}:</span>
+          <span class="title">{{ 'Shipping Address' | translate }}</span>
           <div class="row col-md-12">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
               readonly>
@@ -106,14 +106,14 @@
       <!-- row (general parameters) -->
       <div class="row specifications">
         <div class="col-md-12 title">
-          <label class="form-check-label">{{ 'General Parameters' }}:</label>
+          <label class="form-check-label">{{ 'General Parameters' | translate }}</label>
         </div>
         <!--PARAMS-->
         <div class="col-md-12 generals">
           <div *ngFor="let parameter of product.parameters" class="col-md-2">
             <div *ngIf="parameter.values && parameter.values.length > 0">
               <div class="title">
-                <label class="form-check-label">{{ parameter.name }}:</label>
+                <label class="form-check-label">{{ parameter.name | translate }}</label>
               </div>
               <div>
                 <label class="form-check-label">{{ parameter.values }}</label>
@@ -139,12 +139,12 @@
       </div>
       <div class="row specifications" *ngFor="let box of boxes; let index = index">
         <div class="col-md-1 title">
-          <label class="form-check-label">{{ 'Box' | translate }} {{ ' ' + (index+1) }}:</label>
+          <label class="form-check-label">{{ 'Box' | translate }} {{ ' ' + (index+1) }}</label>
         </div>
         <!--QANTITY-->
         <div class="col-md-2">
           <div class="row title">
-            <label class="form-check-label">{{ 'Quantity' }}:</label>
+            <label class="form-check-label">{{ 'Quantity' | translate }}</label>
           </div>
           <div class="row">
             <input class="form-control" [ngClass]="{'error-quantity':  box.quantity && box.quantity%50 !== 0 }" type="number" step="50" min="50" [(ngModel)]="box.quantity" (change)="box.quantity%50 !== 0 ? box.quantity = '' : '';" required>
@@ -155,7 +155,7 @@
           <div *ngFor="let parameter of box.parameters" class="col-md-6">
             <div *ngIf="parameter.values && parameter.values.length > 0" class="col-md-12">
               <div class="title col-md-12">
-                <label class="form-check-label">{{ parameter.name }}:</label>
+                <label class="form-check-label">{{ parameter.name | translate }}</label>
               </div>
               <div class="col-md-12">
                 <div *ngIf="parameter.type === 'selected'" class="select-values">
@@ -189,12 +189,12 @@
         <div>
           <button class="btn btn-lg btn-primary btn-outline-primary text-uppercase padding-btn" (click)="formIsValid() && addToCart(2)"
             [disabled]="!formIsValid()">
-            {{ 'Buy now' | translate }}
+            {{ 'Buy Now' | translate }}
           </button>
         </div>
         <div>
           <button class="btn btn-lg btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(1)" [disabled]="!formIsValid()">
-            <i class="fa fa-cart-plus"></i> Add to cart
+            <i class="fa fa-cart-plus"></i>{{ 'Add to cart' | translate }}
           </button>
         </div>
       </div>

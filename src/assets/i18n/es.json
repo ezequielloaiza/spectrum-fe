@@ -321,7 +321,7 @@
     "Please confirm the selected products":"¿ Por favor confirme los productos seleccionados",
     "Confirm purchase":"Confirme compra",
     "Select all":"Seleccionar Todo",
-    "Buy now":"Comprar ahora",
+    "Buy Now":"Comprar ahora",
     "Main":"Principal",
     "Confirm change":"Confirme cambio",
     "Product Information":"Información del Producto",
@@ -875,5 +875,16 @@
     "Shipping Instructions": "Instrucciones de Envío",
     "Enter shipping instructions":"Ingrese instrucciones de envío",
     "Shipping instructions are required":"Instrucciones de envío son requeridas",
-    "Pending Warranties": "Garantías Pendientes"
+    "Pending Warranties": "Garantías Pendientes",
+    "Product Sheet": "Hoja del Producto",
+    "Add to cart": "Añadir al Cesta",
+    "Properties": "Propiedades",
+    "Replacemente Period": "Período de Sustitución",
+    "Customer Full Name": "Nombre Completo del Cliente",
+    "General Parameters": "Parámetros Generales",
+    "Please specific your product": "Por favor específica tu producto",
+    "Box": "Caja",
+    "Delete Box": "Eliminar Caja",
+    "Add Box": "Agregar Caja"
+
 }
