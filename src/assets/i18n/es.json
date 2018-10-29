@@ -319,7 +319,7 @@
     "Buy":"Comprar",
     "Confirm Purchase":"Confirmar compra",
     "Please confirm the selected products":"¿ Por favor confirme los productos seleccionados",
-    "Confirm purchase":"Confirme compra",
+    "Confirm purchase":"Confirmar compra",
     "Select all":"Seleccionar Todo",
     "Buy Now":"Comprar ahora",
     "Main":"Principal",
@@ -882,9 +882,19 @@
     "Replacemente Period": "Período de Sustitución",
     "Customer Full Name": "Nombre Completo del Cliente",
     "General Parameters": "Parámetros Generales",
-    "Please specific your product": "Por favor específica tu producto",
+    "Please specific your product": "Por favor especifica tu producto",
     "Box": "Caja",
     "Delete Box": "Eliminar Caja",
-    "Add Box": "Agregar Caja"
+    "Add Box": "Agregar Caja",
+    "Introduce name client": "Ingrese el nombre del paciente",
+    "This field is filled when the client is selected": "Este campo es llenado cuando selecciona el cliente",
+    "Select value": "Seleccione",
+    "Enter price": "Ingrese el precio",
+    "Enter product name": "Ingrese el nombre del producto",
+    "Active":"Activo",
+    "Inactive":"Inactivo",
+    "Cancel Order": "Cancelar Orden",
+    "Order#": "Orden#",
+    "Enter patient search ...":"Ingrese el paciente a buscar ..."
 
 }
