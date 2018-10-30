@@ -9,6 +9,7 @@ export class ProductRequested {
   public  show: boolean;
   public  patient: string;
   public  observations: string;
+  public  subtotal: number;
 
     public constructor() { }
 

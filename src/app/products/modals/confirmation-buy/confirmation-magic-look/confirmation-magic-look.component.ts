@@ -37,7 +37,7 @@ export class ConfirmationMagicLookComponent implements OnInit {
   buyNow: BuyNow = new BuyNow();
   eyesSelected: any;
   typeBuy: any;
-  quantity: any;
+  price: any;
   user: any;
   balace: any;
   // list for File
@@ -69,22 +69,18 @@ export class ConfirmationMagicLookComponent implements OnInit {
   }
 
   close() {
-    if (!this.save_success) {
-      this.listUrlFiles = this.buildUrlFiles();
-      this.deleteAllFile();
-    }
     this.modalReference.dismiss();
     this.modalReference.close();
   }
 
   getDatos() {
     let patient;
-    let  quantityAcum = 0;
+    let  priceAcum = 0;
     let eyesSelected = [];
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     _.each(this.listBasket, function (productRequested) {
-      quantityAcum =  quantityAcum + productRequested.quantity;
+      priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
       patient = productRequested.patient;
       let details = JSON.parse(productRequested.detail);
       _.each(details, function (detail) {
@@ -94,7 +90,7 @@ export class ConfirmationMagicLookComponent implements OnInit {
     });
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;
-    this.quantity = quantityAcum;
+    this.price = priceAcum;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
   }
 
@@ -150,26 +146,6 @@ export class ConfirmationMagicLookComponent implements OnInit {
     }
   }
 
-  buildUrlFiles() {
-    const listUrlFiles: Array<String> = new Array;
-    _.each(this.listFileBasket, function (file) {
-      listUrlFiles.push(file.url);
-    });
-    return listUrlFiles;
-  }
-
-  deleteAllFile(): void {
-    this.fileProductRequestedService.deleteAllFile$(this.buildUrlFiles()).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        console.log('Delete files');
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
-  }
-
   redirectListBasket(): void {
     if (this.user.role.idRole === 3) {
       this.router.navigate(['/list-basket-client']);
@@ -203,7 +179,7 @@ export class ConfirmationMagicLookComponent implements OnInit {
 
   validateAvailableBalance() {
     let available = true;
-    if (this.company.paymentMethod === 1 && ((this.product.priceSale * this.quantity) > this.balace)) { // Postpago
+    if (this.company.paymentMethod === 1 && ((this.price) > this.balace)) { // Postpago
         available = false;
     }
     this.available = available;
