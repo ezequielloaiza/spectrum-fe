@@ -175,7 +175,7 @@ export class EditUserComponent implements OnInit {
 
   save(): void {
     this.saving = true;
-    if(this.nameSeller == '') {
+    if (this.nameSeller === '') {
       this.form.get('userId').setValue(null);
     }
     this.userService.update$(this.form.value).subscribe( res => {
@@ -185,9 +185,10 @@ export class EditUserComponent implements OnInit {
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
         });
-      }else if(CodeHttp.notAcceptable === res.code) {
+      } else if (CodeHttp.notAcceptable === res.code) {
         this.form.get('cityPlace').setValue({ description: this.form.value.city });
-        this.translate.get('The user already exists, check the email', { value: 'The user already exists, check the email' }).subscribe((res: string) => {
+        this.translate.get('The user already exists, check the email',
+        { value: 'The user already exists, check the email' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
       }

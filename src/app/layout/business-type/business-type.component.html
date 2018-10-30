@@ -18,7 +18,7 @@
             <thead>
               <tr>
                 <th class="table-tr header-column">
-                  <span title="Name">{{ 'Name' | translate }}
+                  <span title="{{ 'Name' | translate }}">{{ 'Name' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortBusinessType('name')"></i>
                   </span>
                   <span [hidden]="orderByField != 'name' || typeSort === 0" >

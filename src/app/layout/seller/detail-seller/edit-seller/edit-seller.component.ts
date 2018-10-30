@@ -147,7 +147,8 @@ export class EditSellerComponent implements OnInit {
         this.canEdit = false;
       } else if (res.code === CodeHttp.notAcceptable) {
         this.form.get('city').setValue({ description: this.form.value.city });
-        this.translate.get('The seller already exists, check the email', { value: 'The seller already exists, check the email' }).subscribe((res: string) => {
+        this.translate.get('The seller already exists, check the email',
+        { value: 'The seller already exists, check the email' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
       } else {
@@ -169,7 +170,8 @@ export class EditSellerComponent implements OnInit {
 
   resetKey(seller) {
     this.translate.get('Confirm reset key', { value: 'Confirm reset key' }).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to reset the key?', { value: 'Are you sure you want to reset the key?' }).subscribe((msg: string) => {
+      this.translate.get('Are you sure you want to reset the key?',
+      { value: 'Are you sure you want to reset the key?' }).subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
           this.userService.recoveryPassword$(seller).subscribe(res => {
             if (res.code === CodeHttp.ok) {
