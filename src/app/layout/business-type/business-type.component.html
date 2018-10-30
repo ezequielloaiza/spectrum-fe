@@ -18,11 +18,11 @@
             <thead>
               <tr>
                 <th class="table-tr header-column">
-                  <span title="Name">{{ 'Name' | translate }}
+                  <span title="{{ 'Name' | translate }}">{{ 'Name' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortBusinessType('name')"></i>
                   </span>
                   <span [hidden]="orderByField != 'name' || typeSort === 0" >
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortBusinessType('name')"></i>  
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortBusinessType('name')"></i>
                     <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortBusinessType('name')"></i>
                   </span>
                 </th>
@@ -31,7 +31,7 @@
             </thead>
             <tbody [hidden]="businessTypes.length === 0">
               <tr *ngFor="let businessType of businessTypes">
-                <td class="table-tr td-table"> {{ businessType.name }}</td>
+                <td class="table-tr td-table"> {{ businessType.name | translate }}</td>
 
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
@@ -58,7 +58,7 @@
             <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxBusinessTypes.length"
               [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
             </ngb-pagination>
-            <span class="count-elements">{{ businessTypes.length + ' ' + ('of' | translate) + ' ' + auxBusinessTypes.length + ' ' + ('register(s)' | translate) }}</span>            
+            <span class="count-elements">{{ businessTypes.length + ' ' + ('of' | translate) + ' ' + auxBusinessTypes.length + ' ' + ('register(s)' | translate) }}</span>
           </div>
         </div>
       </div>

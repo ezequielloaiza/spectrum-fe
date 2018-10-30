@@ -50,7 +50,7 @@ export class ListSellerComponent implements OnInit {
       console.log('error', error);
     });
   }
-  
+
   sortSeller(key) {
 		if (this.orderByField !== key) {
 			this.typeSort = 0;
@@ -88,7 +88,7 @@ export class ListSellerComponent implements OnInit {
       this.listSellers = this.listSellers.filter((item) => {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.country.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
@@ -96,7 +96,8 @@ export class ListSellerComponent implements OnInit {
 
   changeStatus(id): void {
     this.translate.get("Seller's status", { value: "Seller's status" }).subscribe((title: string) => {
-      this.translate.get("Are you sure you want to change the status?", { value: "Are you sure you want to change the status?" }).subscribe((msg: string) => {
+      this.translate.get("Are you sure you want to change the status?",
+      { value: "Are you sure you want to change the status?" }).subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
           this.userService.changeStatus$(id).subscribe(res => {
             this.translate.get('Status changed', { value: 'Status changed' }).subscribe((res: string) => {
@@ -132,7 +133,8 @@ export class ListSellerComponent implements OnInit {
         });
         this.getListSellers(-1);
 			} else if (res.code === CodeHttp.notAcceptable) {
-				this.translate.get('It can not be deleted, it is associated with a client', {value: 'It can not be deleted, it is associated with a client'}).subscribe((res: string) => {
+        this.translate.get('It can not be deleted, it is associated with a customer',
+        { value: 'It can not be deleted, it is associated with a customer'}).subscribe((res: string) => {
 					this.notification.warning('', res);
 				});
 			}
@@ -146,7 +148,8 @@ export class ListSellerComponent implements OnInit {
 
 	delete(id) {
 		this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
-			this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
+      this.translate.get('Are you sure do you want to delete this register?',
+      { value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
 				this.alertify.confirm(title, msg, () => {
 					this.borrar(id);
 				}, () => {

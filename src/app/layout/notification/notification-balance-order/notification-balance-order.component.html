@@ -1,0 +1,25 @@
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-beat"></ngx-spinner>
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ 'Notification' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="card-body table-responsive row">
+    <div class="confirm">
+      <span>{{ message | translate }}</span>
+    </div>
+    <div class="confirm" [hidden]="!visibleAdmin">
+      <span>{{ 'Are you sure you want to place the order?' | translate }}</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
+      <i class="fa fa-times"></i>
+    </button>
+    <button type="button" class="btn btn-main" (click)="save()">{{ 'Accept' | translate }}&nbsp;
+      <i class="fa fa-check"></i>
+    </button>
+  </div>
+</div>

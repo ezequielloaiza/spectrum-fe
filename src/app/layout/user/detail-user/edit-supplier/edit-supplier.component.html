@@ -40,7 +40,7 @@
             <td class="table-tr td-table">{{ supplier.companyName }}</td>
             <td class="table-tr td-table">{{ supplier.email }}</td>
             <td class="table-tr td-table">{{ supplier.phone }}</td>
-            <td class="table-tr td-table">{{ supplier.country }}</td>
+            <td class="table-tr td-table">{{ supplier.country? (supplier.country.name | translate) : '' }}</td>
             <td class="table-tr"><i (click)="remove(supplier.idSupplier)" class="fa fa-trash-o" aria-hidden="true" [hidden]="!canEdit"></i></td>
           </tr>
         </tbody>
@@ -51,7 +51,7 @@
         </p>
       </div>
     </div>
-    <div class="col-sm-8 select-supplier" [hidden]="canEdit">
+    <div class="col-sm-12 select-supplier" [hidden]="canEdit">
       <ng-select [items]="listSupplier" [(ngModel)]="selectedSupplier" bindLabel="companyName" bindValue="idSupplier">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
           <div class="supplier-body">

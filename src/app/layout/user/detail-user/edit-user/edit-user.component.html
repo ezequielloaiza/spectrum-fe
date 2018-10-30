@@ -77,8 +77,7 @@
               <label>{{ 'State' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.state }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state"
-                  required>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state">
               </div>
             </fieldset>
             <div class="message-error" [hidden]="state.valid || state.pristine">
@@ -89,12 +88,22 @@
             <fieldset class="form-group">
               <label>{{ 'Country' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ user.country }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter country' | translate }}" name="country" formControlName="country"
-                  required>
+                <span [hidden]="canEdit">{{ user.country? (user.country.name | translate) : '' }}</span>
+                <ng-select [hidden]="!canEdit" [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}" [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}" [searchable]="false" required>
+                  <ng-template ng-label-tmp let-item="item">
+                    <div class="supplier-body">
+                      <span>{{ item.name | translate }}</span>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <div class="supplier-body">
+                      <h6 [ngOptionHighlight]="search">{{ item.name | translate }}</h6>
+                    </div>
+                  </ng-template>
+                </ng-select>
               </div>
             </fieldset>
-            <div class="message-error" [hidden]="country.valid || country.pristine">
+            <div class="message-error" [hidden]="idCountry.valid || idCountry.pristine">
               <span>{{ 'Country is required' | translate }}</span>
             </div>
           </div>

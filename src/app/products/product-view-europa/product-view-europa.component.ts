@@ -132,7 +132,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.headerLeft = JSON.parse(this.product.types)[0].header;
     this.product.pasosRight = JSON.parse(this.product.types)[0].pasos;
     this.product.pasosLeft = JSON.parse(this.product.types)[0].pasos;
-    this.product.infoAditional = JSON.parse(this.product.infoAditional);
+    this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.priceSale = '';
     this.setClient();
     this.setPrice();
@@ -148,8 +148,16 @@ export class ProductViewEuropaComponent implements OnInit {
   setValueEye(eye) {
     if (eye === "right") {
       this.product.eyeRight = !this.product.eyeRight;
+      this.product.quantityRight = '';
+      if (this.product.eyeRight) {
+        this.product.quantityRight = 1;
+      }
     } else {
       this.product.eyeLeft = !this.product.eyeLeft;
+      this.product.quantityLeft = '';
+      if (this.product.eyeLeft) {
+        this.product.quantityLeft = 1;
+      }
     }
   }
 
@@ -200,7 +208,7 @@ export class ProductViewEuropaComponent implements OnInit {
   findShippingAddress(idCliente) {
     this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country;
+        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
       } else if (res.code === CodeHttp.notContent) {
         this.product.shippingAddress = '';
         this.translate.get('You must enter a main address in the shipping address module',
@@ -350,7 +358,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
     if (this.product.eyeRight) {
       _.each(this.product.parametersRight, function (param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
@@ -358,7 +366,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
     if (this.product.eyeLeft) {
       _.each(this.product.parametersLeft, function (param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
@@ -366,7 +374,12 @@ export class ProductViewEuropaComponent implements OnInit {
     return isValid;
   }
 
-  setChecked(value, header) {
+  setChecked(value, PC) {
+    _.each(PC.values, function(step){
+      _.each(step.values, function(value){
+        value.selected = false;
+      });
+    });
     value.selected = !value.selected;
   }
 

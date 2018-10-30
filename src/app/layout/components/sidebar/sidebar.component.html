@@ -130,7 +130,7 @@
 			<div class="nested-menu">
 				<a class="list-group-item" [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 					<span>
-						<i class="fa fa-users"></i>&nbsp; {{ 'Manage Clients' | translate }}</span>
+						<i class="fa fa-users"></i>&nbsp; {{ 'Manage Customers' | translate }}</span>
 				</a>
 				<!--<li class="nested" [class.expand]="showMenu === 'users'">
 					<ul class="submenu">
@@ -251,6 +251,12 @@
 				</li>
 			</div>
 			<div class="nested-menu">
+				<a  routerLink="/invoice" [routerLinkActive]="['router-link-active']" class="list-group-item">
+					<span>
+						<i class="fa fa-file"></i>&nbsp; {{ 'Manage Invoices' | translate }}</span>
+				</a>
+			</div>
+			<div class="nested-menu">
 				<a  routerLink="/warranty" [routerLinkActive]="['router-link-active']" class="list-group-item">
 					<span>
 						<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
@@ -267,7 +273,7 @@
 				<div class="nested-menu">
 					<a class="list-group-item" [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 						<span>
-							<i class="fa fa-users"></i>&nbsp; {{ 'Manage Users' | translate }}</span>
+							<i class="fa fa-users"></i>&nbsp; {{ 'Manage Customers' | translate }}</span>
 					</a>
 					<!--<li class="nested" [class.expand]="showMenu === 'users'">
 						<ul class="submenu">

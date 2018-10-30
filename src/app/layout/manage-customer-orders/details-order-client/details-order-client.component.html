@@ -29,14 +29,7 @@
             <button [hidden]="!generar" type="button" (click)="generateOrder(order)" class="btn btn-outline-primary" translate>
               Generate Order
             </button>
-            <!--
-            <span>|</span>
-            <button [hidden]="!generar" type="button" (click)="upload(order)" class="btn btn-outline-primary" translate>
-            </button>
-              Send Order
-            -->
-            <button [hidden]="!download" type="button" class="btn btn-success btn-xs"
-              (click)="downloadOrder(order)" translate>
+            <button [hidden]="!download" type="button" class="btn btn-success btn-xs" (click)="downloadOrder(order)" translate>
               <span class="fa fa-download"></span> Download Order
             </button>
           </div>
@@ -63,7 +56,10 @@
               <span>{{order.address? order.address.state:''}}</span>
               <br>
               <span class="font-weight-bold">{{'Country' | translate }}:</span>&nbsp;
-              <span>{{order.address? order.address.country:''}}</span>
+              <span>{{order.address? (order.address.country? (order.address.country.name | translate) : '') :'' }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Shipping Instructions' | translate }}:</span>&nbsp;
+              <span>{{order.user? order.user.company.shippingInstructions :'' }}</span>
               <br>
               <br>
             </div>
@@ -106,7 +102,7 @@
                         <br>
                       </div>
                       <div class="row">
-                        <div class="col-sm-2">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier !==5">
                           <dl class="align-item">
                             <dt>{{'Supplier'| translate}}
                             </dt>
@@ -115,7 +111,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2" [hidden]="list.productRequested.patient===''">
                           <dl class="align-item">
                             <dt>{{'Patient'| translate}}</dt>
                             <dt>
@@ -134,9 +130,19 @@
                       </div>
                       <br>
                       <div class="row">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier ===5">
+                          <dl class="align-item">
+                            <dt>{{'Supplier'| translate}}
+                            </dt>
+                            <dt>
+                              <span class="font-text">{{list.productRequested.product.supplier.companyName}}</span>
+                            </dt>
+                          </dl>
+                        </div>
                         <div class="col-sm-2">
                           <dl class="align-item">
-                            <dt>{{'Quantity'| translate}} </dt>
+                            <dt [hidden]="list.productRequested.product.supplier.idSupplier===5">{{'Quantity'| translate}} </dt>
+                            <dt *ngIf="list.productRequested.product.supplier.idSupplier===5">{{'Total Quantity'| translate}} </dt>
                             <dt>
                               <span class="font-text">{{list.productRequested.quantity}}</span>
                             </dt>
@@ -146,7 +152,7 @@
                           <dl class="align-item">
                             <dt>{{'Price'| translate}}</dt>
                             <dt>
-                              <span class="font-text">{{ list.productRequested.price  | currency : "USD $" }}</span>
+                              <span class="font-text">{{ list.productRequested.price | currency : "USD $" }}</span>
                             </dt>
                           </dl>
                         </div>
@@ -154,7 +160,7 @@
                           <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
-                              <span class="text-warning">{{ list.productRequested.price * list.productRequested.quantity  | currency : "USD $" }}</span>
+                              <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
                             </dt>
                           </dl>
                         </div>
@@ -178,10 +184,10 @@
           <app-supplier-euclid [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
           <!--Fin Euclid-->
           <!--Magic Look-->
-          <app-supplier-magic-look [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
+          <app-supplier-magic-look [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
           <!--Blue Light-->
-          <app-supplier-blue-light [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
+          <app-supplier-blue-light [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
         </div>
       </div>

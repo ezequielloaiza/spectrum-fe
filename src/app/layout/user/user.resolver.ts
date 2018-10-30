@@ -15,10 +15,10 @@ export class UserResolver implements Resolve<any> {
 
     const id = route.paramMap.get('id');
     if (state.url === '/user') {
-      this.breadcrumbService.push(new Breadcrumb('List of Clients', 'fa fa-users', './'));
+      this.breadcrumbService.push(new Breadcrumb('List of Customers', 'fa fa-users', './'));
     } else {
       if (id) {
-       this.breadcrumbService.push(new Breadcrumb('Client', 'fa fa-user', '/user/' + id + '/edit'));
+       this.breadcrumbService.push(new Breadcrumb('Customer', 'fa fa-user', '/user/' + id + '/edit'));
        }
     }
   }

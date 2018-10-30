@@ -72,7 +72,7 @@ export class ClientSellerComponent implements OnInit {
       this.listCustomers = this.listCustomers.filter((item) => {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.country.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1)||
           (item.company.companyName.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.company.businessType.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
@@ -92,16 +92,16 @@ export class ClientSellerComponent implements OnInit {
 
   remove(id) {
     this.translate.get('Confirm withdrawal', { value: 'Confirm withdrawal' }).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to withdraw the client?', { value: 'Are you sure you want to withdraw the client?' }).subscribe((msg: string) => {
+      this.translate.get('Are you sure you want to withdraw the customer?',
+      { value: 'Are you sure you want to withdraw the customer?' }).subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
-          this.userService.transferClient$(id,0).subscribe(res => {
+          this.userService.transferClient$(id, 0).subscribe(res => {
             if (res.code === CodeHttp.ok) {
               this.getCustomers(this.idSeller);
               this.translate.get('Retired successfully', { value: 'Retired successfully' }).subscribe((res: string) => {
                 this.notification.success('', res);
               });
-            }
-            else {
+            } else {
               console.log(res.errors[0].detail);
             }
           }, error => {

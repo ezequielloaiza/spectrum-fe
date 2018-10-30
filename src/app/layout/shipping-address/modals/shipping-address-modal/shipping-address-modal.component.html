@@ -34,7 +34,7 @@
             [inputFormatter]="formatter"
             (selectItem) ="findPlace($event)"
             #instance="ngbTypeahead"
-            placeholder="Enter city"
+            placeholder="{{ 'Enter city' | translate }}"
           required />
         </fieldset>
         <div *ngIf="searching" class="spinner">
@@ -49,7 +49,7 @@
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'State' | translate }}</label>
-          <input class="form-control" placeholder="Enter state" name="state" formControlName="state" required>
+          <input class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state">
         </fieldset>
         <div class="message-error" [hidden]="state.valid || state.pristine">
           <span>{{ 'State is required' | translate }}</span>
@@ -58,22 +58,34 @@
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'Country' | translate }}</label>
-          <input class="form-control" placeholder="Enter country" name="country" formControlName="country" required>
+          <ng-select [items]="listCountries" formControlName="countryId" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
+            [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}" required>
+            <ng-template ng-label-tmp let-item="item">
+              <div class="supplier-body">
+                <span>{{ item.name | translate }}</span>
+              </div>
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              <div class="supplier-body">
+                <h6 [ngOptionHighlight]="search">{{ item.name | translate }}</h6>
+              </div>
+            </ng-template>
+          </ng-select>
         </fieldset>
-        <div class="message-error" [hidden]="country.valid || country.pristine">
+        <div class="message-error" [hidden]="countryId.valid || countryId.pristine">
           <span>{{ 'Country is required' | translate }}</span>
         </div>
       </div>
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'Postal Code' | translate }}</label>
-          <input class="form-control" placeholder="Enter postal code" name="postal" formControlName="postal">
+          <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal">
         </fieldset>
       </div>
       <div class="col-xl-12">
         <fieldset class="form-group">
           <label>{{ 'Address' | translate }}</label>
-          <input class="form-control" placeholder="Enter address" name="name" formControlName="name" required>
+          <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="name" formControlName="name" required>
         </fieldset>
         <div class="message-error" [hidden]="name.valid || name.pristine">
           <span>{{ 'Address is required' | translate }}</span>

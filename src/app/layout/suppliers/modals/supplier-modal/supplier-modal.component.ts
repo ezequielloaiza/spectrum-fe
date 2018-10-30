@@ -12,7 +12,10 @@ import { debounceTime, distinctUntilChanged, map, catchError, tap, switchMap, me
 import { Observable, of } from 'rxjs';
 import { GoogleService } from '../../../../shared/services/google/google.service';
 import { SupplierService } from '../../../../shared/services/suppliers/supplier.service';
+import { CountryService } from '../../../../shared/services/country/country.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-supplier-modal',
@@ -27,7 +30,10 @@ export class SupplierModalComponent implements OnInit {
   public model: any;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
-  valorCity:any;
+  valorCity: any;
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
+  locale: any;
 
   constructor(private modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -35,16 +41,30 @@ export class SupplierModalComponent implements OnInit {
     private toastr: ToastrService,
     private notification: ToastrService,
     private googleService: GoogleService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private countryService: CountryService,
+    private userStorageService: UserStorageService) { }
 
   ngOnInit() {
     this.initializeForm();
+    this.getCountries();
+  }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   formatter = (x: {description: string}) => x.description;
 
   initializeForm() {
-
     this.form = this.formBuilder.group({
       id          : [this.action === 'edit' ? this.supplier.idSupplier : ''],
       companyName : [this.action === 'edit' ? this.supplier.companyName : '', [ Validators.required]],
@@ -56,13 +76,14 @@ export class SupplierModalComponent implements OnInit {
       phone2      : [this.action === 'edit' ? this.supplier.phone2 : '', []],
       platform    : [this.action === 'edit' ? this.supplier.platform : '', [ ]],
       website     : [this.action === 'edit' ? this.supplier.website : '', [] ],
-      state       : [this.action === 'edit' ? this.supplier.state : '', [ Validators.required]],
-      country     : [this.action === 'edit' ? this.supplier.country : '', [ Validators.required]],
+      state       : [this.action === 'edit' ? this.supplier.state : ''],
+      idCountry   : [this.action === 'edit' && this.supplier.country ? this.supplier.country.idCountry : '', [ Validators.required]],
       city        : [this.action === 'edit' ? {description: this.supplier.city} : '', [ Validators.required]],
       postal      : [this.action === 'edit' ? this.supplier.postalCode : '']
 
     });
     this.valorCity = [this.action === 'edit' ? {description: this.supplier.city} : ''];
+    this.selectedCountry = this.action === 'edit' && this.supplier.country ? this.supplier.country.idCountry : '';
   }
 
   close(data): void {
@@ -87,7 +108,8 @@ export class SupplierModalComponent implements OnInit {
           });
         } else if (res.code === CodeHttp.notAcceptable) {
           this.form.get('city').setValue({description: this.form.value.city});
-          this.translate.get('The supplier already exists, verify the name of the company or the emails', { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
+          this.translate.get('The supplier already exists, verify the name of the company or the emails',
+          { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
         } else {
@@ -106,7 +128,8 @@ export class SupplierModalComponent implements OnInit {
           });
         } else if (res.code === CodeHttp.notAcceptable) {
           this.form.get('city').setValue(this.valorCity);
-          this.translate.get('The supplier already exists, verify the name of the company or the emails', { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
+          this.translate.get('The supplier already exists, verify the name of the company or the emails',
+          { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
         } else {
@@ -124,7 +147,7 @@ export class SupplierModalComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.userStorageService.getLanguage()).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -136,12 +159,16 @@ export class SupplierModalComponent implements OnInit {
     )
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    const countries = this.listCountries;
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      const country = this.translate.instant(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': country } );
+      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({description: this.googleService.getCity()});
+      this.form.get('city').setValue({ description: this.googleService.getCity() });
       this.valorCity = {description: this.googleService.getCity()};
     });
   }
@@ -157,7 +184,7 @@ export class SupplierModalComponent implements OnInit {
   get website() { return this.form.get('website'); }
   get state() { return this.form.get('state'); }
   get city() { return this.form.get('city'); }
-  get country() { return this.form.get('country'); }
+  get idCountry() { return this.form.get('idCountry'); }
 
   validatePhone(event) {
     const key = window.event ? event.keyCode : event.which;
@@ -171,6 +198,6 @@ export class SupplierModalComponent implements OnInit {
     }
   }
 
-  assignPlatform(value:number){ this.form.get('platform').setValue(value); }
+  assignPlatform(value: number) { this.form.get('platform').setValue(value); }
 
 }

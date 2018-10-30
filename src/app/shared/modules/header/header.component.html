@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg fixed-top">
-	<img src="assets/images/spectrumLogo.png" width="200px" class="" href="#" />
-	<button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+  <a [routerLink]="['/dashboard']" class="logo">
+	  <img src="assets/images/spectrumLogo.png" width="200px" />
+  </a>
+  <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
 		<!-- <span class="navbar-toggler-icon"></span> -->
 		<i class="fa fa-bars text-muted" aria-hidden="true"></i>
 	</button>

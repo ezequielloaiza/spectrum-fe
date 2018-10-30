@@ -67,7 +67,7 @@ export class ModalSellerComponent implements OnInit {
       this.listSellers = this.listSellers.filter((item) => {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.country.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
@@ -81,16 +81,16 @@ export class ModalSellerComponent implements OnInit {
 
   transfer() {
     this.translate.get('confirm transfer', { value: 'confirm transfer' }).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to transfer the client?', { value: 'Are you sure you want to transfer the client?' }).subscribe((msg: string) => {
+      this.translate.get('Are you sure you want to transfer the client?',
+      { value: 'Are you sure you want to transfer the client?' }).subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
-          this.userService.transferClient$(this.client.idUser,this.selectedSeller.idUser).subscribe(res => {
+          this.userService.transferClient$(this.client.idUser, this.selectedSeller.idUser).subscribe(res => {
             if (res.code === CodeHttp.ok) {
               this.close();
               this.translate.get('Successfully transferred', { value: 'Successfully transferred' }).subscribe((res: string) => {
                 this.notification.success('', res);
               });
-            }
-            else {
+            } else {
               console.log(res.errors[0].detail);
             }
           }, error => {

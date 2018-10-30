@@ -4,6 +4,7 @@ import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
+
 @Component({
   selector: 'app-list-supplier-modal',
   templateUrl: './list-supplier-modal.component.html',
@@ -18,9 +19,10 @@ export class ListSupplierModalComponent implements OnInit {
   itemPerPage: number = 6;
   form: FormGroup;
   valid = false;
-  listSupp: any;
+  listSuppliers: Array<any> = new Array;
   listAux = [];
   list2: any;
+  selectedAll: any;
 
   constructor(private supplierService: SupplierService,
     private modal: NgbActiveModal) { }
@@ -28,6 +30,7 @@ export class ListSupplierModalComponent implements OnInit {
   ngOnInit() {
     this.advancedPagination = 1;
     this.getSuppliers();
+
   }
 
   getSuppliers() {
@@ -35,12 +38,31 @@ export class ListSupplierModalComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.auxSuppliers = res.data;
         this.suppliers = this.auxSuppliers.slice(0, this.itemPerPage);
+        this.selectedAll = false;
+        this.getSuppliersSelected(res.data);
       } else {
         console.log(res.errors[0].detail);
       }
     }, error => {
       console.log('error', error);
     });
+  }
+
+  getSuppliersSelected(suppliers) {
+    if (this.listSuppliers.length > 0) {
+      this.listAux = this.listSuppliers;
+      const arrayAux = this.listAux;
+      _.each(suppliers, function(item) {
+        let exist: boolean;
+        const id = item.idSupplier;
+        exist = _.includes(arrayAux, id);
+        if (exist) {
+          item.checked = true;
+        }
+      });
+      this.selectedAll = this.listSuppliers.length > 5 ?  true : false;
+      this.valid = true;
+    }
   }
 
   pageChange(event) {
@@ -57,7 +79,7 @@ export class ListSupplierModalComponent implements OnInit {
     if (val && val.trim() !== '') {
       this.suppliers = this.suppliers.filter((item) => {
         return ((item.companyName.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.country.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.country.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.contact.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
@@ -79,6 +101,30 @@ export class ListSupplierModalComponent implements OnInit {
     } else {
       this.listAux = _.concat(this.listAux, id);
     }
+    this.selectedAll = false;
+    this.listAux.length > 0 ? this.valid = true : this.valid = false;
+  }
+
+  onSelectionAll(event) {
+    let arrayAux = this.listAux;
+    const check = event.target.checked;
+    _.each(this.suppliers, function(item) {
+      item.checked = check;
+      let existe: boolean;
+      const id = item.idSupplier;
+      existe = _.includes(arrayAux, id);
+      if (existe) {
+        if (!check) {
+          _.remove(arrayAux,  function (n)  {
+            return n === id;
+          });
+        }
+      } else {
+        arrayAux = _.concat(arrayAux, id);
+      }
+    });
+    this.selectedAll = check;
+    this.listAux = arrayAux;
     this.listAux.length > 0 ? this.valid = true : this.valid = false;
   }
 

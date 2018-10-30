@@ -10,6 +10,7 @@ export enum RoleAdmin {
   OrdersDetail,
   Warranty,
   ProductsList,
+  ProductsListInternal,
   ProductsView,
   ProductsViewEuropa,
   ProductsViewEuclid,
@@ -26,5 +27,6 @@ export enum RoleAdmin {
   EditSeller,
   ViewClient,
   ListBasket,
-  ListBasketDetail
+  ListBasketDetail,
+  Invoice
 }

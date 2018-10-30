@@ -26,7 +26,7 @@
           <div class="col-xl-6 filter">
             <div class="row search">
               <div class="col col-xl-12 col-lg-12">
-                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter patient search ...' | translate }}">
+                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter customer search ...' | translate }}">
                 <i class="fa fa-search"></i>
               </div>
             </div>
@@ -39,7 +39,7 @@
                     <div class="col-md-3 box-shadow" *ngFor="let basket of listBasket">
                       <div class="mb-4 box-shadow">
                         <i class="fa fa-shopping-cart icon-basket card-img-top"><div>{{ basket.quantity }}</div></i>
-                        <h3 class="product-name">{{basket.user.name}}</h3>
+                        <h4 class="product-name">{{basket.user.name}}</h4>
                         <div class="card-body">
                           <div class="price-wrap h4">
                             <!--<span class="price-base">{{basket.quantity}}</span>&nbsp;

@@ -48,7 +48,8 @@ export class ProductViewEuclidComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
-  warranty = false;
+  warrantyRight = false;
+  warrantyLeft = false;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
@@ -127,8 +128,10 @@ export class ProductViewEuclidComponent implements OnInit {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
-    this.product.infoAditional = JSON.parse(this.product.infoAditional);
+    this.product.properties = JSON.parse(this.product.infoAditional)[0];
+    this.product.pricesAditionalWarranties = JSON.parse(this.product.infoAditional)[1].values[0];
     this.product.priceSale = '';
+    this.product.additional = '';
     this.setClient();
     this.setPrice();
   }
@@ -137,31 +140,26 @@ export class ProductViewEuclidComponent implements OnInit {
     parameter.selected = value;
     if (parameter.name === 'Warranty') {
       parameter.selected = parameter.selected === 'Yes' ? true : false;
-      if (parameter.selected) {
-        this.warranty = true;
-      } else {
-        this.warranty = false;
+      if (eye === 'right') {
+        if (parameter.selected) {
+          this.warrantyRight = true;
+        } else {
+          this.warrantyRight = false;
+        }
+      }
+
+      if (eye === 'left') {
+        if (parameter.selected) {
+          this.warrantyLeft = true;
+        } else {
+          this.warrantyLeft = false;
+        }
+      }
+      if (this.client){
+        this.definePrice(this.client.membership.idMembership);
       }
     }
   }
-
-  /*setValuesAxesXtensa(eye, value) {
-    if (eye === 'right') {
-      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesRight.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesRight.values = this.axesXtensa[1].values;
-      }
-    } else {
-      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesLeft.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesLeft.values = this.axesXtensa[1].values;
-      }
-    }
-  }*/
 
   setValueEye(eye) {
     if (eye === "right") {
@@ -184,9 +182,9 @@ export class ProductViewEuclidComponent implements OnInit {
 
   setClient() {
     if (this.user.role.idRole === 3) {
-      this.client = this.currentUser.idUser;
+      this.client = this.currentUser;
       this.product.client = this.currentUser.name;
-      this.findShippingAddress(this.client);
+      this.findShippingAddress(this.client.idUser);
 
     } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
@@ -210,11 +208,11 @@ export class ProductViewEuclidComponent implements OnInit {
     }
   }
 
-  onSelectedClient(clienteSelect) {
-    if (clienteSelect !== undefined) {
-      this.client = clienteSelect.idUser;
-      this.findShippingAddress(this.client);
-      this.definePrice(clienteSelect.membership.idMembership);
+  onSelectedClient(clientSelect) {
+    if (clientSelect !== undefined) {
+      this.client = clientSelect;
+      this.findShippingAddress(this.client.idUser);
+      this.definePrice(clientSelect.membership.idMembership);
     } else {
       this.client = '';
       this.product.shippingAddress = '';
@@ -225,7 +223,7 @@ export class ProductViewEuclidComponent implements OnInit {
   findShippingAddress(idCliente) {
     this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country;
+        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
       } else if (res.code === CodeHttp.notContent) {
         this.product.shippingAddress = '';
         this.translate.get('You must enter a main address in the shipping address module',
@@ -249,12 +247,15 @@ export class ProductViewEuclidComponent implements OnInit {
     switch (membership) {
       case 1:
         this.product.priceSale = this.product.price1;
+        this.product.additional = this.product.pricesAditionalWarranties.values[0].price - this.product.price1;
         break;
       case 2:
         this.product.priceSale = this.product.price2;
+        this.product.additional = this.product.pricesAditionalWarranties.values[1].price - this.product.price2;
         break;
       case 3:
         this.product.priceSale = this.product.price3;
+        this.product.additional = this.product.pricesAditionalWarranties.values[2].price - this.product.price3;
         break;
     }
   }
@@ -263,6 +264,8 @@ export class ProductViewEuclidComponent implements OnInit {
     this.setEyeSelected();
     let product = this.productCopy;
     let productsSelected = this.productsSelected;
+    let warrantyRight = this.warrantyRight;
+    let warrantyLeft = this.warrantyLeft;
 
     _.each(productsSelected, function(productSelected, index) {
 
@@ -272,26 +275,35 @@ export class ProductViewEuclidComponent implements OnInit {
 
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
+        
+        if (warrantyRight) {
+          productSelected.price = productSelected.price + product.additional;
+        }
         productSelected.observations = product.observationsRight;
         _.each(product.parametersRight, function(parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
+        
         productSelected.parameters = product.parametersRight;
       }
 
       if (productSelected.eye === "Left") {
         productSelected.quantity = product.quantityLeft;
+
+        if (warrantyLeft) {
+          productSelected.price = productSelected.price + product.additional;
+        }
         productSelected.observations = product.observationsLeft;
         _.each(product.parametersLeft, function(parameter, index) {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
+
         productSelected.parameters = product.parametersLeft;
       }
 
       productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye'])
     });
-
     return productsSelected;
   }
 
@@ -312,7 +324,7 @@ export class ProductViewEuclidComponent implements OnInit {
       productRequest.observations = product.observations;
       productsRequested.push(productRequest);
     });
-    this.basketRequestModal.idUser = this.client;
+    this.basketRequestModal.idUser = this.client.idUser;
     this.basketRequestModal.productRequestedList = productsRequested;
     this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
@@ -339,7 +351,7 @@ export class ProductViewEuclidComponent implements OnInit {
 
     if (this.product.eyeRight) {
       _.each(this.product.parametersRight, function (param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
@@ -347,7 +359,7 @@ export class ProductViewEuclidComponent implements OnInit {
 
     if (this.product.eyeLeft) {
       _.each(this.product.parametersLeft, function (param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });

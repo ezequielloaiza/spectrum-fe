@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { GoogleService, UserService } from '../../../../shared/services';
+import { GoogleService, UserService, CountryService } from '../../../../shared/services';
 import { Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, merge } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
@@ -12,6 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Seller } from '../../../../shared/models/seller';
 import { User } from '../../../../shared/models/user';
 import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
+import { UserStorageService } from '../../../../http/user-storage.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-edit-seller',
@@ -27,6 +29,9 @@ export class EditSellerComponent implements OnInit {
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  listCountries: Array<any> = new Array;
+  selectedCountry: any = null;
+  locale: any;
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -34,12 +39,15 @@ export class EditSellerComponent implements OnInit {
     private userService: UserService,
     private notification: ToastrService,
     private translate: TranslateService,
-    private alertify: AlertifyService) { }
+    private alertify: AlertifyService,
+    private countryService: CountryService,
+    private userStorageService: UserStorageService) { }
 
   ngOnInit() {
     this.idSeller = this.route.parent.snapshot.paramMap.get('id');
     this.getSeller(this.idSeller);
     this.initializeForm();
+    this.getCountries();
   }
 
   initializeForm() {
@@ -48,11 +56,23 @@ export class EditSellerComponent implements OnInit {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       address: [''],
-      state: ['', [Validators.required]],
-      country: ['', [Validators.required]],
+      state: [''],
+      idCountry: ['', [Validators.required]],
       city: ['', [Validators.required]],
       postal: ['', []],
       phone: ['', []]
+    });
+  }
+
+  getCountries() {
+    this.countryService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listCountries = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
   }
 
@@ -64,7 +84,7 @@ export class EditSellerComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.googleService.searchCities$(term).pipe(
+        this.googleService.searchCities$(term, this.userStorageService.getLanguage()).pipe(
           tap(() => this.searchFailed = false),
           catchError(() => {
             this.searchFailed = true;
@@ -89,9 +109,13 @@ export class EditSellerComponent implements OnInit {
   }
 
   findPlace(item): void {
-    this.googleService.placeById$(item.item.place_id).subscribe(res => {
+    const countries = this.listCountries;
+    this.locale = this.userStorageService.getLanguage();
+    this.googleService.placeById$(item.item.place_id, this.locale).subscribe(res => {
       this.googleService.setPlace(res.data.result);
-      this.form.get('country').setValue(this.googleService.getCountry());
+      const country = this.translate.instant(this.googleService.getCountry());
+      this.selectedCountry = _.filter(countries, { 'name': country } );
+      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
@@ -104,7 +128,7 @@ export class EditSellerComponent implements OnInit {
     this.form.get('email').setValue(seller.email);
     this.form.get('address').setValue(seller.address);
     this.form.get('state').setValue(seller.state);
-    this.form.get('country').setValue(seller.country);
+    this.form.get('idCountry').setValue(seller.country == null ? '' : seller.country.idCountry);
     this.form.get('city').setValue({ description: this.seller.city });
     this.form.get('postal').setValue(seller.postalCode);
     this.form.get('phone').setValue(seller.phone);
@@ -123,7 +147,8 @@ export class EditSellerComponent implements OnInit {
         this.canEdit = false;
       } else if (res.code === CodeHttp.notAcceptable) {
         this.form.get('city').setValue({ description: this.form.value.city });
-        this.translate.get('The seller already exists, check the email', { value: 'The seller already exists, check the email' }).subscribe((res: string) => {
+        this.translate.get('The seller already exists, check the email',
+        { value: 'The seller already exists, check the email' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
       } else {
@@ -140,12 +165,13 @@ export class EditSellerComponent implements OnInit {
   get phone() { return this.form.get('phone'); }
   get city() { return this.form.get('city'); }
   get state() { return this.form.get('state'); }
-  get country() { return this.form.get('country'); }
+  get idCountry() { return this.form.get('idCountry'); }
   get postal() { return this.form.get('postal'); }
 
   resetKey(seller) {
     this.translate.get('Confirm reset key', { value: 'Confirm reset key' }).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to reset the key?', { value: 'Are you sure you want to reset the key?' }).subscribe((msg: string) => {
+      this.translate.get('Are you sure you want to reset the key?',
+      { value: 'Are you sure you want to reset the key?' }).subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
           this.userService.recoveryPassword$(seller).subscribe(res => {
             if (res.code === CodeHttp.ok) {
