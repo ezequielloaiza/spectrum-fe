@@ -1,11 +1,11 @@
 this.products = [
   {
     "code": "G83", "name": "Gentle 80 MFT CD Single",
-    "priceBase": 9000, "price1": 8500, "price2": 8600, "price3": 8700,
+    "priceBase": 12, "price1": 12, "price2": 12, "price3": 12,
     "father": "Gentle 80",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
-    "material": "Ori:gen Technology, 80%",
+    "material": "Ori:gen Technology, 80%, H20, UV Blocking",
     "descriptionShort": "My description short by Gentle 80",
     "description": "Gentle 80 is a monthly soft contact lens individually manufactured with Ori:gen Technology, a next-generation hydrogel material designed to mimic the surface of the human cornea. Its 80% water content is one of many outstanding characteristics that make Gentle 80 a new standard for all-day comfort, health, and handling in contact lenses.",
     "replacementPeriod": "Monthly",
@@ -30,28 +30,17 @@ this.products = [
     ],
     "infoAditional": [
       {
-        "name": "Characteristics", "values": [
-          { "title": "More Custom", "description": "Individually manufactured for each eye in all designs." },
-          { "title": "More Comfort", "description": "Ori:gen Technology provides unmatched wettability and a low modulus (MPa 0.13)." },
-          { "title": "Vision Type", "description": "HD—for all day clarity and precision." }
-
-        ]
-      },
-      {
-        "name": "Technical Specifications", "values": [
-          { "title": "Material", "description": "Ori:gen Technology, 80%" },
-          { "title": "DK", "description": "60" },
-          { "title": "MPa", "description": "0.13" },
-          { "title": "Handling Tint", "description": "Yes" },
-          { "title": "UV Blocking", "description": "Yes" },
-          { "title": "Base Curve (mm)", "description": "7.10 to 9.80 Steps 0.30" },
-          { "title": "ØT (mm)", "description": "13.00 to 16.00 Steps 0.50" },
-          { "title": "Sphere (D)", "description": "-30.00 to +30.00 Steps 0.25" },
-          { "title": "Cylinder (D)", "description": "-0.75 to -8.00 Steps 0.25" },
-          { "title": "Axis (°)", "description": "All Steps 1°" },
-          { "title": "Addition (D)", "description": "+0.50 to +4.00 Steps 0.50" },
-          { "title": "Desing MF", "description": "CD – CN" }
-
+        "name": "Properties",
+        "values": [
+          { "title": "k3", "image": ""},
+          { "title": "Aspheric", "image": "assets/images/properties/aspheric.png"},
+          { "title": "Toric", "image": "assets/images/properties/toric.png"},
+          { "title": "Multifocal", "image": "assets/images/properties/multifocal.png"},
+          { "title": "Multifocal Toric", "image": "assets/images/properties/multifocal-toric.png"},
+          { "title": "Monthly", "image": "assets/images/properties/monthly.png"},
+          { "title": "Ori:gen Technology", "image": "assets/images/properties/origen-technology.png"},
+          { "title": "UV Blocking", "image": "assets/images/properties/uv-filter.png"},
+          { "title": "RX DESIGN", "image": ""}
         ]
       }
     ]

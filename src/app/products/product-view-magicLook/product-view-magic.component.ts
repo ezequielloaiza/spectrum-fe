@@ -23,6 +23,7 @@ import { FileProductRequestedService } from '../../shared/services/fileproductre
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationMagicLookComponent } from '../modals/confirmation-buy/confirmation-magic-look/confirmation-magic-look.component';
+import { debug } from 'util';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -51,6 +52,9 @@ export class ProductViewMagicComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  priceFrom: any;
+  priceUp: any;
+  clientSelected: any;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
@@ -151,14 +155,15 @@ export class ProductViewMagicComponent implements OnInit {
     parameter.selected = value;
     if (parameter.name === "Tone") {
       switch (value) {
-        case "1 TONE":
+        /*case "1 TONE":
           this.tones[value] = this.product.parametersBoxes[1].values[0];
           break;
         case "2 TONE":
           this.tones[value] = this.product.parametersBoxes[1].values[1];
-          break;
+          break;*/
         case "3 TONE":
-          this.tones[value] = this.product.parametersBoxes[1].values[2];
+          //this.tones[value] = this.product.parametersBoxes[1].values[2];
+          this.tones[value] = this.product.parametersBoxes[1].values[0];
           break;
       }
       this.product.parametersBoxes[0].selected = null;
@@ -203,6 +208,7 @@ export class ProductViewMagicComponent implements OnInit {
 
   onSelectedClient(clienteSelect) {
     if (clienteSelect !== undefined) {
+      this.clientSelected = clienteSelect;
       this.client = clienteSelect.idUser;
       this.findShippingAddress(this.client);
       this.definePrice(clienteSelect.membership.idMembership);
@@ -210,6 +216,9 @@ export class ProductViewMagicComponent implements OnInit {
       this.client = '';
       this.product.shippingAddress = '';
       this.product.priceSale = '';
+      this.priceFrom = '';
+      this.priceUp = '';
+      this.clientSelected = '';
     }
   }
 
@@ -237,17 +246,35 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   definePrice(membership) {
-    switch (membership) {
-      case 1:
-        this.product.priceSale = this.product.price1;
-        break;
-      case 2:
-        this.product.priceSale = this.product.price2;
-        break;
-      case 3:
-        this.product.priceSale = this.product.price3;
-        break;
-    }
+    let info = JSON.parse(this.product.infoAditional);
+    let totalQuantity = _.sumBy(this.boxes, 'quantity');
+    const pos = this.calculateQuantity();
+        switch (membership) {
+          case 1: // Gold
+            if (totalQuantity >= 250) {
+              this.product.priceSale = parseFloat(info[1].values[pos].price);
+            } else {
+              this.priceFrom = parseFloat(info[1].values[2].price);
+              this.priceUp = parseFloat(info[1].values[0].price);
+            }
+            break;
+          case 2: // Diamond
+            if (totalQuantity >= 250) {
+              this.product.priceSale = parseFloat(info[2].values[pos].price);
+            } else {
+              this.priceFrom = parseFloat(info[2].values[2].price);
+              this.priceUp = parseFloat(info[2].values[0].price);
+            }
+            break;
+          case 3: // Preferred
+            if (totalQuantity >= 250) {
+              this.product.priceSale = parseFloat(info[3].values[pos].price);
+          } else {
+            this.priceFrom = parseFloat(info[3].values[2].price);
+            this.priceUp = parseFloat(info[3].values[0].price);
+          }
+            break;
+        }
   }
 
   buildProductsSelected() {
@@ -261,7 +288,7 @@ export class ProductViewMagicComponent implements OnInit {
       quantity: 0,
       price   : product.priceSale,
       detail  : {},
-      patient : product.patient,
+      patient : '',
     };
 
     //parameters generals
@@ -299,7 +326,7 @@ export class ProductViewMagicComponent implements OnInit {
       productRequest.quantity = product.quantity;
       productRequest.price = product.price;
       productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
-      productRequest.patient = product.patient;
+      productRequest.patient = '';
       productsRequested.push(productRequest);
     });
     this.basketRequestModal.idUser = this.client;
@@ -324,13 +351,15 @@ export class ProductViewMagicComponent implements OnInit {
   formIsValid() {
     var isValid = true;
     var totalQuantity =_.sumBy(this.boxes, 'quantity');
-    if ( totalQuantity < 250 || !this.product.patient){
+    if ( totalQuantity < 250 ) {
       return false;
     }
-
+    if (this.client === '' || this.client === undefined) {
+      isValid = false;
+    }
     _.each(this.boxes, function(product) {
       _.each(product.parameters, function(param){
-        if (param.selected === null) {
+        if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
@@ -386,5 +415,49 @@ export class ProductViewMagicComponent implements OnInit {
     } else {
       console.log('error file');
     }
+  }
+
+  setPriceBoxes(quantity) {
+    if (quantity%50 === 0) {
+      var totalQuantity = _.sumBy(this.boxes, 'quantity');
+      let info = JSON.parse(this.product.infoAditional);
+      let  membership = 0;
+      const pos = this.calculateQuantity();
+      if (this.user.role.idRole === 3) {
+        membership = this.currentUser.membership.idMembership;
+      } else {
+        if (this.clientSelected !== undefined) {
+          membership = this.clientSelected.membership.idMembership;
+        }
+      }
+      if (totalQuantity >= 250) {
+        switch (membership) {
+          case 1: // Gold
+            this.product.priceSale = parseFloat(info[1].values[pos].price);
+            break;
+          case 2: // Diamond
+            this.product.priceSale = parseFloat(info[2].values[pos].price);
+            break;
+          case 3: // Preferred
+          this.product.priceSale = parseFloat(info[3].values[pos].price);
+            break;
+        }
+      } else {
+        this.product.priceSale = '';
+      }
+    }
+  }
+
+  calculateQuantity(): any {
+    let totalQuantity = _.sumBy(this.boxes, 'quantity');
+    let pos;
+      if (totalQuantity >= 250 && totalQuantity <= 1000 ) {
+         pos = 0;
+      } else if (totalQuantity >= 1001 && totalQuantity <= 2000) {
+         pos = 1;
+      } else if (totalQuantity >= 2001) {
+         pos = 2;
+      }
+      return pos;
   }
 }

@@ -4,7 +4,7 @@ this.products = [
     "priceBase": 1000, "price1": 500, "price2": 600, "price3": 700,
     "category": "Europa Scleral",
     "subCategory": "Europa",
-    "material": "Ori:gen Technology, 59%",
+    "material": "Contacmac Extra or Contacmac Extreme",
     "descriptionShort": "",
     "description": "The EUROPA SCLERAL contact lens is available in a 16.0 18.0 & 20.0mm diameter lens. EUROPA SCLERAL lenses rest on the sclera and completely vault the cornea allowing it to hold a fluid reservoir. It was uniquely designed so that it can successfully fit a wide variety of corneal and scleral geometries. Multiple fitting sets are not necessary to fit oblate and prolate corneas, as is often the case with other available scleral lens designs. The EUROPA SCLERAL contact lens is designed to manage mild to severe levels of corneal irregularity and ocular surface disease.",
     "replacementPeriod": "Monthly",
@@ -51,13 +51,13 @@ this.products = [
         "pasos": [
           { "name": "PC1",
             "values": [
-              { "name": "Step 1",
+              { "name": "Steep 1 (100 micrones)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
                 ]
               },
-              { "name": "Step 2",
+              { "name": "Steep 2 (200 micrones)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
@@ -67,13 +67,13 @@ this.products = [
           },
           { "name": "PC2",
             "values": [
-              { "name": "Step 1",
+              { "name": "Steep 1 (100 micrones)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
                 ]
               },
-              { "name": "Step 2",
+              { "name": "Steep 2 (200 micrones)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
@@ -83,13 +83,13 @@ this.products = [
           },
           { "name": "PC3",
             "values": [
-              { "name": "Step 1",
+              { "name": "Steep 1 (100 micrones)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
                 ]
               },
-              { "name": "Step 2",
+              { "name": "Steep 2 (200 micrones)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }

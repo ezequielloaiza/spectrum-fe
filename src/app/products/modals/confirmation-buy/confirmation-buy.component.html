@@ -30,7 +30,7 @@
                 <span>{{ ('Patient' | translate) + ': ' + namePatient }}</span>
               </div>
               <div>
-                <span>${{ product.priceSale * quantity }}</span>
+                <span>{{ price | currency }}</span>
               </div>
             </div>
 
