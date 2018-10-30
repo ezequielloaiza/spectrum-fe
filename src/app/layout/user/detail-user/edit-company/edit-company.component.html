@@ -40,12 +40,9 @@
           <div class="col-xl-6">
             <fieldset class="form-group">
               <label>{{ 'Business types' | translate }}</label>
-              <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company.businessType.name }}</span>
-                <select [hidden]="!canEdit" class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
-                  <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name }}</option>
-                </select>
-              </div>
+              <select class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
+                <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name | translate }}</option>
+              </select>
             </fieldset>
             <div class="message-error" [hidden]="idBusinessType.valid || idBusinessType.pristine">
               <span>{{ 'Business type is required' | translate }}</span>
@@ -164,8 +161,8 @@
               <label>{{ 'Shipping Instructions' | translate }}
               </label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company.shippingInstructions }}</span>                
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions" formControlName="shippingInstructions" maxlength="255" 
+                <span [hidden]="canEdit">{{ company.shippingInstructions }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions" formControlName="shippingInstructions" maxlength="255"
                 required>
               </div>
             </fieldset>

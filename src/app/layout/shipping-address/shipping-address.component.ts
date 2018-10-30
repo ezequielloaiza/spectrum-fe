@@ -135,16 +135,17 @@ export class ShippingAddressComponent implements OnInit {
 		});
 	}
 
-	delete(id) {
-		this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
-			this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
-				this.alertify.confirm(title, msg, () => {
-					this.borrar(id);
-				}, () => {
-				});
-			});
-		});
-	}
+  delete(id) {
+    this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
+      this.translate.get('Are you sure do you want to delete this register?',
+      { value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
+        this.alertify.confirm(title, msg, () => {
+          this.borrar(id);
+          }, () => {
+        });
+      });
+    });
+  }
 
 	pageChange(event) {
 		let startItem = (event - 1) * this.itemPerPage;

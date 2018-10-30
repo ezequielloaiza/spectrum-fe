@@ -51,7 +51,7 @@
         </p>
       </div>
     </div>
-    <div class="col-sm-8 select-supplier" [hidden]="canEdit">
+    <div class="col-sm-12 select-supplier" [hidden]="canEdit">
       <ng-select [items]="listSupplier" [(ngModel)]="selectedSupplier" bindLabel="companyName" bindValue="idSupplier">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
           <div class="supplier-body">
