@@ -116,11 +116,11 @@ export class BusinessTypeComponent implements OnInit {
           this.notification.success('', res);
         });
       } else if(res.code === CodeHttp.notAcceptable) {
-        this.translate.get('Can not be eliminated, is associated with a company', {value: 'Can not be eliminated, is associated with a company'}).subscribe((res: string) => {
+        this.translate.get('Can not be eliminated, is associated with a company',
+        { value: 'Can not be eliminated, is associated with a company'}).subscribe((res: string) => {
           this.notification.warning('', res);
         });
-      }
-      else {
+      } else {
         console.log(res.errors[0].detail);
       }
     }, error => {
@@ -130,7 +130,8 @@ export class BusinessTypeComponent implements OnInit {
 
   delete(id) {
     this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
-      this.translate.get('Are you sure do you want to delete this register?', {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
+      this.translate.get('Are you sure do you want to delete this register?',
+      { value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
           this.borrar(id);
         }, () => {
