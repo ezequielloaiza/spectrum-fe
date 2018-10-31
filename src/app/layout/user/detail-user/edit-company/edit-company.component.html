@@ -166,7 +166,7 @@
                 required>
               </div>
             </fieldset>
-            <div class="message-error" [hidden]="shippingInstructions.valid || shippingInstructions.pristine">
+            <div class="message-error" [hidden]="!canEdit || shippingInstructions.value!=''">
               <span>{{ 'Shipping instructions are required' | translate }}</span>
             </div>
           </div>
