@@ -60,7 +60,7 @@
               <span>{{order.address? (order.address.country? (order.address.country.name | translate) : '') :'' }}</span>
               <br>
               <span class="font-weight-bold">{{'Shipping Instructions' | translate }}:</span>&nbsp;
-              <span>{{order.user? order.user.company.shippingInstructions :'' }}</span>
+              <span>{{order.user? (order.user.company.shippingInstructions? order.user.company.shippingInstructions : ('No Instructions Shipping' | translate) ) :'' }}</span>
               <br>
               <br>
             </div>

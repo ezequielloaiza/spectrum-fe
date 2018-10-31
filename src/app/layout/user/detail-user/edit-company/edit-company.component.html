@@ -161,7 +161,7 @@
               <label>{{ 'Shipping Instructions' | translate }}
               </label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company.shippingInstructions }}</span>
+                <span [hidden]="canEdit">{{ company.shippingInstructions? company.shippingInstructions : ('No Instructions Shipping' | translate) }}</span>
                 <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions" formControlName="shippingInstructions" maxlength="255"
                 required>
               </div>
