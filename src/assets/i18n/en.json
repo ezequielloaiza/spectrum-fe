@@ -715,5 +715,20 @@
     "Enter price": "Enter price",
     "Enter product name": "Enter product name",
     "Cancel Order": "Cancel Order",
-    "Order#": "Order#"
+    "Order#": "Order#",
+    "Patient Full Name": "Patient Full Name",
+    "Eye Right": "Eye Right",
+    "Eye Left": "Eye Left",
+    "Parameters":"Parameters",
+    "Curved": "Curved",
+    "Flat": "Flat",
+    "Monthly": "Monthly",
+    "Inserts": "Inserts",
+    "Diopters": "Diopters",
+    "Meridian": "Meridian",
+    "Power": "Power",
+    "Notch (mm)": "Notch (mm)",
+    "Thickness": "Thickness",
+    "Steep 1 (100 microns)": "Steep 1 (100 microns)",
+    "Steep 2 (200 microns)": "Steep 2 (200 microns)"
 }

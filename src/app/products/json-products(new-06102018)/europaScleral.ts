@@ -51,13 +51,13 @@ this.products = [
         "pasos": [
           { "name": "PC1",
             "values": [
-              { "name": "Steep 1 (100 micrones)",
+              { "name": "Steep 1 (100 microns)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
                 ]
               },
-              { "name": "Steep 2 (200 micrones)",
+              { "name": "Steep 2 (200 microns)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
@@ -67,13 +67,13 @@ this.products = [
           },
           { "name": "PC2",
             "values": [
-              { "name": "Steep 1 (100 micrones)",
+              { "name": "Steep 1 (100 microns)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
                 ]
               },
-              { "name": "Steep 2 (200 micrones)",
+              { "name": "Steep 2 (200 microns)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
@@ -83,13 +83,13 @@ this.products = [
           },
           { "name": "PC3",
             "values": [
-              { "name": "Steep 1 (100 micrones)",
+              { "name": "Steep 1 (100 microns)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
                 ]
               },
-              { "name": "Steep 2 (200 micrones)",
+              { "name": "Steep 2 (200 microns)",
                 "values": [
                   { "name": "Curved", "type":"check", "selected": false },
                   { "name": "Flat", "type":"check", "selected": false }
