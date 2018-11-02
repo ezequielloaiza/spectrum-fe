@@ -90,6 +90,15 @@ export class EuclidComponent implements OnInit {
         this.warranty = false;
       }
     }
+    if (parameter.name === 'Axes (º)') {
+      parameter.selected = this.axisFormat(value);
+    }
+    if (parameter.name === 'Flat K' || parameter.name === 'Steep K' || parameter.name === 'HVID' ) {
+      parameter.selected = this.format(value);
+    }
+    if (parameter.name === 'Cylinder (D)') {
+      parameter.selected = this.cilinderFormat(value);
+    }
   }
 
   save() {
@@ -166,5 +175,59 @@ export class EuclidComponent implements OnInit {
         this.price = this.product.price3;
         break;
     }
+  }
+
+  axisFormat(value): any {
+    let axes;
+    if (value !== null) {
+      if (value <= 180) {
+        axes = this.complete(value, 3);
+      } else {
+        axes = null;
+      }
+    }
+     return axes;
+  }
+
+  cilinderFormat(value): any {
+    let cilinder;
+    let toString;
+    if (value !== null) {
+      toString = value.toString();
+        if (_.includes(toString, '-')) {
+          cilinder = toString;
+        } else if (value !== 0 && value !== '0.00') {
+          cilinder = '-' + toString;
+        } else {
+          cilinder = toString;
+        }
+      }
+      return cilinder;
+    }
+
+  format(value): any {
+    let flat;
+    let partInt;
+    let partDec;
+    let pos;
+    let toString;
+    if (value !== null) {
+      toString = value.toString();
+      if (_.includes(toString, '.')) {
+        pos = _.indexOf(toString, '.');
+        partInt = toString.slice( 0, pos);
+        partDec = toString.slice( pos + 1, toString.length);
+        flat = this.complete(partInt, 2) + '.' + this.complete(partDec, 2);
+      } else {
+         flat = this.complete(value, 2) + '.00';
+      }
+      return flat;
+    }
+  }
+  complete(value, tamano): any {
+    let filteredId = value.toString();
+    filteredId = _.padStart(filteredId, tamano, '0');
+    return filteredId;
+
   }
 }
