@@ -7,7 +7,7 @@
             <div class="col-sm-3" *ngFor="let param of specification.parameters">
               <div *ngIf="param.name!=='Diopters' && param.name!=='Meridian'" class="container-supplier">
                 <dl class="align-item">
-                  <dt>{{param.name}}</dt>
+                  <dt>{{param.name | translate }}</dt>
                   <dt>
                     <span class="font-text"> {{param.selected}}</span>
                     <hr>
@@ -55,10 +55,10 @@
                   <br>
                   <dl *ngFor="let item of  param.values">
                     <dt>
-                      <span class="text-warning"> {{ item.name}}</span>
+                      <span class="text-warning"> {{ item.name | translate}}</span>
                       <span>
                         <dt *ngFor="let val of  item.values" class="font-text">
-                          <span>{{val.name}}:</span>&nbsp;
+                          <span>{{val.name | translate}}:</span>&nbsp;
                           <span *ngIf="val.selected==='true'">{{'Yes'| translate}}</span>
                           <span *ngIf="val.selected==='false'">{{'No'| translate}}</span>
                         </dt>
@@ -137,7 +137,7 @@
                 <td nowrap>
                   <button type="button" class="btn btn-success btn-xs"
                     (click)="downloadFile(item)">
-                    <span class="fa fa-download"></span> Download
+                    <span class="fa fa-download"></span>{{ 'Download' | translate }}
                   </button>
                 </td>
               </tr>
