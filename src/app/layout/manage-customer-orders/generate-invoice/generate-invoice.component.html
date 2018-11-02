@@ -192,7 +192,7 @@
               <br>
             <label class="bold">{{ 'Shipping Instructions' | translate }}</label>
             <br>
-            <label class="">{{ order.user? order.user.company.shippingInstructions :'' }}</label>
+            <label class="">{{ order.user? order.user.company.shippingInstructions? order.user.company.shippingInstructions : ('No Instructions Shipping' | translate) : '' }}</label>
             <br>
           </div>
         </div>
