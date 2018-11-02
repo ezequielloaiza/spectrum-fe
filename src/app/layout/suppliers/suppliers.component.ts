@@ -128,8 +128,8 @@ export class SuppliersComponent implements OnInit {
                   this.notification.warning('', res);
                 });
               } else {
-                this.translate.get('It can not be deleted, it is associated with a client',
-                {value: 'It can not be deleted, it is associated with a client'}).subscribe((res: string) => {
+                this.translate.get('It can not be deleted, it is associated with a customer',
+                {value: 'It can not be deleted, it is associated with a customer'}).subscribe((res: string) => {
                   this.notification.warning('', res);
                 });
               }

@@ -19,7 +19,7 @@
             <thead>
               <tr>
                 <th class="table-tr header-column">
-                  <span title="Company Name">{{ 'Company Name' | translate }}
+                  <span title="{{ 'Company Name' | translate }}">{{ 'Company Name' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSupplier('companyName')"></i>
                   </span>
                   <span [hidden]="orderByField != 'companyName' || typeSort === 0" >
@@ -28,7 +28,7 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Address">{{ 'Country' | translate }}
+                  <span title="{{ 'Country' | translate }}">{{ 'Country' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSupplier('country')"></i>
                   </span>
                   <span [hidden]="orderByField != 'country' || typeSort === 0" >
@@ -37,7 +37,7 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Contact">{{ 'Contact Name' | translate }}
+                  <span title="{{ 'Contact Name' | translate }}">{{ 'Contact Name' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSupplier('contact')"></i>
                   </span>
                   <span [hidden]="orderByField != 'contact' || typeSort === 0" >
@@ -46,7 +46,7 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Website">{{ 'Website' | translate }}
+                  <span title="{{ 'Website' | translate }}">{{ 'Website' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSupplier('website')"></i>
                   </span>
                   <span [hidden]="orderByField != 'website' || typeSort === 0" >
@@ -55,7 +55,7 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Phone">{{ 'Phone' | translate }}
+                  <span title="{{ 'Phone' | translate }}">{{ 'Phone' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortSupplier('phone')"></i>
                   </span>
                   <span [hidden]="orderByField != 'phone' || typeSort === 0" >

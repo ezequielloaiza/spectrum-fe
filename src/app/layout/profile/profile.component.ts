@@ -177,7 +177,9 @@ export class ProfileComponent implements OnInit {
     this.userService.updateProfile$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.user.userResponse = res.data;
-        this.notification.success('User save', 'Success');
+        this.translate.get('User save', { value: 'User save' }).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
         this.canEditPersonal = false;
       } else if (res.code === CodeHttp.notAcceptable) {
         this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
@@ -197,14 +199,18 @@ export class ProfileComponent implements OnInit {
     this.userService.changePassword$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.user.userResponse = res.data;
-        this.notification.success('User save', 'Success');
+        this.translate.get('User save', { value: 'User save' }).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
         this.canEditAccount = false;
       } else if (res.code === CodeHttp.notFound) {
-        this.translate.get('Password do not match with old password', { value: 'Password do not match with old password' }).subscribe((res: string) => {
+        this.translate.get('Password do not match with old password',
+        { value: 'Password do not match with old password' }).subscribe((res: string) => {
           this.notification.error('', res);
         });
       } else if (res.code === CodeHttp.notAcceptable) {
-        this.translate.get('Password matches with old password', { value: 'Password matches with old password' }).subscribe((res: string) => {
+        this.translate.get('Password matches with old password',
+        { value: 'Password matches with old password' }).subscribe((res: string) => {
           this.notification.error('', res);
         });
       } else {

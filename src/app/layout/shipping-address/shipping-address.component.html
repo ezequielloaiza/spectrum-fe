@@ -18,7 +18,7 @@
             <thead>
               <tr>
                 <th class="table-tr header-column">
-                  <span title="Company">{{ 'Company' | translate }}
+                  <span title="{{ 'Company' | translate }}">{{ 'Company' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('company')"></i>
                   </span>
                   <span [hidden]="orderByField != 'company' || typeSort === 0" >
@@ -27,7 +27,7 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Address">{{ 'Address' | translate }}
+                  <span title="{{ 'Address' | translate }}">{{ 'Address' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('address')"></i>
                   </span>
                   <span [hidden]="orderByField != 'address' || typeSort === 0" >
@@ -36,7 +36,7 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="City">{{ 'City' | translate }}
+                  <span title="{{ 'City' | translate }}">{{ 'City' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('city')"></i>
                   </span>
                   <span [hidden]="orderByField != 'city' || typeSort === 0" >
@@ -45,7 +45,7 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="State">{{ 'State' | translate }}
+                  <span title="{{ 'State' | translate }}">{{ 'State' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('state')"></i>
                   </span>
                   <span [hidden]="orderByField != 'state' || typeSort === 0" >
@@ -54,7 +54,7 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="Country">{{ 'Country' | translate }}
+                  <span title="{{ 'Country' | translate }}">{{ 'Country' | translate }}
                       <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortAddress('country')"></i>
                   </span>
                   <span [hidden]="orderByField != 'country' || typeSort === 0" >
@@ -63,7 +63,7 @@
                   </span>
                 </th>
                 <th class="table-tr">
-                  <span title="Country">{{ 'Main' | translate }}</span>
+                  <span title="{{ 'Main' | translate }}">{{ 'Main' | translate }}</span>
                 </th>
                 <th class="table-tr"></th>
               </tr>
