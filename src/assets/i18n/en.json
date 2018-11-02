@@ -715,5 +715,23 @@
     "Enter price": "Enter price",
     "Enter product name": "Enter product name",
     "Cancel Order": "Cancel Order",
-    "Order#": "Order#"
+    "Order#": "Order#",
+    "Pending Payments": "Pending Payments",
+    "Overdue Customers": "Overdue Customers",
+    "Orders": "Orders",
+    "Total orders in period": "Total orders in period",
+    "Orders in last month":"Orders in last month",
+    "Monthly income from orders": "Monthly income from orders",
+    "User save": "User save",
+    "Enter supplier search..": "Enter supplier search..",
+    "Enter seller search..": "Enter seller search..",
+    "Delete Invoice": "Delete Invoice",
+    "The warranty type already exists": "The warranty type already exists",
+    "Are you sure you want to transfer the client?": "Are you sure you want to transfer the client?",
+    "Password matches with old password": "Password matches with old password",
+    "Successfully Generated": "Successfully Generated",
+    "Small todo list": "Small todo list",
+    "Customers with pending payments": "Customers with pending payments",
+    "Value": "Value"
+
 }

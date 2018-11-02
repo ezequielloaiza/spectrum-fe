@@ -43,7 +43,7 @@
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.businessType.name }}</span>
                 <select [hidden]="!canEdit" class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
-                  <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name }}</option>
+                  <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name | translate }}</option>
                 </select>
               </div>
             </fieldset>
@@ -102,8 +102,8 @@
               <label>{{ 'Country' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.country? (company.country.name | translate) : '' }}</span>
-                <ng-select [hidden]="!canEdit" [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
-                  [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}">
+                <ng-select [hidden]="!canEdit" [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}"
+                  [searchable]="false" [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}">
                   <ng-template ng-label-tmp let-item="item">
                     <div class="supplier-body">
                       <span>{{ item.name | translate }}</span>
@@ -164,9 +164,9 @@
               <label>{{ 'Shipping Instructions' | translate }}
               </label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company.shippingInstructions }}</span>                
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions" formControlName="shippingInstructions" maxlength="255" 
-                required>
+                <span [hidden]="canEdit">{{ company.shippingInstructions }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions"
+                  formControlName="shippingInstructions" maxlength="255" required>
               </div>
             </fieldset>
             <div class="message-error" [hidden]="shippingInstructions.valid || shippingInstructions.pristine">
@@ -207,8 +207,8 @@
                   <div [hidden]="!canEdit" class="input-group-append">
                     <span class="input-group-text">$</span>
                   </div>
-                  <input [hidden]="!canEdit" class="form-control" min="1" type="number" placeholder="{{ 'Enter credit limit' | translate }}" name="creditLimit"
-                    formControlName="creditLimit" (change)="newBalance($event)" required>
+                  <input [hidden]="!canEdit" class="form-control" min="1" type="number" placeholder="{{ 'Enter credit limit' | translate }}"
+                    name="creditLimit" formControlName="creditLimit" (change)="newBalance($event)" required>
                 </div>
               </div>
               <div class="message-error" [hidden]="creditLimit.valid || creditLimit.pristine">
