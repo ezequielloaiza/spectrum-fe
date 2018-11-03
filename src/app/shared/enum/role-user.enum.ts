@@ -15,5 +15,6 @@ export enum RoleUser {
   ShippingAddress,
   Home,
   ListBasketClient,
-  Payments
+  Payments,
+  PaymentsMade
 }

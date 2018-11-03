@@ -21,5 +21,6 @@ export enum RoleSeller {
   EditUser,
   EditCompany,
   EditSupplier,
-  Payments
+  Payments,
+  PaymentsMade
 }

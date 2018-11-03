@@ -403,7 +403,7 @@
     "Tax Rate": "Tasa de Impuesto",
     "Subtotal": "Subtotal",
     "Shipping": "Envío",
-    "Amount Due": "Monto Total",
+    "Amount Due": "Monto Deuda",
     "Amount": "Monto",
     "To Provider": "Al Proveedor",
     "To Customer": "Al Cliente",
@@ -932,5 +932,9 @@
     "Small todo list": "Pequeña lista de tareas",
     "Customers with pending payments": "Clientes con pagos pendientes",
     "Value": "Valor",
-    "Manage Payments": "Gestionar Pagos"
+    "Manage Payments": "Gestionar Pagos",
+    "Customer's Invoices List" : "Listado de facturas de clientes",
+    "View Payments" : "Ver pagos",
+    "Payments Made to The Invoice List" : "Listado de pagos realizados a la factura",
+    "Invoice Details" : "Detalles de factura"
 }

@@ -25,6 +25,7 @@ import { DetailsBasketClientComponent } from './basket/admin-seller/details/deta
 import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-supplier.component';
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { ManagePaymentsComponent } from './manage-payments/manage-payments.component';
+import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-made.component';
 
 const routes: Routes = [
   {
@@ -74,7 +75,11 @@ const routes: Routes = [
       },
       {
         path: 'payments', component: ManagePaymentsComponent,
-        data: { option: 'Payments' }
+        data: { option: 'Payments' },
+      },
+      {
+        path: 'payments/:idInvoice/paymentsMade', component: PaymentsMadeComponent,
+        data: { option: 'PaymentsMade' }
       },
       {
         path: 'user', component: UserComponent,

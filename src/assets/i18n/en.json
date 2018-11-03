@@ -749,6 +749,9 @@
     "Small todo list": "Small todo list",
     "Customers with pending payments": "Customers with pending payments",
     "Value": "Value",
-    "Manage Payments": "Manage Payments"
-
+    "Manage Payments": "Manage Payments",
+    "Customer's Invoices List" : "Customer's Invoices List",
+    "View Payments" : "View Payments",
+    "Payments Made to The Invoice List" : "Payments Made to The Invoice List",
+    "Invoice Details" : "Invoice Details"
 }

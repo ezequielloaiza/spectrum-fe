@@ -1,0 +1,213 @@
+<div class="row page-header-fixed">
+  <div class="header-body">
+    <h4 class="page-header">
+      {{ 'Payments Made to The Invoice List' | translate }}
+    </h4>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{
+          'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-folder-open"></i> {{ 'Payments Made to The Invoice List' | translate}}</li>
+    </ol>
+  </div>
+</div>
+<div class="sp-container">
+  <div class="row body-fixed">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            <div class="card-header">{{ 'Invoice Details' | translate }}</div>
+          </div>
+          <div class="align-btn-detail">
+            <button type="button" class="btn btn-success btn-xs" (click)="downloadInvoice(invoice)" translate>
+              <span class="fa fa-download"></span> Download Invoice
+            </button>
+          </div>
+        </div>
+        <div class="container pp rounded">
+          <div class="row justify-content-md-center order-summary">
+            <!--Invoice data-->
+            <div class="col-md-4">
+              <span class="font-weight-bold">{{'Status' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.status : 'Paid' }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Invoice number' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.number : '234342324' }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Date' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.dueDate : '24242423' | date:'yyyy-MM-dd'}}</span>
+              <br>
+              <span class="font-weight-bold">{{'Due Date' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.dueDate : '24242423' | date:'yyyy-MM-dd'}}</span>
+            </div>
+            <!--Customer data-->
+            <div class="col-md-4">
+                <span class="font-weight-bold">{{'Customer' | translate }}:</span>&nbsp;
+                <span>{{ invoice ? invoice.user.name : 'Juan Garcia' }}</span>
+                <br>
+                <span class="font-weight-bold">{{'Address' | translate }}:</span>&nbsp;
+                <span>{{ invoice ? invoice.user.address : 'Barquisimeto Estado Lara' }}</span>
+                <br>
+                <span class="font-weight-bold">{{'Email' | translate }}:</span>&nbsp;
+                <span>{{ invoice ? invoice.user.email : 'juan@gmail.com' }}</span>
+                <br>
+                <span class="font-weight-bold">{{'Phone' | translate }}:</span>&nbsp;
+                <span>{{ invoice ? invoice.user.phone : '+58415465456468' }}</span>
+            </div>
+            <!--Totals data-->
+            <div class="col-md-4">
+                <span class="font-weight-bold">{{'Totals' | translate }}:</span>&nbsp;
+                <br>
+                <span class="font-weight-bold">{{'Amount Due' | translate }}:</span>&nbsp;
+                <span>{{ invoice ? invoice.amountDue : '1000' | currency : "USD $" }} }}</span>
+                <br>
+                <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
+                <span>{{ invoice ? invoice.subTotal : '500' | currency : "USD $" }}</span>
+                <br>
+                <span class="font-weight-bold">{{'Total' | translate }}:</span>&nbsp;
+                <span>{{ invoice ? invoice.total : '1500' | currency : "USD $" }}</span>
+            </div>
+          </div>
+          <br><br>
+        </div>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All payments' | translate }}
+          </div>
+          <button type="button" class="btn btn-main">{{ 'Add' | translate }}
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+        <!--<div class="col-xl-4 filter">
+            <div class="row search">
+              <div class="col col-xl-12 col-lg-12">
+                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter search ...' | translate }}">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+          </div>
+           <div class="col-xl-3 filter">
+            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
+              <option value="" disabled [selected]="true" translate>Select payment status</option>
+              <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
+            </select>
+          </div> -->
+        <!-- <div class="col-xl-3 filter">
+            <div>
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOrd" [(ngModel)]="fechaSelecOrd" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOrd)">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div> -->
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr header-column">
+                  <span title="{{ 'Status' | translate }}">{{ 'Status' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('status')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'status' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('status')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('status')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="{{ 'Invoice Date' | translate }}">{{ 'Date' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'date' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="{{ 'Type' | translate }}">{{ 'Type' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('type')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'date' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('type')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('type')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="{{ 'Reference Number' | translate }}">{{ 'Reference Number' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('referenceNumber')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'referenceNumber' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('referenceNumber')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('referenceNumber')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="{{ 'Total' | translate }}">{{ 'Total' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('total')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'total' || typeSort === 0">
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('total')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('total')"></i>
+                  </span>
+                </th>
+                <th class="table-tr"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let invoice of listInvoices">
+                <td *ngIf="invoice.status === 0" class="table-tr" class="active">
+                  <div>{{'Pending' | translate}}</div>
+                </td>
+                <td *ngIf="invoice.status === 1" class="table-tr" class="inactive">
+                  <div>{{'Sent' | translate }}</div>
+                </td>
+                <td class="table-tr td-table">{{invoice.date | date:'yyyy-MM-dd'}}</td>
+                <td class="table-tr">{{invoice.invoiceId}}</td>
+                <td class="table-tr">{{invoice.number}}</td>
+                <td class="table-tr">{{invoice.total | currency : "USD $"}}</td>
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="open(invoice)">
+                          <i class="fa fa-eye"></i> {{ 'View Payments' | translate }}</button>
+                        <button class="dropdown-item" (click)="downloadInvoice(invoice)">
+                          <i class="fa fa-download"></i> {{ 'Download' | translate }}</button>
+                        <button class="dropdown-item" (click)="delete(invoice)">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-empty" [hidden]="listInvoices.length !== 0" translate>
+            <p class="no-records">
+              {{ 'No records have been added yet' | translate }}
+            </p>
+          </div>
+          <div class="pagination-list" [hidden]="listInvoices.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listInvoicesAux.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+            <span class="count-elements">{{ listInvoices.length + ' ' + ('of' | translate) + ' ' +
+              listInvoicesAux.length + ' ' + ('register(s)' | translate)
+              }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

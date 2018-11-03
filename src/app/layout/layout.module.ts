@@ -71,7 +71,7 @@ import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-
 import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
 import { ManagePaymentsComponent } from './manage-payments/manage-payments.component';
-
+import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-made.component';
 
 @NgModule({
     imports: [
@@ -151,7 +151,8 @@ import { ManagePaymentsComponent } from './manage-payments/manage-payments.compo
         DetailMagicLookComponent,
         DetailMarkennovyComponent,
         DetailBlueLightComponent,
-        ManagePaymentsComponent
+        ManagePaymentsComponent,
+        PaymentsMadeComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,

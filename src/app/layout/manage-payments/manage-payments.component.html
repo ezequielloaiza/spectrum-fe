@@ -1,14 +1,14 @@
 <div class="row page-header-fixed">
 	<div class="header-body">
 		<h4 class="page-header">
-			{{ 'Invoices List' | translate }}
+			{{ 'Customer\'s Invoices List' | translate }}
 		</h4>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
 				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
 			</li>
 			<li class="breadcrumb-item active">
-				<i class="fa fa-folder-open"></i> {{ 'Invoices List' | translate}}</li>
+				<i class="fa fa-folder-open"></i> {{ 'Customer\'s Invoices List' | translate}}</li>
 		</ol>
 	</div>
 </div>
@@ -71,12 +71,21 @@
                     </span>
                   </th>
                   <th class="table-tr header-column">
-                    <span title="{{ 'Invoice Date' | translate }}">{{ 'Invoice Date' | translate }}
+                    <span title="{{ 'Invoice Date' | translate }}">{{ 'Date' | translate }}
                       <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
                     </span>
                     <span [hidden]="orderByField != 'date' || typeSort === 0">
                       <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
                       <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Due Date' | translate }}">{{ 'Due Date' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('dueDate')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'date' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('dueDate')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('dueDdate')"></i>
                     </span>
                   </th>
                   <th class="table-tr header-column">
@@ -86,6 +95,15 @@
                     <span [hidden]="orderByField != 'client' || typeSort === 0">
                       <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
                       <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Amount Due' | translate }}">{{ 'Amount Due' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('amountDue')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'total' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('amountDue')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('amountDue')"></i>
                     </span>
                   </th>
                   <th class="table-tr header-column">
@@ -110,7 +128,9 @@
                   </td>
                   <td class="table-tr td-table">{{invoice.number}}</td>
                   <td class="table-tr td-table">{{invoice.date  | date:'yyyy-MM-dd'}}</td>
+                  <td class="table-tr td-table">{{invoice.date  | date:'yyyy-MM-dd'}}</td>
                   <td class="table-tr">{{invoice.user.name}}</td>
+                  <td class="table-tr">{{invoice.total | currency : "USD $"}}</td>
                   <td class="table-tr">{{invoice.total | currency : "USD $"}}</td>
                   <td class="table-tr">
                     <div class="d-flex flex-row justify-content-around">
@@ -118,7 +138,7 @@
                         <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                         <div ngbDropdownMenu>
                           <button class="dropdown-item" (click)="open(invoice)">
-                            <i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
+                            <i class="fa fa-eye"></i> {{ 'View Payments' | translate }}</button>
                           <button class="dropdown-item" (click)="downloadInvoice(invoice)">
                             <i class="fa fa-download"></i> {{ 'Download' | translate }}</button>
                           <button class="dropdown-item" (click)="delete(invoice)">
@@ -144,7 +164,7 @@
               </span>
             </div>
           </div>
-        </div>
+      </div>
       </div>
     </div>
   </div>
