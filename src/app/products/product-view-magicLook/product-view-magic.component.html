@@ -147,7 +147,7 @@
             <label class="form-check-label">{{ 'Quantity' | translate }}</label>
           </div>
           <div class="row">
-            <input class="form-control" [ngClass]="{'error-quantity':  box.quantity && box.quantity%50 !== 0 }" type="number" step="50" min="50" [(ngModel)]="box.quantity" (change)="box.quantity%50 !== 0 ? box.quantity = '' : '';" required>
+            <input class="form-control" [ngClass]="{'error-quantity':  box.quantity && box.quantity%50 !== 0 }" type="number" step="50" min="50" [(ngModel)]="box.quantity" (change)="box.quantity%50 !== 0 ? box.quantity = '' : '';setPriceBoxes(box.quantity)" required>
           </div>
         </div>
         <!--PARAMS-->
