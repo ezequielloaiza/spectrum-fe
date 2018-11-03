@@ -378,7 +378,7 @@
     "Payment Status":"Estado del Pago",
     "Paid":"Pagada",
     "Introduces observations":"Ingresa comentarios",
-    "Warning: The price with warranty varies": "Advertencia: El precio con garantía varía",
+    "Warning: Additional by Warranty": "Advertencia: Adicional por garantía",
     "Order No": "Orden No",
     "Invoice No": "Factura No",
     "Order Date": "Fecha de la Orden",
@@ -913,5 +913,6 @@
     "Successfully Generated": "Generado con éxito",
     "Small todo list": "Pequeña lista de tareas",
     "Customers with pending payments": "Clientes con pagos pendientes",
-    "Value": "Valor"
+    "Value": "Valor",
+    "No comments":"Sin comentarios"
 }

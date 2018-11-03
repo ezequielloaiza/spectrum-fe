@@ -28,6 +28,7 @@ export class EuclidComponent implements OnInit {
   warranty = false;
   patient: any;
   membership: any;
+  additional = 0;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -75,7 +76,10 @@ export class EuclidComponent implements OnInit {
         }
      });
     });
-    this.warranty = warranty;
+    /*this.warranty = warranty;
+    if (this.warranty) {
+      this.definePriceWarranty(this.membership);
+    }*/
     this.product.parameters = paramet;
   }
 
@@ -86,8 +90,9 @@ export class EuclidComponent implements OnInit {
         this.warranty = true;
         this.definePriceWarranty(this.membership);
       } else {
-        this.definePrice(this.membership);
         this.warranty = false;
+        this.additional = 0;
+        this.definePrice(this.membership);
       }
     }
     if (parameter.name === 'Axes (º)') {
@@ -153,12 +158,15 @@ export class EuclidComponent implements OnInit {
     switch (membership) {
       case 1:
         this.price = this.product.pricesAditionalWarranties.values[0].price;
+        this.additional = this.product.pricesAditionalWarranties.values[0].price - this.product.price1;
         break;
       case 2:
         this.price = this.product.pricesAditionalWarranties.values[1].price;
+        this.additional = this.product.pricesAditionalWarranties.values[1].price - this.product.price2;
         break;
       case 3:
-        this.price = this.product.pricesAditionalWarranties.values[2].price;
+       this.price = this.product.pricesAditionalWarranties.values[2].price;
+       this.additional = this.product.pricesAditionalWarranties.values[2].price - this.product.price3;
         break;
     }
   }
@@ -181,7 +189,7 @@ export class EuclidComponent implements OnInit {
     let axes;
     if (value !== null) {
       if (value <= 180) {
-        axes = this.complete(value, 3);
+        axes = this.completeStart(value, 3);
       } else {
         axes = null;
       }
@@ -195,11 +203,11 @@ export class EuclidComponent implements OnInit {
     if (value !== null) {
       toString = value.toString();
         if (_.includes(toString, '-')) {
-          cilinder = toString;
+          cilinder = this.formatCi(toString);
         } else if (value !== 0 && value !== '0.00') {
-          cilinder = '-' + toString;
+          cilinder = '-' + this.formatCi(toString);
         } else {
-          cilinder = toString;
+          cilinder = this.formatCi(toString);
         }
       }
       return cilinder;
@@ -217,16 +225,44 @@ export class EuclidComponent implements OnInit {
         pos = _.indexOf(toString, '.');
         partInt = toString.slice( 0, pos);
         partDec = toString.slice( pos + 1, toString.length);
-        flat = this.complete(partInt, 2) + '.' + this.complete(partDec, 2);
+        flat = this.completeStart(partInt, 2) + '.' + this.completeEnd(partDec, 2);
       } else {
-         flat = this.complete(value, 2) + '.00';
+         flat = this.completeStart(value, 2) + '.00';
       }
       return flat;
     }
   }
-  complete(value, tamano): any {
+
+  formatCi(value): any {
+    let cilinder;
+    let partInt;
+    let partDec;
+    let pos;
+    let toString;
+    if (value !== null) {
+      toString = value.toString();
+      if (_.includes(toString, '.')) {
+        pos = _.indexOf(toString, '.');
+        partInt = toString.slice( 0, pos);
+        partDec = toString.slice( pos + 1, toString.length);
+        cilinder = this.completeStart(partInt, 1) + '.' + this.completeEnd(partDec, 2);
+      } else {
+        cilinder = this.completeStart(value, 1) + '.00';
+      }
+      return cilinder;
+    }
+  }
+
+  completeStart(value, tamano): any {
     let filteredId = value.toString();
     filteredId = _.padStart(filteredId, tamano, '0');
+    return filteredId;
+
+  }
+
+  completeEnd(value, tamano): any {
+    let filteredId = value.toString();
+    filteredId = _.padEnd(filteredId, tamano, '0');
     return filteredId;
 
   }

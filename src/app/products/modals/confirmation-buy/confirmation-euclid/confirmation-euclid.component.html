@@ -70,7 +70,10 @@
                 <dl>
                   <dt>{{'Comments'| translate}}
                   </dt>
-                  <dl>
+                  <dl class="comment" *ngIf="list.observations ===''">
+                    <span translate>{{'No comments' | translate}}</span>
+                  </dl>
+                  <dl *ngIf="list.observations !==''">
                     <span style="overflow-x: hidden;"> {{ list.observations }}</span>
                   </dl>
                 </dl>

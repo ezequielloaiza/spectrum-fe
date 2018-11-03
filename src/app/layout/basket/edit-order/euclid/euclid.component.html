@@ -68,7 +68,7 @@
                       oninput="validity.valid||(value='');">
                   </div>
                   <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)' && parameter.name ==='Cylinder (D)'" class="separator">
-                    <input class="form-control col-sm-12" type="number" step="0.1" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(parameter, parameter.selected)"
+                    <input class="form-control col-sm-12" type="number" step="0.01" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(parameter, parameter.selected)"
                       oninput="validity.valid||(value='');">
                   </div>
                   <div *ngIf="parameter.type === 'input' && parameter.name ==='Axes (º)'" class="separator">
@@ -89,7 +89,7 @@
             <!-- Warning Warranty -->
             <div *ngIf="warranty" class="message-error">
               <br>
-              <span translate>{{'Warning: The price with warranty varies' | translate}}</span>
+              <span translate>{{'Warning: Additional by Warranty' | translate}}{{ additional | currency : " USD $" }}</span>
             </div>
           </div>
           <div class="col-sm-12">

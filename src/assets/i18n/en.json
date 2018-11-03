@@ -372,7 +372,7 @@
     "Payment Status":"Payment Status",
     "Paid":"Paid",
     "Introduces observations":"Introduces observations",
-    "Warning: The price with warranty varies": "Warning: The price with warranty varies",
+    "Warning: Additional by Warranty": "Warning: Additional by Warranty",
     "Order No": "Order No",
     "Invoice No": "Invoice No",
     "Order Date": "Order Date",
@@ -732,6 +732,7 @@
     "Successfully Generated": "Successfully Generated",
     "Small todo list": "Small todo list",
     "Customers with pending payments": "Customers with pending payments",
-    "Value": "Value"
+    "Value": "Value",
+    "No comments":"No comments"
 
 }
