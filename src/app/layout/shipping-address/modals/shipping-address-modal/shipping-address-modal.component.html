@@ -34,7 +34,7 @@
             [inputFormatter]="formatter"
             (selectItem) ="findPlace($event)"
             #instance="ngbTypeahead"
-            placeholder="Enter city"
+            placeholder="{{ 'Enter city' | translate }}"
           required />
         </fieldset>
         <div *ngIf="searching" class="spinner">
@@ -49,7 +49,7 @@
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'State' | translate }}</label>
-          <input class="form-control" placeholder="Enter state" name="state" formControlName="state">
+          <input class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state">
         </fieldset>
         <div class="message-error" [hidden]="state.valid || state.pristine">
           <span>{{ 'State is required' | translate }}</span>
@@ -79,13 +79,13 @@
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'Postal Code' | translate }}</label>
-          <input class="form-control" placeholder="Enter postal code" name="postal" formControlName="postal">
+          <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal">
         </fieldset>
       </div>
       <div class="col-xl-12">
         <fieldset class="form-group">
           <label>{{ 'Address' | translate }}</label>
-          <input class="form-control" placeholder="Enter address" name="name" formControlName="name" required>
+          <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="name" formControlName="name" required>
         </fieldset>
         <div class="message-error" [hidden]="name.valid || name.pristine">
           <span>{{ 'Address is required' | translate }}</span>

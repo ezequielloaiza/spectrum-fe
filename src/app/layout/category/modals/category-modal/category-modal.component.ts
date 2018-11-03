@@ -54,7 +54,7 @@ export class CategoryModalComponent implements OnInit {
           this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
             this.notification.success('', res);
           });
-        }else if (res.code === CodeHttp.notAcceptable) {
+        } else if (res.code === CodeHttp.notAcceptable) {
           this.translate.get('The category already exists', { value: 'The category already exists' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
@@ -75,7 +75,7 @@ export class CategoryModalComponent implements OnInit {
           this.translate.get('The category already exists', { value: 'The category already exists' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
-        }else {
+        } else {
           console.log(res.errors[0].detail);
         }
       }, error => {

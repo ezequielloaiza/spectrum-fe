@@ -22,6 +22,7 @@ import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ConfirmationEuclidComponent } from '../modals/confirmation-buy/confirmation-euclid/confirmation-euclid.component';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -275,7 +276,7 @@ export class ProductViewEuclidComponent implements OnInit {
 
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
-        
+
         if (warrantyRight) {
           productSelected.price = productSelected.price + product.additional;
         }
@@ -283,7 +284,7 @@ export class ProductViewEuclidComponent implements OnInit {
         _.each(product.parametersRight, function(parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
-        
+
         productSelected.parameters = product.parametersRight;
       }
 
@@ -331,7 +332,7 @@ export class ProductViewEuclidComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationEuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;

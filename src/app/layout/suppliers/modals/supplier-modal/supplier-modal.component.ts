@@ -108,7 +108,8 @@ export class SupplierModalComponent implements OnInit {
           });
         } else if (res.code === CodeHttp.notAcceptable) {
           this.form.get('city').setValue({description: this.form.value.city});
-          this.translate.get('The supplier already exists, verify the name of the company or the emails', { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
+          this.translate.get('The supplier already exists, verify the name of the company or the emails',
+          { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
         } else {
@@ -127,7 +128,8 @@ export class SupplierModalComponent implements OnInit {
           });
         } else if (res.code === CodeHttp.notAcceptable) {
           this.form.get('city').setValue(this.valorCity);
-          this.translate.get('The supplier already exists, verify the name of the company or the emails', { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
+          this.translate.get('The supplier already exists, verify the name of the company or the emails',
+          { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
         } else {

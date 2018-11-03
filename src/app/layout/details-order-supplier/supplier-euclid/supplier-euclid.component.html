@@ -6,9 +6,14 @@
           <div class="d-flex flex-lg-wrap">
             <div class="col-sm-3" *ngFor="let param of specification.parameters">
               <dl class="align-item">
-                <dt>{{param.name  | translate }}</dt>
-                <dt>
+                <dt>{{param.name | translate }}</dt>
+                <dt *ngIf="param.selected!==true && param.selected!==false">
                   <span class="font-text"> {{param.selected}}</span>
+                  <hr>
+                </dt>
+                <dt *ngIf="param.selected===true || param.selected===false">
+                  <span class="font-text" *ngIf="param.selected===true">{{ 'Yes' | translate }}</span>
+                  <span class="font-text" *ngIf="param.selected===false">{{ 'No' | translate }}</span>
                   <hr>
                 </dt>
               </dl>
@@ -36,10 +41,10 @@
   <ngb-tab *ngIf="files.length > 0" title="{{'Documents'| translate}}">
     <ng-template ngbTabContent>
       <!-- Documents -->
-      <div class="card-body table-responsive" >
+      <div class="card-body table-responsive">
         <br>
         <div class="row justify-content-md-center div-parametros">
-          <table class="table" >
+          <table class="table">
             <thead>
               <tr>
                 <th width="50%">{{ 'Name' | translate }}</th>
@@ -49,11 +54,12 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of files">
-                <td><strong>{{ item?.name }}</strong></td>
+                <td>
+                  <strong>{{ item?.name }}</strong>
+                </td>
                 <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
                 <td nowrap>
-                  <button type="button" class="btn btn-success btn-xs"
-                    (click)="downloadFile(item)">
+                  <button type="button" class="btn btn-success btn-xs" (click)="downloadFile(item)">
                     <span class="fa fa-download"></span> Download
                   </button>
                 </td>
