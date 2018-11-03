@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, QueryList, AfterViewInit} from '@angular/core';
+import { Component, OnInit, ViewChild, QueryList, SimpleChanges} from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
@@ -354,6 +354,9 @@ export class DashboardComponent implements OnInit {
     clone[2].data = readyToShipO;
     clone[3].data = shippedO;
     this.lineChartData = clone;
+    /*this.charts.forEach((child) => {
+      child.ngOnChanges({} as SimpleChanges);
+    });*/
 /*
     if (this.charts[0] !== undefined) {
       // this.chart.chart.update();
