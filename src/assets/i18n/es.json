@@ -167,7 +167,7 @@
     "Enter phone secondary":"Ingrese teléfono secundario",
     "Information Supplier":"Información Proveedor",
     "The supplier has a sales platform?":"¿El proveedor posee plataforma de ventas?",
-    "Suppliers":"Proveedores",
+    "Manage Suppliers":"Gestionar Proveedores",
     "register(s)":"registro(s)",
     "of":"de",
     "Membership":"Membresía",
@@ -931,5 +931,6 @@
     "No Instructions Shipping": "Sin instrucciones de envío",
     "Small todo list": "Pequeña lista de tareas",
     "Customers with pending payments": "Clientes con pagos pendientes",
-    "Value": "Valor"
+    "Value": "Valor",
+    "Manage Payments": "Gestionar Pagos"
 }

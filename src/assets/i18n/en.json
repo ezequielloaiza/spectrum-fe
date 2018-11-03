@@ -165,7 +165,7 @@
     "Enter phone secondary":"Enter phone secondary",
     "Information Supplier":"Information Supplier",
     "The supplier has a sales platform?":"The supplier has a sales platform?",
-    "Suppliers":"Suppliers",
+    "Manage Suppliers":"Manage Suppliers",
     "register(s)":"register(s)",
     "of":"of",
     "Membership":"Membership",
@@ -748,6 +748,7 @@
     "No Instructions Shipping": "No Instructions Shipping",
     "Small todo list": "Small todo list",
     "Customers with pending payments": "Customers with pending payments",
-    "Value": "Value"
+    "Value": "Value",
+    "Manage Payments": "Manage Payments"
 
 }

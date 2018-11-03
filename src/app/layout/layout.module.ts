@@ -70,6 +70,8 @@ import { NotificationBalanceOrderComponent } from './notification/notification-b
 import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
+import { ManagePaymentsComponent } from './manage-payments/manage-payments.component';
+
 
 @NgModule({
     imports: [
@@ -148,7 +150,8 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
         NotificationBalanceOrderComponent,
         DetailMagicLookComponent,
         DetailMarkennovyComponent,
-        DetailBlueLightComponent
+        DetailBlueLightComponent,
+        ManagePaymentsComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -172,7 +175,6 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
       BlueLightComponent,
       EuclidComponent,
       MarkennovyComponent,
-      GenerateInvoiceComponent,
       NotificationBalanceOrderComponent,
       DetailMagicLookComponent,
       DetailMarkennovyComponent,
