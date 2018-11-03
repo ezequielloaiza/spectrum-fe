@@ -96,6 +96,7 @@ export class UserModalComponent implements OnInit {
       companyName: ['', [Validators.required]],
       companyContactName: ['', [Validators.required]],
       companyAddress: ['', [Validators.required]],
+      shippingInstructions: ['', [Validators.required]],
       companyPhone: [''],
       companyEmail: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       creditLimit: ['', [Validators.required]],
@@ -222,6 +223,7 @@ export class UserModalComponent implements OnInit {
   get paymentMethod() {return this.form.get('paymentMethod'); }
   get creditDays() {return this.form.get('creditDays'); }
   get balance() {return this.form.get('balance'); }
+  get shippingInstructions() {return this.form.get('shippingInstructions'); }
 
   validatePhone(event) {
     const key = window.event ? event.keyCode : event.which;

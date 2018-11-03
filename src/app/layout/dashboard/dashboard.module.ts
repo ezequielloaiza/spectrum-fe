@@ -13,7 +13,7 @@ import { StatModule, PageHeaderModule } from '../../shared';
 import { ChartsModule as Ng2Charts } from 'ng2-charts';
 import { ChartsRoutingModule } from '../charts/charts-routing.module';
 import { ChartsComponent } from '../charts/charts.component';
-
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -24,8 +24,8 @@ import { ChartsComponent } from '../charts/charts.component';
         StatModule,
         Ng2Charts,
         ChartsRoutingModule,
-        PageHeaderModule
-
+        PageHeaderModule,
+        TranslateModule
     ],
     declarations: [
         DashboardComponent,

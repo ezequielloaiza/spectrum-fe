@@ -26,8 +26,7 @@
             <div class="card-header">{{ 'Order Details' | translate }}</div>
           </div>
           <div class="align-btn-detail">
-            <button [hidden]="!download" type="button" class="btn btn-success btn-xs"
-              (click)="downloadOrder(order)" translate>
+            <button [hidden]="!download" type="button" class="btn btn-success btn-xs" (click)="downloadOrder(order)" translate>
               <span class="fa fa-download"></span> Download Order
             </button>
           </div>
@@ -97,7 +96,7 @@
                         <br>
                       </div>
                       <div class="row">
-                        <div class="col-sm-2">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier!==5">
                           <dl class="align-item">
                             <dt>{{'Supplier'| translate}}
                             </dt>
@@ -106,7 +105,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2" [hidden]="list.productRequested.patient===''">
                           <dl class="align-item">
                             <dt>{{'Patient'| translate}}</dt>
                             <dt>
@@ -118,13 +117,22 @@
                           <dl class="align-item">
                             <dt>{{'Eye'| translate}}</dt>
                             <dt>
-                              <span class="font-text">{{specification.eye}}</span>
+                              <span class="font-text">{{specification.eye | translate}}</span>
                             </dt>
                           </dl>
                         </div>
                       </div>
                       <br>
                       <div class="row">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier===5">
+                          <dl class="align-item">
+                            <dt>{{'Supplier'| translate}}
+                            </dt>
+                            <dt>
+                              <span class="font-text">{{list.productRequested.product.supplier.companyName}}</span>
+                            </dt>
+                          </dl>
+                        </div>
                         <div class="col-sm-2">
                           <dl class="align-item">
                             <dt [hidden]="list.productRequested.product.supplier.idSupplier===5">{{'Quantity'| translate}} </dt>
@@ -146,7 +154,7 @@
                           <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
-                              <span class="text-warning">{{ list.productRequested.price * list.productRequested.quantity | currency : "USD $" }}</span>
+                              <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
                             </dt>
                           </dl>
                         </div>
@@ -172,9 +180,9 @@
           <!--Magic Look-->
           <app-supplier-magic-look [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
-           <!--Blue Light-->
+          <!--Blue Light-->
           <app-supplier-blue-light [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
-           <!--Fin Blue Light-->
+          <!--Fin Blue Light-->
         </div>
       </div>
     </div>

@@ -30,7 +30,7 @@
                 <span>{{ ('Patient' | translate) + ': ' + namePatient }}</span>
               </div>
               <div>
-                <span>${{ product.priceSale * quantity }}</span>
+                <span>{{ price | currency }}</span>
               </div>
             </div>
 
@@ -51,11 +51,11 @@
               <!--PARAM NAME-->
               <div class="col-sm-6">
                 <dl>
-                  <dt>{{ 'Quantity' }}:</dt>
+                  <dt>{{ 'Quantity' | translate }}</dt>
                 </dl>
                 <div *ngFor="let parameter of listNameParameters">
                   <dl>
-                    <dt>{{ parameter.name }}:</dt>
+                    <dt>{{ parameter.name | translate}}</dt>
                   </dl>
                 </div>
               </div>

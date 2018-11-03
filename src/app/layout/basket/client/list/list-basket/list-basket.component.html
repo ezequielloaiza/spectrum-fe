@@ -27,7 +27,7 @@
           <div class="col-xl-4 filter">
             <div class="row search">
               <div class="col col-xl-12 col-lg-12">
-                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter patient search ...' | translate }}">
+                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter customer search ...' | translate }}">
                 <i class="fa fa-search"></i>
               </div>
             </div>
@@ -77,12 +77,24 @@
                         <img class="img-product" src={{basket.urlImage}}>
                       </div>
                       <!--Details-->
-                      <div class="details">
-                        <div class="title">
-                          <span>{{ basket.productRequested.product.name }}</span>
+                      <div class="details" [ngClass]="{detailm: basket.supplier ===5 , detailb: basket.supplier ===6}">
+                        <div *ngIf="basket.supplier !==5 && basket.supplier !==6">
+                          <span class="title">{{ basket.productRequested.product.name }}</span>
                         </div>
                         <br>
-                        <div class="row info" *ngIf="!basket.productRequested.detail[0].eye>
+                        <div *ngIf="basket.supplier !==5">
+                          <div class="row info">
+                            <div class="col-lg-6">
+                              <span class="title">{{ 'Patient' | translate }}</span>
+                              <span>{{ basket.productRequested.patient }}</span>
+                            </div>
+                            <div class="col-lg-6">
+                              <span class="title">{{ 'Eye' | translate }}</span>
+                              <span>{{ basket.productRequested.detail[0].eye | translate }}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <!--<div class="row info" *ngIf="!basket.productRequested.detail[0].eye">
                           <div class="col-lg-12">
                             <span class="title">{{ 'Patient' | translate }}</span>
                             <span>{{ basket.productRequested.patient }}</span>
@@ -97,7 +109,7 @@
                             <span class="title">{{ 'Eye' | translate }}</span>
                             <span>{{ basket.productRequested.detail[0].eye }}</span>
                           </div>
-                        </div>
+                        </div>-->
                         <br>
                         <hr class="separators">
                         <div class="row info">

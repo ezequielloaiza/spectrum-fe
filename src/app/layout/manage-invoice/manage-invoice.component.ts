@@ -8,6 +8,7 @@ import { UserStorageService } from '../../http/user-storage.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { GenerateInvoiceComponent } from '../manage-customer-orders/generate-invoice/generate-invoice.component';
 import { OrderService } from '../../shared/services';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-manage-invoice',
@@ -113,7 +114,7 @@ export class ManageInvoiceComponent implements OnInit {
   }
 
   delete(invoice): void {
-    this.translate.get('Delete Order', { value: 'Delete Order' }).subscribe((title: string) => {
+    this.translate.get('Delete Invoice', { value: 'Delete Invoice' }).subscribe((title: string) => {
       this.translate.get('Are you sure you want to delete the invoice? You must notify the provider this change.',
         { value: 'Are you sure you want to delete the invoice? You must notify the provider this change.' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
@@ -134,4 +135,13 @@ export class ManageInvoiceComponent implements OnInit {
         });
       });
     }
+
+  downloadInvoice(invoice): void {
+    this.invoiceService.downloadInvoice$(invoice.number).subscribe(res => {
+      const filename = 'I-' + invoice.number + '.pdf';
+      saveAs(res, filename);
+    }, error => {
+      console.log('error', error);
+    });
+  }
 }

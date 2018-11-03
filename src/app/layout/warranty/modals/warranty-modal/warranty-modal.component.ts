@@ -189,7 +189,7 @@ export class WarrantyModalComponent implements OnInit {
             this.notification.success('', res);
           });
         } else if (res.code === CodeHttp.notAcceptable) {
-          this.translate.get('The warranty type already exists', { value: 'The business type already exists' }).subscribe((res: string) => {
+          this.translate.get('The warranty type already exists', { value: 'The warranty type already exists' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
         } else {
@@ -206,7 +206,7 @@ export class WarrantyModalComponent implements OnInit {
           });
           this.close();
         } else if (res.code === CodeHttp.notAcceptable) {
-          this.translate.get('The warranty type already exists', { value: 'The business type already exists' }).subscribe((res: string) => {
+          this.translate.get('The warranty type already exists', { value: 'The warranty type already exists' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
         } else {

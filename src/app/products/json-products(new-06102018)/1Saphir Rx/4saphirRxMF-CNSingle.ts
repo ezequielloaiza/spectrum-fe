@@ -1,16 +1,16 @@
 this.products = [
   {
     "code": "Y2N", "name": "Saphir Rx MF CN Single",
-    "priceBase": 6000, "price1": 5500, "price2": 5600, "price3": 5700,
+    "priceBase": 12, "price1": 12, "price2": 12, "price3": 12,
     "father": "Saphir Rx",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
-    "material": "Silicone Hydrogel, Filcon V3 75%",
-    "descriptionShort": "My description short by saphir",
+    "material": "Silicone Hydrogel, Filcon V3 75%, H2O",
+    "descriptionShort": "My description short by saphir rx",
     "description": "Saphir represents a family of monthly and 3-monthly soft contact lenses individually manufactured with Silicone Hydrogel, the most advanced material on the market, which maximises oxygen flow to the eye. Its unique combination of comfort, breathability and vision quality suits even the most demanding contact lens user.",
     "replacementPeriod": "Monthly",
     "warranty": "",
-    "url": "http://spctinternational.com/wp-content/uploads/2017/11/SAPHIR.pdf",
+    "url": "http://spctinternational.com/wp-content/uploads/2017/11/SAPHIR-RX.pdf",
     "stock": 10,
     "types": [
       {
@@ -28,28 +28,16 @@ this.products = [
     ],
     "infoAditional": [
       {
-        "name": "Characteristics", "values": [
-          { "title": "More Custom", "description": "Individually made for each eye in all designs" },
-          { "title": "More Comfort", "description": "High water content Silicone Hydrogel (75%) with low modulus (MPa 0.13) and non-ionic surface." },
-          { "title": "Vision Type", "description": "HD—all day clarity and precision." }
-
-        ]
-      },
-      {
-        "name": "Technical Specifications", "values": [
-          { "title": "Material", "description": "Silicone Hydrogel, Filcon V3 75%" },
-          { "title": "DK", "description": "60" },
-          { "title": "MPa", "description": "0.29" },
-          { "title": "Handling Tint", "description": "No" },
-          { "title": "UV Blocking", "description": "No" },
-          { "title": "Base Curve (mm)", "description": "6.80 to 9.80 Steps 0.30" },
-          { "title": "ØT (mm)", "description": "13.00 to 16.00 Steps 0.50" },
-          { "title": "Sphere (D)", "description": "-30.00 to +30.00 Steps 0.25" },
-          { "title": "Cylinder (D)", "description": "-0.75 to -8.00 Steps 0.25" },
-          { "title": "Axis (°)", "description": "All Steps 1°" },
-          { "title": "Addition (D)", "description": "+0.50 to +4.00 Steps 0.50" },
-          { "title": "Desing MF", "description": "CD – CN" }
-
+        "name": "Properties",
+        "values": [
+          { "title": "k3", "image": ""},
+          { "title": "Aspheric", "image": "assets/images/properties/aspheric.png"},
+          { "title": "Toric", "image": "assets/images/properties/toric.png"},
+          { "title": "Multifocal", "image": "assets/images/properties/multifocal.png"},
+          { "title": "Multifocal Toric", "image": "assets/images/properties/multifocal-toric.png"},
+          { "title": "Monthly", "image": "assets/images/properties/monthly.png"},
+          { "title": "Silicone Hydrogel", "image": "assets/images/properties/silicone-hydrogel.png"},
+          { "title": "RX DESIGN", "image": ""}
         ]
       }
     ]

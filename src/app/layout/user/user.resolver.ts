@@ -18,7 +18,7 @@ export class UserResolver implements Resolve<any> {
       this.breadcrumbService.push(new Breadcrumb('List of Customers', 'fa fa-users', './'));
     } else {
       if (id) {
-       this.breadcrumbService.push(new Breadcrumb('Client', 'fa fa-user', '/user/' + id + '/edit'));
+       this.breadcrumbService.push(new Breadcrumb('Customer', 'fa fa-user', '/user/' + id + '/edit'));
        }
     }
   }
