@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, QueryList, AfterViewInit} from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
@@ -7,6 +7,7 @@ import { UserStorageService } from '../../http/user-storage.service';
 import { WarrantyService } from '../../shared/services/warranty/warranty.service';
 import { OrderService } from '../../shared/services/order/order.service';
 import * as _ from 'lodash';
+import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,8 @@ import * as _ from 'lodash';
 })
 
 export class DashboardComponent implements OnInit {
+  @ViewChild(BaseChartDirective) charts: QueryList<BaseChartDirective>;
+  // chart: Array<any> = [];
   public alerts: Array<any> = [];
   public sliders: Array<any> = [];
   warrantiesList: Array<any> = new Array;
@@ -24,6 +27,10 @@ export class DashboardComponent implements OnInit {
   warranties = 0;
   warrantiesS: any;
   ordersS: any;
+  orderPend: any;
+  orderProc: any;
+  orderReady: any;
+  orderShipped: any;
 
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
@@ -95,18 +102,19 @@ export class DashboardComponent implements OnInit {
 
   // lineChart
   public lineChartData: Array<any> = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Pending Orders' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Paid Orders' },
-    { data: [18, 48, 77, 9, 100, 27, 40], label: 'Canceled Orders' }
+    { data: [], label: 'Pending Orders' },
+    { data: [], label: 'Processed Orders' },
+    { data: [], label: 'Ready to Ship Orders' },
+    { data: [], label: 'Shipped Orders' }
   ];
+
   public lineChartLabels: Array<any> = [
     'January',
     'February',
     'March',
     'April',
     'May',
-    'June',
-    'July'
+    'June'
   ];
   public lineChartOptions: any = {
     responsive: true
@@ -235,6 +243,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.getOrdersPendings();
     this.getWarrantiesPendings();
+    this.getCountOrders();
   }
 
   public closeAlert(alert: any) {
@@ -293,6 +302,75 @@ export class DashboardComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+  }
+
+  getCountOrders(): void {
+    let ordersCount;
+    let pendingO = this.lineChartData[0].data.slice();
+    pendingO.shift();
+    let processedO = this.lineChartData[1].data.slice();
+    processedO.shift();
+    let readyToShipO = this.lineChartData[2].data.slice();
+    readyToShipO.shift();
+    let shippedO = this.lineChartData[3].data.slice();
+    shippedO.shift();
+    this.orderService.countOrdersByMonth$(0).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        ordersCount= res.data;
+        console.log("count", ordersCount);
+        /*this.orderPend = ordersCount.pending;
+        this.orderProc = ordersCount.processed;
+        this.orderReady = ordersCount.readyToShip;
+        this.orderShipped = ordersCount.shipped;*/
+      }
+      _.each(ordersCount.pending, function(pending) {
+        console.log('pend', pending);
+        pendingO.push(pending);
+      });
+      _.each(ordersCount.processed, function(processed) {
+        console.log('processed', processed);
+        processedO.push(processed);
+      });
+      _.each(ordersCount.readyToShip, function(readyToShip) {
+        console.log('readyToS', readyToShip);
+        readyToShipO.push(readyToShip);
+      });
+      _.each(ordersCount.shipped, function(shipped) {
+        console.log('shipped', shipped);
+        shippedO.push(shipped);
+      });
+    });
+  /*
+    this.lineChartData = [
+      { data: pendingO, label: 'Pending Orders' },
+      { data: processedO, label: 'Processed Orders' },
+      { data: readyToShipO, label: 'Ready to Ship Orders' },
+      { data: shippedO, label: 'Shipped Orders' }
+    ];*/
+    // this.charts[0].chart.update();
+    let clone = JSON.parse(JSON.stringify(this.lineChartData));
+    clone[0].data = pendingO;
+    clone[1].data = processedO;
+    clone[2].data = readyToShipO;
+    clone[3].data = shippedO;
+    this.lineChartData = clone;
+/*
+    if (this.charts[0] !== undefined) {
+      // this.chart.chart.update();
+      /*this.chart[0].chart.destroy();
+      this.chart[0].chart = 0;
+
+      this.chart[0].datasets = this.lineChartData;
+      this.chart[0].labels = this.lineChartLabels;
+      this.chart[0].ngOnInit();
+      this.charts[0].ngOnDestroy();
+      this.charts[0].chart = this.charts[0].getChartBuilder(this.charts[0].ctx);
+    }*/
+
+    /*this.lineChartData.push({ data: this.orderPend, label: 'Pending Orders' });
+    this.lineChartData.push({ data: this.orderProc, label: 'Paid Orders' });
+    this.lineChartData.push({ data: this.orderReady, label: 'Ready to Ship Orders' });
+    this.lineChartData.push({ data: this.orderShipped, label: 'Shipped Orders' });*/
   }
 
 }
