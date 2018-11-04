@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class PaymentsMadeComponent implements OnInit {
   orderByField = 'number';
-	reverseSort = true;
+  reverseSort = true;
   typeSort = 0;
   invoice: any;
   listInvoices: Array<any> = new Array;
@@ -63,36 +63,36 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   sortInvoice(key) {
-	  if (this.orderByField !== key) {
-			this.typeSort = 0;
-			this.reverseSort = false;
-		}
-		this.orderByField = key;
-		if (this.orderByField !== 'number') {
-			this.typeSort ++;
-			if (this.typeSort > 2) {
-				this.typeSort = 0;
-				this.orderByField = 'number';
-			 	key = 'number';
+    if (this.orderByField !== key) {
+      this.typeSort = 0;
+      this.reverseSort = false;
+    }
+    this.orderByField = key;
+    if (this.orderByField !== 'number') {
+      this.typeSort++;
+      if (this.typeSort > 2) {
+        this.typeSort = 0;
+        this.orderByField = 'number';
+        key = 'number';
         this.reverseSort = true;
         this.getListInvoices();
-			}
-		}
-    let invoicesSort = this.listInvoicesAux.sort(function(a, b) {
+      }
+    }
+    let invoicesSort = this.listInvoicesAux.sort(function (a, b) {
       let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-		});
-		this.listInvoicesAux = invoicesSort;
-		if (this.reverseSort) {
-			this.listInvoicesAux = invoicesSort.reverse();
-		}
-		this.advancedPagination = 1;
-		this.pageChange(this.advancedPagination);
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+    this.listInvoicesAux = invoicesSort;
+    if (this.reverseSort) {
+      this.listInvoicesAux = invoicesSort.reverse();
+    }
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
   }
 
   moveFirstPage() {
-		this.advancedPagination = 1;
-		this.pageChange(this.advancedPagination);
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
   }
 
   getOrder(idOrder) {
@@ -126,23 +126,23 @@ export class PaymentsMadeComponent implements OnInit {
       this.translate.get('Are you sure you want to delete the invoice? You must notify the provider this change.',
         { value: 'Are you sure you want to delete the invoice? You must notify the provider this change.' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
-              this.invoiceService.delete$(invoice.idInvoice).subscribe(res => {
-                if (res.code === CodeHttp.ok) {
-                  this.getListInvoices();
-                  this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
-                    this.notification.success('', res1);
-                  });
-                } else {
-                  console.log(res.errors[0].detail);
-                }
-              }, error => {
-                console.log('error', error);
-              });
-            }, () => {
+            this.invoiceService.delete$(invoice.idInvoice).subscribe(res => {
+              if (res.code === CodeHttp.ok) {
+                this.getListInvoices();
+                this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
+                  this.notification.success('', res1);
+                });
+              } else {
+                console.log(res.errors[0].detail);
+              }
+            }, error => {
+              console.log('error', error);
+            });
+          }, () => {
           });
         });
-      });
-    }
+    });
+  }
 
   downloadInvoice(invoice): void {
     this.invoiceService.downloadInvoice$(invoice.number).subscribe(res => {
@@ -152,6 +152,4 @@ export class PaymentsMadeComponent implements OnInit {
       console.log('error', error);
     });
   }
-}
-
 }
