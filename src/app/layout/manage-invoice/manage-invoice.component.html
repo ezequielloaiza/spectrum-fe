@@ -21,33 +21,36 @@
             {{ 'All invoices' | translate }}
           </div>
         </div>
-          <!--<div class="col-xl-4 filter">
-            <div class="row search">
+        <div class="row">
+          <div class="col-xl-3 filter">
+            <div class="row search margin">
               <div class="col col-xl-12 col-lg-12">
                 <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter search ...' | translate }}">
                 <i class="fa fa-search"></i>
               </div>
             </div>
           </div>
-           <div class="col-xl-3 filter">
+           <div class="col-xl-3 filter search">
             <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
-              <option value="" disabled [selected]="true" translate>Select payment status</option>
+              <option value="" disabled [selected]="true" translate>Select status</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
-          </div> -->
-          <!-- <div class="col-xl-3 filter">
-            <div>
+          </div> 
+          <div class="col-xl-3 filter">
               <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOrd" [(ngModel)]="fechaSelecOrd" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOrd)">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="fechaSelec" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelec)">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                     <i class="fa fa-calendar"></i>
                   </button>
                 </div>
               </div>
-
-            </div>
-          </div> -->
+          </div>
+        
+          <div class="col-xl-2 btn-clean">
+            <button class="btn btn-outline-secondary" translate [hidden]="!valid1" (click)="clean()">Clean Filters</button>
+          </div>
+        </div> 
           <div class="card-body table-responsive">
             <table class="table">
               <thead>
@@ -102,10 +105,10 @@
               </thead>
               <tbody>
                 <tr *ngFor="let invoice of listInvoices">
-                  <td *ngIf="invoice.status === 0" class="table-tr" class="active">
+                  <td *ngIf="invoice.status === 0" class="table-tr" class="pending">
                     <div>{{'Pending' | translate}}</div>
                   </td>
-                  <td *ngIf="invoice.status === 1" class="table-tr" class="inactive">
+                  <td *ngIf="invoice.status === 1" class="table-tr" class="sent">
                     <div>{{'Sent' | translate }}</div>
                   </td>
                   <td class="table-tr td-table">{{invoice.number}}</td>
