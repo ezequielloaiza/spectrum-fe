@@ -347,6 +347,7 @@ export class ManageInvoiceComponent implements OnInit {
     this.selectedStatus = '';
     this.tamano = 'undefined';
     this.fechaSelec = null;
-    this.search = null;
+    this.search = '';
+    this.valorClient = null;
   }
 }
