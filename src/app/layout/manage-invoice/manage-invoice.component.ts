@@ -36,6 +36,7 @@ export class ManageInvoiceComponent implements OnInit {
   model: NgbDateStruct;
   valid1 = false;
   fechaSelec: NgbDatepicker;
+  search: String;
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
     private notification: ToastrService,
@@ -58,7 +59,7 @@ export class ManageInvoiceComponent implements OnInit {
   }
 
   getListInvoices(): void {
-    this.invoiceService.allInvoiceByStatus$(1).subscribe(
+    this.invoiceService.allInvoice$().subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;
@@ -167,17 +168,19 @@ export class ManageInvoiceComponent implements OnInit {
     this.valorClient = val;
     const valorStatus = this.selectedStatus;
     const lista = [];
+    this.valid1 = true;
     if (val && val.trim() !== '') {
       const client = val;
       if (_.toString(valorStatus) === '' && this.tamano.length === 9) { // Si no ha seleccionado status y fecha
         this.listInvoices = this.listInvoices.filter((item) => {
-          return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
+          return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) || 
+          (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
           this.filterStatusNombre(client , valorStatus);
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 15) { // si no selecciono status y fecha si
           this.filterDateNombre(client);
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15) { // si escibio nombre y selecciono fecha
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15) { // si escribio nombre y selecciono fecha
           this.fullFilter(client, valorStatus);
       }
     } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
@@ -251,9 +254,10 @@ export class ManageInvoiceComponent implements OnInit {
   filterStatusNombre(nombreCliente, status): void {
     const lista = [];
     _.filter(this.listInvoicesAux, function (invoices) {
-      if ((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) &&
+      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) || 
+      (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
       // tslint:disable-next-line:radix 
-      (_.isEqual(parseInt(status), invoices.paymentStatus))) {
+      (_.isEqual(parseInt(status), invoices.status))) {
         lista.push(invoices);
       }
     });
@@ -268,7 +272,8 @@ export class ManageInvoiceComponent implements OnInit {
     _.filter(this.listInvoicesAux, function (invoices) {
       // Fecha Listado
       const fechaList = _.toString(invoices.date.slice(0, 10));
-      if ((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) &&
+      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) || 
+      (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
       ((_.isEqual(fecha, fechaList)))) {
         lista.push(invoices);
       }
@@ -318,7 +323,8 @@ export class ManageInvoiceComponent implements OnInit {
      _.filter(this.listInvoicesAux, function (invoices) {
       // Fecha Listado
       const fechaList = _.toString(invoices.date.slice(0, 10));
-      if ((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase()))  &&
+      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) || 
+      (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
        // tslint:disable-next-line:radix
        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), invoices.status))) {
         lista.push(invoices);
@@ -341,5 +347,6 @@ export class ManageInvoiceComponent implements OnInit {
     this.selectedStatus = '';
     this.tamano = 'undefined';
     this.fechaSelec = null;
+    this.search = null;
   }
 }

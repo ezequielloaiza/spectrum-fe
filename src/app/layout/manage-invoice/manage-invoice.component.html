@@ -25,7 +25,7 @@
           <div class="col-xl-3 filter">
             <div class="row search margin">
               <div class="col col-xl-12 col-lg-12">
-                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter search ...' | translate }}">
+                <input [(ngModel)]="search" class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter search ...' | translate }}">
                 <i class="fa fa-search"></i>
               </div>
             </div>
