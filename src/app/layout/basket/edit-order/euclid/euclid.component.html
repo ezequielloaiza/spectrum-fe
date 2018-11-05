@@ -5,102 +5,103 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="card-body table-responsive row">
-    <div>
-      <div class="list-basket">
-
-        <div class="row">
-          <div class="col-lg-6">
-            <!--Image-->
-            <div>
-              <img class="img-product" src="{{ basket.urlImage }}">
-            </div>
-            <!--Details-->
-            <div class="details">
-              <div>
-                <span class="title">{{ product.name }}</span>
-              </div>
-              <div class="row info label-title">
-                <div class="col-lg-9">
-                  <span class="title">{{ 'Patient' | translate }}</span>
-                  <div class="col-lg-12 input-patient">
-                    <input class="form-control" type="text" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient">
-                  </div>
-                </div>
-                <div class="col-lg-3">
-                  <span class="title">{{ 'Eye' | translate }}</span>
-                  <span>{{ detail.eye }}</span>
-                </div>
-              </div>
-            </div>
-
+  <div class="list-basket">
+    <div class="row">
+      <!--Image-->
+      <div class="col-lg-12 main-info">
+        <div>
+          <span class="title">{{ product.name }}</span>
+        </div>
+        <div>
+          <img class="img-product" src="{{ basket.urlImage }}">
+        </div>
+        <div class="col-lg-12 title label-title patient-info">
+          <span>{{ 'Patient' | translate }}</span>
+          <div class="col-lg-12 main-info">
+            <input class="form-control main-info" type="text" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient">
           </div>
-
-          <div class="col-lg-3 params">
-            <!--CONTENT INFO-->
-            <!--PARAM NAME-->
-            <div class="col-sm-12 title">
-              <div class="row label separator" [hidden]="!editPrice">
-                <label class="form-check-label">{{ 'Price' | translate }}:</label>
-              </div>
-              <div class="row label-title separator">
-                <label class="form-check-label">{{ 'Quantity' | translate }}:</label>&nbsp;&nbsp;
-              </div>
-              <div *ngFor="let parameter of product.parameters">
-                <div class="row label-title separator">
-                  <label class="form-check-label">{{ parameter.name | translate }}:</label>&nbsp;&nbsp;
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 params">
-            <!--PARAMETERS-->
-            <div class="col-sm-12 title">
-              <div class="row selection width-input separator" [hidden]="!editPrice">
-                <input type="number" class="form-control col-sm-11" placeholder="{{ 'Enter price' | translate }}" name="price1" [(ngModel)]="price">
-              </div>
-              <div [ngClass]="cl">
-                <input class="form-control col-sm-11" type="number" step=1 min="1" [(ngModel)]="quantity" oninput="validity.valid||(value='');">
-              </div>
-              <div *ngFor="let parameter of product.parameters">
+        </div>
+        <div class="col-lg-12 title eye-info">
+          <span>{{ 'Eye' | translate }}</span>&nbsp;&nbsp;
+          <span>{{ detail.eye | translate }}</span>
+        </div>
+      </div>
+      <!--PARAMETERS-->
+      <div class="col-lg-12 label-title">
+        <div class="row padding-params">
+          <div class="col-sm-3" [hidden]="!editPrice">
+            <dl>
+              <dt>{{'Price'| translate}}
+              </dt>
+              <dl>
                 <div>
-                  <div class="row selection">
-                    <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12 separator">
-                      <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected" bindLabel="item"
-                        bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                        {{item}}
-                      </ng-select>
-                    </div>
-
-                    <div *ngIf="parameter.type === 'input'" class="select-values width-input separator">
-                      <input class="form-control col-sm-11" type="number" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
-                        oninput="validity.valid||(value='');">
-                    </div>
-                  </div>
+                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
+                    name="price1">
                 </div>
-              </div>
-            </div>
-            <!--Fin parameters-->
+              </dl>
+            </dl>
           </div>
-          <!--comments-->
-          <div class="col-md-6">
-
+          <div class="col-sm-3">
+            <dl>
+              <dt>{{'Quantity'| translate}}
+              </dt>
+              <dl>
+                <div>
+                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="quantity" oninput="validity.valid||(value='');">
+                </div>
+              </dl>
+            </dl>
           </div>
+          <div class="col-sm-3" *ngFor="let parameter of product.parameters">
+            <dl>
+              <dt>{{ parameter.name| translate}}</dt>
+              <dl>
+                <dt>
+                  <div *ngIf="parameter.type === 'selected'">
+                    <ng-select class="display-row" [items]="parameter.values" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
+                      placeholder="{{ 'Select value' | translate }}" (change)="changeSelect(parameter, $event)" >
+                      {{item}}
+                    </ng-select>
+                  </div>
+                  <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)' && parameter.name !=='Cylinder (D)'" class="separator">
+                    <input class="form-control col-sm-12" type="number" min="00.00" step="00.01" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(parameter, parameter.selected)"
+                      oninput="validity.valid||(value='');">
+                  </div>
+                  <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)' && parameter.name ==='Cylinder (D)'" class="separator">
+                    <input class="form-control col-sm-12" type="number" step="0.01" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(parameter, parameter.selected)"
+                      oninput="validity.valid||(value='');">
+                  </div>
+                  <div *ngIf="parameter.type === 'input' && parameter.name ==='Axes (º)'" class="separator">
+                    <input class="form-control col-sm-12" type="number" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(parameter, parameter.selected)"
+                      oninput="validity.valid||(value='');">
+                  </div>
+                </dt>
+              </dl>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <!--Fin parameters-->
+      <!--comments-->
+      <div class="col-lg-12">
+        <div class="row padding-params">
           <div class="col-md-6">
             <!-- Warning Warranty -->
             <div *ngIf="warranty" class="message-error">
               <br>
-              <span translate>{{'Warning: The price with warranty varies' | translate}}</span>
+              <span translate>{{'Warning: Additional by Warranty' | translate}}{{ additional | currency : " USD $" }}</span>
             </div>
-            <!--CONTENT-->
-            <div class="row label-title">
-              <div class="col-md-2">
-                <label class="title">{{ 'Comments' | translate }}:</label>&nbsp;&nbsp;
-              </div>
-              <div class="col-md-10 div-comment">
-                <textarea style="overflow-x: hidden;" class="form-control col-md-12 comment" type="text" [(ngModel)]="observations" placeholder="{{ 'Introduces observations' | translate }}"></textarea>
-              </div>
-            </div>
+          </div>
+          <div class="col-sm-12">
+            <dl>
+              <dt>{{'Comments'| translate}}
+              </dt>
+              <dl>
+                <div>
+                  <textarea style="overflow-x: hidden;" class="form-control col-md-12 comment" type="text" [(ngModel)]="observations" placeholder="{{ 'Introduces observations' | translate }}"></textarea>
+                </div>
+              </dl>
+            </dl>
           </div>
         </div>
       </div>

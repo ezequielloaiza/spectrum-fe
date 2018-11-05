@@ -19,6 +19,7 @@ import { MarkennovyComponent } from '../../../edit-order/markennovy/markennovy.c
 import { DetailMagicLookComponent } from '../../../modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from '../../../modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-blue-light/detail-blue-light.component';
+import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euclid/detail-euclid.component';
 
 
 @Component({
@@ -181,7 +182,7 @@ export class ListBasketComponent implements OnInit {
      case 3: // Lenticon
        break;
      case 4: // Euclid
-          const modalRefEuclid = this.modalService.open(DetailProductModalComponent,
+          const modalRefEuclid = this.modalService.open(DetailEuclidComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
           modalRefEuclid.componentInstance.basket = basket;
           modalRefEuclid.result.then((result) => {
