@@ -83,12 +83,12 @@
 
         <!-- client -->
         <div class="col-md-3">
-          <dt class="title align-title">{{ 'Customer Full Name' | translate }}</dt>
-          <div class="row col-md-12" [hidden]="user.role.idRole !== 3">
+          <dt class="col-md-12">{{ 'Customer Full Name' | translate }}</dt>
+          <div class="col-md-12" [hidden]="user.role.idRole !== 3">
             <input class="form-control" type="text" placeholder="{{ 'Enter customer patient' | translate }}"
               [(ngModel)]="product.client" disabled>
           </div>
-          <div class="row col-md-12" [hidden]="user.role.idRole === 3">
+          <div class="col-md-12" [hidden]="user.role.idRole === 3">
             <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
               [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Select value' | translate }}" required>
             </ng-select>
