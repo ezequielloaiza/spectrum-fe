@@ -1,7 +1,7 @@
 
 this.products = [
   { "code": "DA3", "name": "Xtensa MF CD 6pk",
-    "priceBase": 0, "price1": 14, "price2": 14, "price3": 0,
+    "priceBase": 0, "price1": 0, "price2": 14, "price3": 14,
     "father": "Xtensa",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",

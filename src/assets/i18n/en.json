@@ -750,6 +750,13 @@
     "Customers with pending payments": "Customers with pending payments",
     "Value": "Value",
     "Enter search": "Enter search",
-    "Select status": "Select status"
+    "Select status": "Select status",
+    "Flat K": "Flat K",
+    "Additional by Warranty": "Additional by Warranty",
+    "Comments Right Eye": "Comments Right Eye",
+    "Comments Left Eye": "Comments Left Eye",
+    "Enter right eye observations": "Enter right eye observations",
+    "Enter right left observations": "Enter left eye observations",
+    "Documents (Topography, Tangential Map, etc.)": "Documents (Topography, Tangential Map, etc.)"
 
 }
