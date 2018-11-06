@@ -1,7 +1,7 @@
 this.products = [
   {
     "code": "MND", "name": "Quattro MF pos (14.00) x1 Conv",
-    "priceBase": 25, "price1": 18, "price2": 18, "price3": 25,
+    "priceBase": 25, "price1": 25, "price2": 18, "price3": 18,
     "father": "Quattro Conv",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",

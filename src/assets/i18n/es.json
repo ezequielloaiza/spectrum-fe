@@ -934,5 +934,14 @@
     "Value": "Valor",
     "No comments":"Sin comentarios",
     "Not guaranteed":"No garantizado",
-    "Guaranteed":"Garantizado"
+    "Guaranteed":"Garantizado",
+    "Enter search": "Ingrese búsqueda",
+    "Select status": "Seleccione estado",
+    "Flat K": "Plano K",
+    "Additional by Warranty": "Adicional por Garantía",
+    "Comments Right Eye": "Comentarios Ojo Derecho",
+    "Comments Left Eye": "Comentarios Ojo Izquierdo",
+    "Enter right eye observations": "Ingrese las observaciones del ojo derecho",
+    "Enter left eye observations": "Ingrese las observaciones del ojo izquierdo",
+    "Documents (Topography, Tangential Map, etc.)": "Documentos (Topografía, Mapa Tangencial, etc.)"
 }
