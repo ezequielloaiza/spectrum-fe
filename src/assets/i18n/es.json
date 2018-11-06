@@ -932,5 +932,7 @@
     "Small todo list": "Pequeña lista de tareas",
     "Customers with pending payments": "Clientes con pagos pendientes",
     "Value": "Valor",
-    "No comments":"Sin comentarios"
+    "No comments":"Sin comentarios",
+    "Not guaranteed":"No garantizado",
+    "Guaranteed":"Garantizado"
 }

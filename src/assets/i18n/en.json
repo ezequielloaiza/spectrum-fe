@@ -749,6 +749,8 @@
     "Small todo list": "Small todo list",
     "Customers with pending payments": "Customers with pending payments",
     "Value": "Value",
-    "No comments":"No comments"
+    "No comments":"No comments",
+    "Not guaranteed":"Not guaranteed",
+    "Guaranteed":"Guaranteed"
 
 }
