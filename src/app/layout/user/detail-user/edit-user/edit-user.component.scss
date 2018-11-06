@@ -45,9 +45,8 @@
 
   .link-reset {
     cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
+    & span:hover {
+      color: $bg-blue;
     }
   }
 
