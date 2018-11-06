@@ -18,6 +18,10 @@ export class InvoiceService {
     return this.http.get(environment.apiUrl + 'invoicesSupplier/allInvoiceByStatus/' + status);
   }
 
+  public allInvoice$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesSupplier/allInvoice');
+  }
+
   public delete$(id): Observable<any> {
     return this.http.delete(environment.apiUrl + 'invoicesSupplier/delete/' + id);
   }

@@ -1,7 +1,7 @@
 this.products = [
   {
     "code": "USE", "name": "Saphir Sph 2pk 3-Monthly",
-    "priceBase": 46, "price1": 36, "price2": 39, "price3": 46,
+    "priceBase": 46, "price1": 46, "price2": 39, "price3": 36,
     "father": "Saphir",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",

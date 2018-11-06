@@ -3,38 +3,40 @@
 @include tr-sizes((13%,24%,23%,20%,20%));
 
 .search {
-  padding-top: 8rem;
-  padding-bottom: 1.5rem;
-
+  padding-bottom: 1.0rem;
   i {
     position: absolute;
     top: 10px;
-    right: 30px;
+    right: 25px;
     color: $bg-imput;
   }
+}
+
+.margin {
+  margin-left: 0.3rem;
 }
 
 .body-fixed {
   padding-top: 10%;
 }
 
-/*.active {
+.pending {
   color: $bg-white;
   > div {
-    background: $paid-status;
+    background: $pending-status;
     border-radius: 12px;
     text-align: center;
   }
 }
 
-.inactive {
+.sent {
   color: $bg-white;
   > div {
-    background: $bg-red;
+    background: $sent-status;
     border-radius: 12px;
     text-align: center;
   }
-}*/
+}
 
 .page-header-fixed {
   margin-left: 15px;
@@ -92,5 +94,19 @@
     border-bottom: 6px solid $bg-white;
     border-left: 6px solid transparent;
     content: '';
+  }
+
+  .h5-filter {
+    padding-top: 20px;
+  }
+  
+  .btn-clean {
+    padding-top: 10px;
+  }
+  
+  .filter {
+    padding-top: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
   }
 }

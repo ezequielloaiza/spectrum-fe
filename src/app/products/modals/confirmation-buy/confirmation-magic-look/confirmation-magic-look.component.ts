@@ -104,7 +104,7 @@ export class ConfirmationMagicLookComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
             this.save_success = true;
             this.close();
-            this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
+            this.translate.get('Successfully saved', {value: 'Successfully saved'}).subscribe(( res: string) => {
               this.notification.success('', res);
             });
             this.spinner.hide();

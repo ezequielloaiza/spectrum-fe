@@ -60,7 +60,7 @@
                 <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
                 <td nowrap>
                   <button type="button" class="btn btn-success btn-xs" (click)="downloadFile(item)">
-                    <span class="fa fa-download"></span> Download
+                    <span class="fa fa-download"></span> {{ 'Download' | translate }}
                   </button>
                 </td>
               </tr>

@@ -1,7 +1,7 @@
 this.products = [
   {
     "code": "", "name": "Euclid",
-    "priceBase": 140, "price1": 130, "price2": 130, "price3": 140,
+    "priceBase": 140, "price1": 140, "price2": 130, "price3": 130,
     "father": "Euclid",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
@@ -16,11 +16,10 @@ this.products = [
       {
         "name": "",
         "parameters": [
-          { "name": "Flat K", "type": "input", "values": [], "placeholder": "e.g. 3.00", "selected": null },
-          { "name": "Steep K", "type": "input", "values": [], "placeholder": "e.g. 5.00", "selected": null },
-          { "name": "HVID", "type": "input", "values": [], "placeholder": "e.g. 3.00", "selected": null },
-          { "name": "Cylinder (D)", "type": "input", "values": [], "placeholder": "e.g. -12.00", "selected": null },
-          { "name": "Axes (º)", "type": "input", "values": [], "placeholder": "e.g. 8", "selected": null },
+          { "name": "Flat K", "type": "input", "values": [], "placeholder": "e.g. 03.00", "selected": null },
+          { "name": "Steep K", "type": "input", "values": [], "placeholder": "e.g. 05.00", "selected": null },
+          { "name": "HVID", "type": "input", "values": [], "placeholder": "e.g. 03.00", "selected": null },
+          { "name": "Axes (º)", "type": "input", "values": [], "placeholder": "e.g. 008", "selected": null },
           { "name": "Sphere (D)", "type": "input", "values": [], "placeholder": "e.g. -25.00", "selected": null },
           { "name": "Cylinder (D)", "type": "selected", "values": ["-3.00","-2.75","-2.50","-2.25","-2.00","-1.75"], "selected": null },
 
@@ -44,9 +43,9 @@ this.products = [
       {
         "name": "Prices", "values": [
           { "title": "Warranty", "values":[
-                                            {"name": "Preferred", "price": 160 },
+                                            {"name": "Gold", "price": 170 },
                                             {"name": "Diamond", "price": 160 },
-                                            {"name": "Gold", "price": 170 }
+                                            {"name": "Preferred", "price": 160 }
                                           ]
           }
         ]
