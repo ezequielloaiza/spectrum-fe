@@ -43,8 +43,14 @@
     }
   }
 
-  .link-reset {
+  span {
+    color: $color-text-menu;
+    font-weight: bold;
+  }
+
+  .active {
     cursor: pointer;
+
     & span:hover {
       color: $bg-blue;
     }

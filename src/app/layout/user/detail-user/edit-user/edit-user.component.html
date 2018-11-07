@@ -189,7 +189,7 @@
               </div>
             </fieldset>
           </div>
-          <a class="link-reset" [hidden]="canEdit" (click)="resetKey(user)">
+          <a class="active" [style.pointer-events]="!canEdit ? 'none' : 'auto'" (click)="resetKey(user)">
             <span>
               <i class="fa fa-key"></i>&nbsp; {{ 'Password recovery' | translate }}
             </span>
