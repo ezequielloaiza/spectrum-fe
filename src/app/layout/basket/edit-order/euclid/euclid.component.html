@@ -47,32 +47,7 @@
               </dt>
               <dl>
                 <div>
-<<<<<<< HEAD
                   <input class="form-control" type="number" step=1 min="1" [(ngModel)]="quantity" oninput="validity.valid||(value='');">
-=======
-                  <div class="row selection">
-                    <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12 separator">
-                      <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected"
-                        bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                        <ng-template ng-label-tmp let-item="item">
-                          <div class="supplier-body">
-                            <span>{{ item | translate }}</span>
-                          </div>
-                        </ng-template>
-                        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                          <div class="supplier-body">
-                            <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
-                          </div>
-                        </ng-template>
-                      </ng-select>
-                    </div>
-
-                    <div *ngIf="parameter.type === 'input'" class="select-values width-input separator">
-                      <input class="form-control col-sm-11" type="number" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
-                        oninput="validity.valid||(value='');">
-                    </div>
-                  </div>
->>>>>>> 8be1cb96745dcc7beefb9fbcbd835179b8baf921
                 </div>
               </dl>
             </dl>
