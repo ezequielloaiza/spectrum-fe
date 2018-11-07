@@ -187,7 +187,7 @@
 
       <div class="buy-btns">
         <div>
-          <button class="btn btn-lg btn-primary btn-outline-primary text-uppercase padding-btn" (click)="formIsValid() && addToCart(2)"
+          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase padding-btn" (click)="formIsValid() && addToCart(2)"
             [disabled]="!formIsValid()">
             {{ 'Buy Now' | translate }}
           </button>
