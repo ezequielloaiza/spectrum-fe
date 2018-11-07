@@ -175,7 +175,8 @@ export class EditSellerComponent implements OnInit {
         this.alertify.confirm(title, msg, () => {
           this.userService.recoveryPassword$(seller).subscribe(res => {
             if (res.code === CodeHttp.ok) {
-              this.translate.get('Key successfully restored', { value: 'Key successfully restored' }).subscribe((res: string) => {
+              this.translate.get('The user will receive an email with their password',
+              { value: 'The user will receive an email with their password' }).subscribe((res: string) => {
                 this.notification.success('', res);
               });
             } else {
