@@ -66,7 +66,9 @@ export class GenerateInvoiceComponent implements OnInit {
             const invoices = res.data;
             if (invoices.length > 0) {
               this.invoice = invoices[0];
-              this.pilot = true;
+              if (this.invoice.dateSend !== null || this.invoice.dateSend !== undefined) {
+                this.pilot = true;
+              }
             } else {
               this.loadInvoiceFromOrder();
             }
