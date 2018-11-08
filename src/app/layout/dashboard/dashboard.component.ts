@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   orderProc: any;
   orderReady: any;
   orderShipped: any;
+  months = 6;
 
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
@@ -306,55 +307,56 @@ export class DashboardComponent implements OnInit {
 
   getCountOrders(): void {
     let ordersCount;
-    let pendingO = this.lineChartData[0].data.slice();
-    pendingO.shift();
-    let processedO = this.lineChartData[1].data.slice();
-    processedO.shift();
-    let readyToShipO = this.lineChartData[2].data.slice();
-    readyToShipO.shift();
-    let shippedO = this.lineChartData[3].data.slice();
-    shippedO.shift();
+    let clone = JSON.parse(JSON.stringify(this.lineChartData));
+    const pendingO: number[] = clone[0].data;
+    //pendingO.shift();
+    const processedO: number[] = clone[1].data;
+    //processedO.shift();
+    const readyToShipO: number[] = clone[2].data;
+    //readyToShipO.shift();
+    const shippedO: number[] = clone[3].data;
+    //shippedO.shift();
     this.orderService.countOrdersByMonth$(0).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        ordersCount= res.data;
-        console.log("count", ordersCount);
-        /*this.orderPend = ordersCount.pending;
-        this.orderProc = ordersCount.processed;
-        this.orderReady = ordersCount.readyToShip;
-        this.orderShipped = ordersCount.shipped;*/
-      }
-      _.each(ordersCount.pending, function(pending) {
-        console.log('pend', pending);
+        ordersCount = res.data;
+      _.each(ordersCount.pending, function(pending, key) {
         pendingO.push(pending);
       });
-      _.each(ordersCount.processed, function(processed) {
-        console.log('processed', processed);
+      _.each(ordersCount.processed, function(processed, key) {
         processedO.push(processed);
       });
-      _.each(ordersCount.readyToShip, function(readyToShip) {
-        console.log('readyToS', readyToShip);
+      _.each(ordersCount.readyToShip, function(readyToShip, key) {
         readyToShipO.push(readyToShip);
       });
-      _.each(ordersCount.shipped, function(shipped) {
-        console.log('shipped', shipped);
+      _.each(ordersCount.shipped, function(shipped, key) {
         shippedO.push(shipped);
       });
     });
-  /*
-    this.lineChartData = [
+    console.log("pending", pendingO);
+    /*this.lineChartData = [
       { data: pendingO, label: 'Pending Orders' },
       { data: processedO, label: 'Processed Orders' },
-      { data: readyToShipO, label: 'Ready to Ship Orders' },
-      { data: shippedO, label: 'Shipped Orders' }
+      { data: [0,0,0,0,0,0], label: 'Ready to Ship Orders' },
+      { data: [0,0,0,0,5,0], label: 'Shipped Orders' }
     ];*/
+    /*this.lineChartData[0].data.push(pendingO);
+    this.lineChartData[1].data.push(processedO);
+    this.lineChartData[2].data.push(readyToShipO);*/
+    clone[0].data = [0,0,0,0,0,1];
+    clone[1].data = processedO;
+    clone[2].data = [0,0,0,0,0,0];
+    clone[3].data = [0,0,0,0,0,0];
+    this.lineChartData = clone;
+    this.lineChartData = this.lineChartData.slice();
+    console.log('data', this.lineChartData);
     // this.charts[0].chart.update();
-    let clone = JSON.parse(JSON.stringify(this.lineChartData));
+    /*let clone = JSON.parse(JSON.stringify(this.lineChartData));
     clone[0].data = pendingO;
     clone[1].data = processedO;
     clone[2].data = readyToShipO;
     clone[3].data = shippedO;
     this.lineChartData = clone;
-    /*this.charts.forEach((child) => {
+    this.charts.forEach((child) => {
       child.ngOnChanges({} as SimpleChanges);
     });*/
 /*
