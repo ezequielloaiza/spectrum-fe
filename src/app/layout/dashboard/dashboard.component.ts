@@ -309,13 +309,10 @@ export class DashboardComponent implements OnInit {
     let ordersCount;
     let clone = JSON.parse(JSON.stringify(this.lineChartData));
     const pendingO: number[] = clone[0].data;
-    //pendingO.shift();
     const processedO: number[] = clone[1].data;
-    //processedO.shift();
     const readyToShipO: number[] = clone[2].data;
-    //readyToShipO.shift();
     const shippedO: number[] = clone[3].data;
-    //shippedO.shift();
+    
     this.orderService.countOrdersByMonth$(0).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         ordersCount = res.data;
