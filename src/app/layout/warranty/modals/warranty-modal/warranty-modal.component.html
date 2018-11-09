@@ -11,7 +11,7 @@
       <div class="row">
         <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Customer' | translate }}</label>
+            <label class="title">{{ 'Customer' | translate }}</label>
             <div>
               <span *ngIf="action === 'view'">{{ warranty.orderProductRequest.order.user.name }}</span>
               <select *ngIf="action != 'view'" class="form-control" name="clientId" id="clientId" (change)="filterOrders(clientId)"
@@ -27,7 +27,7 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Created at' | translate }}</label>
+            <label class="title">{{ 'Created at' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty.createdAt | date:'yyyy-MM-dd' }}</span>
               <span *ngIf="action != 'view'" name="createdAt" formControlName="createdAt" ngDefaultControl>{{ today | date:'yyyy-MM-dd' }}</span>
@@ -38,7 +38,7 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Order' | translate }}</label>
+            <label class="title">{{ 'Order' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty.orderProductRequest.order.number }}</span>
               <select *ngIf="action != 'view'" class="form-control" name="orderId" id="orderId" formControlName="orderId" (change)="filterProducts(orderId)" required>
@@ -53,7 +53,7 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Reference Number' | translate }}</label>
+            <label class="title">{{ 'Reference Number' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty.referenceNumber }}</span>
               <input *ngIf="action != 'view'" class="form-control" [readOnly]="true" name="referenceNumber" formControlName="referenceNumber">
@@ -67,7 +67,7 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Product' | translate }}</label>
+            <label class="title">{{ 'Product' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty.orderProductRequest.productRequested.product.name }}</span>
               <select *ngIf="action != 'view'" class="form-control" name="orderClientProductRequestId" id="orderClientProductRequestId"
@@ -83,7 +83,7 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Patient' | translate }}</label>
+            <label class="title">{{ 'Patient' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty? warranty.orderProductRequest.productRequested.patient : ''}}</span>
               <input *ngIf="action != 'view'" class="form-control" [readOnly]="true" name="patient" formControlName="patient" value="{{product? product.productRequested.patient : ''}}" required>
@@ -94,7 +94,7 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Bill Number' | translate }}</label>
+            <label class="title">{{ 'Bill Number' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty.billNumber }}</span>
               <input *ngIf="action != 'view'" class="form-control" placeholder="{{ 'Enter bill number' | translate }}" name="billNumber" formControlName="billNumber">
@@ -106,7 +106,7 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Lot Number' | translate }}</label>
+            <label class="title">{{ 'Lot Number' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty.lotNumber }}</span>
               <input *ngIf="action != 'view'" class="form-control" placeholder="{{ 'Enter lot number' | translate }}" name="lotNumber" formControlName="lotNumber">
@@ -120,7 +120,7 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Warranty Type' | translate }}</label>
+            <label class="title">{{ 'Warranty Type' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty.type | translate }}</span>
               <select *ngIf="action != 'view'" class="form-control" name="type" formControlName="type" required>
@@ -136,7 +136,7 @@
       <div class="row">
         <div class="col-xl-12">
           <fieldset class="form-group">
-            <label>{{ 'Description' | translate }}</label>
+            <label class="title">{{ 'Description' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty.description }}</span>
               <textarea *ngIf="action != 'view'" class="form-control textarea" placeholder="{{ 'Enter description' | translate }}" name="description" formControlName="description" rows="3"></textarea>
@@ -150,7 +150,7 @@
       <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="row">
         <div class="col-xl-12">
           <fieldset class="form-group">
-            <label>{{ 'Notes' | translate }}</label>
+            <label class="title">{{ 'Notes' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty.notes }}</span>
               <textarea *ngIf="action != 'view'" class="form-control textarea" placeholder="{{ 'Enter notes' | translate }}" name="notes" formControlName="notes" rows="3"></textarea>
