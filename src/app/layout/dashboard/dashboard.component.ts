@@ -316,18 +316,26 @@ export class DashboardComponent implements OnInit {
     this.orderService.countOrdersByMonth$(0).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         ordersCount = res.data;
-      _.each(ordersCount.pending, function(pending, key) {
-        pendingO.push(pending);
-      });
-      _.each(ordersCount.processed, function(processed, key) {
-        processedO.push(processed);
-      });
-      _.each(ordersCount.readyToShip, function(readyToShip, key) {
-        readyToShipO.push(readyToShip);
-      });
-      _.each(ordersCount.shipped, function(shipped, key) {
-        shippedO.push(shipped);
-      });
+        clone[0].data = ordersCount.pending;
+        clone[1].data = ordersCount.processed;
+        clone[2].data = ordersCount.readyToShip;
+        clone[3].data = ordersCount.shipped;
+        this.lineChartData = clone;
+        this.lineChartData = this.lineChartData.slice();
+     /*   _.each(ordersCount.pending, function(pending, key) {
+          debugger
+          pendingO.push(pending);
+        });
+        _.each(ordersCount.processed, function(processed, key) {
+          processedO.push(processed);
+        });
+        _.each(ordersCount.readyToShip, function(readyToShip, key) {
+          readyToShipO.push(readyToShip);
+        });
+        _.each(ordersCount.shipped, function(shipped, key) {
+          shippedO.push(shipped);
+        });*/
+      }
     });
     console.log("pending", pendingO);
     /*this.lineChartData = [
@@ -339,13 +347,14 @@ export class DashboardComponent implements OnInit {
     /*this.lineChartData[0].data.push(pendingO);
     this.lineChartData[1].data.push(processedO);
     this.lineChartData[2].data.push(readyToShipO);*/
-    clone[0].data = [0,0,0,0,0,1];
-    clone[1].data = processedO;
-    clone[2].data = [0,0,0,0,0,0];
-    clone[3].data = [0,0,0,0,0,0];
+   /* debugger
+    clone[0].data = ordersCount.pending;
+    clone[1].data = [0,0,0,0,0,2];
+    clone[2].data = [0,0,0,1,0,0];
+    clone[3].data = [0,0,0,0,5,0];
     this.lineChartData = clone;
     this.lineChartData = this.lineChartData.slice();
-    console.log('data', this.lineChartData);
+    console.log('data', this.lineChartData);*/
     // this.charts[0].chart.update();
     /*let clone = JSON.parse(JSON.stringify(this.lineChartData));
     clone[0].data = pendingO;
