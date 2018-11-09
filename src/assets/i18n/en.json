@@ -759,5 +759,7 @@
     "Enter right left observations": "Enter left eye observations",
     "Documents (Topography, Tangential Map, etc.)": "Documents (Topography, Tangential Map, etc.)",
     "The user will receive an email with their password": "The user will receive an email with their password",
-    "Invoice already generated": "Invoice already generated"
+    "Invoice already generated": "Invoice already generated",
+    "Product": "Product",
+    "Warranty Type": "Warranty Type"
 }
