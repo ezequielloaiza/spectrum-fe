@@ -1,7 +1,7 @@
 this.products = [
   {
     "code": "X4E", "name": "Quattro Toric Neg. (14.50) 3-Monthly 2pk",
-    "priceBase": 46, "price1": 36, "price2": 39, "price3": 46,
+    "priceBase": 46, "price1": 46, "price2": 39, "price3": 36,
     "father": "Quattro 3-Monthly",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",

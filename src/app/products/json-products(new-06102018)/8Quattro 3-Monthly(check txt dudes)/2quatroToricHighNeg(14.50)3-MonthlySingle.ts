@@ -1,7 +1,7 @@
 this.products = [
   {
     "code": "R7E", "name": "Quattro Toric High Neg.(14.50) 3-Monthly Single",
-    "priceBase": 25, "price1": 19, "price2": 19, "price3": 25,
+    "priceBase": 25, "price1": 25, "price2": 19, "price3": 19,
     "father": "Quattro 3-Monthly",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",

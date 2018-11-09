@@ -1,7 +1,7 @@
 this.products = [
   {
     "code": "UP2", "name": "Saphir Rx MF CN 3pk",
-    "priceBase": 45, "price1": 27, "price2": 35, "price3": 45,
+    "priceBase": 45, "price1": 45, "price2": 35, "price3": 27,
     "father": "Saphir Rx",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
