@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { User } from '../../../../shared/models/user';
 import { MembershipService } from '../../../../shared/services/membership/membership.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ListUserModalComponent } from '../../modals/list-user-modal/list-user-modal.component';
@@ -41,6 +42,7 @@ export class EditUserComponent implements OnInit {
               private googleService: GoogleService,
               private userService: UserService,
               private translate: TranslateService,
+              private alertify: AlertifyService,
               private notification: ToastrService,
               private modalService: NgbModal,
               private userStorageService: UserStorageService,
@@ -195,6 +197,29 @@ export class EditUserComponent implements OnInit {
       this.saving = false;
     }, error  => {
       this.saving = false;
+    });
+  }
+
+  resetKey(user) {
+    this.translate.get('Confirm reset key', { value: 'Confirm reset key' }).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to reset the key?',
+      { value: 'Are you sure you want to reset the key?' }).subscribe((msg: string) => {
+        this.alertify.confirm(title, msg, () => {
+          this.userService.recoveryPassword$(user).subscribe(res => {
+            if (res.code === CodeHttp.ok) {
+              this.translate.get('The user will receive an email with their password',
+              { value: 'The user will receive an email with their password' }).subscribe((res: string) => {
+                this.notification.success('', res);
+              });
+            } else {
+              console.log(res.errors[0].detail);
+            }
+          }, error => {
+            console.log('error', error);
+          });
+        }, () => {
+        });
+      });
     });
   }
 

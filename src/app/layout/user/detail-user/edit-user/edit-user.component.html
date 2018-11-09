@@ -189,6 +189,11 @@
               </div>
             </fieldset>
           </div>
+          <a class="active" [style.pointer-events]="!canEdit ? 'none' : 'auto'" (click)="resetKey(user)">
+            <span>
+              <i class="fa fa-key"></i>&nbsp; {{ 'Password recovery' | translate }}
+            </span>
+          </a>
         </div>
         <br>
         <div class="footer-form">
