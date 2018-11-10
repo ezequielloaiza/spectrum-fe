@@ -947,5 +947,6 @@
     "Enter left eye observations": "Ingrese las observaciones del ojo izquierdo",
     "Documents (Topography, Tangential Map, etc.)": "Documentos (Topografía, Mapa Tangencial, etc.)",
     "The user will receive an email with their password": "El usuario recibirá un correo electrónico con su contraseña",
-    "Invoice already generated": "Factura ya generada"
+    "Invoice already generated": "Factura ya generada",
+    "Payments": "Pagos"
 }

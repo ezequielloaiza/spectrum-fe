@@ -10,6 +10,7 @@ import { GenerateInvoiceComponent } from '../../manage-customer-orders/generate-
 import { OrderService } from '../../../shared/services';
 import { saveAs } from 'file-saver';
 import { Router } from '@angular/router';
+import { AddPaymentModalComponent } from './modals/add-payment-modal/add-payment-modal.component';
 
 @Component({
   selector: 'app-payments-made',
@@ -60,6 +61,13 @@ export class PaymentsMadeComponent implements OnInit {
         console.log('error', error);
       }
     );
+  }
+
+  openModal(): void {
+    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg'});
+    modalRef.result.then((result) => {
+    }, (reason) => {
+    });
   }
 
   sortInvoice(key) {

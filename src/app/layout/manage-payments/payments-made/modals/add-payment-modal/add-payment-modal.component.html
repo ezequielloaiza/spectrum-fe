@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'Add Payment' | translate }}</h4>
+  <button type="button" class="close" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-xl-12" >
+        <div class="custom-control custom-radio">
+          <input type="radio"  name="radioGroup" class="custom-control-input" >
+          <label class="custom-control-label" for="radioGroup{{i}}">{{ 'Test' | translate }}</label>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" class="btn btn-main">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>
