@@ -49,7 +49,7 @@
           </p>
         </div>
         <div class="col-md-3">
-          <dt>Material</dt>
+          <dt>{{ 'Material' | translate }}</dt>
           <dd>
             <a>{{ product.material }}</a>
           </dd>
@@ -63,9 +63,9 @@
           <p>{{ product.warranty }} {{ 'days' | translate }}</p>
         </div>
         <div class="col-md-2">
-          <dt>Product Sheet</dt>
+          <dt>{{ 'Product Sheet' | translate }}</dt>
           <dd>
-            <a href="{{ product.url }}" target="_blank">{{ 'Download' }}</a>
+            <a href="{{ product.url }}" target="_blank">{{ 'Download' | translate }}</a>
           </dd>
         </div>
       </div>
@@ -76,16 +76,16 @@
         <div class="col-md-3">
           <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
           <div class=" row col-md-12">
-            <input class="form-control" type="text" placeholder="{{ 'Introduce name patient' | translate }}"
+            <input class="form-control" type="text" placeholder="{{ 'Enter name patient' | translate }}"
               [(ngModel)]="product.patient" required>
           </div>
         </div>
 
         <!-- client -->
         <div class="col-md-3">
-          <dt class="title align-title">{{ 'Customer Full Name' | translate }}</dt>
+          <dt class="col-md-12">{{ 'Customer Full Name' | translate }}</dt>
           <div class="col-md-12" [hidden]="user.role.idRole !== 3">
-            <input class="form-control" type="text" placeholder="{{ 'Introduce name patient' | translate }}"
+            <input class="form-control" type="text" placeholder="{{ 'Enter customer patient' | translate }}"
               [(ngModel)]="product.client" disabled>
           </div>
           <div class="col-md-12" [hidden]="user.role.idRole === 3">
@@ -96,7 +96,7 @@
         </div>
         <!--shipping address-->
         <div class="col-md-6">
-          <span class="title">{{ 'Shipping Address' | translate }}:</span>
+          <span class="title">{{ 'Shipping Address' | translate }}</span>
           <div class="row col-md-12">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
               readonly>
@@ -123,7 +123,7 @@
             <!--quantity right-->
             <div>
               <div class="row">
-                <label class="form-check-label">{{ 'Quantity' }}:</label>
+                <label class="form-check-label">{{ 'Quantity' | translate }}</label>
               </div>
               <div class="row">
                   <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityRight"
@@ -137,7 +137,7 @@
                   <div>
                     <!--param name-->
                     <div class="label">
-                      <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
+                      <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
                     </div>
                     <!--param values-->
                     <div class="selection">
@@ -179,7 +179,7 @@
             <!--quantity left-->
             <div>
               <div class="row">
-                <label class="form-check-label">{{ 'Quantity' }}:</label>
+                <label class="form-check-label">{{ 'Quantity' | translate }}</label>
               </div>
               <div class="row">
                   <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft"
@@ -193,7 +193,7 @@
                   <div>
                     <!--param name-->
                     <div class="label">
-                      <label class="form-check-label">{{ parameter.name }}:</label>&nbsp;&nbsp;
+                      <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
                     </div>
                     <!--param values-->
                     <div class="selection">
@@ -237,11 +237,11 @@
         <div class="row">
           <div class="col-md-6">
             <textarea style="overflow-x: hidden;" class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"
-              placeholder="{{ 'Introduces right eye observations' | translate }}"></textarea>
+              placeholder="{{ 'Enter right eye observations' | translate }}"></textarea>
           </div>
           <div class="col-md-6">
             <textarea style="overflow-x: hidden;" class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"
-              placeholder="{{ 'Introduces right eye observations' | translate }}"></textarea>
+              placeholder="{{ 'Enter left eye observations' | translate }}"></textarea>
           </div>
         </div>
       </div>
@@ -302,11 +302,11 @@
     <br>
 
     <div class="buy-btns">
-      <button class="btn btn-lg btn-primary btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
+      <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
         {{ 'Buy Now' | translate }}
       </button>
       <button class="btn btn-lg btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(1)" [disabled]="!formIsValid()">
-        <i class="fa fa-cart-plus"></i> Add to cart
+        <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
       </button>
     </div>
   </div>

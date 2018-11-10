@@ -1,7 +1,7 @@
 this.products = [
   {
     "code": "GHD", "name": "Gentle 59 Sph 3pk",
-    "priceBase": 45, "price1": 37, "price2": 37, "price3": 45,
+    "priceBase": 45, "price1": 45, "price2": 37, "price3": 37,
     "father": "Gentle 59",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",

@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-lg-3">
                   <span class="title">{{ 'Eye' | translate }}</span>
-                  <span>{{ detail.eye }}</span>
+                  <span>{{ detail.eye | translate }}</span>
                 </div>
               </div>
             </div>
@@ -66,9 +66,18 @@
                 <div>
                   <div class="row selection">
                     <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12 separator">
-                      <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected" bindLabel="item"
+                      <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected"
                         bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                        {{item}}
+                        <ng-template ng-label-tmp let-item="item">
+                          <div class="supplier-body">
+                            <span>{{ item | translate }}</span>
+                          </div>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                          <div class="supplier-body">
+                            <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                          </div>
+                        </ng-template>
                       </ng-select>
                     </div>
 

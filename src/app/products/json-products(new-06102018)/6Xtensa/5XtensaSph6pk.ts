@@ -1,7 +1,7 @@
 
 this.products = [
   { "code":"AP4", "name": "Xtensa Sph 6pk",
-    "priceBase": 0, "price1": 7, "price2": 7, "price3": 0,
+    "priceBase": 0, "price1": 0, "price2": 7, "price3": 7,
     "father": "Xtensa",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",

@@ -9,6 +9,7 @@ export class InvoiceSupplier {
     public address: Address;
     public idAddress: number;
     public date: Date;
+    public dateSend: Date;
     public number: number;
     public subtotal: number;
     public shipping: number;

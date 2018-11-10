@@ -753,5 +753,18 @@
     "Customer's Invoices List" : "Customer's Invoices List",
     "View Payments" : "View Payments",
     "Payments Made to The Invoice List" : "Payments Made to The Invoice List",
-    "Invoice Details" : "Invoice Details"
+    "Invoice Details" : "Invoice Details",
+    "Enter search": "Enter search",
+    "Select status": "Select status",
+    "Flat K": "Flat K",
+    "Additional by Warranty": "Additional by Warranty",
+    "Comments Right Eye": "Comments Right Eye",
+    "Comments Left Eye": "Comments Left Eye",
+    "Enter right eye observations": "Enter right eye observations",
+    "Enter right left observations": "Enter left eye observations",
+    "Documents (Topography, Tangential Map, etc.)": "Documents (Topography, Tangential Map, etc.)",
+    "The user will receive an email with their password": "The user will receive an email with their password",
+    "Invoice already generated": "Invoice already generated",
+    "Product": "Product",
+    "Warranty Type": "Warranty Type"
 }
