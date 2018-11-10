@@ -115,39 +115,39 @@ export class DashboardComponent implements OnInit {
   public lineChartColors: Array<any> = [
     {
       // pending-status
-      backgroundColor: '#B71C1C',
-      borderColor: '#B71C1C',
-      pointBackgroundColor: '#B71C1C',
+      backgroundColor: 'rgba(183, 28, 28, 0.2)',
+      borderColor: 'rgba(183, 28, 28, 1)',
+      pointBackgroundColor: 'rgba(183, 28, 28, 1)',
       pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#B71C1C',
-      pointHoverBorderColor: '#B71C1C'
+      pointHoverBackgroundColor: 'rgba(183, 28, 28, 0.8)',
+      pointHoverBorderColor: 'rgba(183, 28, 28, 0.8)'
     },
     {
       // processed-status
-      backgroundColor: '#FF6F00',
-      borderColor: '#FF6F00',
-      pointBackgroundColor: '#FF6F00',
+      backgroundColor: 'rgba(255, 111, 0, 0.2)',
+      borderColor: 'rgba(255, 111, 0, 1)',
+      pointBackgroundColor: 'rgba(255, 111, 0, 1)',
       pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#FF6F00',
-      pointHoverBorderColor: '#FF6F00'
+      pointHoverBackgroundColor: 'rgba(255, 111, 0, 0.8)',
+      pointHoverBorderColor: 'rgba(255, 111, 0, 0.8)'
     },
     {
       // ready-to-ship
-      backgroundColor: '#1B5E20',
-      borderColor: '#1B5E20',
-      pointBackgroundColor: '#1B5E20',
+      backgroundColor: 'rgba(1, 87, 155, 0.2)',
+      borderColor: 'rgba(1, 87, 155, 1)',
+      pointBackgroundColor: 'rgba(1, 87, 155, 1)',
       pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#1B5E20',
-      pointHoverBorderColor: '#1B5E20'
+      pointHoverBackgroundColor: 'rgba(1, 87, 155, 0.8)',
+      pointHoverBorderColor: 'rgba(1, 87, 155, 0.8)'
     },
     {
       // shipped
-      backgroundColor: '#01579B',
-      borderColor: '#01579B',
-      pointBackgroundColor: '#01579B',
+      backgroundColor: 'rgba(27, 94, 32, 0.2)',
+      borderColor: 'rgba(27, 94, 32, 1)',
+      pointBackgroundColor: 'rgba(27, 94, 32, 1)',
       pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#01579B',
-      pointHoverBorderColor: '#01579B'
+      pointHoverBackgroundColor: 'rgba(27, 94, 32, 0.8)',
+      pointHoverBorderColor: 'rgba(27, 94, 32, 0.8)'
     }
   ];
   public lineChartLegend: Boolean = true;
@@ -309,7 +309,6 @@ export class DashboardComponent implements OnInit {
   getCountOrders(): void {
     let ordersCount;
     let clone = JSON.parse(JSON.stringify(this.lineChartData));
-    this.getMonths();
     this.orderService.countOrdersByMonth$(0).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         ordersCount = res.data;
@@ -320,6 +319,7 @@ export class DashboardComponent implements OnInit {
         this.lineChartData = clone;
         this.lineChartData = this.lineChartData.slice();
       }
+      this.getMonths();
     });
 
   }
@@ -330,7 +330,13 @@ export class DashboardComponent implements OnInit {
       const dt = new Date();
       dt.setMonth(today.getMonth() - (5 - index));
       console.log(index, formatDate(dt, 'medium', 'en-US'));
-      const labelMonth = formatDate(dt, 'MMM', 'en-US') + "'" + formatDate(dt, 'yyyy', 'en-US');
+      let month = formatDate(dt, 'MMMM', 'en-US');
+      this.translate
+            .get(month, { value: month })
+            .subscribe((res1: string) => {
+              month = res1;
+            });
+      const labelMonth =  month + "'" + formatDate(dt, 'yyyy', 'en-US');
       this.lineChartLabels.push(labelMonth);
     }
   }
