@@ -32,7 +32,7 @@
   padding: 10px 40px 10px 40px;
 
   .card {
-    background: #fbfbfb;
+    background: #ffffff;
     padding: 2em;
     line-height: 1.5em;
 
@@ -142,6 +142,10 @@
 
 .select-values {
   padding-left: 0px;
+}
+
+.param-power {
+  display: flex;
 }
 
 .card-body {

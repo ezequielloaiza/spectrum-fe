@@ -49,6 +49,8 @@ export class ProductViewEuropaComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  signPowerRight: any;
+  signPowerLeft: any;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
@@ -246,6 +248,8 @@ export class ProductViewEuropaComponent implements OnInit {
     this.setEyeSelected();
     let product = this.productCopy;
     let productsSelected = this.productsSelected;
+    let signPowerLeft = this.signPowerLeft;
+    let signPowerRight = this.signPowerRight;
 
     _.each(productsSelected, function(productSelected, index) {
 
@@ -266,6 +270,9 @@ export class ProductViewEuropaComponent implements OnInit {
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          if (parameter.name === "Power") {
+            product.parametersRight[index].selected = signPowerRight + parameter.selected;
+          }
         });
         productSelected.parameters = product.parametersRight;
 
@@ -294,6 +301,9 @@ export class ProductViewEuropaComponent implements OnInit {
         /*params*/
         _.each(product.parametersLeft, function(parameter, index) {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          if (parameter.name === "Power") {
+            product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
+          }
         });
         productSelected.parameters = product.parametersLeft;
 
@@ -362,6 +372,9 @@ export class ProductViewEuropaComponent implements OnInit {
           isValid = false;
         }
       });
+      if (!this.signPowerRight) {
+        isValid = false;
+      }
     }
 
     if (this.product.eyeLeft) {
@@ -370,6 +383,9 @@ export class ProductViewEuropaComponent implements OnInit {
           isValid = false;
         }
       });
+      if (!this.signPowerLeft) {
+        isValid = false;
+      }
     }
     return isValid;
   }
@@ -439,5 +455,47 @@ export class ProductViewEuropaComponent implements OnInit {
     } else {
       console.log('error file');
     }
+  }
+
+  format(value): any {
+    let flat;
+    let partInt;
+    let partDec;
+    let pos;
+    let toString;
+    if (value !== null) {
+      toString = value.toString();
+      if (_.includes(toString, '.')) {
+        pos = _.indexOf(toString, '.');
+        partInt = toString.slice( 0, pos);
+        if (partInt <= 99) {
+          partDec = toString.slice( pos + 1, toString.length);
+          flat = this.completeStart(partInt, 2) + '.' + this.completeEnd(partDec, 2);
+        } else {
+           flat = null;
+        }
+      } else {
+          if (value <= 99) {
+            flat = this.completeStart(value, 2) + '.00';
+          } else {
+            flat = null;
+          }
+      }
+      return flat;
+    }
+  }
+
+  completeStart(value, tamano): any {
+    let filteredId = value.toString();
+    filteredId = _.padStart(filteredId, tamano, '0');
+    return filteredId;
+
+  }
+
+  completeEnd(value, tamano): any {
+    let filteredId = value.toString();
+    filteredId = _.padEnd(filteredId, tamano, '0');
+    return filteredId;
+
   }
 }

@@ -21,8 +21,8 @@ this.products = [
         ],
         "parameters": [
           { "name": "Diameter (mm)", "type": "selected", "values": ["16.0", "18.0", "20.0"], "selected": null },
-          { "name": "Base Curve (mm)", "type":"input", "values": ["any"], "placeholder":"Ex. 8.00", "selected": null },
-          { "name": "Power", "type":"input", "values": ["any"],"placeholder":"Ex. 2.00", "selected": null },
+          { "name": "Base Curve (mm)", "type":"input", "values": ["any"], "placeholder":"e.g. 08.00", "selected": null },
+          { "name": "Power", "type":"input", "values": ["any"],"placeholder":"e.g. 2.00", "selected": null },
           { "name": "Addition", "type": "selected", "values": ["1.00", "1.50", "2.00", "2.50", "3.00", "3.50"], "selected": null },
           { "name": "TPC Diopters", "type": "selected", "values": ["0.50", "1.00", "1.50", "2.00", "2.50", "3.00", "3.50", "4.00", "4.50", "5.00", "5.50", "6.00", "6.50", "7.00", "7.50", "8.00"], "selected": null },
           { "name": "TPC Meridian", "type": "selected", "values": [ "horizontal", "vertical"], "selected": null }
