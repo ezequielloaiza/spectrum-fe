@@ -42,6 +42,7 @@ export class DetailsBasketClientComponent implements OnInit {
     value2 : 'NO'
   };
   checkedAll: any;
+  customer: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -65,6 +66,7 @@ export class DetailsBasketClientComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listBasket = res.data;
           this.listBasketAux = res.data;
+          this.customer = res.data[0].basket.user.company.companyName;
           _.each(this.listBasket, function (basket) {
             basket.checked = false;
             basket.supplier = basket.productRequested.product.supplier.idSupplier;
