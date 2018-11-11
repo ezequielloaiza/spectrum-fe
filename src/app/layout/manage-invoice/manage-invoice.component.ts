@@ -64,6 +64,8 @@ export class ManageInvoiceComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;
           this.listInvoicesAux = res.data;
+          this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
+          this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
         } else {
           console.log(res.code);
         }
@@ -173,7 +175,7 @@ export class ManageInvoiceComponent implements OnInit {
       const client = val;
       if (_.toString(valorStatus) === '' && this.tamano.length === 9) { // Si no ha seleccionado status y fecha
         this.listInvoices = this.listInvoices.filter((item) => {
-          return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) || 
+          return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
@@ -254,9 +256,9 @@ export class ManageInvoiceComponent implements OnInit {
   filterStatusNombre(nombreCliente, status): void {
     const lista = [];
     _.filter(this.listInvoicesAux, function (invoices) {
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) || 
+      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
       (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-      // tslint:disable-next-line:radix 
+      // tslint:disable-next-line:radix
       (_.isEqual(parseInt(status), invoices.status))) {
         lista.push(invoices);
       }
@@ -272,7 +274,7 @@ export class ManageInvoiceComponent implements OnInit {
     _.filter(this.listInvoicesAux, function (invoices) {
       // Fecha Listado
       const fechaList = _.toString(invoices.date.slice(0, 10));
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) || 
+      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
       (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
       ((_.isEqual(fecha, fechaList)))) {
         lista.push(invoices);
@@ -323,7 +325,7 @@ export class ManageInvoiceComponent implements OnInit {
      _.filter(this.listInvoicesAux, function (invoices) {
       // Fecha Listado
       const fechaList = _.toString(invoices.date.slice(0, 10));
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) || 
+      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
       (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
        // tslint:disable-next-line:radix
        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), invoices.status))) {
