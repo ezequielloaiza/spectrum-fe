@@ -943,6 +943,18 @@
     "Documents (Topography, Tangential Map, etc.)": "Documentos (Topografía, Mapa Tangencial, etc.)",
     "The user will receive an email with their password": "El usuario recibirá un correo electrónico con su contraseña",
     "Invoice already generated": "Factura ya generada",
-    "Manage Suppliers": "Gestionar Proveedores",
-    "Must be a valid site URL": "Debe ser una URL del sitio web válida"
+    "Must be a valid site URL": "Debe ser una URL del sitio web válida",
+    "January": "Enero",
+    "February": "Febrero",
+    "March": "Marzo",
+    "April":"Abril",
+    "May": "Mayo",
+    "June": "Junio",
+    "July": "Julio",
+    "August": "Agosto",
+    "September": "Septiembre",
+    "October": "Octubre",
+    "November": "Noviembre",
+    "December": "Diciembre",
+    "Manage Suppliers": "Gestionar Proveedores"
 }
