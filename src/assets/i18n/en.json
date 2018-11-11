@@ -160,7 +160,7 @@
     "Phone Secondary":"Phone Secondary",
     "Enter company name":"Enter company name",
     "Enter contact name":"Enter contact name",
-    "Enter website":"Enter website",
+    "Enter website":"Enter website. Ej: https://www.site.com",
     "Enter email secondary":"Enter email secondary",
     "Enter phone secondary":"Enter phone secondary",
     "Information Supplier":"Information Supplier",
@@ -774,5 +774,6 @@
     "December": "December",
     "Product": "Product",
     "Warranty Type": "Warranty Type",
-    "Manage Suppliers": "Manage Suppliers"
+    "Manage Suppliers": "Manage Suppliers",
+    "Must be a valid site URL": "Must be a valid site URL"
 }

@@ -133,8 +133,11 @@
         <div class="col-xl-12">
           <fieldset class="form-group">
             <label>{{ 'Website' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter website' | translate }}" name="website" formControlName="website">
+            <input type="url" class="form-control" placeholder="{{ 'Enter website' | translate }}" name="website" formControlName="website">
           </fieldset>
+          <div class="message-error" [hidden]="website.valid || website.pristine">
+            <span>{{ 'Must be a valid site URL' | translate }}</span>
+          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
