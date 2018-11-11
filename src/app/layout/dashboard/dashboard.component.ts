@@ -22,13 +22,16 @@ export class DashboardComponent implements OnInit {
   warrantiesList: Array<any> = new Array;
   user: any;
   orders = 0;
+  total = 0;
   warranties = 0;
-  warrantiesS: any;
-  ordersS: any;
-  orderPend: any;
-  orderProc: any;
-  orderReady: any;
-  orderShipped: any;
+  orderPend = 0;
+  orderProc = 0;
+  orderReady = 0;
+  orderShipped = 0;
+  porcPend = 0;
+  porcProc = 0;
+  porcReady = 0;
+  porcShipped = 0;
   months = 6;
   locale: any;
 
@@ -243,9 +246,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getOrdersPendings();
+    this.getOrdersPending();
     this.getWarrantiesPendings();
     this.getCountOrders();
+    this.getCountOrdersTotal();
   }
 
   public closeAlert(alert: any) {
@@ -253,31 +257,28 @@ export class DashboardComponent implements OnInit {
     this.alerts.splice(index, 1);
   }
 
-  getOrdersPendings(): void {
+  getOrdersPending() {
     if (this.user.role.idRole === 3) {
       this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 0).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.orders = res.data.length;
-          this.ordersS = this.orders < 10 ? '0' + this.orders.toString() : this.orders.toString();
         }
       });
     } else if (this.user.role.idRole === 2) {
       this.orderService.findOrdersClientBySeller$(0).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.orders = res.data.length;
-          this.ordersS = this.orders < 10 ? '0' + this.orders.toString() : this.orders.toString();
         }
       });
     } else if (this.user.role.idRole === 1) {
       this.orderService.allOrderWithStatus$(0).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.orders = res.data.length;
-          this.ordersS = this.orders < 10 ? '0' + this.orders.toString() : this.orders.toString();
         }
       });
     }
   }
-
+  
   getWarrantiesPendings(): void {
     this.warrantyService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -297,7 +298,6 @@ export class DashboardComponent implements OnInit {
           this.warrantiesList = _.filter(this.warrantiesList, { status: 0 } );
         }
         this.warranties = this.warrantiesList.length;
-        this.warrantiesS = this.warranties < 10 ? '0' + this.warranties.toString() : this.warranties.toString();
       } else {
         console.log(res.errors[0].detail);
       }
@@ -309,7 +309,7 @@ export class DashboardComponent implements OnInit {
   getCountOrders(): void {
     let ordersCount;
     let clone = JSON.parse(JSON.stringify(this.lineChartData));
-    this.orderService.countOrdersByMonth$(0, this.user.userResponse.idUser).subscribe(res => {
+    this.orderService.countOrdersByMonth$(this.user.userResponse.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         ordersCount = res.data;
         clone[0].data = ordersCount.pending;
@@ -322,6 +322,25 @@ export class DashboardComponent implements OnInit {
     });
     this.getMonths();
 
+  }
+
+  getCountOrdersTotal(): void {
+    let ordersCount;
+    this.orderService.countOrders$(this.user.userResponse.idUser).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        ordersCount = res.data;
+        this.orderPend = ordersCount.pending;
+        this.orderProc = ordersCount.processed;
+        this.orderReady = ordersCount.readyToShip;
+        this.orderShipped = ordersCount.shipped;
+        this.total = ordersCount.total;
+
+        this.porcPend = (this.orderPend * 100) / this.total;
+        this.porcProc = (this.orderProc * 100) / this.total;
+        this.porcReady = (this.orderReady * 100) / this.total;
+        this.porcShipped = (this.orderShipped * 100) / this.total;
+      }
+    });
   }
 
   getMonths(): void {
