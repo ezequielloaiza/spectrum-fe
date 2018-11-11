@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "", "name": "Europa TF (Torico Frontal)",
+    "code": "", "name": "Europa Multifocal",
     "priceBase": 1000, "price1": 500, "price2": 600, "price3": 700,
     "category": "Europa Scleral",
     "subCategory": "Europa",
