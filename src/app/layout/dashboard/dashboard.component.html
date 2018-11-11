@@ -52,7 +52,7 @@
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">{{ordersS}}</h1>
+              <h1 class="no-margins card-text">{{orders | number:'2.0-0'}}</h1>
               <i class="fa fa-file"></i>
             </div>
             <br>
@@ -110,7 +110,7 @@
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">{{warrantiesS}}</h1>
+              <h1 class="no-margins card-text">{{warranties | number:'2.0-0'}}</h1>
               <i class="fa fa-certificate"></i>
             </div>
             <br>
@@ -151,7 +151,7 @@
                     </div>
                     -->
                     <div class="card-body">
-                      <canvas baseChart height="130" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
+                      <canvas baseChart  height="130" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
                         [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
                       </canvas>
                     </div>
@@ -161,33 +161,43 @@
               <div class="col-lg-3">
                 <ul class="stat-list">
                   <li>
-                    <h2 class="no-margins">2,346</h2>
-                    <small>{{ 'Total orders in period' | translate }}</small>
-                    <div class="stat-percent">48%
-                      <i class="fa fa-level-up text-navy"></i>
+                    <h2 class="no-margins">{{ orderPend | number:'2.0-0' }}</h2>
+                    <small>{{ 'Pending Orders' | translate }}</small>
+                    <div class="stat-percent">{{porcPend | number:'2.0-0' }}%
+                      <!-- <i class="fa fa-level-up text-navy"></i> -->
                     </div>
                     <div class="progress progress-mini">
-                      <div style="width: 48%;" class="progress-bar"></div>
+                      <div [ngStyle]="{'width': porcPend + '%' }"  class="progress-bar"></div>
                     </div>
                   </li>
                   <li>
-                    <h2 class="no-margins ">4,422</h2>
-                    <small>{{ 'Orders in last month' | translate }}</small>
-                    <div class="stat-percent">60%
-                      <i class="fa fa-level-down text-navy"></i>
+                    <h2 class="no-margins ">{{orderProc | number:'2.0-0'}}</h2>
+                    <small>{{ 'Processed Orders' | translate }}</small>
+                    <div class="stat-percent">{{porcProc | number : '2.0-0' }}%
+                      <!-- <i class="fa fa-level-down text-navy"></i> -->
                     </div>
                     <div class="progress progress-mini">
-                      <div style="width: 60%;" class="progress-bar"></div>
+                      <div  [ngStyle]="{'width': porcProc + '%' }" class="progress-bar"></div>
                     </div>
                   </li>
                   <li>
-                    <h2 class="no-margins ">9,180</h2>
-                    <small>{{ 'Monthly income from orders' | translate }}</small>
-                    <div class="stat-percent">22%
-                      <i class="fa fa-bolt text-navy"></i>
+                    <h2 class="no-margins ">{{orderReady | number:'2.0-0'}}</h2>
+                    <small>{{ 'Ready to Ship Orders' | translate }}</small>
+                    <div class="stat-percent">{{porcReady | number : '2.0-0' }}%
+                      <!-- <i class="fa fa-bolt text-navy"></i> -->
                     </div>
                     <div class="progress progress-mini">
-                      <div style="width: 22%;" class="progress-bar"></div>
+                      <div [ngStyle]="{'width': porcReady + '%' }" class="progress-bar"></div>
+                    </div>
+                  </li>
+                  <li>
+                    <h2 class="no-margins ">{{orderShipped | number:'2.0-0'}}</h2>
+                    <small>{{ 'Shipped Orders' | translate }}</small>
+                    <div class="stat-percent">{{porcShipped | number : '2.0-0' }}%
+                      <!-- <i class="fa fa-bolt text-navy"></i> -->
+                    </div>
+                    <div class="progress progress-mini">
+                      <div [ngStyle]="{'width': porcShipped + '%' }" class="progress-bar"></div>
                     </div>
                   </li>
                 </ul>
