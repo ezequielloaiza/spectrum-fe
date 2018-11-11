@@ -85,7 +85,7 @@
     "Products List" : "Lista de Productos",
     "Enter product name..." : "Ingrese el nombre del producto...",
     "List of Customers" : "Lista de Clientes",
-    "All Customers" : "Todos los Clientes",
+    "All Customers" : "Todos los clientes",
     "Add Customers" : "Agregar Clientes",
     "Name" : "Nombre",
     "Email" : "Correo",
@@ -220,7 +220,7 @@
     "Warranty":"Garantía",
     "Warranty Information": "Información de garantía",
     "Warranties List": "Lista de Garantías",
-    "All Warranties": "Todas las Garantías",
+    "All Warranties": "Todas las garantías",
     "Enter warranty search..": "Ingrese la búsqueda de garantía..",
     "In process": "En proceso",
     "Approved": "Aprobado",
@@ -422,7 +422,7 @@
     "Payment Method is required": "Modalidad de Pago es requerido",
     "Credit Days is required": "Días de Crédito es requerido",
     "Invoices List": "Lista de Facturas",
-    "All invoices": "Todas las Facturas",
+    "All invoices": "Todas las facturas",
     "Are you sure you want to delete the invoice? You must notify the provider this change.":"¿Está seguro que quiere eliminar esta factura? Debe notificar al proveedor este cambio.",
     "No country found": "No se encontró el país",
     "Microenterprise": "Microempresa",
@@ -954,5 +954,6 @@
     "September": "Septiembre",
     "October": "Octubre",
     "November": "Noviembre",
-    "December": "Diciembre"
+    "December": "Diciembre",
+    "Manage Suppliers": "Gestionar Proveedores"
 }

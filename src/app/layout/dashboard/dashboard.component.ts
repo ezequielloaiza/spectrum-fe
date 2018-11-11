@@ -309,7 +309,7 @@ export class DashboardComponent implements OnInit {
   getCountOrders(): void {
     let ordersCount;
     let clone = JSON.parse(JSON.stringify(this.lineChartData));
-    this.orderService.countOrdersByMonth$(0).subscribe(res => {
+    this.orderService.countOrdersByMonth$(0, this.user.userResponse.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         ordersCount = res.data;
         clone[0].data = ordersCount.pending;
@@ -319,8 +319,8 @@ export class DashboardComponent implements OnInit {
         this.lineChartData = clone;
         this.lineChartData = this.lineChartData.slice();
       }
-      this.getMonths();
     });
+    this.getMonths();
 
   }
 

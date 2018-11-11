@@ -771,5 +771,8 @@
     "September": "September",
     "October": "October",
     "November": "November",
-    "December": "December"
+    "December": "December",
+    "Product": "Product",
+    "Warranty Type": "Warranty Type",
+    "Manage Suppliers": "Manage Suppliers"
 }
