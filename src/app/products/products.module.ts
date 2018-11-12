@@ -25,6 +25,8 @@ import { ConfirmationMagicLookComponent } from './modals/confirmation-buy/confir
 import { ConfirmationMarkennovyComponent } from './modals/confirmation-buy/confirmation-markennovy/confirmation-markennovy.component';
 import { ConfirmationBlueLightComponent } from './modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
 import { EditProductMagicLookComponent } from './modals/edit-product/edit-product-magic-look/edit-product-magic-look.component';
+import { ConfirmationEuclidComponent } from './modals/confirmation-buy/confirmation-euclid/confirmation-euclid.component';
+import { EditProductEuclidComponent } from './modals/edit-product/edit-product-euclid/edit-product-euclid.component';
 
 @NgModule({
   imports: [
@@ -55,7 +57,9 @@ import { EditProductMagicLookComponent } from './modals/edit-product/edit-produc
     ConfirmationMagicLookComponent,
     ConfirmationMarkennovyComponent,
     ConfirmationBlueLightComponent,
-    EditProductMagicLookComponent
+    EditProductMagicLookComponent,
+    ConfirmationEuclidComponent,
+    EditProductEuclidComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
@@ -63,7 +67,9 @@ import { EditProductMagicLookComponent } from './modals/edit-product/edit-produc
                     ConfirmationMagicLookComponent,
                     ConfirmationMarkennovyComponent,
                     ConfirmationBlueLightComponent,
-                    EditProductMagicLookComponent
+                    EditProductMagicLookComponent,
+                    ConfirmationEuclidComponent,
+                    EditProductEuclidComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })

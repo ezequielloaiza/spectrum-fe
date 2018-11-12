@@ -22,8 +22,8 @@
           <dl>
             <dt>{{ productRequested.patient }}</dt>
           </dl>
-          <dl class="param">
-            <dt>{{ productRequested.price * productRequested.quantity | currency : "USD $" }}</dt>
+          <dl>
+            <dt>{{ subtotal | currency : "USD $" }}</dt>
           </dl>
         </div>
         <div class="col-lg-12 title eye-info">

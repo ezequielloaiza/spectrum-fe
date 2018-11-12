@@ -1,0 +1,103 @@
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-beat"></ngx-spinner>
+<div *ngIf="namePatient">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ 'Confirm purchase' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="list-basket body">
+    <div class="row">
+      <!--Image-->
+      <div class="col-lg-12 main-info">
+        <div>
+          <span class="title">{{ product.name }}</span>
+        </div>
+        <!--Image-->
+        <div class="label-title">
+          <img class="img-product" src="{{ product.mainImg }}">
+        </div>
+        <!--Patient-->
+        <div class="col-lg-12 title label-title patient-info">
+          <span>{{ 'Patient' | translate }}</span>
+          <dl>
+            <dt>{{ namePatient}}</dt>
+          </dl>
+          <dl>
+            <dt>{{ price | currency : "USD $" }}</dt>
+            <dt *ngIf="additionalTotal>0">({{ 'Includes' | translate }}{{ additionalTotal | currency : " USD $" }} {{ 'per guarantee' | translate }})</dt>
+          </dl>
+        </div>
+      </div>
+      <!--PARAMETERS-->
+      <div class="col-lg-12" *ngFor="let list of listBasket">
+        <div class="row padding-params">
+          <div class="col-lg-12 title eye-info">
+            <span>{{ 'Eye' | translate }}</span>&nbsp;&nbsp;
+            <span>{{ list.detail[0].eye | translate }}</span>
+          </div>
+          <div class="col-sm-3">
+            <dl class="align-item">
+              <dt>{{'Quantity'| translate}}
+              </dt>
+              <hr class="separators">
+              <dl>
+                <dt class="items">
+                  {{ listBasket[0].quantity }}
+                </dt>
+              </dl>
+            </dl>
+          </div>
+          <div class="col-sm-3" *ngFor="let parameter of list.detail[0].parameters">
+            <dl class="align-item">
+              <dt>{{ parameter.name | translate }}
+              </dt>
+              <hr class="separators">
+              <dl>
+                <dt class="items" *ngIf="parameter.selected !==true && parameter.selected !==false">
+                  {{ parameter.selected}}
+                </dt>
+                <dt class="items" *ngIf="parameter.selected ===true || parameter.selected ===false">
+                  <span *ngIf="parameter.selected === true">{{ 'Yes' | translate }}</span>
+                  <span *ngIf="parameter.selected === false">{{ 'No' | translate }}</span>
+                </dt>
+              </dl>
+            </dl>
+          </div>
+          <!--Comments-->
+          <div class="col-lg-12">
+            <div class="row padding-params">
+              <div class="col-sm-12">
+                <dl>
+                  <dt>{{'Comments'| translate}}
+                  </dt>
+                  <dl class="comment" *ngIf="list.observations ==='' || list.observations === null">
+                    <span translate>{{'No comments' | translate}}</span>
+                  </dl>
+                  <dl *ngIf="list.observations !==''">
+                    <span style="overflow-x: hidden;"> {{ list.observations }}</span>
+                  </dl>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIN PARAMETERS-->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
+      <i class="fa fa-times"></i>
+    </button>
+    <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy===2">{{ 'Save' | translate }}&nbsp;
+      <i class="fa fa-save"></i>
+    </button>
+    <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy===1">{{ 'Buy' | translate }}&nbsp;
+      <i class="fa fa-check"></i>
+    </button>
+  </div>
+  <ng-template #rt let-r="result" let-t="term">
+    {{ r.description}}
+  </ng-template>
+</div>
