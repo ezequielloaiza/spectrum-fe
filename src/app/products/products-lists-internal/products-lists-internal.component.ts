@@ -8,6 +8,7 @@ import { EditProductComponent } from '../modals/edit-product/edit-product.compon
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EditProductMagicLookComponent } from '../modals/edit-product/edit-product-magic-look/edit-product-magic-look.component';
+import { EditProductEuclidComponent } from '../modals/edit-product/edit-product-euclid/edit-product-euclid.component';
 
 @Component({
   selector: 'app-products-lists-internal',
@@ -129,7 +130,7 @@ export class ProductsListInternalComponent implements OnInit {
   }
 
   open(product, action) {
-    if (product.supplier.idSupplier !== 5) {
+    if (product.supplier.idSupplier !== 5 && product.supplier.idSupplier !== 4) {
       const modalRef = this.modalService.open(EditProductComponent, {
         size: 'lg',
         windowClass: 'modal-content-border'
@@ -142,7 +143,20 @@ export class ProductsListInternalComponent implements OnInit {
         },
         (reason) => {}
       );
-    } else {
+    } else if (product.supplier.idSupplier === 4) {
+      const modalRef = this.modalService.open(EditProductEuclidComponent, {
+        size: 'lg',
+        windowClass: 'modal-content-border'
+      });
+      modalRef.componentInstance.product = product;
+      modalRef.componentInstance.action = action;
+      modalRef.result.then(
+        (result) => {
+          this.getProducts();
+        },
+        (reason) => {}
+      );
+    } else if (product.supplier.idSupplier === 5) {
       const modalRef = this.modalService.open(EditProductMagicLookComponent, {
         size: 'lg',
         windowClass: 'modal-content-border'
