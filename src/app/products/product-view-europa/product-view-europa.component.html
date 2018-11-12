@@ -88,7 +88,7 @@
             <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}"
               [(ngModel)]="product.client" disabled required>
           </div>
-          <div class="col-md-12" [hidden]="user.role.idRole === 3">
+          <div class="row col-md-12" [hidden]="user.role.idRole === 3">
             <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
               [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Select value' | translate }}" required>
             </ng-select>

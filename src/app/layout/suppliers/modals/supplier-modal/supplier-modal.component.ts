@@ -65,6 +65,7 @@ export class SupplierModalComponent implements OnInit {
   formatter = (x: {description: string}) => x.description;
 
   initializeForm() {
+    const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
     this.form = this.formBuilder.group({
       id          : [this.action === 'edit' ? this.supplier.idSupplier : ''],
       companyName : [this.action === 'edit' ? this.supplier.companyName : '', [ Validators.required]],
@@ -75,7 +76,7 @@ export class SupplierModalComponent implements OnInit {
       phone       : [this.action === 'edit' ? this.supplier.phone : '', []],
       phone2      : [this.action === 'edit' ? this.supplier.phone2 : '', []],
       platform    : [this.action === 'edit' ? this.supplier.platform : '', [ ]],
-      website     : [this.action === 'edit' ? this.supplier.website : '', [] ],
+      website     : [this.action === 'edit' ? this.supplier.website : '', [Validators.pattern(reg)] ],
       state       : [this.action === 'edit' ? this.supplier.state : ''],
       idCountry   : [this.action === 'edit' && this.supplier.country ? this.supplier.country.idCountry : '', [ Validators.required]],
       city        : [this.action === 'edit' ? {description: this.supplier.city} : '', [ Validators.required]],

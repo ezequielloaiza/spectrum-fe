@@ -21,6 +21,7 @@ import { DetailMagicLookComponent } from '../../../modals/detail-product/detail-
 import { DetailMarkennovyComponent } from '../../../modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-blue-light/detail-blue-light.component';
 import { debug } from 'util';
+import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euclid/detail-euclid.component';
 
 @Component({
   selector: 'app-details-basket-client',
@@ -42,6 +43,7 @@ export class DetailsBasketClientComponent implements OnInit {
     value2 : 'NO'
   };
   checkedAll: any;
+  customer: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -65,6 +67,7 @@ export class DetailsBasketClientComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listBasket = res.data;
           this.listBasketAux = res.data;
+          this.customer = res.data[0].basket.user.company.companyName;
           _.each(this.listBasket, function (basket) {
             basket.checked = false;
             basket.supplier = basket.productRequested.product.supplier.idSupplier;
@@ -184,7 +187,7 @@ export class DetailsBasketClientComponent implements OnInit {
      case 3: // Lenticon
        break;
      case 4: // Euclid
-          const modalRefEuclid = this.modalService.open(DetailProductModalComponent,
+          const modalRefEuclid = this.modalService.open(DetailEuclidComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
           modalRefEuclid.componentInstance.basket = basket;
           modalRefEuclid.result.then((result) => {

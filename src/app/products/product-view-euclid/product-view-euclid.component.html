@@ -26,9 +26,6 @@
           <!-- name-price -->
           <div class="main-info">
             <h4 class="product-title">{{ product.name }}</h4>
-            <h1 class="price" [hidden]="product.priceSale===''">
-              <span>{{ product.priceSale | currency : "USD $" }}</span>
-            </h1>
           </div>
           <!-- image -->
           <div class="preview-pic tab-content main-info">
@@ -95,12 +92,17 @@
           </div>
         </div>
         <!--shipping address-->
-        <div class="col-md-6">
-          <span class="title">{{ 'Shipping Address' | translate }}</span>
+        <div class="col-md-4">
+          <span class="title">{{ 'Shipping Address' | translate }}:</span>
           <div class="row col-md-12">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
               readonly>
           </div>
+        </div>
+        <div class="col-md-2">
+          <h4 class="padding-price" [hidden]="product.priceSale===''">
+            <span>{{ product.priceSale | currency : "USD $" }}</span>
+          </h4>
         </div>
       </div>
 
@@ -147,22 +149,32 @@
                           {{item}}
                         </ng-select>
                       </div>
-
-                      <div *ngIf="parameter.type === 'input'" class="select-values">
+                      <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)' && parameter.name !=='Cylinder (D)' && parameter.name !=='Sphere (D)'" class="select-values">
+                        <input class="form-control" type="number" min="00.00" step="00.01" placeholder="{{ parameter.placeholder | translate }}"
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight" [required]="product.eyeRight" (change)="changeSelect('right',parameter, parameter.selected)">
+                      </div>
+                      <div *ngIf="parameter.type === 'input' && parameter.name ==='Sphere (D)'" class="select-values">
+                        <input class="form-control" type="number"  step="00.01" placeholder="{{ parameter.placeholder | translate }}"
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight" [required]="product.eyeRight" (change)="changeSelect('left',parameter, parameter.selected)">
+                      </div>
+                      <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)' && parameter.name ==='Cylinder (D)'" class="select-values">
+                        <input class="form-control" type="number" step="0.01" placeholder="{{ parameter.placeholder | translate }}"
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight" [required]="product.eyeRight" (change)="changeSelect('right',parameter, parameter.selected)">
+                      </div>
+                      <div *ngIf="parameter.type === 'input' && parameter.name ==='Axes (º)'" class="select-values">
                         <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight" [required]="product.eyeRight">
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight" [required]="product.eyeRight" (change)="changeSelect('right',parameter, parameter.selected)">
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
               <!--prices aditional-->
-              <div class="row" [hidden]="!warrantyRight || !product.quantityRight">
-                <span>{{ 'Additional by Warranty' | translate }}</span>
-                <h4 class="price" >
+              <div class="row warranty" [hidden]="!warrantyRight || !product.quantityRight">
+                <span>{{ 'Additional by Warranty' | translate }}</span>&nbsp;&nbsp;
+                <p>
                   <span>{{ product.additional * product.quantityRight | currency : "USD $" }}</span>
-                </h4>
+                </p>
               </div>
             </div>
           </div>
@@ -203,10 +215,21 @@
                           {{item}}
                         </ng-select>
                       </div>
-
-                      <div *ngIf="parameter.type === 'input'" class="select-values">
+                      <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)' && parameter.name !=='Cylinder (D)' && parameter.name !=='Sphere (D)'" class="select-values">
+                        <input class="form-control" type="number" min="00.00" step="00.01" placeholder="{{ parameter.placeholder | translate }}"
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" [required]="product.eyeLeft" (change)="changeSelect('left',parameter, parameter.selected)">
+                      </div>
+                      <div *ngIf="parameter.type === 'input' && parameter.name ==='Sphere (D)'" class="select-values">
+                        <input class="form-control" type="number"  step="00.01" placeholder="{{ parameter.placeholder | translate }}"
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" [required]="product.eyeLeft" (change)="changeSelect('left',parameter, parameter.selected)">
+                      </div>
+                      <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)' && parameter.name ==='Cylinder (D)'" class="select-values">
+                        <input class="form-control" type="number" step="0.01" placeholder="{{ parameter.placeholder | translate }}"
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" [required]="product.eyeLeft" (change)="changeSelect('left',parameter, parameter.selected)">
+                      </div>
+                      <div *ngIf="parameter.type === 'input' && parameter.name ==='Axes (º)'" class="select-values">
                         <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" [required]="product.eyeLeft">
+                          [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" [required]="product.eyeLeft" (change)="changeSelect('left',parameter, parameter.selected)">
                       </div>
                     </div>
                   </div>
@@ -214,11 +237,11 @@
               </div>
 
               <!--prices aditional-->
-              <div class="row" [hidden]="!warrantyLeft || !product.quantityLeft">
-                <span>{{ 'Additional by Warranty' | translate }}</span>
-                <h4 class="price" >
+              <div class="row warranty" [hidden]="!warrantyLeft || !product.quantityLeft">
+                <span>{{ 'Additional by Warranty' | translate }}</span>&nbsp;&nbsp;
+                <p>
                   <span>{{ product.additional * product.quantityLeft | currency : "USD $" }}</span>
-                </h4>
+                </p>
               </div>
             </div>
           </div>
