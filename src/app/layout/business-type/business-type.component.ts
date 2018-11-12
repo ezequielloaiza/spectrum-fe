@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BusinessTypeModalComponent } from './modals/business-type-modal/business-type-modal.component';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-business-type',
@@ -28,7 +29,8 @@ export class BusinessTypeComponent implements OnInit {
               private businessTypeService: BusinessTypeService,
               private alertify: AlertifyService,
               private notification: ToastrService,
-              private translate: TranslateService){ }
+              private translate: TranslateService,
+              private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getBusinessType();
@@ -67,16 +69,20 @@ export class BusinessTypeComponent implements OnInit {
   }
 
   getBusinessType() {
+    this.spinner.show();
     this.businessTypeService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.auxBusinessTypes = res.data;
         this.sortBusinessType(this.orderByField);
+        this.spinner.hide();
         //this.businessTypes = this.auxBusinessTypes.slice(0,this.itemPerPage);
       } else {
+        this.spinner.hide();
         console.log(res.errors[0].detail);
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
