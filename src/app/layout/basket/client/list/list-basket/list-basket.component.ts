@@ -20,6 +20,7 @@ import { DetailMagicLookComponent } from '../../../modals/detail-product/detail-
 import { DetailMarkennovyComponent } from '../../../modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-blue-light/detail-blue-light.component';
 import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euclid/detail-euclid.component';
+import { DetailEuropaComponent } from '../../../modals/detail-product/detail-europa/detail-europa.component';
 
 
 @Component({
@@ -171,7 +172,7 @@ export class ListBasketComponent implements OnInit {
           });
           break;
      case 2: // Europa
-          const modalRefEuropa = this.modalService.open(DetailProductModalComponent,
+          const modalRefEuropa = this.modalService.open(DetailEuropaComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
           modalRefEuropa.componentInstance.basket = basket;
           modalRefEuropa.result.then((result) => {
