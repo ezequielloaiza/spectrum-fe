@@ -22,6 +22,7 @@ import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ConfirmationEuropaComponent } from '../modals/confirmation-buy/confirmation-europa/confirmation-europa.component';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -142,8 +143,8 @@ export class ProductViewEuropaComponent implements OnInit {
 
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
-    if (parameter.name === 'Hidrapeg'|| parameter.name === 'Inserts'){
-      parameter.selected = parameter.selected === "Yes" ? true : false;
+    if (parameter.name === 'Hidrapeg'|| parameter.name === 'DMV / Inserts') {
+      parameter.selected = parameter.selected === 'Yes' ? true : false;
     }
   }
 
@@ -348,7 +349,7 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationEuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;

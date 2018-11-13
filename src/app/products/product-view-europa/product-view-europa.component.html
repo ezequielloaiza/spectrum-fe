@@ -26,9 +26,6 @@
           <!-- name-price -->
           <div class="main-info">
             <h4 class="product-title">{{ product.name }}</h4>
-            <h1 class="price" [hidden]="product.priceSale===''">
-              <span>{{ product.priceSale | currency : "USD $" }}</span>
-            </h1>
           </div>
           <!-- image -->
           <div class="preview-pic tab-content main-info">
@@ -95,13 +92,18 @@
           </div>
         </div>
         <!--shipping address-->
-        <div class="col-md-6">
-          <span class="title">{{ 'Shipping Address' | translate }}</span>
-          <div class="row col-md-12">
-            <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
-              readonly>
+        <div class="col-md-4">
+            <span class="title">{{ 'Shipping Address' | translate }}:</span>
+            <div class="row col-md-12">
+              <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
+                readonly>
+            </div>
           </div>
-        </div>
+          <div class="col-md-2">
+            <h4 class="padding-price" [hidden]="product.priceSale===''">
+              <span>{{ product.priceSale | currency : "USD $" }}</span>
+            </h4>
+          </div>
       </div>
 
       <div class="row product-info">
@@ -120,14 +122,13 @@
           <label class="custom-control-label" for="right">{{ 'Eye Right' | translate }}</label>
 
           <!--row header right (contamac / hydrapeg / insertors)-->
-          <div class="row col-md-12">
-            <div class="col-md-2" *ngFor="let header of product.headerRight">
+          <div class="row header-europa">
+            <div class="col-md-3" *ngFor="let header of product.headerRight">
               <div class="row">
-                <div class="label">
+                <div class="label col-md-4">
                   <label class="form-check-label">{{ header.name | translate }}</label>&nbsp;&nbsp;
                 </div>
-
-                <div class="select-values" *ngIf="header.type === 'selected'">
+                <div class="select-values col-md-6" *ngIf="header.type === 'selected'">
                   <ng-select (change)="changeSelect('right', header, $event)" [items]="header.values" [disabled]="!product.eyeRight"
                     [(ngModel)]="header.sel" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeRight">
                     <ng-template ng-label-tmp let-item="item">
@@ -146,71 +147,70 @@
             </div>
           </div>
 
-          <div class="title">{{ 'Parameters' | translate }}</div>
+          <div class="row title">{{ 'Parameters' | translate }}</div>
+
+          <!--params right-->
           <div class="row">
             <!--quantity right-->
-            <div class="col-md-1 quantity">
+            <div class="col-md-3">
               <div class="row">
                 <label class="form-check-label">{{ 'Quantity' | translate }}</label>
               </div>
               <div class="row">
-                  <input class="form-control col-sm-8" type="number" value="1" [(ngModel)]="product.quantityRight"
+                <div class="select-values col-sm-10">
+                  <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityRight"
                           oninput="validity.valid||(value='');" [disabled]="true" [required]="product.eyeRight">
+                </div>
               </div>
             </div>
-            <!--params right-->
-            <div class="col-md-11">
-              <div class="row">
-                <div class="col-md-2" *ngFor="let parameter of product.parametersRight">
-                  <div>
-                    <!--param name-->
-                    <div class="row label">
-                      <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
-                    </div>
-                    <!--param values-->
-                    <div class="row">
-                      <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-10">
-                        <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight" [required]="product.eyeRight"
-                                    [(ngModel)]="parameter.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+            <div class="col-md-3" *ngFor="let parameter of product.parametersRight">
+              <div>
+                <!--param name-->
+                <div class="row label">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                </div>
+                <!--param values-->
+                <div class="row">
+                  <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-10">
+                    <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight" [required]="product.eyeRight"
+                                [(ngModel)]="parameter.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                            {{item}}
+                    </ng-select>
+                  </div>
+
+                  <!--Only Power-->
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-10 param-power">
+                    <ng-select [items]="['+', '-']" [disabled]="!product.eyeRight" [required]="product.eyeRight"
+                                [(ngModel)]="signPowerRight" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
+                                [clearable]="false">
                                 {{item}}
-                        </ng-select>
-                      </div>
+                    </ng-select>
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                            [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
+                            [disabled]="!product.eyeRight" min="0">
+                  </div>
 
-                      <!--Only Power-->
-                      <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-10 param-power">
-                        <ng-select [items]="['+', '-']" [disabled]="!product.eyeRight" [required]="product.eyeRight"
-                                   [(ngModel)]="signPowerRight" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
-                                   [clearable]="false">
-                                   {{item}} 
-                        </ng-select>
-                        <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}" 
-                               [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
-                               [disabled]="!product.eyeRight" min="0">
-                      </div>
+                  <!--Only Base Curve-->
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (mm)'" class="select-values col-sm-10">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                            [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
+                            [disabled]="!product.eyeRight" min="00.00" step="00.01" (change)="parameter.selected = format(parameter.selected)">
+                  </div>
 
-                      <!--Only Base Curve-->
-                      <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (mm)'" class="select-values col-sm-10">
-                        <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                               [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
-                               [disabled]="!product.eyeRight" min="00.00" step="00.01" (change)="parameter.selected = format(parameter.selected)">
-                      </div>
-                      
-                      <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve (mm)'" class="select-values col-sm-10">
-                        <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}" [required]="product.eyeRight"
-                                [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
-                      </div>
+                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve (mm)'" class="select-values col-sm-10">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}" [required]="product.eyeRight"
+                            [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                  </div>
 
-                      <div *ngIf="parameter.type === 'selected-double'" class="select-values col-sm-10">
-                        <div class="row selected-double">
-                          <div class="col-sm-6">
-                            <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}" [required]="product.eyeRight"
-                                    [(ngModel)]="parameter.values[0].selected" (change)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
-                          </div>
-                          <div class="col-sm-6">
-                            <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}" [required]="product.eyeRight"
-                                    [(ngModel)]="parameter.values[1].selected" (change)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
-                          </div>
-                        </div>
+                  <div *ngIf="parameter.type === 'selected-double'" class="select-values col-sm-10">
+                    <div class="row selected-double">
+                      <div class="col-sm-6">
+                        <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}" [required]="product.eyeRight"
+                                [(ngModel)]="parameter.values[0].selected" (change)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
+                      </div>
+                      <div class="col-sm-6">
+                        <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}" [required]="product.eyeRight"
+                                [(ngModel)]="parameter.values[1].selected" (change)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                       </div>
                     </div>
                   </div>
@@ -238,10 +238,8 @@
               </div>
             </div>
           </div>
-
           <br>
         </div>
-
 
         <!-- row (parameters left) -->
         <div class="col-md-12 custom-control custom-checkbox">
@@ -251,14 +249,14 @@
           <label class="custom-control-label" for="left">{{ 'Eye Left' | translate }}</label>
 
           <!--row header left (contamac / hydrapeg / insertors)-->
-          <div class="row col-md-12">
-            <div class="col-md-2" *ngFor="let header of product.headerLeft">
+          <div class="row header-europa">
+            <div class="col-md-3" *ngFor="let header of product.headerLeft">
               <div class="row">
-                <div class="label">
+                <div class="label col-md-4">
                   <label class="form-check-label">{{ header.name }}</label>&nbsp;&nbsp;
                 </div>
 
-                <div class="select-values" *ngIf="header.type === 'selected'">
+                <div class="select-values col-md-6" *ngIf="header.type === 'selected'">
                   <ng-select (change)="changeSelect('left', header, $event)" [items]="header.values" [disabled]="!product.eyeLeft" [required]="product.eyeLeft"
                     [(ngModel)]="header.sel" bindValue="item" placeholder="{{ 'Select value' | translate }}">
                     <ng-template ng-label-tmp let-item="item">
@@ -277,70 +275,69 @@
             </div>
           </div>
 
-          <div class="title">{{ 'Parameters' | translate }}</div>
+          <div class="row title">{{ 'Parameters' | translate }}</div>
+          
+          <!--params left-->
           <div class="row">
             <!--quantity left-->
-            <div class="col-md-1 quantity">
-              <div class="row">
+            <div class="col-md-3">
+              <div class="row ">
                 <label class="form-check-label">{{ 'Quantity' | translate }}</label>
               </div>
               <div class="row">
-                  <input class="form-control col-sm-8" type="number" value="1" [(ngModel)]="product.quantityLeft" [required]="product.eyeLeft"
+                  <div class="select-values col-sm-10">
+                    <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityLeft" [required]="product.eyeLeft"
                           oninput="validity.valid||(value='');" [disabled]="true" >
+                  </div>
               </div>
             </div>
-            <!--params left-->
-            <div class="col-md-11">
-              <div class="row">
-                <div class="col-md-2" *ngFor="let parameter of product.parametersLeft">
-                  <div>
-                    <!--param name-->
-                    <div class="row label">
-                      <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
-                    </div>
-                    <!--param values-->
-                    <div class="row">
-                      <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-10">
-                        <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel"
-                                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                            {{item}}
-                        </ng-select>
-                      </div>
+            <div class="col-md-3" *ngFor="let parameter of product.parametersLeft">
+              <div>
+                <!--param name-->
+                <div class="row label">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                </div>
+                <!--param values-->
+                <div class="row">
+                  <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-10">
+                    <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel"
+                                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+                        {{item}}
+                    </ng-select>
+                  </div>
 
-                      <!--Only Power-->
-                      <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-10 param-power">
-                        <ng-select [items]="['+', '-']" [disabled]="!product.eyeLeft" [required]="product.eyeLeft"
-                                    [(ngModel)]="signPowerLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}">
-                                    {{item}} 
-                        </ng-select>
-                        <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                               [required]="product.eyeLeft" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
-                               [disabled]="!product.eyeLeft" min="0">
-                      </div>
+                  <!--Only Power-->
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-10 param-power">
+                    <ng-select [items]="['+', '-']" [disabled]="!product.eyeLeft" [required]="product.eyeLeft"
+                                [(ngModel)]="signPowerLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}">
+                                {{item}}
+                    </ng-select>
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                            [required]="product.eyeLeft" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
+                            [disabled]="!product.eyeLeft" min="0">
+                  </div>
 
-                       <!--Only Base Curve-->
-                      <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (mm)'" class="select-values col-sm-10">
-                        <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                               [required]="product.eyeLeft" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
-                               [disabled]="!product.eyeLeft" min="00.00" step="00.01" (change)="parameter.selected = format(parameter.selected)">
-                      </div>
+                    <!--Only Base Curve-->
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (mm)'" class="select-values col-sm-10">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                            [required]="product.eyeLeft" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
+                            [disabled]="!product.eyeLeft" min="00.00" step="00.01" (change)="parameter.selected = format(parameter.selected)">
+                  </div>
 
-                      <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve (mm)'" class="select-values col-sm-10">
-                        <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}" [required]="product.eyeLeft"
-                                [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
-                      </div>
+                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve (mm)'" class="select-values col-sm-10">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}" [required]="product.eyeLeft"
+                            [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                  </div>
 
-                      <div *ngIf="parameter.type === 'selected-double'" class="select-values col-sm-10">
-                        <div class="row selected-double">
-                          <div class="col-sm-6">
-                            <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}" [required]="product.eyeLeft"
-                                    [(ngModel)]="parameter.values[0].selected" (change)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
-                          </div>
-                          <div class="col-sm-6">
-                            <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}" [required]="product.eyeLeft"
-                                    [(ngModel)]="parameter.values[1].selected" (change)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
-                          </div>
-                        </div>
+                  <div *ngIf="parameter.type === 'selected-double'" class="select-values col-sm-10">
+                    <div class="row selected-double">
+                      <div class="col-sm-6">
+                        <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}" [required]="product.eyeLeft"
+                                [(ngModel)]="parameter.values[0].selected" (change)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
+                      </div>
+                      <div class="col-sm-6">
+                        <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}" [required]="product.eyeLeft"
+                                [(ngModel)]="parameter.values[1].selected" (change)="setNotch(parameter)" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                       </div>
                     </div>
                   </div>

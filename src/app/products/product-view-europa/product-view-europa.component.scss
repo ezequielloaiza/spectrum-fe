@@ -7,12 +7,12 @@
     width: 100%;
     background: $bg-white;
     box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
-  
+
     .link {
       color: $bg-blue;
       padding-left: 0px;
     }
-  
+
     .breadcrumb {
       background-color: transparent;
       border-radius: 0px;
@@ -21,7 +21,7 @@
       padding-top: 0px;
       padding-bottom: 0px;
     }
-  
+
     h4 {
       padding-left: 15px;
     }
@@ -119,7 +119,7 @@
 
 .header-params {
   padding-left: 1em;
-  
+
   .custom-control {
     margin-bottom: 1em;
   }
@@ -284,9 +284,22 @@ img {
 
     .row {
       padding-top: 5px;
-      padding-left: 15px; 
+      padding-left: 15px;
     }
   }
+
+  > div:nth-child(1) {
+    padding-left: 0;
+  }
+
+  > div:nth-child(2) {
+    border-left: 1px solid #ccc;
+  }
+
+  > div:nth-child(3) {
+    border-left: 1px solid #ccc;
+  }
+
 }
 
 .selected-double {
@@ -317,8 +330,20 @@ img {
   border: solid 1px #c3c2c2;
 }
 
-
-
 .page-header-fixed {
   margin-left: 15px;
+}
+
+.padding-price{
+  padding-top: 1.1em;
+}
+
+.header-europa {
+  padding: 15px 0 5px 0;
+
+  >div:nth-child(1),
+  >div:nth-child(2),
+  >div:nth-child(3) {
+    padding-left: 0;
+  }
 }
