@@ -71,8 +71,8 @@ export class BusinessTypeComponent implements OnInit {
     this.businessTypeService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.auxBusinessTypes = res.data;
-        this.businessTypes = _.orderBy(this.businessTypes, ['name'], ['desc']);
-        this.auxBusinessTypes = _.orderBy(this.auxBusinessTypes, ['name'], ['desc']);
+        this.businessTypes = _.orderBy(this.businessTypes, ['name'], ['asc']);
+        this.auxBusinessTypes = _.orderBy(this.auxBusinessTypes, ['name'], ['asc']);
         this.businessTypes = this.auxBusinessTypes.slice(0, this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);

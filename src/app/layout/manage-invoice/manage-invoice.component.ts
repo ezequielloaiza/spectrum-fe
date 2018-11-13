@@ -66,6 +66,7 @@ export class ManageInvoiceComponent implements OnInit {
           this.listInvoicesAux = res.data;
           this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
           this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
+          this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
         } else {
           console.log(res.code);
         }
@@ -73,8 +74,7 @@ export class ManageInvoiceComponent implements OnInit {
       error => {
         console.log('error', error);
       }
-    );
-    this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
+    )
   }
 
   sortInvoice(key) {
