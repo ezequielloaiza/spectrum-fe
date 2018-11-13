@@ -22,6 +22,7 @@ import { DetailMarkennovyComponent } from '../../../modals/detail-product/detail
 import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-blue-light/detail-blue-light.component';
 import { debug } from 'util';
 import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euclid/detail-euclid.component';
+import { DetailEuropaComponent } from '../../../modals/detail-product/detail-europa/detail-europa.component';
 
 @Component({
   selector: 'app-details-basket-client',
@@ -176,7 +177,7 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
      case 2: // Europa
-          const modalRefEuropa = this.modalService.open(DetailProductModalComponent,
+          const modalRefEuropa = this.modalService.open(DetailEuropaComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
           modalRefEuropa.componentInstance.basket = basket;
           modalRefEuropa.result.then((result) => {
