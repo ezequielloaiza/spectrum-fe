@@ -6,11 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { BusinessTypeModalComponent } from './modals/business-type-modal/business-type-modal.component';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
-<<<<<<< HEAD
 import { NgxSpinnerService } from 'ngx-spinner';
-=======
 import * as _ from 'lodash';
->>>>>>> develop
 
 @Component({
   selector: 'app-business-type',
