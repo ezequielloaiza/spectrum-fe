@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BusinessTypeModalComponent } from './modals/business-type-modal/business-type-modal.component';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-business-type',
@@ -70,8 +71,9 @@ export class BusinessTypeComponent implements OnInit {
     this.businessTypeService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.auxBusinessTypes = res.data;
-        this.sortBusinessType(this.orderByField);
-        //this.businessTypes = this.auxBusinessTypes.slice(0,this.itemPerPage);
+        this.businessTypes = _.orderBy(this.businessTypes, ['name'], ['asc']);
+        this.auxBusinessTypes = _.orderBy(this.auxBusinessTypes, ['name'], ['asc']);
+        this.businessTypes = this.auxBusinessTypes.slice(0, this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
       }
