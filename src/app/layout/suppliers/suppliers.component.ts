@@ -38,18 +38,20 @@ export class SuppliersComponent implements OnInit {
 		this.getSuppliers();
 	}
 
-	getSuppliers() {
+  getSuppliers() {
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-				this.auxSuppliers = res.data;
-				this.sortSupplier(this.orderByField);
+        this.suppliers = res.data;
+        this.auxSuppliers = res.data;
+        this.suppliers = _.orderBy(this.suppliers, ['name'], ['desc']);
+        this.auxSuppliers = _.orderBy(this.auxSuppliers, ['name'], ['desc']);
       } else {
         console.log(res.errors[0].detail);
       }
     }, error => {
       console.log('error', error);
     });
-	}
+  }
 
 	sortSupplier(key) {
 		if (this.orderByField !== key) {
