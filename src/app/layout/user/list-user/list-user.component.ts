@@ -43,12 +43,14 @@ export class ListUserComponent implements OnInit {
     this.userService.findByRole$(Role.User, filter).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listUsers = res.data;
-        _.each(this.listUsers,function(user){
+        _.each(this.listUsers, function(user) {
           user.companyName = user.company.companyName;
           user.username = user.username;
           user.companyCountry = user.company.country;
         });
         this.listUsersAux = res.data;
+        this.listUsers = _.orderBy(this.listUsers, ['date'], ['desc']);
+        this.listUsersAux = _.orderBy(this.listUsersAux, ['date'], ['desc']);
         this.listUsers = this.listUsersAux.slice(0, this.itemPerPage);
         this.spinner.hide();
       } else {

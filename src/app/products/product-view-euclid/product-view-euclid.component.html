@@ -94,7 +94,7 @@
         </div>
         <!--shipping address-->
         <div class="col-md-4">
-          <span class="title">{{ 'Shipping Address' | translate }}:</span>
+          <span class="title">{{ 'Shipping Address' | translate }}</span>
           <div class="row col-md-12">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
               readonly>
@@ -145,9 +145,18 @@
                     <!--param values-->
                     <div class="selection">
                       <div *ngIf="parameter.type === 'selected'" class="select-values">
-                        <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight"
-                          [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeRight">
-                          {{item}}
+                       <ng-select class="display-row" (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected" [disabled]="!product.eyeRight"
+                                bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeRight">
+                          <ng-template ng-label-tmp let-item="item">
+                            <div class="supplier-body">
+                              <span>{{ item | translate }}</span>
+                            </div>
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                            <div class="supplier-body">
+                              <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                            </div>
+                          </ng-template>
                         </ng-select>
                       </div>
                       <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)' && parameter.name !=='Cylinder (D)' && parameter.name !=='Sphere (D)'" class="select-values">
@@ -211,9 +220,18 @@
                     <!--param values-->
                     <div class="selection">
                       <div *ngIf="parameter.type === 'selected'" class="select-values">
-                        <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft" [(ngModel)]="parameter.selected"
-                          bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeLeft">
-                          {{item}}
+                        <ng-select class="display-row" (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected" [disabled]="!product.eyeLeft"
+                                bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeLeft">
+                          <ng-template ng-label-tmp let-item="item">
+                            <div class="supplier-body">
+                              <span>{{ item | translate }}</span>
+                            </div>
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                            <div class="supplier-body">
+                              <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                            </div>
+                          </ng-template>
                         </ng-select>
                       </div>
                       <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)' && parameter.name !=='Cylinder (D)' && parameter.name !=='Sphere (D)'" class="select-values">

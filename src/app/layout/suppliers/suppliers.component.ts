@@ -40,12 +40,14 @@ export class SuppliersComponent implements OnInit {
 		this.getSuppliers();
 	}
 
-	getSuppliers() {
+  getSuppliers() {
     this.spinner.show();
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-				this.auxSuppliers = res.data;
-        this.sortSupplier(this.orderByField);
+        this.suppliers = res.data;
+        this.auxSuppliers = res.data;
+        this.suppliers = _.orderBy(this.suppliers, ['name'], ['desc']);
+        this.auxSuppliers = _.orderBy(this.auxSuppliers, ['name'], ['desc']);
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -55,7 +57,7 @@ export class SuppliersComponent implements OnInit {
       console.log('error', error);
       this.spinner.hide();
     });
-	}
+  }
 
 	sortSupplier(key) {
 		if (this.orderByField !== key) {

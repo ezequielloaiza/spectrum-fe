@@ -67,6 +67,9 @@ export class ManageInvoiceComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;
           this.listInvoicesAux = res.data;
+          this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
+          this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
+          this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
           this.spinner.hide();
         } else {
           console.log(res.code);
@@ -77,8 +80,7 @@ export class ManageInvoiceComponent implements OnInit {
         console.log('error', error);
         this.spinner.hide();
       }
-    );
-    this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
+    )
   }
 
   sortInvoice(key) {
