@@ -45,6 +45,7 @@ export class ProductsListsComponent implements OnInit {
   }
 
   associatedSuppliers() {
+    this.spinner.show();
     this.supplierUserService
       .findIdUser$(this.currentUser.idUser)
       .subscribe(res => {
@@ -69,11 +70,13 @@ export class ProductsListsComponent implements OnInit {
             }
           });
           this.getSuppliers();
+          this.spinner.hide();
         }
       });
   }
 
   getSuppliers() {
+    this.spinner.show();
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
           this.listSupplierFilter = res.data;
@@ -90,16 +93,20 @@ export class ProductsListsComponent implements OnInit {
             this.listSupplier = supplierFiltered;
             this.listSupplierFilter = supplierFiltered;
             this.orderList();
+            this.spinner.hide();
           } else {
             this.listSupplier = this.listSupplierFilter;
             this.orderList();
+            this.spinner.hide();
           }
           this.setImageSupplier();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
