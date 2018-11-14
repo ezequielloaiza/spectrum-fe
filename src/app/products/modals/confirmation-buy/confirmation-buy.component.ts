@@ -100,8 +100,8 @@ export class ConfirmationBuyComponent implements OnInit {
   }
 
   save(): void {
+    this.spinner.show();
     if (this.typeBuy === 1) {
-      this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
       this.basketRequest.fileProductRequestedList = this.listFileBasket;
@@ -109,7 +109,7 @@ export class ConfirmationBuyComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
             this.save_success = true;
             this.close();
-            this.translate.get('Successfully saved', {value: 'Successfully saved'}).subscribe(( res: string) => {
+            this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe(( res: string) => {
               this.notification.success('', res);
             });
             this.spinner.hide();
