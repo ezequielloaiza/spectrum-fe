@@ -132,8 +132,9 @@ export class WarrantyComponent implements OnInit {
           this.warranties = _.filter(this.warranties, { 'clientId': this.user.userResponse.idUser } );
           this.auxWarranties = this.warranties.slice(0, this.warranties.length);
         }
-
-        this.sortWarranty(this.orderByField);
+        this.warranties = _.orderBy(this.warranties, ['createdAt'], ['desc']);
+        this.auxWarranties = _.orderBy(this.warranties, ['createdAt'], ['desc']);
+        // this.sortWarranty(this.orderByField);
       } else {
         console.log(res.errors[0].detail);
       }
