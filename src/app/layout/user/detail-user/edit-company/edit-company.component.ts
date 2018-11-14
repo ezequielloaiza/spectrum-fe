@@ -187,6 +187,11 @@ export class EditCompanyComponent implements OnInit {
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
         });
+      } else {
+        console.log(res);
+        this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+          this.notification.error('', res);
+        });
       }
       this.saving = false;
     }, error => {
