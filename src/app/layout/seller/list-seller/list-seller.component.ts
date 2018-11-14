@@ -42,6 +42,8 @@ export class ListSellerComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listSellers = res.data;
         this.listSellersAux = res.data;
+        this.listSellers = _.orderBy(this.listSellers, ['date'], ['desc']);
+        this.listSellersAux = _.orderBy(this.listSellersAux, ['date'], ['desc']);
         this.listSellers = this.listSellersAux.slice(0, this.itemPerPage);
       } else {
         console.log(res.errors[0].detail);
