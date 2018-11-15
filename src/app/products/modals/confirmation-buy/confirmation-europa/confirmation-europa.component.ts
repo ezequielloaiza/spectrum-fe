@@ -117,7 +117,7 @@ export class ConfirmationEuropaComponent implements OnInit {
             this.spinner.hide();
             this.redirectListBasket();
         } else {
-          console.log(res.errors[0].detail);
+          console.log(res);
           this.spinner.hide();
         }
       }, error => {
@@ -140,7 +140,7 @@ export class ConfirmationEuropaComponent implements OnInit {
           });
           this.redirectListOrder();
         } else {
-          console.log(res.errors[0].detail);
+          console.log(res);
           this.spinner.hide();
         }
       }, error => {
