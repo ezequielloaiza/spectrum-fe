@@ -134,7 +134,10 @@ export class EuclidComponent implements OnInit {
         });
         this.close();
       } else {
-        console.log(res.errors[0].detail);
+        console.log(res);
+        this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+          this.notification.error('', res);
+        });
       }
     }, error => {
       console.log('error', error);
