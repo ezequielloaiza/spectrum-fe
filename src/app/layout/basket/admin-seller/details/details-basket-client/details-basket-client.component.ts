@@ -23,6 +23,7 @@ import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-
 import { debug } from 'util';
 import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euclid/detail-euclid.component';
 import { DetailEuropaComponent } from '../../../modals/detail-product/detail-europa/detail-europa.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-details-basket-client',
@@ -54,7 +55,8 @@ export class DetailsBasketClientComponent implements OnInit {
     private notification: ToastrService,
     private translate: TranslateService,
     private route: ActivatedRoute,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private spinner: NgxSpinnerService) {
       this.user = JSON.parse(userService.getCurrentUser());
     }
 
@@ -64,18 +66,20 @@ export class DetailsBasketClientComponent implements OnInit {
   }
 
   getListBasket(): void {
-      this.basketService.allBasketByUser$(this.id).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.listBasket = res.data;
-          this.listBasketAux = res.data;
-          this.customer = res.data[0].basket.user.company.companyName;
-          _.each(this.listBasket, function (basket) {
-            basket.checked = false;
-            basket.supplier = basket.productRequested.product.supplier.idSupplier;
-            basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
-          });
-        }
-      });
+    this.spinner.show();
+    this.basketService.allBasketByUser$(this.id).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listBasket = res.data;
+        this.listBasketAux = res.data;
+        this.customer = res.data[0].basket.user.company.companyName;
+        _.each(this.listBasket, function (basket) {
+          basket.checked = false;
+          basket.supplier = basket.productRequested.product.supplier.idSupplier;
+          basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
+        });
+        this.spinner.hide();
+      }
+    });
   }
   borrar(id): void {
     this.basketProductRequestedService.removeById$(id).subscribe(res => {

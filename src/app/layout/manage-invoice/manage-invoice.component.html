@@ -1,3 +1,4 @@
+<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
 <div class="row page-header-fixed">
 	<div class="header-body">
 		<h4 class="page-header">
@@ -35,7 +36,7 @@
               <option value="" disabled [selected]="true" translate>Select status</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
-          </div> 
+          </div>
           <div class="col-xl-3 filter">
               <div class="input-group">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="fechaSelec" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelec)">
@@ -46,11 +47,11 @@
                 </div>
               </div>
           </div>
-        
+
           <div class="col-xl-2 btn-clean">
             <button class="btn btn-outline-secondary" translate [hidden]="!valid1" (click)="clean()">Clean Filters</button>
           </div>
-        </div> 
+        </div>
           <div class="card-body table-responsive">
             <table class="table">
               <thead>
