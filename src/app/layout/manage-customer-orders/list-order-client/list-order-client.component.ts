@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { GenerateInvoiceComponent } from '../generate-invoice/generate-invoice.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-order-client',
@@ -43,7 +44,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private spinner: NgxSpinnerService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
@@ -72,7 +74,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   getListOrders(): void {
-
+    this.spinner.show();
     if (this.user.role.idRole === 2) {
       this.orderService.findOrdersClientBySeller$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -83,6 +85,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
               listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
             });
           });
+          this.spinner.hide();
         }
       });
     } else if (this.user.role.idRole === 1) {
@@ -96,6 +99,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
               listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
             });
           });
+          this.spinner.hide();
         }
       });
     }

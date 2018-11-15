@@ -18,6 +18,7 @@ import { WarrantyModalComponent } from './modals/warranty-modal/warranty-modal.c
 import { Warranty } from '../../shared/models/warranty';
 import * as _ from 'lodash';
 import { ModalsChangeStatusComponent } from './modals/modals-change-status/modals-change-status.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-warranty',
@@ -52,7 +53,8 @@ export class WarrantyComponent implements OnInit {
               private translate: TranslateService,
               private formBuilder: FormBuilder,
               private userStorageService: UserStorageService,
-              private warrantyService: WarrantyService) { }
+              private warrantyService: WarrantyService,
+              private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getUser();
@@ -111,6 +113,7 @@ export class WarrantyComponent implements OnInit {
   }
 
   getListWarranties(): void {
+    this.spinner.show();
     this.warrantyService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.warranties = res.data;
@@ -134,12 +137,14 @@ export class WarrantyComponent implements OnInit {
         }
         this.warranties = _.orderBy(this.warranties, ['createdAt'], ['desc']);
         this.auxWarranties = _.orderBy(this.warranties, ['createdAt'], ['desc']);
-        // this.sortWarranty(this.orderByField);
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
