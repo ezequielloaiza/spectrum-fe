@@ -57,8 +57,9 @@ export class ModalsConfirmationComponent implements OnInit {
             this.redirectListOrder();
           });
         } else {
-          console.log(res.errors[0].detail);
           this.spinner.hide();
+          console.log(res.errors[0].detail);
+          this.notification.error('', res);
         }
       }, error => {
         console.log('error', error);

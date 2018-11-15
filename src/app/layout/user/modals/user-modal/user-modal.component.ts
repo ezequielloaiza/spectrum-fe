@@ -161,6 +161,7 @@ export class UserModalComponent implements OnInit {
           this.notification.warning('', res);
         });
       } else {
+        this.notification.error('', res.errors[0].detail);
         console.log(res.errors[0].detail);
       }
     }, error => {
