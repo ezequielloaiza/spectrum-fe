@@ -86,7 +86,7 @@
             <label class="title">{{ 'Patient' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty? warranty.orderProductRequest.productRequested.patient : ''}}</span>
-              <input *ngIf="action != 'view'" class="form-control" [readOnly]="true" name="patient" formControlName="patient" value="{{product? product.productRequested.patient : ''}}" required>
+              <input *ngIf="action != 'view'" class="form-control" [readOnly]="true" name="patient" formControlName="patient" value="{{product? product.productRequested.patient : ''}}">
             </div>
           </fieldset>
         </div>

@@ -8,6 +8,7 @@ import { Role } from '../../../shared/enum/role.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { SellerModalComponent } from '../modals/seller-modal/seller-modal.component';
 import * as _ from 'lodash';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-seller',
@@ -29,7 +30,8 @@ export class ListSellerComponent implements OnInit {
     private alertify: AlertifyService,
     private notification: ToastrService,
     private modalService: NgbModal,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getListSellers(-1);
@@ -37,17 +39,22 @@ export class ListSellerComponent implements OnInit {
   }
 
   getListSellers(filter): void {
-
+    this.spinner.show();
     this.userService.findByRole$(Role.Seller, filter).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listSellers = res.data;
         this.listSellersAux = res.data;
+        this.listSellers = _.orderBy(this.listSellers, ['date'], ['desc']);
+        this.listSellersAux = _.orderBy(this.listSellersAux, ['date'], ['desc']);
         this.listSellers = this.listSellersAux.slice(0, this.itemPerPage);
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 

@@ -10,6 +10,7 @@ import { GenerateInvoiceComponent } from '../manage-customer-orders/generate-inv
 import { OrderService } from '../../shared/services';
 import { saveAs } from 'file-saver';
 import * as _ from 'lodash';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-manage-invoice',
@@ -43,7 +44,8 @@ export class ManageInvoiceComponent implements OnInit {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private invoiceService: InvoiceService) { }
+    private invoiceService: InvoiceService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getListInvoices();
@@ -59,20 +61,26 @@ export class ManageInvoiceComponent implements OnInit {
   }
 
   getListInvoices(): void {
+    this.spinner.show();
     this.invoiceService.allInvoice$().subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;
           this.listInvoicesAux = res.data;
+          this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
+          this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
+          this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
+          this.spinner.hide();
         } else {
           console.log(res.code);
+          this.spinner.hide();
         }
       },
       error => {
         console.log('error', error);
+        this.spinner.hide();
       }
-    );
-    this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
+    )
   }
 
   sortInvoice(key) {
@@ -173,7 +181,7 @@ export class ManageInvoiceComponent implements OnInit {
       const client = val;
       if (_.toString(valorStatus) === '' && this.tamano.length === 9) { // Si no ha seleccionado status y fecha
         this.listInvoices = this.listInvoices.filter((item) => {
-          return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) || 
+          return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
           (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
@@ -254,9 +262,9 @@ export class ManageInvoiceComponent implements OnInit {
   filterStatusNombre(nombreCliente, status): void {
     const lista = [];
     _.filter(this.listInvoicesAux, function (invoices) {
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) || 
+      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
       (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-      // tslint:disable-next-line:radix 
+      // tslint:disable-next-line:radix
       (_.isEqual(parseInt(status), invoices.status))) {
         lista.push(invoices);
       }
@@ -272,7 +280,7 @@ export class ManageInvoiceComponent implements OnInit {
     _.filter(this.listInvoicesAux, function (invoices) {
       // Fecha Listado
       const fechaList = _.toString(invoices.date.slice(0, 10));
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) || 
+      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
       (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
       ((_.isEqual(fecha, fechaList)))) {
         lista.push(invoices);
@@ -323,7 +331,7 @@ export class ManageInvoiceComponent implements OnInit {
      _.filter(this.listInvoicesAux, function (invoices) {
       // Fecha Listado
       const fechaList = _.toString(invoices.date.slice(0, 10));
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) || 
+      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
       (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
        // tslint:disable-next-line:radix
        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), invoices.status))) {

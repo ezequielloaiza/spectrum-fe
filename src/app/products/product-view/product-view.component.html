@@ -1,3 +1,4 @@
+<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
 <div class="info-breadcrumbs" *ngIf="product">
   <div class="header-body">
     <h4 class="page-header">
@@ -117,7 +118,7 @@
           <!--header-->
           <input id="right" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('right')" [checked]="product.eyeRight"
             class="custom-control-input">
-          <label class="custom-control-label" for="right">{{ 'Eye Right' | translate }}</label>
+          <label class="custom-control-label" for="right">{{ 'Right Eye' | translate }}</label>
           <div class="title">{{ 'Parameters' | translate }}</div>
           <div class="row">
             <!--quantity right-->
@@ -160,7 +161,7 @@
           <!--header-->
           <input id="left" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('left')" [checked]="product.eyeLeft"
             class="custom-control-input">
-          <label class="custom-control-label" for="left">{{ 'Eye Left' | translate }}</label>
+          <label class="custom-control-label" for="left">{{ 'Left Eye' | translate }}</label>
           <div class="title">{{ 'Parameters' | translate }}</div>
           <div class="row">
             <!--quantity left-->

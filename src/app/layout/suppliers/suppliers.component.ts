@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SupplierModalComponent } from './modals/supplier-modal/supplier-modal.component';
 import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-suppliers',
@@ -30,7 +31,8 @@ export class SuppliersComponent implements OnInit {
 							private supplierService: SupplierService,
 							private alertify: AlertifyService,
 							private notification: ToastrService,
-							private translate: TranslateService
+              private translate: TranslateService,
+              private spinner: NgxSpinnerService
 	){}
 
   ngOnInit() {
@@ -38,18 +40,24 @@ export class SuppliersComponent implements OnInit {
 		this.getSuppliers();
 	}
 
-	getSuppliers() {
+  getSuppliers() {
+    this.spinner.show();
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-				this.auxSuppliers = res.data;
-				this.sortSupplier(this.orderByField);
+        this.suppliers = res.data;
+        this.auxSuppliers = res.data;
+        this.suppliers = _.orderBy(this.suppliers, ['name'], ['desc']);
+        this.auxSuppliers = _.orderBy(this.auxSuppliers, ['name'], ['desc']);
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
-	}
+  }
 
 	sortSupplier(key) {
 		if (this.orderByField !== key) {

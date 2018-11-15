@@ -10,7 +10,7 @@
 		<div *ngIf="user.role.idRole === 3">
 			<!--<div>-->
 			<div class="nested-menu">
-				<a class="list-group-item" (click)="addExpandClass('account')">
+				<a class="list-group-item" (click)="addExpandClass('account')" [routerLinkActive]="['router-link-active']">
 					<span>
 						<i class="fa fa-user"></i>&nbsp; {{ 'Your Account' | translate }}</span>
 				</a>
@@ -46,7 +46,7 @@
 				</li>
 			</div>
 			<div class="nested-menu">
-				<a class="list-group-item" (click)="addExpandClass('order')">
+				<a class="list-group-item" (click)="addExpandClass('order')" [routerLinkActive]="['router-link-active']">
 					<span>
 						<i class="fa fa-folder-open"></i>&nbsp; {{ 'Your Orders' | translate }}</span>
 				</a>
@@ -59,43 +59,43 @@
               </a>
             </li>
             <li>
-              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
                 <span>
                 <i class="fa fa-file"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>
               </a>
             </li>
             <li>
-              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 1}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 1}" [routerLinkActive]="['router-link-active']">
                 <span>
                 <i class="fa fa-file"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>
               </a>
             </li>
             <li>
-              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 2}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 2}" [routerLinkActive]="['router-link-active']">
                 <span>
                 <i class="fa fa-file"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>
               </a>
             </li>
             <li>
-              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 3}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+              <a [routerLink]="['/order-list-client']" [queryParams]="{status: 3}" [routerLinkActive]="['router-link-active']">
                 <span>
                   <i class="fa fa-file"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>
               </a>
             </li>
             <li>
-              <a href="javascript:void(0)">
+              <a href="javascript:void(0)" [routerLinkActive]="['router-link-active']">
                 <span>
                   <i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
               </a>
             </li>
             <li>
-              <a href="javascript:void(0)">
+              <a href="javascript:void(0)" [routerLinkActive]="['router-link-active']">
                 <span>
                   <i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
               </a>
             </li>
 						<li>
-							<a href="javascript:void(0)">
+							<a href="javascript:void(0)" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-exclamation-triangle"></i>&nbsp; {{ 'Report a Problem' | translate }}</span>
 							</a>
@@ -184,9 +184,9 @@
 				</li>-->
 			</div>
 			<div class="nested-menu">
-				<a class="list-group-item" (click)="addExpandClass('orders')">
-					<span>
-						<i class="fa fa-folder-open"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
+				<a [routerLinkActive]="['router-link-active']" class="list-group-item" (click)="addExpandClass('orders')">
+          <span>
+            <i class="fa fa-folder-open"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
 				</a>
 				<li class="nested" [class.expand]="showMenu === 'orders'">
 					<ul class="submenu">
@@ -197,13 +197,13 @@
 							</a>
             </li>
             <li>
-							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-file"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>
 							</a>
             </li>
             <li>
-							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 1}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 1}" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-file"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>
 							</a>
@@ -227,7 +227,7 @@
 							</a>
             </li>
 						<li>
-							<a href="javascript:void(0)">
+							<a href="javascript:void(0)" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-credit-card"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>
 							</a>
@@ -242,7 +242,7 @@
             -->
 
 						<li>
-							<a href="javascript:void(0)">
+							<a href="javascript:void(0)" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
 							</a>
