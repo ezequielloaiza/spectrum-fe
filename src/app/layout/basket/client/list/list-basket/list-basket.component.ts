@@ -21,6 +21,7 @@ import { DetailMarkennovyComponent } from '../../../modals/detail-product/detail
 import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-blue-light/detail-blue-light.component';
 import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euclid/detail-euclid.component';
 import { DetailEuropaComponent } from '../../../modals/detail-product/detail-europa/detail-europa.component';
+import { EuropaComponent } from '../../../edit-order/europa/europa.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -226,7 +227,13 @@ export class ListBasketComponent implements OnInit {
         });
         break;
     case 2: // Europa
-      break;
+        const modalRefEuropa = this.modalService.open( EuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefEuropa.componentInstance.basket = basket;
+        modalRefEuropa.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
     case 3: // Lenticon
       break;
     case 4: // Euclid

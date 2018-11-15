@@ -310,7 +310,8 @@
                   <!--Only Power-->
                   <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-10 param-power">
                     <ng-select [items]="['+', '-']" [disabled]="!product.eyeLeft" [required]="product.eyeLeft"
-                                [(ngModel)]="signPowerLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}">
+                                [(ngModel)]="signPowerLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
+                                [clearable]="false">
                                 {{item}}
                     </ng-select>
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"

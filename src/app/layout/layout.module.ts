@@ -72,6 +72,7 @@ import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail
 import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
 import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euclid/detail-euclid.component';
 import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
+import { EuropaComponent } from './basket/edit-order/europa/europa.component';
 
 @NgModule({
     imports: [
@@ -152,7 +153,8 @@ import { DetailEuropaComponent } from './basket/modals/detail-product/detail-eur
         DetailMarkennovyComponent,
         DetailBlueLightComponent,
         DetailEuclidComponent,
-        DetailEuropaComponent
+        DetailEuropaComponent,
+        EuropaComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -182,7 +184,8 @@ import { DetailEuropaComponent } from './basket/modals/detail-product/detail-eur
       DetailMarkennovyComponent,
       DetailBlueLightComponent,
       DetailEuclidComponent,
-      DetailEuropaComponent
+      DetailEuropaComponent,
+      EuropaComponent
     ],
     providers: [
       BusinessTypeService,
