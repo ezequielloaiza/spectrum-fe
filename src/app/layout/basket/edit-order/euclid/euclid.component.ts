@@ -98,12 +98,8 @@ export class EuclidComponent implements OnInit {
     if (parameter.name === 'Axes (º)') {
       parameter.selected = this.axisFormat(value);
     }
-    if (parameter.name === 'Flat K' || parameter.name === 'Steep K' || parameter.name === 'HVID' ||
-     (parameter.name === 'Sphere (D)' && parameter.type === 'input')) {
+    if (parameter.name === 'Flat K' || parameter.name === 'Steep K' || parameter.name === 'HVID') {
       parameter.selected = this.format(value);
-    }
-    if (parameter.name === 'Cylinder (D)') {
-      parameter.selected = this.cilinderFormat(value);
     }
   }
 
