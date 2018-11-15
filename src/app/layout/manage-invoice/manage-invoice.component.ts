@@ -10,6 +10,7 @@ import { GenerateInvoiceComponent } from '../manage-customer-orders/generate-inv
 import { OrderService } from '../../shared/services';
 import { saveAs } from 'file-saver';
 import * as _ from 'lodash';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-manage-invoice',
@@ -43,7 +44,8 @@ export class ManageInvoiceComponent implements OnInit {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private invoiceService: InvoiceService) { }
+    private invoiceService: InvoiceService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getListInvoices();
@@ -59,6 +61,7 @@ export class ManageInvoiceComponent implements OnInit {
   }
 
   getListInvoices(): void {
+    this.spinner.show();
     this.invoiceService.allInvoice$().subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
@@ -67,12 +70,15 @@ export class ManageInvoiceComponent implements OnInit {
           this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
           this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
           this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
+          this.spinner.hide();
         } else {
           console.log(res.code);
+          this.spinner.hide();
         }
       },
       error => {
         console.log('error', error);
+        this.spinner.hide();
       }
     )
   }

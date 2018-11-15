@@ -21,6 +21,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../../src/environments/environment';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { ConfirmationMarkennovyComponent } from '../modals/confirmation-buy/confirmation-markennovy/confirmation-markennovy.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-product-view',
@@ -59,7 +60,8 @@ export class ProductViewComponent implements OnInit {
               private modalService: NgbModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -76,15 +78,19 @@ export class ProductViewComponent implements OnInit {
   }
 
   getProducts() {
+    this.spinner.show();
     this.productService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 

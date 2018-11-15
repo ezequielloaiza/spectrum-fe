@@ -24,6 +24,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationMagicLookComponent } from '../modals/confirmation-buy/confirmation-magic-look/confirmation-magic-look.component';
 import { debug } from 'util';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -79,7 +80,8 @@ export class ProductViewMagicComponent implements OnInit {
               private modalService: NgbModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
@@ -112,15 +114,19 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   getProducts() {
+    this.spinner.show();
     this.productService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
