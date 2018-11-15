@@ -129,7 +129,10 @@ export class ConfirmationEuclidComponent implements OnInit {
             this.spinner.hide();
             this.redirectListBasket();
         } else {
-          console.log(res.errors[0].detail);
+          console.log(res);
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+          });
           this.spinner.hide();
         }
       }, error => {
