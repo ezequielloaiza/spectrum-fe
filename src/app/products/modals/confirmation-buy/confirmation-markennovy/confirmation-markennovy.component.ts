@@ -178,7 +178,7 @@ export class ConfirmationMarkennovyComponent implements OnInit {
   }
 
   redirectListProducts(): void {
-    this.router.navigate(['/products/' + this.product.supplier.idSupplier + '/internal']);
+    this.router.navigate(['/products/']);
   }
 
   redirectListBasket(): void {
