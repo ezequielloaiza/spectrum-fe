@@ -74,7 +74,7 @@
                   <dt
                     *ngIf="
                       param.name !== 'Hidrapeg' &&
-                      param.name !== 'DMV / Inserts'
+                      param.name !== 'Inserts (DMV)'
                     "
                   >
                     <span class="font-text"> {{ param.selected }}</span>
@@ -83,7 +83,7 @@
                   <dt
                     *ngIf="
                       param.name === 'Hidrapeg' ||
-                      param.name === 'DMV / Inserts'
+                      param.name === 'Inserts (DMV)'
                     "
                   >
                     <span *ngIf="param.selected === true" class="font-text">{{

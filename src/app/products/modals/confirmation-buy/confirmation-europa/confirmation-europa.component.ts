@@ -117,8 +117,11 @@ export class ConfirmationEuropaComponent implements OnInit {
             this.spinner.hide();
             this.redirectListBasket();
         } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+            this.spinner.hide();
+            console.log(res);
+          });
         }
       }, error => {
         console.log('error', error);
@@ -140,8 +143,11 @@ export class ConfirmationEuropaComponent implements OnInit {
           });
           this.redirectListOrder();
         } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+            this.spinner.hide();
+            console.log(res);
+          });
         }
       }, error => {
         console.log('error', error);

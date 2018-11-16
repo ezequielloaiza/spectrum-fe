@@ -10,7 +10,7 @@
           <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
       </li>
       <li class="breadcrumb-item">
-        <a class="link" href="Javascript:void(0)" [routerLink]="['/products']">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/products/' + product.supplier.idSupplier + '/internal']">
           <i class="fa fa-edit"></i> {{ 'Products List' | translate }}</a>
       </li>
       <li class="breadcrumb-item active">
@@ -39,13 +39,6 @@
 
       <!-- row (properties-material-replacement-warranty-sheet) -->
       <div class="row product-info">
-        <div class="item-properties col-md-2">
-          <dt>{{ product.properties.name | translate }}</dt>
-          <p>
-            <!--<img *ngFor="let property of product.properties.values" placement="top" ngbTooltip="{{ property.title }}"
-              class="" src="{{ property.image }}" width="30" height="30">&nbsp;-->
-          </p>
-        </div>
         <div class="col-md-3">
           <dt>{{ 'Material' | translate }}</dt>
           <dd>
@@ -192,13 +185,20 @@
                   </div>
 
                   <!--Only Base Curve-->
-                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (mm)'" class="select-values col-sm-10">
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (d)'" class="select-values col-sm-10">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                             [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
                             [disabled]="!product.eyeRight" min="00.00" step="00.01" (change)="parameter.selected = format(parameter.selected)">
                   </div>
 
-                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve (mm)'" class="select-values col-sm-10">
+                  <!--Only Thickness-->
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Thickness'" class="select-values col-sm-10">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                            [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
+                            [disabled]="!product.eyeRight" step="00.01">
+                  </div>
+
+                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve (d)' && parameter.name !== 'Thickness'" class="select-values col-sm-10">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}" [required]="product.eyeRight"
                             [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                   </div>
@@ -310,7 +310,8 @@
                   <!--Only Power-->
                   <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-10 param-power">
                     <ng-select [items]="['+', '-']" [disabled]="!product.eyeLeft" [required]="product.eyeLeft"
-                                [(ngModel)]="signPowerLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}">
+                                [(ngModel)]="signPowerLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
+                                [clearable]="false">
                                 {{item}}
                     </ng-select>
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
@@ -318,14 +319,21 @@
                             [disabled]="!product.eyeLeft" min="0">
                   </div>
 
-                    <!--Only Base Curve-->
-                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (mm)'" class="select-values col-sm-10">
+                  <!--Only Base Curve-->
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (d)'" class="select-values col-sm-10">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                             [required]="product.eyeLeft" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
                             [disabled]="!product.eyeLeft" min="00.00" step="00.01" (change)="parameter.selected = format(parameter.selected)">
                   </div>
 
-                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve (mm)'" class="select-values col-sm-10">
+                  <!--Only Thickness-->
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Thickness'" class="select-values col-sm-10">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                            [required]="product.eyeLeft" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
+                            [disabled]="!product.eyeLeft" step="00.01">
+                  </div>
+
+                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve (d)' && parameter.name !== 'Thickness'" class="select-values col-sm-10">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}" [required]="product.eyeLeft"
                             [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                   </div>

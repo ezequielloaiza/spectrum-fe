@@ -391,6 +391,7 @@
     "Edit Product":"Edit Product",
     "Tone":"Tone",
     "Base Curve (mm)":"Base Curve (mm)",
+    "Base Curve (d)":"Base Curve (d)",
     "Diameter (mm)":"Diameter (mm)",
     "Sphere (D)":"Sphere (D)",
     "Cylinder (D)":"Cylinder (D)",
@@ -720,7 +721,7 @@
     "Right Eye": "Right Eye",
     "Left Eye": "Left Eye",
     "Parameters":"Parameters",
-    "Curved": "Curved",
+    "Steep": "Steep",
     "Flat": "Flat",
     "Monthly": "Monthly",
     "Inserts": "Inserts",
@@ -729,8 +730,8 @@
     "Power": "Power",
     "Notch (mm)": "Notch (mm)",
     "Thickness": "Thickness",
-    "Steep 1 (100 microns)": "Steep 1 (100 microns)",
-    "Steep 2 (200 microns)": "Steep 2 (200 microns)",
+    "Step 1 (100 microns)": "Step 1 (100 microns)",
+    "Step 2 (200 microns)": "Step 2 (200 microns)",
     "Pending Payments": "Pending Payments",
     "Overdue Customers": "Overdue Customers",
     "Orders": "Orders",
@@ -787,5 +788,7 @@
     "Payments": "Payments",
     "Must be a valid site URL": "Must be a valid site URL",
     "Steep K": "Steep K",
-    "HVID": "HVID"
+    "HVID": "HVID",
+    "Connection Failed": "Connection Failed",
+    "Yearly": "Yearly"
 }

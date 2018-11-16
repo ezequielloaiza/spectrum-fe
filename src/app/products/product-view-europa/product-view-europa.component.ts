@@ -149,7 +149,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
-    if (parameter.name === 'Hidrapeg'|| parameter.name === 'DMV / Inserts') {
+    if (parameter.name === 'Hidrapeg'|| parameter.name === 'Inserts (DMV)') {
       parameter.selected = parameter.selected === 'Yes' ? true : false;
     }
   }
