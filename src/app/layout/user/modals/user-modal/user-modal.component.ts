@@ -161,8 +161,10 @@ export class UserModalComponent implements OnInit {
           this.notification.warning('', res);
         });
       } else {
-        this.notification.error('', res.errors[0].detail);
-        console.log(res.errors[0].detail);
+        this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+          this.notification.error('', res);
+          console.log(res);
+        });
       }
     }, error => {
       console.log('error', error);
