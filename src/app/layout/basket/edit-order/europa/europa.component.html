@@ -122,11 +122,11 @@
                       <input class="form-control col-sm-10" type="number" placeholder="{{ parameter.placeholder | translate }}"
                              [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" min="0">
                     </div>
-                    <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (mm)'" class="separator">
+                    <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (d)'" class="separator">
                       <input class="form-control col-sm-12" type="number" min="00.00" step="00.01" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(parameter, parameter.selected)"
                         oninput="validity.valid||(value='');">
                     </div>
-                    <div *ngIf="parameter.type === 'input' && parameter.name !== 'Base Curve (mm)' && parameter.name !== 'Power'" class="separator">
+                    <div *ngIf="parameter.type === 'input' && parameter.name !== 'Base Curve (d)' && parameter.name !== 'Power'" class="separator">
                       <input class="form-control col-sm-12" type="number" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(parameter, parameter.selected)"
                         oninput="validity.valid||(value='');">
                     </div>

@@ -68,7 +68,7 @@ export class EuropaComponent implements OnInit {
     _.each(this.detail.header, function(item) {
      _.each(header, function(itemHeader) {
           if (itemHeader.name === item.name) {
-            if (itemHeader.name === 'Hidrapeg' || itemHeader.name === 'DMV / Inserts') {
+            if (itemHeader.name === 'Hidrapeg' || itemHeader.name === 'Inserts (DMV)') {
               itemHeader.selected = item.selected === true ? 'Yes' : 'No';
             } else {
               itemHeader.selected = item.selected;
@@ -120,7 +120,7 @@ export class EuropaComponent implements OnInit {
 
   changeSelect(parameter, value) {
     parameter.selected = value;
-    if (parameter.name === 'Base Curve (mm)' ) {
+    if (parameter.name === 'Base Curve (d)' ) {
       parameter.selected = this.format(value);
     }
   }
@@ -131,7 +131,7 @@ export class EuropaComponent implements OnInit {
     _.each(this.detail.header, function(item) {
       _.each(header, function(productSelected) {
         if (productSelected.name === item.name) {
-          if (productSelected.name === 'Hidrapeg' || productSelected.name === 'DMV / Inserts') {
+          if (productSelected.name === 'Hidrapeg' || productSelected.name === 'Inserts (DMV)') {
             item.selected = productSelected.selected === 'Yes' ? true : false;
           } else {
             item.selected = productSelected.selected;
