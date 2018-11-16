@@ -113,7 +113,8 @@ export class ConfirmationBuyComponent implements OnInit {
               this.notification.success('', res);
             });
             this.spinner.hide();
-            this.redirectListBasket();
+            this.redirectListProducts();
+            // this.redirectListBasket();
         } else {
           console.log(res.errors[0].detail);
           this.spinner.hide();
@@ -173,6 +174,10 @@ export class ConfirmationBuyComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+  }
+
+  redirectListProducts(): void {
+    this.router.navigate(['/products/']);
   }
 
   redirectListBasket(): void {

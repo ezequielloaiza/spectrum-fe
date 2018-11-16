@@ -127,7 +127,8 @@ export class ConfirmationEuclidComponent implements OnInit {
               this.notification.success('', res);
             });
             this.spinner.hide();
-            this.redirectListBasket();
+            this.redirectListProducts();
+            // this.redirectListBasket();
         } else {
           console.log(res);
           this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
@@ -190,6 +191,10 @@ export class ConfirmationEuclidComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+  }
+
+  redirectListProducts(): void {
+    this.router.navigate(['/products/']);
   }
 
   redirectListBasket(): void {

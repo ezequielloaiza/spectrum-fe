@@ -108,7 +108,8 @@ export class ConfirmationMagicLookComponent implements OnInit {
               this.notification.success('', res);
             });
             this.spinner.hide();
-            this.redirectListBasket();
+            this.redirectListProducts();
+            // this.redirectListBasket();
         } else {
           this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
             this.notification.error('', res);
@@ -150,6 +151,10 @@ export class ConfirmationMagicLookComponent implements OnInit {
         this.close();
       }
     }
+  }
+
+  redirectListProducts(): void {
+    this.router.navigate(['/products/']);
   }
 
   redirectListBasket(): void {
