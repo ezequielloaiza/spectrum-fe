@@ -2,7 +2,7 @@ this.products = [
   {
     "code": "R4E", "name": "Quattro Toric High Neg (14.50) x1 Conv",
     "priceBase": 25, "price1": 25, "price2": 18, "price3": 18,
-    "father": "Quattro Conv",
+    "father": "Quattro Conventional",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
     "material": "Hidrogel, Filcon I 1 49% H2O",

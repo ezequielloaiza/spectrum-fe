@@ -113,7 +113,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findAll$().subscribe(res => {
+    this.productService.findBySupplier$(2).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
