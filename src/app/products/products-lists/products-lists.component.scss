@@ -51,12 +51,30 @@
 
 .card-img-top {
   border-radius: 40px;
-  cursor: pointer;
   height: 220px;
   width: 80%;
   margin-left: 10%;
   padding: 5%;
+  opacity: .9;
 }
+
+.card-img-top:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  transform: scale(1.2, 1.2);
+  transition: all 0.8s cubic-bezier(0.1,-0.5, 0, 3);
+  opacity: 1;
+  z-index: 1;
+  filter: contrast(150%);
+}
+
+/*
+.box-shadow {
+  border: 1px solid gray;
+  border-radius: 12px;
+}
+*/
 
 .card-body {
   padding-top: 2px;
