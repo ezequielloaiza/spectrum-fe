@@ -28,8 +28,11 @@
       <div class="card-body table-responsive">
         <div class="row justify-content-md-center div-parametros">
           <div class="col-sm-12">
+            <dl class="font-text" *ngIf="lista.observations ==='' || lista.observations ===null">
+              <span translate>{{'No comments' | translate}}</span>
+            </dl>
             <dl>
-              <dt>
+              <dt *ngIf="lista.observations !==''">
                 <span class="font-text">{{lista.observations}}</span>
               </dt>
             </dl>
