@@ -111,7 +111,7 @@ export class ProductViewEuclidComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findAll$().subscribe(res => {
+    this.productService.findBySupplier$(4).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();

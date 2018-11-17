@@ -2,7 +2,7 @@ this.products = [
   {
     "code": "MSB", "name": "Quattro Sph (13.00) x1 Conv",
     "priceBase": 20, "price1": 20, "price2": 15, "price3": 15,
-    "father": "Quattro Conv",
+    "father": "Quattro Conventional",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
     "material": "Hidrogel, Filcon I 1 49% H2O",
