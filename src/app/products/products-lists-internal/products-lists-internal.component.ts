@@ -75,10 +75,10 @@ export class ProductsListInternalComponent implements OnInit {
           case 'Gentle 59':
             productsGentle59.push(product);
             break;
-          case 'BluGen':
+          case 'Blu:gen':
             productsBluGen.push(product);
             break;
-          case 'Blukidz':
+          case 'Blu:kidz':
             productsBluKidz.push(product);
             break;
           case 'Xtensa':
@@ -90,7 +90,7 @@ export class ProductsListInternalComponent implements OnInit {
           case 'Quattro 3-Monthly':
             productsQuattroX3.push(product);
             break;
-          case 'Quattro x1Conv':
+          case 'Quattro Conventional':
             productsQuattroX1.push(product);
             break;
         }

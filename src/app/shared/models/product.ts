@@ -19,6 +19,9 @@ export class Product {
   public infoAditional: string;
   public types: string;
   public status: number;
+  public priced1: number;
+  public priced2: number;
+  public priced3: number;
     public constructor() { }
 
   }

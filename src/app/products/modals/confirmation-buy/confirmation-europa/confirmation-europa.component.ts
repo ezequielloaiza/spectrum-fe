@@ -40,6 +40,14 @@ export class ConfirmationEuropaComponent implements OnInit {
   price: any;
   user: any;
   balace: any;
+  additionalHidrapeg: any;
+  additionalInserts: any;
+  additionalNotch: any;
+  additionalThickness: any;
+  totalHidrapeg: any;
+  totalInserts: any;
+  totalNotch: any;
+  totalThickness: any;
   // list for File
   listFileBasket: Array<FileProductRequested> = new Array;
   listUrlFiles: Array<String> = new Array;
@@ -83,6 +91,11 @@ export class ConfirmationEuropaComponent implements OnInit {
     let eyesSelected = [];
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
+
+    let quantityHidrapeg = 0;
+    let quantityInserts = 0;
+    let quantityNotch = 0;
+    let quantityThickness = 0;
     _.each(this.listBasket, function (productRequested) {
       priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
       patient = productRequested.patient;
@@ -92,6 +105,22 @@ export class ConfirmationEuropaComponent implements OnInit {
       let details = JSON.parse(productRequested.detail);
       _.each(details, function (detail) {
         eyesSelected.push(detail.eye);
+        _.each(detail.header, function (parameters) {
+          if (parameters.name === 'Hidrapeg' && parameters.selected) {
+            quantityHidrapeg = quantityHidrapeg + productRequested.quantity;
+          }
+          if (parameters.name === 'Inserts (DMV)' && parameters.selected) {
+            quantityInserts = quantityInserts + productRequested.quantity;
+          }
+         });
+        _.each(detail.parameters, function (parameters) {
+          if (parameters.name === 'Notch (mm)' && parameters.selected) {
+            quantityNotch = quantityNotch + productRequested.quantity;
+          }
+          if (parameters.name === 'Thickness' && parameters.selected) {
+            quantityThickness = quantityThickness + productRequested.quantity;
+          }
+         });
       });
       productRequested.detail = JSON.parse(productRequested.detail);
     });
@@ -99,6 +128,10 @@ export class ConfirmationEuropaComponent implements OnInit {
     this.namePatient = patient;
     this.price = priceAcum;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
+    this.totalHidrapeg = this.additionalHidrapeg * quantityHidrapeg;
+    this.totalInserts = this.additionalInserts * quantityInserts;
+    this.totalNotch = this.additionalNotch * quantityNotch;
+    this.totalThickness = this.additionalThickness * quantityThickness;
   }
 
   save(): void {
