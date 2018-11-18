@@ -26,6 +26,10 @@ export class ProductsListInternalComponent implements OnInit {
   filterMarkennovy: any;
   priceFrom: any;
   priceUp: any;
+  productsMarkennovy: Array<any> = new Array();
+  productsAuxMarkennovy: Array<any> = new Array();
+  showFathersMarkennovy: any;
+  currentFather: any;
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
               private modalService: NgbModal,
@@ -41,31 +45,139 @@ export class ProductsListInternalComponent implements OnInit {
     this.getProducts();
     this.filterMarkennovy = 'All';
     this.filterName = '';
+    this.currentFather = '';
+  }
+
+  userIsAdmin() {
+    return this.user.role.idRole === 1;
+  }
+
+  setProductsFatherMarkennovy() {
+    var productsSaphirRx = [];
+    var productsGentle80 = [];
+    var productsGentle59 = [];
+    var productsBluGen = [];
+    var productsBluKidz = [];
+    var productsXtensa = [];
+    var productsSaphir = [];
+    var productsQuattroX3 = [];
+    var productsQuattroX1 = [];
+    var userIsAdmin = this.userIsAdmin();
+    _.each(this.products, function(product) {
+      if (userIsAdmin || product.status) {
+        switch (product.father) {
+          case 'Saphir Rx':
+            productsSaphirRx.push(product);
+            break;
+          case 'Gentle 80':
+            productsGentle80.push(product);
+            break;
+          case 'Gentle 59':
+            productsGentle59.push(product);
+            break;
+          case 'Blu:gen':
+            productsBluGen.push(product);
+            break;
+          case 'Blu:kidz':
+            productsBluKidz.push(product);
+            break;
+          case 'Xtensa':
+            productsXtensa.push(product);
+            break;
+          case 'Saphir':
+            productsSaphir.push(product);
+            break;
+          case 'Quattro 3-Monthly':
+            productsQuattroX3.push(product);
+            break;
+          case 'Quattro Conventional':
+            productsQuattroX1.push(product);
+            break;
+        }
+      }
+    });
+
+    if (productsSaphirRx.length) {
+      this.productsMarkennovy.push({name:"Saphir Rx",
+                                    mainImg:"assets/images/products/markennovy/saphirRx.jpg",
+                                    replacementPeriod:"Monthly",
+                                    father: "Saphir Rx"});
+    }
+    if (productsGentle80.length) {
+      this.productsMarkennovy.push({name:"Gentle 80",
+                                    mainImg:"assets/images/products/markennovy/Mark’ennovy-Gentle-80.jpg",
+                                    replacementPeriod:"Monthly",
+                                    father: "Gentle 80"});
+    }
+    if (productsGentle59.length) {
+      this.productsMarkennovy.push({name:"Gentle 59",
+                                    mainImg:"assets/images/products/markennovy/gentle_59_hi_ret_2.jpg",
+                                    replacementPeriod:"Monthly",
+                                    father: "Gentle 59"});
+    }
+    if (productsBluGen.length) {
+      this.productsMarkennovy.push({name:"Blu:gen",
+                                    mainImg:"assets/images/products/markennovy/lentillas-blu_gen-287706.jpg",
+                                    replacementPeriod:"Monthly",
+                                    father: "Blu:gen"});
+    }
+    if (productsBluKidz.length) {
+      this.productsMarkennovy.push({name:"Blu:kidz",
+                                    mainImg:"assets/images/products/markennovy/Blukidz summer season.jpg",
+                                    replacementPeriod:"Monthly",
+                                    father: "Blu:kidz"});
+    }
+    if (productsXtensa.length) {
+      this.productsMarkennovy.push({name:"Xtensa",
+                                    mainImg:"assets/images/products/markennovy/Saphir-Rx-For-Print-11.jpg",
+                                    replacementPeriod:"Monthly",
+                                    father: "Xtensa"});
+    }
+    if (productsSaphir.length) {
+      this.productsMarkennovy.push({name:"Saphir",
+                                    mainImg:"assets/images/products/markennovy/saphir_3mok.jpg",
+                                    replacementPeriod:"3-Monthly",
+                                    father: "Saphir"});
+    }
+    if (productsQuattroX3.length) {
+      this.productsMarkennovy.push({name:"Quattro 3-Monthly",
+                                    mainImg:"assets/images/products/markennovy/quattro.jpg",
+                                    replacementPeriod:"3-Monthly",
+                                    father: "Quattro 3-Monthly"});
+    }
+    if (productsQuattroX1.length) {
+      this.productsMarkennovy.push({name:"Quattro x1Conv",
+                                    mainImg:"assets/images/products/markennovy/quattro.jpg",
+                                    replacementPeriod:"Conventional",
+                                    father: "Quattro Conventional"});
+    }
+
+    this.productsAuxMarkennovy = this.productsMarkennovy;
   }
 
   getProducts() {
-    let idSupplier = this.idSupplier;
     this.spinner.show();
-    this.productService.findAll$().subscribe(
-      res => {
-        if (res.code === CodeHttp.ok) {
-          this.products = res.data;
-          this.products = _.filter(this.products, function(product){
-            return product.supplier.idSupplier === idSupplier;
-          });
-          this.setPrice();
-          this.nameSupplier = this.products[0] ? this.products[0].supplier.companyName : '';
-          this.productsAux = this.products;
-          this.spinner.hide();
-        } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
+    this.productService.findBySupplier$(this.idSupplier).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.products = res.data;
+        this.setPrice();
+
+        if (this.idSupplier === 1) { //Markennovy
+          this.setProductsFatherMarkennovy();
+          this.showFathersMarkennovy = true;
         }
-      },
-      error => {
-        console.log('error', error);
+
+        this.nameSupplier = this.products[0] ? this.products[0].supplier.companyName : '';
+        this.productsAux = this.products;
+        this.spinner.hide();
+      } else {
+        console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
-    );
+    },
+    error => {
+      console.log('error', error);
+    });
   }
 
   setPrice() {
@@ -176,7 +288,7 @@ export class ProductsListInternalComponent implements OnInit {
     const val = this.filterName;
 
     if (val && val.trim() !== '') {
-      this.products = this.products.filter((item) => {
+      this.productsMarkennovy = this.productsMarkennovy.filter((item) => {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
@@ -184,21 +296,7 @@ export class ProductsListInternalComponent implements OnInit {
 
   filter(type) {
     this.products = this.productsAux;
-
-    if (type !== 'byName') {
-      this.filterMarkennovy = type;
-    }
-
-    if (this.filterMarkennovy === 'All') {
-      this.getItems();
-      return;
-    }
-
     const val = this.filterName;
-
-    this.products = this.products.filter((item) => {
-      return item.replacementPeriod === this.filterMarkennovy;
-    });
 
     if (val && val.trim() !== '') {
       this.products = this.products.filter((item) => {
@@ -207,6 +305,74 @@ export class ProductsListInternalComponent implements OnInit {
     }
   }
 
+  filterByFather(type) {
+    var products = [];
+    const val = this.filterName;
+
+    if (this.showFathersMarkennovy) {
+      products = this.productsAuxMarkennovy;
+    } else {
+      products = this.productsAux;
+    }
+
+    if (type !== 'byName') {
+      this.filterMarkennovy = type;
+    }
+
+    if (this.filterMarkennovy === 'All') {
+      if (val && val.trim() !== '') {
+        products = products.filter((item) => {
+          return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
+        });
+      }
+      if (this.showFathersMarkennovy) {
+        this.productsMarkennovy = products;
+      } else {
+        this.products = products;
+      }
+      return;
+    }
+
+    products = products.filter((item) => {
+      return item.replacementPeriod === this.filterMarkennovy;
+    });
+
+    if (val && val.trim() !== '') {
+      products = products.filter((item) => {
+        return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
+      });
+    }
+
+    if (this.showFathersMarkennovy) {
+      this.productsMarkennovy = products;
+    } else {
+      this.products = products;
+    }
+  }
+
+  redirectFather(product) {
+    this.products = this.productsAux;
+
+    this.products = this.products.filter((item) => {
+      return item.father === product.father;
+    });
+    this.currentFather = product.father;
+    this.showFathersMarkennovy = false;
+  }
+
+  backToFathersHeader() {
+    if (this.idSupplier === 1) {
+      if (!this.showFathersMarkennovy) {
+        this.showFathersMarkennovy = true;
+        this.currentFather = '';
+      }
+    }
+  }
+
+  backToFathers() {
+    this.currentFather = '';
+    this.showFathersMarkennovy = true;
+  }
 
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === 'filter2' && $event.nextState === false) {

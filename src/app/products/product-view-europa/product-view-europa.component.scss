@@ -347,3 +347,24 @@ img {
     padding-left: 0;
   }
 }
+
+.additional{
+  justify-content: flex-start;
+  margin-top: 10px;
+  >p:nth-child(1){
+  font-size: 15px;
+  color: red;
+  }
+}
+
+.prices {
+  -webkit-animation-name: opacity;
+  animation-name: opacity;
+  -webkit-animation-duration: .3s;
+  animation-duration: .6s;
+
+  >p:nth-child(1){
+    font-size: 28px;
+    font-weight: bold;
+  }
+}
