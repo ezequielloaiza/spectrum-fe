@@ -31,16 +31,16 @@ this.products = [
                                                                           "type":"input",
                                                                           "values":["any"],
                                                                           "placeholder":"depth",
-                                                                          "selected":null
+                                                                          "selected":0
                                                                         },
                                                                         { "name":"longitud",
                                                                           "type":"input",
                                                                           "placeholder":"length",
                                                                           "values":["any"],
-                                                                          "selected":null
+                                                                          "selected":0
                                                                         }
                                                                       ], "selected": null },
-          { "name": "Thickness", "type": "input", "values": ["any"], "placeholder":"Ex. 0.40", "selected": null }
+          { "name": "Thickness", "type": "input", "values": ["any"], "placeholder":"Ex. 0.40", "selected": 0 }
         ],
         "pasos": [
           { "name": "PC1",

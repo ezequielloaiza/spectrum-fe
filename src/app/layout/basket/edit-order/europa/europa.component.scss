@@ -1,11 +1,13 @@
 
 @import "../../../../../styles/spectrum/spectrum";
 
-.list-basket {
-  //max-height: 630px;
-  padding: 2em;
+.body{
   overflow-y: auto;
-  overflow-x: hidden;
+}
+.list-basket {
+  max-height: 630px;
+  padding: 2em;
+
 
   .main-info {
     text-align: center;
@@ -107,4 +109,15 @@
     }
 
   }
+
+
+.selected-double {
+  >div:nth-child(1) {
+    padding-right: 0px;
+  }
+  >div:nth-child(2) {
+    padding-left: 2px;
+  }
+}
+
 }
