@@ -83,33 +83,6 @@
             <i class="fa fa-plus"></i>
           </button>
         </div>
-        <!--<div class="col-xl-4 filter">
-            <div class="row search">
-              <div class="col col-xl-12 col-lg-12">
-                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter search ...' | translate }}">
-                <i class="fa fa-search"></i>
-              </div>
-            </div>
-          </div>
-           <div class="col-xl-3 filter">
-            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
-              <option value="" disabled [selected]="true" translate>Select payment status</option>
-              <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
-            </select>
-          </div> -->
-        <!-- <div class="col-xl-3 filter">
-            <div>
-              <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOrd" [(ngModel)]="fechaSelecOrd" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOrd)">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                    <i class="fa fa-calendar"></i>
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </div> -->
         <div class="card-body table-responsive">
           <table class="table">
             <thead>
@@ -179,12 +152,9 @@
                     <div ngbDropdown class="d-inline-block dropdown">
                       <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                       <div ngbDropdownMenu>
-                        <button class="dropdown-item" (click)="open(invoice)">
-                          <i class="fa fa-eye"></i> {{ 'View Payments' | translate }}</button>
-                        <button class="dropdown-item" (click)="downloadInvoice(invoice)">
-                          <i class="fa fa-download"></i> {{ 'Download' | translate }}</button>
-                        <button class="dropdown-item" (click)="delete(invoice)">
-                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                        <button class="dropdown-item">
+                          <i class="fa fa-eye"></i> {{ 'Change Status' | translate }}
+                        </button>
                       </div>
                     </div>
                   </div>

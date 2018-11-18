@@ -229,7 +229,7 @@
     "Bill Number": "Número de factura",
     "Created at": "Fecha de creación",
     "Lot Number": "Número de lote",
-    "Reference Number": "Número de pedido",
+    "Reference Number": "Número de referencia",
     "Warranty Type": "Tipo de garantía",
     "Notes": "Notas",
     "Enter bill number": "Ingrese número de factura ",
@@ -972,5 +972,7 @@
     "HVID": "DHIV",
     "Connection Failed": "La Conexión Falló",
     "Yearly": "Anual",
-    "Warning: Includes":"Advertencia: Incluye"
+    "Warning: Includes":"Advertencia: Incluye",
+    "All customers invoices":"Todas las facturas de clientes",
+    "All payments" : "Todos los pagos"
 }

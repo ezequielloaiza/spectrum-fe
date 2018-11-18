@@ -791,5 +791,7 @@
     "HVID": "HVID",
     "Connection Failed": "Connection Failed",
     "Yearly": "Yearly",
-    "Warning: Includes":"Warning: Includes"
+    "Warning: Includes":"Warning: Includes",
+    "All customers invoices":"All customers invoices",
+    "All payments" : "All payments"
 }
