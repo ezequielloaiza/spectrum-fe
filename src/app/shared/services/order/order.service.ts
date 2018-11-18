@@ -75,4 +75,12 @@ export class OrderService {
   public findOrderProcessedByUser$(idUser): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/findOrderProcessedByUser/' + idUser);
   }
+
+  public countOrdersByMonth$(idUser): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/countOrdersByMonth/' + idUser);
+  }
+
+  public countOrders$(idUser): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/countOrders/' + idUser);
+  }
 }

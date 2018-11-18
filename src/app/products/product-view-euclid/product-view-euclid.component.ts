@@ -22,6 +22,8 @@ import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ConfirmationEuclidComponent } from '../modals/confirmation-buy/confirmation-euclid/confirmation-euclid.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -74,7 +76,8 @@ export class ProductViewEuclidComponent implements OnInit {
               private modalService: NgbModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
@@ -107,15 +110,19 @@ export class ProductViewEuclidComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService.findAll$().subscribe(res => {
+    this.spinner.show();
+    this.productService.findBySupplier$(4).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
@@ -139,9 +146,8 @@ export class ProductViewEuclidComponent implements OnInit {
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
     if (parameter.name === 'Warranty') {
-      parameter.selected = parameter.selected === 'Yes' ? true : false;
       if (eye === 'right') {
-        if (parameter.selected) {
+        if (parameter.selected === 'Yes') {
           this.warrantyRight = true;
         } else {
           this.warrantyRight = false;
@@ -149,7 +155,7 @@ export class ProductViewEuclidComponent implements OnInit {
       }
 
       if (eye === 'left') {
-        if (parameter.selected) {
+        if (parameter.selected === 'Yes') {
           this.warrantyLeft = true;
         } else {
           this.warrantyLeft = false;
@@ -159,6 +165,107 @@ export class ProductViewEuclidComponent implements OnInit {
         this.definePrice(this.client.membership.idMembership);
       }
     }
+
+    if (parameter.name === 'Axes (º)') {
+      parameter.selected = this.axisFormat(value);
+    }
+    if (parameter.name === 'Flat K' || parameter.name === 'Steep K' || parameter.name === 'HVID' ||
+    (parameter.name === 'Sphere (D)' && parameter.type === 'input')) {
+      parameter.selected = this.format(value);
+    }
+    if (parameter.name === 'Cylinder (D)') {
+      parameter.selected = this.cilinderFormat(value);
+    }
+  }
+
+  axisFormat(value): any {
+    let axes;
+    if (value !== null) {
+      if (value <= 180) {
+        axes = this.completeStart(value, 3);
+      } else {
+        axes = null;
+      }
+    }
+     return axes;
+  }
+
+  cilinderFormat(value): any {
+    let cilinder;
+    let toString;
+    if (value !== null) {
+      toString = value.toString();
+        if (_.includes(toString, '-')) {
+          cilinder = this.formatCi(toString);
+        } else if (value !== 0 && value !== '0.00') {
+          cilinder = '-' + this.formatCi(toString);
+        } else {
+          cilinder = this.formatCi(toString);
+        }
+      }
+      return cilinder;
+    }
+
+  format(value): any {
+    let flat;
+    let partInt;
+    let partDec;
+    let pos;
+    let toString;
+    if (value !== null) {
+      toString = value.toString();
+      if (_.includes(toString, '.')) {
+        pos = _.indexOf(toString, '.');
+        partInt = toString.slice( 0, pos);
+        if (partInt <= 99) {
+          partDec = toString.slice( pos + 1, toString.length);
+          flat = this.completeStart(partInt, 2) + '.' + this.completeEnd(partDec, 2);
+        } else {
+            flat = null;
+        }
+      } else {
+          if (value <= 99) {
+            flat = this.completeStart(value, 2) + '.00';
+          } else {
+            flat = null;
+          }
+      }
+      return flat;
+    }
+  }
+
+  formatCi(value): any {
+    let cilinder;
+    let partInt;
+    let partDec;
+    let pos;
+    let toString;
+    if (value !== null) {
+      toString = value.toString();
+      if (_.includes(toString, '.')) {
+        pos = _.indexOf(toString, '.');
+        partInt = toString.slice( 0, pos);
+        partDec = toString.slice( pos + 1, toString.length);
+        cilinder = this.completeStart(partInt, 1) + '.' + this.completeEnd(partDec, 2);
+      } else {
+        cilinder = this.completeStart(value, 1) + '.00';
+      }
+      return cilinder;
+    }
+  }
+
+  completeStart(value, tamano): any {
+    let filteredId = value.toString();
+    filteredId = _.padStart(filteredId, tamano, '0');
+    return filteredId;
+
+  }
+
+  completeEnd(value, tamano): any {
+    let filteredId = value.toString();
+    filteredId = _.padEnd(filteredId, tamano, '0');
+    return filteredId;
+
   }
 
   setValueEye(eye) {
@@ -266,24 +373,25 @@ export class ProductViewEuclidComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let warrantyRight = this.warrantyRight;
     let warrantyLeft = this.warrantyLeft;
-
     _.each(productsSelected, function(productSelected, index) {
 
       productSelected.id = product.idProduct;
       productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
-
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
-        
+
         if (warrantyRight) {
           productSelected.price = productSelected.price + product.additional;
         }
         productSelected.observations = product.observationsRight;
         _.each(product.parametersRight, function(parameter, index) {
+            if (parameter.name === 'Warranty') {
+              parameter.selected = parameter.selected === 'Yes' ? true : false;
+            }
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
-        
+
         productSelected.parameters = product.parametersRight;
       }
 
@@ -295,6 +403,9 @@ export class ProductViewEuclidComponent implements OnInit {
         }
         productSelected.observations = product.observationsLeft;
         _.each(product.parametersLeft, function(parameter, index) {
+            if (parameter.name === 'Warranty') {
+              parameter.selected = parameter.selected === 'Yes' ? true : false;
+           }
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
 
@@ -331,12 +442,13 @@ export class ProductViewEuclidComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationEuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.additional = this.product.additional;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {

@@ -18,4 +18,8 @@ export class ProductService {
     return this.http.put(environment.apiUrl + 'products/update', product);
   }
 
+
+  public findBySupplier$(idSupplier): Observable<any> {
+    return this.http.get(environment.apiUrl + 'products/findBySupplier/' + idSupplier);
+  }
 }

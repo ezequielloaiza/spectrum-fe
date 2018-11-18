@@ -11,10 +11,10 @@
       <div class="row">
         <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Customer' | translate }}</label>
+            <label class="title">{{ 'Customer' | translate }}</label>
             <div>
-              <span *ngIf="action === 'statusChange'">{{ warranty.orderProductRequest.order.user.name }}</span>
-              <select *ngIf="action != 'statusChange'" class="form-control" name="clientId" id="clientId" (change)="filterOrders(clientId)"
+              <span *ngIf="action === 'view'">{{ warranty.orderProductRequest.order.user.name }}</span>
+              <select *ngIf="action != 'view'" class="form-control" name="clientId" id="clientId" (change)="filterOrders(clientId)"
                 formControlName="clientId" required>
                 <option value="" disabled [selected]="true" translate>Select value</option>
                 <option *ngFor="let client of listClients" value="{{client.idUser}}">{{ client.name }}</option>
@@ -27,10 +27,10 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Created at' | translate }}</label>
+            <label class="title">{{ 'Created at' | translate }}</label>
             <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.createdAt | date:'yyyy-MM-dd' }}</span>
-              <span *ngIf="action != 'statusChange'" name="createdAt" formControlName="createdAt" ngDefaultControl>{{ today | date:'yyyy-MM-dd' }}</span>
+              <span *ngIf="action == 'view'">{{ warranty.createdAt | date:'yyyy-MM-dd' }}</span>
+              <span *ngIf="action != 'view'" name="createdAt" formControlName="createdAt" ngDefaultControl>{{ today | date:'yyyy-MM-dd' }}</span>
             </div>
           </fieldset>
         </div>
@@ -38,10 +38,10 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Order' | translate }}</label>
+            <label class="title">{{ 'Order' | translate }}</label>
             <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.orderProductRequest.order.number }}</span>
-              <select *ngIf="action != 'statusChange'" class="form-control" name="orderId" id="orderId" formControlName="orderId" (change)="filterProducts(orderId)" required>
+              <span *ngIf="action == 'view'">{{ warranty.orderProductRequest.order.number }}</span>
+              <select *ngIf="action != 'view'" class="form-control" name="orderId" id="orderId" formControlName="orderId" (change)="filterProducts(orderId)" required>
                 <option value="" disabled [selected]="true" translate>Select value</option>
                 <option *ngFor="let order of listOrders" value="{{order.idOrder}}">{{ order.number }}</option>
               </select>
@@ -53,10 +53,10 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Reference Number' | translate }}</label>
+            <label class="title">{{ 'Reference Number' | translate }}</label>
             <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.referenceNumber }}</span>
-              <input *ngIf="action != 'statusChange'" class="form-control" [readOnly]="true" name="referenceNumber" formControlName="referenceNumber">
+              <span *ngIf="action == 'view'">{{ warranty.referenceNumber }}</span>
+              <input *ngIf="action != 'view'" class="form-control" [readOnly]="true" name="referenceNumber" formControlName="referenceNumber">
             </div>
           </fieldset>
           <div class="message-error" [hidden]="referenceNumber.valid || referenceNumber.pristine">
@@ -67,10 +67,10 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Product' | translate }}</label>
+            <label class="title">{{ 'Product' | translate }}</label>
             <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.orderProductRequest.productRequested.product.name }}</span>
-              <select *ngIf="action != 'statusChange'" class="form-control" name="orderClientProductRequestId" id="orderClientProductRequestId"
+              <span *ngIf="action == 'view'">{{ warranty.orderProductRequest.productRequested.product.name }}</span>
+              <select *ngIf="action != 'view'" class="form-control" name="orderClientProductRequestId" id="orderClientProductRequestId"
                 (change)=assignPatient(orderClientProductRequestId) formControlName="orderClientProductRequestId" required>
                 <option value="" disabled [selected]="true" translate>Select value</option>
                 <option *ngFor="let product of listProducts" value="{{product.idOrderProductRequested}}">{{ product.label }}</option>
@@ -83,10 +83,10 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Patient' | translate }}</label>
+            <label class="title">{{ 'Patient' | translate }}</label>
             <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty? warranty.orderProductRequest.productRequested.patient : ''}}</span>
-              <input *ngIf="action != 'statusChange'" class="form-control" [readOnly]="true" name="patient" formControlName="patient" value="{{product? product.productRequested.patient : ''}}" required>
+              <span *ngIf="action == 'view'">{{ warranty? warranty.orderProductRequest.productRequested.patient : ''}}</span>
+              <input *ngIf="action != 'view'" class="form-control" [readOnly]="true" name="patient" formControlName="patient" value="{{product? product.productRequested.patient : ''}}">
             </div>
           </fieldset>
         </div>
@@ -94,10 +94,10 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Bill Number' | translate }}</label>
+            <label class="title">{{ 'Bill Number' | translate }}</label>
             <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.billNumber }}</span>
-              <input *ngIf="action != 'statusChange'" class="form-control" placeholder="{{ 'Enter bill number' | translate }}" name="billNumber" formControlName="billNumber">
+              <span *ngIf="action == 'view'">{{ warranty.billNumber }}</span>
+              <input *ngIf="action != 'view'" class="form-control" placeholder="{{ 'Enter bill number' | translate }}" name="billNumber" formControlName="billNumber">
             </div>
             </fieldset>
           <div class="message-error" [hidden]="billNumber.valid || billNumber.pristine">
@@ -106,10 +106,10 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Lot Number' | translate }}</label>
+            <label class="title">{{ 'Lot Number' | translate }}</label>
             <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.lotNumber }}</span>
-              <input *ngIf="action != 'statusChange'" class="form-control" placeholder="{{ 'Enter lot number' | translate }}" name="lotNumber" formControlName="lotNumber">
+              <span *ngIf="action == 'view'">{{ warranty.lotNumber }}</span>
+              <input *ngIf="action != 'view'" class="form-control" placeholder="{{ 'Enter lot number' | translate }}" name="lotNumber" formControlName="lotNumber">
             </div>
           </fieldset>
           <div class="message-error" [hidden]="lotNumber.valid || lotNumber.pristine">
@@ -120,10 +120,10 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Warranty Type' | translate }}</label>
+            <label class="title">{{ 'Warranty Type' | translate }}</label>
             <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.type }}</span>
-              <select *ngIf="action != 'statusChange'" class="form-control" name="type" formControlName="type" required>
+              <span *ngIf="action == 'view'">{{ warranty.type | translate }}</span>
+              <select *ngIf="action != 'view'" class="form-control" name="type" formControlName="type" required>
                 <option *ngFor="let type of listTypes" value="{{type}}">{{ type | translate }}</option>
               </select>
             </div>
@@ -136,10 +136,10 @@
       <div class="row">
         <div class="col-xl-12">
           <fieldset class="form-group">
-            <label>{{ 'Description' | translate }}</label>
+            <label class="title">{{ 'Description' | translate }}</label>
             <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.description }}</span>
-              <textarea *ngIf="action != 'statusChange'" class="form-control textarea" placeholder="{{ 'Enter description' | translate }}" name="description" formControlName="description" rows="3"></textarea>
+              <span *ngIf="action == 'view'">{{ warranty.description }}</span>
+              <textarea *ngIf="action != 'view'" class="form-control textarea" placeholder="{{ 'Enter description' | translate }}" name="description" formControlName="description" rows="3"></textarea>
             </div>
           </fieldset>
           <div class="message-error" [hidden]="description.valid || description.pristine">
@@ -150,25 +150,14 @@
       <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="row">
         <div class="col-xl-12">
           <fieldset class="form-group">
-            <label>{{ 'Notes' | translate }}</label>
+            <label class="title">{{ 'Notes' | translate }}</label>
             <div>
-              <span *ngIf="action == 'statusChange'">{{ warranty.notes }}</span>
-              <textarea *ngIf="action != 'statusChange'" class="form-control textarea" placeholder="{{ 'Enter notes' | translate }}" name="notes" formControlName="notes" rows="3"></textarea>
+              <span *ngIf="action == 'view'">{{ warranty.notes }}</span>
+              <textarea *ngIf="action != 'view'" class="form-control textarea" placeholder="{{ 'Enter notes' | translate }}" name="notes" formControlName="notes" rows="3"></textarea>
             </div>
           </fieldset>
           <div class="message-error" [hidden]="notes.valid || notes.pristine">
             <span>{{ 'Notes is required' | translate }}</span>
-          </div>
-        </div>
-        <div *ngIf="action == 'statusChange'" class="col-xl-6">
-          <fieldset class="form-group">
-            <label>{{ 'Status' | translate }}</label>
-            <select class="form-control" name="status" formControlName="status">
-              <option *ngFor="let status of listStatus" value="{{status.id}}">{{ status.name }}</option>
-            </select>
-          </fieldset>
-          <div class="message-error" [hidden]="status.valid || status.pristine">
-            <span>{{ 'Status is required' | translate }}</span>
           </div>
         </div>
       </div>
@@ -180,7 +169,7 @@
   <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" [disabled]="form.invalid" class="btn btn-main"
+  <button type="button" [hidden]="action == 'view'" [disabled]="form.invalid" class="btn btn-main"
     (click)="save()">{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>

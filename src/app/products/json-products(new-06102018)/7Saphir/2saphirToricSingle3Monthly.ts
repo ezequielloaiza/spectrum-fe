@@ -1,7 +1,7 @@
 this.products = [
   {
     "code": "SDE", "name": "Saphir Toric Single 3-Monthly",
-    "priceBase": 25, "price1": 19, "price2": 19, "price3": 25,
+    "priceBase": 25, "price1": 25, "price2": 19, "price3": 19,
     "father": "Saphir",
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",

@@ -22,6 +22,8 @@ import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ConfirmationEuropaComponent } from '../modals/confirmation-buy/confirmation-europa/confirmation-europa.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -49,6 +51,27 @@ export class ProductViewEuropaComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  signPowerRight: any;
+  signPowerLeft: any;
+  priceA = 0;
+  priceB = 0;
+  membership: any;
+  notch = 0;
+  thickness = 0;
+  flagThickness = false;
+  flagThicknessL = false;
+  flagNotch = false;
+  flagNotchL = false;
+  hidrapeg = 0;
+  inserts = 0;
+  additionalNotch = false;
+  additionalNotchL = false;
+  additionalThickness = false;
+  additionalThicknessL = false;
+  additionalHidrapeg = false;
+  additionalHidrapegL = false;
+  additionalInserts = false;
+  additionalInsertsL = false;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
@@ -74,7 +97,8 @@ export class ProductViewEuropaComponent implements OnInit {
               public router: Router,
               private alertify: AlertifyService,
               private notification: ToastrService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
@@ -107,15 +131,19 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService.findAll$().subscribe(res => {
+    this.spinner.show();
+    this.productService.findBySupplier$(2).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
@@ -133,30 +161,244 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.pasosRight = JSON.parse(this.product.types)[0].pasos;
     this.product.pasosLeft = JSON.parse(this.product.types)[0].pasos;
     this.product.properties = JSON.parse(this.product.infoAditional)[0];
-    this.product.priceSale = '';
+    this.product.pricesAditionalHidrapeg = JSON.parse(this.product.infoAditional)[0].values[0];
+    this.product.pricesAditionalInserts = JSON.parse(this.product.infoAditional)[0].values[1];
+    this.product.pricesAditionalNotch = JSON.parse(this.product.infoAditional)[0].values[2];
+    this.product.pricesAditionalThickness = JSON.parse(this.product.infoAditional)[0].values[3];
+    this.product.priceSaleRight = 0;
+    this.product.priceSaleLeft = 0;
     this.setClient();
     this.setPrice();
   }
 
-  changeSelect(eye, parameter, value) {
+  changeSelect(eye, parameter, value, value2) {
     parameter.selected = value;
-    if (parameter.name === 'Hidrapeg'|| parameter.name === 'Inserts'){
-      parameter.selected = parameter.selected === "Yes" ? true : false;
+    if (parameter.name === 'Hidrapeg' || parameter.name === 'Inserts (DMV)') {
+      parameter.selected = parameter.selected === 'Yes' ? true : false;
     }
-  }
+      this.definePrice(this.membership);
+      this.definePriceHidrapeg(this.membership);
+      this.definePriceNotch(this.membership);
+      this.definePriceTickness(this.membership);
+      this.definePriceInserts(this.membership);
+      if (parameter.name === 'Diameter (mm)') {
+        if (this.membership !== 0) {
+         this.valueDiameter(value, eye);
+        }
+      }
+      if (parameter.name === 'Hidrapeg') {
+        if (value === 'Yes') {
+          if (eye === 'right') {
+            if (this.membership !== 0) {
+              this.additionalHidrapeg = true;
+              this.product.priceSaleRight = this.product.priceSaleRight + this.hidrapeg;
+            } else {
+              this.additionalHidrapeg = false;
+            }
+          } else {
+            if (this.membership !== 0) {
+              this.additionalHidrapegL = true;
+              this.product.priceSaleLeft = this.product.priceSaleLeft + this.hidrapeg;
+            } else {
+              this.additionalHidrapegL = false;
+            }
+          }
+        } else {
+          if (eye === 'right') {
+            if (this.membership !== 0) {
+              this.additionalHidrapeg = false;
+              if (this.product.priceSaleRight > 0 ) {
+                this.product.priceSaleRight = this.product.priceSaleRight - this.hidrapeg;
+              }
+            } else {
+              this.additionalHidrapeg = false;
+            }
+          } else {
+            if (this.membership !== 0) {
+              this.additionalHidrapegL = false;
+              if (this.product.priceSaleLeft > 0 ) {
+                this.product.priceSaleLeft = this.product.priceSaleLeft - this.hidrapeg;
+              }
+            } else {
+              this.additionalHidrapegL = false;
+            }
+          }
+        }
+      }
+      if (parameter.name === 'Inserts (DMV)') {
+        if (value === 'Yes') {
+          if (eye === 'right') {
+            if (this.membership !== 0) {
+              this.additionalInserts = true;
+              this.product.priceSaleRight = this.product.priceSaleRight + this.inserts;
+            } else {
+              this.additionalInserts = false;
+            }
+          } else {
+            if (this.membership !== 0) {
+              this.additionalInsertsL = true;
+              this.product.priceSaleLeft = this.product.priceSaleLeft + this.inserts;
+            } else {
+              this.additionalInsertsL = false;
+            }
+          }
+        } else {
+          if (eye === 'right') {
+            if (this.membership !== 0) {
+              this.additionalInserts = false;
+              if (this.product.priceSaleRight > 0 ) {
+                this.product.priceSaleRight = this.product.priceSaleRight - this.inserts;
+              }
+            } else {
+              this.additionalInserts = false;
+            }
+          } else {
+            if (this.membership !== 0) {
+              this.additionalInsertsL = false;
+              if (this.product.priceSaleLeft > 0 ) {
+                this.product.priceSaleLeft = this.product.priceSaleLeft - this.inserts;
+              }
+            } else {
+              this.additionalInsertsL = false;
+            }
+          }
+        }
+      }
+      if (parameter.name === 'Thickness') {
+        if (parseFloat(value) !== null) {
+          if (parseFloat(value) === 0) {
+            if (eye === 'right') {
+              if (this.membership !== 0) {
+                this.flagThickness = false;
+                this.additionalThickness = false;
+                this.product.priceSaleRight = this.product.priceSaleRight - this.thickness;
+              } else {
+                 this.flagThickness = false;
+                 this.additionalThickness = false;
+              }
+            } else {
+              if (this.membership !== 0) {
+                this.flagThicknessL = false;
+                this.additionalThicknessL = false;
+                this.product.priceSaleLeft = this.product.priceSaleLeft - this.thickness;
+              } else {
+                this.flagThicknessL = false;
+                this.additionalThicknessL = false;
+              }
+            }
+          } else {
+            if (eye === 'right') {
+              if (this.membership !== 0) {
+                if (!this.flagThickness) {
+                  this.additionalThickness = true;
+                  this.flagThickness = true;
+                  this.product.priceSaleRight = this.product.priceSaleRight + this.thickness;
+                }
+              } else {
+                this.flagThickness = false;
+                this.additionalThickness = false;
+              }
+            } else {
+              if (this.membership !== 0) {
+                if (!this.flagThicknessL) {
+                  this.additionalThicknessL = true;
+                  this.flagThicknessL = true;
+                  this.product.priceSaleLeft = this.product.priceSaleLeft + this.thickness;
+                }
+              } else {
+                this.flagThicknessL = false;
+                this.additionalThicknessL = false;
+              }
+            }
+          }
+        }
+      }
+      if (parameter.name === 'Notch (mm)') {
+        if (parseFloat(value) !== null  && parseFloat(value2) !== null) {
+          if (parseFloat(value) === 0  &&  parseFloat(value2) === 0) {
+            if (eye === 'right') {
+              if (this.membership !== 0) {
+                if (this.flagNotch) {
+                  this.additionalNotch = false;
+                  this.flagNotch = false;
+                  this.product.priceSaleRight = this.product.priceSaleRight - this.notch;
+                }
+              } else {
+                this.additionalNotch = false;
+                this.flagNotch = false;
+              }
+            } else {
+              if (this.membership !== 0) {
+                if (this.flagNotchL) {
+                  this.additionalNotchL = false;
+                  this.flagNotchL = false;
+                  this.product.priceSaleLeft = this.product.priceSaleLeft - this.notch;
+                }
+              } else {
+                this.additionalNotchL = false;
+                this.flagNotchL = false;
+              }
+            }
+          } else {
+            if (eye === 'right') {
+              if (this.membership !== 0) {
+                if (!this.flagNotch) {
+                  this.additionalNotch = true;
+                  this.flagNotch = true;
+                  this.product.priceSaleRight = this.product.priceSaleRight + this.notch;
+                }
+              } else {
+                this.additionalNotch = false;
+                this.flagNotch = false;
+              }
+            } else {
+                if (this.membership !== 0) {
+                  if (!this.flagNotchL) {
+                    this.additionalNotchL = true;
+                    this.flagNotchL = true;
+                    this.product.priceSaleLeft = this.product.priceSaleLeft + this.notch;
+                  }
+                } else {
+                  this.additionalNotchL = false;
+                this.flagNotchL = false;
+                }
+            }
+          }
+        }
+      }
 
+  }
   setValueEye(eye) {
-    if (eye === "right") {
+    if (eye === 'right') {
+      this.product.priceSaleRight = 0;
       this.product.eyeRight = !this.product.eyeRight;
       this.product.quantityRight = '';
       if (this.product.eyeRight) {
         this.product.quantityRight = 1;
+      } else {
+        this.clean(eye);
+        this.additionalHidrapeg = false;
+        this.additionalInserts = false;
+        this.additionalNotch = false;
+        this.additionalThickness = false;
+        this.flagThickness = false;
+        this.flagNotch = false;
+
       }
     } else {
+      this.product.priceSaleLeft = 0;
       this.product.eyeLeft = !this.product.eyeLeft;
       this.product.quantityLeft = '';
       if (this.product.eyeLeft) {
         this.product.quantityLeft = 1;
+      } else {
+        this.clean(eye);
+        this.additionalHidrapegL = false;
+        this.additionalInsertsL = false;
+        this.additionalNotchL = false;
+        this.additionalThicknessL = false;
+        this.flagThicknessL = false;
+        this.flagNotchL = false;
       }
     }
   }
@@ -196,12 +438,77 @@ export class ProductViewEuropaComponent implements OnInit {
   onSelectedClient(clienteSelect) {
     if (clienteSelect !== undefined) {
       this.client = clienteSelect.idUser;
+      this.membership = clienteSelect.membership.idMembership;
       this.findShippingAddress(this.client);
       this.definePrice(clienteSelect.membership.idMembership);
+      this.definePriceHidrapeg(this.membership);
+      this.definePriceNotch(this.membership);
+      this.definePriceTickness(this.membership);
+      this.definePriceInserts(this.membership);
+      if (this.product.eyeRight) {
+        let paramet = this.product.parametersRight;
+        let valueD = null;
+          _.each(paramet, function(productSelected) {
+            if (productSelected.name === 'Diameter (mm)') {
+                // tslint:disable-next-line:radix
+                if (productSelected.selected !== null ) {
+                  valueD = productSelected.selected;
+                }
+            }
+        });
+        if (valueD !== null) {
+          this.valueDiameter(valueD, 'right');
+        } else {
+            this.product.priceSaleRight = 0;
+            if (this.additionalInserts) {
+                this.product.priceSaleRight = this.product.priceSaleRight + this.inserts;
+            }
+            if (this.additionalHidrapeg) {
+              this.product.priceSaleRight = this.product.priceSaleRight + this.hidrapeg;
+            }
+            if (this.additionalNotch) {
+              this.product.priceSaleRight = this.product.priceSaleRight + this.notch;
+            }
+            if (this.additionalThickness) {
+              this.product.priceSaleRight = this.product.priceSaleRight + this.thickness;
+            }
+          }
+      }
+      if (this.product.eyeLeft) {
+        let paramet = this.product.parametersLeft;
+        let valueD = null;
+          _.each(paramet, function(productSelected) {
+            if (productSelected.name === 'Diameter (mm)') {
+                // tslint:disable-next-line:radix
+                if (productSelected.selected !== null ) {
+                  valueD = productSelected.selected;
+                }
+            }
+         });
+         if (valueD !== null) {
+           this.valueDiameter(valueD, 'left');
+         } else {
+            this.product.priceSaleLeft = 0;
+            if (this.additionalInsertsL) {
+                this.product.priceSaleLeft = this.product.priceSaleLeft + this.inserts;
+            }
+            if (this.additionalHidrapegL) {
+              this.product.priceSaleLeft = this.product.priceSaleLeft + this.hidrapeg;
+            }
+            if (this.additionalNotchL) {
+              this.product.priceSaleLeft = this.product.priceSaleLeft + this.notch;
+            }
+            if (this.additionalThicknessL) {
+              this.product.priceSaleLeft = this.product.priceSaleLeft + this.thickness;
+            }
+          }
+        }
     } else {
       this.client = '';
       this.product.shippingAddress = '';
-      this.product.priceSale = '';
+      this.product.priceSaleRight = 0;
+      this.product.priceSaleLeft = 0;
+      this.membership = 0;
     }
   }
 
@@ -231,13 +538,72 @@ export class ProductViewEuropaComponent implements OnInit {
   definePrice(membership) {
     switch (membership) {
       case 1:
-        this.product.priceSale = this.product.price1;
+        this.priceA = this.product.price1;
+        this.priceB = this.product.priced1;
         break;
       case 2:
-        this.product.priceSale = this.product.price2;
+        this.priceA = this.product.price2;
+        this.priceB = this.product.priced2;
         break;
       case 3:
-        this.product.priceSale = this.product.price3;
+        this.priceA = this.product.price3;
+        this.priceB = this.product.priced3;
+        break;
+    }
+  }
+
+  definePriceHidrapeg(membership) {
+    switch (membership) {
+      case 1:
+        this.hidrapeg = this.product.pricesAditionalHidrapeg.values[0].price;
+        break;
+      case 2:
+        this.hidrapeg = this.product.pricesAditionalHidrapeg.values[1].price;
+        break;
+      case 3:
+        this.hidrapeg = this.product.pricesAditionalHidrapeg.values[2].price;
+        break;
+    }
+  }
+
+  definePriceInserts(membership) {
+    switch (membership) {
+      case 1:
+        this.inserts = this.product.pricesAditionalInserts.values[0].price;
+        break;
+      case 2:
+        this.inserts = this.product.pricesAditionalInserts.values[1].price;
+        break;
+      case 3:
+        this.inserts = this.product.pricesAditionalInserts.values[2].price;
+        break;
+    }
+  }
+
+  definePriceNotch(membership) {
+    switch (membership) {
+      case 1:
+        this.notch = this.product.pricesAditionalNotch.values[0].price;
+        break;
+      case 2:
+        this.notch = this.product.pricesAditionalNotch.values[1].price;
+        break;
+      case 3:
+        this.notch = this.product.pricesAditionalNotch.values[2].price;
+        break;
+    }
+  }
+
+  definePriceTickness(membership) {
+    switch (membership) {
+      case 1:
+        this.thickness = this.product.pricesAditionalThickness.values[0].price;
+        break;
+      case 2:
+        this.thickness = this.product.pricesAditionalThickness.values[1].price;
+        break;
+      case 3:
+        this.thickness = this.product.pricesAditionalThickness.values[2].price;
         break;
     }
   }
@@ -246,14 +612,16 @@ export class ProductViewEuropaComponent implements OnInit {
     this.setEyeSelected();
     let product = this.productCopy;
     let productsSelected = this.productsSelected;
+    let signPowerLeft = this.signPowerLeft;
+    let signPowerRight = this.signPowerRight;
 
     _.each(productsSelected, function(productSelected, index) {
 
       productSelected.id = product.idProduct;
       productSelected.patient = product.patient;
-      productSelected.price = product.priceSale;
 
       if (productSelected.eye === "Right") {
+        productSelected.price = product.priceSaleRight;
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
 
@@ -266,6 +634,9 @@ export class ProductViewEuropaComponent implements OnInit {
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          if (parameter.name === "Power") {
+            product.parametersRight[index].selected = signPowerRight + parameter.selected;
+          }
         });
         productSelected.parameters = product.parametersRight;
 
@@ -282,6 +653,7 @@ export class ProductViewEuropaComponent implements OnInit {
       }
 
       if (productSelected.eye === "Left") {
+        productSelected.price = product.priceSaleLeft;
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
 
@@ -294,6 +666,9 @@ export class ProductViewEuropaComponent implements OnInit {
         /*params*/
         _.each(product.parametersLeft, function(parameter, index) {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          if (parameter.name === "Power") {
+            product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
+          }
         });
         productSelected.parameters = product.parametersLeft;
 
@@ -338,12 +713,16 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationBuyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationEuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.role = this.user.role.idRole;
+    modalRef.componentInstance.additionalHidrapeg = this.hidrapeg;
+    modalRef.componentInstance.additionalInserts = this.inserts;
+    modalRef.componentInstance.additionalNotch = this.notch;
+    modalRef.componentInstance.additionalThickness = this.thickness;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
@@ -357,19 +736,33 @@ export class ProductViewEuropaComponent implements OnInit {
     }
 
     if (this.product.eyeRight) {
-      _.each(this.product.parametersRight, function (param){
-        if (param.selected === null || param.selected === undefined) {
+      _.each(this.product.parametersRight, function (param) {
+        if (param.name === 'Notch (mm)') {
+          if (param.values[0].selected === null || param.values[1].selected === null) {
+            isValid = false;
+          }
+        } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
+      if (!this.signPowerRight) {
+        isValid = false;
+      }
     }
 
     if (this.product.eyeLeft) {
-      _.each(this.product.parametersLeft, function (param){
-        if (param.selected === null || param.selected === undefined) {
+      _.each(this.product.parametersLeft, function (param) {
+        if (param.name === 'Notch (mm)') {
+          if (param.values[0].selected === null || param.values[1].selected === null) {
+            isValid = false;
+          }
+        } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
+      if (!this.signPowerLeft) {
+        isValid = false;
+      }
     }
     return isValid;
   }
@@ -438,6 +831,200 @@ export class ProductViewEuropaComponent implements OnInit {
       this.listFileBasket.push(fileProductRequest);
     } else {
       console.log('error file');
+    }
+  }
+
+  format(value): any {
+    let flat;
+    let partInt;
+    let partDec;
+    let pos;
+    let toString;
+    if (value !== null) {
+      toString = value.toString();
+      if (_.includes(toString, '.')) {
+        pos = _.indexOf(toString, '.');
+        partInt = toString.slice( 0, pos);
+        if (partInt <= 99) {
+          partDec = toString.slice( pos + 1, toString.length);
+          flat = this.completeStart(partInt, 2) + '.' + this.completeEnd(partDec, 2);
+        } else {
+           flat = null;
+        }
+      } else {
+          if (value <= 99) {
+            flat = this.completeStart(value, 2) + '.00';
+          } else {
+            flat = null;
+          }
+      }
+      return flat;
+    }
+  }
+
+  completeStart(value, tamano): any {
+    let filteredId = value.toString();
+    filteredId = _.padStart(filteredId, tamano, '0');
+    return filteredId;
+
+  }
+
+  completeEnd(value, tamano): any {
+    let filteredId = value.toString();
+    filteredId = _.padEnd(filteredId, tamano, '0');
+    return filteredId;
+
+  }
+
+  checkAdditional(eye) {
+    let header;
+    let paramet;
+    let additionalH;
+    let additionalI;
+    let additionalN;
+    let additionalT;
+    if (eye === 'right') {
+      header = this.product.headerRight;
+      paramet = this.product.parametersRight;
+      additionalH = this.additionalHidrapeg;
+      additionalI = this.additionalInserts;
+      additionalN = this.additionalNotch;
+      additionalT = this.additionalThickness;
+    } else {
+      header = this.product.headerLeft;
+      paramet = this.product.parametersLeft;
+      additionalH = this.additionalHidrapegL;
+      additionalI = this.additionalInsertsL;
+      additionalN = this.additionalNotchL;
+      additionalT = this.additionalThicknessL;
+    }
+    let notch = this.notch;
+    let inserts = this.inserts;
+    let hidrapeg = this.hidrapeg;
+    let thickness = this.thickness;
+        // header
+          _.each(header, function(itemHeader) {
+              if (itemHeader.name === 'Hidrapeg') {
+                  if (itemHeader.selected === false || itemHeader.selected === null) {
+                    hidrapeg = 0;
+                  } else {
+                    additionalH = true;
+                  }
+              }
+              if (itemHeader.name === 'Inserts (DMV)') {
+                if (itemHeader.selected === false || itemHeader.selected === null) {
+                    inserts = 0;
+                } else {
+                  additionalI = true;
+                }
+              }
+          });
+        // parameters
+          _.each(paramet, function(productSelected) {
+              if (productSelected.name === 'Notch (mm)') {
+                  if ((productSelected.selected === null || parseFloat(productSelected.values[0].selected) === 0 )
+                      && (productSelected.selected === null || parseFloat(productSelected.values[1].selected) === 0)) {
+                      notch = 0; // No se ha sumado el adicional por Notch en el precio
+                } else {
+                  additionalN = true;
+                }
+              }
+              if (productSelected.name === 'Thickness') {
+                  // tslint:disable-next-line:radix
+                  if (parseFloat(productSelected.selected ) === 0 || productSelected.selected === null ) {
+                    thickness = 0;
+                  } else {
+                    additionalT = true;
+                  }
+              }
+          });
+      this.notch = notch;
+      this.inserts = inserts;
+      this.hidrapeg = hidrapeg;
+      this.thickness = thickness;
+      if (eye === 'right') {
+        this.additionalHidrapeg = additionalH;
+        this.additionalInserts = additionalI;
+        this.additionalNotch = additionalN;
+        this.additionalThickness = additionalT;
+      } else {
+        this.additionalHidrapegL = additionalH;
+        this.additionalInsertsL = additionalI;
+        this.additionalNotchL = additionalN;
+        this.additionalThicknessL = additionalT;
+      }
+  }
+
+  valueDiameter(value, eye) {
+    if (value === '18.0' || value === '20.0' ) {
+      if (eye === 'right') {
+        this.checkAdditional('right');
+        this.product.priceSaleRight = this.priceB + this.notch + this.thickness + this.hidrapeg + this.inserts;
+      } else {
+        this.checkAdditional('left');
+        this.product.priceSaleLeft = this.priceB + this.notch + this.thickness + this.hidrapeg + this.inserts;
+      }
+    } else {
+      if (eye === 'right') {
+       this.checkAdditional('right');
+       this.product.priceSaleRight = this.priceA + this.notch + this.thickness + this.hidrapeg + this.inserts;
+      } else {
+        this.checkAdditional('left');
+        this.product.priceSaleLeft = this.priceA + this.notch + this.thickness + this.hidrapeg + this.inserts;
+      }
+    }
+  }
+
+  clean(eye) {
+    let header;
+    let parameters;
+    let pasos;
+    if (eye === 'right') {
+     header = this.product.headerRight;
+     parameters = this.product.parametersRight;
+     pasos = this.product.pasosRight;
+    } else {
+      header = this.product.headerLeft;
+      parameters = this.product.parametersLeft;
+      pasos = this.product.pasosLeft;
+    }
+     // header
+     _.each(header, function(itemHeader) {
+        itemHeader.selected = null;
+        itemHeader.sel = null;
+      });
+    // parameter
+    _.each(parameters, function(param) {
+        if (param.name === 'Notch (mm)') {
+            param.values[0].selected = 0;
+            param.values[0].sel = 0;
+            param.values[1].selected = 0;
+            param.values[1].sel = 0;
+        } else if (param.name === 'Thickness') {
+            param.selected = 0;
+        } else {
+          param.selected = null;
+          param.sel = null;
+        }
+    });
+    // Pasos
+    _.each(pasos, function(item) {
+      _.each(item.values, function(valuesPC) {
+        _.each(valuesPC.values, function(value) {
+           value.selected = false;
+        });
+      });
+    });
+    if (eye === 'right') {
+      this.product.headerRight = header;
+      this.product.parametersRight = parameters;
+      this.product.pasosRight = pasos;
+      this.signPowerRight = null;
+    } else {
+      this.product.headerLeft = header;
+      this.product.parametersLeft = parameters;
+      this.product.pasosLeft = pasos;
+      this.signPowerLeft = null;
     }
   }
 }

@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { SupplierService } from '../../shared/services/suppliers/supplier.service';
 import { CategoryService } from '../../shared/services/category/category.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ProductService } from '../../shared/services/products/product.service';
 
 const SHOWSUPPLIERS = 'showSuppliers';
 
@@ -24,14 +25,15 @@ export class ProductsListsComponent implements OnInit {
   auxCategories: Array<any> = new Array;
   currentUser: any;
   user: any;
-
+  products: Array<any> = new Array;
   constructor(private userStorageService: UserStorageService,
               private modalService: NgbModal,
               private supplierUserService: SupplieruserService,
               public router: Router,
               private supplierService: SupplierService,
               private categoryService: CategoryService,
-              private spinner: NgxSpinnerService) {
+              private spinner: NgxSpinnerService,
+              private productService: ProductService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -45,6 +47,7 @@ export class ProductsListsComponent implements OnInit {
   }
 
   associatedSuppliers() {
+    this.spinner.show();
     this.supplierUserService
       .findIdUser$(this.currentUser.idUser)
       .subscribe(res => {
@@ -69,11 +72,13 @@ export class ProductsListsComponent implements OnInit {
             }
           });
           this.getSuppliers();
+          this.spinner.hide();
         }
       });
   }
 
   getSuppliers() {
+    this.spinner.show();
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
           this.listSupplierFilter = res.data;
@@ -90,16 +95,20 @@ export class ProductsListsComponent implements OnInit {
             this.listSupplier = supplierFiltered;
             this.listSupplierFilter = supplierFiltered;
             this.orderList();
+            this.spinner.hide();
           } else {
             this.listSupplier = this.listSupplierFilter;
             this.orderList();
+            this.spinner.hide();
           }
           this.setImageSupplier();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
@@ -142,7 +151,43 @@ export class ProductsListsComponent implements OnInit {
   }
 
   onSelectionSupplier(idSupplier) {
-   this.router.navigate(['/products/' + idSupplier + '/internal']);
+    if (this.user.role.idRole === 1) {
+      this.router.navigate(['/products/' + idSupplier + '/internal']);
+    } else {
+      switch (idSupplier) {
+        case 1: //markennovy
+        case 2: //europa
+        case 4:  //euclid
+          this.router.navigate(['/products/' + idSupplier + '/internal']);
+          break;
+        case 5: //magic look
+            this.productService.findBySupplier$(idSupplier).subscribe(res => {
+              if (res.code === CodeHttp.ok) {
+                this.products = res.data;
+                this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-magic']);
+              } else {
+                console.log(res.errors[0].detail);
+              }
+            }, error => {
+              console.log('error', error);
+              this.spinner.hide();
+            });
+          break;
+        case 6:  // Blue Light
+            this.productService.findBySupplier$(idSupplier).subscribe(res => {
+              if (res.code === CodeHttp.ok) {
+                this.products = res.data;
+                this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-blue']);
+              } else {
+                console.log(res.errors[0].detail);
+              }
+            }, error => {
+              console.log('error', error);
+              this.spinner.hide();
+            });
+          break;
+        }
+    }
   }
 
   public beforeChange($event: NgbPanelChangeEvent) {

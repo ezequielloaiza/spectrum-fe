@@ -11,8 +11,20 @@
       <li class="breadcrumb-item">
 				<a class="link" href="Javascript:void(0)" [routerLink]="['/products']"><i class="fa fa-dashboard"></i> {{ 'Products List' | translate }}</a>
 			</li>
-			<li class="breadcrumb-item active">
-				<i class="fa fa-edit"></i> {{ nameSupplier }}</li>
+			<li class="breadcrumb-item active" [hidden]="idSupplier === 1">
+        <i class="fa fa-edit"></i> {{ nameSupplier }}
+      </li>
+
+      <!--Aditionales Markennovy-->
+      <li class="breadcrumb-item active" [hidden]="idSupplier !== 1 || currentFather !== ''">
+          <i class="fa fa-edit"></i> {{ nameSupplier }}
+        </li>
+      <li class="breadcrumb-item active" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
+        <a class="link"  href="Javascript:void(0)" (click)="backToFathersHeader()"><i class="fa fa-edit"></i> {{ nameSupplier }}</a>
+      </li>
+      <li class="breadcrumb-item active" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
+        <i class="fa fa-edit"></i> {{ currentFather }}
+      </li>
 		</ol>
 	</div>
 </div>
@@ -25,35 +37,48 @@
       <form>
         <div class="row grid-space-1">
           <div class="col col-xl-12 col-lg-12 search">
-            <input type="text" class="form-control" (keyup)="filter('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
+            <input type="text" class="form-control" [hidden]="idSupplier === 1" (keyup)="filter('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
+            <input type="text" class="form-control" [hidden]="idSupplier !== 1" (keyup)="filterByFather('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
             <i class="fa fa-search"></i>
           </div>
         </div>
         <!-- end row -->
       </form>
     </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1">
+    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
       <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio1" name="customRadio" value="3" class="custom-control-input" (change)="filter('All')" checked>
+        <input type="radio" id="customRadio1" name="customRadio" value="3" class="custom-control-input" (change)="filterByFather('All')" checked>
         <label class="custom-control-label" for="customRadio1">{{ 'All' | translate }}</label>
       </div>
     </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1">
+    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
       <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio2" name="customRadio" value="0" class="custom-control-input" (change)="filter('Monthly')">
+        <input type="radio" id="customRadio2" name="customRadio" value="0" class="custom-control-input" (change)="filterByFather('Monthly')">
         <label class="custom-control-label" for="customRadio2">{{ 'Monthly' | translate }}</label>
       </div>
     </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1">
+    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
       <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio3" name="customRadio" value="1" class="custom-control-input" (change)="filter('3-Monthly')">
+        <input type="radio" id="customRadio3" name="customRadio" value="1" class="custom-control-input" (change)="filterByFather('3-Monthly')">
         <label class="custom-control-label" for="customRadio3">{{ '3-Monthly' | translate }}</label>
       </div>
     </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1">
+    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
       <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio4" name="customRadio" value="2" class="custom-control-input" (change)="filter('Conventional')">
+        <input type="radio" id="customRadio4" name="customRadio" value="2" class="custom-control-input" (change)="filterByFather('Conventional')">
         <label class="custom-control-label" for="customRadio4">{{ 'Conventional' | translate }}</label>
+      </div>
+    </div>
+    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio5" name="customRadioFathers" value="0" class="custom-control-input" (change)="backToFathers()" [checked]="currentFather !== '' ? false : true">
+        <label class="custom-control-label" for="customRadio5">{{ 'All' | translate }}</label>
+      </div>
+    </div>
+    <div class="col col-xl-4 col-lg-4 filter" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio6" name="customRadioFathers" value="1" class="custom-control-input" [checked]="currentFather !== '' ? true : false">
+        <label class="custom-control-label" for="customRadio6">{{ currentFather }}</label>
       </div>
     </div>
     <!-- end col -->
@@ -68,13 +93,29 @@
 
     <div class="col-sm-10 col-md-10 col-lg-10">
       <div class="row">
-        <div class="col-md-4 box-shadow" *ngFor="let product of products">
-          <div class="mb-4 box-shadow">
-            <img class="card-img-top" src="{{ product.mainImg }}" (click)="redirectView(product)">
-            <h4 class="product-name" (click)="redirectView(product)">
-              <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
-              {{ product.name }}
-            </h4>
+
+        <!--Only products father of Markennovy-->
+        <div [hidden]="!showFathersMarkennovy" class="col-md-4" *ngFor="let product of productsMarkennovy">
+          <div class="mb-4">
+            <div class="box-shadow">
+              <img class="card-img-top" src="{{ product.mainImg }}" (click)="redirectFather(product)">
+              <h4 class="product-name" (click)="redirectFather(product)">
+                {{ product.name }}
+              </h4>
+            </div>
+          </div>
+        </div>
+
+        <!--Products without Markennovy-->
+        <div [hidden]="showFathersMarkennovy" class="col-md-4" *ngFor="let product of products">
+          <div class="mb-4">
+            <div class="box-shadow">
+              <img class="card-img-top" src="{{ product.mainImg }}" (click)="redirectView(product)">
+              <h4 class="product-name" (click)="redirectView(product)">
+                <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
+                {{ product.name }}
+              </h4>
+            </div>
             <div class="card-body">
               <p class="card-text"> {{ product.descriptionShort }}</p>
               <div class="price-wrap h4" [hidden]="user.role.idRole!==3">

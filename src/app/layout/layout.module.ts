@@ -71,6 +71,9 @@ import { InvoiceClientService } from '../shared/services/invoiceClient/invoice-c
 import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
+import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euclid/detail-euclid.component';
+import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
+import { EuropaComponent } from './basket/edit-order/europa/europa.component';
 
 @NgModule({
     imports: [
@@ -149,7 +152,10 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
         NotificationBalanceOrderComponent,
         DetailMagicLookComponent,
         DetailMarkennovyComponent,
-        DetailBlueLightComponent
+        DetailBlueLightComponent,
+        DetailEuclidComponent,
+        DetailEuropaComponent,
+        EuropaComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -177,7 +183,10 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
       NotificationBalanceOrderComponent,
       DetailMagicLookComponent,
       DetailMarkennovyComponent,
-      DetailBlueLightComponent
+      DetailBlueLightComponent,
+      DetailEuclidComponent,
+      DetailEuropaComponent,
+      EuropaComponent
     ],
     providers: [
       BusinessTypeService,

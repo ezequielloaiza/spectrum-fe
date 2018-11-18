@@ -49,9 +49,9 @@ export class NotificationBalanceOrderComponent implements OnInit {
     if (this.user.role.idRole === 3) {
          this.message = 'It does not have the credit balance available, the order will remain pending until authorized.';
     } else if (this.user.role.idRole === 2) {
-        this.message = 'The Client does not have the available credit balance, the order will remain in pending status until authorized.';
+        this.message = 'The Customer does not have the available credit balance, the order will remain in pending status until authorized.';
     } else {
-        this.message = 'The client has no available balance.';
+        this.message = 'The Customer has no available balance.';
         this.visibleAdmin = true;
     }
   }
@@ -68,8 +68,11 @@ export class NotificationBalanceOrderComponent implements OnInit {
           });
           this.redirectListOrder();
         } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+            this.spinner.hide();
+            console.log(res);
+          });
         }
       }, error => {
         console.log('error', error);
@@ -84,8 +87,11 @@ export class NotificationBalanceOrderComponent implements OnInit {
             this.redirectListOrder();
           });
         } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+            this.spinner.hide();
+            console.log(res);
+          });
         }
       }, error => {
         console.log('error', error);

@@ -1,3 +1,4 @@
+<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
 <div class="info-breadcrumbs" *ngIf="product">
   <div class="header-body">
     <h4 class="page-header">
@@ -34,13 +35,6 @@
 
       <!-- row (properties-material-replacement-warranty-sheet) -->
       <div class="row product-info">
-        <div class="item-properties col-md-2">
-          <dt>{{ product.properties.name | translate }}</dt>
-          <p>
-            <!--<img *ngFor="let property of product.properties.values" placement="top" ngbTooltip="{{ property.title }}"
-              class="" src="{{ property.image }}" width="30" height="30">&nbsp;-->
-          </p>
-        </div>
         <div class="col-md-3">
           <dt>{{ 'Material' | translate }}</dt>
           <dd>
@@ -61,14 +55,6 @@
 
       <!-- row (pacient, client, shipping address) -->
       <div class="row product-info">
-        <!-- patient
-        <div class="col-md-3">
-          <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
-          <div class=" row col-md-12">
-            <input class="form-control" type="text" placeholder="{{ 'Introduce name patient' | translate }}"
-              [(ngModel)]="product.patient">
-          </div>
-        </div>-->
 
         <!-- client -->
         <div class="col-md-3">
@@ -118,16 +104,6 @@
               <div>
                 <label class="form-check-label">{{ parameter.values }}</label>
               </div>
-              <!-- DESCOMENTAR SI SE AGREGAN MÁS PARÁMETROS
-              <div class="selection">
-                <div *ngIf="parameter.type === 'selected'" class="select-values ">
-                  <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values"
-                    [(ngModel)]="parameter.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
-                    {{item}}
-                  </ng-select>
-                </div>
-              </div>
-              -->
             </div>
           </div>
         </div>
@@ -187,7 +163,7 @@
 
       <div class="buy-btns">
         <div>
-          <button class="btn btn-lg btn-primary btn-outline-primary text-uppercase padding-btn" (click)="formIsValid() && addToCart(2)"
+          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase padding-btn" (click)="formIsValid() && addToCart(2)"
             [disabled]="!formIsValid()">
             {{ 'Buy Now' | translate }}
           </button>

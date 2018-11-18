@@ -19,7 +19,10 @@ import { MarkennovyComponent } from '../../../edit-order/markennovy/markennovy.c
 import { DetailMagicLookComponent } from '../../../modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from '../../../modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-blue-light/detail-blue-light.component';
-
+import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euclid/detail-euclid.component';
+import { DetailEuropaComponent } from '../../../modals/detail-product/detail-europa/detail-europa.component';
+import { EuropaComponent } from '../../../edit-order/europa/europa.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-basket',
@@ -49,7 +52,8 @@ export class ListBasketComponent implements OnInit {
     private alertify: AlertifyService,
     private notification: ToastrService,
     private modalService: NgbModal,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private spinner: NgxSpinnerService) {
       this.user = JSON.parse(userService.getCurrentUser());
     }
 
@@ -58,17 +62,19 @@ export class ListBasketComponent implements OnInit {
   }
 
   getListBasket(): void {
-      this.basketService.allBasketByUser$(this.user.userResponse.idUser).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.listBasket = res.data;
-          this.listBasketAux = res.data;
-          _.each(this.listBasket, function (basket) {
-            basket.checked = false;
-            basket.supplier = basket.productRequested.product.supplier.idSupplier;
-            basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
-          });
-        }
-      });
+    this.spinner.show();
+    this.basketService.allBasketByUser$(this.user.userResponse.idUser).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listBasket = res.data;
+        this.listBasketAux = res.data;
+        _.each(this.listBasket, function (basket) {
+          basket.checked = false;
+          basket.supplier = basket.productRequested.product.supplier.idSupplier;
+          basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
+        });
+        this.spinner.hide();
+      }
+    });
   }
   borrar(id): void {
     this.basketProductRequestedService.removeById$(id).subscribe(res => {
@@ -170,7 +176,7 @@ export class ListBasketComponent implements OnInit {
           });
           break;
      case 2: // Europa
-          const modalRefEuropa = this.modalService.open(DetailProductModalComponent,
+          const modalRefEuropa = this.modalService.open(DetailEuropaComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
           modalRefEuropa.componentInstance.basket = basket;
           modalRefEuropa.result.then((result) => {
@@ -181,7 +187,7 @@ export class ListBasketComponent implements OnInit {
      case 3: // Lenticon
        break;
      case 4: // Euclid
-          const modalRefEuclid = this.modalService.open(DetailProductModalComponent,
+          const modalRefEuclid = this.modalService.open(DetailEuclidComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
           modalRefEuclid.componentInstance.basket = basket;
           modalRefEuclid.result.then((result) => {
@@ -221,7 +227,13 @@ export class ListBasketComponent implements OnInit {
         });
         break;
     case 2: // Europa
-      break;
+        const modalRefEuropa = this.modalService.open( EuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefEuropa.componentInstance.basket = basket;
+        modalRefEuropa.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
     case 3: // Lenticon
       break;
     case 4: // Euclid

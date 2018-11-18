@@ -8,6 +8,7 @@ import { UserModalComponent } from '../modals/user-modal/user-modal.component';
 import { Role } from '../../../shared/enum/role.enum';
 import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list',
@@ -29,7 +30,8 @@ export class ListUserComponent implements OnInit {
     private alertify: AlertifyService,
     private notification: ToastrService,
     private modalService: NgbModal,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getListUser(-1);
@@ -37,21 +39,27 @@ export class ListUserComponent implements OnInit {
   }
 
   getListUser(filter): void {
+    this.spinner.show();
     this.userService.findByRole$(Role.User, filter).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listUsers = res.data;
-        _.each(this.listUsers,function(user){
+        _.each(this.listUsers, function(user) {
           user.companyName = user.company.companyName;
           user.username = user.username;
           user.companyCountry = user.company.country;
         });
         this.listUsersAux = res.data;
+        this.listUsers = _.orderBy(this.listUsers, ['date'], ['desc']);
+        this.listUsersAux = _.orderBy(this.listUsersAux, ['date'], ['desc']);
         this.listUsers = this.listUsersAux.slice(0, this.itemPerPage);
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
