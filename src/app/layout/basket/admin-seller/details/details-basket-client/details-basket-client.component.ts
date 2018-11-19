@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService } from '../../../../../shared/services/basket/basket.service';
 import { BasketproductrequestedService } from '../../../../../shared/services/basketproductrequested/basketproductrequested.service';
-import { OrderService } from '../../../../../shared/services';
+import { OrderService, UserService } from '../../../../../shared/services';
 import { UserStorageService } from '../../../../../http/user-storage.service';
 import { AlertifyService } from '../../../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
@@ -51,19 +51,29 @@ export class DetailsBasketClientComponent implements OnInit {
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
     private orderService: OrderService,
-    private userService: UserStorageService,
+    private userService: UserService,
+    private userStorageService: UserStorageService,
     private alertify: AlertifyService,
     private notification: ToastrService,
     private translate: TranslateService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService) {
-      this.user = JSON.parse(userService.getCurrentUser());
+      this.user = JSON.parse(userStorageService.getCurrentUser());
     }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
+    this.getCustomer();
     this.getListBasket();
+  }
+
+  getCustomer(): void {
+    this.userService.findById$(this.id).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.customer = res.data.company.companyName;
+      }
+    });
   }
 
   getListBasket(): void {
@@ -72,7 +82,6 @@ export class DetailsBasketClientComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listBasket = res.data;
         this.listBasketAux = res.data;
-        this.customer = res.data[0].basket.user.company.companyName;
         _.each(this.listBasket, function (basket) {
           basket.checked = false;
           basket.supplier = basket.productRequested.product.supplier.idSupplier;
