@@ -634,8 +634,11 @@ export class ProductViewEuropaComponent implements OnInit {
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
-          if (parameter.name === "Power") {
+          if (parameter.name === 'Power') {
             product.parametersRight[index].selected = signPowerRight + parameter.selected;
+          }
+          if (parameter.name === 'Notch (mm)') {
+            product.parametersRight[index] = parameter.values[0].selected + 'x' + parameter.values[1].selected;
           }
         });
         productSelected.parameters = product.parametersRight;
@@ -668,6 +671,9 @@ export class ProductViewEuropaComponent implements OnInit {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
           if (parameter.name === "Power") {
             product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
+          }
+          if (parameter.name === 'Notch (mm)') {
+            product.parametersLeft[index] = parameter.values[0].selected + 'x' + parameter.values[1].selected;
           }
         });
         productSelected.parameters = product.parametersLeft;
