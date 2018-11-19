@@ -85,6 +85,19 @@
   .preview {
     margin-bottom: 20px;
   }
+
+  .padding-col{
+    padding-left: 3em;
+  }
+}
+
+.margin-col {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.ng-select{
+  width: 100%;
 }
 
 .preview-pic {
@@ -125,7 +138,7 @@
     margin-bottom: 1em;
   }
 
-  .params-left {
+ /*.params-left {
     display: flex;
 
     >div:nth-child(1) { //quantity
@@ -146,7 +159,7 @@
         }
       }
     }
-  }
+  }*/
 }
 
 .warranty {
@@ -314,4 +327,10 @@ img {
     font-size: 18px;
     font-weight: bold;
    }
+}
+
+.col-lg-2{
+  .padding-price{
+    font-weight: bold;
+  }
 }

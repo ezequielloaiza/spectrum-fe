@@ -85,6 +85,15 @@
   .preview {
     margin-bottom: 20px;
   }
+
+  .padding-col{
+    padding-left: 3em;
+  }
+}
+
+.margin-col {
+  margin-left: 1%;
+  margin-right: 1%;
 }
 
 .preview-pic {
@@ -128,6 +137,10 @@
   .quantity {
     padding-left: 3em;
   }
+}
+
+.ng-select{
+  width: 100%;
 }
 
 .product-info {
@@ -243,4 +256,9 @@ img {
 
 .custom-control-label::before {
   border: solid 1px #c3c2c2;
+}
+
+.info-content {
+  margin-left: 15px;
+  margin-bottom: 0px;
 }

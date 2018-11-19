@@ -122,7 +122,7 @@
           <div class="title">{{ 'Parameters' | translate }}</div>
           <div class="row">
             <!--quantity right-->
-            <div class="col-lg-2">
+            <div class="col-lg-2 margin-col padding-col">
               <div class="row">
                 <label class="form-check-label">{{ 'Quantity' | translate }}</label>
               </div>
@@ -134,7 +134,7 @@
             <!--params right-->
             <!--<div class="col-md-10">-->
               <!--<div class="row"> -->
-                <div  *ngFor="let parameter of product.parametersRight" class="col-lg-2">
+                <div  *ngFor="let parameter of product.parametersRight" class="col-lg-2 padding-col margin-col">
                   <div *ngIf="parameter.values && parameter.values.length > 0" >
                     <!--param name-->
                     <div class="row ">
@@ -165,7 +165,7 @@
           <div class="title">{{ 'Parameters' | translate }}</div>
           <div class="row">
             <!--quantity left-->
-            <div class="col-lg-2">
+            <div class="col-lg-2  margin-col padding-col">
               <div class="row">
                 <label class="form-check-label">{{ 'Quantity' | translate }}</label>
               </div>
@@ -177,7 +177,7 @@
             <!--params left-->
             <!--<div class="col-md-10">-->
               <!--<div class="row">-->
-                <div class="col-lg-2" *ngFor="let parameter of product.parametersLeft">
+                <div class="col-lg-2 padding-col margin-col" *ngFor="let parameter of product.parametersLeft">
                   <div *ngIf="parameter.values && parameter.values.length > 0">
                     <!--param name-->
                     <div class="row">

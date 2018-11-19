@@ -84,6 +84,11 @@
   .preview {
     margin-bottom: 20px;
   }
+
+}
+
+.ng-select{
+  width: 100%;
 }
 
 .preview-pic {
@@ -330,6 +335,10 @@ img {
   border: solid 1px #c3c2c2;
 }
 
+.custom-control-label {
+  font-size: 0.9rem;
+  padding-left: -2%;
+}
 .page-header-fixed {
   margin-left: 15px;
 }
@@ -344,7 +353,7 @@ img {
   >div:nth-child(1),
   >div:nth-child(2),
   >div:nth-child(3) {
-    padding-left: 0;
+    padding-left: 2%;
   }
 }
 
@@ -362,9 +371,9 @@ img {
   animation-name: opacity;
   -webkit-animation-duration: .3s;
   animation-duration: .6s;
-
-  >p:nth-child(1){
-    font-size: 28px;
-    font-weight: bold;
-  }
+  padding-top: 10px;
+    >p:nth-child(1){
+      font-size: 26px;
+      font-weight: bold;
+    }
 }
