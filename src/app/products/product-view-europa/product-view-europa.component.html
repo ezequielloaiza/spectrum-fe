@@ -137,11 +137,11 @@
               </div>
             </div>
             <div class="col-lg-3 prices">
-                <p>
-                  <span [hidden]="product.priceSaleRight===0">
-                    {{ product.priceSaleRight | currency : "USD $" }}
-                  </span>
-                </p>
+              <p>
+                <span [hidden]="product.priceSaleRight===0">
+                  {{ product.priceSaleRight | currency : "USD $" }}
+                </span>
+              </p>
             </div>
           </div>
 
@@ -434,12 +434,19 @@
           <br>
           <div class="row">
             <div class="comments col-md-12">
-              <!--HEADER-->
               <div class="row header">
-                <div class="col-sm-6 title">{{ 'Comments Right Eye' | translate }}</div>
-                <div class="col-sm-6 title">{{ 'Comments Left Eye' | translate }}</div>
+                <div class="col-md-6">
+                  <div class="title">{{ 'Comments Right Eye' | translate }}</div>
+                  <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsRight"
+                    [disabled]="!product.eyeRight" placeholder="{{ 'Enter right eye observations' | translate }}"></textarea>
+                </div>
+                <div class="col-md-6">
+                  <div class="title">{{ 'Comments Left Eye' | translate }}</div>
+                  <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsLeft"
+                    [disabled]="!product.eyeLeft" placeholder="{{ 'Enter left eye observations' | translate }}"></textarea>
+                </div>
               </div>
-              <!--CONTENT-->
+              <!--CONTENT
               <div class="row">
                 <div class="col-md-6">
                   <textarea style="overflow-x: hidden;" class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"
@@ -449,7 +456,7 @@
                   <textarea style="overflow-x: hidden;" class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"
                     placeholder="{{ 'Enter left eye observations' | translate }}"></textarea>
                 </div>
-              </div>
+              </div>-->
               <br>
             </div>
           </div>
@@ -462,7 +469,7 @@
                   <dt class="title">{{ 'Documents' | translate }}</dt>
                   <div class="custom-file">
                     <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader"
-                      [disabled]="uploader.queue.length > 4" multiple  />
+                      [disabled]="uploader.queue.length > 4" multiple />
                     <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
                     <div class="invalid-feedback">Example invalid custom file feedback</div>
                     <br>
@@ -477,8 +484,7 @@
                 <br>
                 <div class="col-md-12" style="margin-bottom: 40px" *ngIf="uploader.queue.length > 0">
                   <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
-                    <button type="button" class="btn btn-danger btn-s"
-                      (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                    <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
                       <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
                     </button>
                   </div>
@@ -496,8 +502,7 @@
                         <td><strong>{{ item?.file?.name }}</strong></td>
                         <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                         <td nowrap>
-                          <button type="button" class="btn btn-danger btn-xs"
-                            (click)="removeFile(item)">
+                          <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item)">
                             <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
                           </button>
                         </td>
@@ -511,16 +516,17 @@
         </div>
       </div>
       <br>
-
-      <div class="buy-btns">
-        <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase"
-          (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
-          {{ 'Buy Now' | translate }}
-        </button>
-        <button class="btn btn-lg btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(1)"
-          [disabled]="!formIsValid()">
-          <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
-        </button>
+      <div class="row">
+        <div class="col-md-12 buy-btns">
+          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
+            (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
+            {{ 'Buy Now' | translate }}
+          </button>
+          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
+            [disabled]="!formIsValid()">
+            <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
+          </button>
+        </div>
       </div>
     </div>
   </div>

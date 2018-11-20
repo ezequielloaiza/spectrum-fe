@@ -162,16 +162,14 @@
           <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{'Add Box' | translate}}" (click)="addBox()"></span>
         </div>
       </div>
-
-      <div class="buy-btns">
-        <div>
-          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase padding-btn"
+      <br>
+      <div class="row">
+        <div class="col-md-12 buy-btns">
+          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase padding-btn margin-button"
             (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
             {{ 'Buy Now' | translate }}
           </button>
-        </div>
-        <div>
-          <button class="btn btn-lg btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(1)"
+          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
             [disabled]="!formIsValid()">
             <i class="fa fa-cart-plus"></i>{{ 'Add to cart' | translate }}
           </button>

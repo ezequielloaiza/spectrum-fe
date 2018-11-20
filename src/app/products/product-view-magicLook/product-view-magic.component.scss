@@ -88,7 +88,15 @@
   .margin-col {
     margin-bottom: 2%;
   }
-  
+
+  .margin-button {
+    margin-bottom: 3%;
+  }
+
+}
+
+.margin-button {
+  margin-right: 2%;
 }
 
 .preview-pic {
@@ -201,13 +209,7 @@ img {
 }
 
 .buy-btns {
-  padding-top: 3em;
-  display: flex;
-  justify-content: flex-end;
-
-  :first-child {
-    padding-right: 1em;
-  }
+  text-align: right;
 }
 
 @-webkit-keyframes opacity {
