@@ -83,7 +83,7 @@
                   <div class="parameters">{{ "Parameters" | translate }}:</div>
               </div>
               <!--Quantity-->
-              <div class="col-sm-3">
+              <div class="col-sm-4">
                 <dl>
                   <dt>{{'Quantity'| translate}}
                   </dt>
@@ -96,7 +96,7 @@
               </div>
                <!--Fin Quantity-->
               <!--Parameters-->
-              <div class="col-sm-3" *ngFor="let parameter of product.parameters">
+              <div class="col-sm-4" *ngFor="let parameter of product.parameters">
                 <dl>
                   <dt>{{ parameter.name| translate}}</dt>
                   <dl>
@@ -125,7 +125,7 @@
                                   [clearable]="false">
                                   {{item}}
                         </ng-select>
-                        <input class="form-control col-sm-10" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                        <input class="form-control col-sm-11" type="number" placeholder="{{ parameter.placeholder | translate }}"
                                [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" min="0">
                       </div>
 
@@ -143,7 +143,7 @@
                         <input class="form-control col-sm-12" type="number" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
                               (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');">
                       </div>
-                      
+
                       <div *ngIf="parameter.type === 'selected-double'" class="select-values">
                         <div class="row selected-double">
                           <div class="col-sm-6">
