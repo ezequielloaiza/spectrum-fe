@@ -85,6 +85,24 @@
   .preview {
     margin-bottom: 20px;
   }
+  
+  .padding-col{
+    padding-left: 3em;
+  }
+
+  .margin-button {
+    margin-bottom: 3%;
+  }
+
+}
+
+.margin-button {
+  margin-right: 2%;
+}
+
+.margin-col {
+  margin-left: 1%;
+  margin-right: 1%;
 }
 
 .preview-pic {
@@ -129,7 +147,9 @@
     padding-left: 3em;
   }
 }
-
+.ng-select{
+  width: 100%;
+}
 .product-info {
   padding-top: 2em;
 

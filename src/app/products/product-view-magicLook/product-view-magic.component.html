@@ -1,4 +1,4 @@
-<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-beat"></ngx-spinner>
 <div class="info-breadcrumbs" *ngIf="product">
   <div class="header-body">
     <h4 class="page-header">
@@ -35,17 +35,17 @@
 
       <!-- row (properties-material-replacement-warranty-sheet) -->
       <div class="row product-info">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <dt>{{ 'Material' | translate }}</dt>
           <dd>
             <a>{{ product.material }}</a>
           </dd>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <dt>{{ 'Replacemente Period' | translate }}</dt>
           <p>{{ product.replacementPeriod | translate }}</p>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <dt>{{ 'Product Sheet' | translate }}</dt>
           <dd>
             <a href="{{ product.url }}" target="_blank">{{ 'Download' | translate }}</a>
@@ -57,31 +57,32 @@
       <div class="row product-info">
 
         <!-- client -->
-        <div class="col-md-3">
+        <div class="col-lg-3 margin-col">
           <dt class="title">{{ 'Customer Full Name' | translate }}</dt>
-          <div class="col-md-12 input-align" [hidden]="user.role.idRole !== 3">
-            <input class="form-control" type="text" placeholder="{{ 'Introduce name client' | translate }}"
-              [(ngModel)]="product.client" disabled required>
+          <div class="row input-align info-content" [hidden]="user.role.idRole !== 3">
+            <input class="form-control" type="text" placeholder="{{ 'Introduce name client' | translate }}" [(ngModel)]="product.client"
+              disabled required>
           </div>
-          <div class="col-md-12 input-align" [hidden]="user.role.idRole === 3">
+          <div class="row input-align info-content" [hidden]="user.role.idRole === 3">
             <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
-              [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Introduce name client' | translate }}" required>
+              [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Introduce name client' | translate }}"
+              required>
             </ng-select>
           </div>
         </div>
         <!--shipping address-->
-        <div class="col-md-6">
+        <div class="col-lg-5 margin-col">
           <span class="title">{{ 'Shipping Address' | translate }}</span>
-          <div class="row col-md-12">
+          <div class="row info-content">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected' | translate }}"
               readonly>
           </div>
         </div>
         <!--Price-->
-        <div class="col-md-3">
+        <div class="col-lg-3 margin-col">
           <h4 class="padding-price" [hidden]="(priceFrom==='' && priceUp==='') || product.priceSale !==''">
             <span>{{ priceFrom | currency : "USD $"}}{{priceFrom ? ' - ':''}}{{ priceUp | currency : "$"}}</span>
-            <span></span>
+            <!--<span></span>-->
           </h4>
           <h4 class="padding-price" [hidden]="product.priceSale===''">
             <span>{{ product.priceSale | currency : "USD $" }}</span>
@@ -91,17 +92,17 @@
 
       <!-- row (general parameters) -->
       <div class="row specifications">
-        <div class="col-md-12 title">
+        <div class="col-lg-12 title">
           <label class="form-check-label">{{ 'General Parameters' | translate }}</label>
         </div>
         <!--PARAMS-->
-        <div class="col-md-12 generals">
-          <div *ngFor="let parameter of product.parameters" class="col-md-2">
+        <div class="col-lg-12 generals">
+          <div *ngFor="let parameter of product.parameters" class="col-lg-3">
             <div *ngIf="parameter.values && parameter.values.length > 0">
               <div class="title">
                 <label class="form-check-label">{{ parameter.name | translate }}</label>
               </div>
-              <div>
+              <div class="row info-content">
                 <label class="form-check-label">{{ parameter.values }}</label>
               </div>
             </div>
@@ -113,63 +114,63 @@
       <div class="row col-md-12 specifications title">
         <label> {{ 'Please specific your product' | translate }}</label>
       </div>
-      <div class="row specifications" *ngFor="let box of boxes; let index = index">
-        <div class="col-md-1 title">
-          <label class="form-check-label">{{ 'Box' | translate }} {{ ' ' + (index+1) }}</label>
+      <div class="row specifications col-lg-12" *ngFor="let box of boxes; let index = index">
+        <div class="col-lg-1 margin-col">
+          <div class="row title">
+            <label class="form-check-label">{{ 'Box' | translate }}{{ ' ' + (index+1) }}</label>
+          </div>
         </div>
         <!--QANTITY-->
-        <div class="col-md-2">
+        <div class="col-lg-2 margin-col">
           <div class="row title">
             <label class="form-check-label">{{ 'Quantity' | translate }}</label>
           </div>
           <div class="row">
-            <input class="form-control" [ngClass]="{'error-quantity':  box.quantity && box.quantity%50 !== 0 }" type="number" step="50" min="50" [(ngModel)]="box.quantity" (change)="box.quantity%50 !== 0 ? box.quantity = '' : '';setPriceBoxes(box.quantity)" required>
+            <input class="form-control" [ngClass]="{'error-quantity':  box.quantity && box.quantity%50 !== 0 }" type="number"
+              step="50" min="50" [(ngModel)]="box.quantity" (change)="box.quantity%50 !== 0 ? box.quantity = '' : '';setPriceBoxes(box.quantity)"
+              required>
           </div>
         </div>
         <!--PARAMS-->
-        <div class="col-md-8 params">
-          <div *ngFor="let parameter of box.parameters" class="col-md-6">
-            <div *ngIf="parameter.values && parameter.values.length > 0" class="col-md-12">
-              <div class="title col-md-12">
-                <label class="form-check-label">{{ parameter.name | translate }}</label>
-              </div>
-              <div class="col-md-12">
-                <div *ngIf="parameter.type === 'selected'" class="select-values">
-                  <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.sel"
-                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" required>
-                    {{item}}
-                  </ng-select>
-                </div>
-                <div *ngIf="parameter.type === 'image'" class="select-values ">
-                  <ng-select [items]="tones[box.parameters[0].selected]" [(ngModel)]="parameter.selected" bindLabel="value"
-                    bindValue="value" placeholder="{{ 'Select value' | translate }}" [disabled]="!box.parameters[0].selected" required>
-                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                      <div class="main-info">
-                        <img height="100" width="125" [src]="item.image" class="img-color" />
-                      </div>
-                    </ng-template>
-                  </ng-select>
-                </div>
-              </div>
+        <div *ngFor="let parameter of box.parameters" class="col-lg-3 params margin-col">
+          <div *ngIf="parameter.values && parameter.values.length > 0">
+            <div class="row title">
+              <label class="form-check-label">{{ parameter.name | translate }}</label>
+            </div>
+            <div *ngIf="parameter.type === 'selected'" class="row select-values">
+              <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.sel"
+                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" required>
+                {{item}}
+              </ng-select>
+            </div>
+            <div *ngIf="parameter.type === 'image'" class="row select-values">
+              <ng-select [items]="tones[box.parameters[0].selected]" [(ngModel)]="parameter.selected" bindLabel="value"
+                bindValue="value" placeholder="{{ 'Select value' | translate }}" [disabled]="!box.parameters[0].selected"
+                required>
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <div class="main-info">
+                    <img height="100" width="125" [src]="item.image" class="img-color" />
+                  </div>
+                </ng-template>
+              </ng-select>
             </div>
           </div>
-          <hr>
+
         </div>
         <div class="col-md-1 hand-over">
           <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete Box' | translate}}" (click)="removeBox(index)"></span>
           <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{'Add Box' | translate}}" (click)="addBox()"></span>
         </div>
       </div>
-
-      <div class="buy-btns">
-        <div>
-          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase padding-btn" (click)="formIsValid() && addToCart(2)"
-            [disabled]="!formIsValid()">
+      <br>
+      <div class="row">
+        <div class="col-md-12 buy-btns">
+          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase padding-btn margin-button"
+            (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
             {{ 'Buy Now' | translate }}
           </button>
-        </div>
-        <div>
-          <button class="btn btn-lg btn-outline-primary text-uppercase" (click)="formIsValid() && addToCart(1)" [disabled]="!formIsValid()">
+          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
+            [disabled]="!formIsValid()">
             <i class="fa fa-cart-plus"></i>{{ 'Add to cart' | translate }}
           </button>
         </div>
