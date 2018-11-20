@@ -138,28 +138,6 @@
     margin-bottom: 1em;
   }
 
- /*.params-left {
-    display: flex;
-
-    >div:nth-child(1) { //quantity
-      padding-left: 2em;
-      flex-basis: 12%;
-      padding-right: 2.3em
-    }
-
-    >div:nth-child(2) { //params
-      flex-basis: 83%;
-
-      >div:nth-child(1) {
-        display: flex;
-        justify-content: space-between;
-
-        .params {
-          flex-basis: 12%;
-        }
-      }
-    }
-  }*/
 }
 
 .warranty {
@@ -315,22 +293,18 @@ img {
   margin-left: 15px;
 }
 
-.padding-price{
+.padding-price {
   padding-top: 1.1em;
+  font-weight: bold;
 }
 
-.warranty{
+.warranty {
   justify-content: flex-end;
   margin-top: 10px;
-
-   >p:nth-child(2){
+  > p:nth-child(2) {
     font-size: 18px;
-    font-weight: bold;
-   }
-}
-
-.col-lg-2{
-  .padding-price{
     font-weight: bold;
   }
 }
+
+

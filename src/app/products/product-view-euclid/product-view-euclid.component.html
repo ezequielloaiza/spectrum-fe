@@ -135,8 +135,6 @@
               </div>
             </div>
             <!--params right-->
-            <!--<div >-->
-            <!--<div class="row">-->
             <div class="col-lg-2 margin-col padding-col" *ngFor="let parameter of product.parametersRight">
               <div>
                 <!--param name-->
@@ -144,7 +142,6 @@
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
                 </div>
                 <!--param values-->
-                <!--<div class="selection">-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
                   <ng-select class="display-row" (change)="changeSelect('right', parameter, $event)" [items]="parameter.values"
                     [(ngModel)]="parameter.selected" [disabled]="!product.eyeRight" bindValue="item" placeholder="{{ 'Select value' | translate }}"
@@ -219,8 +216,6 @@
               </div>
             </div>
             <!--params left-->
-            <!--<div >-->
-            <!--<div class="row">-->
             <div class="col-lg-2 margin-col padding-col" *ngFor="let parameter of product.parametersLeft">
               <div>
                 <!--param name-->
@@ -228,7 +223,6 @@
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
                 </div>
                 <!--param values-->
-                <!--<div class="selection">-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
                   <ng-select class="display-row" (change)="changeSelect('left', parameter, $event)" [items]="parameter.values"
                     [(ngModel)]="parameter.selected" [disabled]="!product.eyeLeft" bindValue="item" placeholder="{{ 'Select value' | translate }}"
@@ -267,11 +261,9 @@
                     [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft"
                     [required]="product.eyeLeft" (change)="changeSelect('left',parameter, parameter.selected)">
                 </div>
-                <!--</div>-->
               </div>
             </div>
-            <!--</div>-->
-
+ 
             <!--prices aditional-->
             <div class="col-lg-4 margin-col padding-col">
               <div class="warranty" [hidden]="!warrantyLeft || !product.quantityLeft">
@@ -281,7 +273,6 @@
                 </p>
               </div>
             </div>
-            <!--</div>-->
           </div>
         </div>
       </div>

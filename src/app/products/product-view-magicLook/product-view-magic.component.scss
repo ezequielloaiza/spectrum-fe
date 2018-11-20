@@ -175,15 +175,6 @@
     display: flex;
   }
 
-  /*.params {
-    display: flex;
-    justify-content: space-around;
-
-    .select-values {
-      padding-left: 0px;
-    }
-  }*/
-
   .error-quantity {
     color:red;
   }
@@ -196,8 +187,6 @@
 img {
   max-width: 100%;
 }
-
-
 
 .checked,
 .price span {
@@ -220,7 +209,6 @@ img {
     padding-right: 1em;
   }
 }
-
 
 @-webkit-keyframes opacity {
   0% {
@@ -247,7 +235,6 @@ img {
     transform: scale(1);
   }
 }
-
 
 .title {
   font-weight: 600;
