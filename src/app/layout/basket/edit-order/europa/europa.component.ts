@@ -193,15 +193,17 @@ export class EuropaComponent implements OnInit {
       }
     }
     if (parameter.name === 'Thickness') {
-      if (parseFloat(value) === 0) {
-        this.flagThickness = false;
-        this.additionalThickness = false;
-        this.price = this.price - this.thickness;
-      } else {
-        if (!this.flagThickness) {
-          this.additionalThickness = true;
-          this.flagThickness = true;
-          this.price = this.price + this.thickness;
+      if (value !== null) {
+        if (parseFloat(value) === 0) {
+          this.flagThickness = false;
+          this.additionalThickness = false;
+          this.price = this.price - this.thickness;
+        } else {
+          if (!this.flagThickness) {
+            this.additionalThickness = true;
+            this.flagThickness = true;
+            this.price = this.price + this.thickness;
+          }
         }
       }
     }
