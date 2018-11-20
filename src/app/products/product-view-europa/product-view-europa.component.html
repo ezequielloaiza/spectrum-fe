@@ -429,11 +429,87 @@
               </div>
             </div>
           </div>
+
+          <!--comments-->
+          <br>
+          <div class="row">
+            <div class="comments col-md-12">
+              <!--HEADER-->
+              <div class="row header">
+                <div class="col-sm-6 title">{{ 'Comments Right Eye' | translate }}</div>
+                <div class="col-sm-6 title">{{ 'Comments Left Eye' | translate }}</div>
+              </div>
+              <!--CONTENT-->
+              <div class="row">
+                <div class="col-md-6">
+                  <textarea style="overflow-x: hidden;" class="form-control col-md-10" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"
+                    placeholder="{{ 'Enter right eye observations' | translate }}"></textarea>
+                </div>
+                <div class="col-md-6">
+                  <textarea style="overflow-x: hidden;" class="form-control col-md-10" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"
+                    placeholder="{{ 'Enter left eye observations' | translate }}"></textarea>
+                </div>
+              </div>
+              <br>
+            </div>
+          </div>
+
+          <div class="row">
+            <!--files-->
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <dt class="title">{{ 'Documents' | translate }}</dt>
+                  <div class="custom-file">
+                    <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader"
+                      [disabled]="uploader.queue.length > 4" multiple  />
+                    <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                    <div class="invalid-feedback">Example invalid custom file feedback</div>
+                    <br>
+                    <br>
+                    <div class="message-error">
+                      <span translate>{{'Max files size:' | translate}} 25MB</span>
+                      <span> / </span>
+                      <span translate>{{'Maximum files number:' | translate }} 5</span>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="col-md-12" style="margin-bottom: 40px" *ngIf="uploader.queue.length > 0">
+                  <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
+                    <button type="button" class="btn btn-danger btn-s"
+                      (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                      <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                    </button>
+                  </div>
+                  <br>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th width="50%">{{ 'Name' | translate }}</th>
+                        <th>{{ 'Size' | translate }}</th>
+                        <th>{{ 'Actions' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of uploader.queue">
+                        <td><strong>{{ item?.file?.name }}</strong></td>
+                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                        <td nowrap>
+                          <button type="button" class="btn btn-danger btn-xs"
+                            (click)="removeFile(item)">
+                            <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-
-
       <br>
 
       <div class="buy-btns">
