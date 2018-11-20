@@ -692,6 +692,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   addToCart(type) {
     this.productCopy = JSON.parse(JSON.stringify(this.product));
+    this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -708,11 +709,12 @@ export class ProductViewEuropaComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-
+    this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
   openModal(type): void {
+    debugger
     const modalRef = this.modalService.open( ConfirmationEuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
@@ -828,6 +830,7 @@ export class ProductViewEuropaComponent implements OnInit {
       fileProductRequest.type = this.uploadResult.item.file.type;
       fileProductRequest.size = this.uploadResult.item.file.size;
       fileProductRequest.createdAt = new Date();
+      debugger
       this.listFileBasket.push(fileProductRequest);
     } else {
       console.log('error file');

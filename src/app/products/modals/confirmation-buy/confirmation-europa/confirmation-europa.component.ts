@@ -74,6 +74,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   ngOnInit() {
     this.getDatos();
     this.getBalance();
+    debugger
   }
 
   close() {
@@ -135,6 +136,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   }
 
   save(): void {
+    debugger
     this.spinner.show();
     if (this.typeBuy === 1) {
       this.basketRequest.idUser = this.datos.idUser;
