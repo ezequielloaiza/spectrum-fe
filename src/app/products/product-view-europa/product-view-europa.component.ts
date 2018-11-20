@@ -714,7 +714,6 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   openModal(type): void {
-    debugger
     const modalRef = this.modalService.open( ConfirmationEuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
@@ -830,7 +829,6 @@ export class ProductViewEuropaComponent implements OnInit {
       fileProductRequest.type = this.uploadResult.item.file.type;
       fileProductRequest.size = this.uploadResult.item.file.size;
       fileProductRequest.createdAt = new Date();
-      debugger
       this.listFileBasket.push(fileProductRequest);
     } else {
       console.log('error file');
