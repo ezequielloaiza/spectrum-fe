@@ -698,6 +698,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   addToCart(type) {
     this.productCopy = JSON.parse(JSON.stringify(this.product));
+    this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -714,7 +715,7 @@ export class ProductViewEuropaComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-
+    this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
