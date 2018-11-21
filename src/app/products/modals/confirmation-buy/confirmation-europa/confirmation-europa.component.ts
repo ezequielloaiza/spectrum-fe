@@ -114,7 +114,7 @@ export class ConfirmationEuropaComponent implements OnInit {
           }
          });
         _.each(detail.parameters, function (parameters) {
-          if (parameters.name === 'Notch (mm)' && parameters.selected) {
+          if (parameters.name === 'Notch (mm)' && (parameters.selected !== '0x0')) {
             quantityNotch = quantityNotch + productRequested.quantity;
           }
           if (parameters.name === 'Thickness' && parameters.selected) {

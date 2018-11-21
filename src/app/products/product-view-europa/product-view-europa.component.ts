@@ -24,6 +24,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationEuropaComponent } from '../modals/confirmation-buy/confirmation-europa/confirmation-europa.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DEFAULT_ARIA_LIVE_DELAY } from '@ng-bootstrap/ng-bootstrap/util/accessibility/live';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -206,18 +207,22 @@ export class ProductViewEuropaComponent implements OnInit {
         } else {
           if (eye === 'right') {
             if (this.membership !== 0) {
-              this.additionalHidrapeg = false;
-              if (this.product.priceSaleRight > 0 ) {
-                this.product.priceSaleRight = this.product.priceSaleRight - this.hidrapeg;
+              if (this.additionalHidrapeg) {
+                this.additionalHidrapeg = false;
+                if (this.product.priceSaleRight > 0 ) {
+                  this.product.priceSaleRight = this.product.priceSaleRight - this.hidrapeg;
+                }
               }
             } else {
               this.additionalHidrapeg = false;
             }
           } else {
             if (this.membership !== 0) {
-              this.additionalHidrapegL = false;
-              if (this.product.priceSaleLeft > 0 ) {
-                this.product.priceSaleLeft = this.product.priceSaleLeft - this.hidrapeg;
+              if (this.additionalHidrapegL) {
+                this.additionalHidrapegL = false;
+                if (this.product.priceSaleLeft > 0 ) {
+                  this.product.priceSaleLeft = this.product.priceSaleLeft - this.hidrapeg;
+                }
               }
             } else {
               this.additionalHidrapegL = false;
@@ -245,18 +250,22 @@ export class ProductViewEuropaComponent implements OnInit {
         } else {
           if (eye === 'right') {
             if (this.membership !== 0) {
-              this.additionalInserts = false;
-              if (this.product.priceSaleRight > 0 ) {
-                this.product.priceSaleRight = this.product.priceSaleRight - this.inserts;
+              if (this.additionalInserts) {
+                this.additionalInserts = false;
+                if (this.product.priceSaleRight > 0 ) {
+                  this.product.priceSaleRight = this.product.priceSaleRight - this.inserts;
+                }
               }
             } else {
               this.additionalInserts = false;
             }
           } else {
             if (this.membership !== 0) {
-              this.additionalInsertsL = false;
-              if (this.product.priceSaleLeft > 0 ) {
-                this.product.priceSaleLeft = this.product.priceSaleLeft - this.inserts;
+              if (this.additionalInsertsL){
+                this.additionalInsertsL = false;
+                if (this.product.priceSaleLeft > 0 ) {
+                  this.product.priceSaleLeft = this.product.priceSaleLeft - this.inserts;
+                }
               }
             } else {
               this.additionalInsertsL = false;
@@ -266,21 +275,25 @@ export class ProductViewEuropaComponent implements OnInit {
       }
       if (parameter.name === 'Thickness') {
         if (parseFloat(value) !== null) {
-          if (parseFloat(value) === 0) {
+          if (parseFloat(value) === 0 || value === null) {
             if (eye === 'right') {
               if (this.membership !== 0) {
-                this.flagThickness = false;
-                this.additionalThickness = false;
-                this.product.priceSaleRight = this.product.priceSaleRight - this.thickness;
+                if (this.flagThickness) {
+                  this.flagThickness = false;
+                  this.additionalThickness = false;
+                  this.product.priceSaleRight = this.product.priceSaleRight - this.thickness;
+                }
               } else {
                  this.flagThickness = false;
                  this.additionalThickness = false;
               }
             } else {
               if (this.membership !== 0) {
-                this.flagThicknessL = false;
-                this.additionalThicknessL = false;
-                this.product.priceSaleLeft = this.product.priceSaleLeft - this.thickness;
+                if (this.flagThicknessL) {
+                  this.flagThicknessL = false;
+                  this.additionalThicknessL = false;
+                  this.product.priceSaleLeft = this.product.priceSaleLeft - this.thickness;
+                }
               } else {
                 this.flagThicknessL = false;
                 this.additionalThicknessL = false;
@@ -314,18 +327,63 @@ export class ProductViewEuropaComponent implements OnInit {
         }
       }
       if (parameter.name === 'Notch (mm)') {
-        if (parseFloat(value) !== null  && parseFloat(value2) !== null) {
-          if (parseFloat(value) === 0  &&  parseFloat(value2) === 0) {
-            if (eye === 'right') {
-              if (this.membership !== 0) {
-                if (this.flagNotch) {
-                  this.additionalNotch = false;
-                  this.flagNotch = false;
-                  this.product.priceSaleRight = this.product.priceSaleRight - this.notch;
-                }
-              } else {
+        if (eye === 'right') {
+          if ((parseFloat(value) !== 0 && value !== null) && (value2 !== null)) {
+            if (this.membership !== 0) {
+              if (!this.flagNotch) {
+                this.additionalNotch = true;
+                this.flagNotch = true;
+                this.product.priceSaleRight = this.product.priceSaleRight + this.notch;
+              }
+            } else {
                 this.additionalNotch = false;
                 this.flagNotch = false;
+            }
+          } else if (parseFloat(value) === 0 && (value2 !== null) &&  parseFloat(value2) !== 0) {
+            if (this.membership !== 0) {
+              if (!this.flagNotch) {
+                this.additionalNotch = true;
+                this.flagNotch = true;
+                this.product.priceSaleRight = this.product.priceSaleRight + this.notch;
+              }
+            } else {
+                this.additionalNotch = false;
+                this.flagNotch = false;
+            }
+          } else {
+            if (this.membership !== 0) {
+              if (this.flagNotch) {
+                this.additionalNotch = false;
+                this.flagNotch = false;
+                this.product.priceSaleRight = this.product.priceSaleRight - this.notch;
+              }
+            } else {
+                this.additionalNotch = false;
+                this.flagNotch = false;
+            }
+          }
+        } else {
+            if ((parseFloat(value) !== 0 && value !== null) && (value2 !== null)) {
+              if (this.membership !== 0) {
+                if (!this.flagNotchL) {
+                  this.additionalNotchL = true;
+                  this.flagNotchL = true;
+                  this.product.priceSaleLeft = this.product.priceSaleLeft + this.notch;
+                }
+              } else {
+                  this.additionalNotchL = false;
+                  this.flagNotchL = false;
+              }
+            } else if (parseFloat(value) === 0 && (value2 !== null) &&  parseFloat(value2) !== 0) {
+              if (this.membership !== 0) {
+                if (!this.flagNotchL) {
+                  this.additionalNotchL = true;
+                  this.flagNotchL = true;
+                  this.product.priceSaleLeft = this.product.priceSaleLeft + this.notch;
+                }
+              } else {
+                  this.additionalNotchL = false;
+                  this.flagNotchL = false;
               }
             } else {
               if (this.membership !== 0) {
@@ -335,37 +393,12 @@ export class ProductViewEuropaComponent implements OnInit {
                   this.product.priceSaleLeft = this.product.priceSaleLeft - this.notch;
                 }
               } else {
-                this.additionalNotchL = false;
-                this.flagNotchL = false;
-              }
-            }
-          } else {
-            if (eye === 'right') {
-              if (this.membership !== 0) {
-                if (!this.flagNotch) {
-                  this.additionalNotch = true;
-                  this.flagNotch = true;
-                  this.product.priceSaleRight = this.product.priceSaleRight + this.notch;
-                }
-              } else {
-                this.additionalNotch = false;
-                this.flagNotch = false;
-              }
-            } else {
-                if (this.membership !== 0) {
-                  if (!this.flagNotchL) {
-                    this.additionalNotchL = true;
-                    this.flagNotchL = true;
-                    this.product.priceSaleLeft = this.product.priceSaleLeft + this.notch;
-                  }
-                } else {
                   this.additionalNotchL = false;
-                this.flagNotchL = false;
-                }
+                  this.flagNotchL = false;
+              }
             }
-          }
         }
-      }
+    }
 
   }
   setValueEye(eye) {
@@ -638,11 +671,10 @@ export class ProductViewEuropaComponent implements OnInit {
             product.parametersRight[index].selected = signPowerRight + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
-            product.parametersRight[index] = parameter.values[0].selected + 'x' + parameter.values[1].selected;
+            product.parametersRight[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
           }
         });
         productSelected.parameters = product.parametersRight;
-
         /*steps*/
         _.each(product.pasosRight, function(PC) {
           _.each(PC.values, function(step) {
@@ -673,7 +705,7 @@ export class ProductViewEuropaComponent implements OnInit {
             product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
-            product.parametersLeft[index] = parameter.values[0].selected + 'x' + parameter.values[1].selected;
+            product.parametersLeft[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
           }
         });
         productSelected.parameters = product.parametersLeft;
