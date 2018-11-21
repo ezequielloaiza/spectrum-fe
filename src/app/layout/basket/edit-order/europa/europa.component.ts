@@ -193,11 +193,12 @@ export class EuropaComponent implements OnInit {
       }
     }
     if (parameter.name === 'Thickness') {
-      if (value !== null) {
-        if (parseFloat(value) === 0) {
-          this.flagThickness = false;
-          this.additionalThickness = false;
-          this.price = this.price - this.thickness;
+        if (parseFloat(value) === 0 || value === null) {
+          if (this.flagThickness) {
+            this.flagThickness = false;
+            this.additionalThickness = false;
+            this.price = this.price - this.thickness;
+          }
         } else {
           if (!this.flagThickness) {
             this.additionalThickness = true;
@@ -205,22 +206,25 @@ export class EuropaComponent implements OnInit {
             this.price = this.price + this.thickness;
           }
         }
-      }
     }
     if (parameter.name === 'Notch (mm)') {
-      if (value !== null  && value2 !== null) {
-        if (parseFloat(value) === 0 && parseFloat(value2) === 0) {
-            if (this.flagNotch) {
-              this.additionalNotch = false;
-              this.flagNotch = false;
-              this.price = this.price - this.notch;
-            }
-        } else {
-          if (!this.flagNotch) {
-            this.additionalNotch = true;
-            this.flagNotch = true;
-            this.price = this.price + this.notch;
-          }
+      if ((parseFloat(value) !== 0 && value !== null) && (value2 !== null)) {
+        if (!this.flagNotch) {
+          this.additionalNotch = true;
+          this.flagNotch = true;
+          this.price = this.price + this.notch;
+        }
+      } else if (parseFloat(value) === 0 && (value2 !== null) &&  parseFloat(value2) !== 0) {
+        if (!this.flagNotch) {
+          this.additionalNotch = true;
+          this.flagNotch = true;
+          this.price = this.price + this.notch;
+        }
+      } else {
+        if (this.flagNotch) {
+          this.additionalNotch = false;
+          this.flagNotch = false;
+          this.price = this.price - this.notch;
         }
       }
     }
