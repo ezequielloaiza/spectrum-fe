@@ -1,0 +1,176 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'Product Detail' | translate }}</h4>
+  <button type="button" class="close close-modal" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true"> &times; </span>
+  </button>
+</div>
+<div class="content">
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <h5>{{ 'Product Information' | translate }}</h5>
+      <div class="row">
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Name' | translate }}</label>
+            <input class="form-control" maxlength="40" placeholder="{{ 'Enter product name' | translate }}" name="name" formControlName="name"
+              required>
+          </fieldset>
+          <div class="message-error" [hidden]="name.valid || name.pristine">
+            <span>{{ 'Name is required' | translate }}</span>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Short description' | translate }}</label>
+            <input class="form-control" maxlength="40" placeholder="{{ 'Enter description' | translate }}" name="descriptionShort" formControlName="descriptionShort"
+              required>
+          </fieldset>
+          <div class="message-error" [hidden]="descriptionShort.valid || descriptionShort.pristine">
+            <span>{{ 'Short description is required' | translate }}</span>
+          </div>
+        </div>
+        <div class="col-xl-12">
+            <label>{{ 'Price Gold' | translate }}</label>
+            <br>
+            <div class="row">
+              <div class="col-xl-6">
+                  <fieldset class="form-group">
+                    <label class="label-prices">{{ 'Diameter 16.0' | translate }}</label>
+                    <div class="mb-2 mr-sm-2 mb-sm-0">
+                      <div class="form-group input-group">
+                        <div class="input-group-append">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}" name="price1"
+                          formControlName="price1">
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-xl-6">
+                  <fieldset class="form-group">
+                    <label class="label-prices">{{ 'Diameter 18.0-20.0' | translate }}</label>
+                    <div class="mb-2 mr-sm-2 mb-sm-0">
+                      <div class="form-group input-group">
+                        <div class="input-group-append">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}" name="priced1"
+                          formControlName="priced1">
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+            </div>
+            <div class="message-error" [hidden]="(price1.valid || price1.pristine) && (priced1.valid || priced1.pristine)">
+                <span>{{ 'Price Gold is required' | translate }}</span>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <label>{{ 'Price Diamond' | translate }}</label>
+            <br>
+            <div class="row">
+              <div class="col-xl-6">
+                  <fieldset class="form-group">
+                    <label class="label-prices">{{ 'Diameter 16.0' | translate }}</label>
+                    <div class="mb-2 mr-sm-2 mb-sm-0">
+                      <div class="form-group input-group">
+                        <div class="input-group-append">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}" name="price2"
+                          formControlName="price2">
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-xl-6">
+                  <fieldset class="form-group">
+                    <label class="label-prices">{{ 'Diameter 18.0-20.0' | translate }}</label>
+                    <div class="mb-2 mr-sm-2 mb-sm-0">
+                      <div class="form-group input-group">
+                        <div class="input-group-append">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}" name="priced2"
+                          formControlName="priced2">
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+            </div>
+            <div class="message-error" [hidden]="(price2.valid || price2.pristine) && (priced2.valid || priced2.pristine)">
+              <span>{{ 'Price Diamond is required' | translate }}</span>
+            </div>
+        </div>
+        <div class="col-xl-12">
+          <label>{{ 'Price Preferred' | translate }}</label>
+          <br>
+          <div class="row">
+            <div class="col-xl-6">
+                <fieldset class="form-group">
+                  <label class="label-prices">{{ 'Diameter 16.0' | translate }}</label>
+                  <div class="mb-2 mr-sm-2 mb-sm-0">
+                    <div class="form-group input-group">
+                      <div class="input-group-append">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}" name="price3"
+                        formControlName="price3">
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-xl-6">
+                <fieldset class="form-group">
+                  <label class="label-prices">{{ 'Diameter 18.0-20.0' | translate }}</label>
+                  <div class="mb-2 mr-sm-2 mb-sm-0">
+                    <div class="form-group input-group">
+                      <div class="input-group-append">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}" name="priced3"
+                        formControlName="priced3">
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+          </div>
+          <div class="message-error" [hidden]="(price3.valid || price3.pristine) && (priced3.valid || priced3.pristine)">
+            <span>{{ 'Price Preferred is required' | translate }}</span>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Status' | translate }}</label>
+            <div class="status">
+              <div>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="customRadio1" name="status" class="custom-control-input" (click)="assignStatus(0)" [checked]="(product.status === 0) ? true : false">
+                  <label class="custom-control-label" for="customRadio1">{{ 'Inactive' | translate }}</label>
+                </div>
+              </div>
+              <div>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="customRadio2" name="status" class="custom-control-input" (change)="assignStatus(1)" [checked]="(product.status === 1) ? true : false">
+                  <label class="custom-control-label" for="customRadio2">{{ 'Active' | translate }}</label>
+                </div>
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="dismiss()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>
