@@ -563,8 +563,12 @@ export class ProductViewEuropaComponent implements OnInit {
 
   setPrice() {
     if (this.user.role.idRole === 3) {
-      const membership = this.currentUser.membership.idMembership;
-       this.definePrice(membership);
+       this.membership = this.currentUser.membership.idMembership;
+       this.definePrice(this.membership);
+       this.definePriceHidrapeg(this.membership);
+       this.definePriceNotch(this.membership);
+       this.definePriceTickness(this.membership);
+       this.definePriceInserts(this.membership);
     }
   }
 
