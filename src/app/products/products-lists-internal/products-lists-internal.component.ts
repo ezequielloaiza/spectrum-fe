@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EditProductMagicLookComponent } from '../modals/edit-product/edit-product-magic-look/edit-product-magic-look.component';
 import { EditProductEuclidComponent } from '../modals/edit-product/edit-product-euclid/edit-product-euclid.component';
+import { EditProductEuropaComponent } from '../modals/edit-product/edit-product-europa/edit-product-europa.component';
 
 @Component({
   selector: 'app-products-lists-internal',
@@ -223,64 +224,85 @@ export class ProductsListInternalComponent implements OnInit {
 
   redirectView(product) {
     switch (product.supplier.idSupplier) {
-      case 1: //markennovy
+      case 1: // markennovy
         this.router.navigate(['/products/' + product.idProduct + '/product-view']);
         break;
-      case 2: //europa
+      case 2: // europa
         this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
         break;
-      case 4:  //euclid
+      case 4:  // euclid
         this.router.navigate(['/products/' + product.idProduct + '/product-view-euclid']);
         break;
-      case 5: //magic look
+      case 5: // magic look
         this.router.navigate(['/products/' + product.idProduct + '/product-view-magic']);
         break;
-      case 6:  //magic blue
+      case 6:  // magic blue
         this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
         break;
     }
   }
 
   open(product, action) {
-    if (product.supplier.idSupplier !== 5 && product.supplier.idSupplier !== 4) {
-      const modalRef = this.modalService.open(EditProductComponent, {
-        size: 'lg',
-        windowClass: 'modal-content-border'
-      });
-      modalRef.componentInstance.product = product;
-      modalRef.componentInstance.action = action;
-      modalRef.result.then(
-        (result) => {
-          this.getProducts();
-        },
-        (reason) => {}
-      );
-    } else if (product.supplier.idSupplier === 4) {
-      const modalRef = this.modalService.open(EditProductEuclidComponent, {
-        size: 'lg',
-        windowClass: 'modal-content-border'
-      });
-      modalRef.componentInstance.product = product;
-      modalRef.componentInstance.action = action;
-      modalRef.result.then(
-        (result) => {
-          this.getProducts();
-        },
-        (reason) => {}
-      );
-    } else if (product.supplier.idSupplier === 5) {
-      const modalRef = this.modalService.open(EditProductMagicLookComponent, {
-        size: 'lg',
-        windowClass: 'modal-content-border'
-      });
-      modalRef.componentInstance.product = product;
-      modalRef.componentInstance.action = action;
-      modalRef.result.then(
-        (result) => {
-          this.getProducts();
-        },
-        (reason) => {}
-      );
+    const  idSupplier = product.supplier.idSupplier;
+    switch (idSupplier) {
+      case 1: // Markennovy
+      case 3: // Lenticon
+      case 6: // Blue Light
+            const modalRefGeneral = this.modalService.open(EditProductComponent, {
+              size: 'lg',
+              windowClass: 'modal-content-border'
+            });
+            modalRefGeneral.componentInstance.product = product;
+            modalRefGeneral.componentInstance.action = action;
+            modalRefGeneral.result.then(
+              (result) => {
+                this.getProducts();
+              },
+              (reason) => {}
+            );
+            break;
+      case 2: // Europa
+            const modalRefEuropa = this.modalService.open(EditProductEuropaComponent, {
+              size: 'lg',
+              windowClass: 'modal-content-border'
+            });
+            modalRefEuropa.componentInstance.product = product;
+            modalRefEuropa.componentInstance.action = action;
+            modalRefEuropa.result.then(
+              (result) => {
+                this.getProducts();
+              },
+              (reason) => {}
+            );
+            break;
+      case 4: // Euclid
+            const modalRefEuclid = this.modalService.open(EditProductEuclidComponent, {
+              size: 'lg',
+              windowClass: 'modal-content-border'
+            });
+            modalRefEuclid.componentInstance.product = product;
+            modalRefEuclid.componentInstance.action = action;
+            modalRefEuclid.result.then(
+              (result) => {
+                this.getProducts();
+              },
+              (reason) => {}
+            );
+            break;
+      case 5: // Magic Look
+            const modalRefMagic = this.modalService.open(EditProductMagicLookComponent, {
+              size: 'lg',
+              windowClass: 'modal-content-border'
+            });
+            modalRefMagic.componentInstance.product = product;
+            modalRefMagic.componentInstance.action = action;
+            modalRefMagic.result.then(
+              (result) => {
+                this.getProducts();
+              },
+              (reason) => {}
+            );
+            break;
     }
   }
 
