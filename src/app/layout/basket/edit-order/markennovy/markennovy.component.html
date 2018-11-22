@@ -34,9 +34,12 @@
               <dt>{{'Price'| translate}}
               </dt>
               <dl>
-                <div>
-                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
-                    name="price1">
+                <div class="form-group input-group">
+                    <div class="input-group-append">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input class="form-control" type="number" step=1 min="1" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
+                        name="price1">
                 </div>
               </dl>
             </dl>
