@@ -119,9 +119,7 @@
             <div class="card-body">
               <p class="card-text"> {{ product.descriptionShort }}</p>
               <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
-                <!--<del class="price-base">${{ product.priceBase }}</del>&nbsp;-->
-                <span [hidden]="product.supplier.idSupplier === 5" class="price-new">{{ product.priceSale | currency : "USD $" }}</span>
-                <span [hidden]="product.supplier.idSupplier !== 5" class="price-new">{{ priceFrom | currency : "USD $"}}{{priceFrom ? ' - ':''}}{{ priceUp | currency : "$"}}</span>
+                <span [hidden]="product.supplier.idSupplier === 2" class="price-new">{{ product.priceSale | currency : "USD $" }}</span>
               </div>
               <div class="product-btns">
                 <div class="btn-group">
