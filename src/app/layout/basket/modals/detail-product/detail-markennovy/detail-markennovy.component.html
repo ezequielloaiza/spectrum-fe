@@ -67,7 +67,10 @@
             <dl>
               <dt>{{'Comments'| translate}}
               </dt>
-              <dl>
+              <dl class="comment" *ngIf="productRequested.observations ==='' || productRequested.observations ===null">
+                <span translate>{{'No comments' | translate}}</span>
+              </dl>
+              <dl *ngIf="productRequested.observations !==''">
                 <span style="overflow-x: hidden;"> {{ productRequested.observations }}</span>
               </dl>
             </dl>
