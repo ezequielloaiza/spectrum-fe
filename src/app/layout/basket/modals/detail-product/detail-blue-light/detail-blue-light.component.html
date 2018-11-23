@@ -21,8 +21,8 @@
           <dl>
             <dt>{{ productRequested.patient }}</dt>
           </dl>
-          <dl class="param">
-            <dt>{{ productRequested.price * productRequested.quantity | currency : "USD $" }}</dt>
+          <dl>
+            <dt>{{ subtotal | currency : "USD $" }}</dt>
           </dl>
         </div>
       </div>
@@ -32,7 +32,7 @@
           <div class="col-sm-3">
             <dl class="align-item">
               <dt>{{ 'Quantity' | translate }}</dt>
-              <hr>
+              <hr class="separators">
               <dt>
                 <span class="items"> {{ productRequested.quantity }}</span>
               </dt>
@@ -41,7 +41,7 @@
           <div class="col-sm-3" *ngFor="let parameter of detail.parameters">
             <dl class="align-item">
               <dt>{{parameter.name | translate }}</dt>
-              <hr>
+              <hr class="separators">
               <dt>
                 <span class="items"> {{parameter.selected}}</span>
               </dt>

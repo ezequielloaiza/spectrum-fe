@@ -22,7 +22,7 @@
           <dl>
             <dt>{{ namePatient}}</dt>
           </dl>
-          <dl class="param">
+          <dl>
             <dt>{{ price | currency : "USD $" }}</dt>
           </dl>
         </div>
@@ -33,7 +33,7 @@
           <div class="col-sm-3">
             <dl class="align-item">
               <dt>{{ 'Quantity' | translate }}</dt>
-              <hr>
+              <hr class="separators">
               <dt>
                 <span class="items"> {{ list.quantity }}</span>
               </dt>
@@ -42,7 +42,7 @@
           <div class="col-sm-3" *ngFor="let parameter of list.detail[0].parameters">
             <dl class="align-item">
               <dt>{{parameter.name | translate }}</dt>
-              <hr>
+              <hr class="separators">
               <dt>
                 <span class="items"> {{parameter.selected}}</span>
               </dt>

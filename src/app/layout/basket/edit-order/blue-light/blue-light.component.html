@@ -24,8 +24,8 @@
       </div>
       <!--PARAMETERS-->
       <div class="col-lg-12 label-title">
-        <div class="row padding-params display-price" [hidden]="!editPrice">
-          <div class="col-sm-3">
+        <div class="row padding-params">
+          <div class="col-sm-3" [hidden]="!editPrice">
             <dl class="align-item">
               <dt>{{'Price'| translate}}
               </dt>
@@ -37,8 +37,6 @@
               </dl>
             </dl>
           </div>
-        </div>
-        <div class="row padding-params">
           <div class="col-sm-3">
             <dl>
               <dt>{{'Quantity'| translate}}
