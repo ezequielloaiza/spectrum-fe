@@ -86,6 +86,9 @@ export class ConfirmationMarkennovyComponent implements OnInit {
     _.each(this.listBasket, function (productRequested) {
       priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
       patient = productRequested.patient;
+      if (productRequested.observations === undefined) {
+        productRequested.observations = '';
+      }
       let details = JSON.parse(productRequested.detail);
       _.each(details, function (detail) {
         eyesSelected.push(detail.eye);
