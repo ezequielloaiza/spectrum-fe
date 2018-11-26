@@ -51,7 +51,7 @@
   }
 
   .eye-info {
-    color:#868e96;
+    color: $color-gray;
     padding: 0 2em;
   }
 
@@ -60,7 +60,7 @@
   }
 
   .items{
-     color:#868e96;
+     color: $color-gray;
    }
 
    .comments{
@@ -68,7 +68,7 @@
   }
 
   .separators {
-    border-top: 1.5px solid rgba(0, 0, 0, 0.1);
+    border-top: 1.5px solid $color-separator;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
   }
@@ -78,7 +78,7 @@
   }
 
   .comment{
-    color:#868e96;
+    color: $color-gray;
     padding: 0 1.5em;
   }
 }

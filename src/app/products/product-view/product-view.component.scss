@@ -33,7 +33,7 @@
   padding: 10px 40px 10px 40px;
 
   .card {
-    background: #ffffff;
+    background: $bg-detalle-product;
     padding: 3em;
     line-height: 1.5em;
 
@@ -158,6 +158,11 @@
       width: 30px;
       cursor: pointer;
     }
+  }
+
+  .padding-price {
+    padding-top: 1.1em;
+    font-weight: bold;
   }
 }
 
