@@ -86,8 +86,8 @@
         <div class="col-lg-3">
           <dt class="title">{{ 'Customer Full Name' | translate }}</dt>
           <div class="row info-content " [hidden]="user.role.idRole !== 3">
-            <input class="form-control" type="text" placeholder="{{ 'Enter customer patient' | translate }}"
-              [(ngModel)]="product.client" disabled>
+            <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}"
+              [(ngModel)]="product.client" disabled required>
           </div>
           <div class="row info-content " [hidden]="user.role.idRole === 3">
             <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"

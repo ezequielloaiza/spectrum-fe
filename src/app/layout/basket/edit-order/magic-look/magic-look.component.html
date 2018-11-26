@@ -38,6 +38,7 @@
             <div *ngFor="let parameter of product.parameters">
               <div class="align-item" *ngIf="parameter.values && parameter.values.length > 0  && parameter.name!=='Tone' && parameter.name!=='Color'">
                 <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                <br>
                 <label class="form-check-label">{{ parameter.selected }}</label>
                 <!--<div *ngIf="parameter.type === 'selected' && parameter.name!=='Tone'">
                     <ng-select [items]="parameter.values" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
