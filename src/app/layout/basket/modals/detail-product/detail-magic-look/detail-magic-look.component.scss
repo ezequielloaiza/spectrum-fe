@@ -52,7 +52,7 @@
 
   .items{
    font-weight:0px;
-    color: $color-gray;
+    color: $secondary-info;
 
   }
 
@@ -61,6 +61,6 @@
   }
 
   .separators {
-    border-top: 1.5px solid $color-separator;
+    border-top: 1.5px solid $info-separator;
   }
 }

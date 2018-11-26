@@ -51,7 +51,7 @@
   }
 
   .eye-info {
-    color: $color-gray;
+    color: $secondary-info;
     padding: 0 2em;
   }
 
@@ -60,7 +60,7 @@
   }
 
   .items{
-     color: $color-gray;
+     color: $secondary-info;
    }
 
    .comments{
@@ -68,7 +68,7 @@
   }
 
   .separators {
-    border-top: 1.5px solid $color-separator;
+    border-top: 1.5px solid $info-separator;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
   }
@@ -78,7 +78,7 @@
   }
 
   .comment{
-    color: $color-gray;
+    color: $secondary-info;
     padding: 0 1.5em;
   }
 }

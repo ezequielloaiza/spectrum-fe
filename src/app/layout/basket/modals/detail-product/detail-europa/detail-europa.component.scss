@@ -31,7 +31,7 @@
     padding:  0 1em 1em;
 
     .parameters{
-      color: $color-gray;
+      color: $secondary-info;
       margin-left: 1.8rem;
       margin-bottom: 0.1rem;
       font-weight: 600;
@@ -47,12 +47,12 @@
 
     .name-parameters{
       padding-left: 1rem;
-      color: $color-gray;
+      color: $secondary-info;
       padding-top: 0.5rem;
     }
 
     .comment{
-      color: $color-gray;
+      color: $secondary-info;
       padding: 0 1.5em;
     }
   }
@@ -78,7 +78,7 @@
   }
 
   .eye-info {
-    color: $color-gray;
+    color: $secondary-info;
     padding: 0 2em 1em;
     text-align: center;
   }
@@ -88,7 +88,7 @@
   }
 
   .items{
-     color:$color-gray;
+     color:$secondary-info;
    }
 
    .comments{
@@ -96,7 +96,7 @@
   }
 
   .separators {
-    border-top: 1.5px solid $color-separator;
+    border-top: 1.5px solid $info-separator;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
   }
