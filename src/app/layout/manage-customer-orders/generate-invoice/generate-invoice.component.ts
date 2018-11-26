@@ -10,7 +10,7 @@ import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
 import * as _ from 'lodash';
 import { InvoiceSupplierProductRequested } from '../../../shared/models/invoicesupplierproductrequested';
 import { UserStorageService } from '../../../http/user-storage.service';
-import { InvoiceService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
+import { InvoiceSupplierService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -35,7 +35,7 @@ export class GenerateInvoiceComponent implements OnInit {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private invoiceService: InvoiceService,
+    private invoiceService: InvoiceSupplierService,
     private spinner: NgxSpinnerService
   ) {}
 

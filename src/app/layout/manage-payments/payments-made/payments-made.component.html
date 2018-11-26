@@ -62,7 +62,7 @@
                 <span class="font-weight-bold">{{'Totals' | translate }}:</span>&nbsp;
                 <br>
                 <span class="font-weight-bold">{{'Amount Due' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.amountDue : '1000' | currency : "USD $" }} }}</span>
+                <span>{{ invoice ? invoice.amountDue : '1000' | currency : "USD $" }}</span>
                 <br>
                 <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
                 <span>{{ invoice ? invoice.subTotal : '500' | currency : "USD $" }}</span>
@@ -79,7 +79,7 @@
           <div class="align-self-center">
             {{ 'All payments' | translate }}
           </div>
-          <button type="button" class="btn btn-main" (click)="openModal()">{{ 'Add' | translate }}
+          <button type="button" class="btn btn-main" (click)="openModal(invoice)">{{ 'Add' | translate }}
             <i class="fa fa-plus"></i>
           </button>
         </div>

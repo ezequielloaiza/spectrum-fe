@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
-import { InvoiceService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
+import { InvoiceSupplierService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { GenerateInvoiceComponent } from '../../manage-customer-orders/generate-invoice/generate-invoice.component';
@@ -34,7 +34,7 @@ export class PaymentsMadeComponent implements OnInit {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private invoiceService: InvoiceService,
+    private invoiceService: InvoiceSupplierService,
     public router: Router) { }
 
   ngOnInit() {
@@ -63,8 +63,9 @@ export class PaymentsMadeComponent implements OnInit {
     );
   }
 
-  openModal(): void {
+  openModal(invoice): void {
     const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg'});
+    modalRef.componentInstance.invoice = invoice;
     modalRef.result.then((result) => {
     }, (reason) => {
     });
@@ -116,8 +117,8 @@ export class PaymentsMadeComponent implements OnInit {
   }
   open(invoice) {
     this.router.navigate(['/payments/' + invoice.idInvoice + '/paymentsMade']);
-    debugger
-    /*
+    /*debugger
+    
     const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.invoice = invoice;
     modalRef.componentInstance.order = invoice.order;
