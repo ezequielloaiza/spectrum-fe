@@ -23,7 +23,7 @@
           <dl>
             <dt>{{ namePatient}}</dt>
           </dl>
-          <dl class="param">
+          <dl>
             <dt>{{ price | currency : "USD $" }}</dt>
           </dl>
         </div>
@@ -65,7 +65,10 @@
                 <dl>
                   <dt>{{'Comments'| translate}}
                   </dt>
-                  <dl>
+                  <dl class="comment" *ngIf="list.observations === '' || list.observations === null">
+                    <span translate>{{'No comments' | translate}}</span>
+                  </dl>
+                  <dl *ngIf="list.observations !== ''">
                     <span style="overflow-x: hidden;"> {{ list.observations }}</span>
                   </dl>
                 </dl>
