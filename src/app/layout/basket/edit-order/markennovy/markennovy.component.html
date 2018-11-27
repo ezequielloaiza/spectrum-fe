@@ -18,7 +18,7 @@
         <div class="col-lg-12 title label-title patient-info">
           <span>{{ 'Patient' | translate }}</span>
           <div class="col-lg-12 main-info">
-            <input class="form-control main-info" type="text" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient">
+            <input class="form-control main-info" type="text" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient" required>
           </div>
         </div>
         <div class="col-lg-12 title eye-info">
@@ -33,9 +33,12 @@
               <dt>{{'Price'| translate}}
               </dt>
               <dl>
-                <div>
-                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
-                    name="price1">
+                <div class="form-group input-group">
+                    <div class="input-group-append">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input class="form-control" type="number" step=1 min="1" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
+                        name="price1">
                 </div>
               </dl>
             </dl>
@@ -45,8 +48,8 @@
               <dt>{{'Quantity'| translate}}
               </dt>
               <dl>
-                <div>
-                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="quantity" oninput="validity.valid||(value='');">
+                <div class="row">
+                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="quantity" oninput="validity.valid||(value='');" required>
                 </div>
               </dl>
             </dl>
@@ -58,13 +61,13 @@
                 <dt>
                   <div *ngIf="parameter.type === 'selected' && parameter.name !=='Dominancia'">
                     <ng-select class="display-row" [items]="parameter.values" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-                      placeholder="{{ 'Select value' | translate }}">
+                      placeholder="{{ 'Select value' | translate }}" required>
                       {{item}}
                     </ng-select>
                   </div>
                   <div *ngIf="parameter.type === 'input'" class="separator">
                     <input class="form-control col-sm-12" type="number" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
-                      oninput="validity.valid||(value='');">
+                      oninput="validity.valid||(value='');" required>
                   </div>
                 </dt>
               </dl>
