@@ -15,7 +15,7 @@
             <option *ngFor="let type of listTypes" value="{{type.id}}">{{ type.name | translate }}</option>
           </select>
         </fieldset>
-        <div class="message-error" [hidden]="typeId.valid || typeId.pristine">
+        <div class="message-error" [hidden]="typeId !== undefined">
           <span>{{ 'Payment Type is required' | translate }}</span>
         </div>
       </div>
@@ -31,7 +31,7 @@
             </div>
           </div>
         </fieldset>
-        <div class="message-error" [hidden]="fechaSelec.valid || fechaSelec.pristine">
+        <div class="message-error" [hidden]="fechaSelec !== undefined">
           <span>{{'Date is required' | translate }}</span>
         </div>
       </div>
@@ -40,7 +40,7 @@
           <label>{{ 'Bank Name' | translate }}</label>
           <input class="form-control" placeholder="{{ 'Enter bank name' | translate }}" [(ngModel)]="invoicePayment.bank" name="bank" >
         </fieldset>
-        <div class="message-error" [hidden]="bank.valid || bank.pristine">
+        <div class="message-error" [hidden]="bank !== undefined">
           <span>{{'Bank name is required' | translate }}</span>
         </div>
       </div>
@@ -49,7 +49,7 @@
           <label>{{ 'Reference Number' | translate }}</label>
           <input class="form-control" placeholder="{{ 'Enter reference number' | translate }}" name="referenceNumber" [(ngModel)]="invoicePayment.referenceNumber" >
         </fieldset>
-        <div class="message-error" [hidden]="referenceNumber.valid || referenceNumber.pristine">
+        <div class="message-error" [hidden]="referenceNumber !== undefined">
           <span>{{'Reference number is required' | translate }}</span>
         </div>
       </div>
@@ -64,7 +64,7 @@
             name="amount" >
           </div>
         </fieldset>
-        <div class="message-error" [hidden]="amount.valid || amount.pristine">
+        <div class="message-error" [hidden]="amount !== undefined">
           <span>{{'Amount is required' | translate }}</span>
         </div>
       </div>

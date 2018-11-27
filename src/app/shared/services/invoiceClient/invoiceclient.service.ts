@@ -14,6 +14,10 @@ export class InvoiceClientService {
     return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceByOrder/' + id);
   }
 
+  public findInvoice$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/findInvoiceById/' + id);
+  }
+
   public allInvoiceByStatus$(status): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceByStatus/' + status);
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { FileProductRequested } from '../../../../../shared/models/fileproductrequested';
 import { environment } from '../../../../../../environments/environment';
@@ -33,15 +34,16 @@ export class AddPaymentModalComponent implements OnInit {
                                                     removeAfterUpload: false,
                                                     autoUpload: false});
 
-  constructor(public modalReference: NgbActiveModal,
+  constructor(private route: ActivatedRoute,
+    public modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
     private invoicePaymentService: InvoicePaymentService, 
     private translate: TranslateService,
     private notification: ToastrService) { }
 
   ngOnInit() {
-    console.log(this.invoice);
     this.invoicePayment.idInvoiceClient = this.invoice.idInvoice;
+    console.log(this.invoice);
   }
 
   save(): void {

@@ -32,43 +32,43 @@
             <!--Invoice data-->
             <div class="col-md-4">
               <span class="font-weight-bold">{{'Status' | translate }}:</span>&nbsp;
-              <span>{{ invoice ? invoice.status : 'Paid' }}</span>
+              <span>{{ invoice ? getStatus(invoice.status) : '' }}</span>
               <br>
               <span class="font-weight-bold">{{'Invoice number' | translate }}:</span>&nbsp;
-              <span>{{ invoice ? invoice.number : '234342324' }}</span>
+              <span>{{ invoice ? invoice.number : '' }}</span>
               <br>
               <span class="font-weight-bold">{{'Date' | translate }}:</span>&nbsp;
-              <span>{{ invoice ? invoice.dueDate : '24242423' | date:'yyyy-MM-dd'}}</span>
+              <span>{{ (invoice ? invoice.date : '') | date:'yyyy-MM-dd'}}</span>
               <br>
               <span class="font-weight-bold">{{'Due Date' | translate }}:</span>&nbsp;
-              <span>{{ invoice ? invoice.dueDate : '24242423' | date:'yyyy-MM-dd'}}</span>
+              <span>{{ (invoice ? invoice.dueDate : '') | date:'yyyy-MM-dd'}}</span>
             </div>
             <!--Customer data-->
             <div class="col-md-4">
                 <span class="font-weight-bold">{{'Customer' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.name : 'Juan Garcia' }}</span>
+                <span>{{ invoice ? invoice.user.name : '' }}</span>
                 <br>
                 <span class="font-weight-bold">{{'Address' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.address : 'Barquisimeto Estado Lara' }}</span>
+                <span>{{ invoice ? invoice.user.address : '' }}</span>
                 <br>
                 <span class="font-weight-bold">{{'Email' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.email : 'juan@gmail.com' }}</span>
+                <span>{{ invoice ? invoice.user.email : '' }}</span>
                 <br>
                 <span class="font-weight-bold">{{'Phone' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.phone : '+58415465456468' }}</span>
+                <span>{{ invoice ? invoice.user.phone : '' }}</span>
             </div>
             <!--Totals data-->
             <div class="col-md-4">
                 <span class="font-weight-bold">{{'Totals' | translate }}:</span>&nbsp;
                 <br>
                 <span class="font-weight-bold">{{'Amount Due' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.amountDue : '1000' | currency : "USD $" }}</span>
+                <span>{{ (invoice ? invoice.due : '') | currency : "USD $" }}</span>
                 <br>
                 <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.subTotal : '500' | currency : "USD $" }}</span>
+                <span>{{ (invoice ? invoice.subtotal : '') | currency : "USD $" }}</span>
                 <br>
                 <span class="font-weight-bold">{{'Total' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.total : '1500' | currency : "USD $" }}</span>
+                <span>{{ (invoice ? invoice.total : '') | currency : "USD $" }}</span>
             </div>
           </div>
           <br><br>

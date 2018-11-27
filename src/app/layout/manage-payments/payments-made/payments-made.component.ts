@@ -3,13 +3,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
-import { InvoiceSupplierService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { GenerateInvoiceComponent } from '../../manage-customer-orders/generate-invoice/generate-invoice.component';
-import { OrderService } from '../../../shared/services';
+import { OrderService, InvoiceClientService, InvoicePaymentService } from '../../../shared/services';
 import { saveAs } from 'file-saver';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AddPaymentModalComponent } from './modals/add-payment-modal/add-payment-modal.component';
 
 @Component({
@@ -28,16 +27,21 @@ export class PaymentsMadeComponent implements OnInit {
   itemPerPage: number = 5;
   order: any;
 
-  constructor(private orderService: OrderService,
+  constructor(private route: ActivatedRoute,
+    private orderService: OrderService,
     private modalService: NgbModal,
     private notification: ToastrService,
     private translate: TranslateService,
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private invoiceService: InvoiceSupplierService,
+    private invoiceService: InvoiceClientService,
+    private invoicePaymentService: InvoicePaymentService,
     public router: Router) { }
 
   ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('idInvoice');
+    this.getInvoice(id);
+    console.log(this.invoice);
     this.getListInvoices();
     this.advancedPagination = 1;
   }
@@ -46,6 +50,32 @@ export class PaymentsMadeComponent implements OnInit {
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
     this.listInvoices = this.listInvoicesAux.slice(startItem, endItem);
+  }
+
+  getInvoice(id): void {
+    this.invoiceService.findInvoice$(id).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          this.invoice = res.data;
+        } else {
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    );
+  }
+
+  getStatus(id) {
+    switch (id) {
+      case 0 :
+        return 'Unpaid';
+      case 1 :
+        return 'Part paid';
+      case 2 :
+        return 'Paid';
+    }
   }
 
   getListInvoices(): void {
