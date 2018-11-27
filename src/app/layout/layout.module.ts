@@ -70,9 +70,6 @@ import { NotificationBalanceOrderComponent } from './notification/notification-b
 import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
-import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euclid/detail-euclid.component';
-import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
-import { EuropaComponent } from './basket/edit-order/europa/europa.component';
 
 @NgModule({
     imports: [
@@ -151,10 +148,7 @@ import { EuropaComponent } from './basket/edit-order/europa/europa.component';
         NotificationBalanceOrderComponent,
         DetailMagicLookComponent,
         DetailMarkennovyComponent,
-        DetailBlueLightComponent,
-        DetailEuclidComponent,
-        DetailEuropaComponent,
-        EuropaComponent
+        DetailBlueLightComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -182,10 +176,7 @@ import { EuropaComponent } from './basket/edit-order/europa/europa.component';
       NotificationBalanceOrderComponent,
       DetailMagicLookComponent,
       DetailMarkennovyComponent,
-      DetailBlueLightComponent,
-      DetailEuclidComponent,
-      DetailEuropaComponent,
-      EuropaComponent
+      DetailBlueLightComponent
     ],
     providers: [
       BusinessTypeService,

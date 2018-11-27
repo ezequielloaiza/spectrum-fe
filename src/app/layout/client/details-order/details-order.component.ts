@@ -7,7 +7,6 @@ import * as _ from 'lodash';
 import { ProductoimageService } from '../../../shared/services/productoimage/productoimage.service';
 import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
 import { saveAs } from 'file-saver';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-details-order',
@@ -28,8 +27,7 @@ export class DetailsOrderComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
     public productImageService: ProductoimageService,
-    private fileProductRequestedService: FileProductRequestedService,
-    private spinner: NgxSpinnerService) { }
+    private fileProductRequestedService: FileProductRequestedService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -44,7 +42,7 @@ export class DetailsOrderComponent implements OnInit {
   }
 
   getOrder(idOrder): void {
-    this.spinner.show();
+
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
@@ -59,7 +57,6 @@ export class DetailsOrderComponent implements OnInit {
         });
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
-        this.spinner.hide();
       }
     });
   }

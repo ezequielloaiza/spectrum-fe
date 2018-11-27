@@ -19,34 +19,25 @@
           <!--PARAM NAME-->
           <div class="col-sm-3 title" [hidden]="!editPrice">
             <div class="label-title separator">
-              <label class="form-check-label">{{ 'Price' | translate }}</label>
+              <label class="form-check-label">{{ 'Price' | translate }}:</label>
             </div>
             <div [hidden]="!editPrice">
-              <div class="form-group input-group">
-                  <div class="input-group-append">
-                    <span class="input-group-text">$</span>
-                  </div>
-                  <input type="number" class="form-control col-sm-11" placeholder="{{ 'Enter price' | translate }}" name="price1"
-                    [(ngModel)]="price">
-              </div>
+              <input type="number" class="form-control col-sm-11" placeholder="{{ 'Enter price' | translate }}" name="price1"
+                [(ngModel)]="price">
             </div>
           </div>
           <div class="col-sm-3 title">
             <div class="label-title separator">
-              <label class="form-check-label">{{ 'Total Quantity' | translate }}</label>&nbsp;&nbsp;
+              <label class="form-check-label">{{ 'Total Quantity' | translate }}:</label>&nbsp;&nbsp;
             </div>
             <div>
-              <input class="form-control" type="number" step=1 min="1" [disabled]='true' [(ngModel)]="quantity" oninput="validity.valid||(value='');" required>
+              <input class="form-control" type="number" step=1 min="1" [disabled]='true' [(ngModel)]="quantity" oninput="validity.valid||(value='');">
             </div>
           </div>
           <div class="col-sm-6 title display-row spec-params label-title">
             <div *ngFor="let parameter of product.parameters">
               <div class="align-item" *ngIf="parameter.values && parameter.values.length > 0  && parameter.name!=='Tone' && parameter.name!=='Color'">
-                <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
-<<<<<<< HEAD
-                <br>
-=======
->>>>>>> 826268b11e6d976d8834fced08a07967f91f0de3
+                <label class="form-check-label">{{ parameter.name | translate }}:</label>&nbsp;&nbsp;
                 <label class="form-check-label">{{ parameter.selected }}</label>
                 <!--<div *ngIf="parameter.type === 'selected' && parameter.name!=='Tone'">
                     <ng-select [items]="parameter.values" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
@@ -71,7 +62,7 @@
                   <dt>
                     <div>
                       <input class="form-control col-sm-11" type="number" step="50" min="50" (change)="changeQuantity(parameter.id, $event)"
-                        [(ngModel)]="parameter.quantitySelected" required>
+                        [(ngModel)]="parameter.quantitySelected">
                     </div>
                   </dt>
                 </dl>
@@ -84,7 +75,7 @@
                   <dt>
                     <div>
                       <ng-select class="display-row" (change)="changeTono(parameter.id, parameter, $event)" [items]="parameter.values"
-                        [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" required>
+                        [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
                         {{item}}
                       </ng-select>
                     </div>
@@ -99,7 +90,7 @@
                   <dt>
                     <div>
                       <ng-select class="display-row" [items]="parameter.color" [(ngModel)]="parameter.colorSelected" bindLabel="value"
-                        bindValue="value" placeholder="{{ 'Select value' | translate }}" placement="top-right" required>
+                        bindValue="value" placeholder="{{ 'Select value' | translate }}" placement="top-right">
                         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                           <div style="text-align: center">
                             <img height="100" width="125" [src]="item.image" />

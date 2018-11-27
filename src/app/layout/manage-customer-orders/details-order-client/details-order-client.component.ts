@@ -15,7 +15,6 @@ import { Product } from '../../../shared/models/product';
 import { saveAs } from 'file-saver';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { CompanyService } from '../../../shared/services';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-details-order-client',
@@ -42,8 +41,7 @@ export class DetailsOrderClientComponent implements OnInit {
     private alertify: AlertifyService,
     private modalService: NgbModal,
     private companyService: CompanyService,
-    private userStorageService: UserStorageService,
-    private spinner: NgxSpinnerService) {
+    private userStorageService: UserStorageService) {
         this.user = JSON.parse(userStorageService.getCurrentUser());
      }
 
@@ -60,7 +58,6 @@ export class DetailsOrderClientComponent implements OnInit {
   }
 
   getOrder(idOrder): void {
-    this.spinner.show();
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.order = res.data;
@@ -77,7 +74,6 @@ export class DetailsOrderClientComponent implements OnInit {
         });
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
-        this.spinner.hide();
       }
     });
   }

@@ -6,22 +6,3 @@
 .align-item{
   text-align: center !important;
 }
-
-.item{
-  color: #868e96;
-}
-
-.separators {
-  border-top: 1.5px solid rgba(0, 0, 0, 0.1);
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.step-values {
-  >div:nth-child(2) {
-    padding-right: 0;
-  }
-  >div:nth-child(3) {
-   padding-left: 0; 
-  }
-}

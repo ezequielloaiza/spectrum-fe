@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { GenerateInvoiceComponent } from '../generate-invoice/generate-invoice.component';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-order-client',
@@ -44,8 +43,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private route: ActivatedRoute,
-    private router: Router,
-    private spinner: NgxSpinnerService) {
+    private router: Router) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
@@ -74,7 +72,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   getListOrders(): void {
-    this.spinner.show();
+
     if (this.user.role.idRole === 2) {
       this.orderService.findOrdersClientBySeller$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -85,7 +83,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
               listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
             });
           });
-          this.spinner.hide();
         }
       });
     } else if (this.user.role.idRole === 1) {
@@ -99,7 +96,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
               listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
             });
           });
-          this.spinner.hide();
         }
       });
     }
@@ -171,7 +167,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       if (_.toString(valorStatus) === '' && this.tamano.length === 9) { // Si no ha seleccionado status y fecha
         this.listOrders = this.listOrders.filter((item) => {
           return ((item.nameUser.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-                 (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
                  (item.supplier.companyName.toLowerCase().indexOf(val.toLowerCase()) > -1));
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
@@ -212,7 +207,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-       (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) ||
+       (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) ||
        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) &&
        // tslint:disable-next-line:radix
        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
@@ -226,7 +221,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const lista = [];
     _.filter(this.listOrdersAux, function (orders) {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-       (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) &&
        // tslint:disable-next-line:radix
        (_.isEqual(parseInt(status), orders.paymentStatus))) {
@@ -245,7 +239,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-      (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
       (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) &&
       ((_.isEqual(fecha, fechaList)))) {
         lista.push(orders);

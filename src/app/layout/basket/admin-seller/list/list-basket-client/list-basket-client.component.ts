@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CodeHttp } from '../../../../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../../../../http/user-storage.service';
 import { BasketService } from '../../../../../shared/services/basket/basket.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-basket-client',
@@ -17,8 +16,7 @@ export class ListBasketClientComponent implements OnInit {
   itemPerPage = 5;
   user: any;
   constructor(private basket: BasketService,
-    private userService: UserStorageService,
-    private spinner: NgxSpinnerService) {
+    private userService: UserStorageService) {
       this.user = JSON.parse(userService.getCurrentUser());
     }
 
@@ -28,13 +26,11 @@ export class ListBasketClientComponent implements OnInit {
   }
 
   getBasket() {
-    this.spinner.show();
     if (this.user.role.idRole === 2) {
       this.basket.findBasketClientBySeller$().subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listBasket = res.data;
           this.listBasketAux = res.data;
-          this.spinner.hide();
         }
       });
     } else if (this.user.role.idRole === 1) {
@@ -42,7 +38,6 @@ export class ListBasketClientComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listBasket = res.data;
           this.listBasketAux = res.data;
-          this.spinner.hide();
         }
       });
     }

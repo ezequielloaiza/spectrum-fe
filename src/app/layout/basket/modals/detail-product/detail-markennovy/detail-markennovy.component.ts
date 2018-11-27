@@ -14,7 +14,6 @@ export class DetailMarkennovyComponent implements OnInit {
   productRequested: any;
   product: any;
   detail: any;
-  subtotal: any;
 
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
@@ -25,7 +24,6 @@ export class DetailMarkennovyComponent implements OnInit {
     this.productRequested = this.basket.productRequested;
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
-    this.subtotal = this.productRequested.price * this.productRequested.quantity;
   }
 
   close() {

@@ -201,7 +201,7 @@ export class MagicLookComponent implements OnInit {
         });
         this.close();
       } else {
-        console.log(res);
+        console.log(res.errors[0].detail);
       }
     }, error => {
       console.log('error', error);

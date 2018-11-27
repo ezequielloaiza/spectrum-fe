@@ -187,7 +187,7 @@ a:link {
         color: gray;
 
         div:last-child {
-          font-weight: 600;
+          color: #ffc107; font-weight: 600;
         }
       }
 
@@ -196,7 +196,7 @@ a:link {
       }
 
       div:nth-child(4) > div {
-        font-weight: 600;
+        color: #ffc107; font-weight: 600;
       }
     }
   }

@@ -95,7 +95,7 @@ export class MarkennovyComponent implements OnInit {
         });
         this.close();
       } else {
-        console.log(res);
+        console.log(res.errors[0].detail);
       }
     }, error => {
       console.log('error', error);
@@ -110,7 +110,7 @@ export class MarkennovyComponent implements OnInit {
            valido = false;
           }
      });
-     if (this.quantity === null  || this.price === null || !this.patient) {
+     if (this.quantity === null  || this.price === null) {
           valido = false;
      }
      return valido;

@@ -6,7 +6,6 @@ import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { StatusOrder } from '../../../shared/enum/status-order.enum';
 import * as _ from 'lodash';
 import { NgbDateAdapter, NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-list-order',
@@ -34,8 +33,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   constructor(private orderService: OrderService,
               private userService: UserStorageService,
               private route: ActivatedRoute,
-              private router: Router,
-              private spinner: NgxSpinnerService) {
+              private router: Router) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
@@ -63,7 +61,6 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   }
 
   getListOrders(): void {
-    this.spinner.show();
     this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, this.status).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
@@ -73,7 +70,6 @@ export class ListOrderComponent implements OnInit, OnDestroy {
             listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
           });
         });
-        this.spinner.hide();
       }
       this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
     });

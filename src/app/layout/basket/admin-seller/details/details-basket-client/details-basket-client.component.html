@@ -1,4 +1,3 @@
-<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
 <div class="row page-header-fixed">
   <div class="header-body">
     <h4 class="page-header">
@@ -25,9 +24,6 @@
         <div class="card-header">
           <div class="align-self-center">
             {{ 'All Basket' | translate }}
-          </div>
-          <div class="align-self-rigth">
-            {{ 'Customer' | translate }}: {{customer}}
           </div>
         </div>
 
@@ -72,7 +68,7 @@
                     <div class="col-lg-4">
                       <span>{{ basket.date | date:'yyyy-MM-dd' }}</span>
                     </div>
-                    <div class="col-lg-6 actions">
+                    <div class="col-lg-7 actions">
                       <i class="fa fa-eye" (click)="openParams(basket)" placement="top" ngbTooltip="{{ 'View' | translate }}"></i>
                       <i class="fa fa-edit" (click)="openEdit(basket)" placement="top" ngbTooltip="{{ 'Edit' | translate }}"></i>
                       <i class="fa fa-trash" (click)="delete(basket.idBasketProductRequested)" placement="top" ngbTooltip="{{ 'Delete' | translate }}"></i>
@@ -92,11 +88,11 @@
                         <br>
                         <div *ngIf="basket.supplier !==5">
                           <div class="row info">
-                            <div class="col-lg-6 width-50">
+                            <div class="col-lg-6">
                               <span class="title">{{ 'Patient' | translate }}</span>
                               <span>{{ basket.productRequested.patient }}</span>
                             </div>
-                            <div class="col-lg-6 width-50">
+                            <div class="col-lg-6">
                               <span class="title">{{ 'Eye' | translate }}</span>
                               <span>{{ basket.productRequested.detail[0].eye | translate }}</span>
                             </div>
@@ -121,15 +117,15 @@
                         <br>
                         <hr class="separators">
                         <div class="row info">
-                          <div class="col-lg-3 width-30">
+                          <div class="col-lg-3">
                             <span class="select-all font-title">{{ 'Quantity' | translate }}</span>
                             <span class="font-item">{{ basket.productRequested.quantity }}</span>
                           </div>
-                          <div class="col-lg-4 details width-30">
+                          <div class="col-lg-4 details">
                             <span class="select-all font-title">{{ 'Price' | translate }}</span>
                             <span class="font-item">{{ basket.productRequested.price | currency : "USD $" }}</span>
                           </div>
-                          <div class="col-lg-5 width-30">
+                          <div class="col-lg-5">
                             <span class="select-all font-title">{{ 'Subtotal' | translate }}</span>
                             <div class="price font-item">
                               <span>{{ basket.productRequested.price * basket.productRequested.quantity | currency : "USD $" }}</span>

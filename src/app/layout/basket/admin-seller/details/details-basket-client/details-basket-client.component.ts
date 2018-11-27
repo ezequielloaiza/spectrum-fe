@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService } from '../../../../../shared/services/basket/basket.service';
 import { BasketproductrequestedService } from '../../../../../shared/services/basketproductrequested/basketproductrequested.service';
-import { OrderService, UserService } from '../../../../../shared/services';
+import { OrderService } from '../../../../../shared/services';
 import { UserStorageService } from '../../../../../http/user-storage.service';
 import { AlertifyService } from '../../../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
@@ -21,10 +21,6 @@ import { DetailMagicLookComponent } from '../../../modals/detail-product/detail-
 import { DetailMarkennovyComponent } from '../../../modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-blue-light/detail-blue-light.component';
 import { debug } from 'util';
-import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euclid/detail-euclid.component';
-import { DetailEuropaComponent } from '../../../modals/detail-product/detail-europa/detail-europa.component';
-import { EuropaComponent } from '../../../edit-order/europa/europa.component';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-details-basket-client',
@@ -46,52 +42,36 @@ export class DetailsBasketClientComponent implements OnInit {
     value2 : 'NO'
   };
   checkedAll: any;
-  customer: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
     private orderService: OrderService,
-    private userService: UserService,
-    private userStorageService: UserStorageService,
+    private userService: UserStorageService,
     private alertify: AlertifyService,
     private notification: ToastrService,
     private translate: TranslateService,
     private route: ActivatedRoute,
-    private modalService: NgbModal,
-    private spinner: NgxSpinnerService) {
-      this.user = JSON.parse(userStorageService.getCurrentUser());
+    private modalService: NgbModal) {
+      this.user = JSON.parse(userService.getCurrentUser());
     }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    this.getCustomer();
     this.getListBasket();
   }
 
-  getCustomer(): void {
-    this.userService.findById$(this.id).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.customer = res.data.company.companyName;
-      }
-    });
-  }
-
   getListBasket(): void {
-    this.spinner.show();
-    this.basketService.allBasketByUser$(this.id).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.listBasket = res.data;
-        this.listBasketAux = res.data;
-        _.each(this.listBasket, function (basket) {
-          basket.checked = false;
-          basket.supplier = basket.productRequested.product.supplier.idSupplier;
-          basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
-        });
-        this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
-        this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
-        this.spinner.hide();
-      }
-    });
+      this.basketService.allBasketByUser$(this.id).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.listBasket = res.data;
+          this.listBasketAux = res.data;
+          _.each(this.listBasket, function (basket) {
+            basket.checked = false;
+            basket.supplier = basket.productRequested.product.supplier.idSupplier;
+            basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
+          });
+        }
+      });
   }
   borrar(id): void {
     this.basketProductRequestedService.removeById$(id).subscribe(res => {
@@ -193,7 +173,7 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
      case 2: // Europa
-          const modalRefEuropa = this.modalService.open(DetailEuropaComponent,
+          const modalRefEuropa = this.modalService.open(DetailProductModalComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
           modalRefEuropa.componentInstance.basket = basket;
           modalRefEuropa.result.then((result) => {
@@ -204,7 +184,7 @@ export class DetailsBasketClientComponent implements OnInit {
      case 3: // Lenticon
        break;
      case 4: // Euclid
-          const modalRefEuclid = this.modalService.open(DetailEuclidComponent,
+          const modalRefEuclid = this.modalService.open(DetailProductModalComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
           modalRefEuclid.componentInstance.basket = basket;
           modalRefEuclid.result.then((result) => {
@@ -244,13 +224,7 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
      case 2: // Europa
-          const modalRefEuropa = this.modalService.open( EuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
-          modalRefEuropa.componentInstance.basket = basket;
-          modalRefEuropa.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
+       break;
      case 3: // Lenticon
        break;
      case 4: // Euclid
