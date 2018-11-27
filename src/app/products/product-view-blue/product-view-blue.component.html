@@ -27,9 +27,6 @@
           <!-- name-price -->
           <div class="main-info">
             <!--<h4 class="product-title">{{ product.name }}</h4>-->
-            <h1 class="price" [hidden]="product.priceSale===''">
-              <span>{{ product.priceSale | currency : "USD $" }}</span>
-            </h1>
           </div>
           <!-- image -->
           <div class="preview-pic tab-content main-info">
@@ -96,12 +93,18 @@
           </div>
         </div>
         <!--shipping address-->
-        <div class="col-lg-6">
+         <!--shipping address-->
+        <div class="col-lg-4">
           <span class="title">{{ 'Shipping Address' | translate }}</span>
-          <div class="row info-content">
+          <div class="row info-content ">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
               readonly>
           </div>
+        </div>
+        <div class="col-lg-2">
+          <h5 class="padding-price" [hidden]="product.priceSale === ''">
+            <span>{{ product.priceSale | currency : "USD $" }}</span>
+          </h5>
         </div>
       </div>
 
