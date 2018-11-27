@@ -8,12 +8,12 @@
     width: 100%;
     background: $bg-white;
     box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
-  
+
     .link {
       color: $bg-blue;
       padding-left: 0px;
     }
-  
+
     .breadcrumb {
       background-color: transparent;
       border-radius: 0px;
@@ -22,7 +22,7 @@
       padding-top: 0px;
       padding-bottom: 0px;
     }
-  
+
     h4 {
       padding-left: 15px;
     }
@@ -33,7 +33,7 @@
   padding: 10px 40px 10px 40px;
 
   .card {
-    background: #fbfbfb;
+    background: $bg-product-detail;
     padding: 2em;
     line-height: 1.5em;
 
@@ -55,7 +55,7 @@
     display: flex;
     margin-bottom: 10px;
   }
-  
+
 }
 
 .tab-content {
@@ -90,7 +90,7 @@
   .padding-col{
     padding-left: 3em;
   }
-  
+
   .margin-button {
     margin-bottom: 3%;
   }
@@ -139,7 +139,7 @@
 
 .header-params {
   padding-left: 1em;
-  
+
   .custom-control {
     margin-bottom: 1em;
   }
