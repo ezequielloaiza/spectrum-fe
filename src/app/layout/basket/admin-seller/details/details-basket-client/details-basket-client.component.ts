@@ -87,6 +87,8 @@ export class DetailsBasketClientComponent implements OnInit {
           basket.supplier = basket.productRequested.product.supplier.idSupplier;
           basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
         });
+        this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
+        this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.spinner.hide();
       }
     });
