@@ -13,7 +13,7 @@ this.products = [
     "stock": 10,
     "types": [
       {
-        "name": "",
+        "name": "T.F",
         "header": [
           { "name": "Contamac", "type":"selected", "values": [ "Extra", "Xtreme" ], "selected": null },
           { "name": "Hidrapeg", "type":"selected", "values": [ "Yes", "No" ], "selected": null },
