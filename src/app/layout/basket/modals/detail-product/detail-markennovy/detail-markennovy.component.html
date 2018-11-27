@@ -27,8 +27,7 @@
           </dl>
         </div>
         <div class="col-lg-12 title eye-info">
-          <span>{{ 'Eye' | translate }}</span>&nbsp;&nbsp;
-          <span>{{ detail.eye | translate }}</span>
+          <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
         </div>
       </div>
       <!--PARAMETERS-->
@@ -67,7 +66,10 @@
             <dl>
               <dt>{{'Comments'| translate}}
               </dt>
-              <dl>
+              <dl class="comment" *ngIf="productRequested.observations === '' || productRequested.observations === null">
+                <span translate>{{'No comments' | translate}}</span>
+              </dl>
+              <dl *ngIf="productRequested.observations !== '' ">
                 <span style="overflow-x: hidden;"> {{ productRequested.observations }}</span>
               </dl>
             </dl>
