@@ -19,7 +19,7 @@
           <div class="col-lg-12 title label-title patient-info">
             <span>{{ 'Patient' | translate }}</span>
             <div class="col-lg-12 main-info">
-              <input class="form-control main-info" type="text" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient">
+              <input class="form-control main-info" type="text" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient" required>
             </div>
           </div>
           <div class="col-lg-12 title eye-info">
@@ -54,7 +54,7 @@
                         <ng-select class="display-row" [items]="parameter.values" [(ngModel)]="parameter.selected"
                                     bindValue="item" placeholder="{{ 'Select value' | translate }}"
                                     (change)="changeSelect(parameter, parameter.selected,0)"
-                                    [clearable]="false">
+                                    [clearable]="false" required>
                           <ng-template ng-label-tmp let-item="item">
                             <div class="supplier-body">
                               <span>{{ item | translate }}</span>
@@ -77,7 +77,7 @@
         <div class="col-lg-12 label-title">
             <div class="row padding-params">
               <div class="col-sm-12">
-                  <div class="parameters">{{ "Parameters" | translate }}:</div>
+                  <div class="parameters">{{ "Parameters" | translate }}</div>
               </div>
               <!--Quantity-->
               <div class="col-sm-4">
@@ -86,7 +86,7 @@
                   </dt>
                   <dl>
                     <div>
-                      <input [disabled]="true" class="form-control" type="number" step=1 min="1" [(ngModel)]="quantity" oninput="validity.valid||(value='');">
+                      <input [disabled]="true" class="form-control" type="number" step=1 min="1" [(ngModel)]="quantity" oninput="validity.valid||(value='');" required>
                     </div>
                   </dl>
                 </dl>
@@ -102,7 +102,7 @@
                         <ng-select class="display-row" [items]="parameter.values" [(ngModel)]="parameter.selected"
                                     bindValue="item" placeholder="{{ 'Select value' | translate }}"
                                     (change)="changeSelect(parameter, parameter.selected,0)"
-                                    [clearable]="false">
+                                    [clearable]="false" required>
                           <ng-template ng-label-tmp let-item="item">
                             <div class="supplier-body">
                               <span>{{ item | translate }}</span>
@@ -119,26 +119,26 @@
                       <!--Only Power-->
                       <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-12 param-power">
                         <ng-select class="selected-power" [items]="['+', '-']" [(ngModel)]="signPower" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
-                                  [clearable]="false">
+                                  [clearable]="false" required>
                                   {{item}}
                         </ng-select>
                         <input class="form-control col-sm-11" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                               [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" min="0">
+                               [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" min="0" required>
                       </div>
 
                       <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve (d)'" class="separator">
                         <input class="form-control col-sm-12" type="number" min="00.00" step="00.01" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
-                               (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');">
+                               (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');" required>
                       </div>
 
                       <div *ngIf="parameter.type === 'input' && parameter.name === 'Thickness'" class="separator">
                         <input class="form-control col-sm-12" type="number" step="0.01" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
-                              (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');">
+                              (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');" required>
                       </div>
 
                       <div *ngIf="parameter.type === 'input' && parameter.name !== 'Base Curve (d)' && parameter.name !== 'Power' && parameter.name !== 'Thickness'" class="separator">
                         <input class="form-control col-sm-12" type="number" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
-                              (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');">
+                              (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');" required>
                       </div>
 
                       <div *ngIf="parameter.type === 'selected-double'" class="select-values">
@@ -146,12 +146,12 @@
                           <div class="col-sm-6">
                             <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
                                     [(ngModel)]="parameter.values[0].selected" step="0.01" oninput="validity.valid||(value='');"
-                                    (change)="changeSelect(parameter, parameter.values[0].selected,parameter.values[1].selected)">
+                                    (change)="changeSelect(parameter, parameter.values[0].selected,parameter.values[1].selected)" required>
                           </div>
                           <div class="col-sm-6">
                             <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
                                     [(ngModel)]="parameter.values[1].selected" step="0.01" oninput="validity.valid||(value='');"
-                                    (change)="changeSelect(parameter, parameter.values[1].selected,parameter.values[0].selected)">
+                                    (change)="changeSelect(parameter, parameter.values[1].selected,parameter.values[0].selected)" required>
                           </div>
                         </div>
                       </div>

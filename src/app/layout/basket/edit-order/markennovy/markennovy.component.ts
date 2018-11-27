@@ -110,7 +110,7 @@ export class MarkennovyComponent implements OnInit {
            valido = false;
           }
      });
-     if (this.quantity === null  || this.price === null) {
+     if (this.quantity === null  || this.price === null || !this.patient) {
           valido = false;
      }
      return valido;
