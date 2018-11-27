@@ -56,8 +56,15 @@
 
   }
 
-  .param{
-    color: #f8ac59;
+  .separators {
+    border-top: 1.5px solid $info-separator;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .eye-info {
+    color: $secondary-info;
+    padding: 0 2em;
   }
 
 }
