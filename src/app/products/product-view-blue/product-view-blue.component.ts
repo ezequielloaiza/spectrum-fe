@@ -165,10 +165,16 @@ export class ProductViewBlueComponent implements OnInit {
   }*/
 
   setValueEye(eye) {
-    if (eye === "right") {
+    if (eye === 'right') {
       this.product.eyeRight = !this.product.eyeRight;
+      if (!this.product.eyeRight) {
+        this.clean('right');
+      }
     } else {
       this.product.eyeLeft = !this.product.eyeLeft;
+      if (!this.product.eyeLeft) {
+        this.clean('left');
+      }
     }
   }
 
@@ -403,6 +409,28 @@ export class ProductViewBlueComponent implements OnInit {
       this.listFileBasket.push(fileProductRequest);
     } else {
       console.log('error file');
+    }
+  }
+
+  clean(eye) {
+    let parameters;
+    if (eye === 'right') {
+      parameters = this.product.parametersRight;
+      this.product.quantityRight = '';
+
+    } else {
+      parameters = this.product.parametersLeft;
+      this.product.quantityLeft = '';
+    }
+    // parameter
+    _.each(parameters, function(param) {
+          param.selected = null;
+          param.sel = null;
+    });
+    if (eye === 'right') {
+      this.product.parametersRight = parameters;
+    } else {
+      this.product.parametersLeft = parameters;
     }
   }
 }
