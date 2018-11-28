@@ -1026,10 +1026,12 @@ export class ProductViewEuropaComponent implements OnInit {
      header = this.product.headerRight;
      parameters = this.product.parametersRight;
      pasos = this.product.pasosRight;
+     this.product.observationsRight = '';
     } else {
       header = this.product.headerLeft;
       parameters = this.product.parametersLeft;
       pasos = this.product.pasosLeft;
+      this.product.observationsLeft = '';
     }
      // header
      _.each(header, function(itemHeader) {
