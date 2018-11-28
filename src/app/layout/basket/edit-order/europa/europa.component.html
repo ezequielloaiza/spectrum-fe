@@ -160,7 +160,7 @@
                 </dl>
               </div>
                <!--Fin parameters-->
-               <div class="col-md-12" *ngIf="additionalInserts || additionalHidrapeg || additionalNotch || additionalThickness">
+               <div class="col-md-12" *ngIf="additionalInserts || additionalHidrapeg || additionalNotch">
                 <!-- Warning Warranty -->
                 <div class="message-error">
                   <br>
@@ -170,8 +170,8 @@
                   <span *ngIf="additionalInserts">{{'Inserts (DMV)' | translate}}:{{ inserts | currency : " USD $" }}</span>&nbsp;
                   <span  *ngIf="(additionalInserts || additionalHidrapeg) && additionalNotch">|</span>
                   <span *ngIf="additionalNotch">{{'Notch (mm)' | translate}}:{{ notch | currency : " USD $" }}</span>&nbsp;
-                  <span  *ngIf="(additionalHidrapeg || additionalInserts || additionalNotch) && additionalThickness">|</span>
-                  <span *ngIf="additionalThickness">{{'Thickness' | translate}}:{{ thickness | currency : " USD $" }}</span>&nbsp;
+                  <!--<span  *ngIf="(additionalHidrapeg || additionalInserts || additionalNotch) && additionalThickness">|</span>
+                  <span *ngIf="additionalThickness">{{'Thickness' | translate}}:{{ thickness | currency : " USD $" }}</span>&nbsp;-->
                 </div>
               </div>
             </div>
