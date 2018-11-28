@@ -31,12 +31,12 @@ export class EuropaComponent implements OnInit {
   priceB = 0;
   notch = 0;
   thickness = 0;
-  flagThickness = false;
+  // flagThickness = false;
   flagNotch = false;
   hidrapeg = 0;
   inserts = 0;
   additionalNotch = false;
-  additionalThickness = false;
+ // additionalThickness = false;
   additionalHidrapeg = false;
   additionalInserts = false;
 
@@ -72,7 +72,7 @@ export class EuropaComponent implements OnInit {
     this.product.pricesAditionalHidrapeg = JSON.parse(this.product.infoAditional)[0].values[0];
     this.product.pricesAditionalInserts = JSON.parse(this.product.infoAditional)[0].values[1];
     this.product.pricesAditionalNotch = JSON.parse(this.product.infoAditional)[0].values[2];
-    this.product.pricesAditionalThickness = JSON.parse(this.product.infoAditional)[0].values[3];
+    // this.product.pricesAditionalThickness = JSON.parse(this.product.infoAditional)[0].values[3];
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
@@ -95,7 +95,7 @@ export class EuropaComponent implements OnInit {
 
     });
     // parameters
-    let flag = this.flagThickness;
+   // let flag = this.flagThickness;
     let flagN = this.flagNotch;
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
@@ -103,12 +103,6 @@ export class EuropaComponent implements OnInit {
           if (productSelected.name === 'Power') {
             sign = item.selected.slice( 0, 1);
             productSelected.selected = item.selected.slice( 1, item.selected.length);
-          } else if (productSelected.name === 'Thickness') {
-               productSelected.selected = item.selected;
-              // tslint:disable-next-line:radix
-              if (parseFloat(item.selected) !== 0 ) {
-                 flag = true; // ya trae el adicional por Thickness en el precio
-              }
           } else if (productSelected.name === 'Notch (mm)') {
               let  pos = _.indexOf(item.selected, 'x');
               var itemSelected = String(item.selected);
@@ -152,7 +146,7 @@ export class EuropaComponent implements OnInit {
     this.product.parameters = paramet;
     this.product.header =  header;
     this.product.steps = steps;
-    this.flagThickness = flag;
+    // this.flagThickness = flag;
     this.flagNotch = flagN;
   }
 
@@ -164,7 +158,7 @@ export class EuropaComponent implements OnInit {
     this.definePrice(this.membership);
     this.definePriceHidrapeg(this.membership);
     this.definePriceNotch(this.membership);
-    this.definePriceTickness(this.membership);
+    // this.definePriceTickness(this.membership);
     this.definePriceInserts(this.membership);
     if (parameter.name === 'Diameter (mm)') {
          this.checkAdditional();
@@ -192,7 +186,7 @@ export class EuropaComponent implements OnInit {
         this.price = this.price - this.inserts;
       }
     }
-    if (parameter.name === 'Thickness') {
+    /*if (parameter.name === 'Thickness') {
         if (parseFloat(value) === 0 || value === null) {
           if (this.flagThickness) {
             this.flagThickness = false;
@@ -206,7 +200,7 @@ export class EuropaComponent implements OnInit {
             this.price = this.price + this.thickness;
           }
         }
-    }
+    }*/
     if (parameter.name === 'Notch (mm)') {
       if ((parseFloat(value) !== 0 && value !== null) && (value2 !== null)) {
         if (!this.flagNotch) {
@@ -444,7 +438,7 @@ export class EuropaComponent implements OnInit {
     }
   }
 
-  definePriceTickness(membership) {
+  /*definePriceTickness(membership) {
     switch (membership) {
       case 1:
         this.thickness = this.product.pricesAditionalThickness.values[0].price;
@@ -456,7 +450,7 @@ export class EuropaComponent implements OnInit {
         this.thickness = this.product.pricesAditionalThickness.values[2].price;
         break;
     }
-  }
+  }*/
 
   checkAdditional() {
     let header = this.product.header;
@@ -464,7 +458,7 @@ export class EuropaComponent implements OnInit {
     let notch = this.notch;
     let inserts = this.inserts;
     let hidrapeg = this.hidrapeg;
-    let thickness = this.thickness;
+    // let thickness = this.thickness;
        // header
         _.each(header, function(itemHeader) {
             if (itemHeader.name === 'Hidrapeg') {
@@ -486,16 +480,16 @@ export class EuropaComponent implements OnInit {
                   notch = 0; // No se ha el adicional por Notch en el precio
                }
              }
-             if (productSelected.name === 'Thickness') {
+             /*if (productSelected.name === 'Thickness') {
                  // tslint:disable-next-line:radix
                  if (parseFloat(productSelected.selected ) === 0 ) {
                   thickness = 0;
                  }
-             }
+             }*/
         });
     this.notch = notch;
     this.inserts = inserts;
     this.hidrapeg = hidrapeg;
-    this.thickness = thickness;
+    // this.thickness = thickness;
   }
 }
