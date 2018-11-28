@@ -11,6 +11,10 @@ export class InvoicePaymentService {
   constructor(private http: HttpClient) { }
 
   public saveInvoicePayment$(invoicePayment): Observable<any> {
-    return this.http.post(environment.apiUrl + 'invoicePayment/save', invoicePayment);
+    return this.http.post(environment.apiUrl + 'invoicesPayment/save', invoicePayment);
+  }
+
+  public allPaymentsByInvoice$(invoice): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesPayment/allPaymentsByInvoice/' + invoice);
   }
 }

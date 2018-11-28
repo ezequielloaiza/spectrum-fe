@@ -23,6 +23,7 @@ export class AddPaymentModalComponent implements OnInit {
   listTypes = [{id: 0, name: 'Transfer'}, {id: 1, name: 'Deposit'}, {id: 2, name: 'Check'}];
   invoicePayment: InvoicePayment = new InvoicePayment();
   invoice: any;
+  action: any;
   queueLimit = 5;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
@@ -44,10 +45,24 @@ export class AddPaymentModalComponent implements OnInit {
   ngOnInit() {
     this.invoicePayment.idInvoiceClient = this.invoice.idInvoice;
     console.log(this.invoice);
+    this.initializeForm();
+  }
+
+  initializeForm() {
+    this.form = this.formBuilder.group({
+      id     : [this.action === 'edit' ? this.invoicePayment.idInvoicePayment : ''],
+      typeId : [this.action === 'edit' ? this.invoicePayment.typeId : '', [ Validators.required]],
+      date   : [this.action === 'edit' ? this.invoicePayment.date : '', [ Validators.required]],
+      referenceNumber: [this.action === 'edit' ? this.invoicePayment.referenceNumber : '', [ Validators.required]],
+      bank   : [this.action === 'edit' ? this.invoicePayment.bank : '', [ Validators.required]],
+      status : [this.action === 'edit' ? this.invoicePayment.status : 0, []],
+      amount : [this.action === 'edit' ? this.invoicePayment.amount : '', [Validators.required]],
+      idInvoiceClient: [this.action === 'edit' ? this.invoicePayment.idInvoiceClient : this.invoice.idInvoiceClient]
+    });
   }
 
   save(): void {
-    this.invoicePaymentService.saveInvoicePayment$(this.invoicePayment).subscribe(res => {
+    this.invoicePaymentService.saveInvoicePayment$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.modalReference.close();
         this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
@@ -64,5 +79,11 @@ export class AddPaymentModalComponent implements OnInit {
   close() {
     this.modalReference.close();
   }
+
+  get typeId() { return this.form.get('typeId'); }
+  get bank() { return this.form.get('bank'); }
+  get date() { return this.form.get('date'); }
+  get referenceNumber() { return this.form.get('referenceNumber'); }
+  get amount() { return this.form.get('amount'); }
 
 }

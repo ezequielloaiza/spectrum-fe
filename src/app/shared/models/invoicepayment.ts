@@ -1,7 +1,7 @@
 
 
 export class InvoicePayment {
-
+    public idInvoicePayment: number;
     public idInvoiceClient: number;
     public typeId: number;
     public date: Date;

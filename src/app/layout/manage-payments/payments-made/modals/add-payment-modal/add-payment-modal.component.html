@@ -5,17 +5,17 @@
   </button>
 </div>
 <div class="modal-body">
-  <!-- <form [formGroup]="form"> -->
+  <form [formGroup]="form"> 
     <h4>{{ 'Payment Information' | translate }}</h4><br>
     <div class="row">
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label class="title">{{ 'Payment Type' | translate }}</label>
-          <select class="form-control" name="typeId" [(ngModel)]="invoicePayment.typeId" required>
+          <select class="form-control" name="typeId" formControlName="typeId" required>
             <option *ngFor="let type of listTypes" value="{{type.id}}">{{ type.name | translate }}</option>
           </select>
         </fieldset>
-        <div class="message-error" [hidden]="typeId !== undefined">
+        <div class="message-error" [hidden]="typeId.valid || typeId.pristine">
           <span>{{ 'Payment Type is required' | translate }}</span>
         </div>
       </div>
@@ -23,7 +23,7 @@
         <fieldset class="form-group">
           <label>{{ 'Date' | translate }}</label>
           <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="invoicePayment.date" ngbDatepicker #d="ngbDatepicker">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="date" formControlName="date" ngbDatepicker #d="ngbDatepicker" required>
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                 <i class="fa fa-calendar"></i>
@@ -31,25 +31,25 @@
             </div>
           </div>
         </fieldset>
-        <div class="message-error" [hidden]="fechaSelec !== undefined">
+        <div class="message-error" [hidden]="date.valid || date.pristine">
           <span>{{'Date is required' | translate }}</span>
         </div>
       </div>
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'Bank Name' | translate }}</label>
-          <input class="form-control" placeholder="{{ 'Enter bank name' | translate }}" [(ngModel)]="invoicePayment.bank" name="bank" >
+          <input class="form-control" placeholder="{{ 'Enter bank name' | translate }}" formControlName="bank" name="bank" required>
         </fieldset>
-        <div class="message-error" [hidden]="bank !== undefined">
+        <div class="message-error" [hidden]="bank.valid || bank.pristine">
           <span>{{'Bank name is required' | translate }}</span>
         </div>
       </div>
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'Reference Number' | translate }}</label>
-          <input class="form-control" placeholder="{{ 'Enter reference number' | translate }}" name="referenceNumber" [(ngModel)]="invoicePayment.referenceNumber" >
+          <input class="form-control" placeholder="{{ 'Enter reference number' | translate }}" name="referenceNumber" formControlName="referenceNumber" required>
         </fieldset>
-        <div class="message-error" [hidden]="referenceNumber !== undefined">
+        <div class="message-error" [hidden]="referenceNumber.valid || referenceNumber.pristine">
           <span>{{'Reference number is required' | translate }}</span>
         </div>
       </div>
@@ -60,11 +60,11 @@
             <div class="input-group-append">
               <span class="input-group-text">$</span>
             </div>
-            <input type="number" min="0.0" step="0.1" class="form-control" [(ngModel)]="invoicePayment.amount" placeholder="{{ 'Enter price' | translate }}"
-            name="amount" >
+            <input type="number" min="0.0" step="0.1" class="form-control"  placeholder="{{ 'Enter price' | translate }}"
+            name="amount" formControlName="amount" required>
           </div>
         </fieldset>
-        <div class="message-error" [hidden]="amount !== undefined">
+        <div class="message-error" [hidden]="amount.valid || amount.pristine">
           <span>{{'Amount is required' | translate }}</span>
         </div>
       </div>
@@ -89,13 +89,13 @@
       </div>
     </div>
     <br>
-  <!-- </form> -->
+  </form>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" class="btn btn-main" (click)="save()" >{{ 'Save' | translate }}&nbsp;
+  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()" >{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
 </div>

@@ -21,8 +21,8 @@ export class PaymentsMadeComponent implements OnInit {
   reverseSort = true;
   typeSort = 0;
   invoice: any;
-  listInvoices: Array<any> = new Array;
-  listInvoicesAux: Array<any> = new Array;
+  listPayments: Array<any> = new Array;
+  listPaymentsAux: Array<any> = new Array;  
   advancedPagination: number;
   itemPerPage: number = 5;
   order: any;
@@ -42,14 +42,14 @@ export class PaymentsMadeComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('idInvoice');
     this.getInvoice(id);
     console.log(this.invoice);
-    this.getListInvoices();
+    this.getListPayments(id);
     this.advancedPagination = 1;
   }
 
   pageChange(event) {
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
-    this.listInvoices = this.listInvoicesAux.slice(startItem, endItem);
+    this.listPayments = this.listPaymentsAux.slice(startItem, endItem);
   }
 
   getInvoice(id): void {
@@ -78,11 +78,12 @@ export class PaymentsMadeComponent implements OnInit {
     }
   }
 
-  getListInvoices(): void {
-    this.invoiceService.allInvoiceByStatus$(1).subscribe(
+  getListPayments(invoice): void {
+    this.invoicePaymentService.allPaymentsByInvoice$(invoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
-          this.listInvoices = res.data;
+          this.listPayments = res.data;
+          console.log(res.data);
         } else {
           console.log(res.code);
         }
@@ -114,16 +115,16 @@ export class PaymentsMadeComponent implements OnInit {
         this.orderByField = 'number';
         key = 'number';
         this.reverseSort = true;
-        this.getListInvoices();
+        this.getListPayments(this.invoice.idInvoiceClient);
       }
     }
-    let invoicesSort = this.listInvoicesAux.sort(function (a, b) {
+    let invoicesSort = this.listPaymentsAux.sort(function (a, b) {
       let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
-    this.listInvoicesAux = invoicesSort;
+    this.listPaymentsAux = invoicesSort;
     if (this.reverseSort) {
-      this.listInvoicesAux = invoicesSort.reverse();
+      this.listPaymentsAux = invoicesSort.reverse();
     }
     this.advancedPagination = 1;
     this.pageChange(this.advancedPagination);
@@ -167,7 +168,7 @@ export class PaymentsMadeComponent implements OnInit {
           this.alertify.confirm(title, msg, () => {
             this.invoiceService.delete$(invoice.idInvoice).subscribe(res => {
               if (res.code === CodeHttp.ok) {
-                this.getListInvoices();
+                this.getListPayments(this.invoice.idInvoiceClient);
                 this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
                   this.notification.success('', res1);
                 });
