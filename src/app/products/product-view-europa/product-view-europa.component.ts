@@ -457,12 +457,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
-          // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
-          this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-            return !(u.cardCode === null || u.cardCode === '');
-          });
-           // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
-           // todavia no se agregado ese campo en la bd
+          this.listCustomers = this.listCustomersAux;
         }
       });
     }
