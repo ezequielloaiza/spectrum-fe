@@ -59,16 +59,16 @@ export class ProductViewEuropaComponent implements OnInit {
   membership: any;
   notch = 0;
   thickness = 0;
-  flagThickness = false;
-  flagThicknessL = false;
+ // flagThickness = false;
+ // flagThicknessL = false;
   flagNotch = false;
   flagNotchL = false;
   hidrapeg = 0;
   inserts = 0;
   additionalNotch = false;
   additionalNotchL = false;
-  additionalThickness = false;
-  additionalThicknessL = false;
+ // additionalThickness = false;
+ // additionalThicknessL = false;
   additionalHidrapeg = false;
   additionalHidrapegL = false;
   additionalInserts = false;
@@ -165,7 +165,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.pricesAditionalHidrapeg = JSON.parse(this.product.infoAditional)[0].values[0];
     this.product.pricesAditionalInserts = JSON.parse(this.product.infoAditional)[0].values[1];
     this.product.pricesAditionalNotch = JSON.parse(this.product.infoAditional)[0].values[2];
-    this.product.pricesAditionalThickness = JSON.parse(this.product.infoAditional)[0].values[3];
+  //  this.product.pricesAditionalThickness = JSON.parse(this.product.infoAditional)[0].values[3];
     this.product.priceSaleRight = 0;
     this.product.priceSaleLeft = 0;
     this.setClient();
@@ -180,7 +180,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.definePrice(this.membership);
       this.definePriceHidrapeg(this.membership);
       this.definePriceNotch(this.membership);
-      this.definePriceTickness(this.membership);
+     // this.definePriceTickness(this.membership);
       this.definePriceInserts(this.membership);
       if (parameter.name === 'Diameter (mm)') {
         if (this.membership !== 0) {
@@ -273,7 +273,7 @@ export class ProductViewEuropaComponent implements OnInit {
           }
         }
       }
-      if (parameter.name === 'Thickness') {
+      /*if (parameter.name === 'Thickness') {
         if (parseFloat(value) !== null) {
           if (parseFloat(value) === 0 || value === null) {
             if (eye === 'right') {
@@ -325,7 +325,7 @@ export class ProductViewEuropaComponent implements OnInit {
             }
           }
         }
-      }
+      }*/
       if (parameter.name === 'Notch (mm)') {
         if (eye === 'right') {
           if ((parseFloat(value) !== 0 && value !== null) && (value2 !== null)) {
@@ -413,8 +413,8 @@ export class ProductViewEuropaComponent implements OnInit {
         this.additionalHidrapeg = false;
         this.additionalInserts = false;
         this.additionalNotch = false;
-        this.additionalThickness = false;
-        this.flagThickness = false;
+       // this.additionalThickness = false;
+       // this.flagThickness = false;
         this.flagNotch = false;
 
       }
@@ -429,8 +429,8 @@ export class ProductViewEuropaComponent implements OnInit {
         this.additionalHidrapegL = false;
         this.additionalInsertsL = false;
         this.additionalNotchL = false;
-        this.additionalThicknessL = false;
-        this.flagThicknessL = false;
+       // this.additionalThicknessL = false;
+       // this.flagThicknessL = false;
         this.flagNotchL = false;
       }
     }
@@ -476,7 +476,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.definePrice(clienteSelect.membership.idMembership);
       this.definePriceHidrapeg(this.membership);
       this.definePriceNotch(this.membership);
-      this.definePriceTickness(this.membership);
+     // this.definePriceTickness(this.membership);
       this.definePriceInserts(this.membership);
       if (this.product.eyeRight) {
         let paramet = this.product.parametersRight;
@@ -502,9 +502,9 @@ export class ProductViewEuropaComponent implements OnInit {
             if (this.additionalNotch) {
               this.product.priceSaleRight = this.product.priceSaleRight + this.notch;
             }
-            if (this.additionalThickness) {
+            /*if (this.additionalThickness) {
               this.product.priceSaleRight = this.product.priceSaleRight + this.thickness;
-            }
+            }*/
           }
       }
       if (this.product.eyeLeft) {
@@ -531,9 +531,9 @@ export class ProductViewEuropaComponent implements OnInit {
             if (this.additionalNotchL) {
               this.product.priceSaleLeft = this.product.priceSaleLeft + this.notch;
             }
-            if (this.additionalThicknessL) {
+           /* if (this.additionalThicknessL) {
               this.product.priceSaleLeft = this.product.priceSaleLeft + this.thickness;
-            }
+            }*/
           }
         }
     } else {
@@ -567,7 +567,7 @@ export class ProductViewEuropaComponent implements OnInit {
        this.definePrice(this.membership);
        this.definePriceHidrapeg(this.membership);
        this.definePriceNotch(this.membership);
-       this.definePriceTickness(this.membership);
+       // this.definePriceTickness(this.membership);
        this.definePriceInserts(this.membership);
     }
   }
@@ -631,7 +631,7 @@ export class ProductViewEuropaComponent implements OnInit {
     }
   }
 
-  definePriceTickness(membership) {
+  /*definePriceTickness(membership) {
     switch (membership) {
       case 1:
         this.thickness = this.product.pricesAditionalThickness.values[0].price;
@@ -643,7 +643,7 @@ export class ProductViewEuropaComponent implements OnInit {
         this.thickness = this.product.pricesAditionalThickness.values[2].price;
         break;
     }
-  }
+  }*/
 
   buildProductsSelected() {
     this.setEyeSelected();
@@ -925,26 +925,26 @@ export class ProductViewEuropaComponent implements OnInit {
     let additionalH;
     let additionalI;
     let additionalN;
-    let additionalT;
+   // let additionalT;
     if (eye === 'right') {
       header = this.product.headerRight;
       paramet = this.product.parametersRight;
       additionalH = this.additionalHidrapeg;
       additionalI = this.additionalInserts;
       additionalN = this.additionalNotch;
-      additionalT = this.additionalThickness;
+     // additionalT = this.additionalThickness;
     } else {
       header = this.product.headerLeft;
       paramet = this.product.parametersLeft;
       additionalH = this.additionalHidrapegL;
       additionalI = this.additionalInsertsL;
       additionalN = this.additionalNotchL;
-      additionalT = this.additionalThicknessL;
+     // additionalT = this.additionalThicknessL;
     }
     let notch = this.notch;
     let inserts = this.inserts;
     let hidrapeg = this.hidrapeg;
-    let thickness = this.thickness;
+   // let thickness = this.thickness;
         // header
           _.each(header, function(itemHeader) {
               if (itemHeader.name === 'Hidrapeg') {
@@ -972,29 +972,29 @@ export class ProductViewEuropaComponent implements OnInit {
                   additionalN = true;
                 }
               }
-              if (productSelected.name === 'Thickness') {
+             /* if (productSelected.name === 'Thickness') {
                   // tslint:disable-next-line:radix
                   if (parseFloat(productSelected.selected ) === 0 || productSelected.selected === null ) {
                     thickness = 0;
                   } else {
                     additionalT = true;
                   }
-              }
+              }*/
           });
       this.notch = notch;
       this.inserts = inserts;
       this.hidrapeg = hidrapeg;
-      this.thickness = thickness;
+     // this.thickness = thickness;
       if (eye === 'right') {
         this.additionalHidrapeg = additionalH;
         this.additionalInserts = additionalI;
         this.additionalNotch = additionalN;
-        this.additionalThickness = additionalT;
+     // this.additionalThickness = additionalT;
       } else {
         this.additionalHidrapegL = additionalH;
         this.additionalInsertsL = additionalI;
         this.additionalNotchL = additionalN;
-        this.additionalThicknessL = additionalT;
+     // this.additionalThicknessL = additionalT;
       }
   }
 
