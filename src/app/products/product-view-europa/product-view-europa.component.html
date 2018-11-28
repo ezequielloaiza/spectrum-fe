@@ -230,16 +230,16 @@
           </div>
           <!--price right-->
           <div class="row additional col-lg-12">
-            <p *ngIf="(additionalInserts || additionalHidrapeg || additionalNotch || additionalThickness) && product.priceSaleRight!==0">
+            <p *ngIf="(additionalInserts || additionalHidrapeg || additionalNotch) && product.priceSaleRight!==0">
               <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;
               <span *ngIf="additionalHidrapeg">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : " USD $" }}</span>&nbsp;
               <span *ngIf="additionalHidrapeg && additionalInserts">| </span>
               <span *ngIf="additionalInserts">{{'Inserts (DMV)' | translate}}:{{ inserts | currency : " USD $" }}</span>&nbsp;
               <span *ngIf="(additionalInserts || additionalHidrapeg) && additionalNotch">| </span>
               <span *ngIf="additionalNotch">{{'Notch (mm)' | translate}}:{{ notch | currency : " USD $" }}</span>&nbsp;
-              <span *ngIf="(additionalHidrapeg || additionalInserts || additionalNotch) && additionalThickness">|
+             <!-- <span *ngIf="(additionalHidrapeg || additionalInserts || additionalNotch) && additionalThickness">|
               </span>
-              <span *ngIf="additionalThickness">{{'Thickness' | translate}}:{{ thickness | currency : " USD $" }}</span>&nbsp;
+              <span *ngIf="additionalThickness">{{'Thickness' | translate}}:{{ thickness | currency : " USD $" }}</span>&nbsp;-->
             </p>
           </div>
 
@@ -395,16 +395,16 @@
 
           <!--price left-->
           <div class="row additional col-lg-12">
-            <p *ngIf="(additionalInsertsL || additionalHidrapegL || additionalNotchL || additionalThicknessL) && product.priceSaleLeft!==0">
+            <p *ngIf="(additionalInsertsL || additionalHidrapegL || additionalNotchL) && product.priceSaleLeft!==0">
               <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;
               <span *ngIf="additionalHidrapegL">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : " USD $" }}</span>&nbsp;
               <span *ngIf="additionalHidrapegL && additionalInsertsL">| </span>
               <span *ngIf="additionalInsertsL">{{'Inserts (DMV)' | translate}}:{{ inserts | currency : " USD $" }}</span>&nbsp;
               <span *ngIf="(additionalInsertsL || additionalHidrapegL) && additionalNotchL">| </span>
               <span *ngIf="additionalNotchL">{{'Notch (mm)' | translate}}:{{ notch | currency : " USD $" }}</span>&nbsp;
-              <span *ngIf="(additionalHidrapegL || additionalInsertsL || additionalNotchL) && additionalThicknessL">|
+            <!--  <span *ngIf="(additionalHidrapegL || additionalInsertsL || additionalNotchL) && additionalThicknessL">|
               </span>
-              <span *ngIf="additionalThicknessL">{{'Thickness' | translate}}:{{ thickness | currency : " USD $" }}</span>&nbsp;
+              <span *ngIf="additionalThicknessL">{{'Thickness' | translate}}:{{ thickness | currency : " USD $" }}</span>&nbsp;-->
             </p>
           </div>
 
