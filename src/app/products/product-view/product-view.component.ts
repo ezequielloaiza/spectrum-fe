@@ -170,18 +170,9 @@ export class ProductViewComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
           // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
-          if (this.product.supplier.idSupplier === 1) {
             this.listCustomers = _.filter(this.listCustomersAux, function(u) {
               return !(u.cardCode === null || u.cardCode === '');
             });
-          } else if ( this.product.supplier.idSupplier === 4) {
-            // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
-            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-              return !(u.certificationCode === null || u.certificationCode === '');
-            });
-          } else {
-            this.listCustomers = this.listCustomersAux;
-          }
         }
       });
     }
