@@ -144,9 +144,9 @@
                   <div>{{'Verified' | translate }}</div>
                 </td>
                 <td class="table-tr td-table">{{payment.date | date:'yyyy-MM-dd'}}</td>
-                <td class="table-tr">{{payment.typeId}}</td>
-                <td class="table-tr">{{payment.number}}</td>
-                <td class="table-tr">{{payment.total | currency : "USD $"}}</td>
+                <td class="table-tr">{{payment.typePayment}}</td>
+                <td class="table-tr">{{payment.referenceNumber}}</td>
+                <td class="table-tr">{{payment.amount | currency : "USD $"}}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">

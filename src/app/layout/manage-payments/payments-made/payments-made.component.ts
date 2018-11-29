@@ -95,9 +95,11 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   openModal(invoice): void {
+    const aux = invoice;
     const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg'});
     modalRef.componentInstance.invoice = invoice;
     modalRef.result.then((result) => {
+      this.getListPayments(aux.idInvoiceClient);
     }, (reason) => {
     });
   }
@@ -148,17 +150,6 @@ export class PaymentsMadeComponent implements OnInit {
   }
   open(invoice) {
     this.router.navigate(['/payments/' + invoice.idInvoice + '/paymentsMade']);
-    /*debugger
-    
-    const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
-    modalRef.componentInstance.invoice = invoice;
-    modalRef.componentInstance.order = invoice.order;
-    modalRef.componentInstance.pilot = true;
-    modalRef.result.then((result) => {
-          this.getListInvoices();
-    } , (reason) => {
-    });
-    */
   }
 
   delete(invoice): void {

@@ -73,7 +73,7 @@
           <label>{{ 'Attach file' | translate }}</label>
           <div class="custom-file">
             <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader" [disabled]="uploader.queue.length > 4"
-              multiple />
+              multiple required/>
             <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
             <div class="invalid-feedback">Example invalid custom file feedback</div>
             <div class="message-error">
@@ -83,9 +83,40 @@
             </div>
           </div>
         </fieldset>
-        <div class="message-error">
+        <!-- <div class="message-error" [hidden]> 
           <span>{{'Attach file is required' | translate }}</span>
-        </div>
+        </div>-->
+        <br>
+          <div class="col-md-12" style="margin-bottom: 40px" *ngIf="uploader.queue.length > 0">
+            <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
+              <button type="button" class="btn btn-danger btn-s"
+                (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+              </button>
+            </div>
+            <br>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th width="50%">{{ 'Name' | translate }}</th>
+                  <th>{{ 'Size' | translate }}</th>
+                  <th>{{ 'Actions' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of uploader.queue">
+                  <td><strong>{{ item?.file?.name }}</strong></td>
+                  <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                  <td nowrap>
+                    <button type="button" class="btn btn-danger btn-xs"
+                      (click)="removeFile(item)">
+                      <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
       </div>
     </div>
     <br>
