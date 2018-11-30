@@ -50,7 +50,7 @@ export class AddPaymentModalComponent implements OnInit {
 
       this.uploader.onAfterAddingFile = (item) => {
         const maxSize = this.maxFilesSize();
-  
+
         if (maxSize > this.maxFileSize) {
           this.removeFile(item);
           this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
@@ -73,7 +73,6 @@ export class AddPaymentModalComponent implements OnInit {
 
   ngOnInit() {
     this.invoicePayment.idInvoiceClient = this.invoice.idInvoice;
-    console.log(this.invoice);
     this.initializeForm();
   }
 

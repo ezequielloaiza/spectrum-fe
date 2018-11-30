@@ -10,6 +10,7 @@ import { OrderService, InvoiceClientService, InvoicePaymentService } from '../..
 import { saveAs } from 'file-saver';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AddPaymentModalComponent } from './modals/add-payment-modal/add-payment-modal.component';
+import { ChangeStatusComponent } from './modals/change-status/change-status.component';
 
 @Component({
   selector: 'app-payments-made',
@@ -22,7 +23,7 @@ export class PaymentsMadeComponent implements OnInit {
   typeSort = 0;
   invoice: any;
   listPayments: Array<any> = new Array;
-  listPaymentsAux: Array<any> = new Array;  
+  listPaymentsAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number = 5;
   order: any;
@@ -69,11 +70,11 @@ export class PaymentsMadeComponent implements OnInit {
 
   getStatus(id) {
     switch (id) {
-      case 0 :
+      case 0:
         return 'Unpaid';
-      case 1 :
+      case 1:
         return 'Part paid';
-      case 2 :
+      case 2:
         return 'Paid';
     }
   }
@@ -96,10 +97,22 @@ export class PaymentsMadeComponent implements OnInit {
 
   openModal(invoice): void {
     const aux = invoice;
-    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg'});
+    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
     modalRef.componentInstance.invoice = invoice;
     modalRef.result.then((result) => {
-      this.getListPayments(aux.idInvoiceClient);
+      this.ngOnInit();
+    }, (reason) => {
+    });
+  }
+
+  changeStatus(payment) {
+    const modalRef = this.modalService.open(ChangeStatusComponent);
+    modalRef.componentInstance.payment = payment;
+    modalRef.result.then((result) => {
+      const id = this.route.snapshot.paramMap.get('idInvoice');
+
+      this.getListPayments(id);
+      this.ngOnInit();
     }, (reason) => {
     });
   }

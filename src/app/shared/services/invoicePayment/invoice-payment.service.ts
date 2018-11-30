@@ -17,4 +17,8 @@ export class InvoicePaymentService {
   public allPaymentsByInvoice$(invoice): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesPayment/allPaymentsByInvoice/' + invoice);
   }
+
+  public changeStatus$(idPayment, IdStatus): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesPayment/changeStatus/' + idPayment + '/' + IdStatus);
+  }
 }

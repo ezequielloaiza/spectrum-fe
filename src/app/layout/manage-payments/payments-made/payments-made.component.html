@@ -144,7 +144,15 @@
                   <div>{{'Verified' | translate }}</div>
                 </td>
                 <td class="table-tr td-table">{{payment.date | date:'yyyy-MM-dd'}}</td>
-                <td class="table-tr">{{payment.typePayment}}</td>
+                <td *ngIf="payment.typePayment === 0" class="table-tr">
+                  <div>{{'Transfer' | translate}}</div>
+                </td>
+                <td *ngIf="payment.typePayment === 1" class="table-tr">
+                  <div>{{'Deposit' | translate}}</div>
+                </td>
+                <td *ngIf="payment.typePayment === 2" class="table-tr">
+                  <div>{{'Check' | translate}}</div>
+                </td>
                 <td class="table-tr">{{payment.referenceNumber}}</td>
                 <td class="table-tr">{{payment.amount | currency : "USD $"}}</td>
                 <td class="table-tr">
@@ -152,7 +160,7 @@
                     <div ngbDropdown class="d-inline-block dropdown">
                       <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                       <div ngbDropdownMenu>
-                        <button class="dropdown-item">
+                        <button class="dropdown-item" (click)="changeStatus(payment)">
                           <i class="fa fa-eye"></i> {{ 'Change Status' | translate }}
                         </button>
                       </div>
