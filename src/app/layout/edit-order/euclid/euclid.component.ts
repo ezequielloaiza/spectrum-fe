@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { ProductsRequestedService } from '../../../../shared/services';
-import { UserStorageService } from '../../../../http/user-storage.service';
+import { ProductsRequestedService } from '../../../shared/services';
+import { UserStorageService } from '../../../http/user-storage.service';
 import * as _ from 'lodash';
 
 @Component({

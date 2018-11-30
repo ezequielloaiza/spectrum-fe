@@ -189,7 +189,7 @@
           <app-supplier-magic-look [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
           <!--Blue Light-->
-          <app-supplier-blue-light [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
+          <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage" [status]="order.status" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
         </div>
       </div>

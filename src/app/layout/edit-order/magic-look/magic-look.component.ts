@@ -3,9 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
-import { ProductsRequestedService } from '../../../../shared/services';
-import { CodeHttp } from '../../../../shared/enum/code-http.enum';
-import { UserStorageService } from '../../../../http/user-storage.service';
+import { ProductsRequestedService } from '../../../shared/services';
+import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import { UserStorageService } from '../../../http/user-storage.service';
 
 @Component({
   selector: 'app-magic-look',

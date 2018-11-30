@@ -1,4 +1,5 @@
-@import "../../../../../styles/spectrum/spectrum";
+
+@import "../../../../styles/spectrum/spectrum";
 
 .list-basket {
   //max-height: 630px;
@@ -10,13 +11,8 @@
     text-align: center;
   }
 
-  .details {
-    text-align: center;
-  }
-
   .img-product {
     width: 40%;
-    max-height: 163.65px;
     border-radius: 12px;
     margin-top: 1em;
   }
@@ -52,6 +48,11 @@
 
   .patient-info {
     padding-bottom: 1.5em;
+  }
+
+  .eye-info {
+    color: $secondary-info;
+    padding: 0 2em;
   }
 
   .align-item{
