@@ -46,6 +46,10 @@ this.products = [
                                           ]
           }
         ]
+      },
+      {
+       "name":"Download",
+       "value":true
       }
     ]
   }

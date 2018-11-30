@@ -50,6 +50,10 @@ this.products = [
                                           ]
           }
         ]
+      },
+      {
+       "name":"Download",
+       "value":false
       }
     ]
   }
