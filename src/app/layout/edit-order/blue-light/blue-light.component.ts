@@ -46,7 +46,6 @@ export class BlueLightComponent implements OnInit {
     } else { // order-detail
       this.productRequested = this.detailEdit;
     }
-
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
     this.getProductView();

@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ProductsRequestedService } from '../../../shared/services';
 import { UserStorageService } from '../../../http/user-storage.service';
 import * as _ from 'lodash';
+import { ProductRequested } from '../../../shared/models/productrequested';
 
 @Component({
   selector: 'app-euclid',
@@ -15,20 +16,22 @@ import * as _ from 'lodash';
 export class EuclidComponent implements OnInit {
 
   basket: any;
-  productRequested: any;
+  productRequested: ProductRequested = new ProductRequested();
+  productRequestedAux: ProductRequested = new ProductRequested();
   product: any;
   detail: any;
-  tones: Array<any> = new Array;
+  detailEdit: any;
+  typeEdit: any;
   quantity: any;
   observations: any;
   price: any;
   editPrice = false;
   user: any;
-  cl = ['row', 'selection', 'label-title', 'width-input', 'separator'];
   warranty = false;
   patient: any;
   membership: any;
   additional = 0;
+  userOrder: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -38,14 +41,18 @@ export class EuclidComponent implements OnInit {
               }
 
   ngOnInit() {
-    this.productRequested = this.basket.productRequested;
+    if (this.typeEdit === 1 ) { // Basket
+      this.productRequested = this.basket.productRequested;
+      this.membership = this.basket.basket.user.membership.idMembership;
+    } else { // order-detail
+      this.productRequested = this.detailEdit;
+      this.membership = this.userOrder.membership.idMembership;
+    }
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
-    this.membership = this.basket.basket.user.membership.idMembership;
     this.getProductView();
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
-      this.cl = ['row', 'selection', 'width-input', 'separator'];
     }
 
   }
@@ -116,28 +123,26 @@ export class EuclidComponent implements OnInit {
         }
      });
     });
-    this.productRequested.detail = { name: '', eye: this.detail.eye, parameters: this.detail.parameters};
-    this.productRequested.detail = '[' + JSON.stringify(this.productRequested.detail) + ']';
-    this.productRequested.observations = this.observations;
-    this.productRequested.price = this.price;
-    this.productRequested.quantity = this.quantity;
-    this.productRequested.product = this.product.idProduct;
-    this.productRequested.patient = this.patient;
-    this.productRequestedService.update$(this.productRequested).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
-          this.notification.success('', res);
-        });
-        this.close();
-      } else {
-        console.log(res);
-        this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
-          this.notification.error('', res);
-        });
-      }
-    }, error => {
-      console.log('error', error);
-    });
+    if (this.typeEdit === 1) { // Basket
+      this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
+      this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
+      this.productRequested.observations = this.observations;
+      this.productRequested.price = this.price;
+      this.productRequested.quantity = this.quantity;
+      this.productRequested.product = this.product.idProduct;
+      this.productRequested.patient = this.patient;
+      this.update(this.productRequested);
+    } else { // Order Detail
+      this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
+      this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
+      this.productRequestedAux.observations = this.observations;
+      this.productRequestedAux.price = this.price;
+      this.productRequestedAux.quantity = this.quantity;
+      this.productRequestedAux.product = this.product.idProduct;
+      this.productRequestedAux.patient = this.patient;
+      this.update(this.productRequestedAux);
+    }
+
   }
 
   formIsValid() {
@@ -273,5 +278,20 @@ export class EuclidComponent implements OnInit {
     filteredId = _.padEnd(filteredId, tamano, '0');
     return filteredId;
 
+  }
+
+  update(productRequested) {
+    this.productRequestedService.update$(productRequested).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
+        this.close();
+      } else {
+        console.log(res);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 }

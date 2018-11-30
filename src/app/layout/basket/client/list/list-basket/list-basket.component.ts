@@ -242,6 +242,7 @@ export class ListBasketComponent implements OnInit {
     case 4: // Euclid
         const modalRefEuclid = this.modalService.open( EuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
         modalRefEuclid.componentInstance.basket = basket;
+        modalRefEuclid.componentInstance.typeEdit = 1;
         modalRefEuclid.result.then((result) => {
           this.ngOnInit();
         } , (reason) => {

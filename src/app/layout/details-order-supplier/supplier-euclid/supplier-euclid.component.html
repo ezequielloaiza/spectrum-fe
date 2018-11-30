@@ -1,4 +1,8 @@
-<ngb-tabset>
+<div class="col-lg-12">
+  <div class="row padding-params display-edit" *ngIf="valueStatus === 0 && user.role.idRole === 1">
+      <i class="fa fa-edit" (click)="openEdit()" placement="top" ngbTooltip="{{ 'Edit' | translate }}"></i>
+  </div>
+  <ngb-tabset>
   <ngb-tab title="{{'Technical specifications'| translate}}">
     <ng-template ngbTabContent>
       <div class="card-body table-responsive">
@@ -74,4 +78,5 @@
       </div>
     </ng-template>
   </ngb-tab>
-</ngb-tabset>
+  </ngb-tabset>
+</div>
