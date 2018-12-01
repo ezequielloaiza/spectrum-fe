@@ -81,7 +81,7 @@ export class WarrantyModalComponent implements OnInit {
                     [ Validators.required]],
       description : [this.action !== 'create' ? this.warranty.description : '', [ Validators.required]],
       referenceNumber : [this.action !== 'create' ? this.warranty.referenceNumber : '', [ Validators.required]],
-      lotNumber  :  [this.action !== 'create' ? this.warranty.lotNumber : '', [ Validators.required]],
+      lotNumber  :  [this.action !== 'create' ? this.warranty.lotNumber : ''],
       notes       :  [this.action !== 'create' ? this.warranty.notes : ''],
       createdBy  : [this.action !== 'create' ? this.warranty.createdBy.idUser : this.user.userResponse.idUser],
       status      : [this.action !== 'create' ? this.warranty.status : 0]
