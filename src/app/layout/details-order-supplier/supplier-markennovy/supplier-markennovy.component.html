@@ -18,7 +18,7 @@
       </div>
     </ng-template>
   </ngb-tab>
-  <ngb-tab title="{{'Comments'| translate}}">
+  <ngb-tab *ngIf="lista.observations !==null" title="{{'Comments'| translate}}">
     <ng-template ngbTabContent>
       <div class="card-body table-responsive">
         <div class="row justify-content-md-center div-parametros">
