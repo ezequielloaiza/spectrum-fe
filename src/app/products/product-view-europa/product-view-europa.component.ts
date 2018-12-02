@@ -74,11 +74,17 @@ export class ProductViewEuropaComponent implements OnInit {
   additionalInserts = false;
   additionalInsertsL = false;
   // Upload files
-  @ViewChild('selectedFiles') selectedFiles: any;
+  // @ViewChild('selectedFiles') selectedFiles: any;
+  @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
+  @ViewChild('selectedFilesRightEye') selectedFilesRightEye: any;
   queueLimit = 5;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
+  listFileLeftEye: Array<FileProductRequested> = new Array;
+  listFileRightEye: Array<FileProductRequested> = new Array;
   private uploadResult: any = null;
+  private uploadResultLeftEye: any = null;
+  private uploadResultRightEye: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
@@ -87,6 +93,20 @@ export class ProductViewEuropaComponent implements OnInit {
                                                     authToken: this.userStorageService.getToke(),
                                                     autoUpload: false});
 
+  public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
+                                                          itemAlias: 'files',
+                                                          queueLimit: this.queueLimit,
+                                                          maxFileSize: this.maxFileSize,
+                                                          removeAfterUpload: false,
+                                                          authToken: this.userStorageService.getToke(),
+                                                          autoUpload: false});
+  public uploaderRightEye: FileUploader = new FileUploader({url: URL,
+                                                            itemAlias: 'files',
+                                                            queueLimit: this.queueLimit,
+                                                            maxFileSize: this.maxFileSize,
+                                                            removeAfterUpload: false,
+                                                            authToken: this.userStorageService.getToke(),
+                                                            autoUpload: false});
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
@@ -103,7 +123,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
-    this.uploader.onAfterAddingFile = (item) => {
+    /*this.uploader.onAfterAddingFile = (item) => {
       const maxSize = this.maxFilesSize();
 
       if (maxSize > this.maxFileSize) {
@@ -122,6 +142,49 @@ export class ProductViewEuropaComponent implements OnInit {
     };
     this.uploader.onErrorItem = (item, response, status, headers) => {
         this.uploadResult = {'success': true, 'item': item, 'response':
+                             response, 'status': status, 'headers': headers};
+    };*/
+    this.uploaderLeftEye.onAfterAddingFile = (item) => {
+      const maxSize = this.maxFilesSize();
+
+      if (maxSize > this.maxFileSize) {
+        this.removeFile(item, 'Left');
+        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
+          this.notification.error('', res);
+        });
+      }
+    };
+    this.uploaderLeftEye.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResultLeftEye = {'success': true, 'item': item, 'response':
+                           response, 'status': status, 'headers': headers};
+      if (this.uploadResultLeftEye) {
+        debugger
+        this.buildFileProductRequested('Left');
+      }
+    };
+    this.uploaderLeftEye.onErrorItem = (item, response, status, headers) => {
+        this.uploadResultLeftEye = {'success': true, 'item': item, 'response':
+                             response, 'status': status, 'headers': headers};
+    };
+    this.uploaderRightEye.onAfterAddingFile = (item) => {
+      const maxSize = this.maxFilesSize();
+
+      if (maxSize > this.maxFileSize) {
+        this.removeFile(item, 'Right');
+        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
+          this.notification.error('', res);
+        });
+      }
+    };
+    this.uploaderRightEye.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResultRightEye = {'success': true, 'item': item, 'response':
+                           response, 'status': status, 'headers': headers};
+      if (this.uploadResultRightEye) {
+        this.buildFileProductRequested('Right');
+      }
+    };
+    this.uploaderRightEye.onErrorItem = (item, response, status, headers) => {
+        this.uploadResultRightEye = {'success': true, 'item': item, 'response':
                              response, 'status': status, 'headers': headers};
     };
   }
@@ -746,7 +809,8 @@ export class ProductViewEuropaComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-    this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
+
+    // this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
@@ -754,7 +818,8 @@ export class ProductViewEuropaComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationEuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
-    modalRef.componentInstance.listFileBasket = this.listFileBasket;
+    modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
+    modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.additionalHidrapeg = this.hidrapeg;
@@ -833,42 +898,81 @@ export class ProductViewEuropaComponent implements OnInit {
     return maxFileSize;
   }
 
-  removeFile(item) {
-    this.uploader.removeFromQueue(item);
-    this.clearSelectedFile();
+  removeFile(item, eye) {
+    // this.uploader.removeFromQueue(item);
+    if (eye === 'Right') {
+      this.uploaderRightEye.removeFromQueue(item);
+    } else if (eye === 'Left') {
+      this.uploaderLeftEye.removeFromQueue(item);
+    }
+    this.clearSelectedFile(eye);
   }
 
-  clearSelectedFile() {
-    this.selectedFiles.nativeElement.value = '';
+
+  clearSelectedFile(eye) {
+    // this.selectedFiles.nativeElement.value = '';
+    if (eye === 'Right') {
+      this.selectedFilesRightEye.nativeElement.value = '';
+    } else if (eye === 'Left') {
+      this.selectedFilesLeftEye.nativeElement.value = '';
+    }
   }
+
 
   clearFiles() {
-    if (this.uploader.queue.length) {
+    /*if (this.uploader.queue.length) {
       this.uploader.clearQueue();
       this.clearSelectedFile();
+    }*/
+    if (this.uploaderLeftEye.queue.length) {
+      this.uploaderLeftEye.clearQueue();
+      this.clearSelectedFile('Left');
+    }
+    if (this.uploaderRightEye.queue.length) {
+      this.uploaderRightEye.clearQueue();
+      this.clearSelectedFile('Right');
     }
   }
 
   saveFiles(): void {
-    this.listFileBasket = new Array;
-    if (this.uploader.queue) {
+    // this.listFileBasket = new Array;
+    this.listFileLeftEye = new Array;
+    this.listFileRightEye = new Array;
+
+    /*if (this.uploader.queue) {
       _.each(this.uploader.queue, function (item) {
+        item.upload();
+      });
+    }*/
+    if (this.uploaderLeftEye.queue) {
+      _.each(this.uploaderLeftEye.queue, function (item) {
+        item.upload();
+      });
+    }
+    if (this.uploaderRightEye.queue) {
+      _.each(this.uploaderRightEye.queue, function (item) {
         item.upload();
       });
     }
   }
 
-  private buildFileProductRequested() {
-    if (this.uploadResult.success) {
+  private buildFileProductRequested(eye) {
+    if (eye === 'Right' && this.uploadResultRightEye.success) {
       const fileProductRequest: FileProductRequested = new FileProductRequested();
-      fileProductRequest.url  = JSON.parse(this.uploadResult.response).data;
-      fileProductRequest.name = this.uploadResult.item.file.name;
-      fileProductRequest.type = this.uploadResult.item.file.type;
-      fileProductRequest.size = this.uploadResult.item.file.size;
+      fileProductRequest.url  = JSON.parse(this.uploadResultRightEye.response).data;
+      fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+      fileProductRequest.type = this.uploadResultRightEye.item.file.type;
+      fileProductRequest.size = this.uploadResultRightEye.item.file.size;
       fileProductRequest.createdAt = new Date();
-      this.listFileBasket.push(fileProductRequest);
-    } else {
-      console.log('error file');
+      this.listFileRightEye.push(fileProductRequest);
+    } if (eye === 'Left' && this.uploadResultLeftEye.success) {
+      const fileProductRequest: FileProductRequested = new FileProductRequested();
+      fileProductRequest.url  = JSON.parse(this.uploadResultLeftEye.response).data;
+      fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+      fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
+      fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
+      fileProductRequest.createdAt = new Date();
+      this.listFileLeftEye.push(fileProductRequest);
     }
   }
 
