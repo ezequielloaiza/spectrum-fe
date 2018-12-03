@@ -95,12 +95,14 @@ export class PaymentsMadeComponent implements OnInit {
     );
   }
 
-  openModal(invoice): void {
-    const aux = invoice;
+  openModal(invoice, action, payment): void {
     const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
     modalRef.componentInstance.invoice = invoice;
+    modalRef.componentInstance.action = action;
+    modalRef.componentInstance.invoicePayment = payment;
     modalRef.result.then((result) => {
-      this.ngOnInit();
+      const id = this.route.snapshot.paramMap.get('idInvoice');
+      this.getListPayments(id);
     }, (reason) => {
     });
   }
@@ -110,9 +112,7 @@ export class PaymentsMadeComponent implements OnInit {
     modalRef.componentInstance.payment = payment;
     modalRef.result.then((result) => {
       const id = this.route.snapshot.paramMap.get('idInvoice');
-
       this.getListPayments(id);
-      this.ngOnInit();
     }, (reason) => {
     });
   }
@@ -130,7 +130,7 @@ export class PaymentsMadeComponent implements OnInit {
         this.orderByField = 'number';
         key = 'number';
         this.reverseSort = true;
-        this.getListPayments(this.invoice.idInvoiceClient);
+        this.getListPayments(this.invoice.idInvoice);
       }
     }
     let invoicesSort = this.listPaymentsAux.sort(function (a, b) {

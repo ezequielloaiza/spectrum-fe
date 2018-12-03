@@ -57,7 +57,7 @@ export class ChangeStatusComponent implements OnInit {
             this.invoicePaymentService.changeStatus$(this.payment.idInvoicePayment, this.idStatus).subscribe(res => {
               if (res.code === CodeHttp.ok) {
                 this.close();
-                this.translate.get('Successfully Update', { value: 'Successfully Update' }).subscribe((res: string) => {
+                this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
                   this.notification.success('', res);
                 });
               } else {

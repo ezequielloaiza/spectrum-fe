@@ -974,5 +974,15 @@
     "Yearly": "Anual",
     "Warning: Includes":"Advertencia: Incluye",
     "All customers invoices":"Todas las facturas de clientes",
-    "All payments" : "Todos los pagos"
+    "All payments" : "Todos los pagos",
+    "Invoice number" : "Numero de Factura",
+    "Download Invoice" : "Descargar Factura",
+    "Verified" : "Verificada",
+    "Attach file" : "Adjuntar archivo",
+    "Enter bank name" : "Ingrese nombre del banco",
+    "Payment Information" : "Informacion de Pago",
+    "Payment Type": "Tipo de Pago",
+    "Invoice Payment's status": "Estado del Pago de la Factura",
+    "View Payment": "Ver Pago",
+    "File Not Found" : "Archivo no Encontrado"
 }

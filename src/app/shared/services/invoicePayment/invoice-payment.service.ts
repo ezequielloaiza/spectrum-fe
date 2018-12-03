@@ -14,6 +14,10 @@ export class InvoicePaymentService {
     return this.http.post(environment.apiUrl + 'invoicesPayment/save', invoicePayment);
   }
 
+  public updateInvoicePayment$(invoicePayment): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesPayment/update', invoicePayment);
+  }
+
   public allPaymentsByInvoice$(invoice): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesPayment/allPaymentsByInvoice/' + invoice);
   }

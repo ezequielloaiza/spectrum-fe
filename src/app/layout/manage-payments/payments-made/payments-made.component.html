@@ -45,30 +45,30 @@
             </div>
             <!--Customer data-->
             <div class="col-md-4">
-                <span class="font-weight-bold">{{'Customer' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.name : '' }}</span>
-                <br>
-                <span class="font-weight-bold">{{'Address' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.address : '' }}</span>
-                <br>
-                <span class="font-weight-bold">{{'Email' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.email : '' }}</span>
-                <br>
-                <span class="font-weight-bold">{{'Phone' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.phone : '' }}</span>
+              <span class="font-weight-bold">{{'Customer' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.user.name : '' }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Address' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.user.address : '' }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Email' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.user.email : '' }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Phone' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.user.phone : '' }}</span>
             </div>
             <!--Totals data-->
             <div class="col-md-4">
-                <span class="font-weight-bold">{{'Totals' | translate }}:</span>&nbsp;
-                <br>
-                <span class="font-weight-bold">{{'Amount Due' | translate }}:</span>&nbsp;
-                <span>{{ (invoice ? invoice.due : '') | currency : "USD $" }}</span>
-                <br>
-                <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
-                <span>{{ (invoice ? invoice.subtotal : '') | currency : "USD $" }}</span>
-                <br>
-                <span class="font-weight-bold">{{'Total' | translate }}:</span>&nbsp;
-                <span>{{ (invoice ? invoice.total : '') | currency : "USD $" }}</span>
+              <span class="font-weight-bold">{{'Totals' | translate }}:</span>&nbsp;
+              <br>
+              <span class="font-weight-bold">{{'Amount Due' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? invoice.due : '') | currency : "USD $" }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? invoice.subtotal : '') | currency : "USD $" }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Total' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? invoice.total : '') | currency : "USD $" }}</span>
             </div>
           </div>
           <br><br>
@@ -79,7 +79,7 @@
           <div class="align-self-center">
             {{ 'All payments' | translate }}
           </div>
-          <button type="button" class="btn btn-main" (click)="openModal(invoice)">{{ 'Add' | translate }}
+          <button type="button" class="btn btn-main" (click)="openModal(invoice,'new',null)">{{ 'Add' | translate }}
             <i class="fa fa-plus"></i>
           </button>
         </div>
@@ -107,11 +107,11 @@
                 </th>
                 <th class="table-tr header-column">
                   <span title="{{ 'Type' | translate }}">{{ 'Type' | translate }}
-                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('type')"></i>
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('typeId')"></i>
                   </span>
                   <span [hidden]="orderByField != 'date' || typeSort === 0">
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('type')"></i>
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('type')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('typeId')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('typeId')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
@@ -160,8 +160,11 @@
                     <div ngbDropdown class="d-inline-block dropdown">
                       <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                       <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="openModal(invoice,'view', payment)">
+                          <i class="fa fa-eye"></i> {{ 'View Payment' | translate }}
+                        </button>
                         <button class="dropdown-item" (click)="changeStatus(payment)">
-                          <i class="fa fa-eye"></i> {{ 'Change Status' | translate }}
+                          <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}
                         </button>
                       </div>
                     </div>

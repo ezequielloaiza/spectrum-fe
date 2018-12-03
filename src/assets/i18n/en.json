@@ -793,5 +793,15 @@
     "Yearly": "Yearly",
     "Warning: Includes":"Warning: Includes",
     "All customers invoices":"All customers invoices",
-    "All payments" : "All payments"
+    "All payments" : "All payments",
+    "Invoice number" : "Invoice number",
+    "Download Invoice" : "Download Invoice",
+    "Verified" : "Verified",
+    "Attach file" : "Attach file",
+    "Enter bank name" : "Enter bank name",
+    "Payment Information": "Payment Information",
+    "Payment Type" : "Payment Type",
+    "Invoice Payment's status":"Invoice Payment's status",
+    "View Payment":"View Payment",
+    "File Not Found": "File Not Found"
 }

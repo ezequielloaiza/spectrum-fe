@@ -1,3 +1,4 @@
+import { FileInvoicePayment } from './fileinvoicepayment';
 
 
 export class InvoicePayment {
@@ -9,6 +10,8 @@ export class InvoicePayment {
     public amount: number;
     public bank: String;
     public status: number;
+    public description: String;
+    public fileInvoicePaymentList: Array<FileInvoicePayment>;
 
     public constructor() { }
 

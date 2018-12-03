@@ -5,15 +5,18 @@
   </button>
 </div>
 <div class="modal-body">
-  <form [formGroup]="form"> 
+  <form [formGroup]="form">
     <h4>{{ 'Payment Information' | translate }}</h4><br>
     <div class="row">
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label class="title">{{ 'Payment Type' | translate }}</label>
-          <select class="form-control" name="typeId" formControlName="typeId" required>
-            <option *ngFor="let type of listTypes" value="{{type.id}}">{{ type.name | translate }}</option>
-          </select>
+          <div>
+            <span *ngIf="action == 'view'">{{ listTypes[invoicePayment.typePayment]["name"] | translate }}</span>
+            <select *ngIf="action != 'view'" class="form-control" name="typeId" formControlName="typeId" required>
+              <option *ngFor="let type of listTypes" value="{{type.id}}">{{ type.name | translate }}</option>
+            </select>
+          </div>
         </fieldset>
         <div class="message-error" [hidden]="typeId.valid || typeId.pristine">
           <span>{{ 'Payment Type is required' | translate }}</span>
@@ -22,12 +25,16 @@
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'Date' | translate }}</label>
-          <div class="input-group">
-            <input class="form-control" placeholder="yyyy-mm-dd" name="date" formControlName="date" ngbDatepicker #d="ngbDatepicker" required>
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                <i class="fa fa-calendar"></i>
-              </button>
+          <div>
+            <span *ngIf="action == 'view'">{{ invoicePayment.date | date:'yyyy-MM-dd' }}</span>
+            <div *ngIf="action != 'view'" class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="date" formControlName="date" ngbDatepicker #d="ngbDatepicker"
+                required>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
             </div>
           </div>
         </fieldset>
@@ -38,7 +45,11 @@
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'Bank Name' | translate }}</label>
-          <input class="form-control" placeholder="{{ 'Enter bank name' | translate }}" formControlName="bank" name="bank" required>
+          <div>
+            <span *ngIf="action == 'view'">{{ invoicePayment.bank }}</span>
+            <input *ngIf="action != 'view'" class="form-control" placeholder="{{ 'Enter bank name' | translate }}"
+              formControlName="bank" name="bank" required>
+          </div>
         </fieldset>
         <div class="message-error" [hidden]="bank.valid || bank.pristine">
           <span>{{'Bank name is required' | translate }}</span>
@@ -47,7 +58,11 @@
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'Reference Number' | translate }}</label>
-          <input class="form-control" placeholder="{{ 'Enter reference number' | translate }}" name="referenceNumber" formControlName="referenceNumber" required>
+          <div>
+            <span *ngIf="action == 'view'">{{ invoicePayment.referenceNumber }}</span>
+            <input *ngIf="action != 'view'" class="form-control" placeholder="{{ 'Enter reference number' | translate }}"
+              name="referenceNumber" formControlName="referenceNumber" required>
+          </div>
         </fieldset>
         <div class="message-error" [hidden]="referenceNumber.valid || referenceNumber.pristine">
           <span>{{'Reference number is required' | translate }}</span>
@@ -56,12 +71,15 @@
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'Amount' | translate }}</label>
-          <div class="form-group input-group">
-            <div class="input-group-append">
-              <span class="input-group-text">$</span>
+          <div>
+            <span *ngIf="action == 'view'">{{ invoicePayment.amount | currency : "USD $" }}</span>
+            <div *ngIf="action != 'view'" class="form-group input-group">
+              <div class="input-group-append">
+                <span class="input-group-text">$</span>
+              </div>
+              <input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}"
+                name="amount" formControlName="amount" required>
             </div>
-            <input type="number" min="0.0" step="0.1" class="form-control"  placeholder="{{ 'Enter price' | translate }}"
-            name="amount" formControlName="amount" required>
           </div>
         </fieldset>
         <div class="message-error" [hidden]="amount.valid || amount.pristine">
@@ -70,10 +88,23 @@
       </div>
       <div class="col-xl-6">
         <fieldset class="form-group">
+          <label>{{ 'Notes' | translate }}</label>
+          <div>
+            <span *ngIf="action == 'view'">{{ invoicePayment.description }}</span>
+            <input *ngIf="action != 'view'" class="form-control" placeholder="{{ 'Enter notes' | translate }}" name="notes"
+              formControlName="notes" required>
+          </div>
+        </fieldset>
+        <div class="message-error" [hidden]="notes.valid || notes.pristine">
+          <span>{{'Notes is required' | translate }}</span>
+        </div>
+      </div>
+      <div class="col-xl-12">
+        <fieldset class="form-group">
           <label>{{ 'Attach file' | translate }}</label>
-          <div class="custom-file">
+          <div *ngIf="action != 'view'" class="custom-file">
             <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader" [disabled]="uploader.queue.length > 4"
-              multiple required/>
+              multiple required />
             <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
             <div class="invalid-feedback">Example invalid custom file feedback</div>
             <div class="message-error">
@@ -86,15 +117,37 @@
         <!-- <div class="message-error" [hidden]> 
           <span>{{'Attach file is required' | translate }}</span>
         </div>-->
-        <br>
-          <div class="col-md-12" style="margin-bottom: 40px" *ngIf="uploader.queue.length > 0">
-            <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
-              <button type="button" class="btn btn-danger btn-s"
-                (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
-              </button>
-            </div>
-            <br>
+        <div class="col-md-12" style="margin-bottom: 40px" *ngIf="(action != 'view') && (uploader.queue.length > 0)">
+          <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
+            <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+              <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+            </button>
+          </div>
+          <br>
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="50%">{{ 'Name' | translate }}</th>
+                <th>{{ 'Size' | translate }}</th>
+                <th>{{ 'Actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of uploader.queue">
+                <td><strong>{{ item?.file?.name }}</strong></td>
+                <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                <td nowrap>
+                  <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item)">
+                    <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Documents -->
+        <div *ngIf="action == 'view'" class="col-md-12">
+          <div class="row justify-content-md-center margin-table">
             <table class="table">
               <thead>
                 <tr>
@@ -104,29 +157,39 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of uploader.queue">
-                  <td><strong>{{ item?.file?.name }}</strong></td>
-                  <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                <tr *ngFor="let item of listFilePayment">
+                  <td>
+                    <strong>{{ item?.name }}</strong>
+                  </td>
+                  <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
                   <td nowrap>
-                    <button type="button" class="btn btn-danger btn-xs"
-                      (click)="removeFile(item)">
-                      <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                    <button type="button" class="btn btn-success btn-xs" (click)="downloadFile(item)">
+                      <span class="fa fa-download"></span> {{ 'Download' | translate }}
                     </button>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <br>
           </div>
+        </div>
       </div>
     </div>
     <br>
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+  <button [hidden]="action != 'view'" type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{
+    'Back' |
+    translate }}&nbsp;
+    <i class="fa fa-arrow-left"></i>
+  </button>
+  <button type="button" [hidden]="action == 'view'" class="btn btn-secondary" (click)="modalReference.dismiss()">{{
+    'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save()" >{{ 'Save' | translate }}&nbsp;
+  <button type="button" [hidden]="action == 'view'" [disabled]="form.invalid" class="btn btn-main" (click)="save()">{{
+    'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
 </div>

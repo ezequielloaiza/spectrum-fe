@@ -11,8 +11,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { InvoicePayment } from '../../../../../shared/models/invoicepayment';
 import { FileInvoicePayment } from '../../../../../shared/models/fileinvoicepayment';
-import * as _  from 'lodash';
+import * as _ from 'lodash';
 import { UserStorageService } from '../../../../../http/user-storage.service';
+import { FileinvoicepaymentService } from '../../../../../shared/services/fileinvoicepayment/fileinvoicepayment.service';
+import { saveAs } from 'file-saver';
 
 const URL = environment.apiUrl + 'fileInvoicePayment/uploader';
 @Component({
@@ -23,7 +25,7 @@ const URL = environment.apiUrl + 'fileInvoicePayment/uploader';
 export class AddPaymentModalComponent implements OnInit {
 
   form: FormGroup;
-  listTypes = [{id: 0, name: 'Transfer'}, {id: 1, name: 'Deposit'}, {id: 2, name: 'Check'}];
+  listTypes = [{ id: 0, name: 'Transfer' }, { id: 1, name: 'Deposit' }, { id: 2, name: 'Check' }];
   invoicePayment: InvoicePayment = new InvoicePayment();
   invoice: any;
   action: any;
@@ -32,78 +34,133 @@ export class AddPaymentModalComponent implements OnInit {
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFilePayment: Array<FileInvoicePayment> = new Array;
   private uploadResult: any = null;
-  public uploader: FileUploader = new FileUploader({url: URL,
-                                                    itemAlias: 'files',
-                                                    queueLimit: this.queueLimit,
-                                                    maxFileSize: this.maxFileSize,
-                                                    removeAfterUpload: false,
-                                                    authToken: this.userStorageService.getToke(),
-                                                    autoUpload: false});
+  public uploader: FileUploader = new FileUploader({
+    url: URL,
+    itemAlias: 'files',
+    queueLimit: this.queueLimit,
+    maxFileSize: this.maxFileSize,
+    removeAfterUpload: false,
+    authToken: this.userStorageService.getToke(),
+    autoUpload: false
+  });
 
   constructor(private route: ActivatedRoute,
     public modalReference: NgbActiveModal,
     private userStorageService: UserStorageService,
     private formBuilder: FormBuilder,
-    private invoicePaymentService: InvoicePaymentService, 
+    private invoicePaymentService: InvoicePaymentService,
+    private fileInvoicePaymentService: FileinvoicepaymentService,
     private translate: TranslateService,
-    private notification: ToastrService) { 
+    private notification: ToastrService) {
 
-      this.uploader.onAfterAddingFile = (item) => {
-        const maxSize = this.maxFilesSize();
+    this.uploader.onAfterAddingFile = (item) => {
+      const maxSize = this.maxFilesSize();
 
-        if (maxSize > this.maxFileSize) {
-          this.removeFile(item);
-          this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
-            this.notification.error('', res);
-          });
-        }
+      if (maxSize > this.maxFileSize) {
+        this.removeFile(item);
+        this.translate.get('Exceeds the maximum size allowed', { value: 'Exceeds the maximum size allowed' }).subscribe((res: string) => {
+          this.notification.error('', res);
+        });
+      }
+    };
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResult = {
+        'success': true, 'item': item, 'response':
+          response, 'status': status, 'headers': headers
       };
-      this.uploader.onSuccessItem = (item, response, status, headers) => {
-        this.uploadResult = {'success': true, 'item': item, 'response':
-                             response, 'status': status, 'headers': headers};
-        if (this.uploadResult) {
-          this.buildFileInvoicePayment();
-        }
+      if (this.uploadResult) {
+        this.buildFileInvoicePayment();
+      }
+    };
+    this.uploader.onErrorItem = (item, response, status, headers) => {
+      this.uploadResult = {
+        'success': true, 'item': item, 'response':
+          response, 'status': status, 'headers': headers
       };
-      this.uploader.onErrorItem = (item, response, status, headers) => {
-          this.uploadResult = {'success': true, 'item': item, 'response':
-                               response, 'status': status, 'headers': headers};
-      };
-    }
+    };
+  }
 
   ngOnInit() {
+    if (this.invoicePayment == null) {
+      this.invoicePayment = new InvoicePayment();
+    }
     this.invoicePayment.idInvoiceClient = this.invoice.idInvoice;
     this.initializeForm();
+    this.loadFileInvoicePayment();
   }
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      id     : [this.action === 'edit' ? this.invoicePayment.idInvoicePayment : ''],
-      typeId : [this.action === 'edit' ? this.invoicePayment.typeId : '', [ Validators.required]],
-      date   : [this.action === 'edit' ? this.invoicePayment.date : '', [ Validators.required]],
-      referenceNumber: [this.action === 'edit' ? this.invoicePayment.referenceNumber : '', [ Validators.required]],
-      bank   : [this.action === 'edit' ? this.invoicePayment.bank : '', [ Validators.required]],
-      status : [this.action === 'edit' ? this.invoicePayment.status : 0, []],
-      amount : [this.action === 'edit' ? this.invoicePayment.amount : '', [Validators.required]],
-      idInvoiceClient: [this.action === 'edit' ? this.invoicePayment.idInvoiceClient : this.invoice.idInvoice]
+      id: [this.action !== 'new' ? this.invoicePayment.idInvoicePayment : ''],
+      typeId: [this.action !== 'new' ? this.invoicePayment.typeId : '', [Validators.required]],
+      date: [this.action !== 'new' ? this.invoicePayment.date : '', [Validators.required]],
+      referenceNumber: [this.action === 'new' ? this.invoicePayment.referenceNumber : '', [Validators.required]],
+      notes: [this.action === 'new' ? this.invoicePayment.description : '', [Validators.required]],
+      bank: [this.action !== 'new' ? this.invoicePayment.bank : '', [Validators.required]],
+      status: [this.action !== 'new' ? this.invoicePayment.status : 0, []],
+      amount: [this.action !== 'new' ? this.invoicePayment.amount : '', [Validators.required]],
+      idInvoiceClient: [this.action === 'new' ? this.invoicePayment.idInvoiceClient : this.invoice.idInvoice]
     });
+  }
+
+  loadFileInvoicePayment() {
+    if (this.invoicePayment.idInvoicePayment !== undefined) {
+      this.fileInvoicePaymentService.allFileByInvoicePayment$(this.invoicePayment.idInvoicePayment).subscribe(
+        res => {
+          if (res.code === CodeHttp.ok) {
+            this.listFilePayment = res.data;
+          } else {
+            console.log(res.errors[0].detail);
+          }
+        }, error => {
+          console.log('error', error);
+        }
+      );
+    }
   }
 
   save(): void {
     this.loadPayment();
     this.saveFiles();
-    this.invoicePaymentService.saveInvoicePayment$(this.invoicePayment).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.modalReference.close();
-        this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
-          this.notification.success('', res);
-        });
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
+    console.log(this.invoicePayment);
+    if (this.action === 'new') {
+      this.invoicePaymentService.saveInvoicePayment$(this.invoicePayment).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.invoicePayment = res.data;
+          this.fileInvoicePaymentService.saveAllFile$(this.listFilePayment, this.invoicePayment.idInvoicePayment).subscribe(
+            res1 => {
+              if (res1.code === CodeHttp.ok) {
+                this.modalReference.close();
+                this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+                  this.notification.success('', res);
+                });
+              } else {
+                console.log(res.errors[0].detail);
+              }
+            }, error => {
+              console.log('error', error);
+            }
+          );
+        } else {
+          console.log(res.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    } else {
+      this.invoicePaymentService.updateInvoicePayment$(this.invoicePayment).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.modalReference.close();
+          this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
+        } else {
+          console.log(res.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    }
   }
 
   close() {
@@ -126,6 +183,7 @@ export class AddPaymentModalComponent implements OnInit {
   get date() { return this.form.get('date'); }
   get referenceNumber() { return this.form.get('referenceNumber'); }
   get amount() { return this.form.get('amount'); }
+  get notes() { return this.form.get('notes'); }
 
 
   maxFilesSize() {
@@ -167,7 +225,7 @@ export class AddPaymentModalComponent implements OnInit {
   private buildFileInvoicePayment() {
     if (this.uploadResult.success) {
       const fileInvoicePayment: FileInvoicePayment = new FileInvoicePayment();
-      fileInvoicePayment.url  = JSON.parse(this.uploadResult.response).data;
+      fileInvoicePayment.url = JSON.parse(this.uploadResult.response).data;
       fileInvoicePayment.name = this.uploadResult.item.file.name;
       fileInvoicePayment.type = this.uploadResult.item.file.type;
       fileInvoicePayment.size = this.uploadResult.item.file.size;
@@ -176,5 +234,16 @@ export class AddPaymentModalComponent implements OnInit {
     } else {
       console.log('error file');
     }
+  }
+
+  downloadFile(item) {
+    this.fileInvoicePaymentService.downloadFile$(item.name).subscribe(res => {
+      saveAs(res, item.name);
+    }, error => {
+      this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
+      console.log('error', error);
+    });
   }
 }
