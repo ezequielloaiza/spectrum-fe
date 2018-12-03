@@ -103,8 +103,35 @@
                         <br>
                         <br>
                       </div>
+                      <div class="row" *ngIf="list.productRequested.product.supplier.idSupplier===4">
+                        <div class="col-sm-2">
+                          <dl class="align-item">
+                            <dt>{{'Customer'| translate}}
+                            </dt>
+                            <dt>
+                              <span class="font-text">{{order.nameUser}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-2" [hidden]="order.user.certificationCode===''">
+                          <dl class="align-item">
+                            <dt>{{'Certification Code' | translate}}</dt>
+                            <dt>
+                              <span class="font-text">{{order.user.certificationCode}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-2" [hidden]="specification.eye===''">
+                          <dl class="align-item">
+                            <dt>{{'Eye'| translate}}</dt>
+                            <dt>
+                              <span class="font-text">{{specification.eye | translate}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                      </div>
                       <div class="row">
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier !==5">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier!==5">
                           <dl class="align-item">
                             <dt>{{'Supplier'| translate}}
                             </dt>
@@ -122,7 +149,7 @@
                           </dl>
                         </div>
                         <div class="col-sm-2" [hidden]="specification.eye===''">
-                          <dl class="align-item">
+                          <dl class="align-item" *ngIf="list.productRequested.product.supplier.idSupplier!==4">
                             <dt>{{'Eye'| translate}}</dt>
                             <dt>
                               <span class="font-text">{{specification.eye | translate}}</span>
@@ -130,7 +157,6 @@
                           </dl>
                         </div>
                       </div>
-                      <br>
                       <div class="row">
                         <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier ===5">
                           <dl class="align-item">
