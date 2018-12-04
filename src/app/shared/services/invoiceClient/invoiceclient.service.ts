@@ -22,6 +22,10 @@ export class InvoiceClientService {
     return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceByStatus/' + status);
   }
 
+  public allInvoiceByStatusIn$(idUser, status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceByStatusInByRole/' + idUser + '/' + status);
+  }
+
   public allInvoice$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesClient/allInvoice');
   }

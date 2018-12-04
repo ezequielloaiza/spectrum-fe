@@ -27,6 +27,7 @@ export class PaymentsMadeComponent implements OnInit {
   advancedPagination: number;
   itemPerPage: number = 5;
   order: any;
+  user: any;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -37,7 +38,9 @@ export class PaymentsMadeComponent implements OnInit {
     private userStorageService: UserStorageService,
     private invoiceService: InvoiceClientService,
     private invoicePaymentService: InvoicePaymentService,
-    public router: Router) { }
+    public router: Router) { 
+      this.user = JSON.parse(userStorageService.getCurrentUser());
+    }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('idInvoice');

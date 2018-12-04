@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal, NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { GenerateInvoiceComponent } from '../manage-customer-orders/generate-invoice/generate-invoice.component';
 import { OrderService } from '../../shared/services';
 import { saveAs } from 'file-saver';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InvoiceClientService } from '../../shared/services/invoiceClient/invoiceclient.service';
@@ -19,11 +19,13 @@ import { InvoiceClientService } from '../../shared/services/invoiceClient/invoic
   templateUrl: './manage-payments.component.html',
   styleUrls: ['./manage-payments.component.scss']
 })
-export class ManagePaymentsComponent implements OnInit {
+export class ManagePaymentsComponent implements OnInit, OnDestroy {
   orderByField = 'number';
 	reverseSort = true;
   typeSort = 0;
   invoice: any;
+  user: any;
+  statusRoute: any;
   listInvoices: Array<any> = new Array;
   listInvoicesAux: Array<any> = new Array;
   advancedPagination: number;
@@ -40,6 +42,8 @@ export class ManagePaymentsComponent implements OnInit {
   valid1 = false;
   fechaSelec: NgbDatepicker;
   search: String;
+  navigationSubscription;
+  
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
     private notification: ToastrService,
@@ -48,15 +52,34 @@ export class ManagePaymentsComponent implements OnInit {
     private userStorageService: UserStorageService,
     private invoiceService: InvoiceClientService,
     private spinner: NgxSpinnerService,
-    public router: Router) { }
+    public router: Router,
+    private route: ActivatedRoute) { 
+      this.user = JSON.parse(userStorageService.getCurrentUser());
+      this.navigationSubscription = this.router.events.subscribe((e: any) => {
+        if (e instanceof NavigationEnd) {
+          this.ngOnInit();
+          this.getListInvoices();
+        }
+      });
+    }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.statusRoute = params.status;
+    });
     this.getListInvoices();
     this.advancedPagination = 1;
     this.selectedStatus = '';
     this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
   }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
+  }
+
   pageChange(event) {
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
@@ -65,7 +88,7 @@ export class ManagePaymentsComponent implements OnInit {
 
   getListInvoices(): void {
     this.spinner.show();
-    this.invoiceService.allInvoice$().subscribe(
+    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, this.statusRoute).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;
