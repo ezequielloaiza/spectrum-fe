@@ -984,5 +984,6 @@
     "Payment Type": "Tipo de Pago",
     "Invoice Payment's status": "Estado del Pago de la Factura",
     "View Payment": "Ver Pago",
-    "File Not Found" : "Archivo no Encontrado"
+    "File Not Found" : "Archivo no Encontrado",
+    "Edit Payment": "Editar Pago"
 }

@@ -196,6 +196,9 @@ export class PaymentsMadeComponent implements OnInit {
       const filename = 'I-' + invoice.number + '.pdf';
       saveAs(res, filename);
     }, error => {
+      this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
       console.log('error', error);
     });
   }

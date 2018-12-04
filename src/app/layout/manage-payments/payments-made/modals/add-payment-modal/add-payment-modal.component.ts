@@ -87,12 +87,15 @@ export class AddPaymentModalComponent implements OnInit {
     this.invoicePayment.idInvoiceClient = this.invoice.idInvoice;
     this.initializeForm();
     this.loadFileInvoicePayment();
+    if (this.action === 'edit') {
+      this.loadPaymentEdit();
+    }
   }
 
   initializeForm() {
     this.form = this.formBuilder.group({
       id: [this.action !== 'new' ? this.invoicePayment.idInvoicePayment : ''],
-      typeId: [this.action !== 'new' ? this.invoicePayment.typeId : '', [Validators.required]],
+      typeId: [this.action !== 'new' ? this.invoicePayment.typePayment : '', [Validators.required]],
       date: [this.action !== 'new' ? this.invoicePayment.date : '', [Validators.required]],
       referenceNumber: [this.action === 'new' ? this.invoicePayment.referenceNumber : '', [Validators.required]],
       notes: [this.action === 'new' ? this.invoicePayment.description : '', [Validators.required]],
@@ -150,10 +153,21 @@ export class AddPaymentModalComponent implements OnInit {
     } else {
       this.invoicePaymentService.updateInvoicePayment$(this.invoicePayment).subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          this.modalReference.close();
-          this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
-            this.notification.success('', res);
-          });
+          this.invoicePayment = res.data;
+          this.fileInvoicePaymentService.saveAllFile$(this.listFilePayment, this.invoicePayment.idInvoicePayment).subscribe(
+            res1 => {
+              if (res1.code === CodeHttp.ok) {
+                this.modalReference.close();
+                this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+                  this.notification.success('', res);
+                });
+              } else {
+                console.log(res.errors[0].detail);
+              }
+            }, error => {
+              console.log('error', error);
+            }
+          );
         } else {
           console.log(res.errors[0].detail);
         }
@@ -172,10 +186,21 @@ export class AddPaymentModalComponent implements OnInit {
     this.invoicePayment.amount = this.form.get('amount').value;
     this.invoicePayment.bank = this.form.get('bank').value;
     this.invoicePayment.referenceNumber = this.form.get('referenceNumber').value;
-    this.invoicePayment.typeId = this.form.get('typeId').value;
+    this.invoicePayment.typePayment = this.form.get('typeId').value;
     const aux = this.form.get('date').value;
     const date = new Date(aux.year, aux.month - 1, aux.day);
     this.invoicePayment.date = date;
+  }
+
+  loadPaymentEdit() {
+    this.form.get('amount').setValue(this.invoicePayment.amount);
+    this.form.get('bank').setValue(this.invoicePayment.bank);
+    this.form.get('referenceNumber').setValue(this.invoicePayment.referenceNumber);
+    this.form.get('typeId').setValue(this.listTypes.find(x => x.id === this.invoicePayment.typePayment));
+    const date = this.invoicePayment.date;
+    const aux = {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()};
+    this.form.get('date').patchValue(aux);
+    this.form.get('notes').setValue(this.invoicePayment.description);
   }
 
   get typeId() { return this.form.get('typeId'); }

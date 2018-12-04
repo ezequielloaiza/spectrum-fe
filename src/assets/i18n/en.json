@@ -803,5 +803,6 @@
     "Payment Type" : "Payment Type",
     "Invoice Payment's status":"Invoice Payment's status",
     "View Payment":"View Payment",
-    "File Not Found": "File Not Found"
+    "File Not Found": "File Not Found",
+    "Edit Payment": "Edit Payment"
 }
