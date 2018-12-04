@@ -27,14 +27,12 @@ export class SupplierEuclidComponent implements OnInit {
   @Input() files: Array<FileProductRequested>;
   @Input() image: any;
   @Input() order: Order;
+  @Output() emitEventEuclid: EventEmitter<any> = new EventEmitter<any>();
 
   listAux: Array<ProductRequested> = new Array;
   urlImage: any;
   valueStatus: any;
   user: any;
-  id: any;
-
-  @Output() emitEventEuclid: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private fileProductRequestedService: FileProductRequestedService,
               private modalService: NgbModal,
@@ -45,7 +43,6 @@ export class SupplierEuclidComponent implements OnInit {
 }
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id');
     this.listAux = this.lista;
     this.urlImage = this.image;
     this.valueStatus = this.order.status;

@@ -240,6 +240,7 @@ export class DetailsBasketClientComponent implements OnInit {
      case 1: // Markennovy
           const modalRefMarkennovy = this.modalService.open( MarkennovyComponent, { size: 'lg', windowClass: 'modal-content-border' });
           modalRefMarkennovy.componentInstance.basket = basket;
+          modalRefMarkennovy.componentInstance.typeEdit = 1;
           modalRefMarkennovy.result.then((result) => {
             this.ngOnInit();
           } , (reason) => {
@@ -267,6 +268,7 @@ export class DetailsBasketClientComponent implements OnInit {
      case 5: // Magic Look
           const modalRefMagic = this.modalService.open( MagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
           modalRefMagic.componentInstance.basket = basket;
+          modalRefMagic.componentInstance.typeEdit = 1;
           modalRefMagic.result.then((result) => {
             this.ngOnInit();
           } , (reason) => {

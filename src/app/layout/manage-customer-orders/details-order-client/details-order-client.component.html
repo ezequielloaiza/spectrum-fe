@@ -200,7 +200,7 @@
             </aside>
           </div>
           <!--Markennovy-->
-          <app-supplier-markennovy [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
+          <app-supplier-markennovy [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventMarkennovy)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
           <!--Find Markennovy-->
           <!--Europa-->
           <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
@@ -212,7 +212,7 @@
           <app-supplier-euclid [lista]="list.productRequested" (emitEventEuclid)="refresh($event)" [files]="list.fileProductRequestedList" [image]="list.urlImage" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
           <!--Fin Euclid-->
           <!--Magic Look-->
-          <app-supplier-magic-look [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
+          <app-supplier-magic-look [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventMagic)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
           <!--Blue Light-->
           <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventBlue)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>

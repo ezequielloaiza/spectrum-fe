@@ -1,3 +1,4 @@
+@import "../../../../styles/spectrum/spectrum";
 .font-text{
   font-weight:normal !important;
   align-content: center !important;
@@ -5,4 +6,14 @@
 
 .align-item{
   text-align: center !important;
+}
+
+.display-edit {
+  justify-content: flex-end;
+  font-size: 20px;
+  color: $icon-edit-detail;
+}
+
+.padding-params {
+  padding:  0 2em;
 }

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ProductsRequestedService } from '../../../shared/services';
 import { UserStorageService } from '../../../http/user-storage.service';
+import { ProductRequested } from '../../../shared/models/productrequested';
 
 @Component({
   selector: 'app-markennovy',
@@ -14,17 +15,18 @@ import { UserStorageService } from '../../../http/user-storage.service';
 })
 export class MarkennovyComponent implements OnInit {
 
-  basket: any;
-  productRequested: any;
+  basket: any;productRequested: ProductRequested = new ProductRequested();
+  productRequestedAux: ProductRequested = new ProductRequested();
   product: any;
   detail: any;
+  detailEdit: any;
+  typeEdit: any;
   tones: Array<any> = new Array;
   quantity: any;
   observations: any;
   price: any;
   editPrice = false;
   user: any;
-  cl = ['row', 'selection', 'label-title', 'width-input', 'separator'];
   patient: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
@@ -35,13 +37,16 @@ export class MarkennovyComponent implements OnInit {
               }
 
   ngOnInit() {
-    this.productRequested = this.basket.productRequested;
+    if (this.typeEdit === 1 ) { // Basket
+      this.productRequested = this.basket.productRequested;
+    } else { // order-detail
+      this.productRequested = this.detailEdit;
+    }
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
     this.getProductView();
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
-      this.cl = ['row', 'selection', 'width-input', 'separator'];
     }
 
   }
@@ -81,25 +86,25 @@ export class MarkennovyComponent implements OnInit {
         }
      });
     });
-    this.productRequested.detail = { name: '', eye: this.detail.eye, parameters: this.detail.parameters};
-    this.productRequested.detail = '[' + JSON.stringify(this.productRequested.detail) + ']';
-    this.productRequested.observations = this.observations;
-    this.productRequested.price = this.price;
-    this.productRequested.quantity = this.quantity;
-    this.productRequested.product = this.product.idProduct;
-    this.productRequested.patient = this.patient;
-    this.productRequestedService.update$(this.productRequested).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
-          this.notification.success('', res);
-        });
-        this.close();
-      } else {
-        console.log(res);
-      }
-    }, error => {
-      console.log('error', error);
-    });
+    if (this.typeEdit === 1) { // Basket
+        this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
+        this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
+        this.productRequested.observations = this.observations;
+        this.productRequested.price = this.price;
+        this.productRequested.quantity = this.quantity;
+        this.productRequested.product = this.product.idProduct;
+        this.productRequested.patient = this.patient;
+        this.update(this.productRequested);
+   } else { // Order Detail
+        this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
+        this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
+        this.productRequestedAux.observations = this.observations;
+        this.productRequestedAux.price = this.price;
+        this.productRequestedAux.quantity = this.quantity;
+        this.productRequestedAux.product = this.product.idProduct;
+        this.productRequestedAux.patient = this.patient;
+        this.update(this.productRequestedAux);
+    }
   }
 
   formIsValid() {
@@ -114,5 +119,20 @@ export class MarkennovyComponent implements OnInit {
           valido = false;
      }
      return valido;
+  }
+
+  update(productRequested) {
+    this.productRequestedService.update$(productRequested).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
+        this.modalReference.close(productRequested);
+      } else {
+        console.log(res);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 }
