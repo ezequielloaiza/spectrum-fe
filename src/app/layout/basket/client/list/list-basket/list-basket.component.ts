@@ -233,6 +233,7 @@ export class ListBasketComponent implements OnInit {
     case 2: // Europa
         const modalRefEuropa = this.modalService.open( EuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
         modalRefEuropa.componentInstance.basket = basket;
+        modalRefEuropa.componentInstance.typeEdit = 1;
         modalRefEuropa.result.then((result) => {
           this.ngOnInit();
         } , (reason) => {
