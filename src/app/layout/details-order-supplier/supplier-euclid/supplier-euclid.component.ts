@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { Input } from '@angular/core';
 import { FileProductRequested } from '../../../shared/models/fileproductrequested';
@@ -10,6 +10,9 @@ import { UserStorageService } from '../../../http/user-storage.service';
 import { EuclidComponent } from '../../edit-order/euclid/euclid.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Order } from '../../../shared/models/order';
+import { ActivatedRoute } from '@angular/router';
+import { OrderService } from '../../../shared/services';
+import { Output } from '@angular/core';
 
 const URL = environment.apiUrl + 'fileProductRequested/downloadFile/';
 
@@ -24,20 +27,29 @@ export class SupplierEuclidComponent implements OnInit {
   @Input() files: Array<FileProductRequested>;
   @Input() image: any;
   @Input() order: Order;
-  listAux: Array<any> = new Array;
+
+  listAux: Array<ProductRequested> = new Array;
   urlImage: any;
   valueStatus: any;
   user: any;
+  id: any;
+
+  @Output() emitEventEuclid: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(private fileProductRequestedService: FileProductRequestedService,
               private modalService: NgbModal,
-              private userStorageService: UserStorageService) {
+              private userStorageService: UserStorageService,
+              private route: ActivatedRoute,
+              private orderService: OrderService) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
 }
 
   ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('id');
     this.listAux = this.lista;
     this.urlImage = this.image;
     this.valueStatus = this.order.status;
+    this.sendReply();
   }
 
   downloadFile(item) {
@@ -50,14 +62,24 @@ export class SupplierEuclidComponent implements OnInit {
 
   openEdit() {
     const modalRefEuclid = this.modalService.open( EuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
-    modalRefEuclid.componentInstance.detailEdit = this.listAux;
+    modalRefEuclid.componentInstance.detailEdit = this.lista;
     modalRefEuclid.componentInstance.typeEdit = 2;
     modalRefEuclid.componentInstance.userOrder = this.order.user;
     modalRefEuclid.componentInstance.image = this.urlImage;
     modalRefEuclid.result.then((result) => {
-      this.ngOnInit();
+      this.listAux = result;
+      this.sendReply();
     } , (reason) => {
+
     });
   }
+
+  public sendReply(): any {
+    const fResponse = [];
+    fResponse.push(this.listAux);
+    this.emitEventEuclid.emit(fResponse);
+    return fResponse;
+  }
+
 
 }

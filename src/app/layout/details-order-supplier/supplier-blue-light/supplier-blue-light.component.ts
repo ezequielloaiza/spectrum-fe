@@ -6,6 +6,8 @@ import { environment } from '../../../../../src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BlueLightComponent } from '../../edit-order/blue-light/blue-light.component';
 import { UserStorageService } from '../../../http/user-storage.service';
+import { Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 const URL = environment.apiUrl + 'fileProductRequested/downloadFile/';
 
@@ -18,7 +20,8 @@ export class SupplierBlueLightComponent implements OnInit {
 
   @Input() lista: Array<ProductRequested>;
   @Input() image: any;
-  @Input() status: any;
+  @Input() order: any;
+  @Output() emitEventBlue: EventEmitter<any> = new EventEmitter<any>();
   listAux: Array<any> = new Array;
   urlImage: any;
   valueStatus: any;
@@ -31,18 +34,26 @@ export class SupplierBlueLightComponent implements OnInit {
   ngOnInit() {
     this.listAux = this.lista;
     this.urlImage = this.image;
-    this.valueStatus = this.status;
+    this.valueStatus = this.order.status;
   }
 
   openEdit() {
     const modalRefBlue = this.modalService.open( BlueLightComponent, { size: 'lg', windowClass: 'modal-content-border' });
-    modalRefBlue.componentInstance.detailEdit = this.listAux;
+    modalRefBlue.componentInstance.detailEdit = this.lista;
     modalRefBlue.componentInstance.typeEdit = 2;
     modalRefBlue.componentInstance.image = this.urlImage;
     modalRefBlue.result.then((result) => {
-      this.ngOnInit();
+      this.listAux = result;
+      this.sendReply();
     } , (reason) => {
     });
+  }
+
+  public sendReply(): any {
+    const fResponse = [];
+    fResponse.push(this.listAux);
+    this.emitEventBlue.emit(fResponse);
+    return fResponse;
   }
 
 }

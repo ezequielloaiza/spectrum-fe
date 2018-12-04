@@ -286,7 +286,7 @@ export class EuclidComponent implements OnInit {
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
-        this.close();
+        this.modalReference.close(productRequested);
       } else {
         console.log(res);
       }
