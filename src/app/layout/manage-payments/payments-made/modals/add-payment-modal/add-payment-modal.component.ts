@@ -85,6 +85,7 @@ export class AddPaymentModalComponent implements OnInit {
       this.invoicePayment = new InvoicePayment();
     }
     this.invoicePayment.idInvoiceClient = this.invoice.idInvoice;
+    console.log(this.invoicePayment);
     this.initializeForm();
     this.loadFileInvoicePayment();
     if (this.action === 'edit') {
@@ -97,12 +98,12 @@ export class AddPaymentModalComponent implements OnInit {
       id: [this.action !== 'new' ? this.invoicePayment.idInvoicePayment : ''],
       typeId: [this.action !== 'new' ? this.invoicePayment.typePayment : '', [Validators.required]],
       date: [this.action !== 'new' ? this.invoicePayment.date : '', [Validators.required]],
-      referenceNumber: [this.action === 'new' ? this.invoicePayment.referenceNumber : '', [Validators.required]],
-      notes: [this.action === 'new' ? this.invoicePayment.description : '', [Validators.required]],
+      referenceNumber: [this.action !== 'new' ? this.invoicePayment.referenceNumber : '', [Validators.required]],
+      notes: [this.action !== 'new' ? this.invoicePayment.description : '', [Validators.required]],
       bank: [this.action !== 'new' ? this.invoicePayment.bank : '', [Validators.required]],
       status: [this.action !== 'new' ? this.invoicePayment.status : 0, []],
       amount: [this.action !== 'new' ? this.invoicePayment.amount : '', [Validators.required]],
-      idInvoiceClient: [this.action === 'new' ? this.invoicePayment.idInvoiceClient : this.invoice.idInvoice]
+      idInvoiceClient: [this.action !== 'new' ? this.invoicePayment.idInvoiceClient : this.invoice.idInvoice]
     });
   }
 
@@ -190,6 +191,7 @@ export class AddPaymentModalComponent implements OnInit {
     const aux = this.form.get('date').value;
     const date = new Date(aux.year, aux.month - 1, aux.day);
     this.invoicePayment.date = date;
+    this.invoicePayment.description = this.form.get('notes').value;
   }
 
   loadPaymentEdit() {
@@ -197,8 +199,8 @@ export class AddPaymentModalComponent implements OnInit {
     this.form.get('bank').setValue(this.invoicePayment.bank);
     this.form.get('referenceNumber').setValue(this.invoicePayment.referenceNumber);
     this.form.get('typeId').setValue(this.listTypes.find(x => x.id === this.invoicePayment.typePayment));
-    const date = this.invoicePayment.date;
-    const aux = {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()};
+    const date = new Date(this.invoicePayment.date);
+    const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
     this.form.get('date').patchValue(aux);
     this.form.get('notes').setValue(this.invoicePayment.description);
   }

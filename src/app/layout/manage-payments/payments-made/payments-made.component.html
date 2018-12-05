@@ -163,9 +163,9 @@
                         <button class="dropdown-item" (click)="openModal(invoice,'view', payment)">
                           <i class="fa fa-eye"></i> {{ 'View Payment' | translate }}
                         </button>
-                        <!-- <button class="dropdown-item" (click)="openModal(invoice,'edit', payment)"> 
+                        <button class="dropdown-item" (click)="openModal(invoice,'edit', payment)"> 
                           <i class="fa fa-edit"></i> {{ 'Edit Payment' | translate }}
-                        </button>-->
+                        </button>
                         <button [hidden]="user.role.idRole != 1" class="dropdown-item" (click)="changeStatus(payment)">
                           <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}
                         </button>

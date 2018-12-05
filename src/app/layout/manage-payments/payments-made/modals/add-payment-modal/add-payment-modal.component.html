@@ -13,7 +13,7 @@
           <label class="title">{{ 'Payment Type' | translate }}</label>
           <div>
             <span *ngIf="action == 'view'">{{ listTypes[invoicePayment.typePayment]["name"] | translate }}</span>
-            <select *ngIf="action != 'view'" [(ngModel)]="typeId" class="form-control" name="typeId" formControlName="typeId" required>
+            <select *ngIf="action != 'view'" class="form-control" name="typeId" formControlName="typeId" required>
               <option *ngFor="let type of listTypes" value="{{type.id}}">{{ type.name | translate }}</option>
             </select>
           </div>
