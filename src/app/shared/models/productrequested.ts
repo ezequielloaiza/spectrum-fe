@@ -1,7 +1,7 @@
 import { Product } from './product';
 
 export class ProductRequested {
-
+  public  idProductRequested: number;
   public  product: Product;
   public  detail: string;
   public  quantity: number;

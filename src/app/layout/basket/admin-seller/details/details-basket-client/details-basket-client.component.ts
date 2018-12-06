@@ -13,18 +13,20 @@ import { Buy } from '../../../../../shared/models/buy';
 import { DetailProductModalComponent } from '../../../modals/detail-product/detail-product';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SummaryProductsComponent } from '../../../modals/summary-products/summary-products.component';
-import { MagicLookComponent } from '../../../edit-order/magic-look/magic-look.component';
-import { BlueLightComponent } from '../../../edit-order/blue-light/blue-light.component';
-import { EuclidComponent } from '../../../edit-order/euclid/euclid.component';
-import { MarkennovyComponent } from '../../../edit-order/markennovy/markennovy.component';
+import { MagicLookComponent } from '../../../../edit-order/magic-look/magic-look.component';
+import { BlueLightComponent } from '../../../../edit-order/blue-light/blue-light.component';
+import { EuclidComponent } from '../../../../edit-order/euclid/euclid.component';
+import { MarkennovyComponent } from '../../../../edit-order/markennovy/markennovy.component';
 import { DetailMagicLookComponent } from '../../../modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from '../../../modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from '../../../modals/detail-product/detail-blue-light/detail-blue-light.component';
 import { debug } from 'util';
 import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euclid/detail-euclid.component';
 import { DetailEuropaComponent } from '../../../modals/detail-product/detail-europa/detail-europa.component';
-import { EuropaComponent } from '../../../edit-order/europa/europa.component';
+import { EuropaComponent } from '../../../../edit-order/europa/europa.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+
+
 
 @Component({
   selector: 'app-details-basket-client',
@@ -238,6 +240,7 @@ export class DetailsBasketClientComponent implements OnInit {
      case 1: // Markennovy
           const modalRefMarkennovy = this.modalService.open( MarkennovyComponent, { size: 'lg', windowClass: 'modal-content-border' });
           modalRefMarkennovy.componentInstance.basket = basket;
+          modalRefMarkennovy.componentInstance.typeEdit = 1;
           modalRefMarkennovy.result.then((result) => {
             this.ngOnInit();
           } , (reason) => {
@@ -246,6 +249,7 @@ export class DetailsBasketClientComponent implements OnInit {
      case 2: // Europa
           const modalRefEuropa = this.modalService.open( EuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
           modalRefEuropa.componentInstance.basket = basket;
+          modalRefEuropa.componentInstance.typeEdit = 1;
           modalRefEuropa.result.then((result) => {
             this.ngOnInit();
           } , (reason) => {
@@ -256,6 +260,7 @@ export class DetailsBasketClientComponent implements OnInit {
      case 4: // Euclid
           const modalRefEuclid = this.modalService.open( EuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
           modalRefEuclid.componentInstance.basket = basket;
+          modalRefEuclid.componentInstance.typeEdit = 1;
           modalRefEuclid.result.then((result) => {
             this.ngOnInit();
           } , (reason) => {
@@ -264,6 +269,7 @@ export class DetailsBasketClientComponent implements OnInit {
      case 5: // Magic Look
           const modalRefMagic = this.modalService.open( MagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
           modalRefMagic.componentInstance.basket = basket;
+          modalRefMagic.componentInstance.typeEdit = 1;
           modalRefMagic.result.then((result) => {
             this.ngOnInit();
           } , (reason) => {
@@ -272,6 +278,7 @@ export class DetailsBasketClientComponent implements OnInit {
      case 6: // Blue Light
           const modalRefBlue = this.modalService.open( BlueLightComponent, { size: 'lg', windowClass: 'modal-content-border' });
           modalRefBlue.componentInstance.basket = basket;
+          modalRefBlue.componentInstance.typeEdit = 1;
           modalRefBlue.result.then((result) => {
             this.ngOnInit();
           } , (reason) => {

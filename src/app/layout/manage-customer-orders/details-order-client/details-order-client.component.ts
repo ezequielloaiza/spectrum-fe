@@ -16,6 +16,8 @@ import { saveAs } from 'file-saver';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { CompanyService } from '../../../shared/services';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ViewChild } from '@angular/core';
+import { SupplierEuclidComponent } from '../../details-order-supplier/supplier-euclid/supplier-euclid.component';
 
 @Component({
   selector: 'app-details-order-client',
@@ -34,6 +36,7 @@ export class DetailsOrderClientComponent implements OnInit {
   download = false;
   user: any;
   company: any;
+  prueba: any;
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
     public productImageService: ProductoimageService,
@@ -98,6 +101,24 @@ export class DetailsOrderClientComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+  }
+
+  refresh(productRequested: any): void {
+   let list: Array<ProductRequested> = productRequested;
+    _.each(this.order.listProductRequested, function (detailsOrder) {
+      _.each(list, function (item) {
+        if (detailsOrder.productRequested.idProductRequested === item.idProductRequested) {
+          detailsOrder.productRequested.patient = item.patient;
+          detailsOrder.productRequested.price = item.price;
+          detailsOrder.productRequested.quantity = item.quantity;
+          detailsOrder.productRequested.observations = item.observations;
+          detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
+        }
+      });
+
+    });
+    this.listDetails = this.order.listProductRequested;
+    this.listDetailsAux = this.order.listProductRequested;
   }
 }
 
