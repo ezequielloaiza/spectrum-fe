@@ -2,7 +2,7 @@ this.products = [
   {
     "code": "", "name": "Euclid",
     "priceBase": 140, "price1": 140, "price2": 130, "price3": 130,
-    "father": "Euclid",
+    "father": "Sapphire Toric", // se necesita asi para una condicion de style
     "category": "Contact Lenses",
     "subCategory": "MarkEnnovy Contact Lenses",
     "material": "Silicone Hydrogel, Filcon V3 75%",
