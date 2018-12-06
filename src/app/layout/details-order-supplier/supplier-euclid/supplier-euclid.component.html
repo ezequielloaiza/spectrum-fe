@@ -1,6 +1,8 @@
 <div class="col-lg-12">
   <div class="row padding-params display-edit" *ngIf="valueStatus === 0 && user.role.idRole === 1">
-      <i class="fa fa-edit" (click)="openEdit()" placement="top" ngbTooltip="{{ 'Edit' | translate }}"></i>
+    <button type="button" (click)="openEdit()" class="edit btn btn-outline-primary" translate>
+      Edit
+    </button>
   </div>
   <ngb-tabset>
   <ngb-tab title="{{'Technical specifications'| translate}}">

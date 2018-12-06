@@ -37,7 +37,6 @@ export class SupplierMarkennovyComponent implements OnInit {
     this.listAux = this.lista;
     this.urlImage = this.image;
     this.valueStatus = this.order.status;
-    debugger
     this.sendReply();
   }
 

@@ -17,3 +17,17 @@
 .padding-params {
   padding:  0 2em;
 }
+
+.edit{
+  margin-top: -25%;
+  margin-bottom: 25%;
+}
+
+@media only screen and (max-width: 575px) {
+  .edit{
+    margin-top: -152%;
+    margin-bottom: 152%;
+  }
+}
+
+
