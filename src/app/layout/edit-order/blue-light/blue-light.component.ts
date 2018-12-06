@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { ProductsRequestedService } from '../../../../shared/services';
-import { UserStorageService } from '../../../../http/user-storage.service';
+import { ProductsRequestedService } from '../../../shared/services';
+import { UserStorageService } from '../../../http/user-storage.service';
 import * as _ from 'lodash';
+import { ProductRequested } from '../../../shared/models/productrequested';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-blue-light',
@@ -15,9 +17,12 @@ import * as _ from 'lodash';
 export class BlueLightComponent implements OnInit {
 
   basket: any;
-  productRequested: any;
+  productRequested: ProductRequested = new ProductRequested();
+  productRequestedAux: ProductRequested = new ProductRequested();
   product: any;
   detail: any;
+  detailEdit: any;
+  typeEdit: any;
   tones: Array<any> = new Array;
   quantity: any;
   observations: any;
@@ -25,16 +30,22 @@ export class BlueLightComponent implements OnInit {
   editPrice = false;
   user: any;
   patient: any;
+  image: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
-              private userService: UserStorageService) {
+              private userService: UserStorageService,
+              public router: Router) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
   ngOnInit() {
-    this.productRequested = this.basket.productRequested;
+    if (this.typeEdit === 1 ) { // Basket
+      this.productRequested = this.basket.productRequested;
+    } else { // order-detail
+      this.productRequested = this.detailEdit;
+    }
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
     this.getProductView();
@@ -75,25 +86,25 @@ export class BlueLightComponent implements OnInit {
           }
      });
     });
-    this.productRequested.detail = { name: '', eye: '', parameters: this.detail.parameters};
-    this.productRequested.detail = '[' + JSON.stringify(this.productRequested.detail) + ']';
-    this.productRequested.observations = this.observations;
-    this.productRequested.price = this.price;
-    this.productRequested.quantity = this.quantity;
-    this.productRequested.product = this.product.idProduct;
-    this.productRequested.patient = this.patient;
-    this.productRequestedService.update$(this.productRequested).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
-          this.notification.success('', res);
-        });
-        this.close();
-      } else {
-        console.log(res);
-      }
-    }, error => {
-      console.log('error', error);
-    });
+    if (this.typeEdit === 1) { // Basket
+        this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
+        this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: '', parameters: this.detail.parameters}) + ']';
+        this.productRequested.observations = this.observations;
+        this.productRequested.price = this.price;
+        this.productRequested.quantity = this.quantity;
+        this.productRequested.product = this.product.idProduct;
+        this.productRequested.patient = this.patient;
+        this.update(this.productRequested);
+   } else { // Order Detail
+        this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
+        this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: '', parameters: this.detail.parameters}) + ']';
+        this.productRequestedAux.observations = this.observations;
+        this.productRequestedAux.price = this.price;
+        this.productRequestedAux.quantity = this.quantity;
+        this.productRequestedAux.product = this.product.idProduct;
+        this.productRequestedAux.patient = this.patient;
+        this.update(this.productRequestedAux);
+    }
   }
 
   formIsValid() {
@@ -108,5 +119,20 @@ export class BlueLightComponent implements OnInit {
           valido = false;
      }
      return valido;
+  }
+
+  update(productRequested) {
+    this.productRequestedService.update$(productRequested).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
+        this.modalReference.close(productRequested);
+      } else {
+        console.log(res);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 }
