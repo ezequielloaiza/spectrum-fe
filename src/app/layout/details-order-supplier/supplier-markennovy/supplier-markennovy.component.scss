@@ -20,13 +20,14 @@
 
 
 .edit{
-  margin-top: -18%;
-  margin-bottom: 19%;
+  margin-top: -200px;
+  margin-bottom: 160px;
 }
 
+
 @media only screen and (max-width: 575px) {
-  .edit{
-    margin-top: -112%;
-    margin-bottom: 112%;
+  .edit {
+    margin: -400px -52px 555px 0px;
   }
+
 }
