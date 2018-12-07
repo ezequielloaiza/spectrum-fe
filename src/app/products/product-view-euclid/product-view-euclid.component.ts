@@ -52,6 +52,7 @@ export class ProductViewEuclidComponent implements OnInit {
   CustomersSelected: any;
   warrantyRight = false;
   warrantyLeft = false;
+  download = false;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
@@ -137,6 +138,7 @@ export class ProductViewEuclidComponent implements OnInit {
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.pricesAditionalWarranties = JSON.parse(this.product.infoAditional)[1].values[0];
+    this.download = JSON.parse(this.product.infoAditional)[2].value;
     this.product.priceSale = '';
     this.product.additional = '';
     this.setClient();
@@ -269,10 +271,16 @@ export class ProductViewEuclidComponent implements OnInit {
   }
 
   setValueEye(eye) {
-    if (eye === "right") {
+    if (eye === 'right') {
       this.product.eyeRight = !this.product.eyeRight;
+      if (!this.product.eyeRight) {
+        this.clean('right');
+      }
     } else {
       this.product.eyeLeft = !this.product.eyeLeft;
+      if (!this.product.eyeLeft) {
+        this.clean('left');
+      }
     }
   }
 
@@ -297,19 +305,10 @@ export class ProductViewEuclidComponent implements OnInit {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
-          // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
-          if (this.product.supplier.idSupplier === 1) {
-            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-              return !(u.cardCode === null || u.cardCode === '');
-            });
-          } else if ( this.product.supplier.idSupplier === 4) {
-            // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
-            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-              return !(u.certificationCode === null || u.certificationCode === '');
-            });
-          } else {
-            this.listCustomers = this.listCustomersAux;
-          }
+          // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
+          this.listCustomers = _.filter(this.listCustomersAux, function(u) {
+            return !(u.certificationCode === null || u.certificationCode === '');
+          });
         }
       });
     }
@@ -526,6 +525,29 @@ export class ProductViewEuclidComponent implements OnInit {
       this.listFileBasket.push(fileProductRequest);
     } else {
       console.log('error file');
+    }
+  }
+
+  clean(eye) {
+    let parameters;
+    if (eye === 'right') {
+      parameters = this.product.parametersRight;
+      this.product.quantityRight = '';
+      this.product.observationsRight = '';
+    } else {
+      parameters = this.product.parametersLeft;
+      this.product.quantityLeft = '';
+      this.product.observationsLeft = '';
+    }
+    // parameter
+    _.each(parameters, function(param) {
+          param.selected = null;
+          param.sel = null;
+    });
+    if (eye === 'right') {
+      this.product.parametersRight = parameters;
+    } else {
+      this.product.parametersLeft = parameters;
     }
   }
 }

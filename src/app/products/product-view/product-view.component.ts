@@ -135,10 +135,16 @@ export class ProductViewComponent implements OnInit {
   }*/
 
   setValueEye(eye) {
-    if (eye === "right") {
+    if (eye === 'right') {
       this.product.eyeRight = !this.product.eyeRight;
+      if (!this.product.eyeRight) {
+        this.clean('right');
+      }
     } else {
       this.product.eyeLeft = !this.product.eyeLeft;
+        if (!this.product.eyeLeft) {
+          this.clean('left');
+        }
     }
   }
 
@@ -164,18 +170,9 @@ export class ProductViewComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
           // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
-          if (this.product.supplier.idSupplier === 1) {
             this.listCustomers = _.filter(this.listCustomersAux, function(u) {
               return !(u.cardCode === null || u.cardCode === '');
             });
-          } else if ( this.product.supplier.idSupplier === 4) {
-            // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
-            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-              return !(u.certificationCode === null || u.certificationCode === '');
-            });
-          } else {
-            this.listCustomers = this.listCustomersAux;
-          }
         }
       });
     }
@@ -300,13 +297,13 @@ export class ProductViewComponent implements OnInit {
   }
 
   formIsValid() {
-    var isValid = true;
-    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient){
+    let isValid = true;
+    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
 
     if (this.product.eyeRight) {
-      _.each(this.product.parametersRight, function (param){
+      _.each(this.product.parametersRight, function (param) {
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
@@ -314,12 +311,35 @@ export class ProductViewComponent implements OnInit {
     }
 
     if (this.product.eyeLeft) {
-      _.each(this.product.parametersLeft, function (param){
+      _.each(this.product.parametersLeft, function (param) {
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
     }
     return isValid;
+  }
+
+  clean(eye) {
+    let parameters;
+    if (eye === 'right') {
+      parameters = this.product.parametersRight;
+      this.product.quantityRight = '';
+      this.product.observationsRight = '';
+    } else {
+      parameters = this.product.parametersLeft;
+      this.product.quantityLeft = '';
+      this.product.observationsLeft = '';
+    }
+    // parameter
+    _.each(parameters, function(param) {
+          param.selected = null;
+          param.sel = null;
+    });
+    if (eye === 'right') {
+      this.product.parametersRight = parameters;
+    } else {
+      this.product.parametersLeft = parameters;
+    }
   }
 }

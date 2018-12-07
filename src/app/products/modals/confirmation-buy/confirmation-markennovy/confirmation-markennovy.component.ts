@@ -86,6 +86,9 @@ export class ConfirmationMarkennovyComponent implements OnInit {
     _.each(this.listBasket, function (productRequested) {
       priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
       patient = productRequested.patient;
+      if (productRequested.observations === undefined) {
+        productRequested.observations = '';
+      }
       let details = JSON.parse(productRequested.detail);
       _.each(details, function (detail) {
         eyesSelected.push(detail.eye);
@@ -99,8 +102,8 @@ export class ConfirmationMarkennovyComponent implements OnInit {
   }
 
   save(): void {
-    this.spinner.show();
     if (this.typeBuy === 1) {
+      this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
       this.basketRequest.fileProductRequestedList = this.listFileBasket;
@@ -131,6 +134,7 @@ export class ConfirmationMarkennovyComponent implements OnInit {
       this.buyNow.fileProductRequestedList = this.listFileBasket;
       this.validateAvailableBalance();
       if (this.available) {
+        this.spinner.show();
         this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.save_success = true;

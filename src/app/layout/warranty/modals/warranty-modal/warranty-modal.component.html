@@ -94,14 +94,14 @@
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label class="title">{{ 'Bill Number' | translate }}</label>
+            <label class="title">{{ 'Invoice Number' | translate }}</label>
             <div>
               <span *ngIf="action == 'view'">{{ warranty.billNumber }}</span>
-              <input *ngIf="action != 'view'" class="form-control" placeholder="{{ 'Enter bill number' | translate }}" name="billNumber" formControlName="billNumber">
+              <input *ngIf="action != 'view'" class="form-control" placeholder="{{ 'Enter invoice number' | translate }}" name="billNumber" formControlName="billNumber">
             </div>
             </fieldset>
           <div class="message-error" [hidden]="billNumber.valid || billNumber.pristine">
-            <span>{{ 'Bill Number is required' | translate }}</span>
+            <span>{{ 'Invoice Number is required' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">
