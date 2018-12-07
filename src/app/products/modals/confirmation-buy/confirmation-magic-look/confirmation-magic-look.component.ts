@@ -95,8 +95,8 @@ export class ConfirmationMagicLookComponent implements OnInit {
   }
 
   save(): void {
-    this.spinner.show();
     if (this.typeBuy === 1) {
+      this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
       this.basketRequest.fileProductRequestedList = this.listFileBasket;
@@ -127,6 +127,7 @@ export class ConfirmationMagicLookComponent implements OnInit {
       this.buyNow.fileProductRequestedList = this.listFileBasket;
       this.validateAvailableBalance();
       if (this.available) {
+        this.spinner.show();
         this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.save_success = true;
