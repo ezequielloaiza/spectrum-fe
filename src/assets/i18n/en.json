@@ -805,5 +805,13 @@
     "View Payment":"View Payment",
     "File Not Found": "File Not Found",
     "Edit Payment": "Edit Payment",
-    "My Payments": "My Payments"
+    "My Payments": "My Payments",
+    "Bank Name":"Bank Name",
+    "Deposit": "Deposit",
+    "Transfer": "Transfer",
+    "Check": "Check",
+    "Unpaid": "Unpaid",
+    "Part Paid": "Part Paid",
+    "No Attach File":"No Attach File",
+    "Payments Made": "Payments Made"
 }

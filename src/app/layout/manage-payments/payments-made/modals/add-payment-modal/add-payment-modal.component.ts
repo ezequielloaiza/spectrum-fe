@@ -199,6 +199,7 @@ export class AddPaymentModalComponent implements OnInit {
     this.form.get('bank').setValue(this.invoicePayment.bank);
     this.form.get('referenceNumber').setValue(this.invoicePayment.referenceNumber);
     this.form.get('typeId').setValue(this.listTypes.find(x => x.id === this.invoicePayment.typePayment));
+    this.form.get('typeId').markAsTouched();
     const date = new Date(this.invoicePayment.date);
     const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
     this.form.get('date').patchValue(aux);
@@ -272,5 +273,25 @@ export class AddPaymentModalComponent implements OnInit {
       });
       console.log('error', error);
     });
+  }
+
+  deleteFile(item) {
+    console.log(item);
+    this.fileInvoicePaymentService.deleteFile$(item.idFileInvoicePayment, item).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          this.modalReference.close();
+          this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
+        } else {
+          console.log('error', res);
+        }
+      }, error => {
+        this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
+          this.notification.error('', res);
+        });
+        console.log('error', error);
+      });
   }
 }

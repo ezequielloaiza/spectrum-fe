@@ -986,5 +986,13 @@
     "View Payment": "Ver Pago",
     "File Not Found" : "Archivo no Encontrado",
     "Edit Payment": "Editar Pago",
-    "My Payments": "Mis Pagos"
+    "My Payments": "Mis Pagos",
+    "Bank Name": "Nombre del Banco",
+    "Deposit": "Depósito",
+    "Transfer": "Transferencia",
+    "Check": "Cheque",
+    "Unpaid": "No Pagado",
+    "Part Paid": "Parte Pagada",
+    "No Attach File": "Sin Archivo Adjunto",
+    "Payments Made":"Pagos Realizados"
 }

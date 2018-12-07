@@ -21,6 +21,10 @@ export class FileinvoicepaymentService {
     });
   }
 
+  public deleteFile$(id, file): Observable<any> {
+    return this.http.post(environment.apiUrl + 'fileInvoicePayment/deleteFile/' + id, file);
+  }
+
   public saveAllFile$(listFiles: Array<FileInvoicePayment>, id): Observable<any> {
     return this.http.post(environment.apiUrl + 'fileInvoicePayment/saveAllFiles/' + id, listFiles);
   }

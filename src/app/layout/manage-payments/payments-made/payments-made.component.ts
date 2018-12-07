@@ -76,7 +76,7 @@ export class PaymentsMadeComponent implements OnInit {
       case 0:
         return 'Unpaid';
       case 1:
-        return 'Part paid';
+        return 'Part Paid';
       case 2:
         return 'Paid';
     }
@@ -105,7 +105,7 @@ export class PaymentsMadeComponent implements OnInit {
     modalRef.componentInstance.invoicePayment = payment;
     modalRef.result.then((result) => {
       const id = this.route.snapshot.paramMap.get('idInvoice');
-      this.getListPayments(id);
+      this.ngOnInit();
     }, (reason) => {
     });
   }

@@ -32,7 +32,7 @@
             <!--Invoice data-->
             <div class="col-md-4">
               <span class="font-weight-bold">{{'Status' | translate }}:</span>&nbsp;
-              <span>{{ invoice ? getStatus(invoice.status) : '' }}</span>
+              <span>{{ (invoice ? getStatus(invoice.status) : '')  | translate }}</span>
               <br>
               <span class="font-weight-bold">{{'Invoice number' | translate }}:</span>&nbsp;
               <span>{{ invoice ? invoice.number : '' }}</span>
