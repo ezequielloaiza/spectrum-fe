@@ -83,10 +83,10 @@
         <div class="container product-list" *ngFor="let list of listDetails">
           <hr>
           <div class="row">
-            <div class="col-sm-3 container-img">
-              <div class="imag-product" [style.backgroundImage]="'url('+ list.urlImage +')'"></div>
+            <div class="container-img" [ngClass]="{'col-sm-4': list.productRequested.product.supplier.idSupplier === 4, 'col-sm-3': list.productRequested.product.supplier.idSupplier !== 4}">
+              <div class="imag-product" [ngClass]="{'size-image-euclid': list.productRequested.product.father === 'Sapphire Toric','size-image': list.productRequested.product.father !== 'Sapphire Toric' }" [style.backgroundImage]="'url('+ list.urlImage +')'"></div>
             </div>
-            <aside class="col-sm-9">
+            <aside  [ngClass]="{'col-sm-8': list.productRequested.product.supplier.idSupplier === 4, 'col-sm-9': list.productRequested.product.supplier.idSupplier !== 4}">
               <article class="card-body p-5">
                 <div>
                   <div *ngFor="let specification of list.productRequested.detail">
@@ -103,7 +103,7 @@
                         <br>
                         <br>
                       </div>
-                      <div class="row" *ngIf="list.productRequested.product.supplier.idSupplier===4">
+                      <div class="row" *ngIf="list.productRequested.product.supplier.idSupplier === 4">
                         <div class="col-sm-2">
                           <dl class="align-item">
                             <dt>{{'Customer'| translate}}

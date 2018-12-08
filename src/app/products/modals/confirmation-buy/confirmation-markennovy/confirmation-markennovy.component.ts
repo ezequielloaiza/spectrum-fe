@@ -104,8 +104,8 @@ export class ConfirmationMarkennovyComponent implements OnInit {
   }
 
   save(): void {
-    this.spinner.show();
     if (this.typeBuy === 1) {
+      this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
       this.basketRequest.listFileRightEye = this.listFileRightEye;
@@ -138,6 +138,7 @@ export class ConfirmationMarkennovyComponent implements OnInit {
       this.buyNow.listFileLeftEye = this.listFileLeftEye;
       this.validateAvailableBalance();
       if (this.available) {
+        this.spinner.show();
         this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.save_success = true;
