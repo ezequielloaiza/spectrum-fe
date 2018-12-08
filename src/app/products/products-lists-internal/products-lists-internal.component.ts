@@ -239,6 +239,9 @@ export class ProductsListInternalComponent implements OnInit {
       case 6:  // magic blue
         this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
         break;
+      case 7:  // fluo strips
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-fluo-strips']);
+        break;
     }
   }
 
@@ -248,6 +251,7 @@ export class ProductsListInternalComponent implements OnInit {
       case 1: // Markennovy
       case 3: // Lenticon
       case 6: // Blue Light
+      case 7: // Fluo Strips
             const modalRefGeneral = this.modalService.open(EditProductComponent, {
               size: 'lg',
               windowClass: 'modal-content-border'

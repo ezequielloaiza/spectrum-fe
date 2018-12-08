@@ -9,6 +9,7 @@ import { ProductViewMagicComponent } from './product-view-magicLook/product-view
 import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.component';
 import { RoleGuard } from '../shared';
 import { ProductsListInternalComponent } from './products-lists-internal/products-lists-internal.component';
+import { ProductViewFluoStripsComponent } from './product-view-fluo-strips/product-view-fluo-strips.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
         { path: ':id/product-view-euclid', component: ProductViewEuclidComponent, data: { option: 'ProductsViewEuclid' }},
         { path: ':id/product-view-magic', component: ProductViewMagicComponent, data: { option: 'ProductsViewMagic' }},
         { path: ':id/product-view-blue', component: ProductViewBlueComponent, data: { option: 'ProductsViewBlue' }},
+        { path: ':id/product-view-fluo-strips', component: ProductViewFluoStripsComponent, data: { option: 'ProductsViewFluoStrips' }},
     ] , data: { option: 'ProductsList' }
 }
 

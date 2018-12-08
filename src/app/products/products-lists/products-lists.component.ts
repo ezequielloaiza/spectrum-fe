@@ -133,6 +133,12 @@ export class ProductsListsComponent implements OnInit {
         case 6: // Blue Light
           supplier.image = 'assets/images/suppliers/bluelight.png';
           break
+        case 7: // Fluo Strips
+          supplier.image = 'assets/images/supplies/fluo-1.jpg';
+          break
+        case 8: // Spectrum Saline
+          supplier.image = 'assets/images/supplies/spectrum-saline.png';
+          break
       }
     });
   }
@@ -158,6 +164,7 @@ export class ProductsListsComponent implements OnInit {
         case 1: //markennovy
         case 2: //europa
         case 4:  //euclid
+        case 7:  //fluo strips
           this.router.navigate(['/products/' + idSupplier + '/internal']);
           break;
         case 5: //magic look
