@@ -47,6 +47,7 @@ export class ConfirmationEuclidComponent implements OnInit {
   listFileRightEye: Array<FileProductRequested> = new Array;
   // boolean for delete file
   save_success: Boolean = false;
+  balance_modal: Boolean = false;
   company: Company = new Company();
   available: any;
   additional: any;
@@ -73,7 +74,7 @@ export class ConfirmationEuclidComponent implements OnInit {
   }
 
   close() {
-    if (!this.save_success) {
+    if (!this.save_success && !this.balance_modal) {
       this.listUrlFiles = this.buildUrlFiles();
       this.deleteAllFile();
     }
@@ -172,6 +173,7 @@ export class ConfirmationEuclidComponent implements OnInit {
           console.log('error', error);
         });
       } else {
+        this.balance_modal = true;
         this.openModal(); // No tiene disponible el balance de credito
         this.close();
       }
@@ -249,8 +251,11 @@ export class ConfirmationEuclidComponent implements OnInit {
     const modalRef = this.modalService.open( NotificationBalanceComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.buyNowModal = this.buyNow;
     modalRef.result.then((result) => {
+      this.save_success = true;
       this.ngOnInit();
     } , (reason) => {
+      this.save_success = true;
+      this.balance_modal = false;
       this.close();
     });
   }

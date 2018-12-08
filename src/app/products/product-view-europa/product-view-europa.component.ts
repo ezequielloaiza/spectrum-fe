@@ -158,13 +158,13 @@ export class ProductViewEuropaComponent implements OnInit {
       this.uploadResultLeftEye = {'success': true, 'item': item, 'response':
                            response, 'status': status, 'headers': headers};
       if (this.uploadResultLeftEye) {
-        debugger
         this.buildFileProductRequested('Left');
       }
     };
     this.uploaderLeftEye.onErrorItem = (item, response, status, headers) => {
         this.uploadResultLeftEye = {'success': true, 'item': item, 'response':
                              response, 'status': status, 'headers': headers};
+      console.log('error uploader file', response);
     };
     this.uploaderRightEye.onAfterAddingFile = (item) => {
       const maxSize = this.maxFilesSize();
@@ -186,6 +186,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.uploaderRightEye.onErrorItem = (item, response, status, headers) => {
         this.uploadResultRightEye = {'success': true, 'item': item, 'response':
                              response, 'status': status, 'headers': headers};
+      console.log('error uploader file', response);
     };
   }
 

@@ -55,6 +55,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   listFileRightEye: Array<FileProductRequested> = new Array;
   // boolean for delete file
   save_success: Boolean = false;
+  balance_modal: Boolean = false;
   company: Company = new Company();
   available: any;
 
@@ -79,7 +80,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   }
 
   close() {
-    if (!this.save_success) {
+    if (!this.save_success && !this.balance_modal) {
       this.listUrlFiles = this.buildUrlFiles();
       this.deleteAllFile();
     }
@@ -192,6 +193,7 @@ export class ConfirmationEuropaComponent implements OnInit {
           console.log('error', error);
         });
       } else {
+        this.balance_modal = true;
         this.openModal(); // No tiene disponible el balance de credito
         this.close();
       }
@@ -271,6 +273,8 @@ export class ConfirmationEuropaComponent implements OnInit {
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
+      this.save_success = true;
+      this.balance_modal = false;
       this.close();
     });
   }
