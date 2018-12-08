@@ -464,7 +464,7 @@
                         [disabled]="!product.eyeRight || uploaderRightEye.queue.length > 4" multiple />
                       <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
                       <div class="invalid-feedback">Example invalid custom file feedback</div>
-                      <div class="message-error">
+                      <div class="message-error-file">
                         <span translate>{{'Max files size:' | translate}} 25MB</span>
                         <span> / </span>
                         <span translate>{{'Maximum files number:' | translate }} 5</span>
@@ -492,7 +492,7 @@
                           <td><strong>{{ item?.file?.name }}</strong></td>
                           <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                           <td nowrap>
-                            <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item)">
+                            <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Right')">
                               <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
                             </button>
                           </td>
@@ -509,7 +509,7 @@
                         [disabled]="!product.eyeLeft || uploaderLeftEye.queue.length > 4" multiple />
                       <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
                       <div class="invalid-feedback">Example invalid custom file feedback</div>
-                      <div class="message-error">
+                      <div class="message-error-file">
                         <span translate>{{'Max files size:' | translate}} 25MB</span>
                         <span> / </span>
                         <span translate>{{'Maximum files number:' | translate }} 5</span>
@@ -537,7 +537,7 @@
                           <td><strong>{{ item?.file?.name }}</strong></td>
                           <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                           <td nowrap>
-                            <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item)">
+                            <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Left')">
                               <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
                             </button>
                           </td>
