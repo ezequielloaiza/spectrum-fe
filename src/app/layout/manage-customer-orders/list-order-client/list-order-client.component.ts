@@ -209,8 +209,15 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       if (_.toString(valorStatus) === '' && this.tamano.length === 9
         && _.toString(this.valorProduct) === '') { // Si no ha seleccionado status y fecha
         this.listOrders = this.listOrders.filter((item) => {
-          return ((item.nameUser.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-            (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
+          return ((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1));
+        });
+      } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
+        && _.toString(this.valorProduct) !== '') {// si selecciono status y no fecha ni cliente
+        this.listOrders = this.listOrders.filter((item) => {
+          return (((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1))
+            && (item.supplier.companyName.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1));
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
         && _.toString(this.valorProduct) === '') {// si selecciono status y no fecha ni producto
@@ -263,7 +270,14 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       if (_.toString(valorStatus) === '' && this.tamano.length === 9 &&
         _.toString(this.valorClient) === '') { // Si no ha seleccionado cliente, status y fecha
         this.listOrders = this.listOrders.filter((item) => {
-          return (item.supplier.companyName.toLowerCase().indexOf(val.toLowerCase()) > -1);
+          return (item.supplier.companyName.toLowerCase().indexOf(product.toLowerCase()) > -1);
+        });
+      } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
+        && _.toString(this.valorClient) !== '') {// si selecciono status y no fecha ni cliente
+        this.listOrders = this.listOrders.filter((item) => {
+          return (((item.nameUser.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
+            (item.number.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1))
+            && (item.supplier.companyName.toLowerCase().indexOf(product.toLowerCase()) > -1));
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
         && _.toString(this.valorClient) === '') {// si selecciono status y no fecha ni cliente
@@ -366,8 +380,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const lista = [];
     _.filter(this.listOrdersAux, function (orders) {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), producto.toLowerCase()))) &&
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) &&
+        (_.includes(orders.supplier.companyName.toLowerCase(), producto.toLowerCase())) &&
         // tslint:disable-next-line:radix
         (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
@@ -410,8 +424,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), producto.toLowerCase()))) &&
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ) &&
+        (_.includes(orders.supplier.companyName.toLowerCase(), producto.toLowerCase())) &&
         ((_.isEqual(fecha, fechaList)))) {
         lista.push(orders);
       }
