@@ -116,8 +116,8 @@ export class ConfirmationEuclidComponent implements OnInit {
   }
 
   save(): void {
-    this.spinner.show();
     if (this.typeBuy === 1) {
+      this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
       this.basketRequest.listFileRightEye = this.listFileRightEye;
@@ -150,26 +150,27 @@ export class ConfirmationEuclidComponent implements OnInit {
       this.buyNow.listFileLeftEye = this.listFileLeftEye;
       this.validateAvailableBalance();
       if (this.available) {
-        this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.save_success = true;
-          this.spinner.hide();
-          this.close();
-          this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-            this.notification.success('', res);
-          });
-          this.redirectListOrder();
-        } else {
-          console.log(res);
-          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
-            this.notification.error('', res);
-          });
-          this.spinner.hide();
-          this.close();
-        }
-      }, error => {
-        console.log('error', error);
-      });
+          this.spinner.show();
+          this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            this.save_success = true;
+            this.spinner.hide();
+            this.close();
+            this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+              this.notification.success('', res);
+            });
+            this.redirectListOrder();
+          } else {
+            console.log(res);
+            this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+              this.notification.error('', res);
+            });
+            this.spinner.hide();
+            this.close();
+          }
+        }, error => {
+          console.log('error', error);
+        });
       } else {
         this.openModal(); // No tiene disponible el balance de credito
         this.close();
