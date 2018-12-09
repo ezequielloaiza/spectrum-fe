@@ -15,6 +15,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { LibHttpModule } from './http/lib-http.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { environment } from '../environments/environment';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -45,7 +48,9 @@ export const createTranslateLoader = (http: HttpClient) => {
         ReactiveFormsModule,
         LibHttpModule,
         ToastrModule.forRoot(),
-        PageHeaderModule
+        PageHeaderModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireDatabaseModule
     ],
     declarations: [AppComponent, RecoveryPasswordComponent],
     providers: [AuthGuard, UserStorageService],
