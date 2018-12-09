@@ -103,7 +103,7 @@
         <div class="col-xl-12">
           <fieldset class="form-group">
             <label [ngClass]="{'title-view': action == 'view', title: action!='view'}">{{ 'Attach file' | translate }}</label>
-            <span *ngIf="(action != 'new') && (listFilePayment.length > 0)">{{ 'No Attach File' | translate }}</span>
+           <div> <span *ngIf="(action == 'view') && (listFilePayment.length == 0) && (uploader.queue.length == 0)">{{ 'No Attach File' | translate }}</span></div>
             <div *ngIf="action != 'view'" class="custom-file">
               <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader"
                 [disabled]="uploader.queue.length > 4" multiple required />
@@ -129,7 +129,7 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th width="50%">{{ 'Name' | translate }}</th>
+                  <th>{{ 'Name' | translate }}</th>
                   <th>{{ 'Size' | translate }}</th>
                   <th>{{ 'Actions' | translate }}</th>
                 </tr>
@@ -139,7 +139,7 @@
                   <td><strong>{{ item?.file?.name }}</strong></td>
                   <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                   <td nowrap>
-                    <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item)">
+                    <button type="button" class="btn btn-danger btn-xs btn-files" (click)="removeFile(item)">
                       <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
                     </button>
                   </td>
@@ -153,7 +153,7 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th width="50%">{{ 'Name' | translate }}</th>
+                    <th>{{ 'Name' | translate }}</th>
                     <th>{{ 'Size' | translate }}</th>
                     <th>{{ 'Actions' | translate }}</th>
                   </tr>
@@ -165,10 +165,10 @@
                     </td>
                     <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
                     <td nowrap>
-                      <button type="button" class="btn btn-success btn-xs" (click)="downloadFile(item)">
+                      <button type="button" class="btn btn-success btn-xs btn-files" (click)="downloadFile(item)">
                         <span class="fa fa-download"></span> {{ 'Download' | translate }}
                       </button>
-                      <button *ngIf="action !== 'new'" type="button" class="btn btn-danger btn-xs" (click)="deleteFile(item)">
+                      <button *ngIf="action !== 'new'" type="button" class="btn btn-danger btn-xs btn-files" (click)="deleteFile(item)">
                         <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
                       </button>
                     </td>

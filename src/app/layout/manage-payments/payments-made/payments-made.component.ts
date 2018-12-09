@@ -22,6 +22,7 @@ export class PaymentsMadeComponent implements OnInit {
   reverseSort = true;
   typeSort = 0;
   invoice: any;
+  auxInvoice: any;
   listPayments: Array<any> = new Array;
   listPaymentsAux: Array<any> = new Array;
   advancedPagination: number;
@@ -61,6 +62,7 @@ export class PaymentsMadeComponent implements OnInit {
       res => {
         if (res.code === CodeHttp.ok) {
           this.invoice = res.data;
+          this.auxInvoice = res.data;
         } else {
           console.log(res.code);
         }
@@ -83,6 +85,9 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   getListPayments(invoice): void {
+    if (invoice === undefined) {
+      invoice = this.auxInvoice.idInvoiceClient;
+    }
     this.invoicePaymentService.allPaymentsByInvoice$(invoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
@@ -168,12 +173,12 @@ export class PaymentsMadeComponent implements OnInit {
     this.router.navigate(['/payments/' + invoice.idInvoice + '/paymentsMade']);
   }
 
-  delete(invoice): void {
-    this.translate.get('Delete Invoice', { value: 'Delete Invoice' }).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to delete the invoice? You must notify the provider this change.',
-        { value: 'Are you sure you want to delete the invoice? You must notify the provider this change.' }).subscribe((msg: string) => {
+  deletePayment(payment): void {
+    this.translate.get('Delete Payment', { value: 'Delete Payment' }).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to delete the invoice payment?',
+        { value: 'Are you sure you want to delete the invoice?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
-            this.invoiceService.delete$(invoice.idInvoice).subscribe(res => {
+            this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
               if (res.code === CodeHttp.ok) {
                 this.getListPayments(this.invoice.idInvoiceClient);
                 this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {

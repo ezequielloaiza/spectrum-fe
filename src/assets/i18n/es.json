@@ -977,7 +977,7 @@
     "All payments" : "Todos los pagos",
     "Invoice number" : "Numero de Factura",
     "Download Invoice" : "Descargar Factura",
-    "Verified" : "Verificada",
+    "Verified" : "Verificado",
     "Attach file" : "Adjuntar archivo",
     "Enter bank name" : "Ingrese nombre del banco",
     "Payment Information" : "Informacion de Pago",
@@ -996,5 +996,7 @@
     "No Attach File": "Sin Archivo Adjunto",
     "Payments Made":"Pagos Realizados",
     "Diameter":"Diámetro",
-    "Order Form For": "Formulario de pedido para"
+    "Order Form For": "Formulario de pedido para",
+    "Delete Payment": "Borrar Pago",
+    "Are you sure you want to delete the invoice payment?":"¿Está seguro que desea borrar el pago de la factura?"
 }

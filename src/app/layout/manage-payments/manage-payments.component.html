@@ -104,7 +104,7 @@
                     <span title="{{ 'Amount Due' | translate }}">{{ 'Amount Due' | translate }}
                       <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('amountDue')"></i>
                     </span>
-                    <span [hidden]="orderByField != 'total' || typeSort === 0">
+                    <span [hidden]="orderByField != 'amountDue' || typeSort === 0">
                       <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('amountDue')"></i>
                       <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('amountDue')"></i>
                     </span>
@@ -131,9 +131,9 @@
                   </td>
                   <td class="table-tr td-table">{{invoice.number}}</td>
                   <td class="table-tr td-table">{{invoice.date  | date:'yyyy-MM-dd'}}</td>
-                  <td class="table-tr td-table">{{invoice.date  | date:'yyyy-MM-dd'}}</td>
+                  <td class="table-tr td-table">{{invoice.dueDate  | date:'yyyy-MM-dd'}}</td>
                   <td class="table-tr">{{invoice.user.name}}</td>
-                  <td class="table-tr">{{invoice.total | currency : "USD $"}}</td>
+                  <td class="table-tr">{{invoice.due | currency : "USD $"}}</td>
                   <td class="table-tr">{{invoice.total | currency : "USD $"}}</td>
                   <td class="table-tr">
                     <div class="d-flex flex-row justify-content-around">

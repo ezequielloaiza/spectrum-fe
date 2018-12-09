@@ -77,6 +77,7 @@ export class AddPaymentModalComponent implements OnInit {
         'success': true, 'item': item, 'response':
           response, 'status': status, 'headers': headers
       };
+      console.log(this.uploadResult);
     };
   }
 
@@ -280,7 +281,7 @@ export class AddPaymentModalComponent implements OnInit {
     this.fileInvoicePaymentService.deleteFile$(item.idFileInvoicePayment, item).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
-          this.modalReference.close();
+          this.loadFileInvoicePayment();
           this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
             this.notification.success('', res);
           });
