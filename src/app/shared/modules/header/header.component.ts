@@ -4,6 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { BasketService } from '../../services/basket/basket.service';
 import { CodeHttp } from '../../enum/code-http.enum';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { count } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -13,11 +15,13 @@ import { CodeHttp } from '../../enum/code-http.enum';
 export class HeaderComponent implements OnInit {
   pushRightClass: string = 'push-right';
   user: any;
+  count = 0;
 
   constructor(private translate: TranslateService,
     public router: Router,
     private userStorageService: UserStorageService,
-    private basketService: BasketService) {
+    private basketService: BasketService,
+    db: AngularFireDatabase) {
 
     this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
     this.translate.use(this.userStorageService.getLanguage());
@@ -31,6 +35,11 @@ export class HeaderComponent implements OnInit {
         this.toggleSidebar();
       }
     });
+
+    db.list(this.user.userResponse.idUser).valueChanges().subscribe((data) => { 
+      this.count = +data[0];
+    });
+
   }
 
   ngOnInit() { }
