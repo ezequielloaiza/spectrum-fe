@@ -242,6 +242,9 @@ export class ProductsListInternalComponent implements OnInit {
       case 7:  // fluo strips
         this.router.navigate(['/products/' + product.idProduct + '/product-view-fluo-strips']);
         break;
+      case 8:  // spectrum saline
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
+        break;
     }
   }
 

@@ -192,6 +192,18 @@ export class ProductsListsComponent implements OnInit {
               console.log('error', error);
               this.spinner.hide();
             });
+          case 8:  // Spectrum Saline
+            this.productService.findBySupplier$(idSupplier).subscribe(res => {
+              if (res.code === CodeHttp.ok) {
+                this.products = res.data;
+                this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-spectrum-saline']);
+              } else {
+                console.log(res.errors[0].detail);
+              }
+            }, error => {
+              console.log('error', error);
+              this.spinner.hide();
+            });
           break;
         }
     }

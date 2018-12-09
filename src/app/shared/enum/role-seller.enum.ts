@@ -13,6 +13,7 @@ export enum RoleSeller {
   ProductsViewMagic,
   ProductsViewBlue,
   ProductsViewFluoStrips,
+  ProductsViewSpectrumSaline,
   Home,
   OrdersBySellerList,
   OrdersDetailSeller,

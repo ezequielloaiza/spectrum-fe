@@ -30,6 +30,7 @@ import { ConfirmationEuclidComponent } from './modals/confirmation-buy/confirmat
 import { EditProductEuclidComponent } from './modals/edit-product/edit-product-euclid/edit-product-euclid.component';
 import { EditProductEuropaComponent } from './modals/edit-product/edit-product-europa/edit-product-europa.component';
 import { ProductViewFluoStripsComponent } from './product-view-fluo-strips/product-view-fluo-strips.component';
+import { ProductViewSpectrumSalineComponent } from './product-view-spectrum-saline/product-view-spectrum-saline.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { ProductViewFluoStripsComponent } from './product-view-fluo-strips/produ
     ConfirmationEuclidComponent,
     EditProductEuclidComponent,
     EditProductEuropaComponent,
-    ProductViewFluoStripsComponent
+    ProductViewFluoStripsComponent,
+    ProductViewSpectrumSalineComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
