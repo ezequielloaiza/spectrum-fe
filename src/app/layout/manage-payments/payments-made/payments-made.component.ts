@@ -174,13 +174,14 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   deletePayment(payment): void {
+    const id = payment.idInvoiceClient;
     this.translate.get('Delete Payment', { value: 'Delete Payment' }).subscribe((title: string) => {
       this.translate.get('Are you sure you want to delete the invoice payment?',
         { value: 'Are you sure you want to delete the invoice?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
             this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
               if (res.code === CodeHttp.ok) {
-                this.getListPayments(this.invoice.idInvoiceClient);
+                this.getListPayments(id);
                 this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
                   this.notification.success('', res1);
                 });

@@ -77,7 +77,7 @@ export class AddPaymentModalComponent implements OnInit {
         'success': true, 'item': item, 'response':
           response, 'status': status, 'headers': headers
       };
-      console.log(this.uploadResult);
+      console.log('uploadResult', this.uploadResult);
     };
   }
 
@@ -160,7 +160,7 @@ export class AddPaymentModalComponent implements OnInit {
             res1 => {
               if (res1.code === CodeHttp.ok) {
                 this.modalReference.close();
-                this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+                this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
                   this.notification.success('', res);
                 });
               } else {
@@ -199,7 +199,7 @@ export class AddPaymentModalComponent implements OnInit {
     this.form.get('amount').setValue(this.invoicePayment.amount);
     this.form.get('bank').setValue(this.invoicePayment.bank);
     this.form.get('referenceNumber').setValue(this.invoicePayment.referenceNumber);
-    this.form.get('typeId').setValue(this.listTypes.find(x => x.id === this.invoicePayment.typePayment));
+    this.form.get('typeId').setValue(this.listTypes.find(x => x.id === this.invoicePayment.typePayment).id);
     this.form.get('typeId').markAsTouched();
     const date = new Date(this.invoicePayment.date);
     const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};

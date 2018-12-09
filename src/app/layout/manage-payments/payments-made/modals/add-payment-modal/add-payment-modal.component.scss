@@ -36,9 +36,14 @@
 
     .table 
     > thead 
-    > tr 
-    > th:last-child {
-      text-align: center;
+    > tr {
+      > th:first-child {
+        width: 70%;
+      }
+      > th:last-child {
+        text-align: center;
+      }
     }
+    
   
   }
