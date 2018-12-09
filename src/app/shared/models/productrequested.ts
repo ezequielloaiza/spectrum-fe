@@ -1,4 +1,5 @@
 import { Product } from './product';
+import { FileProductRequested } from './fileproductrequested';
 
 export class ProductRequested {
   public  idProductRequested: number;
@@ -10,7 +11,8 @@ export class ProductRequested {
   public  patient: string;
   public  observations: string;
   public  subtotal: number;
+  public fileProductRequestedList: Array<FileProductRequested>;
 
-    public constructor() { }
+  public constructor() { }
 
   }
