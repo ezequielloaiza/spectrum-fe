@@ -788,6 +788,12 @@
     "Yearly": "Yearly",
     "Warning: Includes":"Warning: Includes",
     "Diameter":"Diameter",
+    "Diameter 16.0":"Diameter 16.0",
+    "Diameter 18.0-20.0":"Diameter 18.0-20.0",
     "Order Form For": "Order Form For",
+    "Documents Left Eye": "Documents Left Eye",
+    "Documents Right Eye": "Documents Right Eye",
+    "Documents Left Eye (Topography, Tangential Map, etc.)": "Documents Left Eye (Topography, Tangential Map, etc.)",
+    "Documents Right Eye (Topography, Tangential Map, etc.)": "Documents Right Eye (Topography, Tangential Map, etc.)",
     "Enter order or client" : "Enter order or client"
 }
