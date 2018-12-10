@@ -327,7 +327,7 @@ export class ProductViewBlueComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient){
+    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
 
