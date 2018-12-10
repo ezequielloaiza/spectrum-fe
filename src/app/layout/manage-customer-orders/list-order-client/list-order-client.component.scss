@@ -12,6 +12,13 @@
   }
 }
 
+.filters {
+  padding-left: 2%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
 .sp-card {
   position: relative;
   display: flex;
@@ -106,8 +113,6 @@
 
 .filter {
   padding-top: 10px;
-  padding-left: 25px;
-  padding-right: 25px;
 }
 
 .active {

@@ -998,5 +998,12 @@
     "Diameter":"Diámetro",
     "Order Form For": "Formulario de pedido para",
     "Delete Payment": "Borrar Pago",
-    "Are you sure you want to delete the invoice payment?":"¿Está seguro que desea borrar el pago de la factura?"
+    "Are you sure you want to delete the invoice payment?":"¿Está seguro que desea borrar el pago de la factura?",
+    "Diameter 16.0":"Diámetro 16.0",
+    "Diameter 18.0-20.0":"Diámetro 18.0-20.0",
+    "Documents Left Eye": "Documentos Ojo Izquierdo",
+    "Documents Right Eye": "Documentos Ojo Derecho",
+    "Documents Left Eye (Topography, Tangential Map, etc.)": "Documentos Ojo Izquierdo (Topografía, Mapa Tangencial, etc.)",
+    "Documents Right Eye (Topography, Tangential Map, etc.)": "Documentos Ojo Derecho (Topografía, Mapa Tangencial, etc.)",
+    "Enter order or client": "Ingrese orden o cliente"
 }

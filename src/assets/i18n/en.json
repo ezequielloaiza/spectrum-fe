@@ -817,5 +817,12 @@
     "Diameter":"Diameter",
     "Order Form For": "Order Form For",
     "Delete Payment":"Delete Payment",
-    "Are you sure you want to delete the invoice payment?":"Are you sure you want to delete the invoice payment?"
+    "Are you sure you want to delete the invoice payment?":"Are you sure you want to delete the invoice payment?",
+    "Diameter 16.0":"Diameter 16.0",
+    "Diameter 18.0-20.0":"Diameter 18.0-20.0",
+    "Documents Left Eye": "Documents Left Eye",
+    "Documents Right Eye": "Documents Right Eye",
+    "Documents Left Eye (Topography, Tangential Map, etc.)": "Documents Left Eye (Topography, Tangential Map, etc.)",
+    "Documents Right Eye (Topography, Tangential Map, etc.)": "Documents Right Eye (Topography, Tangential Map, etc.)",
+    "Enter order or client" : "Enter order or client"
 }
