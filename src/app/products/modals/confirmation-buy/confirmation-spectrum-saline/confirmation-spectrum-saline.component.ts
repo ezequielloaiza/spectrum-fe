@@ -86,7 +86,8 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
       this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
-      this.basketRequest.fileProductRequestedList = [];
+      this.basketRequest.listFileRightEye = [];
+      this.basketRequest.listFileLeftEye = [];
       this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
         if (res.code === CodeHttp.ok) {
             this.close();
@@ -109,7 +110,8 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
       this.buyNow.idUser = this.datos.idUser;
       this.buyNow.productRequestedList = this.lista;
       this.buyNow.idRole = this.role;
-      this.buyNow.fileProductRequestedList = [];
+      this.basketRequest.listFileRightEye = [];
+      this.basketRequest.listFileLeftEye = [];
       this.validateAvailableBalance();
       if (this.available) {
           this.spinner.show();
