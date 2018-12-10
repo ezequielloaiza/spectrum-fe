@@ -18,23 +18,26 @@
   padding-top: 10%;
 }
 
-/*.active {
-  color: $bg-white;
-  > div {
-    background: $paid-status;
-    border-radius: 12px;
-    text-align: center;
-  }
-}
-
-.inactive {
+.pending {
   color: $bg-white;
   > div {
     background: $bg-red;
     border-radius: 12px;
     text-align: center;
+    width: 85%;
   }
-}*/
+}
+
+.verified {
+  color: $bg-white;
+  > div {
+    background: $bg-green;
+    border-radius: 12px;
+    text-align: center;
+    width: 85%;
+  }
+}
+
 
 .page-header-fixed {
   margin-left: 15px;
@@ -53,7 +56,6 @@
   .breadcrumb {
     background-color: transparent;
     border-radius: 0px;
-    //padding-left: 15px;
     border-bottom: 0px;
     padding-top: 0px;
     padding-bottom: 0px;

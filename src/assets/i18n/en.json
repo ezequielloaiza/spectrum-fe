@@ -815,5 +815,7 @@
     "No Attach File":"No Attach File",
     "Payments Made": "Payments Made",
     "Diameter":"Diameter",
-    "Order Form For": "Order Form For"
+    "Order Form For": "Order Form For",
+    "Delete Payment":"Delete Payment",
+    "Are you sure you want to delete the invoice payment?":"Are you sure you want to delete the invoice payment?"
 }

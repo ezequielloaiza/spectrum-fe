@@ -137,10 +137,10 @@
             </thead>
             <tbody>
               <tr *ngFor="let payment of listPayments">
-                <td *ngIf="payment.status === 0" class="table-tr" class="active">
+                <td *ngIf="payment.status === 0" class="table-tr" class="pending">
                   <div>{{'Pending' | translate}}</div>
                 </td>
-                <td *ngIf="payment.status === 1" class="table-tr" class="inactive">
+                <td *ngIf="payment.status === 1" class="table-tr" class="verified">
                   <div>{{'Verified' | translate }}</div>
                 </td>
                 <td class="table-tr td-table">{{payment.date | date:'yyyy-MM-dd'}}</td>
@@ -165,6 +165,9 @@
                         </button>
                         <button class="dropdown-item" (click)="openModal(invoice,'edit', payment)">
                           <i class="fa fa-edit"></i> {{ 'Edit Payment' | translate }}
+                        </button>
+                        <button class="dropdown-item" (click)="deletePayment(payment)"> 
+                          <i class="fa fa-trash-o"></i> {{ 'Delete Payment' | translate }}
                         </button>
                         <button [hidden]="user.role.idRole != 1" class="dropdown-item" (click)="changeStatus(payment)">
                           <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}

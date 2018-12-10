@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { FileInvoicePayment } from '../../models/fileinvoicepayment';
@@ -11,6 +11,18 @@ export class FileinvoicepaymentService {
 
   constructor(private http: HttpClient) { }
 
+  public uploader$(file: File): Observable<HttpEvent<{}>> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    const header = new HttpHeaders({'Content-Type': undefined});
+    const req = new HttpRequest('POST', environment.apiUrl + 'fileProductRequested/uploader', formData, {
+      headers: header,
+      reportProgress: true,
+      responseType: 'text'
+    });
+    return this.http.request(req);
+  }
+  
   public deleteAllFile$(listFiles: Array<String>): Observable<any> {
     return this.http.put(environment.apiUrl + 'fileInvoicePayment/deleteAllFile', listFiles);
   }
