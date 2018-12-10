@@ -148,27 +148,27 @@
                 </div>
                 <div class="row product" *ngFor="let listDetails of order.listProductRequested">
                   <div class="col-lg-2">
-                    <div *ngFor="let specification of listDetails.productRequested.detail">
+                    <div>
                       <span>{{listDetails.productRequested.product.name}}</span>
                     </div>
-                    <div>
+                    <div *ngIf="listDetails.productRequested.detail.length > 0">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
                     </div>
-                    <div>
+                    <div *ngIf="listDetails.productRequested.detail.length > 0">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>
                     </div>
                   </div>
                   <div class="col-lg-3">
-                    <div>
+                    <div [hidden]="listDetails.productRequested.product.material ===null">
                       <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>
                     </div>
-                    <div>
+                    <div [hidden]="listDetails.productRequested.product.replacementPeriod ===null">
                       <span>{{'Replacement period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>
-                    <div>
+                    <div [hidden]="listDetails.productRequested.product.warranty ===null">
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
                     </div>
-                    <div>
+                    <div [hidden]="order.supplier.companyName ===null">
                       <span>{{'Supplier'| translate}}{{': '}}{{order.supplier.companyName}}</span>
                     </div>
                     <div>

@@ -24,6 +24,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationBlueLightComponent } from '../modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmationSpectrumSalineComponent } from '../modals/confirmation-buy/confirmation-spectrum-saline/confirmation-spectrum-saline.component';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -223,7 +224,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
     productRequest.product = productoSelect;
     productRequest.quantity = product.quantity;
     productRequest.price = product.price;
-    productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
+    productRequest.detail = '';
     productRequest.patient = product.patient;
     productRequest.observations = product.observations;
     productsRequested.push(productRequest);
@@ -236,7 +237,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationBlueLightComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationSpectrumSalineComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
@@ -250,7 +251,10 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if (!this.product.patient || !this.product.quantity){
+    if (!this.product.patient){
+      isValid = false;
+    }
+    if (!this.product.quantity || this.product.quantity < 250 ) {
       isValid = false;
     }
     return isValid;

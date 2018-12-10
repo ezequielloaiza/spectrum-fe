@@ -82,7 +82,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listOrdersAux = res.data;
           _.each(this.listOrders, function (order) {
             _.each(order.listProductRequested, function (listDetails) {
-              listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
+              if (listDetails.productRequested.detail.length > 0){
+                listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
+              }
             });
           });
           this.spinner.hide();
@@ -96,7 +98,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listOrdersAux = res.data;
           _.each(this.listOrders, function (order) {
             _.each(order.listProductRequested, function (listDetails) {
-              listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
+              if (listDetails.productRequested.detail.length > 0){
+                listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
+              }
             });
           });
           this.spinner.hide();
