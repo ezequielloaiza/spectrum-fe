@@ -420,7 +420,7 @@ export class ProductViewMagicComponent implements OnInit {
       if (this.user.role.idRole === 3) {
         membership = this.currentUser.membership.idMembership;
       } else {
-        if (this.clientSelected !== undefined) {
+        if (this.clientSelected !== undefined && this.clientSelected !== '') {
           membership = this.clientSelected.membership.idMembership;
         }
       }
