@@ -104,7 +104,7 @@ export class ConfirmationBuyComponent implements OnInit {
       this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
-      this.basketRequest.fileProductRequestedList = this.listFileBasket;
+      // this.basketRequest.fileProductRequestedList = this.listFileBasket;
       this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
         if (res.code === CodeHttp.ok) {
             this.save_success = true;
@@ -125,7 +125,7 @@ export class ConfirmationBuyComponent implements OnInit {
       this.buyNow.idUser = this.datos.idUser;
       this.buyNow.productRequestedList = this.lista;
       this.buyNow.idRole = this.role;
-      this.buyNow.fileProductRequestedList = this.listFileBasket;
+      // this.buyNow.fileProductRequestedList = this.listFileBasket;
       this.validateAvailableBalance();
       if (this.available) {
         this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {

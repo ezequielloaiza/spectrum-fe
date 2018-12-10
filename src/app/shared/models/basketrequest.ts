@@ -5,7 +5,8 @@ export class BasketRequest {
 
     public idUser: number;
     public productRequestedList: Array<ProductRequested>;
-    public fileProductRequestedList: Array<FileProductRequested>;
+    public listFileRightEye: Array<FileProductRequested>;
+    public listFileLeftEye: Array<FileProductRequested>;
 
     public constructor() { }
-  }
+}
