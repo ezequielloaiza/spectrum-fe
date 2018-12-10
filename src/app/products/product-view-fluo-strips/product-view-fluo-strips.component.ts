@@ -24,6 +24,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationBlueLightComponent } from '../modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmationSpectrumSalineComponent } from '../modals/confirmation-buy/confirmation-spectrum-saline/confirmation-spectrum-saline.component';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -79,32 +80,10 @@ export class ProductViewFluoStripsComponent implements OnInit {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
-    this.uploader.onAfterAddingFile = (item) => {
-      const maxSize = this.maxFilesSize();
-
-      if (maxSize > this.maxFileSize) {
-        this.removeFile(item);
-        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
-          this.notification.error('', res);
-        });
-      }
-    };
-    this.uploader.onSuccessItem = (item, response, status, headers) => {
-      this.uploadResult = {'success': true, 'item': item, 'response':
-                           response, 'status': status, 'headers': headers};
-      if (this.uploadResult) {
-        this.buildFileProductRequested();
-      }
-    };
-    this.uploader.onErrorItem = (item, response, status, headers) => {
-        this.uploadResult = {'success': true, 'item': item, 'response':
-                             response, 'status': status, 'headers': headers};
-    };
   }
 
   ngOnInit() {
     this.getProducts();
-    this.clearFiles();
   }
 
   getProducts() {
@@ -213,7 +192,6 @@ export class ProductViewFluoStripsComponent implements OnInit {
 
   addToCart(type) {
     this.productCopy = JSON.parse(JSON.stringify(this.product));
-    this.saveFiles();
     const productsRequested = [];
     const product = this.buildProductSelected();
 
@@ -223,7 +201,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
     productRequest.product = productoSelect;
     productRequest.quantity = product.quantity;
     productRequest.price = product.price;
-    productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
+    productRequest.detail = '';
     productRequest.patient = product.patient;
     productRequest.observations = product.observations;
     productsRequested.push(productRequest);
@@ -235,7 +213,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationBlueLightComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationSpectrumSalineComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
@@ -249,81 +227,13 @@ export class ProductViewFluoStripsComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if (!this.product.patient || !this.product.quantity){
+    if (!this.product.patient) {
+      isValid = false;
+    }
+    if (!this.product.quantity || this.product.quantity < 250 ) {
       isValid = false;
     }
     return isValid;
   }
 
-  maxFilesSize() {
-    let maxFileSize = 0;
-
-    if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        maxFileSize = maxFileSize + item.file.size;
-      });
-    }
-    return maxFileSize;
-  }
-
-  removeFile(item) {
-    this.uploader.removeFromQueue(item);
-    this.clearSelectedFile();
-  }
-
-  clearSelectedFile() {
-    this.selectedFiles.nativeElement.value = '';
-  }
-
-  clearFiles() {
-    if (this.uploader.queue.length) {
-      this.uploader.clearQueue();
-      this.clearSelectedFile();
-    }
-  }
-
-  saveFiles(): void {
-    this.listFileBasket = new Array;
-    if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        item.upload();
-      });
-    }
-  }
-
-  private buildFileProductRequested() {
-    if (this.uploadResult.success) {
-      const fileProductRequest: FileProductRequested = new FileProductRequested();
-      fileProductRequest.url  = JSON.parse(this.uploadResult.response).data;
-      fileProductRequest.name = this.uploadResult.item.file.name;
-      fileProductRequest.type = this.uploadResult.item.file.type;
-      fileProductRequest.size = this.uploadResult.item.file.size;
-      fileProductRequest.createdAt = new Date();
-      this.listFileBasket.push(fileProductRequest);
-    } else {
-      console.log('error file');
-    }
-  }
-
-  clean(eye) {
-    let parameters;
-    if (eye === 'right') {
-      parameters = this.product.parametersRight;
-      this.product.quantityRight = '';
-
-    } else {
-      parameters = this.product.parametersLeft;
-      this.product.quantityLeft = '';
-    }
-    // parameter
-    _.each(parameters, function(param) {
-          param.selected = null;
-          param.sel = null;
-    });
-    if (eye === 'right') {
-      this.product.parametersRight = parameters;
-    } else {
-      this.product.parametersLeft = parameters;
-    }
-  }
 }
