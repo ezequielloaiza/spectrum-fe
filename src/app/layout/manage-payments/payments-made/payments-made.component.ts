@@ -46,7 +46,6 @@ export class PaymentsMadeComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('idInvoice');
     this.getInvoice(id);
-    console.log(this.invoice);
     this.getListPayments(id);
     this.advancedPagination = 1;
   }
@@ -63,6 +62,7 @@ export class PaymentsMadeComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.invoice = res.data;
           this.auxInvoice = res.data;
+          console.log('inv',this.invoice);
         } else {
           console.log(res.code);
         }

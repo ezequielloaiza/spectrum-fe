@@ -30,7 +30,7 @@
         <div class="container pp rounded">
           <div class="row justify-content-md-center order-summary">
             <!--Invoice data-->
-            <div class="col-md-3">
+            <div class="col-md-4">
               <span class="font-weight-bold">{{'Status' | translate }}:</span>&nbsp;
               <span>{{ (invoice ? getStatus(invoice.status) : '')  | translate }}</span>
               <br>
@@ -44,7 +44,7 @@
               <span>{{ (invoice ? invoice.dueDate : '') | date:'yyyy-MM-dd'}}</span>
             </div>
             <!--Customer data-->
-            <div class="col-md-5">
+            <div class="col-md-4">
               <span class="font-weight-bold">{{'Customer' | translate }}:</span>&nbsp;
               <span>{{ invoice ? invoice.user.name : '' }}</span>
               <br>
@@ -59,10 +59,11 @@
             </div>
             <!--Totals data-->
             <div class="col-md-4">
-              <span class="font-weight-bold">{{'Totals' | translate }}:</span>&nbsp;
-              <br>
               <span class="font-weight-bold">{{'Amount Due' | translate }}:</span>&nbsp;
-              <span>{{ (invoice ? invoice.dueDate : '') | currency : "USD $" }}</span>
+              <span>{{ (invoice ? invoice.due : '') | currency : "USD $" }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Amount Shipping' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? invoice.shipping : '') | currency : "USD $" }}</span>
               <br>
               <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
               <span>{{ (invoice ? invoice.subtotal : '') | currency : "USD $" }}</span>

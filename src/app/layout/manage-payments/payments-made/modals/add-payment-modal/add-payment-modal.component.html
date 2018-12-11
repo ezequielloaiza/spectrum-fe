@@ -7,7 +7,10 @@
 <div class="content">
   <div class="modal-body">
     <form [formGroup]="form">
-      <h4>{{ 'Payment Information' | translate }}</h4><br>
+      <h4 *ngIf="action == 'new'">{{ 'Payment Information' | translate }}</h4>
+      <h4 *ngIf="action == 'view'">{{ 'View Payment' | translate }}</h4>
+      <h4 *ngIf="action == 'edit'">{{ 'Edit Payment' | translate }}</h4>
+      <br>
       <div class="row">
         <div class="col-xl-6">
           <fieldset class="form-group">
@@ -102,7 +105,8 @@
         </div>
         <div class="col-xl-12">
           <fieldset class="form-group">
-            <label [ngClass]="{'title-view': action == 'view', title: action!='view'}">{{ 'Attach file' | translate }}</label>
+            <label *ngIf="action != 'view'" class="title">{{ 'Attach file' | translate }}</label>
+            <label *ngIf="action == 'view'" class="title-view">{{ 'Attached files' | translate }}</label>
            <div> <span *ngIf="(action == 'view') && (listFilePayment.length == 0) && (uploader.queue.length == 0)">{{ 'No Attach File' | translate }}</span></div>
             <div *ngIf="action != 'view'" class="custom-file">
               <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader"
@@ -168,7 +172,7 @@
                       <button type="button" class="btn btn-success btn-xs btn-files" (click)="downloadFile(item)">
                         <span class="fa fa-download"></span> {{ 'Download' | translate }}
                       </button>
-                      <button *ngIf="action !== 'new'" type="button" class="btn btn-danger btn-xs btn-files" (click)="deleteFile(item)">
+                      <button *ngIf="action === 'edit'" type="button" class="btn btn-danger btn-xs btn-files" (click)="deleteFile(item)">
                         <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
                       </button>
                     </td>
