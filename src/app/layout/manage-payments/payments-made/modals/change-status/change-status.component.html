@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-xl-12" *ngFor="let status of filterStatus; let i = index">
         <div class="custom-control custom-radio">
-          <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="status.id" (change)="onSelectionChange(status)" class="custom-control-input" [disabled]="status.id==payment.status" [checked]="status.id==payment.status">
+          <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="status.id" (change)="onSelectionChange(status)" class="custom-control-input" [checked]="status.id==payment.status">
           <label class="custom-control-label" for="radioGroup{{i}}">{{ status.name | translate }}</label>
         </div>
       </div>
