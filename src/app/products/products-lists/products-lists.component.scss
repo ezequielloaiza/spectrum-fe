@@ -5,7 +5,7 @@
 }
 
 .margin-list {
-  margin-left: 20% !important;
+  margin-left: 10% !important;
 }
 
 .title-collapse {
@@ -190,18 +190,20 @@ body {
   justify-content: center;
   -webkit-box-align: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .prodTeaser-overlay {
   background: rgba(25, 155, 215, 0.8);
   top: 0;
-  left: 0;
-  width: 100%;
+  left: -30px;
+  width: 106%;
   height: 100%;
   padding: 5%;
   opacity: 0;
   transition: all 0.35s ease-out;
   position: absolute;
+  overflow: hidden;
   &:hover {
     opacity: 1;
     position: absolute;
@@ -239,14 +241,12 @@ a:hover {
   display: block;
   position: absolute;
   transition: all 0.35s ease-out;
-  -webkit-transform: translateY(25%);
-  -ms-transform: translateY(25%);
-  transform: translateY(25%);
+  -webkit-box-direction: normal;
   opacity: 1;
   text-align: center;
   &:hover {
     position: absolute;
-    transform: translateY(50%);
+    transform: translateY(-25%);
   }
 }
 
