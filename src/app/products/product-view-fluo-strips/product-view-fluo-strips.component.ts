@@ -51,6 +51,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  strips: any;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
@@ -219,6 +220,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.view = 2; // fluo strips
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
@@ -227,13 +229,13 @@ export class ProductViewFluoStripsComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if (!this.product.patient) {
-      isValid = false;
-    }
-    if (!this.product.quantity || this.product.quantity < 250 ) {
+    if (!this.product.patient || !this.product.quantity) {
       isValid = false;
     }
     return isValid;
   }
 
+  change(quantity){
+    this.strips = quantity * 100;
+  }
 }

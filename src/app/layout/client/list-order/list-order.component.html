@@ -62,16 +62,16 @@
                       <span>{{ 'Order Status' | translate }}</span>
                     </div>
                     <div class="div-status">
-                      <span *ngIf='order.status==0' class="div-pending">
+                      <span *ngIf='order.status === 0' class="div-pending">
                         <div translate>Pending</div>
                       </span>
-                      <span *ngIf='order.status==1' class="div-processed">
+                      <span *ngIf='order.status === 1' class="div-processed">
                         <div translate>Processed</div>
                       </span>
-                      <span *ngIf='order.status==2' class="div-ready">
+                      <span *ngIf='order.status === 2' class="div-ready">
                         <div translate>Ready to Ship</div>
                       </span>
-                      <span *ngIf='order.status==3' class="div-shipped">
+                      <span *ngIf='order.status === 3' class="div-shipped">
                         <div translate>Shipped</div>
                       </span>
                     </div>
@@ -81,10 +81,10 @@
                       <span>{{ 'Payment Status' | translate }}</span>
                     </div>
                     <div class="div-status">
-                      <span *ngIf='order.paymentStatus==0' class="div-pending">
+                      <span *ngIf='order.paymentStatus === 0' class="div-pending">
                         <div translate>Pending</div>
                       </span>
-                      <span *ngIf='order.paymentStatus==1' class="div-shipped">
+                      <span *ngIf='order.paymentStatus === 1' class="div-shipped">
                         <div translate>Paid</div>
                       </span>
                     </div>
@@ -119,13 +119,13 @@
                     </div>
                   </div>
                   <div class="col-lg-3">
-                    <div [hidden]="listDetails.productRequested.product.material ===null">
+                    <div [hidden]="listDetails.productRequested.product.material === null">
                       <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>
                     </div>
-                    <div [hidden]="listDetails.productRequested.product.replacementPeriod ===null">
+                    <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
                       <span>{{'Replacement period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>
-                    <div [hidden]="listDetails.productRequested.product.warranty ===null">
+                    <div [hidden]="listDetails.productRequested.product.warranty === null">
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
                     </div>
                     <div>

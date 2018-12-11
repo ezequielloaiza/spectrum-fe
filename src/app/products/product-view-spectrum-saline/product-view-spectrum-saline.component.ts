@@ -242,6 +242,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.view = 1; // spectrum saline
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {

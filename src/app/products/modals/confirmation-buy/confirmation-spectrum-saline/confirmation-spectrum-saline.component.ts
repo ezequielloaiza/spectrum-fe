@@ -39,6 +39,7 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
   balace: any;
   company: Company = new Company();
   available: any;
+  strips: any;
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
@@ -78,6 +79,7 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
     this.namePatient = patient;
     this.price = priceAcum;
     this.quantity = quantity;
+    this.strips = this.quantity * 100;
   }
 
   save(): void {

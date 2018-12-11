@@ -99,12 +99,14 @@
         </div>
       </div>
       <!--quantity right-->
-      <div class="col-lg-2 margin-col padding-col">
+      <div class="col-lg-4">
         <div class="row">
-          <label class="form-check-label">{{ 'Quantity' | translate }}</label>
-        </div>
-        <div class="row">
-          <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantity" oninput="validity.valid||(value='');" (change)="setPriceBoxes(product.quantity)">
+          <div class="col-lg-12">
+              <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+          </div>
+          <div class="col-lg-6">
+            <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantity" oninput="validity.valid||(value='');" (change)="setPriceBoxes(product.quantity)">
+          </div>
         </div>
       </div>
 

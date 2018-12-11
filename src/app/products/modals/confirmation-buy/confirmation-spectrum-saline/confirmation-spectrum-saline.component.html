@@ -32,6 +32,7 @@
             <hr class="separators">
             <dt>
               <span class="items"> {{ quantity }}</span>
+              <span class="items" *ngIf="strips > 0 && view === 2"> ({{ strips }} {{ 'Strips' | translate }})</span>
             </dt>
           </dl>
         </div>
