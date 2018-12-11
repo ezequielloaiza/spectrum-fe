@@ -24,6 +24,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationEuropaComponent } from '../modals/confirmation-buy/confirmation-europa/confirmation-europa.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DEFAULT_ARIA_LIVE_DELAY } from '@ng-bootstrap/ng-bootstrap/util/accessibility/live';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -58,26 +59,32 @@ export class ProductViewEuropaComponent implements OnInit {
   membership: any;
   notch = 0;
   thickness = 0;
-  flagThickness = false;
-  flagThicknessL = false;
+ // flagThickness = false;
+ // flagThicknessL = false;
   flagNotch = false;
   flagNotchL = false;
   hidrapeg = 0;
   inserts = 0;
   additionalNotch = false;
   additionalNotchL = false;
-  additionalThickness = false;
-  additionalThicknessL = false;
+ // additionalThickness = false;
+ // additionalThicknessL = false;
   additionalHidrapeg = false;
   additionalHidrapegL = false;
   additionalInserts = false;
   additionalInsertsL = false;
   // Upload files
-  @ViewChild('selectedFiles') selectedFiles: any;
+  // @ViewChild('selectedFiles') selectedFiles: any;
+  @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
+  @ViewChild('selectedFilesRightEye') selectedFilesRightEye: any;
   queueLimit = 5;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
+  listFileLeftEye: Array<FileProductRequested> = new Array;
+  listFileRightEye: Array<FileProductRequested> = new Array;
   private uploadResult: any = null;
+  private uploadResultLeftEye: any = null;
+  private uploadResultRightEye: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
@@ -86,6 +93,20 @@ export class ProductViewEuropaComponent implements OnInit {
                                                     authToken: this.userStorageService.getToke(),
                                                     autoUpload: false});
 
+  public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
+                                                          itemAlias: 'files',
+                                                          queueLimit: this.queueLimit,
+                                                          maxFileSize: this.maxFileSize,
+                                                          removeAfterUpload: false,
+                                                          authToken: this.userStorageService.getToke(),
+                                                          autoUpload: false});
+  public uploaderRightEye: FileUploader = new FileUploader({url: URL,
+                                                            itemAlias: 'files',
+                                                            queueLimit: this.queueLimit,
+                                                            maxFileSize: this.maxFileSize,
+                                                            removeAfterUpload: false,
+                                                            authToken: this.userStorageService.getToke(),
+                                                            autoUpload: false});
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
@@ -102,7 +123,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
-    this.uploader.onAfterAddingFile = (item) => {
+    /*this.uploader.onAfterAddingFile = (item) => {
       const maxSize = this.maxFilesSize();
 
       if (maxSize > this.maxFileSize) {
@@ -122,6 +143,50 @@ export class ProductViewEuropaComponent implements OnInit {
     this.uploader.onErrorItem = (item, response, status, headers) => {
         this.uploadResult = {'success': true, 'item': item, 'response':
                              response, 'status': status, 'headers': headers};
+    };*/
+    this.uploaderLeftEye.onAfterAddingFile = (item) => {
+      const maxSize = this.maxFilesSize();
+
+      if (maxSize > this.maxFileSize) {
+        this.removeFile(item, 'Left');
+        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
+          this.notification.error('', res);
+        });
+      }
+    };
+    this.uploaderLeftEye.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResultLeftEye = {'success': true, 'item': item, 'response':
+                           response, 'status': status, 'headers': headers};
+      if (this.uploadResultLeftEye) {
+        this.buildFileProductRequested('Left');
+      }
+    };
+    this.uploaderLeftEye.onErrorItem = (item, response, status, headers) => {
+        this.uploadResultLeftEye = {'success': true, 'item': item, 'response':
+                             response, 'status': status, 'headers': headers};
+      console.log('error uploader file', response);
+    };
+    this.uploaderRightEye.onAfterAddingFile = (item) => {
+      const maxSize = this.maxFilesSize();
+
+      if (maxSize > this.maxFileSize) {
+        this.removeFile(item, 'Right');
+        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
+          this.notification.error('', res);
+        });
+      }
+    };
+    this.uploaderRightEye.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResultRightEye = {'success': true, 'item': item, 'response':
+                           response, 'status': status, 'headers': headers};
+      if (this.uploadResultRightEye) {
+        this.buildFileProductRequested('Right');
+      }
+    };
+    this.uploaderRightEye.onErrorItem = (item, response, status, headers) => {
+        this.uploadResultRightEye = {'success': true, 'item': item, 'response':
+                             response, 'status': status, 'headers': headers};
+      console.log('error uploader file', response);
     };
   }
 
@@ -164,7 +229,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.pricesAditionalHidrapeg = JSON.parse(this.product.infoAditional)[0].values[0];
     this.product.pricesAditionalInserts = JSON.parse(this.product.infoAditional)[0].values[1];
     this.product.pricesAditionalNotch = JSON.parse(this.product.infoAditional)[0].values[2];
-    this.product.pricesAditionalThickness = JSON.parse(this.product.infoAditional)[0].values[3];
+  //  this.product.pricesAditionalThickness = JSON.parse(this.product.infoAditional)[0].values[3];
     this.product.priceSaleRight = 0;
     this.product.priceSaleLeft = 0;
     this.setClient();
@@ -179,7 +244,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.definePrice(this.membership);
       this.definePriceHidrapeg(this.membership);
       this.definePriceNotch(this.membership);
-      this.definePriceTickness(this.membership);
+     // this.definePriceTickness(this.membership);
       this.definePriceInserts(this.membership);
       if (parameter.name === 'Diameter (mm)') {
         if (this.membership !== 0) {
@@ -206,18 +271,22 @@ export class ProductViewEuropaComponent implements OnInit {
         } else {
           if (eye === 'right') {
             if (this.membership !== 0) {
-              this.additionalHidrapeg = false;
-              if (this.product.priceSaleRight > 0 ) {
-                this.product.priceSaleRight = this.product.priceSaleRight - this.hidrapeg;
+              if (this.additionalHidrapeg) {
+                this.additionalHidrapeg = false;
+                if (this.product.priceSaleRight > 0 ) {
+                  this.product.priceSaleRight = this.product.priceSaleRight - this.hidrapeg;
+                }
               }
             } else {
               this.additionalHidrapeg = false;
             }
           } else {
             if (this.membership !== 0) {
-              this.additionalHidrapegL = false;
-              if (this.product.priceSaleLeft > 0 ) {
-                this.product.priceSaleLeft = this.product.priceSaleLeft - this.hidrapeg;
+              if (this.additionalHidrapegL) {
+                this.additionalHidrapegL = false;
+                if (this.product.priceSaleLeft > 0 ) {
+                  this.product.priceSaleLeft = this.product.priceSaleLeft - this.hidrapeg;
+                }
               }
             } else {
               this.additionalHidrapegL = false;
@@ -245,18 +314,22 @@ export class ProductViewEuropaComponent implements OnInit {
         } else {
           if (eye === 'right') {
             if (this.membership !== 0) {
-              this.additionalInserts = false;
-              if (this.product.priceSaleRight > 0 ) {
-                this.product.priceSaleRight = this.product.priceSaleRight - this.inserts;
+              if (this.additionalInserts) {
+                this.additionalInserts = false;
+                if (this.product.priceSaleRight > 0 ) {
+                  this.product.priceSaleRight = this.product.priceSaleRight - this.inserts;
+                }
               }
             } else {
               this.additionalInserts = false;
             }
           } else {
             if (this.membership !== 0) {
-              this.additionalInsertsL = false;
-              if (this.product.priceSaleLeft > 0 ) {
-                this.product.priceSaleLeft = this.product.priceSaleLeft - this.inserts;
+              if (this.additionalInsertsL){
+                this.additionalInsertsL = false;
+                if (this.product.priceSaleLeft > 0 ) {
+                  this.product.priceSaleLeft = this.product.priceSaleLeft - this.inserts;
+                }
               }
             } else {
               this.additionalInsertsL = false;
@@ -264,23 +337,27 @@ export class ProductViewEuropaComponent implements OnInit {
           }
         }
       }
-      if (parameter.name === 'Thickness') {
+      /*if (parameter.name === 'Thickness') {
         if (parseFloat(value) !== null) {
-          if (parseFloat(value) === 0) {
+          if (parseFloat(value) === 0 || value === null) {
             if (eye === 'right') {
               if (this.membership !== 0) {
-                this.flagThickness = false;
-                this.additionalThickness = false;
-                this.product.priceSaleRight = this.product.priceSaleRight - this.thickness;
+                if (this.flagThickness) {
+                  this.flagThickness = false;
+                  this.additionalThickness = false;
+                  this.product.priceSaleRight = this.product.priceSaleRight - this.thickness;
+                }
               } else {
                  this.flagThickness = false;
                  this.additionalThickness = false;
               }
             } else {
               if (this.membership !== 0) {
-                this.flagThicknessL = false;
-                this.additionalThicknessL = false;
-                this.product.priceSaleLeft = this.product.priceSaleLeft - this.thickness;
+                if (this.flagThicknessL) {
+                  this.flagThicknessL = false;
+                  this.additionalThicknessL = false;
+                  this.product.priceSaleLeft = this.product.priceSaleLeft - this.thickness;
+                }
               } else {
                 this.flagThicknessL = false;
                 this.additionalThicknessL = false;
@@ -312,20 +389,65 @@ export class ProductViewEuropaComponent implements OnInit {
             }
           }
         }
-      }
+      }*/
       if (parameter.name === 'Notch (mm)') {
-        if (parseFloat(value) !== null  && parseFloat(value2) !== null) {
-          if (parseFloat(value) === 0  &&  parseFloat(value2) === 0) {
-            if (eye === 'right') {
-              if (this.membership !== 0) {
-                if (this.flagNotch) {
-                  this.additionalNotch = false;
-                  this.flagNotch = false;
-                  this.product.priceSaleRight = this.product.priceSaleRight - this.notch;
-                }
-              } else {
+        if (eye === 'right') {
+          if ((parseFloat(value) !== 0 && value !== null) && (value2 !== null)) {
+            if (this.membership !== 0) {
+              if (!this.flagNotch) {
+                this.additionalNotch = true;
+                this.flagNotch = true;
+                this.product.priceSaleRight = this.product.priceSaleRight + this.notch;
+              }
+            } else {
                 this.additionalNotch = false;
                 this.flagNotch = false;
+            }
+          } else if (parseFloat(value) === 0 && (value2 !== null) &&  parseFloat(value2) !== 0) {
+            if (this.membership !== 0) {
+              if (!this.flagNotch) {
+                this.additionalNotch = true;
+                this.flagNotch = true;
+                this.product.priceSaleRight = this.product.priceSaleRight + this.notch;
+              }
+            } else {
+                this.additionalNotch = false;
+                this.flagNotch = false;
+            }
+          } else {
+            if (this.membership !== 0) {
+              if (this.flagNotch) {
+                this.additionalNotch = false;
+                this.flagNotch = false;
+                this.product.priceSaleRight = this.product.priceSaleRight - this.notch;
+              }
+            } else {
+                this.additionalNotch = false;
+                this.flagNotch = false;
+            }
+          }
+        } else {
+            if ((parseFloat(value) !== 0 && value !== null) && (value2 !== null)) {
+              if (this.membership !== 0) {
+                if (!this.flagNotchL) {
+                  this.additionalNotchL = true;
+                  this.flagNotchL = true;
+                  this.product.priceSaleLeft = this.product.priceSaleLeft + this.notch;
+                }
+              } else {
+                  this.additionalNotchL = false;
+                  this.flagNotchL = false;
+              }
+            } else if (parseFloat(value) === 0 && (value2 !== null) &&  parseFloat(value2) !== 0) {
+              if (this.membership !== 0) {
+                if (!this.flagNotchL) {
+                  this.additionalNotchL = true;
+                  this.flagNotchL = true;
+                  this.product.priceSaleLeft = this.product.priceSaleLeft + this.notch;
+                }
+              } else {
+                  this.additionalNotchL = false;
+                  this.flagNotchL = false;
               }
             } else {
               if (this.membership !== 0) {
@@ -335,37 +457,12 @@ export class ProductViewEuropaComponent implements OnInit {
                   this.product.priceSaleLeft = this.product.priceSaleLeft - this.notch;
                 }
               } else {
-                this.additionalNotchL = false;
-                this.flagNotchL = false;
-              }
-            }
-          } else {
-            if (eye === 'right') {
-              if (this.membership !== 0) {
-                if (!this.flagNotch) {
-                  this.additionalNotch = true;
-                  this.flagNotch = true;
-                  this.product.priceSaleRight = this.product.priceSaleRight + this.notch;
-                }
-              } else {
-                this.additionalNotch = false;
-                this.flagNotch = false;
-              }
-            } else {
-                if (this.membership !== 0) {
-                  if (!this.flagNotchL) {
-                    this.additionalNotchL = true;
-                    this.flagNotchL = true;
-                    this.product.priceSaleLeft = this.product.priceSaleLeft + this.notch;
-                  }
-                } else {
                   this.additionalNotchL = false;
-                this.flagNotchL = false;
-                }
+                  this.flagNotchL = false;
+              }
             }
-          }
         }
-      }
+    }
 
   }
   setValueEye(eye) {
@@ -380,8 +477,8 @@ export class ProductViewEuropaComponent implements OnInit {
         this.additionalHidrapeg = false;
         this.additionalInserts = false;
         this.additionalNotch = false;
-        this.additionalThickness = false;
-        this.flagThickness = false;
+       // this.additionalThickness = false;
+       // this.flagThickness = false;
         this.flagNotch = false;
 
       }
@@ -396,8 +493,8 @@ export class ProductViewEuropaComponent implements OnInit {
         this.additionalHidrapegL = false;
         this.additionalInsertsL = false;
         this.additionalNotchL = false;
-        this.additionalThicknessL = false;
-        this.flagThicknessL = false;
+       // this.additionalThicknessL = false;
+       // this.flagThicknessL = false;
         this.flagNotchL = false;
       }
     }
@@ -424,12 +521,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
-          // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
-          this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-            return !(u.cardCode === null || u.cardCode === '');
-          });
-           // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
-           // todavia no se agregado ese campo en la bd
+          this.listCustomers = this.listCustomersAux;
         }
       });
     }
@@ -443,7 +535,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.definePrice(clienteSelect.membership.idMembership);
       this.definePriceHidrapeg(this.membership);
       this.definePriceNotch(this.membership);
-      this.definePriceTickness(this.membership);
+     // this.definePriceTickness(this.membership);
       this.definePriceInserts(this.membership);
       if (this.product.eyeRight) {
         let paramet = this.product.parametersRight;
@@ -469,9 +561,9 @@ export class ProductViewEuropaComponent implements OnInit {
             if (this.additionalNotch) {
               this.product.priceSaleRight = this.product.priceSaleRight + this.notch;
             }
-            if (this.additionalThickness) {
+            /*if (this.additionalThickness) {
               this.product.priceSaleRight = this.product.priceSaleRight + this.thickness;
-            }
+            }*/
           }
       }
       if (this.product.eyeLeft) {
@@ -498,9 +590,9 @@ export class ProductViewEuropaComponent implements OnInit {
             if (this.additionalNotchL) {
               this.product.priceSaleLeft = this.product.priceSaleLeft + this.notch;
             }
-            if (this.additionalThicknessL) {
+           /* if (this.additionalThicknessL) {
               this.product.priceSaleLeft = this.product.priceSaleLeft + this.thickness;
-            }
+            }*/
           }
         }
     } else {
@@ -530,8 +622,12 @@ export class ProductViewEuropaComponent implements OnInit {
 
   setPrice() {
     if (this.user.role.idRole === 3) {
-      const membership = this.currentUser.membership.idMembership;
-       this.definePrice(membership);
+       this.membership = this.currentUser.membership.idMembership;
+       this.definePrice(this.membership);
+       this.definePriceHidrapeg(this.membership);
+       this.definePriceNotch(this.membership);
+       // this.definePriceTickness(this.membership);
+       this.definePriceInserts(this.membership);
     }
   }
 
@@ -594,7 +690,7 @@ export class ProductViewEuropaComponent implements OnInit {
     }
   }
 
-  definePriceTickness(membership) {
+  /*definePriceTickness(membership) {
     switch (membership) {
       case 1:
         this.thickness = this.product.pricesAditionalThickness.values[0].price;
@@ -606,7 +702,7 @@ export class ProductViewEuropaComponent implements OnInit {
         this.thickness = this.product.pricesAditionalThickness.values[2].price;
         break;
     }
-  }
+  }*/
 
   buildProductsSelected() {
     this.setEyeSelected();
@@ -634,12 +730,14 @@ export class ProductViewEuropaComponent implements OnInit {
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
-          if (parameter.name === "Power") {
+          if (parameter.name === 'Power') {
             product.parametersRight[index].selected = signPowerRight + parameter.selected;
+          }
+          if (parameter.name === 'Notch (mm)') {
+            product.parametersRight[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
           }
         });
         productSelected.parameters = product.parametersRight;
-
         /*steps*/
         _.each(product.pasosRight, function(PC) {
           _.each(PC.values, function(step) {
@@ -669,6 +767,9 @@ export class ProductViewEuropaComponent implements OnInit {
           if (parameter.name === "Power") {
             product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
           }
+          if (parameter.name === 'Notch (mm)') {
+            product.parametersLeft[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
+          }
         });
         productSelected.parameters = product.parametersLeft;
 
@@ -692,6 +793,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   addToCart(type) {
     this.productCopy = JSON.parse(JSON.stringify(this.product));
+    this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -709,6 +811,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
 
+    // this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
@@ -716,7 +819,8 @@ export class ProductViewEuropaComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationEuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
-    modalRef.componentInstance.listFileBasket = this.listFileBasket;
+    modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
+    modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.additionalHidrapeg = this.hidrapeg;
@@ -731,7 +835,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient){
+    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
 
@@ -795,42 +899,81 @@ export class ProductViewEuropaComponent implements OnInit {
     return maxFileSize;
   }
 
-  removeFile(item) {
-    this.uploader.removeFromQueue(item);
-    this.clearSelectedFile();
+  removeFile(item, eye) {
+    // this.uploader.removeFromQueue(item);
+    if (eye === 'Right') {
+      this.uploaderRightEye.removeFromQueue(item);
+    } else if (eye === 'Left') {
+      this.uploaderLeftEye.removeFromQueue(item);
+    }
+    this.clearSelectedFile(eye);
   }
 
-  clearSelectedFile() {
-    this.selectedFiles.nativeElement.value = '';
+
+  clearSelectedFile(eye) {
+    // this.selectedFiles.nativeElement.value = '';
+    if (eye === 'Right') {
+      this.selectedFilesRightEye.nativeElement.value = '';
+    } else if (eye === 'Left') {
+      this.selectedFilesLeftEye.nativeElement.value = '';
+    }
   }
+
 
   clearFiles() {
-    if (this.uploader.queue.length) {
+    /*if (this.uploader.queue.length) {
       this.uploader.clearQueue();
       this.clearSelectedFile();
+    }*/
+    if (this.uploaderLeftEye.queue.length) {
+      this.uploaderLeftEye.clearQueue();
+      this.clearSelectedFile('Left');
+    }
+    if (this.uploaderRightEye.queue.length) {
+      this.uploaderRightEye.clearQueue();
+      this.clearSelectedFile('Right');
     }
   }
 
   saveFiles(): void {
-    this.listFileBasket = new Array;
-    if (this.uploader.queue) {
+    // this.listFileBasket = new Array;
+    this.listFileLeftEye = new Array;
+    this.listFileRightEye = new Array;
+
+    /*if (this.uploader.queue) {
       _.each(this.uploader.queue, function (item) {
+        item.upload();
+      });
+    }*/
+    if (this.uploaderLeftEye.queue) {
+      _.each(this.uploaderLeftEye.queue, function (item) {
+        item.upload();
+      });
+    }
+    if (this.uploaderRightEye.queue) {
+      _.each(this.uploaderRightEye.queue, function (item) {
         item.upload();
       });
     }
   }
 
-  private buildFileProductRequested() {
-    if (this.uploadResult.success) {
+  private buildFileProductRequested(eye) {
+    if (eye === 'Right' && this.uploadResultRightEye.success) {
       const fileProductRequest: FileProductRequested = new FileProductRequested();
-      fileProductRequest.url  = JSON.parse(this.uploadResult.response).data;
-      fileProductRequest.name = this.uploadResult.item.file.name;
-      fileProductRequest.type = this.uploadResult.item.file.type;
-      fileProductRequest.size = this.uploadResult.item.file.size;
+      fileProductRequest.url  = JSON.parse(this.uploadResultRightEye.response).data;
+      fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+      fileProductRequest.type = this.uploadResultRightEye.item.file.type;
+      fileProductRequest.size = this.uploadResultRightEye.item.file.size;
       fileProductRequest.createdAt = new Date();
-      this.listFileBasket.push(fileProductRequest);
-    } else {
-      console.log('error file');
+      this.listFileRightEye.push(fileProductRequest);
+    } if (eye === 'Left' && this.uploadResultLeftEye.success) {
+      const fileProductRequest: FileProductRequested = new FileProductRequested();
+      fileProductRequest.url  = JSON.parse(this.uploadResultLeftEye.response).data;
+      fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+      fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
+      fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
+      fileProductRequest.createdAt = new Date();
+      this.listFileLeftEye.push(fileProductRequest);
     }
   }
 
@@ -882,26 +1025,26 @@ export class ProductViewEuropaComponent implements OnInit {
     let additionalH;
     let additionalI;
     let additionalN;
-    let additionalT;
+   // let additionalT;
     if (eye === 'right') {
       header = this.product.headerRight;
       paramet = this.product.parametersRight;
       additionalH = this.additionalHidrapeg;
       additionalI = this.additionalInserts;
       additionalN = this.additionalNotch;
-      additionalT = this.additionalThickness;
+     // additionalT = this.additionalThickness;
     } else {
       header = this.product.headerLeft;
       paramet = this.product.parametersLeft;
       additionalH = this.additionalHidrapegL;
       additionalI = this.additionalInsertsL;
       additionalN = this.additionalNotchL;
-      additionalT = this.additionalThicknessL;
+     // additionalT = this.additionalThicknessL;
     }
     let notch = this.notch;
     let inserts = this.inserts;
     let hidrapeg = this.hidrapeg;
-    let thickness = this.thickness;
+   // let thickness = this.thickness;
         // header
           _.each(header, function(itemHeader) {
               if (itemHeader.name === 'Hidrapeg') {
@@ -929,29 +1072,29 @@ export class ProductViewEuropaComponent implements OnInit {
                   additionalN = true;
                 }
               }
-              if (productSelected.name === 'Thickness') {
+             /* if (productSelected.name === 'Thickness') {
                   // tslint:disable-next-line:radix
                   if (parseFloat(productSelected.selected ) === 0 || productSelected.selected === null ) {
                     thickness = 0;
                   } else {
                     additionalT = true;
                   }
-              }
+              }*/
           });
       this.notch = notch;
       this.inserts = inserts;
       this.hidrapeg = hidrapeg;
-      this.thickness = thickness;
+     // this.thickness = thickness;
       if (eye === 'right') {
         this.additionalHidrapeg = additionalH;
         this.additionalInserts = additionalI;
         this.additionalNotch = additionalN;
-        this.additionalThickness = additionalT;
+     // this.additionalThickness = additionalT;
       } else {
         this.additionalHidrapegL = additionalH;
         this.additionalInsertsL = additionalI;
         this.additionalNotchL = additionalN;
-        this.additionalThicknessL = additionalT;
+     // this.additionalThicknessL = additionalT;
       }
   }
 
@@ -983,10 +1126,12 @@ export class ProductViewEuropaComponent implements OnInit {
      header = this.product.headerRight;
      parameters = this.product.parametersRight;
      pasos = this.product.pasosRight;
+     this.product.observationsRight = '';
     } else {
       header = this.product.headerLeft;
       parameters = this.product.parametersLeft;
       pasos = this.product.pasosLeft;
+      this.product.observationsLeft = '';
     }
      // header
      _.each(header, function(itemHeader) {

@@ -60,10 +60,10 @@ import { SummaryProductsComponent } from './basket/modals/summary-products/summa
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
 import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.component';
-import { BlueLightComponent } from './basket/edit-order/blue-light/blue-light.component';
-import { EuclidComponent } from './basket/edit-order/euclid/euclid.component';
-import { MarkennovyComponent } from './basket/edit-order/markennovy/markennovy.component';
+import { MagicLookComponent } from './edit-order/magic-look/magic-look.component';
+import { BlueLightComponent } from './edit-order/blue-light/blue-light.component';
+import { EuclidComponent } from './edit-order/euclid/euclid.component';
+import { MarkennovyComponent } from './edit-order/markennovy/markennovy.component';
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
@@ -75,7 +75,7 @@ import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-
 import { AddPaymentModalComponent } from './manage-payments/payments-made/modals/add-payment-modal/add-payment-modal.component';
 import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euclid/detail-euclid.component';
 import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
-import { EuropaComponent } from './basket/edit-order/europa/europa.component';
+import { EuropaComponent } from './edit-order/europa/europa.component';
 
 @NgModule({
     imports: [

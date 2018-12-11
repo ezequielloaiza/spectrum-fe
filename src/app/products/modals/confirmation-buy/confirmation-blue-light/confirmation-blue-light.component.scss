@@ -58,12 +58,19 @@
 
   .items{
    font-weight:0px;
-    color:#868e96;
+    color: $secondary-info;
 
   }
 
-  .param{
-    color: #f8ac59;
+  .eye-info {
+    color: $secondary-info;
+    padding-bottom: 2em;
+    text-align: center;
   }
 
+  .separators {
+    border-top: 1.5px solid $info-separator;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
 }
