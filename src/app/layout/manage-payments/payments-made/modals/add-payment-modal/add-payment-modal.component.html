@@ -1,5 +1,7 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{ 'Add Payment' | translate }}</h4>
+  <h4 *ngIf="action == 'new'" class="modal-title">{{ 'Add Payment' | translate }}</h4>
+  <h4 *ngIf="action == 'view'" class="modal-title">{{ 'View Payment' | translate }}</h4>
+  <h4 *ngIf="action == 'edit'" class="modal-title">{{ 'Edit Payment' | translate }}</h4>
   <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -7,9 +9,7 @@
 <div class="content">
   <div class="modal-body">
     <form [formGroup]="form">
-      <h4 *ngIf="action == 'new'">{{ 'Payment Information' | translate }}</h4>
-      <h4 *ngIf="action == 'view'">{{ 'View Payment' | translate }}</h4>
-      <h4 *ngIf="action == 'edit'">{{ 'Edit Payment' | translate }}</h4>
+      <h4>{{ 'Payment Information' | translate }}</h4>
       <br>
       <div class="row">
         <div class="col-xl-6">
