@@ -6,7 +6,8 @@ export class BuyNow {
     public idUser: number;
     public idRole: number;
     public productRequestedList: Array<ProductRequested>;
-    public fileProductRequestedList: Array<FileProductRequested>;
+    public listFileRightEye: Array<FileProductRequested>;
+    public listFileLeftEye: Array<FileProductRequested>;
 
     public constructor() { }
   }
