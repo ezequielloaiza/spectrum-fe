@@ -74,17 +74,22 @@
         </div>
         <!--shipping address-->
          <!--shipping address-->
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <span class="title">{{ 'Shipping Address' | translate }}</span>
           <div class="row info-content ">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
               readonly>
           </div>
         </div>
-        <div class="col-lg-2">
-          <h5 class="padding-price" [hidden]="product.priceSale === ''">
+         <!--Price-->
+         <div class="col-lg-3">
+          <h4 class="padding-price" [hidden]="(priceFrom==='' && priceUp==='') || product.priceSale !==''">
+            <span>{{ priceFrom | currency : "USD $"}}{{priceFrom ? ' - ':''}}{{ priceUp | currency : "$"}}</span>
+            <!--<span></span>-->
+          </h4>
+          <h4 class="padding-price" [hidden]="product.priceSale===''">
             <span>{{ product.priceSale | currency : "USD $" }}</span>
-          </h5>
+          </h4>
         </div>
       </div>
 
@@ -94,16 +99,18 @@
         </div>
       </div>
       <!--quantity right-->
-      <div class="col-lg-2 margin-col padding-col">
+      <div class="col-lg-4">
         <div class="row">
-          <label class="form-check-label">{{ 'Quantity' | translate }}</label>
-        </div>
-        <div class="row">
-          <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantity" oninput="validity.valid||(value='');">
+          <div class="col-lg-12">
+              <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+          </div>
+          <div class="col-lg-6">
+            <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantity" oninput="validity.valid||(value='');" (change)="setPriceBoxes(product.quantity)">
+          </div>
         </div>
       </div>
 
- 
+
       <br>
       <div class="row">
         <div class="col-md-12 buy-btns">

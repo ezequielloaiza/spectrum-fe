@@ -76,7 +76,9 @@ export class DetailsOrderClientComponent implements OnInit {
         }
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
-          detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
+          if (detailsOrder.productRequested.detail.length > 0) {
+            detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
+          }
         });
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;

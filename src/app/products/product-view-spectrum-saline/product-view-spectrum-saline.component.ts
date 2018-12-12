@@ -24,6 +24,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationBlueLightComponent } from '../modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmationSpectrumSalineComponent } from '../modals/confirmation-buy/confirmation-spectrum-saline/confirmation-spectrum-saline.component';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -50,6 +51,9 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  priceFrom: any;
+  priceUp: any;
+  clientSelected: any;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
@@ -78,33 +82,10 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
               private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
-
-    this.uploader.onAfterAddingFile = (item) => {
-      const maxSize = this.maxFilesSize();
-
-      if (maxSize > this.maxFileSize) {
-        this.removeFile(item);
-        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
-          this.notification.error('', res);
-        });
-      }
-    };
-    this.uploader.onSuccessItem = (item, response, status, headers) => {
-      this.uploadResult = {'success': true, 'item': item, 'response':
-                           response, 'status': status, 'headers': headers};
-      if (this.uploadResult) {
-        this.buildFileProductRequested();
-      }
-    };
-    this.uploader.onErrorItem = (item, response, status, headers) => {
-        this.uploadResult = {'success': true, 'item': item, 'response':
-                             response, 'status': status, 'headers': headers};
-    };
   }
 
   ngOnInit() {
     this.getProducts();
-    this.clearFiles();
   }
 
   getProducts() {
@@ -126,7 +107,6 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
   getProductView() {
     this.id = +this.route.snapshot.paramMap.get('id');
-    debugger
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.priceSale = '';
@@ -153,12 +133,16 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
   onSelectedClient(clienteSelect) {
     if (clienteSelect !== undefined) {
       this.client = clienteSelect.idUser;
+      this.clientSelected = clienteSelect;
       this.findShippingAddress(this.client);
       this.definePrice(clienteSelect.membership.idMembership);
     } else {
       this.client = '';
       this.product.shippingAddress = '';
       this.product.priceSale = '';
+      this.priceFrom = '';
+      this.priceUp = '';
+      this.clientSelected = '';
     }
   }
 
@@ -186,17 +170,34 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
   }
 
   definePrice(membership) {
-    switch (membership) {
-      case 1:
-        this.product.priceSale = this.product.price1;
-        break;
-      case 2:
-        this.product.priceSale = this.product.price2;
-        break;
-      case 3:
-        this.product.priceSale = this.product.price3;
-        break;
-    }
+    let info = JSON.parse(this.product.infoAditional);
+    const pos = this.calculateQuantity(this.product.quantity);
+        switch (membership) {
+          case 1: // Gold
+            if (this.product.quantity >= 250) {
+              this.product.priceSale = parseFloat(info[1].values[pos].price);
+            } else {
+              this.priceFrom = parseFloat(info[1].values[2].price);
+              this.priceUp = parseFloat(info[1].values[0].price);
+            }
+            break;
+          case 2: // Diamond
+            if (this.product.quantity >= 250) {
+              this.product.priceSale = parseFloat(info[2].values[pos].price);
+            } else {
+              this.priceFrom = parseFloat(info[2].values[2].price);
+              this.priceUp = parseFloat(info[2].values[0].price);
+            }
+            break;
+          case 3: // Preferred
+            if (this.product.quantity >= 250) {
+              this.product.priceSale = parseFloat(info[3].values[pos].price);
+          } else {
+            this.priceFrom = parseFloat(info[3].values[2].price);
+            this.priceUp = parseFloat(info[3].values[0].price);
+          }
+            break;
+        }
   }
 
   buildProductSelected() {
@@ -214,7 +215,6 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
   addToCart(type) {
     this.productCopy = JSON.parse(JSON.stringify(this.product));
-    this.saveFiles();
     const productsRequested = [];
     const product = this.buildProductSelected();
 
@@ -224,7 +224,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
     productRequest.product = productoSelect;
     productRequest.quantity = product.quantity;
     productRequest.price = product.price;
-    productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
+    productRequest.detail = '';
     productRequest.patient = product.patient;
     productRequest.observations = product.observations;
     productsRequested.push(productRequest);
@@ -232,17 +232,17 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-    this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationBlueLightComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationSpectrumSalineComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.view = 1; // spectrum saline
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
@@ -251,81 +251,52 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if (!this.product.patient || !this.product.quantity){
+    if (!this.product.patient){
+      isValid = false;
+    }
+    if (!this.product.quantity || this.product.quantity < 250 ) {
       isValid = false;
     }
     return isValid;
   }
 
-  maxFilesSize() {
-    let maxFileSize = 0;
+  setPriceBoxes(quantity) {
+      let info = JSON.parse(this.product.infoAditional);
+      let  membership = 0;
+      const pos = this.calculateQuantity(quantity);
+      if (this.user.role.idRole === 3) {
+        membership = this.currentUser.membership.idMembership;
+      } else {
+        if (this.clientSelected !== undefined && this.clientSelected !== '')  {
+          membership = this.clientSelected.membership.idMembership;
+        }
+      }
+      if (quantity >= 250) {
+        switch (membership) {
+          case 1: // Gold
+            this.product.priceSale = parseFloat(info[1].values[pos].price);
+            break;
+          case 2: // Diamond
+            this.product.priceSale = parseFloat(info[2].values[pos].price);
+            break;
+          case 3: // Preferred
+          this.product.priceSale = parseFloat(info[3].values[pos].price);
+            break;
+        }
+      } else {
+        this.product.priceSale = '';
+      }
+  }
 
-    if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        maxFileSize = maxFileSize + item.file.size;
-      });
+  calculateQuantity(quantity): any {
+    let pos;
+      if (quantity >= 250 && quantity <= 499 ) {
+         pos = 0;
+      } else if (quantity >= 500 && quantity <= 999) {
+         pos = 1;
+      } else if (quantity >= 1000) {
+         pos = 2;
+      }
+      return pos;
     }
-    return maxFileSize;
-  }
-
-  removeFile(item) {
-    this.uploader.removeFromQueue(item);
-    this.clearSelectedFile();
-  }
-
-  clearSelectedFile() {
-    this.selectedFiles.nativeElement.value = '';
-  }
-
-  clearFiles() {
-    if (this.uploader.queue.length) {
-      this.uploader.clearQueue();
-      this.clearSelectedFile();
-    }
-  }
-
-  saveFiles(): void {
-    this.listFileBasket = new Array;
-    if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        item.upload();
-      });
-    }
-  }
-
-  private buildFileProductRequested() {
-    if (this.uploadResult.success) {
-      const fileProductRequest: FileProductRequested = new FileProductRequested();
-      fileProductRequest.url  = JSON.parse(this.uploadResult.response).data;
-      fileProductRequest.name = this.uploadResult.item.file.name;
-      fileProductRequest.type = this.uploadResult.item.file.type;
-      fileProductRequest.size = this.uploadResult.item.file.size;
-      fileProductRequest.createdAt = new Date();
-      this.listFileBasket.push(fileProductRequest);
-    } else {
-      console.log('error file');
-    }
-  }
-
-  clean(eye) {
-    let parameters;
-    if (eye === 'right') {
-      parameters = this.product.parametersRight;
-      this.product.quantityRight = '';
-
-    } else {
-      parameters = this.product.parametersLeft;
-      this.product.quantityLeft = '';
-    }
-    // parameter
-    _.each(parameters, function(param) {
-          param.selected = null;
-          param.sel = null;
-    });
-    if (eye === 'right') {
-      this.product.parametersRight = parameters;
-    } else {
-      this.product.parametersLeft = parameters;
-    }
-  }
 }

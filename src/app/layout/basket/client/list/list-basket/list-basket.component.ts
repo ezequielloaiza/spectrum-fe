@@ -71,7 +71,9 @@ export class ListBasketComponent implements OnInit {
         _.each(this.listBasket, function (basket) {
           basket.checked = false;
           basket.supplier = basket.productRequested.product.supplier.idSupplier;
-          basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
+          if (basket.productRequested.detail.length > 0) {
+            basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
+          }
         });
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
