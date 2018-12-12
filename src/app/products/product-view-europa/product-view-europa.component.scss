@@ -328,15 +328,15 @@ img {
 .custom-file-input {
   cursor: pointer;
   $custom-file-text: (
-  placeholder: (
-    en: "Choose file...",
-    es: "Seleccionar archivo..."
-  ),
-  button-label: (
-    en: "Browse",
-    es: "Navegar"
-  )
-);
+    placeholder: (
+      en: "Choose file...",
+      es: "Seleccionar archivo..."
+    ),
+    button-label: (
+      en: "Browse",
+      es: "Navegar"
+    )
+  );
 }
 
 .custom-control-label::before {
@@ -384,4 +384,9 @@ img {
       font-size: 26px;
       font-weight: bold;
     }
+}
+
+.message-error-file {
+  color: #cc0000;
+  font-size: 0.85rem;
 }

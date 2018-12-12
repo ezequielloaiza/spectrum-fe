@@ -5,5 +5,14 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/api/v1/'
+  apiUrl: 'http://localhost:8080/api/v1/',
+  firebase: {
+    apiKey: 'AIzaSyDueIh6nxo-wxTG2moQbq_iNDKFFtNDARI',
+      authDomain: 'spectrum-app.firebaseapp.com',
+      databaseURL: 'https://spectrum-app.firebaseio.com',
+      projectId: 'spectrum-app',
+      storageBucket: 'spectrum-app.appspot.com',
+      messagingSenderId: '68602982808'
+  }
+
 };

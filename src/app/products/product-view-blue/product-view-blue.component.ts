@@ -309,7 +309,6 @@ export class ProductViewBlueComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-    this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
@@ -328,7 +327,7 @@ export class ProductViewBlueComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient){
+    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
 

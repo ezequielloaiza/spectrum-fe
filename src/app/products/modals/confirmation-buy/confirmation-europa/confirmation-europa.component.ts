@@ -51,8 +51,11 @@ export class ConfirmationEuropaComponent implements OnInit {
   // list for File
   listFileBasket: Array<FileProductRequested> = new Array;
   listUrlFiles: Array<String> = new Array;
+  listFileLeftEye: Array<FileProductRequested> = new Array;
+  listFileRightEye: Array<FileProductRequested> = new Array;
   // boolean for delete file
   save_success: Boolean = false;
+  balance_modal: Boolean = false;
   company: Company = new Company();
   available: any;
 
@@ -77,7 +80,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   }
 
   close() {
-    if (!this.save_success) {
+    if (!this.save_success && !this.balance_modal) {
       this.listUrlFiles = this.buildUrlFiles();
       this.deleteAllFile();
     }
@@ -139,7 +142,8 @@ export class ConfirmationEuropaComponent implements OnInit {
       this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
-      this.basketRequest.fileProductRequestedList = this.listFileBasket;
+      this.basketRequest.listFileRightEye = this.listFileRightEye;
+      this.basketRequest.listFileLeftEye = this.listFileLeftEye;
       this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
         if (res.code === CodeHttp.ok) {
             this.save_success = true;
@@ -164,7 +168,8 @@ export class ConfirmationEuropaComponent implements OnInit {
       this.buyNow.idUser = this.datos.idUser;
       this.buyNow.productRequestedList = this.lista;
       this.buyNow.idRole = this.role;
-      this.buyNow.fileProductRequestedList = this.listFileBasket;
+      this.buyNow.listFileRightEye = this.listFileRightEye;
+      this.buyNow.listFileLeftEye = this.listFileLeftEye;
       this.validateAvailableBalance();
       if (this.available) {
           this.spinner.show();
@@ -188,6 +193,7 @@ export class ConfirmationEuropaComponent implements OnInit {
           console.log('error', error);
         });
       } else {
+        this.balance_modal = true;
         this.openModal(); // No tiene disponible el balance de credito
         this.close();
       }
@@ -196,7 +202,11 @@ export class ConfirmationEuropaComponent implements OnInit {
 
   buildUrlFiles() {
     const listUrlFiles: Array<String> = new Array;
-    _.each(this.listFileBasket, function (file) {
+
+    _.each(this.listFileLeftEye, function (file) {
+      listUrlFiles.push(file.url);
+    });
+    _.each(this.listFileRightEye, function (file) {
       listUrlFiles.push(file.url);
     });
     return listUrlFiles;
@@ -263,6 +273,8 @@ export class ConfirmationEuropaComponent implements OnInit {
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
+      this.save_success = true;
+      this.balance_modal = false;
       this.close();
     });
   }
