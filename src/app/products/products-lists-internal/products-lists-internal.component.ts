@@ -239,11 +239,13 @@ export class ProductsListInternalComponent implements OnInit {
       case 6:  // magic blue
         this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
         break;
-      case 7:  // fluo strips
-        this.router.navigate(['/products/' + product.idProduct + '/product-view-fluo-strips']);
-        break;
-      case 8:  // spectrum saline
-        this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
+      case 7:  // fluo strips y spectrum saline
+        if (product.father === 'Fluo Strips') {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-fluo-strips']);
+        }
+        if (product.father === 'Spectrum Saline') {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
+        }
         break;
     }
   }

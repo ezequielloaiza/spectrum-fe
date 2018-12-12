@@ -85,14 +85,14 @@
                         <img class="img-product" src={{basket.urlImage}}>
                       </div>
                       <!--Details-->
-                      <div class="details" [ngClass]="{detailm: basket.supplier === 5 || basket.supplier === 8 , detailb: basket.supplier === 6}">
-                        <div *ngIf="basket.supplier !== 5 && basket.supplier !== 6  && basket.supplier !== 8">
+                      <div class="details" [ngClass]="{detailm: basket.supplier === 5 || basket.supplier === 7 , detailb: basket.supplier === 6}">
+                        <div *ngIf="basket.supplier !== 5 && basket.supplier !== 6  && basket.supplier !== 7">
                           <span class="title">{{ basket.productRequested.product.name }}</span>
                         </div>
                         <br>
                         <div *ngIf="basket.supplier !== 5">
                           <div class="row info">
-                            <div class="col-lg-6 width-50">
+                            <div class="col-lg-6 width-50" [hidden]=" basket.productRequested.patient === '' || basket.productRequested.patient === null">
                               <span class="title">{{ 'Patient' | translate }}</span>
                               <span>{{ basket.productRequested.patient }}</span>
                             </div>

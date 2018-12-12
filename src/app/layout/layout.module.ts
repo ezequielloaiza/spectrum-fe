@@ -73,6 +73,7 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
 import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euclid/detail-euclid.component';
 import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
 import { EuropaComponent } from './edit-order/europa/europa.component';
+import { SalineFluoComponent } from './basket/edit-order/saline-fluo/saline-fluo.component';
 
 @NgModule({
     imports: [
@@ -154,7 +155,8 @@ import { EuropaComponent } from './edit-order/europa/europa.component';
         DetailBlueLightComponent,
         DetailEuclidComponent,
         DetailEuropaComponent,
-        EuropaComponent
+        EuropaComponent,
+        SalineFluoComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,

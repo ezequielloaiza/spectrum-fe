@@ -183,7 +183,6 @@ export class ProductViewFluoStripsComponent implements OnInit {
     let productSelected = product;
 
     productSelected.id = product.idProduct;
-    productSelected.patient = product.patient;
     productSelected.price = product.priceSale;
     productSelected.quantity = product.quantity;
     productSelected.detail = '';
@@ -203,7 +202,6 @@ export class ProductViewFluoStripsComponent implements OnInit {
     productRequest.quantity = product.quantity;
     productRequest.price = product.price;
     productRequest.detail = '';
-    productRequest.patient = product.patient;
     productRequest.observations = product.observations;
     productsRequested.push(productRequest);
 
@@ -229,7 +227,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if (!this.product.patient || !this.product.quantity) {
+    if (!this.product.quantity) {
       isValid = false;
     }
     return isValid;

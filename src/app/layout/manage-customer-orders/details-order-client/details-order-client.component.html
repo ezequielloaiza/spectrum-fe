@@ -140,7 +140,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" [hidden]="list.productRequested.patient === ''">
+                        <div class="col-sm-2" [hidden]="list.productRequested.patient === '' || list.productRequested.patient === null">
                           <dl class="align-item">
                             <dt>{{'Patient'| translate}}</dt>
                             <dt>

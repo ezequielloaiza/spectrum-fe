@@ -66,17 +66,14 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
   }
 
   getDatos() {
-    let patient;
     let  priceAcum = 0;
     let quantity = 0;
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     _.each(this.listBasket, function (productRequested) {
       priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
-      patient = productRequested.patient;
       quantity = productRequested.quantity;
     });
-    this.namePatient = patient;
     this.price = priceAcum;
     this.quantity = quantity;
     this.strips = this.quantity * 100;
