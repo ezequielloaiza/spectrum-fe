@@ -11,6 +11,58 @@ this.products = [
           {"class":"", "text":"Purified and sterilized."},
           {"class":"", "text":"Hidrating solution for soft contact lenses."}
         ]
+      },
+      ,
+      {
+        "name": "Gold",
+        "values": [
+          {
+            "name": "250",
+            "price": 12
+          },
+          {
+            "name": "500",
+            "price": 11
+          },
+          {
+            "name": "1000",
+            "price": 10
+          }
+        ]
+      },
+      {
+        "name": "Diamond",
+        "values": [
+          {
+            "name": "250",
+            "price": 12
+          },
+          {
+            "name": "500",
+            "price": 11
+          },
+          {
+            "name": "1000",
+            "price": 10
+          }
+        ]
+      },
+      {
+        "name": "Preferred",
+        "values": [
+          {
+            "name": "250",
+            "price": 12
+          },
+          {
+            "name": "500",
+            "price": 11
+          },
+          {
+            "name": "1000",
+            "price": 10
+          }
+        ]
       }
     ]
   }
