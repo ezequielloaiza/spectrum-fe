@@ -73,19 +73,14 @@
       <div class="row margin-list">
         <div class="col-md-4" *ngFor="let supplier of listSupplier">
           <div class="mb-4 box-shadow">
-            <a
-              href=""
-              (click)="onSelectionSupplier(supplier.idSupplier)"
-              class="prodTeaser"
-            >
-              <div class="prodTeaser-overlay">
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="onSelectionSupplier(supplier.idSupplier)">
                 <i class="prodTeaser-more">+</i>
               </div>
               <div class="prodTeaser-inner">
                 <img
                   class="card-img-top-teaser"
                   src="{{ supplier.image }}"
-                  (click)="onSelectionSupplier(supplier.idSupplier)"
                 />
               </div>
             </a>
