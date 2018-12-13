@@ -1,4 +1,9 @@
-<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "medium"
+  color = "#fff"
+  type = "ball-beat"
+></ngx-spinner>
 <br>
 <br>
 <br>
@@ -90,32 +95,47 @@
   <div class="row">
     <!--THUMBNAILS PRODUCTS-->
     <div class="col-sm-1 col-md-1 col-lg-1"></div>
-
     <div class="col-sm-10 col-md-10 col-lg-10">
       <div class="row">
 
         <!--Only products father of Markennovy-->
         <div [hidden]="!showFathersMarkennovy" class="col-md-4" *ngFor="let product of productsMarkennovy">
           <div class="mb-4">
-            <div class="box-shadow">
-              <img class="card-img-top" src="{{ product.mainImg }}" (click)="redirectFather(product)">
-              <h4 class="product-name" (click)="redirectFather(product)">
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="redirectFather(product)">
+                <i class="prodTeaser-more">{{ 'View' | translate }}</i>
+              </div>
+              <div class="prodTeaser-inner">
+                <img
+                  class="card-img-top-teaser"
+                  src="{{ product.mainImg }}"
+                />
+              </div>
+              <h4 class="product-name">
                 {{ product.name }}
               </h4>
-            </div>
+            </a>
           </div>
         </div>
 
         <!--Products without Markennovy-->
         <div [hidden]="showFathersMarkennovy" class="col-md-4" *ngFor="let product of products">
           <div class="mb-4">
-            <div class="box-shadow">
-              <img class="card-img-top" src="{{ product.mainImg }}" (click)="redirectView(product)">
-              <h4 class="product-name" (click)="redirectView(product)">
-                <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
-                {{ product.name }}
-              </h4>
-            </div>
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="redirectView(product)">
+                <i class="prodTeaser-more">{{ 'View' | translate }}</i>
+              </div>
+              <div class="prodTeaser-inner">
+                <img
+                  class="card-img-top-teaser"
+                  src="{{ product.mainImg }}"
+                />
+              </div>
+                <h4 class="product-name">
+                  <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
+                  {{ product.name }}
+                </h4>
+            </a>
             <div class="card-body">
               <p class="card-text"> {{ product.descriptionShort }}</p>
               <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
