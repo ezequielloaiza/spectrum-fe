@@ -73,7 +73,8 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
 import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euclid/detail-euclid.component';
 import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
 import { EuropaComponent } from './edit-order/europa/europa.component';
-import { SalineFluoComponent } from './basket/edit-order/saline-fluo/saline-fluo.component';
+import { DetailSalineFluoComponent } from './basket/modals/detail-product/detail-saline-fluo/detail-saline-fluo.component';
+import { SalineFluoComponent } from './edit-order/saline-fluo/saline-fluo.component';
 
 @NgModule({
     imports: [
@@ -156,7 +157,8 @@ import { SalineFluoComponent } from './basket/edit-order/saline-fluo/saline-fluo
         DetailEuclidComponent,
         DetailEuropaComponent,
         EuropaComponent,
-        SalineFluoComponent
+        DetailSalineFluoComponent,
+        SalineFluoComponent,
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -187,7 +189,9 @@ import { SalineFluoComponent } from './basket/edit-order/saline-fluo/saline-fluo
       DetailBlueLightComponent,
       DetailEuclidComponent,
       DetailEuropaComponent,
-      EuropaComponent
+      EuropaComponent,
+      DetailSalineFluoComponent,
+      SalineFluoComponent
     ],
     providers: [
       BusinessTypeService,

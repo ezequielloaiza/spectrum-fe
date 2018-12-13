@@ -25,6 +25,8 @@ import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euc
 import { DetailEuropaComponent } from '../../../modals/detail-product/detail-europa/detail-europa.component';
 import { EuropaComponent } from '../../../../edit-order/europa/europa.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DetailSalineFluoComponent } from '../../../modals/detail-product/detail-saline-fluo/detail-saline-fluo.component';
+import { SalineFluoComponent } from '../../../../edit-order/saline-fluo/saline-fluo.component';
 
 
 
@@ -233,6 +235,15 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
           break;
+     case 7: // Fluo strips y spectrum saline
+        const modalRefFluoSaline = this.modalService.open(DetailSalineFluoComponent,
+          { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefFluoSaline.componentInstance.basket = basket;
+          modalRefFluoSaline.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
      }
   }
 
@@ -282,6 +293,15 @@ export class DetailsBasketClientComponent implements OnInit {
           modalRefBlue.componentInstance.basket = basket;
           modalRefBlue.componentInstance.typeEdit = 1;
           modalRefBlue.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
+    case 7: // Fluo strips y spectrum saline
+          const modalRefSalineFluo = this.modalService.open( SalineFluoComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefSalineFluo.componentInstance.basket = basket;
+          modalRefSalineFluo.componentInstance.typeEdit = 1;
+          modalRefSalineFluo.result.then((result) => {
             this.ngOnInit();
           } , (reason) => {
           });

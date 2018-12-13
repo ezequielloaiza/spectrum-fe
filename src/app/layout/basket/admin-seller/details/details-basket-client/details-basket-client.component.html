@@ -86,7 +86,7 @@
                       </div>
                       <!--Details-->
                       <div class="details" [ngClass]="{detailm: basket.supplier === 5 || basket.supplier === 7 , detailb: basket.supplier === 6}">
-                        <div *ngIf="basket.supplier !== 5 && basket.supplier !== 6  && basket.supplier !== 7">
+                        <div *ngIf="basket.supplier !== 5 && basket.supplier !== 6">
                           <span class="title">{{ basket.productRequested.product.name }}</span>
                         </div>
                         <br>
