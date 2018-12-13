@@ -31,7 +31,7 @@ export class DetailsOrderClientComponent implements OnInit {
   order: Order = new Order();
   listDetails: Array<any> = new Array;
   listDetailsAux: Array<any> = new Array;
-  listAux: Array<ProductRequested> = new Array<ProductRequested>;
+  listAux: Array<ProductRequested> = new Array<ProductRequested>();
   advancedPagination: number;
   itemPerPage = 1;
   generar = false;
