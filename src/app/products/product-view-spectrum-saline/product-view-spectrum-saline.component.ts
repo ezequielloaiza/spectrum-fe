@@ -90,7 +90,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplier$(8).subscribe(res => {
+    this.productService.findBySupplier$(7).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
@@ -205,7 +205,6 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
     let productSelected = product;
 
     productSelected.id = product.idProduct;
-    productSelected.patient = product.patient;
     productSelected.price = product.priceSale;
     productSelected.quantity = product.quantity;
     productSelected.detail = '';
@@ -225,7 +224,6 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
     productRequest.quantity = product.quantity;
     productRequest.price = product.price;
     productRequest.detail = '';
-    productRequest.patient = product.patient;
     productRequest.observations = product.observations;
     productsRequested.push(productRequest);
 
@@ -251,9 +249,6 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if (!this.product.patient){
-      isValid = false;
-    }
     if (!this.product.quantity || this.product.quantity < 250 ) {
       isValid = false;
     }

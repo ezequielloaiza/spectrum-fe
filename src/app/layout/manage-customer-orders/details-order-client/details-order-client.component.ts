@@ -18,6 +18,7 @@ import { CompanyService } from '../../../shared/services';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ViewChild } from '@angular/core';
 import { SupplierEuclidComponent } from '../../details-order-supplier/supplier-euclid/supplier-euclid.component';
+import { SalineFluoComponent } from '../../edit-order/saline-fluo/saline-fluo.component';
 
 @Component({
   selector: 'app-details-order-client',
@@ -30,6 +31,7 @@ export class DetailsOrderClientComponent implements OnInit {
   order: Order = new Order();
   listDetails: Array<any> = new Array;
   listDetailsAux: Array<any> = new Array;
+  listAux: Array<ProductRequested> = new Array<ProductRequested>();
   advancedPagination: number;
   itemPerPage = 1;
   generar = false;
@@ -121,6 +123,20 @@ export class DetailsOrderClientComponent implements OnInit {
     });
     this.listDetails = this.order.listProductRequested;
     this.listDetailsAux = this.order.listProductRequested;
+  }
+
+  openEdit(lista, image) {
+    const modalRefSalineFluo = this.modalService.open( SalineFluoComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRefSalineFluo.componentInstance.detailEdit = lista;
+    modalRefSalineFluo.componentInstance.typeEdit = 2;
+    modalRefSalineFluo.componentInstance.userOrder = this.order.user;
+    modalRefSalineFluo.componentInstance.image = image;
+    modalRefSalineFluo.result.then((result) => {
+      this.listAux.push(result);
+      this.refresh(this.listAux);
+    } , (reason) => {
+
+    });
   }
 }
 

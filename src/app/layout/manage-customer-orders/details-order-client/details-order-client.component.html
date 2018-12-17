@@ -100,6 +100,11 @@
                             <h3>-({{list.productRequested.detail[0].name}})</h3>
                           </span>
                         </div>
+                        <div class="padding-params" *ngIf="order.status === 0 && user.role.idRole === 1 && list.productRequested.product.supplier.idSupplier === 7">
+                            <button type="button" (click)="openEdit(list.productRequested, list.urlImage)" class="btn btn-outline-primary" translate>
+                              Edit
+                            </button>
+                        </div>
                         <br>
                         <br>
                       </div>
@@ -140,7 +145,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" [hidden]="list.productRequested.patient === ''">
+                        <div class="col-sm-2" [hidden]="list.productRequested.patient === '' || list.productRequested.patient === null">
                           <dl class="align-item">
                             <dt>{{'Patient'| translate}}</dt>
                             <dt>
@@ -199,22 +204,22 @@
             </aside>
           </div>
           <!--Markennovy-->
-          <app-supplier-markennovy [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventMarkennovy)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
+          <app-supplier-markennovy [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventMarkennovy)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier === 1"></app-supplier-markennovy>
           <!--Find Markennovy-->
           <!--Europa-->
-          <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" [image]="list.urlImage" [order]="order" (emitEventEuropa)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
+          <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" [image]="list.urlImage" [order]="order" (emitEventEuropa)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier === 2"></app-supplier-europa>
           <!--Fin Europa-->
           <!--Lenticon-->
           <app-supplier-lenticon [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
           <!--Fin Lenticon-->
           <!--Euclid-->
-          <app-supplier-euclid [lista]="list.productRequested" (emitEventEuclid)="refresh($event)" [files]="list.fileProductRequestedList" [image]="list.urlImage" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
+          <app-supplier-euclid [lista]="list.productRequested" (emitEventEuclid)="refresh($event)" [files]="list.fileProductRequestedList" [image]="list.urlImage" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier === 4"></app-supplier-euclid>
           <!--Fin Euclid-->
           <!--Magic Look-->
-          <app-supplier-magic-look [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventMagic)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
+          <app-supplier-magic-look [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventMagic)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier === 5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
           <!--Blue Light-->
-          <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventBlue)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
+          <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventBlue)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier === 6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
         </div>
       </div>
