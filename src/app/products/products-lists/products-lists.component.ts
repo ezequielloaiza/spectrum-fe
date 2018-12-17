@@ -69,6 +69,8 @@ export class ProductsListsComponent implements OnInit {
                 return u;
               case 6: // Blue Light
                 return u;
+              case 7: // Fluo Strips y Spectrum Saline
+                return u;
             }
           });
           this.getSuppliers();
@@ -133,11 +135,9 @@ export class ProductsListsComponent implements OnInit {
         case 6: // Blue Light
           supplier.image = 'assets/images/suppliers/bluelight.png';
           break
-        case 7: // Fluo Strips
-          supplier.image = 'assets/images/supplies/fluo-1.jpg';
-          break
-        case 8: // Spectrum Saline
-          supplier.image = 'assets/images/supplies/spectrum-saline.png';
+        case 7: // Fluo Strips y spectrum saline
+          supplier.image = 'assets/images/spectrumLogo1.jpg';
+         // supplier.image = 'assets/images/supplies/fluo-1.jpg';
           break
       }
     });
@@ -164,7 +164,7 @@ export class ProductsListsComponent implements OnInit {
         case 1: //markennovy
         case 2: //europa
         case 4:  //euclid
-        case 7:  //fluo strips
+        case 7:  //fluo strips y saline spectrum
           this.router.navigate(['/products/' + idSupplier + '/internal']);
           break;
         case 5: //magic look
@@ -192,19 +192,6 @@ export class ProductsListsComponent implements OnInit {
               console.log('error', error);
               this.spinner.hide();
             });
-          case 8:  // Spectrum Saline
-            this.productService.findBySupplier$(idSupplier).subscribe(res => {
-              if (res.code === CodeHttp.ok) {
-                this.products = res.data;
-                this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-spectrum-saline']);
-              } else {
-                console.log(res.errors[0].detail);
-              }
-            }, error => {
-              console.log('error', error);
-              this.spinner.hide();
-            });
-          break;
         }
     }
   }
