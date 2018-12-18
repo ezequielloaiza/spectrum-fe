@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "", "name": "Schrimer’s Test",
+    "code": "", "name": "Schrimer’s",
     "priceBase": 13, "price1": 13, "price2": 13, "price3": 13,
     "descriptionShort": "My description short by fluo 4",
     "infoAditional": [
@@ -15,7 +15,7 @@ this.products = [
   }
 ];
 
-/* 
+/*
 <i class="fa fa-tint"></i>
 <i class="fa fa-eye"></i>
 <i class="fa fa-edit"></i>
