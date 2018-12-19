@@ -32,43 +32,44 @@
             <!--Invoice data-->
             <div class="col-md-4">
               <span class="font-weight-bold">{{'Status' | translate }}:</span>&nbsp;
-              <span>{{ invoice ? invoice.status : 'Paid' }}</span>
+              <span>{{ (invoice ? getStatus(invoice.status) : '')  | translate }}</span>
               <br>
               <span class="font-weight-bold">{{'Invoice number' | translate }}:</span>&nbsp;
-              <span>{{ invoice ? invoice.number : '234342324' }}</span>
+              <span>{{ invoice ? invoice.number : '' }}</span>
               <br>
               <span class="font-weight-bold">{{'Date' | translate }}:</span>&nbsp;
-              <span>{{ invoice ? invoice.dueDate : '24242423' | date:'yyyy-MM-dd'}}</span>
+              <span>{{ (invoice ? invoice.date : '') | date:'yyyy-MM-dd'}}</span>
               <br>
               <span class="font-weight-bold">{{'Due Date' | translate }}:</span>&nbsp;
-              <span>{{ invoice ? invoice.dueDate : '24242423' | date:'yyyy-MM-dd'}}</span>
+              <span>{{ (invoice ? invoice.dueDate : '') | date:'yyyy-MM-dd'}}</span>
             </div>
             <!--Customer data-->
             <div class="col-md-4">
-                <span class="font-weight-bold">{{'Customer' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.name : 'Juan Garcia' }}</span>
-                <br>
-                <span class="font-weight-bold">{{'Address' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.address : 'Barquisimeto Estado Lara' }}</span>
-                <br>
-                <span class="font-weight-bold">{{'Email' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.email : 'juan@gmail.com' }}</span>
-                <br>
-                <span class="font-weight-bold">{{'Phone' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.user.phone : '+58415465456468' }}</span>
+              <span class="font-weight-bold">{{'Customer' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.user.name : '' }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Address' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.user.address : '' }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Email' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.user.email : '' }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Phone' | translate }}:</span>&nbsp;
+              <span>{{ invoice ? invoice.user.phone : '' }}</span>
             </div>
             <!--Totals data-->
             <div class="col-md-4">
-                <span class="font-weight-bold">{{'Totals' | translate }}:</span>&nbsp;
-                <br>
-                <span class="font-weight-bold">{{'Amount Due' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.amountDue : '1000' | currency : "USD $" }} }}</span>
-                <br>
-                <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.subTotal : '500' | currency : "USD $" }}</span>
-                <br>
-                <span class="font-weight-bold">{{'Total' | translate }}:</span>&nbsp;
-                <span>{{ invoice ? invoice.total : '1500' | currency : "USD $" }}</span>
+              <span class="font-weight-bold">{{'Amount Due' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? invoice.due : '') | currency : "USD $" }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Amount Shipping' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? invoice.shipping : '') | currency : "USD $" }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? invoice.subtotal : '') | currency : "USD $" }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Total' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? invoice.total : '') | currency : "USD $" }}</span>
             </div>
           </div>
           <br><br>
@@ -79,7 +80,7 @@
           <div class="align-self-center">
             {{ 'All payments' | translate }}
           </div>
-          <button type="button" class="btn btn-main" (click)="openModal()">{{ 'Add' | translate }}
+          <button type="button" class="btn btn-main" (click)="openModal(invoice,'new',null)">{{ 'Add' | translate }}
             <i class="fa fa-plus"></i>
           </button>
         </div>
@@ -97,7 +98,7 @@
                   </span>
                 </th>
                 <th class="table-tr header-column">
-                  <span title="{{ 'Invoice Date' | translate }}">{{ 'Date' | translate }}
+                  <span title="{{ 'Payment Date' | translate }}">{{ 'Date' | translate }}
                     <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
                   </span>
                   <span [hidden]="orderByField != 'date' || typeSort === 0">
@@ -107,11 +108,11 @@
                 </th>
                 <th class="table-tr header-column">
                   <span title="{{ 'Type' | translate }}">{{ 'Type' | translate }}
-                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('type')"></i>
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('typeId')"></i>
                   </span>
                   <span [hidden]="orderByField != 'date' || typeSort === 0">
-                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('type')"></i>
-                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('type')"></i>
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('typeId')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('typeId')"></i>
                   </span>
                 </th>
                 <th class="table-tr header-column">
@@ -136,24 +137,41 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let invoice of listInvoices">
-                <td *ngIf="invoice.status === 0" class="table-tr" class="active">
+              <tr *ngFor="let payment of listPayments">
+                <td *ngIf="payment.status === 0" class="table-tr" class="pending">
                   <div>{{'Pending' | translate}}</div>
                 </td>
-                <td *ngIf="invoice.status === 1" class="table-tr" class="inactive">
-                  <div>{{'Sent' | translate }}</div>
+                <td *ngIf="payment.status === 1" class="table-tr" class="verified">
+                  <div>{{'Verified' | translate }}</div>
                 </td>
-                <td class="table-tr td-table">{{invoice.date | date:'yyyy-MM-dd'}}</td>
-                <td class="table-tr">{{invoice.invoiceId}}</td>
-                <td class="table-tr">{{invoice.number}}</td>
-                <td class="table-tr">{{invoice.total | currency : "USD $"}}</td>
+                <td class="table-tr td-table">{{payment.date | date:'yyyy-MM-dd'}}</td>
+                <td *ngIf="payment.typePayment === 0" class="table-tr">
+                  <div>{{'Transfer' | translate}}</div>
+                </td>
+                <td *ngIf="payment.typePayment === 1" class="table-tr">
+                  <div>{{'Deposit' | translate}}</div>
+                </td>
+                <td *ngIf="payment.typePayment === 2" class="table-tr">
+                  <div>{{'Check' | translate}}</div>
+                </td>
+                <td class="table-tr">{{payment.referenceNumber}}</td>
+                <td class="table-tr">{{payment.amount | currency : "USD $"}}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">
                       <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                       <div ngbDropdownMenu>
-                        <button class="dropdown-item">
-                          <i class="fa fa-eye"></i> {{ 'Change Status' | translate }}
+                        <button class="dropdown-item" (click)="openModal(invoice,'view', payment)">
+                          <i class="fa fa-eye"></i> {{ 'View Payment' | translate }}
+                        </button>
+                        <button class="dropdown-item" (click)="openModal(invoice,'edit', payment)">
+                          <i class="fa fa-edit"></i> {{ 'Edit Payment' | translate }}
+                        </button>
+                        <button class="dropdown-item" (click)="deletePayment(payment)"> 
+                          <i class="fa fa-trash-o"></i> {{ 'Delete Payment' | translate }}
+                        </button>
+                        <button [hidden]="user.role.idRole != 1" class="dropdown-item" (click)="changeStatus(payment)">
+                          <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}
                         </button>
                       </div>
                     </div>
@@ -162,17 +180,17 @@
               </tr>
             </tbody>
           </table>
-          <div class="table-empty" [hidden]="listInvoices.length !== 0" translate>
+          <div class="table-empty" [hidden]="listPayments.length !== 0" translate>
             <p class="no-records">
               {{ 'No records have been added yet' | translate }}
             </p>
           </div>
-          <div class="pagination-list" [hidden]="listInvoices.length === 0">
-            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listInvoicesAux.length"
+          <div class="pagination-list" [hidden]="listPayments.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listPaymentsAux.length"
               [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
             </ngb-pagination>
-            <span class="count-elements">{{ listInvoices.length + ' ' + ('of' | translate) + ' ' +
-              listInvoicesAux.length + ' ' + ('register(s)' | translate)
+            <span class="count-elements">{{ listPayments.length + ' ' + ('of' | translate) + ' ' +
+              listPaymentsAux.length + ' ' + ('register(s)' | translate)
               }}
             </span>
           </div>

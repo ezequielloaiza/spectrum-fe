@@ -75,6 +75,7 @@ import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-
 import { AddPaymentModalComponent } from './manage-payments/payments-made/modals/add-payment-modal/add-payment-modal.component';
 import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euclid/detail-euclid.component';
 import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
+import { ChangeStatusComponent } from './manage-payments/payments-made/modals/change-status/change-status.component';
 import { EuropaComponent } from './edit-order/europa/europa.component';
 
 @NgModule({
@@ -160,7 +161,8 @@ import { EuropaComponent } from './edit-order/europa/europa.component';
         AddPaymentModalComponent,
         DetailEuclidComponent,
         DetailEuropaComponent,
-        EuropaComponent
+        EuropaComponent,
+        ChangeStatusComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -191,7 +193,8 @@ import { EuropaComponent } from './edit-order/europa/europa.component';
       AddPaymentModalComponent,
       DetailEuclidComponent,
       DetailEuropaComponent,
-      EuropaComponent
+      EuropaComponent,
+      ChangeStatusComponent
     ],
     providers: [
       BusinessTypeService,
