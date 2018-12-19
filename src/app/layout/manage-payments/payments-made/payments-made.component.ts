@@ -3,14 +3,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
-import { InvoiceService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { GenerateInvoiceComponent } from '../../manage-customer-orders/generate-invoice/generate-invoice.component';
-import { OrderService } from '../../../shared/services';
+import { OrderService, InvoiceClientService, InvoicePaymentService } from '../../../shared/services';
 import { saveAs } from 'file-saver';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AddPaymentModalComponent } from './modals/add-payment-modal/add-payment-modal.component';
+import { ChangeStatusComponent } from './modals/change-status/change-status.component';
 
 @Component({
   selector: 'app-payments-made',
@@ -22,37 +22,47 @@ export class PaymentsMadeComponent implements OnInit {
   reverseSort = true;
   typeSort = 0;
   invoice: any;
-  listInvoices: Array<any> = new Array;
-  listInvoicesAux: Array<any> = new Array;
+  auxInvoice: any;
+  listPayments: Array<any> = new Array;
+  listPaymentsAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number = 5;
   order: any;
+  user: any;
 
-  constructor(private orderService: OrderService,
+  constructor(private route: ActivatedRoute,
+    private orderService: OrderService,
     private modalService: NgbModal,
     private notification: ToastrService,
     private translate: TranslateService,
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private invoiceService: InvoiceService,
-    public router: Router) { }
+    private invoiceService: InvoiceClientService,
+    private invoicePaymentService: InvoicePaymentService,
+    public router: Router) { 
+      this.user = JSON.parse(userStorageService.getCurrentUser());
+    }
 
   ngOnInit() {
-    this.getListInvoices();
+    const id = this.route.snapshot.paramMap.get('idInvoice');
+    this.getInvoice(id);
+    this.getListPayments(id);
     this.advancedPagination = 1;
   }
 
   pageChange(event) {
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
-    this.listInvoices = this.listInvoicesAux.slice(startItem, endItem);
+    this.listPayments = this.listPaymentsAux.slice(startItem, endItem);
   }
 
-  getListInvoices(): void {
-    this.invoiceService.allInvoiceByStatus$(1).subscribe(
+  getInvoice(id): void {
+    this.invoiceService.findInvoice$(id).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
-          this.listInvoices = res.data;
+          this.invoice = res.data;
+          this.auxInvoice = res.data;
+          console.log('inv',this.invoice);
         } else {
           console.log(res.code);
         }
@@ -63,9 +73,54 @@ export class PaymentsMadeComponent implements OnInit {
     );
   }
 
-  openModal(): void {
-    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg'});
+  getStatus(id) {
+    switch (id) {
+      case 0:
+        return 'Unpaid';
+      case 1:
+        return 'Part Paid';
+      case 2:
+        return 'Paid';
+    }
+  }
+
+  getListPayments(invoice): void {
+    if (invoice === undefined) {
+      invoice = this.auxInvoice.idInvoiceClient;
+    }
+    this.invoicePaymentService.allPaymentsByInvoice$(invoice).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          this.listPayments = res.data;
+          console.log(res.data);
+        } else {
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    );
+  }
+
+  openModal(invoice, action, payment): void {
+    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
+    modalRef.componentInstance.invoice = invoice;
+    modalRef.componentInstance.action = action;
+    modalRef.componentInstance.invoicePayment = payment;
     modalRef.result.then((result) => {
+      const id = this.route.snapshot.paramMap.get('idInvoice');
+      this.ngOnInit();
+    }, (reason) => {
+    });
+  }
+
+  changeStatus(payment) {
+    const modalRef = this.modalService.open(ChangeStatusComponent);
+    modalRef.componentInstance.payment = payment;
+    modalRef.result.then((result) => {
+      const id = this.route.snapshot.paramMap.get('idInvoice');
+      this.getListPayments(id);
     }, (reason) => {
     });
   }
@@ -83,16 +138,16 @@ export class PaymentsMadeComponent implements OnInit {
         this.orderByField = 'number';
         key = 'number';
         this.reverseSort = true;
-        this.getListInvoices();
+        this.getListPayments(this.invoice.idInvoice);
       }
     }
-    let invoicesSort = this.listInvoicesAux.sort(function (a, b) {
+    let invoicesSort = this.listPaymentsAux.sort(function (a, b) {
       let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
-    this.listInvoicesAux = invoicesSort;
+    this.listPaymentsAux = invoicesSort;
     if (this.reverseSort) {
-      this.listInvoicesAux = invoicesSort.reverse();
+      this.listPaymentsAux = invoicesSort.reverse();
     }
     this.advancedPagination = 1;
     this.pageChange(this.advancedPagination);
@@ -116,27 +171,17 @@ export class PaymentsMadeComponent implements OnInit {
   }
   open(invoice) {
     this.router.navigate(['/payments/' + invoice.idInvoice + '/paymentsMade']);
-    debugger
-    /*
-    const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
-    modalRef.componentInstance.invoice = invoice;
-    modalRef.componentInstance.order = invoice.order;
-    modalRef.componentInstance.pilot = true;
-    modalRef.result.then((result) => {
-          this.getListInvoices();
-    } , (reason) => {
-    });
-    */
   }
 
-  delete(invoice): void {
-    this.translate.get('Delete Invoice', { value: 'Delete Invoice' }).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to delete the invoice? You must notify the provider this change.',
-        { value: 'Are you sure you want to delete the invoice? You must notify the provider this change.' }).subscribe((msg: string) => {
+  deletePayment(payment): void {
+    const id = payment.idInvoiceClient;
+    this.translate.get('Delete Payment', { value: 'Delete Payment' }).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to delete the invoice payment?',
+        { value: 'Are you sure you want to delete the invoice?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
-            this.invoiceService.delete$(invoice.idInvoice).subscribe(res => {
+            this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
               if (res.code === CodeHttp.ok) {
-                this.getListInvoices();
+                this.getListPayments(id);
                 this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
                   this.notification.success('', res1);
                 });
@@ -157,6 +202,9 @@ export class PaymentsMadeComponent implements OnInit {
       const filename = 'I-' + invoice.number + '.pdf';
       saveAs(res, filename);
     }, error => {
+      this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
       console.log('error', error);
     });
   }
