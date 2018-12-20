@@ -1,12 +1,7 @@
-
-@import "../../../../../styles/spectrum/spectrum";
-
-.body{
-  overflow-y: auto;
-}
+@import "../../../../../../styles/spectrum/spectrum";
 
 .list-basket {
-  max-height: 630px;
+  //max-height: 630px;
   padding: 2em;
   overflow-y: auto;
   overflow-x: hidden;
@@ -43,11 +38,6 @@
 
   .title {
     font-weight: 600;
-    >dl:nth-child(3){
-      >dt:nth-child(2){
-        color: $secondary-info;
-      }
-     }
   }
 
   .label-title {
@@ -60,8 +50,7 @@
 
   .eye-info {
     color: $secondary-info;
-    padding-bottom: 2em;
-    text-align: center;
+    padding: 0 2em;
   }
 
   .title-info {
@@ -75,7 +64,7 @@
   }
 
   .items{
-     color:$secondary-info;
+     color: $secondary-info;
    }
 
    .comments{

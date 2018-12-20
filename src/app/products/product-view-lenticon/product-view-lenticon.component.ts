@@ -107,15 +107,17 @@ export class ProductViewLenticonComponent implements OnInit {
     parameter.selected = value;
     if (parameter.name === 'num.LC') {
       if (eye === 'right') {
-        this.product.setRight[2].selected = this.product.setRight[2].values[parseInt(value.id)];
-        this.product.setRight[3].selected = this.product.setRight[3].values[parseInt(value.id)];
+        this.product.setRight[2].selected = this.product.setRight[2].values[parseInt(value.id)]; //Base curve
+        this.product.setRight[3].selected = this.product.setRight[3].values[parseInt(value.id)]; // Power
+        this.product.setRight[4].selected = this.product.setRight[4].values[parseInt(value.id)]; // exc
       } else {
-        this.product.setLeft[2].selected = this.product.setLeft[2].values[parseInt(value.id)];
-        this.product.setLeft[3].selected = this.product.setLeft[3].values[parseInt(value.id)];
+        this.product.setLeft[2].selected = this.product.setLeft[2].values[parseInt(value.id)]; //Base curve
+        this.product.setLeft[3].selected = this.product.setLeft[3].values[parseInt(value.id)]; // Power
+        this.product.setLeft[4].selected = this.product.setLeft[4].values[parseInt(value.id)];  // exc
       }
     }
     if (parameter.name === 'Design') {
-       if (parameter.selected === 'Elipsys_STD_MF') {
+       if (parameter.selected === 'Elipsys_STD_MF' || parameter.selected === 'Elipsys_KC_MF'  || parameter.selected === 'Elipsys_SE_MF') {
           if (eye === 'right') {
              this.addRight = true;
           } else {
@@ -324,7 +326,6 @@ export class ProductViewLenticonComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-    debugger
     // this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
@@ -376,6 +377,7 @@ export class ProductViewLenticonComponent implements OnInit {
       this.product.setRight[0].sel = null;
       this.product.setRight[2].selected = null;
       this.product.setRight[3].selected = null;
+      this.product.setRight[4].selected = null;
       this.product.pupillaryRight = null;
     } else {
       parameters = this.product.parametersLeft;
@@ -385,6 +387,7 @@ export class ProductViewLenticonComponent implements OnInit {
       this.product.setLeft[0].sel = null;
       this.product.setLeft[2].selected = null;
       this.product.setLeft[3].selected = null;
+      this.product.setLeft[4].selected = null;
       this.product.pupillaryLeft = null;
     }
     // parameter

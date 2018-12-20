@@ -1,12 +1,12 @@
 this.products = [
   {
-    "code": "", "name": "Elipsys_STD",
-    "priceBase": 39, "price1": 39, "price2": 28, "price3": 28,
+    "code": "", "name": "Elipsys_SE",
+    "priceBase": 65, "price1": 65, "price2": 58, "price3": 58,
     "father": "",
     "category": "Contact Lenses",
     "subCategory": "",
     "material": "Fluor-acrilato de silicona (optimum extra)",
-    "descriptionShort": "My description short by Elipsys_STD",
+    "descriptionShort": "My description short by Elipsys_SE",
     "description": "",
     "replacementPeriod": "3-Monthly",
     "url": "http://spctinternational.com/contacts/",
@@ -18,8 +18,8 @@ this.products = [
             "name": "Design",
             "type": "selected",
             "values": [
-              "Elipsys_STD",
-              "Elipsys_STD_MF"
+              "Elipsys_SE",
+              "Elipsys_SE_MF"
             ],
             "selected": "null"
           },
@@ -363,7 +363,11 @@ this.products = [
             "name": "Eccentricity",
             "type": "selected",
             "values": [
-              "STD"
+              "STD",
+              "MED",
+              "MED 2",
+              "FLAT",
+              "FLAT 2"
             ],
             "selected": null
           },
@@ -439,16 +443,16 @@ this.products = [
             "name": "num.LC",
             "type": "selected",
             "values": [
-              {"id":"0", "value":"1"},
-              {"id":"1", "value":"2"},
-              {"id":"2", "value":"3"},
-              {"id":"3", "value":"4"},
-              {"id":"4", "value":"5"},
-              {"id":"5", "value":"6"},
-              {"id":"6", "value":"7"},
-              {"id":"7", "value":"8"},
-              {"id":"8", "value":"9"},
-              {"id":"9", "value":"10"}
+              {"id":"0", "value":"21"},
+              {"id":"1", "value":"22"},
+              {"id":"2", "value":"23"},
+              {"id":"3", "value":"24"},
+              {"id":"4", "value":"25"},
+              {"id":"5", "value":"26"},
+              {"id":"6", "value":"27"},
+              {"id":"7", "value":"28"},
+              {"id":"8", "value":"29"},
+              {"id":"9", "value":"30"}
             ],
             "selected": null
           },
@@ -456,24 +460,24 @@ this.products = [
             "name": "Design",
             "type": "input",
             "values": [
-              "Elipsys STD"
+              "Elipsys SE"
             ],
-            "selected": "Elipsys STD"
+            "selected": "Elipsys SE"
           },
           {
             "name": "Base Curve (mm)",
             "type": "input",
             "values": [
-              "8.40",
-              "8.20",
-              "8.00",
+              "8.50",
+              "8.30",
+              "8.10",
               "7.90",
-              "7.80",
               "7.70",
-              "7.60",
               "7.50",
-              "7.40",
-              "7.30"
+              "7.30",
+              "7.10",
+              "6.90",
+              "6.70"
             ],
             "selected": null
           },
@@ -481,16 +485,16 @@ this.products = [
             "name": "Power(D)",
             "type": "input",
             "values": [
-              "+1.50",
-              "+0.50",
-              "-0.50",
+              "+2.00",
+              "+1.00",
+              "+0.00",
               "-1.00",
-              "-1.50",
               "-2.00",
-              "-2.50",
-              "-3.00",
-              "-3.50",
-              "-4.00"
+              "-3.25",
+              "-4.50",
+              "-5.75",
+              "-7.25",
+              "-8.75"
             ],
             "selected": null
           },
@@ -501,13 +505,13 @@ this.products = [
               "STD",
               "STD",
               "STD",
-              "STD",
-              "STD",
-              "STD",
-              "STD",
-              "STD",
-              "STD",
-              "STD"
+              "MED",
+              "MED",
+              "MED 2",
+              "FLAT",
+              "FLAT",
+              "FLAT",
+              "FLAT 2"
             ],
             "selected": null
           },
@@ -515,9 +519,9 @@ this.products = [
             "name": "Diameter zo (mm)",
             "type": "input",
             "values": [
-              "9.80"
+              "11.20"
             ],
-            "selected": "9.80"
+            "selected": "11.20"
           }
         ]
       }

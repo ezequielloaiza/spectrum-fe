@@ -37,7 +37,7 @@
           <div class="col-lg-12 title title-info">
               <span>{{ 'Test set' | translate }}</span>&nbsp;&nbsp;
           </div>
-          <div class="col-sm-3" *ngFor="let parameter of list.detail[0].set">
+          <div class="col-sm-4" *ngFor="let parameter of list.detail[0].set">
             <dl class="align-item"  *ngIf="parameter.selected !==''">
               <dt>{{ parameter.name | translate }}
               </dt>
@@ -54,7 +54,7 @@
           <div class="col-lg-12 title title-info">
               <span>{{ 'Parameters' | translate }}</span>&nbsp;&nbsp;
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             <dl class="align-item">
               <dt>{{'Quantity'| translate}}
               </dt>
@@ -66,8 +66,8 @@
               </dl>
             </dl>
           </div>
-          <div class="col-sm-3" *ngFor="let parameter of list.detail[0].parameters">
-            <dl class="align-item"  *ngIf="parameter.selected !==''">
+          <div class="col-sm-4" *ngFor="let parameter of list.detail[0].parameters">
+            <dl class="align-item"  *ngIf="parameter.selected !== ''">
               <dt>{{ parameter.name | translate }}
               </dt>
               <hr class="separators">
