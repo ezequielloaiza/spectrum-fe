@@ -41,8 +41,15 @@
       </div>
 
       <!-- row (properties-material-replacement-warranty-sheet) -->
-      <div class="row product-info">
+      <div class="row product-info" *ngIf="product.properties.values.length === 3">
         <div class="item-properties col-md-4" *ngFor="let property of product.properties.values">
+          <i class="{{ property.class }}"></i>
+          <p>{{ property.text | translate }}</p>
+        </div>
+      </div>
+
+      <div class="row product-info" *ngIf="product.properties.values.length === 4">
+        <div class="item-properties col-md-6" *ngFor="let property of product.properties.values">
           <i class="{{ property.class }}"></i>
           <p>{{ property.text | translate }}</p>
         </div>
