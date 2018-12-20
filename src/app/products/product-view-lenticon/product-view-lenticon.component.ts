@@ -19,6 +19,7 @@ import * as _ from 'lodash';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ProductRequested } from '../../shared/models/productrequested';
 import { Product } from '../../shared/models/product';
+import { ConfirmationLenticonComponent } from '../modals/confirmation-buy/confirmation-lenticon/confirmation-lenticon.component';
 
 @Component({
   selector: 'app-product-view-lenticon',
@@ -330,6 +331,15 @@ export class ProductViewLenticonComponent implements OnInit {
 
   openModal(type): void {
 
+    const modalRef = this.modalService.open( ConfirmationLenticonComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRef.componentInstance.datos = this.basketRequestModal;
+    modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.role = this.user.role.idRole;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    } , (reason) => {
+    });
   }
 
   formIsValid() {

@@ -30,6 +30,7 @@ import { ConfirmationEuclidComponent } from './modals/confirmation-buy/confirmat
 import { EditProductEuclidComponent } from './modals/edit-product/edit-product-euclid/edit-product-euclid.component';
 import { EditProductEuropaComponent } from './modals/edit-product/edit-product-europa/edit-product-europa.component';
 import { ProductViewLenticonComponent } from './product-view-lenticon/product-view-lenticon.component';
+import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirmation-lenticon/confirmation-lenticon.component';
 
 @NgModule({
   imports: [
@@ -65,7 +66,8 @@ import { ProductViewLenticonComponent } from './product-view-lenticon/product-vi
     ConfirmationEuclidComponent,
     EditProductEuclidComponent,
     EditProductEuropaComponent,
-    ProductViewLenticonComponent
+    ProductViewLenticonComponent,
+    ConfirmationLenticonComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
@@ -77,7 +79,8 @@ import { ProductViewLenticonComponent } from './product-view-lenticon/product-vi
                     ConfirmationEuropaComponent,
                     ConfirmationEuclidComponent,
                     EditProductEuclidComponent,
-                    EditProductEuropaComponent
+                    EditProductEuropaComponent,
+                    ConfirmationLenticonComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })
