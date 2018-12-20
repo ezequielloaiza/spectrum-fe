@@ -12,6 +12,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InvoiceClientService } from '../../shared/services/invoiceClient/invoiceclient.service';
+import { AddPaymentModalComponent } from './payments-made/modals/add-payment-modal/add-payment-modal.component';
 
 
 @Component({
@@ -34,6 +35,9 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   filterStatus = [{ id: 0, name: "Pending" },
                   { id: 1, name: "Sent" }
                 ];
+  listAux = [];
+  valid = false;
+  selectedAll: any;
   valorClient: string;
   selectedStatus: any;
   status: any;
@@ -96,6 +100,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
           this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
           this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
           this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
+          console.log(this.listInvoices);
           this.spinner.hide();
         } else {
           console.log(res.code);
@@ -381,5 +386,59 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   open(invoice) {
     this.router.navigate(['/payments/' + invoice.idInvoice + '/paymentsMade']);
   }
+
+  onSelection(id, checked) {
+    var existe: boolean;
+    existe = _.includes(this.listAux,  id);
+    if (existe) {
+      if (!checked) {
+        _.remove(this.listAux,  function (n)  {
+          return  n  ==  id;
+        });
+      }
+    } else {
+      this.listAux = _.concat(this.listAux, id);
+    }
+    this.selectedAll = false;
+    console.log('onSelection', this.listAux.length);
+    this.listAux.length > 1 ? this.valid = true : this.valid = false;
+  }
+
+  onSelectionAll(event) {
+    let arrayAux = this.listAux;
+    const check = event.target.checked;
+    _.each(this.listInvoices, function(item) {
+      item.checked = check;
+      let existe: boolean;
+      const id = item.idInvoice;
+      existe = _.includes(arrayAux, id);
+      if (existe) {
+        if (!check) {
+          _.remove(arrayAux,  function (n)  {
+            return n === id;
+          });
+        }
+      } else {
+        arrayAux = _.concat(arrayAux, id);
+      }
+    });
+    this.selectedAll = check;
+    this.listAux = arrayAux;
+    console.log('onSelectionAll', this.listAux.length);
+    this.listAux.length > 1 ? this.valid = true : this.valid = false;
+  }
+
+  openModal(invoice, action, payment): void {
+    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
+    modalRef.componentInstance.invoice = invoice;
+    modalRef.componentInstance.action = action;
+    modalRef.componentInstance.invoicePayment = payment;
+    modalRef.componentInstance.idsInvoiceClient = this.listAux;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    }, (reason) => {
+    });
+  }
+
 }
 

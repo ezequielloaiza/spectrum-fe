@@ -107,6 +107,7 @@ export class PaymentsMadeComponent implements OnInit {
     const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
     modalRef.componentInstance.invoice = invoice;
     modalRef.componentInstance.action = action;
+    modalRef.componentInstance.idsInvoiceClient = [invoice.idInvoice];
     modalRef.componentInstance.invoicePayment = payment;
     modalRef.result.then((result) => {
       const id = this.route.snapshot.paramMap.get('idInvoice');

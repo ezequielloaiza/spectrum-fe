@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 import { UserStorageService } from '../../../../../http/user-storage.service';
 import { FileinvoicepaymentService } from '../../../../../shared/services/fileinvoicepayment/fileinvoicepayment.service';
 import { saveAs } from 'file-saver';
+import { InvoiceClientInvoicePayment } from '../../../../../shared/models/invoiceclientinvoicepayment';
 
 const URL = environment.apiUrl + 'fileInvoicePayment/uploader';
 @Component({
@@ -27,6 +28,9 @@ export class AddPaymentModalComponent implements OnInit {
   form: FormGroup;
   listTypes = [{ id: 0, name: 'Transfer' }, { id: 1, name: 'Deposit' }, { id: 2, name: 'Check' }];
   invoicePayment: InvoicePayment = new InvoicePayment();
+  idsInvoiceClient: [any];
+  listDetails: Array<any> = new Array;
+  listDetailsAux: Array<any> = new Array;
   invoice: any;
   action: any;
   @ViewChild('selectedFiles') selectedFiles: any;
@@ -85,7 +89,11 @@ export class AddPaymentModalComponent implements OnInit {
     if (this.invoicePayment == null) {
       this.invoicePayment = new InvoicePayment();
     }
-    this.invoicePayment.idInvoiceClient = this.invoice.idInvoice;
+
+    if (this.idsInvoiceClient == null) {
+      this.idsInvoiceClient = [this.invoice.idInvoice];
+    }
+
     console.log(this.invoicePayment);
     this.initializeForm();
     this.loadFileInvoicePayment();
@@ -104,7 +112,6 @@ export class AddPaymentModalComponent implements OnInit {
       bank: [this.action !== 'new' ? this.invoicePayment.bank : '', [Validators.required]],
       status: [this.action !== 'new' ? this.invoicePayment.status : 0, []],
       amount: [this.action !== 'new' ? this.invoicePayment.amount : '', [Validators.required]],
-      idInvoiceClient: [this.action !== 'new' ? this.invoicePayment.idInvoiceClient : this.invoice.idInvoice]
     });
   }
 
@@ -184,7 +191,6 @@ export class AddPaymentModalComponent implements OnInit {
   }
 
   loadPayment() {
-    this.invoicePayment.idInvoiceClient = this.invoice.idInvoice;
     this.invoicePayment.amount = this.form.get('amount').value;
     this.invoicePayment.bank = this.form.get('bank').value;
     this.invoicePayment.referenceNumber = this.form.get('referenceNumber').value;
@@ -193,6 +199,28 @@ export class AddPaymentModalComponent implements OnInit {
     const date = new Date(aux.year, aux.month - 1, aux.day);
     this.invoicePayment.date = date;
     this.invoicePayment.description = this.form.get('notes').value;
+    console.log('1', this.invoice);
+    const inv = this.invoice;
+    const payment = this.invoicePayment;
+    const list: Array<any> = new Array;
+    if (this.action === 'new') {
+      const detailsICIP = new InvoiceClientInvoicePayment();
+      detailsICIP.invoiceClient = inv.idInvoice;
+      detailsICIP.invoicePayment = payment.idInvoicePayment;
+      detailsICIP.partialPayment = payment.amount;
+      detailsICIP.tax = 0.00;
+      list.push(detailsICIP);
+    } else {
+      _.each(this.listDetails, function (detailsICIP) {
+        detailsICIP.invoiceClient = inv.idInvoice;
+        detailsICIP.invoicePayment = payment.idInvoicePayment;
+        detailsICIP.partialPayment = payment.amount;
+        detailsICIP.tax = 0.00;
+        list.push(detailsICIP);
+      });
+  }
+    console.log('list', list);
+    this.invoicePayment.invoiceClientInvoicePaymentList = JSON.parse(JSON.stringify(list));
   }
 
   loadPaymentEdit() {
@@ -205,6 +233,17 @@ export class AddPaymentModalComponent implements OnInit {
     const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
     this.form.get('date').patchValue(aux);
     this.form.get('notes').setValue(this.invoicePayment.description);
+    const list: Array<any> = new Array;
+    _.each(this.invoicePayment.invoiceClientInvoicePaymentList, function (detailsICIP) {
+      const obj = new InvoiceClientInvoicePayment();
+      obj.invoiceClient = detailsICIP.invoiceClient;
+      obj.invoicePayment = detailsICIP.invoicePayment;
+      obj.idInvoiceClientInvoicePayment = detailsICIP.idInvoiceClientInvoicePayment;
+      obj.partialPayment = detailsICIP.partialPayment;
+      obj.tax = detailsICIP.tax;
+      list.push(obj);
+    });
+    this.listDetails = JSON.parse(JSON.stringify(list));
   }
 
   get typeId() { return this.form.get('typeId'); }
