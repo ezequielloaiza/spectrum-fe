@@ -29,6 +29,7 @@ import { ConfirmationEuropaComponent } from './modals/confirmation-buy/confirmat
 import { ConfirmationEuclidComponent } from './modals/confirmation-buy/confirmation-euclid/confirmation-euclid.component';
 import { EditProductEuclidComponent } from './modals/edit-product/edit-product-euclid/edit-product-euclid.component';
 import { EditProductEuropaComponent } from './modals/edit-product/edit-product-europa/edit-product-europa.component';
+import { ProductViewLenticonComponent } from './product-view-lenticon/product-view-lenticon.component';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import { EditProductEuropaComponent } from './modals/edit-product/edit-product-e
     ConfirmationEuropaComponent,
     ConfirmationEuclidComponent,
     EditProductEuclidComponent,
-    EditProductEuropaComponent
+    EditProductEuropaComponent,
+    ProductViewLenticonComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
