@@ -38,7 +38,7 @@
               <span>{{ 'Test set' | translate }}</span>&nbsp;&nbsp;
           </div>
           <div class="col-sm-4" *ngFor="let parameter of list.detail[0].set">
-            <dl class="align-item"  *ngIf="parameter.selected !==''">
+            <dl class="align-item"  *ngIf="parameter.selected !== ''">
               <dt>{{ parameter.name | translate }}
               </dt>
               <hr class="separators">
@@ -85,7 +85,7 @@
                 <dl>
                   <dt>{{'Comments'| translate}}
                   </dt>
-                  <dl class="comment" *ngIf="list.observations ==='' || list.observations === null">
+                  <dl class="comment" *ngIf="list.observations === '' || list.observations === null">
                     <span translate>{{'No comments' | translate}}</span>
                   </dl>
                   <dl *ngIf="list.observations !==''">
@@ -104,10 +104,10 @@
     <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
       <i class="fa fa-times"></i>
     </button>
-    <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy===2">{{ 'Save' | translate }}&nbsp;
+    <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy === 2">{{ 'Save' | translate }}&nbsp;
       <i class="fa fa-save"></i>
     </button>
-    <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy===1">{{ 'Buy' | translate }}&nbsp;
+    <button type="button" class="btn btn-main" (click)="save()" [hidden]="typeBuy === 1">{{ 'Buy' | translate }}&nbsp;
       <i class="fa fa-check"></i>
     </button>
   </div>
