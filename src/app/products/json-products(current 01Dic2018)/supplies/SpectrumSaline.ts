@@ -6,7 +6,7 @@ this.products = [
     "infoAditional": [
       {
         "name": "Properties", "values": [
-          {"class":"fa fa-cogs", "text":"Nasal, topical, adn general irrigation."},
+          {"class":"fa fa-cogs", "text":"Nasal, topical, and general irrigation."},
           {"class":"fa fa-adjust", "text":"Scleral Lenses 0.9% Solution."},
           {"class":"fa fa-flask", "text":"Purified and sterilized."},
           {"class":"fa fa-tint", "text":"Hidrating solution for soft contact lenses."}
