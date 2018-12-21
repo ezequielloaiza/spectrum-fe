@@ -33,6 +33,8 @@ export class AddPaymentModalComponent implements OnInit {
   listAux: Array<any> = new Array;
   invoice: any;
   action: any;
+  amountValid = true;
+  maxAmountInvoice: any;
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
@@ -138,17 +140,36 @@ export class AddPaymentModalComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listAux = res.data;
         console.log('data', res.data);
+        let maxAmount = 0.00;
+        _.each(this.listAux, function(invoice) {
+          maxAmount += invoice.total;
+        });
+        this.maxAmountInvoice = maxAmount;
+        console.log('maxAmountInvoice', this.maxAmountInvoice);
       }
     }, error => {
       console.log('error', error);
     });
   }
 
+  filterMaxAmount(ev: any) {
+    if (this.action === 'bulk') {
+      const val = ev.target.value;
+      if (val < this.maxAmountInvoice) {
+        this.amountValid = false;
+      } else {
+        this.amountValid = true;
+      }
+    } else {
+      this.amountValid = true;
+    }
+  }
+
   save(): void {
     this.loadPayment();
     this.saveFiles();
     console.log(this.invoicePayment);
-    if (this.action === 'new') {
+    if ((this.action === 'new') || (this.action === 'bulk') ) {
       this.invoicePaymentService.saveInvoicePayment$(this.invoicePayment).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.invoicePayment = res.data;
@@ -218,13 +239,13 @@ export class AddPaymentModalComponent implements OnInit {
     const list: Array<any> = new Array;
     const act = this.action;
     const listAux = this.listDetails;
-    _.each(this.idsInvoiceClient, function () {
+    _.each(this.idsInvoiceClient, function (idInvoice) {
       const detailsICIP = new InvoiceClientInvoicePayment();
-      if (act !== 'new') {
+      if (act === 'edit') {
         detailsICIP.idInvoiceClientInvoicePayment = listAux.find(
          x => ((x.invoicePayment === payment.idInvoicePayment) && (x.invoiceClient === inv.idInvoice))).idInvoiceClientInvoicePayment;
       }
-      detailsICIP.invoiceClient = inv.idInvoice;
+      detailsICIP.invoiceClient = idInvoice;
       detailsICIP.invoicePayment = payment.idInvoicePayment;
       detailsICIP.partialPayment = payment.amount;
       detailsICIP.tax = 0.00;

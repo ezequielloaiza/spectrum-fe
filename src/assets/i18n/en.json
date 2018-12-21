@@ -827,5 +827,6 @@
     "Enter order or client" : "Enter order or client",
     "Amount Shipping" : "Amount Shipping",
     "Attached files" : "Attached files",
-    "Bulk Payments":"Bulk Payments"
+    "Bulk Payments":"Bulk Payments",
+    "Amount must be greater than total of invoices": "Amount must be greater than total of invoices"
 }
