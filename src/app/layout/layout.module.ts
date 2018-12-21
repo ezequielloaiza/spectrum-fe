@@ -74,6 +74,7 @@ import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euc
 import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
 import { EuropaComponent } from './edit-order/europa/europa.component';
 import { DetailLenticonComponent } from './basket/modals/detail-product/detail-lenticon/detail-lenticon.component';
+import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
 
 @NgModule({
     imports: [
@@ -156,7 +157,8 @@ import { DetailLenticonComponent } from './basket/modals/detail-product/detail-l
         DetailEuclidComponent,
         DetailEuropaComponent,
         EuropaComponent,
-        DetailLenticonComponent
+        DetailLenticonComponent,
+        LenticonComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -188,7 +190,8 @@ import { DetailLenticonComponent } from './basket/modals/detail-product/detail-l
       DetailEuclidComponent,
       DetailEuropaComponent,
       EuropaComponent,
-      DetailLenticonComponent
+      DetailLenticonComponent,
+      LenticonComponent
     ],
     providers: [
       BusinessTypeService,

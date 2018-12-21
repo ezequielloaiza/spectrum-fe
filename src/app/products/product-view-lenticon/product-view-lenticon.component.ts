@@ -348,21 +348,58 @@ export class ProductViewLenticonComponent implements OnInit {
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
-
     if (this.product.eyeRight) {
+      let addAux = false;
       _.each(this.product.parametersRight, function (param) {
-        if (param.name !== 'Addition' && param.name !== 'Center' && (param.selected === null || param.selected === undefined)) {
-          isValid = false;
+        if (param.name === 'Design') {
+          if (param.selected === 'Elipsys_STD_MF' ||
+          param.selected === 'Elipsys_KC_MF' || param.selected === 'Elipsys_SE_MF'){
+            addAux = true;
+          }
+       } else {
+          if (param.name === 'Addition') {
+             if ((param.selected === null || param.selected === undefined) && addAux) {
+              isValid = false;
+             }
+          }
         }
       });
+      _.each(this.product.setRight, function (param) {
+        if (param.selected === null || param.selected === undefined) {
+          isValid = false;
+         }
+      });
+      if ((this.product.pupillaryRight === null && addAux ) || (this.product.quantityRight === null
+        || this.product.quantityRight === undefined)) {
+        isValid = false;
+      }
     }
 
     if (this.product.eyeLeft) {
+      let addAux = false;
       _.each(this.product.parametersLeft, function (param) {
-          if (param.name !== 'Addition' && param.name !== 'Center' && (param.selected === null || param.selected === undefined)) {
-            isValid = false;
+        if (param.name === 'Design') {
+          if (param.selected === 'Elipsys_STD_MF' ||
+          param.selected === 'Elipsys_KC_MF' || param.selected === 'Elipsys_SE_MF'){
+            addAux = true;
           }
+       } else {
+          if (param.name === 'Addition') {
+             if ((param.selected === null || param.selected === undefined) && addAux) {
+              isValid = false;
+             }
+          }
+        }
       });
+      _.each(this.product.setLeft, function (param) {
+        if (param.selected === null || param.selected === undefined) {
+          isValid = false;
+         }
+      });
+      if ((this.product.pupillaryLeft === null && addAux) || (this.product.quantityLeft === null
+        || this.product.quantityLeft === undefined))  {
+        isValid = false;
+      }
     }
     return isValid;
   }

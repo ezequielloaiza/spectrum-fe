@@ -432,6 +432,14 @@ this.products = [
               "any"
             ],
             "selected": null
+          },
+          {
+            "name": "Pupillary diameter",
+            "type": "input",
+            "values": [
+              "any"
+            ],
+            "selected": null
           }
         ],
         "set": [
