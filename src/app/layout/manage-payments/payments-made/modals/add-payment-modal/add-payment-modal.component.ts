@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { FileProductRequested } from '../../../../../shared/models/fileproductrequested';
 import { environment } from '../../../../../../environments/environment';
-import { InvoicePaymentService } from '../../../../../shared/services';
+import { InvoicePaymentService, InvoiceClientService } from '../../../../../shared/services';
 import { CodeHttp } from '../../../../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -30,7 +30,7 @@ export class AddPaymentModalComponent implements OnInit {
   invoicePayment: InvoicePayment = new InvoicePayment();
   idsInvoiceClient: [any];
   listDetails: Array<any> = new Array;
-  listDetailsAux: Array<any> = new Array;
+  listAux: Array<any> = new Array;
   invoice: any;
   action: any;
   @ViewChild('selectedFiles') selectedFiles: any;
@@ -53,6 +53,7 @@ export class AddPaymentModalComponent implements OnInit {
     private userStorageService: UserStorageService,
     private formBuilder: FormBuilder,
     private invoicePaymentService: InvoicePaymentService,
+    private invoiceService: InvoiceClientService,
     private fileInvoicePaymentService: FileinvoicepaymentService,
     private translate: TranslateService,
     private notification: ToastrService) {
@@ -96,6 +97,7 @@ export class AddPaymentModalComponent implements OnInit {
 
     console.log(this.invoicePayment);
     this.initializeForm();
+    this.loadInvoices();
     this.loadFileInvoicePayment();
     if (this.action === 'edit') {
       this.loadPaymentEdit();
@@ -129,6 +131,17 @@ export class AddPaymentModalComponent implements OnInit {
         }
       );
     }
+  }
+
+  loadInvoices() {
+    this.invoiceService.findByIds$(this.idsInvoiceClient).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listAux = res.data;
+        console.log('data', res.data);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   save(): void {
@@ -203,22 +216,20 @@ export class AddPaymentModalComponent implements OnInit {
     const inv = this.invoice;
     const payment = this.invoicePayment;
     const list: Array<any> = new Array;
-    if (this.action === 'new') {
+    const act = this.action;
+    const listAux = this.listDetails;
+    _.each(this.idsInvoiceClient, function () {
       const detailsICIP = new InvoiceClientInvoicePayment();
+      if (act !== 'new') {
+        detailsICIP.idInvoiceClientInvoicePayment = listAux.find(
+         x => ((x.invoicePayment === payment.idInvoicePayment) && (x.invoiceClient === inv.idInvoice))).idInvoiceClientInvoicePayment;
+      }
       detailsICIP.invoiceClient = inv.idInvoice;
       detailsICIP.invoicePayment = payment.idInvoicePayment;
       detailsICIP.partialPayment = payment.amount;
       detailsICIP.tax = 0.00;
       list.push(detailsICIP);
-    } else {
-      _.each(this.listDetails, function (detailsICIP) {
-        detailsICIP.invoiceClient = inv.idInvoice;
-        detailsICIP.invoicePayment = payment.idInvoicePayment;
-        detailsICIP.partialPayment = payment.amount;
-        detailsICIP.tax = 0.00;
-        list.push(detailsICIP);
-      });
-  }
+    });
     console.log('list', list);
     this.invoicePayment.invoiceClientInvoicePaymentList = JSON.parse(JSON.stringify(list));
   }

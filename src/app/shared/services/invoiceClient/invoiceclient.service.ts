@@ -39,4 +39,8 @@ export class InvoiceClientService {
       responseType: 'blob'
     });
   }
+
+  public findByIds$(listIds: Array<String>): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesClient/allInvoiceByIds', listIds);
+  }
 }

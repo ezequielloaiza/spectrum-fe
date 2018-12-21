@@ -12,6 +12,31 @@
       <h4>{{ 'Payment Information' | translate }}</h4>
       <br>
       <div class="row">
+        <!-- Invoices -->
+          <div *ngIf="action == 'bulk' || action == 'view'" class="col-md-12 card-body title-view">
+              {{ 'Invoices' | translate }}
+              <br>
+              <div *ngIf="listAux.length > 0" class="row justify-content-md-center">
+                <table class="table tb-invoice">
+                  <thead>
+                    <tr>
+                      <th>{{ 'Number' | translate }}</th>
+                      <th>{{ 'Date' | translate }}</th>
+                      <th>{{ 'Amount' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let invoice of listAux">
+                      <td>
+                        <strong>{{ invoice?.number }}</strong>
+                      </td>
+                      <td>{{ invoice?.date | date:'yyyy-MM-dd' }}</td>
+                      <td>{{ invoice?.total | currency : "USD $" }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label [ngClass]="{'title-view': action == 'view', title: action!='view'}">{{ 'Payment Type' | translate }}</label>
