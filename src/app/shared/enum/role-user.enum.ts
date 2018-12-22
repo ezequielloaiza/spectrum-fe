@@ -12,6 +12,8 @@ export enum RoleUser {
   ProductsViewEuclid,
   ProductsViewMagic,
   ProductsViewBlue,
+  ProductsViewFluoStrips,
+  ProductsViewSpectrumSaline,
   ProductsViewLenticon,
   ShippingAddress,
   Home,
