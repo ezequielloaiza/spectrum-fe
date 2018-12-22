@@ -239,6 +239,7 @@ export class AddPaymentModalComponent implements OnInit {
     const list: Array<any> = new Array;
     const act = this.action;
     const listAux = this.listDetails;
+    const listInv = this.listAux;
     _.each(this.idsInvoiceClient, function (idInvoice) {
       const detailsICIP = new InvoiceClientInvoicePayment();
       if (act === 'edit') {
@@ -247,7 +248,11 @@ export class AddPaymentModalComponent implements OnInit {
       }
       detailsICIP.invoiceClient = idInvoice;
       detailsICIP.invoicePayment = payment.idInvoicePayment;
-      detailsICIP.partialPayment = payment.amount;
+      if (act === 'bulk') {
+        detailsICIP.partialPayment = listInv.find(x => (x.idInvoice === idInvoice)).total;
+      } else {
+        detailsICIP.partialPayment = payment.amount;
+      }
       detailsICIP.tax = 0.00;
       list.push(detailsICIP);
     });
