@@ -11,6 +11,7 @@ import { RoleGuard } from '../shared';
 import { ProductsListInternalComponent } from './products-lists-internal/products-lists-internal.component';
 import { ProductViewFluoStripsComponent } from './product-view-fluo-strips/product-view-fluo-strips.component';
 import { ProductViewSpectrumSalineComponent } from './product-view-spectrum-saline/product-view-spectrum-saline.component';
+import { ProductViewLenticonComponent } from './product-view-lenticon/product-view-lenticon.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
         { path: ':id/product-view-blue', component: ProductViewBlueComponent, data: { option: 'ProductsViewBlue' }},
         { path: ':id/product-view-fluo-strips', component: ProductViewFluoStripsComponent, data: { option: 'ProductsViewFluoStrips' }},
         { path: ':id/product-view-spectrum-saline', component: ProductViewSpectrumSalineComponent, data: { option: 'ProductsViewSpectrumSaline' }},
+        { path: ':id/product-view-lenticon', component: ProductViewLenticonComponent, data: { option: 'ProductsViewLenticon' }},
     ] , data: { option: 'ProductsList' }
 }
 

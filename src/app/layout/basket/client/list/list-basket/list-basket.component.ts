@@ -25,6 +25,8 @@ import { EuropaComponent } from '../../../../edit-order/europa/europa.component'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DetailSalineFluoComponent } from '../../../modals/detail-product/detail-saline-fluo/detail-saline-fluo.component';
 import { SalineFluoComponent } from '../../../../edit-order/saline-fluo/saline-fluo.component';
+import { DetailLenticonComponent } from '../../../modals/detail-product/detail-lenticon/detail-lenticon.component';
+import { LenticonComponent } from '../../../../edit-order/lenticon/lenticon.component';
 
 
 @Component({
@@ -190,9 +192,16 @@ export class ListBasketComponent implements OnInit {
             this.ngOnInit();
           } , (reason) => {
           });
-       break;
+          break;
      case 3: // Lenticon
-       break;
+          const modalRefLenticon = this.modalService.open(DetailLenticonComponent,
+          { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefLenticon.componentInstance.basket = basket;
+          modalRefLenticon.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
      case 4: // Euclid
           const modalRefEuclid = this.modalService.open(DetailEuclidComponent,
           { size: 'lg', windowClass: 'modal-content-border' });
@@ -253,7 +262,14 @@ export class ListBasketComponent implements OnInit {
         });
         break;
     case 3: // Lenticon
-      break;
+        const modalRefLenticon = this.modalService.open( LenticonComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefLenticon.componentInstance.basket = basket;
+        modalRefLenticon.componentInstance.typeEdit = 1;
+        modalRefLenticon.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
     case 4: // Euclid
         const modalRefEuclid = this.modalService.open( EuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
         modalRefEuclid.componentInstance.basket = basket;

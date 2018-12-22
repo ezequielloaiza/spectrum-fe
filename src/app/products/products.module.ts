@@ -32,7 +32,8 @@ import { EditProductEuropaComponent } from './modals/edit-product/edit-product-e
 import { ProductViewFluoStripsComponent } from './product-view-fluo-strips/product-view-fluo-strips.component';
 import { ProductViewSpectrumSalineComponent } from './product-view-spectrum-saline/product-view-spectrum-saline.component';
 import { ConfirmationSpectrumSalineComponent } from './modals/confirmation-buy/confirmation-spectrum-saline/confirmation-spectrum-saline.component';
-
+import { ProductViewLenticonComponent } from './product-view-lenticon/product-view-lenticon.component';
+import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirmation-lenticon/confirmation-lenticon.component';
 
 @NgModule({
   imports: [
@@ -70,7 +71,9 @@ import { ConfirmationSpectrumSalineComponent } from './modals/confirmation-buy/c
     EditProductEuropaComponent,
     ProductViewFluoStripsComponent,
     ProductViewSpectrumSalineComponent,
-    ConfirmationSpectrumSalineComponent
+    ConfirmationSpectrumSalineComponent,
+    ProductViewLenticonComponent,
+    ConfirmationLenticonComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
@@ -83,7 +86,8 @@ import { ConfirmationSpectrumSalineComponent } from './modals/confirmation-buy/c
                     ConfirmationEuclidComponent,
                     EditProductEuclidComponent,
                     EditProductEuropaComponent,
-                    ConfirmationSpectrumSalineComponent
+                    ConfirmationSpectrumSalineComponent,
+                    ConfirmationLenticonComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })

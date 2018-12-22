@@ -163,6 +163,7 @@ export class ProductsListsComponent implements OnInit {
       switch (idSupplier) {
         case 1: //markennovy
         case 2: //europa
+        case 3: //Lenticon
         case 4:  //euclid
         case 7:  //fluo strips y saline spectrum
           this.router.navigate(['/products/' + idSupplier + '/internal']);

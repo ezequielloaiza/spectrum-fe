@@ -230,6 +230,9 @@ export class ProductsListInternalComponent implements OnInit {
       case 2: // europa
         this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
         break;
+      case 3: // Lenticon
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-lenticon']);
+        break;
       case 4:  // euclid
         this.router.navigate(['/products/' + product.idProduct + '/product-view-euclid']);
         break;

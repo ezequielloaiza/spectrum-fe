@@ -75,6 +75,8 @@ import { DetailEuropaComponent } from './basket/modals/detail-product/detail-eur
 import { EuropaComponent } from './edit-order/europa/europa.component';
 import { DetailSalineFluoComponent } from './basket/modals/detail-product/detail-saline-fluo/detail-saline-fluo.component';
 import { SalineFluoComponent } from './edit-order/saline-fluo/saline-fluo.component';
+import { DetailLenticonComponent } from './basket/modals/detail-product/detail-lenticon/detail-lenticon.component';
+import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
 
 @NgModule({
     imports: [
@@ -159,6 +161,8 @@ import { SalineFluoComponent } from './edit-order/saline-fluo/saline-fluo.compon
         EuropaComponent,
         DetailSalineFluoComponent,
         SalineFluoComponent,
+        DetailLenticonComponent,
+        LenticonComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -191,7 +195,9 @@ import { SalineFluoComponent } from './edit-order/saline-fluo/saline-fluo.compon
       DetailEuropaComponent,
       EuropaComponent,
       DetailSalineFluoComponent,
-      SalineFluoComponent
+      SalineFluoComponent,
+      DetailLenticonComponent,
+      LenticonComponent
     ],
     providers: [
       BusinessTypeService,
