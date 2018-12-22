@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./src/app/shared/enum/role.enum.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,IAAY,IAIX;AAJD,WAAY,IAAI;IACd,mDAAkB;IAClB,mCAAU;IACV,+BAAQ;AACV,CAAC,EAJW,IAAI,KAAJ,IAAI,QAIf","file":"common.js","sourcesContent":["export enum Role {\n  Administrative = 1,\n  Seller = 2,\n  User = 3\n}\n"],"sourceRoot":""}
