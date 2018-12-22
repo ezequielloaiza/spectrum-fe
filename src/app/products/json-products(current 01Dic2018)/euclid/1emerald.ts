@@ -30,13 +30,6 @@ this.products = [
     ],
     "infoAditional": [
       {
-        "name": "Properties", "values": [
-          { "title": "Toric", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" },
-          { "title": "Multifocal", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" },
-          { "title": "3-Monthly", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" },
-          { "title": "Sylicone Hydrogel", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" },
-          { "title": "UV Filter", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" }
-        ]
       },
       {
         "name": "Prices", "values": [

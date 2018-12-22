@@ -73,6 +73,8 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
 import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euclid/detail-euclid.component';
 import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
 import { EuropaComponent } from './edit-order/europa/europa.component';
+import { DetailSalineFluoComponent } from './basket/modals/detail-product/detail-saline-fluo/detail-saline-fluo.component';
+import { SalineFluoComponent } from './edit-order/saline-fluo/saline-fluo.component';
 import { DetailLenticonComponent } from './basket/modals/detail-product/detail-lenticon/detail-lenticon.component';
 import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
 
@@ -157,6 +159,8 @@ import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
         DetailEuclidComponent,
         DetailEuropaComponent,
         EuropaComponent,
+        DetailSalineFluoComponent,
+        SalineFluoComponent,
         DetailLenticonComponent,
         LenticonComponent
     ],
@@ -190,6 +194,8 @@ import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
       DetailEuclidComponent,
       DetailEuropaComponent,
       EuropaComponent,
+      DetailSalineFluoComponent,
+      SalineFluoComponent,
       DetailLenticonComponent,
       LenticonComponent
     ],
