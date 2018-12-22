@@ -137,7 +137,7 @@
                 <tr *ngFor="let invoice of listInvoices; let i = index">
                   <td class="table-tr td-table">
                     <div class="custom-control custom-checkbox">
-                      <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="invoice.idInvoice" [(ngModel)]="invoice.checked" (change)="onSelection(invoice.idInvoiceClient,invoice.checked)"
+                      <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="invoice.idInvoice" [(ngModel)]="invoice.checked" (change)="onSelection(invoice.idInvoice,invoice.checked)"
                             class="custom-control-input">
                       <label class="custom-control-label" for="checkbox{{i}}"></label>
                     </div>

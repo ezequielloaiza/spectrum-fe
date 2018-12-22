@@ -74,6 +74,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     this.getListInvoices();
     this.advancedPagination = 1;
     this.selectedStatus = '';
+    this.selectedAll = false;
     this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
   }
@@ -390,6 +391,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   onSelection(id, checked) {
     var existe: boolean;
     existe = _.includes(this.listAux,  id);
+    console.log('existe', existe);
     if (existe) {
       if (!checked) {
         _.remove(this.listAux,  function (n)  {
@@ -402,6 +404,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     this.selectedAll = false;
     console.log('onSelection', this.listAux.length);
     this.listAux.length > 1 ? this.valid = true : this.valid = false;
+    this.listAux.length === this.listInvoices.length ? this.selectedAll = true : this.selectedAll = false;
   }
 
   onSelectionAll(event) {
