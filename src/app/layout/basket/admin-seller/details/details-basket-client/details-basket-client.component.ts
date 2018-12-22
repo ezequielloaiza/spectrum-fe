@@ -25,6 +25,8 @@ import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euc
 import { DetailEuropaComponent } from '../../../modals/detail-product/detail-europa/detail-europa.component';
 import { EuropaComponent } from '../../../../edit-order/europa/europa.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DetailLenticonComponent } from '../../../modals/detail-product/detail-lenticon/detail-lenticon.component';
+import { LenticonComponent } from '../../../../edit-order/lenticon/lenticon.component';
 
 
 
@@ -204,6 +206,13 @@ export class DetailsBasketClientComponent implements OnInit {
           });
        break;
      case 3: // Lenticon
+          const modalRefLenticon = this.modalService.open(DetailLenticonComponent,
+          { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefLenticon.componentInstance.basket = basket;
+          modalRefLenticon.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
        break;
      case 4: // Euclid
           const modalRefEuclid = this.modalService.open(DetailEuclidComponent,
@@ -256,6 +265,13 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
      case 3: // Lenticon
+          const modalRefLenticon = this.modalService.open( LenticonComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          modalRefLenticon.componentInstance.basket = basket;
+          modalRefLenticon.componentInstance.typeEdit = 1;
+          modalRefLenticon.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
        break;
      case 4: // Euclid
           const modalRefEuclid = this.modalService.open( EuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
