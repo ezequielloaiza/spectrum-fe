@@ -206,7 +206,7 @@
           <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" [image]="list.urlImage" [order]="order" (emitEventEuropa)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
           <!--Fin Europa-->
           <!--Lenticon-->
-          <app-supplier-lenticon [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
+          <app-supplier-lenticon [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventLenticon)="refresh($event)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
           <!--Fin Lenticon-->
           <!--Euclid-->
           <app-supplier-euclid [lista]="list.productRequested" (emitEventEuclid)="refresh($event)" [files]="list.fileProductRequestedList" [image]="list.urlImage" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
