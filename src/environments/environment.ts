@@ -14,5 +14,4 @@ export const environment = {
       storageBucket: 'spectrum-app.appspot.com',
       messagingSenderId: '68602982808'
   }
-
 };
