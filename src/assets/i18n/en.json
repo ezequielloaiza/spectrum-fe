@@ -828,5 +828,6 @@
     "Amount Shipping" : "Amount Shipping",
     "Attached files" : "Attached files",
     "Bulk Payments":"Bulk Payments",
-    "Amount must be greater than total of invoices": "Amount must be greater than total of invoices"
+    "Amount must be greater than total of invoices": "Amount must be greater than total of invoices",
+    "Invoices": "Invoices"
 }

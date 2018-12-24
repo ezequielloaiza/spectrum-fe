@@ -7,6 +7,7 @@
 
 .title-view {
   font-weight: 600;
+  margin-top: -30px;
 }
 
 .btn-files {
@@ -44,7 +45,7 @@
   }
 
   .tb-invoice {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-left: 20px;
     margin-right: 20px;
     margin-bottom: -30px;
@@ -63,7 +64,7 @@
       font-weight: 300;
 
       > td:last-child {
-        text-align: right;
+        text-align: left;
       }
     }
 

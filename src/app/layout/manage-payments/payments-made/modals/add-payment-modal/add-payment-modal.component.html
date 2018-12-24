@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 *ngIf="action == 'new'" class="modal-title">{{ 'Add Payment' | translate }}</h4>
+  <h4 *ngIf="action == 'new' || action == 'bulk'" class="modal-title">{{ 'Add Payment' | translate }}</h4>
   <h4 *ngIf="action == 'view'" class="modal-title">{{ 'View Payment' | translate }}</h4>
   <h4 *ngIf="action == 'edit'" class="modal-title">{{ 'Edit Payment' | translate }}</h4>
   <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
@@ -107,7 +107,7 @@
                   <span class="input-group-text">$</span>
                 </div>
                 <input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}"
-                  name="amount" formControlName="amount" (keyup)="filterMaxAmount($event)" required>
+                  name="amount" formControlName="amount" (keyup)="filterMaxAmount($event)" (input)="filterMaxAmount($event)" required>
               </div>
             </div>
           </fieldset>

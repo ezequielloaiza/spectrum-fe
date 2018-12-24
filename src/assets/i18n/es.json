@@ -1007,5 +1007,6 @@
     "Documents Right Eye (Topography, Tangential Map, etc.)": "Documentos Ojo Derecho (Topografía, Mapa Tangencial, etc.)",
     "Enter order or client": "Ingrese orden o cliente",
     "Bulk Payments": "Pagos Masivos",
-    "Amount must be greater than total of invoices": "La cantidad debe ser mayor que el total de las facturas"
+    "Amount must be greater than total of invoices": "La cantidad debe ser mayor que el total de las facturas",
+    "Invoices": "Facturas"
 }
