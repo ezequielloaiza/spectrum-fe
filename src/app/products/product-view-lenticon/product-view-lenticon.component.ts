@@ -20,6 +20,9 @@ import { BasketRequest } from '../../shared/models/basketrequest';
 import { ProductRequested } from '../../shared/models/productrequested';
 import { Product } from '../../shared/models/product';
 import { ConfirmationLenticonComponent } from '../modals/confirmation-buy/confirmation-lenticon/confirmation-lenticon.component';
+import { environment } from '../../../environments/environment';
+
+const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
 @Component({
   selector: 'app-product-view-lenticon',
@@ -48,6 +51,40 @@ export class ProductViewLenticonComponent implements OnInit {
   membership: any;
   addRight = false;
   addLeft = false;
+  // Upload files
+  @ViewChild('selectedFiles') selectedFiles: any;
+  @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
+  @ViewChild('selectedFilesRightEye') selectedFilesRightEye: any;
+  queueLimit = 5;
+  maxFileSize = 25 * 1024 * 1024; // 25 MB
+  listFileBasket: Array<FileProductRequested> = new Array;
+  listFileLeftEye: Array<FileProductRequested> = new Array;
+  listFileRightEye: Array<FileProductRequested> = new Array;
+  private uploadResult: any = null;
+  private uploadResultLeftEye: any = null;
+  private uploadResultRightEye: any = null;
+  public uploader: FileUploader = new FileUploader({url: URL,
+                                                    itemAlias: 'files',
+                                                    queueLimit: this.queueLimit,
+                                                    maxFileSize: this.maxFileSize,
+                                                    removeAfterUpload: false,
+                                                    authToken: this.userStorageService.getToke(),
+                                                    autoUpload: false});
+  public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
+                                                    itemAlias: 'files',
+                                                    queueLimit: this.queueLimit,
+                                                    maxFileSize: this.maxFileSize,
+                                                    removeAfterUpload: false,
+                                                    authToken: this.userStorageService.getToke(),
+                                                    autoUpload: false});
+  public uploaderRightEye: FileUploader = new FileUploader({url: URL,
+                                                    itemAlias: 'files',
+                                                    queueLimit: this.queueLimit,
+                                                    maxFileSize: this.maxFileSize,
+                                                    removeAfterUpload: false,
+                                                    authToken: this.userStorageService.getToke(),
+                                                    autoUpload: false});
+
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
               private userStorageService: UserStorageService,
@@ -62,6 +99,49 @@ export class ProductViewLenticonComponent implements OnInit {
               private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
+
+    this.uploaderLeftEye.onAfterAddingFile = (item) => {
+      const maxSize = this.maxFilesSize();
+
+      if (maxSize > this.maxFileSize) {
+        this.removeFile(item, 'Left');
+        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
+          this.notification.error('', res);
+        });
+      }
+    };
+    this.uploaderLeftEye.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResultLeftEye = {'success': true, 'item': item, 'response':
+                           response, 'status': status, 'headers': headers};
+      if (this.uploadResultLeftEye) {
+        this.buildFileProductRequested('Left');
+      }
+    };
+    this.uploaderLeftEye.onErrorItem = (item, response, status, headers) => {
+        this.uploadResultLeftEye = {'success': true, 'item': item, 'response':
+                             response, 'status': status, 'headers': headers};
+    };
+    this.uploaderRightEye.onAfterAddingFile = (item) => {
+      const maxSize = this.maxFilesSize();
+
+      if (maxSize > this.maxFileSize) {
+        this.removeFile(item, 'Right');
+        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
+          this.notification.error('', res);
+        });
+      }
+    };
+    this.uploaderRightEye.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResultRightEye = {'success': true, 'item': item, 'response':
+                           response, 'status': status, 'headers': headers};
+      if (this.uploadResultRightEye) {
+        this.buildFileProductRequested('Right');
+      }
+    };
+    this.uploaderRightEye.onErrorItem = (item, response, status, headers) => {
+        this.uploadResultRightEye = {'success': true, 'item': item, 'response':
+                             response, 'status': status, 'headers': headers};
+    };
   }
 
   ngOnInit() {
@@ -241,6 +321,7 @@ export class ProductViewLenticonComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let pupillaryRight = this.product.pupillaryRight === null ? '' : this.product.pupillaryRight;
     let pupillaryLeft = this.product.pupillaryLeft === null ? '' : this.product.pupillaryLeft;
+    console.log('test', JSON.parse(this.uploadResultRightEye.response));
     _.each(productsSelected, function(productSelected, index) {
 
       productSelected.id = product.idProduct;
@@ -331,12 +412,15 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   openModal(type): void {
-
+    console.log('fils1', this.listFileLeftEye);
+    console.log('fils2', this.listFileRightEye);
     const modalRef = this.modalService.open( ConfirmationLenticonComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.role = this.user.role.idRole;
+    modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
+    modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
@@ -436,6 +520,82 @@ export class ProductViewLenticonComponent implements OnInit {
       this.product.parametersRight = parameters;
     } else {
       this.product.parametersLeft = parameters;
+    }
+  }
+
+  maxFilesSize() {
+    let maxFileSize = 0;
+
+    if (this.uploader.queue) {
+      _.each(this.uploader.queue, function (item) {
+        maxFileSize = maxFileSize + item.file.size;
+      });
+    }
+    return maxFileSize;
+  }
+
+  removeFile(item, eye) {
+    if (eye === 'Right') {
+      this.uploaderRightEye.removeFromQueue(item);
+    } else if (eye === 'Left') {
+      this.uploaderLeftEye.removeFromQueue(item);
+    }
+    this.clearSelectedFile(eye);
+  }
+
+  clearSelectedFile(eye) {
+    if (eye === 'Right') {
+      this.selectedFilesRightEye.nativeElement.value = '';
+    } else if (eye === 'Left') {
+      this.selectedFilesLeftEye.nativeElement.value = '';
+    }
+  }
+
+  clearFiles() {
+    if (this.uploaderLeftEye.queue.length) {
+      this.uploaderLeftEye.clearQueue();
+      this.clearSelectedFile('Left');
+    }
+    if (this.uploaderRightEye.queue.length) {
+      this.uploaderRightEye.clearQueue();
+      this.clearSelectedFile('Right');
+    }
+  }
+
+  saveFiles(): void {
+    this.listFileLeftEye = new Array;
+    this.listFileRightEye = new Array;
+    if (this.uploaderLeftEye.queue) {
+      _.each(this.uploaderLeftEye.queue, function (item) {
+        item.upload();
+      });
+    }
+    if (this.uploaderRightEye.queue) {
+      _.each(this.uploaderRightEye.queue, function (item) {
+        item.upload();
+      });
+    }
+  }
+
+  private buildFileProductRequested(eye) {
+      console.log('errorRight', JSON.parse(this.uploadResultRightEye.response));
+      console.log('errorLeft', JSON.parse(this.uploadResultLeftEye.response));
+    if (eye === 'Right' && this.uploadResultRightEye.success) {
+      const fileProductRequest: FileProductRequested = new FileProductRequested();
+      fileProductRequest.url  = JSON.parse(this.uploadResultRightEye.response).data;
+      fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+      fileProductRequest.type = this.uploadResultRightEye.item.file.type;
+      fileProductRequest.size = this.uploadResultRightEye.item.file.size;
+      fileProductRequest.createdAt = new Date();
+      this.listFileRightEye.push(fileProductRequest);
+    } if (eye === 'Left' && this.uploadResultLeftEye.success) {
+      const fileProductRequest: FileProductRequested = new FileProductRequested();
+      fileProductRequest.url  = JSON.parse(this.uploadResultLeftEye.response).data;
+      fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+      fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
+      fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
+      fileProductRequest.createdAt = new Date();
+      this.listFileLeftEye.push(fileProductRequest);
     }
   }
 }

@@ -100,6 +100,8 @@ export class ConfirmationLenticonComponent implements OnInit {
       this.basketRequest.productRequestedList = this.lista;
       this.basketRequest.listFileRightEye = this.listFileRightEye;
       this.basketRequest.listFileLeftEye = this.listFileLeftEye;
+      console.log('listFilesLeft', this.basketRequest.listFileLeftEye );
+      console.log('listFilesRight', this.basketRequest.listFileRightEye );
       this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
         if (res.code === CodeHttp.ok) {
             this.save_success = true;
@@ -126,6 +128,8 @@ export class ConfirmationLenticonComponent implements OnInit {
       this.buyNow.idRole = this.role;
       this.buyNow.listFileRightEye = this.listFileRightEye;
       this.buyNow.listFileLeftEye = this.listFileLeftEye;
+      console.log('listFilesLeft', this.buyNow.listFileLeftEye );
+      console.log('listFilesRight', this.buyNow.listFileRightEye );
       this.validateAvailableBalance();
       if (this.available) {
           this.spinner.show();
