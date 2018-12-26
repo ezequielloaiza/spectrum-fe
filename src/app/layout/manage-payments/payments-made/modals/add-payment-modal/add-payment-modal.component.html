@@ -101,7 +101,7 @@
           <fieldset class="form-group">
             <label [ngClass]="{'title-view': action == 'view', title: action!='view'}">{{ 'Amount' | translate }}</label>
             <div>
-              <span *ngIf="action == 'view'">{{ invoicePayment.amount | currency : "USD $" }}</span>
+              <span *ngIf="action == 'view'">{{ getPartialPayment(invoicePayment) | currency : "USD $" }}</span>
               <div *ngIf="action != 'view'" class="form-group input-group">
                 <div class="input-group-append">
                   <span class="input-group-text">$</span>

@@ -224,6 +224,13 @@ export class AddPaymentModalComponent implements OnInit {
     this.modalReference.close();
   }
 
+  getPartialPayment(payment) {
+    const inv = this.invoice;
+    const pI = payment.invoiceClientInvoicePaymentList.find(
+      x => (x.invoiceClient === inv.idInvoice));
+      return pI.partialPayment;
+  }
+
   loadPayment() {
     this.invoicePayment.amount = this.form.get('amount').value;
     this.invoicePayment.bank = this.form.get('bank').value;

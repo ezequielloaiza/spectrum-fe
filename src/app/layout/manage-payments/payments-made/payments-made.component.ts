@@ -86,7 +86,7 @@ export class PaymentsMadeComponent implements OnInit {
 
   getListPayments(invoice): void {
     if (invoice === undefined) {
-      invoice = this.auxInvoice.idInvoiceClient;
+      invoice = this.auxInvoice.idInvoice;
     }
     this.invoicePaymentService.allPaymentsByInvoice$(invoice).subscribe(
       res => {
@@ -101,6 +101,13 @@ export class PaymentsMadeComponent implements OnInit {
         console.log('error', error);
       }
     );
+  }
+
+  getPartialPayment(payment) {
+    const inv = this.invoice;
+    const pI = payment.invoiceClientInvoicePaymentList.find(
+      x => (x.invoiceClient === inv.idInvoice));
+      return pI.partialPayment;
   }
 
   openModal(invoice, action, payment): void {
@@ -175,13 +182,14 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   deletePayment(payment): void {
-    const id = payment.idInvoiceClient;
+    const id = this.invoice.idInvoice;
     this.translate.get('Delete Payment', { value: 'Delete Payment' }).subscribe((title: string) => {
       this.translate.get('Are you sure you want to delete the invoice payment?',
         { value: 'Are you sure you want to delete the invoice?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
             this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
               if (res.code === CodeHttp.ok) {
+                console.log('idInvC', id);
                 this.getListPayments(id);
                 this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
                   this.notification.success('', res1);
