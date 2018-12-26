@@ -20,7 +20,7 @@ this.products = [
         ],
         "parametersBoxes": [
           { "name": "Tone", "type": "selected", "values": ["3 TONE"], "selected": null },
-          { "name": "Color", "type": "image", "values": [ 
+          { "name": "Color", "type": "image", "values": [
                                                           [
                                                             {"image": "assets/images/products/magiclook/3TONE-1.png", "value":"SUGAR GRAY"},
                                                             {"image": "assets/images/products/magiclook/3TONE-2.png", "value":"DARK GRAY"},
@@ -46,6 +46,57 @@ this.products = [
           { "title": "3-Monthly", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" },
           { "title": "Sylicone Hydrogel", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" },
           { "title": "UV Filter", "image": "assets/images/products/magiclook/1TONE-1.png", "value":"GRAY" }
+        ]
+      },
+      {
+        "name": "Gold",
+        "values": [
+          {
+            "name": "1000",
+            "price": 4.5
+          },
+          {
+            "name": "2000",
+            "price": 4.2
+          },
+          {
+            "name": "3000",
+            "price": 3.5
+          }
+        ]
+      },
+      {
+        "name": "Diamond",
+        "values": [
+          {
+            "name": "1000",
+            "price": 4.5
+          },
+          {
+            "name": "2000",
+            "price": 4
+          },
+          {
+            "name": "3000",
+            "price": 3.5
+          }
+        ]
+      },
+      {
+        "name": "Preferred",
+        "values": [
+          {
+            "name": "1000",
+            "price": 4.5
+          },
+          {
+            "name": "2000",
+            "price": 4
+          },
+          {
+            "name": "3000",
+            "price": 3.5
+          }
         ]
       }
     ]

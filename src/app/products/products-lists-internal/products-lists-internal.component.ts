@@ -230,6 +230,9 @@ export class ProductsListInternalComponent implements OnInit {
       case 2: // europa
         this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
         break;
+      case 3: // Lenticon
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-lenticon']);
+        break;
       case 4:  // euclid
         this.router.navigate(['/products/' + product.idProduct + '/product-view-euclid']);
         break;
@@ -238,6 +241,14 @@ export class ProductsListInternalComponent implements OnInit {
         break;
       case 6:  // magic blue
         this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
+        break;
+      case 7:  // fluo strips y spectrum saline
+        if (product.father === 'Fluo Strips') {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-fluo-strips']);
+        }
+        if (product.father === 'Spectrum Saline') {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
+        }
         break;
     }
   }
@@ -248,6 +259,7 @@ export class ProductsListInternalComponent implements OnInit {
       case 1: // Markennovy
       case 3: // Lenticon
       case 6: // Blue Light
+      case 7: // Fluo Strips
             const modalRefGeneral = this.modalService.open(EditProductComponent, {
               size: 'lg',
               windowClass: 'modal-content-border'

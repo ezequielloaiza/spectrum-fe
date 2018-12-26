@@ -6,10 +6,10 @@ this.products = [
     "infoAditional": [
       {
         "name": "Properties", "values": [
-          "When fitting soft disposable or soft specialized contact lenses; the high molecular fluorescein becomes your best allied thanks to its stainless effect.",
-          "User friendly and convenient to use formula, which generates a premium fluorescence effect. Mostly utilized on preliminary eye diagnosis.",
-          "Your fittings will be more precise from now on!",
-          "Packaging: 100 Strips"
+          {"class":"fa fa-eye", "text":"When fitting soft disposable or soft specialized contact lenses; the high molecular fluorescein becomes your best allied thanks to its stainless effect."},
+          {"class":"fa fa-flag-checkered", "text":"User friendly and convenient to use formula, which generates a premium fluorescence effect. Mostly utilized on preliminary eye diagnosis."},
+          {"class":"fa fa-trophy", "text":"Your fittings will be more precise from now on!"},
+          {"class":"fa fa-edit", "text":"Packaging: 100 Strips"}
         ]
       }
     ]
@@ -17,8 +17,8 @@ this.products = [
 ];
 
 /* 
-<i class="fas fa-eye"></i>
-<i class="fas fa-flag-checkered"></i>
-<i class="fas fa-trophy"></i>
-<i class="fas fa-edit"></i>
+<i class="fa fa-eye"></i>
+<i class="fa fa-flag-checkered"></i>
+<i class="fa fa-trophy"></i>
+<i class="fa fa-edit"></i>
 */
