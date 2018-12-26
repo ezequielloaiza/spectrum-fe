@@ -214,12 +214,12 @@
           <!--row header left (contamac / hydrapeg / insertors)-->
           <br>
           <br>
-          <div class="row title">{{ 'Test set' | translate }}</div>
+          <div class="row title">{{ 'Test Set' | translate }}</div>
           <br>
           <div class="row">
             <div class="col-lg-3" *ngFor="let setLeft of product.setLeft">
               <div class="row">
-                <label class="form-check-label">{{ setLeft.name }}</label>&nbsp;&nbsp;
+                <label class="form-check-label">{{ setLeft.name | translate }}</label>&nbsp;&nbsp;
               </div>
               <div class="row">
                 <div class="select-values col-sm-12" *ngIf="setLeft.type === 'selected'">
