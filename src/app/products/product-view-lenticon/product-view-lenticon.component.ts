@@ -60,16 +60,8 @@ export class ProductViewLenticonComponent implements OnInit {
   listFileBasket: Array<FileProductRequested> = new Array;
   listFileLeftEye: Array<FileProductRequested> = new Array;
   listFileRightEye: Array<FileProductRequested> = new Array;
-  private uploadResult: any = null;
   private uploadResultLeftEye: any = null;
   private uploadResultRightEye: any = null;
-  public uploader: FileUploader = new FileUploader({url: URL,
-                                                    itemAlias: 'files',
-                                                    queueLimit: this.queueLimit,
-                                                    maxFileSize: this.maxFileSize,
-                                                    removeAfterUpload: false,
-                                                    authToken: this.userStorageService.getToke(),
-                                                    autoUpload: false});
   public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
@@ -101,7 +93,7 @@ export class ProductViewLenticonComponent implements OnInit {
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
     this.uploaderLeftEye.onAfterAddingFile = (item) => {
-      const maxSize = this.maxFilesSize();
+      const maxSize = this.maxFilesSize('Left');
 
       if (maxSize > this.maxFileSize) {
         this.removeFile(item, 'Left');
@@ -122,7 +114,7 @@ export class ProductViewLenticonComponent implements OnInit {
                              response, 'status': status, 'headers': headers};
     };
     this.uploaderRightEye.onAfterAddingFile = (item) => {
-      const maxSize = this.maxFilesSize();
+      const maxSize = this.maxFilesSize('Right');
 
       if (maxSize > this.maxFileSize) {
         this.removeFile(item, 'Right');
@@ -321,7 +313,8 @@ export class ProductViewLenticonComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let pupillaryRight = this.product.pupillaryRight === null ? '' : this.product.pupillaryRight;
     let pupillaryLeft = this.product.pupillaryLeft === null ? '' : this.product.pupillaryLeft;
-    console.log('test', JSON.parse(this.uploadResultRightEye.response));
+    console.log('test', JSON.parse(JSON.stringify(this.uploadResultRightEye)));
+    console.log('test1', JSON.parse(JSON.stringify(this.uploadResultLeftEye)));
     _.each(productsSelected, function(productSelected, index) {
 
       productSelected.id = product.idProduct;
@@ -391,6 +384,7 @@ export class ProductViewLenticonComponent implements OnInit {
 
   addToCart(type) {
     this.productCopy = JSON.parse(JSON.stringify(this.product));
+    this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -523,13 +517,20 @@ export class ProductViewLenticonComponent implements OnInit {
     }
   }
 
-  maxFilesSize() {
+  maxFilesSize(eye) {
     let maxFileSize = 0;
-
-    if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        maxFileSize = maxFileSize + item.file.size;
-      });
+    if (eye === 'Right') {
+      if (this.uploaderRightEye.queue) {
+        _.each(this.uploaderRightEye.queue, function (item) {
+          maxFileSize = maxFileSize + item.file.size;
+        });
+      }
+    } else if (eye === 'Left') {
+      if (this.uploaderLeftEye.queue) {
+        _.each(this.uploaderLeftEye.queue, function (item) {
+          maxFileSize = maxFileSize + item.file.size;
+        });
+      }
     }
     return maxFileSize;
   }
@@ -578,8 +579,6 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   private buildFileProductRequested(eye) {
-      console.log('errorRight', JSON.parse(this.uploadResultRightEye.response));
-      console.log('errorLeft', JSON.parse(this.uploadResultLeftEye.response));
     if (eye === 'Right' && this.uploadResultRightEye.success) {
       const fileProductRequest: FileProductRequested = new FileProductRequested();
       fileProductRequest.url  = JSON.parse(this.uploadResultRightEye.response).data;
