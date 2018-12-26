@@ -10,7 +10,7 @@
           <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
       </li>
       <li class="breadcrumb-item">
-        <a class="link" href="Javascript:void(0)" [routerLink]="['/products']">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/products/' + product.supplier.idSupplier + '/internal']">
           <i class="fa fa-edit"></i> {{ 'Products List' | translate }}</a>
       </li>
       <li class="breadcrumb-item active">
