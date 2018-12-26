@@ -29,6 +29,10 @@ import { ConfirmationEuropaComponent } from './modals/confirmation-buy/confirmat
 import { ConfirmationEuclidComponent } from './modals/confirmation-buy/confirmation-euclid/confirmation-euclid.component';
 import { EditProductEuclidComponent } from './modals/edit-product/edit-product-euclid/edit-product-euclid.component';
 import { EditProductEuropaComponent } from './modals/edit-product/edit-product-europa/edit-product-europa.component';
+import { ProductViewFluoStripsComponent } from './product-view-fluo-strips/product-view-fluo-strips.component';
+import { ProductViewSpectrumSalineComponent } from './product-view-spectrum-saline/product-view-spectrum-saline.component';
+// tslint:disable-next-line:max-line-length
+import { ConfirmationSpectrumSalineComponent } from './modals/confirmation-buy/confirmation-spectrum-saline/confirmation-spectrum-saline.component';
 import { ProductViewLenticonComponent } from './product-view-lenticon/product-view-lenticon.component';
 import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirmation-lenticon/confirmation-lenticon.component';
 
@@ -66,6 +70,9 @@ import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirm
     ConfirmationEuclidComponent,
     EditProductEuclidComponent,
     EditProductEuropaComponent,
+    ProductViewFluoStripsComponent,
+    ProductViewSpectrumSalineComponent,
+    ConfirmationSpectrumSalineComponent,
     ProductViewLenticonComponent,
     ConfirmationLenticonComponent
   ],
@@ -80,6 +87,7 @@ import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirm
                     ConfirmationEuclidComponent,
                     EditProductEuclidComponent,
                     EditProductEuropaComponent,
+                    ConfirmationSpectrumSalineComponent,
                     ConfirmationLenticonComponent
                    ],
   providers: [RoleGuard, AuthorizationService]

@@ -23,6 +23,8 @@ import { DetailEuclidComponent } from '../../../modals/detail-product/detail-euc
 import { DetailEuropaComponent } from '../../../modals/detail-product/detail-europa/detail-europa.component';
 import { EuropaComponent } from '../../../../edit-order/europa/europa.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DetailSalineFluoComponent } from '../../../modals/detail-product/detail-saline-fluo/detail-saline-fluo.component';
+import { SalineFluoComponent } from '../../../../edit-order/saline-fluo/saline-fluo.component';
 import { DetailLenticonComponent } from '../../../modals/detail-product/detail-lenticon/detail-lenticon.component';
 import { LenticonComponent } from '../../../../edit-order/lenticon/lenticon.component';
 
@@ -73,7 +75,9 @@ export class ListBasketComponent implements OnInit {
         _.each(this.listBasket, function (basket) {
           basket.checked = false;
           basket.supplier = basket.productRequested.product.supplier.idSupplier;
-          basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
+          if (basket.productRequested.detail.length > 0) {
+            basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
+          }
         });
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
@@ -224,6 +228,15 @@ export class ListBasketComponent implements OnInit {
           } , (reason) => {
           });
           break;
+      case 7: // Fluo strips y spectrum saline
+      const modalRefFluoSaline = this.modalService.open(DetailSalineFluoComponent,
+        { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefFluoSaline.componentInstance.basket = basket;
+        modalRefFluoSaline.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
      }
   }
 
@@ -280,6 +293,15 @@ export class ListBasketComponent implements OnInit {
         modalRefBlue.componentInstance.basket = basket;
         modalRefBlue.componentInstance.typeEdit = 1;
         modalRefBlue.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
+    case 7: // Fluo strips y spectrum saline
+        const modalRefSalineFluo = this.modalService.open( SalineFluoComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRefSalineFluo.componentInstance.basket = basket;
+        modalRefSalineFluo.componentInstance.typeEdit = 1;
+        modalRefSalineFluo.result.then((result) => {
           this.ngOnInit();
         } , (reason) => {
         });
