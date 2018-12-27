@@ -45,7 +45,7 @@
         <div class="col-md-3">
           <dt>{{ 'Material' | translate }}</dt>
           <dd>
-            <a>{{ product.material }}</a>
+            <a>{{ product.material | translate }}</a>
           </dd>
         </div>
         <div class="col-md-3">
@@ -54,7 +54,7 @@
         </div>
         <div class="col-md-2">
           <dt>{{ 'Warranty' | translate }}</dt>
-          <p>{{ product.warranty }} {{ 'days' | translate }}</p>
+         <!-- <p>{{ product.warranty }} {{ 'days' | translate }}</p> -->
         </div>
       </div>
 
@@ -85,7 +85,7 @@
         </div>
         <!--shipping address-->
         <div class="col-lg-4">
-          <span class="title">{{ 'Shipping Address' | translate }}:</span>
+          <span class="title">{{ 'Shipping Address' | translate }}</span>
           <div class="row info-content">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
               readonly>
@@ -115,7 +115,7 @@
           <!--row header right (contamac / hydrapeg / insertors)-->
           <br>
           <br>
-          <div class="row title">{{ 'Test set' | translate }}</div>
+          <div class="row title">{{ 'Test Set' | translate }}</div>
           <br>
           <div class="row">
             <div class="col-lg-3" *ngFor="let itemSet of product.setRight">
@@ -214,12 +214,12 @@
           <!--row header left (contamac / hydrapeg / insertors)-->
           <br>
           <br>
-          <div class="row title">{{ 'Test set' | translate }}</div>
+          <div class="row title">{{ 'Test Set' | translate }}</div>
           <br>
           <div class="row">
             <div class="col-lg-3" *ngFor="let setLeft of product.setLeft">
               <div class="row">
-                <label class="form-check-label">{{ setLeft.name }}</label>&nbsp;&nbsp;
+                <label class="form-check-label">{{ setLeft.name | translate }}</label>&nbsp;&nbsp;
               </div>
               <div class="row">
                 <div class="select-values col-sm-12" *ngIf="setLeft.type === 'selected'">

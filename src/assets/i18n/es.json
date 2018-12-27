@@ -134,7 +134,7 @@
     "Enter certification code" : "Ingrese código de certificación",
     "Save" : "Guardar",
     "Close" : "Cerrar",
-    "Shipping Address" : "Direcciones de Envío",
+    "Shipping Address" : "Dirección de Envío",
     "Successfully Saved" : "Guardado con éxito",
     "Successfully Updated" : "Actualizado con éxito",
     "Successfully Deleted" : "Eliminado con éxito",
@@ -993,5 +993,12 @@
     "Nasal, topical, and general irrigation.": "Riego nasal, tópico y general.",
     "Scleral Lenses 0.9% Solution.": "Lentes esclerales 0,9% de solución.",
     "Purified and sterilized.": "Purificado y esterilizado.",
-    "Hidrating solution for soft contact lenses.": "Solución hidratante para lentes de contacto blandas."
+    "Hidrating solution for soft contact lenses.": "Solución hidratante para lentes de contacto blandas.",
+    "Design": "Diseño",
+    "Power(D)": "Poder(D)",
+    "Eccentricity": "Excentricidad",
+    "Diameter zo (mm)": "Diámetro zo (mm)",
+    "Center": "Centrar",
+    "Pupillary diameter": "Diámetro pupilar",
+    "Silicone fluor-acrylate (optimum extra)": "Flúor-acrilato de silicona (óptimo extra)"
 }
