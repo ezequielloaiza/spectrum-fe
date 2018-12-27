@@ -20,12 +20,9 @@ import { BasketRequest } from '../../shared/models/basketrequest';
 import { ProductRequested } from '../../shared/models/productrequested';
 import { Product } from '../../shared/models/product';
 import { ConfirmationLenticonComponent } from '../modals/confirmation-buy/confirmation-lenticon/confirmation-lenticon.component';
-<<<<<<< HEAD
 import { environment } from '../../../environments/environment';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
-=======
->>>>>>> 9492d0effb69ad12a0959606b2dd62f3d49275dd
 
 @Component({
   selector: 'app-product-view-lenticon',
@@ -54,7 +51,6 @@ export class ProductViewLenticonComponent implements OnInit {
   membership: any;
   addRight = false;
   addLeft = false;
-<<<<<<< HEAD
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
@@ -81,8 +77,6 @@ export class ProductViewLenticonComponent implements OnInit {
                                                     authToken: this.userStorageService.getToke(),
                                                     autoUpload: false});
 
-=======
->>>>>>> 9492d0effb69ad12a0959606b2dd62f3d49275dd
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
               private userStorageService: UserStorageService,
@@ -97,7 +91,6 @@ export class ProductViewLenticonComponent implements OnInit {
               private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
-<<<<<<< HEAD
 
     this.uploaderLeftEye.onAfterAddingFile = (item) => {
       const maxSize = this.maxFilesSize('Left');
@@ -141,8 +134,6 @@ export class ProductViewLenticonComponent implements OnInit {
         this.uploadResultRightEye = {'success': true, 'item': item, 'response':
                              response, 'status': status, 'headers': headers};
     };
-=======
->>>>>>> 9492d0effb69ad12a0959606b2dd62f3d49275dd
   }
 
   ngOnInit() {
@@ -322,11 +313,8 @@ export class ProductViewLenticonComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let pupillaryRight = this.product.pupillaryRight === null ? '' : this.product.pupillaryRight;
     let pupillaryLeft = this.product.pupillaryLeft === null ? '' : this.product.pupillaryLeft;
-<<<<<<< HEAD
     console.log('test', JSON.parse(JSON.stringify(this.uploadResultRightEye)));
     console.log('test1', JSON.parse(JSON.stringify(this.uploadResultLeftEye)));
-=======
->>>>>>> 9492d0effb69ad12a0959606b2dd62f3d49275dd
     _.each(productsSelected, function(productSelected, index) {
 
       productSelected.id = product.idProduct;
@@ -396,10 +384,7 @@ export class ProductViewLenticonComponent implements OnInit {
 
   addToCart(type) {
     this.productCopy = JSON.parse(JSON.stringify(this.product));
-<<<<<<< HEAD
     this.saveFiles();
-=======
->>>>>>> 9492d0effb69ad12a0959606b2dd62f3d49275dd
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -421,22 +406,16 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   openModal(type): void {
-<<<<<<< HEAD
     console.log('fils1', this.listFileLeftEye);
     console.log('fils2', this.listFileRightEye);
-=======
 
->>>>>>> 9492d0effb69ad12a0959606b2dd62f3d49275dd
     const modalRef = this.modalService.open( ConfirmationLenticonComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.role = this.user.role.idRole;
-<<<<<<< HEAD
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
-=======
->>>>>>> 9492d0effb69ad12a0959606b2dd62f3d49275dd
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
@@ -538,7 +517,6 @@ export class ProductViewLenticonComponent implements OnInit {
       this.product.parametersLeft = parameters;
     }
   }
-<<<<<<< HEAD
 
   maxFilesSize(eye) {
     let maxFileSize = 0;
@@ -620,6 +598,4 @@ export class ProductViewLenticonComponent implements OnInit {
       this.listFileLeftEye.push(fileProductRequest);
     }
   }
-=======
->>>>>>> 9492d0effb69ad12a0959606b2dd62f3d49275dd
 }
