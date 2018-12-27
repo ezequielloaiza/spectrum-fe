@@ -62,7 +62,6 @@ export class PaymentsMadeComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.invoice = res.data;
           this.auxInvoice = res.data;
-          console.log('inv',this.invoice);
         } else {
           console.log(res.code);
         }
@@ -185,21 +184,37 @@ export class PaymentsMadeComponent implements OnInit {
     const id = this.invoice.idInvoice;
     this.translate.get('Delete Payment', { value: 'Delete Payment' }).subscribe((title: string) => {
       this.translate.get('Are you sure you want to delete the invoice payment?',
-        { value: 'Are you sure you want to delete the invoice?' }).subscribe((msg: string) => {
+        { value: 'Are you sure you want to delete the invoice payment?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
-            this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
-              if (res.code === CodeHttp.ok) {
-                console.log('idInvC', id);
-                this.getListPayments(id);
-                this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
-                  this.notification.success('', res1);
-                });
-              } else {
-                console.log(res.errors[0].detail);
-              }
-            }, error => {
-              console.log('error', error);
-            });
+            if (payment.invoiceClientInvoicePaymentList.lenght > 1) {
+              this.invoicePaymentService.deleteInvoicePaymentByInvoiceClient$(payment.idInvoicePayment, id).subscribe(res => {
+                if (res.code === CodeHttp.ok) {
+                  this.getInvoice(id);
+                  this.getListPayments(id);
+                  this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
+                    this.notification.success('', res1);
+                  });
+                } else {
+                  console.log(res.errors[0].detail);
+                }
+              }, error => {
+                console.log('error', error);
+              });
+            } else {
+              this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
+                if (res.code === CodeHttp.ok) {
+                  this.getInvoice(id);
+                  this.getListPayments(id);
+                  this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
+                    this.notification.success('', res1);
+                  });
+                } else {
+                  console.log(res.errors[0].detail);
+                }
+              }, error => {
+                console.log('error', error);
+              });
+            }
           }, () => {
           });
         });
