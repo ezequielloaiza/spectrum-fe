@@ -77,9 +77,9 @@ export class PaymentsMadeComponent implements OnInit {
       case 0:
         return 'Unpaid';
       case 1:
-        return 'Part Paid';
-      case 2:
         return 'Paid';
+      case 2:
+        return 'Overdue';
     }
   }
 
@@ -103,7 +103,10 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   getPartialPayment(payment) {
-    const inv = this.invoice;
+    let inv = this.invoice;
+    if (inv === undefined) {
+      inv = this.auxInvoice.idInvoice;
+    }
     const pI = payment.invoiceClientInvoicePaymentList.find(
       x => (x.invoiceClient === inv.idInvoice));
       return pI.partialPayment;
