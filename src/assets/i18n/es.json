@@ -134,7 +134,7 @@
     "Enter certification code" : "Ingrese código de certificación",
     "Save" : "Guardar",
     "Close" : "Cerrar",
-    "Shipping Address" : "Direcciones de Envío",
+    "Shipping Address" : "Dirección de Envío",
     "Successfully Saved" : "Guardado con éxito",
     "Successfully Updated" : "Actualizado con éxito",
     "Successfully Deleted" : "Eliminado con éxito",
@@ -999,5 +999,6 @@
     "Eccentricity": "Excentricidad",
     "Diameter zo (mm)": "Diámetro zo (mm)",
     "Center": "Centrar",
-    "Pupillary diameter": "Pupillary diameter"
+    "Pupillary diameter": "Diámetro pupilar",
+    "Silicone fluor-acrylate (optimum extra)": "Flúor-acrilato de silicona (óptimo extra)"
 }
