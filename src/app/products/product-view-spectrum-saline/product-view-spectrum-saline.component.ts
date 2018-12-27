@@ -125,6 +125,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
           this.listCustomers = this.listCustomersAux;
+          this.excludeClients(this.listCustomers, this.product.supplier.idSupplier, this.product);
         }
       });
     }
@@ -294,4 +295,15 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
       }
       return pos;
     }
+
+  excludeClients(listCustomers, idSupplier, product) {
+    let listClients = [];
+    if (idSupplier === 7 && product.father === 'Spectrum Saline') { // Exclusion de los clientes con membresia Oro para Spectrum Saline
+      listClients = _.filter(listCustomers, function(c) {
+        return c.membership.idMembership !== 1;
+      });
+      this.listCustomers = listClients;
+      this.listCustomersAux = this.listCustomers;
+    }
+  }
 }
