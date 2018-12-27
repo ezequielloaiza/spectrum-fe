@@ -765,7 +765,7 @@
     "Comments Right Eye": "Comments Right Eye",
     "Comments Left Eye": "Comments Left Eye",
     "Enter right eye observations": "Enter right eye observations",
-    "Enter right left observations": "Enter left eye observations",
+    "Enter left eye observations": "Enter left eye observations",
     "Documents (Topography, Tangential Map, etc.)": "Documents (Topography, Tangential Map, etc.)",
     "The user will receive an email with their password": "The user will receive an email with their password",
     "Invoice already generated": "Invoice already generated",
@@ -847,5 +847,14 @@
     "Scleral Lenses 0.9% Solution.": "Scleral Lenses 0.9% Solution.",
     "Purified and sterilized.": "Purified and sterilized.",
     "Hidrating solution for soft contact lenses.": "Hidrating solution for soft contact lenses.",
-    "Overdue": "Overdue"
+    "Overdue": "Overdue",
+    "Test set": "Test set",
+    "Design": "Design",
+    "Power(D)": "Power(D)",
+    "Eccentricity": "Eccentricity",
+    "Diameter zo (mm)": "Diameter zo (mm)",
+    "Center": "Center",
+    "Pupillary diameter": "Pupillary diameter",
+    "Enter name patient": "Enter name patient",
+    "Silicone fluor-acrylate (optimum extra)": "Silicone fluor-acrylate (optimum extra)"
 }

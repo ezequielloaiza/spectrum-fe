@@ -169,7 +169,11 @@ export class ProductsListInternalComponent implements OnInit {
         }
 
         this.nameSupplier = this.products[0] ? this.products[0].supplier.companyName : '';
-        this.productsAux = this.products;
+        if (this.idSupplier === 7 && this.user.role.idRole === 3) {
+           this.excludeProduct();
+        } else {
+           this.productsAux = this.products;
+        }
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -411,6 +415,17 @@ export class ProductsListInternalComponent implements OnInit {
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === 'filter2' && $event.nextState === false) {
       $event.preventDefault();
+    }
+  }
+
+  excludeProduct() {  // Exclusion de Spectrum Saline para clientes con membresia Oro
+    let productsAux = [];
+    const membership = this.currentUser.membership.idMembership;
+    if (membership === 1) { // Gold
+      productsAux = _.filter(this.products, function(o) {
+        return o.father !== 'Spectrum Saline';
+      });
+      this.products = productsAux;
     }
   }
 }
