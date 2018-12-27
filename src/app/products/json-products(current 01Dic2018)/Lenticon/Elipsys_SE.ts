@@ -5,7 +5,7 @@ this.products = [
     "father": "",
     "category": "Contact Lenses",
     "subCategory": "",
-    "material": "Fluor-acrilato de silicona (optimum extra)",
+    "material": "Silicone fluor-acrylate (optimum extra)",
     "descriptionShort": "My description short by Elipsys_SE",
     "description": "",
     "replacementPeriod": "3-Monthly",
