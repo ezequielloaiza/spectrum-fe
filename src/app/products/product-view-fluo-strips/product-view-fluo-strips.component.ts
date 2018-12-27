@@ -233,7 +233,9 @@ export class ProductViewFluoStripsComponent implements OnInit {
     return isValid;
   }
 
-  change(quantity){
-    this.strips = quantity * 100;
+  change(quantity) {
+    if (quantity % 25 === 0) {
+      this.strips = quantity * 100;
+    }
   }
 }
