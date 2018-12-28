@@ -11,6 +11,7 @@ import { saveAs } from 'file-saver';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AddPaymentModalComponent } from './modals/add-payment-modal/add-payment-modal.component';
 import { ChangeStatusComponent } from './modals/change-status/change-status.component';
+import { InvoiceClientInvoicePayment } from '../../../shared/models/invoiceclientinvoicepayment';
 
 @Component({
   selector: 'app-payments-made',
@@ -77,8 +78,10 @@ export class PaymentsMadeComponent implements OnInit {
       case 0:
         return 'Unpaid';
       case 1:
-        return 'Paid';
+        return 'Part Paid';
       case 2:
+        return 'Paid';
+      case 3:
         return 'Overdue';
     }
   }
@@ -105,6 +108,8 @@ export class PaymentsMadeComponent implements OnInit {
   getPartialPayment(payment) {
     let inv = this.invoice;
     if (inv === undefined) {
+      const id = this.route.snapshot.paramMap.get('idInvoice');
+      this.getInvoice(id);
       inv = this.auxInvoice.idInvoice;
     }
     const pI = payment.invoiceClientInvoicePaymentList.find(
@@ -130,7 +135,7 @@ export class PaymentsMadeComponent implements OnInit {
     modalRef.componentInstance.payment = payment;
     modalRef.result.then((result) => {
       const id = this.route.snapshot.paramMap.get('idInvoice');
-      this.getListPayments(id);
+      this.ngOnInit();
     }, (reason) => {
     });
   }
@@ -189,7 +194,8 @@ export class PaymentsMadeComponent implements OnInit {
       this.translate.get('Are you sure you want to delete the invoice payment?',
         { value: 'Are you sure you want to delete the invoice payment?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
-            if (payment.invoiceClientInvoicePaymentList.lenght > 1) {
+            if (payment.invoiceClientInvoicePaymentList.length > 1) {
+              console.log('1');
               this.invoicePaymentService.deleteInvoicePaymentByInvoiceClient$(payment.idInvoicePayment, id).subscribe(res => {
                 if (res.code === CodeHttp.ok) {
                   this.getInvoice(id);
@@ -204,6 +210,7 @@ export class PaymentsMadeComponent implements OnInit {
                 console.log('error', error);
               });
             } else {
+              console.log('2');
               this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
                 if (res.code === CodeHttp.ok) {
                   this.getInvoice(id);

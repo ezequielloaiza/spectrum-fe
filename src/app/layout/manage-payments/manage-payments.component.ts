@@ -62,7 +62,6 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
       this.navigationSubscription = this.router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
           this.ngOnInit();
-          this.getListInvoices();
         }
       });
     }
@@ -73,8 +72,10 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     });
     this.getListInvoices();
     this.advancedPagination = 1;
+    this.listAux = [];
     this.selectedStatus = '';
     this.selectedAll = false;
+    this.valid = false;
     this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
   }
@@ -93,7 +94,17 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
 
   getListInvoices(): void {
     this.spinner.show();
-    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, this.statusRoute).subscribe(
+    console.log('this.statusRoute', this.statusRoute);
+    const status: Array<any> = new Array;
+    if (this.statusRoute == 0) {
+      status.push(0);
+      status.push(1);
+    } else if (this.statusRoute == 1) {
+      status.push(1);
+      status.push(2);
+    }
+    console.log('status', status);
+    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;
@@ -101,7 +112,6 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
           this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
           this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
           this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
-          console.log(this.listInvoices);
           this.spinner.hide();
         } else {
           console.log(res.code);
@@ -112,7 +122,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
         console.log('error', error);
         this.spinner.hide();
       }
-    )
+    );
   }
 
   sortInvoice(key) {
