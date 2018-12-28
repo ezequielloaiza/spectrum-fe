@@ -84,7 +84,6 @@ export class AddPaymentModalComponent implements OnInit {
         'success': true, 'item': item, 'response':
           response, 'status': status, 'headers': headers
       };
-      console.log('uploadResult', this.uploadResult);
     };
   }
 
@@ -139,13 +138,11 @@ export class AddPaymentModalComponent implements OnInit {
     this.invoiceService.findByIds$(this.idsInvoiceClient).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listAux = res.data;
-        console.log('data', res.data);
         let maxAmount = 0.00;
         _.each(this.listAux, function(invoice) {
           maxAmount += invoice.total;
         });
         this.maxAmountInvoice = maxAmount;
-        console.log('maxAmountInvoice', this.maxAmountInvoice);
       }
     }, error => {
       console.log('error', error);
@@ -240,7 +237,6 @@ export class AddPaymentModalComponent implements OnInit {
     const date = new Date(aux.year, aux.month - 1, aux.day);
     this.invoicePayment.date = date;
     this.invoicePayment.description = this.form.get('notes').value;
-    console.log('1', this.invoice);
     const inv = this.invoice;
     const payment = this.invoicePayment;
     const list: Array<any> = new Array;

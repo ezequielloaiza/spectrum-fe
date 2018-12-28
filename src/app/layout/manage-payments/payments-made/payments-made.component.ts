@@ -11,6 +11,7 @@ import { saveAs } from 'file-saver';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AddPaymentModalComponent } from './modals/add-payment-modal/add-payment-modal.component';
 import { ChangeStatusComponent } from './modals/change-status/change-status.component';
+import { InvoiceClientInvoicePayment } from '../../../shared/models/invoiceclientinvoicepayment';
 
 @Component({
   selector: 'app-payments-made',
@@ -62,7 +63,6 @@ export class PaymentsMadeComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.invoice = res.data;
           this.auxInvoice = res.data;
-          console.log('inv',this.invoice);
         } else {
           console.log(res.code);
         }
@@ -81,6 +81,8 @@ export class PaymentsMadeComponent implements OnInit {
         return 'Part Paid';
       case 2:
         return 'Paid';
+      case 3:
+        return 'Overdue';
     }
   }
 
@@ -104,7 +106,12 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   getPartialPayment(payment) {
-    const inv = this.invoice;
+    let inv = this.invoice;
+    if (inv === undefined) {
+      const id = this.route.snapshot.paramMap.get('idInvoice');
+      this.getInvoice(id);
+      inv = this.auxInvoice.idInvoice;
+    }
     const pI = payment.invoiceClientInvoicePaymentList.find(
       x => (x.invoiceClient === inv.idInvoice));
       return pI.partialPayment;
@@ -128,7 +135,7 @@ export class PaymentsMadeComponent implements OnInit {
     modalRef.componentInstance.payment = payment;
     modalRef.result.then((result) => {
       const id = this.route.snapshot.paramMap.get('idInvoice');
-      this.getListPayments(id);
+      this.ngOnInit();
     }, (reason) => {
     });
   }
@@ -185,21 +192,39 @@ export class PaymentsMadeComponent implements OnInit {
     const id = this.invoice.idInvoice;
     this.translate.get('Delete Payment', { value: 'Delete Payment' }).subscribe((title: string) => {
       this.translate.get('Are you sure you want to delete the invoice payment?',
-        { value: 'Are you sure you want to delete the invoice?' }).subscribe((msg: string) => {
+        { value: 'Are you sure you want to delete the invoice payment?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
-            this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
-              if (res.code === CodeHttp.ok) {
-                console.log('idInvC', id);
-                this.getListPayments(id);
-                this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
-                  this.notification.success('', res1);
-                });
-              } else {
-                console.log(res.errors[0].detail);
-              }
-            }, error => {
-              console.log('error', error);
-            });
+            if (payment.invoiceClientInvoicePaymentList.length > 1) {
+              console.log('1');
+              this.invoicePaymentService.deleteInvoicePaymentByInvoiceClient$(payment.idInvoicePayment, id).subscribe(res => {
+                if (res.code === CodeHttp.ok) {
+                  this.getInvoice(id);
+                  this.getListPayments(id);
+                  this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
+                    this.notification.success('', res1);
+                  });
+                } else {
+                  console.log(res.errors[0].detail);
+                }
+              }, error => {
+                console.log('error', error);
+              });
+            } else {
+              console.log('2');
+              this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
+                if (res.code === CodeHttp.ok) {
+                  this.getInvoice(id);
+                  this.getListPayments(id);
+                  this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
+                    this.notification.success('', res1);
+                  });
+                } else {
+                  console.log(res.errors[0].detail);
+                }
+              }, error => {
+                console.log('error', error);
+              });
+            }
           }, () => {
           });
         });

@@ -169,7 +169,11 @@ export class ProductsListInternalComponent implements OnInit {
         }
 
         this.nameSupplier = this.products[0] ? this.products[0].supplier.companyName : '';
-        this.productsAux = this.products;
+        if (this.idSupplier === 7 && this.user.role.idRole === 3) {
+           this.excludeProduct();
+        } else {
+           this.productsAux = this.products;
+        }
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -230,6 +234,9 @@ export class ProductsListInternalComponent implements OnInit {
       case 2: // europa
         this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
         break;
+      case 3: // Lenticon
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-lenticon']);
+        break;
       case 4:  // euclid
         this.router.navigate(['/products/' + product.idProduct + '/product-view-euclid']);
         break;
@@ -238,6 +245,14 @@ export class ProductsListInternalComponent implements OnInit {
         break;
       case 6:  // magic blue
         this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
+        break;
+      case 7:  // fluo strips y spectrum saline
+        if (product.father === 'Fluo Strips') {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-fluo-strips']);
+        }
+        if (product.father === 'Spectrum Saline') {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
+        }
         break;
     }
   }
@@ -248,6 +263,7 @@ export class ProductsListInternalComponent implements OnInit {
       case 1: // Markennovy
       case 3: // Lenticon
       case 6: // Blue Light
+      case 7: // Fluo Strips
             const modalRefGeneral = this.modalService.open(EditProductComponent, {
               size: 'lg',
               windowClass: 'modal-content-border'
@@ -399,6 +415,17 @@ export class ProductsListInternalComponent implements OnInit {
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === 'filter2' && $event.nextState === false) {
       $event.preventDefault();
+    }
+  }
+
+  excludeProduct() {  // Exclusion de Spectrum Saline para clientes con membresia Oro
+    let productsAux = [];
+    const membership = this.currentUser.membership.idMembership;
+    if (membership === 1) { // Gold
+      productsAux = _.filter(this.products, function(o) {
+        return o.father !== 'Spectrum Saline';
+      });
+      this.products = productsAux;
     }
   }
 }

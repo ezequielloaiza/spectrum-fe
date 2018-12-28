@@ -1,0 +1,439 @@
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-beat"></ngx-spinner>
+<div class="info-breadcrumbs" *ngIf="product">
+  <div class="header-body">
+    <h4 class="page-header">
+      {{ 'Product Details' | translate }}
+    </h4>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/products/' + product.supplier.idSupplier + '/internal']">
+          <i class="fa fa-edit"></i> {{ 'Products List' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-eye"></i> {{ 'Product Details' | translate}}</li>
+    </ol>
+  </div>
+</div>
+<div class="padding-detail" *ngIf="product">
+  <div class="card">
+    <div class="">
+      <!-- row (name-price-image) -->
+      <div class="row wrapper">
+        <div class="preview col-md-12">
+          <!-- name-price -->
+          <div class="main-info">
+            <h3 class="product-title">{{'Order Form For' | translate }}:
+              <br>
+              <i>{{ product.name }}</i>
+            </h3>
+          </div>
+          <!-- image -->
+          <!-- <div class="preview-pic tab-content main-info">
+            <div class="tab-pane active" id="pic-1">
+              <img src="{{ product.mainImg }}" />
+            </div>
+          </div> -->
+        </div>
+      </div>
+
+      <!-- row (properties-material-replacement-warranty-sheet) -->
+      <div class="row product-info">
+        <div class="col-md-3">
+          <dt>{{ 'Material' | translate }}</dt>
+          <dd>
+            <a>{{ product.material | translate }}</a>
+          </dd>
+        </div>
+        <div class="col-md-3">
+          <dt>{{ 'Replacemente Period' | translate }}</dt>
+          <p>{{ product.replacementPeriod | translate }}</p>
+        </div>
+        <div class="col-md-2">
+          <dt>{{ 'Warranty' | translate }}</dt>
+         <!-- <p>{{ product.warranty }} {{ 'days' | translate }}</p> -->
+        </div>
+      </div>
+
+      <!-- row (pacient, client, shipping address) -->
+      <div class="row product-info">
+        <!-- patient -->
+        <div class="col-lg-3">
+          <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
+          <div class="row info-content">
+            <input class="form-control" type="text" placeholder="{{ 'Enter name patient' | translate }}" [(ngModel)]="product.patient"
+              required>
+          </div>
+        </div>
+
+        <!-- client -->
+        <div class="col-lg-3">
+          <dt class="title">{{ 'Customer Full Name' | translate }}</dt>
+          <div class="row info-content" [hidden]="user.role.idRole !== 3">
+            <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}" [(ngModel)]="product.client"
+              disabled required>
+          </div>
+          <div class="row info-content" [hidden]="user.role.idRole === 3">
+            <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
+              [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Select value' | translate }}"
+              required>
+            </ng-select>
+          </div>
+        </div>
+        <!--shipping address-->
+        <div class="col-lg-4">
+          <span class="title">{{ 'Shipping Address' | translate }}</span>
+          <div class="row info-content">
+            <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
+              readonly>
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <h5 class="padding-price" [hidden]="product.priceSale === ''">
+            <span>{{ product.priceSale | currency : "USD $" }}</span>
+          </h5>
+        </div>
+      </div>
+
+      <div class="row product-info">
+        <div class="col-md-12 title">
+          <label> {{ 'Please specific your product' | translate }}</label>
+        </div>
+      </div>
+
+      <!-- row (parameters) -->
+      <div class="row header-params">
+        <!-- row (parameters right) -->
+        <div class="col-lg-12 custom-control custom-checkbox">
+          <!--header-->
+          <input id="right" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('right')" [checked]="product.eyeRight"
+            class="custom-control-input">
+          <label class="custom-control-label" for="right">{{ 'Right Eye' | translate }}</label>
+          <!--row header right (contamac / hydrapeg / insertors)-->
+          <br>
+          <br>
+          <div class="row title">{{ 'Test Set' | translate }}</div>
+          <br>
+          <div class="row">
+            <div class="col-lg-3" *ngFor="let itemSet of product.setRight">
+              <div class="row">
+                <label class="form-check-label">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;
+              </div>
+              <div class="row">
+                <div class="select-values col-sm-12" *ngIf="itemSet.type === 'selected'">
+                  <ng-select (change)="changeSelect('right', itemSet, $event,0)" [items]="itemSet.values" [disabled]="!product.eyeRight"
+                    [(ngModel)]="itemSet.sel" bindLabel="value" bindValue="id" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeRight"
+                    [clearable]="false">
+                  </ng-select>
+                </div>
+                 <div *ngIf="itemSet.type === 'input'" class="select-values param-power col-sm-12">
+                  <input class="form-control" type="text" placeholder="{{ itemSet.placeholder | translate }}"
+                    [required]="product.eyeRight" [(ngModel)]="itemSet.selected"
+                    [disabled]=true>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row title">{{ 'Parameters' | translate }}</div>
+          <br>
+          <!--params right-->
+          <div class="row">
+            <!--quantity right-->
+            <div class="col-lg-3">
+              <div class="row">
+                <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+              </div>
+              <div class="row">
+                <div class="select-values col-sm-12">
+                  <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
+                     [required]="product.eyeRight"  [disabled]="!product.eyeRight" min="1">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3" *ngFor="let parameter of product.parametersRight">
+              <div>
+                <!--param name-->
+                <div class="row label">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                </div>
+                <!--param values-->
+                <div class="row">
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('right', parameter, $event,0)" [items]="parameter.values"
+                      [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      {{item}}
+                    </ng-select>
+                  </div>
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Addition'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('right', parameter, $event,0)" [items]="parameter.values"
+                      [disabled]="!addRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      {{item}}
+                    </ng-select>
+                  </div>
+                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Center'" class="select-values col-sm-12">
+                    <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
+                      [required]="product.eyeRight" [(ngModel)]="parameter.selected"
+                      [disabled]="!product.eyeRight">
+                  </div>
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Center'" class="select-values col-sm-12">
+                    <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
+                      [required]="product.eyeRight" [(ngModel)]="parameter.selected"
+                      [disabled]=true>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="col-lg-3" *ngIf="addRight">
+              <div class="row">
+                  <label class="form-check-label">{{ 'Pupillary diameter' | translate }}</label>
+              </div>
+              <div class="row">
+                <div class="select-values col-sm-12">
+                  <input class="form-control" type="number" value="1" [(ngModel)]="product.pupillaryRight" oninput="validity.valid||(value='');"
+                      [required]="product.eyeRight">
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
+
+        <!-- row (parameters left) -->
+        <div class="col-lg-12 custom-control custom-checkbox">
+          <!--header-->
+          <input id="left" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('left')" [checked]="product.eyeLeft"
+            class="custom-control-input">
+          <label class="custom-control-label" for="left">{{ 'Left Eye' | translate }}</label>
+          <!--row header left (contamac / hydrapeg / insertors)-->
+          <br>
+          <br>
+          <div class="row title">{{ 'Test Set' | translate }}</div>
+          <br>
+          <div class="row">
+            <div class="col-lg-3" *ngFor="let setLeft of product.setLeft">
+              <div class="row">
+                <label class="form-check-label">{{ setLeft.name | translate }}</label>&nbsp;&nbsp;
+              </div>
+              <div class="row">
+                <div class="select-values col-sm-12" *ngIf="setLeft.type === 'selected'">
+                  <ng-select (change)="changeSelect('left', setLeft, $event,0)" [items]="setLeft.values" [disabled]="!product.eyeLeft"
+                    [required]="product.eyeLeft" [(ngModel)]="setLeft.sel" bindLabel="value" bindValue="id" placeholder="{{ 'Select value' | translate }}"
+                    [clearable]="false">
+                  </ng-select>
+                </div>
+                <!--Only Design-->
+                <div *ngIf="setLeft.type === 'input'" class="select-values param-power col-sm-12">
+                  <input class="form-control" type="text" placeholder="{{ setLeft.placeholder | translate }}"
+                    [required]="product.eyeLeft" [(ngModel)]="setLeft.selected"
+                    [disabled]=true>
+                </div>
+              </div>
+            </div>
+          </div>
+           <br>
+          <div class="row title">{{ 'Parameters' | translate }}</div>
+          <br>
+          <!--params left-->
+          <div class="row">
+            <!--quantity left-->
+            <div class="col-lg-3">
+              <div class="row ">
+                <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+              </div>
+              <div class="row">
+                <div class="select-values col-sm-12">
+                  <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityLeft" [required]="product.eyeLeft"
+                    oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" min="1">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3" *ngFor="let parameter of product.parametersLeft">
+              <div>
+                <!--param name-->
+                <div class="row label">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                </div>
+                <!--param values-->
+                <div class="row">
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [items]="parameter.values"
+                      [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
+                      bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      {{item}}
+                    </ng-select>
+                  </div>
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Addition'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [items]="parameter.values"
+                      [disabled]="!addLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      {{item}}
+                    </ng-select>
+                  </div>
+                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Center'" class="select-values col-sm-12">
+                    <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
+                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
+                      [disabled]="!product.eyeLeft">
+                  </div>
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Center'" class="select-values col-sm-12">
+                    <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
+                      [required]="product.eyeRight" [(ngModel)]="parameter.selected"
+                      [disabled]=true>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="col-lg-3" *ngIf="addLeft">
+              <div class="row">
+                  <label class="form-check-label">{{ 'Pupillary diameter' | translate }}</label>
+              </div>
+              <div class="row">
+                <div class="select-values col-sm-12">
+                  <input class="form-control" type="number" value="1" [(ngModel)]="product.pupillaryLeft" oninput="validity.valid||(value='');"
+                      [required]="product.eyeLeft">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--comments-->
+          <br>
+          <div class="row">
+            <div class="comments col-md-12">
+              <div class="row header">
+                <div class="col-md-6">
+                  <div class="title">{{ 'Comments Right Eye' | translate }}</div>
+                  <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsRight"
+                    [disabled]="!product.eyeRight" placeholder="{{ 'Enter right eye observations' | translate }}"></textarea>
+                </div>
+                <div class="col-md-6">
+                  <div class="title">{{ 'Comments Left Eye' | translate }}</div>
+                  <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsLeft"
+                    [disabled]="!product.eyeLeft" placeholder="{{ 'Enter left eye observations' | translate }}"></textarea>
+                </div>
+              </div>
+              <br>
+            </div>
+          </div>
+          <!--files-->
+          <div class="row">
+            <div class="comments col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="">
+                    <dt class="title">{{ 'Documents Right Eye' | translate }}</dt>
+                    <div class="custom-file">
+                      <input #selectedFilesRightEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderRightEye"
+                        [disabled]="!product.eyeRight || uploaderRightEye.queue.length > 4" multiple />
+                      <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                      <div class="invalid-feedback">Example invalid custom file feedback</div>
+                      <div class="message-error-file">
+                        <span translate>{{'Max files size:' | translate}} 25MB</span>
+                        <span> / </span>
+                        <span translate>{{'Maximum files number:' | translate }} 5</span>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="" style="margin-bottom: 40px" *ngIf="uploaderRightEye.queue.length > 0">
+                    <div class="row justify-content-end" *ngIf="uploaderRightEye.queue.length > 1">
+                      <button type="button" class="btn btn-danger btn-s" (click)="uploaderRightEye.clearQueue()" [disabled]="!uploaderRightEye.queue.length">
+                        <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                      </button>
+                    </div>
+                    <br>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th width="50%">{{ 'Name' | translate }}</th>
+                          <th>{{ 'Size' | translate }}</th>
+                          <th>{{ 'Actions' | translate }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of uploaderRightEye.queue">
+                          <td><strong>{{ item?.file?.name }}</strong></td>
+                          <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                          <td nowrap>
+                            <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Right')">
+                              <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="">
+                    <dt class="title">{{ 'Documents Left Eye' | translate }}</dt>
+                    <div class="custom-file">
+                      <input #selectedFilesLeftEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderLeftEye"
+                        [disabled]="!product.eyeLeft || uploaderLeftEye.queue.length > 4" multiple />
+                      <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                      <div class="invalid-feedback">Example invalid custom file feedback</div>
+                      <div class="message-error-file">
+                        <span translate>{{'Max files size:' | translate}} 25MB</span>
+                        <span> / </span>
+                        <span translate>{{'Maximum files number:' | translate }} 5</span>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="" style="margin-bottom: 40px" *ngIf="uploaderLeftEye.queue.length > 0">
+                    <div class="row justify-content-end" *ngIf="uploaderLeftEye.queue.length > 1">
+                      <button type="button" class="btn btn-danger btn-s" (click)="uploaderLeftEye.clearQueue()" [disabled]="!uploaderLeftEye.queue.length">
+                        <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                      </button>
+                    </div>
+                    <br>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th width="50%">{{ 'Name' | translate }}</th>
+                          <th>{{ 'Size' | translate }}</th>
+                          <th>{{ 'Actions' | translate }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of uploaderLeftEye.queue">
+                          <td><strong>{{ item?.file?.name }}</strong></td>
+                          <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                          <td nowrap>
+                            <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Left')">
+                              <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-12 buy-btns">
+          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
+            (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
+            {{ 'Buy Now' | translate }}
+          </button>
+          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
+            [disabled]="!formIsValid()">
+            <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

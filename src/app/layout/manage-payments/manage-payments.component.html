@@ -147,7 +147,13 @@
                     <div>{{'Pending' | translate}}</div>
                   </td>
                   <td *ngIf="invoice.status === 1" class="table-tr" class="inactive">
-                    <div>{{'Sent' | translate }}</div>
+                    <div>{{'Part Paid' | translate }}</div>
+                  </td>
+                  <td *ngIf="invoice.status === 2" class="table-tr" class="inactive">
+                    <div>{{'Paid' | translate }}</div>
+                  </td>
+                  <td *ngIf="invoice.status === 3" class="table-tr" class="inactive">
+                    <div>{{'Overdue' | translate }}</div>
                   </td>
                   <td class="table-tr td-table">{{invoice.number}}</td>
                   <td class="table-tr td-table">{{invoice.date  | date:'yyyy-MM-dd'}}</td>

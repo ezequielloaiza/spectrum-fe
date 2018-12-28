@@ -77,6 +77,10 @@ import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euc
 import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
 import { ChangeStatusComponent } from './manage-payments/payments-made/modals/change-status/change-status.component';
 import { EuropaComponent } from './edit-order/europa/europa.component';
+import { DetailSalineFluoComponent } from './basket/modals/detail-product/detail-saline-fluo/detail-saline-fluo.component';
+import { SalineFluoComponent } from './edit-order/saline-fluo/saline-fluo.component';
+import { DetailLenticonComponent } from './basket/modals/detail-product/detail-lenticon/detail-lenticon.component';
+import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
 
 @NgModule({
     imports: [
@@ -162,7 +166,11 @@ import { EuropaComponent } from './edit-order/europa/europa.component';
         DetailEuclidComponent,
         DetailEuropaComponent,
         EuropaComponent,
-        ChangeStatusComponent
+        ChangeStatusComponent,
+        DetailSalineFluoComponent,
+        SalineFluoComponent,
+        DetailLenticonComponent,
+        LenticonComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -194,7 +202,11 @@ import { EuropaComponent } from './edit-order/europa/europa.component';
       DetailEuclidComponent,
       DetailEuropaComponent,
       EuropaComponent,
-      ChangeStatusComponent
+      ChangeStatusComponent,
+      DetailSalineFluoComponent,
+      SalineFluoComponent,
+      DetailLenticonComponent,
+      LenticonComponent
     ],
     providers: [
       BusinessTypeService,
