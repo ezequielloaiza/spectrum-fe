@@ -40,7 +40,6 @@ export class EditProductComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    console.log('product:', this.product);
   }
 
   formatter = (x: { description: string }) => x.description;
