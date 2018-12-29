@@ -175,6 +175,7 @@ export class ProductsListInternalComponent implements OnInit {
         } else {
            this.productsAux = this.products;
         }
+        this.products = _.orderBy( this.products, ['idProduct'], ['asc']);
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
