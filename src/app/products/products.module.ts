@@ -35,6 +35,7 @@ import { ProductViewSpectrumSalineComponent } from './product-view-spectrum-sali
 import { ConfirmationSpectrumSalineComponent } from './modals/confirmation-buy/confirmation-spectrum-saline/confirmation-spectrum-saline.component';
 import { ProductViewLenticonComponent } from './product-view-lenticon/product-view-lenticon.component';
 import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirmation-lenticon/confirmation-lenticon.component';
+import { EditProductSpectrumSalineComponent } from './modals/edit-product/edit-product-spectrum-saline/edit-product-spectrum-saline.component';
 
 @NgModule({
   imports: [
@@ -74,7 +75,8 @@ import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirm
     ProductViewSpectrumSalineComponent,
     ConfirmationSpectrumSalineComponent,
     ProductViewLenticonComponent,
-    ConfirmationLenticonComponent
+    ConfirmationLenticonComponent,
+    EditProductSpectrumSalineComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
@@ -88,7 +90,8 @@ import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirm
                     EditProductEuclidComponent,
                     EditProductEuropaComponent,
                     ConfirmationSpectrumSalineComponent,
-                    ConfirmationLenticonComponent
+                    ConfirmationLenticonComponent,
+                    EditProductSpectrumSalineComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })

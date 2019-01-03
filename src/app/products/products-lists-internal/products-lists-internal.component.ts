@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EditProductMagicLookComponent } from '../modals/edit-product/edit-product-magic-look/edit-product-magic-look.component';
 import { EditProductEuclidComponent } from '../modals/edit-product/edit-product-euclid/edit-product-euclid.component';
 import { EditProductEuropaComponent } from '../modals/edit-product/edit-product-europa/edit-product-europa.component';
+import { EditProductSpectrumSalineComponent } from '../modals/edit-product/edit-product-spectrum-saline/edit-product-spectrum-saline.component';
 
 @Component({
   selector: 'app-products-lists-internal',
@@ -174,6 +175,7 @@ export class ProductsListInternalComponent implements OnInit {
         } else {
            this.productsAux = this.products;
         }
+        this.products = _.orderBy( this.products, ['idProduct'], ['asc']);
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -263,7 +265,6 @@ export class ProductsListInternalComponent implements OnInit {
       case 1: // Markennovy
       case 3: // Lenticon
       case 6: // Blue Light
-      case 7: // Fluo Strips
             const modalRefGeneral = this.modalService.open(EditProductComponent, {
               size: 'lg',
               windowClass: 'modal-content-border'
@@ -318,6 +319,35 @@ export class ProductsListInternalComponent implements OnInit {
               },
               (reason) => {}
             );
+            break;
+      case 7: // Fluo Strips
+            if (product.father === 'Fluo Strips') {
+              const modalRefGeneralFluo = this.modalService.open(EditProductComponent, {
+                size: 'lg',
+                windowClass: 'modal-content-border'
+              });
+              modalRefGeneralFluo.componentInstance.product = product;
+              modalRefGeneralFluo.componentInstance.action = action;
+              modalRefGeneralFluo.result.then(
+                (result) => {
+                  this.getProducts();
+                },
+                (reason) => {}
+              );
+            } else { // spectrum saline
+              const modalRefSpectrum = this.modalService.open(EditProductSpectrumSalineComponent, {
+                size: 'lg',
+                windowClass: 'modal-content-border'
+              });
+              modalRefSpectrum.componentInstance.product = product;
+              modalRefSpectrum.componentInstance.action = action;
+              modalRefSpectrum.result.then(
+                (result) => {
+                  this.getProducts();
+                },
+                (reason) => {}
+              );
+            }
             break;
     }
   }
