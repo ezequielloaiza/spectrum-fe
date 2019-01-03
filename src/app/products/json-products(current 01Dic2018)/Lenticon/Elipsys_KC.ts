@@ -8,7 +8,7 @@ this.products = [
     "material": "Silicone fluor-acrylate (optimum extra)",
     "descriptionShort": "My description short by Elipsys_KC",
     "description": "",
-    "replacementPeriod": "3-Monthly",
+    "replacementPeriod": "Yearly",
     "url": "http://spctinternational.com/contacts/",
     "stock": 10,
     "types": [
