@@ -114,7 +114,7 @@ export class AddPaymentModalComponent implements OnInit {
       notes: [this.action !== 'new' ? this.invoicePayment.description : '', [Validators.required]],
       bank: [this.action !== 'new' ? this.invoicePayment.bank : '', [Validators.required]],
       status: [this.action !== 'new' ? this.invoicePayment.status : 0, []],
-      amount: [this.action !== 'new' ? this.invoicePayment.amount : '', [Validators.required]],
+      amount: [this.action !== 'new' ? (this.action === 'bulk' ? this.maxAmountInvoice : this.invoicePayment.amount) : '', [Validators.required]],
     });
   }
 
@@ -143,6 +143,9 @@ export class AddPaymentModalComponent implements OnInit {
           maxAmount += invoice.total;
         });
         this.maxAmountInvoice = maxAmount;
+        if (this.action === 'bulk') {
+          this.form.get('amount').setValue(this.maxAmountInvoice);
+        }
       }
     }, error => {
       console.log('error', error);
@@ -152,7 +155,7 @@ export class AddPaymentModalComponent implements OnInit {
   filterMaxAmount(ev: any) {
     if (this.action === 'bulk') {
       const val = ev.target.value;
-      if (val < this.maxAmountInvoice) {
+      if (val != this.maxAmountInvoice) {
         this.amountValid = false;
       } else {
         this.amountValid = true;

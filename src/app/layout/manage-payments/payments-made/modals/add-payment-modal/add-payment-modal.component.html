@@ -113,7 +113,7 @@
           </fieldset>
           <div class="message-error" [hidden]="(amount.valid || amount.pristine) && amountValid">
             <span *ngIf="action !== 'bulk'">{{'Amount is required' | translate }}</span>
-            <span *ngIf="action === 'bulk'">{{'Amount must be greater than total of invoices' | translate }}</span>
+            <span *ngIf="action === 'bulk'">{{'Amount must be equal than total of invoices' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">

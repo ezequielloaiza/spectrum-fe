@@ -1007,7 +1007,7 @@
     "Documents Right Eye (Topography, Tangential Map, etc.)": "Documentos Ojo Derecho (Topografía, Mapa Tangencial, etc.)",
     "Enter order or client": "Ingrese orden o cliente",
     "Bulk Payments": "Pagos Masivos",
-    "Amount must be greater than total of invoices": "La cantidad debe ser mayor que el total de las facturas",
+    "Amount must be equal than total of invoices": "La cantidad debe ser mayor que el total de las facturas",
     "Invoices": "Facturas",
     "Strips":"Tiras",
     "Best solution to help detect degenerated Cells, dead cells, and mucous fibrils.": "La mejor solución para ayudar a detectar células degeneradas, células muertas y fibrillas mucosas.",

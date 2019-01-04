@@ -94,7 +94,6 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
 
   getListInvoices(): void {
     this.spinner.show();
-    console.log('this.statusRoute', this.statusRoute);
     const status: Array<any> = new Array;
     if (this.statusRoute == 0) {
       status.push(0);
