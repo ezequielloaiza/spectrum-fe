@@ -101,25 +101,25 @@ export class ProductsListInternalComponent implements OnInit {
 
     if (productsSaphirRx.length) {
       this.productsMarkennovy.push({name:"Saphir Rx",
-                                    mainImg:"assets/images/products/markennovy/saphirRx.jpg",
+                                    mainImg:"assets/images/products/markennovy/saphirRx.png",
                                     replacementPeriod:"Monthly",
                                     father: "Saphir Rx"});
     }
     if (productsGentle80.length) {
       this.productsMarkennovy.push({name:"Gentle 80",
-                                    mainImg:"assets/images/products/markennovy/Mark’ennovy-Gentle-80.jpg",
+                                    mainImg:"assets/images/products/markennovy/Mark’ennovy-Gentle-80.png",
                                     replacementPeriod:"Monthly",
                                     father: "Gentle 80"});
     }
     if (productsGentle59.length) {
       this.productsMarkennovy.push({name:"Gentle 59",
-                                    mainImg:"assets/images/products/markennovy/gentle_59_hi_ret_2.jpg",
+                                    mainImg:"assets/images/products/markennovy/gentle_59_hi_ret_2.png",
                                     replacementPeriod:"Monthly",
                                     father: "Gentle 59"});
     }
     if (productsBluGen.length) {
       this.productsMarkennovy.push({name:"Blu:gen",
-                                    mainImg:"assets/images/products/markennovy/lentillas-blu_gen-287706.jpg",
+                                    mainImg:"assets/images/products/markennovy/blu-gen.ppg",
                                     replacementPeriod:"Monthly",
                                     father: "Blu:gen"});
     }
@@ -131,25 +131,25 @@ export class ProductsListInternalComponent implements OnInit {
     }
     if (productsXtensa.length) {
       this.productsMarkennovy.push({name:"Xtensa",
-                                    mainImg:"assets/images/products/markennovy/Saphir-Rx-For-Print-11.jpg",
+                                    mainImg:"assets/images/products/markennovy/xtensa.png",
                                     replacementPeriod:"Monthly",
                                     father: "Xtensa"});
     }
     if (productsSaphir.length) {
       this.productsMarkennovy.push({name:"Saphir",
-                                    mainImg:"assets/images/products/markennovy/saphir_3mok.jpg",
+                                    mainImg:"assets/images/products/markennovy/saphir.png",
                                     replacementPeriod:"3-Monthly",
                                     father: "Saphir"});
     }
     if (productsQuattroX3.length) {
       this.productsMarkennovy.push({name:"Quattro 3-Monthly",
-                                    mainImg:"assets/images/products/markennovy/quattro.jpg",
+                                    mainImg:"assets/images/products/markennovy/quattro.png",
                                     replacementPeriod:"3-Monthly",
                                     father: "Quattro 3-Monthly"});
     }
     if (productsQuattroX1.length) {
       this.productsMarkennovy.push({name:"Quattro x1Conv",
-                                    mainImg:"assets/images/products/markennovy/quattro.jpg",
+                                    mainImg:"assets/images/products/markennovy/quattro-conventional.png",
                                     replacementPeriod:"Conventional",
                                     father: "Quattro Conventional"});
     }
