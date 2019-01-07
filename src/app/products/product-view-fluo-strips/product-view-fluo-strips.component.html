@@ -98,8 +98,8 @@
               <label class="form-check-label">{{ 'Quantity' | translate }}</label>
           </div>
           <div class="col-lg-6">
-              <input class="form-control" type="number" step="25" min="25" [ngClass]="{'error-quantity':  product.quantity && product.quantity%25 !== 0 }"
-              [(ngModel)]="product.quantity" (change)="product.quantity%25 !== 0 ? product.quantity = '' : '';change(product.quantity)" required>
+              <input class="form-control" type="number" step="25" min="25" max="1000" [ngClass]="{'error-quantity':  product.quantity && (product.quantity%25 !== 0 || product.quantity > 1000) }"
+              [(ngModel)]="product.quantity" (change)="product.quantity%25 !== 0 || product.quantity > 1000? product.quantity = '' : '';change(product.quantity)" required>
           </div>
           <div class="col-lg-6" *ngIf="strips > 0">
               <label class="form-check-label strips">({{ strips }} {{ 'Strips' | translate }})</label>

@@ -103,7 +103,8 @@
               <label class="form-check-label">{{ 'Quantity' | translate }}</label>
           </div>
           <div class="col-lg-6">
-            <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantity" oninput="validity.valid||(value='');" (change)="setPriceBoxes(product.quantity)">
+            <input class="form-control" type="number" step=1 min="250" max="2000" [(ngModel)]="product.quantity"  [ngClass]="{'error-quantity':  product.quantity && (product.quantity < 250 || product.quantity > 2000) }"
+            (change)="product.quantity < 250 || product.quantity > 2000 ? product.quantity = '' : '';setPriceBoxes(product.quantity)" required>
           </div>
         </div>
       </div>
