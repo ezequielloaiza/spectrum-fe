@@ -38,6 +38,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   status: any;
   auxStatus: any;
   navigationSubscription;
+  valid = false;
+  listAux = [];
+  selectedAll: any;
 
   constructor(private orderService: OrderService,
     private userService: UserStorageService,
@@ -67,6 +70,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.valorProduct = '';
     this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
+    this.listAux = [];
   }
 
   ngOnDestroy() {
@@ -287,7 +291,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         && _.toString(this.valorClient) === '') {// si selecciono status y no fecha ni cliente
         this.filterStatusProducto(product, valorStatus);
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
-        && _.toString(this.valorClient) !== '') {// si selecciono status y cliente y no fecha 
+        && _.toString(this.valorClient) !== '') {// si selecciono status y cliente y no fecha
         this.filterStatusClienteProducto(this.valorClient, product, valorStatus);
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
         && _.toString(this.valorClient) === '') { // si no selecciono status ni cliente y fecha si
@@ -561,6 +565,57 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           });
         });
     });
+  }
+
+  onSelection(id, checked) {
+    let existe: boolean;
+    existe = _.includes(this.listAux,  id);
+    console.log('existe', existe);
+    if (existe) {
+      if (!checked) {
+        _.remove(this.listAux,  function (n)  {
+          return  n  ===  id;
+        });
+      }
+    } else {
+      this.listAux = _.concat(this.listAux, id);
+    }
+    this.selectedAll = false;
+    this.listAux.length > 1 ? this.valid = true : this.valid = false;
+    this.listAux.length === this.listOrders.length ? this.selectedAll = true : this.selectedAll = false;
+  }
+
+  onSelectionAll(event) {
+    let arrayAux = this.listAux;
+    const check = event.target.checked;
+    _.each(this.listOrders, function(item) {
+      item.checked = check;
+      let existe: boolean;
+      const id = item.idOrder;
+      existe = _.includes(arrayAux, id);
+      if (existe) {
+        if (!check) {
+          _.remove(arrayAux,  function (n)  {
+            return n === id;
+          });
+        }
+      } else {
+        arrayAux = _.concat(arrayAux, id);
+      }
+    });
+    this.selectedAll = check;
+    this.listAux = arrayAux;
+    this.listAux.length > 1 ? this.valid = true : this.valid = false;
+
+  }
+
+  billCustomers() {
+
+  }
+
+
+  billProviders() {
+
   }
 }
 
