@@ -119,7 +119,7 @@ export class ProductsListInternalComponent implements OnInit {
     }
     if (productsBluGen.length) {
       this.productsMarkennovy.push({name:"Blu:gen",
-                                    mainImg:"assets/images/products/markennovy/blu-gen.ppg",
+                                    mainImg:"assets/images/products/markennovy/blu-gen.png",
                                     replacementPeriod:"Monthly",
                                     father: "Blu:gen"});
     }
