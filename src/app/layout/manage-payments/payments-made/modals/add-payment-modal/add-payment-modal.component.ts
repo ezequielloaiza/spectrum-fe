@@ -145,6 +145,7 @@ export class AddPaymentModalComponent implements OnInit {
         this.maxAmountInvoice = maxAmount;
         if (this.action === 'bulk') {
           this.form.get('amount').setValue(this.maxAmountInvoice);
+          this.form.get('amount').disable();
         }
       }
     }, error => {
