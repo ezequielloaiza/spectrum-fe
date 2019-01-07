@@ -21,6 +21,7 @@ import { ProductRequested } from '../../shared/models/productrequested';
 import { Product } from '../../shared/models/product';
 import { ConfirmationLenticonComponent } from '../modals/confirmation-buy/confirmation-lenticon/confirmation-lenticon.component';
 import { environment } from '../../../environments/environment';
+import { saveAs } from 'file-saver';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -597,5 +598,21 @@ export class ProductViewLenticonComponent implements OnInit {
       fileProductRequest.createdAt = new Date();
       this.listFileLeftEye.push(fileProductRequest);
     }
+  }
+
+  download() {
+   const language = this.userStorageService.getLanguage();
+   let name;
+   if (language === 'en') {
+     name = 'Elipsys-en';
+   } else {
+     name = 'Elipsys-es';
+   }
+    this.productService.download$(name).subscribe(res => {
+      const filename = name + '.pdf';
+      saveAs(res, filename);
+    }, error => {
+      console.log('error', error);
+    });
   }
 }

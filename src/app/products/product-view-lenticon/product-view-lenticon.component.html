@@ -56,6 +56,12 @@
           <dt>{{ 'Warranty' | translate }}</dt>
           <p>{{ product.warranty }} {{ 'days' | translate }}</p>
         </div>
+        <div class="col-md-2">
+          <dt>{{ 'Product Sheet' | translate }}</dt>
+          <dd>
+            <a (click)="download()" href="javascript:void(0);">{{ 'Download' | translate }}</a>
+          </dd>
+        </div>
       </div>
 
       <!-- row (pacient, client, shipping address) -->
