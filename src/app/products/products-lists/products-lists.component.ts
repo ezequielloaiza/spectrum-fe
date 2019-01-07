@@ -118,16 +118,16 @@ export class ProductsListsComponent implements OnInit {
     _.each(this.listSupplier, function(supplier){
       switch (supplier.idSupplier) {
         case 1: // Markennoy
-          supplier.image = 'assets/images/suppliers/markennovy.jpg';
+          supplier.image = 'assets/images/suppliers/markennovy.png';
           break
         case 2: // Europa
-          supplier.image = 'assets/images/suppliers/europa.jpg';
+          supplier.image = 'assets/images/suppliers/europa.png';
           break
         case 3: // Lenticon
-          supplier.image = 'assets/images/suppliers/lenticon.jpg';
+          supplier.image = 'assets/images/suppliers/lenticon.png';
           break
         case 4: // Euclid
-          supplier.image = 'assets/images/suppliers/euclid.jpg';
+          supplier.image = 'assets/images/suppliers/euclid.png';
           break
         case 5: // Magic Look
           supplier.image = 'assets/images/suppliers/magiclook.png';
