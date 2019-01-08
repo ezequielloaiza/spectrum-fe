@@ -102,7 +102,6 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
       status.push(1);
       status.push(2);
     }
-    console.log('status', status);
     this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
@@ -398,45 +397,71 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   }
 
   onSelection(id, checked) {
-    var existe: boolean;
-    existe = _.includes(this.listAux,  id);
-    console.log('existe', existe);
-    if (existe) {
-      if (!checked) {
-        _.remove(this.listAux,  function (n)  {
-          return  n  ==  id;
-        });
+    let arrayAux = this.listAux;
+    let due = false;
+    _.each(this.listInvoices, function(item) {
+      if (item.idInvoice === id) {
+        let existe: boolean;
+        existe = _.includes(arrayAux, id);
+        item.checked = checked;
+        if (item.due !== 0) {
+          if (existe) {
+            if (!checked) {
+              _.remove(arrayAux,  function (n)  {
+                return n === id;
+              });
+            }
+          } else {
+            arrayAux = _.concat(arrayAux, id);
+          }
+        } else {
+          item.checked = false;
+          checked ? due = true : due = false;
+        }
       }
-    } else {
-      this.listAux = _.concat(this.listAux, id);
+    });
+    if (due) {
+      this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
+        this.notification.success('', res1);
+      });
     }
     this.selectedAll = false;
-    console.log('onSelection', this.listAux.length);
+    this.listAux = arrayAux;
     this.listAux.length > 1 ? this.valid = true : this.valid = false;
-    this.listAux.length === this.listInvoices.length ? this.selectedAll = true : this.selectedAll = false;
+    this.listAux.length === this.listInvoices.length ? this.selectedAll = true : this.selectedAll = false; 
   }
 
   onSelectionAll(event) {
     let arrayAux = this.listAux;
     const check = event.target.checked;
+    let due = false;
     _.each(this.listInvoices, function(item) {
       item.checked = check;
       let existe: boolean;
       const id = item.idInvoice;
       existe = _.includes(arrayAux, id);
-      if (existe) {
-        if (!check) {
-          _.remove(arrayAux,  function (n)  {
-            return n === id;
-          });
+      if (item.due !== 0) {
+        if (existe) {
+          if (!check) {
+            _.remove(arrayAux,  function (n)  {
+              return n === id;
+            });
+          }
+        } else {
+          arrayAux = _.concat(arrayAux, id);
         }
       } else {
-        arrayAux = _.concat(arrayAux, id);
+        check ? due = true : due = false;
+        item.checked = false;
       }
     });
+    if (due) {
+      this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
+        this.notification.success('', res1);
+      });
+    }
     this.selectedAll = check;
     this.listAux = arrayAux;
-    console.log('onSelectionAll', this.listAux.length);
     this.listAux.length > 1 ? this.valid = true : this.valid = false;
   }
 

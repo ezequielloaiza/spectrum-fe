@@ -914,7 +914,7 @@
     "Thickness": "Espesor",
     "1 Step (100 microns)": "Paso 1 (100 micrones)",
     "2 Step (200 microns)": "Paso 2 (200 micrones)",
-    "Pending Payments": "Pagos Pendientes",
+    "Pending Payments to Check": "Pagos Pendientes por Verificar",
     "Overdue Customers": "Clientes Atrasados",
     "Orders": "Órdenes",
     "Total orders in period": "Órdenes totales en el período",
@@ -1038,5 +1038,6 @@
     "Up to 999 boxes":"Hasta 999 cajas",
     "Up to 499 boxes":"Hasta 499 cajas",
     "Bill customers":"Facturar a clientes",
-    "Bill providers":"Facturar a proveedores"
+    "Bill providers":"Facturar a proveedores",
+    "Invoice already been paid":"Factura ya pagada"
 }

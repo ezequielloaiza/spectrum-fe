@@ -118,16 +118,22 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   openModal(invoice, action, payment): void {
-    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
-    modalRef.componentInstance.invoice = invoice;
-    modalRef.componentInstance.action = action;
-    modalRef.componentInstance.idsInvoiceClient = [invoice.idInvoice];
-    modalRef.componentInstance.invoicePayment = payment;
-    modalRef.result.then((result) => {
-      const id = this.route.snapshot.paramMap.get('idInvoice');
-      this.ngOnInit();
-    }, (reason) => {
-    });
+    if (invoice.due != 0) {
+      const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
+      modalRef.componentInstance.invoice = invoice;
+      modalRef.componentInstance.action = action;
+      modalRef.componentInstance.idsInvoiceClient = [invoice.idInvoice];
+      modalRef.componentInstance.invoicePayment = payment;
+      modalRef.result.then((result) => {
+        const id = this.route.snapshot.paramMap.get('idInvoice');
+        this.ngOnInit();
+      }, (reason) => {
+      });
+    } else {
+      this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
+        this.notification.success('', res1);
+      });
+    }
   }
 
   changeStatus(payment) {
