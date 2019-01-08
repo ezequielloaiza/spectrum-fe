@@ -107,7 +107,8 @@
                   <span class="input-group-text">$</span>
                 </div>
                 <input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}"
-                  name="amount" formControlName="amount" (keyup)="filterMaxAmount($event)" (input)="filterMaxAmount($event)" required>
+                  name="amount" formControlName="amount" (keyup)="filterMaxAmount($event)" (input)="filterMaxAmount($event)" 
+                  ng-disabled="action == 'bulk'" required>
               </div>
             </div>
           </fieldset>
