@@ -1,6 +1,7 @@
 import { Address } from './address';
 import { User } from './user';
 import { InvoiceClientProductRequested } from './invoiceclientproductrequested';
+import { Order } from './order';
 export class InvoiceClient {
 
     public idOrder: number;
@@ -21,6 +22,7 @@ export class InvoiceClient {
     public client: User;
     public idClient: number;
     public listProductRequested: Array<InvoiceClientProductRequested>;
+    public listOrders: Array<Number>;
 
     public constructor() { }
 
