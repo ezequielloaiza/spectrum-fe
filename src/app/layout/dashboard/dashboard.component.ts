@@ -368,7 +368,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getPendingPayments(): void {
-    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, 0).subscribe(
+    this.invoiceService.allInvoiceByStatusInByRole$(this.user.userResponse.idUser, 0).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           const today = new Date().toISOString();
