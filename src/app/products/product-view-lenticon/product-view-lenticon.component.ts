@@ -601,13 +601,9 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   download() {
-   const language = this.userStorageService.getLanguage();
-   let name;
-   if (language === 'en') {
-     name = 'Elipsys-en';
-   } else {
-     name = 'Elipsys-es';
-   }
+    const language = this.userStorageService.getLanguage();
+    let name;
+    language === 'en' ? name = 'Elipsys-en' : name = 'Elipsys-es';
     this.productService.download$(name).subscribe(res => {
       const filename = name + '.pdf';
       saveAs(res, filename);
