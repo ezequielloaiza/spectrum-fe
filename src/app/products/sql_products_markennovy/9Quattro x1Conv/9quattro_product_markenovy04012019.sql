@@ -118,7 +118,7 @@ INSERT INTO tb_product (id, supplier_id, category_id, name, price_base, price1, 
 
 INSERT INTO tb_product_image (id, product_id, url, type) VALUES (117, 117, 'assets/images/products/markennovy/quattro-conventional.png', TRUE);
 
-INSERT INTO tb_product (id, supplier_id, category_id, name, price_base, price1, price2, price3, material, description_short, replacement_period, url, code, father, status, info_aditional, types) VALUES (118, 1, 1, 'Saphir Sph Single Conventional', 25, 25, 18, 18, 'Hidrogel, Filcon I 1 49% H2O', 'My description short by quattro conventional', 'Conventional', 'http://spctinternational.com/wp-content/uploads/2017/11/QUATTRO.pdf', 'SSE', 'Quattro Conventional', 1, '[
+INSERT INTO tb_product (id, supplier_id, category_id, name, price_base, price1, price2, price3, material, description_short, replacement_period, url, code, father, status, info_aditional, types) VALUES (118, 1, 1, 'Quattro Toric Std (14.50) x1 Conv', 25, 25, 18, 18, 'Hidrogel, Filcon I 1 49% H2O', 'My description short by quattro conventional', 'Conventional', 'http://spctinternational.com/wp-content/uploads/2017/11/QUATTRO.pdf', 'R8E', 'Quattro Conventional', 1, '[
       {
         "name": "Properties",
         "values": [
@@ -131,7 +131,8 @@ INSERT INTO tb_product (id, supplier_id, category_id, name, price_base, price1, 
           { "title": "RX DESIGN", "image": ""},
           { "title": "UV Blocking", "image": "assets/images/properties/uv-blocking.png"}
         ]
-      }', '[
+      }
+    ]', '[
       {
         "name": "Toric",
         "parameters": [
