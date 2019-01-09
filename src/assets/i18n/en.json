@@ -860,5 +860,6 @@
     "Greater than 1000 boxes":"Greater than 1000 boxes",
     "Up to 999 boxes":"Up to 999 boxes",
     "Up to 499 boxes":"Up to 499 boxes",
-    "Invoice already been paid":"Invoice already been paid"
+    "Invoice already been paid":"Invoice already been paid",
+    "It can not edit a multiple payment":"It can not edit a multiple payment"
 }

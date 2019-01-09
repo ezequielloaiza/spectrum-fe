@@ -1037,5 +1037,6 @@
     "Greater than 1000 boxes":"Más de 1000 cajas",
     "Up to 999 boxes":"Hasta 999 cajas",
     "Up to 499 boxes":"Hasta 499 cajas",
-    "Invoice already been paid":"Factura ya pagada"
+    "Invoice already been paid":"Factura ya pagada",
+    "It can not edit a multiple payment":"No se puede editar un pago múltiple"
 }
