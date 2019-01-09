@@ -36,7 +36,8 @@
             <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
           </div>
           <div class="col-xl-4">
-            <label class="address">{{ pilot ? invoice.user.name : order.nameUser }}</label>
+            <!--<label class="address">{{ pilot ? invoice.user.name : order.nameUser }}</label>-->
+            <label class="address">{{ order.nameUser }}</label>
           </div>
           <div class="col-xl-3">
           </div>
@@ -81,7 +82,8 @@
         </div>
         <div class="row row-height">
           <div class="col-xl-6 address-top">
-            <label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>
+            <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
+            <label class="address-client">{{ order.nameUser }}</label>
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">3522 ASHFORD DUNWOODY ROAD NE</label>

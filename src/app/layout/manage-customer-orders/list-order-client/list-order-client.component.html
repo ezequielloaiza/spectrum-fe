@@ -92,7 +92,19 @@
                       </div>
                     </div>
                     <div>
-                      <span>{{'#'}}{{order.number}}</span>
+                      <span>{{ '#'+order.number}}</span>
+                    </div>
+                    <div>
+                        <span>{{'Customer invoice'| translate }}</span>
+                    </div>
+                    <div>
+                        <span>{{order.invoiceClient? '#'+order.invoiceClient.number : 'Not generated'}}</span>
+                    </div>
+                    <div>
+                        <span>{{'Customer provider'| translate }}</span>
+                    </div>
+                    <div>
+                        <span>{{order.invoiceSupplier? '#'+order.invoiceSupplier.number : 'Not generated'}}</span>
                     </div>
                   </div>
                   <div class="col-lg-2">
@@ -170,7 +182,7 @@
                         <div ngbDropdownMenu class="dropdown-menu-invoice">
                           <button class="dropdown-item" (click)="generateInvoice(order)">
                             {{ 'To Provider' | translate }}</button>
-                          <button class="dropdown-item" (click)="open(order)">
+                          <button class="dropdown-item" (click)="invoiceClient(order)">
                             {{ 'To Customer' | translate }}</button>
                         </div>
                       </div>
