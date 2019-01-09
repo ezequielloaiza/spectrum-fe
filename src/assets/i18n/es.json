@@ -1050,5 +1050,6 @@
     "The following orders already have a generated invoice, you must unmark them.":"Las siguientes ordenes ya tienen factura generada, debe desmarcarlas.",
     "Not generated":"No generada",
     "Customer invoice":"Factura cliente",
-    "Factura proveedor":"Factura proveedor"
-  }
+    "Factura proveedor":"Factura proveedor",
+    "It can not edit a multiple payment":"No se puede editar un pago múltiple"
+}

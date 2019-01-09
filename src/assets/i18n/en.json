@@ -872,5 +872,6 @@
     "The following orders already have a generated invoice, you must unmark them.":"The following orders already have a generated invoice, you must unmark them.",
     "Not generated":"Not generated",
     "Customer invoice":"Customer invoice",
-    "Invoice provider":"Invoice provider"
+    "Invoice provider":"Invoice provider",
+    "It can not edit a multiple payment":"It can not edit a multiple payment"
 }
