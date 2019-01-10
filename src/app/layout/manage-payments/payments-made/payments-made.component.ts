@@ -110,7 +110,7 @@ export class PaymentsMadeComponent implements OnInit {
     if (inv === undefined) {
       const id = this.route.snapshot.paramMap.get('idInvoice');
       this.getInvoice(id);
-      inv = this.auxInvoice.idInvoice;
+      inv = this.auxInvoice;
     }
     const pI = payment.invoiceClientInvoicePaymentList.find(
       x => (x.invoiceClient === inv.idInvoice));
@@ -118,26 +118,45 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   openModal(invoice, action, payment): void {
-    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
-    modalRef.componentInstance.invoice = invoice;
-    modalRef.componentInstance.action = action;
-    modalRef.componentInstance.idsInvoiceClient = [invoice.idInvoice];
-    modalRef.componentInstance.invoicePayment = payment;
-    modalRef.result.then((result) => {
-      const id = this.route.snapshot.paramMap.get('idInvoice');
-      this.ngOnInit();
-    }, (reason) => {
-    });
+    if (invoice.due == 0 && (action != 'new' && action != 'view')) {
+      this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
+        this.notification.success('', res1);
+      });
+    } else {
+      if (payment != null && (payment.invoiceClientInvoicePaymentList.length > 1) && (action == 'edit')) {
+        this.translate.get('It can not edit a multiple payment',
+        { value: 'It can not edit a multiple payment' }).subscribe((res1: string) => {
+          this.notification.success('', res1);
+        });
+      } else {
+        const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
+        modalRef.componentInstance.invoice = invoice;
+        modalRef.componentInstance.action = action;
+        modalRef.componentInstance.idsInvoiceClient = [invoice.idInvoice];
+        modalRef.componentInstance.invoicePayment = payment;
+        modalRef.result.then((result) => {
+          const id = this.route.snapshot.paramMap.get('idInvoice');
+          this.ngOnInit();
+        }, (reason) => {
+        });
+      }
+    }
   }
 
   changeStatus(payment) {
-    const modalRef = this.modalService.open(ChangeStatusComponent);
-    modalRef.componentInstance.payment = payment;
-    modalRef.result.then((result) => {
+    if (this.invoice.due != 0 && payment.status == 0) {
+      const modalRef = this.modalService.open(ChangeStatusComponent);
+      modalRef.componentInstance.payment = payment;
+      modalRef.result.then((result) => {
       const id = this.route.snapshot.paramMap.get('idInvoice');
       this.ngOnInit();
-    }, (reason) => {
-    });
+      }, (reason) => {
+      });
+    } else {
+      this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
+        this.notification.success('', res1);
+      });
+    }
   }
 
   sortInvoice(key) {

@@ -25,20 +25,21 @@
             <!--
                 <span class="label label-success pull-right">Monthly</span>
                 -->
-            <h5>{{ 'Pending Payments' | translate }}</h5>
+            <h5>{{ 'Pending Payments to Check' | translate }}</h5>
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">$5.000,00</h1>
+              <h1 class="no-margins card-text">{{ pendingPayment | currency : "USD $" }}</h1>
               <i class="fa fa-credit-card"></i>
             </div>
             <br>
-            <div class="stat-percent font-bold text-success">98%
-              <i class="fa fa-bolt"></i>
+            <div class="stat-percent text-info">
+              <small>
+                <a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
             </div>
-            <small>
-              <a href="">{{ 'View Details' | translate }}</a>
-            </small>
           </div>
         </div>
       </div>
@@ -87,16 +88,17 @@
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">08</h1>
+              <h1 class="no-margins card-text">{{ overdueCustomers }}</h1>
               <i class="fa fa-users"></i>
             </div>
             <br>
-            <div class="stat-percent font-bold text-navy">44%
-              <i class="fa fa-level-up"></i>
+            <div class="stat-percent text-info">
+              <small>
+                <a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
             </div>
-            <small>
-              <a href="">{{ 'View Details' | translate }}</a>
-            </small>
           </div>
         </div>
       </div>

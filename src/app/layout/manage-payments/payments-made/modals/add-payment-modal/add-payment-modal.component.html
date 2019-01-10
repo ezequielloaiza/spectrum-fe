@@ -16,12 +16,13 @@
           <div *ngIf="action == 'bulk' || action == 'view'" class="col-md-12 card-body title-view">
               {{ 'Invoices' | translate }}
               <br>
-              <div *ngIf="listAux.length > 0" class="row justify-content-md-center">
+              <div *ngIf="listAux.length > 1" class="row justify-content-md-center">
                 <table class="table tb-invoice">
                   <thead>
                     <tr>
                       <th>{{ 'Number' | translate }}</th>
                       <th>{{ 'Date' | translate }}</th>
+                      <th>{{ 'Due' | translate }}</th>
                       <th>{{ 'Amount' | translate }}</th>
                     </tr>
                   </thead>
@@ -31,6 +32,7 @@
                         <strong>{{ invoice?.number }}</strong>
                       </td>
                       <td nowrap>{{ invoice?.date | date:'yyyy-MM-dd' }}</td>
+                      <td nowrap>{{ invoice?.due | currency : "USD $" }}</td>
                       <td nowrap>{{ invoice?.total | currency : "USD $" }}</td>
                     </tr>
                   </tbody>
@@ -107,7 +109,8 @@
                   <span class="input-group-text">$</span>
                 </div>
                 <input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}"
-                  name="amount" formControlName="amount" (keyup)="filterMaxAmount($event)" (input)="filterMaxAmount($event)" required>
+                  name="amount" formControlName="amount" (keyup)="filterMaxAmount($event)" (input)="filterMaxAmount($event)" 
+                  ng-disabled="action == 'bulk'" max="action == bulk ? maxAmountInvoice : invoice.due" required>
               </div>
             </div>
           </fieldset>
