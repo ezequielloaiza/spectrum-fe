@@ -81,6 +81,7 @@ import { DetailSalineFluoComponent } from './basket/modals/detail-product/detail
 import { SalineFluoComponent } from './edit-order/saline-fluo/saline-fluo.component';
 import { DetailLenticonComponent } from './basket/modals/detail-product/detail-lenticon/detail-lenticon.component';
 import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
+import { ModalsInvoiceComponent } from './manage-customer-orders/modals-invoice/modals-invoice.component';
 
 @NgModule({
     imports: [
@@ -170,7 +171,8 @@ import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
         DetailSalineFluoComponent,
         SalineFluoComponent,
         DetailLenticonComponent,
-        LenticonComponent
+        LenticonComponent,
+        ModalsInvoiceComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -206,7 +208,8 @@ import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
       DetailSalineFluoComponent,
       SalineFluoComponent,
       DetailLenticonComponent,
-      LenticonComponent
+      LenticonComponent,
+      ModalsInvoiceComponent
     ],
     providers: [
       BusinessTypeService,
