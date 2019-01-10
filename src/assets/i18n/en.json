@@ -862,5 +862,6 @@
     "Up to 499 boxes":"Up to 499 boxes",
     "Bill customers":"Bill customers",
     "Bill providers":"Bill providers",
-    "Invoice already been paid":"Invoice already been paid"
+    "Invoice already been paid":"Invoice already been paid",
+    "It can not edit a multiple payment":"It can not edit a multiple payment"
 }

@@ -28,7 +28,7 @@ export class AddPaymentModalComponent implements OnInit {
   form: FormGroup;
   listTypes = [{ id: 0, name: 'Transfer' }, { id: 1, name: 'Deposit' }, { id: 2, name: 'Check' }];
   invoicePayment: InvoicePayment = new InvoicePayment();
-  idsInvoiceClient: [any];
+  idsInvoiceClient: Array<any> = new Array;
   listDetails: Array<any> = new Array;
   listAux: Array<any> = new Array;
   invoice: any;
@@ -93,7 +93,15 @@ export class AddPaymentModalComponent implements OnInit {
     }
 
     if (this.idsInvoiceClient == null) {
-      this.idsInvoiceClient = [this.invoice.idInvoice];
+      this.idsInvoiceClient.push(this.invoice.idInvoice);
+    }
+
+    if (this.action == 'view' && this.invoicePayment.invoiceClientInvoicePaymentList.length > 1) {
+      let list = [];
+      _.each(this.invoicePayment.invoiceClientInvoicePaymentList, function(iPIC) {
+        list.push(iPIC.invoiceClient);
+      });
+      this.idsInvoiceClient = list;
     }
 
     console.log(this.invoicePayment);
@@ -140,7 +148,7 @@ export class AddPaymentModalComponent implements OnInit {
         this.listAux = res.data;
         let maxAmount = 0.00;
         _.each(this.listAux, function(invoice) {
-          maxAmount += invoice.total;
+          maxAmount += invoice.due;
         });
         this.maxAmountInvoice = maxAmount;
         if (this.action === 'bulk') {
@@ -256,7 +264,7 @@ export class AddPaymentModalComponent implements OnInit {
       detailsICIP.invoiceClient = idInvoice;
       detailsICIP.invoicePayment = payment.idInvoicePayment;
       if (act === 'bulk') {
-        detailsICIP.partialPayment = listInv.find(x => (x.idInvoice === idInvoice)).total;
+        detailsICIP.partialPayment = listInv.find(x => (x.idInvoice === idInvoice)).due;
       } else {
         detailsICIP.partialPayment = payment.amount;
       }
@@ -268,7 +276,7 @@ export class AddPaymentModalComponent implements OnInit {
   }
 
   loadPaymentEdit() {
-    this.form.get('amount').setValue(this.invoicePayment.amount);
+    // this.form.get('amount').setValue(this.invoicePayment.amount);
     this.form.get('bank').setValue(this.invoicePayment.bank);
     this.form.get('referenceNumber').setValue(this.invoicePayment.referenceNumber);
     this.form.get('typeId').setValue(this.listTypes.find(x => x.id === this.invoicePayment.typePayment).id);
@@ -287,6 +295,8 @@ export class AddPaymentModalComponent implements OnInit {
       obj.tax = detailsICIP.tax;
       list.push(obj);
     });
+    this.form.get('amount').setValue(this.invoicePayment.invoiceClientInvoicePaymentList.find(
+      x => ((x.invoicePayment === this.invoicePayment.idInvoicePayment) && (x.invoiceClient === this.invoice.idInvoice))).partialPayment);
     this.listDetails = JSON.parse(JSON.stringify(list));
   }
 
