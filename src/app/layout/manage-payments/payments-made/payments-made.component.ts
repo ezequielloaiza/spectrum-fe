@@ -118,7 +118,7 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   openModal(invoice, action, payment): void {
-    if (invoice.due == 0 && (action != 'new')) {
+    if (invoice.due == 0 && (action != 'new' && action != 'view')) {
       this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
         this.notification.success('', res1);
       });
@@ -144,13 +144,19 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   changeStatus(payment) {
-    const modalRef = this.modalService.open(ChangeStatusComponent);
-    modalRef.componentInstance.payment = payment;
-    modalRef.result.then((result) => {
+    if (this.invoice.due != 0 && payment.status == 0) {
+      const modalRef = this.modalService.open(ChangeStatusComponent);
+      modalRef.componentInstance.payment = payment;
+      modalRef.result.then((result) => {
       const id = this.route.snapshot.paramMap.get('idInvoice');
       this.ngOnInit();
-    }, (reason) => {
-    });
+      }, (reason) => {
+      });
+    } else {
+      this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
+        this.notification.success('', res1);
+      });
+    }
   }
 
   sortInvoice(key) {

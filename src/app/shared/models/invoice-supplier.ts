@@ -3,12 +3,12 @@ import { InvoiceSupplierProductRequested} from './invoicesupplierproductrequeste
 import { User } from './user';
 export class InvoiceSupplier {
 
-    public idOrder: number;
     public idInvoice: number;
     public nameUser: string;
     public address: Address;
     public idAddress: number;
     public date: Date;
+    public dueDate: Date;
     public dateSend: Date;
     public number: number;
     public subtotal: number;
