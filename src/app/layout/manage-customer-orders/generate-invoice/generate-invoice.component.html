@@ -33,7 +33,7 @@
         <div class="row row-height">
           <div class="col-xl-5">
             <label class="label">{{ 'Invoice Date' | translate }}</label>
-            <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
+            <label class="label-value">{{ (invoice ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
           </div>
           <div class="col-xl-4">
             <label class="address">{{ pilot ? invoice.user.name : order.nameUser }}</label>
@@ -44,7 +44,7 @@
         <div class="row row-height">
           <div class="col-xl-5">
             <label class="label">{{ 'Due Date' | translate }}</label>
-            <label class="label-value">{{today | date:'yyyy-MM-dd'}}</label>
+            <label class="label-value">{{ (invoice ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
           </div>
           <div class="col-xl-4">
             <label class="address">{{order? order.address.name : invoice.address.name}}</label>
