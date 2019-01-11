@@ -165,7 +165,7 @@
                       <a [routerLink]="['/order-list-client']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
                         <h2 class="no-margins">{{ orderPend | number:'2.0-0' }}</h2>
                         <small>{{ 'Pending Orders' | translate }}</small>
-                        <div class="stat-percent">{{porcPend | number:'2.0-0' }}
+                        <div class="stat-percent">{{porcPend | number:'2.0-0' }}%
                           <i class="fa fa-level-up text-navy"></i>
                         </div>
                         <div class="progress progress-mini">
@@ -177,8 +177,7 @@
                       <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
                         <h2 class="no-margins">{{ orderPend | number:'2.0-0' }}</h2>
                         <small>{{ 'Pending Orders' | translate }}</small>
-                        <div class="stat-percent">{{porcPend | number:'2.0-0' }}
-                          <i class="fa fa-level-up text-navy"></i>
+                        <div class="stat-percent">{{porcPend | number:'2.0-0' }}%
                         </div>
                         <div class="progress progress-mini">
                           <div [ngStyle]="{'width': porcPend + '%' }"  class="progress-bar"></div>
@@ -192,7 +191,6 @@
                         <h2 class="no-margins ">{{orderProc | number:'2.0-0'}}</h2>
                         <small>{{ 'Processed Orders' | translate }}</small>
                         <div class="stat-percent">{{porcProc | number : '2.0-0' }}%
-                          <i class="fa fa-level-down text-navy"></i>
                         </div>
                         <div class="progress progress-mini">
                           <div  [ngStyle]="{'width': porcProc + '%' }" class="progress-bar"></div>
@@ -204,7 +202,6 @@
                         <h2 class="no-margins ">{{orderProc | number:'2.0-0'}}</h2>
                         <small>{{ 'Processed Orders' | translate }}</small>
                         <div class="stat-percent">{{porcProc | number : '2.0-0' }}%
-                          <i class="fa fa-level-down text-navy"></i>
                         </div>
                         <div class="progress progress-mini">
                           <div  [ngStyle]="{'width': porcProc + '%' }" class="progress-bar"></div>
@@ -218,7 +215,6 @@
                         <h2 class="no-margins ">{{orderReady | number:'2.0-0'}}</h2>
                         <small>{{ 'Ready to Ship Orders' | translate }}</small>
                         <div class="stat-percent">{{porcReady | number : '2.0-0' }}%
-                          <i class="fa fa-bolt text-navy"></i>
                         </div>
                         <div class="progress progress-mini">
                           <div [ngStyle]="{'width': porcReady + '%' }" class="progress-bar"></div>
@@ -230,7 +226,6 @@
                         <h2 class="no-margins ">{{orderReady | number:'2.0-0'}}</h2>
                         <small>{{ 'Ready to Ship Orders' | translate }}</small>
                         <div class="stat-percent">{{porcReady | number : '2.0-0' }}%
-                          <i class="fa fa-bolt text-navy"></i>
                         </div>
                         <div class="progress progress-mini">
                           <div [ngStyle]="{'width': porcReady + '%' }" class="progress-bar"></div>
@@ -244,7 +239,6 @@
                         <h2 class="no-margins ">{{orderShipped | number:'2.0-0'}}</h2>
                         <small>{{ 'Shipped Orders' | translate }}</small>
                         <div class="stat-percent">{{porcShipped | number : '2.0-0' }}%
-                          <i class="fa fa-bolt text-navy"></i>
                         </div>
                         <div class="progress progress-mini">
                           <div [ngStyle]="{'width': porcShipped + '%' }" class="progress-bar"></div>
@@ -256,7 +250,6 @@
                         <h2 class="no-margins ">{{orderShipped | number:'2.0-0'}}</h2>
                         <small>{{ 'Shipped Orders' | translate }}</small>
                         <div class="stat-percent">{{porcShipped | number : '2.0-0' }}%
-                          <i class="fa fa-bolt text-navy"></i>
                         </div>
                         <div class="progress progress-mini">
                           <div [ngStyle]="{'width': porcShipped + '%' }" class="progress-bar"></div>
