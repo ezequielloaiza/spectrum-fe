@@ -1007,7 +1007,7 @@
     "Documents Right Eye (Topography, Tangential Map, etc.)": "Documentos Ojo Derecho (Topografía, Mapa Tangencial, etc.)",
     "Enter order or client": "Ingrese orden o cliente",
     "Bulk Payments": "Pagos Masivos",
-    "Amount must be equal than total of invoices": "La cantidad debe ser mayor que el total de las facturas",
+    "Amount must be less or equal than total of invoices": "La cantidad debe ser menor o igual que el total de las facturas",
     "Invoices": "Facturas",
     "Strips":"Tiras",
     "Best solution to help detect degenerated Cells, dead cells, and mucous fibrils.": "La mejor solución para ayudar a detectar células degeneradas, células muertas y fibrillas mucosas.",
@@ -1037,6 +1037,9 @@
     "Greater than 1000 boxes":"Más de 1000 cajas",
     "Up to 999 boxes":"Hasta 999 cajas",
     "Up to 499 boxes":"Hasta 499 cajas",
+    "Bill customers":"Facturar a clientes",
+    "Bill providers":"Facturar a proveedores",
     "Invoice already been paid":"Factura ya pagada",
-    "It can not edit a multiple payment":"No se puede editar un pago múltiple"
+    "It can not edit a multiple payment":"No se puede editar un pago múltiple", 
+    "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount": "El monto del pago es mayor que la deuda de la factura. Por favor, verifique el monto del pago."
 }

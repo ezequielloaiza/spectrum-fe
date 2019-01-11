@@ -144,14 +144,23 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   changeStatus(payment) {
-    if (this.invoice.due != 0 && payment.status == 0) {
-      const modalRef = this.modalService.open(ChangeStatusComponent);
-      modalRef.componentInstance.payment = payment;
-      modalRef.result.then((result) => {
-      const id = this.route.snapshot.paramMap.get('idInvoice');
-      this.ngOnInit();
-      }, (reason) => {
-      });
+    if (this.invoice.due != 0 || payment.status == 0) {
+      if ((payment.amount > this.invoice.due) && (payment.status == 0)) {
+        this.translate
+        .get('The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.', 
+        { value: 'The amount of the payment is greater than the debt of the invoice. Please verify the payment amount' })
+        .subscribe((res1: string) => {
+          this.notification.success('', res1);
+        });
+      } else {
+        const modalRef = this.modalService.open(ChangeStatusComponent);
+        modalRef.componentInstance.payment = payment;
+        modalRef.result.then((result) => {
+        const id = this.route.snapshot.paramMap.get('idInvoice');
+        this.ngOnInit();
+        }, (reason) => {
+        });
+      }
     } else {
       this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
         this.notification.success('', res1);
