@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, QueryList, SimpleChanges} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
@@ -7,7 +7,7 @@ import { UserStorageService } from '../../http/user-storage.service';
 import { WarrantyService } from '../../shared/services/warranty/warranty.service';
 import { OrderService } from '../../shared/services/order/order.service';
 import * as _ from 'lodash';
-import { BaseChartDirective } from 'ng2-charts/ng2-charts';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,8 +17,6 @@ import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 })
 
 export class DashboardComponent implements OnInit {
-  @ViewChild(BaseChartDirective) charts: QueryList<BaseChartDirective>;
-  // chart: Array<any> = [];
   public alerts: Array<any> = [];
   public sliders: Array<any> = [];
   warrantiesList: Array<any> = new Array;
@@ -32,6 +30,7 @@ export class DashboardComponent implements OnInit {
   orderReady: any;
   orderShipped: any;
   months = 6;
+  locale: any;
 
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
@@ -109,14 +108,7 @@ export class DashboardComponent implements OnInit {
     { data: [], label: 'Shipped Orders' }
   ];
 
-  public lineChartLabels: Array<any> = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June'
-  ];
+  public lineChartLabels: Array<any> = [];
   public lineChartOptions: any = {
     responsive: true
   };
@@ -308,11 +300,7 @@ export class DashboardComponent implements OnInit {
   getCountOrders(): void {
     let ordersCount;
     let clone = JSON.parse(JSON.stringify(this.lineChartData));
-    const pendingO: number[] = clone[0].data;
-    const processedO: number[] = clone[1].data;
-    const readyToShipO: number[] = clone[2].data;
-    const shippedO: number[] = clone[3].data;
-    
+    this.getMonths();
     this.orderService.countOrdersByMonth$(0).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         ordersCount = res.data;
@@ -322,66 +310,21 @@ export class DashboardComponent implements OnInit {
         clone[3].data = ordersCount.shipped;
         this.lineChartData = clone;
         this.lineChartData = this.lineChartData.slice();
-     /*   _.each(ordersCount.pending, function(pending, key) {
-          debugger
-          pendingO.push(pending);
-        });
-        _.each(ordersCount.processed, function(processed, key) {
-          processedO.push(processed);
-        });
-        _.each(ordersCount.readyToShip, function(readyToShip, key) {
-          readyToShipO.push(readyToShip);
-        });
-        _.each(ordersCount.shipped, function(shipped, key) {
-          shippedO.push(shipped);
-        });*/
       }
     });
-    console.log("pending", pendingO);
-    /*this.lineChartData = [
-      { data: pendingO, label: 'Pending Orders' },
-      { data: processedO, label: 'Processed Orders' },
-      { data: [0,0,0,0,0,0], label: 'Ready to Ship Orders' },
-      { data: [0,0,0,0,5,0], label: 'Shipped Orders' }
-    ];*/
-    /*this.lineChartData[0].data.push(pendingO);
-    this.lineChartData[1].data.push(processedO);
-    this.lineChartData[2].data.push(readyToShipO);*/
-   /* debugger
-    clone[0].data = ordersCount.pending;
-    clone[1].data = [0,0,0,0,0,2];
-    clone[2].data = [0,0,0,1,0,0];
-    clone[3].data = [0,0,0,0,5,0];
-    this.lineChartData = clone;
-    this.lineChartData = this.lineChartData.slice();
-    console.log('data', this.lineChartData);*/
-    // this.charts[0].chart.update();
-    /*let clone = JSON.parse(JSON.stringify(this.lineChartData));
-    clone[0].data = pendingO;
-    clone[1].data = processedO;
-    clone[2].data = readyToShipO;
-    clone[3].data = shippedO;
-    this.lineChartData = clone;
-    this.charts.forEach((child) => {
-      child.ngOnChanges({} as SimpleChanges);
-    });*/
-/*
-    if (this.charts[0] !== undefined) {
-      // this.chart.chart.update();
-      /*this.chart[0].chart.destroy();
-      this.chart[0].chart = 0;
 
-      this.chart[0].datasets = this.lineChartData;
-      this.chart[0].labels = this.lineChartLabels;
-      this.chart[0].ngOnInit();
-      this.charts[0].ngOnDestroy();
-      this.charts[0].chart = this.charts[0].getChartBuilder(this.charts[0].ctx);
-    }*/
+  }
 
-    /*this.lineChartData.push({ data: this.orderPend, label: 'Pending Orders' });
-    this.lineChartData.push({ data: this.orderProc, label: 'Paid Orders' });
-    this.lineChartData.push({ data: this.orderReady, label: 'Ready to Ship Orders' });
-    this.lineChartData.push({ data: this.orderShipped, label: 'Shipped Orders' });*/
+  getMonths(): void {
+    
+    for (let index = 0; index < 6; index++) {
+      const today = new Date();
+      const dt = new Date();
+      dt.setMonth(today.getMonth() - (5 - index));
+      console.log(index, formatDate(dt, 'medium', 'en-US'));
+      const labelMonth = formatDate(dt, 'MMM', 'en-US') + "'" + formatDate(dt, 'yyyy', 'en-US');
+      this.lineChartLabels.push(labelMonth);
+    }
   }
 
 }
