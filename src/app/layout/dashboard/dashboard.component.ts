@@ -114,31 +114,40 @@ export class DashboardComponent implements OnInit {
   };
   public lineChartColors: Array<any> = [
     {
-      // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
+      // pending-status
+      backgroundColor: '#B71C1C',
+      borderColor: '#B71C1C',
+      pointBackgroundColor: '#B71C1C',
       pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      pointHoverBackgroundColor: '#B71C1C',
+      pointHoverBorderColor: '#B71C1C'
     },
     {
-      // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
+      // processed-status
+      backgroundColor: '#FF6F00',
+      borderColor: '#FF6F00',
+      pointBackgroundColor: '#FF6F00',
       pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
+      pointHoverBackgroundColor: '#FF6F00',
+      pointHoverBorderColor: '#FF6F00'
     },
     {
-      // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
+      // ready-to-ship
+      backgroundColor: '#1B5E20',
+      borderColor: '#1B5E20',
+      pointBackgroundColor: '#1B5E20',
       pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      pointHoverBackgroundColor: '#1B5E20',
+      pointHoverBorderColor: '#1B5E20'
+    },
+    {
+      // shipped
+      backgroundColor: '#01579B',
+      borderColor: '#01579B',
+      pointBackgroundColor: '#01579B',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#01579B',
+      pointHoverBorderColor: '#01579B'
     }
   ];
   public lineChartLegend: Boolean = true;
@@ -316,7 +325,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getMonths(): void {
-    
     for (let index = 0; index < 6; index++) {
       const today = new Date();
       const dt = new Date();
