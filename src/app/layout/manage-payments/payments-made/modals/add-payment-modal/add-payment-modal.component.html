@@ -13,10 +13,10 @@
       <br>
       <div class="row">
         <!-- Invoices -->
-          <div *ngIf="action == 'bulk' || action == 'view'" class="col-md-12 card-body title-view">
+          <div *ngIf="(action == 'bulk' || action == 'view') && listAux.length > 1" class="col-md-12 card-body title-view">
               {{ 'Invoices' | translate }}
               <br>
-              <div *ngIf="listAux.length > 1" class="row justify-content-md-center">
+              <div *ngIf="listAux.length > 1" class="row justify-content-md-center ">
                 <table class="table tb-invoice">
                   <thead>
                     <tr>
@@ -115,8 +115,9 @@
             </div>
           </fieldset>
           <div class="message-error" [hidden]="(amount.valid || amount.pristine) && amountValid">
-            <span *ngIf="action !== 'bulk'">{{'Amount is required' | translate }}</span>
-            <span *ngIf="action === 'bulk'">{{'Amount must be equal than total of invoices' | translate }}</span>
+            <span>{{'Amount is required' | translate }}</span>
+            <span> / </span>
+            <span>{{'Amount must be less or equal than total of invoices' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">
