@@ -25,7 +25,7 @@ import { environment } from '../../../environments/environment';
 import { ConfirmationBlueLightComponent } from '../modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfirmationSpectrumSalineComponent } from '../modals/confirmation-buy/confirmation-spectrum-saline/confirmation-spectrum-saline.component';
-
+import { saveAs } from 'file-saver';
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
 @Component({
@@ -237,5 +237,17 @@ export class ProductViewFluoStripsComponent implements OnInit {
     if (quantity % 25 === 0) {
       this.strips = quantity * 100;
     }
+  }
+
+  download() {
+    const language = this.userStorageService.getLanguage();
+    let name;
+    language === 'en' ? name = 'Fluo-en' : name = 'Fluo-es';
+    this.productService.download$(name).subscribe(res => {
+      const filename = name + '.pdf';
+      saveAs(res, filename);
+    }, error => {
+      console.log('error', error);
+    });
   }
 }
