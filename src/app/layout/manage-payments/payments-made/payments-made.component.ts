@@ -105,16 +105,10 @@ export class PaymentsMadeComponent implements OnInit {
     );
   }
 
-  getPartialPayment(payment) {
-    let inv = this.invoice;
-    if (inv === undefined) {
-      const id = this.route.snapshot.paramMap.get('idInvoice');
-      this.getInvoice(id);
-      inv = this.auxInvoice;
-    }
+  getPartialPayment(payment, inv) {
     const pI = payment.invoiceClientInvoicePaymentList.find(
       x => (x.invoiceClient === inv.idInvoice));
-      return pI.partialPayment;
+    return pI.partialPayment;
   }
 
   openModal(invoice, action, payment): void {
@@ -145,7 +139,8 @@ export class PaymentsMadeComponent implements OnInit {
 
   changeStatus(payment) {
     if (this.invoice.due != 0 || payment.status == 0) {
-      if ((payment.amount > this.invoice.due) && (payment.status == 0)) {
+      let partial = this.getPartialPayment(payment, this.invoice);
+      if ((partial > this.invoice.due) && (payment.status == 0)) {
         this.translate
         .get('The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.', 
         { value: 'The amount of the payment is greater than the debt of the invoice. Please verify the payment amount' })
