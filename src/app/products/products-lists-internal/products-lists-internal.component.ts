@@ -255,6 +255,9 @@ export class ProductsListInternalComponent implements OnInit {
         if (product.father === 'Spectrum Saline') {
           this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
         }
+        if (product.father === 'Medmont') {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-medmont']);
+        }
         break;
     }
   }

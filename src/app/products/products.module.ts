@@ -36,6 +36,7 @@ import { ConfirmationSpectrumSalineComponent } from './modals/confirmation-buy/c
 import { ProductViewLenticonComponent } from './product-view-lenticon/product-view-lenticon.component';
 import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirmation-lenticon/confirmation-lenticon.component';
 import { EditProductSpectrumSalineComponent } from './modals/edit-product/edit-product-spectrum-saline/edit-product-spectrum-saline.component';
+import { ProductViewMedmontComponent } from './product-view-medmont/product-view-medmont.component';
 
 @NgModule({
   imports: [
@@ -76,7 +77,8 @@ import { EditProductSpectrumSalineComponent } from './modals/edit-product/edit-p
     ConfirmationSpectrumSalineComponent,
     ProductViewLenticonComponent,
     ConfirmationLenticonComponent,
-    EditProductSpectrumSalineComponent
+    EditProductSpectrumSalineComponent,
+    ProductViewMedmontComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,

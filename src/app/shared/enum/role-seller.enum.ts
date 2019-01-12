@@ -23,5 +23,6 @@ export enum RoleSeller {
   ViewUser,
   EditUser,
   EditCompany,
-  EditSupplier
+  EditSupplier,
+  ProductViewMedmontComponent
 }
