@@ -162,15 +162,19 @@ export class AddPaymentModalComponent implements OnInit {
   }
 
   filterMaxAmount(ev: any) {
+    const val = ev.target.value;
     if (this.action === 'bulk') {
-      const val = ev.target.value;
       if (val != this.maxAmountInvoice) {
         this.amountValid = false;
       } else {
         this.amountValid = true;
       }
     } else {
-      this.amountValid = true;
+      if (val > this.invoice.due) {
+        this.amountValid = false;
+      } else {
+        this.amountValid = true;
+      }
     }
   }
 

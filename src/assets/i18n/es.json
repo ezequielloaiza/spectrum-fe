@@ -980,7 +980,7 @@
     "Verified" : "Verificado",
     "Attach file" : "Adjuntar archivo",
     "Enter bank name" : "Ingrese nombre del banco",
-    "Payment Information" : "Informacion de Pago",
+    "Payment Information" : "Información de Pago",
     "Payment Type": "Tipo de Pago",
     "Invoice Payment's status": "Estado del Pago de la Factura",
     "View Payment": "Ver Pago",
@@ -1007,7 +1007,7 @@
     "Documents Right Eye (Topography, Tangential Map, etc.)": "Documentos Ojo Derecho (Topografía, Mapa Tangencial, etc.)",
     "Enter order or client": "Ingrese orden o cliente",
     "Bulk Payments": "Pagos Masivos",
-    "Amount must be equal than total of invoices": "La cantidad debe ser mayor que el total de las facturas",
+    "Amount must be less or equal than total of invoices": "La cantidad debe ser menor o igual que el total de las facturas",
     "Invoices": "Facturas",
     "Strips":"Tiras",
     "Best solution to help detect degenerated Cells, dead cells, and mucous fibrils.": "La mejor solución para ayudar a detectar células degeneradas, células muertas y fibrillas mucosas.",
@@ -1051,5 +1051,7 @@
     "Not generated":"No generada",
     "Customer invoice":"Factura cliente",
     "Factura proveedor":"Factura proveedor",
-    "It can not edit a multiple payment":"No se puede editar un pago múltiple"
+    "It can not edit a multiple payment":"No se puede editar un pago múltiple",
+    "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.": "El monto del pago es mayor que la deuda de la factura. Por favor, verifique el monto del pago.",
+    "Amount is required": "El monto es requerido"
 }
