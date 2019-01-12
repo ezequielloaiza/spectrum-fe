@@ -862,6 +862,7 @@
     "Up to 499 boxes":"Up to 499 boxes",
     "Bill providers":"Bill providers",
     "Invoice already been paid":"Invoice already been paid",
-    "It can not edit a multiple payment":"It can not edit a multiple payment", 
-    "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount":"The amount of the payment is greater than the debt of the invoice. Please verify the payment amount"
+    "It can not edit a multiple payment":"It can not edit a multiple payment",
+    "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.":"The amount of the payment is greater than the debt of the invoic-e. Please verify the payment amount.",
+    "Amount is required": "Amount is required"
 }
