@@ -828,7 +828,7 @@
     "Amount Shipping" : "Amount Shipping",
     "Attached files" : "Attached files",
     "Bulk Payments":"Bulk Payments",
-    "Amount must be equal than total of invoices": "Amount must be equal than total of invoices",
+    "Amount must be less or equal than total of invoices": "Amount must be less or equal than total of invoices",
     "Invoices": "Invoices",
     "Strips":"Strips",
     "Best solution to help detect degenerated Cells, dead cells, and mucous fibrils.": "Best solution to help detect degenerated Cells, dead cells, and mucous fibrils.",
@@ -873,5 +873,8 @@
     "Not generated":"Not generated",
     "Customer invoice":"Customer invoice",
     "Invoice provider":"Invoice provider",
-    "It can not edit a multiple payment":"It can not edit a multiple payment"
+    "Bill providers":"Bill providers",
+    "It can not edit a multiple payment":"It can not edit a multiple payment",
+    "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.":"The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.",
+    "Amount is required": "Amount is required"
 }
