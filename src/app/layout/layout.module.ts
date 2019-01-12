@@ -60,10 +60,10 @@ import { SummaryProductsComponent } from './basket/modals/summary-products/summa
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
 import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.component';
-import { BlueLightComponent } from './basket/edit-order/blue-light/blue-light.component';
-import { EuclidComponent } from './basket/edit-order/euclid/euclid.component';
-import { MarkennovyComponent } from './basket/edit-order/markennovy/markennovy.component';
+import { MagicLookComponent } from './edit-order/magic-look/magic-look.component';
+import { BlueLightComponent } from './edit-order/blue-light/blue-light.component';
+import { EuclidComponent } from './edit-order/euclid/euclid.component';
+import { MarkennovyComponent } from './edit-order/markennovy/markennovy.component';
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
@@ -73,7 +73,11 @@ import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail
 import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
 import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euclid/detail-euclid.component';
 import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
-import { EuropaComponent } from './basket/edit-order/europa/europa.component';
+import { EuropaComponent } from './edit-order/europa/europa.component';
+import { DetailSalineFluoComponent } from './basket/modals/detail-product/detail-saline-fluo/detail-saline-fluo.component';
+import { SalineFluoComponent } from './edit-order/saline-fluo/saline-fluo.component';
+import { DetailLenticonComponent } from './basket/modals/detail-product/detail-lenticon/detail-lenticon.component';
+import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
 
 @NgModule({
     imports: [
@@ -155,7 +159,11 @@ import { EuropaComponent } from './basket/edit-order/europa/europa.component';
         DetailBlueLightComponent,
         DetailEuclidComponent,
         DetailEuropaComponent,
-        EuropaComponent
+        EuropaComponent,
+        DetailSalineFluoComponent,
+        SalineFluoComponent,
+        DetailLenticonComponent,
+        LenticonComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -186,7 +194,11 @@ import { EuropaComponent } from './basket/edit-order/europa/europa.component';
       DetailBlueLightComponent,
       DetailEuclidComponent,
       DetailEuropaComponent,
-      EuropaComponent
+      EuropaComponent,
+      DetailSalineFluoComponent,
+      SalineFluoComponent,
+      DetailLenticonComponent,
+      LenticonComponent
     ],
     providers: [
       BusinessTypeService,

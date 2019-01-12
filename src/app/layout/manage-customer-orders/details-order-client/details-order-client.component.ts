@@ -16,6 +16,9 @@ import { saveAs } from 'file-saver';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { CompanyService } from '../../../shared/services';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ViewChild } from '@angular/core';
+import { SupplierEuclidComponent } from '../../details-order-supplier/supplier-euclid/supplier-euclid.component';
+import { SalineFluoComponent } from '../../edit-order/saline-fluo/saline-fluo.component';
 
 @Component({
   selector: 'app-details-order-client',
@@ -28,12 +31,14 @@ export class DetailsOrderClientComponent implements OnInit {
   order: Order = new Order();
   listDetails: Array<any> = new Array;
   listDetailsAux: Array<any> = new Array;
+  listAux: Array<ProductRequested> = new Array<ProductRequested>();
   advancedPagination: number;
   itemPerPage = 1;
   generar = false;
   download = false;
   user: any;
   company: any;
+  prueba: any;
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
     public productImageService: ProductoimageService,
@@ -73,7 +78,9 @@ export class DetailsOrderClientComponent implements OnInit {
         }
         _.each(this.order.listProductRequested, function (detailsOrder) {
           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
-          detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
+          if (detailsOrder.productRequested.detail.length > 0) {
+            detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
+          }
         });
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
@@ -97,6 +104,38 @@ export class DetailsOrderClientComponent implements OnInit {
       saveAs(res, filename);
     }, error => {
       console.log('error', error);
+    });
+  }
+
+  refresh(productRequested: any): void {
+   let list: Array<ProductRequested> = productRequested;
+    _.each(this.order.listProductRequested, function (detailsOrder) {
+      _.each(list, function (item) {
+        if (detailsOrder.productRequested.idProductRequested === item.idProductRequested) {
+          detailsOrder.productRequested.patient = item.patient;
+          detailsOrder.productRequested.price = item.price;
+          detailsOrder.productRequested.quantity = item.quantity;
+          detailsOrder.productRequested.observations = item.observations;
+          detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
+        }
+      });
+
+    });
+    this.listDetails = this.order.listProductRequested;
+    this.listDetailsAux = this.order.listProductRequested;
+  }
+
+  openEdit(lista, image) {
+    const modalRefSalineFluo = this.modalService.open( SalineFluoComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    modalRefSalineFluo.componentInstance.detailEdit = lista;
+    modalRefSalineFluo.componentInstance.typeEdit = 2;
+    modalRefSalineFluo.componentInstance.userOrder = this.order.user;
+    modalRefSalineFluo.componentInstance.image = image;
+    modalRefSalineFluo.result.then((result) => {
+      this.listAux.push(result);
+      this.refresh(this.listAux);
+    } , (reason) => {
+
     });
   }
 }

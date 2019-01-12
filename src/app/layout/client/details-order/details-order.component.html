@@ -76,28 +76,55 @@
         <div class="container product-list" *ngFor="let list of listDetails">
           <hr>
           <div class="row">
-            <aside class="col-sm-3 container-img">
-              <div class="imag-product" [style.backgroundImage]="'url('+ list.urlImage +')'"></div>
-            </aside>
-            <aside class="col-sm-9">
+            <div class="container-img" [ngClass]="{'col-sm-4': list.productRequested.product.supplier.idSupplier === 4, 'col-sm-3': list.productRequested.product.supplier.idSupplier !== 4}">
+                <div class="imag-product" [ngClass]="{'size-image-euclid': list.productRequested.product.father === 'Sapphire Toric','size-image': list.productRequested.product.father !== 'Sapphire Toric' }" [style.backgroundImage]="'url('+ list.urlImage +')'"></div>
+            </div>
+            <aside  [ngClass]="{'col-sm-8': list.productRequested.product.supplier.idSupplier === 4, 'col-sm-9': list.productRequested.product.supplier.idSupplier !== 4}">
               <article class="card-body p-5">
                 <div>
-                  <div *ngFor="let specification of list.productRequested.detail">
+                  <div>
                     <div class="container-list">
                       <div class="div-name">
                         <div>
                           <h3>{{list.productRequested.product.name}} </h3>
                         </div>
-                        <div *ngIf="specification.name!==''">
+                        <div  *ngIf="list.productRequested.detail.length > 0 && list.productRequested.detail[0].name !== ''">
                           <span class="price h5 text-warning">
-                            <h3>-({{specification.name}})</h3>
+                            <h3>-({{list.productRequested.detail[0].name}})</h3>
                           </span>
                         </div>
                         <br>
                         <br>
                       </div>
+                      <div class="row" *ngIf="list.productRequested.product.supplier.idSupplier === 4">
+                        <div class="col-sm-2">
+                          <dl class="align-item">
+                            <dt>{{'Customer'| translate}}
+                            </dt>
+                            <dt>
+                              <span class="font-text">{{order.nameUser}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-2" [hidden]="order.user.certificationCode === ''">
+                          <dl class="align-item">
+                            <dt>{{'Certification Code' | translate}}</dt>
+                            <dt>
+                              <span class="font-text">{{order.user.certificationCode}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-2">
+                          <dl class="align-item">
+                            <dt *ngIf="list.productRequested.detail.length > 0">{{'Eye'| translate}}</dt>
+                            <dt>
+                              <span *ngIf="list.productRequested.detail.length > 0" class="font-text">{{ list.productRequested.detail[0].eye | translate }}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                      </div>
                       <div class="row">
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier!==5">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier !== 5 ">
                           <dl class="align-item">
                             <dt>{{'Supplier'| translate}}
                             </dt>
@@ -106,7 +133,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" [hidden]="list.productRequested.patient===''">
+                        <div class="col-sm-2" [hidden]="list.productRequested.patient === ''  || list.productRequested.patient === null">
                           <dl class="align-item">
                             <dt>{{'Patient'| translate}}</dt>
                             <dt>
@@ -114,18 +141,17 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" [hidden]="specification.eye===''">
-                          <dl class="align-item">
-                            <dt>{{'Eye'| translate}}</dt>
+                        <div class="col-sm-2">
+                          <dl class="align-item" *ngIf="list.productRequested.product.supplier.idSupplier !== 4 ">
+                            <dt *ngIf="list.productRequested.detail.length > 0 && list.productRequested.detail[0].eye !== ''">{{'Eye'| translate}}</dt>
                             <dt>
-                              <span class="font-text">{{specification.eye | translate}}</span>
+                              <span *ngIf="list.productRequested.detail.length > 0" class="font-text">{{list.productRequested.detail[0].eye | translate}}</span>
                             </dt>
                           </dl>
                         </div>
                       </div>
-                      <br>
                       <div class="row">
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier===5">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier === 5">
                           <dl class="align-item">
                             <dt>{{'Supplier'| translate}}
                             </dt>
@@ -136,8 +162,8 @@
                         </div>
                         <div class="col-sm-2">
                           <dl class="align-item">
-                            <dt [hidden]="list.productRequested.product.supplier.idSupplier===5">{{'Quantity'| translate}} </dt>
-                            <dt *ngIf="list.productRequested.product.supplier.idSupplier===5">{{'Total Quantity'| translate}} </dt>
+                            <dt [hidden]="list.productRequested.product.supplier.idSupplier === 5">{{'Quantity'| translate}} </dt>
+                            <dt *ngIf="list.productRequested.product.supplier.idSupplier === 5">{{'Total Quantity'| translate}} </dt>
                             <dt>
                               <span class="font-text">{{list.productRequested.quantity}}</span>
                             </dt>
@@ -167,22 +193,22 @@
             </aside>
           </div>
           <!--Markennovy-->
-          <app-supplier-markennovy [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
+          <app-supplier-markennovy [lista]="list.productRequested" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
           <!--Find Markennovy-->
           <!--Europa-->
-          <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
+          <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
           <!--Fin Europa-->
           <!--Lenticon-->
           <app-supplier-lenticon [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
           <!--Fin Lenticon-->
           <!--Euclid-->
-          <app-supplier-euclid [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
+          <app-supplier-euclid [lista]="list.productRequested" [files]="list.fileProductRequestedList" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
           <!--Fin Euclid-->
           <!--Magic Look-->
-          <app-supplier-magic-look [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
+          <app-supplier-magic-look [lista]="list.productRequested" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
           <!--Blue Light-->
-          <app-supplier-blue-light [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
+          <app-supplier-blue-light [lista]="list.productRequested" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
         </div>
       </div>

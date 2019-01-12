@@ -1,17 +1,18 @@
-<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-beat"></ngx-spinner>
 <div class="row page-header-fixed">
-	<div class="header-body">
-		<h4 class="page-header">
-			{{ 'Orders List' | translate }}
-		</h4>
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item">
-				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
-			</li>
-			<li class="breadcrumb-item active">
-				<i class="fa fa-folder-open"></i> {{ 'Orders List' | translate}}</li>
-		</ol>
-	</div>
+  <div class="header-body">
+    <h4 class="page-header">
+      {{ 'Orders List' | translate }}
+    </h4>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{
+          'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-folder-open"></i> {{ 'Orders List' | translate}}</li>
+    </ol>
+  </div>
 </div>
 <div class="sp-container">
   <div class="row">
@@ -23,35 +24,48 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-xl-3 filter">
-            <div class="row search">
-              <div class="col col-xl-12 col-lg-12">
-                <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter customer search ...' | translate }}">
-                <i class="fa fa-search"></i>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 filter">
-            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
-              <option value="" disabled [selected]="true" translate>Select payment status</option>
-              <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
-            </select>
-          </div>
-          <div class="col-xl-3 filter">
-            <div>
-              <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOrd" [(ngModel)]="fechaSelecOrd" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOrd)">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                    <i class="fa fa-calendar"></i>
-                  </button>
+          <div class="filters">
+            <div class="col-xl-5 filter">
+              <div class="row search">
+                <div class="col col-xl-12 col-lg-12">
+                  <input class="form-control" (keyup)="getItems($event)" [(ngModel)]="valorClient" placeholder="{{'Enter order or client' | translate }}">
+                  <i class="fa fa-search"></i>
                 </div>
               </div>
-              <!--<pre>Model: {{model1 | json  }}</pre>-->
             </div>
-          </div>
-          <div class="col-xl-2 btn-clean">
-            <button class="btn btn-outline-secondary" [routerLink]="['/order-list-client-byseller']" translate [hidden]="!valid1" (click)="clean()">Clean Filters</button>
+            <div class="col-xl-5 filter">
+              <div class="row search">
+                <div class="col col-xl-12 col-lg-12">
+                  <input class="form-control" (keyup)="getItemsProduct($event)" [(ngModel)]="valorProduct" placeholder="{{'Enter product name' | translate }}">
+                  <i class="fa fa-search"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-5 filter">
+              <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus"
+                (change)="filter()">
+                <option value="" disabled [selected]="true" translate>Select payment status</option>
+                <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
+              </select>
+            </div>
+            <div class="col-xl-5 filter">
+              <div>
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOrd" [(ngModel)]="fechaSelecOrd"
+                    ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOrd)">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </div>
+                </div>
+                <!--<pre>Model: {{model1 | json  }}</pre>-->
+              </div>
+            </div>
+            <div class="col-xl-2 btn-clean">
+              <button class="btn btn-outline-secondary" [routerLink]="['/order-list-client-byseller']" translate [hidden]="!valid1"
+                (click)="clean()">Clean Filters</button>
+            </div>
           </div>
           <div class="card-body table-responsive">
             <div>
@@ -78,19 +92,19 @@
                       <span>{{ 'Order Status' | translate }}</span>
                     </div>
                     <div class="div-status">
-                      <span *ngIf='order.status==0' class="div-pending">
+                      <span *ngIf='order.status === 0' class="div-pending">
                         <div translate>Pending</div>
                       </span>
-                      <span *ngIf='order.status==1' class="div-processed">
+                      <span *ngIf='order.status === 1' class="div-processed">
                         <div translate>Processed</div>
                       </span>
-                      <span *ngIf='order.status==2' class="div-ready">
+                      <span *ngIf='order.status === 2' class="div-ready">
                         <div translate>Ready to Ship</div>
                       </span>
-                      <span *ngIf='order.status==3' class="div-shipped">
+                      <span *ngIf='order.status === 3' class="div-shipped">
                         <div translate>Shipped</div>
                       </span>
-                      <span *ngIf='order.status==4' class="div-canceled">
+                      <span *ngIf='order.status === 4' class="div-canceled">
                         <div translate>Canceled</div>
                       </span>
                     </div>
@@ -100,10 +114,10 @@
                       <span>{{ 'Payment Status' | translate }}</span>
                     </div>
                     <div class="div-status">
-                      <span *ngIf='order.paymentStatus==0' class="div-pending">
+                      <span *ngIf='order.paymentStatus === 0' class="div-pending">
                         <div translate>Pending</div>
                       </span>
-                      <span *ngIf='order.paymentStatus==1' class="div-shipped">
+                      <span *ngIf='order.paymentStatus === 1' class="div-shipped">
                         <div translate>Paid</div>
                       </span>
                     </div>
@@ -127,48 +141,49 @@
                           <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
                             {{ 'View Details' | translate }}</button>
                           <button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
-                               {{ 'Change Status' | translate }}</button>
-                          <button [hidden]="user.role.idRole!==1 || (order.status===4)" class="dropdown-item" (click)="cancel(order)">
-                                {{ 'Cancel Order' | translate }}</button>
+                            {{ 'Change Status' | translate }}</button>
+                          <button [hidden]="user.role.idRole !== 1 || (order.status === 4)" class="dropdown-item" (click)="cancel(order)">
+                            {{ 'Cancel Order' | translate }}</button>
                         </div>
                       </div>
                     </div>
-                    <div class="div-dropdown" [hidden]="order.status===0 || order.status===4">
-                        <div  ngbDropdown class="d-inline-block dropdown">
-                          <button class="btn btn-dropdown-main btn-dd" ngbDropdownToggle>{{ 'Generate Invoice' | translate }}</button>
-                          <div ngbDropdownMenu class="dropdown-menu-invoice">
-                            <button class="dropdown-item" (click)="generateInvoice(order)">
-                              {{ 'To Provider' | translate }}</button>
-                            <button class="dropdown-item" (click)="open(order)">
-                                 {{ 'To Customer' | translate }}</button>
-                          </div>
+                    <div class="div-dropdown" [hidden]="order.status === 0 || order.status === 4">
+                      <div ngbDropdown class="d-inline-block dropdown">
+                        <button class="btn btn-dropdown-main btn-dd" ngbDropdownToggle>{{ 'Generate Invoice' |
+                          translate }}</button>
+                        <div ngbDropdownMenu class="dropdown-menu-invoice">
+                          <button class="dropdown-item" (click)="generateInvoice(order)">
+                            {{ 'To Provider' | translate }}</button>
+                          <button class="dropdown-item" (click)="open(order)">
+                            {{ 'To Customer' | translate }}</button>
                         </div>
                       </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row product" *ngFor="let listDetails of order.listProductRequested">
                   <div class="col-lg-2">
-                    <div *ngFor="let specification of listDetails.productRequested.detail">
+                    <div>
                       <span>{{listDetails.productRequested.product.name}}</span>
                     </div>
-                    <div>
+                    <div *ngIf="listDetails.productRequested.detail.length > 0 ">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
                     </div>
-                    <div>
+                    <div *ngIf="listDetails.productRequested.detail.length > 0 ">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>
                     </div>
                   </div>
                   <div class="col-lg-3">
-                    <div>
+                    <div [hidden]="listDetails.productRequested.product.material === null">
                       <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>
                     </div>
-                    <div>
+                    <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
                       <span>{{'Replacement period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>
-                    <div>
+                    <div [hidden]="listDetails.productRequested.product.warranty === null">
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
                     </div>
-                    <div>
+                    <div [hidden]="order.supplier.companyName === null">
                       <span>{{'Supplier'| translate}}{{': '}}{{order.supplier.companyName}}</span>
                     </div>
                     <div>
@@ -185,7 +200,8 @@
                   </div>
                   <div class="col-lg-5">
                     <div>
-                      <span>{{listDetails.productRequested.price * listDetails.productRequested.quantity  | currency : "USD $" }}</span>
+                      <span>{{listDetails.productRequested.price * listDetails.productRequested.quantity | currency :
+                        "USD $" }}</span>
                     </div>
                   </div>
                 </div>
@@ -201,7 +217,8 @@
               <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listOrdersAux.length"
                 [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
               </ngb-pagination>
-              <span class="count-elements">{{ listOrders.length + ' ' + ('of' | translate) + ' ' + listOrdersAux.length + ' ' + ('register(s)' | translate)
+              <span class="count-elements">{{ listOrders.length + ' ' + ('of' | translate) + ' ' + listOrdersAux.length
+                + ' ' + ('register(s)' | translate)
                 }}
               </span>
             </div>

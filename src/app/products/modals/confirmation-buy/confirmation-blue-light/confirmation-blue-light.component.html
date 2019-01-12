@@ -9,9 +9,6 @@
   <div class="list-basket body">
     <div class="row">
       <div class="col-lg-12 main-info">
-        <div>
-          <span class="title">{{ product.name }}</span>
-        </div>
         <!--Image-->
         <div class="label-title">
           <img class="img-product" src="{{ product.mainImg }}">
@@ -22,7 +19,7 @@
           <dl>
             <dt>{{ namePatient}}</dt>
           </dl>
-          <dl class="param">
+          <dl>
             <dt>{{ price | currency : "USD $" }}</dt>
           </dl>
         </div>
@@ -30,10 +27,13 @@
       <!--PARAMETERS-->
       <div class="card-body table-responsive">
         <div class="row justify-content-md-center div-parametros" *ngFor="let list of listBasket">
+          <div class="col-lg-12 title eye-info">
+            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
+          </div>
           <div class="col-sm-3">
             <dl class="align-item">
               <dt>{{ 'Quantity' | translate }}</dt>
-              <hr>
+              <hr class="separators">
               <dt>
                 <span class="items"> {{ list.quantity }}</span>
               </dt>
@@ -42,7 +42,7 @@
           <div class="col-sm-3" *ngFor="let parameter of list.detail[0].parameters">
             <dl class="align-item">
               <dt>{{parameter.name | translate }}</dt>
-              <hr>
+              <hr class="separators">
               <dt>
                 <span class="items"> {{parameter.selected}}</span>
               </dt>

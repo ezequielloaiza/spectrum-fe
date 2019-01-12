@@ -53,12 +53,20 @@
     padding: 2em;
 
     .imag-product{
-      background-size: 100%;
       width: 100%;
       background-repeat: no-repeat;
       height: 100%;
     }
   }
+
+  .size-image-euclid{
+    background-size: 83%;
+  }
+
+  .size-image{
+    background-size: 100%;
+  }
+
 
   .container-list{
     width: 1250px;
@@ -118,4 +126,7 @@
   h4 {
     padding-left: 15px;
   }
+}
+.padding-params {
+  padding:  0 2em;
 }

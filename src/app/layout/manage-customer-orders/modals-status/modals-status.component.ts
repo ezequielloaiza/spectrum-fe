@@ -90,7 +90,7 @@ export class ModalsStatusComponent implements OnInit {
   }
 
   getBalance() {
-    this.userService.findById$(this.order.idUser).subscribe(res => {
+    this.userService.findById$(this.order.user.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
          this.company = res.data.company;
          this.balace = this.company.balance;
