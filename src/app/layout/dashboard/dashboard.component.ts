@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   warrantiesList: Array<any> = new Array;
   invoicesList: Array<any> = new Array;
   invoicesListAux: Array<any> = new Array;
+  customersList: Array<any> = new Array;
   user: any;
   orders = 0;
   total = 0;
@@ -375,7 +376,8 @@ export class DashboardComponent implements OnInit {
           this.invoicesList = res.data;
           this.pendingPayment = _.sumBy(this.invoicesList, function(o) { return o.total; });
           this.invoicesListAux = _.filter(this.invoicesList, function(o) { return o.dueDate < today;  });
-          this.overdueCustomers = _.uniqBy(this.invoicesListAux, function(o) { return o.idUser; }).length;
+          this.customersList = _.uniqBy(this.invoicesListAux, function(o) { return o.order.user.idUser; });
+          this.overdueCustomers = this.customersList.length;
         } else {
           console.log(res.code);
         }
