@@ -67,6 +67,7 @@ import { MarkennovyComponent } from './edit-order/markennovy/markennovy.componen
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
+import { InvoiceClientService } from '../shared/services/invoiceClient/invoice-client.service';
 import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
@@ -216,7 +217,8 @@ import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
       UserResolver,
       SellerResolver,
       RoleGuard,
-      AuthorizationService
+      AuthorizationService,
+      InvoiceClientService
     ]
 })
 export class LayoutModule {}
