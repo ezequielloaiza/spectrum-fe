@@ -289,7 +289,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         && _.toString(this.valorClient) === '') {// si selecciono status y no fecha ni cliente
         this.filterStatusProducto(product, valorStatus);
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
-        && _.toString(this.valorClient) !== '') {// si selecciono status y cliente y no fecha 
+        && _.toString(this.valorClient) !== '') {// si selecciono status y cliente y no fecha
         this.filterStatusClienteProducto(this.valorClient, product, valorStatus);
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
         && _.toString(this.valorClient) === '') { // si no selecciono status ni cliente y fecha si
@@ -524,15 +524,15 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   open(order) {
-debugger
     this.invoiceClientService.generateInvoiceClient$(order.idOrder).subscribe();
-    /*const modalRef = this.modalService.open(ModalsStatusComponent);
+    const modalRef = this.modalService.open(ModalsStatusComponent);
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
       this.getListOrders();
     }, (reason) => {
     });
   }
+
 
   generateInvoice(order) {
     const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
@@ -567,5 +567,3 @@ debugger
     });
   }
 }
-
-
