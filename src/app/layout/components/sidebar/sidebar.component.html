@@ -113,7 +113,7 @@
 							<li>
 								<a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
 									<span>
-										<i class="fa fa-file"></i>&nbsp; {{ 'Pending Payments' | translate }}</span>
+										<i class="fa fa-file"></i>&nbsp; {{ 'Pending Payments to Check' | translate }}</span>
 								</a>
 							</li>
 							<li>
@@ -273,7 +273,7 @@
 				</li>
 			</div>
 			<div class="nested-menu">
-				<a [routerLinkActive]="['router-link-active']" class="list-group-item">
+				<a [routerLink]="['/invoice']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 					<span>
 						<i class="fa fa-file"></i>&nbsp; {{ 'Manage Invoices' | translate }}</span>
 				</a>
@@ -288,7 +288,7 @@
 							<li>
 								<a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
 									<span>
-										<i class="fa fa-file"></i>&nbsp; {{ 'Pending Payments' | translate }}</span>
+										<i class="fa fa-file"></i>&nbsp; {{ 'Pending Payments to Check' | translate }}</span>
 								</a>
 							</li>
 							<li>
@@ -413,7 +413,7 @@
 								<li>
 									<a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
 										<span>
-											<i class="fa fa-file"></i>&nbsp; {{ 'Pending Payments' | translate }}</span>
+											<i class="fa fa-file"></i>&nbsp; {{ 'Pending Payments to Check' | translate }}</span>
 									</a>
 								</li>
 								<li>

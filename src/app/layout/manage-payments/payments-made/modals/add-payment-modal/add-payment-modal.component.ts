@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { FileProductRequested } from '../../../../../shared/models/fileproductrequested';
 import { environment } from '../../../../../../environments/environment';
-import { InvoicePaymentService } from '../../../../../shared/services';
+import { InvoicePaymentService, InvoiceClientService } from '../../../../../shared/services';
 import { CodeHttp } from '../../../../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 import { UserStorageService } from '../../../../../http/user-storage.service';
 import { FileinvoicepaymentService } from '../../../../../shared/services/fileinvoicepayment/fileinvoicepayment.service';
 import { saveAs } from 'file-saver';
+import { InvoiceClientInvoicePayment } from '../../../../../shared/models/invoiceclientinvoicepayment';
 
 const URL = environment.apiUrl + 'fileInvoicePayment/uploader';
 @Component({
@@ -27,8 +28,13 @@ export class AddPaymentModalComponent implements OnInit {
   form: FormGroup;
   listTypes = [{ id: 0, name: 'Transfer' }, { id: 1, name: 'Deposit' }, { id: 2, name: 'Check' }];
   invoicePayment: InvoicePayment = new InvoicePayment();
+  idsInvoiceClient: Array<any> = new Array;
+  listDetails: Array<any> = new Array;
+  listAux: Array<any> = new Array;
   invoice: any;
   action: any;
+  amountValid = true;
+  maxAmountInvoice: any;
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
@@ -49,6 +55,7 @@ export class AddPaymentModalComponent implements OnInit {
     private userStorageService: UserStorageService,
     private formBuilder: FormBuilder,
     private invoicePaymentService: InvoicePaymentService,
+    private invoiceService: InvoiceClientService,
     private fileInvoicePaymentService: FileinvoicepaymentService,
     private translate: TranslateService,
     private notification: ToastrService) {
@@ -77,7 +84,6 @@ export class AddPaymentModalComponent implements OnInit {
         'success': true, 'item': item, 'response':
           response, 'status': status, 'headers': headers
       };
-      console.log('uploadResult', this.uploadResult);
     };
   }
 
@@ -85,9 +91,22 @@ export class AddPaymentModalComponent implements OnInit {
     if (this.invoicePayment == null) {
       this.invoicePayment = new InvoicePayment();
     }
-    this.invoicePayment.idInvoiceClient = this.invoice.idInvoice;
+
+    if (this.idsInvoiceClient == null) {
+      this.idsInvoiceClient.push(this.invoice.idInvoice);
+    }
+
+    if (this.action == 'view' && this.invoicePayment.invoiceClientInvoicePaymentList.length > 1) {
+      let list = [];
+      _.each(this.invoicePayment.invoiceClientInvoicePaymentList, function(iPIC) {
+        list.push(iPIC.invoiceClient);
+      });
+      this.idsInvoiceClient = list;
+    }
+
     console.log(this.invoicePayment);
     this.initializeForm();
+    this.loadInvoices();
     this.loadFileInvoicePayment();
     if (this.action === 'edit') {
       this.loadPaymentEdit();
@@ -103,8 +122,8 @@ export class AddPaymentModalComponent implements OnInit {
       notes: [this.action !== 'new' ? this.invoicePayment.description : '', [Validators.required]],
       bank: [this.action !== 'new' ? this.invoicePayment.bank : '', [Validators.required]],
       status: [this.action !== 'new' ? this.invoicePayment.status : 0, []],
-      amount: [this.action !== 'new' ? this.invoicePayment.amount : '', [Validators.required]],
-      idInvoiceClient: [this.action !== 'new' ? this.invoicePayment.idInvoiceClient : this.invoice.idInvoice]
+      amount: [this.action !== 'new' ? (this.action === 'bulk' ? this.maxAmountInvoice : this.invoicePayment.amount) : '', 
+            [Validators.required, Validators.max(this.action === 'bulk' ? this.maxAmountInvoice : this.invoice.due)]],
     });
   }
 
@@ -124,11 +143,47 @@ export class AddPaymentModalComponent implements OnInit {
     }
   }
 
+  loadInvoices() {
+    this.invoiceService.findByIds$(this.idsInvoiceClient).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listAux = res.data;
+        let maxAmount = 0.00;
+        _.each(this.listAux, function(invoice) {
+          maxAmount += invoice.due;
+        });
+        this.maxAmountInvoice = maxAmount;
+        if (this.action === 'bulk') {
+          this.form.get('amount').setValue(this.maxAmountInvoice);
+          this.form.get('amount').disable();
+        }
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  filterMaxAmount(ev: any) {
+    const val = ev.target.value;
+    if (this.action === 'bulk') {
+      if (val != this.maxAmountInvoice) {
+        this.amountValid = false;
+      } else {
+        this.amountValid = true;
+      }
+    } else {
+      if (val > this.invoice.due) {
+        this.amountValid = false;
+      } else {
+        this.amountValid = true;
+      }
+    }
+  }
+
   save(): void {
     this.loadPayment();
     this.saveFiles();
     console.log(this.invoicePayment);
-    if (this.action === 'new') {
+    if ((this.action === 'new') || (this.action === 'bulk') ) {
       this.invoicePaymentService.saveInvoicePayment$(this.invoicePayment).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.invoicePayment = res.data;
@@ -183,8 +238,14 @@ export class AddPaymentModalComponent implements OnInit {
     this.modalReference.close();
   }
 
+  getPartialPayment(payment) {
+    const inv = this.invoice;
+    const pI = payment.invoiceClientInvoicePaymentList.find(
+      x => (x.invoiceClient === inv.idInvoice));
+      return pI.partialPayment;
+  }
+
   loadPayment() {
-    this.invoicePayment.idInvoiceClient = this.invoice.idInvoice;
     this.invoicePayment.amount = this.form.get('amount').value;
     this.invoicePayment.bank = this.form.get('bank').value;
     this.invoicePayment.referenceNumber = this.form.get('referenceNumber').value;
@@ -193,10 +254,34 @@ export class AddPaymentModalComponent implements OnInit {
     const date = new Date(aux.year, aux.month - 1, aux.day);
     this.invoicePayment.date = date;
     this.invoicePayment.description = this.form.get('notes').value;
+    const inv = this.invoice;
+    const payment = this.invoicePayment;
+    const list: Array<any> = new Array;
+    const act = this.action;
+    const listAux = this.listDetails;
+    const listInv = this.listAux;
+    _.each(this.idsInvoiceClient, function (idInvoice) {
+      const detailsICIP = new InvoiceClientInvoicePayment();
+      if (act === 'edit') {
+        detailsICIP.idInvoiceClientInvoicePayment = listAux.find(
+         x => ((x.invoicePayment === payment.idInvoicePayment) && (x.invoiceClient === inv.idInvoice))).idInvoiceClientInvoicePayment;
+      }
+      detailsICIP.invoiceClient = idInvoice;
+      detailsICIP.invoicePayment = payment.idInvoicePayment;
+      if (act === 'bulk') {
+        detailsICIP.partialPayment = listInv.find(x => (x.idInvoice === idInvoice)).due;
+      } else {
+        detailsICIP.partialPayment = payment.amount;
+      }
+      detailsICIP.tax = 0.00;
+      list.push(detailsICIP);
+    });
+    console.log('list', list);
+    this.invoicePayment.invoiceClientInvoicePaymentList = JSON.parse(JSON.stringify(list));
   }
 
   loadPaymentEdit() {
-    this.form.get('amount').setValue(this.invoicePayment.amount);
+    // this.form.get('amount').setValue(this.invoicePayment.amount);
     this.form.get('bank').setValue(this.invoicePayment.bank);
     this.form.get('referenceNumber').setValue(this.invoicePayment.referenceNumber);
     this.form.get('typeId').setValue(this.listTypes.find(x => x.id === this.invoicePayment.typePayment).id);
@@ -205,6 +290,19 @@ export class AddPaymentModalComponent implements OnInit {
     const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
     this.form.get('date').patchValue(aux);
     this.form.get('notes').setValue(this.invoicePayment.description);
+    const list: Array<any> = new Array;
+    _.each(this.invoicePayment.invoiceClientInvoicePaymentList, function (detailsICIP) {
+      const obj = new InvoiceClientInvoicePayment();
+      obj.invoiceClient = detailsICIP.invoiceClient;
+      obj.invoicePayment = detailsICIP.invoicePayment;
+      obj.idInvoiceClientInvoicePayment = detailsICIP.idInvoiceClientInvoicePayment;
+      obj.partialPayment = detailsICIP.partialPayment;
+      obj.tax = detailsICIP.tax;
+      list.push(obj);
+    });
+    this.form.get('amount').setValue(this.invoicePayment.invoiceClientInvoicePaymentList.find(
+      x => ((x.invoicePayment === this.invoicePayment.idInvoicePayment) && (x.invoiceClient === this.invoice.idInvoice))).partialPayment);
+    this.listDetails = JSON.parse(JSON.stringify(list));
   }
 
   get typeId() { return this.form.get('typeId'); }

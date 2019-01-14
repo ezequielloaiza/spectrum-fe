@@ -1,12 +1,13 @@
-@import '../../../../../../styles/spectrum/spectrum';
+@import "../../../../../../styles/spectrum/spectrum";
 @include tr-sizes((70%, 15%, 15%));
 
 .margin-table {
-    margin-top: -20px;
+  margin-top: -20px;
 }
 
 .title-view {
-    font-weight: 600;
+  font-weight: 600;
+  margin-top: -30px;
 }
 
 .btn-files {
@@ -15,35 +16,57 @@
 }
 
 .content {
-    overflow-y: auto;
-    max-height: 580px;
-  
-    h5 {
-      font-weight: 600;
-    }
-  
-    .spinner {
-      width: 50px;
-      height: 50px;
-      top: 62px;
-      left: 340px;
-  
-      > div {
-        width: 10px;
-        height: 10px;
-      }
-    }
+  overflow-y: auto;
+  max-height: 580px;
 
-    .table 
-    > thead 
-    > tr {
+  h5 {
+    font-weight: 600;
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    top: 62px;
+    left: 340px;
+
+    > div {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  .table > thead > tr {
+    > th:first-child {
+      width: 70%;
+    }
+    > th:last-child {
+      text-align: center;
+    }
+  }
+
+  .tb-invoice {
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: -30px;
+
+    > thead > tr {
       > th:first-child {
-        width: 70%;
+        width: 40%;
       }
       > th:last-child {
+        width: 30%;
         text-align: center;
       }
     }
-    
-  
+
+    > tbody > tr {
+      font-weight: 300;
+
+      > td:last-child {
+        text-align: left;
+      }
+    }
+
   }
+}

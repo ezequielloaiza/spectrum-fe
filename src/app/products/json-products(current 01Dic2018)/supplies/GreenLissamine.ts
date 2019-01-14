@@ -6,10 +6,10 @@ this.products = [
     "infoAditional": [
       {
         "name": "Properties", "values": [
-          "Best solution to help detect degenerated Cells, dead cells, and mucous fibrils.",
-          "Essential for the diagnosis of different types of tear dysfunctions; allows to detect the severeness, evolution, and the efficiency of the treatment.",
-          "Indispensable in the fitting process of contact lenses, given that it helps to quickly and efficiently identify the lending zone of the lens that generates intolerance.",
-          "Packaging: 100 Strips"
+          {"class":"fa fa-eye", "text":"Best solution to help detect degenerated Cells, dead cells, and mucous fibrils."},
+          {"class":"fa fa-check-circle", "text":"Essential for the diagnosis of different types of tear dysfunctions; allows to detect the severeness, evolution, and the efficiency of the treatment."},
+          {"class":"fa fa-cogs", "text":"Indispensable in the fitting process of contact lenses, given that it helps to quickly and efficiently identify the lending zone of the lens that generates intolerance."},
+          {"class":"fa fa-edit", "text":"Packaging: 100 Strips"}
         ]
       }
     ]
@@ -17,8 +17,8 @@ this.products = [
 ];
 
 /* 
-<i class="fas fa-eye"></i>
-<i class="fas fa-check-circle"></i>
-<i class="fas fa-cogs"></i>
-<i class="fas fa-edit"></i>
+<i class="fa fa-eye"></i>
+<i class="fa fa-check-circle"></i>
+<i class="fa fa-cogs"></i>
+<i class="fa fa-edit"></i>
 */

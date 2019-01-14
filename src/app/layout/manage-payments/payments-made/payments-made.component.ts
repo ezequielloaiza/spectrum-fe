@@ -11,6 +11,7 @@ import { saveAs } from 'file-saver';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AddPaymentModalComponent } from './modals/add-payment-modal/add-payment-modal.component';
 import { ChangeStatusComponent } from './modals/change-status/change-status.component';
+import { InvoiceClientInvoicePayment } from '../../../shared/models/invoiceclientinvoicepayment';
 
 @Component({
   selector: 'app-payments-made',
@@ -62,7 +63,6 @@ export class PaymentsMadeComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.invoice = res.data;
           this.auxInvoice = res.data;
-          console.log('inv',this.invoice);
         } else {
           console.log(res.code);
         }
@@ -81,12 +81,14 @@ export class PaymentsMadeComponent implements OnInit {
         return 'Part Paid';
       case 2:
         return 'Paid';
+      case 3:
+        return 'Overdue';
     }
   }
 
   getListPayments(invoice): void {
     if (invoice === undefined) {
-      invoice = this.auxInvoice.idInvoiceClient;
+      invoice = this.auxInvoice.idInvoice;
     }
     this.invoicePaymentService.allPaymentsByInvoice$(invoice).subscribe(
       res => {
@@ -103,26 +105,65 @@ export class PaymentsMadeComponent implements OnInit {
     );
   }
 
+  getPartialPayment(payment, inv) {
+    if (inv === undefined) {
+      inv = this.auxInvoice;
+    }
+    const pI = payment.invoiceClientInvoicePaymentList.find(
+      x => (x.invoiceClient === inv.idInvoice));
+    return pI.partialPayment;
+  }
+
   openModal(invoice, action, payment): void {
-    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
-    modalRef.componentInstance.invoice = invoice;
-    modalRef.componentInstance.action = action;
-    modalRef.componentInstance.invoicePayment = payment;
-    modalRef.result.then((result) => {
-      const id = this.route.snapshot.paramMap.get('idInvoice');
-      this.ngOnInit();
-    }, (reason) => {
-    });
+    if (invoice.due == 0 && (action != 'view')) {
+      this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
+        this.notification.success('', res1);
+      });
+    } else {
+      if (payment != null && (payment.invoiceClientInvoicePaymentList.length > 1) && (action == 'edit')) {
+        this.translate.get('It can not edit a multiple payment',
+        { value: 'It can not edit a multiple payment' }).subscribe((res1: string) => {
+          this.notification.success('', res1);
+        });
+      } else {
+        const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
+        modalRef.componentInstance.invoice = invoice;
+        modalRef.componentInstance.action = action;
+        modalRef.componentInstance.idsInvoiceClient = [invoice.idInvoice];
+        modalRef.componentInstance.invoicePayment = payment;
+        modalRef.result.then((result) => {
+          const id = this.route.snapshot.paramMap.get('idInvoice');
+          this.ngOnInit();
+        }, (reason) => {
+        });
+      }
+    }
   }
 
   changeStatus(payment) {
-    const modalRef = this.modalService.open(ChangeStatusComponent);
-    modalRef.componentInstance.payment = payment;
-    modalRef.result.then((result) => {
-      const id = this.route.snapshot.paramMap.get('idInvoice');
-      this.getListPayments(id);
-    }, (reason) => {
-    });
+    if (this.invoice.due != 0 || payment.status == 0) {
+      let partial = this.getPartialPayment(payment, this.invoice);
+      if ((partial > this.invoice.due) && (payment.status == 0)) {
+        this.translate
+        .get('The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.', 
+        { value: 'The amount of the payment is greater than the debt of the invoice. Please verify the payment amount' })
+        .subscribe((res1: string) => {
+          this.notification.success('', res1);
+        });
+      } else {
+        const modalRef = this.modalService.open(ChangeStatusComponent);
+        modalRef.componentInstance.payment = payment;
+        modalRef.result.then((result) => {
+        const id = this.route.snapshot.paramMap.get('idInvoice');
+        this.ngOnInit();
+        }, (reason) => {
+        });
+      }
+    } else {
+      this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
+        this.notification.success('', res1);
+      });
+    }
   }
 
   sortInvoice(key) {
@@ -174,23 +215,42 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   deletePayment(payment): void {
-    const id = payment.idInvoiceClient;
+    const id = this.invoice.idInvoice;
     this.translate.get('Delete Payment', { value: 'Delete Payment' }).subscribe((title: string) => {
       this.translate.get('Are you sure you want to delete the invoice payment?',
-        { value: 'Are you sure you want to delete the invoice?' }).subscribe((msg: string) => {
+        { value: 'Are you sure you want to delete the invoice payment?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
-            this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
-              if (res.code === CodeHttp.ok) {
-                this.getListPayments(id);
-                this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
-                  this.notification.success('', res1);
-                });
-              } else {
-                console.log(res.errors[0].detail);
-              }
-            }, error => {
-              console.log('error', error);
-            });
+            if (payment.invoiceClientInvoicePaymentList.length > 1) {
+              console.log('1');
+              this.invoicePaymentService.deleteInvoicePaymentByInvoiceClient$(payment.idInvoicePayment, id).subscribe(res => {
+                if (res.code === CodeHttp.ok) {
+                  this.getInvoice(id);
+                  this.getListPayments(id);
+                  this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
+                    this.notification.success('', res1);
+                  });
+                } else {
+                  console.log(res.errors[0].detail);
+                }
+              }, error => {
+                console.log('error', error);
+              });
+            } else {
+              console.log('2');
+              this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
+                if (res.code === CodeHttp.ok) {
+                  this.getInvoice(id);
+                  this.getListPayments(id);
+                  this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
+                    this.notification.success('', res1);
+                  });
+                } else {
+                  console.log(res.errors[0].detail);
+                }
+              }, error => {
+                console.log('error', error);
+              });
+            }
           }, () => {
           });
         });

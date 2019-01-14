@@ -67,6 +67,7 @@ import { MarkennovyComponent } from './edit-order/markennovy/markennovy.componen
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
+import { InvoiceClientService } from '../shared/services/invoiceClient/invoice-client.service';
 import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
@@ -77,6 +78,11 @@ import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euc
 import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
 import { ChangeStatusComponent } from './manage-payments/payments-made/modals/change-status/change-status.component';
 import { EuropaComponent } from './edit-order/europa/europa.component';
+import { DetailSalineFluoComponent } from './basket/modals/detail-product/detail-saline-fluo/detail-saline-fluo.component';
+import { SalineFluoComponent } from './edit-order/saline-fluo/saline-fluo.component';
+import { DetailLenticonComponent } from './basket/modals/detail-product/detail-lenticon/detail-lenticon.component';
+import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
+import { ModalsInvoiceComponent } from './manage-customer-orders/modals-invoice/modals-invoice.component';
 
 @NgModule({
     imports: [
@@ -162,7 +168,12 @@ import { EuropaComponent } from './edit-order/europa/europa.component';
         DetailEuclidComponent,
         DetailEuropaComponent,
         EuropaComponent,
-        ChangeStatusComponent
+        ChangeStatusComponent,
+        DetailSalineFluoComponent,
+        SalineFluoComponent,
+        DetailLenticonComponent,
+        LenticonComponent,
+        ModalsInvoiceComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -194,7 +205,12 @@ import { EuropaComponent } from './edit-order/europa/europa.component';
       DetailEuclidComponent,
       DetailEuropaComponent,
       EuropaComponent,
-      ChangeStatusComponent
+      ChangeStatusComponent,
+      DetailSalineFluoComponent,
+      SalineFluoComponent,
+      DetailLenticonComponent,
+      LenticonComponent,
+      ModalsInvoiceComponent
     ],
     providers: [
       BusinessTypeService,
@@ -204,7 +220,8 @@ import { EuropaComponent } from './edit-order/europa/europa.component';
       UserResolver,
       SellerResolver,
       RoleGuard,
-      AuthorizationService
+      AuthorizationService,
+      InvoiceClientService
     ]
 })
 export class LayoutModule {}
