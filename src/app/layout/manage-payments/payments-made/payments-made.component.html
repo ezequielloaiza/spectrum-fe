@@ -155,7 +155,7 @@
                   <div>{{'Check' | translate}}</div>
                 </td>
                 <td class="table-tr">{{payment.referenceNumber}}</td>
-                <td class="table-tr">{{getPartialPayment(payment) | currency : "USD $"}}</td>
+                <td class="table-tr">{{getPartialPayment(payment, invoice) | currency : "USD $"}}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">

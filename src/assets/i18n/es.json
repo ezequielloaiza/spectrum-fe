@@ -980,7 +980,7 @@
     "Verified" : "Verificado",
     "Attach file" : "Adjuntar archivo",
     "Enter bank name" : "Ingrese nombre del banco",
-    "Payment Information" : "Informacion de Pago",
+    "Payment Information" : "Información de Pago",
     "Payment Type": "Tipo de Pago",
     "Invoice Payment's status": "Estado del Pago de la Factura",
     "View Payment": "Ver Pago",
@@ -1040,6 +1040,7 @@
     "Bill customers":"Facturar a clientes",
     "Bill providers":"Facturar a proveedores",
     "Invoice already been paid":"Factura ya pagada",
-    "It can not edit a multiple payment":"No se puede editar un pago múltiple", 
-    "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount": "El monto del pago es mayor que la deuda de la factura. Por favor, verifique el monto del pago."
+    "It can not edit a multiple payment":"No se puede editar un pago múltiple",
+    "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.": "El monto del pago es mayor que la deuda de la factura. Por favor, verifique el monto del pago.",
+    "Amount is required": "El monto es requerido"
 }
