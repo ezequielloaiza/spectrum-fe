@@ -54,6 +54,12 @@
           <p>{{ property.text | translate }}</p>
         </div>
       </div>
+      <div class="col-md-2">
+        <dt>{{ 'Product Sheet' | translate }}</dt>
+        <dd>
+          <a (click)="download()" href="javascript:void(0);">{{ 'Download' | translate }}</a>
+        </dd>
+      </div>
 
       <!-- row (pacient, client, shipping address) -->
       <div class="row product-info">
