@@ -83,4 +83,12 @@ export class OrderService {
   public countOrders$(idUser): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/countOrders/' + idUser);
   }
+
+  public generateInvoiceClient$(invoice): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/generateInvoiceClient', invoice);
+  }
+
+  public generateInvoiceSupplier$(invoice): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/generateInvoiceSupplier', invoice);
+  }
 }
