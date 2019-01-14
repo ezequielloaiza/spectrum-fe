@@ -106,13 +106,16 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   getPartialPayment(payment, inv) {
+    if (inv === undefined) {
+      inv = this.auxInvoice;
+    }
     const pI = payment.invoiceClientInvoicePaymentList.find(
       x => (x.invoiceClient === inv.idInvoice));
     return pI.partialPayment;
   }
 
   openModal(invoice, action, payment): void {
-    if (invoice.due == 0 && (action != 'new' && action != 'view')) {
+    if (invoice.due == 0 && (action != 'view')) {
       this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
         this.notification.success('', res1);
       });
