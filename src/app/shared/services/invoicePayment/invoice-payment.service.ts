@@ -19,7 +19,11 @@ export class InvoicePaymentService {
   }
 
   public deleteInvoicePayment$(invoicePayment): Observable<any> {
-    return this.http.post(environment.apiUrl + 'invoicesPayment/delete', invoicePayment);
+    return this.http.post(environment.apiUrl + 'invoicesPayment/deleteByPayment', invoicePayment);
+  }
+
+  public deleteInvoicePaymentByInvoiceClient$(invoicePayment, invoiceClient): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesPayment/deleteByInvoice/' + invoicePayment + '/' + invoiceClient);
   }
 
   public allPaymentsByInvoice$(invoice): Observable<any> {

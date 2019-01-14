@@ -12,6 +12,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InvoiceClientService } from '../../shared/services/invoiceClient/invoiceclient.service';
+import { AddPaymentModalComponent } from './payments-made/modals/add-payment-modal/add-payment-modal.component';
 
 
 @Component({
@@ -34,6 +35,9 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   filterStatus = [{ id: 0, name: "Pending" },
                   { id: 1, name: "Sent" }
                 ];
+  listAux = [];
+  valid = false;
+  selectedAll: any;
   valorClient: string;
   selectedStatus: any;
   status: any;
@@ -58,7 +62,6 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
       this.navigationSubscription = this.router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
           this.ngOnInit();
-          this.getListInvoices();
         }
       });
     }
@@ -69,7 +72,10 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     });
     this.getListInvoices();
     this.advancedPagination = 1;
+    this.listAux = [];
     this.selectedStatus = '';
+    this.selectedAll = false;
+    this.valid = false;
     this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
   }
@@ -88,7 +94,15 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
 
   getListInvoices(): void {
     this.spinner.show();
-    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, this.statusRoute).subscribe(
+    const status: Array<any> = new Array;
+    if (this.statusRoute == 0) {
+      status.push(0);
+      status.push(1);
+    } else if (this.statusRoute == 1) {
+      status.push(1);
+      status.push(2);
+    }
+    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;
@@ -106,7 +120,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
         console.log('error', error);
         this.spinner.hide();
       }
-    )
+    );
   }
 
   sortInvoice(key) {
@@ -381,5 +395,87 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   open(invoice) {
     this.router.navigate(['/payments/' + invoice.idInvoice + '/paymentsMade']);
   }
+
+  onSelection(id, checked) {
+    let arrayAux = this.listAux;
+    let due = false;
+    _.each(this.listInvoices, function(item) {
+      if (item.idInvoice === id) {
+        let existe: boolean;
+        existe = _.includes(arrayAux, id);
+        item.checked = checked;
+        if (item.due !== 0) {
+          if (existe) {
+            if (!checked) {
+              _.remove(arrayAux,  function (n)  {
+                return n === id;
+              });
+            }
+          } else {
+            arrayAux = _.concat(arrayAux, id);
+          }
+        } else {
+          item.checked = false;
+          checked ? due = true : due = false;
+        }
+      }
+    });
+    if (due) {
+      this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
+        this.notification.success('', res1);
+      });
+    }
+    this.selectedAll = false;
+    this.listAux = arrayAux;
+    this.listAux.length > 1 ? this.valid = true : this.valid = false;
+    this.listAux.length === this.listInvoices.length ? this.selectedAll = true : this.selectedAll = false; 
+  }
+
+  onSelectionAll(event) {
+    let arrayAux = this.listAux;
+    const check = event.target.checked;
+    let due = false;
+    _.each(this.listInvoices, function(item) {
+      item.checked = check;
+      let existe: boolean;
+      const id = item.idInvoice;
+      existe = _.includes(arrayAux, id);
+      if (item.due !== 0) {
+        if (existe) {
+          if (!check) {
+            _.remove(arrayAux,  function (n)  {
+              return n === id;
+            });
+          }
+        } else {
+          arrayAux = _.concat(arrayAux, id);
+        }
+      } else {
+        check ? due = true : due = false;
+        item.checked = false;
+      }
+    });
+    if (due) {
+      this.translate.get('Invoice already been paid', { value: 'Invoice already been paid' }).subscribe((res1: string) => {
+        this.notification.success('', res1);
+      });
+    }
+    this.selectedAll = check;
+    this.listAux = arrayAux;
+    this.listAux.length > 1 ? this.valid = true : this.valid = false;
+  }
+
+  openModal(invoice, action, payment): void {
+    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
+    modalRef.componentInstance.invoice = invoice;
+    modalRef.componentInstance.action = action;
+    modalRef.componentInstance.invoicePayment = payment;
+    modalRef.componentInstance.idsInvoiceClient = this.listAux;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    }, (reason) => {
+    });
+  }
+
 }
 

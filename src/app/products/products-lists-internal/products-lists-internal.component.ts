@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EditProductMagicLookComponent } from '../modals/edit-product/edit-product-magic-look/edit-product-magic-look.component';
 import { EditProductEuclidComponent } from '../modals/edit-product/edit-product-euclid/edit-product-euclid.component';
 import { EditProductEuropaComponent } from '../modals/edit-product/edit-product-europa/edit-product-europa.component';
+import { EditProductSpectrumSalineComponent } from '../modals/edit-product/edit-product-spectrum-saline/edit-product-spectrum-saline.component';
 
 @Component({
   selector: 'app-products-lists-internal',
@@ -100,25 +101,25 @@ export class ProductsListInternalComponent implements OnInit {
 
     if (productsSaphirRx.length) {
       this.productsMarkennovy.push({name:"Saphir Rx",
-                                    mainImg:"assets/images/products/markennovy/saphirRx.jpg",
+                                    mainImg:"assets/images/products/markennovy/saphirRx.png",
                                     replacementPeriod:"Monthly",
                                     father: "Saphir Rx"});
     }
     if (productsGentle80.length) {
       this.productsMarkennovy.push({name:"Gentle 80",
-                                    mainImg:"assets/images/products/markennovy/Mark’ennovy-Gentle-80.jpg",
+                                    mainImg:"assets/images/products/markennovy/Mark’ennovy-Gentle-80.png",
                                     replacementPeriod:"Monthly",
                                     father: "Gentle 80"});
     }
     if (productsGentle59.length) {
       this.productsMarkennovy.push({name:"Gentle 59",
-                                    mainImg:"assets/images/products/markennovy/gentle_59_hi_ret_2.jpg",
+                                    mainImg:"assets/images/products/markennovy/gentle_59_hi_ret_2.png",
                                     replacementPeriod:"Monthly",
                                     father: "Gentle 59"});
     }
     if (productsBluGen.length) {
       this.productsMarkennovy.push({name:"Blu:gen",
-                                    mainImg:"assets/images/products/markennovy/lentillas-blu_gen-287706.jpg",
+                                    mainImg:"assets/images/products/markennovy/blu-gen.png",
                                     replacementPeriod:"Monthly",
                                     father: "Blu:gen"});
     }
@@ -130,25 +131,25 @@ export class ProductsListInternalComponent implements OnInit {
     }
     if (productsXtensa.length) {
       this.productsMarkennovy.push({name:"Xtensa",
-                                    mainImg:"assets/images/products/markennovy/Saphir-Rx-For-Print-11.jpg",
+                                    mainImg:"assets/images/products/markennovy/xtensa.png",
                                     replacementPeriod:"Monthly",
                                     father: "Xtensa"});
     }
     if (productsSaphir.length) {
       this.productsMarkennovy.push({name:"Saphir",
-                                    mainImg:"assets/images/products/markennovy/saphir_3mok.jpg",
+                                    mainImg:"assets/images/products/markennovy/saphir.png",
                                     replacementPeriod:"3-Monthly",
                                     father: "Saphir"});
     }
     if (productsQuattroX3.length) {
       this.productsMarkennovy.push({name:"Quattro 3-Monthly",
-                                    mainImg:"assets/images/products/markennovy/quattro.jpg",
+                                    mainImg:"assets/images/products/markennovy/quattro.png",
                                     replacementPeriod:"3-Monthly",
                                     father: "Quattro 3-Monthly"});
     }
     if (productsQuattroX1.length) {
       this.productsMarkennovy.push({name:"Quattro x1Conv",
-                                    mainImg:"assets/images/products/markennovy/quattro.jpg",
+                                    mainImg:"assets/images/products/markennovy/quattro-conventional.png",
                                     replacementPeriod:"Conventional",
                                     father: "Quattro Conventional"});
     }
@@ -169,7 +170,12 @@ export class ProductsListInternalComponent implements OnInit {
         }
 
         this.nameSupplier = this.products[0] ? this.products[0].supplier.companyName : '';
-        this.productsAux = this.products;
+        if (this.idSupplier === 7 && this.user.role.idRole === 3) {
+           this.excludeProduct();
+        } else {
+           this.productsAux = this.products;
+        }
+        this.products = _.orderBy( this.products, ['idProduct'], ['asc']);
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -230,6 +236,9 @@ export class ProductsListInternalComponent implements OnInit {
       case 2: // europa
         this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
         break;
+      case 3: // Lenticon
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-lenticon']);
+        break;
       case 4:  // euclid
         this.router.navigate(['/products/' + product.idProduct + '/product-view-euclid']);
         break;
@@ -238,6 +247,14 @@ export class ProductsListInternalComponent implements OnInit {
         break;
       case 6:  // magic blue
         this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
+        break;
+      case 7:  // fluo strips y spectrum saline
+        if (product.father === 'Fluo Strips') {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-fluo-strips']);
+        }
+        if (product.father === 'Spectrum Saline') {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
+        }
         break;
     }
   }
@@ -302,6 +319,35 @@ export class ProductsListInternalComponent implements OnInit {
               },
               (reason) => {}
             );
+            break;
+      case 7: // Fluo Strips
+            if (product.father === 'Fluo Strips') {
+              const modalRefGeneralFluo = this.modalService.open(EditProductComponent, {
+                size: 'lg',
+                windowClass: 'modal-content-border'
+              });
+              modalRefGeneralFluo.componentInstance.product = product;
+              modalRefGeneralFluo.componentInstance.action = action;
+              modalRefGeneralFluo.result.then(
+                (result) => {
+                  this.getProducts();
+                },
+                (reason) => {}
+              );
+            } else { // spectrum saline
+              const modalRefSpectrum = this.modalService.open(EditProductSpectrumSalineComponent, {
+                size: 'lg',
+                windowClass: 'modal-content-border'
+              });
+              modalRefSpectrum.componentInstance.product = product;
+              modalRefSpectrum.componentInstance.action = action;
+              modalRefSpectrum.result.then(
+                (result) => {
+                  this.getProducts();
+                },
+                (reason) => {}
+              );
+            }
             break;
     }
   }
@@ -399,6 +445,17 @@ export class ProductsListInternalComponent implements OnInit {
   public beforeChange($event: NgbPanelChangeEvent) {
     if ($event.panelId === 'filter2' && $event.nextState === false) {
       $event.preventDefault();
+    }
+  }
+
+  excludeProduct() {  // Exclusion de Spectrum Saline para clientes con membresia Oro
+    let productsAux = [];
+    const membership = this.currentUser.membership.idMembership;
+    if (membership === 1) { // Gold
+      productsAux = _.filter(this.products, function(o) {
+        return o.father !== 'Spectrum Saline';
+      });
+      this.products = productsAux;
     }
   }
 }

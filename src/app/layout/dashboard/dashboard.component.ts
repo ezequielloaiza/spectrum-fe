@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { SageService } from '../../shared/services/sage/sage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { Role } from '../../shared/enum/role.enum';
@@ -8,6 +9,7 @@ import { WarrantyService } from '../../shared/services/warranty/warranty.service
 import { OrderService } from '../../shared/services/order/order.service';
 import * as _ from 'lodash';
 import { formatDate } from '@angular/common';
+import { InvoiceClientService } from '../../shared/services/invoiceClient/invoiceclient.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,10 +22,14 @@ export class DashboardComponent implements OnInit {
   public alerts: Array<any> = [];
   public sliders: Array<any> = [];
   warrantiesList: Array<any> = new Array;
+  invoicesList: Array<any> = new Array;
+  invoicesListAux: Array<any> = new Array;
   user: any;
   orders = 0;
   total = 0;
   warranties = 0;
+  pendingPayment = 0;
+  overdueCustomers = 0;
   orderPend = 0;
   orderProc = 0;
   orderReady = 0;
@@ -190,7 +196,9 @@ export class DashboardComponent implements OnInit {
   constructor(private translate: TranslateService,
               private userService: UserStorageService,
               private orderService: OrderService,
-              private warrantyService: WarrantyService) {
+              private invoiceService: InvoiceClientService,
+              private warrantyService: WarrantyService,
+              private sage: SageService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.sliders.push(
       {
@@ -250,11 +258,18 @@ export class DashboardComponent implements OnInit {
     this.getWarrantiesPendings();
     this.getCountOrders();
     this.getCountOrdersTotal();
+    this.getPendingPayments();
   }
 
   public closeAlert(alert: any) {
     const index: number = this.alerts.indexOf(alert);
     this.alerts.splice(index, 1);
+  }
+
+  public loginSage() {
+    this.sage.findAll$().subscribe((res) => {
+      window.open(res.data,"Sage","menubar=1,resizable=1,width=650,height=680,left=350");
+    })
   }
 
   getOrdersPending() {
@@ -278,7 +293,7 @@ export class DashboardComponent implements OnInit {
       });
     }
   }
-  
+
   getWarrantiesPendings(): void {
     this.warrantyService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -360,4 +375,22 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  getPendingPayments(): void {
+    this.invoiceService.allInvoiceByStatusInByRole$(this.user.userResponse.idUser, 0).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          const today = new Date().toISOString();
+          this.invoicesList = res.data;
+          this.pendingPayment = _.sumBy(this.invoicesList, function(o) { return o.total; });
+          this.invoicesListAux = _.filter(this.invoicesList, function(o) { return o.dueDate < today;  });
+          this.overdueCustomers = _.uniqBy(this.invoicesListAux, function(o) { return o.idUser; }).length;
+        } else {
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    )
+  }
 }

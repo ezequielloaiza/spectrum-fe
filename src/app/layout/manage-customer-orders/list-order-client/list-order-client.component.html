@@ -69,14 +69,42 @@
           </div>
           <div class="card-body table-responsive">
             <div>
-              <div class="list-orden" *ngFor="let order of listOrders">
+              <div class="custom-control custom-checkbox selection-all" *ngIf="user.role.idRole === 1 && status !== '0' && status !== '4'">
+                <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll" (click)="onSelectionAll($event)" [checked]="selectedAll"
+                      class="custom-control-input">
+                <label class="custom-control-label select-all" for="checkboxAll"></label>
+                <div class="margin">
+                  <div class="col-xl-12 btn-clean">
+                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billCustomers()">Bill To Customer</button>&nbsp;
+                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billProviders()">Bill To Provider</button>
+                  </div>
+                </div>
+              </div>
+              <div class="list-orden" *ngFor="let order of listOrders; let i = index">
                 <div class="row">
                   <div class="col-lg-2">
                     <div class="title">
-                      <span>{{'ORDER'| translate }}</span>
+                      <div class="custom-control custom-checkbox">
+                          <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="order.idOrder" [(ngModel)]="order.checked" (change)="onSelection(order.idOrder,order.checked)"
+                                class="custom-control-input">
+                          <label class="custom-control-label" for="checkbox{{i}}" *ngIf="user.role.idRole === 1 && (order.status !== 0 && order.status !== 4)"></label>
+                          <span>{{'ORDER'| translate }}</span>
+                      </div>
                     </div>
                     <div>
-                      <span>{{'#'}}{{order.number}}</span>
+                      <span>{{ '#'+order.number}}</span>
+                    </div>
+                    <div>
+                        <span>{{'Customer invoice'| translate }}</span>
+                    </div>
+                    <div>
+                        <span>{{order.invoiceClient? '#'+order.invoiceClient.number : 'Not generated'}}</span>
+                    </div>
+                    <div>
+                        <span>{{'Customer provider'| translate }}</span>
+                    </div>
+                    <div>
+                        <span>{{order.invoiceSupplier? '#'+order.invoiceSupplier.number : 'Not generated'}}</span>
                     </div>
                   </div>
                   <div class="col-lg-2">
@@ -92,19 +120,19 @@
                       <span>{{ 'Order Status' | translate }}</span>
                     </div>
                     <div class="div-status">
-                      <span *ngIf='order.status==0' class="div-pending">
+                      <span *ngIf='order.status === 0' class="div-pending">
                         <div translate>Pending</div>
                       </span>
-                      <span *ngIf='order.status==1' class="div-processed">
+                      <span *ngIf='order.status === 1' class="div-processed">
                         <div translate>Processed</div>
                       </span>
-                      <span *ngIf='order.status==2' class="div-ready">
+                      <span *ngIf='order.status === 2' class="div-ready">
                         <div translate>Ready to Ship</div>
                       </span>
-                      <span *ngIf='order.status==3' class="div-shipped">
+                      <span *ngIf='order.status === 3' class="div-shipped">
                         <div translate>Shipped</div>
                       </span>
-                      <span *ngIf='order.status==4' class="div-canceled">
+                      <span *ngIf='order.status === 4' class="div-canceled">
                         <div translate>Canceled</div>
                       </span>
                     </div>
@@ -114,10 +142,10 @@
                       <span>{{ 'Payment Status' | translate }}</span>
                     </div>
                     <div class="div-status">
-                      <span *ngIf='order.paymentStatus==0' class="div-pending">
+                      <span *ngIf='order.paymentStatus === 0' class="div-pending">
                         <div translate>Pending</div>
                       </span>
-                      <span *ngIf='order.paymentStatus==1' class="div-shipped">
+                      <span *ngIf='order.paymentStatus === 1' class="div-shipped">
                         <div translate>Paid</div>
                       </span>
                     </div>
@@ -142,19 +170,19 @@
                             {{ 'View Details' | translate }}</button>
                           <button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
                             {{ 'Change Status' | translate }}</button>
-                          <button [hidden]="user.role.idRole!==1 || (order.status===4)" class="dropdown-item" (click)="cancel(order)">
+                          <button [hidden]="user.role.idRole !== 1 || (order.status === 4)" class="dropdown-item" (click)="cancel(order)">
                             {{ 'Cancel Order' | translate }}</button>
                         </div>
                       </div>
                     </div>
-                    <div class="div-dropdown" [hidden]="order.status===0 || order.status===4">
+                    <div class="div-dropdown" [hidden]="order.status === 0 || order.status === 4">
                       <div ngbDropdown class="d-inline-block dropdown">
                         <button class="btn btn-dropdown-main btn-dd" ngbDropdownToggle>{{ 'Generate Invoice' |
                           translate }}</button>
                         <div ngbDropdownMenu class="dropdown-menu-invoice">
                           <button class="dropdown-item" (click)="generateInvoice(order)">
                             {{ 'To Provider' | translate }}</button>
-                          <button class="dropdown-item" (click)="open(order)">
+                          <button class="dropdown-item" (click)="invoiceClient(order)">
                             {{ 'To Customer' | translate }}</button>
                         </div>
                       </div>
@@ -163,28 +191,27 @@
                 </div>
                 <div class="row product" *ngFor="let listDetails of order.listProductRequested">
                   <div class="col-lg-2">
-                    <div *ngFor="let specification of listDetails.productRequested.detail">
+                    <div>
                       <span>{{listDetails.productRequested.product.name}}</span>
                     </div>
-                    <div>
+                    <div *ngIf="listDetails.productRequested.detail.length > 0 ">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
                     </div>
-                    <div>
+                    <div *ngIf="listDetails.productRequested.detail.length > 0 ">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>
                     </div>
                   </div>
                   <div class="col-lg-3">
-                    <div>
+                    <div [hidden]="listDetails.productRequested.product.material === null">
                       <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>
                     </div>
-                    <div>
-                      <span>{{'Replacement period'| translate}}{{':
-                        '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
+                    <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
+                      <span>{{'Replacement period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>
-                    <div>
+                    <div [hidden]="listDetails.productRequested.product.warranty === null">
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
                     </div>
-                    <div>
+                    <div [hidden]="order.supplier.companyName === null">
                       <span>{{'Supplier'| translate}}{{': '}}{{order.supplier.companyName}}</span>
                     </div>
                     <div>

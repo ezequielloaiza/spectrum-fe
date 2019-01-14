@@ -155,7 +155,7 @@
                   <div>{{'Check' | translate}}</div>
                 </td>
                 <td class="table-tr">{{payment.referenceNumber}}</td>
-                <td class="table-tr">{{payment.amount | currency : "USD $"}}</td>
+                <td class="table-tr">{{getPartialPayment(payment, invoice) | currency : "USD $"}}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">
@@ -164,7 +164,7 @@
                         <button class="dropdown-item" (click)="openModal(invoice,'view', payment)">
                           <i class="fa fa-eye"></i> {{ 'View Payment' | translate }}
                         </button>
-                        <button class="dropdown-item" (click)="openModal(invoice,'edit', payment)">
+                        <button class="dropdown-item" (click)="openModal(invoice,'edit', payment)" *ngIf="payment.status === 0">
                           <i class="fa fa-edit"></i> {{ 'Edit Payment' | translate }}
                         </button>
                         <button class="dropdown-item" (click)="deletePayment(payment)"> 

@@ -22,8 +22,12 @@ export class InvoiceClientService {
     return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceByStatus/' + status);
   }
 
-  public allInvoiceByStatusIn$(idUser, status): Observable<any> {
-    return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceByStatusInByRole/' + idUser + '/' + status);
+  public allInvoiceByStatusInByRole$(idUser, status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceByStatusInByRole/' + idUser+ '/' + status);
+  }
+
+  public allInvoiceByStatusIn$(idUser,  status: Array<any>): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesClient/allInvoiceByStatusIn/' + idUser, status);
   }
 
   public allInvoice$(): Observable<any> {
@@ -38,5 +42,9 @@ export class InvoiceClientService {
     return this.http.get(environment.apiUrl + 'invoicesClient/downloadInvoice/' + name, {
       responseType: 'blob'
     });
+  }
+
+  public findByIds$(listIds: Array<String>): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesClient/allInvoiceByIds', listIds);
   }
 }
