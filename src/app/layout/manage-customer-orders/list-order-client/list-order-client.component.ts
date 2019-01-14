@@ -10,7 +10,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { GenerateInvoiceComponent } from '../generate-invoice/generate-invoice.component';
+import { InvoiceClientService } from '../../../shared/services/invoiceClient/invoice-client.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { InvoiceClient } from '../../../shared/models/invoiceclient';
+import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
+import { generate } from 'rxjs';
+import { ModalsInvoiceComponent } from '../modals-invoice/modals-invoice.component';
 
 @Component({
   selector: 'app-list-order-client',
@@ -38,6 +43,14 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   status: any;
   auxStatus: any;
   navigationSubscription;
+  valid = false;
+  listAux = [];
+  selectedAll: any;
+  invoice: InvoiceClient = new InvoiceClient();
+  invoiceSupplier: InvoiceSupplier = new InvoiceSupplier();
+  today: Date = new Date();
+  listInvoiceClient = [];
+  listInvoiceSupplier = [];
 
   constructor(private orderService: OrderService,
     private userService: UserStorageService,
@@ -45,6 +58,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     private notification: ToastrService,
     private translate: TranslateService,
     private alertify: AlertifyService,
+    private invoiceClientService: InvoiceClientService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService) {
@@ -67,6 +81,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.valorProduct = '';
     this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
+    this.listAux = [];
   }
 
   ngOnDestroy() {
@@ -287,7 +302,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         && _.toString(this.valorClient) === '') {// si selecciono status y no fecha ni cliente
         this.filterStatusProducto(product, valorStatus);
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
-        && _.toString(this.valorClient) !== '') {// si selecciono status y cliente y no fecha 
+        && _.toString(this.valorClient) !== '') {// si selecciono status y cliente y no fecha
         this.filterStatusClienteProducto(this.valorClient, product, valorStatus);
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
         && _.toString(this.valorClient) === '') { // si no selecciono status ni cliente y fecha si
@@ -522,6 +537,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   open(order) {
+    this.invoiceClientService.generateInvoiceClient$(order.idOrder).subscribe();
     const modalRef = this.modalService.open(ModalsStatusComponent);
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
@@ -530,10 +546,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     });
   }
 
+
   generateInvoice(order) {
+    let pilot = order.invoiceSupplier === null ? false : true;
     const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.order = order;
-    modalRef.componentInstance.pilot = false;
+    modalRef.componentInstance.pilot = pilot;
     modalRef.result.then((result) => {
       this.getListOrders();
     }, (reason) => {
@@ -562,6 +580,225 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         });
     });
   }
+
+  onSelection(id, checked) {
+    let existe: boolean;
+    existe = _.includes(this.listAux,  id);
+    console.log('existe', existe);
+    if (existe) {
+      if (!checked) {
+        _.remove(this.listAux,  function (n)  {
+          return  n  ===  id;
+        });
+      }
+    } else {
+      this.listAux = _.concat(this.listAux, id);
+    }
+    this.selectedAll = false;
+    this.listAux.length > 1 ? this.valid = true : this.valid = false;
+    this.listAux.length === this.listOrders.length ? this.selectedAll = true : this.selectedAll = false;
+  }
+
+  onSelectionAll(event) {
+    let arrayAux = this.listAux;
+    const check = event.target.checked;
+    _.each(this.listOrders, function(item) {
+      item.checked = check;
+      let existe: boolean;
+      const id = item.idOrder;
+      existe = _.includes(arrayAux, id);
+      if (existe) {
+        if (!check) {
+          _.remove(arrayAux,  function (n)  {
+            return n === id;
+          });
+        }
+      } else {
+        arrayAux = _.concat(arrayAux, id);
+      }
+    });
+    this.selectedAll = check;
+    this.listAux = arrayAux;
+    this.listAux.length > 1 ? this.valid = true : this.valid = false;
+
+  }
+
+  billCustomers() {
+    this.verifyInvoice();
+    if (this.listInvoiceClient.length > 0) {
+      const modalRef = this.modalService.open(ModalsInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRef.componentInstance.list = this.listInvoiceClient;
+        modalRef.componentInstance.type = 1;
+        modalRef.result.then((result) => {
+          this.getListOrders();
+        }, (reason) => {
+      });
+    } else {
+    this.translate.get('Confirm invoice generation', {value: 'Confirm invoice generation'}).subscribe((title: string) => {
+      this.translate.get('Are you sure want to bill all selected orders to customer?',
+       {value: 'Are you sure want to bill all selected orders to customer?'}).subscribe((msg: string) => {
+         this.alertify.confirm(title, msg, () => {
+           this.generateInvoiceClient();
+          }, () => {});
+        });
+      });
+    }
+  }
+
+  generateInvoiceClient() {
+    this.invoice.date = this.today;
+    const ship = 0;
+    this.invoice.shipping = ship;
+    this.invoice.listOrders = this.listAux;
+    this.spinner.show();
+    this.orderService.generateInvoiceClient$(this.invoice).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          this.translate
+            .get('Successfully Generated', { value: 'Successfully Generated' })
+            .subscribe((res1: string) => {
+              this.notification.success('', res1);
+            });
+          this.valid = false;
+          this.listAux = [];
+          this.selectedAll = false;
+          this.initialize();
+          this.getListOrders();
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    );
+  }
+
+  billProviders() {
+    this.verifyInvoice();
+    if (this.listInvoiceSupplier.length > 0) {
+      const modalRef = this.modalService.open(ModalsInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        modalRef.componentInstance.list = this.listInvoiceSupplier;
+        modalRef.componentInstance.type = 2;
+        modalRef.result.then((result) => {
+          this.getListOrders();
+        }, (reason) => {
+      });
+    } else {
+      this.translate.get('Confirm invoice generation', {value: 'Confirm invoice generation'}).subscribe((title: string) => {
+        this.translate.get('Are you sure want to bill all selected orders to provider?',
+        {value: 'Are you sure want to bill all selected orders to provider?'}).subscribe((msg: string) => {
+          this.alertify.confirm(title, msg, () => {
+            this.generateInvoiceSupplier();
+            }, () => {});
+          });
+        });
+    }
+  }
+
+  generateInvoiceSupplier() {
+    this.invoiceSupplier.date = this.today;
+    const ship = 0;
+    this.invoiceSupplier.shipping = ship;
+    this.invoiceSupplier.listOrders = this.listAux;
+    this.spinner.show();
+    this.orderService.generateInvoiceSupplier$(this.invoiceSupplier).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          this.translate
+            .get('Successfully Generated', { value: 'Successfully Generated' })
+            .subscribe((res1: string) => {
+              this.notification.success('', res1);
+            });
+          this.valid = false;
+          this.listAux = [];
+          this.selectedAll = false;
+          this.initialize();
+          this.getListOrders();
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    );
+  }
+
+  initialize() {
+    _.each(this.listOrders, function(item) {
+      item.checked = false;
+    });
+  }
+
+  invoiceClient(order) {
+    if (order.invoiceClient != null) {
+      this.translate.get('The invoice was already generated to the client',
+       { value: 'The invoice was already generated to the client' }).subscribe((res: string) => {
+        this.notification.warning('', res);
+      });
+    } else {
+    this.translate.get('Confirm invoice generation', {value: 'Confirm invoice generation'}).subscribe((title: string) => {
+      this.translate.get('Are you sure want to bill selected order to customer?',
+       {value: 'Are you sure want to bill selected order to customer?'}).subscribe((msg: string) => {
+         this.alertify.confirm(title, msg, () => {
+           this.individualInvoice(order);
+          }, () => {});
+        });
+      });
+    }
+  }
+
+  individualInvoice(order) {
+    this.invoice.date = this.today;
+    const ship = 0;
+    this.invoice.shipping = ship;
+    const list = [];
+    list.push(order.idOrder);
+    this.invoice.listOrders = list;
+    this.spinner.show();
+    this.orderService.generateInvoiceClient$(this.invoice).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          this.translate
+            .get('Successfully Generated', { value: 'Successfully Generated' })
+            .subscribe((res1: string) => {
+              this.notification.success('', res1);
+            });
+          this.valid = false;
+          this.listAux = [];
+          this.selectedAll = false;
+          this.initialize();
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    );
+  }
+
+  verifyInvoice() {
+    let listInvoiceClient = [];
+    let listInvoiceSupplier = [];
+    let orders = this.listOrders;
+    _.each(this.listAux, function(item) {
+       let order = _.find(orders, { 'idOrder': item});
+       if ( order.invoiceClient != null ) {
+        listInvoiceClient.push(order);
+       }
+       if ( order.invoiceSupplier != null ) {
+        listInvoiceSupplier.push(order);
+       }
+    });
+    this.listInvoiceClient = listInvoiceClient;
+    this.listInvoiceSupplier = listInvoiceSupplier;
+  }
 }
-
-

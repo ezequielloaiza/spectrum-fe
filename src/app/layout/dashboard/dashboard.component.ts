@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { SageService } from '../../shared/services/sage/sage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { Role } from '../../shared/enum/role.enum';
@@ -197,7 +198,8 @@ export class DashboardComponent implements OnInit {
               private userService: UserStorageService,
               private orderService: OrderService,
               private invoiceService: InvoiceClientService,
-              private warrantyService: WarrantyService) {
+              private warrantyService: WarrantyService,
+              private sage: SageService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.sliders.push(
       {
@@ -263,6 +265,12 @@ export class DashboardComponent implements OnInit {
   public closeAlert(alert: any) {
     const index: number = this.alerts.indexOf(alert);
     this.alerts.splice(index, 1);
+  }
+
+  public loginSage() {
+    this.sage.findAll$().subscribe((res) => {
+      window.open(res.data,"Sage","menubar=1,resizable=1,width=650,height=680,left=350");
+    })
   }
 
   getOrdersPending() {
