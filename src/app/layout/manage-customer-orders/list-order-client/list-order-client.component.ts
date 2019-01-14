@@ -546,6 +546,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     });
   }
 
+
   generateInvoice(order) {
     let pilot = order.invoiceSupplier === null ? false : true;
     const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
@@ -801,5 +802,3 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.listInvoiceSupplier = listInvoiceSupplier;
   }
 }
-
-
