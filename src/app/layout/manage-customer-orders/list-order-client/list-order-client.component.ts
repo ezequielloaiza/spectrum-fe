@@ -537,9 +537,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   open(order) {
-debugger
     this.invoiceClientService.generateInvoiceClient$(order.idOrder).subscribe();
-    /*const modalRef = this.modalService.open(ModalsStatusComponent);
+    const modalRef = this.modalService.open(ModalsStatusComponent);
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
       this.getListOrders();
