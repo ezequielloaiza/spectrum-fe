@@ -190,7 +190,7 @@
                   <div *ngIf="parameter.type === 'input' && parameter.name === 'Far Zone Diameter'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.selected"
-                      [disabled]="true" step="0.1">
+                      [disabled]="true" step="0.10">
                   </div>
                 </div>
               </div>
@@ -290,7 +290,7 @@
                   <div *ngIf="parameter.type === 'input' && parameter.name === 'Far Zone Diameter'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
-                      [disabled]="true">
+                      [disabled]="true" step="0.10">
                   </div>
                 </div>
               </div>
