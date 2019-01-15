@@ -89,7 +89,7 @@
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">{{ overdueCustomers }}</h1>
+              <h1 class="no-margins card-text">{{ overdueCustomers | number:'2.0-0' }}</h1>
               <i class="fa fa-users"></i>
             </div>
             <br>
@@ -390,12 +390,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let customer of customersList">
-                      <td>
-                        <a routerLink="/invoice" [routerLinkActive]="['router-link-active']">
-                          {{ customer.user.name | translate }}
-                        </a>
-                      </td>
+                    <tr *ngFor="let customer of customersList" ng-click="viewPayments()">
+                      <td>{{ customer.user.name }}</td>
                       <td>{{ customer.user.phone }}</td>
                       <td>{{ customer.user.email }}</td>
                       <td>{{ customer.user.address }}</td>
