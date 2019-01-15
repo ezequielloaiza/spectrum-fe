@@ -236,4 +236,64 @@ export class LenticonComponent implements OnInit {
       console.log('error', error);
     });
   }
+
+  changePupillary(value) {
+    let valueAux = 0;
+    if (value != null) {
+        if (value >= 1 && value <= 4) {
+          valueAux = this.format(3.00);
+        } else if (value > 4 && value <= 4.50) {
+          valueAux = this.format(3.50);
+        } else if (value > 4.50) {
+          valueAux = this.format(4.00);
+        }
+    }
+    _.each(this.product.parameters, function(parameter, index) {
+      if (parameter.name === 'Far Zone Diameter') {
+        parameter.selected = valueAux;
+      }
+    });
+  }
+
+  format(value): any {
+    let flat;
+    let partInt;
+    let partDec;
+    let pos;
+    let toString;
+    if (value !== null) {
+      toString = value.toString();
+      if (_.includes(toString, '.')) {
+        pos = _.indexOf(toString, '.');
+        partInt = toString.slice( 0, pos);
+        if (partInt <= 99) {
+          partDec = toString.slice( pos + 1, toString.length);
+          flat = partInt + '.' + this.completeEnd(partDec, 2);
+        } else {
+           flat = null;
+        }
+      } else {
+          if (value <= 99) {
+            flat = value + '.00';
+          } else {
+            flat = null;
+          }
+      }
+      return flat;
+    }
+  }
+
+  completeStart(value, tamano): any {
+    let filteredId = value.toString();
+    filteredId = _.padStart(filteredId, tamano, '0');
+    return filteredId;
+
+  }
+
+  completeEnd(value, tamano): any {
+    let filteredId = value.toString();
+    filteredId = _.padEnd(filteredId, tamano, '0');
+    return filteredId;
+
+  }
 }
