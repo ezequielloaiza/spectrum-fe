@@ -430,7 +430,7 @@ this.products = [
             "selected": null
           },
           {
-            "name": "Center",
+            "name": "Far Zone Diameter",
             "type": "input",
             "values": [
               "any"

@@ -182,15 +182,15 @@
                       {{item}}
                     </ng-select>
                   </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Center'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Far Zone Diameter'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.selected"
                       [disabled]="!product.eyeRight">
                   </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Center'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Far Zone Diameter'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.selected"
-                      [disabled]=true>
+                      [disabled]="true" step="0.1">
                   </div>
                 </div>
               </div>
@@ -202,8 +202,8 @@
               </div>
               <div class="row">
                 <div class="select-values col-sm-12">
-                  <input class="form-control" type="number" value="1" [(ngModel)]="product.pupillaryRight" oninput="validity.valid||(value='');"
-                      [required]="product.eyeRight">
+                  <input class="form-control" type="number" min="1" step="0.10" [(ngModel)]="product.pupillaryRight" oninput="validity.valid||(value='');"
+                      [required]="product.eyeRight" (change)="changePupillary('right', product.pupillaryRight)">
                 </div>
               </div>
             </div>
@@ -282,15 +282,15 @@
                       {{item}}
                     </ng-select>
                   </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Center'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Far Zone Diameter'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
                       [disabled]="!product.eyeLeft">
                   </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Center'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Far Zone Diameter'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
-                      [required]="product.eyeRight" [(ngModel)]="parameter.selected"
-                      [disabled]=true>
+                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
+                      [disabled]="true">
                   </div>
                 </div>
               </div>
@@ -302,8 +302,8 @@
               </div>
               <div class="row">
                 <div class="select-values col-sm-12">
-                  <input class="form-control" type="number" value="1" [(ngModel)]="product.pupillaryLeft" oninput="validity.valid||(value='');"
-                      [required]="product.eyeLeft">
+                  <input class="form-control" type="number" min="1" step="0.10" [(ngModel)]="product.pupillaryLeft" oninput="validity.valid||(value='');"
+                      [required]="product.eyeLeft" (change)="changePupillary('left', product.pupillaryLeft)">
                 </div>
               </div>
             </div>
