@@ -390,7 +390,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let customer of customersList" ng-click="viewPayments()">
+                    <tr *ngFor="let customer of customersList" class="list-customer" (click)="viewPayments()">
                       <td>{{ customer.user.name }}</td>
                       <td>{{ customer.user.phone }}</td>
                       <td>{{ customer.user.email }}</td>
