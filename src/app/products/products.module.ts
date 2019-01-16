@@ -37,6 +37,7 @@ import { ProductViewLenticonComponent } from './product-view-lenticon/product-vi
 import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirmation-lenticon/confirmation-lenticon.component';
 import { EditProductSpectrumSalineComponent } from './modals/edit-product/edit-product-spectrum-saline/edit-product-spectrum-saline.component';
 import { ProductViewMedmontComponent } from './product-view-medmont/product-view-medmont.component';
+import { EditProductMedmontComponent } from './modals/edit-product/edit-product-medmont/edit-product-medmont.component';
 
 @NgModule({
   imports: [
@@ -78,7 +79,8 @@ import { ProductViewMedmontComponent } from './product-view-medmont/product-view
     ProductViewLenticonComponent,
     ConfirmationLenticonComponent,
     EditProductSpectrumSalineComponent,
-    ProductViewMedmontComponent
+    ProductViewMedmontComponent,
+    EditProductMedmontComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
@@ -93,7 +95,8 @@ import { ProductViewMedmontComponent } from './product-view-medmont/product-view
                     EditProductEuropaComponent,
                     ConfirmationSpectrumSalineComponent,
                     ConfirmationLenticonComponent,
-                    EditProductSpectrumSalineComponent
+                    EditProductSpectrumSalineComponent,
+                    EditProductMedmontComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })

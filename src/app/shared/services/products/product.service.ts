@@ -28,4 +28,8 @@ export class ProductService {
       responseType: 'blob'
     });
   }
+
+  public getQuote$(idUser, idProduct): Observable<any> {
+    return this.http.get(environment.apiUrl + 'products/getQuote/' + idUser + '/' + idProduct);
+  }
 }

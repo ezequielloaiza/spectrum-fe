@@ -64,13 +64,19 @@
               readonly>
           </div>
         </div>
+        <div class="col-lg-4">
+          <span class="title">{{ 'More Information' | translate }}</span>
+          <div class="row info-content ">
+            <a href="{{ product.url }}" target="_blank">{{ 'View' | translate }}</a>
+          </div>
+        </div>
       </div>
       <br>
       <div class="row">
         <div class="col-md-12 buy-btns">
-          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid()"
+          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="getQuote()"
             [disabled]="!formIsValid()">
-            <i class="fa fa-cart-plus"></i> {{ 'Get a quote' | translate }}
+           {{ 'Get a quote' | translate }}
           </button>
         </div>
       </div>

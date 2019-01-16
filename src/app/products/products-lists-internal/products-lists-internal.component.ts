@@ -11,6 +11,7 @@ import { EditProductMagicLookComponent } from '../modals/edit-product/edit-produ
 import { EditProductEuclidComponent } from '../modals/edit-product/edit-product-euclid/edit-product-euclid.component';
 import { EditProductEuropaComponent } from '../modals/edit-product/edit-product-europa/edit-product-europa.component';
 import { EditProductSpectrumSalineComponent } from '../modals/edit-product/edit-product-spectrum-saline/edit-product-spectrum-saline.component';
+import { EditProductMedmontComponent } from '../modals/edit-product/edit-product-medmont/edit-product-medmont.component';
 
 @Component({
   selector: 'app-products-lists-internal',
@@ -337,7 +338,7 @@ export class ProductsListInternalComponent implements OnInit {
                 },
                 (reason) => {}
               );
-            } else { // spectrum saline
+            } else if (product.father === 'Spectrum Saline') { // spectrum saline
               const modalRefSpectrum = this.modalService.open(EditProductSpectrumSalineComponent, {
                 size: 'lg',
                 windowClass: 'modal-content-border'
@@ -345,6 +346,19 @@ export class ProductsListInternalComponent implements OnInit {
               modalRefSpectrum.componentInstance.product = product;
               modalRefSpectrum.componentInstance.action = action;
               modalRefSpectrum.result.then(
+                (result) => {
+                  this.getProducts();
+                },
+                (reason) => {}
+              );
+            } else {
+              const modalRefMedmont = this.modalService.open(EditProductMedmontComponent, {
+                size: 'lg',
+                windowClass: 'modal-content-border'
+              });
+              modalRefMedmont.componentInstance.product = product;
+              modalRefMedmont.componentInstance.action = action;
+              modalRefMedmont.result.then(
                 (result) => {
                   this.getProducts();
                 },

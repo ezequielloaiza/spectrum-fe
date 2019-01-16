@@ -131,12 +131,36 @@ export class ProductViewMedmontComponent implements OnInit {
   }
 
   formIsValid() {
-    /*var isValid = true;
-    if (!this.product.quantity) {
+    let isValid = true;
+    if (this.client === '' || this.client === undefined) {
       isValid = false;
     }
-    return isValid;*/
+    return isValid;
   }
 
-}
+  getQuote() {
 
+    this.translate.get('Confirm quote', {value: 'Confirm quote'}).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to get a quote?',
+       {value: 'Are you sure you want to get a quote?'}).subscribe((msg: string) => {
+         this.alertify.confirm(title, msg, () => {
+            this.productService.getQuote$(this.client, this.id).subscribe(res => {
+              if (res.code === CodeHttp.ok) {
+                this.translate.get('Request for quotation sent successfully',
+                {value: 'Request for quotation sent successfully'}).subscribe(( res1: string) => {
+                this.notification.success('', res1);
+              });
+              } else {
+                console.log(res.errors[0].detail);
+                this.spinner.hide();
+              }
+            }, error => {
+              console.log('error', error);
+              this.spinner.hide();
+            });
+          }, () => {});
+        });
+      });
+
+  }
+}

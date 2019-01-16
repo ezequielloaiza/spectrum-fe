@@ -825,5 +825,9 @@
     "Greater than 1000 boxes":"Greater than 1000 boxes",
     "Up to 999 boxes":"Up to 999 boxes",
     "Up to 499 boxes":"Up to 499 boxes",
-    "Get a quote":"Get a quote"
+    "Get a quote":"Get a quote",
+    "More Information":"More Information",
+    "Request for quotation sent successfully":"Request for quotation sent successfully",
+    "Confirm quote":"Confirm quote",
+    "Are you sure you want to get a quote?":"Are you sure you want to get a quote?"
 }
