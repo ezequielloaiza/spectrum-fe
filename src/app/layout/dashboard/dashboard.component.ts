@@ -9,8 +9,12 @@ import { WarrantyService } from '../../shared/services/warranty/warranty.service
 import { OrderService } from '../../shared/services/order/order.service';
 import * as _ from 'lodash';
 import { formatDate } from '@angular/common';
+<<<<<<< HEAD
 import { InvoiceClientService, InvoicePaymentService } from '../../shared/services';
 import { Router } from '@angular/router';
+=======
+import { InvoiceClientService } from '../../shared/services/invoiceClient/invoiceclient.service';
+>>>>>>> feature/#25-Manage-Payments-Customers
 
 @Component({
   selector: 'app-dashboard',
@@ -25,8 +29,11 @@ export class DashboardComponent implements OnInit {
   warrantiesList: Array<any> = new Array;
   invoicesList: Array<any> = new Array;
   invoicesListAux: Array<any> = new Array;
+<<<<<<< HEAD
   customersList: Array<any> = new Array;
   listPayments: Array<any> = new Array;
+=======
+>>>>>>> feature/#25-Manage-Payments-Customers
   user: any;
   orders = 0;
   total = 0;
@@ -201,8 +208,11 @@ export class DashboardComponent implements OnInit {
               private orderService: OrderService,
               private invoiceService: InvoiceClientService,
               private warrantyService: WarrantyService,
+<<<<<<< HEAD
               private invoicePaymentService: InvoicePaymentService,
               public router: Router,
+=======
+>>>>>>> feature/#25-Manage-Payments-Customers
               private sage: SageService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.sliders.push(
