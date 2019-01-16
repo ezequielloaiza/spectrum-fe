@@ -91,4 +91,8 @@ export class OrderService {
   public generateInvoiceSupplier$(invoice): Observable<any> {
     return this.http.put(environment.apiUrl + 'order/generateInvoiceSupplier', invoice);
   }
+
+  public findByIds$(listIds: Array<String>): Observable<any> {
+    return this.http.post(environment.apiUrl + 'order/allOrderByIds', listIds);
+  }
 }

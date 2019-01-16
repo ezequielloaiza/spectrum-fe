@@ -136,8 +136,7 @@ export class ProductsListsComponent implements OnInit {
           supplier.image = 'assets/images/suppliers/bluelight.png';
           break
         case 7: // Fluo Strips y spectrum saline
-          supplier.image = 'assets/images/spectrumLogo1.jpg';
-         // supplier.image = 'assets/images/supplies/fluo-1.jpg';
+          supplier.image = 'assets/images/suppliers/spectrum_products.jpg';
           break
       }
     });
