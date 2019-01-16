@@ -1053,5 +1053,6 @@
     "Factura proveedor":"Factura proveedor",
     "It can not edit a multiple payment":"No se puede editar un pago múltiple",
     "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.": "El monto del pago es mayor que la deuda de la factura. Por favor, verifique el monto del pago.",
-    "Amount is required": "El monto es requerido"
+    "Amount is required": "El monto es requerido",
+    "This invoice includes the following orders": "Esta factura incluye las siguientes órdenes"
 }
