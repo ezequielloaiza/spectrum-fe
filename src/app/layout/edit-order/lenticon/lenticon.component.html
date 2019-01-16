@@ -107,11 +107,11 @@
                           {{item}}
                         </ng-select>
                       </div>
-                      <div *ngIf="parameter.type === 'input' && parameter.name !== 'Center'" class="select-values col-sm-12">
+                      <div *ngIf="parameter.type === 'input' && parameter.name !== 'Far Zone Diameter'" class="select-values col-sm-12">
                         <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
                           [required]=true [(ngModel)]="parameter.selected">
                       </div>
-                      <div *ngIf="parameter.type === 'input' && parameter.name === 'Center'" class="select-values col-sm-12">
+                      <div *ngIf="parameter.type === 'input' && parameter.name === 'Far Zone Diameter'" class="select-values col-sm-12">
                         <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
                          [(ngModel)]="parameter.selected" [disabled]=true>
                       </div>
@@ -126,8 +126,8 @@
                 <dl>
                   <dt>
                     <div class="select-values col-sm-12">
-                      <input class="form-control" type="number" value="1" [(ngModel)]="product.pupillary" oninput="validity.valid||(value='');"
-                              [required]=true>
+                      <input class="form-control" type="number" min="1" step="0.10" [(ngModel)]="product.pupillary" oninput="validity.valid||(value='');"
+                              [required]=true (change)="changePupillary(product.pupillary)">
                     </div>
                   </dt>
                 </dl>

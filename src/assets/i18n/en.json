@@ -825,11 +825,14 @@
     "Documents Left Eye (Topography, Tangential Map, etc.)": "Documents Left Eye (Topography, Tangential Map, etc.)",
     "Documents Right Eye (Topography, Tangential Map, etc.)": "Documents Right Eye (Topography, Tangential Map, etc.)",
     "Enter order or client" : "Enter order or client",
+<<<<<<< HEAD
     "Amount Shipping" : "Amount Shipping",
     "Attached files" : "Attached files",
     "Bulk Payments":"Bulk Payments",
     "Amount must be less or equal than total of invoices": "Amount must be less or equal than total of invoices",
     "Invoices": "Invoices",
+=======
+>>>>>>> 1d0a1511e087b9e84f443d4a3bf8093da43fa56a
     "Strips":"Strips",
     "Best solution to help detect degenerated Cells, dead cells, and mucous fibrils.": "Best solution to help detect degenerated Cells, dead cells, and mucous fibrils.",
     "Essential for the diagnosis of different types of tear dysfunctions; allows to detect the severeness, evolution, and the efficiency of the treatment.": "Essential for the diagnosis of different types of tear dysfunctions; allows to detect the severeness, evolution, and the efficiency of the treatment.",
@@ -876,5 +879,6 @@
     "It can not edit a multiple payment":"It can not edit a multiple payment",
     "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.":"The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.",
     "Amount is required": "Amount is required",
-    "This invoice includes the following orders": "This invoice includes the following orders"
+    "This invoice includes the following orders": "This invoice includes the following orders",
+    "Far Zone Diameter":"Far Zone Diameter"
 }
