@@ -27,6 +27,7 @@ export class GenerateInvoiceComponent implements OnInit {
   invoice: InvoiceSupplier = new InvoiceSupplier();
   pilot: any;
   titleModal: any;
+  ordersNumber: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -50,6 +51,7 @@ export class GenerateInvoiceComponent implements OnInit {
             .subscribe((res1: string) => {
               this.titleModal = res1;
             });
+    this.loadOrderNumbers();
   }
 
   initializeForm() {
@@ -71,6 +73,7 @@ export class GenerateInvoiceComponent implements OnInit {
               if (this.invoice.dateSend !== null || this.invoice.dateSend !== undefined) {
                 this.pilot = true;
               }
+              this.loadOrderNumbers();
             } else {
               this.loadInvoiceFromOrder();
             }
@@ -82,7 +85,36 @@ export class GenerateInvoiceComponent implements OnInit {
           console.log('error', error);
         }
       );
+    } 
+  }
+
+  loadOrderNumbers() {
+    let auxNumbers = '';
+    let ids = [];
+    if (this.invoice.listOrders != undefined && this.invoice.listOrders.length > 0) {
+      ids = this.invoice.listOrders.map(String);
+    } else {
+      if (this.order !== undefined) {
+        ids = [this.order.idOrder];
+      }
     }
+    this.orderService.findByIds$(ids).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        const orders = res.data;
+        _.each(orders, function(order) {
+          auxNumbers += order.number + ', ';
+        });
+        if (auxNumbers.trim().endsWith(',')) {
+          auxNumbers = auxNumbers.substring(0, auxNumbers.lastIndexOf(', ') - 2);
+        }
+        this.ordersNumber = auxNumbers;
+      } else {
+        console.log(res.code);
+      }
+    },
+    error => {
+      console.log('error', error);
+    });
   }
 
   loadInvoiceFromOrder() {
