@@ -137,18 +137,6 @@
   margin-top: 0;
 }
 
-.header-params {
-  padding-left: 1em;
-
-  .custom-control {
-    margin-bottom: 1em;
-  }
-
-  .quantity {
-    padding-left: 3em;
-  }
-}
-
 .ng-select{
   width: 100%;
 }
@@ -171,10 +159,7 @@
       margin-bottom: 0;
     }
   }
-  .padding-price {
-    padding-top: 1.1em;
-    font-weight: bold;
-  }
+
 }
 
 .select-values {
@@ -207,36 +192,9 @@ img {
   margin-bottom: 15px;
 }
 
-.add-to-cart,
-.like {
-  background: #ff9f1a;
-  padding: 1.2em 1.5em;
-  border: none;
-  text-transform: UPPERCASE;
-  font-weight: bold;
-  color: #fff;
-  -webkit-transition: background .3s ease;
-  transition: background .3s ease;
-}
-
-.add-to-cart:hover,
-.like:hover {
-  background: #b36800;
-  color: #fff;
-}
-
-.not-available {
-  text-align: center;
-  line-height: 2em;
-}
 
 .buy-btns {
   text-align: right;
-}
-.not-available:before {
-  font-family: fontawesome;
-  content: "\f00d";
-  color: #fff;
 }
 
 .tooltip-inner {
@@ -284,16 +242,4 @@ img {
 .info-content {
   margin-left: 15px;
   margin-bottom: 0px;
-}
-
-.strips{
-  padding-top: 8px;
-  color:$secondary-info;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-
-.error-quantity {
-  color:$error-quantity;
 }
