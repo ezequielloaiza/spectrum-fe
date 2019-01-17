@@ -89,7 +89,7 @@
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">{{ overdueCustomers }}</h1>
+              <h1 class="no-margins card-text">{{ overdueCustomers | number:'2.0-0' }}</h1>
               <i class="fa fa-users"></i>
             </div>
             <br>
@@ -360,9 +360,9 @@
       </div>
     -->
 
-      <div class="col-lg-12">
+      <div class="col-lg-12" *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-12">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
                 <h5>{{ 'Customers with pending payments' | translate }}</h5>
@@ -381,88 +381,34 @@
                 <table class="table table-hover no-margins">
                   <thead>
                     <tr>
-                      <th>{{ 'Status' | translate }}</th>
-                      <th>{{ 'Date' | translate }}</th>
-                      <th>{{ 'Customer' | translate }}</th>
-                      <th>{{ 'Value' | translate }}</th>
+                      <th>{{ 'Full Name' | translate }}</th>
+                      <th>{{ 'Phone' | translate }}</th>
+                      <th>{{ 'Email' | translate }}</th>
+                      <th>{{ 'Address' | translate }}</th>
+                      <th>{{ 'Credit limit' | translate }}</th>
+                      <th>{{ 'Credit balance' | translate }}</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <small>{{ 'Pending' | translate }}...</small>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 11:20pm</td>
-                      <td>Samantha</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 24% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span class="label label-warning">{{ 'Canceled' | translate }}</span>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 10:40am</td>
-                      <td>Monica</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 66% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <small>{{ 'Pending' | translate }}...</small>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 01:30pm</td>
-                      <td>John</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 54% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <small>{{ 'Pending' | translate }}...</small>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 02:20pm</td>
-                      <td>Agnes</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 12% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <small>{{ 'Pending' | translate }}...</small>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 09:40pm</td>
-                      <td>Janet</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 22% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span class="label label-primary">{{ 'Completed' | translate }}</span>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 04:10am</td>
-                      <td>Amelia</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 66% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <small>{{ 'Pending' | translate }}...</small>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 12:08am</td>
-                      <td>Damian</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 23% </td>
+                    <tr *ngFor="let customer of customersList" class="list-customer" (click)="viewPayments()">
+                      <td>{{ customer.user.name }}</td>
+                      <td>{{ customer.user.phone }}</td>
+                      <td>{{ customer.user.email }}</td>
+                      <td>{{ customer.user.address }}</td>
+                      <td>{{ customer.user.company.creditLimit | currency : "USD $" }}</td>
+                      <td>{{ customer.user.company.balance | currency : "USD $" }}</td>
                     </tr>
                   </tbody>
                 </table>
+                <div class="table-empty" [hidden]="customersList.length !== 0" translate>
+                  <p class="no-records">
+                    {{ 'No records have been added yet' | translate }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+          <!--
           <div class="col-lg-6">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
@@ -528,6 +474,7 @@
               </div>
             </div>
           </div>
+          -->
         </div>
         <!--
         <div class="row">
@@ -626,10 +573,9 @@
         -->
 
       </div>
-
-
     </div>
   </div>
+  <!--
   <div class="row">
     <div class="col col-sm-6">
       <div class="card mb-3">
@@ -718,6 +664,7 @@
     </div>
 
   </div>
+  -->
   <!--
 	<div class="row">
 		<div class="col-md-12">

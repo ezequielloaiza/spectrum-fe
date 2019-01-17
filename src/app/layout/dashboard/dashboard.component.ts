@@ -9,7 +9,8 @@ import { WarrantyService } from '../../shared/services/warranty/warranty.service
 import { OrderService } from '../../shared/services/order/order.service';
 import * as _ from 'lodash';
 import { formatDate } from '@angular/common';
-import { InvoiceClientService } from '../../shared/services/invoiceClient/invoiceclient.service';
+import { InvoiceClientService, InvoicePaymentService } from '../../shared/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +25,8 @@ export class DashboardComponent implements OnInit {
   warrantiesList: Array<any> = new Array;
   invoicesList: Array<any> = new Array;
   invoicesListAux: Array<any> = new Array;
+  customersList: Array<any> = new Array;
+  listPayments: Array<any> = new Array;
   user: any;
   orders = 0;
   total = 0;
@@ -198,6 +201,8 @@ export class DashboardComponent implements OnInit {
               private orderService: OrderService,
               private invoiceService: InvoiceClientService,
               private warrantyService: WarrantyService,
+              private invoicePaymentService: InvoicePaymentService,
+              public router: Router,
               private sage: SageService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.sliders.push(
@@ -376,14 +381,18 @@ export class DashboardComponent implements OnInit {
   }
 
   getPendingPayments(): void {
-    this.invoiceService.allInvoiceByStatusInByRole$(this.user.userResponse.idUser, 0).subscribe(
+    const status = [0, 1];
+    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           const today = new Date().toISOString();
           this.invoicesList = res.data;
-          this.pendingPayment = _.sumBy(this.invoicesList, function(o) { return o.total; });
+          for (let i = 0, len = this.invoicesList.length; i < len; i++) {
+            this.getListPayments(this.invoicesList[i].idInvoice);
+          }
           this.invoicesListAux = _.filter(this.invoicesList, function(o) { return o.dueDate < today;  });
-          this.overdueCustomers = _.uniqBy(this.invoicesListAux, function(o) { return o.idUser; }).length;
+          this.customersList = _.uniqBy(this.invoicesListAux, function(o) { return o.idUser; });
+          this.overdueCustomers = this.customersList.length;
         } else {
           console.log(res.code);
         }
@@ -392,5 +401,27 @@ export class DashboardComponent implements OnInit {
         console.log('error', error);
       }
     )
+  }
+
+  getListPayments(invoice): void {
+    this.invoicePaymentService.allPaymentsByInvoice$(invoice).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          this.listPayments = res.data;
+          this.listPayments = _.filter(res.data, function(o) { return o.status === 0;  });
+          this.pendingPayment = this.pendingPayment + _.sumBy(this.listPayments, function(o) { return o.amount; });
+          console.log(res.data);
+        } else {
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    );
+  }
+
+  viewPayments() {
+    this.router.navigate(['/payments'], { queryParams: { status: 0 } });
   }
 }
