@@ -12,6 +12,7 @@ import { ProductsListInternalComponent } from './products-lists-internal/product
 import { ProductViewFluoStripsComponent } from './product-view-fluo-strips/product-view-fluo-strips.component';
 import { ProductViewSpectrumSalineComponent } from './product-view-spectrum-saline/product-view-spectrum-saline.component';
 import { ProductViewLenticonComponent } from './product-view-lenticon/product-view-lenticon.component';
+import { ProductViewMedmontComponent } from './product-view-medmont/product-view-medmont.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
         { path: ':id/product-view-fluo-strips', component: ProductViewFluoStripsComponent, data: { option: 'ProductsViewFluoStrips' }},
         { path: ':id/product-view-spectrum-saline', component: ProductViewSpectrumSalineComponent, data: { option: 'ProductsViewSpectrumSaline' }},
         { path: ':id/product-view-lenticon', component: ProductViewLenticonComponent, data: { option: 'ProductsViewLenticon' }},
+        { path: ':id/product-view-medmont', component: ProductViewMedmontComponent, data: { option: 'ProductViewMedmontComponent' }},
     ] , data: { option: 'ProductsList' }
 }
 
