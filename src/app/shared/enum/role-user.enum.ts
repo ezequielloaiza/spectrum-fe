@@ -17,5 +17,6 @@ export enum RoleUser {
   ProductsViewLenticon,
   ShippingAddress,
   Home,
-  ListBasketClient
+  ListBasketClient,
+  ProductViewMedmontComponent
 }
