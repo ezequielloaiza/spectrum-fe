@@ -301,6 +301,12 @@
 					</li>
 			</div>
 			<div class="nested-menu">
+				<a [routerLink]="['/commission']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+					<span>
+						<i class="fa fa-file"></i>&nbsp; {{ 'Manage Commissions' | translate }}</span>
+				</a>
+      </div>
+			<div class="nested-menu">
 				<a  routerLink="/warranty" [routerLinkActive]="['router-link-active']" class="list-group-item">
 					<span>
 						<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
@@ -424,6 +430,12 @@
 									</li>
 							</ul>
 						</li>
+				</div>
+				<div class="nested-menu">
+					<a [routerLink]="['/commission']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+						<span>
+							<i class="fa fa-file"></i>&nbsp; {{ 'Manage Commissions' | translate }}</span>
+					</a>
 				</div>
 				<div class="nested-menu">
 					<a  routerLink="/warranty" [routerLinkActive]="['router-link-active']" class="list-group-item">
