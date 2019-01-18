@@ -92,6 +92,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
               }
             });
           });
+          this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
+          this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
           this.spinner.hide();
         }
       });
@@ -108,6 +110,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
               }
             });
           });
+          this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
+          this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
           this.spinner.hide();
         }
       });
@@ -287,7 +291,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         && _.toString(this.valorClient) === '') {// si selecciono status y no fecha ni cliente
         this.filterStatusProducto(product, valorStatus);
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
-        && _.toString(this.valorClient) !== '') {// si selecciono status y cliente y no fecha 
+        && _.toString(this.valorClient) !== '') {// si selecciono status y cliente y no fecha
         this.filterStatusClienteProducto(this.valorClient, product, valorStatus);
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
         && _.toString(this.valorClient) === '') { // si no selecciono status ni cliente y fecha si
