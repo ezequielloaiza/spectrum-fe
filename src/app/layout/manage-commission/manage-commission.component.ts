@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CommissionService } from '../../shared/services/commission/commission.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
+import { ChangeStatusCommissionComponent } from './change-status-commission/change-status-commission.component';
 
 @Component({
   selector: 'app-manage-commission',
@@ -26,7 +27,7 @@ export class ManageCommissionComponent implements OnInit {
   itemPerPage: number = 8;
   order: any;
   filterStatus = [{ id: 0, name: 'Pending' }, { id: 1, name: 'Paid' }];
-  valorClient: string;
+  valorSeller: string;
   selectedStatus: any;
   status: any;
   tamano: String;
@@ -34,6 +35,7 @@ export class ManageCommissionComponent implements OnInit {
   valid1 = false;
   fechaSelec: NgbDatepicker;
   search: String;
+  user: any;
 
   constructor(
     private orderService: OrderService,
@@ -44,7 +46,9 @@ export class ManageCommissionComponent implements OnInit {
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) {
+    this.user = JSON.parse(userStorageService.getCurrentUser());
+  }
 
   ngOnInit() {
     this.getListCommissions();
@@ -67,6 +71,7 @@ export class ManageCommissionComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listCommissions = res.data;
           this.listCommissionsAux = res.data;
+          console.log(res.data);
           this.listCommissions = _.orderBy(
             this.listCommissions,
             ['date'],
@@ -191,29 +196,29 @@ export class ManageCommissionComponent implements OnInit {
   getItems(ev: any) {
     this.listCommissions = this.listCommissionsAux;
     const val = ev.target.value;
-    this.valorClient = val;
+    this.valorSeller = val;
     const valorStatus = this.selectedStatus;
     const lista = [];
     this.valid1 = true;
     if (val && val.trim() !== '') {
-      const client = val;
+      const seller = val;
       if (_.toString(valorStatus) === '' && this.tamano.length === 9) {
         // Si no ha seleccionado status y fecha
         this.listCommissions = this.listCommissions.filter(item => {
           return (
-            item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
-            item.number.toLowerCase().indexOf(val.toLowerCase()) > -1
+            item.seller.name.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+            item.invoiceClient.number.toLowerCase().indexOf(val.toLowerCase()) > -1
           );
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {
         // si selecciono status y no fecha
-        this.filterStatusNombre(client, valorStatus);
+        this.filterStatusNombre(seller, valorStatus);
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 15) {
         // si no selecciono status y fecha si
-        this.filterDateNombre(client);
+        this.filterDateNombre(seller);
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15) {
         // si escribio nombre y selecciono fecha
-        this.fullFilter(client, valorStatus);
+        this.fullFilter(seller, valorStatus);
       }
     } else if (_.toString(valorStatus) !== '') {
       // si borro el nombre y selecciono status
@@ -225,12 +230,12 @@ export class ManageCommissionComponent implements OnInit {
         let fecha: String;
         // FechaFiltro
         fecha = this.getFecha();
-        _.filter(this.listCommissionsAux, function(orders) {
+        _.filter(this.listCommissionsAux, function(commission) {
           let fechaList: String;
           // Fecha Listado
-          fechaList = _.toString(orders.date.slice(0, 10));
+          fechaList = _.toString(commission.date.slice(0, 10));
           if (_.isEqual(fecha, fechaList)) {
-            lista.push(orders);
+            lista.push(commission);
           }
         });
         this.listCommissions = lista;
@@ -243,22 +248,22 @@ export class ManageCommissionComponent implements OnInit {
       this.valid1 = true;
       if (
         this.tamano.length === 9 &&
-        (_.toString(this.valorClient).length === 0 ||
-          this.valorClient.trim() === '')
+        (_.toString(this.valorSeller).length === 0 ||
+          this.valorSeller.trim() === '')
       ) {
         // tslint:disable-next-line:radix
         this.listCommissions = _.filter(this.listCommissionsAux, { 'status': parseInt(this.selectedStatus) });
       } else if (
         this.tamano.length === 15 &&
-        (_.toString(this.valorClient).length === 0 ||
-          this.valorClient.trim() === '')
+        (_.toString(this.valorSeller).length === 0 ||
+          this.valorSeller.trim() === '')
       ) {
         this.filterStatusDate(this.selectedStatus);
-      } else if (this.tamano.length === 9 && this.valorClient.trim() !== '') {
-        const nombre = this.valorClient;
+      } else if (this.tamano.length === 9 && this.valorSeller.trim() !== '') {
+        const nombre = this.valorSeller;
         this.filterStatusNombre(nombre, this.selectedStatus);
-      } else if (this.tamano.length === 15 && this.valorClient.trim() !== '') {
-        const nombre = this.valorClient;
+      } else if (this.tamano.length === 15 && this.valorSeller.trim() !== '') {
+        const nombre = this.valorSeller;
         this.fullFilter(nombre, this.selectedStatus);
       }
     }
@@ -273,78 +278,69 @@ export class ManageCommissionComponent implements OnInit {
       this.valid1 = true;
       if (
         _.toString(valorStatus) === '' &&
-        (_.toString(this.valorClient).length === 0 ||
-          this.valorClient.trim() === '')
+        (_.toString(this.valorSeller).length === 0 ||
+          this.valorSeller.trim() === '')
       ) {
         // FechaFiltro
         let fecha: String;
         fecha = this.getFecha();
-        _.filter(this.listCommissionsAux, function(invoices) {
+        _.filter(this.listCommissionsAux, function(commission) {
           let fechaList: String;
           // Fecha Listado
-          fechaList = _.toString(invoices.date.slice(0, 10));
+          fechaList = _.toString(commission.date.slice(0, 10));
           if (_.isEqual(fecha, fechaList)) {
-            lista.push(invoices);
+            lista.push(commission);
           }
         });
         this.listCommissions = lista;
       } else if (
         _.toString(valorStatus) !== '' &&
-        (_.toString(this.valorClient).length === 0 ||
-          this.valorClient.trim() === '')
+        (_.toString(this.valorSeller).length === 0 ||
+          this.valorSeller.trim() === '')
       ) {
         this.filterStatusDate(valorStatus);
       } else if (
-        this.valorClient.trim() !== '' &&
+        this.valorSeller.trim() !== '' &&
         _.toString(valorStatus) === ''
       ) {
-        this.filterDateNombre(this.valorClient);
+        this.filterDateNombre(this.valorSeller);
       } else if (
-        this.valorClient.trim() !== '' &&
+        this.valorSeller.trim() !== '' &&
         _.toString(valorStatus) !== ''
       ) {
-        this.fullFilter(this.valorClient, valorStatus);
+        this.fullFilter(this.valorSeller, valorStatus);
       }
     }
   }
 
-  filterStatusNombre(nombreCliente, status): void {
+  filterStatusNombre(nombreSeller, status): void {
     const lista = [];
-    _.filter(this.listCommissionsAux, function(invoices) {
+    _.filter(this.listCommissionsAux, function(commission) {
       if (
-        (_.includes(
-          invoices.user.name.toLowerCase(),
-          nombreCliente.toLowerCase()
-        ) ||
-          invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) >
-            -1) &&
+        (_.includes( commission.seller.name.toLowerCase(), nombreSeller.toLowerCase()) ||
+          commission.invoiceClient.number.toLowerCase().indexOf(nombreSeller.toLowerCase()) > -1) &&
         // tslint:disable-next-line:radix
-        _.isEqual(parseInt(status), invoices.status)
+        _.isEqual(parseInt(status), commission.status)
       ) {
-        lista.push(invoices);
+        lista.push(commission);
       }
     });
     this.listCommissions = lista;
   }
 
-  filterDateNombre(nombreCliente): void {
+  filterDateNombre(nombreSeller): void {
     const lista = [];
     let fecha: String;
     // FechaFiltro
     fecha = this.getFecha();
-    _.filter(this.listCommissionsAux, function(invoices) {
+    _.filter(this.listCommissionsAux, function(commission) {
       // Fecha Listado
-      const fechaList = _.toString(invoices.date.slice(0, 10));
-      if (
-        (_.includes(
-          invoices.user.name.toLowerCase(),
-          nombreCliente.toLowerCase()
-        ) ||
-          invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) >
-            -1) &&
+      const fechaList = _.toString(commission.date.slice(0, 10));
+      if ((_.includes(commission.seller.name.toLowerCase(), nombreSeller.toLowerCase()) ||
+          commission.invoiceClient.number.toLowerCase().indexOf(nombreSeller.toLowerCase()) > -1) &&
         _.isEqual(fecha, fechaList)
       ) {
-        lista.push(invoices);
+        lista.push(commission);
       }
     });
     this.listCommissions = lista;
@@ -355,16 +351,13 @@ export class ManageCommissionComponent implements OnInit {
     let fecha: String;
     // FechaFiltro
     fecha = this.getFecha();
-    _.filter(this.listCommissionsAux, function(invoices) {
+    _.filter(this.listCommissionsAux, function(commission) {
       let fechaList: String;
       // Fecha Listado
-      fechaList = _.toString(invoices.date.slice(0, 10));
+      fechaList = _.toString(commission.date.slice(0, 10));
       // tslint:disable-next-line:radix
-      if (
-        _.isEqual(fecha, fechaList) &&
-        _.isEqual(parseInt(status), invoices.status)
-      ) {
-        lista.push(invoices);
+      if ( _.isEqual(fecha, fechaList) && _.isEqual(parseInt(status), commission.status)) {
+        lista.push(commission);
       }
     });
     this.listCommissions = lista;
@@ -388,27 +381,20 @@ export class ManageCommissionComponent implements OnInit {
     return fecha;
   }
 
-  fullFilter(nombreCliente, status): void {
+  fullFilter(nombreSeller, status): void {
     // FechaFiltro
     let fecha: String;
     fecha = this.getFecha();
     const lista = [];
     // Lista actual
-    _.filter(this.listCommissionsAux, function(invoices) {
+    _.filter(this.listCommissionsAux, function(commission) {
       // Fecha Listado
-      const fechaList = _.toString(invoices.date.slice(0, 10));
-      if (
-        (_.includes(
-          invoices.user.name.toLowerCase(),
-          nombreCliente.toLowerCase()
-        ) ||
-          invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) >
-            -1) &&
+      const fechaList = _.toString(commission.date.slice(0, 10));
+      if ((_.includes(commission.seller.name.toLowerCase(), nombreSeller.toLowerCase()) ||
+          commission.invoiceClient.number.toLowerCase().indexOf(nombreSeller.toLowerCase()) > -1) &&
         // tslint:disable-next-line:radix
-        _.isEqual(fecha, fechaList) &&
-        _.isEqual(parseInt(status), invoices.status)
-      ) {
-        lista.push(invoices);
+        _.isEqual(fecha, fechaList) && _.isEqual(parseInt(status), commission.status)) {
+        lista.push(commission);
       }
     });
     this.listCommissions = lista;
@@ -429,6 +415,16 @@ export class ManageCommissionComponent implements OnInit {
     this.tamano = 'undefined';
     this.fechaSelec = null;
     this.search = '';
-    this.valorClient = null;
+    this.valorSeller = null;
   }
+
+  changeStatus(commission) {
+    const modalRef = this.modalService.open(ChangeStatusCommissionComponent);
+    modalRef.componentInstance.commission = commission;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+      }, (reason) => {
+    });
+  }
+
 }

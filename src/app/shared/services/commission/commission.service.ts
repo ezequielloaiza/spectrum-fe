@@ -29,4 +29,8 @@ export class CommissionService {
   public findIdUser$(idUser): Observable<any> {
     return this.http.get(environment.apiUrl + 'commission/findIdUser/' + idUser);
   }
+
+  public changeStatus$(idCommission, IdStatus): Observable<any> {
+    return this.http.get(environment.apiUrl + 'commission/changeStatus/' + idCommission + '/' + IdStatus);
+  }
 }

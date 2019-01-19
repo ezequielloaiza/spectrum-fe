@@ -22,7 +22,7 @@
             {{ 'All commissions' | translate }}
           </div>
         </div>
-        <div class="row">
+        <div class="row" [hidden]="user.role.idRole != 1">
           <div class="col-xl-3 filter">
             <div class="row search margin">
               <div class="col col-xl-12 col-lg-12">
@@ -109,22 +109,21 @@
                   <td *ngIf="commission.status === 0" class="table-tr" class="pending">
                     <div>{{'Pending' | translate}}</div>
                   </td>
-                  <td *ngIf="commission.status === 1" class="table-tr" class="sent">
-                    <div>{{'Sent' | translate }}</div>
+                  <td *ngIf="commission.status === 1" class="table-tr" class="paid">
+                    <div>{{'Paid' | translate }}</div>
                   </td>
-                  <td class="table-tr td-table">{{commission.number}}</td>
+                  <td class="table-tr td-table">{{commission.invoiceClient?.number}}</td>
                   <td class="table-tr td-table">{{commission.date  | date:'yyyy-MM-dd'}}</td>
-                  <td class="table-tr">{{commission.user.name}}</td>
+                  <td class="table-tr">{{commission.seller?.name}}</td>
                   <td class="table-tr">{{commission.total | currency : "USD $"}}</td>
-                  <td class="table-tr">
+                  <td [hidden]="user.role.idRole != 1" class="table-tr">
                     <div class="d-flex flex-row justify-content-around">
                       <div ngbDropdown class="d-inline-block dropdown">
                         <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                         <div ngbDropdownMenu>
-                          <button class="dropdown-item" (click)="open(invoice)">
-                            <i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
-                          <button class="dropdown-item" (click)="delete(invoice)">
-                            <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                          <button class="dropdown-item" (click)="changeStatus(commission)">
+                            <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}
+                          </button>
                         </div>
                       </div>
                     </div>
