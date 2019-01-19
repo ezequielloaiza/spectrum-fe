@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "U4T", "name": "Saphir Rx Toric Single",
+    "code": "U4T", "name": "Saphir Rx Toric Blister",
     "priceBase": 12, "price1": 12, "price2": 12, "price3": 12,
     "father": "Saphir Rx",
     "category": "Contact Lenses",

@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "Y2N", "name": "Saphir Rx MF CN Single",
+    "code": "Y2N", "name": "Saphir Rx MF CN Blister",
     "priceBase": 12, "price1": 12, "price2": 12, "price3": 12,
     "father": "Saphir Rx",
     "category": "Contact Lenses",

@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "G81", "name": "Gentle 80 MF CD Single",
+    "code": "G81", "name": "Gentle 80 MF CD Blister",
     "priceBase": 12, "price1": 12, "price2": 12, "price3": 12,
     "father": "Gentle 80",
     "category": "Contact Lenses",
