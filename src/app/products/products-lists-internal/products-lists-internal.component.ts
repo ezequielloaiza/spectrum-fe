@@ -33,6 +33,7 @@ export class ProductsListInternalComponent implements OnInit {
   productsAuxMarkennovy: Array<any> = new Array();
   showFathersMarkennovy: any;
   currentFather: any;
+  currentPacking: any;
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
               private modalService: NgbModal,
@@ -49,6 +50,7 @@ export class ProductsListInternalComponent implements OnInit {
     this.filterMarkennovy = 'All';
     this.filterName = '';
     this.currentFather = '';
+    this.currentPacking = 'All';
   }
 
   userIsAdmin() {
@@ -435,6 +437,43 @@ export class ProductsListInternalComponent implements OnInit {
     }
   }
 
+  filterByPacking(type) {
+    this.currentPacking = type;
+
+    var products = this.productsAux;
+    const val = this.filterName;
+
+    products = products.filter((item) => {
+      if (this.currentFather === 'Quattro 3-Monthly') {
+        return item.father === 'Quattro 3-Monthly';
+      } else {
+        return ((item.name.toLowerCase().indexOf(this.currentFather.toLowerCase()) > -1));
+      }
+    });
+
+    if (type === 'All') {
+      this.products = products;
+      if (val && val.trim() !== '') {
+        this.products = products.filter((item) => {
+          return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
+        });
+      }
+      return;
+    }
+
+    this.products = products.filter((item) => {
+      return ((item.name.toLowerCase().indexOf(type.toLowerCase()) > -1));
+    });
+
+    if (val && val.trim() !== '') {
+      this.products = this.products.filter((item) => {
+        return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
+      });
+    }
+
+
+  }
+
   redirectFather(product) {
     this.products = this.productsAux;
 
@@ -449,7 +488,9 @@ export class ProductsListInternalComponent implements OnInit {
     if (this.idSupplier === 1) {
       if (!this.showFathersMarkennovy) {
         this.showFathersMarkennovy = true;
+        this.filterName = '';
         this.currentFather = '';
+        this.currentPacking = '';
       }
     }
   }
