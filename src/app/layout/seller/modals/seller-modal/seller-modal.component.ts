@@ -7,8 +7,8 @@ import { UserService, GoogleService, CountryService } from '../../../../shared/s
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, tap, catchError, merge } from 'rxjs/operators';
-import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { debounceTime, distinctUntilChanged, tap, catchError, merge, switchMap } from 'rxjs/operators';
+//import { switchMap } from 'rxjs/operators/switchMap';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../../../http/user-storage.service';
 import * as _ from 'lodash';
@@ -79,7 +79,7 @@ export class SellerModalComponent implements OnInit {
       city     : ['', [Validators.required]],
       postal   : ['', []],
       phone    : ['', []],
-      commission : ['',[Validators.required]]
+      commission : ['', []]
     });
   }
 
@@ -161,6 +161,7 @@ export class SellerModalComponent implements OnInit {
   onSelectionChange(value) {
     this.valid = true;
     this.idValue = value.id;
+    this.form.get('commission').setValue(this.idValue);
   }
 
 }
