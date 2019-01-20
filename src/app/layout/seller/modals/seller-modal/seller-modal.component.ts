@@ -8,7 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap, catchError, merge, switchMap } from 'rxjs/operators';
-//import { switchMap } from 'rxjs/operators/switchMap';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../../../http/user-storage.service';
 import * as _ from 'lodash';
@@ -29,8 +28,8 @@ export class SellerModalComponent implements OnInit {
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
   locale: any;
-  filter = [{ id: 0, name: "No" },
-  { id: 1, name: "Yes" }];
+  filter = [{ id: 0, name: 'No' },
+  { id: 1, name: 'Yes' }];
   valid = false;
   idValue: any;
 
