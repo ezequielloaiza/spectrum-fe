@@ -177,6 +177,7 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   changeSelect(eye, parameter, value, value2) {
+
     parameter.selected = value;
     if (parameter.name === 'num.LC') {
       if (eye === 'right') {
