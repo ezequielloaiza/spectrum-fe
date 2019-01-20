@@ -531,7 +531,7 @@ debugger
     modalRef.result.then((result) => {
       this.getListOrders();
     }, (reason) => {
-    });
+    });*/
   }
 
   generateInvoice(order) {
