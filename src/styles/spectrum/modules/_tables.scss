@@ -31,6 +31,7 @@
 
   >thead >tr >th {
     border-top: none;
+    text-overflow: ellipsis;
   }
 
   >tbody >tr:nth-last-child(1) {
