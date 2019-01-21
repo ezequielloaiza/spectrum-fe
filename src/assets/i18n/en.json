@@ -878,7 +878,11 @@
     "Amount is required": "Amount is required",
     "This invoice includes the following orders": "This invoice includes the following orders",
     "Far Zone Diameter":"Far Zone Diameter",
-    "The seller has commission?":"The seller has commission?",
+    "Does the seller receive commission?":"Does the seller receive commission?",
     "commission is required":"commission is required",
-    "Commission's status":"Commission's status"
+    "Commission's status":"Commission's status",
+    "Manage Commissions":"Manage Commissions",
+    "Commission Date":"Commission Date",
+    "All commissions":"All commissions",
+    "Commissions List":"Commissions List"
 }

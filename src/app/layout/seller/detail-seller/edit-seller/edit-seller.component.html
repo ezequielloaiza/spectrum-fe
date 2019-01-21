@@ -130,10 +130,10 @@
           </div>
           <div class="col-xl-12">
             <fieldset class="form-group">
-              <label>{{ 'The seller has commission?' | translate }}</label>
+              <label>{{ 'Does the seller receive commission?' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                   <span [hidden]="canEdit">{{ seller ? (seller.commission == 1 ? 'Yes' : 'No' | translate) : '' }}</span>
-                <div [hidden]="!canEdit" class="col-xl-12" *ngFor="let value of filter; let i = index">
+                <div [hidden]="!canEdit" class="col-xl-2" *ngFor="let value of filter; let i = index">
                   <div class="custom-control custom-radio">
                     <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="value.id" (change)="onSelectionChange(value)" class="custom-control-input" [checked]="value.id == seller.commission">
                     <label class="custom-control-label" for="radioGroup{{i}}">{{ value.name | translate }}</label>

@@ -1056,7 +1056,11 @@
     "Amount is required": "El monto es requerido",
     "This invoice includes the following orders": "Esta factura incluye las siguientes órdenes",
     "Far Zone Diameter":"Diámetro Zona de Lejos",
-    "The seller has commission?": "¿Tiene comisión el vendedor?",
+    "Does the seller receive commission?": "¿El vendedor recibe comisión?",
     "commission is required": "La comisión es requerida",
-    "Commission's status":"Estado de la Comisión"
+    "Commission's status":"Estado de la Comisión",
+    "Manage Commissions":"Gestionar Comisiones",
+    "Commission Date":"Fecha de la Comisión",
+    "All commissions":"Todas las comisiones",
+    "Commissions List":"Lista de Comisiones"
 }
