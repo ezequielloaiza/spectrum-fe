@@ -26,5 +26,6 @@ export enum RoleSeller {
   EditSupplier,
   Payments,
   PaymentsMade,
-  Commission
+  Commission,
+  ProductViewMedmontComponent
 }

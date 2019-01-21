@@ -34,5 +34,6 @@ export enum RoleAdmin {
   Invoice,
   Payments,
   PaymentsMade,
-  Commission
+  Commission,
+  ProductViewMedmontComponent
 }

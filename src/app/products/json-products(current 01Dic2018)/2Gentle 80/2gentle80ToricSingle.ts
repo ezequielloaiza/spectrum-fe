@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "GGY", "name": "Gentle 80 Toric Single",
+    "code": "GGY", "name": "Gentle 80 Toric Blister",
     "priceBase": 12, "price1": 12, "price2": 12, "price3": 12,
     "father": "Gentle 80",
     "category": "Contact Lenses",

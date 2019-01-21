@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "MNS", "name": "Gentle 59 MF CN Single",
+    "code": "MNS", "name": "Gentle 59 MF CN Blister",
     "priceBase": 12, "price1": 12, "price2": 12, "price3": 12,
     "father": "Gentle 59",
     "category": "Contact Lenses",

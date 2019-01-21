@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "MDS", "name": "Gentle 59 MF CD Single",
+    "code": "MDS", "name": "Gentle 59 MF CD Blister",
     "priceBase": 12, "price1": 12, "price2": 12, "price3": 12,
     "father": "Gentle 59",
     "category": "Contact Lenses",
