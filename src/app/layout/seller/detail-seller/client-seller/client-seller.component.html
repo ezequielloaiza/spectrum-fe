@@ -48,11 +48,11 @@
               <tr *ngFor="let client of listCustomers">
                 <td class="table-tr" class="active" *ngIf="client.status === 0"><div>{{'Active' | translate }}</div></td>
                 <td class="table-tr" class="inactive" *ngIf="client.status === 1"><div>{{'Inactive' | translate }}</div></td>
-                <td class="table-tr">{{client.name}}</td>
-                <td class="table-tr">{{client.email}}</td>
-                <td class="table-tr">{{client.company.companyName}}</td>
-                <td class="table-tr">{{client.username}}</td>
-                <td class="table-tr">{{client.company.country ? (client.company.country.name | translate) : '' }}</td>
+                <td class="table-tr td-table">{{client.name}}</td>
+                <td class="table-tr td-table">{{client.email}}</td>
+                <td class="table-tr td-table">{{client.company.companyName}}</td>
+                <td class="table-tr td-table">{{client.username}}</td>
+                <td class="table-tr td-table">{{client.company.country ? (client.company.country.name | translate) : '' }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">
