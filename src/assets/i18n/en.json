@@ -836,5 +836,7 @@
     "Conventional":"Conventional",
     "To make the order the minimum quantity is":"To make the order the minimum quantity is",
     "units":"units",
-    "and maximum":"and maximum"
+    "and maximum":"and maximum",
+    "Are you sure you want to change the membership? The customer has products that will be removed from his cart.":"Are you sure you want to change the membership? The customer has products that will be removed from his cart.",
+    "Confirm Update":"Confirm Update"
 }
