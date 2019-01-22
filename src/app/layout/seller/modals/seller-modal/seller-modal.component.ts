@@ -7,8 +7,7 @@ import { UserService, GoogleService, CountryService } from '../../../../shared/s
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, tap, catchError, merge } from 'rxjs/operators';
-import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { debounceTime, distinctUntilChanged, tap, catchError, merge, switchMap } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../../../http/user-storage.service';
 import * as _ from 'lodash';
@@ -29,6 +28,10 @@ export class SellerModalComponent implements OnInit {
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
   locale: any;
+  filter = [{ id: 0, name: 'No' },
+  { id: 1, name: 'Yes' }];
+  valid = false;
+  idValue: any;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -74,7 +77,8 @@ export class SellerModalComponent implements OnInit {
       idCountry  : ['', [Validators.required]],
       city     : ['', [Validators.required]],
       postal   : ['', []],
-      phone    : ['', []]
+      phone    : ['', []],
+      commission : ['', []]
     });
   }
 
@@ -96,6 +100,7 @@ export class SellerModalComponent implements OnInit {
 
   save(): void {
     this.form.get('city').setValue(this.googleService.getCity());
+    console.log(this.form.value);
     this.userSerice.registerSeller$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.modal.close();
@@ -137,6 +142,7 @@ export class SellerModalComponent implements OnInit {
   get idCountry() { return this.form.get('idCountry'); }
   get postal() { return this.form.get('postal'); }
   get phone() { return this.form.get('phone'); }
+  get commission() {return this.form.get('commission'); }
 
 
   validatePhone(event) {
@@ -149,6 +155,12 @@ export class SellerModalComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  onSelectionChange(value) {
+    this.valid = true;
+    this.idValue = value.id;
+    this.form.get('commission').setValue(this.idValue);
   }
 
 }

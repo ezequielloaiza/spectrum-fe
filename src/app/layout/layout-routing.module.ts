@@ -26,6 +26,7 @@ import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-sup
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { ManagePaymentsComponent } from './manage-payments/manage-payments.component';
 import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-made.component';
+import { ManageCommissionComponent } from './manage-commission/manage-commission.component';
 
 const routes: Routes = [
   {
@@ -72,6 +73,10 @@ const routes: Routes = [
       {
         path: 'invoice', component: ManageInvoiceComponent,
         data: { option: 'Invoice' }
+      },
+      {
+        path: 'commission', component: ManageCommissionComponent,
+        data: { option: 'Commission' }
       },
       {
         path: 'payments', component: ManagePaymentsComponent,

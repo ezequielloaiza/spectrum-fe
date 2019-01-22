@@ -877,5 +877,20 @@
     "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.":"The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.",
     "Amount is required": "Amount is required",
     "This invoice includes the following orders": "This invoice includes the following orders",
-    "Far Zone Diameter":"Far Zone Diameter"
+    "Far Zone Diameter":"Far Zone Diameter",
+    "Does the seller receive commission?":"Does the seller receive commission?",
+    "commission is required":"commission is required",
+    "Commission's status":"Commission's status",
+    "Manage Commissions":"Manage Commissions",
+    "Commission Date":"Commission Date",
+    "All commissions":"All commissions",
+    "Commissions List":"Commissions List",
+    "Get a quote":"Get a quote",
+    "More Information":"More Information",
+    "Request for quotation sent successfully":"Request for quotation sent successfully",
+    "Confirm quote":"Confirm quote",
+    "Are you sure you want to get a quote?":"Are you sure you want to get a quote?",
+    "The Medmont E300 USB Corneal Topographer offers the practitioner extreme accuracy for the mapping of a patients cornea.Using a PC, the patients full corneal history can be stored and accessed quickly and efficiently.A huge range of display options is now available providing the user with information that they previously would only have dreamed about.":"The Medmont E300 USB Corneal Topographer offers the practitioner extreme accuracy for the mapping of a patients cornea.Using a PC, the patients full corneal history can be stored and accessed quickly and efficiently.A huge range of display options is now available providing the user with information that they previously would only have dreamed about.",
+    "3-Monthly":"3-Monthly",
+    "Conventional":"Conventional"
 }

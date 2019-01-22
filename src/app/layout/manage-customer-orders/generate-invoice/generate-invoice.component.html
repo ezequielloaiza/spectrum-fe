@@ -145,14 +145,14 @@
           </thead>
           <tbody>
             <tr *ngFor="let productR of invoice.listProductRequested; let i = index">
-              <td class="table-tr">{{productR.productRequested.product.code !== null ?
+              <td class="table-tr td-table">{{productR.productRequested.product.code !== null ?
                 productR.productRequested.product.code : productR.productRequested.product.name}}</td>
-              <td class="table-tr">{{(productR.productRequested.product.code !== null ?
+              <td class="table-tr td-table">{{(productR.productRequested.product.code !== null ?
                 productR.productRequested.product.name : '')}} {{(productR.productRequested.product.material !== null ?
                 productR.productRequested.product.material : '')}}</td>
-              <td class="table-tr">{{productR.productRequested.quantity}}</td>
-              <td class="table-tr" [hidden]="!pilot"> {{productR.price | currency }}</td>
-              <td class="table-tr" [hidden]="pilot">
+              <td class="table-tr td-table">{{productR.productRequested.quantity}}</td>
+              <td class="table-tr td-table" [hidden]="!pilot"> {{productR.price | currency }}</td>
+              <td class="table-tr td-table" [hidden]="pilot">
               <div class="amount-div">
                 <div class="input-group-append">
                   <span class="input-group-text">$</span>
@@ -161,8 +161,8 @@
                   placeholder="{{ 'Enter unit price' | translate }}" required>
               </div>
               </td>
-              <td class="table-tr">{{ 'No Tax' | translate }}</td>
-              <td class="table-tr">{{(productR.netAmount | currency )}}</td>
+              <td class="table-tr td-table">{{ 'No Tax' | translate }}</td>
+              <td class="table-tr td-table">{{(productR.netAmount | currency )}}</td>
             </tr>
           </tbody>
         </table>
