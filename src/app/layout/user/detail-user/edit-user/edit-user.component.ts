@@ -14,6 +14,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ListUserModalComponent } from '../../modals/list-user-modal/list-user-modal.component';
 import { UserStorageService } from '../../../../http/user-storage.service';
 import * as _ from 'lodash';
+import { BasketproductrequestedService } from '../../../../shared/services/basketproductrequested/basketproductrequested.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -46,7 +47,8 @@ export class EditUserComponent implements OnInit {
               private notification: ToastrService,
               private modalService: NgbModal,
               private userStorageService: UserStorageService,
-              private countryService: CountryService) { }
+              private countryService: CountryService,
+              private basketProductRequestedService: BasketproductrequestedService) { }
 
   ngOnInit() {
     this.id = this.route.parent.snapshot.paramMap.get('id');
@@ -176,10 +178,35 @@ export class EditUserComponent implements OnInit {
   }
 
   save(): void {
-    this.saving = true;
-    if (this.nameSeller === '') {
-      this.form.get('userId').setValue(null);
-    }
+    if (this.form.get('membershipId').value === 1 ) {
+      this.basketProductRequestedService.checkProduct$(this.user.idUser).subscribe( res1 => {
+        if (res1.code === CodeHttp.ok) {
+         const quantity = res1.data;
+         if (quantity > 0) {
+          this.translate.get('Confirm Update', {value: 'Confirm Update'}).subscribe((title: string) => {
+            this.translate.get('Are you sure you want to change the membership? The customer has products that will be removed from his cart.',
+             {value: 'Are you sure you want to change the membership? The customer has products that will be removed from his cart.'}).subscribe((msg: string) => {
+              this.alertify.confirm(title, msg, () => {
+                this.saveUser();
+              }, () => {
+              });
+            });
+          });
+         } else {
+          this.saveUser();
+         }
+        } else {
+          console.log(res1.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+   } else {
+     this.saveUser();
+   }
+  }
+
+  saveUser() {
     this.userService.update$(this.form.value).subscribe( res => {
       if (CodeHttp.ok === res.code) {
         this.canEdit = false;
