@@ -132,7 +132,7 @@
             <fieldset class="form-group">
               <label>{{ 'Does the seller receive commission?' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                  <span [hidden]="canEdit">{{ seller ? (seller.commission == 1 ? 'Yes' : 'No' | translate) : '' }}</span>
+                  <span [hidden]="canEdit">{{ seller ? ((seller.commission == 1 ? 'Yes' : 'No') | translate) : '' }}</span>
                 <div [hidden]="!canEdit" class="custom-control-inline" *ngFor="let value of filter; let i = index">
                   <div class="custom-control custom-radio">
                     <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="value.id" (change)="onSelectionChange(value)" class="custom-control-input" [checked]="value.id == seller.commission">
