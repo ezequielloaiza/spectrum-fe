@@ -11,6 +11,7 @@ import { EditProductMagicLookComponent } from '../modals/edit-product/edit-produ
 import { EditProductEuclidComponent } from '../modals/edit-product/edit-product-euclid/edit-product-euclid.component';
 import { EditProductEuropaComponent } from '../modals/edit-product/edit-product-europa/edit-product-europa.component';
 import { EditProductSpectrumSalineComponent } from '../modals/edit-product/edit-product-spectrum-saline/edit-product-spectrum-saline.component';
+import { EditProductMedmontComponent } from '../modals/edit-product/edit-product-medmont/edit-product-medmont.component';
 
 @Component({
   selector: 'app-products-lists-internal',
@@ -32,6 +33,7 @@ export class ProductsListInternalComponent implements OnInit {
   productsAuxMarkennovy: Array<any> = new Array();
   showFathersMarkennovy: any;
   currentFather: any;
+  currentPacking: any;
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
               private modalService: NgbModal,
@@ -48,6 +50,7 @@ export class ProductsListInternalComponent implements OnInit {
     this.filterMarkennovy = 'All';
     this.filterName = '';
     this.currentFather = '';
+    this.currentPacking = 'All';
   }
 
   userIsAdmin() {
@@ -255,6 +258,9 @@ export class ProductsListInternalComponent implements OnInit {
         if (product.father === 'Spectrum Saline') {
           this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
         }
+        if (product.father === 'Medmont') {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-medmont']);
+        }
         break;
     }
   }
@@ -334,7 +340,7 @@ export class ProductsListInternalComponent implements OnInit {
                 },
                 (reason) => {}
               );
-            } else { // spectrum saline
+            } else if (product.father === 'Spectrum Saline') { // spectrum saline
               const modalRefSpectrum = this.modalService.open(EditProductSpectrumSalineComponent, {
                 size: 'lg',
                 windowClass: 'modal-content-border'
@@ -342,6 +348,19 @@ export class ProductsListInternalComponent implements OnInit {
               modalRefSpectrum.componentInstance.product = product;
               modalRefSpectrum.componentInstance.action = action;
               modalRefSpectrum.result.then(
+                (result) => {
+                  this.getProducts();
+                },
+                (reason) => {}
+              );
+            } else {
+              const modalRefMedmont = this.modalService.open(EditProductMedmontComponent, {
+                size: 'lg',
+                windowClass: 'modal-content-border'
+              });
+              modalRefMedmont.componentInstance.product = product;
+              modalRefMedmont.componentInstance.action = action;
+              modalRefMedmont.result.then(
                 (result) => {
                   this.getProducts();
                 },
@@ -418,6 +437,43 @@ export class ProductsListInternalComponent implements OnInit {
     }
   }
 
+  filterByPacking(type) {
+    this.currentPacking = type;
+
+    var products = this.productsAux;
+    const val = this.filterName;
+
+    products = products.filter((item) => {
+      if (this.currentFather === 'Quattro 3-Monthly') {
+        return item.father === 'Quattro 3-Monthly';
+      } else {
+        return ((item.name.toLowerCase().indexOf(this.currentFather.toLowerCase()) > -1));
+      }
+    });
+
+    if (type === 'All') {
+      this.products = products;
+      if (val && val.trim() !== '') {
+        this.products = products.filter((item) => {
+          return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
+        });
+      }
+      return;
+    }
+
+    this.products = products.filter((item) => {
+      return ((item.name.toLowerCase().indexOf(type.toLowerCase()) > -1));
+    });
+
+    if (val && val.trim() !== '') {
+      this.products = this.products.filter((item) => {
+        return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
+      });
+    }
+
+
+  }
+
   redirectFather(product) {
     this.products = this.productsAux;
 
@@ -432,7 +488,9 @@ export class ProductsListInternalComponent implements OnInit {
     if (this.idSupplier === 1) {
       if (!this.showFathersMarkennovy) {
         this.showFathersMarkennovy = true;
+        this.filterName = '';
         this.currentFather = '';
+        this.currentPacking = '';
       }
     }
   }

@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "ESN", "name": "Quattro MF CN (14.00) 3-Monthly Single",
+    "code": "ESN", "name": "Quattro MF CN (14.00) 3-Monthly Blister",
     "priceBase": 25, "price1": 25, "price2": 19, "price3": 19,
     "father": "Quattro 3-Monthly",
     "category": "Contact Lenses",

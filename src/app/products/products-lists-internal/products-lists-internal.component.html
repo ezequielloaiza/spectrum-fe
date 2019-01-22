@@ -42,51 +42,80 @@
       <form>
         <div class="row grid-space-1">
           <div class="col col-xl-12 col-lg-12 search">
-            <input type="text" class="form-control" [hidden]="idSupplier === 1" (keyup)="filter('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
-            <input type="text" class="form-control" [hidden]="idSupplier !== 1" (keyup)="filterByFather('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
+            <input type="text" class="form-control" [hidden]="idSupplier === 1 || !showFathersMarkennovy" (keyup)="filter('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
+            <input type="text" class="form-control" [hidden]="idSupplier !== 1 || !showFathersMarkennovy" (keyup)="filterByFather('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
+            <input type="text" class="form-control" [hidden]="idSupplier !== 1 || showFathersMarkennovy" (keyup)="filterByPacking(currentPacking)" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
             <i class="fa fa-search"></i>
           </div>
         </div>
         <!-- end row -->
       </form>
     </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
+    <!-- end col -->
+  </div>
+  <div class="row display-table" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
+    <div class="filter">
       <div class="custom-control custom-radio">
         <input type="radio" id="customRadioMarkennovy1" name="customRadio" value="3" class="custom-control-input" (change)="filterByFather('All')" checked>
         <label class="custom-control-label" for="customRadioMarkennovy1">{{ 'All' | translate }}</label>
       </div>
     </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
+    <div class="filter">
       <div class="custom-control custom-radio">
         <input type="radio" id="customRadioMarkennovy2" name="customRadio" value="0" class="custom-control-input" (change)="filterByFather('Monthly')">
         <label class="custom-control-label" for="customRadioMarkennovy2">{{ 'Monthly' | translate }}</label>
       </div>
     </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
+    <div class="filter">
       <div class="custom-control custom-radio">
         <input type="radio" id="customRadioMarkennovy3" name="customRadio" value="1" class="custom-control-input" (change)="filterByFather('3-Monthly')">
         <label class="custom-control-label" for="customRadioMarkennovy3">{{ '3-Monthly' | translate }}</label>
       </div>
     </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
+    <div class="filter" >
       <div class="custom-control custom-radio">
         <input type="radio" id="customRadioMarkennovy4" name="customRadio" value="2" class="custom-control-input" (change)="filterByFather('Conventional')">
         <label class="custom-control-label" for="customRadioMarkennovy4">{{ 'Conventional' | translate }}</label>
       </div>
     </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
+  </div>
+  <div class="row display-table" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
+    <!--<div class="filter">
       <div class="custom-control custom-radio">
         <input type="radio" id="customRadioMarkennovy5" name="customRadioFathers" value="0" class="custom-control-input" (change)="backToFathers()" [checked]="currentFather !== '' ? false : true">
         <label class="custom-control-label" for="customRadioMarkennovy5">{{ 'All' | translate }}</label>
       </div>
-    </div>
-    <div class="col col-xl-4 col-lg-4 filter" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
+    </div>-->
+    <div class="filter">
       <div class="custom-control custom-radio">
-        <input type="radio" id="customRadioMarkennovy6" name="customRadioFathers" value="1" class="custom-control-input" [checked]="currentFather !== '' ? true : false">
-        <label class="custom-control-label" for="customRadioMarkennovy6">{{ currentFather }}</label>
+        <input type="radio" id="customRadioMarkennovy6" name="customRadioFathers" value="1" class="custom-control-input" [checked]="currentFather !== '' ? true : false" (change)="filterByPacking(currentFather, 'All')">
+        <label class="custom-control-label" for="customRadioMarkennovy6">{{ 'All' | translate }}</label>
       </div>
     </div>
-    <!-- end col -->
+    <div class="filter" [hidden]="currentFather !== 'Saphir Rx' && currentFather !== 'Gentle 80' && currentFather !== 'Gentle 59' && currentFather !== 'Blu:gen' && currentFather !== 'Blu:kidz' && currentFather !== 'Xtensa' && currentFather !== 'Saphir' && currentFather !== 'Quattro 3-Monthly'">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadioMarkennovy7" name="customRadioFathers" value="2" class="custom-control-input" (change)="filterByPacking('Blister')">
+        <label class="custom-control-label" for="customRadioMarkennovy7">{{ 'Blister' | translate }}</label>
+      </div>
+    </div>
+    <div class="filter" [hidden]="currentFather !== 'Xtensa'">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadioMarkennovy8" name="customRadioFathers" value="3" class="custom-control-input" (change)="filterByPacking('6pk')">
+        <label class="custom-control-label" for="customRadioMarkennovy8">{{ '6pk' }}</label>
+      </div>
+    </div>
+    <div class="filter" [hidden]="currentFather !== 'Saphir Rx' && currentFather !== 'Gentle 80' && currentFather !== 'Gentle 59' && currentFather !== 'Blu:gen' && currentFather !== 'Blu:kidz' && currentFather !== 'Xtensa'">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadioMarkennovy9" name="customRadioFathers" value="4" class="custom-control-input" (change)="filterByPacking('3pk')">
+        <label class="custom-control-label" for="customRadioMarkennovy9">{{ '3pk' }}</label>
+      </div>
+    </div>
+    <div class="filter" [hidden]="currentFather !== 'Saphir' && currentFather !== 'Quattro 3-Monthly'">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadioMarkennovy10" name="customRadioFathers" value="5" class="custom-control-input" (change)="filterByPacking('2pk')">
+        <label class="custom-control-label" for="customRadioMarkennovy10">{{ '2pk' }}</label>
+      </div>
+    </div>
   </div>
   <!-- end  row -->
 </div>
@@ -144,7 +173,7 @@
               <div class="product-btns">
                 <div class="btn-group">
                   <button (click)="redirectView(product)" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-primary">{{ 'View' | translate}}</button>
-                  <button (click)="open(product,'edit')" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-sm btn-outline-secondary">{{ 'Edit' | translate }}</button>
+                  <button (click)="open(product,'edit')" [hidden]="user.role.idRole === 3 || user.role.idRole === 2"  type="button" class="btn btn-sm btn-outline-secondary">{{ 'Edit' | translate }}</button>
                 </div>
               </div>
             </div>

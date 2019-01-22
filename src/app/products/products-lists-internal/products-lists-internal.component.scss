@@ -37,6 +37,22 @@
   .display-table {
     padding-right: 20px !important;
   }
+
+  >div:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 1rem 10rem;
+    width: 50%;
+  }
+
+  >div:nth-child(3) {
+    display: flex;
+    padding: 0 0 1rem 10rem;
+
+    div {
+      margin-right: 3%;
+    }
+  }
 }
 
 .padding-list {
@@ -259,4 +275,19 @@ a:hover {
     display: flex;
     -webkit-box-pack: center;
   }
+}
+
+.custom-control-label {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.custom-control-label:after,
+.custom-control-label:before {
+  height: 1.7rem;
+  width: 1.7rem;
+}
+
+.custom-control-label:hover{
+  cursor: pointer;
 }

@@ -107,6 +107,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
               }
             });
           });
+          this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
+          this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
           this.spinner.hide();
         }
       });
@@ -123,6 +125,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
               }
             });
           });
+          this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
+          this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
           this.spinner.hide();
         }
       });

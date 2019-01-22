@@ -32,6 +32,10 @@ export class EditSellerComponent implements OnInit {
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
   locale: any;
+  filter = [{ id: 0, name: 'No' },
+  { id: 1, name: 'Yes' }];
+  valid = false;
+  idValue: any;
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -48,6 +52,7 @@ export class EditSellerComponent implements OnInit {
     this.getSeller(this.idSeller);
     this.initializeForm();
     this.getCountries();
+    console.log('seller', this.seller);
   }
 
   initializeForm() {
@@ -60,7 +65,8 @@ export class EditSellerComponent implements OnInit {
       idCountry: ['', [Validators.required]],
       city: ['', [Validators.required]],
       postal: ['', []],
-      phone: ['', []]
+      phone: ['', []],
+      commission : ['', []]
     });
   }
 
@@ -132,10 +138,12 @@ export class EditSellerComponent implements OnInit {
     this.form.get('city').setValue({ description: this.seller.city });
     this.form.get('postal').setValue(seller.postalCode);
     this.form.get('phone').setValue(seller.phone);
+    this.form.get('commission').setValue(seller.commission);
   }
 
   save(): void {
     this.form.get('city').setValue(this.form.value.city.description);
+    console.log('seller', this.form.value);
     this.userService.updateSeller$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.form.get('city').setValue(this.form.value.city);
@@ -194,6 +202,12 @@ export class EditSellerComponent implements OnInit {
   cancel(): void {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;
     this.setSeller(this.seller);
+  }
+
+  onSelectionChange(value) {
+    this.valid = true;
+    this.idValue = value.id;
+    this.form.get('commission').setValue(this.idValue);
   }
 }
 

@@ -19,5 +19,6 @@ export enum RoleUser {
   Home,
   ListBasketClient,
   Payments,
-  PaymentsMade
+  PaymentsMade,
+  ProductViewMedmontComponent
 }

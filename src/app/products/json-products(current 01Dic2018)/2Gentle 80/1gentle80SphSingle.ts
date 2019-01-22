@@ -1,6 +1,6 @@
 this.products = [
   {
-    "code": "GGR", "name": "Gentle 80 Sph Single",
+    "code": "GGR", "name": "Gentle 80 Sph Blister",
     "priceBase": 12, "price1": 12, "price2": 12, "price3": 12,
     "father": "Gentle 80",
     "category": "Contact Lenses",
