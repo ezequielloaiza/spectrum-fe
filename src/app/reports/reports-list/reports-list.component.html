@@ -1,0 +1,51 @@
+<ngx-spinner
+  bdColor="rgba(51, 51, 51, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-beat"
+></ngx-spinner>
+<br />
+<br />
+<br />
+<div class="margin-breadcrumb">
+  <div class="header-body">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"
+          ><i class="fa fa-dashboard"></i> {{ "Dashboard" | translate }}</a
+        >
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-edit"></i> {{ "Reports List" | translate }}
+      </li>
+    </ol>
+  </div>
+</div>
+<br /><br /><br />
+<div class="padding-list">
+  <div class="row">
+    <!-- THUMBNAILS PRODUCTS -->
+    <div class="col-sm-1 col-md-1 col-lg-1"></div>
+    <div class="col-sm-10 col-md-10 col-lg-10">
+      <div class="row margin-list">
+        <div class="col-md-4 box" *ngFor="let report of listReport">
+          <div class="mb-4 box">
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="onSelection(report.id)">
+                <i class="prodTeaser-more">{{ 'View' | translate }}</i>
+              </div>
+              <div class="prodTeaser-inner">
+                <!--<img
+                  class="card-img-top-teaser"
+                  src="{{ supplier.image }}"
+                />-->
+                <label>{{report.name | translate}}</label>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-1 col-md-1 col-lg-1"></div>
+  </div>
+</div>
