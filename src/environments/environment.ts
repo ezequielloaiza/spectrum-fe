@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/api/v1/',
+  apiUrl: 'http://54.209.228.182:8080/api/v1/',
   firebase: {
     apiKey: 'AIzaSyDueIh6nxo-wxTG2moQbq_iNDKFFtNDARI',
       authDomain: 'spectrum-app.firebaseapp.com',
