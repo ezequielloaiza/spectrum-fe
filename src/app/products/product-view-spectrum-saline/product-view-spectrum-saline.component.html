@@ -108,8 +108,6 @@
           </div>
         </div>
       </div>
-
-
       <br>
       <div class="row">
         <div class="col-md-12 buy-btns">
@@ -121,6 +119,10 @@
             [disabled]="!formIsValid()">
             <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
           </button>
+        </div>
+        <div class="col-md-12 message-quantity">
+          <span>{{'To make the order the minimum quantity is' | translate }} 250 {{ 'units' | translate }}</span>&nbsp;
+          <span>{{'and maximum' | translate}} 2000 {{ 'units' | translate }}</span>
         </div>
       </div>
     </div>
