@@ -207,6 +207,10 @@ export class EditUserComponent implements OnInit {
   }
 
   saveUser() {
+    this.saving = true;
+    if (this.nameSeller === '') {
+      this.form.get('userId').setValue(null);
+    }
     this.userService.update$(this.form.value).subscribe( res => {
       if (CodeHttp.ok === res.code) {
         this.canEdit = false;
