@@ -419,9 +419,9 @@ this.products = [
             "name": "Addition",
             "type": "selected",
             "values": [
-                "1",
-                "1.50",
-                "2"
+                "+1",
+                "+1.50",
+                "+2"
             ],
             "selected": null
           },
