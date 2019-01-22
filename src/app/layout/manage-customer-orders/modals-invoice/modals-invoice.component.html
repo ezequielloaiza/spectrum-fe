@@ -1,0 +1,51 @@
+<div class="modal-header" *ngIf="list.length > 0">
+  <h4 class="modal-title">{{ 'List of invoices generated' | translate }}</h4>
+  <button type="button" class="close close-modal" aria-label="Close" (click)="close()">
+    <span aria-hidden="true"> &times; </span>
+  </button>
+</div>
+<div class="container-modal">
+  <div class="col col-xl-12 col-lg-12">
+    <div class="mb-3">
+      <div class="row txt">
+        <div class="col-xl-12">
+          <div>
+            <label translate>{{ 'The following orders already have a generated invoice, you must unmark them.'}}</label>
+            <br>
+          </div>
+        </div>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="table-tr header-column">{{ 'Order' | translate }}</th>
+              <th class="table-tr header-column">{{ 'Invoice' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of list; let i = index">
+              <td class="table-tr td-table">{{'#'+item.number}}</td>
+              <td *ngIf="type === 1" class="table-tr">{{'#'+item.invoiceClient.number}}</td>
+              <td *ngIf="type === 2" class="table-tr">{{'#'+item.invoiceSupplier.number}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pagination-list" [hidden]="list.length === 0">
+          <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxList.length"
+            [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+          </ngb-pagination>
+          <span class="count-elements">{{ list.length + ' ' + ('of' | translate) + ' ' + auxList.length + ' ' + ('register(s)' | translate)
+            }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">{{ 'Close' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+</div>
