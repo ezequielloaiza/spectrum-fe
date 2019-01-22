@@ -103,4 +103,10 @@ a:hover {
   max-width: 100%;
   transition: all 0.35s ease-out;
   -webkit-box-direction: normal;
+
+  .label-report {
+    font-style: italic;
+    font-weight: 700;
+    font-size: 2.0rem;
+  }
 }

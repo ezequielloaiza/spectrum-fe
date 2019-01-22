@@ -11,7 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ReportsListComponent implements OnInit {
 
-  listReport: [{id: 1, name: 'Report 1'} , {id: 2, name: 'Report 2'}, {id: 3, name: 'Report 3'}, {id: 4, name: 'Report 4'}];
+  listReport = [{id: 1, name: 'Report 1'} , {id: 2, name: 'Report 2'}, {id: 3, name: 'Report 3'}, {id: 4, name: 'Report 4'}];
   currentUser: any;
   user: any;
   products: Array<any> = new Array;
@@ -24,7 +24,7 @@ export class ReportsListComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    console.log('report', this.listReport);
   }
 
 
