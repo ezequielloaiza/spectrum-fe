@@ -102,4 +102,10 @@ export class UserService {
     return this.http.request(req);
   }
 
+  public reportByRole$(roleId): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/reportByRole/' + roleId, {
+      responseType: 'blob'
+    });
+  }
+
 }
