@@ -43,7 +43,7 @@ export class ReportsListComponent implements OnInit {
       switch (id) {
         case 1: {
           this.spinner.show();
-          this.invoiceClientService.generateReportInvoices$(4).subscribe(res => {
+          this.invoiceClientService.generateReportInvoices$(3).subscribe(res => {
             const date = new Date();
             const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1,
               day: date.getDate(), hour: date.getHours(), minutes: date.getMinutes()};
