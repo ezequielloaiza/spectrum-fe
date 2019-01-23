@@ -44,6 +44,12 @@ export class InvoiceClientService {
     });
   }
 
+  public generateReportInvoices$(status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/downloadReportInvoice/' + status, {
+      responseType: 'blob'
+    });
+  }
+
   public findByIds$(listIds: Array<String>): Observable<any> {
     return this.http.post(environment.apiUrl + 'invoicesClient/allInvoiceByIds', listIds);
   }
