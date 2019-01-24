@@ -44,8 +44,8 @@ export class InvoiceClientService {
     });
   }
 
-  public generateReportInvoices$(status): Observable<any> {
-    return this.http.get(environment.apiUrl + 'invoicesClient/downloadReportInvoice/' + status, {
+  public generateReportInvoices$(status, idClient): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/downloadReportInvoice/' + status + '/' + idClient, {
       responseType: 'blob'
     });
   }
@@ -58,5 +58,4 @@ export class InvoiceClientService {
   public usersWithInvoicesOverdue$(idUser): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesClient/usersWithInvoicesOverdue/' + idUser);
   }
-  
 }

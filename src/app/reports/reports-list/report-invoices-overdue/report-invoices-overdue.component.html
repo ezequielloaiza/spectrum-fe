@@ -5,25 +5,27 @@
   </button>
 </div>
 <div class="modal-body">
-  <form [formGroup]="form">
     <div class="row">
-      <div class="col-xl-12" >
+      <div class="col-xl-10 form-group" >
         <div class="custom-control">
           <label >{{'Select Report' | translate}}</label>
-          <select class="form-control" name="typeReport" id="typeReport" [(ngModel)]="typeReport" (change)="validateType()" formControlName="typeReport">
-            <option *ngFor="let type of typesReport" value="{{type.id}}">{{ type.name | translate }}</option>
+          <div class="col-xl-12" *ngFor="let types of typesReport; let i = index">
+            <div class="custom-control custom-radio">
+              <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="types.id" (change)="onSelectionChange(types)" class="custom-control-input">
+              <label class="custom-control-label" for="radioGroup{{i}}">{{ types.name | translate }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-10 form-group">
+        <div class="custom-control" [hidden]="!byClient">
+          <label >{{ 'Select client' | translate }}</label>
+          <select class="form-control" name="client" id="client" [(ngModel)]="client" (change)="onSelectClient()">
+            <option *ngFor="let c of clients" value="{{c.idUser}}">{{ c.name | translate }}</option>
           </select>
         </div>
-        <div class="custom-control">
-            <label >{{ 'Select client' | translate }}</label>
-            <select class="form-control" name="client" id="client" [(ngModel)]="client" formControlName="client">
-              <option value="" disabled [selected]="true" translate>Select report</option>
-              <option *ngFor="let c of clients" value="{{c.id}}">{{ c.name | translate }}</option>
-            </select>
-          </div>
       </div>
     </div>
-  </form>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
