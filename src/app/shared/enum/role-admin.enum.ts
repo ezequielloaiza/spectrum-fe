@@ -32,6 +32,7 @@ export enum RoleAdmin {
   ListBasket,
   ListBasketDetail,
   Invoice,
+  ReportsList,
   Payments,
   PaymentsMade,
   Commission,
