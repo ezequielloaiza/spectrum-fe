@@ -9,8 +9,13 @@
             {{ 'All Suppliers' | translate }}
           </div>
           <div class="ml-auto p-2">
-            <button class="btn btn-main" (click)="open(content,'create')">{{ 'Add' | translate }}&nbsp;
+            <button class="btn btn-main" (click)="open(content,'create')">{{ 'Add' | translate }}&nbsp;&nbsp;
               <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class="align-btn-download">
+            <button type="button" class="btn btn-success btn-xs" (click)="download()" translate>
+              <span class="fa fa-download"></span>Download Providers
             </button>
           </div>
         </div>

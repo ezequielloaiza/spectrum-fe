@@ -9,7 +9,7 @@ import { SupplierModalComponent } from './modals/supplier-modal/supplier-modal.c
 import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-suppliers',
   templateUrl: './suppliers.component.html',
@@ -25,7 +25,8 @@ export class SuppliersComponent implements OnInit {
 	/*initial order*/
 	orderByField = 'idSupplier';
 	reverseSort = true;
-	typeSort = 0;
+  typeSort = 0;
+  today: Date = new Date();
 
 	constructor(private modalService: NgbModal,
 							private supplierService: SupplierService,
@@ -152,6 +153,17 @@ export class SuppliersComponent implements OnInit {
         }, () => {
         });
       });
+    });
+  }
+
+  download() {
+    this.supplierService.download$().subscribe(res => {
+      const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
+        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes(), seconds: this.today.getSeconds};
+      const filename = 'Providers-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+      saveAs(res, filename);
+    }, error => {
+      console.log('error', error);
     });
   }
 
