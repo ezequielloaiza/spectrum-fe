@@ -1080,5 +1080,6 @@
     "There was a problem generating the report":"Hubo un problema al generar el reporte",
     "Report has been generated":"Se ha generado el informe",
     "Report of Overdue Invoices":"Reporte de Facturas Vencidas",
-    "Select Report": "Seleccione el Reporte"
+    "Select Report":"Seleccione el Reporte",
+    "Select Client":"Seleccione el Cliente"
 }

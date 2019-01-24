@@ -19,7 +19,7 @@
       </div>
       <div class="col-xl-10 form-group">
         <div class="custom-control" [hidden]="!byClient">
-          <label >{{ 'Select client' | translate }}</label>
+          <label >{{ 'Select Client' | translate }}</label>
           <select class="form-control" name="client" id="client" [(ngModel)]="client" (change)="onSelectClient()">
             <option *ngFor="let c of clients" value="{{c.idUser}}">{{ c.name | translate }}</option>
           </select>
