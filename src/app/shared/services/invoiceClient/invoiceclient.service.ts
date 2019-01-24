@@ -53,4 +53,10 @@ export class InvoiceClientService {
   public findByIds$(listIds: Array<String>): Observable<any> {
     return this.http.post(environment.apiUrl + 'invoicesClient/allInvoiceByIds', listIds);
   }
+
+
+  public usersWithInvoicesOverdue$(idUser): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/usersWithInvoicesOverdue/' + idUser);
+  }
+  
 }

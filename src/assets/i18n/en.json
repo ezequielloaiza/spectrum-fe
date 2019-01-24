@@ -901,5 +901,6 @@
     "Confirm Update":"Confirm Update",
     "There was a problem generating the report":"There was a problem generating the report",
     "Report has been generated":"Report has been generated",
-    "Report of Overdue Invoices":"Report of Overdue Invoices"
+    "Report of Overdue Invoices":"Report of Overdue Invoices",
+    "Select Report":"Select Report"
 }

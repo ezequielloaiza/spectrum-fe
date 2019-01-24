@@ -4,9 +4,9 @@ import { NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InvoiceClientService } from '../../shared/services';
-import { saveAs } from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { ReportInvoicesOverdueComponent } from './report-invoices-overdue/report-invoices-overdue.component';
 
 @Component({
   selector: 'app-reports-list',
@@ -42,25 +42,10 @@ export class ReportsListComponent implements OnInit {
     if (this.user.role.idRole === 1) {
       switch (id) {
         case 1: {
-          this.spinner.show();
-          this.invoiceClientService.generateReportInvoices$(3).subscribe(res => {
-            const date = new Date();
-            const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1,
-              day: date.getDate(), hour: date.getHours(), minutes: date.getMinutes()};
-            const filename = 'InvoicesOverdue-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
-            saveAs(res, filename);
-            this.spinner.hide();
-            this.translate.get('Report has been generated',
-                { value: 'Report has been generated' }).subscribe((res1: string) => {
-              this.notification.success('', res1);
-            });
-          }, error => {
-            this.spinner.hide();
-            this.translate.get('There was a problem generating the report',
-                { value: 'There was a problem generating the report' }).subscribe((res: string) => {
-              this.notification.error('', res);
-            });
-            console.log('error', error);
+          const modalRef = this.modalService.open(ReportInvoicesOverdueComponent, { size: 'lg' });
+          modalRef.result.then((result) => {
+            this.ngOnInit();
+          }, (reason) => {
           });
         }
       }
@@ -73,4 +58,12 @@ export class ReportsListComponent implements OnInit {
     }
   }
 
+  open(action): void {
+    const modalRef = this.modalService.open(ReportInvoicesOverdueComponent, { size: 'lg' });
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    }, (reason) => {
+    });
+  }
 }
+
