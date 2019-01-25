@@ -9,6 +9,7 @@ import { Role } from '../../../shared/enum/role.enum';
 import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-list',
@@ -24,7 +25,8 @@ export class ListUserComponent implements OnInit {
   	/*initial order*/
 	orderByField = 'idUser';
 	reverseSort = true;
-	typeSort = 0;
+  typeSort = 0;
+  today: Date = new Date();
 
   constructor(private userService: UserService,
     private alertify: AlertifyService,
@@ -133,8 +135,8 @@ export class ListUserComponent implements OnInit {
   }
 
   moveFirstPage() {
-		this.advancedPagination = 1;
-		this.pageChange(this.advancedPagination);
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
   }
 
   filter(value: number): void {
@@ -145,6 +147,23 @@ export class ListUserComponent implements OnInit {
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
     this.listUsers = this.listUsersAux.slice(startItem, endItem);
+  }
+
+  downloadCustomer() {
+    this.spinner.show();
+    this.userService.reportByRole$(Role.User).subscribe(res => {
+      const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
+        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes()};
+      const filename = 'Customers-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+      saveAs(res, filename);
+      this.spinner.hide();
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+      this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
+    });
   }
 
 }
