@@ -37,4 +37,10 @@ export class SupplierService {
   public removeSupplierUser$(supplier): Observable<any> {
     return this.http.post(environment.apiUrl + 'suppliers/removeSupplierUser', supplier);
   }
+
+  public download$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'suppliers/download', {
+      responseType: 'blob'
+    });
+  }
 }
