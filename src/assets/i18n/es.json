@@ -1077,9 +1077,12 @@
     "and maximum":"y máxima",
     "Are you sure you want to change the membership? The customer has products that will be removed from his cart.":"¿Está seguro que desea cambiar la membresía? El cliente tiene productos que serán eliminados de su carrito.",
     "Confirm Update":"Confirmar actualización",
-    "There was a problem generating the report":"Hubo un problema al generar el reporte",
+    "The file could not be generated":"El archivo no pudo ser generado",
     "Report has been generated":"Se ha generado el informe",
     "Report of Overdue Invoices":"Reporte de Facturas Vencidas",
     "Select Report":"Seleccione el Reporte",
-    "Select Client":"Seleccione el Cliente"
+    "Select Client":"Seleccione el Cliente",
+    "All Clients":"Todos los Clientes",
+    "By Client": "Por Cliente",
+    "There are no customers with overdue invoices":"No hay clientes con facturas vencidas"
 }

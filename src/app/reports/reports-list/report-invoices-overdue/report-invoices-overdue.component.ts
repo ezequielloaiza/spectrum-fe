@@ -9,6 +9,7 @@ import { saveAs } from 'file-saver';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { UserService } from '../../../shared/services';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import { StatusInvoiceClient } from '../../../shared/enum/status-invoice-client.enum';
 
 @Component({
   selector: 'app-report-invoices-overdue',
@@ -65,6 +66,13 @@ export class ReportInvoicesOverdueComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.clients = res.data;
           console.log(this.clients);
+          if (this.clients.length == 0) {
+            this.translate.get('There are no customers with overdue invoices',
+            { value: 'There are no customers with overdue invoices' }).subscribe((res1: string) => {
+              this.notification.warning('', res1);
+              this.close();
+            });
+          }
         } else {
           console.log(res.errors[0].detail);
         }
@@ -79,7 +87,8 @@ export class ReportInvoicesOverdueComponent implements OnInit {
     if (this.client != '') {
       idClient = this.client;
     }
-    this.invoiceClientService.generateReportInvoices$(3, idClient).subscribe(res => {
+    console.log('status', StatusInvoiceClient.Overdue);
+    this.invoiceClientService.generateReportInvoices$(StatusInvoiceClient.Overdue, idClient).subscribe(res => {
       const date = new Date();
       const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1,
         day: date.getDate(), hour: date.getHours(), minutes: date.getMinutes()};
@@ -92,8 +101,8 @@ export class ReportInvoicesOverdueComponent implements OnInit {
         });
     }, error => {
       this.spinner.hide();
-      this.translate.get('There was a problem generating the report',
-      { value: 'There was a problem generating the report' }).subscribe((res: string) => {
+      this.translate.get('The file could not be generated',
+      { value: 'The file could not be generated' }).subscribe((res: string) => {
         this.notification.error('', res);
       });
       console.log('error', error);

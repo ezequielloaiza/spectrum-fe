@@ -899,9 +899,12 @@
     "and maximum":"and maximum",
     "Are you sure you want to change the membership? The customer has products that will be removed from his cart.":"Are you sure you want to change the membership? The customer has products that will be removed from his cart.",
     "Confirm Update":"Confirm Update",
-    "There was a problem generating the report":"There was a problem generating the report",
+    "The file could not be generated":"The file could not be generated",
     "Report has been generated":"Report has been generated",
     "Report of Overdue Invoices":"Report of Overdue Invoices",
     "Select Report":"Select Report",
-    "Select Client":"Select Client"
+    "Select Client":"Select Client",
+    "All Clients":"All Clients",
+    "By Client": "By Client",
+    "There are no customers with overdue invoices":"There are no customers with overdue invoices"
 }
