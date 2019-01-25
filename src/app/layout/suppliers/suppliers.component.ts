@@ -157,13 +157,19 @@ export class SuppliersComponent implements OnInit {
   }
 
   download() {
+    this.spinner.show();
     this.supplierService.download$().subscribe(res => {
       const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
         day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes(), seconds: this.today.getSeconds};
       const filename = 'Providers-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
       saveAs(res, filename);
+      this.spinner.hide();
     }, error => {
+      this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
