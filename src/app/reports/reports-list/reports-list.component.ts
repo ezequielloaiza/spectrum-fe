@@ -2,10 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserStorageService } from '../../http/user-storage.service';
 import { NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { InvoiceClientService } from '../../shared/services';
-import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import { ReportInvoicesOverdueComponent } from './report-invoices-overdue/report-invoices-overdue.component';
 
 @Component({
@@ -24,11 +20,7 @@ export class ReportsListComponent implements OnInit {
   products: Array<any> = new Array;
   constructor(private userStorageService: UserStorageService,
               private modalService: NgbModal,
-              public router: Router,
-              private spinner: NgxSpinnerService,
-              private invoiceClientService: InvoiceClientService,
-              private translate: TranslateService,
-              private notification: ToastrService) {
+              public router: Router) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -58,12 +50,5 @@ export class ReportsListComponent implements OnInit {
     }
   }
 
-  open(action): void {
-    const modalRef = this.modalService.open(ReportInvoicesOverdueComponent, { size: 'lg' });
-    modalRef.result.then((result) => {
-      this.ngOnInit();
-    }, (reason) => {
-    });
-  }
 }
 
