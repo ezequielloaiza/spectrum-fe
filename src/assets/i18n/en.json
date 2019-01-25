@@ -838,5 +838,6 @@
     "units":"units",
     "and maximum":"and maximum",
     "Are you sure you want to change the membership? The customer has products that will be removed from his cart.":"Are you sure you want to change the membership? The customer has products that will be removed from his cart.",
-    "Confirm Update":"Confirm Update"
+    "Confirm Update":"Confirm Update",
+    "File Not Found":"File Not Found"
 }

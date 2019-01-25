@@ -1017,5 +1017,6 @@
     "units":"unidades",
     "and maximum":"y máxima",
     "Are you sure you want to change the membership? The customer has products that will be removed from his cart.":"¿Está seguro que desea cambiar la membresía? El cliente tiene productos que serán eliminados de su carrito.",
-    "Confirm Update":"Confirmar actualización"
+    "Confirm Update":"Confirmar actualización",
+    "File Not Found":"Archivo no encontrado"
 }
