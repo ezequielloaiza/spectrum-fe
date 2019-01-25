@@ -83,4 +83,11 @@ export class OrderService {
   public countOrders$(idUser): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/countOrders/' + idUser);
   }
+
+  public reportByRoleAndStatus$(idUser, idRole, IdStatus): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/reportByRoleAndStatus/' + idUser + '/' + idRole + '/' + IdStatus, {
+      responseType: 'blob'
+    });
+  }
+
 }
