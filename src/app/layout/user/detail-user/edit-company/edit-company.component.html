@@ -207,7 +207,7 @@
                   <div [hidden]="!canEdit" class="input-group-append">
                     <span class="input-group-text">$</span>
                   </div>
-                  <input [hidden]="!canEdit" class="form-control" min="1" type="number" placeholder="{{ 'Enter credit limit' | translate }}"
+                  <input [hidden]="!canEdit" class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" placeholder="{{ 'Enter credit limit' | translate }}"
                     name="creditLimit" formControlName="creditLimit" (change)="newBalance($event)" required>
                 </div>
               </div>
@@ -225,7 +225,7 @@
                   <div [hidden]="!canEdit" class="input-group-append">
                     <span class="input-group-text">$</span>
                   </div>
-                  <input [hidden]="!canEdit" class="form-control" type="number" placeholder="{{ 'Enter credit balance' | translate }}" name="balance"
+                  <input [hidden]="!canEdit" class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" placeholder="{{ 'Enter credit balance' | translate }}" name="balance"
                     formControlName="balance" required>
                 </div>
               </div>
