@@ -7,6 +7,9 @@ import { StatusOrder } from '../../../shared/enum/status-order.enum';
 import * as _ from 'lodash';
 import { NgbDateAdapter, NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { saveAs } from 'file-saver';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-order',
@@ -30,11 +33,14 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   user: any;
   status: any;
   navigationSubscription;
+  today: Date = new Date();
 
   constructor(private orderService: OrderService,
               private userService: UserStorageService,
               private route: ActivatedRoute,
               private router: Router,
+              private notification: ToastrService,
+              private translate: TranslateService,
               private spinner: NgxSpinnerService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -172,5 +178,22 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     o.push(valor);
     str = _.toString(o);
     return str;
+  }
+
+  downloadOrder() {
+    this.spinner.show();
+    this.orderService.reportByRoleAndStatus$(this.user.userResponse.idUser, this.user.role.idRole, this.status).subscribe(res => {
+      const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
+        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes()};
+      const filename = 'Orders-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+      saveAs(res, filename);
+      this.spinner.hide();
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+      this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
+    });
   }
 }
