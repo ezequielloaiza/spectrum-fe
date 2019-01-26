@@ -42,7 +42,7 @@
       <form>
         <div class="row grid-space-1">
           <div class="col col-xl-12 col-lg-12 search">
-            <input type="text" class="form-control" [hidden]="idSupplier === 1 || !showFathersMarkennovy" (keyup)="filter('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
+            <input type="text" class="form-control" [hidden]="idSupplier === 1" (keyup)="filter('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
             <input type="text" class="form-control" [hidden]="idSupplier !== 1 || !showFathersMarkennovy" (keyup)="filterByFather('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
             <input type="text" class="form-control" [hidden]="idSupplier !== 1 || showFathersMarkennovy" (keyup)="filterByPacking(currentPacking)" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
             <i class="fa fa-search"></i>
