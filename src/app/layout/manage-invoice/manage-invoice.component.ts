@@ -3,7 +3,7 @@ import { NgbModal, NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstr
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
-import { InvoiceService } from '../../shared/services/invoiceSupplier/invoiceSupplier.service';
+import { InvoiceSupplierService } from '../../shared/services/invoiceSupplier/invoiceSupplier.service';
 import { UserStorageService } from '../../http/user-storage.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { GenerateInvoiceComponent } from '../manage-customer-orders/generate-invoice/generate-invoice.component';
@@ -44,7 +44,7 @@ export class ManageInvoiceComponent implements OnInit {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private invoiceService: InvoiceService,
+    private invoiceService: InvoiceSupplierService,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -130,7 +130,7 @@ export class ManageInvoiceComponent implements OnInit {
   open(invoice) {
     const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
     modalRef.componentInstance.invoice = invoice;
-    modalRef.componentInstance.order = invoice.order;
+    modalRef.componentInstance.order = undefined;
     modalRef.componentInstance.pilot = true;
     modalRef.result.then((result) => {
           this.getListInvoices();
