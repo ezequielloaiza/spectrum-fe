@@ -907,5 +907,6 @@
     "All Clients":"All Clients",
     "By Client": "By Client",
     "There are no customers with overdue invoices":"There are no customers with overdue invoices",
-    "Download PDF": "Download PDF"
+    "Download PDF": "Download PDF",
+    "There are no overdue invoices":"There are no overdue invoices"
 }

@@ -1085,5 +1085,6 @@
     "All Clients":"Todos los Clientes",
     "By Client": "Por Cliente",
     "There are no customers with overdue invoices":"No hay clientes con facturas vencidas",
-    "Download PDF": "Descargar PDF"
+    "Download PDF": "Descargar PDF",
+    "There are no overdue invoices":"No hay facturas vencidas"
 }
