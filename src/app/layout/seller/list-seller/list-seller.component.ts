@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SellerModalComponent } from '../modals/seller-modal/seller-modal.component';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-list-seller',
@@ -21,10 +22,11 @@ export class ListSellerComponent implements OnInit {
   listSellersAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number = 5;
-  	/*initial order*/
-	orderByField = 'idUser';
-	reverseSort = true;
-	typeSort = 0;
+  /*initial order*/
+  orderByField = 'idUser';
+  reverseSort = true;
+  typeSort = 0;
+  today: Date = new Date();
 
   constructor(private userService: UserService,
     private alertify: AlertifyService,
@@ -174,6 +176,24 @@ export class ListSellerComponent implements OnInit {
   filter(value: number): void {
     this.getListSellers(value);
   }
+
+  downloadSeller() {
+    this.spinner.show();
+    this.userService.reportByRole$(Role.Seller).subscribe(res => {
+      const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
+        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes()};
+      const filename = 'Sellers-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+      saveAs(res, filename);
+      this.spinner.hide();
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+      this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
+    });
+  }
+
 }
 
 
