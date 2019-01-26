@@ -1019,5 +1019,6 @@
     "Are you sure you want to change the membership? The customer has products that will be removed from his cart.":"¿Está seguro que desea cambiar la membresía? El cliente tiene productos que serán eliminados de su carrito.",
     "Confirm Update":"Confirmar actualización",
     "Download PDF": "Descargar PDF",
-    "The file could not be generated": "El archivo no pudo ser generado"
+    "The file could not be generated": "El archivo no pudo ser generado",
+    "There are no orders to export": "No hay ordenes para exportar"
 }
