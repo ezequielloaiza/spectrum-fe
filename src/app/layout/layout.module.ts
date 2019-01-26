@@ -85,7 +85,7 @@ import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
 import { ModalsInvoiceComponent } from './manage-customer-orders/modals-invoice/modals-invoice.component';
 import { ManageCommissionComponent } from './manage-commission/manage-commission.component';
 import { ChangeStatusCommissionComponent } from './manage-commission/change-status-commission/change-status-commission.component';
-
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 @NgModule({
     imports: [
         CommonModule,
@@ -100,7 +100,8 @@ import { ChangeStatusCommissionComponent } from './manage-commission/change-stat
         BreadcrumbModule,
         NgSelectModule,
         FileUploadModule,
-        NgxSpinnerModule
+        NgxSpinnerModule,
+        CurrencyMaskModule
     ],
     declarations: [
         LayoutComponent,

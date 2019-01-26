@@ -8,7 +8,6 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Role } from '../../../../shared/enum/role.enum';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
-
 @Component({
   selector: 'app-list-user-modal',
   templateUrl: './list-user-modal.component.html',
