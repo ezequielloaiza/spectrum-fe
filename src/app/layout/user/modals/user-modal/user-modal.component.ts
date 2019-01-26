@@ -18,7 +18,6 @@ import { CountryService } from '../../../../shared/services/country/country.serv
 import { ListSupplierModalComponent } from '../list-supplier-modal/list-supplier-modal.component';
 import { UserStorageService } from '../../../../http/user-storage.service';
 import * as _ from 'lodash';
-
 @Component({
   selector: 'app-user-modal',
   templateUrl: './user-modal.component.html',

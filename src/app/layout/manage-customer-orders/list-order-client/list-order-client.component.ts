@@ -12,6 +12,7 @@ import { AlertifyService } from '../../../shared/services/alertify/alertify.serv
 import { GenerateInvoiceComponent } from '../generate-invoice/generate-invoice.component';
 import { InvoiceClientService } from '../../../shared/services/invoiceClient/invoice-client.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { saveAs } from 'file-saver';
 import { InvoiceClient } from '../../../shared/models/invoiceclient';
 import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
 import { generate } from 'rxjs';
@@ -583,6 +584,29 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           });
         });
     });
+  }
+
+  downloadOrder() {
+    if (this.listOrders.length > 0) {
+      this.spinner.show();
+      this.orderService.reportByRoleAndStatus$(this.user.userResponse.idUser, this.user.role.idRole, this.status).subscribe(res => {
+        const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
+          day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes()};
+        const filename = 'Orders-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+        saveAs(res, filename);
+        this.spinner.hide();
+      }, error => {
+        console.log('error', error);
+        this.spinner.hide();
+        this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe((res: string) => {
+          this.notification.error('', res);
+        });
+      });
+    } else {
+      this.translate.get('There are no orders to export', { value: 'There are no orders to export' }).subscribe((res: string) => {
+        this.notification.warning('', res);
+      });
+    }
   }
 
   onSelection(id, checked) {
