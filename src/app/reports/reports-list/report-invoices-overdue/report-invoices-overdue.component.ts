@@ -54,11 +54,33 @@ export class ReportInvoicesOverdueComponent implements OnInit {
     if (type.id == 0) {
       this.valid = true;
       this.byClient = false;
+      this.client = '';
+      this.loadInvoices();
     } else {
       this.valid = false;
       this.byClient = true;
       this.loadClients();
     }
+  }
+
+  loadInvoices() {
+    this.invoiceClientService.invoicesOverdue$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.clients = res.data;
+        console.log(this.clients);
+        if (this.clients.length == 0) {
+          this.translate.get('There are no overdue invoices',
+          { value: 'There are no overdue invoices' }).subscribe((res1: string) => {
+            this.notification.warning('', res1);
+          });
+          this.valid = false;
+        }
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   loadClients() {
@@ -70,7 +92,8 @@ export class ReportInvoicesOverdueComponent implements OnInit {
             this.translate.get('There are no customers with overdue invoices',
             { value: 'There are no customers with overdue invoices' }).subscribe((res1: string) => {
               this.notification.warning('', res1);
-              this.close();
+              this.byClient = false;
+              this.client = '';
             });
           }
         } else {

@@ -58,4 +58,8 @@ export class InvoiceClientService {
   public usersWithInvoicesOverdue$(idUser): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesClient/usersWithInvoicesOverdue/' + idUser);
   }
+
+  public invoicesOverdue$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/invoicesOverdue');
+  }
 }
