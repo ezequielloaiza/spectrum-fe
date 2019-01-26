@@ -128,6 +128,20 @@
               </div>
             </fieldset>
           </div>
+          <div class="col-xl-12">
+            <fieldset class="form-group">
+              <label>{{ 'Does the seller receive commission?' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                  <span [hidden]="canEdit">{{ seller ? ((seller.commission == 1 ? 'Yes' : 'No') | translate) : '' }}</span>
+                <div [hidden]="!canEdit" class="custom-control-inline" *ngFor="let value of filter; let i = index">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="value.id" (change)="onSelectionChange(value)" class="custom-control-input" [checked]="value.id == seller.commission">
+                    <label class="custom-control-label" for="radioGroup{{i}}">{{ value.name | translate }}</label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
           <a class="active" [style.pointer-events]="!canEdit ? 'none' : 'auto'" (click)="resetKey(seller)">
             <span>
               <i class="fa fa-key"></i>&nbsp; {{ 'Password recovery' | translate }}

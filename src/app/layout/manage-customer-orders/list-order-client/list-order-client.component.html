@@ -74,14 +74,42 @@
           </div>
           <div class="card-body table-responsive">
             <div>
-              <div class="list-orden" *ngFor="let order of listOrders">
+              <div class="custom-control custom-checkbox selection-all" *ngIf="user.role.idRole === 1 && status !== '0' && status !== '4'">
+                <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll" (click)="onSelectionAll($event)" [checked]="selectedAll"
+                      class="custom-control-input">
+                <label class="custom-control-label select-all" for="checkboxAll"></label>
+                <div class="margin">
+                  <div class="col-xl-12 btn-clean">
+                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billCustomers()">Bill To Customer</button>&nbsp;
+                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billProviders()">Bill To Provider</button>
+                  </div>
+                </div>
+              </div>
+              <div class="list-orden" *ngFor="let order of listOrders; let i = index">
                 <div class="row">
                   <div class="col-lg-2">
                     <div class="title">
-                      <span>{{'ORDER'| translate }}</span>
+                      <div class="custom-control custom-checkbox">
+                          <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="order.idOrder" [(ngModel)]="order.checked" (change)="onSelection(order.idOrder,order.checked)"
+                                class="custom-control-input">
+                          <label class="custom-control-label" for="checkbox{{i}}" *ngIf="user.role.idRole === 1 && (order.status !== 0 && order.status !== 4)"></label>
+                          <span>{{'ORDER'| translate }}</span>
+                      </div>
                     </div>
                     <div>
-                      <span>{{'#'}}{{order.number}}</span>
+                      <span>{{ '#'+order.number}}</span>
+                    </div>
+                    <div>
+                        <span>{{'Customer invoice'| translate }}</span>
+                    </div>
+                    <div>
+                        <span>{{order.invoiceClient? '#'+order.invoiceClient.number : 'Not generated'}}</span>
+                    </div>
+                    <div>
+                        <span>{{'Customer provider'| translate }}</span>
+                    </div>
+                    <div>
+                        <span>{{order.invoiceSupplier? '#'+order.invoiceSupplier.number : 'Not generated'}}</span>
                     </div>
                   </div>
                   <div class="col-lg-2">
@@ -159,7 +187,7 @@
                         <div ngbDropdownMenu class="dropdown-menu-invoice">
                           <button class="dropdown-item" (click)="generateInvoice(order)">
                             {{ 'To Provider' | translate }}</button>
-                          <button class="dropdown-item" (click)="open(order)">
+                          <button class="dropdown-item" (click)="invoiceClient(order)">
                             {{ 'To Customer' | translate }}</button>
                         </div>
                       </div>

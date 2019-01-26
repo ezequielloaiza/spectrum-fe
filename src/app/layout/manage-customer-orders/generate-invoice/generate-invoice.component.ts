@@ -10,7 +10,7 @@ import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
 import * as _ from 'lodash';
 import { InvoiceSupplierProductRequested } from '../../../shared/models/invoicesupplierproductrequested';
 import { UserStorageService } from '../../../http/user-storage.service';
-import { InvoiceService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
+import { InvoiceSupplierService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -23,9 +23,11 @@ export class GenerateInvoiceComponent implements OnInit {
   order: any;
   user: any;
   today: Date = new Date();
+  dueDate: Date = new Date();
   invoice: InvoiceSupplier = new InvoiceSupplier();
   pilot: any;
   titleModal: any;
+  ordersNumber: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -35,7 +37,7 @@ export class GenerateInvoiceComponent implements OnInit {
     private translate: TranslateService,
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private invoiceService: InvoiceService,
+    private invoiceService: InvoiceSupplierService,
     private spinner: NgxSpinnerService
   ) {}
 
@@ -43,11 +45,13 @@ export class GenerateInvoiceComponent implements OnInit {
     this.initializeForm();
     this.user = JSON.parse(this. userStorageService.getCurrentUser()).userResponse;
     this.loadInvoice();
+    this.dueDate.setDate(this.today.getDate() + 30);
     this.translate
             .get("Provider's Invoice", { value: "Provider's Invoice" })
             .subscribe((res1: string) => {
               this.titleModal = res1;
             });
+    this.loadOrderNumbers();
   }
 
   initializeForm() {
@@ -69,6 +73,7 @@ export class GenerateInvoiceComponent implements OnInit {
               if (this.invoice.dateSend !== null || this.invoice.dateSend !== undefined) {
                 this.pilot = true;
               }
+              this.loadOrderNumbers();
             } else {
               this.loadInvoiceFromOrder();
             }
@@ -80,7 +85,36 @@ export class GenerateInvoiceComponent implements OnInit {
           console.log('error', error);
         }
       );
+    } 
+  }
+
+  loadOrderNumbers() {
+    let auxNumbers = '';
+    let ids = [];
+    if (this.invoice.listOrders != undefined && this.invoice.listOrders.length > 0) {
+      ids = this.invoice.listOrders.map(String);
+    } else {
+      if (this.order !== undefined) {
+        ids = [this.order.idOrder];
+      }
     }
+    this.orderService.findByIds$(ids).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        const orders = res.data;
+        _.each(orders, function(order) {
+          auxNumbers += order.number + ', ';
+        });
+        if (auxNumbers.trim().endsWith(',')) {
+          auxNumbers = auxNumbers.substring(0, auxNumbers.lastIndexOf(', ') - 2);
+        }
+        this.ordersNumber = auxNumbers;
+      } else {
+        console.log(res.code);
+      }
+    },
+    error => {
+      console.log('error', error);
+    });
   }
 
   loadInvoiceFromOrder() {
@@ -88,8 +122,8 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.address = this.order.address;
     this.invoice.idAddress = this.order.address.idAddress;
     this.invoice.date = this.today;
+    this.invoice.dueDate = this.dueDate;
     this.invoice.user = this.order.user;
-    this.invoice.idOrder = this.order.idOrder;
     this.invoice.number = this.order.number;
     this.invoice.subtotal = this.order.subtotal;
     this.invoice.total = this.order.total;

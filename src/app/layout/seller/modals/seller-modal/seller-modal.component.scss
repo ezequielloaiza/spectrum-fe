@@ -23,4 +23,14 @@
     color: $color-text-menu;
     font-weight: bold;
   }
+
+  .check-commission {
+    display: flex;
+
+    >input:nth-child(2) {
+      width: 25px;
+    height: 20px;
+    margin-left: 20px; 
+    }
+  } 
 }
