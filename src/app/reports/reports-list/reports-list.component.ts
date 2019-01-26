@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserStorageService } from '../../http/user-storage.service';
 import { NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { ReportInvoicesOverdueComponent } from './report-invoices-overdue/report-invoices-overdue.component';
 
 @Component({
   selector: 'app-reports-list',
@@ -11,14 +11,16 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ReportsListComponent implements OnInit {
 
-  listReport = [{id: 1, name: 'Report 1'} , {id: 2, name: 'Report 2'}, {id: 3, name: 'Report 3'}, {id: 4, name: 'Report 4'}];
+  listReport = [{id: 1, name: 'Report of Overdue Invoices'},
+                {id: 2, name: 'Report 2'},
+                {id: 3, name: 'Report 3'},
+                {id: 4, name: 'Report 4'}];
   currentUser: any;
   user: any;
   products: Array<any> = new Array;
   constructor(private userStorageService: UserStorageService,
               private modalService: NgbModal,
-              public router: Router,
-              private spinner: NgxSpinnerService) {
+              public router: Router) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -30,8 +32,15 @@ export class ReportsListComponent implements OnInit {
 
   onSelection(id) {
     if (this.user.role.idRole === 1) {
-      // this.router.navigate(['/products/' + idSupplier + '/internal']);
-      console.log('works', id);
+      switch (id) {
+        case 1: {
+          const modalRef = this.modalService.open(ReportInvoicesOverdueComponent, { size: 'lg' });
+          modalRef.result.then((result) => {
+            this.ngOnInit();
+          }, (reason) => {
+          });
+        }
+      }
     }
   }
 
@@ -42,3 +51,4 @@ export class ReportsListComponent implements OnInit {
   }
 
 }
+

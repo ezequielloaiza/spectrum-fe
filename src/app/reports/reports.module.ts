@@ -10,6 +10,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AuthorizationService } from '../shared/services';
 import { ReportsComponent } from './reports.component';
 import { ReportsListComponent } from './reports-list/reports-list.component';
+import { ReportInvoicesOverdueComponent } from './reports-list/report-invoices-overdue/report-invoices-overdue.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,11 @@ import { ReportsListComponent } from './reports-list/reports-list.component';
   ],
   declarations: [
     ReportsComponent,
-    ReportsListComponent
+    ReportsListComponent,
+    ReportInvoicesOverdueComponent
+  ],
+  entryComponents: [
+    ReportInvoicesOverdueComponent
   ],
   providers: [RoleGuard, AuthorizationService]
 })
