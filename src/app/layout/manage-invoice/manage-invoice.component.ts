@@ -162,10 +162,23 @@ export class ManageInvoiceComponent implements OnInit {
     }
 
   downloadInvoice(invoice): void {
+    this.spinner.show();
     this.invoiceService.downloadInvoice$(invoice.number).subscribe(res => {
       const filename = 'I-' + invoice.number + '.pdf';
-      saveAs(res, filename);
+      if (res.size > 0) {
+        this.spinner.hide();
+        saveAs(res, filename);
+      } else {
+        this.spinner.hide();
+        this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res1: string) => {
+          this.notification.error('', res1);
+        });
+      }
     }, error => {
+      this.spinner.hide();
+      this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
       console.log('error', error);
     });
   }
