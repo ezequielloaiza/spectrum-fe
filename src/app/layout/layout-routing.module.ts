@@ -24,6 +24,9 @@ import { ListBasketClientComponent } from './basket/admin-seller/list/list-baske
 import { DetailsBasketClientComponent } from './basket/admin-seller/details/details-basket-client/details-basket-client.component';
 import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-supplier.component';
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
+import { ManagePaymentsComponent } from './manage-payments/manage-payments.component';
+import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-made.component';
+import { ManageCommissionComponent } from './manage-commission/manage-commission.component';
 
 const routes: Routes = [
   {
@@ -70,6 +73,18 @@ const routes: Routes = [
       {
         path: 'invoice', component: ManageInvoiceComponent,
         data: { option: 'Invoice' }
+      },
+      {
+        path: 'commission', component: ManageCommissionComponent,
+        data: { option: 'Commission' }
+      },
+      {
+        path: 'payments', component: ManagePaymentsComponent,
+        data: { option: 'Payments' },
+      },
+      {
+        path: 'payments/:idInvoice/paymentsMade', component: PaymentsMadeComponent,
+        data: { option: 'PaymentsMade' }
       },
       {
         path: 'user', component: UserComponent,

@@ -1,0 +1,23 @@
+@import '../../../../styles/spectrum/spectrum';
+
+@include tr-sizes((50%, 50%));
+.container-modal {
+  .sp-container {
+    padding-top: 0;
+  }
+
+  .footer-form {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .txt{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 30px;
+  }
+
+}
+
+
