@@ -143,16 +143,16 @@
                     </div>
                     <h1>{{invoice.marcado}}</h1>
                   </td>
-                  <td *ngIf="invoice.status === 0" class="table-tr" class="active">
+                  <td *ngIf="invoice.status === 1" class="table-tr" class="active">
                     <div>{{'Unpaid' | translate}}</div>
                   </td>
-                  <td *ngIf="invoice.status === 1" class="table-tr" class="inactive">
+                  <td *ngIf="invoice.status === 2" class="table-tr" class="inactive">
                     <div>{{'Part Paid' | translate }}</div>
                   </td>
-                  <td *ngIf="invoice.status === 2" class="table-tr" class="inactive">
+                  <td *ngIf="invoice.status === 3" class="table-tr" class="inactive">
                     <div>{{'Paid' | translate }}</div>
                   </td>
-                  <td *ngIf="invoice.status === 3" class="table-tr" class="inactive">
+                  <td *ngIf="invoice.status === 4" class="table-tr" class="inactive">
                     <div>{{'Overdue' | translate }}</div>
                   </td>
                   <td class="table-tr td-table">{{invoice.number}}</td>

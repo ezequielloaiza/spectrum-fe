@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { InvoiceClientService } from '../../shared/services/invoiceClient/invoiceclient.service';
 import { AddPaymentModalComponent } from './payments-made/modals/add-payment-modal/add-payment-modal.component';
+import { StatusInvoiceClient } from '../../shared/enum/status-invoice-client.enum';
 
 
 @Component({
@@ -96,11 +97,12 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     this.spinner.show();
     const status: Array<any> = new Array;
     if (this.statusRoute == 0) {
-      status.push(0);
-      status.push(1);
+      status.push(StatusInvoiceClient.Pending);
+      status.push(StatusInvoiceClient.Part_Paid);
+      status.push(StatusInvoiceClient.Overdue);
     } else if (this.statusRoute == 1) {
-      status.push(1);
-      status.push(2);
+      status.push(StatusInvoiceClient.Part_Paid);
+      status.push(StatusInvoiceClient.Paid);
     }
     this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(
       res => {
