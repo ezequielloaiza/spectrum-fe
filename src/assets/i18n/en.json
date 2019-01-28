@@ -909,5 +909,7 @@
     "There are no customers with overdue invoices":"There are no customers with overdue invoices",
     "Download PDF": "Download PDF",
     "There are no overdue invoices":"There are no overdue invoices",
-    "There are no orders to export": "There are no orders to export"
+    "There are no orders to export": "There are no orders to export",
+    "All orders must belong to the same customer":"All orders must belong to the same customer",
+    "All orders must belong to the same provider":"All orders must belong to the same provider"
 }

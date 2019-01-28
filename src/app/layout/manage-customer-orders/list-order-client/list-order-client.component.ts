@@ -17,6 +17,7 @@ import { InvoiceClient } from '../../../shared/models/invoiceclient';
 import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
 import { generate } from 'rxjs';
 import { ModalsInvoiceComponent } from '../modals-invoice/modals-invoice.component';
+import { Order } from '../../../shared/models/order';
 
 @Component({
   selector: 'app-list-order-client',
@@ -52,7 +53,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   today: Date = new Date();
   listInvoiceClient = [];
   listInvoiceSupplier = [];
-
+  valido = true;
+  validoProvider = true;
   constructor(private orderService: OrderService,
     private userService: UserStorageService,
     private modalService: NgbModal,
@@ -652,24 +654,32 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   billCustomers() {
-    this.verifyInvoice();
-    if (this.listInvoiceClient.length > 0) {
-      const modalRef = this.modalService.open(ModalsInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
-        modalRef.componentInstance.list = this.listInvoiceClient;
-        modalRef.componentInstance.type = 1;
-        modalRef.result.then((result) => {
-          this.getListOrders();
-        }, (reason) => {
-      });
-    } else {
-    this.translate.get('Confirm invoice generation', {value: 'Confirm invoice generation'}).subscribe((title: string) => {
-      this.translate.get('Are you sure want to bill all selected orders to customer?',
-       {value: 'Are you sure want to bill all selected orders to customer?'}).subscribe((msg: string) => {
-         this.alertify.confirm(title, msg, () => {
-           this.generateInvoiceClient();
-          }, () => {});
+    this.checkClient();
+    if (this.valido) {
+      this.verifyInvoice();
+      if (this.listInvoiceClient.length > 0) {
+        const modalRef = this.modalService.open(ModalsInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          modalRef.componentInstance.list = this.listInvoiceClient;
+          modalRef.componentInstance.type = 1;
+          modalRef.result.then((result) => {
+            this.getListOrders();
+          }, (reason) => {
         });
-      });
+      } else {
+      this.translate.get('Confirm invoice generation', {value: 'Confirm invoice generation'}).subscribe((title: string) => {
+        this.translate.get('Are you sure want to bill all selected orders to customer?',
+        {value: 'Are you sure want to bill all selected orders to customer?'}).subscribe((msg: string) => {
+          this.alertify.confirm(title, msg, () => {
+            this.generateInvoiceClient();
+            }, () => {});
+          });
+        });
+      }
+    } else {
+      this.translate.get('All orders must belong to the same customer', { value: 'All orders must belong to the same customer' })
+            .subscribe((res1: string) => {
+              this.notification.warning('', res1);
+            });
     }
   }
 
@@ -705,24 +715,40 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   billProviders() {
-    this.verifyInvoice();
-    if (this.listInvoiceSupplier.length > 0) {
-      const modalRef = this.modalService.open(ModalsInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
-        modalRef.componentInstance.list = this.listInvoiceSupplier;
-        modalRef.componentInstance.type = 2;
-        modalRef.result.then((result) => {
-          this.getListOrders();
-        }, (reason) => {
-      });
-    } else {
-      this.translate.get('Confirm invoice generation', {value: 'Confirm invoice generation'}).subscribe((title: string) => {
-        this.translate.get('Are you sure want to bill all selected orders to provider?',
-        {value: 'Are you sure want to bill all selected orders to provider?'}).subscribe((msg: string) => {
-          this.alertify.confirm(title, msg, () => {
-            this.generateInvoiceSupplier();
-            }, () => {});
+    this.checkClient();
+    if (this.valido) {
+      this.checkProvider();
+      if (this.validoProvider) {
+        this.verifyInvoice();
+        if (this.listInvoiceSupplier.length > 0) {
+          const modalRef = this.modalService.open(ModalsInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+            modalRef.componentInstance.list = this.listInvoiceSupplier;
+            modalRef.componentInstance.type = 2;
+            modalRef.result.then((result) => {
+              this.getListOrders();
+            }, (reason) => {
           });
-        });
+        } else {
+          this.translate.get('Confirm invoice generation', {value: 'Confirm invoice generation'}).subscribe((title: string) => {
+            this.translate.get('Are you sure want to bill all selected orders to provider?',
+            {value: 'Are you sure want to bill all selected orders to provider?'}).subscribe((msg: string) => {
+              this.alertify.confirm(title, msg, () => {
+                this.generateInvoiceSupplier();
+                }, () => {});
+              });
+            });
+        }
+      } else {
+        this.translate.get('All orders must belong to the same provider', { value: 'All orders must belong to the same provider' })
+              .subscribe((res1: string) => {
+                this.notification.warning('', res1);
+              });
+        }
+    } else {
+        this.translate.get('All orders must belong to the same customer', { value: 'All orders must belong to the same customer' })
+              .subscribe((res1: string) => {
+                this.notification.warning('', res1);
+              });
     }
   }
 
@@ -828,5 +854,48 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     });
     this.listInvoiceClient = listInvoiceClient;
     this.listInvoiceSupplier = listInvoiceSupplier;
+  }
+
+
+  checkClient() {
+    let valido = true;
+    let listAux = this.listAux;
+    let orders = this.listOrders;
+    let order;
+    let orderAux;
+    let aux;
+    _.each(listAux, function(item, index) {
+       aux = index + 1;
+       order = _.find(orders, { 'idOrder': item});
+       orderAux = _.find(orders, { 'idOrder': listAux[aux]});
+       if (aux < listAux.length) {
+        if (order.user.idUser !== orderAux.user.idUser) {
+          valido = false;
+          return valido;
+        }
+       }
+    });
+    this.valido = valido;
+  }
+
+  checkProvider() {
+    let validoProvider = true;
+    let listAux = this.listAux;
+    let orders = this.listOrders;
+    let order;
+    let orderAux;
+    let aux;
+    _.each(listAux, function(item, index) {
+       aux = index + 1;
+       order = _.find(orders, { 'idOrder': item});
+       orderAux = _.find(orders, { 'idOrder': listAux[aux]});
+       if (aux < listAux.length) {
+        if (order.supplier.idSupplier !== orderAux.supplier.idSupplier) {
+          validoProvider = false;
+          return validoProvider;
+        }
+       }
+    });
+    this.validoProvider = validoProvider;
   }
 }
