@@ -11,6 +11,7 @@ import { AuthorizationService } from '../shared/services';
 import { ReportsComponent } from './reports.component';
 import { ReportsListComponent } from './reports-list/reports-list.component';
 import { ReportInvoicesOverdueComponent } from './reports-list/report-invoices-overdue/report-invoices-overdue.component';
+import { ReportPaymentsComponent } from './reports-list/report-payments/report-payments.component';
 
 @NgModule({
   imports: [
@@ -27,10 +28,12 @@ import { ReportInvoicesOverdueComponent } from './reports-list/report-invoices-o
   declarations: [
     ReportsComponent,
     ReportsListComponent,
-    ReportInvoicesOverdueComponent
+    ReportInvoicesOverdueComponent,
+    ReportPaymentsComponent
   ],
   entryComponents: [
-    ReportInvoicesOverdueComponent
+    ReportInvoicesOverdueComponent,
+    ReportPaymentsComponent
   ],
   providers: [RoleGuard, AuthorizationService]
 })
