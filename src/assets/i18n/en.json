@@ -911,5 +911,7 @@
     "There are no overdue invoices":"There are no overdue invoices",
     "There are no orders to export": "There are no orders to export",
     "Sage Integration":"Sage Integration",
-    "You must login in sage": "You must login in sage"
+    "You must login in sage": "You must login in sage",
+    "All orders must belong to the same customer":"All orders must belong to the same customer",
+    "All orders must belong to the same provider":"All orders must belong to the same provider"
 }

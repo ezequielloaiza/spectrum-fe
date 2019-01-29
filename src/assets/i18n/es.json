@@ -1089,5 +1089,7 @@
     "There are no overdue invoices":"No hay facturas vencidas",
     "There are no orders to export": "No hay ordenes para exportar",
     "Sage Integration":"Integración Sage",
-    "You must login in sage": "Debe iniciar sesión en sage"
+    "You must login in sage": "Debe iniciar sesión en sage",
+    "All orders must belong to the same customer":"Todas las órdenes deben pertenecer al mismo cliente",
+    "All orders must belong to the same provider":"Todas las órdenes deben pertenecer al mismo proveedor"
 }
