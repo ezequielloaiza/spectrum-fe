@@ -909,5 +909,7 @@
     "There are no customers with overdue invoices":"There are no customers with overdue invoices",
     "Download PDF": "Download PDF",
     "There are no overdue invoices":"There are no overdue invoices",
-    "There are no orders to export": "There are no orders to export"
+    "There are no orders to export": "There are no orders to export",
+    "Sage Integration":"Sage Integration",
+    "You must login in sage": "You must login in sage"
 }

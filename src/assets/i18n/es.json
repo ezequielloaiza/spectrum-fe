@@ -1087,5 +1087,7 @@
     "There are no customers with overdue invoices":"No hay clientes con facturas vencidas",
     "Download PDF": "Descargar PDF",
     "There are no overdue invoices":"No hay facturas vencidas",
-    "There are no orders to export": "No hay ordenes para exportar"
+    "There are no orders to export": "No hay ordenes para exportar",
+    "Sage Integration":"Integración Sage",
+    "You must login in sage": "Debe iniciar sesión en sage"
 }

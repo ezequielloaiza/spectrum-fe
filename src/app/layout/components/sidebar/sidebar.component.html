@@ -149,11 +149,9 @@
 			<a routerLink="/suppliers" [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-archive"></i>&nbsp;{{ 'Manage Suppliers' | translate }}
 			</a>
-			<a routerLink="/reports" [routerLinkActive]="['router-link-active']" class="list-group-item">
-				<i class="fa fa-cubes"></i>&nbsp;{{ 'Reports' | translate }}
-			</a>
 			<div class="nested-menu">
-				<a class="list-group-item" [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+				<!--<a class="list-group-item" [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">-->
+				<a class="list-group-item" (click)="validSageIntegration('manageCustomers')">
 					<span>
 						<i class="fa fa-users"></i>&nbsp; {{ 'Manage Customers' | translate }}</span>
 				</a>
@@ -209,7 +207,7 @@
 				</li>-->
 			</div>
 			<div class="nested-menu">
-				<a [routerLinkActive]="['router-link-active']" class="list-group-item" (click)="addExpandClass('orders')">
+				<a [routerLinkActive]="['router-link-active']" class="list-group-item" (click)="validSageIntegration('manageOrders')">
           <span>
             <i class="fa fa-folder-open"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>
 				</a>
@@ -276,13 +274,14 @@
 				</li>
 			</div>
 			<div class="nested-menu">
-				<a [routerLink]="['/invoice']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+				<!--<a [routerLink]="['/invoice']" [routerLinkActive]="['router-link-active']" class="list-group-item">-->
+				<a class="list-group-item" (click)="validSageIntegration('manageInvoices')">
 					<span>
 						<i class="fa fa-file"></i>&nbsp; {{ 'Manage Invoices' | translate }}</span>
 				</a>
       </div>
       <div class="nested-menu">
-				<a  class="list-group-item" (click)="addExpandClass('payments')">
+				<a  class="list-group-item" (click)="validSageIntegration('managePayments')">
 					<span>
 						<i class="fa fa-money"></i>&nbsp; {{ 'Manage Payments' | translate }}</span>
 				</a>
@@ -315,6 +314,12 @@
 						<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
 				</a>
 			</div>
+			<a routerLink="/reports" [routerLinkActive]="['router-link-active']" class="list-group-item">
+				<i class="fa fa-cubes"></i>&nbsp;{{ 'Reports' | translate }}
+			</a>
+			<a (click)="connectToSage()" class="list-group-item sage">
+				<i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;{{ 'Sage Integration' | translate }}
+			</a>
 		</div>
 
 		<!--SELLER MENU-->

@@ -10,7 +10,11 @@ export class SageService {
 
   constructor(private http: HttpClient) { }
 
-  public findAll$(): Observable<any> {
+  public connectSage$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'connectSage');
+  }
+
+  public findToken$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'token/find');
   }
 }

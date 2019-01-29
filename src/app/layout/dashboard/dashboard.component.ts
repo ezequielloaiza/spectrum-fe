@@ -271,11 +271,11 @@ export class DashboardComponent implements OnInit {
     this.alerts.splice(index, 1);
   }
 
-  public loginSage() {
-    this.sage.findAll$().subscribe((res) => {
+  /*public loginSage() {
+    this.sage.connectSage$().subscribe((res) => {
       window.open(res.data,"Sage","menubar=1,resizable=1,width=650,height=680,left=350");
     })
-  }
+  }*/
 
   getOrdersPending() {
     if (this.user.role.idRole === 3) {
