@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { StatusInvoiceClient } from '../../../shared/enum/status-invoice-client.enum';
 import { saveAs } from 'file-saver';
 import { InvoicePaymentService } from '../../../shared/services';
+import { ReportRequest } from '../../../shared/models/reportRequest';
 
 @Component({
   selector: 'app-report-payments',
@@ -31,6 +32,7 @@ export class ReportPaymentsComponent implements OnInit {
   beginDate: NgbDatepicker;
   endDate: NgbDatepicker;
   selectStatus: any;
+  reportRequest: ReportRequest;
 
   constructor(public modalReference: NgbActiveModal,
     private notification: ToastrService,
@@ -52,7 +54,7 @@ export class ReportPaymentsComponent implements OnInit {
 
     onSelectionChangeTypes(type) {
       if (type.id == 0) {
-        this.valid = true;
+        this.valid = (this.selectStatus == undefined ? false : true);
         this.byClient = false;
         this.client = '';
       } else {
@@ -94,12 +96,17 @@ export class ReportPaymentsComponent implements OnInit {
 
   generateReport() {
     this.spinner.show();
+    this.reportRequest = new ReportRequest;
     let idClient = 0;
     if (this.client != '') {
       idClient = this.client;
     }
-    console.log(this.getFecha(this.beginDate), this.getFecha(this.endDate))
-    this.invoicePaymentService.generateReportPayments$(this.selectStatus, idClient).subscribe(res => {
+
+    this.reportRequest.status = this.selectStatus;
+    this.reportRequest.beginDate = this.beginDate == null ? null : this.getFecha(this.beginDate);
+    this.reportRequest.endDate = this.endDate == null ? null : this.getFecha(this.endDate);
+    this.reportRequest.idClient = idClient;
+    this.invoicePaymentService.generateReportPayments$(this.reportRequest).subscribe(res => {
       const date = new Date();
       const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1,
         day: date.getDate(), hour: date.getHours(), minutes: date.getMinutes()};

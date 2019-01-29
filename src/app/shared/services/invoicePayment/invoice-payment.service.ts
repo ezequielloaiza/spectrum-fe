@@ -34,8 +34,8 @@ export class InvoicePaymentService {
     return this.http.get(environment.apiUrl + 'invoicesPayment/changeStatus/' + idPayment + '/' + IdStatus);
   }
 
-  public generateReportPayments$(status, idClient): Observable<any> {
-    return this.http.get(environment.apiUrl + 'invoicesPayment/downloadReportPayment/' + status + '/' + idClient, {
+  public generateReportPayments$(request): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesPayment/downloadReportPayment', request, {
       responseType: 'blob'
     });
   }
