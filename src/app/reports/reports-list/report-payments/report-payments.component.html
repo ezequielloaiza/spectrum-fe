@@ -11,7 +11,7 @@
           <label >{{'Select Report' | translate}}</label>
           <div class="col-xl-12" *ngFor="let types of typesReport; let i = index">
             <div class="custom-control custom-radio">
-              <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="types.id" (change)="onSelectionChange(types)" class="custom-control-input">
+              <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="types.id" (change)="onSelectionChangeTypes(types)" class="custom-control-input">
               <label class="custom-control-label" for="radioGroup{{i}}">{{ types.name | translate }}</label>
             </div>
           </div>
@@ -20,9 +20,47 @@
       <div class="col-xl-10 form-group">
         <div class="custom-control" [hidden]="!byClient">
           <label >{{ 'Select Client' | translate }}</label>
-          <select class="form-control" name="client" id="client" [(ngModel)]="client" (change)="onSelectClient()">
+          <select class="form-control" name="client" id="client" [(ngModel)]="client" >
             <option *ngFor="let c of clients" value="{{c.idUser}}">{{ c.name | translate }}</option>
           </select>
+        </div>
+      </div>
+      <div class="col-xl-10 form-group" >
+        <div class="custom-control">
+          <label >{{'Select Status' | translate}}</label>
+          <div class="col-xl-12" *ngFor="let status of listStatus; let i = index">
+            <div class="custom-control custom-radio">
+              <input type="radio" id="radioGroup2{{i}}" name="radioGroup2" [value]="status.id" (change)="onSelectionChangeStatus(status)" class="custom-control-input">
+              <label class="custom-control-label" for="radioGroup2{{i}}">{{ status.name | translate }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12 form-group" >
+        <div class="custom-control">
+          <label >{{'Select Period' | translate}}</label>
+          <div class="col-xl-12 control-period" >
+            <div class="input-group col-xl-6">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="beginDate" ngbDatepicker [(ngModel)]="beginDate" (ngModelChange)="getBegin(beginDate)"
+                  #d="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+            </div>
+            <div class="input-group col-xl-6">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="endDate" ngbDatepicker [(ngModel)]="endDate" (ngModelChange)="getEnd(endDate)"
+                  #d="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
