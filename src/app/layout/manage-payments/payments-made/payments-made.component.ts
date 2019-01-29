@@ -75,13 +75,13 @@ export class PaymentsMadeComponent implements OnInit {
 
   getStatus(id) {
     switch (id) {
-      case 1:
+      case 0:
         return 'Unpaid';
-      case 2:
+      case 1:
         return 'Part Paid';
-      case 3:
+      case 2:
         return 'Paid';
-      case 4:
+      case 3:
         return 'Overdue';
     }
   }
