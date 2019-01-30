@@ -4,6 +4,7 @@ import { NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ReportInvoicesOverdueComponent } from './report-invoices-overdue/report-invoices-overdue.component';
 import { ReportPaymentsComponent } from './report-payments/report-payments.component';
+import { ReportProductMembershipComponent } from './report-product-membership/report-product-membership.component';
 
 @Component({
   selector: 'app-reports-list',
@@ -14,7 +15,7 @@ export class ReportsListComponent implements OnInit {
 
   listReport = [{id: 1, name: 'Report of Overdue Invoices'},
                 {id: 2, name: 'Payments Report'},
-                {id: 3, name: 'Report 3'},
+                {id: 3, name: 'Products Report'},
                 {id: 4, name: 'Report 4'}];
   currentUser: any;
   user: any;
@@ -43,8 +44,16 @@ export class ReportsListComponent implements OnInit {
           break;
         }
         case 2: {
-          const modalRef = this.modalService.open(ReportPaymentsComponent, { size: 'lg' });
-          modalRef.result.then((result) => {
+            const modalRef = this.modalService.open(ReportPaymentsComponent, { size: 'lg' });
+            modalRef.result.then((result) => {
+              this.ngOnInit();
+            }, (reason) => {
+            });
+            break;
+        }
+        case 3: {
+          const modalRef3 = this.modalService.open(ReportProductMembershipComponent, { size: 'lg' });
+          modalRef3.result.then((result) => {
             this.ngOnInit();
           }, (reason) => {
           });

@@ -32,4 +32,10 @@ export class ProductService {
   public getQuote$(idUser, idProduct): Observable<any> {
     return this.http.get(environment.apiUrl + 'products/getQuote/' + idUser + '/' + idProduct);
   }
+
+  public reportAllOrBySupplier$(idSupplier): Observable<any> {
+    return this.http.get(environment.apiUrl + 'products/reportAllOrBySupplier/' + idSupplier, {
+      responseType: 'blob'
+    });
+  }
 }

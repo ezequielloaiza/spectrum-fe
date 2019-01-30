@@ -1093,5 +1093,9 @@
     "All orders must belong to the same provider":"Todas las órdenes deben pertenecer al mismo proveedor",
     "Select Status":"Seleccione Estado",
     "Select Period":"Seleccione Período",
-    "Generate":"Generar"
+    "Generate":"Generar",
+    "Select Supplier": "Seleccione el Proveedor",
+    "Products Report":"Reporte de Productos",
+    "By Supplier": "Por proveedor",
+    "Accounts Receivable": "Cuentas por Cobrar"
 }
