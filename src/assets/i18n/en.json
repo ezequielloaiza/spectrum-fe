@@ -913,7 +913,8 @@
     "All orders must belong to the same customer":"All orders must belong to the same customer",
     "All orders must belong to the same provider":"All orders must belong to the same provider",
     "Select Supplier": "Select Supplier",
-    "Product Report":"Product Report",
-    "By Supplier": "By Supplier"
+    "Products Report":"Products Report",
+    "By Supplier": "By Supplier",
+    "Generate": "Generate"
 
 }

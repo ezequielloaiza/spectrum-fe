@@ -14,7 +14,7 @@ export class ReportsListComponent implements OnInit {
 
   listReport = [{id: 1, name: 'Report of Overdue Invoices'},
                 {id: 2, name: 'Report 2'},
-                {id: 3, name: 'Product Report'},
+                {id: 3, name: 'Products Report'},
                 {id: 4, name: 'Report 4'}];
   currentUser: any;
   user: any;
