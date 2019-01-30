@@ -22,7 +22,8 @@ export class ReportPaymentsComponent implements OnInit {
   typesReport = [{id: 0, name: 'All Clients'},
                 {id: 1, name: 'By Client'}];
   listStatus = [{id: 0, name: 'Pending'},
-            {id: 1, name: 'Verified'}];
+            {id: 1, name: 'Verified'},
+            {id: 2, name: 'All'}];
 
   client: any;
   clients: Array<any> = new Array;
@@ -46,10 +47,15 @@ export class ReportPaymentsComponent implements OnInit {
 
     ngOnInit() {
       this.client = '';
+      this.selectStatus = 2;
     }
 
     close() {
       this.modalReference.close();
+    }
+
+    onSelectClient() {
+      this.valid = true;
     }
 
     onSelectionChangeTypes(type) {
@@ -58,6 +64,7 @@ export class ReportPaymentsComponent implements OnInit {
         this.byClient = false;
         this.client = '';
       } else {
+        this.client = '';
         this.valid = false;
         this.byClient = true;
         this.loadClients();
@@ -107,16 +114,25 @@ export class ReportPaymentsComponent implements OnInit {
     this.reportRequest.endDate = this.endDate == null ? null : this.getFecha(this.endDate);
     this.reportRequest.idClient = idClient;
     this.invoicePaymentService.generateReportPayments$(this.reportRequest).subscribe(res => {
-      const date = new Date();
-      const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1,
-        day: date.getDate(), hour: date.getHours(), minutes: date.getMinutes()};
-      const filename = 'PaymentsReport' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
-      saveAs(res, filename);
-      this.spinner.hide();
-      this.translate.get('Report has been generated',
-        { value: 'Report has been generated' }).subscribe((res1: string) => {
-          this.notification.success('', res1);
+      console.log('response', res);
+      if (res == null) {
+        this.translate.get('There are no records for the report',
+          { value: 'There are no records for the report' }).subscribe((res1: string) => {
+          this.notification.warning('', res1);
         });
+        this.spinner.hide();
+      } else {
+        const date = new Date();
+        const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1,
+          day: date.getDate(), hour: date.getHours(), minutes: date.getMinutes()};
+        const filename = 'PaymentsReport' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+        saveAs(res, filename);
+        this.spinner.hide();
+        this.translate.get('Report has been generated',
+          { value: 'Report has been generated' }).subscribe((res1: string) => {
+            this.notification.success('', res1);
+          });
+      }
     }, error => {
       this.spinner.hide();
       this.translate.get('The file could not be generated',

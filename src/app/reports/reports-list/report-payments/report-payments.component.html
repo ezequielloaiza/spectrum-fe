@@ -20,7 +20,7 @@
       <div class="col-xl-10 form-group">
         <div class="custom-control" [hidden]="!byClient">
           <label >{{ 'Select Client' | translate }}</label>
-          <select class="form-control" name="client" id="client" [(ngModel)]="client" >
+          <select class="form-control" name="client" id="client" [(ngModel)]="client" (change)="onSelectClient()">
             <option *ngFor="let c of clients" value="{{c.idUser}}">{{ c.name | translate }}</option>
           </select>
         </div>
@@ -30,7 +30,7 @@
           <label >{{'Select Status' | translate}}</label>
           <div class="col-xl-12" *ngFor="let status of listStatus; let i = index">
             <div class="custom-control custom-radio">
-              <input type="radio" id="radioGroup2{{i}}" name="radioGroup2" [value]="status.id" (change)="onSelectionChangeStatus(status)" class="custom-control-input">
+              <input type="radio" id="radioGroup2{{i}}" name="radioGroup2" [value]="status.id" (change)="onSelectionChangeStatus(status)" class="custom-control-input" [checked]="status.id == 2">
               <label class="custom-control-label" for="radioGroup2{{i}}">{{ status.name | translate }}</label>
             </div>
           </div>
@@ -53,7 +53,7 @@
             </div>
             <div class="input-group col-xl-6">
               <input class="form-control" placeholder="yyyy-mm-dd" name="endDate" ngbDatepicker [(ngModel)]="endDate" 
-                  #d1="ngbDatepicker">
+                  #d1="ngbDatepicker" [disabled]="beginDate == null">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
                     <i class="fa fa-calendar"></i>

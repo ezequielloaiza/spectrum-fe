@@ -1090,5 +1090,8 @@
     "There are no orders to export": "No hay ordenes para exportar",
     "Payments Report":"Reporte de Pagos",
     "All orders must belong to the same customer":"Todas las órdenes deben pertenecer al mismo cliente",
-    "All orders must belong to the same provider":"Todas las órdenes deben pertenecer al mismo proveedor"
+    "All orders must belong to the same provider":"Todas las órdenes deben pertenecer al mismo proveedor",
+    "Select Status":"Seleccione Estado",
+    "Select Period":"Seleccione Período",
+    "Generate":"Generar"
 }
