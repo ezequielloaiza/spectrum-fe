@@ -16,9 +16,9 @@ import { saveAs } from 'file-saver';
 export class ReportsListComponent implements OnInit {
 
   listReport = [{id: 1, name: 'Report of Overdue Invoices'},
-                {id: 2, name: 'Report of Products'},
+                {id: 2, name: 'Report 2'},
                 {id: 3, name: 'Report 3'},
-                {id: 4, name: 'Report 4'}];
+                {id: 4, name: 'Report of Products'}];
   currentUser: any;
   user: any;
   products: Array<any> = new Array;
@@ -50,7 +50,7 @@ export class ReportsListComponent implements OnInit {
           });
         }
         break;
-        case 2:
+        case 4:
              this.downloadProducts();
         break;
       }
@@ -68,7 +68,7 @@ export class ReportsListComponent implements OnInit {
     this.productService.downloadProducts$().subscribe(res => {
       const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
         day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes(), seconds: this.today.getSeconds};
-      const filename = 'Products-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+      const filename = 'Detailed-Products-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
       if (res.size > 0) {
         this.spinner.hide();
         saveAs(res, filename);
