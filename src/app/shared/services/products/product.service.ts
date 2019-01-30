@@ -35,6 +35,11 @@ export class ProductService {
 
   public downloadProducts$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'products/downloadProduct', {
+    });
+  }
+
+  public reportAllOrBySupplier$(idSupplier): Observable<any> {
+    return this.http.get(environment.apiUrl + 'products/reportAllOrBySupplier/' + idSupplier, {
       responseType: 'blob'
     });
   }
