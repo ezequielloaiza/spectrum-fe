@@ -35,6 +35,7 @@ export class ProductService {
 
   public downloadProducts$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'products/downloadProduct', {
+    responseType: 'blob'
     });
   }
 

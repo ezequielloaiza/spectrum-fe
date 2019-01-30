@@ -20,7 +20,7 @@ export class ReportsListComponent implements OnInit {
   listReport = [{id: 1, name: 'Report of Overdue Invoices'},
                 {id: 2, name: 'Report 2'},
                 {id: 3, name: 'Products Report'},
-                {id: 4, name: 'Report of Products'}];
+                {id: 4, name: 'Detailed Products Report'}];
   currentUser: any;
   user: any;
   products: Array<any> = new Array;
