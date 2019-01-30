@@ -1,6 +1,6 @@
 export enum StatusInvoiceClient {
-    Pending = 1,
-    Part_Paid = 2,
-    Paid = 3,
-    Overdue = 4
+    Pending = 0,
+    Part_Paid = 1,
+    Paid = 2,
+    Overdue = 3
   }

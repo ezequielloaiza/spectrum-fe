@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import { formatDate } from '@angular/common';
 import { InvoiceClientService, InvoicePaymentService } from '../../shared/services';
 import { Router } from '@angular/router';
+import { StatusInvoiceClient } from '../../shared/enum/status-invoice-client.enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -381,7 +382,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getPendingPayments(): void {
-    const status = [0, 1];
+    const status = [StatusInvoiceClient.Pending, StatusInvoiceClient.Part_Paid, StatusInvoiceClient.Overdue];
     this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
