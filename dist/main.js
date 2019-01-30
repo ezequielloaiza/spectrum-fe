@@ -54,6 +54,7 @@ var map = {
 		"./src/app/layout/layout.module.ts",
 		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module~password-temporals-~1d5171f6",
 		"layout-layout-module~password-temporals-password-temporals-module~products-products-module~reports-r~6d112cd0",
+		"layout-layout-module~products-products-module~reports-reports-module",
 		"layout-layout-module~products-products-module",
 		"common",
 		"layout-layout-module"
@@ -78,6 +79,7 @@ var map = {
 		"./src/app/products/products.module.ts",
 		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module~password-temporals-~1d5171f6",
 		"layout-layout-module~password-temporals-password-temporals-module~products-products-module~reports-r~6d112cd0",
+		"layout-layout-module~products-products-module~reports-reports-module",
 		"layout-layout-module~products-products-module",
 		"common",
 		"products-products-module"
@@ -86,6 +88,7 @@ var map = {
 		"./src/app/reports/reports.module.ts",
 		"bs-component-bs-component-module~dashboard-dashboard-module~layout-layout-module~password-temporals-~1d5171f6",
 		"layout-layout-module~password-temporals-password-temporals-module~products-products-module~reports-r~6d112cd0",
+		"layout-layout-module~products-products-module~reports-reports-module",
 		"common",
 		"reports-reports-module"
 	],

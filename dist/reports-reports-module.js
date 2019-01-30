@@ -1,233 +1,5 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["reports-reports-module"],{
 
-/***/ "./node_modules/file-saver/FileSaver.js":
-/*!**********************************************!*\
-  !*** ./node_modules/file-saver/FileSaver.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_RESULT__;/* FileSaver.js
- * A saveAs() FileSaver implementation.
- * 1.3.2
- * 2016-06-16 18:25:19
- *
- * By Eli Grey, http://eligrey.com
- * License: MIT
- *   See https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md
- */
-
-/*global self */
-/*jslint bitwise: true, indent: 4, laxbreak: true, laxcomma: true, smarttabs: true, plusplus: true */
-
-/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
-
-var saveAs = saveAs || (function(view) {
-	"use strict";
-	// IE <10 is explicitly unsupported
-	if (typeof view === "undefined" || typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {
-		return;
-	}
-	var
-		  doc = view.document
-		  // only get URL when necessary in case Blob.js hasn't overridden it yet
-		, get_URL = function() {
-			return view.URL || view.webkitURL || view;
-		}
-		, save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
-		, can_use_save_link = "download" in save_link
-		, click = function(node) {
-			var event = new MouseEvent("click");
-			node.dispatchEvent(event);
-		}
-		, is_safari = /constructor/i.test(view.HTMLElement) || view.safari
-		, is_chrome_ios =/CriOS\/[\d]+/.test(navigator.userAgent)
-		, throw_outside = function(ex) {
-			(view.setImmediate || view.setTimeout)(function() {
-				throw ex;
-			}, 0);
-		}
-		, force_saveable_type = "application/octet-stream"
-		// the Blob API is fundamentally broken as there is no "downloadfinished" event to subscribe to
-		, arbitrary_revoke_timeout = 1000 * 40 // in ms
-		, revoke = function(file) {
-			var revoker = function() {
-				if (typeof file === "string") { // file is an object URL
-					get_URL().revokeObjectURL(file);
-				} else { // file is a File
-					file.remove();
-				}
-			};
-			setTimeout(revoker, arbitrary_revoke_timeout);
-		}
-		, dispatch = function(filesaver, event_types, event) {
-			event_types = [].concat(event_types);
-			var i = event_types.length;
-			while (i--) {
-				var listener = filesaver["on" + event_types[i]];
-				if (typeof listener === "function") {
-					try {
-						listener.call(filesaver, event || filesaver);
-					} catch (ex) {
-						throw_outside(ex);
-					}
-				}
-			}
-		}
-		, auto_bom = function(blob) {
-			// prepend BOM for UTF-8 XML and text/* types (including HTML)
-			// note: your browser will automatically convert UTF-16 U+FEFF to EF BB BF
-			if (/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
-				return new Blob([String.fromCharCode(0xFEFF), blob], {type: blob.type});
-			}
-			return blob;
-		}
-		, FileSaver = function(blob, name, no_auto_bom) {
-			if (!no_auto_bom) {
-				blob = auto_bom(blob);
-			}
-			// First try a.download, then web filesystem, then object URLs
-			var
-				  filesaver = this
-				, type = blob.type
-				, force = type === force_saveable_type
-				, object_url
-				, dispatch_all = function() {
-					dispatch(filesaver, "writestart progress write writeend".split(" "));
-				}
-				// on any filesys errors revert to saving with object URLs
-				, fs_error = function() {
-					if ((is_chrome_ios || (force && is_safari)) && view.FileReader) {
-						// Safari doesn't allow downloading of blob urls
-						var reader = new FileReader();
-						reader.onloadend = function() {
-							var url = is_chrome_ios ? reader.result : reader.result.replace(/^data:[^;]*;/, 'data:attachment/file;');
-							var popup = view.open(url, '_blank');
-							if(!popup) view.location.href = url;
-							url=undefined; // release reference before dispatching
-							filesaver.readyState = filesaver.DONE;
-							dispatch_all();
-						};
-						reader.readAsDataURL(blob);
-						filesaver.readyState = filesaver.INIT;
-						return;
-					}
-					// don't create more object URLs than needed
-					if (!object_url) {
-						object_url = get_URL().createObjectURL(blob);
-					}
-					if (force) {
-						view.location.href = object_url;
-					} else {
-						var opened = view.open(object_url, "_blank");
-						if (!opened) {
-							// Apple does not allow window.open, see https://developer.apple.com/library/safari/documentation/Tools/Conceptual/SafariExtensionGuide/WorkingwithWindowsandTabs/WorkingwithWindowsandTabs.html
-							view.location.href = object_url;
-						}
-					}
-					filesaver.readyState = filesaver.DONE;
-					dispatch_all();
-					revoke(object_url);
-				}
-			;
-			filesaver.readyState = filesaver.INIT;
-
-			if (can_use_save_link) {
-				object_url = get_URL().createObjectURL(blob);
-				setTimeout(function() {
-					save_link.href = object_url;
-					save_link.download = name;
-					click(save_link);
-					dispatch_all();
-					revoke(object_url);
-					filesaver.readyState = filesaver.DONE;
-				});
-				return;
-			}
-
-			fs_error();
-		}
-		, FS_proto = FileSaver.prototype
-		, saveAs = function(blob, name, no_auto_bom) {
-			return new FileSaver(blob, name || blob.name || "download", no_auto_bom);
-		}
-	;
-	// IE 10+ (native saveAs)
-	if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
-		return function(blob, name, no_auto_bom) {
-			name = name || blob.name || "download";
-
-			if (!no_auto_bom) {
-				blob = auto_bom(blob);
-			}
-			return navigator.msSaveOrOpenBlob(blob, name);
-		};
-	}
-
-	FS_proto.abort = function(){};
-	FS_proto.readyState = FS_proto.INIT = 0;
-	FS_proto.WRITING = 1;
-	FS_proto.DONE = 2;
-
-	FS_proto.error =
-	FS_proto.onwritestart =
-	FS_proto.onprogress =
-	FS_proto.onwrite =
-	FS_proto.onabort =
-	FS_proto.onerror =
-	FS_proto.onwriteend =
-		null;
-
-	return saveAs;
-}(
-	   typeof self !== "undefined" && self
-	|| typeof window !== "undefined" && window
-	|| this.content
-));
-// `self` is undefined in Firefox for Android content script context
-// while `this` is nsIContentFrameMessageManager
-// with an attribute `content` that corresponds to the window
-
-if (typeof module !== "undefined" && module.exports) {
-  module.exports.saveAs = saveAs;
-} else if (("function" !== "undefined" && __webpack_require__(/*! !webpack amd define */ "./node_modules/webpack/buildin/amd-define.js") !== null) && (__webpack_require__(/*! !webpack amd options */ "./node_modules/webpack/buildin/amd-options.js") !== null)) {
-  !(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
-    return saveAs;
-  }).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/webpack/buildin/amd-define.js":
-/*!***************************************!*\
-  !*** (webpack)/buildin/amd-define.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function() {
-	throw new Error("define cannot be used indirect");
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/webpack/buildin/amd-options.js":
-/*!****************************************!*\
-  !*** (webpack)/buildin/amd-options.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
-module.exports = __webpack_amd_options__;
-
-/* WEBPACK VAR INJECTION */}.call(this, {}))
-
-/***/ }),
-
 /***/ "./src/app/reports/reports-list/report-invoices-overdue/report-invoices-overdue.component.html":
 /*!*****************************************************************************************************!*\
   !*** ./src/app/reports/reports-list/report-invoices-overdue/report-invoices-overdue.component.html ***!
@@ -423,6 +195,173 @@ var ReportInvoicesOverdueComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/reports/reports-list/report-product-membership/report-product-membership.component.html":
+/*!*********************************************************************************************************!*\
+  !*** ./src/app/reports/reports-list/report-product-membership/report-product-membership.component.html ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal-header\">\n  <h4 class=\"modal-title\">{{ 'Report of Product' | translate }}</h4>\n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modalReference.dismiss()\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n    <div class=\"row\">\n      <div class=\"col-xl-10 form-group\" >\n        <div class=\"custom-control\">\n          <label >{{'Select Report' | translate}}</label>\n          <div class=\"col-xl-12\" *ngFor=\"let types of typesReport; let i = index\">\n            <div class=\"custom-control custom-radio\">\n              <input type=\"radio\" id=\"radioGroup{{i}}\" name=\"radioGroup\" [value]=\"types.id\" (change)=\"onSelectionChange(types)\" class=\"custom-control-input\">\n              <label class=\"custom-control-label\" for=\"radioGroup{{i}}\">{{ types.name | translate }}</label>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class=\"col-xl-10 form-group\">\n        <div class=\"custom-control\" [hidden]=\"!bySupplier\">\n          <label >{{ 'Select Supplier' | translate }}</label>\n          <select class=\"form-control\" name=\"supplier\" id=\"supplier\" [(ngModel)]=\"supplier\" (change)=\"onSelectSupplier()\">\n            <option *ngFor=\"let s of suppliers\" value=\"{{s.idSupplier}}\">{{ s.companyName | translate }}</option>\n          </select>\n        </div>\n      </div>\n    </div>\n</div>\n<div class=\"modal-footer\">\n  <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modalReference.dismiss()\">{{ 'Cancel' | translate }}&nbsp;\n    <i class=\"fa fa-times\"></i>\n  </button>\n  <button type=\"button\" class=\"btn btn-main\" [disabled]=\"!valid\" (click)=\"generateReport()\">{{ 'Generate' | translate }}&nbsp;\n    <i class=\"fa fa-save\"></i>\n  </button>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/reports/reports-list/report-product-membership/report-product-membership.component.scss":
+/*!*********************************************************************************************************!*\
+  !*** ./src/app/reports/reports-list/report-product-membership/report-product-membership.component.scss ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -10px;\n  padding-top: 10px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.spinner {\n  top: 90%;\n  left: 85%; }\n"
+
+/***/ }),
+
+/***/ "./src/app/reports/reports-list/report-product-membership/report-product-membership.component.ts":
+/*!*******************************************************************************************************!*\
+  !*** ./src/app/reports/reports-list/report-product-membership/report-product-membership.component.ts ***!
+  \*******************************************************************************************************/
+/*! exports provided: ReportProductMembershipComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportProductMembershipComponent", function() { return ReportProductMembershipComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../shared/services/alertify/alertify.service */ "./src/app/shared/services/alertify/alertify.service.ts");
+/* harmony import */ var _shared_services_suppliers_supplier_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../shared/services/suppliers/supplier.service */ "./src/app/shared/services/suppliers/supplier.service.ts");
+/* harmony import */ var _shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../shared/services/products/product.service */ "./src/app/shared/services/products/product.service.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/FileSaver.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _http_user_storage_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../http/user-storage.service */ "./src/app/http/user-storage.service.ts");
+/* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+var ReportProductMembershipComponent = /** @class */ (function () {
+    function ReportProductMembershipComponent(modalReference, notification, translate, alertify, userStorageService, userService, productService, supplierService, spinner) {
+        this.modalReference = modalReference;
+        this.notification = notification;
+        this.translate = translate;
+        this.alertify = alertify;
+        this.userStorageService = userStorageService;
+        this.userService = userService;
+        this.productService = productService;
+        this.supplierService = supplierService;
+        this.spinner = spinner;
+        this.typesReport = [{ id: 0, name: 'All Suppliers' },
+            { id: 1, name: 'By Supplier' }];
+        this.suppliers = new Array;
+        this.valid = false;
+        this.bySupplier = false;
+        this.user = JSON.parse(this.userStorageService.getCurrentUser());
+    }
+    ReportProductMembershipComponent.prototype.ngOnInit = function () {
+        this.supplier = '';
+    };
+    ReportProductMembershipComponent.prototype.close = function () {
+        this.modalReference.close();
+    };
+    ReportProductMembershipComponent.prototype.onSelectSupplier = function () {
+        this.valid = true;
+    };
+    ReportProductMembershipComponent.prototype.onSelectionChange = function (type) {
+        if (type.id === 0) {
+            this.valid = true;
+            this.bySupplier = false;
+            this.supplier = '';
+        }
+        else {
+            this.valid = false;
+            this.bySupplier = true;
+            this.loadSuppliers();
+        }
+    };
+    ReportProductMembershipComponent.prototype.loadSuppliers = function () {
+        var _this = this;
+        this.supplierService.findAll$().subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_11__["CodeHttp"].ok) {
+                _this.suppliers = res.data;
+            }
+            else {
+                console.log(res.errors[0].detail);
+            }
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
+    ReportProductMembershipComponent.prototype.generateReport = function () {
+        var _this = this;
+        this.spinner.show();
+        var idSupplier = 0;
+        if (this.supplier !== '') {
+            idSupplier = this.supplier;
+        }
+        this.productService.reportAllOrBySupplier$(idSupplier).subscribe(function (res) {
+            var date = new Date();
+            var aux = { year: date.getUTCFullYear(), month: date.getMonth() + 1,
+                day: date.getDate(), hour: date.getHours(), minutes: date.getMinutes() };
+            var filename = 'Products-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+            Object(file_saver__WEBPACK_IMPORTED_MODULE_8__["saveAs"])(res, filename);
+            _this.spinner.hide();
+            _this.translate.get('Report has been generated', { value: 'Report has been generated' }).subscribe(function (res1) {
+                _this.notification.success('', res1);
+            });
+        }, function (error) {
+            _this.spinner.hide();
+            _this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe(function (res) {
+                _this.notification.error('', res);
+            });
+            console.log('error', error);
+        });
+        this.close();
+    };
+    ReportProductMembershipComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-report-product-membership',
+            template: __webpack_require__(/*! ./report-product-membership.component.html */ "./src/app/reports/reports-list/report-product-membership/report-product-membership.component.html"),
+            styles: [__webpack_require__(/*! ./report-product-membership.component.scss */ "./src/app/reports/reports-list/report-product-membership/report-product-membership.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbActiveModal"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_2__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"],
+            _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_4__["AlertifyService"],
+            _http_user_storage_service__WEBPACK_IMPORTED_MODULE_9__["UserStorageService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_10__["UserService"],
+            _shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_6__["ProductService"],
+            _shared_services_suppliers_supplier_service__WEBPACK_IMPORTED_MODULE_5__["SupplierService"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_7__["NgxSpinnerService"]])
+    ], ReportProductMembershipComponent);
+    return ReportProductMembershipComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/reports/reports-list/reports-list.component.html":
 /*!******************************************************************!*\
   !*** ./src/app/reports/reports-list/reports-list.component.html ***!
@@ -460,6 +399,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _report_invoices_overdue_report_invoices_overdue_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./report-invoices-overdue/report-invoices-overdue.component */ "./src/app/reports/reports-list/report-invoices-overdue/report-invoices-overdue.component.ts");
+/* harmony import */ var _report_product_membership_report_product_membership_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./report-product-membership/report-product-membership.component */ "./src/app/reports/reports-list/report-product-membership/report-product-membership.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -474,6 +414,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var ReportsListComponent = /** @class */ (function () {
     function ReportsListComponent(userStorageService, modalService, router) {
         this.userStorageService = userStorageService;
@@ -481,7 +422,7 @@ var ReportsListComponent = /** @class */ (function () {
         this.router = router;
         this.listReport = [{ id: 1, name: 'Report of Overdue Invoices' },
             { id: 2, name: 'Report 2' },
-            { id: 3, name: 'Report 3' },
+            { id: 3, name: 'Products Report' },
             { id: 4, name: 'Report 4' }];
         this.products = new Array;
         this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
@@ -500,6 +441,15 @@ var ReportsListComponent = /** @class */ (function () {
                         _this.ngOnInit();
                     }, function (reason) {
                     });
+                    break;
+                }
+                case 3: {
+                    var modalRef3 = this.modalService.open(_report_product_membership_report_product_membership_component__WEBPACK_IMPORTED_MODULE_5__["ReportProductMembershipComponent"], { size: 'lg' });
+                    modalRef3.result.then(function (result) {
+                        _this.ngOnInit();
+                    }, function (reason) {
+                    });
+                    break;
                 }
             }
         }
@@ -664,12 +614,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reports_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./reports.component */ "./src/app/reports/reports.component.ts");
 /* harmony import */ var _reports_list_reports_list_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./reports-list/reports-list.component */ "./src/app/reports/reports-list/reports-list.component.ts");
 /* harmony import */ var _reports_list_report_invoices_overdue_report_invoices_overdue_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./reports-list/report-invoices-overdue/report-invoices-overdue.component */ "./src/app/reports/reports-list/report-invoices-overdue/report-invoices-overdue.component.ts");
+/* harmony import */ var _reports_list_report_product_membership_report_product_membership_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./reports-list/report-product-membership/report-product-membership.component */ "./src/app/reports/reports-list/report-product-membership/report-product-membership.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -702,106 +654,17 @@ var ReportsModule = /** @class */ (function () {
             declarations: [
                 _reports_component__WEBPACK_IMPORTED_MODULE_10__["ReportsComponent"],
                 _reports_list_reports_list_component__WEBPACK_IMPORTED_MODULE_11__["ReportsListComponent"],
-                _reports_list_report_invoices_overdue_report_invoices_overdue_component__WEBPACK_IMPORTED_MODULE_12__["ReportInvoicesOverdueComponent"]
+                _reports_list_report_invoices_overdue_report_invoices_overdue_component__WEBPACK_IMPORTED_MODULE_12__["ReportInvoicesOverdueComponent"],
+                _reports_list_report_product_membership_report_product_membership_component__WEBPACK_IMPORTED_MODULE_13__["ReportProductMembershipComponent"]
             ],
             entryComponents: [
-                _reports_list_report_invoices_overdue_report_invoices_overdue_component__WEBPACK_IMPORTED_MODULE_12__["ReportInvoicesOverdueComponent"]
+                _reports_list_report_invoices_overdue_report_invoices_overdue_component__WEBPACK_IMPORTED_MODULE_12__["ReportInvoicesOverdueComponent"],
+                _reports_list_report_product_membership_report_product_membership_component__WEBPACK_IMPORTED_MODULE_13__["ReportProductMembershipComponent"]
             ],
             providers: [_shared__WEBPACK_IMPORTED_MODULE_6__["RoleGuard"], _shared_services__WEBPACK_IMPORTED_MODULE_9__["AuthorizationService"]]
         })
     ], ReportsModule);
     return ReportsModule;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/enum/status-invoice-client.enum.ts":
-/*!***********************************************************!*\
-  !*** ./src/app/shared/enum/status-invoice-client.enum.ts ***!
-  \***********************************************************/
-/*! exports provided: StatusInvoiceClient */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StatusInvoiceClient", function() { return StatusInvoiceClient; });
-var StatusInvoiceClient;
-(function (StatusInvoiceClient) {
-    StatusInvoiceClient[StatusInvoiceClient["Pending"] = 1] = "Pending";
-    StatusInvoiceClient[StatusInvoiceClient["Part_Paid"] = 2] = "Part_Paid";
-    StatusInvoiceClient[StatusInvoiceClient["Paid"] = 3] = "Paid";
-    StatusInvoiceClient[StatusInvoiceClient["Overdue"] = 4] = "Overdue";
-})(StatusInvoiceClient || (StatusInvoiceClient = {}));
-
-
-/***/ }),
-
-/***/ "./src/app/shared/services/alertify/alertify.service.ts":
-/*!**************************************************************!*\
-  !*** ./src/app/shared/services/alertify/alertify.service.ts ***!
-  \**************************************************************/
-/*! exports provided: AlertifyService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AlertifyService", function() { return AlertifyService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var AlertifyService = /** @class */ (function () {
-    function AlertifyService() {
-    }
-    AlertifyService.prototype.confirm = function (title, message, okCallBack, cancelCallBack) {
-        alertify.confirm(title, message, function (e) {
-            if (e) {
-                okCallBack();
-            }
-            else {
-                // Do anything
-            }
-        }, function (e) {
-            if (e) {
-                cancelCallBack();
-            }
-            else {
-                // Do anything
-            }
-        }).set('labels', { ok: 'Ok', cancel: 'No' });
-    };
-    AlertifyService.prototype.success = function (message) {
-        alertify.set('notifier', 'position', 'top-right');
-        alertify.success(message);
-    };
-    AlertifyService.prototype.error = function (message) {
-        alertify.set('notifier', 'position', 'top-right');
-        alertify.error(message);
-    };
-    AlertifyService.prototype.warning = function (message) {
-        alertify.set('notifier', 'position', 'top-right');
-        alertify.warning(message);
-    };
-    AlertifyService.prototype.message = function (message) {
-        alertify.set('notifier', 'position', 'top-right');
-        alertify.message(message);
-    };
-    AlertifyService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
-            providedIn: 'root'
-        }),
-        __metadata("design:paramtypes", [])
-    ], AlertifyService);
-    return AlertifyService;
 }());
 
 

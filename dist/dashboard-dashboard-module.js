@@ -301,6 +301,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _shared_enum_status_invoice_client_enum__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../shared/enum/status-invoice-client.enum */ "./src/app/shared/enum/status-invoice-client.enum.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -310,6 +311,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -651,7 +653,7 @@ var DashboardComponent = /** @class */ (function () {
     };
     DashboardComponent.prototype.getPendingPayments = function () {
         var _this = this;
-        var status = [0, 1];
+        var status = [_shared_enum_status_invoice_client_enum__WEBPACK_IMPORTED_MODULE_13__["StatusInvoiceClient"].Pending, _shared_enum_status_invoice_client_enum__WEBPACK_IMPORTED_MODULE_13__["StatusInvoiceClient"].Part_Paid, _shared_enum_status_invoice_client_enum__WEBPACK_IMPORTED_MODULE_13__["StatusInvoiceClient"].Overdue];
         this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
                 var today_1 = new Date().toISOString();
