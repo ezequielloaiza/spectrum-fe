@@ -85,7 +85,7 @@ export class GenerateInvoiceComponent implements OnInit {
           console.log('error', error);
         }
       );
-    } 
+    }
   }
 
   loadOrderNumbers() {
