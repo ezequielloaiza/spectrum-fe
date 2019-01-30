@@ -149,9 +149,6 @@
 			<a routerLink="/suppliers" [routerLinkActive]="['router-link-active']" class="list-group-item">
 				<i class="fa fa-archive"></i>&nbsp;{{ 'Manage Suppliers' | translate }}
 			</a>
-			<a routerLink="/reports" [routerLinkActive]="['router-link-active']" class="list-group-item">
-				<i class="fa fa-cubes"></i>&nbsp;{{ 'Reports' | translate }}
-			</a>
 			<div class="nested-menu">
 				<a class="list-group-item" [routerLink]="['/user']" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
 					<span>
@@ -284,7 +281,7 @@
       <div class="nested-menu">
 				<a  class="list-group-item" (click)="addExpandClass('payments')">
 					<span>
-						<i class="fa fa-money"></i>&nbsp; {{ 'Manage Payments' | translate }}</span>
+						<i class="fa fa-money"></i>&nbsp; {{ 'Accounts Receivable' | translate }}</span>
 				</a>
 				<li class="nested" [class.expand]="showMenu === 'payments'">
 						<ul class="submenu">
@@ -313,8 +310,13 @@
 				<a  routerLink="/warranty" [routerLinkActive]="['router-link-active']" class="list-group-item">
 					<span>
 						<i class="fa fa-certificate"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
-				</a>
-			</div>
+        </a>
+      </div>
+      <div class="nested-menu">
+        <a routerLink="/reports" [routerLinkActive]="['router-link-active']" class="list-group-item">
+          <i class="fa fa-cubes"></i>&nbsp;{{ 'Reports' | translate }}
+        </a>
+      </div>
 		</div>
 
 		<!--SELLER MENU-->
@@ -415,7 +417,7 @@
 				<div class="nested-menu">
 					<a  class="list-group-item" (click)="addExpandClass('payments')">
 						<span>
-							<i class="fa fa-money"></i>&nbsp; {{ 'Manage Payments' | translate }}</span>
+							<i class="fa fa-money"></i>&nbsp; {{ 'Accounts Receivable' | translate }}</span>
 					</a>
 					<li class="nested" [class.expand]="showMenu === 'payments'">
 							<ul class="submenu">

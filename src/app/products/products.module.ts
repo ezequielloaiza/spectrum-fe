@@ -38,6 +38,7 @@ import { ConfirmationLenticonComponent } from './modals/confirmation-buy/confirm
 import { EditProductSpectrumSalineComponent } from './modals/edit-product/edit-product-spectrum-saline/edit-product-spectrum-saline.component';
 import { ProductViewMedmontComponent } from './product-view-medmont/product-view-medmont.component';
 import { EditProductMedmontComponent } from './modals/edit-product/edit-product-medmont/edit-product-medmont.component';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import { EditProductMedmontComponent } from './modals/edit-product/edit-product-
     ReactiveFormsModule,
     NgSelectModule,
     FileUploadModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    CurrencyMaskModule
   ],
   declarations: [
     ProductsComponent,
