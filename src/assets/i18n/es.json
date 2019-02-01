@@ -1100,5 +1100,11 @@
     "Clients Balance":"Balance de Clientes",
     "Detailed Products Report":"Reporte Detallado de Productos",
     "Select Status":"Seleccione Estado",
-    "Select Period":"Seleccione Período"
+    "Select Period":"Seleccione Período",
+    "All Products": "Todos los Productos",
+    "By Product": "Por Producto",
+    "Select Country": "Seleccione País",
+    "Select Product": "Seleccione Producto",
+    "There are no orders": "No hay ordenes",
+    "Sales by Product Report": "Reporte de Ventas por Producto"
 }

@@ -11,6 +11,7 @@ import { saveAs } from 'file-saver';
 import { ReportPaymentsComponent } from './report-payments/report-payments.component';
 import { ReportProductMembershipComponent } from './report-product-membership/report-product-membership.component';
 import { ReportBalanceClientComponent } from './report-balance-client/report-balance-client.component';
+import { ReportSalesByProductComponent } from './report-sales-by-product/report-sales-by-product.component';
 
 @Component({
   selector: 'app-reports-list',
@@ -23,7 +24,8 @@ export class ReportsListComponent implements OnInit {
                 {id: 2, name: 'Payments Report'},
                 {id: 3, name: 'Products Report'},
                 {id: 4, name: 'Detailed Products Report'},
-                {id: 5, name: 'Clients Balance'}];
+                {id: 5, name: 'Clients Balance'},
+                {id: 6, name: 'Sales by Product Report'}];
   currentUser: any;
   user: any;
   products: Array<any> = new Array;
@@ -80,13 +82,21 @@ export class ReportsListComponent implements OnInit {
           }, (reason) => {
           });
         break;
-      case 5:
+        case 5:
           const modalRef5 = this.modalService.open(ReportBalanceClientComponent, { size: 'lg' });
           modalRef5.result.then((result) => {
             this.ngOnInit();
           }, (reason) => {
           });
-        break;
+          break;
+        case 6: {
+            const modalRef6 = this.modalService.open(ReportSalesByProductComponent, { size: 'lg' });
+            modalRef6.result.then((result) => {
+              this.ngOnInit();
+            }, (reason) => {
+            });
+          break;
+        }
       }
     }
   }
