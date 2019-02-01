@@ -54,6 +54,7 @@ export class ReportsListComponent implements OnInit {
         }
         case 3: {
           const modalRef3 = this.modalService.open(ReportProductMembershipComponent, { size: 'lg' });
+          modalRef3.componentInstance.type = 1;
           modalRef3.result.then((result) => {
             this.ngOnInit();
           }, (reason) => {
@@ -61,7 +62,12 @@ export class ReportsListComponent implements OnInit {
           break;
         }
         case 4:
-             this.downloadProducts();
+          const modalRef4 = this.modalService.open(ReportProductMembershipComponent, { size: 'lg' });
+          modalRef4.componentInstance.type = 2;
+          modalRef4.result.then((result) => {
+            this.ngOnInit();
+          }, (reason) => {
+          });
         break;
       }
     }
@@ -72,30 +78,5 @@ export class ReportsListComponent implements OnInit {
       $event.preventDefault();
     }
   }
-
-  downloadProducts() {
-    this.spinner.show();
-    this.productService.downloadProducts$().subscribe(res => {
-      const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
-        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes(), seconds: this.today.getSeconds};
-      const filename = 'Detailed-Products-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
-      if (res.size > 0) {
-        this.spinner.hide();
-        saveAs(res, filename);
-      } else {
-        this.spinner.hide();
-        this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res1: string) => {
-          this.notification.error('', res1);
-        });
-      }
-    }, error => {
-      this.spinner.hide();
-      this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
-        this.notification.error('', res);
-      });
-      console.log('error', error);
-    });
-  }
-
 }
 
