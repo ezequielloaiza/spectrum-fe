@@ -1091,11 +1091,13 @@
     "Payments Report":"Reporte de Pagos",
     "All orders must belong to the same customer":"Todas las órdenes deben pertenecer al mismo cliente",
     "All orders must belong to the same provider":"Todas las órdenes deben pertenecer al mismo proveedor",
-    "Select Status":"Seleccione Estado",
-    "Select Period":"Seleccione Período",
-    "Generate":"Generar",
+    "Report of Products":"Reporte de Productos",
     "Select Supplier": "Seleccione el Proveedor",
     "Products Report":"Reporte de Productos",
     "By Supplier": "Por proveedor",
-    "Accounts Receivable": "Cuentas por Cobrar"
+    "Generate": "Generar",
+    "Accounts Receivable": "Cuentas por Cobrar",
+    "Detailed Products Report":"Reporte Detallado de Productos",
+    "Select Status":"Seleccione Estado",
+    "Select Period":"Seleccione Período"
 }
