@@ -11,6 +11,7 @@ import { AuthorizationService } from '../shared/services';
 import { ReportsComponent } from './reports.component';
 import { ReportsListComponent } from './reports-list/reports-list.component';
 import { ReportInvoicesOverdueComponent } from './reports-list/report-invoices-overdue/report-invoices-overdue.component';
+import { ReportPaymentsComponent } from './reports-list/report-payments/report-payments.component';
 import { ReportProductMembershipComponent } from './reports-list/report-product-membership/report-product-membership.component';
 import { ReportBalanceClientComponent } from './reports-list/report-balance-client/report-balance-client.component';
 
@@ -31,12 +32,14 @@ import { ReportBalanceClientComponent } from './reports-list/report-balance-clie
     ReportsListComponent,
     ReportInvoicesOverdueComponent,
     ReportProductMembershipComponent,
+    ReportPaymentsComponent,
     ReportBalanceClientComponent
   ],
   entryComponents: [
     ReportInvoicesOverdueComponent,
     ReportProductMembershipComponent,
-    ReportBalanceClientComponent
+    ReportPaymentsComponent,
+    ReportBalanceClientComponent,
   ],
   providers: [RoleGuard, AuthorizationService]
 })

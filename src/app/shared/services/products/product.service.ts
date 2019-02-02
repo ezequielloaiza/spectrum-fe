@@ -33,6 +33,12 @@ export class ProductService {
     return this.http.get(environment.apiUrl + 'products/getQuote/' + idUser + '/' + idProduct);
   }
 
+  public downloadProducts$(idSupplier): Observable<any> {
+    return this.http.get(environment.apiUrl + 'products/downloadProduct/' + idSupplier, {
+    responseType: 'blob'
+    });
+  }
+
   public reportAllOrBySupplier$(idSupplier): Observable<any> {
     return this.http.get(environment.apiUrl + 'products/reportAllOrBySupplier/' + idSupplier, {
       responseType: 'blob'
