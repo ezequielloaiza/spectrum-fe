@@ -29,6 +29,8 @@ export class ReportProductMembershipComponent implements OnInit {
   user: any;
   valid = false;
   bySupplier = false;
+  type: any;
+  today: Date = new Date();
 
   constructor(public modalReference: NgbActiveModal,
     private notification: ToastrService,
@@ -84,26 +86,56 @@ export class ReportProductMembershipComponent implements OnInit {
     if (this.supplier !== '') {
       idSupplier = this.supplier;
     }
-    this.productService.reportAllOrBySupplier$(idSupplier).subscribe(res => {
-      const date = new Date();
-      const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1,
-        day: date.getDate(), hour: date.getHours(), minutes: date.getMinutes()};
-      const filename = 'Products-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
-      saveAs(res, filename);
-      this.spinner.hide();
-      this.translate.get('Report has been generated',
-        { value: 'Report has been generated' }).subscribe((res1: string) => {
-          this.notification.success('', res1);
+    if (this.type === 1) {
+      this.productService.reportAllOrBySupplier$(idSupplier).subscribe(res => {
+        const date = new Date();
+        const aux = {year: date.getUTCFullYear(), month: date.getMonth() + 1,
+          day: date.getDate(), hour: date.getHours(), minutes: date.getMinutes()};
+        const filename = 'Products-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+        saveAs(res, filename);
+        this.spinner.hide();
+        this.translate.get('Report has been generated',
+          { value: 'Report has been generated' }).subscribe((res1: string) => {
+            this.notification.success('', res1);
+          });
+      }, error => {
+        this.spinner.hide();
+        this.translate.get('The file could not be generated',
+        { value: 'The file could not be generated' }).subscribe((res: string) => {
+          this.notification.error('', res);
         });
+        console.log('error', error);
+      });
+      this.close();
+    } else {
+       this.downloadProducts(idSupplier);
+       this.close();
+    }
+  }
+
+  downloadProducts(idSupplier) {
+    this.spinner.show();
+    this.productService.downloadProducts$(idSupplier).subscribe(res => {
+      const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
+        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes(), seconds: this.today.getSeconds};
+      const filename = 'Detailed-Products-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+      if (res.size > 0) {
+        this.spinner.hide();
+        saveAs(res, filename);
+      } else {
+        this.spinner.hide();
+        this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res1: string) => {
+          this.notification.error('', res1);
+        });
+      }
     }, error => {
       this.spinner.hide();
-      this.translate.get('The file could not be generated',
-      { value: 'The file could not be generated' }).subscribe((res: string) => {
+      this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
         this.notification.error('', res);
       });
       console.log('error', error);
     });
-    this.close();
   }
+
 
 }

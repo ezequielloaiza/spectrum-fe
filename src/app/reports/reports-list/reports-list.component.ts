@@ -3,6 +3,11 @@ import { UserStorageService } from '../../http/user-storage.service';
 import { NgbModal, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ReportInvoicesOverdueComponent } from './report-invoices-overdue/report-invoices-overdue.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { ProductService } from '../../shared/services/products/product.service';
+import { saveAs } from 'file-saver';
 import { ReportPaymentsComponent } from './report-payments/report-payments.component';
 import { ReportProductMembershipComponent } from './report-product-membership/report-product-membership.component';
 
@@ -16,13 +21,18 @@ export class ReportsListComponent implements OnInit {
   listReport = [{id: 1, name: 'Report of Overdue Invoices'},
                 {id: 2, name: 'Payments Report'},
                 {id: 3, name: 'Products Report'},
-                {id: 4, name: 'Report 4'}];
+                {id: 4, name: 'Detailed Products Report'}];
   currentUser: any;
   user: any;
   products: Array<any> = new Array;
+  today: Date = new Date();
   constructor(private userStorageService: UserStorageService,
               private modalService: NgbModal,
-              public router: Router) {
+              public router: Router,
+              private spinner: NgxSpinnerService,
+              private translate: TranslateService,
+              private notification: ToastrService,
+              private productService: ProductService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -53,12 +63,21 @@ export class ReportsListComponent implements OnInit {
         }
         case 3: {
           const modalRef3 = this.modalService.open(ReportProductMembershipComponent, { size: 'lg' });
+          modalRef3.componentInstance.type = 1;
           modalRef3.result.then((result) => {
             this.ngOnInit();
           }, (reason) => {
           });
           break;
         }
+        case 4:
+          const modalRef4 = this.modalService.open(ReportProductMembershipComponent, { size: 'lg' });
+          modalRef4.componentInstance.type = 2;
+          modalRef4.result.then((result) => {
+            this.ngOnInit();
+          }, (reason) => {
+          });
+        break;
       }
     }
   }
@@ -68,6 +87,5 @@ export class ReportsListComponent implements OnInit {
       $event.preventDefault();
     }
   }
-
 }
 
