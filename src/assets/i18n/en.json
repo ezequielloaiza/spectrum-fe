@@ -901,7 +901,7 @@
     "Confirm Update":"Confirm Update",
     "The file could not be generated":"The file could not be generated",
     "Report has been generated":"Report has been generated",
-    "Report of Overdue Invoices":"Report of Overdue Invoices",
+    "Overdue Invoices Report":"Overdue Invoices Report",
     "Select Report":"Select Report",
     "Select Client":"Select Client",
     "All Clients":"All Clients",
@@ -919,6 +919,7 @@
     "By Supplier": "By Supplier",
     "Generate": "Generate",
     "Accounts Receivable": "Accounts Receivable",
+    "Clients Balance":"Clients Balance",
     "Detailed Products Report":"Detailed Products Report",
     "Select Status":"Select Status",
     "Select Period":"Select Period"
