@@ -1088,6 +1088,7 @@
     "Download PDF": "Descargar PDF",
     "There are no overdue invoices":"No hay facturas vencidas",
     "There are no orders to export": "No hay ordenes para exportar",
+    "Payments Report":"Reporte de Pagos",
     "All orders must belong to the same customer":"Todas las órdenes deben pertenecer al mismo cliente",
     "All orders must belong to the same provider":"Todas las órdenes deben pertenecer al mismo proveedor",
     "Report of Products":"Reporte de Productos",
@@ -1096,5 +1097,7 @@
     "By Supplier": "Por proveedor",
     "Generate": "Generar",
     "Accounts Receivable": "Cuentas por Cobrar",
-    "Detailed Products Report":"Reporte Detallado de Productos"
+    "Detailed Products Report":"Reporte Detallado de Productos",
+    "Select Status":"Seleccione Estado",
+    "Select Period":"Seleccione Período"
 }

@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { ProductService } from '../../shared/services/products/product.service';
 import { saveAs } from 'file-saver';
+import { ReportPaymentsComponent } from './report-payments/report-payments.component';
 import { ReportProductMembershipComponent } from './report-product-membership/report-product-membership.component';
 
 @Component({
@@ -18,7 +19,7 @@ import { ReportProductMembershipComponent } from './report-product-membership/re
 export class ReportsListComponent implements OnInit {
 
   listReport = [{id: 1, name: 'Report of Overdue Invoices'},
-                {id: 2, name: 'Report 2'},
+                {id: 2, name: 'Payments Report'},
                 {id: 3, name: 'Products Report'},
                 {id: 4, name: 'Detailed Products Report'}];
   currentUser: any;
@@ -51,6 +52,14 @@ export class ReportsListComponent implements OnInit {
           }, (reason) => {
           });
           break;
+        }
+        case 2: {
+            const modalRef = this.modalService.open(ReportPaymentsComponent, { size: 'lg' });
+            modalRef.result.then((result) => {
+              this.ngOnInit();
+            }, (reason) => {
+            });
+            break;
         }
         case 3: {
           const modalRef3 = this.modalService.open(ReportProductMembershipComponent, { size: 'lg' });
