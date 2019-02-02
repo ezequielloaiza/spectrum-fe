@@ -910,11 +910,14 @@
     "Download PDF": "Download PDF",
     "There are no overdue invoices":"There are no overdue invoices",
     "There are no orders to export": "There are no orders to export",
+    "Payments Report":"Payments Report",
     "All orders must belong to the same customer":"All orders must belong to the same customer",
     "All orders must belong to the same provider":"All orders must belong to the same provider",
+    "Select Status":"Select Status",
+    "Select Period":"Select Period",
+    "Generate":"Generate",
     "Select Supplier": "Select Supplier",
     "Products Report":"Products Report",
     "By Supplier": "By Supplier",
-    "Generate": "Generate",
     "Accounts Receivable": "Accounts Receivable"
 }

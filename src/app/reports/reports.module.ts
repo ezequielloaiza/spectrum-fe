@@ -11,6 +11,7 @@ import { AuthorizationService } from '../shared/services';
 import { ReportsComponent } from './reports.component';
 import { ReportsListComponent } from './reports-list/reports-list.component';
 import { ReportInvoicesOverdueComponent } from './reports-list/report-invoices-overdue/report-invoices-overdue.component';
+import { ReportPaymentsComponent } from './reports-list/report-payments/report-payments.component';
 import { ReportProductMembershipComponent } from './reports-list/report-product-membership/report-product-membership.component';
 
 @NgModule({
@@ -29,10 +30,12 @@ import { ReportProductMembershipComponent } from './reports-list/report-product-
     ReportsComponent,
     ReportsListComponent,
     ReportInvoicesOverdueComponent,
+    ReportPaymentsComponent,
     ReportProductMembershipComponent
   ],
   entryComponents: [
     ReportInvoicesOverdueComponent,
+    ReportPaymentsComponent,
     ReportProductMembershipComponent
   ],
   providers: [RoleGuard, AuthorizationService]
