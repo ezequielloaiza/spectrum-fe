@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{ 'Balance of Clients' | translate }}</h4>
+  <h4 class="modal-title">{{ 'Clients Balance' | translate }}</h4>
   <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -32,7 +32,7 @@
           <label >{{'Select Period' | translate}}</label>
           <div class="col-xl-12 control-period" >
             <div class="input-group col-xl-6">
-              <input class="form-control" placeholder="yyyy-mm-dd" name="beginDate" ngbDatepicker [(ngModel)]="beginDate" 
+              <input class="form-control" placeholder="yyyy-mm-dd" name="beginDate" ngbDatepicker [(ngModel)]="beginDate"
                   #d="ngbDatepicker">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
@@ -41,7 +41,7 @@
                 </div>
             </div>
             <div class="input-group col-xl-6">
-              <input class="form-control" placeholder="yyyy-mm-dd" name="endDate" ngbDatepicker [(ngModel)]="endDate" 
+              <input class="form-control" placeholder="yyyy-mm-dd" name="endDate" ngbDatepicker [(ngModel)]="endDate"
                   #d1="ngbDatepicker" [disabled]="beginDate == null">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
