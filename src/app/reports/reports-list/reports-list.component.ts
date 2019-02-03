@@ -20,7 +20,7 @@ import { ReportSalesByProductComponent } from './report-sales-by-product/report-
 })
 export class ReportsListComponent implements OnInit {
 
-  listReport = [{id: 1, name: 'Report of Overdue Invoices'},
+  listReport = [{id: 1, name: 'Overdue Invoices Report'},
                 {id: 2, name: 'Payments Report'},
                 {id: 3, name: 'Products Report'},
                 {id: 4, name: 'Detailed Products Report'},
