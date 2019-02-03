@@ -248,7 +248,8 @@ export class UserModalComponent implements OnInit {
   }
 
   openModalSupplier(): void {
-    const modalRef = this.modalService.open(ListSupplierModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(ListSupplierModalComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.listSuppliers = this.listSuppliers;
     modalRef.result.then((result) => {
       this.listSuppliers = result;

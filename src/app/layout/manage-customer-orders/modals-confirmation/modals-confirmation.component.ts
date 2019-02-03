@@ -93,7 +93,8 @@ export class ModalsConfirmationComponent implements OnInit {
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open( NotificationBalanceOrderComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( NotificationBalanceOrderComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.orderModal = this.order;
     modalRef.componentInstance.type = 2;
     modalRef.result.then((result) => {

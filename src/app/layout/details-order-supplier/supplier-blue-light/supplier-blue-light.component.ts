@@ -38,7 +38,8 @@ export class SupplierBlueLightComponent implements OnInit {
   }
 
   openEdit() {
-    const modalRefBlue = this.modalService.open( BlueLightComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRefBlue = this.modalService.open( BlueLightComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false });
     modalRefBlue.componentInstance.detailEdit = this.lista;
     modalRefBlue.componentInstance.typeEdit = 2;
     modalRefBlue.componentInstance.image = this.urlImage;

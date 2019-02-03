@@ -48,7 +48,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   fechaSelec: NgbDatepicker;
   search: String;
   navigationSubscription;
-  
+
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
     private notification: ToastrService,
@@ -58,7 +58,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     private invoiceService: InvoiceClientService,
     private spinner: NgxSpinnerService,
     public router: Router,
-    private route: ActivatedRoute) { 
+    private route: ActivatedRoute) {
       this.user = JSON.parse(userStorageService.getCurrentUser());
       this.navigationSubscription = this.router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
@@ -430,7 +430,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     this.selectedAll = false;
     this.listAux = arrayAux;
     this.listAux.length > 1 ? this.valid = true : this.valid = false;
-    this.listAux.length === this.listInvoices.length ? this.selectedAll = true : this.selectedAll = false; 
+    this.listAux.length === this.listInvoices.length ? this.selectedAll = true : this.selectedAll = false;
   }
 
   onSelectionAll(event) {
@@ -468,7 +468,8 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   }
 
   openModal(invoice, action, payment): void {
-    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
+    const modalRef = this.modalService.open(AddPaymentModalComponent,
+    { size: 'lg', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.invoice = invoice;
     modalRef.componentInstance.action = action;
     modalRef.componentInstance.invoicePayment = payment;

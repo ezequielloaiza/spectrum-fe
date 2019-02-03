@@ -48,7 +48,8 @@ export class ReportsListComponent implements OnInit {
     if (this.user.role.idRole === 1) {
       switch (id) {
         case 1: {
-          const modalRef = this.modalService.open(ReportInvoicesOverdueComponent, { size: 'lg' });
+          const modalRef = this.modalService.open(ReportInvoicesOverdueComponent,
+          { size: 'lg', backdrop  : 'static', keyboard  : false });
           modalRef.result.then((result) => {
             this.ngOnInit();
           }, (reason) => {
@@ -56,7 +57,8 @@ export class ReportsListComponent implements OnInit {
           break;
         }
         case 2: {
-            const modalRef = this.modalService.open(ReportPaymentsComponent, { size: 'lg' });
+            const modalRef = this.modalService.open(ReportPaymentsComponent,
+            { size: 'lg', backdrop  : 'static', keyboard  : false });
             modalRef.result.then((result) => {
               this.ngOnInit();
             }, (reason) => {
@@ -64,7 +66,8 @@ export class ReportsListComponent implements OnInit {
             break;
         }
         case 3: {
-          const modalRef3 = this.modalService.open(ReportProductMembershipComponent, { size: 'lg' });
+          const modalRef3 = this.modalService.open(ReportProductMembershipComponent,
+          { size: 'lg', backdrop  : 'static', keyboard  : false});
           modalRef3.componentInstance.type = 1;
           modalRef3.result.then((result) => {
             this.ngOnInit();
@@ -73,7 +76,8 @@ export class ReportsListComponent implements OnInit {
           break;
         }
         case 4:
-          const modalRef4 = this.modalService.open(ReportProductMembershipComponent, { size: 'lg' });
+          const modalRef4 = this.modalService.open(ReportProductMembershipComponent,
+          { size: 'lg', backdrop  : 'static', keyboard  : false });
           modalRef4.componentInstance.type = 2;
           modalRef4.result.then((result) => {
             this.ngOnInit();
@@ -81,7 +85,8 @@ export class ReportsListComponent implements OnInit {
           });
         break;
       case 5:
-          const modalRef5 = this.modalService.open(ReportBalanceClientComponent, { size: 'lg' });
+          const modalRef5 = this.modalService.open(ReportBalanceClientComponent,
+          { size: 'lg', backdrop  : 'static', keyboard  : false });
           modalRef5.result.then((result) => {
             this.ngOnInit();
           }, (reason) => {
