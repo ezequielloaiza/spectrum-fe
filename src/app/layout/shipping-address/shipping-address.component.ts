@@ -36,7 +36,8 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   open(address,action) {
-		const modalRef = this.modalService.open(ShippingAddressModalComponent);
+    const modalRef = this.modalService.open(ShippingAddressModalComponent ,
+    {backdrop  : 'static', keyboard  : false});
 		modalRef.componentInstance.address = address;
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {

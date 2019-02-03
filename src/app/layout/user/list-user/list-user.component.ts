@@ -126,7 +126,8 @@ export class ListUserComponent implements OnInit {
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open(UserModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(UserModalComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.result.then((result) => {
       this.getListUser(-1);
       this.moveFirstPage();

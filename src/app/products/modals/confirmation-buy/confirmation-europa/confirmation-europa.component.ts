@@ -268,7 +268,8 @@ export class ConfirmationEuropaComponent implements OnInit {
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open( NotificationBalanceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( NotificationBalanceComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.buyNowModal = this.buyNow;
     modalRef.result.then((result) => {
       this.ngOnInit();
