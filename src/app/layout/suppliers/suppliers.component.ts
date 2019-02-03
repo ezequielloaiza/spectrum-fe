@@ -94,7 +94,8 @@ export class SuppliersComponent implements OnInit {
 	}
 
   open(supplier,action) {
-		const modalRef = this.modalService.open(SupplierModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(SupplierModalComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
 		modalRef.componentInstance.supplier = supplier;
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {

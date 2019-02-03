@@ -330,7 +330,8 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationMagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationMagicLookComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;

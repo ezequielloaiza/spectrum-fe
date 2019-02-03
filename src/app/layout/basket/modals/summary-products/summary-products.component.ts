@@ -94,7 +94,8 @@ export class SummaryProductsComponent implements OnInit {
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open( NotificationBalanceOrderComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( NotificationBalanceOrderComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
     modalRef.componentInstance.buyBasketModal = this.buyBasket;
     modalRef.componentInstance.type = 1;
     modalRef.result.then((result) => {
