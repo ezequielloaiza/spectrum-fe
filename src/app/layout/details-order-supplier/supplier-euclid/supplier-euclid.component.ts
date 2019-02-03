@@ -58,7 +58,8 @@ export class SupplierEuclidComponent implements OnInit {
   }
 
   openEdit() {
-    const modalRefEuclid = this.modalService.open( EuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRefEuclid = this.modalService.open( EuclidComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false});
     modalRefEuclid.componentInstance.detailEdit = this.lista;
     modalRefEuclid.componentInstance.typeEdit = 2;
     modalRefEuclid.componentInstance.userOrder = this.order.user;

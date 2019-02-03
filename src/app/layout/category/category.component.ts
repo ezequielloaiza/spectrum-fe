@@ -35,8 +35,9 @@ export class CategoryComponent implements OnInit {
 		this.advancedPagination = 1;
 	}
 
-	open(category,action) {
-		const modalRef = this.modalService.open(CategoryModalComponent);
+	open(category, action) {
+    const modalRef = this.modalService.open(CategoryModalComponent ,
+    { backdrop : 'static', keyboard : false });
 		modalRef.componentInstance.category = category;
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {
@@ -70,7 +71,7 @@ export class CategoryComponent implements OnInit {
       console.log('error', error);
     });
 	}
-	
+
 	moveFirstPage() {
 		this.advancedPagination = 1;
 		this.reverseSort = true;

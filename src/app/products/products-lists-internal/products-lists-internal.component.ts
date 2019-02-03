@@ -273,7 +273,8 @@ export class ProductsListInternalComponent implements OnInit {
       case 6: // Blue Light
             const modalRefGeneral = this.modalService.open(EditProductComponent, {
               size: 'lg',
-              windowClass: 'modal-content-border'
+              windowClass: 'modal-content-border',
+              backdrop  : 'static', keyboard  : false
             });
             modalRefGeneral.componentInstance.product = product;
             modalRefGeneral.componentInstance.action = action;
@@ -287,7 +288,8 @@ export class ProductsListInternalComponent implements OnInit {
       case 2: // Europa
             const modalRefEuropa = this.modalService.open(EditProductEuropaComponent, {
               size: 'lg',
-              windowClass: 'modal-content-border'
+              windowClass: 'modal-content-border',
+              backdrop  : 'static', keyboard  : false
             });
             modalRefEuropa.componentInstance.product = product;
             modalRefEuropa.componentInstance.action = action;
@@ -301,7 +303,8 @@ export class ProductsListInternalComponent implements OnInit {
       case 4: // Euclid
             const modalRefEuclid = this.modalService.open(EditProductEuclidComponent, {
               size: 'lg',
-              windowClass: 'modal-content-border'
+              windowClass: 'modal-content-border',
+              backdrop  : 'static', keyboard  : false
             });
             modalRefEuclid.componentInstance.product = product;
             modalRefEuclid.componentInstance.action = action;
@@ -315,7 +318,8 @@ export class ProductsListInternalComponent implements OnInit {
       case 5: // Magic Look
             const modalRefMagic = this.modalService.open(EditProductMagicLookComponent, {
               size: 'lg',
-              windowClass: 'modal-content-border'
+              windowClass: 'modal-content-border',
+              backdrop  : 'static', keyboard  : false
             });
             modalRefMagic.componentInstance.product = product;
             modalRefMagic.componentInstance.action = action;
@@ -330,7 +334,8 @@ export class ProductsListInternalComponent implements OnInit {
             if (product.father === 'Fluo Strips') {
               const modalRefGeneralFluo = this.modalService.open(EditProductComponent, {
                 size: 'lg',
-                windowClass: 'modal-content-border'
+                windowClass: 'modal-content-border',
+                backdrop  : 'static', keyboard  : false
               });
               modalRefGeneralFluo.componentInstance.product = product;
               modalRefGeneralFluo.componentInstance.action = action;
@@ -343,7 +348,8 @@ export class ProductsListInternalComponent implements OnInit {
             } else if (product.father === 'Spectrum Saline') { // spectrum saline
               const modalRefSpectrum = this.modalService.open(EditProductSpectrumSalineComponent, {
                 size: 'lg',
-                windowClass: 'modal-content-border'
+                windowClass: 'modal-content-border',
+                backdrop  : 'static', keyboard  : false
               });
               modalRefSpectrum.componentInstance.product = product;
               modalRefSpectrum.componentInstance.action = action;
@@ -356,7 +362,8 @@ export class ProductsListInternalComponent implements OnInit {
             } else {
               const modalRefMedmont = this.modalService.open(EditProductMedmontComponent, {
                 size: 'lg',
-                windowClass: 'modal-content-border'
+                windowClass: 'modal-content-border',
+                backdrop  : 'static', keyboard  : false
               });
               modalRefMedmont.componentInstance.product = product;
               modalRefMedmont.componentInstance.action = action;

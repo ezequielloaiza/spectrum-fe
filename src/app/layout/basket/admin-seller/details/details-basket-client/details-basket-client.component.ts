@@ -193,7 +193,7 @@ export class DetailsBasketClientComponent implements OnInit {
     switch (idSupplier) {
      case 1: // Markennovy
           const modalRefMarkennovy = this.modalService.open(DetailMarkennovyComponent,
-          { size: 'lg', windowClass: 'modal-content-border' });
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefMarkennovy.componentInstance.basket = basket;
           modalRefMarkennovy.result.then((result) => {
             this.ngOnInit();
@@ -202,7 +202,7 @@ export class DetailsBasketClientComponent implements OnInit {
           break;
      case 2: // Europa
           const modalRefEuropa = this.modalService.open(DetailEuropaComponent,
-          { size: 'lg', windowClass: 'modal-content-border' });
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefEuropa.componentInstance.basket = basket;
           modalRefEuropa.result.then((result) => {
             this.ngOnInit();
@@ -211,7 +211,7 @@ export class DetailsBasketClientComponent implements OnInit {
        break;
      case 3: // Lenticon
           const modalRefLenticon = this.modalService.open(DetailLenticonComponent,
-          { size: 'lg', windowClass: 'modal-content-border' });
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefLenticon.componentInstance.basket = basket;
           modalRefLenticon.result.then((result) => {
             this.ngOnInit();
@@ -220,7 +220,7 @@ export class DetailsBasketClientComponent implements OnInit {
        break;
      case 4: // Euclid
           const modalRefEuclid = this.modalService.open(DetailEuclidComponent,
-          { size: 'lg', windowClass: 'modal-content-border' });
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefEuclid.componentInstance.basket = basket;
           modalRefEuclid.result.then((result) => {
             this.ngOnInit();
@@ -228,7 +228,8 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
      case 5: // Magic Look
-          const modalRefMagic = this.modalService.open( DetailMagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          const modalRefMagic = this.modalService.open( DetailMagicLookComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefMagic.componentInstance.basket = basket;
           modalRefMagic.result.then((result) => {
             this.ngOnInit();
@@ -237,7 +238,7 @@ export class DetailsBasketClientComponent implements OnInit {
           break;
      case 6: // Blue Light
         const modalRefBlue = this.modalService.open(DetailBlueLightComponent,
-          { size: 'lg', windowClass: 'modal-content-border' });
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefBlue.componentInstance.basket = basket;
           modalRefBlue.result.then((result) => {
             this.ngOnInit();
@@ -246,7 +247,7 @@ export class DetailsBasketClientComponent implements OnInit {
           break;
      case 7: // Fluo strips y spectrum saline
         const modalRefFluoSaline = this.modalService.open(DetailSalineFluoComponent,
-          { size: 'lg', windowClass: 'modal-content-border' });
+          { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false});
           modalRefFluoSaline.componentInstance.basket = basket;
           modalRefFluoSaline.result.then((result) => {
             this.ngOnInit();
@@ -260,7 +261,8 @@ export class DetailsBasketClientComponent implements OnInit {
     let  idSupplier = basket.productRequested.product.supplier.idSupplier;
     switch (idSupplier) {
      case 1: // Markennovy
-          const modalRefMarkennovy = this.modalService.open( MarkennovyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          const modalRefMarkennovy = this.modalService.open( MarkennovyComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefMarkennovy.componentInstance.basket = basket;
           modalRefMarkennovy.componentInstance.typeEdit = 1;
           modalRefMarkennovy.result.then((result) => {
@@ -269,7 +271,8 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
      case 2: // Europa
-          const modalRefEuropa = this.modalService.open( EuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          const modalRefEuropa = this.modalService.open( EuropaComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefEuropa.componentInstance.basket = basket;
           modalRefEuropa.componentInstance.typeEdit = 1;
           modalRefEuropa.result.then((result) => {
@@ -278,7 +281,8 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
      case 3: // Lenticon
-          const modalRefLenticon = this.modalService.open( LenticonComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          const modalRefLenticon = this.modalService.open( LenticonComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefLenticon.componentInstance.basket = basket;
           modalRefLenticon.componentInstance.typeEdit = 1;
           modalRefLenticon.result.then((result) => {
@@ -287,7 +291,8 @@ export class DetailsBasketClientComponent implements OnInit {
           });
        break;
      case 4: // Euclid
-          const modalRefEuclid = this.modalService.open( EuclidComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          const modalRefEuclid = this.modalService.open( EuclidComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefEuclid.componentInstance.basket = basket;
           modalRefEuclid.componentInstance.typeEdit = 1;
           modalRefEuclid.result.then((result) => {
@@ -296,7 +301,8 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
      case 5: // Magic Look
-          const modalRefMagic = this.modalService.open( MagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          const modalRefMagic = this.modalService.open( MagicLookComponent,
+          { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false });
           modalRefMagic.componentInstance.basket = basket;
           modalRefMagic.componentInstance.typeEdit = 1;
           modalRefMagic.result.then((result) => {
@@ -305,7 +311,8 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
      case 6: // Blue Light
-          const modalRefBlue = this.modalService.open( BlueLightComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          const modalRefBlue = this.modalService.open( BlueLightComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
           modalRefBlue.componentInstance.basket = basket;
           modalRefBlue.componentInstance.typeEdit = 1;
           modalRefBlue.result.then((result) => {
@@ -314,7 +321,8 @@ export class DetailsBasketClientComponent implements OnInit {
           });
           break;
     case 7: // Fluo strips y spectrum saline
-          const modalRefSalineFluo = this.modalService.open( SalineFluoComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          const modalRefSalineFluo = this.modalService.open( SalineFluoComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
           modalRefSalineFluo.componentInstance.basket = basket;
           modalRefSalineFluo.componentInstance.typeEdit = 1;
           modalRefSalineFluo.result.then((result) => {
@@ -329,7 +337,8 @@ export class DetailsBasketClientComponent implements OnInit {
     this.buyBasket.idUser = this.id;
     this.buyBasket.listBasket = this.productRequestedToBuy;
     this.buyBasket.idRole = this.user.role.idRole;
-    const modalRef = this.modalService.open( SummaryProductsComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( SummaryProductsComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
     modalRef.componentInstance.subtotal = this.subtotal;
     modalRef.componentInstance.total = this.total;
     modalRef.componentInstance.buyBasket = this.buyBasket;

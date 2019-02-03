@@ -437,7 +437,8 @@ export class ProductViewLenticonComponent implements OnInit {
     console.log('fils1', this.listFileLeftEye);
     console.log('fils2', this.listFileRightEye);
 
-    const modalRef = this.modalService.open( ConfirmationLenticonComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationLenticonComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;

@@ -75,7 +75,8 @@ export class WarrantyComponent implements OnInit {
   }
 
   open(warranty, action) {
-    const modalRef = this.modalService.open(WarrantyModalComponent , { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(WarrantyModalComponent ,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.warranty = warranty;
     modalRef.componentInstance.action = action;
     modalRef.result.then((result) => {
@@ -85,7 +86,8 @@ export class WarrantyComponent implements OnInit {
   }
 
   changeStatus(warranty) {
-    const modalRef = this.modalService.open(ModalsChangeStatusComponent);
+    const modalRef = this.modalService.open(ModalsChangeStatusComponent,
+    {backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.warranty = warranty;
     modalRef.result.then((result) => {
       this.getListWarranties();
