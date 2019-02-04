@@ -545,7 +545,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   open(order) {
     this.invoiceClientService.generateInvoiceClient$(order.idOrder).subscribe();
-    const modalRef = this.modalService.open(ModalsStatusComponent);
+    const modalRef = this.modalService.open(ModalsStatusComponent ,
+    {backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
       this.getListOrders();
@@ -556,7 +557,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   generateInvoice(order) {
     let pilot = order.invoiceSupplier === null ? false : true;
-    const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(GenerateInvoiceComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.order = order;
     modalRef.componentInstance.pilot = pilot;
     modalRef.result.then((result) => {
@@ -658,7 +660,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     if (this.valido) {
       this.verifyInvoice();
       if (this.listInvoiceClient.length > 0) {
-        const modalRef = this.modalService.open(ModalsInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+        const modalRef = this.modalService.open(ModalsInvoiceComponent,
+          { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
           modalRef.componentInstance.list = this.listInvoiceClient;
           modalRef.componentInstance.type = 1;
           modalRef.result.then((result) => {
@@ -721,7 +724,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       if (this.validoProvider) {
         this.verifyInvoice();
         if (this.listInvoiceSupplier.length > 0) {
-          const modalRef = this.modalService.open(ModalsInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+          const modalRef = this.modalService.open(ModalsInvoiceComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false });
             modalRef.componentInstance.list = this.listInvoiceSupplier;
             modalRef.componentInstance.type = 2;
             modalRef.result.then((result) => {

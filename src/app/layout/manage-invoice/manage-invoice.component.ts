@@ -128,7 +128,8 @@ export class ManageInvoiceComponent implements OnInit {
     });
   }
   open(invoice) {
-    const modalRef = this.modalService.open(GenerateInvoiceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(GenerateInvoiceComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.invoice = invoice;
     modalRef.componentInstance.order = undefined;
     modalRef.componentInstance.pilot = true;

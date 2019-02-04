@@ -40,7 +40,7 @@ export class PaymentsMadeComponent implements OnInit {
     private userStorageService: UserStorageService,
     private invoiceService: InvoiceClientService,
     private invoicePaymentService: InvoicePaymentService,
-    public router: Router) { 
+    public router: Router) {
       this.user = JSON.parse(userStorageService.getCurrentUser());
     }
 
@@ -126,7 +126,8 @@ export class PaymentsMadeComponent implements OnInit {
           this.notification.success('', res1);
         });
       } else {
-        const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
+        const modalRef = this.modalService.open(AddPaymentModalComponent,
+        { size: 'lg', backdrop  : 'static', keyboard  : false });
         modalRef.componentInstance.invoice = invoice;
         modalRef.componentInstance.action = action;
         modalRef.componentInstance.idsInvoiceClient = [invoice.idInvoice];
@@ -145,13 +146,14 @@ export class PaymentsMadeComponent implements OnInit {
       let partial = this.getPartialPayment(payment, this.invoice);
       if ((partial > this.invoice.due) && (payment.status == 0)) {
         this.translate
-        .get('The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.', 
+        .get('The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.',
         { value: 'The amount of the payment is greater than the debt of the invoice. Please verify the payment amount' })
         .subscribe((res1: string) => {
           this.notification.success('', res1);
         });
       } else {
-        const modalRef = this.modalService.open(ChangeStatusComponent);
+        const modalRef = this.modalService.open(ChangeStatusComponent ,
+        {backdrop  : 'static', keyboard  : false});
         modalRef.componentInstance.payment = payment;
         modalRef.result.then((result) => {
         const id = this.route.snapshot.paramMap.get('idInvoice');

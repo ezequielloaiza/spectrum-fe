@@ -816,7 +816,8 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationEuropaComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationEuropaComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
