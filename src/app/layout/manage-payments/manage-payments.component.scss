@@ -1,6 +1,6 @@
 @import '../../../styles/spectrum/spectrum';
 
-@include tr-sizes((3%,10%,13%,12%,12%,20%,15%,15%));
+@include tr-sizes((3%,10%,20%,12%,10%,13%,15%,15%));
 
 
 .search {
@@ -169,5 +169,9 @@
     border-bottom: 6px solid $bg-white;
     border-left: 6px solid transparent;
     content: '';
+  }
+
+  .payment{
+    text-align: center;
   }
 }

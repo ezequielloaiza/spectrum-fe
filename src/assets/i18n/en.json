@@ -924,5 +924,6 @@
     "Select Status":"Select Status",
     "Select Period":"Select Period",
     "General Balance":"General Balance",
-    "The shipping address is used in an order":"The shipping address is used in an order"
+    "The shipping address is used in an order":"The shipping address is used in an order",
+    "Pending Payment":"Pending Payment"
 }

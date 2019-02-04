@@ -77,6 +77,10 @@
                     </span>
                   </th>
                   <th class="table-tr header-column">
+                    <span title="{{ 'Pending Payment' | translate }}">{{ 'Pending Payment' | translate }}
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
                     <span title="{{ 'Invoice No' | translate }}">{{ 'Invoice No' | translate }}
                       <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
                     </span>
@@ -154,6 +158,12 @@
                   </td>
                   <td *ngIf="invoice.status === 3" class="table-tr" class="inactive">
                     <div>{{'Overdue' | translate }}</div>
+                  </td>
+                  <td *ngIf="invoice.pay === true" class="table-tr td-table payment">
+                    <div>{{'Yes' | translate }}</div>
+                  </td>
+                  <td *ngIf="invoice.pay === false" class="table-tr td-table payment">
+                    <div>{{'No' | translate }}</div>
                   </td>
                   <td class="table-tr td-table">{{invoice.number}}</td>
                   <td class="table-tr td-table">{{invoice.date  | date:'yyyy-MM-dd'}}</td>

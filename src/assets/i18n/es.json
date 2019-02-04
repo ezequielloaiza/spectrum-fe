@@ -1102,5 +1102,6 @@
     "Select Status":"Seleccione Estado",
     "Select Period":"Seleccione Período",
     "General Balance":"Balance General",
-    "The shipping address is used in an order":"La dirección de envío es usada en una orden"
+    "The shipping address is used in an order":"La dirección de envío es usada en una orden",
+    "Pending Payment":"Pago pendiente"
 }
