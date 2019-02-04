@@ -1101,5 +1101,6 @@
     "Detailed Products Report":"Reporte Detallado de Productos",
     "Select Status":"Seleccione Estado",
     "Select Period":"Seleccione Período",
-    "General Balance":"Balance General"
+    "General Balance":"Balance General",
+    "The shipping address is used in an order":"La dirección de envío es usada en una orden"
 }
