@@ -14,6 +14,7 @@ import { ReportInvoicesOverdueComponent } from './reports-list/report-invoices-o
 import { ReportPaymentsComponent } from './reports-list/report-payments/report-payments.component';
 import { ReportProductMembershipComponent } from './reports-list/report-product-membership/report-product-membership.component';
 import { ReportBalanceClientComponent } from './reports-list/report-balance-client/report-balance-client.component';
+import { ReportGeneralBalanceComponent } from './reports-list/report-general-balance/report-general-balance.component';
 
 @NgModule({
   imports: [
@@ -33,13 +34,15 @@ import { ReportBalanceClientComponent } from './reports-list/report-balance-clie
     ReportInvoicesOverdueComponent,
     ReportProductMembershipComponent,
     ReportPaymentsComponent,
-    ReportBalanceClientComponent
+    ReportBalanceClientComponent,
+    ReportGeneralBalanceComponent
   ],
   entryComponents: [
     ReportInvoicesOverdueComponent,
     ReportProductMembershipComponent,
     ReportPaymentsComponent,
     ReportBalanceClientComponent,
+    ReportGeneralBalanceComponent
   ],
   providers: [RoleGuard, AuthorizationService]
 })
