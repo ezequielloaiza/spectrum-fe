@@ -12,6 +12,7 @@ import { ReportPaymentsComponent } from './report-payments/report-payments.compo
 import { ReportProductMembershipComponent } from './report-product-membership/report-product-membership.component';
 import { ReportBalanceClientComponent } from './report-balance-client/report-balance-client.component';
 import { ReportSalesByProductComponent } from './report-sales-by-product/report-sales-by-product.component';
+import { ReportGeneralBalanceComponent } from './report-general-balance/report-general-balance.component';
 
 @Component({
   selector: 'app-reports-list',
@@ -20,12 +21,13 @@ import { ReportSalesByProductComponent } from './report-sales-by-product/report-
 })
 export class ReportsListComponent implements OnInit {
 
-  listReport = [{ id: 1, name: 'Overdue Invoices Report' },
-  { id: 2, name: 'Payments Report' },
-  { id: 3, name: 'Products Report' },
-  { id: 4, name: 'Detailed Products Report' },
-  { id: 5, name: 'Clients Balance' },
-  { id: 6, name: 'Sales by Product Report' }];
+  listReport = [{id: 1, name: 'Overdue Invoices Report'},
+                {id: 2, name: 'Payments Report'},
+                {id: 3, name: 'Products Report'},
+                {id: 4, name: 'Detailed Products Report'},
+                {id: 5, name: 'Clients Balance'},
+                {id: 6, name: 'General Balance'},
+                {id: 7, name: 'Sales by Product Report'}];
   currentUser: any;
   user: any;
   products: Array<any> = new Array;
@@ -95,13 +97,21 @@ export class ReportsListComponent implements OnInit {
           });
           break;
         case 6: {
-          const modalRef6 = this.modalService.open(ReportSalesByProductComponent, { size: 'lg' });
+          const modalRef6 = this.modalService.open(ReportGeneralBalanceComponent, { size: 'lg' });
           modalRef6.result.then((result) => {
             this.ngOnInit();
           }, (reason) => {
           });
           break;
         }
+        break;
+        case 7:
+          const modalRef7 = this.modalService.open(ReportSalesByProductComponent, { size: 'lg' });
+          modalRef7.result.then((result) => {
+            this.ngOnInit();
+          }, (reason) => {
+          });
+        break;
       }
     }
   }
