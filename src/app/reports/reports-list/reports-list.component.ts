@@ -104,7 +104,6 @@ export class ReportsListComponent implements OnInit {
           });
           break;
         }
-        break;
         case 7:
           const modalRef7 = this.modalService.open(ReportSalesByProductComponent, { size: 'lg' });
           modalRef7.result.then((result) => {
