@@ -72,4 +72,10 @@ export class InvoiceClientService {
       responseType: 'blob'
     });
   }
+
+  public downloadGeneralBalance$(request): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesClient/downloadGeneralBalance', request, {
+      responseType: 'blob'
+    });
+  }
 }
