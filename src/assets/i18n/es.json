@@ -1106,5 +1106,6 @@
     "Select Country": "Seleccione País",
     "Select Product": "Seleccione Producto",
     "There are no orders": "No hay ordenes",
-    "Sales by Product Report": "Reporte de Ventas por Producto"
+    "Sales by Product Report": "Reporte de Ventas por Producto",
+    "The shipping address is used in an order":"La dirección de envío es usada en una orden"
 }

@@ -39,7 +39,8 @@ export class SupplierMagicLookComponent implements OnInit {
   }
 
   openEdit() {
-    const modalRefMagic = this.modalService.open( MagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRefMagic = this.modalService.open( MagicLookComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false });
     modalRefMagic.componentInstance.detailEdit = this.lista;
     modalRefMagic.componentInstance.typeEdit = 2;
     modalRefMagic.componentInstance.userOrder = this.order.user;

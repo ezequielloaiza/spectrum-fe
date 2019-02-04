@@ -77,7 +77,7 @@
                 <td class="table-tr td-table"> {{ address.country? (address.country.name | translate) : '' }}</td>
                 <td>
                   <div class="custom-control custom-radio">
-                    <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="address.isMain" class="custom-control-input" [checked]="address.isMain===true" disabled>
+                    <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="address.isMain" class="custom-control-input" [checked]="address.isMain === true" disabled>
                     <label class="custom-control-label" for="radioGroup{{i}}"></label>
                   </div>
                 </td>
@@ -89,7 +89,7 @@
                       <div ngbDropdownMenu>
                         <button class="dropdown-item" (click)="open(address,'edit')">
                           <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
-                        <button class="dropdown-item" (click)="delete(address.idAddress)">
+                        <button class="dropdown-item" (click)="delete(address.idAddress)" [hidden]="address.isMain === true">
                           <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
                         <button class="dropdown-item" (click)="is_main(address.idAddress)">
                           <i class="fa fa-check"></i> {{ 'Main' | translate }}</button>
