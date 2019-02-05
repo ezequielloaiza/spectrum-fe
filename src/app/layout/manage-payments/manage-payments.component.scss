@@ -1,6 +1,6 @@
 @import '../../../styles/spectrum/spectrum';
 
-@include tr-sizes((3%,10%,20%,12%,10%,13%,15%,15%));
+@include tr-sizes((2%,7%,14%,18%,8%,12%,12%,12%,15%));
 
 
 .search {
@@ -145,6 +145,10 @@
   padding-top: 0;
 }
 
+.align-center {
+  text-align: center;
+}
+
 .dropdown-menu {
   left: -33px !important;
 
@@ -171,7 +175,4 @@
     content: '';
   }
 
-  .payment{
-    text-align: center;
-  }
 }

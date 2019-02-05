@@ -159,10 +159,10 @@
                   <td *ngIf="invoice.status === 3" class="table-tr" class="inactive">
                     <div>{{'Overdue' | translate }}</div>
                   </td>
-                  <td *ngIf="invoice.pay === true" class="table-tr td-table payment">
+                  <td *ngIf="invoice.pay === true" class="table-tr td-table align-center">
                     <div>{{'Yes' | translate }}</div>
                   </td>
-                  <td *ngIf="invoice.pay === false" class="table-tr td-table payment">
+                  <td *ngIf="invoice.pay === false" class="table-tr td-table align-center">
                     <div>{{'No' | translate }}</div>
                   </td>
                   <td class="table-tr td-table">{{invoice.number}}</td>
