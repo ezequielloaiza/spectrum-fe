@@ -77,7 +77,11 @@
                     </span>
                   </th>
                   <th class="table-tr header-column">
-                    <span title="{{ 'Pending Payment' | translate }}">{{ 'Pending Payment' | translate }}
+                    <span title="{{ 'Pending Payment' | translate }}">{{ 'Pending Payment' | translate }}  <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('pay')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'pay' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('pay')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('pay')"></i>
                     </span>
                   </th>
                   <th class="table-tr header-column">

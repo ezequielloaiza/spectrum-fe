@@ -419,7 +419,9 @@
                     <tr>
                       <th>{{ 'Status' | translate }}</th>
                       <th>{{ 'Invoice No' | translate }}</th>
+                      <th>{{ 'Due Date' | translate }}</th>
                       <th>{{ 'Customer' | translate }}</th>
+                      <th>{{ 'Amount Due' | translate }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -437,7 +439,9 @@
                         <div>{{'Overdue' | translate }}</div>
                       </td>
                       <td>{{ invoice.number }}</td>
+                      <td class="table-tr td-table">{{invoice.dueDate  | date:'yyyy-MM-dd'}}</td>
                       <td>{{ invoice.user.name }}</td>
+                      <td class="table-tr">{{invoice.due | currency : "USD $"}}</td>
                     </tr>
                   </tbody>
                 </table>
