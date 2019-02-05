@@ -97,7 +97,8 @@ export class ReportsListComponent implements OnInit {
           });
           break;
         case 6: {
-          const modalRef6 = this.modalService.open(ReportGeneralBalanceComponent, { size: 'lg' });
+          const modalRef6 = this.modalService.open(ReportGeneralBalanceComponent,
+            { size: 'lg', backdrop: 'static', keyboard: false });
           modalRef6.result.then((result) => {
             this.ngOnInit();
           }, (reason) => {
@@ -105,7 +106,8 @@ export class ReportsListComponent implements OnInit {
           break;
         }
         case 7:
-          const modalRef7 = this.modalService.open(ReportSalesByProductComponent, { size: 'lg' });
+          const modalRef7 = this.modalService.open(ReportSalesByProductComponent,
+            { size: 'lg', backdrop: 'static', keyboard: false });
           modalRef7.result.then((result) => {
             this.ngOnInit();
           }, (reason) => {
