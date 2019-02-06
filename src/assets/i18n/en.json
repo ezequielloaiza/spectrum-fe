@@ -923,7 +923,14 @@
     "Detailed Products Report":"Detailed Products Report",
     "Select Status":"Select Status",
     "Select Period":"Select Period",
+    "All Products": "All Products",
+    "By Product": "By Product",
+    "Select Country": "Select Country",
+    "Select Product": "Select Product",
+    "There are no orders": "There are no orders",
+    "Sales by Product Report": "Sales by Product Report",
     "General Balance":"General Balance",
     "The shipping address is used in an order":"The shipping address is used in an order",
-    "Pending Payment":"Pending Payment"
+    "Pending Payment":"Pending Payment",
+    "There are no records for the report": "There are no records for the report"
 }

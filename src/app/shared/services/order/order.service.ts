@@ -101,4 +101,15 @@ export class OrderService {
   public findByIds$(listIds: Array<String>): Observable<any> {
     return this.http.post(environment.apiUrl + 'order/allOrderByIds', listIds);
   }
+
+  public findAllCountries$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/findAllCountries');
+  }
+
+  public reportSalesAllOrByProduct$(request): Observable<any> {
+    return this.http.post(environment.apiUrl + 'order/reportSalesAllOrByProduct', request, {
+      responseType: 'blob'
+    });
+  }
+
 }
