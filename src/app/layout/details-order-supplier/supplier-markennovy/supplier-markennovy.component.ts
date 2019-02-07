@@ -41,7 +41,8 @@ export class SupplierMarkennovyComponent implements OnInit {
   }
 
   openEdit() {
-    const modalRefMarkennovy = this.modalService.open( MarkennovyComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRefMarkennovy = this.modalService.open( MarkennovyComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false });
     modalRefMarkennovy.componentInstance.detailEdit = this.lista;
     modalRefMarkennovy.componentInstance.typeEdit = 2;
     modalRefMarkennovy.componentInstance.userOrder = this.order.user;

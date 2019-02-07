@@ -30,9 +30,7 @@ export class ReportInvoicesOverdueComponent implements OnInit {
   constructor(public modalReference: NgbActiveModal,
     private notification: ToastrService,
     private translate: TranslateService,
-    private alertify: AlertifyService,
     private userStorageService: UserStorageService,
-    private userService: UserService,
     private invoiceClientService: InvoiceClientService,
     private spinner: NgxSpinnerService) {
       this.user = JSON.parse(this.userStorageService.getCurrentUser());

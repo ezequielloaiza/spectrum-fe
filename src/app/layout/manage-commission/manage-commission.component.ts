@@ -419,7 +419,8 @@ export class ManageCommissionComponent implements OnInit {
   }
 
   changeStatus(commission) {
-    const modalRef = this.modalService.open(ChangeStatusCommissionComponent);
+    const modalRef = this.modalService.open(ChangeStatusCommissionComponent ,
+    {backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.commission = commission;
     modalRef.result.then((result) => {
       this.ngOnInit();

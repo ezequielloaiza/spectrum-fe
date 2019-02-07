@@ -6,7 +6,7 @@ import { AlertifyService } from '../../shared/services/alertify/alertify.service
 import { UserStorageService } from '../../http/user-storage.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { GenerateInvoiceComponent } from '../manage-customer-orders/generate-invoice/generate-invoice.component';
-import { OrderService } from '../../shared/services';
+import { OrderService, InvoicePaymentService } from '../../shared/services';
 import { saveAs } from 'file-saver';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
@@ -48,7 +48,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   fechaSelec: NgbDatepicker;
   search: String;
   navigationSubscription;
-  
+  listPayments: Array<any> = new Array;
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
     private notification: ToastrService,
@@ -58,7 +58,8 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     private invoiceService: InvoiceClientService,
     private spinner: NgxSpinnerService,
     public router: Router,
-    private route: ActivatedRoute) { 
+    private route: ActivatedRoute,
+    private invoicePaymentService: InvoicePaymentService) {
       this.user = JSON.parse(userStorageService.getCurrentUser());
       this.navigationSubscription = this.router.events.subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
@@ -109,6 +110,14 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;
           this.listInvoicesAux = res.data;
+          _.each(this.listInvoices, function(invoice) {
+            invoice.pay = false;
+            _.each(invoice.invoiceClientInvoicePayments, function(payment) {
+              if (payment.invoicePayment.status === 0) {
+                invoice.pay = true;
+              }
+            });
+           });
           this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
           this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
           this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
@@ -430,7 +439,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     this.selectedAll = false;
     this.listAux = arrayAux;
     this.listAux.length > 1 ? this.valid = true : this.valid = false;
-    this.listAux.length === this.listInvoices.length ? this.selectedAll = true : this.selectedAll = false; 
+    this.listAux.length === this.listInvoices.length ? this.selectedAll = true : this.selectedAll = false;
   }
 
   onSelectionAll(event) {
@@ -468,7 +477,8 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   }
 
   openModal(invoice, action, payment): void {
-    const modalRef = this.modalService.open(AddPaymentModalComponent, { size: 'lg' });
+    const modalRef = this.modalService.open(AddPaymentModalComponent,
+    { size: 'lg', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.invoice = invoice;
     modalRef.componentInstance.action = action;
     modalRef.componentInstance.invoicePayment = payment;
@@ -480,4 +490,3 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   }
 
 }
-

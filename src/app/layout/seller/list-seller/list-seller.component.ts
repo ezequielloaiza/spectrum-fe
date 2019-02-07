@@ -121,7 +121,8 @@ export class ListSellerComponent implements OnInit {
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open(SellerModalComponent, { size: 'lg', windowClass: 'modal-content-seller' });
+    const modalRef = this.modalService.open(SellerModalComponent,
+    { size: 'lg', windowClass: 'modal-content-seller', backdrop  : 'static', keyboard  : false });
     modalRef.result.then((result) => {
       this.getListSellers(-1);
       this.moveFirstPage();

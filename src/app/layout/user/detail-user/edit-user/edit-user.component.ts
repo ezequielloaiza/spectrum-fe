@@ -136,7 +136,8 @@ export class EditUserComponent implements OnInit {
   }
 
   openSeller(): void {
-    const modalRef = this.modalService.open(ListUserModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(ListUserModalComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false});
     modalRef.result.then((result) => {
       this.form.get('userId').setValue(result.idUser);
       this.nameSeller = result.name;

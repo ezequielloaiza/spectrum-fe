@@ -6,7 +6,8 @@ import { AlertifyService } from '../../shared/services/alertify/alertify.service
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
-
+import { OrderService } from '../../shared/services';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-shipping-address',
   templateUrl: './shipping-address.component.html',
@@ -22,13 +23,16 @@ export class ShippingAddressComponent implements OnInit {
 	/*initial order*/
 	orderByField = 'idAddress';
 	reverseSort = true;
-	typeSort = 0;
+  typeSort = 0;
+  valido = true;
+  orders: Array<any> = new Array;
 
 	constructor(private modalService: NgbModal,
 							private shippingAddressService: ShippingAddressService,
 							private alertify: AlertifyService,
 							private notification: ToastrService,
-						  private translate: TranslateService){}
+              private translate: TranslateService,
+              private orderService: OrderService){}
 
   ngOnInit() {
 		this.getAddress();
@@ -36,7 +40,8 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   open(address,action) {
-		const modalRef = this.modalService.open(ShippingAddressModalComponent);
+    const modalRef = this.modalService.open(ShippingAddressModalComponent ,
+    {backdrop  : 'static', keyboard  : false});
 		modalRef.componentInstance.address = address;
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {
@@ -135,18 +140,6 @@ export class ShippingAddressComponent implements OnInit {
 		});
 	}
 
-  delete(id) {
-    this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
-      this.translate.get('Are you sure do you want to delete this register?',
-      { value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
-        this.alertify.confirm(title, msg, () => {
-          this.borrar(id);
-          }, () => {
-        });
-      });
-    });
-  }
-
 	pageChange(event) {
 		let startItem = (event - 1) * this.itemPerPage;
 		let endItem = event * this.itemPerPage;
@@ -175,4 +168,38 @@ export class ShippingAddressComponent implements OnInit {
     });
   }
 
+  delete(id) {
+    let valido = this.valido;
+    this.orderService.allOrderByUser$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.orders = res.data;
+        _.each(this.orders, function (order) {
+          if (order.address.idAddress === id) {
+            valido = false;
+            return;
+          }
+        });
+        if (valido) {
+          this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
+                this.translate.get('Are you sure do you want to delete this register?',
+                { value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
+                  this.alertify.confirm(title, msg, () => {
+                    this.borrar(id);
+                    }, () => {
+                  });
+                });
+              });
+        } else {
+          this.translate.get('The shipping address is used in an order',
+           {value: 'The shipping address is used in an order'}).subscribe((res: string) => {
+            this.notification.warning('', res);
+          });
+        }
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
 }

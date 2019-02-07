@@ -90,7 +90,8 @@ export class DetailsOrderClientComponent implements OnInit {
   }
 
   generateOrder(order): void {
-  const modalRef = this.modalService.open(ModalsConfirmationComponent);
+  const modalRef = this.modalService.open(ModalsConfirmationComponent ,
+  {backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
       } , (reason) => {
@@ -139,7 +140,8 @@ export class DetailsOrderClientComponent implements OnInit {
   }
 
   openEdit(lista, image) {
-    const modalRefSalineFluo = this.modalService.open( SalineFluoComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRefSalineFluo = this.modalService.open( SalineFluoComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false });
     modalRefSalineFluo.componentInstance.detailEdit = lista;
     modalRefSalineFluo.componentInstance.typeEdit = 2;
     modalRefSalineFluo.componentInstance.userOrder = this.order.user;

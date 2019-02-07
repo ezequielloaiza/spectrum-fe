@@ -33,4 +33,14 @@ export class InvoicePaymentService {
   public changeStatus$(idPayment, IdStatus): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesPayment/changeStatus/' + idPayment + '/' + IdStatus);
   }
+
+  public generateReportPayments$(request): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesPayment/downloadReportPayment', request, {
+      responseType: 'blob'
+    });
+  }
+
+  public usersWithPayments$(idUser): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesPayment/usersWithPayments/' + idUser);
+  }
 }

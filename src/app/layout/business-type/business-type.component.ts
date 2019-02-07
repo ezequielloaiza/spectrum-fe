@@ -38,8 +38,9 @@ export class BusinessTypeComponent implements OnInit {
     this.advancedPagination = 1;
   }
 
-  open(businesstype,action) {
-    const modalRef = this.modalService.open(BusinessTypeModalComponent);
+  open(businesstype, action) {
+    const modalRef = this.modalService.open(BusinessTypeModalComponent ,
+    {backdrop : 'static', keyboard : false });
     modalRef.componentInstance.businesstype = businesstype;
     modalRef.componentInstance.action = action;
     modalRef.result.then((result) => {

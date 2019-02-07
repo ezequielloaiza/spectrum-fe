@@ -58,7 +58,23 @@ export class InvoiceClientService {
     return this.http.get(environment.apiUrl + 'invoicesClient/usersWithInvoicesOverdue/' + idUser);
   }
 
+  public usersWithInvoices$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/usersWithInvoices');
+  }
+
   public invoicesOverdue$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesClient/invoicesOverdue');
+  }
+
+  public downloadReportBalance$(request): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesClient/downloadReportBalance', request, {
+      responseType: 'blob'
+    });
+  }
+
+  public downloadGeneralBalance$(request): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesClient/downloadGeneralBalance', request, {
+      responseType: 'blob'
+    });
   }
 }
