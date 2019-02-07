@@ -87,6 +87,11 @@ var ProductService = /** @class */ (function () {
     ProductService.prototype.getQuote$ = function (idUser, idProduct) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'products/getQuote/' + idUser + '/' + idProduct);
     };
+    ProductService.prototype.downloadProducts$ = function (idSupplier) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'products/downloadProduct/' + idSupplier, {
+            responseType: 'blob'
+        });
+    };
     ProductService.prototype.reportAllOrBySupplier$ = function (idSupplier) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'products/reportAllOrBySupplier/' + idSupplier, {
             responseType: 'blob'

@@ -2310,7 +2310,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
         var idSupplier = basket.productRequested.product.supplier.idSupplier;
         switch (idSupplier) {
             case 1:// Markennovy
-                var modalRefMarkennovy = this.modalService.open(_modals_detail_product_detail_markennovy_detail_markennovy_component__WEBPACK_IMPORTED_MODULE_19__["DetailMarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefMarkennovy = this.modalService.open(_modals_detail_product_detail_markennovy_detail_markennovy_component__WEBPACK_IMPORTED_MODULE_19__["DetailMarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefMarkennovy.componentInstance.basket = basket;
                 modalRefMarkennovy.result.then(function (result) {
                     _this.ngOnInit();
@@ -2318,7 +2318,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 2:// Europa
-                var modalRefEuropa = this.modalService.open(_modals_detail_product_detail_europa_detail_europa_component__WEBPACK_IMPORTED_MODULE_22__["DetailEuropaComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefEuropa = this.modalService.open(_modals_detail_product_detail_europa_detail_europa_component__WEBPACK_IMPORTED_MODULE_22__["DetailEuropaComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefEuropa.componentInstance.basket = basket;
                 modalRefEuropa.result.then(function (result) {
                     _this.ngOnInit();
@@ -2326,7 +2326,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 3:// Lenticon
-                var modalRefLenticon = this.modalService.open(_modals_detail_product_detail_lenticon_detail_lenticon_component__WEBPACK_IMPORTED_MODULE_27__["DetailLenticonComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefLenticon = this.modalService.open(_modals_detail_product_detail_lenticon_detail_lenticon_component__WEBPACK_IMPORTED_MODULE_27__["DetailLenticonComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefLenticon.componentInstance.basket = basket;
                 modalRefLenticon.result.then(function (result) {
                     _this.ngOnInit();
@@ -2334,7 +2334,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 4:// Euclid
-                var modalRefEuclid = this.modalService.open(_modals_detail_product_detail_euclid_detail_euclid_component__WEBPACK_IMPORTED_MODULE_21__["DetailEuclidComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefEuclid = this.modalService.open(_modals_detail_product_detail_euclid_detail_euclid_component__WEBPACK_IMPORTED_MODULE_21__["DetailEuclidComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefEuclid.componentInstance.basket = basket;
                 modalRefEuclid.result.then(function (result) {
                     _this.ngOnInit();
@@ -2342,7 +2342,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 5:// Magic Look
-                var modalRefMagic = this.modalService.open(_modals_detail_product_detail_magic_look_detail_magic_look_component__WEBPACK_IMPORTED_MODULE_18__["DetailMagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefMagic = this.modalService.open(_modals_detail_product_detail_magic_look_detail_magic_look_component__WEBPACK_IMPORTED_MODULE_18__["DetailMagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefMagic.componentInstance.basket = basket;
                 modalRefMagic.result.then(function (result) {
                     _this.ngOnInit();
@@ -2350,7 +2350,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 6:// Blue Light
-                var modalRefBlue = this.modalService.open(_modals_detail_product_detail_blue_light_detail_blue_light_component__WEBPACK_IMPORTED_MODULE_20__["DetailBlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefBlue = this.modalService.open(_modals_detail_product_detail_blue_light_detail_blue_light_component__WEBPACK_IMPORTED_MODULE_20__["DetailBlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefBlue.componentInstance.basket = basket;
                 modalRefBlue.result.then(function (result) {
                     _this.ngOnInit();
@@ -2358,7 +2358,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 7:// Fluo strips y spectrum saline
-                var modalRefFluoSaline = this.modalService.open(_modals_detail_product_detail_saline_fluo_detail_saline_fluo_component__WEBPACK_IMPORTED_MODULE_25__["DetailSalineFluoComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefFluoSaline = this.modalService.open(_modals_detail_product_detail_saline_fluo_detail_saline_fluo_component__WEBPACK_IMPORTED_MODULE_25__["DetailSalineFluoComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefFluoSaline.componentInstance.basket = basket;
                 modalRefFluoSaline.result.then(function (result) {
                     _this.ngOnInit();
@@ -2372,7 +2372,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
         var idSupplier = basket.productRequested.product.supplier.idSupplier;
         switch (idSupplier) {
             case 1:// Markennovy
-                var modalRefMarkennovy = this.modalService.open(_edit_order_markennovy_markennovy_component__WEBPACK_IMPORTED_MODULE_17__["MarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefMarkennovy = this.modalService.open(_edit_order_markennovy_markennovy_component__WEBPACK_IMPORTED_MODULE_17__["MarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefMarkennovy.componentInstance.basket = basket;
                 modalRefMarkennovy.componentInstance.typeEdit = 1;
                 modalRefMarkennovy.result.then(function (result) {
@@ -2381,7 +2381,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 2:// Europa
-                var modalRefEuropa = this.modalService.open(_edit_order_europa_europa_component__WEBPACK_IMPORTED_MODULE_23__["EuropaComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefEuropa = this.modalService.open(_edit_order_europa_europa_component__WEBPACK_IMPORTED_MODULE_23__["EuropaComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefEuropa.componentInstance.basket = basket;
                 modalRefEuropa.componentInstance.typeEdit = 1;
                 modalRefEuropa.result.then(function (result) {
@@ -2390,7 +2390,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 3:// Lenticon
-                var modalRefLenticon = this.modalService.open(_edit_order_lenticon_lenticon_component__WEBPACK_IMPORTED_MODULE_28__["LenticonComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefLenticon = this.modalService.open(_edit_order_lenticon_lenticon_component__WEBPACK_IMPORTED_MODULE_28__["LenticonComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefLenticon.componentInstance.basket = basket;
                 modalRefLenticon.componentInstance.typeEdit = 1;
                 modalRefLenticon.result.then(function (result) {
@@ -2399,7 +2399,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 4:// Euclid
-                var modalRefEuclid = this.modalService.open(_edit_order_euclid_euclid_component__WEBPACK_IMPORTED_MODULE_16__["EuclidComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefEuclid = this.modalService.open(_edit_order_euclid_euclid_component__WEBPACK_IMPORTED_MODULE_16__["EuclidComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefEuclid.componentInstance.basket = basket;
                 modalRefEuclid.componentInstance.typeEdit = 1;
                 modalRefEuclid.result.then(function (result) {
@@ -2408,7 +2408,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 5:// Magic Look
-                var modalRefMagic = this.modalService.open(_edit_order_magic_look_magic_look_component__WEBPACK_IMPORTED_MODULE_14__["MagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefMagic = this.modalService.open(_edit_order_magic_look_magic_look_component__WEBPACK_IMPORTED_MODULE_14__["MagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefMagic.componentInstance.basket = basket;
                 modalRefMagic.componentInstance.typeEdit = 1;
                 modalRefMagic.result.then(function (result) {
@@ -2417,7 +2417,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 6:// Blue Light
-                var modalRefBlue = this.modalService.open(_edit_order_blue_light_blue_light_component__WEBPACK_IMPORTED_MODULE_15__["BlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefBlue = this.modalService.open(_edit_order_blue_light_blue_light_component__WEBPACK_IMPORTED_MODULE_15__["BlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefBlue.componentInstance.basket = basket;
                 modalRefBlue.componentInstance.typeEdit = 1;
                 modalRefBlue.result.then(function (result) {
@@ -2426,7 +2426,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
                 });
                 break;
             case 7:// Fluo strips y spectrum saline
-                var modalRefSalineFluo = this.modalService.open(_edit_order_saline_fluo_saline_fluo_component__WEBPACK_IMPORTED_MODULE_26__["SalineFluoComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefSalineFluo = this.modalService.open(_edit_order_saline_fluo_saline_fluo_component__WEBPACK_IMPORTED_MODULE_26__["SalineFluoComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefSalineFluo.componentInstance.basket = basket;
                 modalRefSalineFluo.componentInstance.typeEdit = 1;
                 modalRefSalineFluo.result.then(function (result) {
@@ -2441,7 +2441,7 @@ var DetailsBasketClientComponent = /** @class */ (function () {
         this.buyBasket.idUser = this.id;
         this.buyBasket.listBasket = this.productRequestedToBuy;
         this.buyBasket.idRole = this.user.role.idRole;
-        var modalRef = this.modalService.open(_modals_summary_products_summary_products_component__WEBPACK_IMPORTED_MODULE_13__["SummaryProductsComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_summary_products_summary_products_component__WEBPACK_IMPORTED_MODULE_13__["SummaryProductsComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.subtotal = this.subtotal;
         modalRef.componentInstance.total = this.total;
         modalRef.componentInstance.buyBasket = this.buyBasket;
@@ -2841,7 +2841,7 @@ var ListBasketComponent = /** @class */ (function () {
         var idSupplier = basket.productRequested.product.supplier.idSupplier;
         switch (idSupplier) {
             case 1:// Markennovy
-                var modalRefMarkennovy = this.modalService.open(_modals_detail_product_detail_markennovy_detail_markennovy_component__WEBPACK_IMPORTED_MODULE_18__["DetailMarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefMarkennovy = this.modalService.open(_modals_detail_product_detail_markennovy_detail_markennovy_component__WEBPACK_IMPORTED_MODULE_18__["DetailMarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefMarkennovy.componentInstance.basket = basket;
                 modalRefMarkennovy.result.then(function (result) {
                     _this.ngOnInit();
@@ -2849,7 +2849,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 2:// Europa
-                var modalRefEuropa = this.modalService.open(_modals_detail_product_detail_europa_detail_europa_component__WEBPACK_IMPORTED_MODULE_21__["DetailEuropaComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefEuropa = this.modalService.open(_modals_detail_product_detail_europa_detail_europa_component__WEBPACK_IMPORTED_MODULE_21__["DetailEuropaComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefEuropa.componentInstance.basket = basket;
                 modalRefEuropa.result.then(function (result) {
                     _this.ngOnInit();
@@ -2857,7 +2857,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 3:// Lenticon
-                var modalRefLenticon = this.modalService.open(_modals_detail_product_detail_lenticon_detail_lenticon_component__WEBPACK_IMPORTED_MODULE_26__["DetailLenticonComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefLenticon = this.modalService.open(_modals_detail_product_detail_lenticon_detail_lenticon_component__WEBPACK_IMPORTED_MODULE_26__["DetailLenticonComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefLenticon.componentInstance.basket = basket;
                 modalRefLenticon.result.then(function (result) {
                     _this.ngOnInit();
@@ -2865,7 +2865,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 4:// Euclid
-                var modalRefEuclid = this.modalService.open(_modals_detail_product_detail_euclid_detail_euclid_component__WEBPACK_IMPORTED_MODULE_20__["DetailEuclidComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefEuclid = this.modalService.open(_modals_detail_product_detail_euclid_detail_euclid_component__WEBPACK_IMPORTED_MODULE_20__["DetailEuclidComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefEuclid.componentInstance.basket = basket;
                 modalRefEuclid.result.then(function (result) {
                     _this.ngOnInit();
@@ -2873,7 +2873,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 5:// Magic Look
-                var modalRefMagic = this.modalService.open(_modals_detail_product_detail_magic_look_detail_magic_look_component__WEBPACK_IMPORTED_MODULE_17__["DetailMagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefMagic = this.modalService.open(_modals_detail_product_detail_magic_look_detail_magic_look_component__WEBPACK_IMPORTED_MODULE_17__["DetailMagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefMagic.componentInstance.basket = basket;
                 modalRefMagic.result.then(function (result) {
                     _this.ngOnInit();
@@ -2881,7 +2881,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 6:// Blue Light
-                var modalRefBlue = this.modalService.open(_modals_detail_product_detail_blue_light_detail_blue_light_component__WEBPACK_IMPORTED_MODULE_19__["DetailBlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefBlue = this.modalService.open(_modals_detail_product_detail_blue_light_detail_blue_light_component__WEBPACK_IMPORTED_MODULE_19__["DetailBlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefBlue.componentInstance.basket = basket;
                 modalRefBlue.result.then(function (result) {
                     _this.ngOnInit();
@@ -2889,7 +2889,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 7:// Fluo strips y spectrum saline
-                var modalRefFluoSaline = this.modalService.open(_modals_detail_product_detail_saline_fluo_detail_saline_fluo_component__WEBPACK_IMPORTED_MODULE_24__["DetailSalineFluoComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefFluoSaline = this.modalService.open(_modals_detail_product_detail_saline_fluo_detail_saline_fluo_component__WEBPACK_IMPORTED_MODULE_24__["DetailSalineFluoComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefFluoSaline.componentInstance.basket = basket;
                 modalRefFluoSaline.result.then(function (result) {
                     _this.ngOnInit();
@@ -2903,7 +2903,7 @@ var ListBasketComponent = /** @class */ (function () {
         var idSupplier = basket.productRequested.product.supplier.idSupplier;
         switch (idSupplier) {
             case 1:// Markennovy
-                var modalRefMarkennovy = this.modalService.open(_edit_order_markennovy_markennovy_component__WEBPACK_IMPORTED_MODULE_16__["MarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefMarkennovy = this.modalService.open(_edit_order_markennovy_markennovy_component__WEBPACK_IMPORTED_MODULE_16__["MarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefMarkennovy.componentInstance.basket = basket;
                 modalRefMarkennovy.componentInstance.typeEdit = 1;
                 modalRefMarkennovy.result.then(function (result) {
@@ -2912,7 +2912,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 2:// Europa
-                var modalRefEuropa = this.modalService.open(_edit_order_europa_europa_component__WEBPACK_IMPORTED_MODULE_22__["EuropaComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefEuropa = this.modalService.open(_edit_order_europa_europa_component__WEBPACK_IMPORTED_MODULE_22__["EuropaComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefEuropa.componentInstance.basket = basket;
                 modalRefEuropa.componentInstance.typeEdit = 1;
                 modalRefEuropa.result.then(function (result) {
@@ -2921,7 +2921,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 3:// Lenticon
-                var modalRefLenticon = this.modalService.open(_edit_order_lenticon_lenticon_component__WEBPACK_IMPORTED_MODULE_27__["LenticonComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefLenticon = this.modalService.open(_edit_order_lenticon_lenticon_component__WEBPACK_IMPORTED_MODULE_27__["LenticonComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefLenticon.componentInstance.basket = basket;
                 modalRefLenticon.componentInstance.typeEdit = 1;
                 modalRefLenticon.result.then(function (result) {
@@ -2930,7 +2930,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 4:// Euclid
-                var modalRefEuclid = this.modalService.open(_edit_order_euclid_euclid_component__WEBPACK_IMPORTED_MODULE_15__["EuclidComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefEuclid = this.modalService.open(_edit_order_euclid_euclid_component__WEBPACK_IMPORTED_MODULE_15__["EuclidComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefEuclid.componentInstance.basket = basket;
                 modalRefEuclid.componentInstance.typeEdit = 1;
                 modalRefEuclid.result.then(function (result) {
@@ -2939,7 +2939,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 5:// Magic Look
-                var modalRefMagic = this.modalService.open(_edit_order_magic_look_magic_look_component__WEBPACK_IMPORTED_MODULE_13__["MagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefMagic = this.modalService.open(_edit_order_magic_look_magic_look_component__WEBPACK_IMPORTED_MODULE_13__["MagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefMagic.componentInstance.basket = basket;
                 modalRefMagic.componentInstance.typeEdit = 1;
                 modalRefMagic.result.then(function (result) {
@@ -2948,7 +2948,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 6:// Blue Light
-                var modalRefBlue = this.modalService.open(_edit_order_blue_light_blue_light_component__WEBPACK_IMPORTED_MODULE_14__["BlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefBlue = this.modalService.open(_edit_order_blue_light_blue_light_component__WEBPACK_IMPORTED_MODULE_14__["BlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefBlue.componentInstance.basket = basket;
                 modalRefBlue.componentInstance.typeEdit = 1;
                 modalRefBlue.result.then(function (result) {
@@ -2957,7 +2957,7 @@ var ListBasketComponent = /** @class */ (function () {
                 });
                 break;
             case 7:// Fluo strips y spectrum saline
-                var modalRefSalineFluo = this.modalService.open(_edit_order_saline_fluo_saline_fluo_component__WEBPACK_IMPORTED_MODULE_25__["SalineFluoComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRefSalineFluo = this.modalService.open(_edit_order_saline_fluo_saline_fluo_component__WEBPACK_IMPORTED_MODULE_25__["SalineFluoComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRefSalineFluo.componentInstance.basket = basket;
                 modalRefSalineFluo.componentInstance.typeEdit = 1;
                 modalRefSalineFluo.result.then(function (result) {
@@ -2972,7 +2972,7 @@ var ListBasketComponent = /** @class */ (function () {
         this.buyBasket.idUser = this.user.userResponse.idUser;
         this.buyBasket.listBasket = this.productRequestedToBuy;
         this.buyBasket.idRole = this.user.role.idRole;
-        var modalRef = this.modalService.open(_modals_summary_products_summary_products_component__WEBPACK_IMPORTED_MODULE_12__["SummaryProductsComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_summary_products_summary_products_component__WEBPACK_IMPORTED_MODULE_12__["SummaryProductsComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.subtotal = this.subtotal;
         modalRef.componentInstance.total = this.total;
         modalRef.componentInstance.buyBasket = this.buyBasket;
@@ -3799,7 +3799,7 @@ var SummaryProductsComponent = /** @class */ (function () {
     };
     SummaryProductsComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_notification_balance_order_notification_balance_order_component__WEBPACK_IMPORTED_MODULE_9__["NotificationBalanceOrderComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_notification_balance_order_notification_balance_order_component__WEBPACK_IMPORTED_MODULE_9__["NotificationBalanceOrderComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.buyBasketModal = this.buyBasket;
         modalRef.componentInstance.type = 1;
         modalRef.result.then(function (result) {
@@ -3926,7 +3926,7 @@ var BusinessTypeComponent = /** @class */ (function () {
     };
     BusinessTypeComponent.prototype.open = function (businesstype, action) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_business_type_modal_business_type_modal_component__WEBPACK_IMPORTED_MODULE_5__["BusinessTypeModalComponent"]);
+        var modalRef = this.modalService.open(_modals_business_type_modal_business_type_modal_component__WEBPACK_IMPORTED_MODULE_5__["BusinessTypeModalComponent"], { backdrop: 'static', keyboard: false });
         modalRef.componentInstance.businesstype = businesstype;
         modalRef.componentInstance.action = action;
         modalRef.result.then(function (result) {
@@ -4288,7 +4288,7 @@ var CategoryComponent = /** @class */ (function () {
     };
     CategoryComponent.prototype.open = function (category, action) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_category_modal_category_modal_component__WEBPACK_IMPORTED_MODULE_7__["CategoryModalComponent"]);
+        var modalRef = this.modalService.open(_modals_category_modal_category_modal_component__WEBPACK_IMPORTED_MODULE_7__["CategoryModalComponent"], { backdrop: 'static', keyboard: false });
         modalRef.componentInstance.category = category;
         modalRef.componentInstance.action = action;
         modalRef.result.then(function (result) {
@@ -5205,7 +5205,7 @@ var SupplierBlueLightComponent = /** @class */ (function () {
     };
     SupplierBlueLightComponent.prototype.openEdit = function () {
         var _this = this;
-        var modalRefBlue = this.modalService.open(_edit_order_blue_light_blue_light_component__WEBPACK_IMPORTED_MODULE_3__["BlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRefBlue = this.modalService.open(_edit_order_blue_light_blue_light_component__WEBPACK_IMPORTED_MODULE_3__["BlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRefBlue.componentInstance.detailEdit = this.lista;
         modalRefBlue.componentInstance.typeEdit = 2;
         modalRefBlue.componentInstance.image = this.urlImage;
@@ -5344,7 +5344,7 @@ var SupplierEuclidComponent = /** @class */ (function () {
     };
     SupplierEuclidComponent.prototype.openEdit = function () {
         var _this = this;
-        var modalRefEuclid = this.modalService.open(_edit_order_euclid_euclid_component__WEBPACK_IMPORTED_MODULE_5__["EuclidComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRefEuclid = this.modalService.open(_edit_order_euclid_euclid_component__WEBPACK_IMPORTED_MODULE_5__["EuclidComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRefEuclid.componentInstance.detailEdit = this.lista;
         modalRefEuclid.componentInstance.typeEdit = 2;
         modalRefEuclid.componentInstance.userOrder = this.order.user;
@@ -5491,7 +5491,7 @@ var SupplierEuropaComponent = /** @class */ (function () {
     };
     SupplierEuropaComponent.prototype.openEdit = function () {
         var _this = this;
-        var modalRefEuropa = this.modalService.open(_edit_order_europa_europa_component__WEBPACK_IMPORTED_MODULE_9__["EuropaComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRefEuropa = this.modalService.open(_edit_order_europa_europa_component__WEBPACK_IMPORTED_MODULE_9__["EuropaComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRefEuropa.componentInstance.detailEdit = this.lista;
         modalRefEuropa.componentInstance.typeEdit = 2;
         modalRefEuropa.componentInstance.userOrder = this.order.user;
@@ -5638,7 +5638,7 @@ var SupplierLenticonComponent = /** @class */ (function () {
     };
     SupplierLenticonComponent.prototype.openEdit = function () {
         var _this = this;
-        var modalRefEuclid = this.modalService.open(_edit_order_lenticon_lenticon_component__WEBPACK_IMPORTED_MODULE_9__["LenticonComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRefEuclid = this.modalService.open(_edit_order_lenticon_lenticon_component__WEBPACK_IMPORTED_MODULE_9__["LenticonComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRefEuclid.componentInstance.detailEdit = this.lista;
         modalRefEuclid.componentInstance.typeEdit = 2;
         modalRefEuclid.componentInstance.userOrder = this.order.user;
@@ -5761,7 +5761,7 @@ var SupplierMagicLookComponent = /** @class */ (function () {
     };
     SupplierMagicLookComponent.prototype.openEdit = function () {
         var _this = this;
-        var modalRefMagic = this.modalService.open(_edit_order_magic_look_magic_look_component__WEBPACK_IMPORTED_MODULE_3__["MagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRefMagic = this.modalService.open(_edit_order_magic_look_magic_look_component__WEBPACK_IMPORTED_MODULE_3__["MagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRefMagic.componentInstance.detailEdit = this.lista;
         modalRefMagic.componentInstance.typeEdit = 2;
         modalRefMagic.componentInstance.userOrder = this.order.user;
@@ -5889,7 +5889,7 @@ var SupplierMarkennovyComponent = /** @class */ (function () {
     };
     SupplierMarkennovyComponent.prototype.openEdit = function () {
         var _this = this;
-        var modalRefMarkennovy = this.modalService.open(_edit_order_markennovy_markennovy_component__WEBPACK_IMPORTED_MODULE_6__["MarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRefMarkennovy = this.modalService.open(_edit_order_markennovy_markennovy_component__WEBPACK_IMPORTED_MODULE_6__["MarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRefMarkennovy.componentInstance.detailEdit = this.lista;
         modalRefMarkennovy.componentInstance.typeEdit = 2;
         modalRefMarkennovy.componentInstance.userOrder = this.order.user;
@@ -9214,7 +9214,7 @@ var ManageCommissionComponent = /** @class */ (function () {
     };
     ManageCommissionComponent.prototype.changeStatus = function (commission) {
         var _this = this;
-        var modalRef = this.modalService.open(_change_status_commission_change_status_commission_component__WEBPACK_IMPORTED_MODULE_11__["ChangeStatusCommissionComponent"]);
+        var modalRef = this.modalService.open(_change_status_commission_change_status_commission_component__WEBPACK_IMPORTED_MODULE_11__["ChangeStatusCommissionComponent"], { backdrop: 'static', keyboard: false });
         modalRef.componentInstance.commission = commission;
         modalRef.result.then(function (result) {
             _this.ngOnInit();
@@ -9377,7 +9377,7 @@ var DetailsOrderClientComponent = /** @class */ (function () {
     };
     DetailsOrderClientComponent.prototype.generateOrder = function (order) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_confirmation_modals_confirmation_component__WEBPACK_IMPORTED_MODULE_11__["ModalsConfirmationComponent"]);
+        var modalRef = this.modalService.open(_modals_confirmation_modals_confirmation_component__WEBPACK_IMPORTED_MODULE_11__["ModalsConfirmationComponent"], { backdrop: 'static', keyboard: false });
         modalRef.componentInstance.order = order;
         modalRef.result.then(function (result) {
         }, function (reason) {
@@ -9425,7 +9425,7 @@ var DetailsOrderClientComponent = /** @class */ (function () {
     };
     DetailsOrderClientComponent.prototype.openEdit = function (lista, image) {
         var _this = this;
-        var modalRefSalineFluo = this.modalService.open(_edit_order_saline_fluo_saline_fluo_component__WEBPACK_IMPORTED_MODULE_16__["SalineFluoComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRefSalineFluo = this.modalService.open(_edit_order_saline_fluo_saline_fluo_component__WEBPACK_IMPORTED_MODULE_16__["SalineFluoComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRefSalineFluo.componentInstance.detailEdit = lista;
         modalRefSalineFluo.componentInstance.typeEdit = 2;
         modalRefSalineFluo.componentInstance.userOrder = this.order.user;
@@ -10313,7 +10313,7 @@ var ListOrderClientComponent = /** @class */ (function () {
     ListOrderClientComponent.prototype.open = function (order) {
         var _this = this;
         this.invoiceClientService.generateInvoiceClient$(order.idOrder).subscribe();
-        var modalRef = this.modalService.open(_modals_status_modals_status_component__WEBPACK_IMPORTED_MODULE_7__["ModalsStatusComponent"]);
+        var modalRef = this.modalService.open(_modals_status_modals_status_component__WEBPACK_IMPORTED_MODULE_7__["ModalsStatusComponent"], { backdrop: 'static', keyboard: false });
         modalRef.componentInstance.order = order;
         modalRef.result.then(function (result) {
             _this.getListOrders();
@@ -10323,7 +10323,7 @@ var ListOrderClientComponent = /** @class */ (function () {
     ListOrderClientComponent.prototype.generateInvoice = function (order) {
         var _this = this;
         var pilot = order.invoiceSupplier === null ? false : true;
-        var modalRef = this.modalService.open(_generate_invoice_generate_invoice_component__WEBPACK_IMPORTED_MODULE_11__["GenerateInvoiceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_generate_invoice_generate_invoice_component__WEBPACK_IMPORTED_MODULE_11__["GenerateInvoiceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.order = order;
         modalRef.componentInstance.pilot = pilot;
         modalRef.result.then(function (result) {
@@ -10425,7 +10425,7 @@ var ListOrderClientComponent = /** @class */ (function () {
         if (this.valido) {
             this.verifyInvoice();
             if (this.listInvoiceClient.length > 0) {
-                var modalRef = this.modalService.open(_modals_invoice_modals_invoice_component__WEBPACK_IMPORTED_MODULE_17__["ModalsInvoiceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                var modalRef = this.modalService.open(_modals_invoice_modals_invoice_component__WEBPACK_IMPORTED_MODULE_17__["ModalsInvoiceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                 modalRef.componentInstance.list = this.listInvoiceClient;
                 modalRef.componentInstance.type = 1;
                 modalRef.result.then(function (result) {
@@ -10487,7 +10487,7 @@ var ListOrderClientComponent = /** @class */ (function () {
             if (this.validoProvider) {
                 this.verifyInvoice();
                 if (this.listInvoiceSupplier.length > 0) {
-                    var modalRef = this.modalService.open(_modals_invoice_modals_invoice_component__WEBPACK_IMPORTED_MODULE_17__["ModalsInvoiceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+                    var modalRef = this.modalService.open(_modals_invoice_modals_invoice_component__WEBPACK_IMPORTED_MODULE_17__["ModalsInvoiceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
                     modalRef.componentInstance.list = this.listInvoiceSupplier;
                     modalRef.componentInstance.type = 2;
                     modalRef.result.then(function (result) {
@@ -10883,7 +10883,7 @@ var ModalsConfirmationComponent = /** @class */ (function () {
     };
     ModalsConfirmationComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_notification_balance_order_notification_balance_order_component__WEBPACK_IMPORTED_MODULE_11__["NotificationBalanceOrderComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_notification_balance_order_notification_balance_order_component__WEBPACK_IMPORTED_MODULE_11__["NotificationBalanceOrderComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.orderModal = this.order;
         modalRef.componentInstance.type = 2;
         modalRef.result.then(function (result) {
@@ -11149,7 +11149,7 @@ var ModalsStatusComponent = /** @class */ (function () {
     };
     ModalsStatusComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_notification_balance_order_notification_balance_order_component__WEBPACK_IMPORTED_MODULE_10__["NotificationBalanceOrderComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_notification_balance_order_notification_balance_order_component__WEBPACK_IMPORTED_MODULE_10__["NotificationBalanceOrderComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.orderModal = this.order;
         modalRef.componentInstance.newStatus = this.idStatus;
         modalRef.componentInstance.type = 3;
@@ -11351,7 +11351,7 @@ var ManageInvoiceComponent = /** @class */ (function () {
     };
     ManageInvoiceComponent.prototype.open = function (invoice) {
         var _this = this;
-        var modalRef = this.modalService.open(_manage_customer_orders_generate_invoice_generate_invoice_component__WEBPACK_IMPORTED_MODULE_8__["GenerateInvoiceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_manage_customer_orders_generate_invoice_generate_invoice_component__WEBPACK_IMPORTED_MODULE_8__["GenerateInvoiceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.invoice = invoice;
         modalRef.componentInstance.order = undefined;
         modalRef.componentInstance.pilot = true;
@@ -11625,7 +11625,7 @@ var ManageInvoiceComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row page-header-fixed\">\n\t<div class=\"header-body\">\n\t\t<h4 class=\"page-header\">\n\t\t\t{{ 'Customer\\'s Invoices List' | translate }}\n\t\t</h4>\n\t\t<ol class=\"breadcrumb\">\n\t\t\t<li class=\"breadcrumb-item\">\n\t\t\t\t<a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\"><i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n\t\t\t</li>\n\t\t\t<li class=\"breadcrumb-item active\">\n\t\t\t\t<i class=\"fa fa-folder-open\"></i> {{ 'Customer\\'s Invoices List' | translate}}</li>\n\t\t</ol>\n\t</div>\n</div>\n<div class=\"sp-container\">\n  <div class=\"row body-fixed\">\n    <div class=\"col col-xl-12 col-lg-12\">\n      <div class=\"card mb-3\">\n        <div class=\"card-header d-flex\">\n          <div class=\"align-self-center\">\n            {{ 'All customers invoices' | translate }}\n          </div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xl-3 filter\">\n            <div class=\"row search margin\">\n              <div class=\"col col-xl-12 col-lg-12\">\n                <input [(ngModel)]=\"search\" class=\"form-control\" (keyup)=\"getItems($event)\" placeholder=\"{{'Enter search' | translate }}\">\n                <i class=\"fa fa-search\"></i>\n              </div>\n            </div>\n          </div>\n           <div class=\"col-xl-3 filter search\">\n            <select class=\"form-control\" name=\"selectedStatus\" id=\"selectedStatus\" [(ngModel)]=\"selectedStatus\" (change)=\"filter()\">\n              <option value=\"\" disabled [selected]=\"true\" translate>Select status</option>\n              <option *ngFor=\"let status of filterStatus\" value=\"{{status.id}}\">{{ status.name | translate }}</option>\n            </select>\n          </div>\n          <div class=\"col-xl-3 filter\">\n              <div class=\"input-group\">\n                <input class=\"form-control\" placeholder=\"yyyy-mm-dd\" name=\"fechaSelec\" [(ngModel)]=\"fechaSelec\" ngbDatepicker #d=\"ngbDatepicker\" (ngModelChange)=\"filter1(fechaSelec)\">\n                <div class=\"input-group-append\">\n                  <button class=\"btn btn-outline-secondary\" (click)=\"d.toggle()\" type=\"button\">\n                    <i class=\"fa fa-calendar\"></i>\n                  </button>\n                </div>\n              </div>\n          </div>\n\n          <div class=\"col-xl-2 btn-clean\">\n            <button class=\"btn btn-outline-secondary\" translate [hidden]=\"!valid1\" (click)=\"clean()\">Clean Filters</button>\n          </div>\n        </div>\n        <div class=\"row margin\">\n          <div class=\"col-xl-2 btn-clean\">\n            <button class=\"btn btn-outline-secondary\" translate [hidden]=\"!valid\" (click)=\"openModal(null, 'bulk', null)\">Bulk Payments</button>\n          </div>\n        </div>\n          <div class=\"card-body table-responsive\">\n            <table class=\"table\">\n              <thead>\n                <tr>\n                  <th class=\"table-tr header-column\">\n                    <div class=\"custom-control custom-checkbox\">\n                      <input id=\"checkboxAll\" type=\"checkbox\" name=\"checkboxGroupAll\" [(ngModel)]=\"selectedAll\" (click)=\"onSelectionAll($event)\" [checked]=\"selectedAll\"\n                            class=\"custom-control-input\">\n                      <label class=\"custom-control-label select-all\" for=\"checkboxAll\"></label>\n                    </div>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Status' | translate }}\">{{ 'Status' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('status')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'status' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('status')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('status')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Invoice No' | translate }}\">{{ 'Invoice No' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('number')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'number' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('number')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('number')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Invoice Date' | translate }}\">{{ 'Date' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('date')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'date' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('date')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('date')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Due Date' | translate }}\">{{ 'Due Date' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('dueDate')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'date' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('dueDate')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('dueDdate')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Customer' | translate }}\">{{ 'Customer' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('client')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'client' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('client')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('client')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Amount Due' | translate }}\">{{ 'Amount Due' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('amountDue')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'amountDue' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('amountDue')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('amountDue')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Total' | translate }}\">{{ 'Total' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('total')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'total' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('total')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('total')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr\"></th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr *ngFor=\"let invoice of listInvoices; let i = index\">\n                  <td class=\"table-tr td-table\">\n                    <div class=\"custom-control custom-checkbox\">\n                      <input type=\"checkbox\" id=\"checkbox{{i}}\" name=\"checkboxGroup\" [value]=\"invoice.idInvoice\" [(ngModel)]=\"invoice.checked\" (change)=\"onSelection(invoice.idInvoice,invoice.checked)\"\n                            class=\"custom-control-input\">\n                      <label class=\"custom-control-label\" for=\"checkbox{{i}}\"></label>\n                    </div>\n                    <h1>{{invoice.marcado}}</h1>\n                  </td>\n                  <td *ngIf=\"invoice.status === 0\" class=\"table-tr\" class=\"active\">\n                    <div>{{'Unpaid' | translate}}</div>\n                  </td>\n                  <td *ngIf=\"invoice.status === 1\" class=\"table-tr\" class=\"inactive\">\n                    <div>{{'Part Paid' | translate }}</div>\n                  </td>\n                  <td *ngIf=\"invoice.status === 2\" class=\"table-tr\" class=\"inactive\">\n                    <div>{{'Paid' | translate }}</div>\n                  </td>\n                  <td *ngIf=\"invoice.status === 3\" class=\"table-tr\" class=\"inactive\">\n                    <div>{{'Overdue' | translate }}</div>\n                  </td>\n                  <td class=\"table-tr td-table\">{{invoice.number}}</td>\n                  <td class=\"table-tr td-table\">{{invoice.date  | date:'yyyy-MM-dd'}}</td>\n                  <td class=\"table-tr td-table\">{{invoice.dueDate  | date:'yyyy-MM-dd'}}</td>\n                  <td class=\"table-tr\">{{invoice.user.name}}</td>\n                  <td class=\"table-tr\">{{invoice.due | currency : \"USD $\"}}</td>\n                  <td class=\"table-tr\">{{invoice.total | currency : \"USD $\"}}</td>\n                  <td class=\"table-tr\">\n                    <div class=\"d-flex flex-row justify-content-around\">\n                      <div ngbDropdown class=\"d-inline-block dropdown\">\n                        <button class=\"btn btn-dropdown-main\" ngbDropdownToggle>{{ 'Actions' | translate }}</button>\n                        <div ngbDropdownMenu>\n                          <button class=\"dropdown-item\" (click)=\"open(invoice)\">\n                            <i class=\"fa fa-credit-card\"></i> {{ 'Payments' | translate }}</button>\n                          <button class=\"dropdown-item\" (click)=\"downloadInvoice(invoice)\">\n                            <i class=\"fa fa-download\"></i> {{ 'Download' | translate }}</button>\n                          <button class=\"dropdown-item\" (click)=\"delete(invoice)\">\n                            <i class=\"fa fa-trash\"></i> {{ 'Delete' | translate }}</button>\n                        </div>\n                      </div>\n                    </div>\n                  </td>\n                </tr>\n              </tbody>\n            </table>\n            <div class=\"table-empty\" [hidden]=\"listInvoices.length !== 0\" translate>\n              <p class=\"no-records\">\n                {{ 'No records have been added yet' | translate }}\n              </p>\n            </div>\n            <div class=\"pagination-list\" [hidden]=\"listInvoices.length === 0\">\n              <ngb-pagination class=\"d-flex justify-content-end\" (pageChange)=\"pageChange($event)\" [collectionSize]=\"listInvoicesAux.length\"\n                [(page)]=\"advancedPagination\" [maxSize]=\"5\" [pageSize]=\"itemPerPage\" [boundaryLinks]=\"true\">\n              </ngb-pagination>\n              <span class=\"count-elements\">{{ listInvoices.length + ' ' + ('of' | translate) + ' ' + listInvoicesAux.length + ' ' + ('register(s)' | translate)\n                }}\n              </span>\n            </div>\n          </div>\n      </div>\n      </div>\n    </div>\n  </div>\n"
+module.exports = "<div class=\"row page-header-fixed\">\n\t<div class=\"header-body\">\n\t\t<h4 class=\"page-header\">\n\t\t\t{{ 'Customer\\'s Invoices List' | translate }}\n\t\t</h4>\n\t\t<ol class=\"breadcrumb\">\n\t\t\t<li class=\"breadcrumb-item\">\n\t\t\t\t<a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\"><i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n\t\t\t</li>\n\t\t\t<li class=\"breadcrumb-item active\">\n\t\t\t\t<i class=\"fa fa-folder-open\"></i> {{ 'Customer\\'s Invoices List' | translate}}</li>\n\t\t</ol>\n\t</div>\n</div>\n<div class=\"sp-container\">\n  <div class=\"row body-fixed\">\n    <div class=\"col col-xl-12 col-lg-12\">\n      <div class=\"card mb-3\">\n        <div class=\"card-header d-flex\">\n          <div class=\"align-self-center\">\n            {{ 'All customers invoices' | translate }}\n          </div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xl-3 filter\">\n            <div class=\"row search margin\">\n              <div class=\"col col-xl-12 col-lg-12\">\n                <input [(ngModel)]=\"search\" class=\"form-control\" (keyup)=\"getItems($event)\" placeholder=\"{{'Enter search' | translate }}\">\n                <i class=\"fa fa-search\"></i>\n              </div>\n            </div>\n          </div>\n           <div class=\"col-xl-3 filter search\">\n            <select class=\"form-control\" name=\"selectedStatus\" id=\"selectedStatus\" [(ngModel)]=\"selectedStatus\" (change)=\"filter()\">\n              <option value=\"\" disabled [selected]=\"true\" translate>Select status</option>\n              <option *ngFor=\"let status of filterStatus\" value=\"{{status.id}}\">{{ status.name | translate }}</option>\n            </select>\n          </div>\n          <div class=\"col-xl-3 filter\">\n              <div class=\"input-group\">\n                <input class=\"form-control\" placeholder=\"yyyy-mm-dd\" name=\"fechaSelec\" [(ngModel)]=\"fechaSelec\" ngbDatepicker #d=\"ngbDatepicker\" (ngModelChange)=\"filter1(fechaSelec)\">\n                <div class=\"input-group-append\">\n                  <button class=\"btn btn-outline-secondary\" (click)=\"d.toggle()\" type=\"button\">\n                    <i class=\"fa fa-calendar\"></i>\n                  </button>\n                </div>\n              </div>\n          </div>\n\n          <div class=\"col-xl-2 btn-clean\">\n            <button class=\"btn btn-outline-secondary\" translate [hidden]=\"!valid1\" (click)=\"clean()\">Clean Filters</button>\n          </div>\n        </div>\n        <div class=\"row margin\">\n          <div class=\"col-xl-2 btn-clean\">\n            <button class=\"btn btn-outline-secondary\" translate [hidden]=\"!valid\" (click)=\"openModal(null, 'bulk', null)\">Bulk Payments</button>\n          </div>\n        </div>\n          <div class=\"card-body table-responsive\">\n            <table class=\"table\">\n              <thead>\n                <tr>\n                  <th class=\"table-tr header-column\">\n                    <div class=\"custom-control custom-checkbox\">\n                      <input id=\"checkboxAll\" type=\"checkbox\" name=\"checkboxGroupAll\" [(ngModel)]=\"selectedAll\" (click)=\"onSelectionAll($event)\" [checked]=\"selectedAll\"\n                            class=\"custom-control-input\">\n                      <label class=\"custom-control-label select-all\" for=\"checkboxAll\"></label>\n                    </div>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Status' | translate }}\">{{ 'Status' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('status')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'status' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('status')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('status')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Pending Payment' | translate }}\">{{ 'Pending Payment' | translate }}  <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('pay')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'pay' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('pay')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('pay')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Invoice No' | translate }}\">{{ 'Invoice No' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('number')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'number' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('number')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('number')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Invoice Date' | translate }}\">{{ 'Date' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('date')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'date' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('date')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('date')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Due Date' | translate }}\">{{ 'Due Date' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('dueDate')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'date' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('dueDate')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('dueDdate')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Customer' | translate }}\">{{ 'Customer' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('client')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'client' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('client')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('client')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Amount Due' | translate }}\">{{ 'Amount Due' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('amountDue')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'amountDue' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('amountDue')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('amountDue')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr header-column\">\n                    <span title=\"{{ 'Total' | translate }}\">{{ 'Total' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortInvoice('total')\"></i>\n                    </span>\n                    <span [hidden]=\"orderByField != 'total' || typeSort === 0\">\n                      <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortInvoice('total')\"></i>\n                      <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortInvoice('total')\"></i>\n                    </span>\n                  </th>\n                  <th class=\"table-tr\"></th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr *ngFor=\"let invoice of listInvoices; let i = index\">\n                  <td class=\"table-tr td-table\">\n                    <div class=\"custom-control custom-checkbox\">\n                      <input type=\"checkbox\" id=\"checkbox{{i}}\" name=\"checkboxGroup\" [value]=\"invoice.idInvoice\" [(ngModel)]=\"invoice.checked\" (change)=\"onSelection(invoice.idInvoice,invoice.checked)\"\n                            class=\"custom-control-input\">\n                      <label class=\"custom-control-label\" for=\"checkbox{{i}}\"></label>\n                    </div>\n                    <h1>{{invoice.marcado}}</h1>\n                  </td>\n                  <td *ngIf=\"invoice.status === 0\" class=\"table-tr\" class=\"active\">\n                    <div>{{'Unpaid' | translate}}</div>\n                  </td>\n                  <td *ngIf=\"invoice.status === 1\" class=\"table-tr\" class=\"inactive\">\n                    <div>{{'Part Paid' | translate }}</div>\n                  </td>\n                  <td *ngIf=\"invoice.status === 2\" class=\"table-tr\" class=\"inactive\">\n                    <div>{{'Paid' | translate }}</div>\n                  </td>\n                  <td *ngIf=\"invoice.status === 3\" class=\"table-tr\" class=\"inactive\">\n                    <div>{{'Overdue' | translate }}</div>\n                  </td>\n                  <td *ngIf=\"invoice.pay === true\" class=\"table-tr td-table align-center\">\n                    <div>{{'Yes' | translate }}</div>\n                  </td>\n                  <td *ngIf=\"invoice.pay === false\" class=\"table-tr td-table align-center\">\n                    <div>{{'No' | translate }}</div>\n                  </td>\n                  <td class=\"table-tr td-table\">{{invoice.number}}</td>\n                  <td class=\"table-tr td-table\">{{invoice.date  | date:'yyyy-MM-dd'}}</td>\n                  <td class=\"table-tr td-table\">{{invoice.dueDate  | date:'yyyy-MM-dd'}}</td>\n                  <td class=\"table-tr\">{{invoice.user.name}}</td>\n                  <td class=\"table-tr\">{{invoice.due | currency : \"USD $\"}}</td>\n                  <td class=\"table-tr\">{{invoice.total | currency : \"USD $\"}}</td>\n                  <td class=\"table-tr\">\n                    <div class=\"d-flex flex-row justify-content-around\">\n                      <div ngbDropdown class=\"d-inline-block dropdown\">\n                        <button class=\"btn btn-dropdown-main\" ngbDropdownToggle>{{ 'Actions' | translate }}</button>\n                        <div ngbDropdownMenu>\n                          <button class=\"dropdown-item\" (click)=\"open(invoice)\">\n                            <i class=\"fa fa-credit-card\"></i> {{ 'Payments' | translate }}</button>\n                          <button class=\"dropdown-item\" (click)=\"downloadInvoice(invoice)\">\n                            <i class=\"fa fa-download\"></i> {{ 'Download' | translate }}</button>\n                          <button class=\"dropdown-item\" (click)=\"delete(invoice)\">\n                            <i class=\"fa fa-trash\"></i> {{ 'Delete' | translate }}</button>\n                        </div>\n                      </div>\n                    </div>\n                  </td>\n                </tr>\n              </tbody>\n            </table>\n            <div class=\"table-empty\" [hidden]=\"listInvoices.length !== 0\" translate>\n              <p class=\"no-records\">\n                {{ 'No records have been added yet' | translate }}\n              </p>\n            </div>\n            <div class=\"pagination-list\" [hidden]=\"listInvoices.length === 0\">\n              <ngb-pagination class=\"d-flex justify-content-end\" (pageChange)=\"pageChange($event)\" [collectionSize]=\"listInvoicesAux.length\"\n                [(page)]=\"advancedPagination\" [maxSize]=\"5\" [pageSize]=\"itemPerPage\" [boundaryLinks]=\"true\">\n              </ngb-pagination>\n              <span class=\"count-elements\">{{ listInvoices.length + ' ' + ('of' | translate) + ' ' + listInvoicesAux.length + ' ' + ('register(s)' | translate)\n                }}\n              </span>\n            </div>\n          </div>\n      </div>\n      </div>\n    </div>\n  </div>\n"
 
 /***/ }),
 
@@ -11636,7 +11636,7 @@ module.exports = "<div class=\"row page-header-fixed\">\n\t<div class=\"header-b
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -10px;\n  padding-top: 10px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.table-tr:nth-child(1) {\n  width: 3%; }\n.table-tr:nth-child(2) {\n  width: 10%; }\n.table-tr:nth-child(3) {\n  width: 13%; }\n.table-tr:nth-child(4) {\n  width: 12%; }\n.table-tr:nth-child(5) {\n  width: 12%; }\n.table-tr:nth-child(6) {\n  width: 20%; }\n.table-tr:nth-child(7) {\n  width: 15%; }\n.table-tr:nth-child(8) {\n  width: 15%; }\n.search {\n  padding-bottom: 1.0rem; }\n.search i {\n    position: absolute;\n    top: 10px;\n    right: 25px;\n    color: #ced4da; }\n.margin {\n  margin-left: 0.3rem; }\n.body-fixed {\n  padding-top: 10%; }\n.pending {\n  color: #ffffff; }\n.pending > div {\n    background: #B71C1C;\n    border-radius: 12px;\n    text-align: center; }\n.sent {\n  color: #ffffff; }\n.sent > div {\n    background: #01579B;\n    border-radius: 12px;\n    text-align: center; }\n.page-header-fixed {\n  margin-left: 15px; }\n.header-body {\n  width: 100%;\n  background: #ffffff;\n  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.header-body .link {\n    color: #1756a6;\n    padding-left: 0px; }\n.header-body .breadcrumb {\n    background-color: transparent;\n    border-radius: 0px;\n    border-bottom: 0px;\n    padding-top: 0px;\n    padding-bottom: 0px; }\n.header-body h4 {\n    padding-left: 15px; }\n.sp-container {\n  padding-top: 0; }\n.dropdown-menu {\n  left: -33px !important; }\n.dropdown-menu::before {\n    position: absolute;\n    top: -7px;\n    left: 103px;\n    display: inline-block;\n    border-right: 7px solid transparent;\n    border-bottom: 7px solid #CCC;\n    border-left: 7px solid transparent;\n    border-bottom-color: rgba(0, 0, 0, 0.2);\n    content: ''; }\n.dropdown-menu::after {\n    position: absolute;\n    top: -6px;\n    left: 104px;\n    display: inline-block;\n    border-right: 6px solid transparent;\n    border-bottom: 6px solid #ffffff;\n    border-left: 6px solid transparent;\n    content: ''; }\n.dropdown-menu .h5-filter {\n    padding-top: 20px; }\n.dropdown-menu .btn-clean {\n    padding-top: 10px; }\n.dropdown-menu .filter {\n    padding-top: 10px;\n    padding-left: 25px;\n    padding-right: 25px; }\n.page-header-fixed {\n  margin-left: 15px; }\n.header-body {\n  width: 100%;\n  background: #ffffff;\n  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.header-body .link {\n    color: #1756a6;\n    padding-left: 0px; }\n.header-body .breadcrumb {\n    background-color: transparent;\n    border-radius: 0px;\n    border-bottom: 0px;\n    padding-top: 0px;\n    padding-bottom: 0px; }\n.header-body h4 {\n    padding-left: 15px; }\n.sp-container {\n  padding-top: 0; }\n.dropdown-menu {\n  left: -33px !important; }\n.dropdown-menu::before {\n    position: absolute;\n    top: -7px;\n    left: 103px;\n    display: inline-block;\n    border-right: 7px solid transparent;\n    border-bottom: 7px solid #CCC;\n    border-left: 7px solid transparent;\n    border-bottom-color: rgba(0, 0, 0, 0.2);\n    content: ''; }\n.dropdown-menu::after {\n    position: absolute;\n    top: -6px;\n    left: 104px;\n    display: inline-block;\n    border-right: 6px solid transparent;\n    border-bottom: 6px solid #ffffff;\n    border-left: 6px solid transparent;\n    content: ''; }\n"
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -10px;\n  padding-top: 10px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.table-tr:nth-child(1) {\n  width: 1%; }\n.table-tr:nth-child(2) {\n  width: 9%; }\n.table-tr:nth-child(3) {\n  width: 17%; }\n.table-tr:nth-child(4) {\n  width: 15%; }\n.table-tr:nth-child(5) {\n  width: 7%; }\n.table-tr:nth-child(6) {\n  width: 12%; }\n.table-tr:nth-child(7) {\n  width: 11%; }\n.table-tr:nth-child(8) {\n  width: 14%; }\n.table-tr:nth-child(9) {\n  width: 13%; }\n.search {\n  padding-bottom: 1.0rem; }\n.search i {\n    position: absolute;\n    top: 10px;\n    right: 25px;\n    color: #ced4da; }\n.margin {\n  margin-left: 0.3rem; }\n.body-fixed {\n  padding-top: 10%; }\n.pending {\n  color: #ffffff; }\n.pending > div {\n    background: #B71C1C;\n    border-radius: 12px;\n    text-align: center; }\n.sent {\n  color: #ffffff; }\n.sent > div {\n    background: #01579B;\n    border-radius: 12px;\n    text-align: center; }\n.page-header-fixed {\n  margin-left: 15px; }\n.header-body {\n  width: 100%;\n  background: #ffffff;\n  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.header-body .link {\n    color: #1756a6;\n    padding-left: 0px; }\n.header-body .breadcrumb {\n    background-color: transparent;\n    border-radius: 0px;\n    border-bottom: 0px;\n    padding-top: 0px;\n    padding-bottom: 0px; }\n.header-body h4 {\n    padding-left: 15px; }\n.sp-container {\n  padding-top: 0; }\n.dropdown-menu {\n  left: -33px !important; }\n.dropdown-menu::before {\n    position: absolute;\n    top: -7px;\n    left: 103px;\n    display: inline-block;\n    border-right: 7px solid transparent;\n    border-bottom: 7px solid #CCC;\n    border-left: 7px solid transparent;\n    border-bottom-color: rgba(0, 0, 0, 0.2);\n    content: ''; }\n.dropdown-menu::after {\n    position: absolute;\n    top: -6px;\n    left: 104px;\n    display: inline-block;\n    border-right: 6px solid transparent;\n    border-bottom: 6px solid #ffffff;\n    border-left: 6px solid transparent;\n    content: ''; }\n.dropdown-menu .h5-filter {\n    padding-top: 20px; }\n.dropdown-menu .btn-clean {\n    padding-top: 10px; }\n.dropdown-menu .filter {\n    padding-top: 10px;\n    padding-left: 25px;\n    padding-right: 25px; }\n.page-header-fixed {\n  margin-left: 15px; }\n.header-body {\n  width: 100%;\n  background: #ffffff;\n  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.header-body .link {\n    color: #1756a6;\n    padding-left: 0px; }\n.header-body .breadcrumb {\n    background-color: transparent;\n    border-radius: 0px;\n    border-bottom: 0px;\n    padding-top: 0px;\n    padding-bottom: 0px; }\n.header-body h4 {\n    padding-left: 15px; }\n.sp-container {\n  padding-top: 0; }\n.align-center {\n  text-align: center; }\n.dropdown-menu {\n  left: -33px !important; }\n.dropdown-menu::before {\n    position: absolute;\n    top: -7px;\n    left: 103px;\n    display: inline-block;\n    border-right: 7px solid transparent;\n    border-bottom: 7px solid #CCC;\n    border-left: 7px solid transparent;\n    border-bottom-color: rgba(0, 0, 0, 0.2);\n    content: ''; }\n.dropdown-menu::after {\n    position: absolute;\n    top: -6px;\n    left: 104px;\n    display: inline-block;\n    border-right: 6px solid transparent;\n    border-bottom: 6px solid #ffffff;\n    border-left: 6px solid transparent;\n    content: ''; }\n"
 
 /***/ }),
 
@@ -11692,7 +11692,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var ManagePaymentsComponent = /** @class */ (function () {
-    function ManagePaymentsComponent(orderService, modalService, notification, translate, alertify, userStorageService, invoiceService, spinner, router, route) {
+    function ManagePaymentsComponent(orderService, modalService, notification, translate, alertify, userStorageService, invoiceService, spinner, router, route, invoicePaymentService) {
         var _this = this;
         this.orderService = orderService;
         this.modalService = modalService;
@@ -11704,6 +11704,7 @@ var ManagePaymentsComponent = /** @class */ (function () {
         this.spinner = spinner;
         this.router = router;
         this.route = route;
+        this.invoicePaymentService = invoicePaymentService;
         this.orderByField = 'number';
         this.reverseSort = true;
         this.typeSort = 0;
@@ -11716,6 +11717,7 @@ var ManagePaymentsComponent = /** @class */ (function () {
         this.listAux = [];
         this.valid = false;
         this.valid1 = false;
+        this.listPayments = new Array;
         this.user = JSON.parse(userStorageService.getCurrentUser());
         this.navigationSubscription = this.router.events.subscribe(function (e) {
             if (e instanceof _angular_router__WEBPACK_IMPORTED_MODULE_9__["NavigationEnd"]) {
@@ -11764,6 +11766,14 @@ var ManagePaymentsComponent = /** @class */ (function () {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_6__["CodeHttp"].ok) {
                 _this.listInvoices = res.data;
                 _this.listInvoicesAux = res.data;
+                lodash__WEBPACK_IMPORTED_MODULE_10__["each"](_this.listInvoices, function (invoice) {
+                    invoice.pay = false;
+                    lodash__WEBPACK_IMPORTED_MODULE_10__["each"](invoice.invoiceClientInvoicePayments, function (payment) {
+                        if (payment.invoicePayment.status === 0) {
+                            invoice.pay = true;
+                        }
+                    });
+                });
                 _this.listInvoices = lodash__WEBPACK_IMPORTED_MODULE_10__["orderBy"](_this.listInvoices, ['date'], ['desc']);
                 _this.listInvoicesAux = lodash__WEBPACK_IMPORTED_MODULE_10__["orderBy"](_this.listInvoicesAux, ['date'], ['desc']);
                 _this.listInvoices = _this.listInvoicesAux.slice(0, _this.itemPerPage);
@@ -12126,7 +12136,7 @@ var ManagePaymentsComponent = /** @class */ (function () {
     };
     ManagePaymentsComponent.prototype.openModal = function (invoice, action, payment) {
         var _this = this;
-        var modalRef = this.modalService.open(_payments_made_modals_add_payment_modal_add_payment_modal_component__WEBPACK_IMPORTED_MODULE_13__["AddPaymentModalComponent"], { size: 'lg' });
+        var modalRef = this.modalService.open(_payments_made_modals_add_payment_modal_add_payment_modal_component__WEBPACK_IMPORTED_MODULE_13__["AddPaymentModalComponent"], { size: 'lg', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.invoice = invoice;
         modalRef.componentInstance.action = action;
         modalRef.componentInstance.invoicePayment = payment;
@@ -12151,7 +12161,8 @@ var ManagePaymentsComponent = /** @class */ (function () {
             _shared_services_invoiceClient_invoiceclient_service__WEBPACK_IMPORTED_MODULE_12__["InvoiceClientService"],
             ngx_spinner__WEBPACK_IMPORTED_MODULE_11__["NgxSpinnerService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_9__["Router"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_9__["ActivatedRoute"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_9__["ActivatedRoute"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_7__["InvoicePaymentService"]])
     ], ManagePaymentsComponent);
     return ManagePaymentsComponent;
 }());
@@ -12922,7 +12933,7 @@ var PaymentsMadeComponent = /** @class */ (function () {
                 });
             }
             else {
-                var modalRef = this.modalService.open(_modals_add_payment_modal_add_payment_modal_component__WEBPACK_IMPORTED_MODULE_10__["AddPaymentModalComponent"], { size: 'lg' });
+                var modalRef = this.modalService.open(_modals_add_payment_modal_add_payment_modal_component__WEBPACK_IMPORTED_MODULE_10__["AddPaymentModalComponent"], { size: 'lg', backdrop: 'static', keyboard: false });
                 modalRef.componentInstance.invoice = invoice;
                 modalRef.componentInstance.action = action;
                 modalRef.componentInstance.idsInvoiceClient = [invoice.idInvoice];
@@ -12947,7 +12958,7 @@ var PaymentsMadeComponent = /** @class */ (function () {
                 });
             }
             else {
-                var modalRef = this.modalService.open(_modals_change_status_change_status_component__WEBPACK_IMPORTED_MODULE_11__["ChangeStatusComponent"]);
+                var modalRef = this.modalService.open(_modals_change_status_change_status_component__WEBPACK_IMPORTED_MODULE_11__["ChangeStatusComponent"], { backdrop: 'static', keyboard: false });
                 modalRef.componentInstance.payment = payment;
                 modalRef.result.then(function (result) {
                     var id = _this.route.snapshot.paramMap.get('idInvoice');
@@ -14586,7 +14597,7 @@ var ListSellerComponent = /** @class */ (function () {
     };
     ListSellerComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_seller_modal_seller_modal_component__WEBPACK_IMPORTED_MODULE_8__["SellerModalComponent"], { size: 'lg', windowClass: 'modal-content-seller' });
+        var modalRef = this.modalService.open(_modals_seller_modal_seller_modal_component__WEBPACK_IMPORTED_MODULE_8__["SellerModalComponent"], { size: 'lg', windowClass: 'modal-content-seller', backdrop: 'static', keyboard: false });
         modalRef.result.then(function (result) {
             _this.getListSellers(-1);
             _this.moveFirstPage();
@@ -15302,7 +15313,7 @@ var ShippingAddressModalComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-page-header class=\"page-header-fixed\" [heading]=\"'Shipping Address List'\" [icon]=\"'fa-edit'\"></app-page-header>\n<div class=\"sp-container\">\n  <div class=\"row\">\n    <div class=\"col col-xl-12 col-lg-12\">\n      <div class=\"card mb-3\">\n        <div class=\"card-header d-flex\">\n          <div class=\"align-self-center\">\n            {{ 'All Shipping Address' | translate }}\n          </div>\n          <div class=\"ml-auto p-2\">\n            <button class=\"btn btn-main\" (click)=\"open(content,'create')\">{{ 'Add' | translate }}&nbsp;\n              <i class=\"fa fa-plus\"></i>\n            </button>\n          </div>\n        </div>\n        <div class=\"card-body table-responsive\">\n          <table class=\"table\">\n            <thead>\n              <tr>\n                <th class=\"table-tr header-column\">\n                  <span title=\"{{ 'Company' | translate }}\">{{ 'Company' | translate }}\n                    <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortAddress('company')\"></i>\n                  </span>\n                  <span [hidden]=\"orderByField != 'company' || typeSort === 0\" >\n                    <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortAddress('company')\"></i>\n                    <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortAddress('company')\"></i>\n                  </span>\n                </th>\n                <th class=\"table-tr header-column\">\n                  <span title=\"{{ 'Address' | translate }}\">{{ 'Address' | translate }}\n                    <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortAddress('address')\"></i>\n                  </span>\n                  <span [hidden]=\"orderByField != 'address' || typeSort === 0\" >\n                    <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortAddress('address')\"></i>\n                    <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortAddress('address')\"></i>\n                  </span>\n                </th>\n                <th class=\"table-tr header-column\">\n                  <span title=\"{{ 'City' | translate }}\">{{ 'City' | translate }}\n                    <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortAddress('city')\"></i>\n                  </span>\n                  <span [hidden]=\"orderByField != 'city' || typeSort === 0\" >\n                    <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortAddress('city')\"></i>\n                    <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortAddress('city')\"></i>\n                  </span>\n                </th>\n                <th class=\"table-tr header-column\">\n                  <span title=\"{{ 'State' | translate }}\">{{ 'State' | translate }}\n                    <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortAddress('state')\"></i>\n                  </span>\n                  <span [hidden]=\"orderByField != 'state' || typeSort === 0\" >\n                    <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortAddress('state')\"></i>\n                    <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortAddress('state')\"></i>\n                  </span>\n                </th>\n                <th class=\"table-tr header-column\">\n                  <span title=\"{{ 'Country' | translate }}\">{{ 'Country' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortAddress('country')\"></i>\n                  </span>\n                  <span [hidden]=\"orderByField != 'country' || typeSort === 0\" >\n                    <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortAddress('country')\"></i>\n                    <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortAddress('country')\"></i>\n                  </span>\n                </th>\n                <th class=\"table-tr\">\n                  <span title=\"{{ 'Main' | translate }}\">{{ 'Main' | translate }}</span>\n                </th>\n                <th class=\"table-tr\"></th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr *ngFor=\"let address of addresses\">\n                <td class=\"table-tr td-table\"> {{ address.company.companyName }}</td>\n                <td class=\"table-tr td-table\"> {{ address.name }}</td>\n                <td class=\"table-tr td-table\"> {{ address.city }}</td>\n                <td class=\"table-tr td-table\"> {{ address.state }}</td>\n                <td class=\"table-tr td-table\"> {{ address.country? (address.country.name | translate) : '' }}</td>\n                <td>\n                  <div class=\"custom-control custom-radio\">\n                    <input type=\"radio\" id=\"radioGroup{{i}}\" name=\"radioGroup\" [value]=\"address.isMain\" class=\"custom-control-input\" [checked]=\"address.isMain===true\" disabled>\n                    <label class=\"custom-control-label\" for=\"radioGroup{{i}}\"></label>\n                  </div>\n                </td>\n\n                <td class=\"table-tr\">\n                  <div class=\"d-flex flex-row justify-content-around\">\n                    <div ngbDropdown class=\"d-inline-block dropdown\">\n                      <button class=\"btn btn-dropdown-main\" ngbDropdownToggle>{{ 'Actions' | translate }}</button>\n                      <div ngbDropdownMenu>\n                        <button class=\"dropdown-item\" (click)=\"open(address,'edit')\">\n                          <i class=\"fa fa-edit\"></i> {{ 'Edit' | translate }}</button>\n                        <button class=\"dropdown-item\" (click)=\"delete(address.idAddress)\">\n                          <i class=\"fa fa-trash\"></i> {{ 'Delete' | translate }}</button>\n                        <button class=\"dropdown-item\" (click)=\"is_main(address.idAddress)\">\n                          <i class=\"fa fa-check\"></i> {{ 'Main' | translate }}</button>\n                      </div>\n                    </div>\n                  </div>\n                </td>\n              </tr>\n            </tbody>\n          </table>\n          <div class=\"table-empty\" [hidden]=\"addresses.length !== 0\" translate>\n            <p class=\"no-records\">\n              {{ 'No records have been added yet' | translate }}\n            </p>\n          </div>\n          <div class=\"pagination-list\" [hidden]=\"addresses.length === 0\">\n            <ngb-pagination class=\"d-flex justify-content-end\" (pageChange)=\"pageChange($event)\" [collectionSize]=\"auxAddresses.length\"\n              [(page)]=\"advancedPagination\" [maxSize]=\"5\" [pageSize]=\"itemPerPage\" [boundaryLinks]=\"true\">\n            </ngb-pagination>\n            <span class=\"count-elements\">{{ addresses.length + ' ' + ('of' | translate) + ' ' + auxAddresses.length + ' ' + ('register(s)' | translate) }}</span>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<app-page-header class=\"page-header-fixed\" [heading]=\"'Shipping Address List'\" [icon]=\"'fa-edit'\"></app-page-header>\n<div class=\"sp-container\">\n  <div class=\"row\">\n    <div class=\"col col-xl-12 col-lg-12\">\n      <div class=\"card mb-3\">\n        <div class=\"card-header d-flex\">\n          <div class=\"align-self-center\">\n            {{ 'All Shipping Address' | translate }}\n          </div>\n          <div class=\"ml-auto p-2\">\n            <button class=\"btn btn-main\" (click)=\"open(content,'create')\">{{ 'Add' | translate }}&nbsp;\n              <i class=\"fa fa-plus\"></i>\n            </button>\n          </div>\n        </div>\n        <div class=\"card-body table-responsive\">\n          <table class=\"table\">\n            <thead>\n              <tr>\n                <th class=\"table-tr header-column\">\n                  <span title=\"{{ 'Company' | translate }}\">{{ 'Company' | translate }}\n                    <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortAddress('company')\"></i>\n                  </span>\n                  <span [hidden]=\"orderByField != 'company' || typeSort === 0\" >\n                    <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortAddress('company')\"></i>\n                    <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortAddress('company')\"></i>\n                  </span>\n                </th>\n                <th class=\"table-tr header-column\">\n                  <span title=\"{{ 'Address' | translate }}\">{{ 'Address' | translate }}\n                    <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortAddress('address')\"></i>\n                  </span>\n                  <span [hidden]=\"orderByField != 'address' || typeSort === 0\" >\n                    <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortAddress('address')\"></i>\n                    <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortAddress('address')\"></i>\n                  </span>\n                </th>\n                <th class=\"table-tr header-column\">\n                  <span title=\"{{ 'City' | translate }}\">{{ 'City' | translate }}\n                    <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortAddress('city')\"></i>\n                  </span>\n                  <span [hidden]=\"orderByField != 'city' || typeSort === 0\" >\n                    <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortAddress('city')\"></i>\n                    <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortAddress('city')\"></i>\n                  </span>\n                </th>\n                <th class=\"table-tr header-column\">\n                  <span title=\"{{ 'State' | translate }}\">{{ 'State' | translate }}\n                    <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortAddress('state')\"></i>\n                  </span>\n                  <span [hidden]=\"orderByField != 'state' || typeSort === 0\" >\n                    <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortAddress('state')\"></i>\n                    <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortAddress('state')\"></i>\n                  </span>\n                </th>\n                <th class=\"table-tr header-column\">\n                  <span title=\"{{ 'Country' | translate }}\">{{ 'Country' | translate }}\n                      <i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortAddress('country')\"></i>\n                  </span>\n                  <span [hidden]=\"orderByField != 'country' || typeSort === 0\" >\n                    <i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortAddress('country')\"></i>\n                    <i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortAddress('country')\"></i>\n                  </span>\n                </th>\n                <th class=\"table-tr\">\n                  <span title=\"{{ 'Main' | translate }}\">{{ 'Main' | translate }}</span>\n                </th>\n                <th class=\"table-tr\"></th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr *ngFor=\"let address of addresses\">\n                <td class=\"table-tr td-table\"> {{ address.company.companyName }}</td>\n                <td class=\"table-tr td-table\"> {{ address.name }}</td>\n                <td class=\"table-tr td-table\"> {{ address.city }}</td>\n                <td class=\"table-tr td-table\"> {{ address.state }}</td>\n                <td class=\"table-tr td-table\"> {{ address.country? (address.country.name | translate) : '' }}</td>\n                <td>\n                  <div class=\"custom-control custom-radio\">\n                    <input type=\"radio\" id=\"radioGroup{{i}}\" name=\"radioGroup\" [value]=\"address.isMain\" class=\"custom-control-input\" [checked]=\"address.isMain === true\" disabled>\n                    <label class=\"custom-control-label\" for=\"radioGroup{{i}}\"></label>\n                  </div>\n                </td>\n\n                <td class=\"table-tr\">\n                  <div class=\"d-flex flex-row justify-content-around\">\n                    <div ngbDropdown class=\"d-inline-block dropdown\">\n                      <button class=\"btn btn-dropdown-main\" ngbDropdownToggle>{{ 'Actions' | translate }}</button>\n                      <div ngbDropdownMenu>\n                        <button class=\"dropdown-item\" (click)=\"open(address,'edit')\">\n                          <i class=\"fa fa-edit\"></i> {{ 'Edit' | translate }}</button>\n                        <button class=\"dropdown-item\" (click)=\"delete(address.idAddress)\" [hidden]=\"address.isMain === true\">\n                          <i class=\"fa fa-trash\"></i> {{ 'Delete' | translate }}</button>\n                        <button class=\"dropdown-item\" (click)=\"is_main(address.idAddress)\">\n                          <i class=\"fa fa-check\"></i> {{ 'Main' | translate }}</button>\n                      </div>\n                    </div>\n                  </div>\n                </td>\n              </tr>\n            </tbody>\n          </table>\n          <div class=\"table-empty\" [hidden]=\"addresses.length !== 0\" translate>\n            <p class=\"no-records\">\n              {{ 'No records have been added yet' | translate }}\n            </p>\n          </div>\n          <div class=\"pagination-list\" [hidden]=\"addresses.length === 0\">\n            <ngb-pagination class=\"d-flex justify-content-end\" (pageChange)=\"pageChange($event)\" [collectionSize]=\"auxAddresses.length\"\n              [(page)]=\"advancedPagination\" [maxSize]=\"5\" [pageSize]=\"itemPerPage\" [boundaryLinks]=\"true\">\n            </ngb-pagination>\n            <span class=\"count-elements\">{{ addresses.length + ' ' + ('of' | translate) + ' ' + auxAddresses.length + ' ' + ('register(s)' | translate) }}</span>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -15335,6 +15346,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
 /* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_9__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -15352,13 +15366,16 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var ShippingAddressComponent = /** @class */ (function () {
-    function ShippingAddressComponent(modalService, shippingAddressService, alertify, notification, translate) {
+    function ShippingAddressComponent(modalService, shippingAddressService, alertify, notification, translate, orderService) {
         this.modalService = modalService;
         this.shippingAddressService = shippingAddressService;
         this.alertify = alertify;
         this.notification = notification;
         this.translate = translate;
+        this.orderService = orderService;
         this.addresses = new Array;
         this.auxAddresses = new Array;
         this.itemPerPage = 5;
@@ -15366,6 +15383,8 @@ var ShippingAddressComponent = /** @class */ (function () {
         this.orderByField = 'idAddress';
         this.reverseSort = true;
         this.typeSort = 0;
+        this.valido = true;
+        this.orders = new Array;
     }
     ShippingAddressComponent.prototype.ngOnInit = function () {
         this.getAddress();
@@ -15373,7 +15392,7 @@ var ShippingAddressComponent = /** @class */ (function () {
     };
     ShippingAddressComponent.prototype.open = function (address, action) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_shipping_address_modal_shipping_address_modal_component__WEBPACK_IMPORTED_MODULE_2__["ShippingAddressModalComponent"]);
+        var modalRef = this.modalService.open(_modals_shipping_address_modal_shipping_address_modal_component__WEBPACK_IMPORTED_MODULE_2__["ShippingAddressModalComponent"], { backdrop: 'static', keyboard: false });
         modalRef.componentInstance.address = address;
         modalRef.componentInstance.action = action;
         modalRef.result.then(function (result) {
@@ -15471,17 +15490,6 @@ var ShippingAddressComponent = /** @class */ (function () {
             console.log('error', error);
         });
     };
-    ShippingAddressComponent.prototype.delete = function (id) {
-        var _this = this;
-        this.translate.get('Confirm Delete', { value: 'Confirm Delete' }).subscribe(function (title) {
-            _this.translate.get('Are you sure do you want to delete this register?', { value: 'Are you sure do you want to delete this register?' }).subscribe(function (msg) {
-                _this.alertify.confirm(title, msg, function () {
-                    _this.borrar(id);
-                }, function () {
-                });
-            });
-        });
-    };
     ShippingAddressComponent.prototype.pageChange = function (event) {
         var startItem = (event - 1) * this.itemPerPage;
         var endItem = event * this.itemPerPage;
@@ -15509,6 +15517,41 @@ var ShippingAddressComponent = /** @class */ (function () {
             });
         });
     };
+    ShippingAddressComponent.prototype.delete = function (id) {
+        var _this = this;
+        var valido = this.valido;
+        this.orderService.allOrderByUser$().subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_7__["CodeHttp"].ok) {
+                _this.orders = res.data;
+                lodash__WEBPACK_IMPORTED_MODULE_9__["each"](_this.orders, function (order) {
+                    if (order.address.idAddress === id) {
+                        valido = false;
+                        return;
+                    }
+                });
+                if (valido) {
+                    _this.translate.get('Confirm Delete', { value: 'Confirm Delete' }).subscribe(function (title) {
+                        _this.translate.get('Are you sure do you want to delete this register?', { value: 'Are you sure do you want to delete this register?' }).subscribe(function (msg) {
+                            _this.alertify.confirm(title, msg, function () {
+                                _this.borrar(id);
+                            }, function () {
+                            });
+                        });
+                    });
+                }
+                else {
+                    _this.translate.get('The shipping address is used in an order', { value: 'The shipping address is used in an order' }).subscribe(function (res) {
+                        _this.notification.warning('', res);
+                    });
+                }
+            }
+            else {
+                console.log(res.errors[0].detail);
+            }
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
     ShippingAddressComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-shipping-address',
@@ -15519,7 +15562,8 @@ var ShippingAddressComponent = /** @class */ (function () {
             _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_3__["ShippingAddressService"],
             _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_4__["AlertifyService"],
             ngx_toastr__WEBPACK_IMPORTED_MODULE_5__["ToastrService"],
-            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__["TranslateService"]])
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__["TranslateService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_8__["OrderService"]])
     ], ShippingAddressComponent);
     return ShippingAddressComponent;
 }());
@@ -15969,7 +16013,7 @@ var SuppliersComponent = /** @class */ (function () {
     };
     SuppliersComponent.prototype.open = function (supplier, action) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_supplier_modal_supplier_modal_component__WEBPACK_IMPORTED_MODULE_6__["SupplierModalComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_supplier_modal_supplier_modal_component__WEBPACK_IMPORTED_MODULE_6__["SupplierModalComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.supplier = supplier;
         modalRef.componentInstance.action = action;
         modalRef.result.then(function (result) {
@@ -16845,7 +16889,7 @@ var EditUserComponent = /** @class */ (function () {
     };
     EditUserComponent.prototype.openSeller = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_list_user_modal_list_user_modal_component__WEBPACK_IMPORTED_MODULE_13__["ListUserModalComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_list_user_modal_list_user_modal_component__WEBPACK_IMPORTED_MODULE_13__["ListUserModalComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.result.then(function (result) {
             _this.form.get('userId').setValue(result.idUser);
             _this.nameSeller = result.name;
@@ -17255,7 +17299,7 @@ var ListUserComponent = /** @class */ (function () {
     };
     ListUserComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_user_modal_user_modal_component__WEBPACK_IMPORTED_MODULE_6__["UserModalComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_user_modal_user_modal_component__WEBPACK_IMPORTED_MODULE_6__["UserModalComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.result.then(function (result) {
             _this.getListUser(-1);
             _this.moveFirstPage();
@@ -18070,7 +18114,7 @@ var UserModalComponent = /** @class */ (function () {
     };
     UserModalComponent.prototype.openModalSupplier = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_list_supplier_modal_list_supplier_modal_component__WEBPACK_IMPORTED_MODULE_12__["ListSupplierModalComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_list_supplier_modal_list_supplier_modal_component__WEBPACK_IMPORTED_MODULE_12__["ListSupplierModalComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.listSuppliers = this.listSuppliers;
         modalRef.result.then(function (result) {
             _this.listSuppliers = result;
@@ -18840,7 +18884,7 @@ var WarrantyComponent = /** @class */ (function () {
     };
     WarrantyComponent.prototype.open = function (warranty, action) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_warranty_modal_warranty_modal_component__WEBPACK_IMPORTED_MODULE_10__["WarrantyModalComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_warranty_modal_warranty_modal_component__WEBPACK_IMPORTED_MODULE_10__["WarrantyModalComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.warranty = warranty;
         modalRef.componentInstance.action = action;
         modalRef.result.then(function (result) {
@@ -18850,7 +18894,7 @@ var WarrantyComponent = /** @class */ (function () {
     };
     WarrantyComponent.prototype.changeStatus = function (warranty) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_modals_change_status_modals_change_status_component__WEBPACK_IMPORTED_MODULE_12__["ModalsChangeStatusComponent"]);
+        var modalRef = this.modalService.open(_modals_modals_change_status_modals_change_status_component__WEBPACK_IMPORTED_MODULE_12__["ModalsChangeStatusComponent"], { backdrop: 'static', keyboard: false });
         modalRef.componentInstance.warranty = warranty;
         modalRef.result.then(function (result) {
             _this.getListWarranties();

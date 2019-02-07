@@ -1973,8 +1973,21 @@ var InvoiceClientService = /** @class */ (function () {
     InvoiceClientService.prototype.usersWithInvoicesOverdue$ = function (idUser) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/usersWithInvoicesOverdue/' + idUser);
     };
+    InvoiceClientService.prototype.usersWithInvoices$ = function () {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/usersWithInvoices');
+    };
     InvoiceClientService.prototype.invoicesOverdue$ = function () {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/invoicesOverdue');
+    };
+    InvoiceClientService.prototype.downloadReportBalance$ = function (request) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/downloadReportBalance', request, {
+            responseType: 'blob'
+        });
+    };
+    InvoiceClientService.prototype.downloadGeneralBalance$ = function (request) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/downloadGeneralBalance', request, {
+            responseType: 'blob'
+        });
     };
     InvoiceClientService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -2035,6 +2048,14 @@ var InvoicePaymentService = /** @class */ (function () {
     };
     InvoicePaymentService.prototype.changeStatus$ = function (idPayment, IdStatus) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesPayment/changeStatus/' + idPayment + '/' + IdStatus);
+    };
+    InvoicePaymentService.prototype.generateReportPayments$ = function (request) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesPayment/downloadReportPayment', request, {
+            responseType: 'blob'
+        });
+    };
+    InvoicePaymentService.prototype.usersWithPayments$ = function (idUser) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesPayment/usersWithPayments/' + idUser);
     };
     InvoicePaymentService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -2207,6 +2228,14 @@ var OrderService = /** @class */ (function () {
     OrderService.prototype.findByIds$ = function (listIds) {
         return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/allOrderByIds', listIds);
     };
+    OrderService.prototype.findAllCountries$ = function () {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/findAllCountries');
+    };
+    OrderService.prototype.reportSalesAllOrByProduct$ = function (request) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/reportSalesAllOrByProduct', request, {
+            responseType: 'blob'
+        });
+    };
     OrderService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
@@ -2254,6 +2283,9 @@ var ProductsRequestedService = /** @class */ (function () {
     };
     ProductsRequestedService.prototype.update$ = function (productsRequested) {
         return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'productsRequested/update', productsRequested);
+    };
+    ProductsRequestedService.prototype.findAllProducts$ = function () {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'orderProductsRequested/findAllProducts');
     };
     ProductsRequestedService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

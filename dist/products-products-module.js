@@ -267,7 +267,7 @@ var ConfirmationBlueLightComponent = /** @class */ (function () {
     };
     ConfirmationBlueLightComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_1__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_1__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.buyNowModal = this.buyNow;
         modalRef.result.then(function (result) {
             _this.ngOnInit();
@@ -565,7 +565,7 @@ var ConfirmationBuyComponent = /** @class */ (function () {
     };
     ConfirmationBuyComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_16__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_16__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.buyNowModal = this.buyNow;
         modalRef.result.then(function (result) {
             _this.ngOnInit();
@@ -885,7 +885,7 @@ var ConfirmationEuclidComponent = /** @class */ (function () {
     };
     ConfirmationEuclidComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_2__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_2__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.buyNowModal = this.buyNow;
         modalRef.result.then(function (result) {
             _this.save_success = true;
@@ -1221,7 +1221,7 @@ var ConfirmationEuropaComponent = /** @class */ (function () {
     };
     ConfirmationEuropaComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_15__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_15__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.buyNowModal = this.buyNow;
         modalRef.result.then(function (result) {
             _this.ngOnInit();
@@ -1500,7 +1500,7 @@ var ConfirmationLenticonComponent = /** @class */ (function () {
     };
     ConfirmationLenticonComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_1__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_1__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.buyNowModal = this.buyNow;
         modalRef.result.then(function (result) {
             _this.save_success = true;
@@ -1781,7 +1781,7 @@ var ConfirmationMagicLookComponent = /** @class */ (function () {
     };
     ConfirmationMagicLookComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_1__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_1__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.buyNowModal = this.buyNow;
         modalRef.result.then(function (result) {
             _this.ngOnInit();
@@ -2085,7 +2085,7 @@ var ConfirmationMarkennovyComponent = /** @class */ (function () {
     };
     ConfirmationMarkennovyComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_2__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_2__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.buyNowModal = this.buyNow;
         modalRef.result.then(function (result) {
             _this.ngOnInit();
@@ -2342,7 +2342,7 @@ var ConfirmationSpectrumSalineComponent = /** @class */ (function () {
     };
     ConfirmationSpectrumSalineComponent.prototype.openModal = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_14__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_14__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.buyNowModal = this.buyNow;
         modalRef.result.then(function (result) {
             _this.ngOnInit();
@@ -4191,7 +4191,7 @@ var ProductViewBlueComponent = /** @class */ (function () {
     };
     ProductViewBlueComponent.prototype.openModal = function (type) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_blue_light_confirmation_blue_light_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationBlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_blue_light_confirmation_blue_light_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationBlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.listFileBasket = this.listFileBasket;
@@ -4841,7 +4841,7 @@ var ProductViewEuclidComponent = /** @class */ (function () {
     };
     ProductViewEuclidComponent.prototype.openModal = function (type) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_euclid_confirmation_euclid_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationEuclidComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_euclid_confirmation_euclid_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationEuclidComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
@@ -5867,7 +5867,7 @@ var ProductViewEuropaComponent = /** @class */ (function () {
     };
     ProductViewEuropaComponent.prototype.openModal = function (type) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_europa_confirmation_europa_component__WEBPACK_IMPORTED_MODULE_19__["ConfirmationEuropaComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_europa_confirmation_europa_component__WEBPACK_IMPORTED_MODULE_19__["ConfirmationEuropaComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
@@ -6500,7 +6500,7 @@ var ProductViewFluoStripsComponent = /** @class */ (function () {
     };
     ProductViewFluoStripsComponent.prototype.openModal = function (type) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_spectrum_saline_confirmation_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationSpectrumSalineComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_spectrum_saline_confirmation_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationSpectrumSalineComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.listFileBasket = this.listFileBasket;
@@ -7029,7 +7029,7 @@ var ProductViewLenticonComponent = /** @class */ (function () {
         var _this = this;
         console.log('fils1', this.listFileLeftEye);
         console.log('fils2', this.listFileRightEye);
-        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_lenticon_confirmation_lenticon_component__WEBPACK_IMPORTED_MODULE_19__["ConfirmationLenticonComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_lenticon_confirmation_lenticon_component__WEBPACK_IMPORTED_MODULE_19__["ConfirmationLenticonComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.typeBuy = type;
@@ -7660,7 +7660,7 @@ var ProductViewMagicComponent = /** @class */ (function () {
     };
     ProductViewMagicComponent.prototype.openModal = function (type) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_magic_look_confirmation_magic_look_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationMagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_magic_look_confirmation_magic_look_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationMagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.listFileBasket = this.listFileBasket;
@@ -8298,7 +8298,7 @@ var ProductViewSpectrumSalineComponent = /** @class */ (function () {
     };
     ProductViewSpectrumSalineComponent.prototype.openModal = function (type) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_spectrum_saline_confirmation_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationSpectrumSalineComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_spectrum_saline_confirmation_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationSpectrumSalineComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.listFileBasket = this.listFileBasket;
@@ -8705,7 +8705,7 @@ var ProductViewComponent = /** @class */ (function () {
     };
     ProductViewComponent.prototype.openModal = function (type) {
         var _this = this;
-        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_markennovy_confirmation_markennovy_component__WEBPACK_IMPORTED_MODULE_16__["ConfirmationMarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border' });
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_markennovy_confirmation_markennovy_component__WEBPACK_IMPORTED_MODULE_16__["ConfirmationMarkennovyComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.role = this.user.role.idRole;
@@ -9093,7 +9093,8 @@ var ProductsListInternalComponent = /** @class */ (function () {
             case 6:// Blue Light
                 var modalRefGeneral = this.modalService.open(_modals_edit_product_edit_product_component__WEBPACK_IMPORTED_MODULE_6__["EditProductComponent"], {
                     size: 'lg',
-                    windowClass: 'modal-content-border'
+                    windowClass: 'modal-content-border',
+                    backdrop: 'static', keyboard: false
                 });
                 modalRefGeneral.componentInstance.product = product;
                 modalRefGeneral.componentInstance.action = action;
@@ -9104,7 +9105,8 @@ var ProductsListInternalComponent = /** @class */ (function () {
             case 2:// Europa
                 var modalRefEuropa = this.modalService.open(_modals_edit_product_edit_product_europa_edit_product_europa_component__WEBPACK_IMPORTED_MODULE_11__["EditProductEuropaComponent"], {
                     size: 'lg',
-                    windowClass: 'modal-content-border'
+                    windowClass: 'modal-content-border',
+                    backdrop: 'static', keyboard: false
                 });
                 modalRefEuropa.componentInstance.product = product;
                 modalRefEuropa.componentInstance.action = action;
@@ -9115,7 +9117,8 @@ var ProductsListInternalComponent = /** @class */ (function () {
             case 4:// Euclid
                 var modalRefEuclid = this.modalService.open(_modals_edit_product_edit_product_euclid_edit_product_euclid_component__WEBPACK_IMPORTED_MODULE_10__["EditProductEuclidComponent"], {
                     size: 'lg',
-                    windowClass: 'modal-content-border'
+                    windowClass: 'modal-content-border',
+                    backdrop: 'static', keyboard: false
                 });
                 modalRefEuclid.componentInstance.product = product;
                 modalRefEuclid.componentInstance.action = action;
@@ -9126,7 +9129,8 @@ var ProductsListInternalComponent = /** @class */ (function () {
             case 5:// Magic Look
                 var modalRefMagic = this.modalService.open(_modals_edit_product_edit_product_magic_look_edit_product_magic_look_component__WEBPACK_IMPORTED_MODULE_9__["EditProductMagicLookComponent"], {
                     size: 'lg',
-                    windowClass: 'modal-content-border'
+                    windowClass: 'modal-content-border',
+                    backdrop: 'static', keyboard: false
                 });
                 modalRefMagic.componentInstance.product = product;
                 modalRefMagic.componentInstance.action = action;
@@ -9138,7 +9142,8 @@ var ProductsListInternalComponent = /** @class */ (function () {
                 if (product.father === 'Fluo Strips') {
                     var modalRefGeneralFluo = this.modalService.open(_modals_edit_product_edit_product_component__WEBPACK_IMPORTED_MODULE_6__["EditProductComponent"], {
                         size: 'lg',
-                        windowClass: 'modal-content-border'
+                        windowClass: 'modal-content-border',
+                        backdrop: 'static', keyboard: false
                     });
                     modalRefGeneralFluo.componentInstance.product = product;
                     modalRefGeneralFluo.componentInstance.action = action;
@@ -9149,7 +9154,8 @@ var ProductsListInternalComponent = /** @class */ (function () {
                 else if (product.father === 'Spectrum Saline') {
                     var modalRefSpectrum = this.modalService.open(_modals_edit_product_edit_product_spectrum_saline_edit_product_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_12__["EditProductSpectrumSalineComponent"], {
                         size: 'lg',
-                        windowClass: 'modal-content-border'
+                        windowClass: 'modal-content-border',
+                        backdrop: 'static', keyboard: false
                     });
                     modalRefSpectrum.componentInstance.product = product;
                     modalRefSpectrum.componentInstance.action = action;
@@ -9160,7 +9166,8 @@ var ProductsListInternalComponent = /** @class */ (function () {
                 else {
                     var modalRefMedmont = this.modalService.open(_modals_edit_product_edit_product_medmont_edit_product_medmont_component__WEBPACK_IMPORTED_MODULE_13__["EditProductMedmontComponent"], {
                         size: 'lg',
-                        windowClass: 'modal-content-border'
+                        windowClass: 'modal-content-border',
+                        backdrop: 'static', keyboard: false
                     });
                     modalRefMedmont.componentInstance.product = product;
                     modalRefMedmont.componentInstance.action = action;
