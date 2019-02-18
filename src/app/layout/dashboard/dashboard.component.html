@@ -79,7 +79,31 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-3" *ngIf="user.role.idRole === 3">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <!--
+                <span class="label label-primary pull-right">Today</span>
+                -->
+            <h5>{{ 'Overdue Invoices' | translate }}</h5>
+          </div>
+          <div class="ibox-content">
+            <div class="info-card icon-card">
+              <h1 class="no-margins card-text">{{ overdueInvoices | number:'2.0-0' }}</h1>
+              <i class="fa fa-users"></i>
+            </div>
+            <br>
+            <div class="stat-percent text-info">
+              <small>
+                <a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3" *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
