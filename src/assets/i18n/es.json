@@ -1110,5 +1110,6 @@
     "General Balance":"Balance General",
     "The shipping address is used in an order":"La dirección de envío es usada en una orden",
     "Pending Payment":"Pago pendiente",
-    "There are no records for the report": "No hay registros para el reporte"
+    "There are no records for the report": "No hay registros para el reporte",
+    "Amount Without Shipping": "Monto sin Envío"
 }
