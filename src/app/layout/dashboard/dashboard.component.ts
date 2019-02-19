@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
   warranties = 0;
   pendingPayment = 0;
   overdueCustomers = 0;
+  overdueInvoices = 0;
   orderPend = 0;
   orderProc = 0;
   orderReady = 0;
@@ -394,6 +395,7 @@ export class DashboardComponent implements OnInit {
           this.invoicesListAux = _.filter(this.invoicesList, function(o) { return o.dueDate < today;  });
           this.customersList = _.uniqBy(this.invoicesListAux, function(o) { return o.idUser; });
           this.overdueCustomers = this.customersList.length;
+          this.overdueInvoices = this.customersList.length;
         } else {
           console.log(res.code);
         }
