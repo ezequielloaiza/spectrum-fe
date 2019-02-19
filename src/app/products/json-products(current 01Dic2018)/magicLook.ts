@@ -8,7 +8,7 @@ this.products = [
     "material": "(Polymacon 38%) Non-Ionic",
     "descriptionShort": "My description short by euclid",
     "description": "Saphir represents a family of monthly and 3-monthly soft contact lenses individually manufactured with Silicone Hydrogel, the most advanced material on the market, which maximises oxygen flow to the eye. Its unique combination of comfort, breathability and vision quality suits even the most demanding contact lens user.",
-    "replacementPeriod": "3-Monthly",
+    "replacementPeriod": "Yearly",
     "url": "http://spctinternational.com/contacts/",
     "stock": 10,
     "types": [
