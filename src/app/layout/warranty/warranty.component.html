@@ -1,15 +1,15 @@
 <ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
 <app-page-header class="page-header-fixed" [heading]="'Warranties List'" [icon]="'fa fa-certificate'"></app-page-header>
 <div class="sp-container">
-  <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="row search">
-    <div class="col col-xl-4 col-lg-4">
+  <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2" class="row search filters">
+    <div class="col col-xl-5 col-lg-5">
       <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter warranty search..' | translate}}">
       <i class="fa fa-search"></i>
     </div>
     <div class="col col-xl-1 col-lg-1">
       <h6 class="status">{{ 'Status' | translate }}</h6>
     </div>
-    <div [formGroup]="form" class="d-flex col col-xl-2 col-lg-2">
+    <div [formGroup]="form" class="d-flex col col-xl-3 col-lg-3">
       <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter(selectedStatus)"
         formControlName="selectedStat">
         <option value="" disabled [selected]="true" translate>Select value</option>
