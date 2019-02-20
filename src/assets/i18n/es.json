@@ -1111,5 +1111,7 @@
     "The shipping address is used in an order":"La dirección de envío es usada en una orden",
     "Pending Payment":"Pago pendiente",
     "There are no records for the report": "No hay registros para el reporte",
-    "Overdue Invoices": "Facturas Vencidas"
+    "Overdue Invoices": "Facturas Vencidas",
+    "The certification code is associated with another client":"El código de certificación está asociado a otro cliente",
+    "The card code is associated with another client":"El código de la tarjeta está asociado a otro cliente"
 }

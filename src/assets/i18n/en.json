@@ -933,5 +933,7 @@
     "The shipping address is used in an order":"The shipping address is used in an order",
     "Pending Payment":"Pending Payment",
     "There are no records for the report": "There are no records for the report",
-    "Overdue Invoices":"Overdue Invoices"
+    "Overdue Invoices":"Overdue Invoices",
+    "The certification code is associated with another client":"The certification code is associated with another client",
+    "The card code is associated with another client":"The card code is associated with another client"
 }
