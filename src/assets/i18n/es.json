@@ -1112,5 +1112,6 @@
     "Pending Payment":"Pago pendiente",
     "There are no records for the report": "No hay registros para el reporte",
     "Amount Without Shipping": "Monto sin envío",
-    "Amount Shipping" : "Monto de envío"
+    "Amount Shipping" : "Monto de envío",
+    "Overdue Invoices": "Facturas Vencidas"
 }
