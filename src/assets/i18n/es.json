@@ -1112,5 +1112,7 @@
     "Pending Payment":"Pago pendiente",
     "There are no records for the report": "No hay registros para el reporte",
     "Overdue Invoices": "Facturas Vencidas",
-    "Ortho-K material":"Material de Ortho-K"
+    "Ortho-K material":"Material de Ortho-K",
+    "The certification code is associated with another client":"El código de certificación está asociado a otro cliente",
+    "The card code is associated with another client":"El código de la tarjeta está asociado a otro cliente"
 }

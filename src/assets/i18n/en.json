@@ -934,5 +934,7 @@
     "Pending Payment":"Pending Payment",
     "There are no records for the report": "There are no records for the report",
     "Overdue Invoices":"Overdue Invoices",
-    "Ortho-K material":"Ortho-K material"
+    "Ortho-K material":"Ortho-K material",
+    "The certification code is associated with another client":"The certification code is associated with another client",
+    "The card code is associated with another client":"The card code is associated with another client"
 }

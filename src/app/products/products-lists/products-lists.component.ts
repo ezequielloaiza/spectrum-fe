@@ -94,13 +94,13 @@ export class ProductsListsComponent implements OnInit {
                 }
               });
             });
-            this.listSupplier = supplierFiltered;
             this.listSupplierFilter = supplierFiltered;
             this.orderList();
+            this.listSupplier = this.listSupplierFilter;
             this.spinner.hide();
           } else {
-            this.listSupplier = this.listSupplierFilter;
             this.orderList();
+            this.listSupplier = this.listSupplierFilter;
             this.spinner.hide();
           }
           this.setImageSupplier();
@@ -124,7 +124,7 @@ export class ProductsListsComponent implements OnInit {
           supplier.image = 'assets/images/suppliers/europa.png';
           break
         case 3: // Lenticon
-          supplier.image = 'assets/images/suppliers/lenticon.png';
+          supplier.image = 'assets/images/suppliers/elipsys.png';
           break
         case 4: // Euclid
           supplier.image = 'assets/images/suppliers/euclid.png';
@@ -203,8 +203,6 @@ export class ProductsListsComponent implements OnInit {
   }
 
   orderList(){
-    let array = [{idSupplier: 1000, companyName: 'All'}];
-    this.listSupplierFilter = _.concat(this.listSupplierFilter, array);
-    this.listSupplierFilter = _.orderBy(this.listSupplierFilter, ['idSupplier'], ['desc']);
+   this.listSupplierFilter = _.orderBy(this.listSupplierFilter, ['idSupplier'], ['asc']);
   }
 }
