@@ -17,6 +17,14 @@
   margin-left: 0.3rem;
 }
 
+.filters {
+  padding-left: 2%;
+  padding-right: 2%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
 .body-fixed {
   padding-top: 10%;
 }

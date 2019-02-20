@@ -1113,5 +1113,8 @@
     "There are no records for the report": "No hay registros para el reporte",
     "Amount Without Shipping": "Monto sin envío",
     "Amount Shipping" : "Monto de envío",
-    "Overdue Invoices": "Facturas Vencidas"
+    "Overdue Invoices": "Facturas Vencidas",
+    "Ortho-K material":"Material de Ortho-K",
+    "The certification code is associated with another client":"El código de certificación está asociado a otro cliente",
+    "The card code is associated with another client":"El código de la tarjeta está asociado a otro cliente"
 }
