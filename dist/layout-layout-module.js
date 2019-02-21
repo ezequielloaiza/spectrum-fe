@@ -12575,14 +12575,20 @@ var AddPaymentModalComponent = /** @class */ (function () {
         }
     };
     AddPaymentModalComponent.prototype.buildFileInvoicePayment = function () {
+        console.log('buildFileInvoicePayment');
+        console.log('this.uploadResult.success', this.uploadResult.success);
         if (this.uploadResult.success) {
+            console.log('this.uploadResult.response', JSON.parse(this.uploadResult.response));
             var fileInvoicePayment = new _shared_models_fileinvoicepayment__WEBPACK_IMPORTED_MODULE_11__["FileInvoicePayment"]();
             fileInvoicePayment.url = JSON.parse(this.uploadResult.response).data;
             fileInvoicePayment.name = this.uploadResult.item.file.name;
             fileInvoicePayment.type = this.uploadResult.item.file.type;
             fileInvoicePayment.size = this.uploadResult.item.file.size;
             fileInvoicePayment.createdAt = new Date();
+            console.log('this.uploadResult.item', this.uploadResult.item);
+            console.log('fileInvoicePayment', fileInvoicePayment);
             this.listFilePayment.push(fileInvoicePayment);
+            console.log('this.listFilePayment', this.listFilePayment);
         }
         else {
             console.log('error file');
