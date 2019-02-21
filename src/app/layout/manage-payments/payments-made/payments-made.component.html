@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="container pp rounded">
-          <div class="row justify-content-md-center order-summary">
+          <div class="row justify-content-md-center order-summary margin-container ">
             <!--Invoice data-->
             <div class="col-md-4">
               <span class="font-weight-bold">{{'Status' | translate }}:</span>&nbsp;
@@ -64,6 +64,9 @@
               <br>
               <span class="font-weight-bold">{{'Amount Shipping' | translate }}:</span>&nbsp;
               <span>{{ (invoice ? invoice.shipping : '') | currency : "USD $" }}</span>
+              <br>
+              <span class="font-weight-bold">{{'Amount Without Shipping' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? invoice.totalWShipping : '') | currency : "USD $" }}</span>
               <br>
               <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
               <span>{{ (invoice ? invoice.subtotal : '') | currency : "USD $" }}</span>
