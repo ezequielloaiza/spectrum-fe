@@ -17,6 +17,7 @@ export class InvoiceClient {
     public shipping: number;
     public due: number;
     public total: number;
+    public totalWShipping: number;
     public status: number;
     public user: User;
     public idUser: number;
