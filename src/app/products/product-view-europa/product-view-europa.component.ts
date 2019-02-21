@@ -219,8 +219,17 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
     this.product.type = JSON.parse(this.product.types)[0].name;
+    let orderCylinder;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+    orderCylinder = _.find(this.product.parametersRight, {name: 'Cylinder (D)'});
+    if (orderCylinder != null) {
+      orderCylinder.values.reverse();
+    }
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+    orderCylinder = _.find(this.product.parametersLeft, {name: 'Cylinder (D)'});
+    if (orderCylinder != null) {
+      orderCylinder.values.reverse();
+    }
     this.product.headerRight = JSON.parse(this.product.types)[0].header;
     this.product.headerLeft = JSON.parse(this.product.types)[0].header;
     this.product.pasosRight = JSON.parse(this.product.types)[0].pasos;
