@@ -131,7 +131,7 @@ export class ProductsListInternalComponent implements OnInit {
     }
     if (productsBluKidz.length) {
       this.productsMarkennovy.push({name:"Blu:kidz",
-                                    mainImg:"assets/images/products/markennovy/Blukidz summer season.jpg",
+                                    mainImg:"assets/images/products/markennovy/blu-kidz.png",
                                     replacementPeriod:"Monthly",
                                     father: "Blu:kidz"});
     }
