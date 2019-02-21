@@ -187,6 +187,7 @@ export class AddPaymentModalComponent implements OnInit {
       this.invoicePaymentService.saveInvoicePayment$(this.invoicePayment).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.invoicePayment = res.data;
+          console.log('ok', this.listFilePayment);
           this.fileInvoicePaymentService.saveAllFile$(this.listFilePayment, this.invoicePayment.idInvoicePayment).subscribe(
             res1 => {
               if (res1.code === CodeHttp.ok) {

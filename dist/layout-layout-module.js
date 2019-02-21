@@ -12401,6 +12401,7 @@ var AddPaymentModalComponent = /** @class */ (function () {
             this.invoicePaymentService.saveInvoicePayment$(this.invoicePayment).subscribe(function (res) {
                 if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_7__["CodeHttp"].ok) {
                     _this.invoicePayment = res.data;
+                    console.log('ok', _this.listFilePayment);
                     _this.fileInvoicePaymentService.saveAllFile$(_this.listFilePayment, _this.invoicePayment.idInvoicePayment).subscribe(function (res1) {
                         if (res1.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_7__["CodeHttp"].ok) {
                             _this.modalReference.close();
@@ -19434,6 +19435,7 @@ var FileinvoicepaymentService = /** @class */ (function () {
         return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'fileInvoicePayment/deleteFile/' + id, file);
     };
     FileinvoicepaymentService.prototype.saveAllFile$ = function (listFiles, id) {
+        console.log('service', listFiles);
         return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'fileInvoicePayment/saveAllFiles/' + id, listFiles);
     };
     FileinvoicepaymentService.prototype.allFileByInvoicePayment$ = function (id) {
