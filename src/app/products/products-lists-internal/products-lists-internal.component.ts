@@ -67,6 +67,7 @@ export class ProductsListInternalComponent implements OnInit {
     var productsSaphir = [];
     var productsQuattroX3 = [];
     var productsQuattroX1 = [];
+    var productsJade = [];
     var userIsAdmin = this.userIsAdmin();
     _.each(this.products, function(product) {
       if (userIsAdmin || product.status) {
@@ -97,6 +98,9 @@ export class ProductsListInternalComponent implements OnInit {
             break;
           case 'Quattro Conventional':
             productsQuattroX1.push(product);
+            break;
+          case 'Jade':
+            productsJade.push(product);
             break;
         }
       }
@@ -137,6 +141,12 @@ export class ProductsListInternalComponent implements OnInit {
                                     mainImg:"assets/images/products/markennovy/xtensa.png",
                                     replacementPeriod:"Monthly",
                                     father: "Xtensa"});
+    }
+    if (productsJade.length) {
+      this.productsMarkennovy.push({name:"Jade",
+                                    mainImg:"assets/images/products/markennovy/jade.png",
+                                    replacementPeriod:"Monthly",
+                                    father: "Jade"});
     }
     if (productsSaphir.length) {
       this.productsMarkennovy.push({name:"Saphir",

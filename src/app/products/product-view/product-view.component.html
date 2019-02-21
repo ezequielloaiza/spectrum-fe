@@ -63,7 +63,7 @@
           <dt>{{ 'Warranty' | translate }}</dt>
           <p>{{ product.warranty }} {{ 'days' | translate }}</p>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" [hidden]="product.url === null">
           <dt>{{ 'Product Sheet' | translate }}</dt>
           <dd>
             <a href="{{ product.url }}" target="_blank">{{ 'Download' | translate }}</a>
