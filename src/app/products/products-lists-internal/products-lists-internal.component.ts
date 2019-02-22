@@ -494,11 +494,11 @@ export class ProductsListInternalComponent implements OnInit {
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
         product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa' ||
         product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
-      
+
           this.packings.push({ 'product': product, 'type': 'Blister'});
     }
 
-    if (product.father === 'Xtensa') {
+    if (product.father === 'Xtensa' || product.father === 'Jade') {
       this.packings.push({ 'product': product, 'type': '6pk'});
     }
 
