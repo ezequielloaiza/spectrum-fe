@@ -102,13 +102,13 @@ export class SellerModalComponent implements OnInit {
     this.form.get('city').setValue(this.googleService.getCity());
     console.log(this.form.value);
     this.userSerice.registerSeller$(this.form.value).subscribe(res => {
+      this.form.get('city').setValue({description: this.form.value.city});
       if (res.code === CodeHttp.ok) {
         this.modal.close();
         this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
           this.notification.success('', res);
         });
       } else if (res.code === CodeHttp.notAcceptable) {
-        this.form.get('city').setValue({description: this.form.value.city});
         this.translate.get('The seller already exists', { value: 'The seller already exists' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
@@ -127,6 +127,9 @@ export class SellerModalComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());

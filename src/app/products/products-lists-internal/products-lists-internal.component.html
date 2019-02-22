@@ -28,7 +28,10 @@
         <a class="link"  href="Javascript:void(0)" (click)="backToFathersHeader()"><i class="fa fa-edit"></i> {{ nameSupplier }}</a>
       </li>
       <li class="breadcrumb-item active" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
-        <i class="fa fa-edit"></i> {{ currentFather }}
+        <a class="link"  href="Javascript:void(0)" (click)="showPackingsMarkennovy = true"><i class="fa fa-edit"></i> {{ currentFather }}</a>
+      </li>
+      <li class="breadcrumb-item active" [hidden]="idSupplier !== 1 || showFathersMarkennovy || !currentPacking || showPackingsMarkennovy">
+        <i class="fa fa-edit"></i> {{ currentPacking }}
       </li>
 		</ol>
 	</div>
@@ -41,7 +44,7 @@
     <div class="col-sm-6 vertical-align text-center">
       <form>
         <div class="row grid-space-1">
-          <div class="col col-xl-12 col-lg-12 search">
+          <div class="col col-xl-12 col-lg-12 search" [hidden]="showPackingsMarkennovy">
             <input type="text" class="form-control" [hidden]="idSupplier === 1" (keyup)="filter('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
             <input type="text" class="form-control" [hidden]="idSupplier !== 1 || !showFathersMarkennovy" (keyup)="filterByFather('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
             <input type="text" class="form-control" [hidden]="idSupplier !== 1 || showFathersMarkennovy" (keyup)="filterByPacking(currentPacking)" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
@@ -79,44 +82,6 @@
       </div>
     </div>
   </div>
-  <div class="row display-table" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
-    <!--<div class="filter">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadioMarkennovy5" name="customRadioFathers" value="0" class="custom-control-input" (change)="backToFathers()" [checked]="currentFather !== '' ? false : true">
-        <label class="custom-control-label" for="customRadioMarkennovy5">{{ 'All' | translate }}</label>
-      </div>
-    </div>-->
-    <div class="filter">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadioMarkennovy6" name="customRadioFathers" value="1" class="custom-control-input" [checked]="currentFather !== '' ? true : false" (change)="filterByPacking(currentFather, 'All')">
-        <label class="custom-control-label" for="customRadioMarkennovy6">{{ 'All' | translate }}</label>
-      </div>
-    </div>
-    <div class="filter" [hidden]="currentFather !== 'Saphir Rx' && currentFather !== 'Gentle 80' && currentFather !== 'Gentle 59' && currentFather !== 'Blu:gen' && currentFather !== 'Blu:kidz' && currentFather !== 'Xtensa' && currentFather !== 'Saphir' && currentFather !== 'Quattro 3-Monthly'">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadioMarkennovy7" name="customRadioFathers" value="2" class="custom-control-input" (change)="filterByPacking('Blister')">
-        <label class="custom-control-label" for="customRadioMarkennovy7">{{ 'Blister' | translate }}</label>
-      </div>
-    </div>
-    <div class="filter" [hidden]="currentFather !== 'Xtensa'">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadioMarkennovy8" name="customRadioFathers" value="3" class="custom-control-input" (change)="filterByPacking('6pk')">
-        <label class="custom-control-label" for="customRadioMarkennovy8">{{ '6pk' }}</label>
-      </div>
-    </div>
-    <div class="filter" [hidden]="currentFather !== 'Saphir Rx' && currentFather !== 'Gentle 80' && currentFather !== 'Gentle 59' && currentFather !== 'Blu:gen' && currentFather !== 'Blu:kidz' && currentFather !== 'Xtensa'">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadioMarkennovy9" name="customRadioFathers" value="4" class="custom-control-input" (change)="filterByPacking('3pk')">
-        <label class="custom-control-label" for="customRadioMarkennovy9">{{ '3pk' }}</label>
-      </div>
-    </div>
-    <div class="filter" [hidden]="currentFather !== 'Saphir' && currentFather !== 'Quattro 3-Monthly'">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadioMarkennovy10" name="customRadioFathers" value="5" class="custom-control-input" (change)="filterByPacking('2pk')">
-        <label class="custom-control-label" for="customRadioMarkennovy10">{{ '2pk' }}</label>
-      </div>
-    </div>
-  </div>
   <!-- end  row -->
 </div>
 
@@ -131,7 +96,7 @@
         <div [hidden]="!showFathersMarkennovy" class="col-md-4" *ngFor="let product of productsMarkennovy">
           <div class="mb-4">
             <a class="prodTeaser" >
-              <div class="prodTeaser-overlay" (click)="redirectFather(product)">
+              <div class="prodTeaser-overlay" (click)="redirectPacking(product)">
                 <i class="prodTeaser-more">{{ 'View' | translate }}</i>
               </div>
               <div class="prodTeaser-inner">
@@ -147,8 +112,28 @@
           </div>
         </div>
 
+        <!--Only packing markennovy-->
+        <div [hidden]="!showPackingsMarkennovy" class="col-md-4" *ngFor="let packing of packings">
+          <div class="mb-4">
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="redirectFather(packing.product, packing.type)">
+                <i class="prodTeaser-more">{{ 'View' | translate }}</i>
+              </div>
+              <div class="prodTeaser-inner">
+                <img
+                  class="card-img-top-teaser"
+                  src="{{ packing.product.mainImg }}"
+                />
+              </div>
+              <h4 class="product-name">
+                {{ packing.type }}
+              </h4>
+            </a>
+          </div>
+        </div>
+
         <!--Products without Markennovy-->
-        <div [hidden]="showFathersMarkennovy" class="col-md-4" *ngFor="let product of products">
+        <div [hidden]="showFathersMarkennovy || showPackingsMarkennovy" class="col-md-4" *ngFor="let product of products">
           <div class="mb-4">
             <a class="prodTeaser" >
               <div class="prodTeaser-overlay" (click)="redirectView(product)">
