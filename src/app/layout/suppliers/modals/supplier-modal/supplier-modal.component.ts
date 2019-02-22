@@ -102,13 +102,13 @@ export class SupplierModalComponent implements OnInit {
     if (this.action !== 'edit') {
       /*save*/
       this.supplierService.save$(this.form.value).subscribe(res => {
+        this.form.get('city').setValue({description: this.form.value.city});
         if (res.code === CodeHttp.ok) {
           this.close(res.data);
           this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
             this.notification.success('', res);
           });
         } else if (res.code === CodeHttp.notAcceptable) {
-          this.form.get('city').setValue({description: this.form.value.city});
           this.translate.get('The supplier already exists, verify the name of the company or the emails',
           { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
             this.notification.warning('', res);
@@ -122,13 +122,13 @@ export class SupplierModalComponent implements OnInit {
     } else {
       /*update*/
       this.supplierService.update$(this.form.value).subscribe(res => {
+        this.form.get('city').setValue({description: this.form.value.city});
         if (res.code === CodeHttp.ok) {
           this.close(res.data);
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
             this.notification.success('', res);
           });
         } else if (res.code === CodeHttp.notAcceptable) {
-          this.form.get('city').setValue(this.valorCity);
           this.translate.get('The supplier already exists, verify the name of the company or the emails',
           { value: 'The provider already exists, verify the name of the company or the emails' }).subscribe((res: string) => {
             this.notification.warning('', res);
@@ -166,7 +166,9 @@ export class SupplierModalComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
