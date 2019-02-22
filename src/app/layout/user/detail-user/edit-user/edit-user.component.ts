@@ -153,6 +153,9 @@ export class EditUserComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
