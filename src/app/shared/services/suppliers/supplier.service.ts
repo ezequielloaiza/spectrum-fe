@@ -43,4 +43,8 @@ export class SupplierService {
       responseType: 'blob'
     });
   }
+
+  public checkSupplierUser$(supplier): Observable<any> {
+    return this.http.post(environment.apiUrl + 'suppliers/checkSupplierUser', supplier);
+  }
 }
