@@ -120,7 +120,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listOrders = res.data;
           this.listOrdersAux = res.data;
           _.each(this.listOrders, function (order) {
-            console.log(order);
             _.each(order.listProductRequested, function (listDetails) {
               if (listDetails.productRequested.detail.length > 0){
                 listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
@@ -294,7 +293,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const lista = [];
     if (val && val.trim() !== '') {
       const product = val;
-      console.log(product);
       if (_.toString(valorStatus) === '' && this.tamano.length === 9 &&
         _.toString(this.valorClient) === '') { // Si no ha seleccionado cliente, status y fecha
         this.listOrders = this.listOrders.filter((item) => {
