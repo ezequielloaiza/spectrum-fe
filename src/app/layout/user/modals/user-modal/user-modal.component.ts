@@ -181,7 +181,6 @@ export class UserModalComponent implements OnInit {
       if (this.selectedCountry.length > 0) {
         this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       }
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
@@ -196,7 +195,9 @@ export class UserModalComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountryCompany = _.filter(countries, { 'name': country } );
-      this.form.get('idCompanyCountry').setValue(this.selectedCountryCompany[0].idCountry);
+      if (this.selectedCountryCompany.length > 0) {
+        this.form.get('idCompanyCountry').setValue(this.selectedCountryCompany[0].idCountry);
+      }
       this.form.get('companyState').setValue(this.googleService.getState());
       this.form.get('companyPostal').setValue(this.googleService.getPostalCode());
       this.form.get('companyCity').setValue({ description: this.googleService.getCity() });
