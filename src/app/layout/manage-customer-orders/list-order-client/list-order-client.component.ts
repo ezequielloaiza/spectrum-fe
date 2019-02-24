@@ -15,9 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
 import { InvoiceClient } from '../../../shared/models/invoiceclient';
 import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
-import { generate } from 'rxjs';
 import { ModalsInvoiceComponent } from '../modals-invoice/modals-invoice.component';
-import { Order } from '../../../shared/models/order';
 
 @Component({
   selector: 'app-list-order-client',
@@ -122,6 +120,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listOrders = res.data;
           this.listOrdersAux = res.data;
           _.each(this.listOrders, function (order) {
+            console.log(order);
             _.each(order.listProductRequested, function (listDetails) {
               if (listDetails.productRequested.detail.length > 0){
                 listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
@@ -243,7 +242,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         this.listOrders = this.listOrders.filter((item) => {
           return (((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1))
-            && (item.supplier.companyName.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1));
+            && (item.listProductRequested.find((pR) => {
+              return (pR.productRequested.product.name.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1);
+            })));
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
         && _.toString(this.valorProduct) === '') {// si selecciono status y no fecha ni producto
@@ -293,17 +294,22 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const lista = [];
     if (val && val.trim() !== '') {
       const product = val;
+      console.log(product);
       if (_.toString(valorStatus) === '' && this.tamano.length === 9 &&
         _.toString(this.valorClient) === '') { // Si no ha seleccionado cliente, status y fecha
         this.listOrders = this.listOrders.filter((item) => {
-          return (item.supplier.companyName.toLowerCase().indexOf(product.toLowerCase()) > -1);
+          return item.listProductRequested.find((pR) => {
+            return (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1);
+          });
         });
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
         && _.toString(this.valorClient) !== '') {// si selecciono status y no fecha ni cliente
         this.listOrders = this.listOrders.filter((item) => {
-          return (((item.nameUser.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
+          return item.listProductRequested.find((pR) => {
+            return (((item.nameUser.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
             (item.number.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1))
-            && (item.supplier.companyName.toLowerCase().indexOf(product.toLowerCase()) > -1));
+            && (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1));
+          });
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
         && _.toString(this.valorClient) === '') {// si selecciono status y no fecha ni cliente
@@ -356,7 +362,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       const fechaList = _.toString(orders.date.slice(0, 10));
       if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) &&
-        (_.includes(orders.supplier.companyName.toLowerCase(), producto.toLowerCase()))) &&
+        (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
+        }))) &&
         // tslint:disable-next-line:radix
         ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
@@ -374,7 +382,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     _.filter(this.listOrdersAux, function (orders) {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
-      if ((_.includes(orders.supplier.companyName.toLowerCase(), producto.toLowerCase())) &&
+      if ((orders.listProductRequested.find((pR) => {
+        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
         // tslint:disable-next-line:radix
         ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
@@ -407,7 +416,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     _.filter(this.listOrdersAux, function (orders) {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) &&
-        (_.includes(orders.supplier.companyName.toLowerCase(), producto.toLowerCase())) &&
+        (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
         // tslint:disable-next-line:radix
         (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
@@ -432,7 +442,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   filterStatusProducto(producto, status): void {
     const lista = [];
     _.filter(this.listOrdersAux, function (orders) {
-      if (((_.includes(orders.supplier.companyName.toLowerCase(), producto.toLowerCase()))) &&
+      if (((orders.listProductRequested.find((pR) => {
+        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); }))) &&
         // tslint:disable-next-line:radix
         (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
@@ -451,7 +462,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       const fechaList = _.toString(orders.date.slice(0, 10));
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ) &&
-        (_.includes(orders.supplier.companyName.toLowerCase(), producto.toLowerCase())) &&
+        (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
         ((_.isEqual(fecha, fechaList)))) {
         lista.push(orders);
       }
@@ -484,7 +496,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     _.filter(this.listOrdersAux, function (orders) {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
-      if ((_.includes(orders.supplier.companyName.toLowerCase(), producto.toLowerCase())) &&
+      if ((orders.listProductRequested.find((pR) => {
+        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
         (_.isEqual(fecha, fechaList))) {
         lista.push(orders);
       }
