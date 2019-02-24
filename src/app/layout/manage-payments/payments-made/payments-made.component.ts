@@ -12,6 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AddPaymentModalComponent } from './modals/add-payment-modal/add-payment-modal.component';
 import { ChangeStatusComponent } from './modals/change-status/change-status.component';
 import { InvoiceClientInvoicePayment } from '../../../shared/models/invoiceclientinvoicepayment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-payments-made',
@@ -40,15 +41,18 @@ export class PaymentsMadeComponent implements OnInit {
     private userStorageService: UserStorageService,
     private invoiceService: InvoiceClientService,
     private invoicePaymentService: InvoicePaymentService,
+    private spinner: NgxSpinnerService,
     public router: Router) {
       this.user = JSON.parse(userStorageService.getCurrentUser());
     }
 
   ngOnInit() {
+    this.spinner.show();
     const id = this.route.snapshot.paramMap.get('idInvoice');
     this.getInvoice(id);
     this.getListPayments(id);
     this.advancedPagination = 1;
+    this.spinner.hide();
   }
 
   pageChange(event) {
@@ -94,7 +98,6 @@ export class PaymentsMadeComponent implements OnInit {
       res => {
         if (res.code === CodeHttp.ok) {
           this.listPayments = res.data;
-          console.log(res.data);
         } else {
           console.log(res.code);
         }
@@ -109,8 +112,13 @@ export class PaymentsMadeComponent implements OnInit {
     if (inv === undefined) {
       inv = this.auxInvoice;
     }
-    const pI = payment.invoiceClientInvoicePaymentList.find(
-      x => (x.invoiceClient === inv.idInvoice));
+    let pI;
+    if (payment.invoiceClientInvoicePaymentList.length == 1) {
+      pI = payment.invoiceClientInvoicePaymentList[0];
+    } else {
+      pI = payment.invoiceClientInvoicePaymentList.find(
+        x => (x.invoiceClient === inv.idInvoice));
+    }
     return pI.partialPayment;
   }
 
