@@ -493,7 +493,7 @@ export class ProductsListInternalComponent implements OnInit {
     this.packings.push({ 'product': product, 'type': 'All'});
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
         product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa' ||
-        product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
+        product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Jade') {
 
           this.packings.push({ 'product': product, 'type': 'Blister'});
     }
