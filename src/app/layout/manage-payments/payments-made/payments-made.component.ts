@@ -232,7 +232,6 @@ export class PaymentsMadeComponent implements OnInit {
         { value: 'Are you sure you want to delete the invoice payment?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
             if (payment.invoiceClientInvoicePaymentList.length > 1) {
-              console.log('1');
               this.invoicePaymentService.deleteInvoicePaymentByInvoiceClient$(payment.idInvoicePayment, id).subscribe(res => {
                 if (res.code === CodeHttp.ok) {
                   this.getInvoice(id);
@@ -247,7 +246,6 @@ export class PaymentsMadeComponent implements OnInit {
                 console.log('error', error);
               });
             } else {
-              console.log('2');
               this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
                 if (res.code === CodeHttp.ok) {
                   this.getInvoice(id);

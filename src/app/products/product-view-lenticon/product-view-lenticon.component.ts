@@ -159,7 +159,6 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   getProductView() {
-    console.log(JSON.stringify(_.range(4, 10, 0.5)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;
@@ -341,8 +340,6 @@ export class ProductViewLenticonComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let pupillaryRight = this.product.pupillaryRight === null ? '' : this.product.pupillaryRight;
     let pupillaryLeft = this.product.pupillaryLeft === null ? '' : this.product.pupillaryLeft;
-    console.log('test', JSON.parse(JSON.stringify(this.uploadResultRightEye)));
-    console.log('test1', JSON.parse(JSON.stringify(this.uploadResultLeftEye)));
     _.each(productsSelected, function(productSelected, index) {
 
       productSelected.id = product.idProduct;
@@ -434,9 +431,6 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   openModal(type): void {
-    console.log('fils1', this.listFileLeftEye);
-    console.log('fils2', this.listFileRightEye);
-
     const modalRef = this.modalService.open( ConfirmationLenticonComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;

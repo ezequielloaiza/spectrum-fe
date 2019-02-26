@@ -33,7 +33,6 @@ export class ModalsChangeStatusComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('warranty', this.warranty);
     this.initializeForm();
   }
 
