@@ -47,12 +47,10 @@ export class PaymentsMadeComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.spinner.show();
     const id = this.route.snapshot.paramMap.get('idInvoice');
     this.getInvoice(id);
     this.getListPayments(id);
     this.advancedPagination = 1;
-    this.spinner.hide();
   }
 
   pageChange(event) {
@@ -62,6 +60,7 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   getInvoice(id): void {
+    this.spinner.show();
     this.invoiceService.findInvoice$(id).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
@@ -70,8 +69,10 @@ export class PaymentsMadeComponent implements OnInit {
         } else {
           console.log(res.code);
         }
+        this.spinner.hide();
       },
       error => {
+        this.spinner.hide();
         console.log('error', error);
       }
     );
