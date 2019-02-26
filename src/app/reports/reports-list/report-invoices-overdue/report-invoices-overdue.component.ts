@@ -65,7 +65,6 @@ export class ReportInvoicesOverdueComponent implements OnInit {
     this.invoiceClientService.invoicesOverdue$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.clients = res.data;
-        console.log(this.clients);
         if (this.clients.length == 0) {
           this.translate.get('There are no overdue invoices',
           { value: 'There are no overdue invoices' }).subscribe((res1: string) => {

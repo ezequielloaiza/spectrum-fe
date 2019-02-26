@@ -44,7 +44,6 @@ export class ReportsListComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('report', this.listReport);
   }
 
 

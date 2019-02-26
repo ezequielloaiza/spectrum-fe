@@ -79,7 +79,6 @@ export class ReportBalanceClientComponent implements OnInit {
       this.invoiceClientService.usersWithInvoices$().subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.clients = res.data;
-          console.log(this.clients);
           if (this.clients.length == 0) {
             this.translate.get('There are no customers with invoices',
             { value: 'There are no customers with invoices' }).subscribe((res1: string) => {
@@ -113,7 +112,6 @@ export class ReportBalanceClientComponent implements OnInit {
     this.reportRequest.endDate = this.endDate == null ? null : this.getFecha(this.endDate);
     this.reportRequest.idClient = idClient;
     this.invoiceClientService.downloadReportBalance$(this.reportRequest).subscribe(res => {
-      console.log('response', res);
       if (res == null) {
         this.translate.get('There are no records for the report',
           { value: 'There are no records for the report' }).subscribe((res1: string) => {

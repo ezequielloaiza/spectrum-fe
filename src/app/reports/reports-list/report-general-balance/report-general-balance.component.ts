@@ -45,7 +45,6 @@ export class ReportGeneralBalanceComponent implements OnInit {
     this.reportRequest.beginDate = this.beginDate == null ? null : this.getFecha(this.beginDate);
     this.reportRequest.endDate = this.endDate == null ? null : this.getFecha(this.endDate);
     this.invoiceClientService.downloadGeneralBalance$(this.reportRequest).subscribe(res => {
-      console.log('response', res);
       if (res == null) {
         this.translate.get('There are no records for the report',
           { value: 'There are no records for the report' }).subscribe((res1: string) => {
