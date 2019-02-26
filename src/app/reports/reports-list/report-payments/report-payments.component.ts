@@ -80,7 +80,6 @@ export class ReportPaymentsComponent implements OnInit {
       this.invoicePaymentService.usersWithPayments$(this.user.userResponse.idUser).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.clients = res.data;
-          console.log(this.clients);
           if (this.clients.length == 0) {
             this.translate.get('There are no customers with overdue invoices',
             { value: 'There are no customers with overdue invoices' }).subscribe((res1: string) => {
@@ -114,7 +113,6 @@ export class ReportPaymentsComponent implements OnInit {
     this.reportRequest.endDate = this.endDate == null ? null : this.getFecha(this.endDate);
     this.reportRequest.idClient = idClient;
     this.invoicePaymentService.generateReportPayments$(this.reportRequest).subscribe(res => {
-      console.log('response', res);
       if (res == null) {
         this.translate.get('There are no records for the report',
           { value: 'There are no records for the report' }).subscribe((res1: string) => {
