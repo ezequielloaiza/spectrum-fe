@@ -71,7 +71,6 @@ export class ManageCommissionComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listCommissions = res.data;
           this.listCommissionsAux = res.data;
-          console.log(res.data);
           this.listCommissions = _.orderBy(
             this.listCommissions,
             ['date'],

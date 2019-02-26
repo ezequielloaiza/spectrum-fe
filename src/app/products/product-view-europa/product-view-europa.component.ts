@@ -213,7 +213,6 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   getProductView() {
-    console.log(JSON.stringify(_.range(4, 10, 0.5)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;

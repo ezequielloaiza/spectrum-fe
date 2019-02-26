@@ -100,7 +100,6 @@ export class SellerModalComponent implements OnInit {
 
   save(): void {
     this.form.get('city').setValue(this.googleService.getCity());
-    console.log(this.form.value);
     this.userSerice.registerSeller$(this.form.value).subscribe(res => {
       this.form.get('city').setValue({description: this.form.value.city});
       if (res.code === CodeHttp.ok) {

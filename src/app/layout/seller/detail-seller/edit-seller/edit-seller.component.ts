@@ -52,7 +52,6 @@ export class EditSellerComponent implements OnInit {
     this.getSeller(this.idSeller);
     this.initializeForm();
     this.getCountries();
-    console.log('seller', this.seller);
   }
 
   initializeForm() {
@@ -145,7 +144,6 @@ export class EditSellerComponent implements OnInit {
 
   save(): void {
     this.form.get('city').setValue(this.form.value.city.description);
-    console.log('seller', this.form.value);
     this.userService.updateSeller$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.form.get('city').setValue(this.form.value.city);

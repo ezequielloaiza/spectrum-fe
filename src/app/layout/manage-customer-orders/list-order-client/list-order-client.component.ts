@@ -627,7 +627,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   onSelection(id, checked) {
     let existe: boolean;
     existe = _.includes(this.listAux,  id);
-    console.log('existe', existe);
     if (existe) {
       if (!checked) {
         _.remove(this.listAux,  function (n)  {
