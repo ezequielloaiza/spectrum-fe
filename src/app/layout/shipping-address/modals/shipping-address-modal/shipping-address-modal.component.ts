@@ -89,6 +89,7 @@ export class ShippingAddressModalComponent implements OnInit {
     }
     if (this.action !== 'edit') {
       this.shippingAddressService.save$(this.form.value).subscribe(res => {
+        this.form.get('city').setValue({description: this.form.value.city});
         if (res.code === CodeHttp.ok) {
           this.close();
           this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
@@ -106,6 +107,7 @@ export class ShippingAddressModalComponent implements OnInit {
       });
     } else {
       this.shippingAddressService.update$(this.form.value).subscribe(res => {
+        this.form.get('city').setValue({description: this.form.value.city});
         if (res.code === CodeHttp.ok) {
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
             this.notification.success('', res);
@@ -160,7 +162,9 @@ export class ShippingAddressModalComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('countryId').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('countryId').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });

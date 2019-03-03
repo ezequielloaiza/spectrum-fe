@@ -12,6 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AddPaymentModalComponent } from './modals/add-payment-modal/add-payment-modal.component';
 import { ChangeStatusComponent } from './modals/change-status/change-status.component';
 import { InvoiceClientInvoicePayment } from '../../../shared/models/invoiceclientinvoicepayment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-payments-made',
@@ -40,6 +41,7 @@ export class PaymentsMadeComponent implements OnInit {
     private userStorageService: UserStorageService,
     private invoiceService: InvoiceClientService,
     private invoicePaymentService: InvoicePaymentService,
+    private spinner: NgxSpinnerService,
     public router: Router) {
       this.user = JSON.parse(userStorageService.getCurrentUser());
     }
@@ -58,6 +60,7 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   getInvoice(id): void {
+    this.spinner.show();
     this.invoiceService.findInvoice$(id).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
@@ -66,8 +69,10 @@ export class PaymentsMadeComponent implements OnInit {
         } else {
           console.log(res.code);
         }
+        this.spinner.hide();
       },
       error => {
+        this.spinner.hide();
         console.log('error', error);
       }
     );
@@ -94,7 +99,6 @@ export class PaymentsMadeComponent implements OnInit {
       res => {
         if (res.code === CodeHttp.ok) {
           this.listPayments = res.data;
-          console.log(res.data);
         } else {
           console.log(res.code);
         }
@@ -109,8 +113,13 @@ export class PaymentsMadeComponent implements OnInit {
     if (inv === undefined) {
       inv = this.auxInvoice;
     }
-    const pI = payment.invoiceClientInvoicePaymentList.find(
-      x => (x.invoiceClient === inv.idInvoice));
+    let pI;
+    if (payment.invoiceClientInvoicePaymentList.length == 1) {
+      pI = payment.invoiceClientInvoicePaymentList[0];
+    } else {
+      pI = payment.invoiceClientInvoicePaymentList.find(
+        x => (x.invoiceClient === inv.idInvoice));
+    }
     return pI.partialPayment;
   }
 
@@ -223,7 +232,6 @@ export class PaymentsMadeComponent implements OnInit {
         { value: 'Are you sure you want to delete the invoice payment?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
             if (payment.invoiceClientInvoicePaymentList.length > 1) {
-              console.log('1');
               this.invoicePaymentService.deleteInvoicePaymentByInvoiceClient$(payment.idInvoicePayment, id).subscribe(res => {
                 if (res.code === CodeHttp.ok) {
                   this.getInvoice(id);
@@ -238,7 +246,6 @@ export class PaymentsMadeComponent implements OnInit {
                 console.log('error', error);
               });
             } else {
-              console.log('2');
               this.invoicePaymentService.deleteInvoicePayment$(payment).subscribe(res => {
                 if (res.code === CodeHttp.ok) {
                   this.getInvoice(id);

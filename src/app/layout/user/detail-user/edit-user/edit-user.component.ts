@@ -153,7 +153,9 @@ export class EditUserComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('cityPlace').setValue({description: this.googleService.getCity()});
@@ -219,10 +221,22 @@ export class EditUserComponent implements OnInit {
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
         });
-      } else if (CodeHttp.notAcceptable === res.code) {
+      } else if (CodeHttp.notAcceptable === res.code && res.data === 1) {
         this.form.get('cityPlace').setValue({ description: this.form.value.city });
         this.translate.get('The user already exists, check the email',
         { value: 'The user already exists, check the email' }).subscribe((res: string) => {
+          this.notification.warning('', res);
+        });
+      } else if (CodeHttp.notAcceptable === res.code && res.data === 2) {
+        this.form.get('cityPlace').setValue({ description: this.form.value.city });
+        this.translate.get('The card code is associated with another client',
+        { value: 'The card code is associated with another client' }).subscribe((res: string) => {
+          this.notification.warning('', res);
+        });
+      } else if (CodeHttp.notAcceptable === res.code && res.data === 3) {
+        this.form.get('cityPlace').setValue({ description: this.form.value.city });
+        this.translate.get('The certification code is associated with another client',
+        { value: 'The certification code is associated with another client' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
       }

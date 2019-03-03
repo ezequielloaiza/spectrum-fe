@@ -175,6 +175,7 @@ export class ProfileComponent implements OnInit {
   savePersonal(): void {
     this.form.get('city').setValue(this.form.value.city.description);
     this.userService.updateProfile$(this.form.value).subscribe(res => {
+      this.form.get('city').setValue({ description: this.user.userResponse.city });
       if (res.code === CodeHttp.ok) {
         this.user.userResponse = res.data;
         this.translate.get('User save', { value: 'User save' }).subscribe((res: string) => {
@@ -228,7 +229,9 @@ export class ProfileComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });

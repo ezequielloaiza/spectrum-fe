@@ -146,7 +146,9 @@ export class EditCompanyComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postalCode').setValue(this.googleService.getPostalCode());
       this.form.get('cityPlace').setValue({description: this.googleService.getCity()});

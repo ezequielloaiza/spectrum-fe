@@ -1,3 +1,4 @@
+<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
 <div class="row page-header-fixed">
 	<div class="header-body">
 		<h4 class="page-header">
@@ -21,9 +22,9 @@
             {{ 'All customers invoices' | translate }}
           </div>
         </div>
-        <div class="row">
+        <div class="row filters">
           <div class="col-xl-3 filter">
-            <div class="row search margin">
+            <div class="row search">
               <div class="col col-xl-12 col-lg-12">
                 <input [(ngModel)]="search" class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter search' | translate }}">
                 <i class="fa fa-search"></i>

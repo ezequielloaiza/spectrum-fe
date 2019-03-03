@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
   warranties = 0;
   pendingPayment = 0;
   overdueCustomers = 0;
+  overdueInvoices = 0;
   orderPend = 0;
   orderProc = 0;
   orderReady = 0;
@@ -369,7 +370,6 @@ export class DashboardComponent implements OnInit {
       const today = new Date();
       const dt = new Date();
       dt.setMonth(today.getMonth() - (5 - index));
-      console.log(index, formatDate(dt, 'medium', 'en-US'));
       let month = formatDate(dt, 'MMMM', 'en-US');
       this.translate
             .get(month, { value: month })
@@ -394,6 +394,7 @@ export class DashboardComponent implements OnInit {
           this.invoicesListAux = _.filter(this.invoicesList, function(o) { return o.dueDate < today;  });
           this.customersList = _.uniqBy(this.invoicesListAux, function(o) { return o.idUser; });
           this.overdueCustomers = this.customersList.length;
+          this.overdueInvoices = this.customersList.length;
         } else {
           console.log(res.code);
         }
@@ -411,7 +412,6 @@ export class DashboardComponent implements OnInit {
           this.listPayments = res.data;
           this.listPayments = _.filter(res.data, function(o) { return o.status === 0;  });
           this.pendingPayment = this.pendingPayment + _.sumBy(this.listPayments, function(o) { return o.amount; });
-          console.log(res.data);
         } else {
           console.log(res.code);
         }

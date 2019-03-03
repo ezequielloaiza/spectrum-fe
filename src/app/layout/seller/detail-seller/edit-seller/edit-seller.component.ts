@@ -52,7 +52,6 @@ export class EditSellerComponent implements OnInit {
     this.getSeller(this.idSeller);
     this.initializeForm();
     this.getCountries();
-    console.log('seller', this.seller);
   }
 
   initializeForm() {
@@ -121,7 +120,9 @@ export class EditSellerComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
@@ -143,7 +144,6 @@ export class EditSellerComponent implements OnInit {
 
   save(): void {
     this.form.get('city').setValue(this.form.value.city.description);
-    console.log('seller', this.form.value);
     this.userService.updateSeller$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.form.get('city').setValue(this.form.value.city);

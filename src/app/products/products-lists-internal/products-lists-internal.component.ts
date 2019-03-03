@@ -32,8 +32,11 @@ export class ProductsListInternalComponent implements OnInit {
   productsMarkennovy: Array<any> = new Array();
   productsAuxMarkennovy: Array<any> = new Array();
   showFathersMarkennovy: any;
+  showPackingsMarkennovy: any;
   currentFather: any;
   currentPacking: any;
+  packings: any;
+
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
               private modalService: NgbModal,
@@ -67,6 +70,7 @@ export class ProductsListInternalComponent implements OnInit {
     var productsSaphir = [];
     var productsQuattroX3 = [];
     var productsQuattroX1 = [];
+    var productsJade = [];
     var userIsAdmin = this.userIsAdmin();
     _.each(this.products, function(product) {
       if (userIsAdmin || product.status) {
@@ -98,6 +102,9 @@ export class ProductsListInternalComponent implements OnInit {
           case 'Quattro Conventional':
             productsQuattroX1.push(product);
             break;
+          case 'Jade':
+            productsJade.push(product);
+            break;
         }
       }
     });
@@ -128,7 +135,7 @@ export class ProductsListInternalComponent implements OnInit {
     }
     if (productsBluKidz.length) {
       this.productsMarkennovy.push({name:"Blu:kidz",
-                                    mainImg:"assets/images/products/markennovy/Blukidz summer season.jpg",
+                                    mainImg:"assets/images/products/markennovy/blu-kidz.png",
                                     replacementPeriod:"Monthly",
                                     father: "Blu:kidz"});
     }
@@ -137,6 +144,12 @@ export class ProductsListInternalComponent implements OnInit {
                                     mainImg:"assets/images/products/markennovy/xtensa.png",
                                     replacementPeriod:"Monthly",
                                     father: "Xtensa"});
+    }
+    if (productsJade.length) {
+      this.productsMarkennovy.push({name:"Jade",
+                                    mainImg:"assets/images/products/markennovy/jade.png",
+                                    replacementPeriod:"Monthly",
+                                    father: "Jade"});
     }
     if (productsSaphir.length) {
       this.productsMarkennovy.push({name:"Saphir",
@@ -451,11 +464,7 @@ export class ProductsListInternalComponent implements OnInit {
     const val = this.filterName;
 
     products = products.filter((item) => {
-      if (this.currentFather === 'Quattro 3-Monthly') {
-        return item.father === 'Quattro 3-Monthly';
-      } else {
-        return ((item.name.toLowerCase().indexOf(this.currentFather.toLowerCase()) > -1));
-      }
+      return item.father === this.currentFather;
     });
 
     if (type === 'All') {
@@ -477,34 +486,58 @@ export class ProductsListInternalComponent implements OnInit {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
-
-
   }
 
-  redirectFather(product) {
+  redirectPacking(product) {
+    this.packings = [];
+    this.packings.push({ 'product': product, 'type': 'All'});
+    if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
+        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa' ||
+        product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Jade') {
+
+          this.packings.push({ 'product': product, 'type': 'Blister'});
+    }
+
+    if (product.father === 'Xtensa' || product.father === 'Jade') {
+      this.packings.push({ 'product': product, 'type': '6pk'});
+    }
+
+    if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
+        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa') {
+      this.packings.push({ 'product': product, 'type': '3pk'});
+    }
+
+    if (product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
+      this.packings.push({ 'product': product, 'type': '2pk'});
+    }
+
+    this.currentFather = product.father;
+    this.showFathersMarkennovy = false;
+    this.showPackingsMarkennovy = true;
+  }
+
+  redirectFather(product, type) {
     this.products = this.productsAux;
 
     this.products = this.products.filter((item) => {
       return item.father === product.father;
     });
+
+    this.filterByPacking(type);
     this.currentFather = product.father;
-    this.showFathersMarkennovy = false;
+    this.showPackingsMarkennovy = false;
   }
 
   backToFathersHeader() {
     if (this.idSupplier === 1) {
       if (!this.showFathersMarkennovy) {
         this.showFathersMarkennovy = true;
+        this.showPackingsMarkennovy = false;
         this.filterName = '';
         this.currentFather = '';
         this.currentPacking = '';
       }
     }
-  }
-
-  backToFathers() {
-    this.currentFather = '';
-    this.showFathersMarkennovy = true;
   }
 
   public beforeChange($event: NgbPanelChangeEvent) {

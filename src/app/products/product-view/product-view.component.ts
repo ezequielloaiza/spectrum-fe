@@ -95,14 +95,22 @@ export class ProductViewComponent implements OnInit {
   }
 
   getProductView() {
-    console.log(JSON.stringify(_.range(-3, -1.75, 0.25)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
     this.product.type = JSON.parse(this.product.types)[0].name;
+    let orderCylinder;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+    orderCylinder = _.find(this.product.parametersRight, {name: 'Cylinder (D)'});
+    if (orderCylinder != null) {
+      orderCylinder.values.reverse();
+    }
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+    orderCylinder = _.find(this.product.parametersLeft, {name: 'Cylinder (D)'});
+    if (orderCylinder != null) {
+      orderCylinder.values.reverse();
+    }
     this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.priceSale = '';
     this.setClient();

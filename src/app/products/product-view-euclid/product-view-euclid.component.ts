@@ -190,14 +190,15 @@ export class ProductViewEuclidComponent implements OnInit {
   }
 
   getProductView() {
-    console.log(JSON.stringify(_.range(-15, -0.25, 0.25)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+    _.reverse(this.product.parametersRight[4].values);
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+    _.reverse(this.product.parametersLeft[4].values);
     this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.pricesAditionalWarranties = JSON.parse(this.product.infoAditional)[1].values[0];
     this.download = JSON.parse(this.product.infoAditional)[2].value;
