@@ -353,6 +353,9 @@ var SupplierService = /** @class */ (function () {
             responseType: 'blob'
         });
     };
+    SupplierService.prototype.checkSupplierUser$ = function (supplier) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/checkSupplierUser', supplier);
+    };
     SupplierService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'

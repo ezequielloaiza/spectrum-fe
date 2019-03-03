@@ -114,7 +114,6 @@ var ReportBalanceClientComponent = /** @class */ (function () {
         this.invoiceClientService.usersWithInvoices$().subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_7__["CodeHttp"].ok) {
                 _this.clients = res.data;
-                console.log(_this.clients);
                 if (_this.clients.length == 0) {
                     _this.translate.get('There are no customers with invoices', { value: 'There are no customers with invoices' }).subscribe(function (res1) {
                         _this.notification.warning('', res1);
@@ -146,7 +145,6 @@ var ReportBalanceClientComponent = /** @class */ (function () {
         this.reportRequest.endDate = this.endDate == null ? null : this.getFecha(this.endDate);
         this.reportRequest.idClient = idClient;
         this.invoiceClientService.downloadReportBalance$(this.reportRequest).subscribe(function (res) {
-            console.log('response', res);
             if (res == null) {
                 _this.translate.get('There are no records for the report', { value: 'There are no records for the report' }).subscribe(function (res1) {
                     _this.notification.warning('', res1);
@@ -277,7 +275,6 @@ var ReportGeneralBalanceComponent = /** @class */ (function () {
         this.reportRequest.beginDate = this.beginDate == null ? null : this.getFecha(this.beginDate);
         this.reportRequest.endDate = this.endDate == null ? null : this.getFecha(this.endDate);
         this.invoiceClientService.downloadGeneralBalance$(this.reportRequest).subscribe(function (res) {
-            console.log('response', res);
             if (res == null) {
                 _this.translate.get('There are no records for the report', { value: 'There are no records for the report' }).subscribe(function (res1) {
                     _this.notification.warning('', res1);
@@ -427,7 +424,6 @@ var ReportInvoicesOverdueComponent = /** @class */ (function () {
         this.invoiceClientService.invoicesOverdue$().subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_8__["CodeHttp"].ok) {
                 _this.clients = res.data;
-                console.log(_this.clients);
                 if (_this.clients.length == 0) {
                     _this.translate.get('There are no overdue invoices', { value: 'There are no overdue invoices' }).subscribe(function (res1) {
                         _this.notification.warning('', res1);
@@ -625,7 +621,6 @@ var ReportPaymentsComponent = /** @class */ (function () {
         this.invoicePaymentService.usersWithPayments$(this.user.userResponse.idUser).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_6__["CodeHttp"].ok) {
                 _this.clients = res.data;
-                console.log(_this.clients);
                 if (_this.clients.length == 0) {
                     _this.translate.get('There are no customers with overdue invoices', { value: 'There are no customers with overdue invoices' }).subscribe(function (res1) {
                         _this.notification.warning('', res1);
@@ -657,7 +652,6 @@ var ReportPaymentsComponent = /** @class */ (function () {
         this.reportRequest.endDate = this.endDate == null ? null : this.getFecha(this.endDate);
         this.reportRequest.idClient = idClient;
         this.invoicePaymentService.generateReportPayments$(this.reportRequest).subscribe(function (res) {
-            console.log('response', res);
             if (res == null) {
                 _this.translate.get('There are no records for the report', { value: 'There are no records for the report' }).subscribe(function (res1) {
                     _this.notification.warning('', res1);
@@ -1213,7 +1207,6 @@ var ReportsListComponent = /** @class */ (function () {
         this.user = JSON.parse(userStorageService.getCurrentUser());
     }
     ReportsListComponent.prototype.ngOnInit = function () {
-        console.log('report', this.listReport);
     };
     ReportsListComponent.prototype.onSelection = function (id) {
         var _this = this;
