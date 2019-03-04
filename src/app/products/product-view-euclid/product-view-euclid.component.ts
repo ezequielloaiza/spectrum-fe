@@ -631,6 +631,7 @@ export class ProductViewEuclidComponent implements OnInit {
     if (this.uploaderLeftEye.queue.length) {
       this.uploaderLeftEye.clearQueue();
       this.clearSelectedFile('Left');
+      this.contLeft = 0;
     }
     if (this.uploaderRightEye.queue.length) {
       this.uploaderRightEye.clearQueue();
