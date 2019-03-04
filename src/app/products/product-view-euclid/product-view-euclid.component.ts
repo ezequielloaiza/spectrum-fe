@@ -82,12 +82,33 @@ export class ProductViewEuclidComponent implements OnInit {
   defered5 = defer();
   promise5 = this.defered5.promise;
 
-  deferedNotFile = defer();
-  primiseNotFile = this.deferedNotFile.promise;
 
-  array = [this.promise1, this.promise2, this.promise3, this.promise4, this.promise5];
 
   cont = 0;
+
+   //Promise Left
+   defered6 = defer();
+   promise6 = this.defered6.promise;
+
+   defered7 = defer();
+   promise7 = this.defered7.promise;
+
+   defered8 = defer();
+   promise8 = this.defered8.promise;
+
+   defered9 = defer();
+   promise9 = this.defered9.promise;
+
+   defered10 = defer();
+   promise10 = this.defered10.promise;
+
+   contLeft = 0;
+
+  array = [this.promise1, this.promise2, this.promise3, this.promise4, this.promise5,
+           this.promise6, this.promise7, this.promise8, this.promise9, this.promise10];
+
+  deferedNotFile = defer();
+  primiseNotFile = this.deferedNotFile.promise;
 
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
@@ -620,34 +641,76 @@ export class ProductViewEuclidComponent implements OnInit {
 
   saveFiles(): void {
     // this.listFileBasket = new Array;
-    this.array = [this.promise1, this.promise2, this.promise3, this.promise4, this.promise5];
+    let right = false;
+    let left = false;
+    this.array = [this.promise1, this.promise2, this.promise3, this.promise4, this.promise5,
+    this.promise6, this.promise7, this.promise8, this.promise9, this.promise10];
     this.listFileLeftEye = new Array;
     this.listFileRightEye = new Array;
-    /*if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        item.upload();
-      });
-    }*/
-    if (this.uploaderLeftEye.queue) {
-      _.each(this.uploaderLeftEye.queue, function (item) {
-        item.upload();
-      });
-    }
-    if (this.uploaderRightEye.queue) {
-      if (this.uploaderRightEye.queue.length > 0) {
-          let arrayAux = this.array;
-          this.array = _.dropRight(arrayAux, ( arrayAux.length - this.uploaderRightEye.queue.length ));
-        _.each(this.uploaderRightEye.queue, function (item) {
-            item.upload();
-        });
+
+    let arrayAux = [];
+
+    let arrayFileRight = [];
+    let arrayFileLeft = [];
+    let arrayLeft = [];
+
+    let arrayFiles = [];
+
+   if (this.uploaderRightEye.queue) {
+    if (this.uploaderRightEye.queue.length > 0) {
+
+      if (this.uploaderLeftEye.queue.length === 0) {
+           arrayAux = _.dropRight(this.array, 5);
+
+           arrayFileRight = _.dropRight(arrayAux, ( arrayAux.length - this.uploaderRightEye.queue.length ));
+
+          this.array = arrayFileRight;
       } else {
-          this.array = _.dropRight(this.array, 5);
-          let aux = [];
-          this.deferedNotFile.resolve('Not File');
-          aux.push(this.primiseNotFile);
-          this.array = aux;
+          arrayAux = _.dropRight(this.array, 5);
+
+          arrayFileRight = _.dropRight(arrayAux, ( arrayAux.length - this.uploaderRightEye.queue.length ));
+
+          arrayLeft = [this.promise6, this.promise7, this.promise8, this.promise9, this.promise10];
+
+          arrayFiles = _.concat(arrayFileRight, arrayLeft);
+
+          this.array = arrayFiles;
       }
+      _.each(this.uploaderRightEye.queue, function (item) {
+          item.upload();
+      });
     }
+  }
+
+    if (this.uploaderLeftEye.queue) {
+      if (this.uploaderLeftEye.queue.length > 0) {
+
+        if (this.uploaderRightEye.queue.length === 0) {
+          this.array = [this.promise6, this.promise7, this.promise8, this.promise9, this.promise10];
+          arrayFileLeft = _.dropRight(this.array, ( this.array.length - this.uploaderLeftEye.queue.length ));
+          this.array = arrayFileLeft;
+       } else {
+
+         arrayFileLeft = _.dropRight(arrayLeft, (arrayLeft.length - this.uploaderLeftEye.queue.length ));
+
+         arrayFiles = _.concat(arrayFileRight, arrayFileLeft);
+
+         this.array = arrayFiles;
+       }
+        _.each(this.uploaderLeftEye.queue, function (item) {
+          item.upload();
+        });
+     }
+    }
+
+    if (!this.uploaderRightEye.queue.length && !this.uploaderLeftEye.queue.length) {
+      this.array = _.dropRight(this.array, 10);
+      let aux = [];
+      this.deferedNotFile.resolve('Not File');
+      aux.push(this.primiseNotFile);
+      this.array = aux;
+    }
+
   }
 
   private buildFileProductRequested(eye) {
@@ -678,13 +741,31 @@ export class ProductViewEuclidComponent implements OnInit {
           break;
       }
     } if (eye === 'Left' && this.uploadResultLeftEye.success) {
-      const fileProductRequest: FileProductRequested = new FileProductRequested();
-      fileProductRequest.url  = JSON.parse(this.uploadResultLeftEye.response).data;
-      fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
-      fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
-      fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
-      fileProductRequest.createdAt = new Date();
-      this.listFileLeftEye.push(fileProductRequest);
+        const fileProductRequest: FileProductRequested = new FileProductRequested();
+        fileProductRequest.url  = JSON.parse(this.uploadResultLeftEye.response).data;
+        fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+        fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
+        fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
+        fileProductRequest.createdAt = new Date();
+        this.listFileLeftEye.push(fileProductRequest);
+        this.contLeft ++;
+        switch (this.contLeft) {
+          case 1:
+            this.defered6.resolve(fileProductRequest.name);
+            break;
+          case 2:
+            this.defered7.resolve(fileProductRequest.name);
+            break;
+          case 3:
+            this.defered8.resolve(fileProductRequest.name);
+            break;
+          case 4:
+            this.defered9.resolve(fileProductRequest.name);
+            break;
+          case 5:
+            this.defered10.resolve(fileProductRequest.name);
+            break;
+        }
     }
   }
 
