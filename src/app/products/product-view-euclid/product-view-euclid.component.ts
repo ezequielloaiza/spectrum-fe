@@ -24,6 +24,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationEuclidComponent } from '../modals/confirmation-buy/confirmation-euclid/confirmation-euclid.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { defer } from 'q';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -65,6 +66,29 @@ export class ProductViewEuclidComponent implements OnInit {
   private uploadResult: any = null;
   private uploadResultLeftEye: any = null;
   private uploadResultRightEye: any = null;
+  //Promise Right
+  defered1 = defer();
+  promise1 = this.defered1.promise;
+
+  defered2 = defer();
+  promise2 = this.defered2.promise;
+
+  defered3 = defer();
+  promise3 = this.defered3.promise;
+
+  defered4 = defer();
+  promise4 = this.defered4.promise;
+
+  defered5 = defer();
+  promise5 = this.defered5.promise;
+
+  deferedNotFile = defer();
+  primiseNotFile = this.deferedNotFile.promise;
+
+  array = [this.promise1, this.promise2, this.promise3, this.promise4, this.promise5];
+
+  cont = 0;
+
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
@@ -499,7 +523,12 @@ export class ProductViewEuclidComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client.idUser;
     this.basketRequestModal.productRequestedList = productsRequested;
-    this.openModal(type);
+    Promise.all(this.array).then(data => {
+      this.openModal(type);
+      debugger
+    }, reason => {
+      console.log(reason);
+    });
   }
 
   openModal(type): void {
@@ -585,11 +614,13 @@ export class ProductViewEuclidComponent implements OnInit {
     if (this.uploaderRightEye.queue.length) {
       this.uploaderRightEye.clearQueue();
       this.clearSelectedFile('Right');
+      this.cont = 0;
     }
   }
 
   saveFiles(): void {
     // this.listFileBasket = new Array;
+    this.array = [this.promise1, this.promise2, this.promise3, this.promise4, this.promise5];
     this.listFileLeftEye = new Array;
     this.listFileRightEye = new Array;
     /*if (this.uploader.queue) {
@@ -603,9 +634,19 @@ export class ProductViewEuclidComponent implements OnInit {
       });
     }
     if (this.uploaderRightEye.queue) {
-      _.each(this.uploaderRightEye.queue, function (item) {
-        item.upload();
-      });
+      if (this.uploaderRightEye.queue.length > 0) {
+          let arrayAux = this.array;
+          this.array = _.dropRight(arrayAux, ( arrayAux.length - this.uploaderRightEye.queue.length ));
+        _.each(this.uploaderRightEye.queue, function (item) {
+            item.upload();
+        });
+      } else {
+          this.array = _.dropRight(this.array, 5);
+          let aux = [];
+          this.deferedNotFile.resolve('Not File');
+          aux.push(this.primiseNotFile);
+          this.array = aux;
+      }
     }
   }
 
@@ -618,6 +659,24 @@ export class ProductViewEuclidComponent implements OnInit {
       fileProductRequest.size = this.uploadResultRightEye.item.file.size;
       fileProductRequest.createdAt = new Date();
       this.listFileRightEye.push(fileProductRequest);
+      this.cont ++;
+      switch (this.cont) {
+        case 1:
+          this.defered1.resolve(fileProductRequest.name);
+          break;
+        case 2:
+          this.defered2.resolve(fileProductRequest.name);
+          break;
+        case 3:
+          this.defered3.resolve(fileProductRequest.name);
+          break;
+        case 4:
+          this.defered4.resolve(fileProductRequest.name);
+          break;
+        case 5:
+          this.defered5.resolve(fileProductRequest.name);
+          break;
+      }
     } if (eye === 'Left' && this.uploadResultLeftEye.success) {
       const fileProductRequest: FileProductRequested = new FileProductRequested();
       fileProductRequest.url  = JSON.parse(this.uploadResultLeftEye.response).data;
