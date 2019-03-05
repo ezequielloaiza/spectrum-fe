@@ -53,7 +53,8 @@ export class ProductViewLenticonComponent implements OnInit {
   addRight = false;
   addLeft = false;
   // Upload files
-  @ViewChild('selectedFiles') selectedFiles: any;
+  // @ViewChild('selectedFiles') selectedFiles: any;
+  type: any;
   @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
   @ViewChild('selectedFilesRightEye') selectedFilesRightEye: any;
   queueLimit = 5;
@@ -408,6 +409,7 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   addToCart(type) {
+    this.spinner.show();
     this.productCopy = JSON.parse(JSON.stringify(this.product));
     this.saveFiles();
     const productsRequested = [];
@@ -427,10 +429,19 @@ export class ProductViewLenticonComponent implements OnInit {
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
     // this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
-    this.openModal(type);
+    // this.openModal(type);
+    this.type = type;
+  }
+
+  verifyOpenModal() {
+    if (this.uploaderRightEye.queue.length === this.listFileRightEye.length
+        && this.uploaderLeftEye.queue.length === this.listFileLeftEye.length) {
+      this.openModal(this.type);
+    }
   }
 
   openModal(type): void {
+    this.spinner.hide();
     const modalRef = this.modalService.open( ConfirmationLenticonComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
@@ -590,15 +601,21 @@ export class ProductViewLenticonComponent implements OnInit {
   saveFiles(): void {
     this.listFileLeftEye = new Array;
     this.listFileRightEye = new Array;
+
     if (this.uploaderLeftEye.queue) {
       _.each(this.uploaderLeftEye.queue, function (item) {
         item.upload();
       });
     }
+
     if (this.uploaderRightEye.queue) {
       _.each(this.uploaderRightEye.queue, function (item) {
         item.upload();
       });
+    }
+
+    if (!this.uploaderLeftEye.queue.length && !this.uploaderRightEye.queue.length) {
+      this.openModal(this.type);
     }
   }
 
@@ -611,6 +628,7 @@ export class ProductViewLenticonComponent implements OnInit {
       fileProductRequest.size = this.uploadResultRightEye.item.file.size;
       fileProductRequest.createdAt = new Date();
       this.listFileRightEye.push(fileProductRequest);
+      this.verifyOpenModal();
     } if (eye === 'Left' && this.uploadResultLeftEye.success) {
       const fileProductRequest: FileProductRequested = new FileProductRequested();
       fileProductRequest.url  = JSON.parse(this.uploadResultLeftEye.response).data;
@@ -619,6 +637,7 @@ export class ProductViewLenticonComponent implements OnInit {
       fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
       fileProductRequest.createdAt = new Date();
       this.listFileLeftEye.push(fileProductRequest);
+      this.verifyOpenModal();
     }
   }
 
