@@ -10,6 +10,7 @@ export class FileInvoicePayment {
   public  size: number;
   public  createdAt: Date;
   public  file: any;
+  public  delete: boolean;
 
   public constructor() { }
 

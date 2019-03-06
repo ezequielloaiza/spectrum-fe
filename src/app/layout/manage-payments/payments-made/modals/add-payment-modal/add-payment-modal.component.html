@@ -1,3 +1,4 @@
+<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
 <div class="modal-header">
   <h4 *ngIf="action == 'new' || action == 'bulk'" class="modal-title">{{ 'Add Payment' | translate }}</h4>
   <h4 *ngIf="action == 'view'" class="modal-title">{{ 'View Payment' | translate }}</h4>
@@ -145,11 +146,14 @@
                 [disabled]="uploader.queue.length > 4" multiple required />
               <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
               <div class="invalid-feedback">Example invalid custom file feedback</div>
-              <div class="message-error">
+              <div class="message-error margin-msg">
                 <span translate>{{'Max files size:' | translate}} 25MB</span>
                 <span> / </span>
                 <span translate>{{'Maximum files number:' | translate }} 5</span>
               </div>
+            </div>
+            <div class="message-error margin-msg" *ngIf = "(uploader.isUploading)">
+              <span translate>{{'Wait until upload is complete' | translate }}</span>
             </div>
           </fieldset>
           <!-- <div class="message-error" [hidden]>
@@ -185,7 +189,7 @@
           </div>
           <!-- Documents -->
           <div *ngIf="action !== 'new'" class="col-md-12 card-body">
-            <div *ngIf="listFilePayment.length > 0" class="row justify-content-md-center margin-table">
+            <div *ngIf="listFilePaymentAux.length > 0" class="row justify-content-md-center margin-table">
               <table class="table">
                 <thead>
                   <tr>
@@ -195,7 +199,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of listFilePayment">
+                  <tr *ngFor="let item of listFilePaymentAux">
                     <td>
                       <strong>{{ item?.name }}</strong>
                     </td>
@@ -204,7 +208,7 @@
                       <button type="button" class="btn btn-success btn-xs btn-files" (click)="downloadFile(item)">
                         <span class="fa fa-download"></span> {{ 'Download' | translate }}
                       </button>
-                      <button *ngIf="action === 'edit'" type="button" class="btn btn-danger btn-xs btn-files" (click)="deleteFile(item)">
+                      <button *ngIf="action === 'edit'" type="button" class="btn btn-danger btn-xs btn-files" (click)="deleteItem(item)">
                         <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
                       </button>
                     </td>
@@ -230,7 +234,7 @@
     'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" [hidden]="action == 'view'" [disabled]="form.invalid" class="btn btn-main" (click)="save()">{{
+  <button type="button" [hidden]="action == 'view'" [disabled]="form.invalid || (uploader.isUploading) " class="btn btn-main" (click)="save()">{{
     'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
