@@ -938,5 +938,10 @@
     "Ortho-K material":"Ortho-K material",
     "The certification code is associated with another client":"The certification code is associated with another client",
     "The card code is associated with another client":"The card code is associated with another client",
-    "The client has orders associated with the provider":"The client has orders associated with the provider"
+    "The client has orders associated with the provider":"The client has orders associated with the provider",
+    "Shipping confirmation":"Shipping confirmation",
+    "Tracking number":"Tracking number",
+    "Enter tracking number":"Enter tracking number",
+    "Shipping price":"Shipping price",
+    "Enter Shipping price":"Enter Shipping price"
 }

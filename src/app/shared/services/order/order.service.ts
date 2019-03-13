@@ -112,4 +112,8 @@ export class OrderService {
     });
   }
 
+  public updateOrder$(order): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/updateOrder', order);
+  }
+
 }

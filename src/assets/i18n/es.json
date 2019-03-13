@@ -1117,5 +1117,10 @@
     "Ortho-K material":"Material de Ortho-K",
     "The certification code is associated with another client":"El código de certificación está asociado a otro cliente",
     "The card code is associated with another client":"El código de la tarjeta está asociado a otro cliente",
-    "The client has orders associated with the provider":"El cliente posee ordenes asociadas al proveedor"
+    "The client has orders associated with the provider":"El cliente posee ordenes asociadas al proveedor",
+    "Shipping confirmation":"Confirmación envío",
+    "Tracking number":"Número de seguimiento",
+    "Enter tracking number":"Introduzca el número de seguimiento",
+    "Shipping price":"Precio de envío",
+    "Enter Shipping price":"Ingrese el precio de envío"
 }

@@ -10,6 +10,7 @@ import { AlertifyService } from '../../../shared/services/alertify/alertify.serv
 import { UserService } from '../../../shared/services';
 import { Company } from '../../../shared/models/company';
 import { NotificationBalanceOrderComponent } from '../../notification/notification-balance-order/notification-balance-order.component';
+import { ModalsShippingComponent } from '../modals-shipping/modals-shipping.component';
 
 @Component({
   selector: 'app-modals-status',
@@ -73,9 +74,13 @@ export class ModalsStatusComponent implements OnInit {
                 this.orderClientService.changeStatus$(this.order.idOrder, this.idStatus).subscribe(res => {
                   if (res.code === CodeHttp.ok) {
                     this.close();
-                    this.translate.get('Successfully Update', { value: 'Successfully Update' }).subscribe((res: string) => {
-                      this.notification.success('', res);
-                    });
+                    if (this.idStatus === 2) {
+                      this.openModalShipping();
+                    } else {
+                      this.translate.get('Successfully Update', { value: 'Successfully Update' }).subscribe((res: string) => {
+                        this.notification.success('', res);
+                      });
+                    }
                   } else {
                     console.log(res.errors[0].detail);
                   }
@@ -84,6 +89,7 @@ export class ModalsStatusComponent implements OnInit {
                   });
                 }, () => {
               });
+
             });
           });
       }
@@ -116,6 +122,18 @@ export class ModalsStatusComponent implements OnInit {
     modalRef.componentInstance.orderModal = this.order;
     modalRef.componentInstance.newStatus = this.idStatus;
     modalRef.componentInstance.type = 3;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    } , (reason) => {
+      this.close();
+    });
+  }
+
+  openModalShipping(): void {
+    const modalRef = this.modalService.open( ModalsShippingComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
+    modalRef.componentInstance.orderModal = this.order;
+    modalRef.componentInstance.idStatus = this.idStatus;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
