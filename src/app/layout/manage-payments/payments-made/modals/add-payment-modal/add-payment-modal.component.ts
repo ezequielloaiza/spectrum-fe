@@ -47,7 +47,7 @@ export class AddPaymentModalComponent implements OnInit {
     itemAlias: 'files',
     queueLimit: this.queueLimit,
     maxFileSize: this.maxFileSize,
-    removeAfterUpload: false,
+    removeAfterUpload: true,
     authToken: this.userStorageService.getToke(),
     autoUpload: true
   });
