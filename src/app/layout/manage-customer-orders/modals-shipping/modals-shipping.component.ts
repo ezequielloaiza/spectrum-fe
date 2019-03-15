@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { Validators } from '@angular/forms';
-import { OrderService } from '../../../shared/services';
+import { OrderService, EntrustingCompanyService } from '../../../shared/services';
 import { Order } from '../../../shared/models/order';
 import { Router } from '@angular/router';
 
@@ -21,6 +21,7 @@ export class ModalsShippingComponent implements OnInit {
   order: Order = new Order();
   orderModal: any;
   idStatus: any;
+  companies: Array<any>;
   constructor(
     private modalReference: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -28,10 +29,12 @@ export class ModalsShippingComponent implements OnInit {
     private notification: ToastrService,
     private translate: TranslateService,
     public router: Router,
-    private orderClientService: OrderService
+    private orderClientService: OrderService,
+    private entrustingcompanyService: EntrustingCompanyService
   ) {}
 
   ngOnInit() {
+    this.getEntrustingCompany();
     this.initializeForm();
   }
 
@@ -91,5 +94,18 @@ export class ModalsShippingComponent implements OnInit {
         console.log('error', error);
       }
     );
+  }
+
+  getEntrustingCompany() {
+    this.entrustingcompanyService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.companies = res.data;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+
   }
 }

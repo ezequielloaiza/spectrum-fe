@@ -8,6 +8,17 @@
   <div class="modal-body">
     <form [formGroup]="form">
       <div class="row">
+        <div class="col-xl-12">
+            <fieldset class="form-group">
+              <label>{{ 'Entrusting company' | translate }}</label>
+              <select class="form-control" name="entrustingId" formControlName="entrustingId" required>
+                <option *ngFor="let company of companies" [ngValue]="company.idEntrustingCompany">{{ company.name }}</option>
+              </select>
+            </fieldset>
+          </div>
+          <div class="message-error" [hidden]="entrustingId.valid || entrustingId.pristine">
+            <span>{{ 'Company is required' | translate }}</span>
+          </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Tracking number' | translate }}</label>

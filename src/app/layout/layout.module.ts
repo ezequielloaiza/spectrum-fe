@@ -87,6 +87,9 @@ import { ManageCommissionComponent } from './manage-commission/manage-commission
 import { ChangeStatusCommissionComponent } from './manage-commission/change-status-commission/change-status-commission.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { ModalsShippingComponent } from './manage-customer-orders/modals-shipping/modals-shipping.component';
+import { EntrustingCompanyComponent } from './entrusting-company/entrusting-company.component';
+import { EntrustingCompanyModalComponent } from './entrusting-company/modals/entrusting-company-modal/entrusting-company-modal.component';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -180,7 +183,9 @@ import { ModalsShippingComponent } from './manage-customer-orders/modals-shippin
         ModalsInvoiceComponent,
         ManageCommissionComponent,
         ChangeStatusCommissionComponent,
-        ModalsShippingComponent
+        ModalsShippingComponent,
+        EntrustingCompanyComponent,
+        EntrustingCompanyModalComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -219,7 +224,9 @@ import { ModalsShippingComponent } from './manage-customer-orders/modals-shippin
       LenticonComponent,
       ModalsInvoiceComponent,
       ChangeStatusCommissionComponent,
-      ModalsShippingComponent
+      ModalsShippingComponent,
+      EntrustingCompanyModalComponent,
+      EntrustingCompanyComponent
     ],
     providers: [
       BusinessTypeService,
