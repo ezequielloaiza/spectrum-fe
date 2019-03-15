@@ -27,7 +27,8 @@ export class ModalsShippingComponent implements OnInit {
     private orderService: OrderService,
     private notification: ToastrService,
     private translate: TranslateService,
-    public router: Router
+    public router: Router,
+    private orderClientService: OrderService
   ) {}
 
   ngOnInit() {
@@ -58,6 +59,18 @@ export class ModalsShippingComponent implements OnInit {
 
 
   save(): void {
+    this.orderClientService.changeStatus$(this.orderModal.idOrder, this.idStatus).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.saveShipping();
+      } else {
+        console.log(res.errors[0].detail);
+      }
+      }, error => {
+        console.log('error', error);
+      });
+  }
+
+  saveShipping() {
     this.order.idOrder = this.orderModal.idOrder;
     this.order.shippingPrice = this.form.get('shippingPrice').value;
     this.order.trackingNumber = this.form.get('trackingNumber').value;

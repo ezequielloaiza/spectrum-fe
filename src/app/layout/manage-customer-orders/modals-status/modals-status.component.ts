@@ -71,25 +71,25 @@ export class ModalsStatusComponent implements OnInit {
           this.translate.get('Are you sure you want to change the status?',
           { value: 'Are you sure you want to change the status?' }).subscribe((msg: string) => {
             this.alertify.confirm(title, msg, () => {
-                this.orderClientService.changeStatus$(this.order.idOrder, this.idStatus).subscribe(res => {
-                  if (res.code === CodeHttp.ok) {
-                    this.close();
-                    if (this.idStatus === 2) {
-                      this.openModalShipping();
+                if (this.idStatus === 2) {
+                  this.close();
+                  this.openModalShipping();
+                } else {
+                  this.orderClientService.changeStatus$(this.order.idOrder, this.idStatus).subscribe(res => {
+                    if (res.code === CodeHttp.ok) {
+                      this.close();
+                        this.translate.get('Successfully Update', { value: 'Successfully Update' }).subscribe((res: string) => {
+                          this.notification.success('', res);
+                        });
                     } else {
-                      this.translate.get('Successfully Update', { value: 'Successfully Update' }).subscribe((res: string) => {
-                        this.notification.success('', res);
-                      });
+                      console.log(res.errors[0].detail);
                     }
-                  } else {
-                    console.log(res.errors[0].detail);
-                  }
-                  }, error => {
-                    console.log('error', error);
-                  });
-                }, () => {
+                    }, error => {
+                      console.log('error', error);
+                    });
+                }
+              }, () => {
               });
-
             });
           });
       }

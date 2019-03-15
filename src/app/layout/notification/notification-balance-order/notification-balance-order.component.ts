@@ -99,18 +99,19 @@ export class NotificationBalanceOrderComponent implements OnInit {
         console.log('error', error);
       });
     } else { // Cambiar status
+      if (this.newStatus === 2) {
+        this.openModalShipping();
+        this.spinner.hide();
+        this.close();
+      } else {
         this.orderService.changeStatus$(this.order.idOrder, this.newStatus).subscribe(res => {
           if (res.code === CodeHttp.ok) {
             this.spinner.hide();
             this.close();
-            if (this.newStatus === 2) {
-              this.openModalShipping();
-            } else {
-              this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: this.newStatus } });
-              this.translate.get('Successfully Update', { value: 'Successfully Update' }).subscribe((res: string) => {
-                this.notification.success('', res);
-              });
-            }
+            this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: this.newStatus } });
+            this.translate.get('Successfully Update', { value: 'Successfully Update' }).subscribe((res: string) => {
+              this.notification.success('', res);
+            });
           } else {
             console.log(res.errors[0].detail);
             this.spinner.hide();
@@ -118,6 +119,7 @@ export class NotificationBalanceOrderComponent implements OnInit {
           }, error => {
             console.log('error', error);
           });
+        }
       }
   }
 
@@ -140,6 +142,7 @@ export class NotificationBalanceOrderComponent implements OnInit {
     const modalRef = this.modalService.open( ModalsShippingComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.orderModal = this.order;
+    modalRef.componentInstance.idStatus = this.newStatus;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
