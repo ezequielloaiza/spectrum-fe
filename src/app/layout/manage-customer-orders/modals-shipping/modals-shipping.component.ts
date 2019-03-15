@@ -43,8 +43,8 @@ export class ModalsShippingComponent implements OnInit {
   initializeForm() {
     this.form = this.formBuilder.group({
       trackingNumber: ['', [Validators.required]],
-      shippingPrice: ['', [Validators.required]]
-
+      shippingPrice: ['', [Validators.required]],
+      entrustingId : ['', [ Validators.required]]
     });
   }
 
@@ -77,6 +77,7 @@ export class ModalsShippingComponent implements OnInit {
     this.order.idOrder = this.orderModal.idOrder;
     this.order.shippingPrice = this.form.get('shippingPrice').value;
     this.order.trackingNumber = this.form.get('trackingNumber').value;
+    this.order.idEntrustingCompany = this.form.get('entrustingId').value;
     this.orderService.updateOrder$(this.order).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
