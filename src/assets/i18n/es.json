@@ -1118,11 +1118,11 @@
     "The certification code is associated with another client":"El código de certificación está asociado a otro cliente",
     "The card code is associated with another client":"El código de la tarjeta está asociado a otro cliente",
     "The client has orders associated with the provider":"El cliente posee ordenes asociadas al proveedor",
-    "All entrusting companies": "Todas las Empresas de Encomienda",
-    "List Entrusting Companies": "Lista de Empresas de Encomienda",
-    "Manage Entrusting Companies": "Gestionar Empresas de Encomienda",
-    "Entrusting Company": "Empresa de Encomienda",
-    "Code": "Código de Agencia",
-    "Enter code": "Ingrese el código de agencia",
-    "The entrusting company already exists": "La empresa de encomienda ya existe"
+    "All shipping companies": "Todas las Empresas de Envíos",
+    "List Shipping Companies": "Lista de Empresas de Envíos",
+    "Manage Shipping Companies": "Gestionar Empresas de Envíos",
+    "Shipping Company": "Empresa de Envíos",
+    "Agency Code": "Código de Agencia",
+    "Enter agency code": "Ingrese el código de agencia",
+    "The shipping company already exists": "La empresa de envíos ya existe"
 }

@@ -939,11 +939,11 @@
     "The certification code is associated with another client":"The certification code is associated with another client",
     "The card code is associated with another client":"The card code is associated with another client",
     "The client has orders associated with the provider":"The client has orders associated with the provider",
-    "All entrusting companies": "All entrusting companies",
-    "List Entrusting Companies": "List Entrusting Companies",
-    "Manage Entrusting Companies": "Manage Entrusting Companies",
-    "Entrusting Company": "Entrusting Company",
-    "Code": "Code",
-    "Enter code": "Enter code",
-    "The entrusting company already exists": "The entrusting company already exists"
+    "All shipping companies": "All shipping companies",
+    "List Shipping Companies": "List Shipping Companies",
+    "Manage Shipping Companies": "Manage Shipping Companies",
+    "Shipping Company": "Shipping Company",
+    "Agency Code": "Agency Code",
+    "Enter agency code": "Enter agency code",
+    "The shipping company already exists": "The shipping company already exists"
 }

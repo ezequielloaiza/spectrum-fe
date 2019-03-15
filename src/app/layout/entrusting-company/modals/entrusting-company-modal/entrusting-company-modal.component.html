@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{ 'Entrusting Company' | translate }}</h4>
+  <h4 class="modal-title">{{ 'Shipping Company' | translate }}</h4>
   <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -16,10 +16,16 @@
           <span>{{ 'Name is required' | translate }}</span>
         </div>
       </div>
-      <div class="col-xl-12">
+      <div class="col-xl-6">
         <fieldset class="form-group">
-          <label>{{ 'Code' | translate }}</label>
-          <input class="form-control" placeholder="{{ 'Enter code' | translate }}" name="code" formControlName="code">
+          <label>{{ 'Agency Code' | translate }}</label>
+          <input class="form-control" placeholder="{{ 'Enter agency code' | translate }}" name="code" formControlName="code">
+        </fieldset>
+      </div>
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>{{ 'Phone' | translate }}</label>
+          <int-phone-prefix name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
         </fieldset>
       </div>
       <div class="col-xl-6">
@@ -88,12 +94,6 @@
         <fieldset class="form-group">
           <label>{{ 'Address' | translate }}</label>
           <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
-        </fieldset>
-      </div>
-      <div class="col-xl-6">
-        <fieldset class="form-group">
-          <label>{{ 'Phone' | translate }}</label>
-          <int-phone-prefix name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
         </fieldset>
       </div>
     </div>

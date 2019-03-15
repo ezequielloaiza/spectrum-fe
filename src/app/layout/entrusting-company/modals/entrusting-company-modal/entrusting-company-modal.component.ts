@@ -105,8 +105,8 @@ export class EntrustingCompanyModalComponent implements OnInit {
             this.notification.success('', res);
           });
         } else if (res.code === CodeHttp.notAcceptable) {
-          this.translate.get('The entrusting company already exists',
-          { value: 'The entrusting company already exists' }).subscribe((res: string) => {
+          this.translate.get('The shipping company already exists',
+          { value: 'The shipping company already exists' }).subscribe((res: string) => {
             this.notification.warning('', res);
           });
         } else {
