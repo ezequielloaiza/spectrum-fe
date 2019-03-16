@@ -1,0 +1,106 @@
+<app-page-header class="page-header-fixed" [heading]="'List Shipping Companies'" [icon]="'fa fa-bus'"></app-page-header>
+<div class="sp-container">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All shipping companies' | translate }}
+          </div>
+          <div class="ml-auto p-2">
+            <button type="button" class="btn btn-main" (click)="open(content,'create')">{{ 'Add' | translate }}&nbsp;
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="table-tr header-column">
+                  <span title="Name">{{ 'Name' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortEntrustingCompany('name')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'name' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortEntrustingCompany('name')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortEntrustingCompany('name')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="Agency Code">{{ 'Agency Code' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortEntrustingCompany('code')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'code' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortEntrustingCompany('code')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortEntrustingCompany('code')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="{{ 'Country' | translate }}">{{ 'Country' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortEntrustingCompany('country')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'country' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortEntrustingCompany('country')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortEntrustingCompany('country')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="{{ 'Phone' | translate }}">{{ 'Phone' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortEntrustingCompany('phone')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'phone' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortEntrustingCompany('phone')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortEntrustingCompany('phone')"></i>
+                  </span>
+                </th>
+                <th class="table-tr header-column">
+                  <span title="{{ 'Postal Code' | translate }}">{{ 'Postal Code' | translate }}
+                    <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortEntrustingCompany('postalCode')"></i>
+                  </span>
+                  <span [hidden]="orderByField != 'postalCode' || typeSort === 0" >
+                    <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortEntrustingCompany('postalCode')"></i>
+                    <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortEntrustingCompany('postalCode')"></i>
+                  </span>
+                </th>
+                <th class="table-tr"></th>
+              </tr>
+            </thead>
+            <tbody [hidden]="entrustingCompanies.length === 0">
+              <tr *ngFor="let entrustingCompany of entrustingCompanies">
+                <td class="table-tr td-table"> {{ entrustingCompany.name }}</td>
+                <td class="table-tr td-table"> {{ entrustingCompany.code }}</td>
+                <td class="table-tr">{{entrustingCompany.country? (entrustingCompany.country.name | translate) : '' }}</td>
+                <td class="table-tr td-table"> {{ entrustingCompany.phone }}</td>
+                <td class="table-tr td-table"> {{ entrustingCompany.postalCode }}</td>
+                <td class="table-tr">
+                  <div class="d-flex flex-row justify-content-around">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="open(entrustingCompany,'edit')">
+                          <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+                        <button class="dropdown-item" (click)="delete(entrustingCompany.idEntrustingCompany)">
+                          <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-empty" [hidden]="entrustingCompanies.length !== 0" translate>
+            <p class="no-records">
+              {{ 'No records have been added yet' | translate }}
+            </p>
+          </div>
+          <div class="pagination-list" [hidden]="entrustingCompanies.length === 0">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="auxEntrustingCompanies.length"
+              [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+            </ngb-pagination>
+            <span class="count-elements">{{ entrustingCompanies.length + ' ' + ('of' | translate) + ' ' + auxEntrustingCompanies.length + ' ' + ('register(s)' | translate) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'Shipping Company' | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-xl-12">
+        <fieldset class="form-group">
+          <label>{{ 'Name' | translate }}</label>
+          <input class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name" formControlName="name" required>
+        </fieldset>
+        <div class="message-error" [hidden]="name.valid || name.pristine">
+          <span>{{ 'Name is required' | translate }}</span>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>{{ 'Agency Code' | translate }}</label>
+          <input class="form-control" placeholder="{{ 'Enter agency code' | translate }}" name="code" formControlName="code">
+        </fieldset>
+      </div>
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>{{ 'Phone' | translate }}</label>
+          <int-phone-prefix name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
+        </fieldset>
+      </div>
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>{{ 'City' | translate }}</label>
+          <input
+            id="typeahead-focus"
+            type="text"
+            class="form-control"
+            [ngbTypeahead]="search"
+            [resultTemplate]="rt"
+            name="city"
+            formControlName="city"
+            [inputFormatter]="formatter"
+            (selectItem) ="findPlace($event)"
+            #instance="ngbTypeahead"
+            placeholder="{{ 'Enter city' | translate }}"
+          />
+        </fieldset>
+        <div *ngIf="searching" class="spinner">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
+        <div class="message-error" [hidden]="city.valid || city.pristine">
+          <span>{{ 'City is required' | translate }}</span>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>{{ 'State' | translate }}</label>
+          <input class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state">
+        </fieldset>
+        <div class="message-error" [hidden]="state.valid || state.pristine">
+          <span>{{ 'State is required' | translate }}</span>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>{{ 'Country' | translate }}</label>
+          <ng-select [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
+            [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}">
+            <ng-template ng-label-tmp let-item="item">
+              <div class="supplier-body">
+                <span>{{ item.name | translate }}</span>
+              </div>
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              <div class="supplier-body">
+                <h6 [ngOptionHighlight]="search">{{ item.name | translate }}</h6>
+              </div>
+            </ng-template>
+          </ng-select>
+        </fieldset>
+        <div class="message-error" [hidden]="idCountry.valid || idCountry.pristine">
+          <span>{{ 'Country is required' | translate }}</span>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <fieldset class="form-group">
+          <label>{{ 'Postal Code' | translate }}</label>
+          <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postalCode" formControlName="postalCode">
+        </fieldset>
+      </div>
+      <div class="col-xl-12">
+        <fieldset class="form-group">
+          <label>{{ 'Address' | translate }}</label>
+          <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
+        </fieldset>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" [disabled]="form.invalid" class="btn btn-main" (click)="save(action)">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>
+
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.description}}
+</ng-template>
+
