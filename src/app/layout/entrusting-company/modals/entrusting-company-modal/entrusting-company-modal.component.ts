@@ -98,7 +98,10 @@ export class EntrustingCompanyModalComponent implements OnInit {
 
     if (this.action !== 'edit') {
       this.entrustingCompanyService.save$(this.form.value).subscribe(res => {
-        this.form.get('city').setValue({description: this.form.value.city});
+        if (this.form.value.city) {
+          this.form.get('city').setValue({description: this.form.value.city});
+        }
+        // this.form.get('city').setValue({description: this.form.value.city});
         if (res.code === CodeHttp.ok) {
           this.close();
           this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
@@ -117,7 +120,9 @@ export class EntrustingCompanyModalComponent implements OnInit {
       });
     } else {
       this.entrustingCompanyService.update$(this.form.value).subscribe(res => {
-        this.form.get('city').setValue({description: this.form.value.city});
+        if (this.form.value.city) {
+          this.form.get('city').setValue({description: this.form.value.city});
+        }
         if (res.code === CodeHttp.ok) {
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
             this.notification.success('', res);

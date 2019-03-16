@@ -95,8 +95,10 @@ export class EntrustingCompanyComponent implements OnInit {
       }
     }
     const entrustingCompany = this.auxEntrustingCompanies.sort(function(a, b) {
+      if (a && b) {
         let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      }
     });
     this.auxEntrustingCompanies = entrustingCompany;
     if (this.reverseSort) {
