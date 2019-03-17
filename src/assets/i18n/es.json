@@ -1120,5 +1120,17 @@
     "The client has orders associated with the provider":"El cliente posee ordenes asociadas al proveedor",
     "Wait until upload is complete":"Espere hasta que se complete la carga",
     "Saved Files":"Archivos Guardados",
-    "Files to Save":"Archivos a guardar"
+    "Files to Save":"Archivos a guardar",
+    "Shipping confirmation":"Confirmación envío",
+    "Tracking number":"Número de seguimiento",
+    "Enter tracking number":"Introduzca el número de seguimiento",
+    "Shipping price":"Precio de envío",
+    "Enter Shipping price":"Ingrese el precio de envío",
+    "All shipping companies": "Todas las Empresas de Envíos",
+    "List Shipping Companies": "Lista de Empresas de Envíos",
+    "Manage Shipping Companies": "Gestionar Empresas de Envíos",
+    "Shipping Company": "Empresa de Envíos",
+    "Agency Code": "Código de Agencia",
+    "Enter agency code": "Ingrese el código de agencia",
+    "The shipping company already exists": "La empresa de envíos ya existe"
 }

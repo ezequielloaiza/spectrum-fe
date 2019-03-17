@@ -27,6 +27,7 @@ import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.componen
 import { ManagePaymentsComponent } from './manage-payments/manage-payments.component';
 import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-made.component';
 import { ManageCommissionComponent } from './manage-commission/manage-commission.component';
+import { EntrustingCompanyComponent } from './entrusting-company/entrusting-company.component';
 
 const routes: Routes = [
   {
@@ -77,6 +78,10 @@ const routes: Routes = [
       {
         path: 'commission', component: ManageCommissionComponent,
         data: { option: 'Commission' }
+      },
+      {
+        path: 'entrusting-company', component: EntrustingCompanyComponent,
+        data: { option: 'EntrustingCompany' }
       },
       {
         path: 'payments', component: ManagePaymentsComponent,

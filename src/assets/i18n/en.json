@@ -941,5 +941,17 @@
     "The client has orders associated with the provider":"The client has orders associated with the provider",
     "Wait until upload is complete":"Wait until upload is complete",
     "Saved Files":"Saved Files",
-    "Files to Save":"Files to Save"
+    "Files to Save":"Files to Save",
+    "Shipping confirmation":"Shipping confirmation",
+    "Tracking number":"Tracking number",
+    "Enter tracking number":"Enter tracking number",
+    "Shipping price":"Shipping price",
+    "Enter Shipping price":"Enter Shipping price",
+    "All shipping companies": "All shipping companies",
+    "List Shipping Companies": "List Shipping Companies",
+    "Manage Shipping Companies": "Manage Shipping Companies",
+    "Shipping Company": "Shipping Company",
+    "Agency Code": "Agency Code",
+    "Enter agency code": "Enter agency code",
+    "The shipping company already exists": "The shipping company already exists"
 }

@@ -467,7 +467,34 @@ export class ProductsListInternalComponent implements OnInit {
       return item.father === this.currentFather;
     });
 
-    if (type === 'All') {
+    if (this.currentFather === 'Saphir Rx' && type === 'All') {
+      var productsBlister = [];
+      var products3pk = [];
+      var productsAll = [];
+      const typeB = 'Blister';
+      const type3pk = '3pk';
+
+      // Filtro de listas por tipo de producto
+      productsBlister = products.filter((item) => {
+        return ((item.name.toLowerCase().indexOf(typeB.toLowerCase()) > -1));
+      });
+      products3pk = products.filter((item) => {
+        return ((item.name.toLowerCase().indexOf(type3pk.toLowerCase()) > -1));
+      });
+
+      // Ordenar cada lista por tipo de producto
+      productsBlister = _.orderBy(productsBlister, ['idProduct'], ['asc']);
+      products3pk = _.orderBy(products3pk, ['idProduct'], ['asc']);
+
+      for (let i = 0; i < productsBlister.length; i++) {
+        const productBlister = productsBlister[i];
+        const product3pk = products3pk[i];
+        productsAll.push(productBlister);
+        productsAll.push(product3pk);
+      }
+      this.products = productsAll;
+      return;
+    } else if (type === 'All') {
       this.products = products;
       if (val && val.trim() !== '') {
         this.products = products.filter((item) => {
@@ -486,11 +513,18 @@ export class ProductsListInternalComponent implements OnInit {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
+
+    if (this.currentFather === 'Saphir Rx' && (type === 'Blister' || type === '3pk')) {
+      this.products = _.orderBy(this.products, ['idProduct'], ['asc']);
+    }
   }
 
   redirectPacking(product) {
     this.packings = [];
-    this.packings.push({ 'product': product, 'type': 'All'});
+    if (product.father !== 'Saphir Rx') {
+      this.packings.push({ 'product': product, 'type': 'All'});
+    }
+
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
         product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa' ||
         product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Jade') {
@@ -509,6 +543,10 @@ export class ProductsListInternalComponent implements OnInit {
 
     if (product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
       this.packings.push({ 'product': product, 'type': '2pk'});
+    }
+
+    if (product.father === 'Saphir Rx') {
+      this.packings.push({ 'product': product, 'type': 'All'});
     }
 
     this.currentFather = product.father;

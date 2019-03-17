@@ -15,6 +15,9 @@ export class Order {
     public paymentStatus: number;
     public dateSend: Date;
     public listProductRequested: Array<OrderProductRequested>;
+    public trackingNumber: string;
+    public shippingPrice: number;
+    public idEntrustingCompany: number;
 
     public constructor() { }
 

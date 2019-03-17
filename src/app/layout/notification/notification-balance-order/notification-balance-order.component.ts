@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { Buy } from '../../../shared/models/buy';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BasketService } from '../../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
@@ -11,6 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { Router } from '@angular/router';
 import { Order } from '../../../shared/models/order';
+import { ModalsShippingComponent } from '../../manage-customer-orders/modals-shipping/modals-shipping.component';
 
 @Component({
   selector: 'app-notification-balance-order',
@@ -36,7 +37,8 @@ export class NotificationBalanceOrderComponent implements OnInit {
               private orderService: OrderService,
               private spinner: NgxSpinnerService,
               private userStorageService: UserStorageService,
-              public router: Router) {
+              public router: Router,
+              private modalService: NgbModal) {
           this.user = JSON.parse(userStorageService.getCurrentUser());
                }
 
@@ -97,6 +99,11 @@ export class NotificationBalanceOrderComponent implements OnInit {
         console.log('error', error);
       });
     } else { // Cambiar status
+      if (this.newStatus === 2) {
+        this.openModalShipping();
+        this.spinner.hide();
+        this.close();
+      } else {
         this.orderService.changeStatus$(this.order.idOrder, this.newStatus).subscribe(res => {
           if (res.code === CodeHttp.ok) {
             this.spinner.hide();
@@ -112,6 +119,7 @@ export class NotificationBalanceOrderComponent implements OnInit {
           }, error => {
             console.log('error', error);
           });
+        }
       }
   }
 
@@ -128,6 +136,18 @@ export class NotificationBalanceOrderComponent implements OnInit {
     } else if ( this.user.role.idRole === 2) {
       this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
     }
+  }
+
+  openModalShipping(): void {
+    const modalRef = this.modalService.open( ModalsShippingComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
+    modalRef.componentInstance.orderModal = this.order;
+    modalRef.componentInstance.idStatus = this.newStatus;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    } , (reason) => {
+      this.close();
+    });
   }
 
 }
