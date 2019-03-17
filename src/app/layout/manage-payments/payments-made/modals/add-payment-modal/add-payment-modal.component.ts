@@ -73,7 +73,7 @@ export class AddPaymentModalComponent implements OnInit {
           this.notification.error('', res);
         });
       }
-      this.checkListFile();
+      //this.checkListFile();
     };
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       this.uploadResult = {
@@ -134,16 +134,12 @@ export class AddPaymentModalComponent implements OnInit {
 
   loadFileInvoicePayment() {
     if (this.invoicePayment.idInvoicePayment !== undefined) {
-      this.spinner.show();
       this.fileInvoicePaymentService.allFileByInvoicePayment$(this.invoicePayment.idInvoicePayment).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
-            console.log('res', res.data);
-            this.spinner.hide();
             this.listFilePayment = res.data;
             this.listFilePaymentAux = res.data;
           } else {
-            this.spinner.hide();
             console.log(res.errors[0].detail);
           }
         }, error => {
@@ -193,7 +189,7 @@ export class AddPaymentModalComponent implements OnInit {
   save(): void {
     this.spinner.show();
     this.loadPayment();
-    this.checkListFile();
+    //this.checkListFile();
       if ((this.action === 'new') || (this.action === 'bulk') ) {
         this.invoicePaymentService.saveInvoicePayment$(this.invoicePayment).subscribe(res => {
           if (res.code === CodeHttp.ok) {
@@ -227,7 +223,6 @@ export class AddPaymentModalComponent implements OnInit {
         this.invoicePaymentService.updateInvoicePayment$(this.invoicePayment).subscribe(res => {
           if (res.code === CodeHttp.ok) {
             this.invoicePayment = res.data;
-            console.log('this.listFilePaymet', this.listFilePayment);
             this.fileInvoicePaymentService.saveAllFile$(this.listFilePayment, this.invoicePayment.idInvoicePayment).subscribe(
               res1 => {
                 if (res1.code === CodeHttp.ok) {
@@ -298,7 +293,6 @@ export class AddPaymentModalComponent implements OnInit {
       detailsICIP.tax = 0.00;
       list.push(detailsICIP);
     });
-    console.log('list', list);
     this.invoicePayment.invoiceClientInvoicePaymentList = JSON.parse(JSON.stringify(list));
   }
 
@@ -391,12 +385,12 @@ export class AddPaymentModalComponent implements OnInit {
           this.allFiles = true;
         }
       }
-      this.checkListFile();
+      //this.checkListFile();
     } else {
       console.log('error file');
     }
   }
-
+/*
   checkListFile() {
     const filesAux = this.listFilePaymentAux;
     const files = this.listFilePayment;
@@ -411,11 +405,11 @@ export class AddPaymentModalComponent implements OnInit {
       });
     }
   }
-
+*/
   deleteItem(item) {
-    const index = this.listFilePaymentAux.indexOf(item);
+    const index = this.listFilePayment.indexOf(item);
     if (index !== -1) {
-      this.listFilePaymentAux.splice(index, 1);
+      this.listFilePayment.find(x => ( (x.name === item.name) && (x.type === item.type))).delete = true;
     }
   }
 

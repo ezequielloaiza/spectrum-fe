@@ -189,8 +189,8 @@
             </table>
           </div>
           <!-- Documents -->
-          <div *ngIf="action !== 'new' && listFilePayment.length > 0" class="col-md-12 card-body">
-            <span class="title-view" style= "display: block">{{ 'Saved Files' | translate }}</span>
+          <div *ngIf="listFilePayment.length > 0" class="col-md-12 card-body">
+            <span *ngIf="action != 'view'" class="title-view" style= "display: block">{{ 'Saved Files' | translate }}</span>
             <br>
             <div *ngIf="listFilePayment.length > 0" class="row justify-content-md-center margin-table">
               <br>
@@ -203,20 +203,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of listFilePayment">
-                    <td>
-                      <strong>{{ item?.name }}</strong>
-                    </td>
-                    <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
-                    <td nowrap>
-                      <button type="button" class="btn btn-success btn-xs btn-files" (click)="downloadFile(item)">
-                        <span class="fa fa-download"></span> {{ 'Download' | translate }}
-                      </button>
-                      <button *ngIf="action === 'edit'" type="button" class="btn btn-danger btn-xs btn-files" (click)="deleteItem(item)">
-                        <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
-                      </button>
-                    </td>
-                  </tr>
+                  <ng-container *ngFor="let item of listFilePayment">
+                    <tr *ngIf="item.delete==null || item.delete == false">
+                      <td>
+                        <strong>{{ item?.name }}</strong>
+                      </td>
+                      <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td nowrap>
+                        <button type="button" class="btn btn-success btn-xs btn-files" (click)="downloadFile(item)">
+                          <span class="fa fa-download"></span> {{ 'Download' | translate }}
+                        </button>
+                        <button *ngIf="action === 'edit'" type="button" class="btn btn-danger btn-xs btn-files" (click)="deleteItem(item)">
+                          <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </ng-container>
                 </tbody>
               </table>
               <br>
