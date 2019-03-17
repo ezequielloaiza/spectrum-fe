@@ -191,7 +191,12 @@ export class ProductsListInternalComponent implements OnInit {
         } else {
            this.productsAux = this.products;
         }
-        this.products = _.orderBy( this.products, ['idProduct'], ['asc']);
+
+        if (this.idSupplier === 2) {
+          this.products = _.orderBy( this.products, ['idProduct'], ['desc']);
+        } else {
+          this.products = _.orderBy( this.products, ['idProduct'], ['asc']);
+        }
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
