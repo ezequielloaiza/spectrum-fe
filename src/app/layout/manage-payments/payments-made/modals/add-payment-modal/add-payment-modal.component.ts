@@ -134,15 +134,20 @@ export class AddPaymentModalComponent implements OnInit {
 
   loadFileInvoicePayment() {
     if (this.invoicePayment.idInvoicePayment !== undefined) {
+      this.spinner.show();
       this.fileInvoicePaymentService.allFileByInvoicePayment$(this.invoicePayment.idInvoicePayment).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
+            console.log('res', res.data);
+            this.spinner.hide();
             this.listFilePayment = res.data;
             this.listFilePaymentAux = res.data;
           } else {
+            this.spinner.hide();
             console.log(res.errors[0].detail);
           }
         }, error => {
+          this.spinner.hide();
           console.log('error', error);
         }
       );
@@ -369,12 +374,12 @@ export class AddPaymentModalComponent implements OnInit {
         fileInvoicePayment.invoicePayment = this.invoicePayment;
       }
       this.listFilePayment.push(fileInvoicePayment);
-      if (this.uploader.queue.length === this.listFilePayment.length) {
+      if (this.listFilePaymentAux.length === this.listFilePayment.length) {
         this.allFiles = true;
       } else {
         let cont = 0;
         const listAux = this.listFilePaymentAux;
-        _.each(this.uploader.queue, function (item) {
+        _.each(this.listFilePayment, function (item) {
           const itemAux = listAux.findIndex(x => ( (x.name === item.file.name) && (x.type === item.file.type)));
           if (itemAux === -1) {
             cont++;
@@ -394,19 +399,14 @@ export class AddPaymentModalComponent implements OnInit {
 
   checkListFile() {
     const filesAux = this.listFilePaymentAux;
-    const uploaderAux = this.uploader.queue;
+    const files = this.listFilePayment;
     if (this.allFiles) {
       _.each(this.listFilePayment, function (item) {
-        let itemAux = uploaderAux.findIndex(x => ( (item.name === x.file.name) && (item.type === x.file.type)));
+        const itemAux = files.findIndex(x => ( (item.name === x.name) && (item.type === x.type)));
         if (itemAux == -1 && (item.id === undefined)) {
           item.delete = true;
         } else {
-          itemAux = filesAux.findIndex(x => ( (x.name === item.name) && (x.type === item.type)));
-          if (itemAux == -1) {
-            item.delete = true;
-          } else {
-            item.delete = false;
-          }
+          item.delete = false;
         }
       });
     }

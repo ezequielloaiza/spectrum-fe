@@ -939,5 +939,7 @@
     "The certification code is associated with another client":"The certification code is associated with another client",
     "The card code is associated with another client":"The card code is associated with another client",
     "The client has orders associated with the provider":"The client has orders associated with the provider",
-    "Wait until upload is complete":"Wait until upload is complete"
+    "Wait until upload is complete":"Wait until upload is complete",
+    "Saved Files":"Saved Files",
+    "Files to Save":"Files to Save"
 }
