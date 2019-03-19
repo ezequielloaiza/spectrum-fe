@@ -157,15 +157,15 @@
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <h5>{{ 'Orders' | translate }}</h5>
-            <!--
             <div class="pull-right">
               <div class="btn-group">
-                <button type="button" class="btn btn-xs btn-white active">Today</button>
-                <button type="button" class="btn btn-xs btn-white">Monthly</button>
-                <button type="button" class="btn btn-xs btn-white">Annual</button>
+                <div class="ml-auto p-2">
+                  <button class="btn btn-main" (click)="redirectProduts()">
+                    <span><i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
+                  </button>
+                </div>
               </div>
             </div>
-            -->
           </div>
           <div class="ibox-content">
             <div class="row">

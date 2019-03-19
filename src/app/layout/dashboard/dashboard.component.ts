@@ -279,6 +279,10 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  redirectProduts(): void {
+    this.router.navigate(['/products/']);
+  }
+
   getOrdersPending() {
     if (this.user.role.idRole === 3) {
       this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 0).subscribe(res => {

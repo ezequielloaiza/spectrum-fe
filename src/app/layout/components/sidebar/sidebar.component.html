@@ -4,7 +4,7 @@
 			<i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
 		</a>
 		<a routerLink="/products" [routerLinkActive]="['router-link-active']" class="list-group-item">
-			<i class="fa fa-archive"></i>&nbsp;{{ 'Products' | translate }}
+			<i class="fa fa-archive"></i>&nbsp;{{ 'New Order' | translate }}
 		</a>
 		<!--USER MENU-->
 		<div *ngIf="user.role.idRole === 3">
@@ -52,12 +52,12 @@
 				</a>
 				<li class="nested" [class.expand]="showMenu === 'order'">
 					<ul class="submenu">
-            <li>
+           <!-- <li>
               <a routerLink="/products" [routerLinkActive]="['router-link-active']">
                 <span>
                 <i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
               </a>
-            </li>
+            </li> -->
             <li>
               <a [routerLink]="['/order-list-client']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
                 <span>
@@ -218,12 +218,12 @@
 				</a>
 				<li class="nested" [class.expand]="showMenu === 'orders'">
 					<ul class="submenu">
-						<li>
+					<!--	<li>
 							<a routerLink="/products" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
 							</a>
-            </li>
+            </li> -->
             <li>
 							<a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
 								<span>
@@ -372,12 +372,12 @@
 					</a>
           <li class="nested" [class.expand]="showMenu === 'orders'">
             <ul class="submenu">
-              <li>
+              <!--<li>
                 <a routerLink="/products" [routerLinkActive]="['router-link-active']">
                   <span>
                     <i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
                 </a>
-              </li>
+              </li>-->
               <li>
                 <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
                   <span>
