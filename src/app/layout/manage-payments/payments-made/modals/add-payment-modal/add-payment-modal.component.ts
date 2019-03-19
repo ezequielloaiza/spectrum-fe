@@ -109,7 +109,6 @@ export class AddPaymentModalComponent implements OnInit {
       this.idsInvoiceClient = list;
     }
 
-    console.log(this.invoicePayment);
     this.initializeForm();
     this.loadInvoices();
     this.loadFileInvoicePayment();
@@ -127,7 +126,7 @@ export class AddPaymentModalComponent implements OnInit {
       notes: [this.action !== 'new' ? this.invoicePayment.description : '', [Validators.required]],
       bank: [this.action !== 'new' ? this.invoicePayment.bank : '', [Validators.required]],
       status: [this.action !== 'new' ? this.invoicePayment.status : 0, []],
-      amount: [this.action !== 'new' ? (this.action === 'bulk' ? this.maxAmountInvoice : this.invoicePayment.amount) : '', 
+      amount: [this.action !== 'new' ? (this.action === 'bulk' ? this.maxAmountInvoice : this.invoicePayment.amount) : '',
             [Validators.required, Validators.max(this.action === 'bulk' ? this.maxAmountInvoice : this.invoice.due)]],
     });
   }
