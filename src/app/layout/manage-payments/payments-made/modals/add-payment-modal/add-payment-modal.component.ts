@@ -16,6 +16,7 @@ import { UserStorageService } from '../../../../../http/user-storage.service';
 import { FileinvoicepaymentService } from '../../../../../shared/services/fileinvoicepayment/fileinvoicepayment.service';
 import { saveAs } from 'file-saver';
 import { InvoiceClientInvoicePayment } from '../../../../../shared/models/invoiceclientinvoicepayment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const URL = environment.apiUrl + 'fileInvoicePayment/uploader';
 @Component({
@@ -39,16 +40,18 @@ export class AddPaymentModalComponent implements OnInit {
   queueLimit = 5;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFilePayment: Array<FileInvoicePayment> = new Array;
+  listFilePaymentAux: Array<FileInvoicePayment> = new Array;
   private uploadResult: any = null;
   public uploader: FileUploader = new FileUploader({
     url: URL,
     itemAlias: 'files',
     queueLimit: this.queueLimit,
     maxFileSize: this.maxFileSize,
-    removeAfterUpload: false,
+    removeAfterUpload: true,
     authToken: this.userStorageService.getToke(),
-    autoUpload: false
+    autoUpload: true
   });
+  allFiles: any;
 
   constructor(private route: ActivatedRoute,
     public modalReference: NgbActiveModal,
@@ -58,6 +61,7 @@ export class AddPaymentModalComponent implements OnInit {
     private invoiceService: InvoiceClientService,
     private fileInvoicePaymentService: FileinvoicepaymentService,
     private translate: TranslateService,
+    private spinner: NgxSpinnerService,
     private notification: ToastrService) {
 
     this.uploader.onAfterAddingFile = (item) => {
@@ -69,6 +73,7 @@ export class AddPaymentModalComponent implements OnInit {
           this.notification.error('', res);
         });
       }
+      //this.checkListFile();
     };
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       this.uploadResult = {
@@ -104,7 +109,6 @@ export class AddPaymentModalComponent implements OnInit {
       this.idsInvoiceClient = list;
     }
 
-    console.log(this.invoicePayment);
     this.initializeForm();
     this.loadInvoices();
     this.loadFileInvoicePayment();
@@ -122,7 +126,7 @@ export class AddPaymentModalComponent implements OnInit {
       notes: [this.action !== 'new' ? this.invoicePayment.description : '', [Validators.required]],
       bank: [this.action !== 'new' ? this.invoicePayment.bank : '', [Validators.required]],
       status: [this.action !== 'new' ? this.invoicePayment.status : 0, []],
-      amount: [this.action !== 'new' ? (this.action === 'bulk' ? this.maxAmountInvoice : this.invoicePayment.amount) : '', 
+      amount: [this.action !== 'new' ? (this.action === 'bulk' ? this.maxAmountInvoice : this.invoicePayment.amount) : '',
             [Validators.required, Validators.max(this.action === 'bulk' ? this.maxAmountInvoice : this.invoice.due)]],
     });
   }
@@ -133,10 +137,12 @@ export class AddPaymentModalComponent implements OnInit {
         res => {
           if (res.code === CodeHttp.ok) {
             this.listFilePayment = res.data;
+            this.listFilePaymentAux = res.data;
           } else {
             console.log(res.errors[0].detail);
           }
         }, error => {
+          this.spinner.hide();
           console.log('error', error);
         }
       );
@@ -180,58 +186,68 @@ export class AddPaymentModalComponent implements OnInit {
   }
 
   save(): void {
+    this.spinner.show();
     this.loadPayment();
-    this.saveFiles();
-    console.log(this.invoicePayment);
-    if ((this.action === 'new') || (this.action === 'bulk') ) {
-      this.invoicePaymentService.saveInvoicePayment$(this.invoicePayment).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.invoicePayment = res.data;
-          this.fileInvoicePaymentService.saveAllFile$(this.listFilePayment, this.invoicePayment.idInvoicePayment).subscribe(
-            res1 => {
-              if (res1.code === CodeHttp.ok) {
-                this.modalReference.close();
-                this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
-                  this.notification.success('', res);
-                });
-              } else {
-                console.log(res.errors[0].detail);
+    //this.checkListFile();
+      if ((this.action === 'new') || (this.action === 'bulk') ) {
+        this.invoicePaymentService.saveInvoicePayment$(this.invoicePayment).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            this.invoicePayment = res.data;
+            this.fileInvoicePaymentService.saveAllFile$(this.listFilePayment, this.invoicePayment.idInvoicePayment).subscribe(
+              res1 => {
+                if (res1.code === CodeHttp.ok) {
+                  this.modalReference.close();
+                  this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res2: string) => {
+                    this.notification.success('', res2);
+                  });
+                  this.spinner.hide();
+                } else {
+                  console.log(res1.errors[0].detail);
+                  this.spinner.hide();
+                }
+              }, error => {
+                this.spinner.hide();
+                console.log('error', error);
               }
-            }, error => {
-              console.log('error', error);
-            }
-          );
-        } else {
-          console.log(res.errors[0].detail);
-        }
-      }, error => {
-        console.log('error', error);
-      });
-    } else {
-      this.invoicePaymentService.updateInvoicePayment$(this.invoicePayment).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.invoicePayment = res.data;
-          this.fileInvoicePaymentService.saveAllFile$(this.listFilePayment, this.invoicePayment.idInvoicePayment).subscribe(
-            res1 => {
-              if (res1.code === CodeHttp.ok) {
-                this.modalReference.close();
-                this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
-                  this.notification.success('', res);
-                });
-              } else {
-                console.log(res.errors[0].detail);
+            );
+          } else {
+            this.spinner.hide();
+            console.log(res.errors[0].detail);
+          }
+        }, error => {
+          this.spinner.hide();
+          console.log('error', error);
+        });
+      } else {
+        this.invoicePaymentService.updateInvoicePayment$(this.invoicePayment).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            this.invoicePayment = res.data;
+            this.fileInvoicePaymentService.saveAllFile$(this.listFilePayment, this.invoicePayment.idInvoicePayment).subscribe(
+              res1 => {
+                if (res1.code === CodeHttp.ok) {
+                  this.spinner.hide();
+                  this.modalReference.close();
+                  this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res2: string) => {
+                    this.notification.success('', res2);
+                  });
+                } else {
+                  this.spinner.hide();
+                  console.log(res1.errors[0].detail);
+                }
+              }, error => {
+                this.spinner.hide();
+                console.log('error', error);
               }
-            }, error => {
-              console.log('error', error);
-            }
-          );
-        } else {
-          console.log(res.errors[0].detail);
-        }
-      }, error => {
-        console.log('error', error);
-      });
-    }
+            );
+          } else {
+            this.spinner.hide();
+            console.log(res.errors[0].detail);
+          }
+        }, error => {
+          this.spinner.hide();
+          console.log('error', error);
+        });
+      }
   }
 
   close() {
@@ -276,7 +292,6 @@ export class AddPaymentModalComponent implements OnInit {
       detailsICIP.tax = 0.00;
       list.push(detailsICIP);
     });
-    console.log('list', list);
     this.invoicePayment.invoiceClientInvoicePaymentList = JSON.parse(JSON.stringify(list));
   }
 
@@ -340,15 +355,6 @@ export class AddPaymentModalComponent implements OnInit {
     }
   }
 
-  saveFiles(): void {
-    this.listFilePayment = new Array;
-    if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        item.upload();
-      });
-    }
-  }
-
   private buildFileInvoicePayment() {
     if (this.uploadResult.success) {
       const fileInvoicePayment: FileInvoicePayment = new FileInvoicePayment();
@@ -357,9 +363,52 @@ export class AddPaymentModalComponent implements OnInit {
       fileInvoicePayment.type = this.uploadResult.item.file.type;
       fileInvoicePayment.size = this.uploadResult.item.file.size;
       fileInvoicePayment.createdAt = new Date();
+      if (this.invoicePayment.idInvoicePayment != undefined) {
+        fileInvoicePayment.invoicePayment = this.invoicePayment;
+      }
       this.listFilePayment.push(fileInvoicePayment);
+      if (this.listFilePaymentAux.length === this.listFilePayment.length) {
+        this.allFiles = true;
+      } else {
+        let cont = 0;
+        const listAux = this.listFilePaymentAux;
+        _.each(this.listFilePayment, function (item) {
+          const itemAux = listAux.findIndex(x => ( (x.name === item.file.name) && (x.type === item.file.type)));
+          if (itemAux === -1) {
+            cont++;
+          }
+        });
+        if (cont > 0) {
+          this.allFiles = false;
+        } else {
+          this.allFiles = true;
+        }
+      }
+      //this.checkListFile();
     } else {
       console.log('error file');
+    }
+  }
+/*
+  checkListFile() {
+    const filesAux = this.listFilePaymentAux;
+    const files = this.listFilePayment;
+    if (this.allFiles) {
+      _.each(this.listFilePayment, function (item) {
+        const itemAux = files.findIndex(x => ( (item.name === x.name) && (item.type === x.type)));
+        if (itemAux == -1 && (item.id === undefined)) {
+          item.delete = true;
+        } else {
+          item.delete = false;
+        }
+      });
+    }
+  }
+*/
+  deleteItem(item) {
+    const index = this.listFilePayment.indexOf(item);
+    if (index !== -1) {
+      this.listFilePayment.find(x => ( (x.name === item.name) && (x.type === item.type))).delete = true;
     }
   }
 
@@ -375,8 +424,11 @@ export class AddPaymentModalComponent implements OnInit {
   }
 
   deleteFile(item) {
-    console.log(item);
-    this.fileInvoicePaymentService.deleteFile$(item.idFileInvoicePayment, item).subscribe(
+    let id = item.idFileInvoicePayment;
+    if (id === undefined) {
+      id = -1;
+    }
+    this.fileInvoicePaymentService.deleteFile$(id, item).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.loadFileInvoicePayment();
