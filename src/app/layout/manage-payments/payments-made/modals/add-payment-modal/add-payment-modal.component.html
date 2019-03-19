@@ -1,3 +1,4 @@
+<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
 <div class="modal-header">
   <h4 *ngIf="action == 'new' || action == 'bulk'" class="modal-title">{{ 'Add Payment' | translate }}</h4>
   <h4 *ngIf="action == 'view'" class="modal-title">{{ 'View Payment' | translate }}</h4>
@@ -145,24 +146,28 @@
                 [disabled]="uploader.queue.length > 4" multiple required />
               <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
               <div class="invalid-feedback">Example invalid custom file feedback</div>
-              <div class="message-error">
+              <div class="message-error margin-msg">
                 <span translate>{{'Max files size:' | translate}} 25MB</span>
                 <span> / </span>
                 <span translate>{{'Maximum files number:' | translate }} 5</span>
               </div>
             </div>
+            <div class="message-error margin-msg" *ngIf = "(uploader.isUploading)">
+              <span translate>{{'Wait until upload is complete' | translate }}</span>
+            </div>
           </fieldset>
           <!-- <div class="message-error" [hidden]>
           <span>{{'Attach file is required' | translate }}</span>
         </div>-->
-          <div class="col-md-12" style="margin-bottom: 40px" *ngIf="(action != 'view') && (uploader.queue.length > 0)">
-            <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
+          <div class="col-md-12" style="margin-top: 60px" *ngIf="(action != 'view') && (uploader.queue.length > 0)">
+            <span class="title-view" style= "display: block"> {{ 'Files to Save' | translate }}</span>
+            <div class="row justify-content-end margin-table" style="margin-bottom: 10px" *ngIf="uploader.queue.length > 1">
               <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
                 <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
               </button>
+              <br>
             </div>
-            <br>
-            <table class="table">
+            <table class="table"> 
               <thead>
                 <tr>
                   <th>{{ 'Name' | translate }}</th>
@@ -184,8 +189,11 @@
             </table>
           </div>
           <!-- Documents -->
-          <div *ngIf="action !== 'new'" class="col-md-12 card-body">
+          <div *ngIf="listFilePayment.length > 0" class="col-md-12 card-body">
+            <span *ngIf="action != 'view'" class="title-view" style= "display: block">{{ 'Saved Files' | translate }}</span>
+            <br>
             <div *ngIf="listFilePayment.length > 0" class="row justify-content-md-center margin-table">
+              <br>
               <table class="table">
                 <thead>
                   <tr>
@@ -195,20 +203,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of listFilePayment">
-                    <td>
-                      <strong>{{ item?.name }}</strong>
-                    </td>
-                    <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
-                    <td nowrap>
-                      <button type="button" class="btn btn-success btn-xs btn-files" (click)="downloadFile(item)">
-                        <span class="fa fa-download"></span> {{ 'Download' | translate }}
-                      </button>
-                      <button *ngIf="action === 'edit'" type="button" class="btn btn-danger btn-xs btn-files" (click)="deleteFile(item)">
-                        <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
-                      </button>
-                    </td>
-                  </tr>
+                  <ng-container *ngFor="let item of listFilePayment">
+                    <tr *ngIf="item.delete==null || item.delete == false">
+                      <td>
+                        <strong>{{ item?.name }}</strong>
+                      </td>
+                      <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td nowrap>
+                        <button type="button" class="btn btn-success btn-xs btn-files" (click)="downloadFile(item)">
+                          <span class="fa fa-download"></span> {{ 'Download' | translate }}
+                        </button>
+                        <button *ngIf="action === 'edit'" type="button" class="btn btn-danger btn-xs btn-files" (click)="deleteItem(item)">
+                          <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </ng-container>
                 </tbody>
               </table>
               <br>
@@ -230,7 +240,7 @@
     'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" [hidden]="action == 'view'" [disabled]="form.invalid" class="btn btn-main" (click)="save()">{{
+  <button type="button" [hidden]="action == 'view'" [disabled]="form.invalid || (uploader.isUploading) " class="btn btn-main" (click)="save()">{{
     'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
