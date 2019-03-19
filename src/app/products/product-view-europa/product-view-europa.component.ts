@@ -1126,7 +1126,13 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   valueDiameter(value, eye) {
-    if (value === '18.0' || value === '20.0' ) {
+    if (value === '17.0' ||
+        value === '17.5' ||
+        value === '18.0' ||
+        value === '18.5' ||
+        value === '19.0' ||
+        value === '19.5' ||
+        value === '20.0' ) {
       if (eye === 'right') {
         this.checkAdditional('right');
         this.product.priceSaleRight = this.priceB + this.notch + this.thickness + this.hidrapeg + this.inserts;
