@@ -128,8 +128,8 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.subtotal = this.order.subtotal;
     this.invoice.total = this.order.total;
     this.invoice.idUser = this.order.user.idUser;
-    const ship = 0;
-    this.invoice.shipping = ship;
+   // const ship = 0;
+    this.invoice.shipping = this.order.shippingPrice;
     this.invoice.due = this.order.total;
     _.each(this.order.listProductRequested, function(pRequested) {
       const productR = new InvoiceSupplierProductRequested();
