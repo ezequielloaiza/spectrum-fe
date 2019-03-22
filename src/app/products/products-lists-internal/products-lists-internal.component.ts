@@ -36,13 +36,19 @@ export class ProductsListInternalComponent implements OnInit {
   currentFather: any;
   currentPacking: any;
   packings: any;
+  showFilterMarkennovy: any;
+  listFilterMarkennovy = [ {replacementPeriod: 'All', mainImg: 'assets/images/suppliers/markennovy.png'},
+                           {replacementPeriod: 'Monthly', mainImg: 'assets/images/suppliers/markennovy.png'},
+                           {replacementPeriod: 'Monthly Disponsable', mainImg: 'assets/images/suppliers/markennovy.png'},
+                           {replacementPeriod: '3-Monthly', mainImg: 'assets/images/suppliers/markennovy.png'},
+                           {replacementPeriod: 'Conventional', mainImg: 'assets/images/suppliers/markennovy.png'} ];
 
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
               private modalService: NgbModal,
               public router: Router,
               private spinner: NgxSpinnerService,
-              private route: ActivatedRoute,) {
+              private route: ActivatedRoute) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -50,10 +56,10 @@ export class ProductsListInternalComponent implements OnInit {
   ngOnInit() {
     this.idSupplier = +this.route.snapshot.paramMap.get('idSupplier');
     this.getProducts();
-    this.filterMarkennovy = 'All';
     this.filterName = '';
     this.currentFather = '';
     this.currentPacking = 'All';
+    this.showFilterMarkennovy = true;
   }
 
   userIsAdmin() {
@@ -142,13 +148,13 @@ export class ProductsListInternalComponent implements OnInit {
     if (productsXtensa.length) {
       this.productsMarkennovy.push({name:"Xtensa",
                                     mainImg:"assets/images/products/markennovy/xtensa.png",
-                                    replacementPeriod:"Monthly",
+                                    replacementPeriod:"Monthly Disponsable",
                                     father: "Xtensa"});
     }
     if (productsJade.length) {
       this.productsMarkennovy.push({name:"Jade",
                                     mainImg:"assets/images/products/markennovy/jade.png",
-                                    replacementPeriod:"Monthly",
+                                    replacementPeriod:"Monthly Disponsable",
                                     father: "Jade"});
     }
     if (productsSaphir.length) {
@@ -183,6 +189,7 @@ export class ProductsListInternalComponent implements OnInit {
         if (this.idSupplier === 1) { //Markennovy
           this.setProductsFatherMarkennovy();
           this.showFathersMarkennovy = true;
+          this.showFilterMarkennovy = true;
         }
 
         this.nameSupplier = this.products[0] ? this.products[0].supplier.companyName : '';
@@ -422,6 +429,7 @@ export class ProductsListInternalComponent implements OnInit {
     const val = this.filterName;
 
     if (this.showFathersMarkennovy) {
+      this.showFilterMarkennovy = false;
       products = this.productsAuxMarkennovy;
     } else {
       products = this.productsAux;
@@ -457,6 +465,7 @@ export class ProductsListInternalComponent implements OnInit {
 
     if (this.showFathersMarkennovy) {
       this.productsMarkennovy = products;
+      this.showFilterMarkennovy = false;
     } else {
       this.products = products;
     }
@@ -556,6 +565,7 @@ export class ProductsListInternalComponent implements OnInit {
 
     this.currentFather = product.father;
     this.showFathersMarkennovy = false;
+    this.showFilterMarkennovy =  false;
     this.showPackingsMarkennovy = true;
   }
 
@@ -575,6 +585,7 @@ export class ProductsListInternalComponent implements OnInit {
     if (this.idSupplier === 1) {
       if (!this.showFathersMarkennovy) {
         this.showFathersMarkennovy = true;
+        this.showFilterMarkennovy = true;
         this.showPackingsMarkennovy = false;
         this.filterName = '';
         this.currentFather = '';
