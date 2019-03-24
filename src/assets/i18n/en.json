@@ -434,6 +434,7 @@
     "GOLD": "GOLD",
     "PLATINUM": "PLATINUM",
     "DIAMOND": "DIAMOND",
+    "PREFERENCE" : "PREFERENCE",
     "Should define the payment method": "Should define the payment method",
     "Åland":	"Åland",
     "Albania": "Albania",
