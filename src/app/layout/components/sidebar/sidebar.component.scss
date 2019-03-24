@@ -5,7 +5,7 @@ $sidebar-background-color: #1756a6;
     border-radius: 0;
     position: fixed;
     z-index: 1000;
-    top: 62px;
+    top: 60px;
     left: 235px;
     width: 275px;
     margin-left: -245px;
@@ -150,7 +150,7 @@ $sidebar-background-color: #1756a6;
 }
 @media screen and (max-width: 992px) {
     .sidebar {
-        top: 62px;
+        top: 60px;
         left: 0px;
     }
 }

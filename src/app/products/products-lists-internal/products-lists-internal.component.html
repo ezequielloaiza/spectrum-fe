@@ -154,8 +154,8 @@
         </div>
 
         <!--Products without Markennovy-->
-        <div [hidden]="showFathersMarkennovy || showPackingsMarkennovy" class="col-md-4" *ngFor="let product of products">
-          <div class="mb-4">
+        <div [hidden]="showFathersMarkennovy || showPackingsMarkennovy || (product.status !== 1 && user.role.idRole !== 1)" class="col-md-4" *ngFor="let product of products">
+          <div class="mb-4" >
             <a class="prodTeaser" >
               <div class="prodTeaser-overlay" (click)="redirectView(product)">
                 <i class="prodTeaser-more">{{ 'View' | translate }}</i>
