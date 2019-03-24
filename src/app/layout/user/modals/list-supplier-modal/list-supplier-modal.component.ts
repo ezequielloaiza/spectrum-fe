@@ -60,7 +60,7 @@ export class ListSupplierModalComponent implements OnInit {
           item.checked = true;
         }
       });
-      this.selectedAll = this.listSuppliers.length > 5 ?  true : false;
+      this.selectedAll = this.listSuppliers.length > 6 ?  true : false;
       this.valid = true;
     }
   }
@@ -108,7 +108,7 @@ export class ListSupplierModalComponent implements OnInit {
   onSelectionAll(event) {
     let arrayAux = this.listAux;
     const check = event.target.checked;
-    _.each(this.suppliers, function(item) {
+    _.each(this.auxSuppliers, function(item) {
       item.checked = check;
       let existe: boolean;
       const id = item.idSupplier;

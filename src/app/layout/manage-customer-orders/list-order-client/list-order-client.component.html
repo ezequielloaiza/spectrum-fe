@@ -103,13 +103,13 @@
                         <span>{{'Customer invoice'| translate }}</span>
                     </div>
                     <div>
-                        <span>{{order.invoiceClient? '#'+order.invoiceClient.number : 'Not generated'}}</span>
+                        <span>{{order.invoiceClient ? '#'+order.invoiceClient.number : 'Not generated' | translate}}</span>
                     </div>
                     <div>
-                        <span>{{'Customer provider'| translate }}</span>
+                        <span>{{'Supplier invoice'| translate }}</span>
                     </div>
                     <div>
-                        <span>{{order.invoiceSupplier? '#'+order.invoiceSupplier.number : 'Not generated'}}</span>
+                        <span>{{order.invoiceSupplier ? '#'+order.invoiceSupplier.number : 'Not generated' | translate}}</span>
                     </div>
                   </div>
                   <div class="col-lg-2">
