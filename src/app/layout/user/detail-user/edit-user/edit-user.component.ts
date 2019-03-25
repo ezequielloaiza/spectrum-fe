@@ -173,7 +173,7 @@ export class EditUserComponent implements OnInit {
     this.form.get('city').setValue(user.city);
     this.form.get('postal').setValue(user.postalCode);
     this.form.get('phone').setValue(this.user.phone == null ? '' : this.user.phone);
-    this.form.get('cardCode').setValue(this.user.cardCode);
+    this.form.get('cardCode').setValue(this.user.cardCode );
     this.form.get('certificationCode').setValue(this.user.certificationCode);
     this.form.get('membershipId').setValue(user.membership.idMembership);
     this.nameSeller = user.nameSeller;

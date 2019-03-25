@@ -3956,6 +3956,12 @@ code {
   margin-bottom: 0;
   padding: 15px 15px 7px;
   min-height: 48px;
+
+  &.flex-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 .ibox-content {
   background-color: #ffffff;

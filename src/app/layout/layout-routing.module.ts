@@ -27,6 +27,7 @@ import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.componen
 import { ManagePaymentsComponent } from './manage-payments/manage-payments.component';
 import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-made.component';
 import { ManageCommissionComponent } from './manage-commission/manage-commission.component';
+import { EntrustingCompanyComponent } from './entrusting-company/entrusting-company.component';
 
 const routes: Routes = [
   {
@@ -36,13 +37,6 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard' },
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { option: 'Dashboard' } },
-      { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
-      { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
-      { path: 'forms', loadChildren: './form/form.module#FormModule' },
-      { path: 'bs-element', loadChildren: './bs-element/bs-element.module#BsElementModule' },
-      { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
-      { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
-      { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
       { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
       // { path: 'consult-account', component: CheckAccountComponent },
       { path: 'suppliers', component: SuppliersComponent, runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
@@ -77,6 +71,10 @@ const routes: Routes = [
       {
         path: 'commission', component: ManageCommissionComponent,
         data: { option: 'Commission' }
+      },
+      {
+        path: 'entrusting-company', component: EntrustingCompanyComponent,
+        data: { option: 'EntrustingCompany' }
       },
       {
         path: 'payments', component: ManagePaymentsComponent,

@@ -131,9 +131,11 @@
             <div class="message-error" [hidden]="!canEdit || phone.value.length === 0 || phone.value.length > 7">
               <span>{{ 'Phone not valid' | translate }}</span>
             </div>
+            <!--
             <div class="message-error" [hidden]="!canEdit || phone.value!=''">
               <span>{{ 'Phone is required' | translate }}</span>
             </div>
+            -->
           </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
@@ -201,7 +203,8 @@
             <i class="fa fa-times"></i>
           </button>
           &nbsp;&nbsp;
-          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || phone.value =='' ||  (phone.value.length < 8 && !!phone.value.length) || saving" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
+          <!--<button class="btn btn-main" (click)="save()" [disabled]="form.invalid || phone.value =='' ||  (phone.value.length < 8 && !!phone.value.length) || saving" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;-->
+          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || saving" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
             <i class="fa fa-save"></i>
           </button>
         </div>

@@ -36,13 +36,19 @@ export class ProductsListInternalComponent implements OnInit {
   currentFather: any;
   currentPacking: any;
   packings: any;
+  showFilterMarkennovy: any;
+  listFilterMarkennovy = [ {replacementPeriod: 'All', mainImg: 'assets/images/suppliers/markennovy.png'},
+                           {replacementPeriod: 'Monthly', mainImg: 'assets/images/suppliers/markennovy.png'},
+                           {replacementPeriod: 'Monthly Disponsable', mainImg: 'assets/images/suppliers/markennovy.png'},
+                           {replacementPeriod: '3-Monthly', mainImg: 'assets/images/suppliers/markennovy.png'},
+                           {replacementPeriod: 'Conventional', mainImg: 'assets/images/suppliers/markennovy.png'} ];
 
   constructor(private productService: ProductService,
               private userStorageService: UserStorageService,
               private modalService: NgbModal,
               public router: Router,
               private spinner: NgxSpinnerService,
-              private route: ActivatedRoute,) {
+              private route: ActivatedRoute) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -50,10 +56,10 @@ export class ProductsListInternalComponent implements OnInit {
   ngOnInit() {
     this.idSupplier = +this.route.snapshot.paramMap.get('idSupplier');
     this.getProducts();
-    this.filterMarkennovy = 'All';
     this.filterName = '';
     this.currentFather = '';
     this.currentPacking = 'All';
+    this.showFilterMarkennovy = true;
   }
 
   userIsAdmin() {
@@ -142,13 +148,13 @@ export class ProductsListInternalComponent implements OnInit {
     if (productsXtensa.length) {
       this.productsMarkennovy.push({name:"Xtensa",
                                     mainImg:"assets/images/products/markennovy/xtensa.png",
-                                    replacementPeriod:"Monthly",
+                                    replacementPeriod:"Monthly Disponsable",
                                     father: "Xtensa"});
     }
     if (productsJade.length) {
       this.productsMarkennovy.push({name:"Jade",
                                     mainImg:"assets/images/products/markennovy/jade.png",
-                                    replacementPeriod:"Monthly",
+                                    replacementPeriod:"Monthly Disponsable",
                                     father: "Jade"});
     }
     if (productsSaphir.length) {
@@ -183,6 +189,7 @@ export class ProductsListInternalComponent implements OnInit {
         if (this.idSupplier === 1) { //Markennovy
           this.setProductsFatherMarkennovy();
           this.showFathersMarkennovy = true;
+          this.showFilterMarkennovy = true;
         }
 
         this.nameSupplier = this.products[0] ? this.products[0].supplier.companyName : '';
@@ -191,7 +198,12 @@ export class ProductsListInternalComponent implements OnInit {
         } else {
            this.productsAux = this.products;
         }
-        this.products = _.orderBy( this.products, ['idProduct'], ['asc']);
+
+        if (this.idSupplier === 2) {
+          this.products = _.orderBy( this.products, ['idProduct'], ['desc']);
+        } else {
+          this.products = _.orderBy( this.products, ['idProduct'], ['asc']);
+        }
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -417,6 +429,7 @@ export class ProductsListInternalComponent implements OnInit {
     const val = this.filterName;
 
     if (this.showFathersMarkennovy) {
+      this.showFilterMarkennovy = false;
       products = this.productsAuxMarkennovy;
     } else {
       products = this.productsAux;
@@ -452,6 +465,7 @@ export class ProductsListInternalComponent implements OnInit {
 
     if (this.showFathersMarkennovy) {
       this.productsMarkennovy = products;
+      this.showFilterMarkennovy = false;
     } else {
       this.products = products;
     }
@@ -467,7 +481,34 @@ export class ProductsListInternalComponent implements OnInit {
       return item.father === this.currentFather;
     });
 
-    if (type === 'All') {
+    if (this.currentFather === 'Saphir Rx' && type === 'All') {
+      var productsBlister = [];
+      var products3pk = [];
+      var productsAll = [];
+      const typeB = 'Blister';
+      const type3pk = '3pk';
+
+      // Filtro de listas por tipo de producto
+      productsBlister = products.filter((item) => {
+        return ((item.name.toLowerCase().indexOf(typeB.toLowerCase()) > -1));
+      });
+      products3pk = products.filter((item) => {
+        return ((item.name.toLowerCase().indexOf(type3pk.toLowerCase()) > -1));
+      });
+
+      // Ordenar cada lista por tipo de producto
+      productsBlister = _.orderBy(productsBlister, ['idProduct'], ['asc']);
+      products3pk = _.orderBy(products3pk, ['idProduct'], ['asc']);
+
+      for (let i = 0; i < productsBlister.length; i++) {
+        const productBlister = productsBlister[i];
+        const product3pk = products3pk[i];
+        productsAll.push(productBlister);
+        productsAll.push(product3pk);
+      }
+      this.products = productsAll;
+      return;
+    } else if (type === 'All') {
       this.products = products;
       if (val && val.trim() !== '') {
         this.products = products.filter((item) => {
@@ -486,11 +527,18 @@ export class ProductsListInternalComponent implements OnInit {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
+
+    if (this.currentFather === 'Saphir Rx' && (type === 'Blister' || type === '3pk')) {
+      this.products = _.orderBy(this.products, ['idProduct'], ['asc']);
+    }
   }
 
   redirectPacking(product) {
     this.packings = [];
-    this.packings.push({ 'product': product, 'type': 'All'});
+    if (product.father !== 'Saphir Rx') {
+      this.packings.push({ 'product': product, 'type': 'All'});
+    }
+
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
         product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa' ||
         product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Jade') {
@@ -511,8 +559,13 @@ export class ProductsListInternalComponent implements OnInit {
       this.packings.push({ 'product': product, 'type': '2pk'});
     }
 
+    if (product.father === 'Saphir Rx') {
+      this.packings.push({ 'product': product, 'type': 'All'});
+    }
+
     this.currentFather = product.father;
     this.showFathersMarkennovy = false;
+    this.showFilterMarkennovy =  false;
     this.showPackingsMarkennovy = true;
   }
 
@@ -532,6 +585,7 @@ export class ProductsListInternalComponent implements OnInit {
     if (this.idSupplier === 1) {
       if (!this.showFathersMarkennovy) {
         this.showFathersMarkennovy = true;
+        this.showFilterMarkennovy = true;
         this.showPackingsMarkennovy = false;
         this.filterName = '';
         this.currentFather = '';

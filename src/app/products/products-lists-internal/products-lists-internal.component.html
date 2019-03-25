@@ -56,8 +56,9 @@
     </div>
     <!-- end col -->
   </div>
-  <div class="row display-table" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
-    <div class="filter">
+  <!--<div class="row display-table" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
+
+     <div class="filter">
       <div class="custom-control custom-radio">
         <input type="radio" id="customRadioMarkennovy1" name="customRadio" value="3" class="custom-control-input" (change)="filterByFather('All')" checked>
         <label class="custom-control-label" for="customRadioMarkennovy1">{{ 'All' | translate }}</label>
@@ -81,7 +82,7 @@
         <label class="custom-control-label" for="customRadioMarkennovy4">{{ 'Conventional' | translate }}</label>
       </div>
     </div>
-  </div>
+  </div>-->
   <!-- end  row -->
 </div>
 
@@ -92,8 +93,28 @@
     <div class="col-sm-10 col-md-10 col-lg-10">
       <div class="row">
 
+        <!-- NEW FILTER-->
+        <div class="col-md-4" [hidden]="!showFathersMarkennovy || !showFilterMarkennovy" *ngFor="let filter of listFilterMarkennovy">
+          <div class="mb-4">
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="filterByFather(filter.replacementPeriod)">
+                <i class="prodTeaser-more">{{ 'View' | translate }}</i>
+              </div>
+              <div class="prodTeaser-inner">
+                <img
+                  class="card-img-top-teaser"
+                  src="{{ filter.mainImg }}"
+                />
+              </div>
+              <h4 class="product-name">
+                {{ filter.replacementPeriod | translate }}
+              </h4>
+            </a>
+          </div>
+        </div>
+
         <!--Only products father of Markennovy-->
-        <div [hidden]="!showFathersMarkennovy" class="col-md-4" *ngFor="let product of productsMarkennovy">
+        <div [hidden]="!showFathersMarkennovy || showFilterMarkennovy" class="col-md-4" *ngFor="let product of productsMarkennovy">
           <div class="mb-4">
             <a class="prodTeaser" >
               <div class="prodTeaser-overlay" (click)="redirectPacking(product)">
@@ -133,8 +154,8 @@
         </div>
 
         <!--Products without Markennovy-->
-        <div [hidden]="showFathersMarkennovy || showPackingsMarkennovy" class="col-md-4" *ngFor="let product of products">
-          <div class="mb-4">
+        <div [hidden]="showFathersMarkennovy || showPackingsMarkennovy || (product.status !== 1 && user.role.idRole !== 1)" class="col-md-4" *ngFor="let product of products">
+          <div class="mb-4" >
             <a class="prodTeaser" >
               <div class="prodTeaser-overlay" (click)="redirectView(product)">
                 <i class="prodTeaser-more">{{ 'View' | translate }}</i>
