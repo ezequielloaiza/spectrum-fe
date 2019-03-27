@@ -872,7 +872,7 @@
     "The following orders already have a generated invoice, you must unmark them.":"The following orders already have a generated invoice, you must unmark them.",
     "Not generated":"Not generated",
     "Customer invoice":"Customer invoice",
-    "Supplier invoice":"Supplier provider",
+    "Supplier invoice":"Supplier invoice",
     "It can not edit a multiple payment":"It can not edit a multiple payment",
     "The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.":"The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.",
     "Amount is required": "Amount is required",

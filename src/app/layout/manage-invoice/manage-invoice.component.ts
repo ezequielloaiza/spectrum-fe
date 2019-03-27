@@ -164,7 +164,7 @@ export class ManageInvoiceComponent implements OnInit {
 
   downloadInvoice(invoice): void {
     this.spinner.show();
-    this.invoiceService.downloadInvoice$(invoice.number).subscribe(res => {
+    this.invoiceService.downloadInvoice$(invoice.idInvoice).subscribe(res => {
       const filename = 'I-' + invoice.number + '.pdf';
       if (res.size > 0) {
         this.spinner.hide();

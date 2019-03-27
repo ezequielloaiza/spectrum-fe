@@ -67,7 +67,7 @@ export class EditCompanyComponent implements OnInit {
       creditLimit   : ['', [Validators.required]],
       idBusinessType: ['', [Validators.required]],
       address       : [''],
-      shippingInstructions : ['', [Validators.required]],
+      shippingInstructions : [''],
       state         : [''],
       idCountry       : ['', [ Validators.required]],
       cityPlace          : ['', [ Validators.required]],
