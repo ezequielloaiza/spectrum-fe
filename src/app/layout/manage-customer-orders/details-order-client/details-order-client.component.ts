@@ -101,7 +101,7 @@ export class DetailsOrderClientComponent implements OnInit {
 
   downloadOrder(order) {
     this.spinner.show();
-    this.orderService.downloadOrder$(order.number).subscribe(res => {
+    this.orderService.downloadOrder$(order.idOrder).subscribe(res => {
       const filename = order.number + '.pdf';
       if (res.size > 0) {
         this.spinner.hide();
