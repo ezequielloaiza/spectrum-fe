@@ -437,7 +437,7 @@
     "GOLD": "ORO",
     "PLATINUM": "PLATINO",
     "DIAMOND": "DIAMANTE",
-    "PREFERENCE" : "PREFERENCIAL",
+    "PREFERRED" : "PREFERIDO",
     "Should define the payment method": "Debe definir la modalidad de pago",
     "No Tax": "Sin impuestos",
     "Terms and Conditions": "Términos y Condiciones",
