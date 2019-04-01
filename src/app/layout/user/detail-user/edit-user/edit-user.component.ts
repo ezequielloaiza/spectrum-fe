@@ -109,6 +109,7 @@ export class EditUserComponent implements OnInit {
     this.membershipService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.memberships = res.data;
+        this.memberships = _.orderBy(this.memberships, ['idMembership'], ['desc']);
       }
     });
   }
