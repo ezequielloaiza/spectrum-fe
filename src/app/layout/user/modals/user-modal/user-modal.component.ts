@@ -95,7 +95,7 @@ export class UserModalComponent implements OnInit {
       companyName: ['', [Validators.required]],
       companyContactName: ['', [Validators.required]],
       companyAddress: ['', [Validators.required]],
-      shippingInstructions: ['', [Validators.required]],
+      shippingInstructions: [''],
       companyPhone: [''],
       companyEmail: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       creditLimit: ['', [Validators.required]],
@@ -247,6 +247,7 @@ export class UserModalComponent implements OnInit {
     this.membershipService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.memberships = res.data;
+        this.memberships = _.orderBy(this.memberships, ['idMembership'], ['desc']);
       }
     });
   }

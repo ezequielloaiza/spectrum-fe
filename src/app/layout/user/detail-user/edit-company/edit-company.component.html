@@ -167,13 +167,12 @@
               </label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.shippingInstructions? company.shippingInstructions : ('No Instructions Shipping' | translate) }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions" formControlName="shippingInstructions" maxlength="255"
-                required>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions" formControlName="shippingInstructions" maxlength="255">
               </div>
             </fieldset>
-            <div class="message-error" [hidden]="!canEdit || shippingInstructions.value!=''">
+            <!--<div class="message-error" [hidden]="!canEdit || shippingInstructions.value!=''">
               <span>{{ 'Shipping instructions are required' | translate }}</span>
-            </div>
+            </div>-->
           </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
