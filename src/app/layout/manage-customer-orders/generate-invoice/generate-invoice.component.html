@@ -241,6 +241,10 @@
     translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
+  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(0, order.idOrder)">{{ 'Save' |
+    translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
   <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1, order.idOrder)">{{ 'Save and
     Send' | translate }}&nbsp;
     <i class="fa fa-send"></i>

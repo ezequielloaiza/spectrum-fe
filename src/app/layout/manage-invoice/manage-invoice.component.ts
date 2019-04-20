@@ -19,11 +19,15 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ManageInvoiceComponent implements OnInit {
   orderByField = 'number';
-	reverseSort = true;
+  reverseSort = true;
   typeSort = 0;
   invoice: any;
   listInvoices: Array<any> = new Array;
   listInvoicesAux: Array<any> = new Array;
+  listInvoicesOriginal: Array<any> = new Array;
+  listInvoicesAuxOriginal: Array<any> = new Array;
+  listInvoicesCopy: Array<any> = new Array;
+  listInvoicesAuxCopy: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number = 8;
   order: any;
@@ -32,12 +36,18 @@ export class ManageInvoiceComponent implements OnInit {
                 ];
   valorClient: string;
   selectedStatus: any;
+  selectedStatusOriginal: any;
+  selectedStatusCopy: any;
   status: any;
   tamano: String;
   model: NgbDateStruct;
   valid1 = false;
   fechaSelec: NgbDatepicker;
+  fechaSelecOriginal: NgbDatepicker;
+  fechaSelecCopy: NgbDatepicker;
   search: String;
+  searchOriginal: String;
+  searchCopy: String;
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
     private notification: ToastrService,
@@ -70,6 +80,19 @@ export class ManageInvoiceComponent implements OnInit {
           this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
           this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
           this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
+
+          // Original
+          this.listInvoicesOriginal = _.filter(res.data, { 'original': true });
+          this.listInvoicesAuxOriginal = _.filter(res.data, { 'original': true });
+          this.listInvoicesOriginal = _.orderBy(this.listInvoicesOriginal, ['date'], ['desc']);
+          this.listInvoicesAuxOriginal = _.orderBy(this.listInvoicesAuxOriginal, ['date'], ['desc']);
+          this.listInvoicesOriginal = this.listInvoicesAuxOriginal.slice(0, this.itemPerPage);
+          // Copy
+          this.listInvoicesCopy = _.filter(res.data, { 'original': false });
+          this.listInvoicesAuxCopy = _.filter(res.data, { 'original': false });
+          this.listInvoicesCopy = _.orderBy(this.listInvoicesCopy, ['date'], ['desc']);
+          this.listInvoicesAuxCopy = _.orderBy(this.listInvoicesAuxCopy, ['date'], ['desc']);
+          this.listInvoicesCopy = this.listInvoicesAuxCopy.slice(0, this.itemPerPage);
           this.spinner.hide();
         } else {
           console.log(res.code);
@@ -127,7 +150,7 @@ export class ManageInvoiceComponent implements OnInit {
       console.log('error', error);
     });
   }
-  open(invoice) {
+  open(invoice, actions) {
     const modalRef = this.modalService.open(GenerateInvoiceComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.invoice = invoice;
@@ -184,7 +207,7 @@ export class ManageInvoiceComponent implements OnInit {
     });
   }
 
-  getItems(ev: any) {
+  getItems(ev: any, type: String) {
     this.listInvoices = this.listInvoicesAux;
     const val = ev.target.value;
     this.valorClient = val;
@@ -206,7 +229,7 @@ export class ManageInvoiceComponent implements OnInit {
           this.fullFilter(client, valorStatus);
       }
     } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
-      this.filter();
+      this.filter(type);
     } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
       if (this.tamano.length === 15) {
         this.valid1 = true;
@@ -226,7 +249,7 @@ export class ManageInvoiceComponent implements OnInit {
     }
   }
 
-  filter(): void {
+  filter(type: String): void {
     if (this.selectedStatus !== '') {
       this.valid1 = true;
       if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
@@ -243,7 +266,7 @@ export class ManageInvoiceComponent implements OnInit {
     }
   }
 
-  filter1(value): void {
+  filter1(value, type): void {
     this.model = value;
     const valorStatus = this.selectedStatus;
     this.tamano = this.valueDate(this.model);

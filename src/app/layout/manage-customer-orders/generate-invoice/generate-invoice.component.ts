@@ -128,6 +128,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.subtotal = this.order.subtotal;
     this.invoice.total = this.order.total;
     this.invoice.idUser = this.order.user.idUser;
+    this.invoice.original = true;
    // const ship = 0;
     this.invoice.shipping = this.order.shippingPrice;
     this.invoice.due = this.order.total;
