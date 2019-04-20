@@ -4,6 +4,7 @@
 
 .search {
   padding-bottom: 1.0rem;
+  padding-top: 1.0rem;
   i {
     position: absolute;
     top: 10px;
@@ -22,6 +23,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  padding-top: 1.0rem;
 }
 
 .pending {
@@ -103,11 +105,11 @@
   .h5-filter {
     padding-top: 20px;
   }
-  
+
   .btn-clean {
     padding-top: 10px;
   }
-  
+
   .filter {
     padding-top: 10px;
     padding-left: 25px;
