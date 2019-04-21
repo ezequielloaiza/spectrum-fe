@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-protocols',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProtocolsComponent implements OnInit {
 
-  constructor() { }
+  canEdit = false;
+  form: FormGroup;
+
+  constructor(private formBuilder: FormBuilder) { }
+
 
   ngOnInit() {
+    this.initializeForm();
+  }
+
+  initializeForm() {
+    this.form = this.formBuilder.group({
+      accNumber: ['', [ Validators.required]]
+    });
   }
 
 }
