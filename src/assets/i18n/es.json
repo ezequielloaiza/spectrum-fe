@@ -1134,5 +1134,7 @@
     "Agency Code": "Código de Agencia",
     "Enter agency code": "Ingrese el código de agencia",
     "The shipping company already exists": "La empresa de envíos ya existe",
-    "Monthly Disponsable": "Mensual Descartable"
+    "Monthly Disponsable": "Mensual Descartable",
+    "Original": "Original",
+    "Copy": "Copia"
 }
