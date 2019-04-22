@@ -20,6 +20,9 @@ export class InvoiceSupplier {
     public idUser: number;
     public client: User;
     public idClient: number;
+    public original: boolean;
+    public numberOriginal: number;
+    public comments: string;
     public listProductRequested: Array<InvoiceSupplierProductRequested>;
     public listOrders: Array<Number>;
 
