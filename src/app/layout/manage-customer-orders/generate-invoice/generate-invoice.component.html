@@ -22,7 +22,8 @@
         <div class="row row-height">
           <div class="col-xl-5">
             <label class="label">{{ 'Invoice No' | translate }}</label>
-            <label class="label-value">{{invoice.number}}</label>
+            <label *ngIf="pilot" class="label-value">{{invoice.number}}</label>
+            <input *ngIf="!pilot" class="form-control input-form" [value]="invoice.number" required>
           </div>
           <div class="col-xl-4">
             <label class="label">{{ 'Deliver To' | translate }}</label>
@@ -33,7 +34,16 @@
         <div class="row row-height">
           <div class="col-xl-5">
             <label class="label">{{ 'Invoice Date' | translate }}</label>
-            <label class="label-value">{{ (invoice ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
+            <label *ngIf="pilot" class="label-value">{{ (invoice ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
+            <div *ngIf="!pilot" class="input-group">
+              <input class="form-control input-date" [(ngModel)]="invDate" ngbDatepicker formControlName="invDate"
+              #d="ngbDatepicker" required>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+            </div>
           </div>
           <div class="col-xl-4">
             <!--<label class="address">{{ pilot ? invoice.user.name : order.nameUser }}</label>-->
@@ -45,7 +55,16 @@
         <div class="row row-height">
           <div class="col-xl-5">
             <label class="label">{{ 'Due Date' | translate }}</label>
-            <label class="label-value">{{ (invoice ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
+            <label *ngIf="pilot" class="label-value">{{ (invoice ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
+            <div *ngIf="!pilot" class="input-group">
+              <input class="form-control input-date" [(ngModel)]="invDueDate" ngbDatepicker formControlName="invDueDate"
+              #d1="ngbDatepicker" required>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
+                  <i class="fa fa-calendar"></i>
+                </button>
+              </div>
+            </div>
           </div>
           <div class="col-xl-4">
             <label class="address">{{order? order.address?.name : invoice.address?.name}}</label>
@@ -150,7 +169,13 @@
               <td class="table-tr td-table">{{(productR.productRequested.product.code !== null ?
                 productR.productRequested.product.name : '')}} {{(productR.productRequested.product.material !== null ?
                 productR.productRequested.product.material : '')}}</td>
-              <td class="table-tr td-table">{{productR.productRequested.quantity}}</td>
+              <td class="table-tr td-table" [hidden]="!pilot">{{productR.productRequested.quantity}}</td>
+              <td class="table-tr td-table" [hidden]="pilot">
+                <div class="amount-div">
+                  <input type="number" id="quantity{{i}}" [value]="productR.productRequested.quantity" class="form-control" (change)="updateUnitPrice($event, i)"
+                    placeholder="{{ 'Enter quantity' | translate }}" required>
+                </div>
+                </td>
               <td class="table-tr td-table" [hidden]="!pilot"> {{productR.price | currency }}</td>
               <td class="table-tr td-table" [hidden]="pilot">
               <div class="amount-div">
@@ -161,15 +186,35 @@
                   placeholder="{{ 'Enter unit price' | translate }}" required>
               </div>
               </td>
-              <td class="table-tr td-table">{{ 'No Tax' | translate }}</td>
-              <td class="table-tr td-table">{{(productR.netAmount | currency )}}</td>
+              <td class="table-tr td-table" [hidden]="!pilot">{{ 'No Tax' | translate }}</td>
+              <td class="table-tr td-table" [hidden]="pilot">
+                <div class="amount-div">
+                  <input type="number" id="unitPrice{{i}}" [value]="productR.tax" class="form-control" 
+                    placeholder="{{ 'Enter tax' | translate }}" required>
+                </div>
+                </td>
+              <td class="table-tr td-table" [hidden]="!pilot">{{(productR.netAmount | currency )}}</td>
+              <td class="table-tr td-table" [hidden]="pilot">
+                <div class="amount-div">
+                  <div class="input-group-append">
+                    <span class="input-group-text">$</span>
+                  </div>
+                  <input type="number" id="unitPrice{{i}}" [value]="productR.netAmount" class="form-control" 
+                    placeholder="{{ 'Enter Net Amount' | translate }}" required>
+                </div>
+                </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="col col-xl-12 col-lg-12">
         <div class="row">
-          <div class="col-xl-6">
+          <div  *ngIf="!pilot" class="col-xl-6">
+            <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
+            <br>
+            <input type="text" class="form-control" value="{{ 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference' | translate }}" required>
+          </div>
+          <div  *ngIf="pilot" class="col-xl-6">
             <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
             <br>
             <label class="">{{ 'Net 30' | translate }}</label>
@@ -180,16 +225,40 @@
           </div>
           <div class="col-xl-6">
             <label class="label-amount bold">{{ 'Subtotal' | translate }}</label>
-            <label class="label-amount">{{invoice.subtotal | currency }}</label>
+            <label *ngIf="pilot" class="label-amount">{{invoice.subtotal | currency }}</label>
+            <div *ngIf="!pilot" class="amount-div amount-total ">
+                <div class="input-group-append">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="number" id="subtotal" [value]="invoice.subtotal" class="form-control"  required>
+              </div>
             <br>
             <label class="label-amount bold">{{ 'Shipping' | translate }}</label>
-            <label class="label-amount">{{invoice.shipping | currency }}</label>
+            <label *ngIf="pilot" class="label-amount">{{invoice.shipping | currency }}</label>
+            <div *ngIf="!pilot" class="amount-div amount-total ">
+                <div class="input-group-append">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="number" id="shipping" [value]="invoice.shipping" class="form-control" required>
+              </div>
             <br>
             <label class="label-amount bold">{{ 'Total' | translate }}</label>
-            <label class="label-amount">{{invoice.total | currency }}</label>
+            <label *ngIf="pilot" class="label-amount ">{{invoice.total | currency }}</label>
+            <div *ngIf="!pilot" class="amount-div amount-total ">
+                <div class="input-group-append">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="number" id="total" [value]="invoice.total" class="form-control" required>
+              </div>
             <br>
             <label class="label-amount bold">{{ 'Amount Due' | translate }}</label>
-            <label class="label-amount">{{invoice.due | currency : "USD $" }}</label>
+            <label *ngIf="pilot" class="label-amount">{{invoice.due | currency : "USD $" }}</label>
+            <div *ngIf="!pilot" class="amount-div amount-total ">
+                <div class="input-group-append">
+                  <span class="input-group-text">$</span>
+                </div>
+                <input type="number" id="due" [value]="invoice.due" class="form-control" required>
+              </div>
           </div>
         </div>
       </div>
@@ -200,9 +269,12 @@
             <br>
             <label class="bold">{{ 'Shipping Instructions' | translate }}</label>
             <br>
-            <label class="">{{ order ? (order.user.company.shippingInstructions?
+            <label *ngIf="pilot" class="">{{ order ? (order.user.company.shippingInstructions?
               order.user.company.shippingInstructions : ('No Instructions Shipping' | translate)) : (invoice.user.company.shippingInstructions?
               invoice.user.company.shippingInstructions : ('No Instructions Shipping' | translate)) }}</label>
+            <input *ngIf="!pilot" class="form-control" [value]="order ? (order.user.company.shippingInstructions?
+            order.user.company.shippingInstructions : ('No Instructions Shipping' | translate)) : (invoice.user.company.shippingInstructions?
+            invoice.user.company.shippingInstructions : ('No Instructions Shipping' | translate))" required>
             <br>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderService, ProductsRequestedService } from '../../../shared/services';
 import { ToastrService } from 'ngx-toastr';
@@ -24,6 +24,8 @@ export class GenerateInvoiceComponent implements OnInit {
   user: any;
   today: Date = new Date();
   dueDate: Date = new Date();
+  invDate: any;
+  invDueDate: any;
   invoice: InvoiceSupplier = new InvoiceSupplier();
   pilot: any;
   titleModal: any;
@@ -43,9 +45,12 @@ export class GenerateInvoiceComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
+    console.log('PILOT',this.pilot);
     this.user = JSON.parse(this. userStorageService.getCurrentUser()).userResponse;
     this.loadInvoice();
     this.dueDate.setDate(this.today.getDate() + 30);
+    this.invDate = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate()};
+    this.invDueDate = {year: this.dueDate.getUTCFullYear(), month: this.dueDate.getMonth() + 1, day: this.dueDate.getDate()};
     this.translate
             .get("Provider's Invoice", { value: "Provider's Invoice" })
             .subscribe((res1: string) => {
@@ -55,7 +60,10 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   initializeForm() {
-    this.form = this.formBuilder.group({});
+    this.form = this.formBuilder.group({
+      invDate   : [this.invDate, [Validators.required]],
+      invDueDate: [this.invDueDate, [Validators.required]],
+    });
   }
 
   close() {
@@ -122,7 +130,11 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.address = this.order.address;
     this.invoice.idAddress = this.order.address.idAddress;
     this.invoice.date = this.today;
+    const date = new Date(this.invoice.date);
+    this.invDate = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
     this.invoice.dueDate = this.dueDate;
+    const dueDate = new Date(this.invoice.date);
+    this.invDueDate = {year: dueDate.getUTCFullYear(), month: dueDate.getMonth() + 1, day: dueDate.getDate()};
     this.invoice.user = this.order.user;
     this.invoice.number = this.order.number;
     this.invoice.subtotal = this.order.subtotal;

@@ -9,6 +9,27 @@
   width: 100px;
   font-weight: bold;
 }
+.modal-adaptive{
+  width: 110% !important;
+}
+.input-form {
+  width: 160px;
+  margin-bottom: .7em;
+  display: inline-block;
+  font-size: .85em;
+}
+
+.input-group {
+  width: 60%;
+  display: inline-flex;
+}
+
+.input-date {
+  width: 80px;
+  margin-bottom: .7em;
+  display: inline-block;
+  font-size: .85em;
+}
 
 .address {
   width: 150px;
@@ -26,7 +47,7 @@
   color: lightblue;
 }
 .row-height {
-  height: 20px;
+  height: 30px;
 }
 .label-amount {
   text-align: right;
@@ -67,7 +88,11 @@
 }
 
 .amount-div {
-  display: flex;
+  display: inline-flex;
+}
+
+.amount-total {
+  width: 50%;
 }
 
 .address-top {
