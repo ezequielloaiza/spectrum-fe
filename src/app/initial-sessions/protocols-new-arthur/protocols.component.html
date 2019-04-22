@@ -1,0 +1,372 @@
+<div class="container bootstrap snippet">
+  <div class="row">
+    <div class="col-sm-12">
+      <br>
+      <form [formGroup]="form">
+        <div class="form-options">
+          <span class="sp-title">{{ 'Shipping Protocols' | translate }}</span>
+          <button class="btn btn-main" (click)="edit()" [hidden]="modeEdit">{{ 'Edit' | translate }}&nbsp;
+            <i class="fa fa-edit"></i>
+          </button>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-xl-12">
+            <fieldset class="form-group">
+              <label>{{ 'ACC Number' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayAccNumber">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}"
+                  name="accNumber" formControlName="accNumber" required>
+              </div>
+            </fieldset>
+            <!--
+            <div class="message-error">
+              <span>{{ 'ACC Number is required' | translate }}</span>
+            </div>
+            -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Country' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayCountry">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Bussiness Name' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayBussinessName">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Recipient' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayRecipient">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Shipping Address' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayShippingAddress">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'DMV Default' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="modeEdit">{{ 'test' }}</span>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="customRadio1" name="customRadio" value="1" class="custom-control-input">
+                  <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
+                  <input type="radio" id="customRadio2" name="customRadio" value="1" class="custom-control-input">
+                  <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Shipping Frecuency' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayShippingFrecuency">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Shipping Method' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayShippingMethod">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Account Number for Shipping Carrier' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="modeEdit">{{ 'test' }}</span>
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayAccountNumber">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Shipping Details' | translate }}</label>>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayShippingDetails">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Comments' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayComments">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Email Comments' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let obj of arrayEmailComments">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ obj.value }}</span>
+                <!--PROVIDERS -->
+                <div class="col-xl-12" [hidden]="modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let provider of obj.providers">
+                          <a>
+                            <span>
+                              {{ provider }}
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- WRITE VALUE -->
+                <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" required>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <br>
+        <div class="footer-form" [hidden]="!modeEdit">
+          <button class="btn btn-secondary" (click)="cancel()">{{ 'Cancel' | translate }}&nbsp;
+            <i class="fa fa-times"></i>
+          </button>
+          &nbsp;&nbsp;
+          <button class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+            <i class="fa fa-save"></i>
+          </button>
+        </div>
+      </form>
+      <br>
+    </div>
+  </div>
+</div>
