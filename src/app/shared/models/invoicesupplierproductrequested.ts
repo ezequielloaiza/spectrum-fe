@@ -11,6 +11,7 @@ export class InvoiceSupplierProductRequested {
   public  price: number;
   public  tax: number;
   public  netAmount: number;
+  public  description: string;
 
     public constructor() { }
 

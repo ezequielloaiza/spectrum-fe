@@ -26,6 +26,7 @@ export class GenerateInvoiceComponent implements OnInit {
   dueDate: Date = new Date();
   invDate: any;
   invDueDate: any;
+  original: InvoiceSupplier = new InvoiceSupplier();
   invoice: InvoiceSupplier = new InvoiceSupplier();
   pilot: any;
   titleModal: any;
@@ -154,10 +155,19 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.netAmount =
         pRequested.productRequested.price *
         pRequested.productRequested.quantity;
+      // tslint:disable-next-line:max-line-length
+      const code = (pRequested.productRequested.product.code != null ? pRequested.productRequested.product.code : pRequested.productRequested.product.name);
+      const name = (pRequested.productRequested.product.code !== null ?
+        pRequested.productRequested.product.name : '') + ' ' + (pRequested.productRequested.product.material !== null ?
+          pRequested.productRequested.product.material : '');
+      productR.description = code + name;
       productReq.push(productR);
     });
 
     this.invoice.listProductRequested = productReq;
+    this.original = this.invoice;
+    this.original.original = true;
+    this.invoice.numberOriginal = this.original.number;
   }
 
   updateUnitPrice($event, index) {
@@ -178,9 +188,15 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.due = sum;
   }
 
+  addItem() {
+    let invSupplier = new InvoiceSupplierProductRequested();
+    this.invoice.listProductRequested.push(invSupplier);
+    console.log('list', this.invoice.listProductRequested.length);
+  }
+
   generateInvoice(send, idOrder) {
     this.spinner.show();
-    this.orderService.generateInvoice$(idOrder, send, this.invoice).subscribe(
+    this.orderService.generateInvoice$(idOrder, send, this.original).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.close();

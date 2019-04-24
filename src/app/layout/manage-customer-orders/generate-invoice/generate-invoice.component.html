@@ -155,55 +155,52 @@
           <thead>
             <tr>
               <th class="table-tr bold">{{ 'Description' | translate }}</th>
-              <th class="table-tr bold"></th>
               <th class="table-tr bold">{{ 'Qty' | translate }}</th>
               <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
               <th class="table-tr bold">{{ 'Tax Rate' | translate }}</th>
               <th class="table-tr bold">{{ 'Amount' | translate}}</th>
+              <th class="table-tr bold"></th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let productR of invoice.listProductRequested; let i = index">
-              <td class="table-tr td-table">{{productR.productRequested.product.code !== null ?
-                productR.productRequested.product.code : productR.productRequested.product.name}}</td>
-              <td class="table-tr td-table">{{(productR.productRequested.product.code !== null ?
-                productR.productRequested.product.name : '')}} {{(productR.productRequested.product.material !== null ?
-                productR.productRequested.product.material : '')}}</td>
-              <td class="table-tr td-table" [hidden]="!pilot">{{productR.productRequested.quantity}}</td>
-              <td class="table-tr td-table" [hidden]="pilot">
+              <td class="table-tr td-table" *ngIf="pilot" >{{productR.description}}</td>
+              <td class="table-tr td-table" *ngIf="!pilot">
+                <input type="text" [value]= "productR.description"  class="form-control" required>
+              </td>
+              <td class="table-tr td-table" *ngIf="pilot">{{productR.productRequested.quantity}}</td>
+              <td class="table-tr td-table" *ngIf="!pilot">
                 <div class="amount-div">
                   <input type="number" id="quantity{{i}}" [value]="productR.productRequested.quantity" class="form-control" (change)="updateUnitPrice($event, i)"
                     placeholder="{{ 'Enter quantity' | translate }}" required>
                 </div>
                 </td>
-              <td class="table-tr td-table" [hidden]="!pilot"> {{productR.price | currency }}</td>
-              <td class="table-tr td-table" [hidden]="pilot">
+              <td class="table-tr td-table" *ngIf="pilot"> {{productR.price | currency }}</td>
+              <td class="table-tr td-table" *ngIf="!pilot">
               <div class="amount-div">
-                <div class="input-group-append">
-                  <span class="input-group-text">$</span>
-                </div>
                 <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice($event, i)"
                   placeholder="{{ 'Enter unit price' | translate }}" required>
               </div>
               </td>
-              <td class="table-tr td-table" [hidden]="!pilot">{{ 'No Tax' | translate }}</td>
-              <td class="table-tr td-table" [hidden]="pilot">
+              <td class="table-tr td-table" *ngIf="pilot">{{ 'No Tax' | translate }}</td>
+              <td class="table-tr td-table" *ngIf="!pilot">
                 <div class="amount-div">
                   <input type="number" id="unitPrice{{i}}" [value]="productR.tax" class="form-control" 
                     placeholder="{{ 'Enter tax' | translate }}" required>
                 </div>
                 </td>
-              <td class="table-tr td-table" [hidden]="!pilot">{{(productR.netAmount | currency )}}</td>
-              <td class="table-tr td-table" [hidden]="pilot">
+              <td class="table-tr td-table" *ngIf="pilot">{{(productR.netAmount | currency )}}</td>
+              <td class="table-tr td-table" *ngIf="!pilot">
                 <div class="amount-div">
-                  <div class="input-group-append">
-                    <span class="input-group-text">$</span>
-                  </div>
                   <input type="number" id="unitPrice{{i}}" [value]="productR.netAmount" class="form-control" 
                     placeholder="{{ 'Enter Net Amount' | translate }}" required>
                 </div>
-                </td>
-            </tr>
+              </td>
+            <td class="table-tr td-table" [hidden]="pilot">
+              <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete' | translate}}" ></span>
+              <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
