@@ -62,6 +62,10 @@ export class OrderService {
     return this.http.put(environment.apiUrl + 'order/generateInvoice/' + idOrder + '/' + send, invoice);
   }
 
+  public generateInvoiceSupplierAndCopy$(idOrder, send, invoices: Array<any>): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/generateInvoiceSupplierAndCopy/' + idOrder + '/' + send, invoices);
+  }
+
   public allOrderByUserIdAndStatus$(idUser, IdStatus): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/allOrderByUserIdAndStatus/' + idUser + '/' + IdStatus);
   }
@@ -93,7 +97,7 @@ export class OrderService {
   public generateInvoiceClient$(invoice): Observable<any> {
     return this.http.put(environment.apiUrl + 'order/generateInvoiceClient', invoice);
   }
-
+  
   public generateInvoiceSupplier$(invoice): Observable<any> {
     return this.http.put(environment.apiUrl + 'order/generateInvoiceSupplier', invoice);
   }

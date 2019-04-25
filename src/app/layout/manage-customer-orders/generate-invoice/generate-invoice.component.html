@@ -166,12 +166,12 @@
             <tr *ngFor="let productR of invoice.listProductRequested; let i = index">
               <td class="table-tr td-table" *ngIf="pilot" >{{productR.description}}</td>
               <td class="table-tr td-table" *ngIf="!pilot">
-                <input type="text" [value]= "productR.description"  class="form-control" required>
+                <input type="text" [value]= "productR.description"  (change)="updateDescription($event, i)" class="form-control" required>
               </td>
               <td class="table-tr td-table" *ngIf="pilot">{{productR.productRequested.quantity}}</td>
               <td class="table-tr td-table" *ngIf="!pilot">
                 <div class="amount-div">
-                  <input type="number" id="quantity{{i}}" [value]="productR.productRequested.quantity" class="form-control" (change)="updateUnitPrice($event, i)"
+                  <input type="number" id="quantity{{i}}" [value]="productR.quantity" class="form-control" (change)="updateQuantity($event, i)"
                     placeholder="{{ 'Enter quantity' | translate }}" required>
                 </div>
                 </td>
@@ -185,14 +185,14 @@
               <td class="table-tr td-table" *ngIf="pilot">{{ 'No Tax' | translate }}</td>
               <td class="table-tr td-table" *ngIf="!pilot">
                 <div class="amount-div">
-                  <input type="number" id="unitPrice{{i}}" [value]="productR.tax" class="form-control" 
+                  <input type="number" id="tax{{i}}" [value]="productR.tax" class="form-control" (change)="updateTax($event, i)"
                     placeholder="{{ 'Enter tax' | translate }}" required>
                 </div>
                 </td>
               <td class="table-tr td-table" *ngIf="pilot">{{(productR.netAmount | currency )}}</td>
               <td class="table-tr td-table" *ngIf="!pilot">
                 <div class="amount-div">
-                  <input type="number" id="unitPrice{{i}}" [value]="productR.netAmount" class="form-control" 
+                  <input type="number" id="netAmount{{i}}" [value]="productR.netAmount" class="form-control" (change)="updateNetAmount($event, i)"
                     placeholder="{{ 'Enter Net Amount' | translate }}" required>
                 </div>
               </td>
@@ -227,7 +227,7 @@
                 <div class="input-group-append">
                   <span class="input-group-text">$</span>
                 </div>
-                <input type="number" id="subtotal" [value]="invoice.subtotal" class="form-control"  required>
+                <input type="number" id="subtotal" [value]="invoice.subtotal" class="form-control" (change)="updateSubtotal($event)" required>
               </div>
             <br>
             <label class="label-amount bold">{{ 'Shipping' | translate }}</label>
@@ -236,7 +236,7 @@
                 <div class="input-group-append">
                   <span class="input-group-text">$</span>
                 </div>
-                <input type="number" id="shipping" [value]="invoice.shipping" class="form-control" required>
+                <input type="number" id="shipping" [value]="invoice.shipping" class="form-control" (change)="updateShipping($event)" required>
               </div>
             <br>
             <label class="label-amount bold">{{ 'Total' | translate }}</label>
@@ -245,7 +245,7 @@
                 <div class="input-group-append">
                   <span class="input-group-text">$</span>
                 </div>
-                <input type="number" id="total" [value]="invoice.total" class="form-control" required>
+                <input type="number" id="total" [value]="invoice.total" class="form-control" (change)="updateTotal($event)" required>
               </div>
             <br>
             <label class="label-amount bold">{{ 'Amount Due' | translate }}</label>
@@ -254,7 +254,7 @@
                 <div class="input-group-append">
                   <span class="input-group-text">$</span>
                 </div>
-                <input type="number" id="due" [value]="invoice.due" class="form-control" required>
+                <input type="number" id="due" [value]="invoice.due" class="form-control" (change)="updateAmountDue($event)" required>
               </div>
           </div>
         </div>

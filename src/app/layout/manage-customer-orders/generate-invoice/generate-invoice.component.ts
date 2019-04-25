@@ -155,6 +155,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.netAmount =
         pRequested.productRequested.price *
         pRequested.productRequested.quantity;
+      productR.quantity = pRequested.productRequested.quantity;
       // tslint:disable-next-line:max-line-length
       const code = (pRequested.productRequested.product.code != null ? pRequested.productRequested.product.code : pRequested.productRequested.product.name);
       const name = (pRequested.productRequested.product.code !== null ?
@@ -172,10 +173,38 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateUnitPrice($event, index) {
     this.invoice.listProductRequested[index].price = $event.target.value;
-    this.invoice.listProductRequested[index].netAmount =
-      this.invoice.listProductRequested[index].price *
-      this.invoice.listProductRequested[index].productRequested.quantity;
-    this.sumNetAmount();
+  }
+
+  updateQuantity($event, index) {
+    this.invoice.listProductRequested[index].quantity = $event.target.value;
+  }
+
+  updateDescription($event, index) {
+    this.invoice.listProductRequested[index].description = $event.target.value;
+  }
+
+  updateTax($event, index) {
+    this.invoice.listProductRequested[index].tax = $event.target.value;
+  }
+
+  updateNetAmount($event, index) {
+    this.invoice.listProductRequested[index].netAmount = $event.target.value;
+  }
+
+  updateSubtotal($event) {
+    this.invoice.subtotal = $event.target.value;
+  }
+
+  updateShipping($event) {
+    this.invoice.shipping = $event.target.value;
+  }
+
+  updateTotal($event) {
+    this.invoice.total = $event.target.value;
+  }
+
+  updateAmountDue($event) {
+    this.invoice.due = $event.target.value;
   }
 
   sumNetAmount() {
@@ -189,14 +218,15 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   addItem() {
-    let invSupplier = new InvoiceSupplierProductRequested();
+    const invSupplier = new InvoiceSupplierProductRequested();
     this.invoice.listProductRequested.push(invSupplier);
     console.log('list', this.invoice.listProductRequested.length);
   }
 
   generateInvoice(send, idOrder) {
     this.spinner.show();
-    this.orderService.generateInvoice$(idOrder, send, this.original).subscribe(
+    let invoices = [this.original, this.invoice];
+    this.orderService.generateInvoiceSupplierAndCopy$(idOrder, send, invoices).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.close();
