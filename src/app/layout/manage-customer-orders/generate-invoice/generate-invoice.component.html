@@ -166,7 +166,11 @@
             <tr *ngFor="let productR of invoice.listProductRequested; let i = index">
               <td class="table-tr td-table" *ngIf="pilot" >{{productR.description}}</td>
               <td class="table-tr td-table" *ngIf="!pilot">
-                <input type="text" [value]= "productR.description"  (change)="updateDescription($event, i)" class="form-control" required>
+                <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.description"  (change)="updateDescription($event, i)" class="form-control" required>
+                <select *ngIf="productR.idProductRequested == null" class="form-control" id="productDescription{{i}}" (change)="updateProduct($event, i)">
+                  <option value="" disabled [selected]="true" translate>Select product</option>
+                  <option *ngFor="let pR of listProducts" value="{{pR.idProductRequested}}">{{pR.product.name}} - {{ pR.product.name}} </option>
+                </select>
               </td>
               <td class="table-tr td-table" *ngIf="pilot">{{productR.productRequested.quantity}}</td>
               <td class="table-tr td-table" *ngIf="!pilot">
@@ -272,6 +276,19 @@
             <input *ngIf="!pilot" class="form-control" [value]="order ? (order.user.company.shippingInstructions?
             order.user.company.shippingInstructions : ('No Instructions Shipping' | translate)) : (invoice.user.company.shippingInstructions?
             invoice.user.company.shippingInstructions : ('No Instructions Shipping' | translate))" required>
+            <br>
+          </div>
+        </div>
+      </div>
+      <div class="col col-xl-12 col-lg-12">
+        <div class="row">
+          <div class="col-xl-12">
+            <br>
+            <br>
+            <label class="bold">{{ 'Comments' | translate }}</label>
+            <br>
+            <label *ngIf="pilot" class="">{{ invoice ? invoice.comments : '' }}</label>
+            <input *ngIf="!pilot" class="form-control" [value]="invoice ? invoice.comments : ''" required>
             <br>
           </div>
         </div>
