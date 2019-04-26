@@ -89,6 +89,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { ModalsShippingComponent } from './manage-customer-orders/modals-shipping/modals-shipping.component';
 import { EntrustingCompanyComponent } from './entrusting-company/entrusting-company.component';
 import { EntrustingCompanyModalComponent } from './entrusting-company/modals/entrusting-company-modal/entrusting-company-modal.component';
+import { ProtocolClientComponent } from './protocol-client/protocol-client.component';
 
 @NgModule({
     imports: [
@@ -185,7 +186,8 @@ import { EntrustingCompanyModalComponent } from './entrusting-company/modals/ent
         ChangeStatusCommissionComponent,
         ModalsShippingComponent,
         EntrustingCompanyComponent,
-        EntrustingCompanyModalComponent
+        EntrustingCompanyModalComponent,
+        ProtocolClientComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
