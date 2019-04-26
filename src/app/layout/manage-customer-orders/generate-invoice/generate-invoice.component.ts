@@ -28,6 +28,8 @@ export class GenerateInvoiceComponent implements OnInit {
   invDueDate: any;
   original: InvoiceSupplier = new InvoiceSupplier();
   invoice: InvoiceSupplier = new InvoiceSupplier();
+  listProducts: Array<any> = new Array;
+  listOrders: Array<any> = new Array;
   pilot: any;
   titleModal: any;
   ordersNumber: any;
@@ -97,6 +99,16 @@ export class GenerateInvoiceComponent implements OnInit {
     }
   }
 
+  getProducts(): void {
+    let list = this.listProducts;
+    _.each(this.listOrders, function(order) {
+      _.each(order.listProductRequested, function(oPR) {
+        list.push(oPR.productRequested);
+      });
+    });
+    this.listProducts = list;
+  }
+
   loadOrderNumbers() {
     let auxNumbers = '';
     let ids = [];
@@ -117,6 +129,8 @@ export class GenerateInvoiceComponent implements OnInit {
           auxNumbers = auxNumbers.substring(0, auxNumbers.lastIndexOf(', ') - 2);
         }
         this.ordersNumber = auxNumbers;
+        this.listOrders = orders;
+        this.getProducts();
       } else {
         console.log(res.code);
       }
@@ -169,6 +183,13 @@ export class GenerateInvoiceComponent implements OnInit {
     this.original = this.invoice;
     this.original.original = true;
     this.invoice.numberOriginal = this.original.number;
+  }
+
+  updateProduct($event, index) {
+    const pR = $event.target.value;
+    const prod = this.listProducts.find(x => (x.idProductRequested == pR));
+    this.invoice.listProductRequested[index].idProductRequested = $event.target.value;
+    this.invoice.listProductRequested[index].description = prod.product.name + '-' + prod.product.material;
   }
 
   updateUnitPrice($event, index) {
