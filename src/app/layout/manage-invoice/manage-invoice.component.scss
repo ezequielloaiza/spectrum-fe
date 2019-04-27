@@ -115,3 +115,8 @@
     padding-right: 25px;
   }
 }
+
+::ng-deep .modal-dialog {
+  max-width: 1000px;
+  width: 120%;
+}
