@@ -213,7 +213,8 @@
           <div  *ngIf="!pilot" class="col-xl-6">
             <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
             <br>
-            <input type="text" class="form-control" value="{{ 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference' | translate }}" required>
+            <input type="text" class="form-control" value="{{ 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference' | translate }}" 
+            (change)="updateTerms($event)" required>
           </div>
           <div  *ngIf="pilot" class="col-xl-6">
             <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
@@ -275,7 +276,7 @@
               invoice.user.company.shippingInstructions : ('No Instructions Shipping' | translate)) }}</label>
             <input *ngIf="!pilot" class="form-control" [value]="order ? (order.user.company.shippingInstructions?
             order.user.company.shippingInstructions : ('No Instructions Shipping' | translate)) : (invoice.user.company.shippingInstructions?
-            invoice.user.company.shippingInstructions : ('No Instructions Shipping' | translate))" required>
+            invoice.user.company.shippingInstructions : ('No Instructions Shipping' | translate))" (change)="updateInstructions($event)" required>
             <br>
           </div>
         </div>
@@ -288,7 +289,7 @@
             <label class="bold">{{ 'Comments' | translate }}</label>
             <br>
             <label *ngIf="pilot" class="">{{ invoice ? invoice.comments : '' }}</label>
-            <input *ngIf="!pilot" class="form-control" [value]="invoice ? invoice.comments : ''" required>
+            <input *ngIf="!pilot" class="form-control" [value]="invoice ? invoice.comments : ''" (change)="updateComment($event)" required>
             <br>
           </div>
         </div>

@@ -80,7 +80,8 @@ export class GenerateInvoiceComponent implements OnInit {
           if (res.code === CodeHttp.ok) {
             const invoices = res.data;
             if (invoices.length > 0) {
-              this.invoice = invoices[0];
+              this.original = invoices[0].original ? invoices[0] : invoices[1];
+              this.invoice = (invoices[0].original == false) ? invoices[0] : invoices[1];
               if (this.invoice.dateSend !== null || this.invoice.dateSend !== undefined) {
                 this.pilot = true;
               }
@@ -155,7 +156,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.subtotal = this.order.subtotal;
     this.invoice.total = this.order.total;
     this.invoice.idUser = this.order.user.idUser;
-    this.invoice.original = true;
+    this.invoice.original = false;
    // const ship = 0;
     this.invoice.shipping = this.order.shippingPrice;
     this.invoice.due = this.order.total;
@@ -180,8 +181,49 @@ export class GenerateInvoiceComponent implements OnInit {
     });
 
     this.invoice.listProductRequested = productReq;
-    this.original = this.invoice;
+    this.loadOriginalFromOrder();
+  }
+
+  loadOriginalFromOrder() {
+    let productReq = [];
+    this.original.address = this.order.address;
+    this.original.idAddress = this.order.address.idAddress;
+    this.original.date = this.today;
+    const date = new Date(this.original.date);
+    this.invDate = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
+    this.original.dueDate = this.dueDate;
+    const dueDate = new Date(this.original.date);
+    this.invDueDate = {year: dueDate.getUTCFullYear(), month: dueDate.getMonth() + 1, day: dueDate.getDate()};
+    this.original.user = this.order.user;
+    this.original.number = this.order.number;
+    this.original.subtotal = this.order.subtotal;
+    this.original.total = this.order.total;
+    this.original.idUser = this.order.user.idUser;
     this.original.original = true;
+   // const ship = 0;
+    this.original.shipping = this.order.shippingPrice;
+    this.original.due = this.order.total;
+    _.each(this.order.listProductRequested, function(pRequested) {
+      const productR = new InvoiceSupplierProductRequested();
+      productR.idProductRequested = pRequested.productRequested.idProductRequested;
+      productR.productRequested = pRequested.productRequested;
+      productR.urlImage = pRequested.productRequested.urlImage;
+      productR.price = pRequested.productRequested.price;
+      productR.tax = pRequested.tax;
+      productR.netAmount =
+        pRequested.productRequested.price *
+        pRequested.productRequested.quantity;
+      productR.quantity = pRequested.productRequested.quantity;
+      // tslint:disable-next-line:max-line-length
+      const code = (pRequested.productRequested.product.code != null ? pRequested.productRequested.product.code : pRequested.productRequested.product.name);
+      const name = (pRequested.productRequested.product.code !== null ?
+        pRequested.productRequested.product.name : '') + ' ' + (pRequested.productRequested.product.material !== null ?
+          pRequested.productRequested.product.material : '');
+      productR.description = code + name;
+      productReq.push(productR);
+    });
+
+    this.original.listProductRequested = productReq;
     this.invoice.numberOriginal = this.original.number;
   }
 
@@ -228,6 +270,18 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.due = $event.target.value;
   }
 
+  updateComment($event) {
+    this.invoice.comments = $event.target.value;
+  }
+
+  updateInstructions($event) {
+    this.invoice.shippingInstructions = $event.target.value;
+  }
+
+  updateTerms($event) {
+    this.invoice.termsAndConditions = $event.target.value;
+  }
+
   sumNetAmount() {
     let sum = 0;
     _.each(this.invoice.listProductRequested, function(pRequested) {
@@ -241,13 +295,15 @@ export class GenerateInvoiceComponent implements OnInit {
   addItem() {
     const invSupplier = new InvoiceSupplierProductRequested();
     this.invoice.listProductRequested.push(invSupplier);
-    console.log('list', this.invoice.listProductRequested.length);
   }
 
   generateInvoice(send, idOrder) {
     this.spinner.show();
-    let invoices = [this.original, this.invoice];
-    this.orderService.generateInvoiceSupplierAndCopy$(idOrder, send, invoices).subscribe(
+    let inv: Array<any> = new Array;
+    inv.push(this.original);
+    inv.push(this.invoice);
+    console.log('invoices', inv);
+    this.orderService.generateInvoiceSupplierAndCopy$(idOrder, send, inv).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.close();
