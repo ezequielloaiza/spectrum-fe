@@ -23,7 +23,7 @@
           <div class="col-xl-5">
             <label class="label">{{ 'Invoice No' | translate }}</label>
             <label *ngIf="pilot" class="label-value">{{invoice.number}}</label>
-            <input *ngIf="!pilot" class="form-control input-form" [value]="invoice.number" required>
+            <input *ngIf="!pilot" class="form-control input-form" [value]="invoice.number" (change)="updateNumber($event)" required>
           </div>
           <div class="col-xl-4">
             <label class="label">{{ 'Deliver To' | translate }}</label>
@@ -36,7 +36,7 @@
             <label class="label">{{ 'Invoice Date' | translate }}</label>
             <label *ngIf="pilot" class="label-value">{{ (invoice ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
             <div *ngIf="!pilot" class="input-group">
-              <input class="form-control input-date" [(ngModel)]="invDate" ngbDatepicker formControlName="invDate"
+              <input class="form-control input-date" [(ngModel)]="invDate" ngbDatepicker formControlName="invDate" (change)="updateDate()"
               #d="ngbDatepicker" required>
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
@@ -57,7 +57,7 @@
             <label class="label">{{ 'Due Date' | translate }}</label>
             <label *ngIf="pilot" class="label-value">{{ (invoice ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
             <div *ngIf="!pilot" class="input-group">
-              <input class="form-control input-date" [(ngModel)]="invDueDate" ngbDatepicker formControlName="invDueDate"
+              <input class="form-control input-date" [(ngModel)]="invDueDate" ngbDatepicker formControlName="invDueDate" (change)="updateDueDate()"
               #d1="ngbDatepicker" required>
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
@@ -201,8 +201,8 @@
                 </div>
               </td>
             <td class="table-tr td-table" [hidden]="pilot">
-              <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete' | translate}}" ></span>
               <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
+              <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete' | translate}}" (click)="removeItem()"></span>
             </td>
           </tr>
           </tbody>
@@ -213,7 +213,7 @@
           <div  *ngIf="!pilot" class="col-xl-6">
             <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
             <br>
-            <input type="text" class="form-control" value="{{ 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference' | translate }}" 
+            <input type="text" class="form-control" value="{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}" 
             (change)="updateTerms($event)" required>
           </div>
           <div  *ngIf="pilot" class="col-xl-6">
@@ -288,8 +288,8 @@
             <br>
             <label class="bold">{{ 'Comments' | translate }}</label>
             <br>
-            <label *ngIf="pilot" class="">{{ invoice ? invoice.comments : '' }}</label>
-            <input *ngIf="!pilot" class="form-control" [value]="invoice ? invoice.comments : ''" (change)="updateComment($event)" required>
+            <label *ngIf="pilot" class="">{{ invoice.comments != null ? invoice.comments : '' }}</label>
+            <input *ngIf="!pilot" class="form-control" [value]="invoice.comments != null ? invoice.comments : ''" (change)="updateComment($event)" required>
             <br>
           </div>
         </div>

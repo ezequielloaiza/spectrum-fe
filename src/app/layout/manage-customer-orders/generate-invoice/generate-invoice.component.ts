@@ -236,10 +236,20 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateUnitPrice($event, index) {
     this.invoice.listProductRequested[index].price = $event.target.value;
+    this.updateAmountProduct(index);
+    this.sumNetAmount();
   }
 
   updateQuantity($event, index) {
     this.invoice.listProductRequested[index].quantity = $event.target.value;
+    this.updateAmountProduct(index);
+    this.sumNetAmount();
+  }
+
+  updateAmountProduct(index) {
+    this.invoice.listProductRequested[index].netAmount = 
+                    Number(this.invoice.listProductRequested[index].quantity * this.invoice.listProductRequested[index].price)
+                    + Number(this.invoice.listProductRequested[index].tax);
   }
 
   updateDescription($event, index) {
@@ -248,6 +258,8 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateTax($event, index) {
     this.invoice.listProductRequested[index].tax = $event.target.value;
+    this.updateAmountProduct(index);
+    this.sumNetAmount();
   }
 
   updateNetAmount($event, index) {
@@ -282,19 +294,37 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.termsAndConditions = $event.target.value;
   }
 
+  updateDate($event) {
+    const date = new Date(this.invDate.year, this.invDate.month - 1, this.invDate.day);
+    this.invoice.date = date;
+  }
+
+  updateDueDate($event) {
+    const date = new Date(this.invDueDate.year, this.invDueDate.month - 1, this.invDueDate.day);
+    this.invoice.date = date;
+  }
+
+  updateNumber($event) {
+    this.invoice.number = $event.target.value;
+  }
+
   sumNetAmount() {
     let sum = 0;
     _.each(this.invoice.listProductRequested, function(pRequested) {
       sum += pRequested.netAmount;
     });
     this.invoice.subtotal = sum;
-    this.invoice.total = sum;
-    this.invoice.due = sum;
+    this.invoice.total = sum + this.invoice.shipping;
+    this.invoice.due = sum + this.invoice.shipping;
   }
 
   addItem() {
     const invSupplier = new InvoiceSupplierProductRequested();
     this.invoice.listProductRequested.push(invSupplier);
+  }
+
+  removeItem(index) {
+    this.invoice.listProductRequested.slice(index, 1);
   }
 
   generateInvoice(send, idOrder) {
