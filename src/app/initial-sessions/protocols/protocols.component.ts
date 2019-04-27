@@ -9,9 +9,10 @@ import * as _ from 'lodash';
 })
 export class ProtocolsComponent implements OnInit {
 
-  canEdit = false;
+  modeEdit = true;
   form: FormGroup;
   protocols: Array<any> = new Array;
+  protocolsCopy: Array<any> = new Array;
   suppliers: Array<any> = new Array;
 
   constructor(private formBuilder: FormBuilder) { }
@@ -31,17 +32,17 @@ export class ProtocolsComponent implements OnInit {
 
   loadFields() {
     this.protocols = [
-      {label: 'ACC Number'        , values:[{content: 'xxx', suppliers: []}]},
-      {label: 'Country'           , values:[{content: 'xxx', suppliers: []}]},
-      {label: 'Businness Name'    , values:[{content: 'xxx', suppliers: []}]},
-      {label: 'Recipient'         , values:[{content: 'xxx', suppliers: []}]},
-      {label: 'Shipping Address'  , values:[{content: 'xxx', suppliers: []}]},
-      {label: 'Shipping Frecuency', values:[{content: 'xxx', suppliers: []}]},
-      {label: 'Shipping Method'   , values:[{content: 'xxx', suppliers: []}]},
-      {label: 'Acount Number'     , values:[{content: 'xxx', suppliers: []}]},
-      {label: 'Shipping Details'  , values:[{content: 'xxx', suppliers: []}]},
-      {label: 'Comments'          , values:[{content: 'xxx', suppliers: []}]},
-      {label: 'Email Comments'    , values:[{content: 'xxx', suppliers: []}]}
+      {label: 'ACC Number'        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
+      {label: 'Country'           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
+      {label: 'Businness Name'    , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
+      {label: 'Recipient'         , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Recipient'},
+      {label: 'Shipping Address'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address'},
+      {label: 'Shipping Frecuency', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency'},
+      {label: 'Shipping Method'   , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Method'},
+      {label: 'Acount Number'     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Account Number'},
+      {label: 'Shipping Details'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Details'},
+      {label: 'Comments'          , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Comments'},
+      {label: 'Email Comments'    , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
     ];
   }
 
@@ -55,16 +56,41 @@ export class ProtocolsComponent implements OnInit {
                       {idSupplier: 7, name:'Spectrum'}];
   }
 
-  selectSupplier(idSupplier, protocolValue) {
-    var index = _.indexOf(protocolValue.suppliers, idSupplier);
+  selectSupplier(idSupplier, protocol, value) {
+    var index = _.indexOf(value.suppliers, idSupplier);
     if (index > -1) {
-      protocolValue.suppliers.splice(index, 1);
-    } else {
-      protocolValue.suppliers.push(idSupplier);
+      value.suppliers.splice(index, 1);
+      protocol.selectedSuppliers.splice(_.indexOf(protocol.selectedSuppliers, idSupplier), 1);
+    } else if(this.allowedSelection(idSupplier, protocol)) {
+      value.suppliers.push(idSupplier);
+      protocol.selectedSuppliers.push(idSupplier);
     }
+  }
+
+  allowedSelection(idSupplier, protocol) {
+    return _.indexOf(protocol.selectedSuppliers, idSupplier) === -1;
   }
 
   supplierSelected(idSupplier, protocolValue) {
     return _.indexOf(protocolValue.suppliers, idSupplier) > -1;
+  }
+
+  addValue(protocol) {
+    protocol.values.push({content:'', suppliers:[]});
+  }
+
+  removeValue(protocol, index) {
+    protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, protocol.values[index].suppliers);
+    protocol.values.splice(index, 1);
+  }
+
+  save() {
+    this.protocolsCopy = JSON.parse(JSON.stringify(this.protocols));
+    var protocols = this.protocolsCopy;
+    _.each(protocols, function(protocol, index) {
+      protocols[index] = _.omit(protocol, ['selectedSuppliers', 'placeHolder']);
+    });
+    //send to BE protocolsCopy
+    console.log(this.protocolsCopy);
   }
 }

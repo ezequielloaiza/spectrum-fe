@@ -76,6 +76,18 @@
       color: $color-text-menu;
       font-weight: bold;
     }
+
+    label {
+      margin-bottom: 0;
+    }
+
+    > div:nth-child(1) {
+      display: flex;
+    }
+
+    .input-value {
+      display: flex;
+    }
   }
 
   .link {
@@ -97,12 +109,6 @@
 
     & span:hover {
       color: $bg-blue;
-    }
-  }
-
-  .form-group {
-    label {
-      margin-bottom: 0;
     }
   }
 }

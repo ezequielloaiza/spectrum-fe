@@ -2,76 +2,85 @@
     <div class="row">
       <div class="col-sm-12">
         <br>
-        <form [formGroup]="form">
-          <div class="form-options">
-            <span class="sp-title">{{ 'Shipping Protocols' | translate }}</span>
-            <button class="btn btn-main" (click)="edit()" [hidden]="modeEdit">{{ 'Edit' | translate }}&nbsp;
-              <i class="fa fa-edit"></i>
-            </button>
-          </div>
-          <br>
-          <div class="row" *ngFor="let protocol of protocols">
-            <div class="col-xl-12">
-              <fieldset class="form-group">
+        <div class="form-options">
+          <span class="sp-title">{{ 'Shipping Protocols' | translate }}</span>
+          <button class="btn btn-main" (click)="edit()" [hidden]="modeEdit">{{ 'Edit' | translate }}&nbsp;
+            <i class="fa fa-edit"></i>
+          </button>
+        </div>
+        <br>
+        <div class="row" *ngFor="let protocol of protocols">
+          <div class="col-xl-12">
+            <fieldset class="form-group">
+              <div>
                 <label>{{ protocol.label | translate }}</label>
-                <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let value of protocol.values">
-                  <!-- READ VALUE -->
-                  <span [hidden]="modeEdit">{{ value.content }}</span>
-                  <!--SUPPLIERS -->
-                  <div class="col-xl-12" [hidden]="modeEdit">
-                    <div class="context">
-                      <div class="menu">
-                        <ul>
-                          <li *ngFor="let supplier of suppliers" [ngClass]="{'li-selected': supplierSelected(supplier.idSupplier, value)}">
-                            <a (click)="selectSupplier(supplier.idSupplier, value)">
-                              <span>
-                                {{ supplier.name }}
-                              </span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                <div class="col-md-1 hand-over" [hidden]="suppliers.length === protocol.selectedSuppliers.length">
+                  <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{ 'Add new value' | translate }}" (click)="addValue(protocol)"></span>
+                </div>
+              </div>
+              
+              <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let value of protocol.values; let pos = index">
+                <!-- READ VALUE -->
+                <span [hidden]="modeEdit">{{ value.content }}</span>
+
+                <!-- WRITE VALUE -->
+                <div class="input-value">
+                  <input [hidden]="!modeEdit" class="form-control" placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content" required>
+                  <div class="col-md-1 hand-over" [hidden]="protocol.values.length === 1">
+                    <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete protocol value' | translate}}" (click)="removeValue(protocol, pos)"></span>
+                  </div>
+                </div>
+
+                <!--SUPPLIERS -->
+                <div class="col-xl-12" [hidden]="!modeEdit">
+                  <div class="context">
+                    <div class="menu">
+                      <ul>
+                        <li *ngFor="let supplier of suppliers" [ngClass]="{'li-selected': supplierSelected(supplier.idSupplier, value)}">
+                          <a (click)="selectSupplier(supplier.idSupplier, protocol, value)">
+                            <span>{{ supplier.name }}</span>
+                          </a>
+                        </li>
+                      </ul>
                     </div>
                   </div>
-                  <!-- WRITE VALUE -->
-                  <input [hidden]="!modeEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}"
-                    name="accNumber" formControlName="accNumber" required>
-                </div>
-              </fieldset>
-              <!--
-              <div class="message-error">
-                <span>{{ 'ACC Number is required' | translate }}</span>
+                </div>                  
               </div>
-              -->
+            </fieldset>
+            <!--
+            <div class="message-error">
+              <span>{{ 'ACC Number is required' | translate }}</span>
             </div>
+            -->
           </div>
-          <!--<div class="row">
-            <div class="col-xl-6">
-              <fieldset class="form-group">
-                <label>{{ 'DMV Default' | translate }}</label>
-                <div class="mb-2 mr-sm-2 mb-sm-0">
-                  <span [hidden]="modeEdit">{{ 'test' }}</span>
-                  <div class="custom-control custom-radio">
-                    <input type="radio" id="customRadio1" name="customRadio" value="1" class="custom-control-input">
-                    <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
-                    <input type="radio" id="customRadio2" name="customRadio" value="1" class="custom-control-input">
-                    <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
-                  </div>
+        </div>
+        <!--NO BORRAR ESTO FALTA CONTEMPLARLO GENERICO PARA CUANDO SEAN RADIO BUTTONS-->
+        <!--<div class="row">
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'DMV Default' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="modeEdit">{{ 'test' }}</span>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="customRadio1" name="customRadio" value="1" class="custom-control-input">
+                  <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
+                  <input type="radio" id="customRadio2" name="customRadio" value="1" class="custom-control-input">
+                  <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
                 </div>
-              </fieldset>
-            </div>
-          </div>-->
-          <br>
-          <div class="footer-form" [hidden]="!modeEdit">
-            <button class="btn btn-secondary" (click)="cancel()">{{ 'Cancel' | translate }}&nbsp;
-              <i class="fa fa-times"></i>
-            </button>
-            &nbsp;&nbsp;
-            <button class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
-              <i class="fa fa-save"></i>
-            </button>
+              </div>
+            </fieldset>
           </div>
-        </form>
+        </div>-->
+        <br>
+        <div class="footer-form" [hidden]="!modeEdit">
+          <button class="btn btn-secondary" (click)="cancel()">{{ 'Cancel' | translate }}&nbsp;
+            <i class="fa fa-times"></i>
+          </button>
+          &nbsp;&nbsp;
+          <button class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+            <i class="fa fa-save"></i>
+          </button>
+        </div>
         <br>
       </div>
     </div>
