@@ -28,7 +28,6 @@ import { ManagePaymentsComponent } from './manage-payments/manage-payments.compo
 import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-made.component';
 import { ManageCommissionComponent } from './manage-commission/manage-commission.component';
 import { EntrustingCompanyComponent } from './entrusting-company/entrusting-company.component';
-import { ProtocolComponent } from './protocol/protocol.component';
 import { ProtocolClientComponent } from './protocol-client/protocol-client.component';
 
 const routes: Routes = [
