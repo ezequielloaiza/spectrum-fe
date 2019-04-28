@@ -27,6 +27,8 @@ export class InvoiceSupplier {
     public listOrders: Array<Number>;
     public shippingInstructions: string;
     public termsAndConditions: string;
+    public deliverTo: string;
+    public customer: string;
 
     public constructor() { }
 

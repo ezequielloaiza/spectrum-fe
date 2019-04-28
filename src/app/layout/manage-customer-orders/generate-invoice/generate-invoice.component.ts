@@ -30,6 +30,7 @@ export class GenerateInvoiceComponent implements OnInit {
   invoice: InvoiceSupplier = new InvoiceSupplier();
   listProducts: Array<any> = new Array;
   listOrders: Array<any> = new Array;
+  idsOrders: Array<any> = new Array;
   pilot: any;
   titleModal: any;
   ordersNumber: any;
@@ -48,7 +49,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    console.log('PILOT',this.pilot);
+    console.log('pilot', this.pilot);
     this.user = JSON.parse(this. userStorageService.getCurrentUser()).userResponse;
     this.loadInvoice();
     this.dueDate.setDate(this.today.getDate() + 30);
@@ -97,6 +98,31 @@ export class GenerateInvoiceComponent implements OnInit {
           console.log('error', error);
         }
       );
+    } else {
+      if (this.original.idInvoice != null && this.original.idInvoice != undefined) {
+        this.loadInvoiceFromOriginal(this.original);
+        this.loadOrderNumbers();
+      } else {
+        this.invoiceService.findByNumberAndOriginal$(this.invoice.numberOriginal).subscribe(
+          res => {
+            if (res.code === CodeHttp.ok) {
+              const invoices = res.data;
+              if (invoices.length > 0) {
+                this.original = invoices[0];
+                if (this.invoice.dateSend !== null || this.invoice.dateSend !== undefined) {
+                  this.pilot = true;
+                }
+                this.loadOrderNumbers();
+              }
+            } else {
+              console.log(res.code);
+            }
+          },
+          error => {
+            console.log('error', error);
+          }
+        );
+      }
     }
   }
 
@@ -120,6 +146,7 @@ export class GenerateInvoiceComponent implements OnInit {
         ids = [this.order.idOrder];
       }
     }
+    this.idsOrders = ids;
     this.orderService.findByIds$(ids).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         const orders = res.data;
@@ -141,6 +168,47 @@ export class GenerateInvoiceComponent implements OnInit {
     });
   }
 
+  loadInvoiceFromOriginal(original) {
+    let productReq = [];
+    this.invoice.address = original.address;
+    this.invoice.idAddress = original.idAddress;
+    this.invoice.date = original.date;
+    const date = new Date(this.invoice.date);
+    this.invDate = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
+    this.invoice.dueDate = this.dueDate;
+    const dueDate = new Date(this.invoice.dueDate);
+    this.invDueDate = {year: dueDate.getUTCFullYear(), month: dueDate.getMonth() + 1, day: dueDate.getDate()};
+    this.invoice.user = original.user;
+    this.invoice.number = original.number;
+    this.invoice.subtotal = original.subtotal;
+    this.invoice.total = original.total;
+    this.invoice.idUser = original.idUser;
+    this.invoice.deliverTo = this.original.deliverTo;
+    this.invoice.customer = this.original.customer;
+    this.invoice.original = false;
+    this.invoice.shipping = original.shipping;
+    this.invoice.due = original.total;
+    this.invoice.shippingInstructions = original.shippingInstructions;
+    _.each(original.listProductRequested, function(pRequested) {
+      const productR = new InvoiceSupplierProductRequested();
+      productR.idProductRequested = pRequested.productRequested.idProductRequested;
+      productR.productRequested = pRequested.productRequested;
+      productR.urlImage = pRequested.urlImage;
+      productR.price = pRequested.productRequested.price;
+      productR.tax = pRequested.tax;
+      productR.netAmount = pRequested.netAmount == null ? (pRequested.productRequested.quantity * pRequested.productRequested.price) 
+                        : pRequested.netAmount;
+      productR.quantity = pRequested.productRequested.quantity;
+      productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
+      productReq.push(productR);
+    });
+
+    this.invoice.listProductRequested = productReq;
+    this.invoice.listOrders = original.listOrders;
+    this.invoice.numberOriginal = original.number;
+    this.invoice.termsAndConditions = original.termsAndConditions;
+  }
+
   loadInvoiceFromOrder() {
     let productReq = [];
     this.invoice.address = this.order.address;
@@ -149,14 +217,18 @@ export class GenerateInvoiceComponent implements OnInit {
     const date = new Date(this.invoice.date);
     this.invDate = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
     this.invoice.dueDate = this.dueDate;
-    const dueDate = new Date(this.invoice.date);
+    const dueDate = new Date(this.invoice.dueDate);
     this.invDueDate = {year: dueDate.getUTCFullYear(), month: dueDate.getMonth() + 1, day: dueDate.getDate()};
     this.invoice.user = this.order.user;
     this.invoice.number = this.order.number;
     this.invoice.subtotal = this.order.subtotal;
     this.invoice.total = this.order.total;
     this.invoice.idUser = this.order.user.idUser;
+    this.invoice.deliverTo = this.order.nameUser;
+    this.invoice.customer = this.order.nameUser;
     this.invoice.original = false;
+    this.invoice.shippingInstructions = (this.order.user.company.shippingInstructions ?
+      this.order.user.company.shippingInstructions : 'No Instructions Shipping');
    // const ship = 0;
     this.invoice.shipping = this.order.shippingPrice;
     this.invoice.due = this.order.total;
@@ -181,29 +253,34 @@ export class GenerateInvoiceComponent implements OnInit {
     });
 
     this.invoice.listProductRequested = productReq;
-    this.loadOriginalFromOrder();
+    this.original.termsAndConditions = 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference';
+    this.loadOriginalFromOrder(this.order);
   }
 
-  loadOriginalFromOrder() {
+  loadOriginalFromOrder(order) {
     let productReq = [];
-    this.original.address = this.order.address;
-    this.original.idAddress = this.order.address.idAddress;
+    this.original.address = order.address;
+    this.original.idAddress = order.address.idAddress;
     this.original.date = this.today;
     const date = new Date(this.original.date);
     this.invDate = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
     this.original.dueDate = this.dueDate;
     const dueDate = new Date(this.original.date);
     this.invDueDate = {year: dueDate.getUTCFullYear(), month: dueDate.getMonth() + 1, day: dueDate.getDate()};
-    this.original.user = this.order.user;
-    this.original.number = this.order.number;
-    this.original.subtotal = this.order.subtotal;
-    this.original.total = this.order.total;
-    this.original.idUser = this.order.user.idUser;
+    this.original.user = order.user;
+    this.original.number = order.number;
+    this.original.subtotal = order.subtotal;
+    this.original.total = order.total;
+    this.original.idUser = order.user.idUser;
+    this.original.deliverTo = order.nameUser;
+    this.original.customer = order.nameUser;
     this.original.original = true;
+    this.original.shippingInstructions = (order.user.company.shippingInstructions ?
+      order.user.company.shippingInstructions : 'No Instructions Shipping');
    // const ship = 0;
-    this.original.shipping = this.order.shippingPrice;
-    this.original.due = this.order.total;
-    _.each(this.order.listProductRequested, function(pRequested) {
+    this.original.shipping = order.shippingPrice;
+    this.original.due = order.total;
+    _.each(order.listProductRequested, function(pRequested) {
       const productR = new InvoiceSupplierProductRequested();
       productR.idProductRequested = pRequested.productRequested.idProductRequested;
       productR.productRequested = pRequested.productRequested;
@@ -225,6 +302,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
     this.original.listProductRequested = productReq;
     this.invoice.numberOriginal = this.original.number;
+    this.original.termsAndConditions = 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference';
   }
 
   updateProduct($event, index) {
@@ -284,28 +362,38 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateComment($event) {
     this.invoice.comments = $event.target.value;
+    this.original.comments = $event.target.value;
   }
 
   updateInstructions($event) {
     this.invoice.shippingInstructions = $event.target.value;
+    this.original.shippingInstructions = $event.target.value;
   }
 
   updateTerms($event) {
     this.invoice.termsAndConditions = $event.target.value;
+    this.original.termsAndConditions = $event.target.value;
   }
 
-  updateDate($event) {
+  updateDate() {
     const date = new Date(this.invDate.year, this.invDate.month - 1, this.invDate.day);
     this.invoice.date = date;
   }
 
-  updateDueDate($event) {
+  updateDueDate() {
     const date = new Date(this.invDueDate.year, this.invDueDate.month - 1, this.invDueDate.day);
     this.invoice.date = date;
   }
 
   updateNumber($event) {
     this.invoice.number = $event.target.value;
+  }
+
+  updateDeliverTo($event) {
+    this.invoice.deliverTo = $event.target.value;
+  }
+  updateCustomer($event) {
+    this.invoice.customer = $event.target.value;
   }
 
   sumNetAmount() {
@@ -327,13 +415,12 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.listProductRequested.slice(index, 1);
   }
 
-  generateInvoice(send, idOrder) {
+  generateInvoice(send) {
     this.spinner.show();
     let inv: Array<any> = new Array;
     inv.push(this.original);
     inv.push(this.invoice);
-    console.log('invoices', inv);
-    this.orderService.generateInvoiceSupplierAndCopy$(idOrder, send, inv).subscribe(
+    this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.close();

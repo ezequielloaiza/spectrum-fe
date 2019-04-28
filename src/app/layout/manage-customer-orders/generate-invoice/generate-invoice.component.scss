@@ -33,13 +33,18 @@
 
 .address {
   width: 150px;
+  align-items: center;
 }
 
 .address-client {
   padding-left: 50px;
   width: 250px;
+  align-items: center;
 }
-
+.customer {
+  margin-left: 35px;
+  width: 95%;
+}
 .address-spectrum {
   text-align: right;
 }
@@ -93,6 +98,10 @@
 
 .amount-total {
   width: 50%;
+}
+
+.align-row {
+  align-items: center;
 }
 
 .address-top {

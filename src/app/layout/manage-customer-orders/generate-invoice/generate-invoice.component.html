@@ -19,24 +19,24 @@
             <img src="assets/images/spectrumLogo1.jpg" width="300px" class="" />
           </div>
         </div>
-        <div class="row row-height">
+        <div class="row row-height align-row">
           <div class="col-xl-5">
             <label class="label">{{ 'Invoice No' | translate }}</label>
             <label *ngIf="pilot" class="label-value">{{invoice.number}}</label>
             <input *ngIf="!pilot" class="form-control input-form" [value]="invoice.number" (change)="updateNumber($event)" required>
           </div>
           <div class="col-xl-4">
-            <label class="label">{{ 'Deliver To' | translate }}</label>
+            <label class="label align-row">{{ 'Deliver To' | translate }}</label>
           </div>
           <div class="col-xl-3">
           </div>
         </div>
-        <div class="row row-height">
+        <div class="row row-height align-row">
           <div class="col-xl-5">
             <label class="label">{{ 'Invoice Date' | translate }}</label>
             <label *ngIf="pilot" class="label-value">{{ (invoice ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
             <div *ngIf="!pilot" class="input-group">
-              <input class="form-control input-date" [(ngModel)]="invDate" ngbDatepicker formControlName="invDate" (change)="updateDate()"
+              <input class="form-control input-date" [(ngModel)]="invDate" ngbDatepicker formControlName="invDate" (ngModelChange)="updateDate()"
               #d="ngbDatepicker" required>
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
@@ -46,18 +46,19 @@
             </div>
           </div>
           <div class="col-xl-4">
-            <!--<label class="address">{{ pilot ? invoice.user.name : order.nameUser }}</label>-->
-            <label class="address">{{ invoice ? invoice.user?.name : order.nameUser }}</label>
+            <label *ngIf="pilot" class="address">{{ invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
+            <input *ngIf="!pilot" type="text" class="form-control" value="{{invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
+            (change)="updateDeliverTo($event)" required>
           </div>
           <div class="col-xl-3">
           </div>
         </div>
-        <div class="row row-height">
+        <div class="row row-height align-row">
           <div class="col-xl-5">
             <label class="label">{{ 'Due Date' | translate }}</label>
             <label *ngIf="pilot" class="label-value">{{ (invoice ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
             <div *ngIf="!pilot" class="input-group">
-              <input class="form-control input-date" [(ngModel)]="invDueDate" ngbDatepicker formControlName="invDueDate" (change)="updateDueDate()"
+              <input class="form-control input-date" [(ngModel)]="invDueDate" ngbDatepicker formControlName="invDueDate" (ngModelChange)="updateDueDate()"
               #d1="ngbDatepicker" required>
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
@@ -67,42 +68,44 @@
             </div>
           </div>
           <div class="col-xl-4">
-            <label class="address">{{order? order.address?.name : invoice.address?.name}}</label>
+            <label class="address">{{invoice.address?.name}}</label>
           </div>
           <div class="col-xl-3">
           </div>
         </div>
-        <div class="row row-height">
+        <div class="row row-height align-row">
           <div class="col-xl-5">
           </div>
           <div class="col-xl-4">
-            <label class="address">{{order ? (order.address.city + ' - '+order.address.state): (invoice.address.city + ' - '+invoice.address.state)}}</label>
+            <label class="address">{{invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : ''}}</label>
           </div>
           <div class="col-xl-3">
           </div>
         </div>
-        <div class="row row-height">
+        <div class="row row-height align-row">
           <div class="col-xl-5">
           </div>
           <div class="col-xl-4">
-            <label class="address">{{order ? (order.address.country.name | translate) : (invoice.address.country.name | translate)}}</label>
+            <label class="address">{{ invoice.address? (invoice.address.country.name | translate) : ''}}</label>
           </div>
           <div class="col-xl-3">
           </div>
         </div>
       </div>
       <div class="col col-xl-12 col-lg-12">
-        <div class="row row-height">
+        <div class="row row-height align-row">
           <div class="col-xl-6">
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">SPECTRUM INTERNATIONAL GROUP, LLC</label>
           </div>
         </div>
-        <div class="row row-height">
+        <div class="row row-height align-row">
           <div class="col-xl-6 address-top">
             <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
-            <label class="address-client">{{ invoice ? invoice.user?.name : order.nameUser }}</label>
+            <label *ngIf="pilot" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
+            <input *ngIf="!pilot" type="text" class="form-control customer" value="{{invoice.customer == null ? invoice.user?.name : invoice.customer}}"
+            (change)="updateCustomer($event)" required>
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">3522 ASHFORD DUNWOODY ROAD NE</label>
@@ -110,7 +113,7 @@
         </div>
         <div class="row row-height">
           <div class="col-xl-6 address-middle">
-            <label class="address-client">{{order? order.address?.name : invoice.address?.name}}</label>
+            <label class="address-client">{{invoice.address?.name}}</label>
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">#293</label>
@@ -118,7 +121,7 @@
         </div>
         <div class="row row-height">
           <div class="col-xl-6 address-middle">
-            <label class="address-client">{{order? (order.address.city + ' - '+order.address.state):(invoice.address.country.name | translate)}}</label>
+            <label class="address-client">{{invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : ''}}</label>
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">ATLANTA GA 30319</label>
@@ -126,7 +129,7 @@
         </div>
         <div class="row row-height">
           <div class="col-xl-6 address-down">
-            <label class="address-client">{{order ? (order.address.country.name | translate) : (invoice.address.country.name | translate)}}</label>
+            <label class="address-client">{{invoice.address? (invoice.address.country.name | translate) : ''}}</label>
           </div>
           <div class="col-xl-6 address-spectrum">
             <label class="address-spectrum">United States</label>
@@ -209,7 +212,7 @@
                     placeholder="{{ 'Enter Net Amount' | translate }}" required>
                 </div>
               </td>
-            <td class="table-tr td-table" [hidden]="pilot">
+            <td class="table-tr td-table align-row" [hidden]="pilot">
               <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
               <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete' | translate}}" (click)="removeItem()"></span>
             </td>
@@ -228,11 +231,11 @@
           <div  *ngIf="pilot" class="col-xl-6">
             <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
             <br>
-            <label class="">{{ 'Net 30' | translate }}</label>
-            <br>
+            <label class="">{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}</label>
+            <!--br>
             <label class="">{{ '3.5% Fee for CC Payments' | translate }}</label>
             <br>
-            <label class="">{{ 'Thank you for your trust and preference' | translate }}</label>
+            <label class="">{{ 'Thank you for your trust and preference' | translate }}</label>-->
           </div>
           <div class="col-xl-6">
             <label class="label-amount bold">{{ 'Subtotal' | translate }}</label>
@@ -280,12 +283,9 @@
             <br>
             <label class="bold">{{ 'Shipping Instructions' | translate }}</label>
             <br>
-            <label *ngIf="pilot" class="">{{ order ? (order.user.company.shippingInstructions?
-              order.user.company.shippingInstructions : ('No Instructions Shipping' | translate)) : (invoice.user.company.shippingInstructions?
-              invoice.user.company.shippingInstructions : ('No Instructions Shipping' | translate)) }}</label>
-            <input *ngIf="!pilot" class="form-control" [value]="order ? (order.user.company.shippingInstructions?
-            order.user.company.shippingInstructions : ('No Instructions Shipping' | translate)) : (invoice.user.company.shippingInstructions?
-            invoice.user.company.shippingInstructions : ('No Instructions Shipping' | translate))" (change)="updateInstructions($event)" required>
+            <label *ngIf="pilot" class="">{{ (invoice.shippingInstructions ? invoice.shippingInstructions : ('No Instructions Shipping' | translate)) }}</label>
+            <input *ngIf="!pilot" class="form-control" [value]="(invoice.shippingInstructions?
+            invoice.shippingInstructions : ('No Instructions Shipping' | translate))" (change)="updateInstructions($event)" required>
             <br>
           </div>
         </div>
@@ -337,11 +337,11 @@
     translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(0, order.idOrder)">{{ 'Save' |
+  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(0)">{{ 'Save' |
     translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
-  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1, order.idOrder)">{{ 'Save and
+  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1)">{{ 'Save and
     Send' | translate }}&nbsp;
     <i class="fa fa-send"></i>
   </button>

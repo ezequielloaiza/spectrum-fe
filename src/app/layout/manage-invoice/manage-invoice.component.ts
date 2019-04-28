@@ -184,12 +184,19 @@ export class ManageInvoiceComponent implements OnInit {
 
   open(invoice, actions) {
     let p = true;
+    console.log('actions', actions);
+    console.log('actionsIf', (actions == 'edit'));
     if (actions == 'edit') {
       p = false;
     }
     const modalRef = this.modalService.open(GenerateInvoiceComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
-    modalRef.componentInstance.invoice = invoice;
+    if (invoice.original) {
+      modalRef.componentInstance.original = invoice;
+    } else {
+      modalRef.componentInstance.invoice = invoice;
+    }
+    modalRef.componentInstance.idsOrders = invoice.listOrders;
     modalRef.componentInstance.order = undefined;
     modalRef.componentInstance.pilot = p;
     modalRef.result.then((result) => {
