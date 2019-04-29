@@ -11,17 +11,6 @@
               <button type="button" class="btn btn-main mr-3" *ngIf="!edit" (click)="enableEdit()">
                 Edit
               </button>
-              <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit" (click)="cancel()">
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="btn btn-main"
-                *ngIf="edit"
-                (click)="update()"
-              >
-                Save
-              </button>
             </div>
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
@@ -29,8 +18,8 @@
                 <input
                   type="text"
                   class="form-control"
-                  formControlName="accNumber"   
-                  maxlength="254"         
+                  formControlName="accNumber"
+                  maxlength="254"
                   *ngIf="edit"
                 />
                 <div *ngIf="!edit">
@@ -229,7 +218,20 @@
                 </div>
               </div>
             </div>
-          </div>       
+            <div class="text-right pb-3">
+              <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit" (click)="cancel()">
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-main"
+                *ngIf="edit"
+                (click)="update()"
+              >
+                Save
+              </button>
+            </div>
+          </div>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>
