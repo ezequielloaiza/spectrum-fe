@@ -37,5 +37,6 @@ export enum RoleAdmin {
   PaymentsMade,
   Commission,
   ProductViewMedmontComponent,
-  EntrustingCompany
+  EntrustingCompany,
+  EditShippingProtocol
 }

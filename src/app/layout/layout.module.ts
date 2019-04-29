@@ -90,6 +90,7 @@ import { ModalsShippingComponent } from './manage-customer-orders/modals-shippin
 import { EntrustingCompanyComponent } from './entrusting-company/entrusting-company.component';
 import { EntrustingCompanyModalComponent } from './entrusting-company/modals/entrusting-company-modal/entrusting-company-modal.component';
 import { ProtocolClientComponent } from './protocol-client/protocol-client.component';
+import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/shipping-protocol.component';
 
 @NgModule({
     imports: [
@@ -187,7 +188,8 @@ import { ProtocolClientComponent } from './protocol-client/protocol-client.compo
         ModalsShippingComponent,
         EntrustingCompanyComponent,
         EntrustingCompanyModalComponent,
-        ProtocolClientComponent
+        ProtocolClientComponent,
+        ShippingProtocolComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,

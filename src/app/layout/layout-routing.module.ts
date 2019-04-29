@@ -28,8 +28,8 @@ import { ManagePaymentsComponent } from './manage-payments/manage-payments.compo
 import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-made.component';
 import { ManageCommissionComponent } from './manage-commission/manage-commission.component';
 import { EntrustingCompanyComponent } from './entrusting-company/entrusting-company.component';
-import { ProtocolComponent } from './protocol/protocol.component';
 import { ProtocolClientComponent } from './protocol-client/protocol-client.component';
+import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/shipping-protocol.component';
 
 const routes: Routes = [
   {
@@ -112,6 +112,9 @@ const routes: Routes = [
               },
               { path: 'edit-supplier', component: EditSupplierComponent,
               data: { option: 'EditSupplier' }
+              },
+              { path: 'edit-shipping', component: ShippingProtocolComponent,
+              data: { option: 'EditShippingProtocol' }
               }
             ]
           }
