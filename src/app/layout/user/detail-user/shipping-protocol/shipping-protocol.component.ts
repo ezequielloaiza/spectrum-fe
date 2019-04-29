@@ -21,6 +21,7 @@ export class ShippingProtocolComponent implements OnInit {
   protocolForm: FormGroup;
   edit = false;
   id: any;
+  saving = false;
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -80,11 +81,13 @@ export class ShippingProtocolComponent implements OnInit {
   }
 
   update() {
-  this.protocolClientService.update$(this.protocolForm.value).subscribe(res => {
-    this.protocol = res;
-    this.setProtocol(this.protocol);
-    this.edit = false;
-  });
+    this.saving = true;
+    this.protocolClientService.update$(this.protocolForm.value).subscribe(res => {
+      this.protocol = res;
+      this.setProtocol(this.protocol);
+      this.edit = false;
+      this.saving = false;
+    });
   }
 
   enableEdit() {
