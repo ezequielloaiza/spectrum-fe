@@ -1,5 +1,5 @@
 @import '../../../../styles/spectrum/spectrum';
-@include tr-sizes((30%,10%,17%,18%,20%,5%));
+@include tr-sizes((30%,10%,17%,17%,20%,6%));
 
 .label-value {
   width: 100px;
@@ -19,9 +19,25 @@
   font-size: .85em;
 }
 
+.table > tbody > tr:nth-last-child(1) {
+  height: 90%;
+}
+
 .input-group {
-  width: 60%;
+  width: 55%;
   display: inline-flex;
+  .input-group-append {
+    display: inline;
+    .btn {
+      font-size: .9rem;
+    }
+  }
+}
+
+.hand-over {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .input-date {
@@ -90,6 +106,10 @@
 
 .table > thead > tr > th {
   border-bottom: 2px solid cornflowerblue;
+}
+
+.table-tr:nth-child(6) {
+  vertical-align: middle;
 }
 
 .amount-div {
