@@ -36,9 +36,14 @@
 
 .hand-over {
   cursor: pointer;
-  display: flex;
+  /*display: flex;*/
   justify-content: space-evenly;
 }
+
+.margin-span {
+  margin-right: 10%;
+}
+
 
 .input-date {
   width: 80px;

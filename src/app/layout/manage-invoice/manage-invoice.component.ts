@@ -184,8 +184,6 @@ export class ManageInvoiceComponent implements OnInit {
 
   open(invoice, actions) {
     let p = true;
-    console.log('actions', actions);
-    console.log('actionsIf', (actions == 'edit'));
     if (actions == 'edit') {
       p = false;
     }

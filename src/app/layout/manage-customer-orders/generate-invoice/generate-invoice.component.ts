@@ -382,7 +382,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateDueDate() {
     const date = new Date(this.invDueDate.year, this.invDueDate.month - 1, this.invDueDate.day);
-    this.invoice.date = date;
+    this.invoice.dueDate = date;
   }
 
   updateNumber($event) {
