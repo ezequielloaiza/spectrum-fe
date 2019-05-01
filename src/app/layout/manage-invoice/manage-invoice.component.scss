@@ -116,7 +116,12 @@
   }
 }
 
-::ng-deep .modal-dialog {
+.modal-dialog {
   max-width: 1000px;
   width: 120%;
+}
+
+.modal-adaptive{
+  max-width: 1000px;
+  width: 120% !important;
 }

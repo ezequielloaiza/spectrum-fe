@@ -34,9 +34,9 @@
         <div class="row row-height align-row">
           <div class="col-xl-5">
             <label class="label">{{ 'Invoice Date' | translate }}</label>
-            <label *ngIf="pilot" class="label-value">{{ (invoice ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
+            <label *ngIf="pilot" class="label-value">{{ (invoice.date ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
             <div *ngIf="!pilot" class="input-group">
-              <input class="form-control input-date" [(ngModel)]="invDate" ngbDatepicker formControlName="invDate" (ngModelChange)="updateDate()"
+              <input class="form-control input-date" [(ngModel)]="invDate" ngbDatepicker formControlName="invDate" 
               #d="ngbDatepicker" required>
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
@@ -56,9 +56,9 @@
         <div class="row row-height align-row">
           <div class="col-xl-5">
             <label class="label">{{ 'Due Date' | translate }}</label>
-            <label *ngIf="pilot" class="label-value">{{ (invoice ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
+            <label *ngIf="pilot" class="label-value">{{ (invoice.dueDate ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
             <div *ngIf="!pilot" class="input-group">
-              <input class="form-control input-date" [(ngModel)]="invDueDate" ngbDatepicker formControlName="invDueDate" (ngModelChange)="updateDueDate()"
+              <input class="form-control input-date" [(ngModel)]="invDueDate" ngbDatepicker formControlName="invDueDate" 
               #d1="ngbDatepicker" required>
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
@@ -104,7 +104,7 @@
           <div class="col-xl-6 address-top">
             <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
             <label *ngIf="pilot" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
-            <input *ngIf="!pilot" type="text" class="form-control customer" value="{{invoice.customer == null ? invoice.user?.name : invoice.customer}}"
+            <input *ngIf="!pilot" type="text" class="form-control customer" value="{{invoice.customer != null ? invoice.customer : invoice.user?.name }}"
             (change)="updateCustomer($event)" required>
           </div>
           <div class="col-xl-6 address-spectrum">
@@ -175,7 +175,7 @@
                   <option *ngFor="let pR of listProducts" value="{{pR.idProductRequested}}">{{pR.product.name}} - {{ pR.product.name}} </option>
                 </select>
               </td>
-              <td class="table-tr td-table" *ngIf="pilot">{{productR.productRequested.quantity}}</td>
+              <td class="table-tr td-table" *ngIf="pilot">{{productR.quantity}}</td>
               <td class="table-tr td-table" *ngIf="!pilot">
                 <div class="amount-div">
                   <input type="number" id="quantity{{i}}" [value]="productR.quantity" class="form-control" (change)="updateQuantity($event, i)"
@@ -192,7 +192,7 @@
                   placeholder="{{ 'Enter unit price' | translate }}" required>
               </div>
               </td>
-              <td class="table-tr td-table" *ngIf="pilot">{{ 'No Tax' | translate }}</td>
+              <td class="table-tr td-table" *ngIf="pilot">{{(productR.tax | currency )}}</td>
               <td class="table-tr td-table" *ngIf="!pilot">
                 <div class="amount-div">
                   <div class="input-group-append">
@@ -202,7 +202,7 @@
                     placeholder="{{ 'Enter tax' | translate }}" required>
                 </div>
                 </td>
-              <td class="table-tr td-table" *ngIf="pilot">{{(productR.netAmount | currency )}}</td>
+              <td class="table-tr td-table" *ngIf="pilot" colspan="2">{{(productR.netAmount | currency )}}</td>
               <td class="table-tr td-table" *ngIf="!pilot">
                 <div class="amount-div">
                   <div class="input-group-append">
@@ -232,10 +232,6 @@
             <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
             <br>
             <label class="">{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}</label>
-            <!--br>
-            <label class="">{{ '3.5% Fee for CC Payments' | translate }}</label>
-            <br>
-            <label class="">{{ 'Thank you for your trust and preference' | translate }}</label>-->
           </div>
           <div class="col-xl-6">
             <label class="label-amount bold">{{ 'Subtotal' | translate }}</label>
@@ -337,11 +333,11 @@
     translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(0)">{{ 'Save' |
+  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(0)" >{{ 'Save' |
     translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
-  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1)">{{ 'Save and
+  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1)" >{{ 'Save and
     Send' | translate }}&nbsp;
     <i class="fa fa-send"></i>
   </button>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderService, ProductsRequestedService } from '../../../shared/services';
@@ -34,6 +34,7 @@ export class GenerateInvoiceComponent implements OnInit {
   pilot: any;
   titleModal: any;
   ordersNumber: any;
+  verify: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -44,23 +45,23 @@ export class GenerateInvoiceComponent implements OnInit {
     private alertify: AlertifyService,
     private userStorageService: UserStorageService,
     private invoiceService: InvoiceSupplierService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.initializeForm();
-    console.log('pilot', this.pilot);
     this.user = JSON.parse(this. userStorageService.getCurrentUser()).userResponse;
-    this.loadInvoice();
     this.dueDate.setDate(this.today.getDate() + 30);
-    this.invDate = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate()};
-    this.invDueDate = {year: this.dueDate.getUTCFullYear(), month: this.dueDate.getMonth() + 1, day: this.dueDate.getDate()};
+    this.loadInvoice();
+    this.getDates();
     this.translate
             .get("Provider's Invoice", { value: "Provider's Invoice" })
             .subscribe((res1: string) => {
               this.titleModal = res1;
             });
     this.loadOrderNumbers();
+    this.verify = false;
   }
 
   initializeForm() {
@@ -80,11 +81,14 @@ export class GenerateInvoiceComponent implements OnInit {
         res => {
           if (res.code === CodeHttp.ok) {
             const invoices = res.data;
+            console.log('invoices', invoices);
             if (invoices.length > 0) {
-              this.original = invoices[0].original ? invoices[0] : invoices[1];
-              this.invoice = (invoices[0].original == false) ? invoices[0] : invoices[1];
-              if (this.invoice.dateSend !== null || this.invoice.dateSend !== undefined) {
-                this.pilot = true;
+              if (invoices.length == 1) {
+                this.original = invoices[0];
+                this.loadInvoiceFromOriginal(this.original);
+              } else {
+                this.original = invoices[0].original ? invoices[0] : invoices[1];
+                this.invoice = (invoices[0].original == false) ? invoices[0] : invoices[1];
               }
               this.loadOrderNumbers();
             } else {
@@ -103,16 +107,15 @@ export class GenerateInvoiceComponent implements OnInit {
         this.loadInvoiceFromOriginal(this.original);
         this.loadOrderNumbers();
       } else {
+        console.log('invoice', this.invoice);
         this.invoiceService.findByNumberAndOriginal$(this.invoice.numberOriginal).subscribe(
           res => {
             if (res.code === CodeHttp.ok) {
               const invoices = res.data;
               if (invoices.length > 0) {
                 this.original = invoices[0];
-                if (this.invoice.dateSend !== null || this.invoice.dateSend !== undefined) {
-                  this.pilot = true;
-                }
                 this.loadOrderNumbers();
+                this.invoice.listProductRequested = this.loadProductRequested(this.invoice);
               }
             } else {
               console.log(res.code);
@@ -124,6 +127,13 @@ export class GenerateInvoiceComponent implements OnInit {
         );
       }
     }
+  }
+
+  getDates() {
+    const date = new Date(this.invoice.date);
+    this.invDate = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
+    const dueDate = new Date(this.invoice.dueDate);
+    this.invDueDate = {year: dueDate.getUTCFullYear(), month: dueDate.getMonth() + 1, day: dueDate.getDate()};
   }
 
   getProducts(): void {
@@ -169,13 +179,12 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   loadInvoiceFromOriginal(original) {
-    let productReq = [];
     this.invoice.address = original.address;
     this.invoice.idAddress = original.idAddress;
     this.invoice.date = original.date;
     const date = new Date(this.invoice.date);
     this.invDate = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
-    this.invoice.dueDate = this.dueDate;
+    this.invoice.dueDate = original.dueDate;
     const dueDate = new Date(this.invoice.dueDate);
     this.invDueDate = {year: dueDate.getUTCFullYear(), month: dueDate.getMonth() + 1, day: dueDate.getDate()};
     this.invoice.user = original.user;
@@ -183,12 +192,20 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.subtotal = original.subtotal;
     this.invoice.total = original.total;
     this.invoice.idUser = original.idUser;
-    this.invoice.deliverTo = this.original.deliverTo;
-    this.invoice.customer = this.original.customer;
+    this.invoice.deliverTo = original.deliverTo;
+    this.invoice.customer = original.customer;
     this.invoice.original = false;
     this.invoice.shipping = original.shipping;
     this.invoice.due = original.total;
     this.invoice.shippingInstructions = original.shippingInstructions;
+    this.invoice.listProductRequested = this.loadProductRequested(original);
+    this.invoice.listOrders = original.listOrders;
+    this.invoice.numberOriginal = original.number;
+    this.invoice.termsAndConditions = original.termsAndConditions;
+  }
+
+  loadProductRequested(original) {
+    let productReq = [];
     _.each(original.listProductRequested, function(pRequested) {
       const productR = new InvoiceSupplierProductRequested();
       productR.idProductRequested = pRequested.productRequested.idProductRequested;
@@ -202,11 +219,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
       productReq.push(productR);
     });
-
-    this.invoice.listProductRequested = productReq;
-    this.invoice.listOrders = original.listOrders;
-    this.invoice.numberOriginal = original.number;
-    this.invoice.termsAndConditions = original.termsAndConditions;
+    return productReq;
   }
 
   loadInvoiceFromOrder() {
@@ -375,16 +388,6 @@ export class GenerateInvoiceComponent implements OnInit {
     this.original.termsAndConditions = $event.target.value;
   }
 
-  updateDate() {
-    const date = new Date(this.invDate.year, this.invDate.month - 1, this.invDate.day);
-    this.invoice.date = date;
-  }
-
-  updateDueDate() {
-    const date = new Date(this.invDueDate.year, this.invDueDate.month - 1, this.invDueDate.day);
-    this.invoice.dueDate = date;
-  }
-
   updateNumber($event) {
     this.invoice.number = $event.target.value;
   }
@@ -394,6 +397,7 @@ export class GenerateInvoiceComponent implements OnInit {
   }
   updateCustomer($event) {
     this.invoice.customer = $event.target.value;
+    console.log('customer', this.invoice.customer);
   }
 
   sumNetAmount() {
@@ -408,6 +412,10 @@ export class GenerateInvoiceComponent implements OnInit {
 
   addItem() {
     const invSupplier = new InvoiceSupplierProductRequested();
+    invSupplier.netAmount = 0.00;
+    invSupplier.price = 0.00;
+    invSupplier.tax = 0.00;
+    invSupplier.quantity = 0;
     this.invoice.listProductRequested.push(invSupplier);
   }
 
@@ -415,29 +423,66 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.listProductRequested.slice(index, 1);
   }
 
+  updateDates() {
+    const date = new Date(this.invDate.year, this.invDate.month - 1, this.invDate.day);
+    this.invoice.date = date;
+    const ddate = new Date(this.invDueDate.year, this.invDueDate.month - 1, this.invDueDate.day);
+    this.invoice.dueDate = ddate;
+  }
+
+  verification() {
+    let cont = 0;
+    if (this.invDate != null && this.invDueDate != null) {
+      _.each(this.invoice.listProductRequested, function(pRequested) {
+        if (pRequested.idProductRequested == null) {
+          cont += 1;
+        }
+      });
+      if (cont > 0) {
+        this.verify = false;
+      } else {
+        this.verify = true;
+      }
+    } else {
+      this.verify = false;
+    }
+  }
+
   generateInvoice(send) {
     this.spinner.show();
-    let inv: Array<any> = new Array;
-    inv.push(this.original);
-    inv.push(this.invoice);
-    this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
-      res => {
-        if (res.code === CodeHttp.ok) {
-          this.close();
-          this.translate
-            .get('Successfully Generated', { value: 'Successfully Generated' })
-            .subscribe((res1: string) => {
-              this.notification.success('', res1);
-            });
-          this.spinner.hide();
-        } else {
-          this.spinner.hide();
-          console.log(res.code);
+    this.verification();
+    if (this.verify) {
+      this.updateDates();
+      let inv: Array<any> = new Array;
+      inv.push(this.original);
+      inv.push(this.invoice);
+      console.log('inv', inv);
+      this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
+        res => {
+          if (res.code === CodeHttp.ok) {
+            this.close();
+            this.translate
+              .get('Successfully Generated', { value: 'Successfully Generated' })
+              .subscribe((res1: string) => {
+                this.notification.success('', res1);
+              });
+            this.spinner.hide();
+          } else {
+            this.spinner.hide();
+            console.log(res.code);
+          }
+        },
+        error => {
+          console.log('error', error);
         }
-      },
-      error => {
-        console.log('error', error);
-      }
-    );
+      );
+    } else {
+      this.translate
+              .get('Verify changes', { value: 'Verify changes' })
+              .subscribe((res1: string) => {
+                this.notification.warning('', res1);
+              });
+            this.spinner.hide();
+    }
   }
 }
