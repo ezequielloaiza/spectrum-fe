@@ -83,13 +83,8 @@ export class GenerateInvoiceComponent implements OnInit {
             const invoices = res.data;
             console.log('invoices', invoices);
             if (invoices.length > 0) {
-              if (invoices.length == 1) {
-                this.original = invoices[0];
-                this.loadInvoiceFromOriginal(this.original);
-              } else {
-                this.original = invoices[0].original ? invoices[0] : invoices[1];
-                this.invoice = (invoices[0].original == false) ? invoices[0] : invoices[1];
-              }
+              this.original = invoices[0];
+              this.loadInvoiceFromOriginal(this.original);
               this.loadOrderNumbers();
             } else {
               this.loadInvoiceFromOrder();
@@ -211,8 +206,8 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.idProductRequested = pRequested.productRequested.idProductRequested;
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.urlImage;
-      productR.price = pRequested.productRequested.price;
-      productR.tax = pRequested.tax;
+      productR.price = pRequested.price == null ? pRequested.productRequested.price : pRequested.price;
+      productR.tax = pRequested.tax == null ? 0.00 : pRequested.tax;
       productR.netAmount = pRequested.netAmount == null ? (pRequested.productRequested.quantity * pRequested.productRequested.price) 
                         : pRequested.netAmount;
       productR.quantity = pRequested.productRequested.quantity;
@@ -251,7 +246,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.productRequested.urlImage;
       productR.price = pRequested.productRequested.price;
-      productR.tax = pRequested.tax;
+      productR.tax = pRequested.tax == null ? 0.00 : pRequested.tax;
       productR.netAmount =
         pRequested.productRequested.price *
         pRequested.productRequested.quantity;
@@ -397,7 +392,6 @@ export class GenerateInvoiceComponent implements OnInit {
   }
   updateCustomer($event) {
     this.invoice.customer = $event.target.value;
-    console.log('customer', this.invoice.customer);
   }
 
   sumNetAmount() {
@@ -478,7 +472,7 @@ export class GenerateInvoiceComponent implements OnInit {
       );
     } else {
       this.translate
-              .get('Verify changes', { value: 'Verify changes' })
+              .get('One or more items are not complete', { value: 'One or more items are not complete' })
               .subscribe((res1: string) => {
                 this.notification.warning('', res1);
               });

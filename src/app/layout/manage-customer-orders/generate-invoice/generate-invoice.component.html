@@ -202,7 +202,7 @@
                     placeholder="{{ 'Enter tax' | translate }}" required>
                 </div>
                 </td>
-              <td class="table-tr td-table" *ngIf="pilot" colspan="2">{{(productR.netAmount | currency )}}</td>
+              <td class="table-tr td-table td-align" *ngIf="pilot" colspan="2">{{(productR.netAmount | currency )}}</td>
               <td class="table-tr td-table" *ngIf="!pilot">
                 <div class="amount-div">
                   <div class="input-group-append">
@@ -212,9 +212,9 @@
                     placeholder="{{ 'Enter Net Amount' | translate }}" required>
                 </div>
               </td>
-            <td class="table-tr td-table hand-over" [hidden]="pilot">
+            <td class="table-tr td-table hand-over" *ngIf="!pilot">
               <span class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
-              <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete' | translate}}" (click)="removeItem()"></span>
+              <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete' | translate}}" (click)="removeItem(i)"></span>
             </td>
           </tr>
           </tbody>
@@ -333,11 +333,11 @@
     translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(0)" >{{ 'Save' |
+  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(0)" [disabled]="invDate == null || invDate == undefined || invDueDate == null || invDueDate == undefined">{{ 'Save' |
     translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
-  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1)" >{{ 'Save and
+  <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1)" [disabled]="invDate == null || invDate == undefined || invDueDate == null || invDueDate == undefined">{{ 'Save and
     Send' | translate }}&nbsp;
     <i class="fa fa-send"></i>
   </button>

@@ -75,8 +75,9 @@
 }
 .label-amount {
   text-align: right;
-  padding-right: 15px;
-  width: 150px;
+  width: 40%;
+  /*padding-right: 15px;
+  width: 150px;*/
 }
 
 .bold{
@@ -115,12 +116,23 @@
   vertical-align: middle;
 }
 
+.table > thead > tr > th:nth-child(5) {
+  text-align: center;
+}
+
+.td-align {
+  text-align: right;
+  padding-right: 10%;
+}
+
 .amount-div {
   display: inline-flex;
 }
 
 .amount-total {
   width: 50%;
+  text-align: right;
+  padding-right: 10%;
 }
 
 .align-row {
