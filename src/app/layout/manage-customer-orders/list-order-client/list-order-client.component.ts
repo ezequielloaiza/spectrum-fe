@@ -569,7 +569,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   generateInvoice(order) {
     let pilot = order.invoiceSupplier === null ? false : true;
     const modalRef = this.modalService.open(GenerateInvoiceComponent,
-    { size: 'lg', windowClass: 'modal-content-border modal-adaptive', backdrop  : 'static', keyboard  : false});
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.order = order;
     modalRef.componentInstance.pilot = pilot;
     if (pilot == true) {
