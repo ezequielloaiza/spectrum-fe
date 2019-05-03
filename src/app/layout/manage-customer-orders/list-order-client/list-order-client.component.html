@@ -119,6 +119,14 @@
                     <div>
                       <span>{{order? order.nameUser:''}}</span>
                     </div>
+                    <div *ngFor="let listDetails of order.listProductRequested">
+                      <div>
+                        <span *ngIf="listDetails.productRequested.patient != '' && listDetails.productRequested.patient != null">{{'Patient'| translate }}</span>
+                      </div>
+                      <div>
+                        <span>{{listDetails.productRequested ? listDetails.productRequested.patient:''}}</span>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-lg-2">
                     <div class="title-status">
