@@ -39,7 +39,7 @@ export class ProductsListInternalComponent implements OnInit {
   showFilterMarkennovy: any;
   listFilterMarkennovy = [ {replacementPeriod: 'All', mainImg: 'assets/images/suppliers/markennovy.png'},
                            {replacementPeriod: 'Monthly', mainImg: 'assets/images/suppliers/markennovy.png'},
-                           {replacementPeriod: 'Monthly Disponsable', mainImg: 'assets/images/suppliers/markennovy.png'},
+                           {replacementPeriod: 'Monthly Disposable', mainImg: 'assets/images/suppliers/markennovy.png'},
                            {replacementPeriod: '3-Monthly', mainImg: 'assets/images/suppliers/markennovy.png'},
                            {replacementPeriod: 'Conventional', mainImg: 'assets/images/suppliers/markennovy.png'} ];
 
@@ -148,13 +148,13 @@ export class ProductsListInternalComponent implements OnInit {
     if (productsXtensa.length) {
       this.productsMarkennovy.push({name:"Xtensa",
                                     mainImg:"assets/images/products/markennovy/xtensa.png",
-                                    replacementPeriod:"Monthly Disponsable",
+                                    replacementPeriod:"Monthly",
                                     father: "Xtensa"});
     }
     if (productsJade.length) {
       this.productsMarkennovy.push({name:"Jade",
                                     mainImg:"assets/images/products/markennovy/jade.png",
-                                    replacementPeriod:"Monthly Disponsable",
+                                    replacementPeriod:"Monthly Disposable",
                                     father: "Jade"});
     }
     if (productsSaphir.length) {
