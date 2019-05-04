@@ -1,0 +1,26 @@
+
+<app-page-header class="page-header-fixed" [heading]="'Protocol'" [icon]="'fa-edit'"></app-page-header>
+
+<div class="context">
+  <div class="menu">
+    <ul>
+      <li routerLink="/protocol/protocol-client" [routerLinkActive]="['router-link-active']">
+        <a>
+          <span>
+            {{ 'Protocol Client' | translate }}
+          </span>
+        </a>
+      </li>
+      <li routerLink="/protocol/protocol-proforma" [routerLinkActive]="['router-link-active']">
+        <a>
+          <span>
+            {{ 'Protocol Proforma' | translate }}
+          </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<section class="margin-left">
+  <router-outlet></router-outlet>
+</section>
