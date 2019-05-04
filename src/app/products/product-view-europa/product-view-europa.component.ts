@@ -801,6 +801,7 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   addToCart(type) {
+    this.type = type;
     this.spinner.show();
     this.productCopy = JSON.parse(JSON.stringify(this.product));
     this.saveFiles();
@@ -823,7 +824,6 @@ export class ProductViewEuropaComponent implements OnInit {
 
     // this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     // this.openModal(type);
-    this.type = type;
   }
 
   verifyOpenModal() {

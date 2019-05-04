@@ -482,6 +482,7 @@ export class ProductViewEuclidComponent implements OnInit {
   }
 
   addToCart(type) {
+    this.type = type;
     this.spinner.show();
     this.productCopy = JSON.parse(JSON.stringify(this.product));
     const productsRequested = [];
@@ -502,7 +503,6 @@ export class ProductViewEuclidComponent implements OnInit {
     this.basketRequestModal.idUser = this.client.idUser;
     this.basketRequestModal.productRequestedList = productsRequested;
    // this.openModal(type);
-   this.type = type;
   }
 
   verifyOpenModal() {
