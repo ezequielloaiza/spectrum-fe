@@ -1006,7 +1006,7 @@
     "Documents Right Eye": "Documentos Ojo Derecho",
     "Documents Left Eye (Topography, Tangential Map, etc.)": "Documentos Ojo Izquierdo (Topografía, Mapa Tangencial, etc.)",
     "Documents Right Eye (Topography, Tangential Map, etc.)": "Documentos Ojo Derecho (Topografía, Mapa Tangencial, etc.)",
-    "Enter order or client": "Ingrese orden o cliente",
+    "Enter order, client or patient": "Ingrese orden, cliente o paciente",
     "Bulk Payments": "Pagos Masivos",
     "Amount must be less or equal than total of invoices": "La cantidad debe ser menor o igual que el total de las facturas",
     "Invoices": "Facturas",
