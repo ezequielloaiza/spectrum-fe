@@ -704,7 +704,7 @@
     "Add to cart": "Add to cart",
     "Properties": "Properties",
     "Replacemente Period": "Replacemente Period",
-    "Customer Full Name": "Customer Full Name",
+    "Account Name": "Account Name",
     "General Parameters": "General Parameters",
     "Please specific your product": "Please specific your product",
     "Box": "Box",
@@ -954,5 +954,5 @@
     "Agency Code": "Agency Code",
     "Enter agency code": "Enter agency code",
     "The shipping company already exists": "The shipping company already exists",
-    "Monthly Disponsable": "Monthly Disponsable"
+    "Monthly Disposable": "Monthly Disposable"
 }

@@ -882,7 +882,7 @@
     "Add to cart": "Añadir a la Cesta",
     "Properties": "Propiedades",
     "Replacemente Period": "Período de Sustitución",
-    "Customer Full Name": "Nombre Completo del Cliente",
+    "Account Name": "Nombre cliente",
     "General Parameters": "Parámetros Generales",
     "Please specific your product": "Por favor especifica tu producto",
     "Box": "Caja",
@@ -1134,5 +1134,5 @@
     "Agency Code": "Código de Agencia",
     "Enter agency code": "Ingrese el código de agencia",
     "The shipping company already exists": "La empresa de envíos ya existe",
-    "Monthly Disponsable": "Mensual Descartable"
+    "Monthly Disposable": "Mensual Descartable"
 }
