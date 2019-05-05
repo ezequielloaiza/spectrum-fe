@@ -65,6 +65,7 @@
                   formControlName="businessName"
                   maxlength="254"
                   *ngIf="false"
+                  placeholder="{{ 'Enter business name' | translate }}"
                 />
                 <div *ngIf="true">
                   <span [ngClass]="{ unassigned: !protocol.businessName }">{{ protocol.businessName ? protocol.businessName :

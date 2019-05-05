@@ -1136,7 +1136,8 @@
     "The shipping company already exists": "La empresa de envíos ya existe",
     "Monthly Disponsable": "Mensual Descartable",
     "Unassigned": "Sin asignar",
-    "Protocol Client": "Protocolos de Cliente",
+
+    "Shipping's Protocols": "Protocolos de Cliente",
     "Protocol Proforma": "Protocolos de Proforma",
     "Spectrum Proforma": "Spectrum Proforma",
     "Additional Documents": "Documentos Adicionales",
@@ -1169,6 +1170,7 @@
     "Enter recipient": "Enter destinatario",
     "Enter shipping frecuency": "Enter frecuencia de envío",
     "Enter shipping method": "Enter método de envío",
+    "Enter shipping address": "Ingrese dirección de envío",
     "Enter shipping details": "Enter detalle de envío",
     "Enter account number for shipping carrier": "Enter número de cuenta del transportista",
     "Enter DMV": "Enter DMV"
