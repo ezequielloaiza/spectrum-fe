@@ -7,7 +7,7 @@
           <div class="border-tab" [formGroup]="protocolForm">
             <div class="text-right pb-3">
               <button type="button" class="btn btn-main mr-3" *ngIf="!edit" (click)="enableEdit()">{{ 'Edit' | translate }}
-                <i class="fa fa-download"></i>
+                <i class="fa fa-edit"></i>
               </button>
               <button type="button" class="btn btn-success btn-xs" *ngIf="!edit && protocol" (click)="downloadProtocol()">{{ 'Download PDF' | translate }}
                 <i class="fa fa-download"></i>
@@ -15,75 +15,39 @@
             </div>
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
-                <label>{{ 'Maximum Amount to Declare for Customs' | translate }}</label>
-                <div *ngIf="edit && editField" class="input-group-append">
-                  <span class="input-group-text">$</span>
-                  <input
-                    type="number"
-                    class="form-control"
-                    formControlName="maximumAmount"
-                    *ngIf="edit && editField"
-                    required
-                    placeholder="{{ 'Enter maximum amount' | translate }}"
-                  />
-                </div>
-                <div *ngIf="!edit || !editField">
-                  <span translate [ngClass]="{ unassigned: !protocol.maximumAmount }">{{ protocol.maximumAmount ? (protocol.maximumAmount | currency : "USD $") :
-                    'Unassigned' | translate
-                  }}</span>
-                </div>
-              </div>
-              <div class="form-group pr-3 half-flex">
-                <label>{{ 'Fixed Prices' | translate }}</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="fixedPrices"
-                  maxlength="254"
-                  required
-                  *ngIf="edit && editField"
-                  placeholder="{{ 'Enter fixed prices' | translate }}"
-                />
-                <div *ngIf="!edit || !editField">
-                  <span [ngClass]="{ unassigned: !protocol.fixedPrices }">{{ protocol.fixedPrices ? protocol.fixedPrices :
-                    'Unassigned' | translate
-                  }}</span>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex">
-              <div class="form-group pr-3 half-flex">
                 <label>{{ 'Spectrum Proforma' | translate }}</label>
-                <div *ngIf="edit" class="col col-xl-1 col-lg-1">
-                  <div class="custom-control custom-radio">
-                    <input type="radio" id="customRadio1" name="spectrumProforma" class="custom-control-input" (change)="assignSpectrumProforma(true)" [checked]="protocol ? protocol.spectrumProforma : false" required>
-                    <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
+                <div *ngIf="edit" class="mb-2 mr-sm-2 mb-sm-0">
+                  <div class="custom-control-inline">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" id="customRadio1" name="spectrumProforma" class="custom-control-input" (change)="assignSpectrumProforma(true)" [checked]="protocol ? protocol.spectrumProforma : false">
+                      <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                      <input style="margin-left: 10px;"  type="radio" id="customRadio2" name="spectrumProforma" class="custom-control-input" (change)="assignSpectrumProforma(false)" [checked]="protocol ? !protocol.spectrumProforma : true">
+                      <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
+                    </div>
                   </div>
                 </div>
-                <div *ngIf="edit" class="col col-xl-1 col-lg-1">
-                  <div class="custom-control custom-radio">
-                    <input type="radio" id="customRadio2" name="spectrumProforma" class="custom-control-input" (change)="assignSpectrumProforma(false)" [checked]="protocol ? !protocol.spectrumProforma : true" required>
-                    <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
-                  </div>
+                <div *ngIf="!edit && protocol.spectrumProforma === true">
+                  <span translate>{{ 'Yes' }}</span>
                 </div>
-                <div *ngIf="!edit">
-                  <span translate [ngClass]="{ unassigned: !protocol.spectrumProforma }">{{ protocol.spectrumProforma ? protocol.spectrumProforma == true ? 'Yes' : 'No' :
-                    'Unassigned' | translate
-                  }}</span>
+                <div *ngIf="!edit && protocol.spectrumProforma === false">
+                  <span translate>{{ 'No' | translate }}</span>
+                </div>
+                <div *ngIf="!edit && protocol.spectrumProforma !== true && protocol.spectrumProforma !== false">
+                  <span translate>{{ 'Unassigned' | translate }}</span>
                 </div>
               </div>
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Additional Documents' | translate }}</label>
                 <div>
-                  <input
+                  <textarea style="overflow-x: hidden;"
                     type="text"
                     class="form-control"
                     formControlName="additionalDocuments"
-                    maxlength="254"
                     placeholder="{{ 'Enter additional documents' | translate }}"
                     *ngIf="edit"
-                    required
-                  />
+                  ></textarea>
                 </div>
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.additionalDocuments }">{{ protocol.additionalDocuments ? protocol.additionalDocuments :
@@ -94,15 +58,14 @@
             </div>
             <div *ngIf="viewField" class="d-flex">
               <div class="form-group pr-3 half-flex">
-                <label>{{ 'Outputs' | translate }}</label>
+                <label>{{ 'Outputs (Send information to Spectrum team)' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="outputs"
                   maxlength="254"
                   *ngIf="edit"
-                  required
-                  placeholder="{{ 'Enter outputs' | translate }}"
+                  placeholder="{{ 'Enter outputs (send information to Spectrum team)' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.outputs }">{{ protocol.outputs ? protocol.outputs :
@@ -111,15 +74,14 @@
                 </div>
               </div>
               <div class="form-group pr-3 half-flex">
-                <label>{{ 'Protocol Spectrum' | translate }}</label>
+                <label>{{ 'Protocol From Spectrum' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="protocolSpectrum"
                   maxlength="254"
                   *ngIf="edit"
-                  required
-                  placeholder="{{ 'Enter protocol spectrum' | translate }}"
+                  placeholder="{{ 'Enter protocol from spectrum' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.protocolSpectrum }">{{ protocol.protocolSpectrum ? protocol.protocolSpectrum :
@@ -130,33 +92,65 @@
             </div>
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
-                <label>{{ 'Documentation' | translate }}</label>
-                <input
+                <label>{{ 'Maximum Amount to Declare' | translate }}</label>
+                <div *ngIf="edit && editField" class="input-group-append">
+                  <span class="input-group-text">$</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="maximumAmount"
+                    *ngIf="edit && editField"
+                    placeholder="{{ 'Enter maximum amount to declare' | translate }}"
+                  />
+                </div>
+                <div *ngIf="!edit || !editField">
+                  <span translate [ngClass]="{ unassigned: !protocol.maximumAmount }">{{ protocol.maximumAmount ? (protocol.maximumAmount | currency : "USD $") :
+                    'Unassigned' | translate
+                  }}</span>
+                </div>
+              </div>
+              <div class="form-group pr-3 half-flex">
+                <label>{{ 'Documentation that must accompany the delivery and proforma invoice' | translate }}</label>
+                <textarea style="overflow-x: hidden;"
                   type="text"
                   class="form-control"
                   formControlName="documentation"
-                  maxlength="254"
                   *ngIf="edit"
-                  placeholder="{{ 'Enter documentation' | translate }}"
-                  required
-                />
+                  placeholder="{{ 'Enter documentation that must accompany the delivery and proforma invoice' | translate }}"
+                ></textarea>
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.documentation }">{{ protocol.documentation ? protocol.documentation :
                     'Unassigned' | translate
                   }}</span>
                 </div>
               </div>
+            </div>
+            <div class="d-flex">
               <div class="form-group pr-3 half-flex">
-                <label>{{ 'Comments' | translate }}</label>
+                <label>{{ 'Fixed Prices for Proforma Invoice' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
-                  formControlName="comments"
+                  formControlName="fixedPrices"
                   maxlength="254"
+                  *ngIf="edit && editField"
+                  placeholder="{{ 'Enter fixed prices for proforma invoice' | translate }}"
+                />
+                <div *ngIf="!edit || !editField">
+                  <span [ngClass]="{ unassigned: !protocol.fixedPrices }">{{ protocol.fixedPrices ? protocol.fixedPrices :
+                    'Unassigned' | translate
+                  }}</span>
+                </div>
+              </div>
+              <div class="form-group pr-3 half-flex">
+                <label>{{ 'Comments' | translate }}</label>
+                <textarea style="overflow-x: hidden;"
+                  type="text"
+                  class="form-control"
+                  formControlName="comments"
                   *ngIf="edit"
                   placeholder="{{ 'Enter comments' | translate }}"
-                  required
-                />
+                ></textarea>
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.comments }">{{ protocol.comments ? protocol.comments :
                     'Unassigned' | translate
@@ -167,15 +161,13 @@
             <div class="d-flex">
               <div *ngIf="viewField" class="form-group pr-3 half-flex">
                 <label>{{ 'Email Comments' | translate }}</label>
-                <input
+                <textarea style="overflow-x: hidden;"
                   type="text"
                   class="form-control"
                   formControlName="emailComment"
-                  maxlength="254"
                   *ngIf="edit"
-                  required
                   placeholder="{{ 'Enter email comments' | translate }}"
-                />
+                ></textarea>
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.emailComment }">{{ protocol.emailComment ? protocol.emailComment :
                     'Unassigned' | translate
@@ -191,7 +183,6 @@
                   maxlength="254"
                   *ngIf="edit"
                   placeholder="{{ 'Enter tariff codes' | translate }}"
-                  required
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.tariffCodes }">{{ protocol.tariffCodes ? protocol.tariffCodes :
@@ -208,7 +199,7 @@
                 type="button"
                 class="btn btn-main"
                 *ngIf="edit"
-                [disabled]="protocolForm.invalid"
+                [disabled]="saving"
                 (click)="update()"
               >{{ 'Save' | translate }}&nbsp;
                 <i class="fa fa-save"></i>
