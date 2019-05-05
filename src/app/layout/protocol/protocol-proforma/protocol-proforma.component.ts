@@ -100,6 +100,9 @@ export class ProtocolProformaComponent implements OnInit {
       this.setProtocol(this.protocol);
       this.edit = false;
       this.saving = false;
+      this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+        this.notification.success('', res);
+      });
     });
   }
 

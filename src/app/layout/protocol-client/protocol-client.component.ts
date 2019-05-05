@@ -6,6 +6,8 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserStorageService } from '../../http/user-storage.service';
 import { CountryService } from '../../shared/services';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-protocol-client',
@@ -24,6 +26,8 @@ export class ProtocolClientComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private supplierService: SupplierService,
+              private translate: TranslateService,
+              private notification: ToastrService,
               private protocolClientService: ProtocolClientService,
               private userStorageService: UserStorageService,
               private countryService: CountryService) { }
@@ -59,7 +63,7 @@ export class ProtocolClientComponent implements OnInit {
     this.supplierService.findAll$().subscribe(res => {
       this.suppliers = res.data;
       this.getProtocol(this.user.userResponse.idUser, this.suppliers[0].idSupplier);
-    })
+    });
   }
 
   getProtocol(clientId: any, supplierId: any) {
@@ -84,6 +88,9 @@ export class ProtocolClientComponent implements OnInit {
       this.setProtocol(this.protocol);
       this.edit = false;
       this.saving = false;
+      this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+        this.notification.success('', res);
+      });
     });
   }
 
