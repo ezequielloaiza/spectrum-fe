@@ -13,6 +13,7 @@ export class InvoiceSupplierProductRequested {
   public  netAmount: number;
   public  description: string;
   public  quantity: number;
+  public  delete: boolean;
 
     public constructor() { }
 

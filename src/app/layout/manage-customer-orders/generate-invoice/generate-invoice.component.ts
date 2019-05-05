@@ -212,6 +212,7 @@ export class GenerateInvoiceComponent implements OnInit {
                         : pRequested.netAmount;
       productR.quantity = pRequested.productRequested.quantity;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
+      productR.delete = false;
       productReq.push(productR);
     });
     return productReq;
@@ -257,6 +258,7 @@ export class GenerateInvoiceComponent implements OnInit {
         pRequested.productRequested.product.name : '') + ' ' + (pRequested.productRequested.product.material !== null ?
           pRequested.productRequested.product.material : '');
       productR.description = code + name;
+      productR.delete = false;
       productReq.push(productR);
     });
 
@@ -274,6 +276,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invDate = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
     this.original.dueDate = this.dueDate;
     const dueDate = new Date(this.original.date);
+    dueDate.setDate(dueDate.getDate() + 30);
     this.invDueDate = {year: dueDate.getUTCFullYear(), month: dueDate.getMonth() + 1, day: dueDate.getDate()};
     this.original.user = order.user;
     this.original.number = order.number;
@@ -305,6 +308,7 @@ export class GenerateInvoiceComponent implements OnInit {
         pRequested.productRequested.product.name : '') + ' ' + (pRequested.productRequested.product.material !== null ?
           pRequested.productRequested.product.material : '');
       productR.description = code + name;
+      productR.delete = false;
       productReq.push(productR);
     });
 
@@ -358,6 +362,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateShipping($event) {
     this.invoice.shipping = $event.target.value;
+    this.sumNetAmount();
   }
 
   updateTotal($event) {
@@ -375,12 +380,10 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateInstructions($event) {
     this.invoice.shippingInstructions = $event.target.value;
-    this.original.shippingInstructions = $event.target.value;
   }
 
   updateTerms($event) {
     this.invoice.termsAndConditions = $event.target.value;
-    this.original.termsAndConditions = $event.target.value;
   }
 
   updateNumber($event) {
@@ -400,8 +403,8 @@ export class GenerateInvoiceComponent implements OnInit {
       sum += pRequested.netAmount;
     });
     this.invoice.subtotal = sum;
-    this.invoice.total = sum + this.invoice.shipping;
-    this.invoice.due = sum + this.invoice.shipping;
+    this.invoice.total = Number(sum) + Number(this.invoice.shipping);
+    this.invoice.due = Number(sum) + Number(this.invoice.shipping);
   }
 
   addItem() {
@@ -414,7 +417,11 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   removeItem(index) {
-    this.invoice.listProductRequested.slice(index, 1);
+    if (this.invoice.listProductRequested[index].idProductRequested == null) {
+      this.invoice.listProductRequested.splice(index, 1);
+    } else {
+      this.invoice.listProductRequested[index].delete = true;
+    }
   }
 
   updateDates() {
