@@ -191,6 +191,7 @@ export class ProtocolProformaComponent implements OnInit {
   assignSpectrumProforma(value: number) { this.protocolForm.get('spectrumProforma').setValue(value); }
 
   downloadProtocol() {
+    this.spinner.show();
     this.protocolProformaService.reportProtocolById$(this.protocol.id, this.user.role.idRole).subscribe(res => {
       const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
         day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes()};
