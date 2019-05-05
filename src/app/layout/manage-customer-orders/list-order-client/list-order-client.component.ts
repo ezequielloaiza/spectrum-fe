@@ -234,13 +234,19 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         && _.toString(this.valorProduct) === '') { // Si no ha seleccionado status y fecha
         this.listOrders = this.listOrders.filter((item) => {
           return ((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
-            (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1));
+            (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.listProductRequested.find((pR) => {
+              return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
+            }))) ;
         });
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
         && _.toString(this.valorProduct) !== '') {// si selecciono status y no fecha ni cliente
         this.listOrders = this.listOrders.filter((item) => {
           return (((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
-            (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1))
+            (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.listProductRequested.find((pR) => {
+              return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
+            })))
             && (item.listProductRequested.find((pR) => {
               return (pR.productRequested.product.name.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1);
             })));
@@ -305,7 +311,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         this.listOrders = this.listOrders.filter((item) => {
           return item.listProductRequested.find((pR) => {
             return (((item.nameUser.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
-            (item.number.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1))
+            (item.number.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
+            pR.productRequested.patient.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1)
             && (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1));
           });
         });
@@ -359,7 +366,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) &&
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+        }))) &&
         (orders.listProductRequested.find((pR) => {
           return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
         }))) &&
@@ -400,7 +409,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())))) &&
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) ||
+        (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+        })) ) &&
         // tslint:disable-next-line:radix
         ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
@@ -413,7 +425,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const lista = [];
     _.filter(this.listOrdersAux, function (orders) {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) &&
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+        }))) &&
         (orders.listProductRequested.find((pR) => {
           return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
         // tslint:disable-next-line:radix
@@ -428,7 +442,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const lista = [];
     _.filter(this.listOrdersAux, function (orders) {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) &&
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+        }))) &&
         // tslint:disable-next-line:radix
         (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
@@ -459,7 +476,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ) &&
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+        }))) &&
         (orders.listProductRequested.find((pR) => {
           return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
         ((_.isEqual(fecha, fechaList)))) {
@@ -478,7 +498,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) &&
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+         (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+        }))) &&
         ((_.isEqual(fecha, fechaList)))) {
         lista.push(orders);
       }

@@ -22,7 +22,7 @@ import * as _ from 'lodash';
 export class ShippingAddressModalComponent implements OnInit {
 
   form: FormGroup;
-  companies: Array<any>;
+  companies: any;
   address: any;
   action: string;
   searching = false;
@@ -32,6 +32,7 @@ export class ShippingAddressModalComponent implements OnInit {
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
   locale: any;
+  companyName: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -48,7 +49,7 @@ export class ShippingAddressModalComponent implements OnInit {
   initializeForm() {
     this.form = this.formBuilder.group({
       id        : [this.action === 'edit' ? this.address.idAddress : ''],
-      companyId : [this.action === 'edit' ? this.address.company.idCompany : '', [ Validators.required]],
+      companyId : [this.action === 'edit' ? this.address.company.idCompany : '', []],
       name      : [this.action === 'edit' ? this.address.name : '', [ Validators.required]],
       state     : [this.action === 'edit' ? this.address.state : ''],
       countryId   : [this.action === 'edit' && this.address.country ? this.address.country.idCountry : '', [ Validators.required]],
@@ -84,6 +85,7 @@ export class ShippingAddressModalComponent implements OnInit {
     )
 
   save(): void {
+    this.form.get('companyId').setValue(this.companies.idCompany);
     if (this.form.get('city').value.description) {
       this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.address.city);
     }
@@ -129,7 +131,8 @@ export class ShippingAddressModalComponent implements OnInit {
   getCompanies() {
     this.companyService.findAllByCompany$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.companies = res.data;
+        this.companies = res.data[0];
+        this.companyName = this.companies.companyName;
       } else {
         console.log(res.errors[0].detail);
       }
