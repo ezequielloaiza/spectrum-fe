@@ -91,6 +91,8 @@ import { EntrustingCompanyComponent } from './entrusting-company/entrusting-comp
 import { EntrustingCompanyModalComponent } from './entrusting-company/modals/entrusting-company-modal/entrusting-company-modal.component';
 import { ProtocolClientComponent } from './protocol-client/protocol-client.component';
 import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/shipping-protocol.component';
+import { ProtocolComponent } from './protocol/protocol.component';
+import { ProtocolProformaComponent } from './protocol/protocol-proforma/protocol-proforma.component';
 
 @NgModule({
     imports: [
@@ -189,7 +191,9 @@ import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/
         EntrustingCompanyComponent,
         EntrustingCompanyModalComponent,
         ProtocolClientComponent,
-        ShippingProtocolComponent
+        ShippingProtocolComponent,
+        ProtocolComponent,
+        ProtocolProformaComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
