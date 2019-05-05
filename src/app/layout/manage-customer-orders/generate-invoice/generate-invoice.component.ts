@@ -110,7 +110,7 @@ export class GenerateInvoiceComponent implements OnInit {
               if (invoices.length > 0) {
                 this.original = invoices[0];
                 this.loadOrderNumbers();
-                this.invoice.listProductRequested = this.loadProductRequested(this.invoice);
+                this.invoice.listProductRequested = this.loadProductRequestedFromInvoice(this.invoice);
               }
             } else {
               console.log(res.code);
@@ -193,24 +193,24 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.shipping = original.shipping;
     this.invoice.due = original.total;
     this.invoice.shippingInstructions = original.shippingInstructions;
-    this.invoice.listProductRequested = this.loadProductRequested(original);
+    this.invoice.listProductRequested = this.loadProductRequestedFromInvoice(original);
     this.invoice.listOrders = original.listOrders;
     this.invoice.numberOriginal = original.number;
     this.invoice.termsAndConditions = original.termsAndConditions;
   }
 
-  loadProductRequested(original) {
+  loadProductRequestedFromInvoice(original) {
     let productReq = [];
     _.each(original.listProductRequested, function(pRequested) {
       const productR = new InvoiceSupplierProductRequested();
+      productR.idInvoiceProductRequested = pRequested.idInvoiceProductRequested;
       productR.idProductRequested = pRequested.productRequested.idProductRequested;
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.urlImage;
       productR.price = pRequested.price == null ? pRequested.productRequested.price : pRequested.price;
       productR.tax = pRequested.tax == null ? 0.00 : pRequested.tax;
-      productR.netAmount = pRequested.netAmount == null ? (pRequested.productRequested.quantity * pRequested.productRequested.price) 
-                        : pRequested.netAmount;
-      productR.quantity = pRequested.productRequested.quantity;
+      productR.quantity = pRequested.quantity == null ? pRequested.productRequested.quantity : pRequested.quantity;
+      productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
       productR.delete = false;
       productReq.push(productR);
@@ -218,8 +218,32 @@ export class GenerateInvoiceComponent implements OnInit {
     return productReq;
   }
 
-  loadInvoiceFromOrder() {
+  loadProductRequestedFromOrder(order) {
     let productReq = [];
+    _.each(order.listProductRequested, function(pRequested) {
+      const productR = new InvoiceSupplierProductRequested();
+      productR.idProductRequested = pRequested.productRequested.idProductRequested;
+      productR.productRequested = pRequested.productRequested;
+      productR.urlImage = pRequested.productRequested.urlImage;
+      productR.price = pRequested.productRequested.price;
+      productR.tax = pRequested.tax == null ? 0.00 : pRequested.tax;
+      productR.netAmount =
+        pRequested.productRequested.price *
+        pRequested.productRequested.quantity;
+      productR.quantity = pRequested.productRequested.quantity;
+      // tslint:disable-next-line:max-line-length
+      const code = (pRequested.productRequested.product.code != null ? pRequested.productRequested.product.code : pRequested.productRequested.product.name);
+      const name = (pRequested.productRequested.product.code !== null ?
+        pRequested.productRequested.product.name : '') + ' ' + (pRequested.productRequested.product.material !== null ?
+          pRequested.productRequested.product.material : '');
+      productR.description = code + name;
+      productR.delete = false;
+      productReq.push(productR);
+    });
+    return productReq;
+  }
+
+  loadInvoiceFromOrder() {
     this.invoice.address = this.order.address;
     this.invoice.idAddress = this.order.address.idAddress;
     this.invoice.date = this.today;
@@ -241,34 +265,12 @@ export class GenerateInvoiceComponent implements OnInit {
    // const ship = 0;
     this.invoice.shipping = this.order.shippingPrice;
     this.invoice.due = this.order.total;
-    _.each(this.order.listProductRequested, function(pRequested) {
-      const productR = new InvoiceSupplierProductRequested();
-      productR.idProductRequested = pRequested.productRequested.idProductRequested;
-      productR.productRequested = pRequested.productRequested;
-      productR.urlImage = pRequested.productRequested.urlImage;
-      productR.price = pRequested.productRequested.price;
-      productR.tax = pRequested.tax == null ? 0.00 : pRequested.tax;
-      productR.netAmount =
-        pRequested.productRequested.price *
-        pRequested.productRequested.quantity;
-      productR.quantity = pRequested.productRequested.quantity;
-      // tslint:disable-next-line:max-line-length
-      const code = (pRequested.productRequested.product.code != null ? pRequested.productRequested.product.code : pRequested.productRequested.product.name);
-      const name = (pRequested.productRequested.product.code !== null ?
-        pRequested.productRequested.product.name : '') + ' ' + (pRequested.productRequested.product.material !== null ?
-          pRequested.productRequested.product.material : '');
-      productR.description = code + name;
-      productR.delete = false;
-      productReq.push(productR);
-    });
-
-    this.invoice.listProductRequested = productReq;
+    this.invoice.listProductRequested = this.loadProductRequestedFromOrder(this.order);
     this.original.termsAndConditions = 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference';
     this.loadOriginalFromOrder(this.order);
   }
 
   loadOriginalFromOrder(order) {
-    let productReq = [];
     this.original.address = order.address;
     this.original.idAddress = order.address.idAddress;
     this.original.date = this.today;
@@ -291,28 +293,7 @@ export class GenerateInvoiceComponent implements OnInit {
    // const ship = 0;
     this.original.shipping = order.shippingPrice;
     this.original.due = order.total;
-    _.each(order.listProductRequested, function(pRequested) {
-      const productR = new InvoiceSupplierProductRequested();
-      productR.idProductRequested = pRequested.productRequested.idProductRequested;
-      productR.productRequested = pRequested.productRequested;
-      productR.urlImage = pRequested.productRequested.urlImage;
-      productR.price = pRequested.productRequested.price;
-      productR.tax = pRequested.tax;
-      productR.netAmount =
-        pRequested.productRequested.price *
-        pRequested.productRequested.quantity;
-      productR.quantity = pRequested.productRequested.quantity;
-      // tslint:disable-next-line:max-line-length
-      const code = (pRequested.productRequested.product.code != null ? pRequested.productRequested.product.code : pRequested.productRequested.product.name);
-      const name = (pRequested.productRequested.product.code !== null ?
-        pRequested.productRequested.product.name : '') + ' ' + (pRequested.productRequested.product.material !== null ?
-          pRequested.productRequested.product.material : '');
-      productR.description = code + name;
-      productR.delete = false;
-      productReq.push(productR);
-    });
-
-    this.original.listProductRequested = productReq;
+    this.original.listProductRequested = this.loadProductRequestedFromOrder(order);
     this.invoice.numberOriginal = this.original.number;
     this.original.termsAndConditions = 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference';
   }
@@ -400,7 +381,9 @@ export class GenerateInvoiceComponent implements OnInit {
   sumNetAmount() {
     let sum = 0;
     _.each(this.invoice.listProductRequested, function(pRequested) {
-      sum += pRequested.netAmount;
+      if (!pRequested.delete) {
+        sum += pRequested.netAmount;
+      }
     });
     this.invoice.subtotal = sum;
     this.invoice.total = Number(sum) + Number(this.invoice.shipping);
@@ -417,11 +400,12 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   removeItem(index) {
-    if (this.invoice.listProductRequested[index].idProductRequested == null) {
+    if (this.invoice.listProductRequested[index].idInvoiceProductRequested == null) {
       this.invoice.listProductRequested.splice(index, 1);
     } else {
       this.invoice.listProductRequested[index].delete = true;
     }
+    this.sumNetAmount();
   }
 
   updateDates() {
@@ -485,5 +469,28 @@ export class GenerateInvoiceComponent implements OnInit {
               });
             this.spinner.hide();
     }
+  }
+
+  sendInvoice() {
+    this.spinner.show();
+    this.invoiceService.sendInvoice$(this.invoice.idInvoice).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          this.close();
+          this.translate
+            .get('Successfully Send', { value: 'Successfully Send' })
+            .subscribe((res1: string) => {
+              this.notification.success('', res1);
+            });
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    );
   }
 }
