@@ -3,7 +3,7 @@
       <div class="col-sm-12">
         <br>
         <div class="form-options">
-          <span class="sp-title">{{ 'Shipping Protocols' | translate }}</span>
+          <span class="sp-title">{{ 'Shippings Protocols' | translate }}</span>
           <button class="btn btn-main" (click)="edit()" [hidden]="modeEdit">{{ 'Edit' | translate }}&nbsp;
             <i class="fa fa-edit"></i>
           </button>
@@ -18,14 +18,25 @@
                   <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{ 'Add new value' | translate }}" (click)="addValue(protocol)"></span>
                 </div>
               </div>
-              
+
               <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let value of protocol.values; let pos = index">
                 <!-- READ VALUE -->
                 <span [hidden]="modeEdit">{{ value.content }}</span>
 
                 <!-- WRITE VALUE -->
                 <div class="input-value">
-                  <input [hidden]="!modeEdit" class="form-control" placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content" required>
+                  <input *ngIf="protocol.label === 'ACC Number' || protocol.label === 'Business Name' || protocol.label === 'Recipient' || protocol.label === 'Acount Number' || protocol.label === 'Shipping Method'"
+                    type="text"
+                    [hidden]="!modeEdit"
+                    class="form-control"
+                    placeholder="{{ protocol.placeHolder | translate }}"
+                    [(ngModel)]="value.content" required>
+                  <textarea *ngIf="protocol.label === 'Shipping Address' || protocol.label === 'Comments' || protocol.label === 'Email Comments' || protocol.label === 'Shipping Details'"
+                    style="overflow-x: hidden;"
+                    type="text"
+                    class="form-control"
+                    placeholder="{{ protocol.placeHolder | translate }}"
+                  ></textarea>
                   <div class="col-md-1 hand-over" [hidden]="protocol.values.length === 1">
                     <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete protocol value' | translate}}" (click)="removeValue(protocol, pos)"></span>
                   </div>
@@ -44,7 +55,7 @@
                       </ul>
                     </div>
                   </div>
-                </div>                  
+                </div>
               </div>
             </fieldset>
             <!--
@@ -85,4 +96,3 @@
       </div>
     </div>
   </div>
-  

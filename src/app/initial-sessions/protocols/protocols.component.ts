@@ -34,7 +34,7 @@ export class ProtocolsComponent implements OnInit {
     this.protocols = [
       {label: 'ACC Number'        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
       {label: 'Country'           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
-      {label: 'Businness Name'    , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
+      {label: 'Business Name'    , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
       {label: 'Recipient'         , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Recipient'},
       {label: 'Shipping Address'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address'},
       {label: 'Shipping Frecuency', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency'},
