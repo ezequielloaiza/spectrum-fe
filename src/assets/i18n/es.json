@@ -1136,7 +1136,6 @@
     "The shipping company already exists": "La empresa de envíos ya existe",
     "Monthly Disponsable": "Mensual Descartable",
     "Unassigned": "Sin asignar",
-
     "Shipping's Protocols": "Protocolos de Cliente",
     "Protocol Proforma": "Protocolos de Proforma",
     "Spectrum Proforma": "Spectrum Proforma",
@@ -1173,5 +1172,9 @@
     "Enter shipping address": "Ingrese dirección de envío",
     "Enter shipping details": "Enter detalle de envío",
     "Enter account number for shipping carrier": "Enter número de cuenta del transportista",
-    "Enter DMV": "Enter DMV"
+    "Enter DMV": "Enter DMV",
+    "Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference":"Neto 30, Tarifa de 3.5% para pagos de CC, Gracias por su confianza y preferencia",
+    "Original": "Original",
+    "Copy": "Copia",
+    "One or more items are not complete": "Uno o más items no están completos"
 }

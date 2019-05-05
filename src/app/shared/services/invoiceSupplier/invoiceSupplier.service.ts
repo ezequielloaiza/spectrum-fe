@@ -31,4 +31,8 @@ export class InvoiceSupplierService {
       responseType: 'blob'
     });
   }
+
+  public findByNumberAndOriginal$(number): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesSupplier/findByNumberAndOriginal/' + number);
+  }
 }

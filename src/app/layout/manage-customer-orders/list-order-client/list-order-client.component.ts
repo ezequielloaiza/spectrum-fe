@@ -595,6 +595,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.order = order;
     modalRef.componentInstance.pilot = pilot;
+    if (pilot == true) {
+      modalRef.componentInstance.invoice = order.invoiceSupplier;
+      modalRef.componentInstance.original = order.invoiceSupplier;
+    }
     modalRef.result.then((result) => {
       this.getListOrders();
     }, (reason) => {

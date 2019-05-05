@@ -992,5 +992,9 @@
     "Enter shipping method": "Enter shipping method",
     "Enter shipping details": "Enter shipping details",
     "Enter account number for shipping carrier": "Enter account number for shipping carrier",
-    "Enter DMV": "Enter DMV"
+    "Enter DMV": "Enter DMV",
+    "Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference": "Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference",
+    "Original": "Original",
+    "Copy": "Copy",
+    "One or more items are not complete": "One or more items are not complete"
 }
