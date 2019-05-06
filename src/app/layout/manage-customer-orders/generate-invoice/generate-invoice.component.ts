@@ -35,6 +35,7 @@ export class GenerateInvoiceComponent implements OnInit {
   titleModal: any;
   ordersNumber: any;
   verify: any;
+  allDelete: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -62,6 +63,7 @@ export class GenerateInvoiceComponent implements OnInit {
             });
     this.loadOrderNumbers();
     this.verify = false;
+    this.allDelete = false;
   }
 
   initializeForm() {
@@ -102,7 +104,6 @@ export class GenerateInvoiceComponent implements OnInit {
         this.loadInvoiceFromOriginal(this.original);
         this.loadOrderNumbers();
       } else {
-        console.log('invoice', this.invoice);
         this.invoiceService.findByNumberAndOriginal$(this.invoice.numberOriginal).subscribe(
           res => {
             if (res.code === CodeHttp.ok) {
@@ -193,7 +194,25 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.shipping = original.shipping;
     this.invoice.due = original.total;
     this.invoice.shippingInstructions = original.shippingInstructions;
-    this.invoice.listProductRequested = this.loadProductRequestedFromInvoice(original);
+    let productReq = [];
+    const version = original.original;
+    _.each(original.listProductRequested, function(pRequested) {
+      let productR = new InvoiceSupplierProductRequested();
+      if (!version) {
+        productR.idInvoiceProductRequested = pRequested.idInvoiceProductRequested;
+      }
+      productR.idProductRequested = pRequested.productRequested.idProductRequested;
+      productR.productRequested = pRequested.productRequested;
+      productR.urlImage = pRequested.urlImage;
+      productR.price = pRequested.price == null ? pRequested.productRequested.price : pRequested.price;
+      productR.tax = pRequested.tax == null ? 0.00 : pRequested.tax;
+      productR.quantity = pRequested.quantity == null ? pRequested.productRequested.quantity : pRequested.quantity;
+      productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
+      productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
+      productR.delete = false;
+      productReq.push(productR);
+    });
+    this.invoice.listProductRequested = productReq;
     this.invoice.listOrders = original.listOrders;
     this.invoice.numberOriginal = original.number;
     this.invoice.termsAndConditions = original.termsAndConditions;
@@ -201,9 +220,12 @@ export class GenerateInvoiceComponent implements OnInit {
 
   loadProductRequestedFromInvoice(original) {
     let productReq = [];
+    const version = original.original;
     _.each(original.listProductRequested, function(pRequested) {
-      const productR = new InvoiceSupplierProductRequested();
-      productR.idInvoiceProductRequested = pRequested.idInvoiceProductRequested;
+      let productR = new InvoiceSupplierProductRequested();
+      if (!version) {
+        productR.idInvoiceProductRequested = pRequested.idInvoiceProductRequested;
+      }
       productR.idProductRequested = pRequested.productRequested.idProductRequested;
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.urlImage;
@@ -379,12 +401,17 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   sumNetAmount() {
-    let sum = 0;
+    let sum = 0, cont = 0;
     _.each(this.invoice.listProductRequested, function(pRequested) {
       if (!pRequested.delete) {
         sum += pRequested.netAmount;
+      } else {
+        cont ++;
       }
     });
+    if (cont == this.invoice.listProductRequested.length) {
+      this.allDelete = true;
+    }
     this.invoice.subtotal = sum;
     this.invoice.total = Number(sum) + Number(this.invoice.shipping);
     this.invoice.due = Number(sum) + Number(this.invoice.shipping);
@@ -396,7 +423,11 @@ export class GenerateInvoiceComponent implements OnInit {
     invSupplier.price = 0.00;
     invSupplier.tax = 0.00;
     invSupplier.quantity = 0;
+    invSupplier.delete = false;
     this.invoice.listProductRequested.push(invSupplier);
+    if (this.allDelete) {
+      this.allDelete = false;
+    }
   }
 
   removeItem(index) {
