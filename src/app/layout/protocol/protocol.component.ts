@@ -13,7 +13,6 @@ export class ProtocolComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id');
   }
 
 }

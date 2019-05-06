@@ -89,7 +89,7 @@ export class ProtocolProformaComponent implements OnInit {
   getProtocol(clientId: any, supplierId: any) {
     this.protocolProformaService.findByClienSupplier$(clientId, supplierId).subscribe(res => {
       this.protocol = res;
-      if (this.protocol.id !== null) {
+      if (res.id !== null) {
         this.download = true;
       } else {
         this.download = false;
@@ -107,7 +107,8 @@ export class ProtocolProformaComponent implements OnInit {
     }
     this.protocolProformaService.update$(this.protocolForm.value).subscribe(res => {
       this.protocol = res;
-      this.setProtocol(this.protocol);
+      this.download = true;
+      this.setProtocol(res);
       this.edit = false;
       this.saving = false;
       this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
@@ -127,12 +128,18 @@ export class ProtocolProformaComponent implements OnInit {
 
   beforeChangeProforma($event: NgbTabChangeEvent) {
     if ($event.activeId !== $event.nextId) {
-      this.cancel();
+      // this.cancel();
+      this.edit = false;
       this.getProtocol(this.idClient, $event.nextId);
     }
   }
 
   setProtocol(protocol: ProtocolProforma) {
+    if (protocol.id !== null) {
+      this.download = true;
+    } else {
+      this.download = false;
+    }
     this.id.setValue(protocol.id);
     this.spectrumProforma.setValue(protocol.spectrumProforma);
     this.additionalDocuments.setValue(protocol.additionalDocuments);
