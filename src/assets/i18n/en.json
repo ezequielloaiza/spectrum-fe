@@ -977,7 +977,7 @@
     "Enter comments": "Enter comments",
     "Enter tariff codes": "Enter tariff codes",
     "ACC Number": "ACC Number",
-    "Businness Name": "Businness Name",
+    "Business Name": "Business Name",
     "Recipient": "Recipient",
     "Shipping Frecuency": "Shipping Frecuency",
     "Shipping Method": "Shipping Method",
@@ -985,12 +985,13 @@
     "Account Number for Shipping Carrier": "Account Number for Shipping Carrier",
     "DMV": "DMV",
     "Enter ACC number": "Enter ACC number",
-    "Enter businness name": "Enter businness name",
+    "Enter business name": "Enter business name",
     "Enter recipient": "Enter recipient",
     "Enter shipping frecuency": "Enter shipping frecuency",
     "Enter shipping address": "Enter shipping address",
     "Enter shipping method": "Enter shipping method",
     "Enter shipping details": "Enter shipping details",
     "Enter account number for shipping carrier": "Enter account number for shipping carrier",
-    "Enter DMV": "Enter DMV"
+    "Enter DMV": "Enter DMV",
+    "Protocols": "Protocols"
 }
