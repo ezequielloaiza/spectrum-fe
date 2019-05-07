@@ -18,10 +18,10 @@
                   class="form-control"
                   formControlName="accNumber"
                   maxlength="254"
-                  *ngIf="false"
+                  *ngIf="edit"
                   placeholder="{{ 'Enter ACC number' | translate }}"
                 />
-                <div>
+                <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.accNumber }">{{ protocol.accNumber ? protocol.accNumber :
                     'Unassigned'
                   }}</span>
@@ -36,7 +36,7 @@
                     bindValue="idCountry"
                     bindLabel="name"
                     formControlName="country"
-                    *ngIf="false"
+                    *ngIf="edit"
                     placeholder="{{ 'Enter country' | translate }}"
                   >
                     <ng-template ng-label-tmp let-item="item">
@@ -51,7 +51,7 @@
                     </ng-template>
                   </ng-select>
                 </div>
-                <div *ngIf="true">
+                <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.countryName }">{{ protocol.countryName ? protocol.countryName :
                     'Unassigned'
                   }}</span>
@@ -66,10 +66,10 @@
                   class="form-control"
                   formControlName="businessName"
                   maxlength="254"
-                  *ngIf="false"
+                  *ngIf="edit"
                   placeholder="{{ 'Enter business name' | translate }}"
                 />
-                <div *ngIf="true">
+                <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.businessName }">{{ protocol.businessName ? protocol.businessName :
                     'Unassigned'
                   }}</span>
