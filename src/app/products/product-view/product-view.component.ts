@@ -115,6 +115,7 @@ export class ProductViewComponent implements OnInit {
     this.product.priceSale = '';
     this.setClient();
     this.setPrice();
+    this.addSigno();
   }
 
   changeSelect(eye, parameter, value) {
@@ -250,7 +251,7 @@ export class ProductViewComponent implements OnInit {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
         _.each(product.parametersRight, function(parameter, index) {
-          product.parametersRight[index] = _.omit(parameter, ['type', 'values']);
+          product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersRight;
       }
@@ -259,13 +260,13 @@ export class ProductViewComponent implements OnInit {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
         _.each(product.parametersLeft, function(parameter, index) {
-          product.parametersLeft[index] = _.omit(parameter, ['type', 'values']);
+          product.parametersLeft[index] = _.omit(parameter, ['type', 'values' , 'sel']);
         });
         productSelected.parameters = product.parametersLeft;
       }
 
       productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
-      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye'])
+      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye']);
     });
 
     return productsSelected;
@@ -351,4 +352,49 @@ export class ProductViewComponent implements OnInit {
       this.product.parametersLeft = parameters;
     }
   }
+
+  addSigno() {
+    let parametersR = this.product.parametersRight;
+    let auxNeg = [];
+    let auxPos = [];
+    _.each(parametersR, function(param, index) {
+      if (param.name === 'Sphere (D)') {
+        _.each(param.values, function(item) {
+            if (_.includes(item, '-') || item === '0.00' ) {
+              auxNeg.push(item);
+            } else {
+              item = '+' + item;
+              auxPos.push(item);
+            }
+        });
+        _.reverse(auxNeg);
+        auxPos = _.concat(auxPos, auxNeg);
+        parametersR[index].values = auxPos;
+      }
+    });
+    this.product.parametersRight = parametersR;
+   // Left
+   let parametersL = this.product.parametersLeft;
+    let auxNegL = [];
+    let auxPosL = [];
+    _.each(parametersL, function(param, index) {
+      if (param.name === 'Sphere (D)') {
+        _.each(param.values, function(item) {
+            if (_.includes(item, '-') || item === '0.00' ) {
+              auxNegL.push(item);
+            } else {
+              item = '+' + item;
+              auxPosL.push(item);
+            }
+        });
+        _.reverse(auxNegL);
+        auxPosL = _.concat(auxPosL, auxNegL);
+        parametersL[index].values = auxPosL;
+      }
+    });
+    this.product.parametersLeft = parametersL;
+  }
+
+
+
 }
