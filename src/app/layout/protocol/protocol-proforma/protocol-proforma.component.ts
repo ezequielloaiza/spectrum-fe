@@ -11,6 +11,7 @@ import { ProtocolProformaService } from '../../../shared/services/protocolProfor
 import { ProtocolProforma } from '../../../shared/models/protocolProforma';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-protocol-proforma',
@@ -29,6 +30,7 @@ export class ProtocolProformaComponent implements OnInit {
   user: any;
   idClient: any;
   saving = false;
+  download = false;
   today: Date = new Date();
 
   constructor(private fb: FormBuilder,
@@ -50,7 +52,7 @@ export class ProtocolProformaComponent implements OnInit {
   initializeForm() {
     this.protocolForm = this.fb.group({
       id: [null],
-      spectrumProforma: [null],
+      spectrumProforma: [false],
       additionalDocuments: [null],
       outputs: [null],
       protocolSpectrum: [null],
@@ -87,6 +89,11 @@ export class ProtocolProformaComponent implements OnInit {
   getProtocol(clientId: any, supplierId: any) {
     this.protocolProformaService.findByClienSupplier$(clientId, supplierId).subscribe(res => {
       this.protocol = res;
+      if (res.id !== null) {
+        this.download = true;
+      } else {
+        this.download = false;
+      }
       this.protocol.supplierId = supplierId;
       this.protocol.clientId = clientId;
       this.setProtocol(this.protocol);
@@ -95,9 +102,13 @@ export class ProtocolProformaComponent implements OnInit {
 
   update() {
     this.saving = true;
+    if (this.protocolForm.value.spectrumProforma == null) {
+      this.spectrumProforma.setValue(false);
+    }
     this.protocolProformaService.update$(this.protocolForm.value).subscribe(res => {
       this.protocol = res;
-      this.setProtocol(this.protocol);
+      this.download = true;
+      this.setProtocol(res);
       this.edit = false;
       this.saving = false;
       this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
@@ -115,14 +126,20 @@ export class ProtocolProformaComponent implements OnInit {
     this.setProtocol(this.protocol);
   }
 
-  beforeChange($event: NgbTabChangeEvent) {
+  beforeChangeProforma($event: NgbTabChangeEvent) {
     if ($event.activeId !== $event.nextId) {
-      this.cancel();
+      // this.cancel();
+      this.edit = false;
       this.getProtocol(this.idClient, $event.nextId);
     }
   }
 
   setProtocol(protocol: ProtocolProforma) {
+    if (protocol.id !== null) {
+      this.download = true;
+    } else {
+      this.download = false;
+    }
     this.id.setValue(protocol.id);
     this.spectrumProforma.setValue(protocol.spectrumProforma);
     this.additionalDocuments.setValue(protocol.additionalDocuments);
@@ -182,7 +199,7 @@ export class ProtocolProformaComponent implements OnInit {
 
   downloadProtocol() {
     this.spinner.show();
-    this.protocolProformaService.reportProtocolById$(this.protocol.id, 3).subscribe(res => {
+    this.protocolProformaService.reportProtocolById$(this.protocol.id, this.user.role.idRole).subscribe(res => {
       const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
         day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes()};
       const filename = 'ProtocolProforma-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
