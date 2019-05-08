@@ -162,7 +162,9 @@
               <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
               <th class="table-tr bold">{{ 'Tax Rate' | translate }}</th>
               <th class="table-tr bold">{{ 'Amount' | translate}}</th>
-              <th class="table-tr bold"></th>
+              <th class="table-tr bold">
+                <span *ngIf="allDelete" class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -288,7 +290,7 @@
           </div>
         </div>
       </div>
-      <div class="col col-xl-12 col-lg-12">
+      <!--div class="col col-xl-12 col-lg-12">
         <div class="row">
           <div class="col-xl-12">
             <br>
@@ -300,7 +302,7 @@
             <br>
           </div>
         </div>
-      </div>
+      </div>-->
       <div class="col col-xl-12 col-lg-12">
         <div class="row">
           <div class="col-xl-12">
@@ -338,6 +340,9 @@
   <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(0)" [disabled]="invDate == null || invDate == undefined || invDueDate == null || invDueDate == undefined">{{ 'Save' |
     translate }}&nbsp;
     <i class="fa fa-save"></i>
+  </button>
+  <button [hidden]="!pilot" type="button" class="btn btn-main" (click)="sendInvoice()" >{{ 'Send' | translate }}&nbsp;
+      <i class="fa fa-send"></i>
   </button>
   <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1)" [disabled]="invDate == null || invDate == undefined || invDueDate == null || invDueDate == undefined">{{ 'Save and
     Send' | translate }}&nbsp;
