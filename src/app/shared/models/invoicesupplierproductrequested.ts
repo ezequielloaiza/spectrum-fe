@@ -3,7 +3,7 @@ import { InvoiceSupplier } from './invoice-supplier';
 
 export class InvoiceSupplierProductRequested {
 
-  public  id: number;
+  public  idInvoiceProductRequested: number;
   public  productRequested: ProductRequested;
   public  idProductRequested: number;
   public  invoice: InvoiceSupplier;
