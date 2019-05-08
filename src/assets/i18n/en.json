@@ -993,5 +993,16 @@
     "Enter shipping details": "Enter shipping details",
     "Enter account number for shipping carrier": "Enter account number for shipping carrier",
     "Enter DMV": "Enter DMV",
-    "Protocols": "Protocols"
+    "Protocols": "Protocols",
+    "2nd day":"2nd day",
+    "Overnight":"Overnight",
+    "Overnight AM":"Overnight AM",
+    "MONTHLY":"MONTHLY",
+    "BIWEEKLY":"BIWEEKLY",
+    "WEEKLY":"WEEKLY",
+    "MONDAY":"MONDAY",
+    "TUESDAY":"TUESDAY",
+    "WEDNESDAY":"WEDNESDAY",
+    "THURSDAY":"THURSDAY",
+    "FRIDAY":"FRIDAY"
 }
