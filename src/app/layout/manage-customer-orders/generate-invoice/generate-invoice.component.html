@@ -163,7 +163,7 @@
               <th class="table-tr bold">{{ 'Tax Rate' | translate }}</th>
               <th class="table-tr bold">{{ 'Amount' | translate}}</th>
               <th class="table-tr bold">
-                <span *ngIf="invoice.listProductRequested.length == 0 || allDelete" class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
+                <span *ngIf="allDelete" class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
               </th>
             </tr>
           </thead>

@@ -36,6 +36,7 @@ export class GenerateInvoiceComponent implements OnInit {
   ordersNumber: any;
   verify: any;
   allDelete: any;
+  copy: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -103,7 +104,9 @@ export class GenerateInvoiceComponent implements OnInit {
       if (this.original.idInvoice != null && this.original.idInvoice != undefined) {
         this.loadInvoiceFromOriginal(this.original);
         this.loadOrderNumbers();
+        this.copy = false;
       } else {
+        this.copy = true;
         this.invoiceService.findByNumberAndOriginal$(this.invoice.numberOriginal).subscribe(
           res => {
             if (res.code === CodeHttp.ok) {
@@ -504,7 +507,14 @@ export class GenerateInvoiceComponent implements OnInit {
 
   sendInvoice() {
     this.spinner.show();
-    this.invoiceService.sendInvoice$(this.invoice.idInvoice).subscribe(
+    console.log('invoice', this.invoice);
+    let idInvoice;
+    if (this.copy) {
+      idInvoice = this.invoice.idInvoice;
+    } else {
+      idInvoice = this.original.idInvoice;
+    }
+    this.invoiceService.sendInvoice$(idInvoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.close();
@@ -520,6 +530,7 @@ export class GenerateInvoiceComponent implements OnInit {
         }
       },
       error => {
+        this.spinner.hide();
         console.log('error', error);
       }
     );
