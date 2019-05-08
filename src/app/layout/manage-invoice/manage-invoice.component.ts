@@ -188,7 +188,7 @@ export class ManageInvoiceComponent implements OnInit {
       p = false;
     }
     const modalRef = this.modalService.open(GenerateInvoiceComponent,
-    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
+    { size: 'lg', windowClass: 'modal-content-border modal-dialog-invoice', backdrop  : 'static', keyboard  : false });
     if (invoice.original) {
       modalRef.componentInstance.original = invoice;
     } else {

@@ -84,7 +84,6 @@ export class GenerateInvoiceComponent implements OnInit {
         res => {
           if (res.code === CodeHttp.ok) {
             const invoices = res.data;
-            console.log('invoices', invoices);
             if (invoices.length > 0) {
               this.original = invoices[0];
               this.loadInvoiceFromOriginal(this.original);
@@ -343,7 +342,7 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateAmountProduct(index) {
-    this.invoice.listProductRequested[index].netAmount = 
+    this.invoice.listProductRequested[index].netAmount =
                     Number(this.invoice.listProductRequested[index].quantity * this.invoice.listProductRequested[index].price)
                     + Number(this.invoice.listProductRequested[index].tax);
   }
@@ -507,7 +506,6 @@ export class GenerateInvoiceComponent implements OnInit {
 
   sendInvoice() {
     this.spinner.show();
-    console.log('invoice', this.invoice);
     let idInvoice;
     if (this.copy) {
       idInvoice = this.invoice.idInvoice;
