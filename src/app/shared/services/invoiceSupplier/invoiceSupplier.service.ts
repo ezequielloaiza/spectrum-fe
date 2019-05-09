@@ -35,4 +35,12 @@ export class InvoiceSupplierService {
   public findByNumberAndOriginal$(number): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesSupplier/findByNumberAndOriginal/' + number);
   }
+
+  public findCopyByNumberOriginal$(number): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesSupplier/findCopyByNumberOriginal/' + number);
+  }
+
+  public sendInvoice$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesSupplier/sendInvoice/' + id);
+  }
 }
