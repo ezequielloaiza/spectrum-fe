@@ -7,6 +7,7 @@ import { ProductsRequestedService } from '../../../shared/services';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { Router } from '@angular/router';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-saline-fluo',
@@ -32,7 +33,8 @@ export class SalineFluoComponent implements OnInit {
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
               private userService: UserStorageService,
-              public router: Router) {
+              public router: Router,
+              private spinner: NgxSpinnerService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
@@ -90,6 +92,7 @@ export class SalineFluoComponent implements OnInit {
   update(productRequested) {
     this.productRequestedService.update$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        this.spinner.hide();
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
