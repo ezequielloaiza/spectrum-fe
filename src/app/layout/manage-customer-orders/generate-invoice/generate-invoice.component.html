@@ -323,6 +323,311 @@
           </div>
         </div>
       </div>
+      <div>
+        <ngb-tabset>
+          <ngb-tab title="{{'Shipping Protocol'| translate}}">
+            <ng-template ngbTabContent>
+              <div class="d-flex">
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'ACC Number' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="accNumber"
+                    maxlength="254"
+                    *ngIf="false"
+                    placeholder="{{ 'Enter ACC number' | translate }}"
+                  />
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>Country</label>
+                  <div>
+                    <ng-select
+                      [items]="countries"
+                      [searchable]="true"
+                      bindValue="idCountry"
+                      bindLabel="name"
+                      formControlName="country"
+                      *ngIf="false"
+                      placeholder="{{ 'Enter country' | translate }}"
+                    >
+                      <ng-template ng-label-tmp let-item="item">
+                        <div>
+                          <span>{{ item.name }}</span>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                        <div>
+                          <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Businness Name' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="businessName"
+                    maxlength="254"
+                    *ngIf="false"
+                    placeholder="{{ 'Enter business name' | translate }}"
+                  />
+                  
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Recipient' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="recipient"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter recipient' | translate }}"
+                  />
+                  
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Shipping Address' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="shippingAddress"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter shipping address' | translate }}"
+                  />
+                  
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Shipping Frecuency' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="shippingFrecuency"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter shipping frecuency' | translate }}"
+                  />
+                  
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Shipping Method' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="shippingMethod"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter shipping method' | translate }}"
+                  />
+                  
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Shipping Details' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="shippingDetail"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter shipping detail' | translate }}"
+                  />
+                  
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Account Number for Shipping Carrier' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="accountNumber"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter account number for shipping carrier' | translate }}"
+                  />
+                  
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Comments' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="comment"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter comments' | translate }}"
+                  />
+                  
+                </div>
+              </div>
+              <div class="d-flex">
+  
+                <div class="form-group pr-3 half-flex">
+                  <label>DMV</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="dmv"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter DMV' | translate }}"
+                  />
+                  
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Email Comments' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="emailComment"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter email comments' | translate }}"
+                  />
+                  
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="{{'Protocol Proforma'| translate}}">
+            <ng-template ngbTabContent>
+              <div class="d-flex">
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Spectrum Proforma' | translate }}</label>
+                  <div *ngIf="edit" class="mb-2 mr-sm-2 mb-sm-0">
+                    <div class="custom-control-inline">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio1" name="spectrumProforma" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input style="margin-left: 10px;"  type="radio" id="customRadio2" name="spectrumProforma" class="custom-control-input" >
+                        <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Additional Documents' | translate }}</label>
+                  <div>
+                    <textarea style="overflow-x: hidden;"
+                      type="text"
+                      class="form-control"
+                      formControlName="additionalDocuments"
+                      placeholder="{{ 'Enter additional documents' | translate }}"
+                      *ngIf="edit"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="viewField" class="d-flex">
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Outputs (Send information to Spectrum team)' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="outputs"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter outputs (send information to Spectrum team)' | translate }}"
+                  />
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Protocol From Spectrum' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="protocolSpectrum"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter protocol from spectrum' | translate }}"
+                  />
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Maximum Amount to Declare' | translate }}</label>
+                  <div *ngIf="edit && editField" class="input-group-append">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control"
+                      formControlName="maximumAmount"
+                      *ngIf="edit && editField"
+                      placeholder="{{ 'Enter maximum amount to declare' | translate }}"
+                    />
+                  </div>
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Documentation that must accompany the delivery and proforma invoice' | translate }}</label>
+                  <textarea style="overflow-x: hidden;"
+                    type="text"
+                    class="form-control"
+                    formControlName="documentation"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter documentation that must accompany the delivery and proforma invoice' | translate }}"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Fixed Prices for Proforma Invoice' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="fixedPrices"
+                    maxlength="254"
+                    *ngIf="edit && editField"
+                    placeholder="{{ 'Enter fixed prices for proforma invoice' | translate }}"
+                  />
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Comments' | translate }}</label>
+                  <textarea style="overflow-x: hidden;"
+                    type="text"
+                    class="form-control"
+                    formControlName="comments"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter comments' | translate }}"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div *ngIf="viewField" class="form-group pr-3 half-flex">
+                  <label>{{ 'Email Comments' | translate }}</label>
+                  <textarea style="overflow-x: hidden;"
+                    type="text"
+                    class="form-control"
+                    formControlName="emailComment"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter email comments' | translate }}"
+                  ></textarea>
+                </div>
+                <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Tariff Codes' | translate }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="tariffCodes"
+                    maxlength="254"
+                    *ngIf="edit"
+                    placeholder="{{ 'Enter tariff codes' | translate }}"
+                  />
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
     </form>
   </div>
 </div>

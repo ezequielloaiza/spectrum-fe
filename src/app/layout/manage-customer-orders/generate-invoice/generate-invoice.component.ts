@@ -35,6 +35,7 @@ export class GenerateInvoiceComponent implements OnInit {
   titleModal: any;
   ordersNumber: any;
   verify: any;
+  edit: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -62,12 +63,36 @@ export class GenerateInvoiceComponent implements OnInit {
             });
     this.loadOrderNumbers();
     this.verify = false;
+    this.edit = true;
   }
 
   initializeForm() {
     this.form = this.formBuilder.group({
       invDate   : [this.invDate, [Validators.required]],
       invDueDate: [this.invDueDate, [Validators.required]],
+      spectrumProforma: [null],
+      additionalDocuments: [null],
+      outputs: [null],
+      protocolSpectrum: [null],
+      maximumAmount: [null],
+      documentation: [null],
+      fixedPrices: [null],
+      comments: [[]],
+      emailComment: [null],
+      tariffCodes: [null],
+      clientId: [null],
+      supplierId: [null],
+      accNumber: [null],
+      businessName: [null],
+      recipient: [null],
+      shippingAddress: [null],
+      dmv: [null],
+      shippingFrecuency: [null],
+      shippingMethod: [null],
+      accountNumber: [null],
+      shippingDetail: [null],
+      comment: [[]],
+      country: [null]
     });
   }
 
