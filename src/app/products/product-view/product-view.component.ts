@@ -115,7 +115,7 @@ export class ProductViewComponent implements OnInit {
     this.product.priceSale = '';
     this.setClient();
     this.setPrice();
-    this.addSigno();
+    this.addSign();
   }
 
   changeSelect(eye, parameter, value) {
@@ -353,7 +353,7 @@ export class ProductViewComponent implements OnInit {
     }
   }
 
-  addSigno() {
+  addSign() {
     let parametersR = this.product.parametersRight;
     let auxNeg = [];
     let auxPos = [];
