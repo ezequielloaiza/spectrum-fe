@@ -32,7 +32,7 @@
               </div>
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Country' | translate }}</label>
-                <div>
+                <div class="mb-2 mr-sm-2 mb-sm-0">
                   <ng-select
                     [items]="countries"
                     [searchable]="true"
@@ -42,16 +42,6 @@
                     *ngIf="edit"
                     placeholder="{{ 'Enter country' | translate }}"
                   >
-                    <ng-template ng-label-tmp let-item="item">
-                      <div>
-                        <span>{{ item.name }}</span>
-                      </div>
-                    </ng-template>
-                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                      <div>
-                        <span [ngOptionHighlight]="search">{{ item.name }}</span>
-                      </div>
-                    </ng-template>
                   </ng-select>
                 </div>
                 <div *ngIf="!edit">
@@ -117,28 +107,28 @@
                 <div *ngIf="edit" class="mb-2 mr-sm-2 mb-sm-0">
                   <div class="custom-control-inline">
                     <div class="custom-control custom-radio">
-                      <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(1)" [checked]="valueFrecuency === 'MONTHLY'">
-                      <label class="custom-control-label" for="customRadio1">{{ 'MONTHLY' | translate }}</label>
+                      <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(1)" [checked]="valueFrecuency === 'Monthly'">
+                      <label class="custom-control-label" for="customRadio1">{{ 'Monthly' | translate }}</label>
                     </div>
                     <div style="margin-left: 10px;" class="custom-control custom-radio">
-                      <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(2)" [checked]="valueFrecuency === 'BIWEEKLY'">
-                      <label class="custom-control-label" for="customRadio2">{{ 'BIWEEKLY' | translate }}</label>
+                      <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(2)" [checked]="valueFrecuency === 'Biweekly'">
+                      <label class="custom-control-label" for="customRadio2">{{ 'Biweekly' | translate }}</label>
                     </div>
                     <div style="margin-left: 10px;" class="custom-control custom-radio">
-                      <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(3)" [checked]="valueFrecuency === 'WEEKLY'">
-                      <label class="custom-control-label" for="customRadio3">{{ 'WEEKLY' | translate }}</label>
+                      <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(3)" [checked]="valueFrecuency === 'Weekly'">
+                      <label class="custom-control-label" for="customRadio3">{{ 'Weekly' | translate }}</label>
                     </div>
                   </div>
                   <!--<span>{{ shippingFrecuency.value }}</span>-->
                   <select
-                    *ngIf="valueFrecuency === 'BIWEEKLY'"
+                    *ngIf="valueFrecuency === 'Biweekly'"
                     class="form-control"
                     name="shippingFrecuencyB"
                     formControlName="shippingFrecuencyB">
                       <option *ngFor="let biweekly of listBiweekly" value="{{biweekly}}">{{ biweekly | translate }}</option>
                   </select>
                   <select
-                    *ngIf="valueFrecuency === 'WEEKLY'"
+                    *ngIf="valueFrecuency === 'Weekly'"
                     class="form-control"
                     name="shippingFrecuencyW"
                     formControlName="shippingFrecuencyW">

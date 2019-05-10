@@ -997,12 +997,13 @@
     "2nd day":"2nd day",
     "Overnight":"Overnight",
     "Overnight AM":"Overnight AM",
-    "MONTHLY":"MONTHLY",
-    "BIWEEKLY":"BIWEEKLY",
-    "WEEKLY":"WEEKLY",
-    "MONDAY":"MONDAY",
-    "TUESDAY":"TUESDAY",
-    "WEDNESDAY":"WEDNESDAY",
-    "THURSDAY":"THURSDAY",
-    "FRIDAY":"FRIDAY"
+    "Biweekly":"Biweekly",
+    "Weekly":"Weekly",
+    "Monday":"Monday",
+    "Tuesday":"Tuesday",
+    "Wednesday":"Wednesday",
+    "Thursday":"Thursday",
+    "Friday":"Friday",
+    "Saturday":"Saturday",
+    "Sunday":"Sunday"
 }
