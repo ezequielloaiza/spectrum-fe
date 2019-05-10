@@ -7,6 +7,7 @@ import { UserStorageService } from '../../../http/user-storage.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
 import { ProductRequested } from '../../../shared/models/productrequested';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-europa',
@@ -48,7 +49,8 @@ export class EuropaComponent implements OnInit {
               private notification: ToastrService,
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
-              private userService: UserStorageService) {
+              private userService: UserStorageService,
+              private spinner: NgxSpinnerService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
@@ -234,6 +236,7 @@ export class EuropaComponent implements OnInit {
   }
 
   save() {
+    this.spinner.show();
     // Header
     let header = this.product.header;
     _.each(this.detail.header, function(item) {
@@ -509,6 +512,7 @@ export class EuropaComponent implements OnInit {
   update(productRequested) {
     this.productRequestedService.update$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        this.spinner.hide();
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
