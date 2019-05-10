@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ProductsRequestedService } from '../../../shared/services';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { ProductRequested } from '../../../shared/models/productrequested';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-markennovy',
@@ -32,7 +33,8 @@ export class MarkennovyComponent implements OnInit {
               private notification: ToastrService,
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
-              private userService: UserStorageService) {
+              private userService: UserStorageService,
+              private spinner: NgxSpinnerService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
@@ -78,6 +80,7 @@ export class MarkennovyComponent implements OnInit {
   }
 
   save() {
+    this.spinner.show();
     let paramet = this.product.parameters;
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
@@ -124,6 +127,7 @@ export class MarkennovyComponent implements OnInit {
   update(productRequested) {
     this.productRequestedService.update$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        this.spinner.hide();
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });

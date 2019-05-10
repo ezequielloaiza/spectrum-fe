@@ -8,6 +8,9 @@ import { ProductoimageService } from '../../../shared/services/productoimage/pro
 import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
 import { saveAs } from 'file-saver';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SalineFluoComponent } from '../../edit-order/saline-fluo/saline-fluo.component';
+import { ProductRequested } from '../../../shared/models/productrequested';
 
 @Component({
   selector: 'app-details-order',
@@ -24,11 +27,13 @@ export class DetailsOrderComponent implements OnInit {
   advancedPagination: number;
   itemPerPage = 1;
   download = false;
+  listAux: Array<ProductRequested> = new Array<ProductRequested>();
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
     public productImageService: ProductoimageService,
     private fileProductRequestedService: FileProductRequestedService,
+    private modalService: NgbModal,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -74,4 +79,37 @@ export class DetailsOrderComponent implements OnInit {
       console.log('error', error);
     });
   }
+
+  openEdit(lista, image) {
+    const modalRefSalineFluo = this.modalService.open( SalineFluoComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false });
+    modalRefSalineFluo.componentInstance.detailEdit = lista;
+    modalRefSalineFluo.componentInstance.typeEdit = 2;
+    modalRefSalineFluo.componentInstance.userOrder = this.order.user;
+    modalRefSalineFluo.componentInstance.image = image;
+    modalRefSalineFluo.result.then((result) => {
+      this.listAux.push(result);
+      this.refresh(this.listAux);
+    } , (reason) => {
+
+    });
+  }
+
+  refresh(productRequested: any): void {
+    let list: Array<ProductRequested> = productRequested;
+     _.each(this.order.listProductRequested, function (detailsOrder) {
+       _.each(list, function (item) {
+         if (detailsOrder.productRequested.idProductRequested === item.idProductRequested) {
+           detailsOrder.productRequested.patient = item.patient;
+           detailsOrder.productRequested.price = item.price;
+           detailsOrder.productRequested.quantity = item.quantity;
+           detailsOrder.productRequested.observations = item.observations;
+           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
+         }
+       });
+
+     });
+     this.listDetails = this.order.listProductRequested;
+     this.listDetailsAux = this.order.listProductRequested;
+   }
 }
