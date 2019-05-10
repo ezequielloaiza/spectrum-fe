@@ -8,627 +8,633 @@
 <div class="content">
   <div class="modal-body">
     <form [formGroup]="form">
-      <div class="col col-xl-8 col-lg-8">
-        <div class="row ">
-          <div class="col-xl-4">
-            <h3 class="title">{{ 'Invoice' | translate }}</h3>
-          </div>
-          <div class="col-xl-3">
-          </div>
-          <div class="col-xl-5">
-            <img src="assets/images/spectrumLogo1.jpg" width="300px" class="" />
-          </div>
-        </div>
-        <div class="row row-height align-row">
-          <div class="col-xl-5">
-            <label class="label">{{ 'Invoice No' | translate }}</label>
-            <label *ngIf="pilot" class="label-value">{{invoice.number}}</label>
-            <input *ngIf="!pilot" class="form-control input-form" [value]="invoice.number" (change)="updateNumber($event)" required>
-          </div>
-          <div class="col-xl-4">
-            <label class="label align-row">{{ 'Deliver To' | translate }}</label>
-          </div>
-          <div class="col-xl-3">
-          </div>
-        </div>
-        <div class="row row-height align-row">
-          <div class="col-xl-5">
-            <label class="label">{{ 'Invoice Date' | translate }}</label>
-            <label *ngIf="pilot" class="label-value">{{ (invoice.date ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
-            <div *ngIf="!pilot" class="input-group">
-              <input class="form-control input-date" [(ngModel)]="invDate" ngbDatepicker formControlName="invDate" 
-              #d="ngbDatepicker" required>
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                  <i class="fa fa-calendar"></i>
-                </button>
+      <div class="col col-xl-12 col-lg-12">
+        <div class="row">
+          <div class="col col-xl-8 col-lg-8">
+            <div class="col col-xl-12 col-lg-12">
+              <div class="row ">
+                <div class="col-xl-4">
+                  <h3 class="title">{{ 'Invoice' | translate }}</h3>
+                </div>
+                <div class="col-xl-3">
+                </div>
+                <div class="col-xl-5">
+                  <img src="assets/images/spectrumLogo1.jpg" width="300px" class="" />
+                </div>
+              </div>
+              <div class="row row-height align-row">
+                <div class="col-xl-5">
+                  <label class="label">{{ 'Invoice No' | translate }}</label>
+                  <label *ngIf="pilot" class="label-value">{{invoice.number}}</label>
+                  <input *ngIf="!pilot" class="form-control input-form" [value]="invoice.number" (change)="updateNumber($event)" required>
+                </div>
+                <div class="col-xl-4">
+                  <label class="label align-row">{{ 'Deliver To' | translate }}</label>
+                </div>
+                <div class="col-xl-3">
+                </div>
+              </div>
+              <div class="row row-height align-row">
+                <div class="col-xl-5">
+                  <label class="label">{{ 'Invoice Date' | translate }}</label>
+                  <label *ngIf="pilot" class="label-value">{{ (invoice.date ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
+                  <div *ngIf="!pilot" class="input-group">
+                    <input class="form-control input-date" [(ngModel)]="invDate" ngbDatepicker formControlName="invDate"
+                    #d="ngbDatepicker" required>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4">
+                  <label *ngIf="pilot" class="address">{{ invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
+                  <input *ngIf="!pilot" type="text" class="form-control" value="{{invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
+                  (change)="updateDeliverTo($event)" required>
+                </div>
+                <div class="col-xl-3">
+                </div>
+              </div>
+              <div class="row row-height align-row">
+                <div class="col-xl-5">
+                  <label class="label">{{ 'Due Date' | translate }}</label>
+                  <label *ngIf="pilot" class="label-value">{{ (invoice.dueDate ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
+                  <div *ngIf="!pilot" class="input-group">
+                    <input class="form-control input-date" [(ngModel)]="invDueDate" ngbDatepicker formControlName="invDueDate"
+                    #d1="ngbDatepicker" required>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4">
+                  <label class="address">{{invoice.address?.name}}</label>
+                </div>
+                <div class="col-xl-3">
+                </div>
+              </div>
+              <div class="row row-height align-row">
+                <div class="col-xl-5">
+                </div>
+                <div class="col-xl-4">
+                  <label class="address">{{invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : ''}}</label>
+                </div>
+                <div class="col-xl-3">
+                </div>
+              </div>
+              <div class="row row-height align-row">
+                <div class="col-xl-5">
+                </div>
+                <div class="col-xl-4">
+                  <label class="address">{{ invoice.address? (invoice.address.country.name | translate) : ''}}</label>
+                </div>
+                <div class="col-xl-3">
+                </div>
+              </div>
+              <div class="col col-xl-8 col-lg-8">
+                </div>
+              <div class="row row-height align-row">
+                <div class="col-xl-6">
+                </div>
+                <div class="col-xl-6 address-spectrum">
+                  <label class="address-spectrum">SPECTRUM INTERNATIONAL GROUP, LLC</label>
+                </div>
+              </div>
+              <div class="row row-height align-row">
+                <div class="col-xl-6 address-top">
+                  <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
+                  <label *ngIf="pilot" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
+                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{invoice.customer != null ? invoice.customer : invoice.user?.name }}"
+                  (change)="updateCustomer($event)" required>
+                </div>
+                <div class="col-xl-6 address-spectrum">
+                  <label class="address-spectrum">3522 ASHFORD DUNWOODY ROAD NE</label>
+                </div>
+              </div>
+              <div class="row row-height">
+                <div class="col-xl-6 address-middle">
+                  <label class="address-client">{{invoice.address?.name}}</label>
+                </div>
+                <div class="col-xl-6 address-spectrum">
+                  <label class="address-spectrum">#293</label>
+                </div>
+              </div>
+              <div class="row row-height">
+                <div class="col-xl-6 address-middle">
+                  <label class="address-client">{{invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : ''}}</label>
+                </div>
+                <div class="col-xl-6 address-spectrum">
+                  <label class="address-spectrum">ATLANTA GA 30319</label>
+                </div>
+              </div>
+              <div class="row row-height">
+                <div class="col-xl-6 address-down">
+                  <label class="address-client">{{invoice.address? (invoice.address.country.name | translate) : ''}}</label>
+                </div>
+                <div class="col-xl-6 address-spectrum">
+                  <label class="address-spectrum">United States</label>
+                </div>
+              </div>
+              <div class="row row-height">
+                <div class="col-xl-6">
+                </div>
+                <div class="col-xl-6 address-spectrum">
+                  <label class="address-spectrum">www.spctinternational.com</label>
+                </div>
+              </div>
+              <div class="row row-height">
+                <div class="col-xl-6">
+                </div>
+                <div class="col-xl-6 address-spectrum">
+                  <label class="address-spectrum">marketing@spctinternational.com</label>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-xl-4">
-            <label *ngIf="pilot" class="address">{{ invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
-            <input *ngIf="!pilot" type="text" class="form-control" value="{{invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
-            (change)="updateDeliverTo($event)" required>
-          </div>
-          <div class="col-xl-3">
-          </div>
-        </div>
-        <div class="row row-height align-row">
-          <div class="col-xl-5">
-            <label class="label">{{ 'Due Date' | translate }}</label>
-            <label *ngIf="pilot" class="label-value">{{ (invoice.dueDate ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
-            <div *ngIf="!pilot" class="input-group">
-              <input class="form-control input-date" [(ngModel)]="invDueDate" ngbDatepicker formControlName="invDueDate" 
-              #d1="ngbDatepicker" required>
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
-                  <i class="fa fa-calendar"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4">
-            <label class="address">{{invoice.address?.name}}</label>
-          </div>
-          <div class="col-xl-3">
-          </div>
-        </div>
-        <div class="row row-height align-row">
-          <div class="col-xl-5">
-          </div>
-          <div class="col-xl-4">
-            <label class="address">{{invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : ''}}</label>
-          </div>
-          <div class="col-xl-3">
-          </div>
-        </div>
-        <div class="row row-height align-row">
-          <div class="col-xl-5">
-          </div>
-          <div class="col-xl-4">
-            <label class="address">{{ invoice.address? (invoice.address.country.name | translate) : ''}}</label>
-          </div>
-          <div class="col-xl-3">
-          </div>
-        </div>
-      </div>
-      <div class="col col-xl-8 col-lg-8">
-        <div class="row row-height align-row">
-          <div class="col-xl-6">
-          </div>
-          <div class="col-xl-6 address-spectrum">
-            <label class="address-spectrum">SPECTRUM INTERNATIONAL GROUP, LLC</label>
-          </div>
-        </div>
-        <div class="row row-height align-row">
-          <div class="col-xl-6 address-top">
-            <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
-            <label *ngIf="pilot" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
-            <input *ngIf="!pilot" type="text" class="form-control customer" value="{{invoice.customer != null ? invoice.customer : invoice.user?.name }}"
-            (change)="updateCustomer($event)" required>
-          </div>
-          <div class="col-xl-6 address-spectrum">
-            <label class="address-spectrum">3522 ASHFORD DUNWOODY ROAD NE</label>
-          </div>
-        </div>
-        <div class="row row-height">
-          <div class="col-xl-6 address-middle">
-            <label class="address-client">{{invoice.address?.name}}</label>
-          </div>
-          <div class="col-xl-6 address-spectrum">
-            <label class="address-spectrum">#293</label>
-          </div>
-        </div>
-        <div class="row row-height">
-          <div class="col-xl-6 address-middle">
-            <label class="address-client">{{invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : ''}}</label>
-          </div>
-          <div class="col-xl-6 address-spectrum">
-            <label class="address-spectrum">ATLANTA GA 30319</label>
-          </div>
-        </div>
-        <div class="row row-height">
-          <div class="col-xl-6 address-down">
-            <label class="address-client">{{invoice.address? (invoice.address.country.name | translate) : ''}}</label>
-          </div>
-          <div class="col-xl-6 address-spectrum">
-            <label class="address-spectrum">United States</label>
-          </div>
-        </div>
-        <div class="row row-height">
-          <div class="col-xl-6">
-          </div>
-          <div class="col-xl-6 address-spectrum">
-            <label class="address-spectrum">www.spctinternational.com</label>
-          </div>
-        </div>
-        <div class="row row-height">
-          <div class="col-xl-6">
-          </div>
-          <div class="col-xl-6 address-spectrum">
-            <label class="address-spectrum">marketing@spctinternational.com</label>
-          </div>
-        </div>
-      </div>
-      <div class="col col-xl-8 col-lg-8">
+            <div class="col col-xl-12 col-lg-12">
 
-      </div>
-      <div class="col col-xl-8 col-lg-8 table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="table-tr bold">{{ 'Description' | translate }}</th>
-              <th class="table-tr bold">{{ 'Qty' | translate }}</th>
-              <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
-              <th class="table-tr bold">{{ 'Tax Rate' | translate }}</th>
-              <th class="table-tr bold">{{ 'Amount' | translate}}</th>
-              <th class="table-tr bold">
-                <span *ngIf="allDelete" class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let productR of invoice.listProductRequested; let i = index">
-              <tr *ngIf="productR.delete == null || productR.delete == false">
-                <td class="table-tr td-table" *ngIf="pilot" >{{productR.description}}</td>
-                <td class="table-tr td-table" *ngIf="!pilot">
-                  <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.description"  (change)="updateDescription($event, i)" class="form-control" required>
-                  <select *ngIf="productR.idProductRequested == null" class="form-control" id="productDescription{{i}}" (change)="updateProduct($event, i)">
-                    <option value="" disabled [selected]="true" translate>Select product</option>
-                    <option *ngFor="let pR of listProducts" value="{{pR.idProductRequested}}">{{pR.product.name}} - {{ pR.product.name}} </option>
-                  </select>
-                </td>
-                <td class="table-tr td-table" *ngIf="pilot">{{productR.quantity}}</td>
-                <td class="table-tr td-table" *ngIf="!pilot">
-                  <div class="amount-div">
-                    <input type="number" id="quantity{{i}}" [value]="productR.quantity" class="form-control" (change)="updateQuantity($event, i)"
-                      placeholder="{{ 'Enter quantity' | translate }}" required>
-                  </div>
-                </td>
-                <td class="table-tr td-table" *ngIf="pilot"> {{productR.price | currency }}</td>
-                <td class="table-tr td-table" *ngIf="!pilot">
-                <div class="amount-div">
-                  <div class="input-group-append">
-                    <span class="input-group-text">$</span>
-                  </div>
-                  <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice($event, i)"
-                    placeholder="{{ 'Enter unit price' | translate }}" required>
-                </div>
-                </td>
-                <td class="table-tr td-table" *ngIf="pilot">{{(productR.tax | currency )}}</td>
-                <td class="table-tr td-table" *ngIf="!pilot">
-                  <div class="amount-div">
-                    <div class="input-group-append">
-                      <span class="input-group-text">$</span>
-                    </div>
-                    <input type="number" id="tax{{i}}" [value]="productR.tax" class="form-control" (change)="updateTax($event, i)"
-                      placeholder="{{ 'Enter tax' | translate }}" required>
-                  </div>
-                  </td>
-                <td class="table-tr td-table td-align" *ngIf="pilot" colspan="2">{{(productR.netAmount | currency )}}</td>
-                <td class="table-tr td-table" *ngIf="!pilot">
-                  <div class="amount-div">
-                    <div class="input-group-append">
-                      <span class="input-group-text">$</span>
-                    </div>
-                    <input type="number" id="netAmount{{i}}" [value]="productR.netAmount" class="form-control" (change)="updateNetAmount($event, i)"
-                      placeholder="{{ 'Enter Net Amount' | translate }}" required>
-                  </div>
-                </td>
-              <td class="table-tr td-table hand-over" *ngIf="!pilot">
-                <span class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
-                <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete' | translate}}" (click)="removeItem(i)"></span>
-              </td>
-            </tr>
-          </ng-container> 
-          </tbody>
-        </table>
-      </div>
-      <div class="col col-xl-8 col-lg-8">
-        <div class="row">
-          <div  *ngIf="!pilot" class="col-xl-6">
-            <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
-            <br>
-            <input type="text" class="form-control" value="{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}"
-            (change)="updateTerms($event)" required>
-          </div>
-          <div  *ngIf="pilot" class="col-xl-6">
-            <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
-            <br>
-            <label class="">{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}</label>
-          </div>
-          <div class="col-xl-6">
-            <label class="label-amount bold">{{ 'Subtotal' | translate }}</label>
-            <label *ngIf="pilot" class="label-amount">{{invoice.subtotal | currency }}</label>
-            <div *ngIf="!pilot" class="amount-div amount-total ">
-                <div class="input-group-append">
-                  <span class="input-group-text">$</span>
-                </div>
-                <input type="number" id="subtotal" [value]="invoice.subtotal" class="form-control" (change)="updateSubtotal($event)" required>
-              </div>
-            <br>
-            <label class="label-amount bold">{{ 'Shipping' | translate }}</label>
-            <label *ngIf="pilot" class="label-amount">{{invoice.shipping | currency }}</label>
-            <div *ngIf="!pilot" class="amount-div amount-total ">
-                <div class="input-group-append">
-                  <span class="input-group-text">$</span>
-                </div>
-                <input type="number" id="shipping" [value]="invoice.shipping" class="form-control" (change)="updateShipping($event)" required>
-              </div>
-            <br>
-            <label class="label-amount bold">{{ 'Total' | translate }}</label>
-            <label *ngIf="pilot" class="label-amount ">{{invoice.total | currency }}</label>
-            <div *ngIf="!pilot" class="amount-div amount-total ">
-                <div class="input-group-append">
-                  <span class="input-group-text">$</span>
-                </div>
-                <input type="number" id="total" [value]="invoice.total" class="form-control" (change)="updateTotal($event)" required>
-              </div>
-            <br>
-            <label class="label-amount bold">{{ 'Amount Due' | translate }}</label>
-            <label *ngIf="pilot" class="label-amount">{{invoice.due | currency : "USD $" }}</label>
-            <div *ngIf="!pilot" class="amount-div amount-total ">
-                <div class="input-group-append">
-                  <span class="input-group-text">$</span>
-                </div>
-                <input type="number" id="due" [value]="invoice.due" class="form-control" (change)="updateAmountDue($event)" required>
-              </div>
-          </div>
-        </div>
-      </div>
-      <div class="col col-xl-8 col-lg-8">
-        <div class="row">
-          <div class="col-xl-12">
-            <br>
-            <br>
-            <label class="bold">{{ 'Shipping Instructions' | translate }}</label>
-            <br>
-            <label *ngIf="pilot" class="">{{ (invoice.shippingInstructions ? invoice.shippingInstructions : ('No Instructions Shipping' | translate)) }}</label>
-            <input *ngIf="!pilot" class="form-control" [value]="(invoice.shippingInstructions?
-            invoice.shippingInstructions : ('No Instructions Shipping' | translate))" (change)="updateInstructions($event)" required>
-            <br>
-          </div>
-        </div>
-      </div>
-      <!--div class="col col-xl-12 col-lg-12">
-        <div class="row">
-          <div class="col-xl-12">
-            <br>
-            <br>
-            <label class="bold">{{ 'Comments' | translate }}</label>
-            <br>
-            <label *ngIf="pilot" class="">{{ invoice.comments != null ? invoice.comments : '' }}</label>
-            <input *ngIf="!pilot" class="form-control" [value]="invoice.comments != null ? invoice.comments : ''" (change)="updateComment($event)" required>
-            <br>
-          </div>
-        </div>
-      </div>-->
-      <div class="col col-xl-8 col-lg-8">
-        <div class="row">
-          <div class="col-xl-12">
-            <br>
-            <br>
-            <label class="">{{ 'This invoice includes the following orders' | translate }}: </label>
-            <label class="label-order">{{ ordersNumber }}</label>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div class="col col-xl-8 col-lg-8" [hidden]="!pilot">
-        <div class="row">
-          <div class="col-xl-12 message-error">
-            <br>
-            <br>
-            <label class="bold">{{ 'Invoice already generated' | translate }}</label>
-            <br>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div class="col col-xl-4 col-lg-4">
-        <ngb-tabset>
-          <ngb-tab title="{{'Shipping Protocol'| translate}}">
-            <ng-template ngbTabContent>
-              <div class="d-flex">
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'ACC Number' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="accNumber"
-                    maxlength="254"
-                    *ngIf="false"
-                    placeholder="{{ 'Enter ACC number' | translate }}"
-                  />
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>Country</label>
-                  <div>
-                    <ng-select
-                      [items]="countries"
-                      [searchable]="true"
-                      bindValue="idCountry"
-                      bindLabel="name"
-                      formControlName="country"
-                      *ngIf="false"
-                      placeholder="{{ 'Enter country' | translate }}"
-                    >
-                      <ng-template ng-label-tmp let-item="item">
-                        <div>
-                          <span>{{ item.name }}</span>
+            </div>
+            <div class="col col-xl-12  col-lg-12 table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="table-tr bold">{{ 'Description' | translate }}</th>
+                    <th class="table-tr bold">{{ 'Qty' | translate }}</th>
+                    <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
+                    <th class="table-tr bold">{{ 'Tax Rate' | translate }}</th>
+                    <th class="table-tr bold">{{ 'Amount' | translate}}</th>
+                    <th class="table-tr bold">
+                      <span *ngIf="allDelete" class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let productR of invoice.listProductRequested; let i = index">
+                    <tr *ngIf="productR.delete == null || productR.delete == false">
+                      <td class="table-tr td-table" *ngIf="pilot" >{{productR.description}}</td>
+                      <td class="table-tr td-table" *ngIf="!pilot">
+                        <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.description"  (change)="updateDescription($event, i)" class="form-control" required>
+                        <select *ngIf="productR.idProductRequested == null" class="form-control" id="productDescription{{i}}" (change)="updateProduct($event, i)">
+                          <option value="" disabled [selected]="true" translate>Select product</option>
+                          <option *ngFor="let pR of listProducts" value="{{pR.idProductRequested}}">{{pR.product.name}} - {{ pR.product.name}} </option>
+                        </select>
+                      </td>
+                      <td class="table-tr td-table" *ngIf="pilot">{{productR.quantity}}</td>
+                      <td class="table-tr td-table" *ngIf="!pilot">
+                        <div class="amount-div">
+                          <input type="number" id="quantity{{i}}" [value]="productR.quantity" class="form-control" (change)="updateQuantity($event, i)"
+                            placeholder="{{ 'Enter quantity' | translate }}" required>
                         </div>
-                      </ng-template>
-                      <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                        <div>
-                          <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                      </td>
+                      <td class="table-tr td-table" *ngIf="pilot"> {{productR.price | currency }}</td>
+                      <td class="table-tr td-table" *ngIf="!pilot">
+                      <div class="amount-div">
+                        <div class="input-group-append">
+                          <span class="input-group-text">$</span>
                         </div>
-                      </ng-template>
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Businness Name' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="businessName"
-                    maxlength="254"
-                    *ngIf="false"
-                    placeholder="{{ 'Enter business name' | translate }}"
-                  />
-                  
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Recipient' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="recipient"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter recipient' | translate }}"
-                  />
-                  
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Shipping Address' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="shippingAddress"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter shipping address' | translate }}"
-                  />
-                  
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Shipping Frecuency' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="shippingFrecuency"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter shipping frecuency' | translate }}"
-                  />
-                  
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Shipping Method' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="shippingMethod"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter shipping method' | translate }}"
-                  />
-                  
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Shipping Details' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="shippingDetail"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter shipping detail' | translate }}"
-                  />
-                  
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Account Number for Shipping Carrier' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="accountNumber"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter account number for shipping carrier' | translate }}"
-                  />
-                  
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Comments' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="comment"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter comments' | translate }}"
-                  />
-                  
-                </div>
-              </div>
-              <div class="d-flex">
-  
-                <div class="form-group pr-3 half-flex">
-                  <label>DMV</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="dmv"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter DMV' | translate }}"
-                  />
-                  
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Email Comments' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="emailComment"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter email comments' | translate }}"
-                  />
-                  
-                </div>
-              </div>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab title="{{'Protocol Proforma'| translate}}">
-            <ng-template ngbTabContent>
-              <div class="d-flex">
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Spectrum Proforma' | translate }}</label>
-                  <div *ngIf="edit" class="mb-2 mr-sm-2 mb-sm-0">
-                    <div class="custom-control-inline">
-                      <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio1" name="spectrumProforma" class="custom-control-input">
-                        <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
+                        <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice($event, i)"
+                          placeholder="{{ 'Enter unit price' | translate }}" required>
                       </div>
-                      <div class="custom-control custom-radio">
-                        <input style="margin-left: 10px;"  type="radio" id="customRadio2" name="spectrumProforma" class="custom-control-input" >
-                        <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
+                      </td>
+                      <td class="table-tr td-table" *ngIf="pilot">{{(productR.tax | currency )}}</td>
+                      <td class="table-tr td-table" *ngIf="!pilot">
+                        <div class="amount-div">
+                          <div class="input-group-append">
+                            <span class="input-group-text">$</span>
+                          </div>
+                          <input type="number" id="tax{{i}}" [value]="productR.tax" class="form-control" (change)="updateTax($event, i)"
+                            placeholder="{{ 'Enter tax' | translate }}" required>
+                        </div>
+                        </td>
+                      <td class="table-tr td-table td-align" *ngIf="pilot" colspan="2">{{(productR.netAmount | currency )}}</td>
+                      <td class="table-tr td-table" *ngIf="!pilot">
+                        <div class="amount-div">
+                          <div class="input-group-append">
+                            <span class="input-group-text">$</span>
+                          </div>
+                          <input type="number" id="netAmount{{i}}" [value]="productR.netAmount" class="form-control" (change)="updateNetAmount($event, i)"
+                            placeholder="{{ 'Enter Net Amount' | translate }}" required>
+                        </div>
+                      </td>
+                    <td class="table-tr td-table hand-over" *ngIf="!pilot">
+                      <span class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
+                      <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete' | translate}}" (click)="removeItem(i)"></span>
+                    </td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+            </div>
+            <div class="col col-xl-12 col-lg-12">
+              <div class="row">
+                <div  *ngIf="!pilot" class="col-xl-6">
+                  <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
+                  <br>
+                  <input type="text" class="form-control" value="{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}"
+                  (change)="updateTerms($event)" required>
+                </div>
+                <div  *ngIf="pilot" class="col-xl-6">
+                  <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
+                  <br>
+                  <label class="">{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}</label>
+                </div>
+                <div class="col-xl-6">
+                  <label class="label-amount bold">{{ 'Subtotal' | translate }}</label>
+                  <label *ngIf="pilot" class="label-amount">{{invoice.subtotal | currency }}</label>
+                  <div *ngIf="!pilot" class="amount-div amount-total ">
+                      <div class="input-group-append">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" id="subtotal" [value]="invoice.subtotal" class="form-control" (change)="updateSubtotal($event)" required>
+                    </div>
+                  <br>
+                  <label class="label-amount bold">{{ 'Shipping' | translate }}</label>
+                  <label *ngIf="pilot" class="label-amount">{{invoice.shipping | currency }}</label>
+                  <div *ngIf="!pilot" class="amount-div amount-total ">
+                      <div class="input-group-append">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" id="shipping" [value]="invoice.shipping" class="form-control" (change)="updateShipping($event)" required>
+                    </div>
+                  <br>
+                  <label class="label-amount bold">{{ 'Total' | translate }}</label>
+                  <label *ngIf="pilot" class="label-amount ">{{invoice.total | currency }}</label>
+                  <div *ngIf="!pilot" class="amount-div amount-total ">
+                      <div class="input-group-append">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" id="total" [value]="invoice.total" class="form-control" (change)="updateTotal($event)" required>
+                    </div>
+                  <br>
+                  <label class="label-amount bold">{{ 'Amount Due' | translate }}</label>
+                  <label *ngIf="pilot" class="label-amount">{{invoice.due | currency : "USD $" }}</label>
+                  <div *ngIf="!pilot" class="amount-div amount-total ">
+                      <div class="input-group-append">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" id="due" [value]="invoice.due" class="form-control" (change)="updateAmountDue($event)" required>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col col-xl-12 col-lg-12">
+              <div class="row">
+                <div class="col-xl-12">
+                  <br>
+                  <br>
+                  <label class="bold">{{ 'Shipping Instructions' | translate }}</label>
+                  <br>
+                  <label *ngIf="pilot" class="">{{ (invoice.shippingInstructions ? invoice.shippingInstructions : ('No Instructions Shipping' | translate)) }}</label>
+                  <input *ngIf="!pilot" class="form-control" [value]="(invoice.shippingInstructions?
+                  invoice.shippingInstructions : ('No Instructions Shipping' | translate))" (change)="updateInstructions($event)" required>
+                  <br>
+                </div>
+              </div>
+            </div>
+            <!--div class="col col-xl-12 col-lg-12">
+              <div class="row">
+                <div class="col-xl-12">
+                  <br>
+                  <br>
+                  <label class="bold">{{ 'Comments' | translate }}</label>
+                  <br>
+                  <label *ngIf="pilot" class="">{{ invoice.comments != null ? invoice.comments : '' }}</label>
+                  <input *ngIf="!pilot" class="form-control" [value]="invoice.comments != null ? invoice.comments : ''" (change)="updateComment($event)" required>
+                  <br>
+                </div>
+              </div>
+            </div>-->
+            <div class="col col-xl-12 col-lg-12">
+              <div class="row">
+                <div class="col-xl-12">
+                  <br>
+                  <br>
+                  <label class="">{{ 'This invoice includes the following orders' | translate }}: </label>
+                  <label class="label-order">{{ ordersNumber }}</label>
+                  <br>
+                </div>
+              </div>
+            </div>
+            <div class="col col-xl-12 col-lg-12" [hidden]="!pilot">
+              <div class="row">
+                <div class="col-xl-12 message-error">
+                  <br>
+                  <br>
+                  <label class="bold">{{ 'Invoice already generated' | translate }}</label>
+                  <br>
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col col-xl-4 col-lg-4">
+            <ngb-tabset>
+              <ngb-tab title="{{'Shipping Protocol'| translate}}">
+                <ng-template ngbTabContent>
+                  <div class="d-flex">
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'ACC Number' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="accNumber"
+                        maxlength="254"
+                        *ngIf="false"
+                        placeholder="{{ 'Enter ACC number' | translate }}"
+                      />
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>Country</label>
+                      <div>
+                        <ng-select
+                          [items]="countries"
+                          [searchable]="true"
+                          bindValue="idCountry"
+                          bindLabel="name"
+                          formControlName="country"
+                          *ngIf="false"
+                          placeholder="{{ 'Enter country' | translate }}"
+                        >
+                          <ng-template ng-label-tmp let-item="item">
+                            <div>
+                              <span>{{ item.name }}</span>
+                            </div>
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                            <div>
+                              <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                            </div>
+                          </ng-template>
+                        </ng-select>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Additional Documents' | translate }}</label>
-                  <div>
-                    <textarea style="overflow-x: hidden;"
-                      type="text"
-                      class="form-control"
-                      formControlName="additionalDocuments"
-                      placeholder="{{ 'Enter additional documents' | translate }}"
-                      *ngIf="edit"
-                    ></textarea>
+                  <div class="d-flex">
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Businness Name' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="businessName"
+                        maxlength="254"
+                        *ngIf="false"
+                        placeholder="{{ 'Enter business name' | translate }}"
+                      />
+
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Recipient' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="recipient"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter recipient' | translate }}"
+                      />
+
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div *ngIf="viewField" class="d-flex">
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Outputs (Send information to Spectrum team)' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="outputs"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter outputs (send information to Spectrum team)' | translate }}"
-                  />
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Protocol From Spectrum' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="protocolSpectrum"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter protocol from spectrum' | translate }}"
-                  />
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Maximum Amount to Declare' | translate }}</label>
-                  <div *ngIf="edit && editField" class="input-group-append">
-                    <span class="input-group-text">$</span>
-                    <input
-                      type="number"
-                      class="form-control"
-                      formControlName="maximumAmount"
-                      *ngIf="edit && editField"
-                      placeholder="{{ 'Enter maximum amount to declare' | translate }}"
-                    />
+                  <div class="d-flex">
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Shipping Address' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="shippingAddress"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter shipping address' | translate }}"
+                      />
+
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Shipping Frecuency' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="shippingFrecuency"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter shipping frecuency' | translate }}"
+                      />
+
+                    </div>
                   </div>
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Documentation that must accompany the delivery and proforma invoice' | translate }}</label>
-                  <textarea style="overflow-x: hidden;"
-                    type="text"
-                    class="form-control"
-                    formControlName="documentation"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter documentation that must accompany the delivery and proforma invoice' | translate }}"
-                  ></textarea>
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Fixed Prices for Proforma Invoice' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="fixedPrices"
-                    maxlength="254"
-                    *ngIf="edit && editField"
-                    placeholder="{{ 'Enter fixed prices for proforma invoice' | translate }}"
-                  />
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Comments' | translate }}</label>
-                  <textarea style="overflow-x: hidden;"
-                    type="text"
-                    class="form-control"
-                    formControlName="comments"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter comments' | translate }}"
-                  ></textarea>
-                </div>
-              </div>
-              <div class="d-flex">
-                <div *ngIf="viewField" class="form-group pr-3 half-flex">
-                  <label>{{ 'Email Comments' | translate }}</label>
-                  <textarea style="overflow-x: hidden;"
-                    type="text"
-                    class="form-control"
-                    formControlName="emailComment"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter email comments' | translate }}"
-                  ></textarea>
-                </div>
-                <div class="form-group pr-3 half-flex">
-                  <label>{{ 'Tariff Codes' | translate }}</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="tariffCodes"
-                    maxlength="254"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter tariff codes' | translate }}"
-                  />
-                </div>
-              </div>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
+                  <div class="d-flex">
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Shipping Method' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="shippingMethod"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter shipping method' | translate }}"
+                      />
+
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Shipping Details' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="shippingDetail"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter shipping detail' | translate }}"
+                      />
+
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Account Number for Shipping Carrier' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="accountNumber"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter account number for shipping carrier' | translate }}"
+                      />
+
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Comments' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="comment"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter comments' | translate }}"
+                      />
+
+                    </div>
+                  </div>
+                  <div class="d-flex">
+
+                    <div class="form-group pr-3 half-flex">
+                      <label>DMV</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="dmv"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter DMV' | translate }}"
+                      />
+
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Email Comments' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="emailComment"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter email comments' | translate }}"
+                      />
+
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="{{'Protocol Proforma'| translate}}">
+                <ng-template ngbTabContent>
+                  <div class="d-flex">
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Spectrum Proforma' | translate }}</label>
+                      <div *ngIf="edit" class="mb-2 mr-sm-2 mb-sm-0">
+                        <div class="custom-control-inline">
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadio1" name="spectrumProforma" class="custom-control-input">
+                            <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
+                          </div>
+                          <div class="custom-control custom-radio">
+                            <input style="margin-left: 10px;"  type="radio" id="customRadio2" name="spectrumProforma" class="custom-control-input" >
+                            <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Additional Documents' | translate }}</label>
+                      <div>
+                        <textarea style="overflow-x: hidden;"
+                          type="text"
+                          class="form-control"
+                          formControlName="additionalDocuments"
+                          placeholder="{{ 'Enter additional documents' | translate }}"
+                          *ngIf="edit"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="viewField" class="d-flex">
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Outputs (Send information to Spectrum team)' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="outputs"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter outputs (send information to Spectrum team)' | translate }}"
+                      />
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Protocol From Spectrum' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="protocolSpectrum"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter protocol from spectrum' | translate }}"
+                      />
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Maximum Amount to Declare' | translate }}</label>
+                      <div *ngIf="edit && editField" class="input-group-append">
+                        <span class="input-group-text">$</span>
+                        <input
+                          type="number"
+                          class="form-control"
+                          formControlName="maximumAmount"
+                          *ngIf="edit && editField"
+                          placeholder="{{ 'Enter maximum amount to declare' | translate }}"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Documentation that must accompany the delivery and proforma invoice' | translate }}</label>
+                      <textarea style="overflow-x: hidden;"
+                        type="text"
+                        class="form-control"
+                        formControlName="documentation"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter documentation that must accompany the delivery and proforma invoice' | translate }}"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Fixed Prices for Proforma Invoice' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="fixedPrices"
+                        maxlength="254"
+                        *ngIf="edit && editField"
+                        placeholder="{{ 'Enter fixed prices for proforma invoice' | translate }}"
+                      />
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Comments' | translate }}</label>
+                      <textarea style="overflow-x: hidden;"
+                        type="text"
+                        class="form-control"
+                        formControlName="comments"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter comments' | translate }}"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <div *ngIf="viewField" class="form-group pr-3 half-flex">
+                      <label>{{ 'Email Comments' | translate }}</label>
+                      <textarea style="overflow-x: hidden;"
+                        type="text"
+                        class="form-control"
+                        formControlName="emailComment"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter email comments' | translate }}"
+                      ></textarea>
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <label>{{ 'Tariff Codes' | translate }}</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="tariffCodes"
+                        maxlength="254"
+                        *ngIf="edit"
+                        placeholder="{{ 'Enter tariff codes' | translate }}"
+                      />
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </div>
+        </div>
       </div>
     </form>
   </div>
