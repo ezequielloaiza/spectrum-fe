@@ -64,7 +64,7 @@ export class MarkennovyComponent implements OnInit {
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
     this.patient = this.productRequested.patient;
-    let paramet = this.product.parameters;
+    let paramet = this.addSign();
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
@@ -138,5 +138,27 @@ export class MarkennovyComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+  }
+
+  addSign(): any {
+    let parameters = this.product.parameters;;
+    let auxNeg = [];
+    let auxPos = [];
+    _.each(parameters, function(param, index) {
+      if (param.name === 'Sphere (D)') {
+        _.each(param.values, function(item) {
+            if (_.includes(item, '-') || item === '0.00' ) {
+              auxNeg.push(item);
+            } else {
+              item = '+' + item;
+              auxPos.push(item);
+            }
+        });
+        _.reverse(auxNeg);
+        auxPos = _.concat(auxPos, auxNeg);
+        parameters[index].values = auxPos;
+      }
+    });
+    return parameters;
   }
 }
