@@ -12,6 +12,8 @@ import { InvoiceSupplierProductRequested } from '../../../shared/models/invoices
 import { UserStorageService } from '../../../http/user-storage.service';
 import { InvoiceSupplierService } from '../../../shared/services/invoiceSupplier/invoiceSupplier.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ProtocolClientService } from '../../../shared/services/protocolClient/protocol-client.service';
+import { ProtocolProformaService } from '../../../shared/services/protocolProforma/protocol-proforma.service';
 
 @Component({
   selector: 'app-generate-invoice',
@@ -38,6 +40,9 @@ export class GenerateInvoiceComponent implements OnInit {
   edit: any;
   allDelete: any;
   copy: any;
+  shippingProtocol: any;
+  protocolProforma: any;
+
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -46,6 +51,8 @@ export class GenerateInvoiceComponent implements OnInit {
     private notification: ToastrService,
     private translate: TranslateService,
     private alertify: AlertifyService,
+    private protocolClientService: ProtocolClientService,
+    private protocolProformaService: ProtocolProformaService,
     private userStorageService: UserStorageService,
     private invoiceService: InvoiceSupplierService,
     private spinner: NgxSpinnerService,
@@ -152,6 +159,32 @@ export class GenerateInvoiceComponent implements OnInit {
     }
   }
 
+  loadProtocols(supplier) {
+    this.protocolClientService.findByClienSupplier$(this.invoice.idUser, supplier).subscribe(res => {
+      if (res != null) {
+        this.shippingProtocol = res;
+         console.log(res);
+      } else {
+        console.log(res);
+      }
+    },
+    error => {
+      console.log('error', error);
+    });
+
+    this.protocolProformaService.findByClienSupplier$(this.invoice.idUser, supplier).subscribe(res => {
+      if (res != null) {
+        this.protocolProforma = res;
+         console.log(res);
+      } else {
+        console.log(res);
+      }
+    },
+    error => {
+      console.log('error', error);
+    });
+  }
+
   getDates() {
     const date = new Date(this.invoice.date);
     this.invDate = {year: date.getUTCFullYear(), month: date.getMonth() + 1, day: date.getDate()};
@@ -183,15 +216,18 @@ export class GenerateInvoiceComponent implements OnInit {
     this.orderService.findByIds$(ids).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         const orders = res.data;
+        let supplier;
         _.each(orders, function(order) {
           auxNumbers += order.number + ', ';
         });
+        supplier = orders[0].supplier.idSupplier;
         if (auxNumbers.trim().endsWith(',')) {
           auxNumbers = auxNumbers.substring(0, auxNumbers.lastIndexOf(', ') - 2);
         }
         this.ordersNumber = auxNumbers;
         this.listOrders = orders;
         this.getProducts();
+        this.loadProtocols(supplier);
       } else {
         console.log(res.code);
       }

@@ -156,3 +156,14 @@
   border-right: lightgray solid 1px;
 }
 
+.half-flex {
+  flex-basis: 50%;
+}
+
+.unassigned {
+  color: $color-text-menu;
+  font-style: oblique;
+  font-size: 0.95em;
+  font-weight: normal !important;
+  padding-left: 12%;
+}
