@@ -1,6 +1,6 @@
 <div class="container bootstrap snippet pl-5 pr-3">
   <div class="row">
-    <ngb-tabset (tabChange)="beforeChange($event)">
+    <ngb-tabset (tabChange)="beforeChangeProforma($event)">
       <ngb-tab id="{{supplier.idSupplier}}" *ngFor="let supplier of suppliers">
         <ng-template ngbTabTitle><b>{{ supplier.companyName }}</b></ng-template>
         <ng-template ngbTabContent>
@@ -9,7 +9,7 @@
               <button type="button" class="btn btn-main mr-3" *ngIf="!edit" (click)="enableEdit()">{{ 'Edit' | translate }}
                 <i class="fa fa-edit"></i>
               </button>
-              <button type="button" class="btn btn-success btn-xs" *ngIf="!edit && protocol" (click)="downloadProtocol()">{{ 'Download PDF' | translate }}
+              <button type="button" class="btn btn-success btn-xs" *ngIf="!edit" [disabled]="!download" (click)="downloadProtocol()">{{ 'Download PDF' | translate }}
                 <i class="fa fa-download"></i>
               </button>
             </div>
@@ -22,8 +22,8 @@
                       <input type="radio" id="customRadio1" name="spectrumProforma" class="custom-control-input" (change)="assignSpectrumProforma(true)" [checked]="protocol ? protocol.spectrumProforma : false">
                       <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
                     </div>
-                    <div class="custom-control custom-radio">
-                      <input style="margin-left: 10px;"  type="radio" id="customRadio2" name="spectrumProforma" class="custom-control-input" (change)="assignSpectrumProforma(false)" [checked]="protocol ? !protocol.spectrumProforma : true">
+                    <div style="margin-left: 10px;" class="custom-control custom-radio">
+                      <input type="radio" id="customRadio2" name="spectrumProforma" class="custom-control-input" (change)="assignSpectrumProforma(false)" [checked]="protocol ? !protocol.spectrumProforma : true">
                       <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
                     </div>
                   </div>
@@ -31,10 +31,10 @@
                 <div *ngIf="!edit && protocol.spectrumProforma === true">
                   <span translate>{{ 'Yes' }}</span>
                 </div>
-                <div *ngIf="!edit && protocol.spectrumProforma === false">
+                <div *ngIf="!edit && !protocol.spectrumProforma && protocol.spectrumProforma !== null">
                   <span translate>{{ 'No' | translate }}</span>
                 </div>
-                <div *ngIf="!edit && protocol.spectrumProforma !== true && protocol.spectrumProforma !== false">
+                <div *ngIf="!edit && protocol.spectrumProforma === null">
                   <span translate>{{ 'Unassigned' | translate }}</span>
                 </div>
               </div>
