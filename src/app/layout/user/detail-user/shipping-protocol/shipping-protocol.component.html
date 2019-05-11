@@ -6,19 +6,20 @@
         <ng-template ngbTabContent>
           <div class="border-tab" [formGroup]="protocolForm">
             <div class="text-right pb-3">
-              <button type="button" class="btn btn-main mr-3" *ngIf="!edit" (click)="enableEdit()">
-                Edit
+              <button type="button" class="btn btn-main mr-3" *ngIf="!edit" (click)="enableEdit()">{{ 'Edit' | translate }}
+                <i class="fa fa-edit"></i>
               </button>
             </div>
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
-                <label>ACC Number</label>
+                <label>{{ 'ACC Number' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="accNumber"
                   maxlength="254"
                   *ngIf="false"
+                  placeholder="{{ 'Enter ACC number' | translate }}"
                 />
                 <div>
                   <span [ngClass]="{ unassigned: !protocol.accNumber }">{{ protocol.accNumber ? protocol.accNumber :
@@ -36,6 +37,7 @@
                     bindLabel="name"
                     formControlName="country"
                     *ngIf="false"
+                    placeholder="{{ 'Enter country' | translate }}"
                   >
                     <ng-template ng-label-tmp let-item="item">
                       <div>
@@ -58,13 +60,14 @@
             </div>
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
-                <label>Businness Name</label>
+                <label>{{ 'Business Name' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="businessName"
                   maxlength="254"
                   *ngIf="false"
+                  placeholder="{{ 'Enter business name' | translate }}"
                 />
                 <div *ngIf="true">
                   <span [ngClass]="{ unassigned: !protocol.businessName }">{{ protocol.businessName ? protocol.businessName :
@@ -73,13 +76,14 @@
                 </div>
               </div>
               <div class="form-group pr-3 half-flex">
-                <label>Recipient</label>
+                <label>{{ 'Recipient' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="recipient"
                   maxlength="254"
                   *ngIf="edit"
+                  placeholder="{{ 'Enter recipient' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.recipient }">{{ protocol.recipient ? protocol.recipient :
@@ -90,13 +94,14 @@
             </div>
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
-                <label>Shipping Address</label>
+                <label>{{ 'Shipping Address' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="shippingAddress"
                   maxlength="254"
                   *ngIf="edit"
+                  placeholder="{{ 'Enter shipping address' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingAddress }">{{ protocol.shippingAddress ? protocol.shippingAddress :
@@ -105,30 +110,32 @@
                 </div>
               </div>
               <div class="form-group pr-3 half-flex">
-                <label>Shipping Frecuency</label>
+                <label>{{ 'Shipping Frecuency' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="shippingFrecuency"
                   maxlength="254"
                   *ngIf="edit"
+                  placeholder="{{ 'Enter shipping frecuency' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingFrecuency }">{{ protocol.shippingFrecuency ? protocol.shippingFrecuency :
                     'Unassigned'
                   }}</span>
                 </div>
-              </div>           
+              </div>
             </div>
-            <div class="d-flex">            
+            <div class="d-flex">
               <div class="form-group pr-3 half-flex">
-                <label>Shipping Method</label>
+                <label>{{ 'Shipping Method' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="shippingMethod"
                   maxlength="254"
                   *ngIf="edit"
+                  placeholder="{{ 'Enter shipping method' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingMethod }">{{ protocol.shippingMethod ? protocol.shippingMethod :
@@ -137,13 +144,14 @@
                 </div>
               </div>
               <div class="form-group pr-3 half-flex">
-                <label>Shipping Details</label>
+                <label>{{ 'Shipping Details' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="shippingDetail"
                   maxlength="254"
                   *ngIf="edit"
+                  placeholder="{{ 'Enter shipping detail' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingDetail }">{{ protocol.shippingDetail ? protocol.shippingDetail :
@@ -154,13 +162,14 @@
             </div>
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
-                <label>Account Number for Shipping Carrier</label>
+                <label>{{ 'Account Number for Shipping Carrier' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="accountNumber"
                   maxlength="254"
                   *ngIf="edit"
+                  placeholder="{{ 'Enter account number for shipping carrier' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.accountNumber }">{{ protocol.accountNumber ? protocol.accountNumber :
@@ -169,13 +178,14 @@
                 </div>
               </div>
               <div class="form-group pr-3 half-flex">
-                <label>Comments</label>
+                <label>{{ 'Comments' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="comment"
                   maxlength="254"
                   *ngIf="edit"
+                  placeholder="{{ 'Enter comments' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.comment }">{{ protocol.comment ? protocol.comment :
@@ -185,7 +195,7 @@
               </div>
             </div>
             <div class="d-flex">
-              
+
               <div class="form-group pr-3 half-flex">
                 <label>DMV</label>
                 <input
@@ -194,6 +204,7 @@
                   formControlName="dmv"
                   maxlength="254"
                   *ngIf="edit"
+                  placeholder="{{ 'Enter DMV' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.dmv }">{{ protocol.dmv ? protocol.dmv :
@@ -202,13 +213,14 @@
                 </div>
               </div>
               <div class="form-group pr-3 half-flex">
-                <label>Email Comments</label>
+                <label>{{ 'Email Comments' | translate }}</label>
                 <input
                   type="text"
                   class="form-control"
                   formControlName="emailComment"
                   maxlength="254"
                   *ngIf="edit"
+                  placeholder="{{ 'Enter email comments' | translate }}"
                 />
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.emailComment }">{{ protocol.emailComment ? protocol.emailComment :
@@ -218,8 +230,8 @@
               </div>
             </div>
             <div class="text-right pb-3">
-              <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit" (click)="cancel()">
-                Cancel
+              <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit" (click)="cancel()">{{ 'Cancel' | translate }}&nbsp;
+                <i class="fa fa-times"></i>
               </button>
               <button
                 type="button"
@@ -227,8 +239,8 @@
                 *ngIf="edit"
                 [disabled]="saving"
                 (click)="update()"
-              >
-                Save
+              >{{ 'Save' | translate }}&nbsp;
+                <i class="fa fa-save"></i>
               </button>
             </div>
           </div>
