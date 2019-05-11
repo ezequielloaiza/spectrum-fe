@@ -7,6 +7,7 @@ import { ProductsRequestedService } from '../../../shared/services';
 import { UserStorageService } from '../../../http/user-storage.service';
 import * as _ from 'lodash';
 import { ProductRequested } from '../../../shared/models/productrequested';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-euclid',
@@ -36,7 +37,8 @@ export class EuclidComponent implements OnInit {
               private notification: ToastrService,
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
-              private userService: UserStorageService) {
+              private userService: UserStorageService,
+              private spinner: NgxSpinnerService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
@@ -111,6 +113,7 @@ export class EuclidComponent implements OnInit {
   }
 
   save() {
+    this.spinner.show();
     let paramet = this.product.parameters;
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
@@ -283,6 +286,7 @@ export class EuclidComponent implements OnInit {
   update(productRequested) {
     this.productRequestedService.update$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        this.spinner.hide();
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
