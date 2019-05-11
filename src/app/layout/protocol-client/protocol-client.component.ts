@@ -27,7 +27,7 @@ export class ProtocolClientComponent implements OnInit {
   saving = false;
   listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
   listBiweekly = [ '15', '30'];
-  listWeekly = [ 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'];
+  listWeekly = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   valueFrecuency: any;
   today: Date = new Date();
   download = false;
@@ -156,43 +156,43 @@ export class ProtocolClientComponent implements OnInit {
   assignShippingFrecuency(value: number) {
     switch (value) {
       case 1:
-          this.valueFrecuency = 'MONTHLY';
+          this.valueFrecuency = 'Monthly';
           this.protocolForm.get('shippingFrecuencyB').setValue(null);
           this.protocolForm.get('shippingFrecuencyW').setValue(null);
         break;
       case 2:
-           this.valueFrecuency = 'BIWEEKLY';
+           this.valueFrecuency = 'Biweekly';
            this.protocolForm.get('shippingFrecuencyW').setValue(null);
         break;
       case 3:
-           this.valueFrecuency = 'WEEKLY';
+           this.valueFrecuency = 'Weekly';
            this.protocolForm.get('shippingFrecuencyB').setValue(null);
         break;
     }
   }
 
   setShippingFrecuency() {
-      if (this.protocol.shippingFrecuency === 'MONTHLY' || this.protocol.shippingFrecuency === null) {
-        this.valueFrecuency = 'MONTHLY';
-        this.protocolForm.get('shippingFrecuency').setValue('MONTHLY');
+      if (this.protocol.shippingFrecuency === 'Monthly' || this.protocol.shippingFrecuency === null) {
+        this.valueFrecuency = 'Monthly';
+        this.protocolForm.get('shippingFrecuency').setValue('Monthly');
       } else if (this.protocol.shippingFrecuency === '15' || this.protocol.shippingFrecuency === '30') {
-        this.valueFrecuency = 'BIWEEKLY';
+        this.valueFrecuency = 'Biweekly';
         this.protocolForm.get('shippingFrecuencyB').setValue(this.protocol.shippingFrecuency);
       } else {
-        this.valueFrecuency = 'WEEKLY';
+        this.valueFrecuency = 'Weekly';
         this.protocolForm.get('shippingFrecuencyW').setValue(this.protocol.shippingFrecuency);
       }
   }
 
   getShippingFrecuency() {
     switch (this.valueFrecuency) {
-      case 'MONTHLY':
-          this.protocolForm.get('shippingFrecuency').setValue('MONTHLY');
+      case 'Monthly':
+          this.protocolForm.get('shippingFrecuency').setValue('Monthly');
         break;
-      case 'BIWEEKLY':
+      case 'Biweekly':
           this.protocolForm.get('shippingFrecuency').setValue(this.protocolForm.get('shippingFrecuencyB').value);
         break;
-      case 'WEEKLY' :
+      case 'Weekly' :
           this.protocolForm.get('shippingFrecuency').setValue(this.protocolForm.get('shippingFrecuencyW').value);
         break;
     }

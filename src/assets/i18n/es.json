@@ -1175,15 +1175,17 @@
     "Enter account number for shipping carrier": "Ingrese número de cuenta del transportista",
     "Enter DMV": "Enter DMV",
     "Protocols": "Protocolos",
-    "2nd day":"2 º día",
+    "2nd day":"2do día",
     "Overnight":"Al Atardecer",
     "Overnight AM":"Al Amanecer",
-    "MONTHLY":"MENSUAL",
-    "BIWEEKLY":"QUINCENAL",
-    "WEEKLY":"SEMANAL",
-    "MONDAY":"LUNES",
-    "TUESDAY":"MARTES",
-    "WEDNESDAY":"MIERCOLES",
-    "THURSDAY":"JUEVES",
-    "FRIDAY":"VIERNES"
+    "Biweekly":"Quincenal",
+    "Weekly":"Semanal",
+    "Monday":"Lunes",
+    "Tuesday":"Martes",
+    "Wednesday":"Miercoles",
+    "Thursday":"Jueves",
+    "Friday":"Viernes",
+    "Saturday":"Sabado",
+    "Sunday":"Domingo"
+
 }
