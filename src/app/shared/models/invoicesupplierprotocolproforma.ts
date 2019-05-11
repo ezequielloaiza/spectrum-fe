@@ -5,7 +5,7 @@ export class InvoiceSupplierProtocolProforma {
 
   public idInvoiceSupplierProtocolProforma: number;
   public protocolProforma: ProtocolProforma;
-  public idProtocolClient: number;
+  public idProtocolProforma: number;
   public invoice: InvoiceSupplier;
   public idInvoice: number;
   public spectrumProforma: Boolean;

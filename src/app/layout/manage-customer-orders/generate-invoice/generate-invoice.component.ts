@@ -14,6 +14,8 @@ import { InvoiceSupplierService } from '../../../shared/services/invoiceSupplier
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ProtocolClientService } from '../../../shared/services/protocolClient/protocol-client.service';
 import { ProtocolProformaService } from '../../../shared/services/protocolProforma/protocol-proforma.service';
+import { InvoiceSupplierProtocolClient } from '../../../shared/models/invoicesupplierprotocolclient';
+import { InvoiceSupplierProtocolProforma } from '../../../shared/models/invoicesupplierprotocolproforma';
 
 @Component({
   selector: 'app-generate-invoice',
@@ -42,6 +44,8 @@ export class GenerateInvoiceComponent implements OnInit {
   copy: any;
   shippingProtocol: any;
   protocolProforma: any;
+  invShippingProtocol: InvoiceSupplierProtocolClient = new InvoiceSupplierProtocolClient();
+  invProtocolProforma: InvoiceSupplierProtocolProforma = new InvoiceSupplierProtocolProforma();
 
 
   constructor(
@@ -89,6 +93,7 @@ export class GenerateInvoiceComponent implements OnInit {
     //  cbFixedPrices: [null],
       cbComments: [[]],
       cbEmailComment: [null],
+      cbEmailComment2: [null],
       cbTariffCodes: [null],
       cbAccNumber: [null],
       cbBusinessName: [null],
@@ -525,11 +530,39 @@ export class GenerateInvoiceComponent implements OnInit {
     }
   }
 
+  buildInvoiceProtocols() {
+    // Shipping Protocol
+    this.invShippingProtocol.accNumber = this.form.get('cbAccNumber').value;
+    this.invShippingProtocol.accountNumber = this.form.get('cbAccountNumber').value;
+    this.invShippingProtocol.businessName = this.form.get('cbBusinessName').value;
+    this.invShippingProtocol.comment = this.form.get('cbComment').value;
+    this.invShippingProtocol.country = this.form.get('cbCountry').value;
+    this.invShippingProtocol.emailComment = this.form.get('cbEmailComment').value;
+    this.invShippingProtocol.recipient = this.form.get('cbRecipient').value;
+    this.invShippingProtocol.shippingAddress = this.form.get('cbShippingAddress').value;
+    this.invShippingProtocol.shippingMethod = this.form.get('cbShippingMethod').value;
+    this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
+
+    // Protocol Proforma
+    this.invProtocolProforma.additionalDocuments = this.form.get('cbAdditionalDocuments').value;
+    this.invProtocolProforma.comments = this.form.get('cbComments').value;
+    this.invProtocolProforma.documentation = this.form.get('cbDocumentation').value;
+    this.invProtocolProforma.emailComment = this.form.get('cbEmailComment2').value;
+    this.invProtocolProforma.outputs = this.form.get('cbOutputs').value;
+    this.invProtocolProforma.spectrumProforma = this.form.get('cbSpectrumProforma').value;
+    this.invProtocolProforma.tariffCodes = this.form.get('cbTariffCodes').value;
+    this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
+
+    this.invoice.invoiceProtocolClientRequest = this.invShippingProtocol;
+    this.invoice.invoiceProtocolProformaRequest = this.invProtocolProforma;
+  }
+
   generateInvoice(send) {
     this.spinner.show();
     this.verification();
     if (this.verify) {
       this.updateDates();
+      this.buildInvoiceProtocols();
       let inv: Array<any> = new Array;
       inv.push(this.original);
       inv.push(this.invoice);
