@@ -96,9 +96,9 @@ export class ShippingProtocolComponent implements OnInit {
   }
 
   getCountry() {
-  this.countryService.findAll$().subscribe(res => {
-    this.countries = res.data;
-  });
+    this.countryService.findAll$().subscribe(res => {
+      this.countries = res.data;
+    });
   }
 
   update() {

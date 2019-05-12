@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
+import { CountryService } from '../../shared/services';
 
 @Component({
   selector: 'app-protocols',
   templateUrl: './protocols.component.html',
   styleUrls: ['./protocols.component.scss']
 })
+
 export class ProtocolsComponent implements OnInit {
 
   modeEdit = true;
@@ -14,14 +16,21 @@ export class ProtocolsComponent implements OnInit {
   protocols: Array<any> = new Array;
   protocolsCopy: Array<any> = new Array;
   suppliers: Array<any> = new Array;
+  countries: Array<any> = new Array();
+  listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
+  listBiweekly = [ '15', '30'];
+  listWeekly = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  valueFrecuency: any;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+              private countryService: CountryService) { }
 
   ngOnInit() {
     this.initializeForm();
     this.loadFields();
     this.loadSuppliers();
-
+    this.getCountry();
+    this.valueFrecuency = 'NINGUNA';
   }
 
   initializeForm() {
@@ -32,17 +41,18 @@ export class ProtocolsComponent implements OnInit {
 
   loadFields() {
     this.protocols = [
-      {label: 'ACC Number'        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
-      {label: 'Country'           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
-      {label: 'Business Name'    , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
-      {label: 'Recipient'         , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Recipient'},
-      {label: 'Shipping Address'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address'},
-      {label: 'Shipping Frecuency', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency'},
-      {label: 'Shipping Method'   , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Method'},
-      {label: 'Acount Number'     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Account Number'},
-      {label: 'Shipping Details'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Details'},
-      {label: 'Comments'          , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Comments'},
-      {label: 'Email Comments'    , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
+      {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
+      {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
+      {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
+      {label: 'Recipient'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Recipient'},
+      {label: 'Shipping Address'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address'},
+      {label: 'Shipping Frecuency'                   , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency'},
+      {label: 'Shipping Method'                      , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Method'},
+      {label: 'Acount Number'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Account Number'},
+      {label: 'Shipping Details'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Details'},
+      {label: 'Account Number for Shipping Carrier'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Account Number for Shipping Carrier'},
+      {label: 'Comments'                             , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Comments'},
+      {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
     ];
   }
 
@@ -82,6 +92,12 @@ export class ProtocolsComponent implements OnInit {
   removeValue(protocol, index) {
     protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, protocol.values[index].suppliers);
     protocol.values.splice(index, 1);
+  }
+
+  getCountry() {
+    this.countryService.findAll$().subscribe(res => {
+      this.countries = res.data;
+    });
   }
 
   save() {

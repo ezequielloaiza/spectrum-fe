@@ -18,14 +18,12 @@
                   <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{ 'Add new value' | translate }}" (click)="addValue(protocol)"></span>
                 </div>
               </div>
-
               <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let value of protocol.values; let pos = index">
                 <!-- READ VALUE -->
                 <span [hidden]="modeEdit">{{ value.content }}</span>
-
                 <!-- WRITE VALUE -->
                 <div class="input-value">
-                  <input *ngIf="protocol.label === 'ACC Number' || protocol.label === 'Business Name' || protocol.label === 'Recipient' || protocol.label === 'Acount Number' || protocol.label === 'Shipping Method'"
+                  <input *ngIf="protocol.label === 'ACC Number' || protocol.label === 'Business Name' || protocol.label === 'Recipient' || protocol.label === 'Acount Number' || protocol.label === 'Shipping Method' || protocol.label === 'Account Number for Shipping Carrier'"
                     type="text"
                     [hidden]="!modeEdit"
                     class="form-control"
@@ -37,6 +35,15 @@
                     class="form-control"
                     placeholder="{{ protocol.placeHolder | translate }}"
                   ></textarea>
+                  <ng-select
+                    class = "select-size"
+                    [items]="countries"
+                    [searchable]="true"
+                    bindValue="idCountry"
+                    bindLabel="name"
+                    *ngIf="protocol.label === 'Country'"
+                    placeholder="{{ protocol.placeHolder | translate }}"
+                  ></ng-select>
                   <div class="col-md-1 hand-over" [hidden]="protocol.values.length === 1">
                     <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete protocol value' | translate}}" (click)="removeValue(protocol, pos)"></span>
                   </div>

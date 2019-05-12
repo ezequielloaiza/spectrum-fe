@@ -10,6 +10,7 @@ import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageHeaderModule } from '../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProtocolsComponent } from './protocols/protocols.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ProtocolsComponent } from './protocols/protocols.component';
     PageHeaderModule,
     FormsModule,
     ReactiveFormsModule,
+    NgSelectModule
   ],
   declarations: [InitialSessionsComponent, ChangePasswordTemporalComponent, ProtocolsComponent]
 })
