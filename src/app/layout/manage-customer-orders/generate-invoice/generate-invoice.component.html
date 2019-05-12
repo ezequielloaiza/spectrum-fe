@@ -348,38 +348,84 @@
                   </div>
                     <div class="form-group pr-3 half-flex">
                       <div class="custom-control custom-checkbox">
-                        <input id="cbAccNumber" type="checkbox" class="custom-control-input">
+                        <input id="cbAccNumber" type="checkbox" [checked]="editAccNumber" (change)="editAccNumber = !editAccNumber" class="custom-control-input">
                         <label class="custom-control-label" for="cbAccNumber">{{ 'ACC Number' | translate }}</label>
                       </div>
-                      <span class="unassigned">{{ shippingProtocol?.accNumber ? shippingProtocol.accNumber : 'Unassigned' }}</span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="accNumber"
+                        maxlength="254"
+                        *ngIf="editAccNumber"
+                        [ngModel]="shippingProtocol?.accNumber"
+                      />
+                      <span *ngIf="!editAccNumber" class="unassigned">{{ shippingProtocol?.accNumber ? shippingProtocol.accNumber : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <div class="custom-control custom-checkbox">
-                        <input id="cbCountry" type="checkbox" class="custom-control-input">
+                        <input id="cbCountry" type="checkbox" [checked]="editCountry" (change)="editCountry = !editCountry" class="custom-control-input">
                         <label class="custom-control-label" for="cbCountry">{{ 'Country' | translate }}</label>
                       </div>
-                      <span class="unassigned">{{ shippingProtocol?.country ? shippingProtocol.country : 'Unassigned' }}</span>
+                      <div>
+                        <ng-select
+                          [items]="countries"
+                          [searchable]="true"
+                          bindValue="idCountry"
+                          bindLabel="name"
+                          formControlName="country"
+                          *ngIf="editCountry"
+                        >
+                        </ng-select>
+                      </div>
+                      <span *ngIf="!editCountry" class="unassigned">{{ shippingProtocol?.country ? shippingProtocol.country : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <div class="custom-control custom-checkbox">
-                        <input id="cbBusinessName" type="checkbox" class="custom-control-input">
+                        <input id="cbBusinessName" type="checkbox" [checked]="editBusinessName" (change)="editBusinessName = !editBusinessName" class="custom-control-input">
                         <label class="custom-control-label" for="cbBusinessName">{{ 'Businness Name' | translate }}</label>
                       </div>
-                      <span class="unassigned">{{ shippingProtocol?.businessName ? shippingProtocol.businessName : 'Unassigned' }}</span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="businessName"
+                        maxlength="254"
+                        *ngIf="editBusinessName"
+                        [ngModel]="shippingProtocol?.businessName"
+                        placeholder="{{ 'Enter business name' | translate }}"
+                      />
+                      <span *ngIf="!editBusinessName" class="unassigned">{{ shippingProtocol?.businessName ? shippingProtocol.businessName : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <div class="custom-control custom-checkbox">
-                        <input id="cbRecipient" type="checkbox" class="custom-control-input">
+                        <input id="cbRecipient" type="checkbox" [checked]="editRecipient" (change)="editRecipient = !editRecipient" class="custom-control-input">
                         <label class="custom-control-label" for="cbRecipient">{{ 'Recipient' | translate }}</label>
                       </div>
-                      <span class="unassigned">{{ shippingProtocol?.recipient ? shippingProtocol.recipient : 'Unassigned' }}</span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="recipient"
+                        maxlength="254"
+                        *ngIf="editRecipient"
+                        [ngModel]="shippingProtocol?.recipient"
+                        placeholder="{{ 'Enter recipient' | translate }}"
+                      />
+                      <span *ngIf="!editRecipient" class="unassigned">{{ shippingProtocol?.recipient ? shippingProtocol.recipient : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <div class="custom-control custom-checkbox">
-                        <input id="cbShippingAddress" type="checkbox" class="custom-control-input">
+                        <input id="cbShippingAddress" type="checkbox" [checked]="editShippingAddress" (change)="editShippingAddress = !editShippingAddress" class="custom-control-input">
                         <label class="custom-control-label" for="cbShippingAddress">{{ 'Shipping Address' | translate }}</label>
                       </div>
-                      <span class="unassigned">{{ shippingProtocol?.shippingAddress ? shippingProtocol.shippingAddress : 'Unassigned' }}</span>
+                      <textarea style="overflow-x: hidden;"
+                        type="text"
+                        class="form-control"
+                        formControlName="shippingAddress"
+                        maxlength="254"
+                        *ngIf="editShippingAddress"
+                        [ngModel]="shippingProtocol?.shippingAddress"
+                        placeholder="{{ 'Enter shipping address' | translate }}">
+                      </textarea>
+                      <span *ngIf="!editShippingAddress" class="unassigned">{{ shippingProtocol?.shippingAddress ? shippingProtocol.shippingAddress : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <label class="">{{ 'Shipping Frecuency' | translate }}</label>
@@ -387,31 +433,54 @@
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <div class="custom-control custom-checkbox">
-                        <input id="cbShippingMethod" type="checkbox" class="custom-control-input">
+                        <input id="cbShippingMethod" type="checkbox" [checked]="editShippingMethod" (change)="editShippingMethod = !editShippingMethod" class="custom-control-input">
                         <label class="custom-control-label" for="cbShippingMethod">{{ 'Shipping Method' | translate }}</label>
                       </div>
-                      <span class="unassigned">{{ shippingProtocol?.shippingMethod ? shippingProtocol.shippingMethod : 'Unassigned' }}</span>
+                      <select
+                        *ngIf="editShippingMethod"
+                        class="form-control"
+                        name="shippingMethod"
+                        [ngModel]="shippingProtocol?.shippingMethod"
+                        formControlName="shippingMethod">
+                          <option *ngFor="let shippingMethod of listShippingMethod" value="{{shippingMethod}}">{{ shippingMethod | translate }}</option>
+                      </select>
+                      <span *ngIf="!editShippingMethod" class="unassigned">{{ shippingProtocol?.shippingMethod ? shippingProtocol.shippingMethod : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
-                        <input id="cbShippingDetails" type="checkbox" class="custom-control-input">
-                        <label class="custom-control-label" for="cbShippingDetails">{{ 'Shipping Details' | translate }}</label>
-                      </div>
+                      <label class="">{{ 'Shipping Details' | translate }}</label>
                       <span class="unassigned">{{ shippingProtocol?.shippingDetails ? shippingProtocol.shippingDetails : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <div class="custom-control custom-checkbox">
-                        <input id="cbAccountNumber" type="checkbox" class="custom-control-input">
+                        <input id="cbAccountNumber" type="checkbox" [checked]="editAccountNumber" (change)="editAccountNumber = !editAccountNumber" class="custom-control-input">
                         <label class="custom-control-label" for="cbAccountNumber">{{ 'Account Number for Shipping Carrier' | translate }}</label>
                       </div>
-                      <span class="unassigned">{{ shippingProtocol?.accountNumber ? shippingProtocol.accountNumber : 'Unassigned' }}</span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="accountNumber"
+                        maxlength="254"
+                        [ngModel]="shippingProtocol?.accountNumber"
+                        *ngIf="editAccountNumber"
+                        placeholder="{{ 'Enter account number for shipping carrier' | translate }}"
+                      />
+                      <span *ngIf="!editAccountNumber" class="unassigned">{{ shippingProtocol?.accountNumber ? shippingProtocol.accountNumber : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <div class="custom-control custom-checkbox">
-                        <input id="cbComments" type="checkbox" class="custom-control-input">
+                        <input id="cbComments" type="checkbox" [checked]="editComment" (change)="editComment = !editComment" class="custom-control-input">
                         <label class="custom-control-label" for="cbComments">{{ 'Comments' | translate }}</label>
                       </div>
-                      <span class="unassigned">{{ shippingProtocol?.comment ? shippingProtocol.comment : 'Unassigned' }}</span>
+                      <textarea style="overflow-x: hidden;"
+                        type="text"
+                        class="form-control"
+                        formControlName="comment"
+                        [ngModel]="shippingProtocol?.comment"
+                        maxlength="254"
+                        *ngIf="editComment"
+                        placeholder="{{ 'Enter comments' | translate }}"
+                      ></textarea>
+                      <span *ngIf="!editComment" class="unassigned">{{ shippingProtocol?.comment ? shippingProtocol.comment : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <label class="">{{ 'DMV' | translate }}</label>
@@ -419,10 +488,19 @@
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <div class="custom-control custom-checkbox">
-                        <input id="cbEmailComment" type="checkbox" class="custom-control-input">
+                        <input id="cbEmailComment" type="checkbox" [checked]="editEmailComment" (change)="editEmailComment = !editEmailComment" class="custom-control-input">
                         <label class="custom-control-label" for="cbEmailComment">{{ 'Email Comments' | translate }}</label>
                       </div>
-                      <span class="unassigned">{{ shippingProtocol?.emailComment ? shippingProtocol.emailComment : 'Unassigned' }}</span>
+                      <textarea style="overflow-x: hidden;"
+                        *ngIf="editEmailComment"
+                        type="text"
+                        class="form-control"
+                        formControlName="emailComment"
+                        [ngModel]="shippingProtocol?.emailComment"
+                        maxlength="254"
+                        placeholder="{{ 'Enter email comments' | translate }}"
+                      ></textarea>
+                      <span *ngIf="!editEmailComment" class="unassigned">{{ shippingProtocol?.emailComment ? shippingProtocol.emailComment : 'Unassigned' }}</span>
                     </div>
                 </ng-template>
               </ngb-tab>

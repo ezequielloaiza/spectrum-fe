@@ -16,6 +16,7 @@ import { ProtocolClientService } from '../../../shared/services/protocolClient/p
 import { ProtocolProformaService } from '../../../shared/services/protocolProforma/protocol-proforma.service';
 import { InvoiceSupplierProtocolClient } from '../../../shared/models/invoicesupplierprotocolclient';
 import { InvoiceSupplierProtocolProforma } from '../../../shared/models/invoicesupplierprotocolproforma';
+import { CountryService } from '../../../shared/services';
 
 @Component({
   selector: 'app-generate-invoice',
@@ -43,6 +44,8 @@ export class GenerateInvoiceComponent implements OnInit {
   allDelete: any;
   copy: any;
   shippingProtocol: any;
+  countries: Array<any> = new Array();
+  listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
   protocolProforma: any;
   invShippingProtocol: InvoiceSupplierProtocolClient = new InvoiceSupplierProtocolClient();
   invProtocolProforma: InvoiceSupplierProtocolProforma = new InvoiceSupplierProtocolProforma();
@@ -54,6 +57,16 @@ export class GenerateInvoiceComponent implements OnInit {
   editComments = false;
   editEmailCommentProforma = false;
   editTariffCodes = false;
+  // check protocolClient
+  editAccNumber = false;
+  editBusinessName = false;
+  editRecipient = false;
+  editShippingAddress = false;
+  editShippingMethod = false;
+  editAccountNumber = false;
+  editComment = false;
+  editEmailComment = false;
+  editCountry = false;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -66,6 +79,7 @@ export class GenerateInvoiceComponent implements OnInit {
     private protocolProformaService: ProtocolProformaService,
     private userStorageService: UserStorageService,
     private invoiceService: InvoiceSupplierService,
+    private countryService: CountryService,
     private spinner: NgxSpinnerService,
     private cdRef: ChangeDetectorRef
   ) {}
@@ -82,6 +96,7 @@ export class GenerateInvoiceComponent implements OnInit {
               this.titleModal = res1;
             });
     this.loadOrderNumbers();
+    this.getCountry();
     this.verify = false;
     this.edit = true;
     this.allDelete = false;
@@ -91,17 +106,15 @@ export class GenerateInvoiceComponent implements OnInit {
     this.form = this.formBuilder.group({
       invDate   : [this.invDate, [Validators.required]],
       invDueDate: [this.invDueDate, [Validators.required]],
+      // protocol proforma
       cbSpectrumProforma: [null],
       spectrumProforma: [null],
       cbAdditionalDocuments: [null],
       additionalDocuments: [null],
       cbOutputs: [null],
       outputs: [null],
-    //  cbProtocolSpectrum: [null],
-    //  cbMaximumAmount: [null],
       cbDocumentation: [null],
       documentation: [null],
-    //  cbFixedPrices: [null],
       cbComments: [null],
       commentsProforma: [[]],
       cbEmailComment: [null],
@@ -109,17 +122,26 @@ export class GenerateInvoiceComponent implements OnInit {
       cbEmailComment2: [null],
       cbTariffCodes: [null],
       tariffCodes: [null],
+      // protocol client
       cbAccNumber: [null],
+      accNumber: [null],
       cbBusinessName: [null],
+      businessName: [null],
       cbRecipient: [null],
+      recipient: [null],
       cbShippingAddress: [null],
-      cbDmv: [null],
-    //  cbShippingFrecuency: [null],
+      shippingAddress: [null],
       cbShippingMethod: [null],
+      shippingMethod: [null],
       cbAccountNumber: [null],
+      accountNumber: [null],
       cbShippingDetail: [null],
+      shippingDetail: [null],
       cbComment: [[]],
-      cbCountry: [null]
+      comment: [[]],
+      emailComment: [null],
+      cbCountry: [null],
+      country: [null]
     });
   }
 
@@ -400,6 +422,12 @@ export class GenerateInvoiceComponent implements OnInit {
     this.original.termsAndConditions = 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference';
   }
 
+  getCountry() {
+    this.countryService.findAll$().subscribe(res => {
+      this.countries = res.data;
+    });
+  }
+
   updateProduct($event, index) {
     const pR = $event.target.value;
     const prod = this.listProducts.find(x => (x.idProductRequested == pR));
@@ -546,15 +574,59 @@ export class GenerateInvoiceComponent implements OnInit {
 
   buildInvoiceProtocols() {
     // Shipping Protocol
-    this.invShippingProtocol.accNumber = this.form.get('cbAccNumber').value;
-    this.invShippingProtocol.accountNumber = this.form.get('cbAccountNumber').value;
-    this.invShippingProtocol.businessName = this.form.get('cbBusinessName').value;
-    this.invShippingProtocol.comment = this.form.get('cbComment').value;
-    this.invShippingProtocol.country = this.form.get('cbCountry').value;
-    this.invShippingProtocol.emailComment = this.form.get('cbEmailComment').value;
-    this.invShippingProtocol.recipient = this.form.get('cbRecipient').value;
-    this.invShippingProtocol.shippingAddress = this.form.get('cbShippingAddress').value;
-    this.invShippingProtocol.shippingMethod = this.form.get('cbShippingMethod').value;
+    if (this.editAccNumber) {
+      this.invShippingProtocol.accNumber = this.form.get('accNumber').value;
+    } else {
+      this.invShippingProtocol.accNumber = null;
+    }
+
+    if (this.editBusinessName) {
+      this.invShippingProtocol.businessName = this.form.get('businessName').value;
+    } else {
+      this.invShippingProtocol.businessName = null;
+    }
+
+    if (this.editRecipient) {
+      this.invShippingProtocol.recipient = this.form.get('recipient').value;
+    } else {
+      this.invShippingProtocol.recipient = null;
+    }
+
+    if (this.editShippingAddress) {
+      this.invShippingProtocol.shippingAddress = this.form.get('shippingAddress').value;
+    } else {
+      this.invShippingProtocol.shippingAddress = null;
+    }
+
+    if (this.editShippingMethod) {
+      this.invShippingProtocol.shippingMethod = this.form.get('shippingMethod').value;
+    } else {
+      this.invShippingProtocol.shippingMethod = null;
+    }
+
+    if (this.editAccountNumber) {
+      this.invShippingProtocol.recipient = this.form.get('accountNumber').value;
+    } else {
+      this.invShippingProtocol.accountNumber = null;
+    }
+
+    if (this.editComment) {
+      this.invShippingProtocol.comment = this.form.get('comment').value;
+    } else {
+      this.invShippingProtocol.comment = null;
+    }
+
+    if (this.editEmailComment) {
+      this.invShippingProtocol.emailComment = this.form.get('emailComment').value;
+    } else {
+      this.invShippingProtocol.emailComment = null;
+    }
+
+    if (this.editCountry) {
+      this.invShippingProtocol.country = this.form.get('country').value;
+    } else {
+      this.invShippingProtocol.country = null;
+    }
     this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
 
     // Protocol Proforma
@@ -606,15 +678,9 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.invoiceProtocolProformaRequest = this.invProtocolProforma;
   }
 
-  editSpectrumProforma(value: number) {
-    this.editSpectrumP = true;
-  }
-
-
   assignSpectrumProforma(value: number) {
     this.form.get('spectrumProforma').setValue(value);
   }
-
 
   generateInvoice(send) {
     this.spinner.show();
@@ -626,7 +692,6 @@ export class GenerateInvoiceComponent implements OnInit {
       inv.push(this.original);
       inv.push(this.invoice);
       console.log('inv', inv);
-      debugger
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
