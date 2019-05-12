@@ -46,7 +46,14 @@ export class GenerateInvoiceComponent implements OnInit {
   protocolProforma: any;
   invShippingProtocol: InvoiceSupplierProtocolClient = new InvoiceSupplierProtocolClient();
   invProtocolProforma: InvoiceSupplierProtocolProforma = new InvoiceSupplierProtocolProforma();
-
+  // check protocolProforma
+  editSpectrumP = false;
+  editAdditionalDocuments = false;
+  editOutputs = false;
+  editDocumentation = false;
+  editComments = false;
+  editEmailCommentProforma = false;
+  editTariffCodes = false;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -85,16 +92,23 @@ export class GenerateInvoiceComponent implements OnInit {
       invDate   : [this.invDate, [Validators.required]],
       invDueDate: [this.invDueDate, [Validators.required]],
       cbSpectrumProforma: [null],
+      spectrumProforma: [null],
       cbAdditionalDocuments: [null],
+      additionalDocuments: [null],
       cbOutputs: [null],
+      outputs: [null],
     //  cbProtocolSpectrum: [null],
     //  cbMaximumAmount: [null],
       cbDocumentation: [null],
+      documentation: [null],
     //  cbFixedPrices: [null],
-      cbComments: [[]],
+      cbComments: [null],
+      commentsProforma: [[]],
       cbEmailComment: [null],
+      emailCommentProforma: [null],
       cbEmailComment2: [null],
       cbTariffCodes: [null],
+      tariffCodes: [null],
       cbAccNumber: [null],
       cbBusinessName: [null],
       cbRecipient: [null],
@@ -544,18 +558,63 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
 
     // Protocol Proforma
-    this.invProtocolProforma.additionalDocuments = this.form.get('cbAdditionalDocuments').value;
-    this.invProtocolProforma.comments = this.form.get('cbComments').value;
-    this.invProtocolProforma.documentation = this.form.get('cbDocumentation').value;
-    this.invProtocolProforma.emailComment = this.form.get('cbEmailComment2').value;
-    this.invProtocolProforma.outputs = this.form.get('cbOutputs').value;
-    this.invProtocolProforma.spectrumProforma = this.form.get('cbSpectrumProforma').value;
-    this.invProtocolProforma.tariffCodes = this.form.get('cbTariffCodes').value;
+    if (this.editSpectrumP) {
+      this.invProtocolProforma.spectrumProforma = this.form.get('spectrumProforma').value;
+    } else {
+      this.invProtocolProforma.spectrumProforma = null;
+    }
+
+    if (this.editAdditionalDocuments) {
+      this.invProtocolProforma.additionalDocuments = this.form.get('additionalDocuments').value;
+    } else {
+      this.invProtocolProforma.additionalDocuments = null;
+    }
+
+    if (this.editOutputs) {
+      this.invProtocolProforma.outputs = this.form.get('outputs').value;
+    } else {
+      this.invProtocolProforma.outputs = null;
+    }
+
+    if (this.editDocumentation) {
+      this.invProtocolProforma.documentation = this.form.get('documentation').value;
+    } else {
+      this.invProtocolProforma.documentation = null;
+    }
+
+    if (this.editComments) {
+      this.invProtocolProforma.comments = this.form.get('commentsProforma').value;
+    } else {
+      this.invProtocolProforma.comments = null;
+    }
+
+    if (this.editEmailCommentProforma) {
+      this.invProtocolProforma.emailComment = this.form.get('emailCommentProforma').value;
+    } else {
+      this.invProtocolProforma.emailComment = null;
+    }
+
+    if (this.editTariffCodes) {
+      this.invProtocolProforma.tariffCodes = this.form.get('tariffCodes').value;
+    } else {
+      this.invProtocolProforma.tariffCodes = null;
+    }
+
     this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
 
     this.invoice.invoiceProtocolClientRequest = this.invShippingProtocol;
     this.invoice.invoiceProtocolProformaRequest = this.invProtocolProforma;
   }
+
+  editSpectrumProforma(value: number) {
+    this.editSpectrumP = true;
+  }
+
+
+  assignSpectrumProforma(value: number) {
+    this.form.get('spectrumProforma').setValue(value);
+  }
+
 
   generateInvoice(send) {
     this.spinner.show();
@@ -567,6 +626,7 @@ export class GenerateInvoiceComponent implements OnInit {
       inv.push(this.original);
       inv.push(this.invoice);
       console.log('inv', inv);
+      debugger
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
