@@ -427,24 +427,24 @@ export class GenerateInvoiceComponent implements OnInit {
     // Shipping Protocol
     if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null) {
       this.invShippingProtocol.accNumber = invoice.invoiceProtocolClientResponse.accNumber;
-      this.editAccNumber = (this.invShippingProtocol.accNumber != null) ? true : false;
+      this.editAccNumber = (this.invShippingProtocol.accNumber != null && !this.pilot) ? true : false;
       this.invShippingProtocol.accountNumber = invoice.invoiceProtocolClientResponse.accountNumber;
-      this.editAccountNumber = (this.invShippingProtocol.accountNumber != null) ? true : false;
+      this.editAccountNumber = (this.invShippingProtocol.accountNumber != null && !this.pilot) ? true : false;
       this.invShippingProtocol.businessName = invoice.invoiceProtocolClientResponse.businessName;
-      this.editBusinessName = (this.invShippingProtocol.businessName != null) ? true : false;
+      this.editBusinessName = (this.invShippingProtocol.businessName != null && !this.pilot) ? true : false;
       this.invShippingProtocol.comment = invoice.invoiceProtocolClientResponse.comment;
-      this.editComment = (this.invShippingProtocol.comment != null) ? true : false;
+      this.editComment = (this.invShippingProtocol.comment != null && !this.pilot) ? true : false;
       this.invShippingProtocol.country = invoice.invoiceProtocolClientResponse.country;
-      this.editCountry = (this.invShippingProtocol.country != null) ? true : false;
+      this.editCountry = (this.invShippingProtocol.country != null && !this.pilot) ? true : false;
       this.invShippingProtocol.countryName = invoice.invoiceProtocolClientResponse.countryName;
       this.invShippingProtocol.emailComment = invoice.invoiceProtocolClientResponse.emailComment;
-      this.editEmailComment = (this.invShippingProtocol.emailComment != null) ? true : false;
+      this.editEmailComment = (this.invShippingProtocol.emailComment != null && !this.pilot) ? true : false;
       this.invShippingProtocol.recipient = invoice.invoiceProtocolClientResponse.recipient;
-      this.editRecipient = (this.invShippingProtocol.recipient != null) ? true : false;
+      this.editRecipient = (this.invShippingProtocol.recipient != null && !this.pilot) ? true : false;
       this.invShippingProtocol.shippingAddress = invoice.invoiceProtocolClientResponse.shippingAddress;
-      this.editShippingAddress = (this.invShippingProtocol.shippingAddress != null) ? true : false;
+      this.editShippingAddress = (this.invShippingProtocol.shippingAddress != null && !this.pilot) ? true : false;
       this.invShippingProtocol.shippingMethod = invoice.invoiceProtocolClientResponse.shippingMethod;
-      this.editShippingMethod = (this.invShippingProtocol.shippingMethod != null) ? true : false;
+      this.editShippingMethod = (this.invShippingProtocol.shippingMethod != null && !this.pilot) ? true : false;
       this.invShippingProtocol.idInvoice = invoice.invoiceProtocolClientResponse.idInvoice;
       this.invShippingProtocol.idInvoiceSupplierProtocolClient = invoice.invoiceProtocolClientResponse.idInvoiceSupplierProtocolClient;
       this.invShippingProtocol.idProtocolClient = invoice.invoiceProtocolClientResponse.idProtocolClient;
@@ -476,25 +476,25 @@ export class GenerateInvoiceComponent implements OnInit {
     // Protocol Proforma
     if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null ) {
       this.invProtocolProforma.additionalDocuments = invoice.invoiceProtocolProformaResponse.additionalDocuments;
-      this.editAdditionalDocuments = (this.invProtocolProforma.additionalDocuments != null) ? true : false;
+      this.editAdditionalDocuments = (this.invProtocolProforma.additionalDocuments != null && !this.pilot) ? true : false;
       this.invProtocolProforma.comments = invoice.invoiceProtocolProformaResponse.comments;
-      this.editComments = (this.invProtocolProforma.comments != null) ? true : false;
+      this.editComments = (this.invProtocolProforma.comments != null && !this.pilot) ? true : false;
       this.invProtocolProforma.documentation = invoice.invoiceProtocolProformaResponse.documentation;
-      this.editDocumentation = (this.invProtocolProforma.documentation != null) ? true : false;
+      this.editDocumentation = (this.invProtocolProforma.documentation != null && !this.pilot) ? true : false;
       this.invProtocolProforma.emailComment = invoice.invoiceProtocolProformaResponse.emailComment;
-      this.editEmailCommentProforma = (this.invProtocolProforma.emailComment != null) ? true : false;
+      this.editEmailCommentProforma = (this.invProtocolProforma.emailComment != null && !this.pilot) ? true : false;
       this.invProtocolProforma.fixedPrices = invoice.invoiceProtocolProformaResponse.fixedPrices;
       this.invProtocolProforma.idInvoice = invoice.invoiceProtocolProformaResponse.idInvoice;
       this.invProtocolProforma.idInvoiceSupplierProtocolProforma = 
                     invoice.invoiceProtocolProformaResponse.idInvoiceSupplierProtocolProforma;
       this.invProtocolProforma.idProtocolProforma = invoice.invoiceProtocolProformaResponse.idProtocolProforma;
       this.invProtocolProforma.outputs = invoice.invoiceProtocolProformaResponse.outputs;
-      this.editOutputs = (this.invProtocolProforma.outputs != null) ? true : false;
+      this.editOutputs = (this.invProtocolProforma.outputs != null && !this.pilot) ? true : false;
       this.invProtocolProforma.protocolProforma = invoice.invoiceProtocolProformaResponse.protocolProforma;
       this.invProtocolProforma.spectrumProforma = invoice.invoiceProtocolProformaResponse.spectrumProforma;
-      this.editSpectrumP = (this.invProtocolProforma.spectrumProforma != null) ? true : false;
+      this.editSpectrumP = (this.invProtocolProforma.spectrumProforma != null && !this.pilot) ? true : false;
       this.invProtocolProforma.tariffCodes = invoice.invoiceProtocolProformaResponse.tariffCodes;
-      this.editTariffCodes = (this.invProtocolProforma.tariffCodes != null) ? true : false;
+      this.editTariffCodes = (this.invProtocolProforma.tariffCodes != null && !this.pilot) ? true : false;
     } else {
       this.invProtocolProforma.additionalDocuments = this.protocolProforma.additionalDocuments;
       this.editAdditionalDocuments = false;
