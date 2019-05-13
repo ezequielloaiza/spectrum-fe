@@ -186,6 +186,7 @@ export class GenerateInvoiceComponent implements OnInit {
                 this.loadOrderNumbers();
                 this.invoice.listProductRequested = this.loadProductRequestedFromInvoice(this.invoice);
               }
+              console.log(this.invoice);
             } else {
               console.log(res.code);
             }
@@ -202,7 +203,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.protocolClientService.findByClienSupplier$(this.invoice.idUser, supplier).subscribe(res => {
       if (res != null) {
         this.shippingProtocol = res;
-         console.log(res);
+        this.loadInvoiceShippingProtocol(this.invoice);
       } else {
         console.log(res);
       }
@@ -214,7 +215,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.protocolProformaService.findByClienSupplier$(this.invoice.idUser, supplier).subscribe(res => {
       if (res != null) {
         this.protocolProforma = res;
-         console.log(res);
+        this.loadInvoiceProtocolProforma(this.invoice);
       } else {
         console.log(res);
       }
@@ -421,6 +422,100 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.numberOriginal = this.original.number;
     this.original.termsAndConditions = 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference';
   }
+
+  loadInvoiceShippingProtocol(invoice) {
+    // Shipping Protocol
+    if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null) {
+      this.invShippingProtocol.accNumber = invoice.invoiceProtocolClientResponse.accNumber;
+      this.editAccNumber = (this.invShippingProtocol.accNumber != null) ? true : false;
+      this.invShippingProtocol.accountNumber = invoice.invoiceProtocolClientResponse.accountNumber;
+      this.editAccountNumber = (this.invShippingProtocol.accountNumber != null) ? true : false;
+      this.invShippingProtocol.businessName = invoice.invoiceProtocolClientResponse.businessName;
+      this.editBusinessName = (this.invShippingProtocol.businessName != null) ? true : false;
+      this.invShippingProtocol.comment = invoice.invoiceProtocolClientResponse.comment;
+      this.editComment = (this.invShippingProtocol.comment != null) ? true : false;
+      this.invShippingProtocol.country = invoice.invoiceProtocolClientResponse.country;
+      this.editCountry = (this.invShippingProtocol.country != null) ? true : false;
+      this.invShippingProtocol.countryName = invoice.invoiceProtocolClientResponse.countryName;
+      this.invShippingProtocol.emailComment = invoice.invoiceProtocolClientResponse.emailComment;
+      this.editEmailComment = (this.invShippingProtocol.emailComment != null) ? true : false;
+      this.invShippingProtocol.recipient = invoice.invoiceProtocolClientResponse.recipient;
+      this.editRecipient = (this.invShippingProtocol.recipient != null) ? true : false;
+      this.invShippingProtocol.shippingAddress = invoice.invoiceProtocolClientResponse.shippingAddress;
+      this.editShippingAddress = (this.invShippingProtocol.shippingAddress != null) ? true : false;
+      this.invShippingProtocol.shippingMethod = invoice.invoiceProtocolClientResponse.shippingMethod;
+      this.editShippingMethod = (this.invShippingProtocol.shippingMethod != null) ? true : false;
+      this.invShippingProtocol.idInvoice = invoice.invoiceProtocolClientResponse.idInvoice;
+      this.invShippingProtocol.idInvoiceSupplierProtocolClient = invoice.invoiceProtocolClientResponse.idInvoiceSupplierProtocolClient;
+      this.invShippingProtocol.idProtocolClient = invoice.invoiceProtocolClientResponse.idProtocolClient;
+    } else {
+      this.invShippingProtocol.accNumber = this.shippingProtocol.accNumber;
+      this.editAccNumber = false;
+      this.invShippingProtocol.accountNumber = this.shippingProtocol.accountNumber;
+      this.editAccountNumber = false;
+      this.invShippingProtocol.businessName = this.shippingProtocol.businessName;
+      this.editBusinessName = false;
+      this.invShippingProtocol.comment = this.shippingProtocol.comment;
+      this.editComment = false;
+      this.invShippingProtocol.country = this.shippingProtocol.country;
+      this.editCountry = false;
+      this.invShippingProtocol.countryName = this.shippingProtocol.countryName;
+      this.invShippingProtocol.emailComment = this.shippingProtocol.emailComment;
+      this.editEmailComment = false;
+      this.invShippingProtocol.recipient = this.shippingProtocol.recipient;
+      this.editRecipient = false;
+      this.invShippingProtocol.shippingAddress = this.shippingProtocol.shippingAddress;
+      this.editShippingAddress = false;
+      this.invShippingProtocol.shippingMethod = this.shippingProtocol.shippingMethod;
+      this.editShippingMethod = false;
+      this.invShippingProtocol.idProtocolClient = this.shippingProtocol.idProtocolClient;
+    }
+  }
+
+  loadInvoiceProtocolProforma(invoice) {
+    // Protocol Proforma
+    if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null ) {
+      this.invProtocolProforma.additionalDocuments = invoice.invoiceProtocolProformaResponse.additionalDocuments;
+      this.editAdditionalDocuments = (this.invProtocolProforma.additionalDocuments != null) ? true : false;
+      this.invProtocolProforma.comments = invoice.invoiceProtocolProformaResponse.comments;
+      this.editComments = (this.invProtocolProforma.comments != null) ? true : false;
+      this.invProtocolProforma.documentation = invoice.invoiceProtocolProformaResponse.documentation;
+      this.editDocumentation = (this.invProtocolProforma.documentation != null) ? true : false;
+      this.invProtocolProforma.emailComment = invoice.invoiceProtocolProformaResponse.emailComment;
+      this.editEmailCommentProforma = (this.invProtocolProforma.emailComment != null) ? true : false;
+      this.invProtocolProforma.fixedPrices = invoice.invoiceProtocolProformaResponse.fixedPrices;
+      this.invProtocolProforma.idInvoice = invoice.invoiceProtocolProformaResponse.idInvoice;
+      this.invProtocolProforma.idInvoiceSupplierProtocolProforma = 
+                    invoice.invoiceProtocolProformaResponse.idInvoiceSupplierProtocolProforma;
+      this.invProtocolProforma.idProtocolProforma = invoice.invoiceProtocolProformaResponse.idProtocolProforma;
+      this.invProtocolProforma.outputs = invoice.invoiceProtocolProformaResponse.outputs;
+      this.editOutputs = (this.invProtocolProforma.outputs != null) ? true : false;
+      this.invProtocolProforma.protocolProforma = invoice.invoiceProtocolProformaResponse.protocolProforma;
+      this.invProtocolProforma.spectrumProforma = invoice.invoiceProtocolProformaResponse.spectrumProforma;
+      this.editSpectrumP = (this.invProtocolProforma.spectrumProforma != null) ? true : false;
+      this.invProtocolProforma.tariffCodes = invoice.invoiceProtocolProformaResponse.tariffCodes;
+      this.editTariffCodes = (this.invProtocolProforma.tariffCodes != null) ? true : false;
+    } else {
+      this.invProtocolProforma.additionalDocuments = this.protocolProforma.additionalDocuments;
+      this.editAdditionalDocuments = false;
+      this.invProtocolProforma.comments = this.protocolProforma.comments;
+      this.editComments = false;
+      this.invProtocolProforma.documentation = this.protocolProforma.documentation;
+      this.editDocumentation = false;
+      this.invProtocolProforma.emailComment = this.protocolProforma.emailComment;
+      this.editEmailCommentProforma = false;
+      this.invProtocolProforma.fixedPrices = this.protocolProforma.fixedPrices;
+      this.invProtocolProforma.idProtocolProforma = this.protocolProforma.idProtocolProforma;
+      this.invProtocolProforma.outputs = this.protocolProforma.outputs;
+      this.editOutputs = false;
+      this.invProtocolProforma.protocolProforma = this.protocolProforma.protocolProforma;
+      this.editSpectrumP = false;
+      this.invProtocolProforma.spectrumProforma = this.protocolProforma.spectrumProforma;
+      this.editTariffCodes = false;
+      this.invProtocolProforma.tariffCodes = this.protocolProforma.tariffCodes;
+    }
+  }
+
 
   getCountry() {
     this.countryService.findAll$().subscribe(res => {
