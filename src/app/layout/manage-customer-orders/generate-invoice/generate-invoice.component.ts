@@ -605,7 +605,7 @@ export class GenerateInvoiceComponent implements OnInit {
     }
 
     if (this.editAccountNumber) {
-      this.invShippingProtocol.recipient = this.form.get('accountNumber').value;
+      this.invShippingProtocol.accountNumber = this.form.get('accountNumber').value;
     } else {
       this.invShippingProtocol.accountNumber = null;
     }

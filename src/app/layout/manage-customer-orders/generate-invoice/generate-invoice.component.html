@@ -343,13 +343,16 @@
             <ngb-tabset>
               <ngb-tab title="{{'Shipping Protocol'| translate}}">
                 <ng-template ngbTabContent>
-                  <div class="form-group pr-3 half-flex">
+                  <div *ngIf="!pilot" class="form-group pr-3 half-flex">
                     <label>{{ 'Select the protocols to include' | translate }}</label>
                   </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbAccNumber" type="checkbox" [checked]="editAccNumber" (change)="editAccNumber = !editAccNumber" class="custom-control-input">
                         <label class="custom-control-label" for="cbAccNumber">{{ 'ACC Number' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label *ngIf="pilot" class="">{{ 'ACC Number' | translate }}</label>
                       </div>
                       <input
                         type="text"
@@ -362,9 +365,12 @@
                       <span *ngIf="!editAccNumber" class="unassigned">{{ shippingProtocol?.accNumber ? shippingProtocol.accNumber : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbCountry" type="checkbox" [checked]="editCountry" (change)="editCountry = !editCountry" class="custom-control-input">
                         <label class="custom-control-label" for="cbCountry">{{ 'Country' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Country' | translate }}</label>
                       </div>
                       <div>
                         <ng-select
@@ -374,15 +380,19 @@
                           bindLabel="name"
                           formControlName="country"
                           *ngIf="editCountry"
+                          [ngModel]="shippingProtocol?.country"
                         >
                         </ng-select>
                       </div>
-                      <span *ngIf="!editCountry" class="unassigned">{{ shippingProtocol?.country ? shippingProtocol.country : 'Unassigned' }}</span>
+                      <span *ngIf="!editCountry" class="unassigned">{{ shippingProtocol?.countryName ? shippingProtocol.countryName : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbBusinessName" type="checkbox" [checked]="editBusinessName" (change)="editBusinessName = !editBusinessName" class="custom-control-input">
                         <label class="custom-control-label" for="cbBusinessName">{{ 'Businness Name' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Businness Name' | translate }}</label>
                       </div>
                       <input
                         type="text"
@@ -396,9 +406,12 @@
                       <span *ngIf="!editBusinessName" class="unassigned">{{ shippingProtocol?.businessName ? shippingProtocol.businessName : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbRecipient" type="checkbox" [checked]="editRecipient" (change)="editRecipient = !editRecipient" class="custom-control-input">
                         <label class="custom-control-label" for="cbRecipient">{{ 'Recipient' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Recipient' | translate }}</label>
                       </div>
                       <input
                         type="text"
@@ -412,9 +425,12 @@
                       <span *ngIf="!editRecipient" class="unassigned">{{ shippingProtocol?.recipient ? shippingProtocol.recipient : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbShippingAddress" type="checkbox" [checked]="editShippingAddress" (change)="editShippingAddress = !editShippingAddress" class="custom-control-input">
                         <label class="custom-control-label" for="cbShippingAddress">{{ 'Shipping Address' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Shipping Address' | translate }}</label>
                       </div>
                       <textarea style="overflow-x: hidden;"
                         type="text"
@@ -428,13 +444,18 @@
                       <span *ngIf="!editShippingAddress" class="unassigned">{{ shippingProtocol?.shippingAddress ? shippingProtocol.shippingAddress : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <label class="">{{ 'Shipping Frecuency' | translate }}</label>
+                      <div>
+                        <label class="">{{ 'Shipping Frecuency' | translate }}</label>
+                      </div>
                       <span class="unassigned">{{ shippingProtocol?.shippingFrecuency ? shippingProtocol.shippingFrecuency : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbShippingMethod" type="checkbox" [checked]="editShippingMethod" (change)="editShippingMethod = !editShippingMethod" class="custom-control-input">
                         <label class="custom-control-label" for="cbShippingMethod">{{ 'Shipping Method' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Shipping Method' | translate }}</label>
                       </div>
                       <select
                         *ngIf="editShippingMethod"
@@ -447,13 +468,18 @@
                       <span *ngIf="!editShippingMethod" class="unassigned">{{ shippingProtocol?.shippingMethod ? shippingProtocol.shippingMethod : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <label class="">{{ 'Shipping Details' | translate }}</label>
+                      <div>
+                        <label class="">{{ 'Shipping Details' | translate }}</label>
+                      </div>
                       <span class="unassigned">{{ shippingProtocol?.shippingDetails ? shippingProtocol.shippingDetails : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbAccountNumber" type="checkbox" [checked]="editAccountNumber" (change)="editAccountNumber = !editAccountNumber" class="custom-control-input">
                         <label class="custom-control-label" for="cbAccountNumber">{{ 'Account Number for Shipping Carrier' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Account Number for Shipping Carrier' | translate }}</label>
                       </div>
                       <input
                         type="text"
@@ -467,9 +493,12 @@
                       <span *ngIf="!editAccountNumber" class="unassigned">{{ shippingProtocol?.accountNumber ? shippingProtocol.accountNumber : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbComments" type="checkbox" [checked]="editComment" (change)="editComment = !editComment" class="custom-control-input">
                         <label class="custom-control-label" for="cbComments">{{ 'Comments' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Comments' | translate }}</label>
                       </div>
                       <textarea style="overflow-x: hidden;"
                         type="text"
@@ -483,13 +512,18 @@
                       <span *ngIf="!editComment" class="unassigned">{{ shippingProtocol?.comment ? shippingProtocol.comment : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <label class="">{{ 'DMV' | translate }}</label>
+                      <div>
+                        <label class="">{{ 'DMV' | translate }}</label>
+                      </div>
                       <span class="unassigned">{{ shippingProtocol?.dmv ? shippingProtocol.dmv : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbEmailComment" type="checkbox" [checked]="editEmailComment" (change)="editEmailComment = !editEmailComment" class="custom-control-input">
                         <label class="custom-control-label" for="cbEmailComment">{{ 'Email Comments' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Email Comments' | translate }}</label>
                       </div>
                       <textarea style="overflow-x: hidden;"
                         *ngIf="editEmailComment"
@@ -506,13 +540,16 @@
               </ngb-tab>
               <ngb-tab title="{{'Protocol Proforma'| translate}}">
                 <ng-template ngbTabContent>
-                  <div class="form-group pr-3 half-flex">
+                  <div *ngIf="!pilot" class="form-group pr-3 half-flex">
                     <label>{{ 'Select the protocols to include' | translate }}</label>
                   </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbSpectrumProforma" type="checkbox" [checked]="editSpectrumP" class="custom-control-input" (change)="editSpectrumP = !editSpectrumP">
                         <label class="custom-control-label" for="cbSpectrumProforma">{{ 'Spectrum Proforma' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Spectrum Proforma' | translate }}</label>
                       </div>
                       <div *ngIf="editSpectrumP" class="mb-2 mr-sm-2 mb-sm-0">
                         <div class="custom-control-inline">
@@ -537,9 +574,12 @@
                       </div>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbAdditionalDocuments" type="checkbox" [checked]="editAdditionalDocuments" (change)="editAdditionalDocuments = !editAdditionalDocuments" class="custom-control-input">
                         <label class="custom-control-label" for="cbAdditionalDocuments">{{ 'Additional Documents' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Additional Documents' | translate }}</label>
                       </div>
                       <div>
                         <textarea style="overflow-x: hidden;"
@@ -554,9 +594,12 @@
                       <span *ngIf="!editAdditionalDocuments" class="unassigned">{{ protocolProforma?.additionalDocuments ? protocolProforma.additionalDocuments : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbOutputs" type="checkbox" [checked]="editOutputs" (change)="editOutputs = !editOutputs" class="custom-control-input">
                         <label class="custom-control-label" for="cbOutputs">{{ 'Outputs (Send information to Spectrum team)' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Outputs (Send information to Spectrum team)' | translate }}</label>
                       </div>
                       <input
                         type="text"
@@ -570,17 +613,24 @@
                       <span *ngIf="!editOutputs" class="unassigned">{{ protocolProforma?.outputs ? protocolProforma.outputs : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <label class="">{{ 'Protocol From Spectrum' | translate }}</label>
+                      <div>
+                        <label class="">{{ 'Protocol From Spectrum' | translate }}</label>
+                      </div>
                       <span class="unassigned">{{ protocolProforma?.protocolSpectrum ? protocolProforma.protocolSpectrum : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <label class="">{{ 'Maximum Amount to Declare' | translate }}</label>
-                      <span class="unassigned">{{ protocolProforma?.maximumAmount ? protocolProforma.maximumAmount : 'Unassigned' }}</span>
+                      <div>
+                        <label class="">{{ 'Maximum Amount to Declare' | translate }}</label>
+                      </div>
+                      <span class="unassigned">{{ protocolProforma?.maximumAmount ? (protocolProforma.maximumAmount | currency : "USD $") : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbDocumentation" type="checkbox" [checked]="editDocumentation" (change)="editDocumentation = !editDocumentation" class="custom-control-input">
                         <label class="custom-control-label" for="cbDocumentation">{{ 'Documentation that must accompany the delivery and proforma invoice' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Documentation that must accompany the delivery and proforma invoice' | translate }}</label>
                       </div>
                       <textarea style="overflow-x: hidden;"
                         type="text"
@@ -593,13 +643,18 @@
                       <span *ngIf="!editDocumentation" class="unassigned">{{ protocolProforma?.documentation ? protocolProforma.documentation : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <label class="">{{ 'Fixed Prices for Proforma Invoice' | translate }}</label>
+                      <div>
+                        <label class="">{{ 'Fixed Prices for Proforma Invoice' | translate }}</label>
+                      </div>
                       <span class="unassigned">{{ protocolProforma?.fixedPrices ? protocolProforma.fixedPrices : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbComments" type="checkbox" [checked]="editComments" (change)="editComments = !editComments" class="custom-control-input">
                         <label class="custom-control-label" for="cbComments">{{ 'Comments' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Comments' | translate }}</label>
                       </div>
                       <textarea style="overflow-x: hidden;"
                         type="text"
@@ -612,9 +667,12 @@
                       <span *ngIf="!editComments" class="unassigned">{{ protocolProforma?.comments ? protocolProforma.comments : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbEmailComment2" type="checkbox" [checked]="editEmailCommentProforma" (change)="editEmailCommentProforma = !editEmailCommentProforma" class="custom-control-input">
                         <label class="custom-control-label" for="cbEmailComment2">{{ 'Email Comments' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Email Comments' | translate }}</label>
                       </div>
                       <textarea style="overflow-x: hidden;"
                         type="text"
@@ -627,9 +685,12 @@
                       <span *ngIf="!editEmailCommentProforma" class="unassigned">{{ protocolProforma?.emailComment ? protocolProforma.emailComment : 'Unassigned' }}</span>
                     </div>
                     <div class="form-group pr-3 half-flex">
-                      <div class="custom-control custom-checkbox">
+                      <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbTariffCodes" type="checkbox" [checked]="editTariffCodes" (change)="editTariffCodes = !editTariffCodes" class="custom-control-input">
                         <label class="custom-control-label" for="cbTariffCodes">{{ 'Tariff Codes' | translate }}</label>
+                      </div>
+                      <div *ngIf="pilot">
+                        <label class="">{{ 'Tariff Codes' | translate }}</label>
                       </div>
                       <input
                         type="text"
