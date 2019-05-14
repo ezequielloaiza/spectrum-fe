@@ -199,8 +199,8 @@ export class GenerateInvoiceComponent implements OnInit {
     }
   }
 
-  loadProtocols(supplier) {
-    this.protocolClientService.findByClienSupplier$(this.invoice.idUser, supplier).subscribe(res => {
+  loadProtocols(supplier, user) {
+    this.protocolClientService.findByClienSupplier$(user, supplier).subscribe(res => {
       if (res != null) {
         this.shippingProtocol = res;
         this.loadInvoiceShippingProtocol(this.invoice);
@@ -212,7 +212,7 @@ export class GenerateInvoiceComponent implements OnInit {
       console.log('error', error);
     });
 
-    this.protocolProformaService.findByClienSupplier$(this.invoice.idUser, supplier).subscribe(res => {
+    this.protocolProformaService.findByClienSupplier$(user, supplier).subscribe(res => {
       if (res != null) {
         this.protocolProforma = res;
         this.loadInvoiceProtocolProforma(this.invoice);
@@ -256,18 +256,19 @@ export class GenerateInvoiceComponent implements OnInit {
     this.orderService.findByIds$(ids).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         const orders = res.data;
-        let supplier;
+        let supplier, user;
         _.each(orders, function(order) {
           auxNumbers += order.number + ', ';
         });
         supplier = orders[0].supplier.idSupplier;
+        user = orders[0].user.idUser;
         if (auxNumbers.trim().endsWith(',')) {
           auxNumbers = auxNumbers.substring(0, auxNumbers.lastIndexOf(', ') - 2);
         }
         this.ordersNumber = auxNumbers;
         this.listOrders = orders;
         this.getProducts();
-        this.loadProtocols(supplier);
+        this.loadProtocols(supplier, user);
       } else {
         console.log(res.code);
       }
@@ -445,6 +446,9 @@ export class GenerateInvoiceComponent implements OnInit {
       this.editShippingAddress = (this.invShippingProtocol.shippingAddress != null && !this.pilot) ? true : false;
       this.invShippingProtocol.shippingMethod = invoice.invoiceProtocolClientResponse.shippingMethod;
       this.editShippingMethod = (this.invShippingProtocol.shippingMethod != null && !this.pilot) ? true : false;
+      this.invShippingProtocol.shippingFrecuency = invoice.invoiceProtocolClientResponse.shippingFrecuency;
+      this.invShippingProtocol.shippingDetails = invoice.invoiceProtocolClientResponse.shippingDetails;
+      this.invShippingProtocol.dmv = invoice.invoiceProtocolClientResponse.dmv;
       this.invShippingProtocol.idInvoice = invoice.invoiceProtocolClientResponse.idInvoice;
       this.invShippingProtocol.idInvoiceSupplierProtocolClient = invoice.invoiceProtocolClientResponse.idInvoiceSupplierProtocolClient;
       this.invShippingProtocol.idProtocolClient = invoice.invoiceProtocolClientResponse.idProtocolClient;
@@ -468,6 +472,9 @@ export class GenerateInvoiceComponent implements OnInit {
       this.editShippingAddress = false;
       this.invShippingProtocol.shippingMethod = this.shippingProtocol.shippingMethod;
       this.editShippingMethod = false;
+      this.invShippingProtocol.shippingFrecuency = this.shippingProtocol.shippingFrecuency;
+      this.invShippingProtocol.shippingDetails = this.shippingProtocol.shippingDetails;
+      this.invShippingProtocol.dmv = this.shippingProtocol.dmv;
       this.invShippingProtocol.idProtocolClient = this.shippingProtocol.idProtocolClient;
     }
   }
@@ -495,6 +502,8 @@ export class GenerateInvoiceComponent implements OnInit {
       this.editSpectrumP = (this.invProtocolProforma.spectrumProforma != null && !this.pilot) ? true : false;
       this.invProtocolProforma.tariffCodes = invoice.invoiceProtocolProformaResponse.tariffCodes;
       this.editTariffCodes = (this.invProtocolProforma.tariffCodes != null && !this.pilot) ? true : false;
+      this.invProtocolProforma.protocolSpectrum = invoice.invoiceProtocolProformaResponse.protocolSpectrum;
+      this.invProtocolProforma.maximumAmount = invoice.invoiceProtocolProformaResponse.maximumAmount;
     } else {
       this.invProtocolProforma.additionalDocuments = this.protocolProforma.additionalDocuments;
       this.editAdditionalDocuments = false;
@@ -513,9 +522,10 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invProtocolProforma.spectrumProforma = this.protocolProforma.spectrumProforma;
       this.editTariffCodes = false;
       this.invProtocolProforma.tariffCodes = this.protocolProforma.tariffCodes;
+      this.invProtocolProforma.protocolSpectrum = this.protocolProforma.protocolSpectrum;
+      this.invProtocolProforma.maximumAmount = this.protocolProforma.maximumAmount;
     }
   }
-
 
   getCountry() {
     this.countryService.findAll$().subscribe(res => {
@@ -647,6 +657,62 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.date = date;
     const ddate = new Date(this.invDueDate.year, this.invDueDate.month - 1, this.invDueDate.day);
     this.invoice.dueDate = ddate;
+  }
+
+  updateAccNumber($event) {
+    this.invShippingProtocol.accNumber = $event.target.value;
+  }
+
+  updateBusinessName($event) {
+    this.invShippingProtocol.businessName = $event.target.value;
+  }
+
+  updateRecipient($event) {
+    this.invShippingProtocol.recipient = $event.target.value;
+  }
+
+  updateShippingAddress($event) {
+    this.invShippingProtocol.shippingAddress = $event.target.value;
+  }
+
+  updateShippingMethod($event) {
+    this.invShippingProtocol.shippingMethod = $event.target.value;
+  }
+
+  updateAccountNumber($event) {
+    this.invShippingProtocol.accountNumber = $event.target.value;
+  }
+
+  updateCommentProtocol($event) {
+    this.invShippingProtocol.comment = $event.target.value;
+  }
+
+  updateEmailCommentProtocol($event) {
+    this.invShippingProtocol.emailComment = $event.target.value;
+  }
+
+  updateAdditionalDocuments($event) {
+    this.invProtocolProforma.additionalDocuments = $event.target.value;
+  }
+
+  updateOutputs($event) {
+    this.invProtocolProforma.outputs = $event.target.value;
+  }
+
+  updateDocumentation($event) {
+    this.invProtocolProforma.documentation = $event.target.value;
+  }
+
+  updateCommentsProforma($event) {
+    this.invProtocolProforma.comments = $event.target.value;
+  }
+
+  updateEmailCommentsProforma($event) {
+    this.invProtocolProforma.emailComment = $event.target.value;
+  }
+
+  updateTariffCodes($event) {
+    this.invProtocolProforma.tariffCodes = $event.target.value;
   }
 
   verification() {

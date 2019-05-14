@@ -339,11 +339,11 @@
               </div>
             </div>
           </div>
-          <div class="col col-xl-4 col-lg-4">
+          <div class="col col-xl-4 col-lg-4 tab-border">
             <ngb-tabset>
               <ngb-tab title="{{'Shipping Protocol'| translate}}">
-                <ng-template ngbTabContent>
-                  <div *ngIf="!pilot" class="form-group pr-3 half-flex">
+                <ng-template ngbTabContent class="tab-margin ">
+                  <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
                     <label>{{ 'Select the protocols to include' | translate }}</label>
                   </div>
                     <div class="form-group pr-3 half-flex">
@@ -351,7 +351,7 @@
                         <input id="cbAccNumber" type="checkbox" [checked]="editAccNumber" (change)="editAccNumber = !editAccNumber" class="custom-control-input">
                         <label class="custom-control-label" for="cbAccNumber">{{ 'ACC Number' | translate }}</label>
                       </div>
-                      <div *ngIf="pilot">
+                      <div *ngIf="pilot" class="tab-margin">
                         <label *ngIf="pilot" class="">{{ 'ACC Number' | translate }}</label>
                       </div>
                       <input
@@ -361,6 +361,7 @@
                         maxlength="254"
                         *ngIf="editAccNumber"
                         [ngModel]="invShippingProtocol?.accNumber"
+                        (change)="updateAccNumber($event)"
                       />
                       <span *ngIf="!editAccNumber" class="unassigned">{{ invShippingProtocol?.accNumber ? invShippingProtocol.accNumber : 'Unassigned' }}</span>
                     </div>
@@ -401,6 +402,7 @@
                         maxlength="254"
                         *ngIf="editBusinessName"
                         [ngModel]="invShippingProtocol?.businessName"
+                        (change)="updateBusinessName($event)"
                         placeholder="{{ 'Enter business name' | translate }}"
                       />
                       <span *ngIf="!editBusinessName" class="unassigned">{{ invShippingProtocol?.businessName ? invShippingProtocol.businessName : 'Unassigned' }}</span>
@@ -420,6 +422,7 @@
                         maxlength="254"
                         *ngIf="editRecipient"
                         [ngModel]="invShippingProtocol?.recipient"
+                        (change)="updateRecipient($event)"
                         placeholder="{{ 'Enter recipient' | translate }}"
                       />
                       <span *ngIf="!editRecipient" class="unassigned">{{ invShippingProtocol?.recipient ? invShippingProtocol.recipient : 'Unassigned' }}</span>
@@ -439,6 +442,7 @@
                         maxlength="254"
                         *ngIf="editShippingAddress"
                         [ngModel]="invShippingProtocol?.shippingAddress"
+                        (change)="updateShippingAddress($event)"
                         placeholder="{{ 'Enter shipping address' | translate }}">
                       </textarea>
                       <span *ngIf="!editShippingAddress" class="unassigned">{{ invShippingProtocol?.shippingAddress ? invShippingProtocol.shippingAddress : 'Unassigned' }}</span>
@@ -462,6 +466,7 @@
                         class="form-control"
                         name="shippingMethod"
                         [ngModel]="invShippingProtocol?.shippingMethod"
+                        (change)="updateShippingMethod($event)"
                         formControlName="shippingMethod">
                           <option *ngFor="let shippingMethod of listShippingMethod" value="{{shippingMethod}}">{{ shippingMethod | translate }}</option>
                       </select>
@@ -488,6 +493,7 @@
                         maxlength="254"
                         [ngModel]="invShippingProtocol?.accountNumber"
                         *ngIf="editAccountNumber"
+                        (change)="updateAccountNumber($event)"
                         placeholder="{{ 'Enter account number for shipping carrier' | translate }}"
                       />
                       <span *ngIf="!editAccountNumber" class="unassigned">{{ invShippingProtocol?.accountNumber ? invShippingProtocol.accountNumber : 'Unassigned' }}</span>
@@ -507,6 +513,7 @@
                         [ngModel]="invShippingProtocol?.comment"
                         maxlength="254"
                         *ngIf="editComment"
+                        (change)="updateCommentProtocol($event)"
                         placeholder="{{ 'Enter comments' | translate }}"
                       ></textarea>
                       <span *ngIf="!editComment" class="unassigned">{{ invShippingProtocol?.comment ? invShippingProtocol.comment : 'Unassigned' }}</span>
@@ -531,6 +538,7 @@
                         class="form-control"
                         formControlName="emailComment"
                         [ngModel]="invShippingProtocol?.emailComment"
+                        (change)="updateEmailCommentProtocol($event)"
                         maxlength="254"
                         placeholder="{{ 'Enter email comments' | translate }}"
                       ></textarea>
@@ -540,7 +548,7 @@
               </ngb-tab>
               <ngb-tab title="{{'Protocol Proforma'| translate}}">
                 <ng-template ngbTabContent>
-                  <div *ngIf="!pilot" class="form-group pr-3 half-flex">
+                  <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
                     <label>{{ 'Select the protocols to include' | translate }}</label>
                   </div>
                     <div class="form-group pr-3 half-flex">
@@ -548,7 +556,7 @@
                         <input id="cbSpectrumProforma" type="checkbox" [checked]="editSpectrumP" class="custom-control-input" (change)="editSpectrumP = !editSpectrumP">
                         <label class="custom-control-label" for="cbSpectrumProforma">{{ 'Spectrum Proforma' | translate }}</label>
                       </div>
-                      <div *ngIf="pilot">
+                      <div *ngIf="pilot" class="tab-margin">
                         <label class="">{{ 'Spectrum Proforma' | translate }}</label>
                       </div>
                       <div *ngIf="editSpectrumP" class="mb-2 mr-sm-2 mb-sm-0">
@@ -589,6 +597,7 @@
                           placeholder="{{ 'Enter additional documents' | translate }}"
                           *ngIf="editAdditionalDocuments"
                           [ngModel]="invProtocolProforma?.additionalDocuments"
+                          (change)="updateAdditionalDocuments($event)"
                         ></textarea>
                       </div>
                       <span *ngIf="!editAdditionalDocuments" class="unassigned">{{ invProtocolProforma?.additionalDocuments ? invProtocolProforma.additionalDocuments : 'Unassigned' }}</span>
@@ -609,6 +618,7 @@
                         [ngModel]="invProtocolProforma?.outputs"
                         *ngIf="editOutputs"
                         placeholder="{{ 'Enter outputs (send information to Spectrum team)' | translate }}"
+                        (change)="updateOutputs($event)"
                       />
                       <span *ngIf="!editOutputs" class="unassigned">{{ invProtocolProforma?.outputs ? invProtocolProforma.outputs : 'Unassigned' }}</span>
                     </div>
@@ -639,6 +649,7 @@
                         [ngModel]="invProtocolProforma?.documentation"
                         *ngIf="editDocumentation"
                         placeholder="{{ 'Enter documentation that must accompany the delivery and proforma invoice' | translate }}"
+                        (change)="updateDocumentation($event)"
                       >{{ invProtocolProforma?.documentation }}</textarea>
                       <span *ngIf="!editDocumentation" class="unassigned">{{ invProtocolProforma?.documentation ? invProtocolProforma.documentation : 'Unassigned' }}</span>
                     </div>
@@ -663,6 +674,7 @@
                         *ngIf="editComments"
                         placeholder="{{ 'Enter comments' | translate }}"
                         [ngModel]="invProtocolProforma?.comments"
+                        (change)="updateCommentsProforma($event)"
                       ></textarea>
                       <span *ngIf="!editComments" class="unassigned">{{ invProtocolProforma?.comments ? invProtocolProforma.comments : 'Unassigned' }}</span>
                     </div>
@@ -681,6 +693,7 @@
                         [ngModel]="invProtocolProforma?.emailComment"
                         *ngIf="editEmailCommentProforma"
                         placeholder="{{ 'Enter email comments' | translate }}"
+                        (change)="updateEmailCommentsProforma($event)"
                       ></textarea>
                       <span *ngIf="!editEmailCommentProforma" class="unassigned">{{ invProtocolProforma?.emailComment ? invProtocolProforma.emailComment : 'Unassigned' }}</span>
                     </div>
@@ -700,6 +713,7 @@
                         *ngIf="editTariffCodes"
                         [ngModel]="invProtocolProforma?.tariffCodes"
                         placeholder="{{ 'Enter tariff codes' | translate }}"
+                        (change)="updateTariffCodes($event)"
                       />
                       <span *ngIf="!editTariffCodes" class="unassigned">{{ invProtocolProforma?.tariffCodes ? invProtocolProforma.tariffCodes : 'Unassigned' }}</span>
                     </div>

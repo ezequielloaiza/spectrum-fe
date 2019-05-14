@@ -12,6 +12,9 @@ export class InvoiceSupplierProtocolClient {
   public businessName: string;
   public recipient: string;
   public shippingAddress: string;
+  public shippingFrecuency: string;
+  public shippingDetails: string;
+  public dmv: string;
   public shippingMethod: string;
   public accountNumber: string;
   public comment: string;

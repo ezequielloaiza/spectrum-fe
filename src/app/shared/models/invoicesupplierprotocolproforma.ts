@@ -16,6 +16,8 @@ export class InvoiceSupplierProtocolProforma {
   public comments: string;
   public emailComment: string;
   public tariffCodes: string;
+  public protocolSpectrum: string;
+  public maximumAmount: number;
 
   constructor(obj?: any) {
     Object.assign(this, obj);
