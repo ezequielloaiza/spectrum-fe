@@ -186,7 +186,6 @@ export class GenerateInvoiceComponent implements OnInit {
                 this.loadOrderNumbers();
                 this.invoice.listProductRequested = this.loadProductRequestedFromInvoice(this.invoice);
               }
-              console.log(this.invoice);
             } else {
               console.log(res.code);
             }
@@ -435,7 +434,7 @@ export class GenerateInvoiceComponent implements OnInit {
       this.editBusinessName = (this.invShippingProtocol.businessName != null && !this.pilot) ? true : false;
       this.invShippingProtocol.comment = invoice.invoiceProtocolClientResponse.comment;
       this.editComment = (this.invShippingProtocol.comment != null && !this.pilot) ? true : false;
-      this.invShippingProtocol.country = invoice.invoiceProtocolClientResponse.country;
+      this.invShippingProtocol.country = invoice.invoiceProtocolClientResponse.country.idCountry;
       this.editCountry = (this.invShippingProtocol.country != null && !this.pilot) ? true : false;
       this.invShippingProtocol.countryName = invoice.invoiceProtocolClientResponse.countryName;
       this.invShippingProtocol.emailComment = invoice.invoiceProtocolClientResponse.emailComment;
@@ -845,6 +844,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   assignSpectrumProforma(value: number) {
     this.form.get('spectrumProforma').setValue(value);
+    this.invProtocolProforma.spectrumProforma = value == 0 ? false : true;
   }
 
   generateInvoice(send) {
@@ -856,7 +856,6 @@ export class GenerateInvoiceComponent implements OnInit {
       let inv: Array<any> = new Array;
       inv.push(this.original);
       inv.push(this.invoice);
-      console.log('inv', inv);
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
