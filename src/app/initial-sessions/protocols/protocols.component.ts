@@ -100,6 +100,24 @@ export class ProtocolsComponent implements OnInit {
     });
   }
 
+  assignShippingFrecuency(value: number) {
+    switch (value) {
+      case 1:
+          this.valueFrecuency = 'Monthly';
+          //this.protocolForm.get('shippingFrecuencyB').setValue(null);
+          //this.protocolForm.get('shippingFrecuencyW').setValue(null);
+        break;
+      case 2:
+           this.valueFrecuency = 'Biweekly';
+           //this.protocolForm.get('shippingFrecuencyW').setValue(null);
+        break;
+      case 3:
+           this.valueFrecuency = 'Weekly';
+           //this.protocolForm.get('shippingFrecuencyB').setValue(null);
+        break;
+    }
+  }
+
   save() {
     this.protocolsCopy = JSON.parse(JSON.stringify(this.protocols));
     var protocols = this.protocolsCopy;

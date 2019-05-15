@@ -47,6 +47,38 @@
                   <div class="col-md-1 hand-over" [hidden]="protocol.values.length === 1">
                     <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete protocol value' | translate}}" (click)="removeValue(protocol, pos)"></span>
                   </div>
+
+                  <!--Shipping Frecuency-->
+                  <div *ngIf="protocol.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0">
+                    <div class="custom-control-inline">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(1)" [checked]="valueFrecuency === 'Monthly'">
+                        <label class="custom-control-label" for="customRadio1">{{ 'Monthly' | translate }}</label>
+                      </div>
+                      <div style="margin-left: 10px;" class="custom-control custom-radio">
+                        <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(2)" [checked]="valueFrecuency === 'Biweekly'">
+                        <label class="custom-control-label" for="customRadio2">{{ 'Biweekly' | translate }}</label>
+                      </div>
+                      <div style="margin-left: 10px;" class="custom-control custom-radio">
+                        <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(3)" [checked]="valueFrecuency === 'Weekly'">
+                        <label class="custom-control-label" for="customRadio3">{{ 'Weekly' | translate }}</label>
+                      </div>
+                    </div>
+                    <!--<span>{{ shippingFrecuency.value }}</span>-->
+                    <select
+                      *ngIf="valueFrecuency === 'Biweekly'"
+                      class="form-control"
+                      name="shippingFrecuencyB">
+                        <option *ngFor="let biweekly of listBiweekly" value="{{biweekly}}">{{ biweekly | translate }}</option>
+                    </select>
+                    <select
+                      *ngIf="valueFrecuency === 'Weekly'"
+                      class="form-control"
+                      name="shippingFrecuencyW">
+                        <option *ngFor="let weekly of listWeekly" value="{{weekly}}">{{ weekly | translate }}</option>
+                    </select>
+                  </div>
+
                 </div>
 
                 <!--SUPPLIERS -->
