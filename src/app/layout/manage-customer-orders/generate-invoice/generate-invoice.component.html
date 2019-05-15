@@ -381,6 +381,7 @@
                           bindLabel="name"
                           formControlName="country"
                           *ngIf="editCountry"
+                          (change)="updateCountry($event)"
                           [ngModel]="invShippingProtocol?.country"
                         >
                         </ng-select>

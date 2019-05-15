@@ -203,6 +203,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.protocolClientService.findByClienSupplier$(user, supplier).subscribe(res => {
       if (res != null) {
         this.shippingProtocol = res;
+        debugger
         this.loadInvoiceShippingProtocol(this.invoice);
       } else {
         console.log(res);
@@ -492,7 +493,7 @@ export class GenerateInvoiceComponent implements OnInit {
       this.editEmailCommentProforma = (this.invProtocolProforma.emailComment != null && !this.pilot) ? true : false;
       this.invProtocolProforma.fixedPrices = invoice.invoiceProtocolProformaResponse.fixedPrices;
       this.invProtocolProforma.idInvoice = invoice.invoiceProtocolProformaResponse.idInvoice;
-      this.invProtocolProforma.idInvoiceSupplierProtocolProforma = 
+      this.invProtocolProforma.idInvoiceSupplierProtocolProforma =
                     invoice.invoiceProtocolProformaResponse.idInvoiceSupplierProtocolProforma;
       this.invProtocolProforma.idProtocolProforma = invoice.invoiceProtocolProformaResponse.idProtocolProforma;
       this.invProtocolProforma.outputs = invoice.invoiceProtocolProformaResponse.outputs;
@@ -661,6 +662,10 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateAccNumber($event) {
     this.invShippingProtocol.accNumber = $event.target.value;
+  }
+
+  updateCountry($event) {
+    this.invShippingProtocol.country = $event.idCountry;
   }
 
   updateBusinessName($event) {
