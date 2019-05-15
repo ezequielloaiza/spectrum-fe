@@ -203,7 +203,6 @@ export class GenerateInvoiceComponent implements OnInit {
     this.protocolClientService.findByClienSupplier$(user, supplier).subscribe(res => {
       if (res != null) {
         this.shippingProtocol = res;
-        debugger
         this.loadInvoiceShippingProtocol(this.invoice);
       } else {
         console.log(res);
