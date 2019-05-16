@@ -434,7 +434,8 @@ export class GenerateInvoiceComponent implements OnInit {
       this.editBusinessName = (this.invShippingProtocol.businessName != null && !this.pilot) ? true : false;
       this.invShippingProtocol.comment = invoice.invoiceProtocolClientResponse.comment;
       this.editComment = (this.invShippingProtocol.comment != null && !this.pilot) ? true : false;
-      this.invShippingProtocol.country = invoice.invoiceProtocolClientResponse.country.idCountry;
+      this.invShippingProtocol.country = (invoice.invoiceProtocolClientResponse.country != null) ?
+                                         invoice.invoiceProtocolClientResponse.country.idCountry : null;
       this.editCountry = (this.invShippingProtocol.country != null && !this.pilot) ? true : false;
       this.invShippingProtocol.countryName = invoice.invoiceProtocolClientResponse.countryName;
       this.invShippingProtocol.emailComment = invoice.invoiceProtocolClientResponse.emailComment;
@@ -472,7 +473,7 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invShippingProtocol.shippingMethod = this.shippingProtocol.shippingMethod;
       this.editShippingMethod = false;
       this.invShippingProtocol.shippingFrecuency = this.shippingProtocol.shippingFrecuency;
-      this.invShippingProtocol.shippingDetails = this.shippingProtocol.shippingDetails;
+      this.invShippingProtocol.shippingDetails = this.shippingProtocol.shippingDetail;
       this.invShippingProtocol.dmv = this.shippingProtocol.dmv;
       this.invShippingProtocol.idProtocolClient = this.shippingProtocol.idProtocolClient;
     }
@@ -790,8 +791,18 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invShippingProtocol.country = this.form.get('country').value;
     } else {
       this.invShippingProtocol.country = null;
+      this.invShippingProtocol.countryName =  null;
     }
-    this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
+
+    if (this.editAccNumber || this.editBusinessName ||
+        this.editRecipient || this.editShippingAddress ||
+        this.editShippingMethod || this.editAccountNumber ||
+        this.editComment || this.editEmailComment ||
+        this.editCountry) {
+      this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
+    } else {
+      this.invShippingProtocol = null;
+    }
 
     // Protocol Proforma
     if (this.editSpectrumP) {
@@ -836,7 +847,14 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invProtocolProforma.tariffCodes = null;
     }
 
-    this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
+    if (this.editSpectrumP || this.editAdditionalDocuments ||
+        this.editOutputs || this.editDocumentation ||
+        this.editComments || this.editEmailCommentProforma ||
+        this.editTariffCodes) {
+      this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
+    } else {
+      this.invProtocolProforma = null;
+    }
 
     this.invoice.invoiceProtocolClientRequest = this.invShippingProtocol;
     this.invoice.invoiceProtocolProformaRequest = this.invProtocolProforma;
