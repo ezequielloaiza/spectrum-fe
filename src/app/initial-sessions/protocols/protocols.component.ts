@@ -2,6 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 import { CountryService } from '../../shared/services';
+import { SupplierService } from '../../shared/services/suppliers/supplier.service';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
+import { Protocol } from '../../shared/models/protocol';
+import { UserStorageService } from '../../http/user-storage.service';
+import { ProtocolClientService } from '../../shared/services/protocolClient/protocol-client.service';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-protocols',
@@ -15,15 +22,24 @@ export class ProtocolsComponent implements OnInit {
   form: FormGroup;
   protocols: Array<any> = new Array;
   protocolsCopy: Array<any> = new Array;
+  protocolsSave: Array<Protocol> = new Array;
   suppliers: Array<any> = new Array;
   countries: Array<any> = new Array();
   listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
   listBiweekly = [ '15', '30'];
   listWeekly = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   valueFrecuency: any;
+  currentUser: any;
 
   constructor(private formBuilder: FormBuilder,
-              private countryService: CountryService) { }
+              private countryService: CountryService,
+              private supplierService: SupplierService,
+              private userStorageService: UserStorageService,
+              private translate: TranslateService,
+              private notification: ToastrService,
+              private protocolClientService: ProtocolClientService) {
+                this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
+              }
 
   ngOnInit() {
     this.initializeForm();
@@ -41,29 +57,31 @@ export class ProtocolsComponent implements OnInit {
 
   loadFields() {
     this.protocols = [
-      {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
-      {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
-      {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
-      {label: 'Recipient'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Recipient'},
-      {label: 'Shipping Address'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address'},
-      {label: 'Shipping Frecuency'                   , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency'},
-      {label: 'Shipping Method'                      , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Method'},
-      {label: 'Acount Number'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Account Number'},
-      {label: 'Shipping Details'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Details'},
-      {label: 'Account Number for Shipping Carrier'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Account Number for Shipping Carrier'},
-      {label: 'Comments'                             , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Comments'},
-      {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
+     // {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
+     // {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
+     // {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
+      {label: 'Recipient'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Recipient',id:1},
+      {label: 'Shipping Address'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address',id:2},
+      {label: 'Shipping Frecuency'                   , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency',id:3},
+      {label: 'Shipping Method'                      , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Method',id:4},
+      {label: 'Shipping Details'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Details',id:5},
+      {label: 'Account Number for Shipping Carrier'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Account Number for Shipping Carrier',id:6},
+      {label: 'Comments'                             , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Comments',id:7},
+    //  {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
     ];
   }
 
   loadSuppliers() {
-    this.suppliers = [{idSupplier: 1, name:'Markennovy'},
-                      {idSupplier: 2, name:'Europa'},
-                      {idSupplier: 3, name:'Elipsys'},
-                      {idSupplier: 4, name:'Euclid'},
-                      {idSupplier: 5, name:'Magic Look'},
-                      {idSupplier: 6, name:'Blue Light'},
-                      {idSupplier: 7, name:'Spectrum'}];
+    this.supplierService.findAll$().subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.suppliers = res.data;
+        this.getProtocols();
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   selectSupplier(idSupplier, protocol, value) {
@@ -119,12 +137,89 @@ export class ProtocolsComponent implements OnInit {
   }
 
   save() {
-    this.protocolsCopy = JSON.parse(JSON.stringify(this.protocols));
-    var protocols = this.protocolsCopy;
-    _.each(protocols, function(protocol, index) {
-      protocols[index] = _.omit(protocol, ['selectedSuppliers', 'placeHolder']);
+    this.buildProtocols();
+    let list = this.protocolsSave;
+     let service = this.protocolClientService;
+     let validRecords = 0;
+     _.each(this.protocolsSave, function(protocol) {
+          service.update$(protocol).subscribe(res => {
+            validRecords =  validRecords + 1;
+        });
     });
-    //send to BE protocolsCopy
-    console.log(this.protocolsCopy);
+    /*if (validRecords === this.protocolsSave.length) {
+      this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+       this.notification.success('', res);
+     });
+   }*/
+  }
+
+  buildProtocols() {
+    const protocolsSuppliersAux: Array<Protocol> = new Array;
+    const protocolsSuppliers = this.protocolsSave;
+    let protocolsClient = [];
+    this.protocolsCopy = JSON.parse(JSON.stringify(this.protocols));
+    let protocols = this.protocolsCopy;
+    let user = this.currentUser.IdUser;
+      //Protocolos seleccionados
+    _.each(protocolsSuppliers, function(item) {
+        const protocolAux: Protocol = new Protocol();
+      _.each(protocols, function(protocol, index) {
+        // Values
+        _.each(protocol.values, function(itemValue) {
+            // Suppliers
+          _.each(itemValue.suppliers, function(supplier) {
+                 if (item.supplierId === supplier ) {
+                    protocolAux.valid = true;
+                    protocolAux.supplierId = supplier;
+                    protocolAux.clientId = 168; //cambiar cuando se una completo
+                    switch (protocol.id) {
+                      case 1:
+                        protocolAux.recipient = itemValue.content;
+                        break;
+                      case 2:
+                        protocolAux.shippingAddress = itemValue.content;
+                        break;
+                      case 3:
+                        protocolAux.shippingFrecuency = itemValue.content;
+                        break;
+                      case 4:
+                        protocolAux.shippingMethod = itemValue.content;
+                        break;
+                      case 5:
+                        protocolAux.shippingDetail = itemValue.content;
+                        break;
+                      case 6:
+                        protocolAux.accountNumber = itemValue.content;
+                        break;
+                      case 7:
+                        protocolAux.comment = itemValue.content;
+                        break;
+                    }
+                 }
+              });
+            });
+        });
+        if (protocolAux.valid) {
+          protocolsSuppliersAux.push(protocolAux);
+        }
+      });
+    this.protocolsSave = JSON.parse(JSON.stringify(protocolsSuppliersAux));
+    //console.log(this.protocolsCopy);
+  }
+
+  getProtocols() {
+    const protocolsSave = [];
+    _.each(this.suppliers, function(supplier) {
+      const protocol: Protocol = new Protocol();
+      protocol.supplierId = supplier.idSupplier;
+      protocol.valid = false;
+      protocolsSave.push(protocol);
+    });
+    this.protocolsSave = protocolsSave;
+  }
+
+  Skip() {
+    this.loadFields();
+    this.getProtocols();
   }
 }
