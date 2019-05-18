@@ -1134,11 +1134,7 @@
     "Agency Code": "Código de Agencia",
     "Enter agency code": "Ingrese el código de agencia",
     "The shipping company already exists": "La empresa de envíos ya existe",
-<<<<<<< HEAD
-    "Monthly Disponsable": "Mensual Descartable",
-=======
     "Monthly Disposable": "Mensual Descartable",
->>>>>>> 6ec53a5cad77a2551d9157d6cf778f54e158532d
     "Unassigned": "Sin asignar",
     "Shipping's Protocols": "Protocolos de Cliente",
     "Protocol Proforma": "Protocolos de Proforma",
