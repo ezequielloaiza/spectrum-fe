@@ -1136,7 +1136,8 @@
     "The shipping company already exists": "La empresa de envíos ya existe",
     "Monthly Disposable": "Mensual Descartable",
     "Unassigned": "Sin asignar",
-    "Shipping's Protocols": "Protocolos de Cliente",
+    "Shipping's Protocols": "Protocolos de envío",
+    "Shippings Protocols": "Protocolos de envío",
     "Protocol Proforma": "Protocolos de Proforma",
     "Spectrum Proforma": "Spectrum Proforma",
     "Additional Documents": "Documentos Adicionales",
@@ -1192,5 +1193,6 @@
     "Friday":"Viernes",
     "Saturday":"Sabado",
     "Sunday":"Domingo",
-    "Skip":"Skip"
+    "Skip":"Skip",
+    "Shippings protocols has not been defined for the provider": "Los protocolos de envío no han sido definidos para el proveedor."
 }
