@@ -54,7 +54,8 @@ export class ChangePasswordTemporalComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.user.userResponse.pwsTemporal = res.data.pwsTemporal;
         this.userStorageService.saveCurrentUser(JSON.stringify(this.user));
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('initial-sessions/protocols');
+        //this.router.navigate(['/protocols']);
         this.notification.success('User save', 'Success');
       } else if (res.code === CodeHttp.notFound) {
         this.translate.get('Password do not match with old password', { value: 'Password do not match with old password' }).subscribe((res: string) => {
