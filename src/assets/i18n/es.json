@@ -1134,7 +1134,11 @@
     "Agency Code": "Código de Agencia",
     "Enter agency code": "Ingrese el código de agencia",
     "The shipping company already exists": "La empresa de envíos ya existe",
+<<<<<<< HEAD
+    "Monthly Disponsable": "Mensual Descartable",
+=======
     "Monthly Disposable": "Mensual Descartable",
+>>>>>>> 6ec53a5cad77a2551d9157d6cf778f54e158532d
     "Unassigned": "Sin asignar",
     "Shipping's Protocols": "Protocolos de Cliente",
     "Protocol Proforma": "Protocolos de Proforma",
@@ -1170,6 +1174,12 @@
     "Enter shipping frecuency": "Ingrese frecuencia de envío",
     "Enter shipping method": "Ingrese método de envío",
     "Enter shipping address": "Ingrese dirección de envío",
+    "Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference":"Neto 30, Tarifa de 3.5% para pagos de CC, Gracias por su confianza y preferencia",
+    "Original": "Original",
+    "Copy": "Copia",
+    "One or more items are not complete": "Uno o más items no están completos",
+    "Successfully Send": "Envío exitoso",
+    "Select the protocols to include":"Selecciona los protocolos a incluir",
     "Enter shipping details": "Ingrese detalle de envío",
     "Enter account number for shipping carrier": "Ingrese número de cuenta del transportista",
     "Enter DMV": "Enter DMV",

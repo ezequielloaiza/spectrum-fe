@@ -19,25 +19,37 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ManageInvoiceComponent implements OnInit {
   orderByField = 'number';
-	reverseSort = true;
+  reverseSort = true;
   typeSort = 0;
   invoice: any;
-  listInvoices: Array<any> = new Array;
+  // listInvoices: Array<any> = new Array;
   listInvoicesAux: Array<any> = new Array;
+  listInvoicesOriginal: Array<any> = new Array;
+  listInvoicesAuxOriginal: Array<any> = new Array;
+  listInvoicesCopy: Array<any> = new Array;
+  listInvoicesAuxCopy: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number = 8;
   order: any;
-  filterStatus = [{ id: 0, name: "Pending" },
-                  { id: 1, name: "Sent" }
+  filterStatus = [{ id: 0, name: 'Pending' },
+                  { id: 1, name: 'Sent' }
                 ];
   valorClient: string;
-  selectedStatus: any;
+  // selectedStatus: any;
+  selectedStatusOriginal: any;
+  selectedStatusCopy: any;
   status: any;
   tamano: String;
   model: NgbDateStruct;
-  valid1 = false;
+  // valid1 = false;
+  validOriginal = false;
+  validCopy = false;
   fechaSelec: NgbDatepicker;
+  fechaSelecOriginal: NgbDatepicker;
+  fechaSelecCopy: NgbDatepicker;
   search: String;
+  searchOriginal: String;
+  searchCopy: String;
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
     private notification: ToastrService,
@@ -50,14 +62,29 @@ export class ManageInvoiceComponent implements OnInit {
   ngOnInit() {
     this.getListInvoices();
     this.advancedPagination = 1;
-    this.selectedStatus = '';
+    // this.selectedStatus = '';
+    this.selectedStatusOriginal = '';
+    this.selectedStatusCopy = '';
     this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
   }
-  pageChange(event) {
+
+  /*pageChange(event) {
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
     this.listInvoices = this.listInvoicesAux.slice(startItem, endItem);
+  }*/
+
+  pageChangeOriginal(event) {
+    const startItem = (event - 1) * this.itemPerPage;
+    const endItem = event * this.itemPerPage;
+    this.listInvoicesOriginal = this.listInvoicesAuxOriginal.slice(startItem, endItem);
+  }
+
+  pageChangeCopy(event) {
+    const startItem = (event - 1) * this.itemPerPage;
+    const endItem = event * this.itemPerPage;
+    this.listInvoicesCopy = this.listInvoicesAuxCopy.slice(startItem, endItem);
   }
 
   getListInvoices(): void {
@@ -65,11 +92,23 @@ export class ManageInvoiceComponent implements OnInit {
     this.invoiceService.allInvoice$().subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
-          this.listInvoices = res.data;
+          /*this.listInvoices = res.data;
           this.listInvoicesAux = res.data;
           this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
           this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
-          this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
+          this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);*/
+          // Original
+          this.listInvoicesOriginal = _.filter(res.data, { 'original': true });
+          this.listInvoicesAuxOriginal = _.filter(res.data, { 'original': true });
+          this.listInvoicesOriginal = _.orderBy(this.listInvoicesOriginal, ['date'], ['desc']);
+          this.listInvoicesAuxOriginal = _.orderBy(this.listInvoicesAuxOriginal, ['date'], ['desc']);
+          this.listInvoicesOriginal = this.listInvoicesAuxOriginal.slice(0, this.itemPerPage);
+          // Copy
+          this.listInvoicesCopy = _.filter(res.data, { 'original': false });
+          this.listInvoicesAuxCopy = _.filter(res.data, { 'original': false });
+          this.listInvoicesCopy = _.orderBy(this.listInvoicesCopy, ['date'], ['desc']);
+          this.listInvoicesAuxCopy = _.orderBy(this.listInvoicesAuxCopy, ['date'], ['desc']);
+          this.listInvoicesCopy = this.listInvoicesAuxCopy.slice(0, this.itemPerPage);
           this.spinner.hide();
         } else {
           console.log(res.code);
@@ -83,37 +122,52 @@ export class ManageInvoiceComponent implements OnInit {
     )
   }
 
-  sortInvoice(key) {
-	  if (this.orderByField !== key) {
-			this.typeSort = 0;
-			this.reverseSort = false;
-		}
-		this.orderByField = key;
-		if (this.orderByField !== 'number') {
-			this.typeSort ++;
-			if (this.typeSort > 2) {
-				this.typeSort = 0;
-				this.orderByField = 'number';
-			 	key = 'number';
+  sortInvoice(key, type) {
+    if (this.orderByField !== key) {
+      this.typeSort = 0;
+      this.reverseSort = false;
+    }
+    this.orderByField = key;
+    if (this.orderByField !== 'number') {
+      this.typeSort ++;
+      if (this.typeSort > 2) {
+        this.typeSort = 0;
+        this.orderByField = 'number';
+        key = 'number';
         this.reverseSort = true;
         this.getListInvoices();
-			}
-		}
-    let invoicesSort = this.listInvoicesAux.sort(function(a, b) {
-      let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-		});
-		this.listInvoicesAux = invoicesSort;
-		if (this.reverseSort) {
-			this.listInvoicesAux = invoicesSort.reverse();
-		}
-		this.advancedPagination = 1;
-		this.pageChange(this.advancedPagination);
+      }
+    }
+
+    if (type === 'original') {
+      const invoicesSort = this.listInvoicesAuxOriginal.sort(function(a, b) {
+        const x = a[key].toString().toLowerCase(); const y = b[key].toString().toLowerCase();
+          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      });
+      this.listInvoicesAuxOriginal = invoicesSort;
+      if (this.reverseSort) {
+        this.listInvoicesAuxOriginal = invoicesSort.reverse();
+      }
+      this.advancedPagination = 1;
+      this.pageChangeOriginal(this.advancedPagination);
+    } else {
+      const invoicesSort = this.listInvoicesAuxCopy.sort(function(a, b) {
+        const x = a[key].toString().toLowerCase(); const y = b[key].toString().toLowerCase();
+          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      });
+      this.listInvoicesAuxCopy = invoicesSort;
+      if (this.reverseSort) {
+        this.listInvoicesAuxCopy = invoicesSort.reverse();
+      }
+      this.advancedPagination = 1;
+      this.pageChangeCopy(this.advancedPagination);
+    }
   }
 
   moveFirstPage() {
-		this.advancedPagination = 1;
-		this.pageChange(this.advancedPagination);
+    this.advancedPagination = 1;
+    this.pageChangeOriginal(this.advancedPagination);
+    this.pageChangeCopy(this.advancedPagination);
   }
 
   getOrder(idOrder) {
@@ -127,12 +181,22 @@ export class ManageInvoiceComponent implements OnInit {
       console.log('error', error);
     });
   }
-  open(invoice) {
+
+  open(invoice, actions) {
+    let p = true;
+    if (actions == 'edit') {
+      p = false;
+    }
     const modalRef = this.modalService.open(GenerateInvoiceComponent,
-    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
-    modalRef.componentInstance.invoice = invoice;
+    { size: 'lg', windowClass: 'modal-content-border modal-dialog-invoice', backdrop  : 'static', keyboard  : false });
+    if (invoice.original) {
+      modalRef.componentInstance.original = invoice;
+    } else {
+      modalRef.componentInstance.invoice = invoice;
+    }
+    modalRef.componentInstance.idsOrders = invoice.listOrders;
     modalRef.componentInstance.order = undefined;
-    modalRef.componentInstance.pilot = true;
+    modalRef.componentInstance.pilot = p;
     modalRef.result.then((result) => {
           this.getListInvoices();
     } , (reason) => {
@@ -184,7 +248,7 @@ export class ManageInvoiceComponent implements OnInit {
     });
   }
 
-  getItems(ev: any) {
+  /*getItems(ev: any, type: String) {
     this.listInvoices = this.listInvoicesAux;
     const val = ev.target.value;
     this.valorClient = val;
@@ -206,7 +270,7 @@ export class ManageInvoiceComponent implements OnInit {
           this.fullFilter(client, valorStatus);
       }
     } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
-      this.filter();
+      this.filter(type);
     } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
       if (this.tamano.length === 15) {
         this.valid1 = true;
@@ -224,100 +288,260 @@ export class ManageInvoiceComponent implements OnInit {
         this.listInvoices = lista;
       }
     }
-  }
+  }*/
 
-  filter(): void {
-    if (this.selectedStatus !== '') {
-      this.valid1 = true;
-      if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        this.listInvoices = _.filter(this.listInvoicesAux, { 'status': parseInt(this.selectedStatus) });
-      } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        this.filterStatusDate(this.selectedStatus);
-      } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
-        const nombre = this.valorClient;
-        this.filterStatusNombre(nombre , this.selectedStatus);
-      } else if ((this.tamano.length === 15) && (this.valorClient.trim() !== '')) {
-        const nombre = this.valorClient;
-        this.fullFilter(nombre , this.selectedStatus);
+  getItems(ev: any, type: String) {
+    const val = ev.target.value;
+    this.valorClient = val;
+    const lista = [];
+
+    if (type === 'original') {
+      this.listInvoicesOriginal = this.listInvoicesAuxOriginal;
+      const valorStatus = this.selectedStatusOriginal;
+      this.validOriginal = true;
+      if (val && val.trim() !== '') {
+        const client = val;
+        if (_.toString(valorStatus) === '' && this.tamano.length === 9) { // Si no ha seleccionado status y fecha
+          this.listInvoicesOriginal = this.listInvoicesOriginal.filter((item) => {
+            return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+            (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
+          });
+        } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
+            this.filterStatusNombre(client , valorStatus, type);
+        } else if (_.toString(valorStatus) === '' && this.tamano.length === 15) { // si no selecciono status y fecha si
+            this.filterDateNombre(client, type);
+        } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15) { // si escribio nombre y selecciono fecha
+            this.fullFilter(client, valorStatus, type);
+        }
+      } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
+        this.filter(type);
+      } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
+        if (this.tamano.length === 15) {
+          this.validOriginal = true;
+          let fecha: String;
+          // FechaFiltro
+          fecha = this.getFecha();
+          _.filter(this.listInvoicesAuxOriginal, function (orders) {
+            let fechaList: String;
+            // Fecha Listado
+            fechaList = _.toString(orders.date.slice(0, 10));
+            if (_.isEqual(fecha, fechaList)) {
+              lista.push(orders);
+            }
+          });
+          this.listInvoicesOriginal = lista;
+        }
+      }
+    } else {
+      this.listInvoicesCopy = this.listInvoicesAuxCopy;
+      const valorStatus = this.selectedStatusCopy;
+      const lista = [];
+      this.validCopy = true;
+      if (val && val.trim() !== '') {
+        const client = val;
+        if (_.toString(valorStatus) === '' && this.tamano.length === 9) { // Si no ha seleccionado status y fecha
+          this.listInvoicesCopy = this.listInvoicesCopy.filter((item) => {
+            return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+            (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
+          });
+        } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
+            this.filterStatusNombre(client , valorStatus, type);
+        } else if (_.toString(valorStatus) === '' && this.tamano.length === 15) { // si no selecciono status y fecha si
+            this.filterDateNombre(client, type);
+        } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15) { // si escribio nombre y selecciono fecha
+            this.fullFilter(client, valorStatus, type);
+        }
+      } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
+        this.filter(type);
+      } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
+        if (this.tamano.length === 15) {
+          this.validCopy = true;
+          let fecha: String;
+          // FechaFiltro
+          fecha = this.getFecha();
+          _.filter(this.listInvoicesAuxCopy, function (orders) {
+            let fechaList: String;
+            // Fecha Listado
+            fechaList = _.toString(orders.date.slice(0, 10));
+            if (_.isEqual(fecha, fechaList)) {
+              lista.push(orders);
+            }
+          });
+          this.listInvoicesCopy = lista;
+        }
       }
     }
   }
 
-  filter1(value): void {
+  filter(type: String): void {
+    if (type === 'original') {
+      if (this.selectedStatusOriginal !== '') {
+        this.validOriginal = true;
+        if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+          this.listInvoicesOriginal = _.filter(this.listInvoicesAuxOriginal, { 'status': parseInt(this.selectedStatusOriginal) });
+        } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+          this.filterStatusDate(this.selectedStatusOriginal, type);
+        } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
+          const nombre = this.valorClient;
+          this.filterStatusNombre(nombre , this.selectedStatusOriginal, type);
+        } else if ((this.tamano.length === 15) && (this.valorClient.trim() !== '')) {
+          const nombre = this.valorClient;
+          this.fullFilter(nombre , this.selectedStatusOriginal, type);
+        }
+      }
+    } else {
+      if (this.selectedStatusCopy !== '') {
+        this.validCopy = true;
+        if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+          this.listInvoicesCopy = _.filter(this.listInvoicesAuxCopy, { 'status': parseInt(this.selectedStatusCopy) });
+        } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+          this.filterStatusDate(this.selectedStatusCopy, type);
+        } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
+          const nombre = this.valorClient;
+          this.filterStatusNombre(nombre , this.selectedStatusCopy, type);
+        } else if ((this.tamano.length === 15) && (this.valorClient.trim() !== '')) {
+          const nombre = this.valorClient;
+          this.fullFilter(nombre , this.selectedStatusCopy, type);
+        }
+      }
+    }
+  }
+
+  filter1(value, type): void {
     this.model = value;
-    const valorStatus = this.selectedStatus;
     this.tamano = this.valueDate(this.model);
     const lista = [];
+    let valorStatus: any;
+    if (type === 'original') {
+      this.validOriginal = true;
+      valorStatus = this.selectedStatusOriginal;
+    } else {
+      this.validCopy = true;
+      valorStatus = this.selectedStatusCopy;
+    }
     if (this.tamano.length === 15) {
-      this.valid1 = true;
-      if ((_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-       // FechaFiltro
+      if (type === 'original' &&
+        (_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+        // FechaFiltro
+         let fecha: String;
+         fecha = this.getFecha();
+          _.filter(this.listInvoicesAuxOriginal, function (invoices) {
+           let fechaList: String;
+           // Fecha Listado
+           fechaList = _.toString(invoices.date.slice(0, 10));
+             if (_.isEqual(fecha, fechaList)) {
+               lista.push(invoices);
+             }
+          });
+        this.listInvoicesOriginal = lista;
+      } else if (type === 'copy' &&
+        (_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+        // FechaFiltro
         let fecha: String;
         fecha = this.getFecha();
-         _.filter(this.listInvoicesAux, function (invoices) {
+        _.filter(this.listInvoicesAuxCopy, function (invoices) {
           let fechaList: String;
           // Fecha Listado
           fechaList = _.toString(invoices.date.slice(0, 10));
             if (_.isEqual(fecha, fechaList)) {
               lista.push(invoices);
             }
-         });
-      this.listInvoices = lista;
-     } else if ((_.toString(valorStatus) !== '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-         this.filterStatusDate(valorStatus);
-     } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) === '')) {
-        this.filterDateNombre(this.valorClient);
-     } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) !== '')) {
-        this.fullFilter(this.valorClient , valorStatus);
-     }
+          });
+        this.listInvoicesCopy = lista;
+      } else if ((_.toString(valorStatus) !== '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+        this.filterStatusDate(valorStatus, type);
+      } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) === '')) {
+        this.filterDateNombre(this.valorClient, type);
+      } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) !== '')) {
+        this.fullFilter(this.valorClient , valorStatus, type);
+      }
     }
   }
 
-  filterStatusNombre(nombreCliente, status): void {
+  filterStatusNombre(nombreCliente, status, type): void {
     const lista = [];
-    _.filter(this.listInvoicesAux, function (invoices) {
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
-      (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-      // tslint:disable-next-line:radix
-      (_.isEqual(parseInt(status), invoices.status))) {
-        lista.push(invoices);
-      }
-    });
-    this.listInvoices = lista;
+    if (type === 'original') {
+      _.filter(this.listInvoicesAuxOriginal, function (invoices) {
+        if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
+        // tslint:disable-next-line:radix
+        (_.isEqual(parseInt(status), invoices.status))) {
+          lista.push(invoices);
+        }
+      });
+      this.listInvoicesOriginal = lista;
+    } else {
+      _.filter(this.listInvoicesAuxCopy, function (invoices) {
+        if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
+        // tslint:disable-next-line:radix
+        (_.isEqual(parseInt(status), invoices.status))) {
+          lista.push(invoices);
+        }
+      });
+      this.listInvoicesCopy = lista;
+    }
   }
 
-  filterDateNombre(nombreCliente): void {
+  filterDateNombre(nombreCliente, type): void {
     const lista = [];
     let fecha: String;
     // FechaFiltro
     fecha = this.getFecha();
-    _.filter(this.listInvoicesAux, function (invoices) {
-      // Fecha Listado
-      const fechaList = _.toString(invoices.date.slice(0, 10));
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
-      (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-      ((_.isEqual(fecha, fechaList)))) {
-        lista.push(invoices);
-      }
-    });
-    this.listInvoices = lista;
+    if (type === 'original') {
+      _.filter(this.listInvoicesAuxOriginal, function (invoices) {
+        // Fecha Listado
+        const fechaList = _.toString(invoices.date.slice(0, 10));
+        if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
+        ((_.isEqual(fecha, fechaList)))) {
+          lista.push(invoices);
+        }
+      });
+      this.listInvoicesOriginal = lista;
+
+    } else {
+      _.filter(this.listInvoicesAuxCopy, function (invoices) {
+        // Fecha Listado
+        const fechaList = _.toString(invoices.date.slice(0, 10));
+        if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
+        ((_.isEqual(fecha, fechaList)))) {
+          lista.push(invoices);
+        }
+      });
+      this.listInvoicesCopy = lista;
+    }
   }
 
-  filterStatusDate(status): void {
+  filterStatusDate(status, type): void {
     const lista = [];
     let fecha: String;
     // FechaFiltro
     fecha = this.getFecha();
-    _.filter(this.listInvoicesAux, function (invoices) {
-      let fechaList: String;
-      // Fecha Listado
-      fechaList = _.toString(invoices.date.slice(0, 10));
-      // tslint:disable-next-line:radix
-      if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), invoices.status))) {
-        lista.push(invoices);
-      }
-    });
-    this.listInvoices = lista;
+    if (type === 'original') {
+      _.filter(this.listInvoicesAuxOriginal, function (invoices) {
+        let fechaList: String;
+        // Fecha Listado
+        fechaList = _.toString(invoices.date.slice(0, 10));
+        // tslint:disable-next-line:radix
+        if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), invoices.status))) {
+          lista.push(invoices);
+        }
+      });
+      this.listInvoicesOriginal = lista;
+    } else {
+      _.filter(this.listInvoicesAuxCopy, function (invoices) {
+        let fechaList: String;
+        // Fecha Listado
+        fechaList = _.toString(invoices.date.slice(0, 10));
+        // tslint:disable-next-line:radix
+        if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), invoices.status))) {
+          lista.push(invoices);
+        }
+      });
+      this.listInvoicesCopy = lista;
+    }
   }
 
   getFecha(): String {
@@ -336,23 +560,39 @@ export class ManageInvoiceComponent implements OnInit {
     return fecha;
   }
 
-  fullFilter(nombreCliente, status): void {
+  fullFilter(nombreCliente, status, type): void {
     // FechaFiltro
     let fecha: String;
     fecha = this.getFecha();
     const lista = [];
-    // Lista actual
-     _.filter(this.listInvoicesAux, function (invoices) {
-      // Fecha Listado
-      const fechaList = _.toString(invoices.date.slice(0, 10));
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
-      (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-       // tslint:disable-next-line:radix
-       ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), invoices.status))) {
-        lista.push(invoices);
-      }
-    });
-    this.listInvoices = lista;
+
+    if (type === 'original') {
+      // Lista actual
+      _.filter(this.listInvoicesAuxOriginal, function (invoices) {
+        // Fecha Listado
+        const fechaList = _.toString(invoices.date.slice(0, 10));
+        if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
+        // tslint:disable-next-line:radix
+        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), invoices.status))) {
+          lista.push(invoices);
+        }
+      });
+      this.listInvoicesOriginal = lista;
+    } else {
+      // Lista actual
+      _.filter(this.listInvoicesAuxCopy, function (invoices) {
+        // Fecha Listado
+        const fechaList = _.toString(invoices.date.slice(0, 10));
+        if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
+        // tslint:disable-next-line:radix
+        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), invoices.status))) {
+          lista.push(invoices);
+        }
+      });
+      this.listInvoicesCopy = lista;
+    }
   }
 
   valueDate(valor): String {
@@ -363,13 +603,20 @@ export class ManageInvoiceComponent implements OnInit {
     return str;
   }
 
-  clean() {
+  clean(type) {
     this.getListInvoices();
-    this.valid1 = false;
-    this.selectedStatus = '';
+    if (type === 'original') {
+      this.validOriginal = false;
+      this.selectedStatusOriginal = '';
+      this.fechaSelecOriginal = null;
+      this.searchOriginal = '';
+    } else {
+      this.validCopy = false;
+      this.selectedStatusCopy = '';
+      this.fechaSelecCopy = null;
+      this.searchCopy = '';
+    }
     this.tamano = 'undefined';
-    this.fechaSelec = null;
-    this.search = '';
     this.valorClient = null;
   }
 }
