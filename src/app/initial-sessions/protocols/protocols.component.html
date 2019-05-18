@@ -53,15 +53,15 @@
                   <div *ngIf="protocol.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0">
                     <div class="custom-control-inline">
                       <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(1)" [checked]="valueFrecuency === 'Monthly'">
+                        <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 1)" [checked]="value.content === 'Monthly'">
                         <label class="custom-control-label" for="customRadio1">{{ 'Monthly' | translate }}</label>
                       </div>
                       <div style="margin-left: 10px;" class="custom-control custom-radio">
-                        <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(2)" [checked]="valueFrecuency === 'Biweekly'">
+                        <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 2)" [checked]="value.content === 'Biweekly'">
                         <label class="custom-control-label" for="customRadio2">{{ 'Biweekly' | translate }}</label>
                       </div>
                       <div style="margin-left: 10px;" class="custom-control custom-radio">
-                        <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(3)" [checked]="valueFrecuency === 'Weekly'">
+                        <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 3)" [checked]="value.content === 'Weekly'">
                         <label class="custom-control-label" for="customRadio3">{{ 'Weekly' | translate }}</label>
                       </div>
                     </div>

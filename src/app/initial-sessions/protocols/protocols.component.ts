@@ -23,6 +23,7 @@ export class ProtocolsComponent implements OnInit {
   protocols: Array<any> = new Array;
   protocolsCopy: Array<any> = new Array;
   protocolsSave: Array<Protocol> = new Array;
+  validRecords = 0;
   suppliers: Array<any> = new Array;
   countries: Array<any> = new Array();
   listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
@@ -46,7 +47,7 @@ export class ProtocolsComponent implements OnInit {
     this.loadFields();
     this.loadSuppliers();
     this.getCountry();
-    this.valueFrecuency = 'NINGUNA';
+    this.valueFrecuency = 'ANY';
   }
 
   initializeForm() {
@@ -118,39 +119,57 @@ export class ProtocolsComponent implements OnInit {
     });
   }
 
-  assignShippingFrecuency(value: number) {
-    switch (value) {
+  assignShippingFrecuency(protocol, type) {
+    switch (type) {
       case 1:
-          this.valueFrecuency = 'Monthly';
-          //this.protocolForm.get('shippingFrecuencyB').setValue(null);
-          //this.protocolForm.get('shippingFrecuencyW').setValue(null);
+        if (protocol.values.length > 1) {
+          protocol.values[protocol.values.length - 1].content = 'Monthly';
+        } else {
+          protocol.values[0].content = 'Monthly';
+        }
+        //this.protocolForm.get('shippingFrecuencyB').setValue(null);
+        //this.protocolForm.get('shippingFrecuencyW').setValue(null);
         break;
       case 2:
-           this.valueFrecuency = 'Biweekly';
-           //this.protocolForm.get('shippingFrecuencyW').setValue(null);
+        if (protocol.values.length > 1) {
+          protocol.values[protocol.values.length - 1].content = 'Biweekly';
+        } else {
+          protocol.values[0].content = 'Biweekly';
+        }
+        //this.protocolForm.get('shippingFrecuencyW').setValue(null);
         break;
       case 3:
-           this.valueFrecuency = 'Weekly';
-           //this.protocolForm.get('shippingFrecuencyB').setValue(null);
+        if (protocol.values.length > 1) {
+          protocol.values[protocol.values.length - 1].content = 'Weekly';
+        } else {
+          protocol.values[0].content = 'Weekly';
+        }
+        //this.protocolForm.get('shippingFrecuencyB').setValue(null);
         break;
     }
   }
 
   save() {
     this.buildProtocols();
-    let list = this.protocolsSave;
-     let service = this.protocolClientService;
-     let validRecords = 0;
-     _.each(this.protocolsSave, function(protocol) {
-          service.update$(protocol).subscribe(res => {
-            validRecords =  validRecords + 1;
+    let listProtocols = this.protocolsSave;
+    let service = this.protocolClientService;
+    let records = this.validRecords;
+    let self = this;
+     _.each(listProtocols, function(protocol) {
+        service.update$(protocol).subscribe(res => {
+          records++;
+          self.showMessage(records);
         });
     });
-    /*if (validRecords === this.protocolsSave.length) {
-      this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+  }
+
+  showMessage(records) {
+    this.validRecords = records;
+    if (this.validRecords === this.protocolsSave.length) {
+      this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
        this.notification.success('', res);
      });
-   }*/
+   }
   }
 
   buildProtocols() {
@@ -159,7 +178,7 @@ export class ProtocolsComponent implements OnInit {
     let protocolsClient = [];
     this.protocolsCopy = JSON.parse(JSON.stringify(this.protocols));
     let protocols = this.protocolsCopy;
-    let user = this.currentUser.IdUser;
+    let userId = this.currentUser.idUser;
       //Protocolos seleccionados
     _.each(protocolsSuppliers, function(item) {
         const protocolAux: Protocol = new Protocol();
@@ -171,7 +190,7 @@ export class ProtocolsComponent implements OnInit {
                  if (item.supplierId === supplier ) {
                     protocolAux.valid = true;
                     protocolAux.supplierId = supplier;
-                    protocolAux.clientId = 168; //cambiar cuando se una completo
+                    protocolAux.clientId = userId; //cambiar cuando se una completo
                     switch (protocol.id) {
                       case 1:
                         protocolAux.recipient = itemValue.content;
