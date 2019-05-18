@@ -9,6 +9,7 @@ import { UserStorageService } from '../../http/user-storage.service';
 import { ProtocolClientService } from '../../shared/services/protocolClient/protocol-client.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-protocols',
@@ -38,6 +39,7 @@ export class ProtocolsComponent implements OnInit {
               private userStorageService: UserStorageService,
               private translate: TranslateService,
               private notification: ToastrService,
+              public router: Router,
               private protocolClientService: ProtocolClientService) {
                 this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
               }
@@ -168,6 +170,8 @@ export class ProtocolsComponent implements OnInit {
     if (this.validRecords === this.protocolsSave.length) {
       this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
        this.notification.success('', res);
+       this.router.navigate(['/not-found']);
+       alert('Protocols Proform Here =)');
      });
    }
   }
