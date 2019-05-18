@@ -23,19 +23,20 @@
                 <span [hidden]="modeEdit">{{ value.content }}</span>
                 <!-- WRITE VALUE -->
                 <div class="input-value">
-                  <input *ngIf="protocol.label === 'ACC Number' || protocol.label === 'Business Name' || protocol.label === 'Recipient' || protocol.label === 'Acount Number' || protocol.label === 'Shipping Method' || protocol.label === 'Account Number for Shipping Carrier'"
+                  <input *ngIf="protocol.label === 'Recipient' || protocol.label === 'Shipping Method' || protocol.label === 'Account Number for Shipping Carrier'"
                     type="text"
                     [hidden]="!modeEdit"
                     class="form-control"
                     placeholder="{{ protocol.placeHolder | translate }}"
-                    [(ngModel)]="value.content" required>
-                  <textarea *ngIf="protocol.label === 'Shipping Address' || protocol.label === 'Comments' || protocol.label === 'Email Comments' || protocol.label === 'Shipping Details'"
+                    [(ngModel)]="value.content">
+                  <textarea *ngIf="protocol.label === 'Shipping Address' || protocol.label === 'Comments' || protocol.label === 'Shipping Details'"
                     style="overflow-x: hidden;"
                     type="text"
                     class="form-control"
                     placeholder="{{ protocol.placeHolder | translate }}"
+                    [(ngModel)]="value.content"
                   ></textarea>
-                  <ng-select
+                 <!-- <ng-select
                     class = "select-size"
                     [items]="countries"
                     [searchable]="true"
@@ -43,7 +44,7 @@
                     bindLabel="name"
                     *ngIf="protocol.label === 'Country'"
                     placeholder="{{ protocol.placeHolder | translate }}"
-                  ></ng-select>
+                  ></ng-select>-->
                   <div class="col-md-1 hand-over" [hidden]="protocol.values.length === 1">
                     <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete protocol value' | translate}}" (click)="removeValue(protocol, pos)"></span>
                   </div>
@@ -52,15 +53,15 @@
                   <div *ngIf="protocol.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0">
                     <div class="custom-control-inline">
                       <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(1)" [checked]="valueFrecuency === 'Monthly'">
+                        <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 1)" [checked]="value.content === 'Monthly'">
                         <label class="custom-control-label" for="customRadio1">{{ 'Monthly' | translate }}</label>
                       </div>
                       <div style="margin-left: 10px;" class="custom-control custom-radio">
-                        <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(2)" [checked]="valueFrecuency === 'Biweekly'">
+                        <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 2)" [checked]="value.content === 'Biweekly'">
                         <label class="custom-control-label" for="customRadio2">{{ 'Biweekly' | translate }}</label>
                       </div>
                       <div style="margin-left: 10px;" class="custom-control custom-radio">
-                        <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(3)" [checked]="valueFrecuency === 'Weekly'">
+                        <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 3)" [checked]="value.content === 'Weekly'">
                         <label class="custom-control-label" for="customRadio3">{{ 'Weekly' | translate }}</label>
                       </div>
                     </div>
@@ -88,7 +89,7 @@
                       <ul>
                         <li *ngFor="let supplier of suppliers" [ngClass]="{'li-selected': supplierSelected(supplier.idSupplier, value)}">
                           <a (click)="selectSupplier(supplier.idSupplier, protocol, value)">
-                            <span>{{ supplier.name }}</span>
+                            <span>{{ supplier.companyName }}</span>
                           </a>
                         </li>
                       </ul>
@@ -123,7 +124,7 @@
         </div>-->
         <br>
         <div class="footer-form" [hidden]="!modeEdit">
-          <button class="btn btn-secondary" (click)="cancel()">{{ 'Cancel' | translate }}&nbsp;
+          <button class="btn btn-secondary" (click)="Skip()">{{ 'Skip' | translate }}&nbsp;
             <i class="fa fa-times"></i>
           </button>
           &nbsp;&nbsp;
