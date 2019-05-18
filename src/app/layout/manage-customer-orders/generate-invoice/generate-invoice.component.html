@@ -343,9 +343,13 @@
             <ngb-tabset>
               <ngb-tab title="{{'Shipping Protocol'| translate}}">
                 <ng-template ngbTabContent class="tab-margin ">
-                  <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
-                    <label>{{ 'Select the protocols to include' | translate }}</label>
+                  <div *ngIf="shippingProtocol == null || shippingProtocol == undefined || shippingProtocol.id == null" class="message-error" style="margin: 10%;">
+                      <label class="bold">{{ 'Shipping protocol has not been defined for the provider' | translate }}</label>
                   </div>
+                  <div *ngIf="shippingProtocol != null && shippingProtocol != undefined && shippingProtocol.id != null">
+                    <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
+                      <label>{{ 'Select the protocols to include' | translate }}</label>
+                    </div>
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbAccNumber" type="checkbox" [checked]="editAccNumber" (change)="editAccNumber = !editAccNumber" class="custom-control-input">
@@ -545,13 +549,18 @@
                       ></textarea>
                       <span *ngIf="!editEmailComment" class="unassigned">{{ invShippingProtocol?.emailComment ? invShippingProtocol.emailComment : 'Unassigned' }}</span>
                     </div>
+                  </div>
                 </ng-template>
               </ngb-tab>
               <ngb-tab title="{{'Protocol Proforma'| translate}}">
                 <ng-template ngbTabContent>
-                  <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
-                    <label>{{ 'Select the protocols to include' | translate }}</label>
+                  <div *ngIf="protocolProforma == null || protocolProforma == undefined || protocolProforma.id == null" class="message-error" style="margin: 10%;">
+                    <label class="bold">{{ 'Protocol proforma has not been defined for the provider' | translate }}</label>
                   </div>
+                  <div *ngIf="protocolProforma != null && protocolProforma != undefined && protocolProforma.id != null">
+                    <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
+                      <label>{{ 'Select the protocols to include' | translate }}</label>
+                    </div>
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbSpectrumProforma" type="checkbox" [checked]="editSpectrumP" class="custom-control-input" (change)="editSpectrumP = !editSpectrumP">
@@ -718,6 +727,7 @@
                       />
                       <span *ngIf="!editTariffCodes" class="unassigned">{{ invProtocolProforma?.tariffCodes ? invProtocolProforma.tariffCodes : 'Unassigned' }}</span>
                     </div>
+                  </div>
                 </ng-template>
               </ngb-tab>
             </ngb-tabset>
