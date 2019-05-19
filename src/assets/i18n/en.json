@@ -1013,9 +1013,6 @@
     "Friday":"Friday",
     "Saturday":"Saturday",
     "Sunday":"Sunday",
-<<<<<<< HEAD
-    "Skip":"Skip"
-=======
+    "Skip":"Skip",
     "Shippings protocols has not been defined for the provider": "Shippings protocols has not been defined for the provider"
->>>>>>> 3884d72a18700c46f9b080a1899ba019e614da74
 }
