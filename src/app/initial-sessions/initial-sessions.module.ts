@@ -11,6 +11,8 @@ import { PageHeaderModule } from '../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProtocolsComponent } from './protocols/protocols.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ProtocolsproformaComponent } from './protocols/protocolsproforma/protocolsproforma.component';
+import { ProtocolsshippingComponent } from './protocols/protocolsshipping/protocolsshipping.component';
 
 @NgModule({
   imports: [
@@ -24,6 +26,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ReactiveFormsModule,
     NgSelectModule
   ],
-  declarations: [InitialSessionsComponent, ChangePasswordTemporalComponent, ProtocolsComponent]
+  declarations: [InitialSessionsComponent, ChangePasswordTemporalComponent, ProtocolsComponent, ProtocolsproformaComponent, ProtocolsshippingComponent]
 })
 export class InitialSessionsModule { }

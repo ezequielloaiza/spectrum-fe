@@ -13,6 +13,7 @@ export class ProtocolProforma {
   tariffCodes: string;
   clientId: any;
   supplierId: any;
+  valid: boolean;
 
   constructor(obj?: any) {
     Object.assign(this, obj);

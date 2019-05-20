@@ -1,0 +1,73 @@
+<br>
+<div class="form-options">
+  <span class="sp-title">{{ 'Proforma Protocols' | translate }}</span>
+</div>
+<div class="row" *ngFor="let protocol of protocols">
+  <div class="col-xl-12">
+    <fieldset class="form-group">
+      <div>
+        <label>{{ protocol.label | translate }}</label>
+        <div class="col-md-1 hand-over" [hidden]="suppliers.length === protocol.selectedSuppliers.length">
+          <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{ 'Add new value' | translate }}" (click)="addValue(protocol)"></span>
+        </div>
+      </div>
+      <div class="mb-2 mr-sm-2 mb-sm-0" *ngFor="let value of protocol.values; let pos = index">
+        <!-- READ VALUE -->
+        <span [hidden]="modeEdit">{{ value.content }}</span>
+        <!-- WRITE VALUE -->
+        <div class="input-value">
+          <div *ngIf="protocol.label === 'Spectrum Proforma'" class="mb-2 mr-sm-2 mb-sm-0">
+              <div class="custom-control-inline">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="customRadio1" name="spectrumProforma" class="custom-control-input" [checked]="protocol ? protocol.spectrumProforma : false">
+                  <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
+                </div>
+                <div style="margin-left: 10px;" class="custom-control custom-radio">
+                  <input type="radio" id="customRadio2" name="spectrumProforma" class="custom-control-input"  [checked]="protocol ? !protocol.spectrumProforma : true">
+                  <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
+                </div>
+              </div>
+          </div>
+          <textarea *ngIf="protocol.label === 'Additional Documents' || protocol.label === 'Comments' || protocol.label === 'Tariff Codes'"
+            style="overflow-x: hidden;"
+            type="text"
+            class="form-control"
+            placeholder="{{ protocol.placeHolder | translate }}"
+            [(ngModel)]="value.content"
+          ></textarea>
+          <div class="col-md-1 hand-over" [hidden]="protocol.values.length === 1">
+            <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete protocol value' | translate}}" (click)="removeValue(protocol, pos)"></span>
+          </div>
+        </div>
+        <!--SUPPLIERS -->
+        <div class="col-xl-12" [hidden]="!modeEdit">
+          <div class="context">
+            <div class="menu">
+              <ul>
+                <li *ngFor="let supplier of suppliers" [ngClass]="{'li-selected': supplierSelected(supplier.idSupplier, value)}">
+                  <a (click)="selectSupplier(supplier.idSupplier, protocol, value)">
+                    <span>{{ supplier.companyName }}</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+<br>
+<div class="footer-form">
+  <button class="btn btn-secondary" (click)="Behind()">{{ 'Behind' | translate }}&nbsp;
+    <i class="fa fa-arrow-left"></i>
+  </button>
+  &nbsp;&nbsp;
+  <button class="btn btn-secondary" (click)="Skip()">{{ 'Skip' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  &nbsp;&nbsp;
+  <button class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>
