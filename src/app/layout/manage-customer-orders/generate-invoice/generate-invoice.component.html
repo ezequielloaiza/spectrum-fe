@@ -81,7 +81,8 @@
                   </div>
                 </div>
                 <div class="col-xl-4">
-                  <label class="address">{{invoice.address?.name}}</label>
+                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
+                  <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
                 </div>
                 <div class="col-xl-3">
                 </div>
@@ -90,7 +91,8 @@
                 <div class="col-xl-5">
                 </div>
                 <div class="col-xl-4">
-                  <label class="address">{{invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : ''}}</label>
+                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? '' : (invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : '')}}</label>
+                  <label *ngIf="!pilot" class="address">{{(invShippingProtocol?.shippingAddress && editShippingAddress) ? '' : (invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : '')}}</label>
                 </div>
                 <div class="col-xl-3">
                 </div>
@@ -99,7 +101,8 @@
                 <div class="col-xl-5">
                 </div>
                 <div class="col-xl-4">
-                  <label class="address">{{ invoice.address? (invoice.address.country.name | translate) : ''}}</label>
+                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
+                  <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
                 </div>
                 <div class="col-xl-3">
                 </div>
@@ -243,7 +246,7 @@
                   <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
                   <br>
                   <input type="text" class="form-control" value="{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}"
-                  (change)="updateTerms($event)" required>
+                  (change)="updateTerms($event)" maxlength="130" required>
                 </div>
                 <div  *ngIf="pilot" class="col-xl-6">
                   <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
@@ -552,10 +555,10 @@
                   </div>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab title="{{'Protocol Proforma'| translate}}">
+              <ngb-tab title="{{'Protocols Proforma'| translate}}">
                 <ng-template ngbTabContent>
                   <div *ngIf="protocolProforma == null || protocolProforma == undefined || protocolProforma.id == null" class="message-error" style="margin: 10%;">
-                    <label class="bold">{{ 'Protocol proforma has not been defined for the provider' | translate }}</label>
+                    <label class="bold">{{ 'Protocols proforma has not been defined for the provider' | translate }}</label>
                   </div>
                   <div *ngIf="protocolProforma != null && protocolProforma != undefined && protocolProforma.id != null">
                     <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
