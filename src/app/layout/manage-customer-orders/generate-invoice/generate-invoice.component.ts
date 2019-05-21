@@ -67,6 +67,9 @@ export class GenerateInvoiceComponent implements OnInit {
   editComment = false;
   editEmailComment = false;
   editCountry = false;
+  // invoice
+  protocolProformaInv = false;
+  protocolShippingInv = false;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -452,6 +455,9 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invShippingProtocol.idInvoice = invoice.invoiceProtocolClientResponse.idInvoice;
       this.invShippingProtocol.idInvoiceSupplierProtocolClient = invoice.invoiceProtocolClientResponse.idInvoiceSupplierProtocolClient;
       this.invShippingProtocol.idProtocolClient = invoice.invoiceProtocolClientResponse.idProtocolClient;
+      if (this.invShippingProtocol.businessName != null || this.invShippingProtocol.recipient != null || this.invShippingProtocol.comment ){
+        this.protocolShippingInv = true;
+      }
     } else {
       this.invShippingProtocol.accNumber = this.shippingProtocol.accNumber;
       this.editAccNumber = false;
@@ -504,6 +510,9 @@ export class GenerateInvoiceComponent implements OnInit {
       this.editTariffCodes = (this.invProtocolProforma.tariffCodes != null && !this.pilot) ? true : false;
       this.invProtocolProforma.protocolSpectrum = invoice.invoiceProtocolProformaResponse.protocolSpectrum;
       this.invProtocolProforma.maximumAmount = invoice.invoiceProtocolProformaResponse.maximumAmount;
+      if (this.invProtocolProforma.tariffCodes != null) {
+        this.protocolProformaInv = true;
+      }
     } else {
       this.invProtocolProforma.additionalDocuments = this.protocolProforma.additionalDocuments;
       this.editAdditionalDocuments = false;
@@ -669,10 +678,16 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateBusinessName($event) {
     this.invShippingProtocol.businessName = $event.target.value;
+    if (!this.protocolShippingInv ) {
+      this.protocolShippingInv = true;
+    }
   }
 
   updateRecipient($event) {
     this.invShippingProtocol.recipient = $event.target.value;
+    if (!this.protocolShippingInv ) {
+      this.protocolShippingInv = true;
+    }
   }
 
   updateShippingAddress($event) {
@@ -689,6 +704,9 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateCommentProtocol($event) {
     this.invShippingProtocol.comment = $event.target.value;
+    if (!this.protocolShippingInv ) {
+      this.protocolShippingInv = true;
+    }
   }
 
   updateEmailCommentProtocol($event) {
@@ -717,6 +735,9 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateTariffCodes($event) {
     this.invProtocolProforma.tariffCodes = $event.target.value;
+    if (!this.protocolProformaInv) {
+      this.protocolProformaInv = true;
+    }
   }
 
   verification() {

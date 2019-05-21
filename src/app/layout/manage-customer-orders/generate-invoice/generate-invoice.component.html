@@ -296,7 +296,6 @@
               <div class="row">
                 <div class="col-xl-12">
                   <br>
-                  <br>
                   <label class="bold">{{ 'Shipping Instructions' | translate }}</label>
                   <br>
                   <label *ngIf="pilot" class="">{{ (invoice.shippingInstructions ? invoice.shippingInstructions : ('No Instructions Shipping' | translate)) }}</label>
@@ -323,10 +322,37 @@
               <div class="row">
                 <div class="col-xl-12">
                   <br>
-                  <br>
                   <label class="">{{ 'This invoice includes the following orders' | translate }}: </label>
                   <label class="label-order">{{ ordersNumber }}</label>
                   <br>
+                </div>
+              </div>
+            </div>
+            <div class="col col-xl-12 col-lg-12">
+              <div class="row">
+                <div class="col-xl-12" *ngIf="protocolShippingInv || editBusinessName || editRecipient || editComment">
+                  <br>
+                  <label class="bold" >{{ 'Shippings Protocols' | translate }}</label>
+                  <br>
+                  <label *ngIf="pilot || (!pilot && editBusinessName)" class="bold">{{ 'Businness Name' }}: </label>
+                  <label *ngIf="pilot" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
+                  <label *ngIf="editBusinessName" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
+                  <br>
+                  <label *ngIf="pilot || (!pilot && editRecipient)" class="bold">{{ 'Recipient' }}: </label>
+                  <label *ngIf="pilot" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.recipient : '' }}</label>
+                  <label *ngIf="!pilot && editRecipient" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.recipient : '' }}</label>
+                  <br>
+                  <label *ngIf="pilot || (!pilot && editComment)" class="bold">{{ 'Comments' }}: </label>
+                  <label *ngIf="pilot" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment: '') }}</label>
+                  <label *ngIf="!pilot && editComment" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment : '') }}</label>
+                </div>
+                <div class="col-xl-12" *ngIf="protocolProformaInv || editTariffCodes">
+                  <br>
+                  <label class="bold">{{ 'Protocols Proforma' | translate }}</label>
+                  <br>
+                  <label *ngIf="pilot || (!pilot && editTariffCodes)" class="bold">{{ 'Tariff Codes' }}: </label>
+                  <label *ngIf="pilot" class="margin-left">{{ (invProtocolProforma ? invProtocolProforma?.tariffCodes : '') }}</label>
+                  <label *ngIf="!pilot && editTariffCodes" class="margin-left">{{ (invProtocolProforma ? invProtocolProforma?.tariffCodes : '') }}</label>
                 </div>
               </div>
             </div>
