@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 import { CountryService } from '../../shared/services';
@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ProtocolProformaService } from '../../shared/services/protocolProforma/protocol-proforma.service';
+import { ProtocolsproformaComponent } from './protocolsproforma/protocolsproforma.component';
 
 @Component({
   selector: 'app-protocols',
@@ -39,6 +40,7 @@ export class ProtocolsComponent implements OnInit {
   next = false;
   validRecordsShipping = 0;
   validRecordsProforma = 0;
+  @ViewChild(ProtocolsproformaComponent) protocolProforma:ProtocolsproformaComponent;
 
   constructor(private formBuilder: FormBuilder,
               private countryService: CountryService,
@@ -53,6 +55,8 @@ export class ProtocolsComponent implements OnInit {
               }
 
   ngOnInit() {
+    debugger
+    //this.protocolProforma.back();
   }
 
   getProtocolsShipping(listProtocols: any): void {

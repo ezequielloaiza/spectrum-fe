@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -16,6 +16,7 @@ import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
 import { ProtocolProformaService } from '../../../shared/services/protocolProforma/protocol-proforma.service';
 import { ProtocolProforma } from '../../../shared/models/protocolProforma';
+import { ProtocolsComponent } from '../protocols.component';
 
 @Component({
   selector: 'app-protocolsproforma',
@@ -35,6 +36,7 @@ export class ProtocolsproformaComponent implements OnInit {
   countries: Array<any> = new Array();
   currentUser: any;
   @Output() emitEventProforma: EventEmitter<any> = new EventEmitter<any>();
+  //@Input() protocolsParentIn: ProtocolsComponent;
 
   constructor(private formBuilder: FormBuilder,
     private countryService: CountryService,
@@ -174,10 +176,12 @@ export class ProtocolsproformaComponent implements OnInit {
     return fResponse;
   }
 
-  Behind() {
+  back() {
+    debugger
   }
 
-  Skip() {
+  skip() {
+    debugger
     this.loadFields();
     this.getProtocols();
     const fResponse = [];
