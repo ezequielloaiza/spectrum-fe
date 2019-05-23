@@ -21,23 +21,12 @@ import { ProtocolsproformaComponent } from './protocolsproforma/protocolsproform
 
 export class ProtocolsComponent implements OnInit {
 
-
-  /*modeEdit = true;
-  form: FormGroup;
-  protocols: Array<any> = new Array;
-  protocolsCopy: Array<any> = new Array;
-  protocolsSave: Array<Protocol> = new Array;
-  validRecords = 0;
-  suppliers: Array<any> = new Array;
-  countries: Array<any> = new Array();
-  listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
-  listBiweekly = [ '15', '30'];
-  listWeekly = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  valueFrecuency: any;*/
   protocolsShippingSave: Array<Protocol> = new Array;
+  protocolsShippingCopy: Array<Protocol> = new Array;
   protocolsProformaSave: Array<Protocol> = new Array;
+  protocolsProformaCopy: Array<Protocol> = new Array;
   currentUser: any;
-  next = false;
+  showShipping = true;
   validRecordsShipping = 0;
   validRecordsProforma = 0;
   @ViewChild(ProtocolsproformaComponent) protocolProforma:ProtocolsproformaComponent;
@@ -55,18 +44,20 @@ export class ProtocolsComponent implements OnInit {
               }
 
   ngOnInit() {
-    debugger
-    //this.protocolProforma.back();
   }
 
   getProtocolsShipping(listProtocols: any): void {
     this.protocolsShippingSave = listProtocols[0];
-    this.next = listProtocols[1];
+    this.showShipping = listProtocols[1];
+    this.protocolsShippingCopy = listProtocols[2];
   }
 
   getProtocolsProforma(listProtocols: any): void {
     this.protocolsProformaSave = listProtocols[0];
     let skip = listProtocols[1];
+    this.showShipping = listProtocols[2];
+    this.protocolsProformaCopy = listProtocols[3];
+    debugger
     if (!skip) {
       this.save();
     }

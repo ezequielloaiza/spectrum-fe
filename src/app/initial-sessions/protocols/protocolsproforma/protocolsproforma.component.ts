@@ -35,8 +35,10 @@ export class ProtocolsproformaComponent implements OnInit {
   suppliers: Array<any> = new Array;
   countries: Array<any> = new Array();
   currentUser: any;
+  vSkip = false;
+  vBack = true;
+  @Input() lista: Array<any>;
   @Output() emitEventProforma: EventEmitter<any> = new EventEmitter<any>();
-  //@Input() protocolsParentIn: ProtocolsComponent;
 
   constructor(private formBuilder: FormBuilder,
     private countryService: CountryService,
@@ -50,6 +52,7 @@ export class ProtocolsproformaComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.protocolsCopy = this.lista;
     this.initializeForm();
     this.loadFields();
     this.loadSuppliers();
@@ -62,12 +65,16 @@ export class ProtocolsproformaComponent implements OnInit {
   }
 
   loadFields() {
-    this.protocols = [
-    {label: 'Spectrum Proforma'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
-    {label: 'Additional Documents'                         , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address',id:2},
-    {label: 'Comments'                                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Comments',id:3},
-    {label: 'Tariff Codes'                                 , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency',id:4},
-    ];
+    if (this.protocolsCopy.length === 0) {
+      this.protocols = [
+        {label: 'Spectrum Proforma'                            , values:[{content: 'false', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
+        {label: 'Additional Documents'                         , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address',id:2},
+        {label: 'Comments'                                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Comments',id:3},
+        {label: 'Tariff Codes'                                 , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency',id:4},
+        ];
+    } else {
+      this.protocols = this.protocolsCopy;
+    }
   }
 
   loadSuppliers() {
@@ -103,7 +110,12 @@ export class ProtocolsproformaComponent implements OnInit {
   }
 
   addValue(protocol) {
-    protocol.values.push({content: '', suppliers: []});
+    debugger
+    if (protocol.label === 'Spectrum Proforma') {
+      protocol.values.push({content: 'false', suppliers: []});
+    } else {
+      protocol.values.push({content: '', suppliers: []});
+    }
   }
 
   removeValue(protocol, index) {
@@ -169,25 +181,37 @@ export class ProtocolsproformaComponent implements OnInit {
   public save(): any {
     this.buildProtocols();
     const fResponse = [];
-    let skip = false;
+    this.vSkip = false;
     fResponse.push(this.protocolsSave);
-    fResponse.push(skip);
+    fResponse.push(this.vSkip);
+    fResponse.push(this.vBack);
+    fResponse.push(this.protocolsCopy);
     this.emitEventProforma.emit(fResponse);
     return fResponse;
   }
 
   back() {
-    debugger
+    this.buildProtocols();
+    const fResponse = [];
+    this.vBack = true;
+    fResponse.push(this.protocolsSave);
+    fResponse.push(true);
+    fResponse.push(this.vBack);
+    fResponse.push(this.protocolsCopy);
+    this.emitEventProforma.emit(fResponse);
+    return fResponse;
   }
 
   skip() {
-    debugger
+    this.protocolsCopy = new Array;
     this.loadFields();
     this.getProtocols();
     const fResponse = [];
-    let skip = true;
+    this.vSkip = true;
     fResponse.push(this.protocolsSave);
-    fResponse.push(skip);
+    fResponse.push(this.vSkip);
+    fResponse.push(this.vBack);
+    fResponse.push(this.protocolsCopy);
     this.emitEventProforma.emit(fResponse);
     return fResponse;
   }

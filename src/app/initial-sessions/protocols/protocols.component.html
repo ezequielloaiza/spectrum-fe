@@ -2,9 +2,9 @@
     <div class="row">
       <div class="col-sm-12">
         <!-- Protocols Shipping -->
-        <app-protocolsshipping *ngIf="next === false" (emitEventShipping)="getProtocolsShipping($event)"></app-protocolsshipping>
+        <app-protocolsshipping *ngIf="showShipping" [lista]="protocolsShippingCopy" (emitEventShipping)="getProtocolsShipping($event)"></app-protocolsshipping>
          <!-- Protocols Proforma -->
-        <app-protocolsproforma *ngIf="next === true" (emitEventProforma)="getProtocolsProforma($event)"></app-protocolsproforma>
+        <app-protocolsproforma *ngIf="!showShipping" [lista]="protocolsProformaCopy" (emitEventProforma)="getProtocolsProforma($event)"></app-protocolsproforma>
 
 
         <!--NO BORRAR ESTO FALTA CONTEMPLARLO GENERICO PARA CUANDO SEAN RADIO BUTTONS-->

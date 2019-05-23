@@ -19,11 +19,23 @@
           <div *ngIf="protocol.label === 'Spectrum Proforma'" class="mb-2 mr-sm-2 mb-sm-0">
               <div class="custom-control-inline">
                 <div class="custom-control custom-radio">
-                  <input type="radio" id="customRadio1" name="spectrumProforma" class="custom-control-input" [checked]="protocol ? protocol.spectrumProforma : false">
+                  <input type="radio"
+                   id="customRadio1"
+                   name="spectrumProforma"
+                   class="custom-control-input"
+                   [checked]="true"
+                   [(ngModel)]="value.content"
+                   value=true>
                   <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
                 </div>
                 <div style="margin-left: 10px;" class="custom-control custom-radio">
-                  <input type="radio" id="customRadio2" name="spectrumProforma" class="custom-control-input"  [checked]="protocol ? !protocol.spectrumProforma : true">
+                  <input type="radio"
+                   id="customRadio2"
+                   name="spectrumProforma"
+                   class="custom-control-input"
+                   [checked]="false"
+                   [(ngModel)]="value.content"
+                   value=false>
                   <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
                 </div>
               </div>
