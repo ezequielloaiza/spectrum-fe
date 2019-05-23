@@ -110,7 +110,6 @@ export class ProtocolsproformaComponent implements OnInit {
   }
 
   addValue(protocol) {
-    debugger
     if (protocol.label === 'Spectrum Proforma') {
       protocol.values.push({content: 'false', suppliers: []});
     } else {

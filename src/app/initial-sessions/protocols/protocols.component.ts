@@ -57,7 +57,6 @@ export class ProtocolsComponent implements OnInit {
     let skip = listProtocols[1];
     this.showShipping = listProtocols[2];
     this.protocolsProformaCopy = listProtocols[3];
-    debugger
     if (!skip) {
       this.save();
     }
