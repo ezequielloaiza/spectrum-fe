@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-xl-4">
                   <label *ngIf="pilot" class="address">{{ invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control" value="{{invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
+                  <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
                   (change)="updateDeliverTo($event)" required>
                 </div>
                 <div class="col-xl-3">
@@ -337,18 +337,18 @@
                   <label *ngIf="pilot || (!pilot && editBusinessName)" class="bold">{{ 'Businness Name' }}: </label>
                   <label *ngIf="pilot" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
                   <label *ngIf="editBusinessName" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
-                  <br>
+                  <br *ngIf="editBusinessName || pilot">
                   <label *ngIf="pilot || (!pilot && editRecipient)" class="bold">{{ 'Recipient' }}: </label>
                   <label *ngIf="pilot" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.recipient : '' }}</label>
                   <label *ngIf="!pilot && editRecipient" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.recipient : '' }}</label>
-                  <br>
+                  <br *ngIf="editRecipient || pilot">
                   <label *ngIf="pilot || (!pilot && editComment)" class="bold">{{ 'Comments' }}: </label>
                   <label *ngIf="pilot" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment: '') }}</label>
                   <label *ngIf="!pilot && editComment" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment : '') }}</label>
                 </div>
                 <div class="col-xl-12" *ngIf="protocolProformaInv || editTariffCodes">
                   <br>
-                  <label class="bold">{{ 'Protocols Proforma' | translate }}</label>
+                  <label class="bold">{{ 'Proforma Protocols' | translate }}</label>
                   <br>
                   <label *ngIf="pilot || (!pilot && editTariffCodes)" class="bold">{{ 'Tariff Codes' }}: </label>
                   <label *ngIf="pilot" class="margin-left">{{ (invProtocolProforma ? invProtocolProforma?.tariffCodes : '') }}</label>
@@ -581,10 +581,10 @@
                   </div>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab title="{{'Protocols Proforma'| translate}}">
+              <ngb-tab title="{{'Proforma Protocols'| translate}}">
                 <ng-template ngbTabContent>
                   <div *ngIf="protocolProforma == null || protocolProforma == undefined || protocolProforma.id == null" class="message-error" style="margin: 10%;">
-                    <label class="bold">{{ 'Protocols proforma has not been defined for the provider' | translate }}</label>
+                    <label class="bold">{{ 'Proforma protocols has not been defined for the provider' | translate }}</label>
                   </div>
                   <div *ngIf="protocolProforma != null && protocolProforma != undefined && protocolProforma.id != null">
                     <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">

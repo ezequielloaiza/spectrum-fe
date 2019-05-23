@@ -1194,5 +1194,5 @@
     "Saturday":"Sabado",
     "Sunday":"Domingo",
     "Shippings protocols has not been defined for the provider": "Los protocolos de envío no han sido definidos para el proveedor.",
-    "Protocols proforma has not been defined for the provider": "Los protocolos de proforma no han sido definidos para el proveedor."
+    "Proforma protocols has not been defined for the provider": "Los protocolos de proforma no han sido definidos para el proveedor."
 }
