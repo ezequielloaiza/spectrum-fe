@@ -67,7 +67,7 @@ export class ProtocolsproformaComponent implements OnInit {
   loadFields() {
     if (this.protocolsCopy.length === 0) {
       this.protocols = [
-        {label: 'Spectrum Proforma'                            , values:[{content: 'false', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
+        {label: 'Spectrum Proforma'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
         {label: 'Additional Documents'                         , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address',id:2},
         {label: 'Comments'                                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Comments',id:3},
         {label: 'Tariff Codes'                                 , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency',id:4},
@@ -110,11 +110,11 @@ export class ProtocolsproformaComponent implements OnInit {
   }
 
   addValue(protocol) {
-    if (protocol.label === 'Spectrum Proforma') {
+   /* if (protocol.label === 'Spectrum Proforma') {
       protocol.values.push({content: 'false', suppliers: []});
-    } else {
+    } else {*/
       protocol.values.push({content: '', suppliers: []});
-    }
+   // }
   }
 
   removeValue(protocol, index) {

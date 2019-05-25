@@ -73,7 +73,7 @@ export class ProtocolsshippingComponent implements OnInit {
         // {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
         {label: 'Recipient'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Recipient',id:1},
         {label: 'Shipping Address'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address',id:2},
-        {label: 'Shipping Frecuency'                   , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency',id:3},
+        {label: 'Shipping Frecuency'                   , values:[{content: '', suppliers: [],showB:"false",showW:"false"}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency',id:3},
         {label: 'Shipping Method'                      , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Method',id:4},
         {label: 'Shipping Details'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Details',id:5},
         {label: 'Account Number for Shipping Carrier'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Account Number for Shipping Carrier',id:6},
@@ -132,32 +132,40 @@ export class ProtocolsshippingComponent implements OnInit {
     });
   }
 
-  assignShippingFrecuency(protocol, type) {
+  assignShippingFrecuency(protocol, type, pos) {
     switch (type) {
       case 1:
         if (protocol.values.length > 1) {
           protocol.values[protocol.values.length - 1].content = 'Monthly';
+          protocol.values[protocol.values.length - 1].showB = 'false';
+          protocol.values[protocol.values.length - 1].showW = 'false';
         } else {
           protocol.values[0].content = 'Monthly';
+          protocol.values[0].showW = 'false';
+          protocol.values[0].showB = 'false';
         }
-      //this.protocolForm.get('shippingFrecuencyB').setValue(null);
-      //this.protocolForm.get('shippingFrecuencyW').setValue(null);
         break;
       case 2:
         if (protocol.values.length > 1) {
           protocol.values[protocol.values.length - 1].content = 'Biweekly';
+          protocol.values[protocol.values.length - 1].showB = 'true';
+          protocol.values[protocol.values.length - 1].showW = 'false';
         } else {
           protocol.values[0].content = 'Biweekly';
+          protocol.values[0].showB = 'true';
+          protocol.values[0].showW = 'false';
         }
-      //this.protocolForm.get('shippingFrecuencyW').setValue(null);
         break;
       case 3:
         if (protocol.values.length > 1) {
           protocol.values[protocol.values.length - 1].content = 'Weekly';
+          protocol.values[protocol.values.length - 1].showW = 'true';
+          protocol.values[protocol.values.length - 1].showB = 'false';
         } else {
           protocol.values[0].content = 'Weekly';
+          protocol.values[0].showW = 'true';
+          protocol.values[0].showB = 'false';
         }
-      //this.protocolForm.get('shippingFrecuencyB').setValue(null);
         break;
       }
 }

@@ -5,25 +5,6 @@
         <app-protocolsshipping *ngIf="showShipping" [lista]="protocolsShippingCopy" (emitEventShipping)="getProtocolsShipping($event)"></app-protocolsshipping>
          <!-- Protocols Proforma -->
         <app-protocolsproforma *ngIf="!showShipping" [lista]="protocolsProformaCopy" (emitEventProforma)="getProtocolsProforma($event)"></app-protocolsproforma>
-
-
-        <!--NO BORRAR ESTO FALTA CONTEMPLARLO GENERICO PARA CUANDO SEAN RADIO BUTTONS-->
-        <!--<div class="row">
-          <div class="col-xl-6">
-            <fieldset class="form-group">
-              <label>{{ 'DMV Default' | translate }}</label>
-              <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="modeEdit">{{ 'test' }}</span>
-                <div class="custom-control custom-radio">
-                  <input type="radio" id="customRadio1" name="customRadio" value="1" class="custom-control-input">
-                  <label class="custom-control-label" for="customRadio1">{{ 'Yes' | translate }}</label>
-                  <input type="radio" id="customRadio2" name="customRadio" value="1" class="custom-control-input">
-                  <label class="custom-control-label" for="customRadio2">{{ 'No' | translate }}</label>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>-->
         <br>
       </div>
     </div>

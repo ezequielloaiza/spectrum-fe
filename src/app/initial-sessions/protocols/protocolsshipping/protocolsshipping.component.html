@@ -30,15 +30,6 @@
             placeholder="{{ protocol.placeHolder | translate }}"
             [(ngModel)]="value.content"
           ></textarea>
-         <!-- <ng-select
-            class = "select-size"
-            [items]="countries"
-            [searchable]="true"
-            bindValue="idCountry"
-            bindLabel="name"
-            *ngIf="protocol.label === 'Country'"
-            placeholder="{{ protocol.placeHolder | translate }}"
-          ></ng-select>-->
           <div class="col-md-1 hand-over" [hidden]="protocol.values.length === 1">
             <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete protocol value' | translate}}" (click)="removeValue(protocol, pos)"></span>
           </div>
@@ -47,29 +38,43 @@
           <div *ngIf="protocol.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0">
             <div class="custom-control-inline">
               <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 1)" [checked]="value.content === 'Monthly'">
-                <label class="custom-control-label" for="customRadio1">{{ 'Monthly' | translate }}</label>
+                <input type="radio"
+                 id="{{'customRadioM'+pos}}"
+                 name="{{'shippingFrecuency'+pos}}"
+                 class="custom-control-input"
+                 (change)="assignShippingFrecuency(protocol, 1,pos)">
+                <label class="custom-control-label" for="{{'customRadioM'+pos}}">{{ 'Monthly' | translate }}</label>
               </div>
               <div style="margin-left: 10px;" class="custom-control custom-radio">
-                <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 2)" [checked]="value.content === 'Biweekly'">
-                <label class="custom-control-label" for="customRadio2">{{ 'Biweekly' | translate }}</label>
+                <input type="radio"
+                id="{{'customRadioB'+pos}}"
+                name="{{'shippingFrecuency'+pos}}"
+                class="custom-control-input"
+                (change)="assignShippingFrecuency(protocol, 2,pos)">
+                <label class="custom-control-label" for="{{'customRadioB'+pos}}">{{ 'Biweekly' | translate }}</label>
               </div>
               <div style="margin-left: 10px;" class="custom-control custom-radio">
-                <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 3)" [checked]="value.content === 'Weekly'">
-                <label class="custom-control-label" for="customRadio3">{{ 'Weekly' | translate }}</label>
+                <input type="radio"
+                 id="{{'customRadioW'+pos}}"
+                 name="{{'shippingFrecuency'+pos}}"
+                 class="custom-control-input"
+                 (change)="assignShippingFrecuency(protocol, 3,pos)">
+                <label class="custom-control-label" for="{{'customRadioW'+pos}}">{{ 'Weekly' | translate }}</label>
               </div>
             </div>
             <!--<span>{{ shippingFrecuency.value }}</span>-->
             <select
-              *ngIf="valueFrecuency === 'Biweekly'"
+              *ngIf="value.showB === 'true'"
+             [(ngModel)]="value.content"
               class="form-control"
-              name="shippingFrecuencyB">
+              name="{{'shippingFrecuencyB'+pos}}">
                 <option *ngFor="let biweekly of listBiweekly" value="{{biweekly}}">{{ biweekly | translate }}</option>
             </select>
             <select
-              *ngIf="valueFrecuency === 'Weekly'"
+             *ngIf="value.showW === 'true'"
+             [(ngModel)]="value.content"
               class="form-control"
-              name="shippingFrecuencyW">
+              name="{{'shippingFrecuencyW'+pos}}">
                 <option *ngFor="let weekly of listWeekly" value="{{weekly}}">{{ weekly | translate }}</option>
             </select>
           </div>
