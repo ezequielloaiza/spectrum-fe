@@ -34,6 +34,10 @@
           outline: none;
         }
       }
+
+      .li-selected {
+        background-color: #007bff;
+      }
     }
 
 
@@ -67,10 +71,26 @@
     }
   }
 
+  .select-size {
+    width: 100%;
+  }
+
   .form-group {
     span {
       color: $color-text-menu;
       font-weight: bold;
+    }
+
+    label {
+      margin-bottom: 0;
+    }
+
+    > div:nth-child(1) {
+      display: flex;
+    }
+
+    .input-value {
+      display: flex;
     }
   }
 
@@ -93,12 +113,6 @@
 
     & span:hover {
       color: $bg-blue;
-    }
-  }
-
-  .form-group {
-    label {
-      margin-bottom: 0;
     }
   }
 }
