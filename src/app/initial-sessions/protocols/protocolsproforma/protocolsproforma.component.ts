@@ -215,4 +215,23 @@ export class ProtocolsproformaComponent implements OnInit {
     return fResponse;
   }
 
+  getNamesTypeList(value) {
+    const self = this;
+    const suppliersName = [];
+    _.each(self.suppliers, function(supplier) {
+      if (_.includes(value.suppliers, supplier.idSupplier)) {
+        suppliersName.push(supplier.companyName);
+      }
+    });
+    return suppliersName.join(', ');
+  }
+
+  disabledSupplier(protocol, value, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier) && !_.includes(value.suppliers, supplier.idSupplier);
+  }
+
+  checkedSupplier(protocol, value, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
+  }
+
 }
