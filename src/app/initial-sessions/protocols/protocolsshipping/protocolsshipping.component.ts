@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Protocol } from '../../../shared/models/protocol';
 import { FormBuilder } from '@angular/forms';
@@ -19,7 +19,8 @@ import { Input } from '@angular/core';
 @Component({
   selector: 'app-protocolsshipping',
   templateUrl: './protocolsshipping.component.html',
-  styleUrls: ['./protocolsshipping.component.scss']
+  styleUrls: ['./protocolsshipping.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProtocolsshippingComponent implements OnInit {
 
@@ -119,6 +120,11 @@ export class ProtocolsshippingComponent implements OnInit {
 
   addValue(protocol) {
     protocol.values.push({content: '', suppliers: []});
+    
+  }
+
+  hiddenSupplier(protocol, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier)
   }
 
   removeValue(protocol, index) {
@@ -264,6 +270,25 @@ export class ProtocolsshippingComponent implements OnInit {
     this.protocolsCopy = new Array;
     this.loadFields();
     this.getProtocols();
+  }
+
+  getNamesTypeList(value) {
+    const self = this;
+    const suppliersName = [];
+    _.each(self.suppliers, function(supplier) {
+      if (_.includes(value.suppliers, supplier.idSupplier)) {
+        suppliersName.push(supplier.companyName);
+      }
+    });
+    return suppliersName.join(', ');
+  }
+
+  disabledSupplier(protocol, value, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier) && !_.includes(value.suppliers, supplier.idSupplier);
+  }
+
+  checkedSupplier(protocol, value, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
   }
 
 }

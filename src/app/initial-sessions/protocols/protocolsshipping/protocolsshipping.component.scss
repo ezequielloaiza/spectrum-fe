@@ -72,3 +72,70 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.border-bottom {
+  border-bottom: solid 1px #c4c5c7;
+}
+
+.border-type {
+  border: solid 1px #ced4da;
+  background: white;
+  height: 34px;
+
+  &::after {
+    position: absolute;
+    left: 95%;
+    top: 15px;
+  }
+}
+
+.w-46 {
+  width: 46%
+}
+
+.trash {
+  width: 3%;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  position: relative;
+
+  > span {
+    position: absolute;
+    top: -7px;
+
+    &.top {
+      top: -18px;
+    }
+  }
+}
+
+.dropdown-list {
+  &.dropdown-menu {
+    top: 31px !important;
+    left: 0px !important;
+
+    &::before {
+      content: none;
+    }
+
+    &::after {
+      content: none;
+    }
+
+    span {
+      color: #30414a;
+      font-weight: bold;
+    }
+  }
+
+  .custom-checkbox .custom-control-label::before {
+    border: solid 1px #cccccd;
+    border-radius: .3em;
+  }
+}
+
+.custom-control-input:disabled ~ .custom-control-label {
+  cursor: not-allowed;
+  opacity: .5;
+}
