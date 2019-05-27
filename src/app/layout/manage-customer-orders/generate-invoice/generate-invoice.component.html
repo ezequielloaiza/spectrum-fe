@@ -334,7 +334,7 @@
                   <br>
                   <label class="bold" >{{ 'Shippings Protocols' | translate }}</label>
                   <br>
-                  <label *ngIf="pilot || (!pilot && editBusinessName)" class="bold">{{ 'Businness Name' }}: </label>
+                  <label *ngIf="pilot || (!pilot && editBusinessName)" class="bold">{{ 'Business Name' }}: </label>
                   <label *ngIf="pilot" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
                   <label *ngIf="editBusinessName" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
                   <br *ngIf="editBusinessName || pilot">
@@ -369,7 +369,7 @@
             </div>
           </div>
           <div class="col col-xl-4 col-lg-4 tab-border">
-            <ngb-tabset>
+            <ngb-tabset destroyOnHide="false">
               <ngb-tab title="{{ 'Shippings Protocols' | translate }}">
                 <ng-template ngbTabContent class="tab-margin ">
                   <div *ngIf="shippingProtocol == null || shippingProtocol == undefined || shippingProtocol.id == null" class="message-error" style="margin: 10%;">
@@ -424,10 +424,10 @@
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbBusinessName" type="checkbox" [checked]="editBusinessName" (change)="editBusinessName = !editBusinessName" class="custom-control-input">
-                        <label class="custom-control-label" for="cbBusinessName">{{ 'Businness Name' | translate }}</label>
+                        <label class="custom-control-label" for="cbBusinessName">{{ 'Business Name' | translate }}</label>
                       </div>
                       <div *ngIf="pilot">
-                        <label class="">{{ 'Businness Name' | translate }}</label>
+                        <label class="">{{ 'Business Name' | translate }}</label>
                       </div>
                       <input
                         type="text"
@@ -700,8 +700,8 @@
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
-                        <input id="cbComments" type="checkbox" [checked]="editComments" (change)="editComments = !editComments" class="custom-control-input">
-                        <label class="custom-control-label" for="cbComments">{{ 'Comments' | translate }}</label>
+                        <input id="cbComment" type="checkbox" [checked]="editComments" (change)="editComments = !editComments" class="custom-control-input">
+                        <label class="custom-control-label" for="cbComment">{{ 'Comments' | translate }}</label>
                       </div>
                       <div *ngIf="pilot">
                         <label class="">{{ 'Comments' | translate }}</label>
