@@ -32,7 +32,7 @@
                   <img src="assets/images/spectrumLogo1.jpg" width="300px" class="" />
                 </div>
               </div>
-              <div class="row row-height align-row">
+              <div class="row row-height align-row" [ngStyle]="{'margin-bottom': pilot ? '2%' : '0%'}">
                 <div class="col-xl-5">
                   <label class="label">{{ 'Invoice No' | translate }}</label>
                   <label *ngIf="pilot" class="label-value">{{invoice.number}}</label>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-xl-4">
                   <label *ngIf="pilot" class="address">{{ invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control" value="{{invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
+                  <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
                   (change)="updateDeliverTo($event)" required>
                 </div>
                 <div class="col-xl-3">
@@ -81,7 +81,8 @@
                   </div>
                 </div>
                 <div class="col-xl-4">
-                  <label class="address">{{invoice.address?.name}}</label>
+                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
+                  <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
                 </div>
                 <div class="col-xl-3">
                 </div>
@@ -90,7 +91,8 @@
                 <div class="col-xl-5">
                 </div>
                 <div class="col-xl-4">
-                  <label class="address">{{invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : ''}}</label>
+                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? '' : (invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : '')}}</label>
+                  <label *ngIf="!pilot" class="address">{{(invShippingProtocol?.shippingAddress && editShippingAddress) ? '' : (invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : '')}}</label>
                 </div>
                 <div class="col-xl-3">
                 </div>
@@ -99,7 +101,8 @@
                 <div class="col-xl-5">
                 </div>
                 <div class="col-xl-4">
-                  <label class="address">{{ invoice.address? (invoice.address.country.name | translate) : ''}}</label>
+                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
+                  <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
                 </div>
                 <div class="col-xl-3">
                 </div>
@@ -243,7 +246,7 @@
                   <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
                   <br>
                   <input type="text" class="form-control" value="{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}"
-                  (change)="updateTerms($event)" required>
+                  (change)="updateTerms($event)" maxlength="130" required>
                 </div>
                 <div  *ngIf="pilot" class="col-xl-6">
                   <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
@@ -293,7 +296,6 @@
               <div class="row">
                 <div class="col-xl-12">
                   <br>
-                  <br>
                   <label class="bold">{{ 'Shipping Instructions' | translate }}</label>
                   <br>
                   <label *ngIf="pilot" class="">{{ (invoice.shippingInstructions ? invoice.shippingInstructions : ('No Instructions Shipping' | translate)) }}</label>
@@ -320,10 +322,37 @@
               <div class="row">
                 <div class="col-xl-12">
                   <br>
-                  <br>
                   <label class="">{{ 'This invoice includes the following orders' | translate }}: </label>
                   <label class="label-order">{{ ordersNumber }}</label>
                   <br>
+                </div>
+              </div>
+            </div>
+            <div class="col col-xl-12 col-lg-12">
+              <div class="row">
+                <div class="col-xl-12" *ngIf="protocolShippingInv || editBusinessName || editRecipient || editComment">
+                  <br>
+                  <label class="bold" >{{ 'Shippings Protocols' | translate }}</label>
+                  <br>
+                  <label *ngIf="(pilot && invShippingProtocol?.businessName != null) || (!pilot && editBusinessName)" class="bold">{{ 'Business Name' }}: </label>
+                  <label *ngIf="pilot && invShippingProtocol?.businessName != null" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
+                  <label *ngIf="editBusinessName" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
+                  <br *ngIf="editBusinessName || (pilot && invShippingProtocol?.businessName != null)">
+                  <label *ngIf="(pilot && invShippingProtocol?.recipient != null) || (!pilot && editRecipient)" class="bold">{{ 'Recipient' }}: </label>
+                  <label *ngIf="pilot && invShippingProtocol?.recipient != null" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.recipient : '' }}</label>
+                  <label *ngIf="!pilot && editRecipient" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.recipient : '' }}</label>
+                  <br *ngIf="editRecipient || (pilot && invShippingProtocol?.recipient != null)">
+                  <label *ngIf="(pilot && invShippingProtocol?.comment != null) || (!pilot && editComment)" class="bold">{{ 'Comments' }}: </label>
+                  <label *ngIf="pilot && invShippingProtocol?.comment != null" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment: '') }}</label>
+                  <label *ngIf="!pilot && editComment" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment : '') }}</label>
+                </div>
+                <div class="col-xl-12" *ngIf="protocolProformaInv || editTariffCodes">
+                  <br>
+                  <label class="bold">{{ 'Proforma Protocols' | translate }}</label>
+                  <br>
+                  <label *ngIf="(pilot && invProtocolProforma?.tariffCodes != null) || (!pilot && editTariffCodes)" class="bold">{{ 'Tariff Codes' }}: </label>
+                  <label *ngIf="pilot && invProtocolProforma?.tariffCodes != null" class="margin-left">{{ (invProtocolProforma ? invProtocolProforma?.tariffCodes : '') }}</label>
+                  <label *ngIf="!pilot && editTariffCodes" class="margin-left">{{ (invProtocolProforma ? invProtocolProforma?.tariffCodes : '') }}</label>
                 </div>
               </div>
             </div>
@@ -340,7 +369,7 @@
             </div>
           </div>
           <div class="col col-xl-4 col-lg-4 tab-border">
-            <ngb-tabset>
+            <ngb-tabset destroyOnHide="false">
               <ngb-tab title="{{ 'Shippings Protocols' | translate }}">
                 <ng-template ngbTabContent class="tab-margin ">
                   <div *ngIf="shippingProtocol == null || shippingProtocol == undefined || shippingProtocol.id == null" class="message-error" style="margin: 10%;">
@@ -395,10 +424,10 @@
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbBusinessName" type="checkbox" [checked]="editBusinessName" (change)="editBusinessName = !editBusinessName" class="custom-control-input">
-                        <label class="custom-control-label" for="cbBusinessName">{{ 'Businness Name' | translate }}</label>
+                        <label class="custom-control-label" for="cbBusinessName">{{ 'Business Name' | translate }}</label>
                       </div>
                       <div *ngIf="pilot">
-                        <label class="">{{ 'Businness Name' | translate }}</label>
+                        <label class="">{{ 'Business Name' | translate }}</label>
                       </div>
                       <input
                         type="text"
@@ -552,10 +581,10 @@
                   </div>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab title="{{'Protocol Proforma'| translate}}">
+              <ngb-tab title="{{'Proforma Protocols'| translate}}">
                 <ng-template ngbTabContent>
                   <div *ngIf="protocolProforma == null || protocolProforma == undefined || protocolProforma.id == null" class="message-error" style="margin: 10%;">
-                    <label class="bold">{{ 'Protocol proforma has not been defined for the provider' | translate }}</label>
+                    <label class="bold">{{ 'Proforma protocols has not been defined for the provider' | translate }}</label>
                   </div>
                   <div *ngIf="protocolProforma != null && protocolProforma != undefined && protocolProforma.id != null">
                     <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
@@ -671,8 +700,8 @@
                     </div>
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
-                        <input id="cbComments" type="checkbox" [checked]="editComments" (change)="editComments = !editComments" class="custom-control-input">
-                        <label class="custom-control-label" for="cbComments">{{ 'Comments' | translate }}</label>
+                        <input id="cbComment" type="checkbox" [checked]="editComments" (change)="editComments = !editComments" class="custom-control-input">
+                        <label class="custom-control-label" for="cbComment">{{ 'Comments' | translate }}</label>
                       </div>
                       <div *ngIf="pilot">
                         <label class="">{{ 'Comments' | translate }}</label>

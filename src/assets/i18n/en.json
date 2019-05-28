@@ -1014,5 +1014,6 @@
     "Saturday":"Saturday",
     "Sunday":"Sunday",
     "Skip":"Skip",
-    "Shippings protocols has not been defined for the provider": "Shippings protocols has not been defined for the provider"
+    "Shippings protocols has not been defined for the provider": "Shippings protocols has not been defined for the provider",
+    "Proforma protocols has not been defined for the provider": "Proforma protocols has not been defined for the provider"
 }
