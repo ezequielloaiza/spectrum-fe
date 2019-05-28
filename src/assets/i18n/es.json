@@ -1195,5 +1195,7 @@
     "Sunday":"Domingo",
     "Skip":"Omitir",
     "Shippings protocols has not been defined for the provider": "Los protocolos de envío no han sido definidos para el proveedor.",
-    "Proforma protocols has not been defined for the provider": "Los protocolos de proforma no han sido definidos para el proveedor."
+    "Proforma protocols has not been defined for the provider": "Los protocolos de proforma no han sido definidos para el proveedor.",
+    "If it is disabled, it was previously selected": "Si está inhabilitado fue seleccionado previamente",
+    "Save & Next":"Guardar y Continuar"
 }

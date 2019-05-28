@@ -1,0 +1,141 @@
+@import '../../../../styles/spectrum/spectrum';
+
+.context {
+
+  .menu {
+    ul {
+      display: flex;
+      list-style: none;
+      flex-direction: row;
+      align-content: flex-end;
+      align-items: stretch;;
+
+      li {
+        padding: 0.6rem;
+        border-radius: 24px;
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
+        cursor: pointer;
+
+        &:not(:last-child) {
+          margin-right: 1rem;
+        }
+
+        &.router-link-active {
+          a {
+            color: $bg-blue;
+          }
+        }
+
+        a {
+          color: $color-text-menu;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      .li-selected {
+        background-color: #007bff;
+      }
+    }
+
+
+  }
+}
+
+.footer-form {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-group {
+  span {
+    color: $color-text-menu;
+    font-weight: bold;
+  }
+
+  label {
+    margin-bottom: 0;
+  }
+
+  > div:nth-child(1) {
+    display: flex;
+  }
+
+  .input-value {
+    display: flex;
+  }
+}
+
+.border-bottom {
+  border-bottom: solid 1px #c4c5c7;
+}
+
+.border-type {
+  border: solid 1px #ced4da;
+  background: white;
+  height: 34px;
+
+  &::after {
+    position: absolute;
+    left: 95%;
+    top: 15px;
+  }
+}
+
+.w-46 {
+  width: 46%
+}
+
+.trash {
+  width: 3%;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  position: relative;
+
+  > span {
+    position: absolute;
+    top: -7px;
+
+    &.top {
+      top: -18px;
+    }
+  }
+}
+
+.dropdown-list {
+  &.dropdown-menu {
+    top: 31px !important;
+    left: 0px !important;
+
+    &::before {
+      content: none;
+    }
+
+    &::after {
+      content: none;
+    }
+
+    span {
+      color: #30414a;
+      font-weight: bold;
+    }
+  }
+
+  .custom-checkbox .custom-control-label::before {
+    border: solid 1px #cccccd;
+    border-radius: .3em;
+  }
+}
+
+.custom-control-input:disabled ~ .custom-control-label {
+  cursor: not-allowed;
+  opacity: .5;
+}
