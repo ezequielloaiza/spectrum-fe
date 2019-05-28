@@ -32,7 +32,7 @@
                   <img src="assets/images/spectrumLogo1.jpg" width="300px" class="" />
                 </div>
               </div>
-              <div class="row row-height align-row">
+              <div class="row row-height align-row" [ngStyle]="{'margin-bottom': pilot ? '2%' : '0%'}">
                 <div class="col-xl-5">
                   <label class="label">{{ 'Invoice No' | translate }}</label>
                   <label *ngIf="pilot" class="label-value">{{invoice.number}}</label>

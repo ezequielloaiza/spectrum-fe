@@ -142,7 +142,7 @@ export class GenerateInvoiceComponent implements OnInit {
       cbEmailComment2: [this.editEmailComment],
       emailComment: [this.invShippingProtocol.emailComment],
       cbCountry: [this.editCountry],
-      country: [this.invShippingProtocol.country]
+      country: [null]
     });
   }
 
@@ -671,7 +671,7 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateCountry($event) {
-    this.invShippingProtocol.country = $event.idCountry;
+    this.invShippingProtocol.country = this.form.get('country').value;
   }
 
   updateBusinessName($event) {
@@ -790,10 +790,13 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invShippingProtocol.emailComment = null;
     }
 
-    if (!this.editCountry) {
+    if (this.editCountry) {
+      this.invShippingProtocol.country = this.form.get('country').value;
+    } else {
       this.invShippingProtocol.country = null;
       this.invShippingProtocol.countryName =  null;
     }
+
 
     if (this.editAccNumber || this.editBusinessName ||
         this.editRecipient || this.editShippingAddress ||
