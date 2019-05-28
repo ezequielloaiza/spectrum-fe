@@ -96,10 +96,11 @@
                 <div *ngIf="edit && editField" class="input-group-append">
                   <span class="input-group-text">$</span>
                   <input
-                    type="number"
+                    type="text"
                     class="form-control"
                     formControlName="maximumAmount"
                     *ngIf="edit && editField"
+                    currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}"
                     placeholder="{{ 'Enter maximum amount to declare' | translate }}"
                   />
                 </div>

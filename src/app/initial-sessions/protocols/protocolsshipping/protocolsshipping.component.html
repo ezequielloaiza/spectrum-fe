@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="d-flex w-100 pt-2 pb-1" *ngFor="let value of protocol.values; let pos = index">
+    <div class="d-flex align-items-center w-100 pt-2 pb-1" *ngFor="let value of protocol.values; let pos = index">
       <div class="w-50 mr-3">
         <div class="input-value">
           <input *ngIf="protocol.label === 'Recipient' || protocol.label === 'Shipping Method' || protocol.label === 'Account Number for Shipping Carrier'"
@@ -24,7 +24,7 @@
             [(ngModel)]="value.content"></textarea>
 
           <!--Shipping Frecuency-->
-          <div *ngIf="protocol.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0">
+          <div *ngIf="protocol.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0 d-flex align-items-center">
             <div class="custom-control-inline">
               <div class="custom-control custom-radio">
                 <input type="radio" id="{{'customRadioM'+pos}}" name="{{'shippingFrecuency'+pos}}" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 1,pos)">
@@ -58,10 +58,10 @@
             <div class="select-type">
               <li *ngFor="let supplier of suppliers; index as i">
                 <div>
-                  <div class="custom-control custom-checkbox">
-                    <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}" 
-                      type="checkbox" name="checkboxGroupAll" 
-                      [checked]="checkedSupplier(protocol, value, supplier)" 
+                  <div class="custom-control custom-checkbox" data-toggle="tooltip" data-placement="left" title="{{ 'If it is disabled, it was previously selected' | translate }}">
+                    <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}"
+                      type="checkbox" name="checkboxGroupAll"
+                      [checked]="checkedSupplier(protocol, value, supplier)"
                       (click)="selectSupplier(supplier.idSupplier, protocol, value)"
                       class="custom-control-input"
                       [disabled]="disabledSupplier(protocol, value, supplier)">
@@ -79,7 +79,7 @@
       </div>
     </div>
     <div>
-      <button type="button" class="btn btn-main" [hidden]="suppliers.length === protocol.selectedSuppliers.length" (click)="addValue(protocol)">{{ 'Add' | translate }}
+      <button type="button" class="btn btn-main" [hidden]="suppliers.length === protocol.selectedSuppliers.length || protocol.values.length === suppliers.length" (click)="addValue(protocol)">{{ 'Add' | translate }}
         <i class="fa fa-plus-circle ml-2"></i>
       </button>
     </div>

@@ -119,8 +119,9 @@ export class ProtocolsshippingComponent implements OnInit {
   }
 
   addValue(protocol) {
+    debugger
     protocol.values.push({content: '', suppliers: []});
-    
+
   }
 
   hiddenSupplier(protocol, supplier) {
