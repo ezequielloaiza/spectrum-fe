@@ -68,9 +68,9 @@ export class ProtocolsproformaComponent implements OnInit {
     if (this.protocolsCopy.length === 0) {
       this.protocols = [
         {label: 'Spectrum Proforma'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
-        {label: 'Additional Documents'                         , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Address',id:2},
-        {label: 'Comments'                                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Comments',id:3},
-        {label: 'Tariff Codes'                                 , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Shipping Frecuency',id:4},
+        {label: 'Additional Documents'                         , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter additional documents',id:2},
+        {label: 'Comments'                                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter comments',id:3},
+        {label: 'Tariff Codes'                                 , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:4},
         ];
     } else {
       this.protocols = this.protocolsCopy;
@@ -232,6 +232,28 @@ export class ProtocolsproformaComponent implements OnInit {
 
   checkedSupplier(protocol, value, supplier) {
     return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
+  }
+
+  formIsValid() {
+    let valid = true;
+    let protocols = JSON.parse(JSON.stringify(this.protocols));
+    _.each(protocols, function(protocol, index) {
+      _.each(protocol.values, function(itemValue) {
+          if (itemValue.content !== '' && itemValue.suppliers.length === 0) {
+            valid = false;
+            return valid;
+          }
+      });
+    });
+    return valid;
+  }
+
+  validContent(protocol, pos) {
+    let valid = true;
+    if (protocol.values[pos].content === '') {
+         valid = false;
+    }
+    return valid;
   }
 
 }

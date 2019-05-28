@@ -39,7 +39,7 @@
       </div>
       <div class="w-46">
         <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
-          <button class="btn border-type w-100 text-left" ngbDropdownToggle required>
+          <button class="btn border-type w-100 text-left" ngbDropdownToggle required [disabled]="!validContent(protocol,pos)">
             <div class="text-overflow">{{ getNamesTypeList(value) }}</div>
           </button>
           <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
@@ -81,7 +81,7 @@
     <i class="fa fa-times"></i>
   </button>
   &nbsp;&nbsp;
-  <button class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
+  <button class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
 </div>
