@@ -298,6 +298,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.shipping = original.shipping;
     this.invoice.due = original.total;
     this.invoice.shippingInstructions = original.shippingInstructions;
+    this.invoice.status = original.status;
     let productReq = [];
     const version = original.original;
     _.each(original.listProductRequested, function(pRequested) {
@@ -388,6 +389,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.original = false;
     this.invoice.shippingInstructions = (this.order.user.company.shippingInstructions ?
       this.order.user.company.shippingInstructions : 'No Instructions Shipping');
+    this.invoice.status = 0;
    // const ship = 0;
     this.invoice.shipping = this.order.shippingPrice;
     this.invoice.due = this.order.total;
@@ -416,6 +418,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.original.original = true;
     this.original.shippingInstructions = (order.user.company.shippingInstructions ?
       order.user.company.shippingInstructions : 'No Instructions Shipping');
+    this.original.status = 0;
    // const ship = 0;
     this.original.shipping = order.shippingPrice;
     this.original.due = order.total;
@@ -862,6 +865,8 @@ export class GenerateInvoiceComponent implements OnInit {
       this.updateDates();
       this.buildInvoiceProtocols();
       let inv: Array<any> = new Array;
+      this.invoice.status = send;
+      this.original.status = send;
       inv.push(this.original);
       inv.push(this.invoice);
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
