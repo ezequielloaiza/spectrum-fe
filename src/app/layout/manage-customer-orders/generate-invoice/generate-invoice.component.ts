@@ -862,6 +862,13 @@ export class GenerateInvoiceComponent implements OnInit {
       this.updateDates();
       this.buildInvoiceProtocols();
       let inv: Array<any> = new Array;
+      if (this.copy || this.order != undefined) {
+        this.invoice.status = send;
+        this.original.status = 0;
+      } else {
+        this.original.status = send;
+        this.invoice.status = 0;
+      }
       inv.push(this.original);
       inv.push(this.invoice);
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
