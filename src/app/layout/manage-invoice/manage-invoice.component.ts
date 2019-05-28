@@ -235,6 +235,7 @@ export class ManageInvoiceComponent implements OnInit {
         saveAs(res, filename);
       } else {
         this.spinner.hide();
+        console.log('error1', res);
         this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res1: string) => {
           this.notification.error('', res1);
         });
