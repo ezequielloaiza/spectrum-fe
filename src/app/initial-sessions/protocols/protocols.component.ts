@@ -27,7 +27,6 @@ export class ProtocolsComponent implements OnInit {
   protocolsProformaCopy: Array<Protocol> = new Array;
   currentUser: any;
   showShipping = true;
-  validRecordsShipping = 0;
   validRecordsProforma = 0;
   @ViewChild(ProtocolsproformaComponent) protocolProforma:ProtocolsproformaComponent;
 
@@ -60,37 +59,30 @@ export class ProtocolsComponent implements OnInit {
     if (!skip) {
       this.save();
     }
+    if (skip) {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   save() {
-    let listProtocolsShipping = this.protocolsShippingSave;
     const listProtocolsProforma = this.protocolsProformaSave;
-    let serviceShipping = this.protocolClientService;
     const serviceProforma = this.protocolProformaService;
-    let recordsShipping = this.validRecordsShipping;
-    let recordsProforma = this.validRecordsShipping;
+    let recordsProforma = this.validRecordsProforma;
     let self = this;
-    _.each(listProtocolsShipping, function(protocolShipping) {
-        serviceShipping.update$(protocolShipping).subscribe(res => {
-          recordsShipping++;
-          self.showMessage(recordsShipping, recordsProforma);
-      });
-    });
     _.each(listProtocolsProforma, function(protocolProforma) {
         serviceProforma.update$(protocolProforma).subscribe(res => {
           recordsProforma++;
-          self.showMessage(recordsShipping, recordsProforma);
+          self.showMessage(recordsProforma);
         });
     });
 }
 
-  showMessage(records, recordsProforma) {
-    this.validRecordsShipping = records;
-    this.validRecordsProforma = recordsProforma;
-    if (this.validRecordsShipping === this.protocolsShippingSave.length &&
-        this.validRecordsProforma === this.protocolsProformaSave.length) {
+  showMessage(records) {
+    this.validRecordsProforma = records;
+    if (this.validRecordsProforma === this.protocolsProformaSave.length ) {
     this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
     this.notification.success('', res);
+    this.router.navigate(['/dashboard']);
     });
     }
 }

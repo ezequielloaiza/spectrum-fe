@@ -194,7 +194,7 @@ export class ProtocolsproformaComponent implements OnInit {
     const fResponse = [];
     this.vBack = true;
     fResponse.push(this.protocolsSave);
-    fResponse.push(true);
+    fResponse.push(null);
     fResponse.push(this.vBack);
     fResponse.push(this.protocolsCopy);
     this.emitEventProforma.emit(fResponse);

@@ -37,6 +37,7 @@ export class ProtocolsshippingComponent implements OnInit {
   listWeekly = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   valueFrecuency: any;
   currentUser: any;
+  validRecordsShipping = 0;
   @Input() lista: Array<any>;
   @Output() emitEventShipping: EventEmitter<any> = new EventEmitter<any>();
 
@@ -120,7 +121,7 @@ export class ProtocolsshippingComponent implements OnInit {
 
   addValue(protocol) {
     protocol.values.push({content: '', suppliers: []});
-    
+
   }
 
   hiddenSupplier(protocol, supplier) {
@@ -141,44 +142,44 @@ export class ProtocolsshippingComponent implements OnInit {
   assignShippingFrecuency(protocol, type, pos) {
     switch (type) {
       case 1:
-        if (protocol.values.length > 1) {
-          protocol.values[protocol.values.length - 1].content = 'Monthly';
-          protocol.values[protocol.values.length - 1].showB = 'false';
-          protocol.values[protocol.values.length - 1].showW = 'false';
-        } else {
-          protocol.values[0].content = 'Monthly';
-          protocol.values[0].showW = 'false';
-          protocol.values[0].showB = 'false';
-        }
+          protocol.values[pos].content = 'Monthly';
+          protocol.values[pos].showW = 'false';
+          protocol.values[pos].showB = 'false';
         break;
       case 2:
-        if (protocol.values.length > 1) {
-          protocol.values[protocol.values.length - 1].content = 'Biweekly';
-          protocol.values[protocol.values.length - 1].showB = 'true';
-          protocol.values[protocol.values.length - 1].showW = 'false';
-        } else {
-          protocol.values[0].content = 'Biweekly';
-          protocol.values[0].showB = 'true';
-          protocol.values[0].showW = 'false';
-        }
+          protocol.values[pos].content = '';
+          protocol.values[pos].showB = 'true';
+          protocol.values[pos].showW = 'false';
         break;
       case 3:
-        if (protocol.values.length > 1) {
-          protocol.values[protocol.values.length - 1].content = 'Weekly';
-          protocol.values[protocol.values.length - 1].showW = 'true';
-          protocol.values[protocol.values.length - 1].showB = 'false';
-        } else {
-          protocol.values[0].content = 'Weekly';
-          protocol.values[0].showW = 'true';
-          protocol.values[0].showB = 'false';
-        }
+          protocol.values[pos].content = '';
+          protocol.values[pos].showW = 'true';
+          protocol.values[pos].showB = 'false';
         break;
       }
 }
 
   save() {
     this.buildProtocols();
-    this.sendReply();
+    let listProtocolsShipping = this.protocolsSave;
+    let serviceShipping = this.protocolClientService;
+    let recordsShipping = this.validRecordsShipping;
+    let self = this;
+    let userId = this.currentUser.idUser;
+    if (listProtocolsShipping.length > 0) {
+      serviceShipping.remove$(userId).subscribe(resRem => {
+          if (resRem.code === CodeHttp.ok) {
+            _.each(listProtocolsShipping, function(protocolShipping) {
+              serviceShipping.update$(protocolShipping).subscribe(res => {
+                recordsShipping++;
+                self.showMessage(recordsShipping);
+            });
+          });
+          }
+      });
+    } else {
+      this.sendReply();
+    }
 }
 
   showMessage(records) {
@@ -186,8 +187,7 @@ export class ProtocolsshippingComponent implements OnInit {
     if (this.validRecords === this.protocolsSave.length) {
     this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
     this.notification.success('', res);
-    this.router.navigate(['/not-found']);
-    alert('Protocols Proform Here =)');
+        this.sendReply();
     });
     }
 }
@@ -243,7 +243,8 @@ export class ProtocolsshippingComponent implements OnInit {
       }
       });
       this.protocolsSave = JSON.parse(JSON.stringify(protocolsSuppliersAux));
-      //console.log(this.protocolsCopy);
+      console.log(this.protocolsCopy);
+      debugger
 }
 
   getProtocols() {
@@ -270,6 +271,7 @@ export class ProtocolsshippingComponent implements OnInit {
     this.protocolsCopy = new Array;
     this.loadFields();
     this.getProtocols();
+    this.sendReply();
   }
 
   getNamesTypeList(value) {
@@ -289,6 +291,28 @@ export class ProtocolsshippingComponent implements OnInit {
 
   checkedSupplier(protocol, value, supplier) {
     return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
+  }
+
+  formIsValid() {
+    let valid = true;
+    let protocols = JSON.parse(JSON.stringify(this.protocols));
+    _.each(protocols, function(protocol, index) {
+      _.each(protocol.values, function(itemValue) {
+          if (itemValue.content !== '' && itemValue.suppliers.length === 0) {
+            valid = false;
+            return valid;
+          }
+      });
+    });
+    return valid;
+  }
+
+  validContent(protocol, pos) {
+    let valid = true;
+    if (protocol.values[pos].content === '') {
+         valid = false;
+    }
+    return valid;
   }
 
 }
