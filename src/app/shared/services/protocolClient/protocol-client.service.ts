@@ -21,4 +21,9 @@ export class ProtocolClientService {
     return this.http.put(environment.apiUrl + 'protocol/update', protocol);
   }
 
+  public reportProtocolById$(protocolId, roleId): Observable<any> {
+    return this.http.get(environment.apiUrl + 'protocol/reportProtocolById/' + protocolId + '/' + roleId, {
+      responseType: 'blob'
+    });
+  }
 }

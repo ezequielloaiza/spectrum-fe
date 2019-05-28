@@ -9,6 +9,9 @@
               <button type="button" class="btn btn-main mr-3" *ngIf="!edit" (click)="enableEdit()">{{ 'Edit' | translate }}
                 <i class="fa fa-edit"></i>
               </button>
+              <button type="button" class="btn btn-success btn-xs" *ngIf="!edit" [disabled]="!download" (click)="downloadProtocol()">{{ 'Download PDF' | translate }}
+                <i class="fa fa-download"></i>
+              </button>
             </div>
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
@@ -18,40 +21,30 @@
                   class="form-control"
                   formControlName="accNumber"
                   maxlength="254"
-                  *ngIf="false"
+                  *ngIf="edit"
                   placeholder="{{ 'Enter ACC number' | translate }}"
                 />
-                <div>
+                <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.accNumber }">{{ protocol.accNumber ? protocol.accNumber :
                     'Unassigned'
                   }}</span>
                 </div>
               </div>
               <div class="form-group pr-3 half-flex">
-                <label>Country</label>
-                <div>
+                <label>{{ 'Country' | translate }}</label>
+                <div class="mb-2 mr-sm-2 mb-sm-0">
                   <ng-select
                     [items]="countries"
                     [searchable]="true"
                     bindValue="idCountry"
                     bindLabel="name"
                     formControlName="country"
-                    *ngIf="false"
+                    *ngIf="edit"
                     placeholder="{{ 'Enter country' | translate }}"
                   >
-                    <ng-template ng-label-tmp let-item="item">
-                      <div>
-                        <span>{{ item.name }}</span>
-                      </div>
-                    </ng-template>
-                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                      <div>
-                        <span [ngOptionHighlight]="search">{{ item.name }}</span>
-                      </div>
-                    </ng-template>
                   </ng-select>
                 </div>
-                <div *ngIf="true">
+                <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.countryName }">{{ protocol.countryName ? protocol.countryName :
                     'Unassigned'
                   }}</span>
@@ -66,10 +59,10 @@
                   class="form-control"
                   formControlName="businessName"
                   maxlength="254"
-                  *ngIf="false"
+                  *ngIf="edit"
                   placeholder="{{ 'Enter business name' | translate }}"
                 />
-                <div *ngIf="true">
+                <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.businessName }">{{ protocol.businessName ? protocol.businessName :
                     'Unassigned'
                   }}</span>
@@ -95,14 +88,14 @@
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Shipping Address' | translate }}</label>
-                <input
+                <textarea style="overflow-x: hidden;"
                   type="text"
                   class="form-control"
                   formControlName="shippingAddress"
                   maxlength="254"
                   *ngIf="edit"
-                  placeholder="{{ 'Enter shipping address' | translate }}"
-                />
+                  placeholder="{{ 'Enter shipping address' | translate }}">
+                </textarea>
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingAddress }">{{ protocol.shippingAddress ? protocol.shippingAddress :
                     'Unassigned'
@@ -111,16 +104,39 @@
               </div>
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Shipping Frecuency' | translate }}</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="shippingFrecuency"
-                  maxlength="254"
-                  *ngIf="edit"
-                  placeholder="{{ 'Enter shipping frecuency' | translate }}"
-                />
+                <div *ngIf="edit" class="mb-2 mr-sm-2 mb-sm-0">
+                  <div class="custom-control-inline">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(1)" [checked]="valueFrecuency === 'Monthly'">
+                      <label class="custom-control-label" for="customRadio1">{{ 'Monthly' | translate }}</label>
+                    </div>
+                    <div style="margin-left: 10px;" class="custom-control custom-radio">
+                      <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(2)" [checked]="valueFrecuency === 'Biweekly'">
+                      <label class="custom-control-label" for="customRadio2">{{ 'Biweekly' | translate }}</label>
+                    </div>
+                    <div style="margin-left: 10px;" class="custom-control custom-radio">
+                      <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(3)" [checked]="valueFrecuency === 'Weekly'">
+                      <label class="custom-control-label" for="customRadio3">{{ 'Weekly' | translate }}</label>
+                    </div>
+                  </div>
+                  <!--<span>{{ shippingFrecuency.value }}</span>-->
+                  <select
+                    *ngIf="valueFrecuency === 'Biweekly'"
+                    class="form-control"
+                    name="shippingFrecuencyB"
+                    formControlName="shippingFrecuencyB">
+                      <option *ngFor="let biweekly of listBiweekly" value="{{biweekly}}">{{ biweekly | translate }}</option>
+                  </select>
+                  <select
+                    *ngIf="valueFrecuency === 'Weekly'"
+                    class="form-control"
+                    name="shippingFrecuencyW"
+                    formControlName="shippingFrecuencyW">
+                      <option *ngFor="let weekly of listWeekly" value="{{weekly}}">{{ weekly | translate }}</option>
+                  </select>
+                </div>
                 <div *ngIf="!edit">
-                  <span [ngClass]="{ unassigned: !protocol.shippingFrecuency }">{{ protocol.shippingFrecuency ? protocol.shippingFrecuency :
+                  <span [ngClass]="{ unassigned: !protocol.shippingFrecuency }" translate>{{ protocol.shippingFrecuency ? protocol.shippingFrecuency :
                     'Unassigned'
                   }}</span>
                 </div>
@@ -129,14 +145,13 @@
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Shipping Method' | translate }}</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="shippingMethod"
-                  maxlength="254"
-                  *ngIf="edit"
-                  placeholder="{{ 'Enter shipping method' | translate }}"
-                />
+                <select
+                *ngIf="edit"
+                class="form-control"
+                name="shippingMethod"
+                formControlName="shippingMethod">
+                  <option *ngFor="let shippingMethod of listShippingMethod" value="{{shippingMethod}}">{{ shippingMethod | translate }}</option>
+                </select>
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingMethod }">{{ protocol.shippingMethod ? protocol.shippingMethod :
                     'Unassigned'
@@ -145,14 +160,14 @@
               </div>
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Shipping Details' | translate }}</label>
-                <input
+                <textarea style="overflow-x: hidden;"
                   type="text"
                   class="form-control"
                   formControlName="shippingDetail"
                   maxlength="254"
                   *ngIf="edit"
                   placeholder="{{ 'Enter shipping detail' | translate }}"
-                />
+                ></textarea>
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingDetail }">{{ protocol.shippingDetail ? protocol.shippingDetail :
                     'Unassigned'
@@ -179,14 +194,14 @@
               </div>
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Comments' | translate }}</label>
-                <input
+                <textarea style="overflow-x: hidden;"
                   type="text"
                   class="form-control"
                   formControlName="comment"
                   maxlength="254"
                   *ngIf="edit"
                   placeholder="{{ 'Enter comments' | translate }}"
-                />
+                ></textarea>
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.comment }">{{ protocol.comment ? protocol.comment :
                     'Unassigned'
@@ -214,14 +229,14 @@
               </div>
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Email Comments' | translate }}</label>
-                <input
+                <textarea style="overflow-x: hidden;"
                   type="text"
                   class="form-control"
                   formControlName="emailComment"
                   maxlength="254"
                   *ngIf="edit"
                   placeholder="{{ 'Enter email comments' | translate }}"
-                />
+                ></textarea>
                 <div *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.emailComment }">{{ protocol.emailComment ? protocol.emailComment :
                     'Unassigned'
