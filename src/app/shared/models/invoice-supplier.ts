@@ -1,6 +1,8 @@
 import { Address } from './address';
 import { InvoiceSupplierProductRequested} from './invoicesupplierproductrequested';
 import { User } from './user';
+import { InvoiceSupplierProtocolClient } from './invoicesupplierprotocolclient';
+import { InvoiceSupplierProtocolProforma } from './invoicesupplierprotocolproforma';
 export class InvoiceSupplier {
 
     public idInvoice: number;
@@ -29,6 +31,9 @@ export class InvoiceSupplier {
     public termsAndConditions: string;
     public deliverTo: string;
     public customer: string;
+    public invoiceProtocolClientRequest: InvoiceSupplierProtocolClient;
+    public invoiceProtocolProformaRequest: InvoiceSupplierProtocolProforma;
+
 
     public constructor() { }
 

@@ -2,16 +2,17 @@
 @include tr-sizes((30%,10%,17%,17%,20%,6%));
 
 .label-value {
-  width: 100px;
+  width: 50%;
+  display: inline-flex;
 }
 
 .label {
-  width: 100px;
+  width: 40%;
   font-weight: bold;
 }
 
 .input-form {
-  width: 160px;
+  width: 55%;
   margin-bottom: .7em;
   display: inline-block;
   font-size: .85em;
@@ -51,7 +52,7 @@
 }
 
 .address {
-  width: 150px;
+  width: 75%;
   align-items: center;
 }
 
@@ -87,6 +88,7 @@
 .label-order {
   margin-left: 5px;
   font-weight: 550;
+  width: 50%;
 }
 
 .border-bottom {
@@ -156,3 +158,26 @@
   border-right: lightgray solid 1px;
 }
 
+.half-flex {
+  flex-basis: 100%;
+}
+
+.unassigned {
+  color: $color-text-menu;
+  font-style: oblique;
+  font-size: 0.95em;
+  font-weight: normal !important;
+  padding-left: 12%;
+}
+
+.tab-border {
+  border-left: lightgray solid 2px;
+}
+
+.tab-margin {
+  margin-top: 3%;
+}
+
+.margin-left {
+  margin-left: 1%;
+}

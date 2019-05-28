@@ -1134,13 +1134,10 @@
     "Agency Code": "Código de Agencia",
     "Enter agency code": "Ingrese el código de agencia",
     "The shipping company already exists": "La empresa de envíos ya existe",
-<<<<<<< HEAD
-    "Monthly Disponsable": "Mensual Descartable",
-=======
     "Monthly Disposable": "Mensual Descartable",
->>>>>>> 6ec53a5cad77a2551d9157d6cf778f54e158532d
     "Unassigned": "Sin asignar",
-    "Shipping's Protocols": "Protocolos de Cliente",
+    "Shipping's Protocols": "Protocolos de envío",
+    "Shippings Protocols": "Protocolos de envío",
     "Protocol Proforma": "Protocolos de Proforma",
     "Spectrum Proforma": "Spectrum Proforma",
     "Additional Documents": "Documentos Adicionales",
@@ -1179,6 +1176,7 @@
     "Copy": "Copia",
     "One or more items are not complete": "Uno o más items no están completos",
     "Successfully Send": "Envío exitoso",
+    "Select the protocols to include":"Selecciona los protocolos a incluir",
     "Enter shipping details": "Ingrese detalle de envío",
     "Enter account number for shipping carrier": "Ingrese número de cuenta del transportista",
     "Enter DMV": "Enter DMV",
@@ -1194,5 +1192,7 @@
     "Thursday":"Jueves",
     "Friday":"Viernes",
     "Saturday":"Sabado",
-    "Sunday":"Domingo"
+    "Sunday":"Domingo",
+    "Shippings protocols has not been defined for the provider": "Los protocolos de envío no han sido definidos para el proveedor.",
+    "Proforma protocols has not been defined for the provider": "Los protocolos de proforma no han sido definidos para el proveedor."
 }
