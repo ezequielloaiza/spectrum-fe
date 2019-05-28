@@ -1186,5 +1186,6 @@
     "Friday":"Viernes",
     "Saturday":"Sabado",
     "Sunday":"Domingo",
-    "Skip":"Skip"
+    "Skip":"Skip",
+    "If it is disabled, it was previously selected": "Si está inhabilitado fue seleccionado previamente"
 }

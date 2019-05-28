@@ -1006,5 +1006,6 @@
     "Friday":"Friday",
     "Saturday":"Saturday",
     "Sunday":"Sunday",
-    "Skip":"Skip"
+    "Skip":"Skip",
+    "If it is disabled, it was previously selected": "If it is disabled, it was previously selected"
 }
