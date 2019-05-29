@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ProtocolProformaService } from '../../shared/services/protocolProforma/protocol-proforma.service';
 import { ProtocolsproformaComponent } from './protocolsproforma/protocolsproforma.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-protocols',
@@ -38,7 +39,8 @@ export class ProtocolsComponent implements OnInit {
               private notification: ToastrService,
               public router: Router,
               private protocolClientService: ProtocolClientService,
-              private protocolProformaService: ProtocolProformaService) {
+              private protocolProformaService: ProtocolProformaService,
+              private spinner: NgxSpinnerService) {
                 this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
               }
 
@@ -65,6 +67,8 @@ export class ProtocolsComponent implements OnInit {
   }
 
   save() {
+    this.showShipping = false;
+    this.spinner.show();
     const listProtocolsProforma = this.protocolsProformaSave;
     const serviceProforma = this.protocolProformaService;
     let recordsProforma = this.validRecordsProforma;
@@ -80,6 +84,7 @@ export class ProtocolsComponent implements OnInit {
   showMessage(records) {
     this.validRecordsProforma = records;
     if (this.validRecordsProforma === this.protocolsProformaSave.length ) {
+    this.spinner.show();
     this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
     this.notification.success('', res);
     this.router.navigate(['/dashboard']);

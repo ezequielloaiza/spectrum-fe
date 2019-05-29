@@ -1,5 +1,6 @@
 @import '../../../../styles/spectrum/spectrum';
 
+
 .context {
 
   .menu {
@@ -138,4 +139,8 @@
 .custom-control-input:disabled ~ .custom-control-label {
   cursor: not-allowed;
   opacity: .5;
+}
+
+.border-protocol{
+  border: 25px solid #e9ecef !important;
 }

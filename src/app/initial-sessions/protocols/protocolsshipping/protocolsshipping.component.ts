@@ -15,6 +15,7 @@ import { Validators } from '@angular/forms';
 import { Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Input } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-protocolsshipping',
@@ -48,7 +49,8 @@ export class ProtocolsshippingComponent implements OnInit {
     private translate: TranslateService,
     private notification: ToastrService,
     public router: Router,
-    private protocolClientService: ProtocolClientService) {
+    private protocolClientService: ProtocolClientService,
+    private spinner: NgxSpinnerService) {
       this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     }
 
@@ -160,6 +162,7 @@ export class ProtocolsshippingComponent implements OnInit {
 }
 
   save() {
+
     this.buildProtocols();
     let listProtocolsShipping = this.protocolsSave;
     let serviceShipping = this.protocolClientService;
@@ -167,6 +170,7 @@ export class ProtocolsshippingComponent implements OnInit {
     let self = this;
     let userId = this.currentUser.idUser;
     if (listProtocolsShipping.length > 0) {
+      this.spinner.show();
       serviceShipping.remove$(userId).subscribe(resRem => {
           if (resRem.code === CodeHttp.ok) {
             _.each(listProtocolsShipping, function(protocolShipping) {
@@ -185,6 +189,7 @@ export class ProtocolsshippingComponent implements OnInit {
   showMessage(records) {
     this.validRecords = records;
     if (this.validRecords === this.protocolsSave.length) {
+    this.spinner.hide();
     this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
     this.notification.success('', res);
         this.sendReply();

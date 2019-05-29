@@ -4,7 +4,7 @@
 </div>
 <div class="row" *ngFor="let protocol of protocols">
 
-  <div class="w-100 border p-3 mb-3">
+  <div class="w-100 border-protocol p-3 mb-3">
     <div class="d-flex w-100 border-bottom">
       <div class="w-50 mr-3">
         <span class="font-weight-bold">{{ protocol.label | translate }}</span>
@@ -41,8 +41,8 @@
         <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
           <button class="btn border-type w-100 text-left" ngbDropdownToggle required [disabled]="!validContent(protocol,pos)">
             <div class="text-overflow">{{ getNamesTypeList(value) }}</div>
-            <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol,pos)" translate>
-                Select At Least a Supplier
+            <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol,pos)">
+              {{ "Select At Least a Supplier" | translate }}
            </span>
           </button>
           <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
