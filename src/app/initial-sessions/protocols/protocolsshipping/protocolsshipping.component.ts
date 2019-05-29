@@ -314,4 +314,11 @@ export class ProtocolsshippingComponent implements OnInit {
     return valid;
   }
 
+  checkSuppliers(protocol, pos) {
+    let show = true;
+    if (protocol.values[pos].suppliers.length > 0) {
+      show = false;
+    }
+    return show;
+  }
 }

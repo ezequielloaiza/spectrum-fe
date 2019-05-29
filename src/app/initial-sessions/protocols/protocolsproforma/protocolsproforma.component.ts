@@ -183,7 +183,7 @@ export class ProtocolsproformaComponent implements OnInit {
     this.vSkip = false;
     fResponse.push(this.protocolsSave);
     fResponse.push(this.vSkip);
-    fResponse.push(this.vBack);
+    fResponse.push(false);
     fResponse.push(this.protocolsCopy);
     this.emitEventProforma.emit(fResponse);
     return fResponse;
@@ -254,6 +254,14 @@ export class ProtocolsproformaComponent implements OnInit {
          valid = false;
     }
     return valid;
+  }
+
+  checkSuppliers(protocol, pos) {
+    let show = true;
+    if (protocol.values[pos].suppliers.length > 0) {
+      show = false;
+    }
+    return show;
   }
 
 }

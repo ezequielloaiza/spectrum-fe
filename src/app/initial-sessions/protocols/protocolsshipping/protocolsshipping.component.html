@@ -52,6 +52,7 @@
                   name="{{ 'shippingFrecuency' + pos }}"
                   class="custom-control-input"
                   (change)="assignShippingFrecuency(protocol, 1, pos)"
+                  [checked]="value.content === 'Monthly'"
                 />
                 <label
                   class="custom-control-label"
@@ -69,6 +70,7 @@
                   name="{{ 'shippingFrecuency' + pos }}"
                   class="custom-control-input"
                   (change)="assignShippingFrecuency(protocol, 2, pos)"
+                  [checked]="value.content === '15' || value.content === '30'"
                 />
                 <label
                   class="custom-control-label"
@@ -86,6 +88,7 @@
                   name="{{ 'shippingFrecuency' + pos }}"
                   class="custom-control-input"
                   (change)="assignShippingFrecuency(protocol, 3, pos)"
+                  [checked]="value.content !== 'Monthly' && value.content !== '15' && value.content !== '30' && value.content !== '' "
                 />
                 <label
                   class="custom-control-label"
@@ -131,6 +134,9 @@
             [disabled]="!validContent(protocol,pos)"
           >
             <div class="text-overflow">{{ getNamesTypeList(value) }}</div>
+            <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol,pos)" translate>
+                Select At Least a Supplier
+           </span>
           </button>
           <ul
             ngbDropdownMenu
@@ -152,6 +158,7 @@
                       class="custom-control-label"
                       for="{{ protocol.label }}-{{ i }}-{{ pos }}"
                     ></label>
+
                     <span class="tcs-text-overflow">
                       {{ supplier.companyName | titlecase }}
                     </span>

@@ -41,6 +41,9 @@
         <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
           <button class="btn border-type w-100 text-left" ngbDropdownToggle required [disabled]="!validContent(protocol,pos)">
             <div class="text-overflow">{{ getNamesTypeList(value) }}</div>
+            <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol,pos)" translate>
+                Select At Least a Supplier
+           </span>
           </button>
           <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
             <div class="select-type">

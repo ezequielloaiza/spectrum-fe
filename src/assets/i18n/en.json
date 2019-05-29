@@ -1017,5 +1017,6 @@
     "If it is disabled, it was previously selected": "If it is disabled, it was previously selected",
     "Save & Next":"Save & Next",
     "Shippings protocols has not been defined for the provider": "Shippings protocols has not been defined for the provider",
-    "Proforma protocols has not been defined for the provider": "Proforma protocols has not been defined for the provider"
+    "Proforma protocols has not been defined for the provider": "Proforma protocols has not been defined for the provider",
+    "Select At Least a Supplier":"Select At Least a Supplier"
 }

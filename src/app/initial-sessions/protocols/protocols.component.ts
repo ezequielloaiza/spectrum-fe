@@ -56,10 +56,10 @@ export class ProtocolsComponent implements OnInit {
     let skip = listProtocols[1];
     this.showShipping = listProtocols[2];
     this.protocolsProformaCopy = listProtocols[3];
-    if (!skip) {
+    if (skip === false) { // asi porque tambien puede venir el null
       this.save();
     }
-    if (skip) {
+    if (skip === true || (this.showShipping === false && this.protocolsProformaSave.length === 0)) {
       this.router.navigate(['/dashboard']);
     }
   }
