@@ -26,4 +26,8 @@ export class ProtocolClientService {
       responseType: 'blob'
     });
   }
+
+  public remove$(idCliente): Observable<any> {
+    return this.http.delete(environment.apiUrl + 'protocol/remove/' + idCliente);
+  }
 }

@@ -1179,7 +1179,7 @@
     "Select the protocols to include":"Selecciona los protocolos a incluir",
     "Enter shipping details": "Ingrese detalle de envío",
     "Enter account number for shipping carrier": "Ingrese número de cuenta del transportista",
-    "Enter DMV": "Enter DMV",
+    "Enter DMV": "Ingrese DMV",
     "Protocols": "Protocolos",
     "2nd day":"2do día",
     "Overnight":"Al Atardecer",
@@ -1194,6 +1194,9 @@
     "Saturday":"Sabado",
     "Sunday":"Domingo",
     "Skip":"Omitir",
+    "If it is disabled, it was previously selected": "Si está inhabilitado fue seleccionado previamente",
+    "Save & Next":"Guardar y Continuar",
     "Shippings protocols has not been defined for the provider": "Los protocolos de envío no han sido definidos para el proveedor.",
-    "Proforma protocols has not been defined for the provider": "Los protocolos de proforma no han sido definidos para el proveedor."
+    "Proforma protocols has not been defined for the provider": "Los protocolos de proforma no han sido definidos para el proveedor.",
+    "Select At Least a Supplier":"Seleccione al menos un proveedor"
 }
