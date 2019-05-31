@@ -332,8 +332,6 @@
               <div class="row">
                 <div class="col-xl-12" *ngIf="protocolShippingInv || editBusinessName || editRecipient || editComment">
                   <br>
-                  <label class="bold" >{{ 'Shippings Protocols' | translate }}</label>
-                  <br>
                   <label *ngIf="(pilot && invShippingProtocol?.businessName != null) || (!pilot && editBusinessName)" class="bold">{{ 'Business Name' }}: </label>
                   <label *ngIf="pilot && invShippingProtocol?.businessName != null" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
                   <label *ngIf="editBusinessName" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
@@ -347,10 +345,7 @@
                   <label *ngIf="!pilot && editComment" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment : '') }}</label>
                 </div>
                 <div class="col-xl-12" *ngIf="protocolProformaInv || editTariffCodes">
-                  <br>
-                  <label class="bold">{{ 'Proforma Protocols' | translate }}</label>
-                  <br>
-                  <label *ngIf="(pilot && invProtocolProforma?.tariffCodes != null) || (!pilot && editTariffCodes)" class="bold">{{ 'Tariff Codes' }}: </label>
+                  <label *ngIf="(pilot && invProtocolProforma?.tariffCodes != null) || (!pilot && editTariffCodes)" class="bold">{{ 'HS Code' }}: </label>
                   <label *ngIf="pilot && invProtocolProforma?.tariffCodes != null" class="margin-left">{{ (invProtocolProforma ? invProtocolProforma?.tariffCodes : '') }}</label>
                   <label *ngIf="!pilot && editTariffCodes" class="margin-left">{{ (invProtocolProforma ? invProtocolProforma?.tariffCodes : '') }}</label>
                 </div>
@@ -739,10 +734,10 @@
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbTariffCodes" type="checkbox" [checked]="editTariffCodes" (change)="editTariffCodes = !editTariffCodes" class="custom-control-input">
-                        <label class="custom-control-label" for="cbTariffCodes">{{ 'Tariff Codes' | translate }}</label>
+                        <label class="custom-control-label" for="cbTariffCodes">{{ 'HS Code' | translate }}</label>
                       </div>
                       <div *ngIf="pilot">
-                        <label class="">{{ 'Tariff Codes' | translate }}</label>
+                        <label class="">{{ 'HS Code' | translate }}</label>
                       </div>
                       <input
                         type="text"
@@ -751,7 +746,7 @@
                         maxlength="254"
                         *ngIf="editTariffCodes"
                         [ngModel]="invProtocolProforma?.tariffCodes"
-                        placeholder="{{ 'Enter tariff codes' | translate }}"
+                        placeholder="{{ 'Enter HS Code' | translate }}"
                         (change)="updateTariffCodes($event)"
                       />
                       <span *ngIf="!editTariffCodes" class="unassigned">{{ invProtocolProforma?.tariffCodes ? invProtocolProforma.tariffCodes : 'Unassigned' }}</span>
