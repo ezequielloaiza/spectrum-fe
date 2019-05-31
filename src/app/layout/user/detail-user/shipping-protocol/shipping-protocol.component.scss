@@ -20,15 +20,21 @@
   .form-group > label{
     margin-bottom: 0;
   }
-  
+
   .half-flex {
     flex-basis: 50%;
   }
-  
+
   .unassigned {
     color: $color-text-menu;
     font-style: oblique;
     font-size: 0.95em;
     font-weight: normal !important;
+  }
+
+  .truncate{
+    width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

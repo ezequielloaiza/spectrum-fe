@@ -33,4 +33,10 @@
     font-size: 0.95em;
     font-weight: normal !important;
   }
+
+  .truncate{
+    width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

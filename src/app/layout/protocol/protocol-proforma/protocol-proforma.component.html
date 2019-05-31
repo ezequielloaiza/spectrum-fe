@@ -28,13 +28,13 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="!edit && protocol.spectrumProforma === true">
+                <div class="truncate" *ngIf="!edit && protocol.spectrumProforma === true">
                   <span translate>{{ 'Yes' }}</span>
                 </div>
-                <div *ngIf="!edit && !protocol.spectrumProforma && protocol.spectrumProforma !== null">
+                <div class="truncate" *ngIf="!edit && !protocol.spectrumProforma && protocol.spectrumProforma !== null">
                   <span translate>{{ 'No' | translate }}</span>
                 </div>
-                <div *ngIf="!edit && protocol.spectrumProforma === null">
+                <div class="truncate" *ngIf="!edit && protocol.spectrumProforma === null">
                   <span translate>{{ 'Unassigned' | translate }}</span>
                 </div>
               </div>
@@ -43,13 +43,14 @@
                 <div>
                   <textarea style="overflow-x: hidden;"
                     type="text"
+                    maxlength="254"
                     class="form-control"
                     formControlName="additionalDocuments"
                     placeholder="{{ 'Enter additional documents' | translate }}"
                     *ngIf="edit"
                   ></textarea>
                 </div>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.additionalDocuments }">{{ protocol.additionalDocuments ? protocol.additionalDocuments :
                     'Unassigned' | translate
                   }}</span>
@@ -63,11 +64,11 @@
                   type="text"
                   class="form-control"
                   formControlName="outputs"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter outputs (send information to Spectrum team)' | translate }}"
                 />
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.outputs }">{{ protocol.outputs ? protocol.outputs :
                     'Unassigned' | translate
                   }}</span>
@@ -79,11 +80,11 @@
                   type="text"
                   class="form-control"
                   formControlName="protocolSpectrum"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter protocol from spectrum' | translate }}"
                 />
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.protocolSpectrum }">{{ protocol.protocolSpectrum ? protocol.protocolSpectrum :
                     'Unassigned' | translate
                   }}</span>
@@ -104,7 +105,7 @@
                     placeholder="{{ 'Enter maximum amount to declare' | translate }}"
                   />
                 </div>
-                <div *ngIf="!edit || !editField">
+                <div class="truncate" *ngIf="!edit || !editField">
                   <span translate [ngClass]="{ unassigned: !protocol.maximumAmount }">{{ protocol.maximumAmount ? (protocol.maximumAmount | currency : "USD $") :
                     'Unassigned' | translate
                   }}</span>
@@ -114,12 +115,13 @@
                 <label>{{ 'Documentation that must accompany the delivery and proforma invoice' | translate }}</label>
                 <textarea style="overflow-x: hidden;"
                   type="text"
+                  maxlength="254"
                   class="form-control"
                   formControlName="documentation"
                   *ngIf="edit"
                   placeholder="{{ 'Enter documentation that must accompany the delivery and proforma invoice' | translate }}"
                 ></textarea>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.documentation }">{{ protocol.documentation ? protocol.documentation :
                     'Unassigned' | translate
                   }}</span>
@@ -133,11 +135,11 @@
                   type="text"
                   class="form-control"
                   formControlName="fixedPrices"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit && editField"
                   placeholder="{{ 'Enter fixed prices for proforma invoice' | translate }}"
                 />
-                <div *ngIf="!edit || !editField">
+                <div class="truncate" *ngIf="!edit || !editField">
                   <span [ngClass]="{ unassigned: !protocol.fixedPrices }">{{ protocol.fixedPrices ? protocol.fixedPrices :
                     'Unassigned' | translate
                   }}</span>
@@ -147,12 +149,13 @@
                 <label>{{ 'Comments' | translate }}</label>
                 <textarea style="overflow-x: hidden;"
                   type="text"
+                  maxlength="254"
                   class="form-control"
                   formControlName="comments"
                   *ngIf="edit"
                   placeholder="{{ 'Enter comments' | translate }}"
                 ></textarea>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.comments }">{{ protocol.comments ? protocol.comments :
                     'Unassigned' | translate
                   }}</span>
@@ -164,12 +167,13 @@
                 <label>{{ 'Email Comments' | translate }}</label>
                 <textarea style="overflow-x: hidden;"
                   type="text"
+                  maxlength="254"
                   class="form-control"
                   formControlName="emailComment"
                   *ngIf="edit"
                   placeholder="{{ 'Enter email comments' | translate }}"
                 ></textarea>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.emailComment }">{{ protocol.emailComment ? protocol.emailComment :
                     'Unassigned' | translate
                   }}</span>
@@ -181,11 +185,11 @@
                   type="text"
                   class="form-control"
                   formControlName="tariffCodes"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter HS Code' | translate }}"
                 />
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.tariffCodes }">{{ protocol.tariffCodes ? protocol.tariffCodes :
                     'Unassigned' | translate
                   }}</span>

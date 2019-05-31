@@ -20,11 +20,11 @@
                   type="text"
                   class="form-control"
                   formControlName="accNumber"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter ACC number' | translate }}"
                 />
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.accNumber }">{{ protocol.accNumber ? protocol.accNumber :
                     'Unassigned'
                   }}</span>
@@ -44,7 +44,7 @@
                   >
                   </ng-select>
                 </div>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.countryName }">{{ protocol.countryName ? protocol.countryName :
                     'Unassigned'
                   }}</span>
@@ -58,11 +58,11 @@
                   type="text"
                   class="form-control"
                   formControlName="businessName"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter business name' | translate }}"
                 />
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.businessName }">{{ protocol.businessName ? protocol.businessName :
                     'Unassigned'
                   }}</span>
@@ -74,11 +74,11 @@
                   type="text"
                   class="form-control"
                   formControlName="recipient"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter recipient' | translate }}"
                 />
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.recipient }">{{ protocol.recipient ? protocol.recipient :
                     'Unassigned'
                   }}</span>
@@ -96,7 +96,7 @@
                   *ngIf="edit"
                   placeholder="{{ 'Enter shipping address' | translate }}">
                 </textarea>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingAddress }">{{ protocol.shippingAddress ? protocol.shippingAddress :
                     'Unassigned'
                   }}</span>
@@ -135,7 +135,7 @@
                       <option *ngFor="let weekly of listWeekly" value="{{weekly}}">{{ weekly | translate }}</option>
                   </select>
                 </div>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingFrecuency }" translate>{{ protocol.shippingFrecuency ? protocol.shippingFrecuency :
                     'Unassigned'
                   }}</span>
@@ -152,7 +152,7 @@
                 formControlName="shippingMethod">
                   <option *ngFor="let shippingMethod of listShippingMethod" value="{{shippingMethod}}">{{ shippingMethod | translate }}</option>
                 </select>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingMethod }">{{ protocol.shippingMethod ? protocol.shippingMethod :
                     'Unassigned'
                   }}</span>
@@ -168,7 +168,7 @@
                   *ngIf="edit"
                   placeholder="{{ 'Enter shipping detail' | translate }}"
                 ></textarea>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingDetail }">{{ protocol.shippingDetail ? protocol.shippingDetail :
                     'Unassigned'
                   }}</span>
@@ -182,11 +182,11 @@
                   type="text"
                   class="form-control"
                   formControlName="accountNumber"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter account number for shipping carrier' | translate }}"
                 />
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.accountNumber }">{{ protocol.accountNumber ? protocol.accountNumber :
                     'Unassigned'
                   }}</span>
@@ -202,7 +202,7 @@
                   *ngIf="edit"
                   placeholder="{{ 'Enter comments' | translate }}"
                 ></textarea>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.comment }">{{ protocol.comment ? protocol.comment :
                     'Unassigned'
                   }}</span>
@@ -217,11 +217,11 @@
                   type="text"
                   class="form-control"
                   formControlName="dmv"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter DMV' | translate }}"
                 />
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.dmv }">{{ protocol.dmv ? protocol.dmv :
                     'Unassigned'
                   }}</span>
@@ -237,7 +237,7 @@
                   *ngIf="edit"
                   placeholder="{{ 'Enter email comments' | translate }}"
                 ></textarea>
-                <div *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.emailComment }">{{ protocol.emailComment ? protocol.emailComment :
                     'Unassigned'
                   }}</span>
