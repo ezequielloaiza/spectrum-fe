@@ -45,7 +45,7 @@ export class ShippingProtocolComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(this.userStorageService.getCurrentUser());
-    this.valueFrecuency = 'NINGUNA';
+    this.valueFrecuency = 'ANY';
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getCountry();
     this.initializeForm();
@@ -96,9 +96,9 @@ export class ShippingProtocolComponent implements OnInit {
   }
 
   getCountry() {
-  this.countryService.findAll$().subscribe(res => {
-    this.countries = res.data;
-  });
+    this.countryService.findAll$().subscribe(res => {
+      this.countries = res.data;
+    });
   }
 
   update() {

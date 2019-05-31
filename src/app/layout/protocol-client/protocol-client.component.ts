@@ -43,7 +43,7 @@ export class ProtocolClientComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(this.userStorageService.getCurrentUser());
-    this.valueFrecuency = 'NINGUNA';
+    this.valueFrecuency = 'ANY';
     this.getCountry();
     this.initializeForm();
     this.getSupplier();
