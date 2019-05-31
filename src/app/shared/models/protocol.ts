@@ -16,7 +16,7 @@ export class Protocol {
   supplierId: any;
   country: number;
   countryName: string;
-
+  valid: boolean;
   constructor(obj?: any) {
     Object.assign(this, obj);
   }
