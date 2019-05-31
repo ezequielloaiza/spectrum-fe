@@ -409,6 +409,7 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   addToCart(type) {
+    this.type = type;
     this.spinner.show();
     this.productCopy = JSON.parse(JSON.stringify(this.product));
     this.saveFiles();
@@ -430,7 +431,6 @@ export class ProductViewLenticonComponent implements OnInit {
     this.basketRequestModal.productRequestedList = productsRequested;
     // this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     // this.openModal(type);
-    this.type = type;
   }
 
   verifyOpenModal() {
