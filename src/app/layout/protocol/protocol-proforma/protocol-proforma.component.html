@@ -43,6 +43,7 @@
                 <div>
                   <textarea style="overflow-x: hidden;"
                     type="text"
+                    maxlength="254"
                     class="form-control"
                     formControlName="additionalDocuments"
                     placeholder="{{ 'Enter additional documents' | translate }}"
@@ -63,7 +64,7 @@
                   type="text"
                   class="form-control"
                   formControlName="outputs"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter outputs (send information to Spectrum team)' | translate }}"
                 />
@@ -79,7 +80,7 @@
                   type="text"
                   class="form-control"
                   formControlName="protocolSpectrum"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter protocol from spectrum' | translate }}"
                 />
@@ -113,6 +114,7 @@
                 <label>{{ 'Documentation that must accompany the delivery and proforma invoice' | translate }}</label>
                 <textarea style="overflow-x: hidden;"
                   type="text"
+                  maxlength="254"
                   class="form-control"
                   formControlName="documentation"
                   *ngIf="edit"
@@ -132,7 +134,7 @@
                   type="text"
                   class="form-control"
                   formControlName="fixedPrices"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit && editField"
                   placeholder="{{ 'Enter fixed prices for proforma invoice' | translate }}"
                 />
@@ -146,6 +148,7 @@
                 <label>{{ 'Comments' | translate }}</label>
                 <textarea style="overflow-x: hidden;"
                   type="text"
+                  maxlength="254"
                   class="form-control"
                   formControlName="comments"
                   *ngIf="edit"
@@ -163,6 +166,7 @@
                 <label>{{ 'Email Comments' | translate }}</label>
                 <textarea style="overflow-x: hidden;"
                   type="text"
+                  maxlength="254"
                   class="form-control"
                   formControlName="emailComment"
                   *ngIf="edit"
@@ -180,7 +184,7 @@
                   type="text"
                   class="form-control"
                   formControlName="tariffCodes"
-                  maxlength="254"
+                  maxlength="120"
                   *ngIf="edit"
                   placeholder="{{ 'Enter HS Code' | translate }}"
                 />
