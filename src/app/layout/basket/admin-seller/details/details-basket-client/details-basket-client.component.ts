@@ -149,6 +149,20 @@ export class DetailsBasketClientComponent implements OnInit {
     this.openSumary();
   }
 
+  buyAll() {
+    let arrayAux = this.productRequestedToBuy;
+    _.each(this.listBasket, function(item) {
+      let id = item.idBasketProductRequested;
+      let exist = _.includes(arrayAux, id);
+      if (!exist) {
+        arrayAux = _.concat(arrayAux, id);
+      }
+    });
+    this.productRequestedToBuy = arrayAux;
+    this.calculationsSummary();
+    this.openSumary();
+  }
+
   onSelection(basket, checked) {
     if (this.checkedAll === false && checked === true) {
       this.checkboxModel.value1 = false;
@@ -344,9 +358,11 @@ export class DetailsBasketClientComponent implements OnInit {
     modalRef.componentInstance.buyBasket = this.buyBasket;
     modalRef.componentInstance.quantity = this.productRequestedToBuy.length;
     modalRef.result.then((result) => {
+      this.getCustomer();
       this.getListBasket();
       this.checkboxModel.value1 = false;
       this.productRequestedToBuy = new Array;
+      // this.onSelectionAll(false);
     } , (reason) => {
     });
   }

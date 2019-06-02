@@ -52,6 +52,9 @@
               </div>
             </div>
             <div>
+              <button type="button" (click)="buyAll()" style="margin-right: 10px" class="btn btn-outline-primary" >
+                  {{ 'Buy All' | translate }}
+              </button>
               <button type="button" (click)="buy()" class="btn btn-outline-primary" [disabled]="productRequestedToBuy.length === 0">
                 {{ 'Buy Now' | translate }}
               </button>
