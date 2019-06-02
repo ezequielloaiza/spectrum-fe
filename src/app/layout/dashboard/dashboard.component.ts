@@ -12,6 +12,7 @@ import { formatDate } from '@angular/common';
 import { InvoiceClientService, InvoicePaymentService } from '../../shared/services';
 import { Router } from '@angular/router';
 import { StatusInvoiceClient } from '../../shared/enum/status-invoice-client.enum';
+import SweetScroll from 'sweet-scroll';
 
 @Component({
   selector: 'app-dashboard',
@@ -411,8 +412,12 @@ export class DashboardComponent implements OnInit {
   }
 
   getFocus(): void {
-    var element = document.getElementById("main");
-    element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    const scroller = new SweetScroll({
+      duration: 1200,
+      easing: 'easeOutExpo',
+    },);
+    //scroller.toTop(0);
+    scroller.toElement(document.getElementById('main'));
   }
 
   getListPayments(invoice): void {
