@@ -266,6 +266,7 @@ export class DashboardComponent implements OnInit {
     this.getCountOrders();
     this.getCountOrdersTotal();
     this.getPendingPayments();
+    this.getFocus();
   }
 
   public closeAlert(alert: any) {
@@ -407,6 +408,11 @@ export class DashboardComponent implements OnInit {
         console.log('error', error);
       }
     )
+  }
+
+  getFocus(): void {
+    var element = document.getElementById("main");
+    element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
   }
 
   getListPayments(invoice): void {
