@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-protocol-client',
@@ -32,6 +33,11 @@ export class ProtocolClientComponent implements OnInit {
   today: Date = new Date();
   download = false;
 
+  protocols: Array<any> = new Array;
+  protocolsCopy: Array<any> = new Array;
+  quantityValuesOriginal: any;
+  quantityValuesCopy: any;
+
   constructor(private fb: FormBuilder,
               private supplierService: SupplierService,
               private translate: TranslateService,
@@ -47,6 +53,7 @@ export class ProtocolClientComponent implements OnInit {
     this.getCountry();
     this.initializeForm();
     this.getSupplier();
+    this.loadFields();
   }
 
   initializeForm() {
@@ -261,4 +268,114 @@ export class ProtocolClientComponent implements OnInit {
     });
   }
 
+
+  ////////////////////////////////////////// MANAGE ALL /////////////////////////////////////////////
+  
+  ///////////// new functions
+  quantityValues() {
+    return _.sumBy(this.protocols, function (protocol) {
+      return protocol.values.length;
+    });
+  }
+
+  hasSomeChanges() {
+    this.quantityValuesCopy = this.quantityValues();
+    return this.quantityValuesOriginal !== this.quantityValuesCopy;
+  }
+
+  cleanChanges() {
+    this.loadFields();
+  }
+
+  ///////////// copy of other component
+
+  loadFields() {
+    if (this.protocolsCopy.length === 0) {
+      this.protocols = [
+        // {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
+        // {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
+        // {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
+        {label: 'Recipient'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter recipient',id:1},
+        {label: 'Shipping Address'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2},
+        {label: 'Shipping Frecuency'                   , values:[{content: '', suppliers: [],showB:"false",showW:"false"}], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3},
+        {label: 'Shipping Method'                      , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4},
+        {label: 'Shipping Details'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5},
+        {label: 'Account Number for Shipping Carrier'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6},
+        {label: 'Comments'                             , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter comments',id:7},
+        //  {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
+        ];
+    } else {
+      this.protocols = this.protocolsCopy;
+    }
+
+    this.quantityValuesOriginal = this.quantityValues();
+  }
+
+  selectSupplier(idSupplier, protocol, value) {
+    let index = _.indexOf(value.suppliers, idSupplier);
+    if (index > -1) {
+      value.suppliers.splice(index, 1);
+      protocol.selectedSuppliers.splice(_.indexOf(protocol.selectedSuppliers, idSupplier), 1);
+    } else if (this.allowedSelection(idSupplier, protocol)) {
+      value.suppliers.push(idSupplier);
+      protocol.selectedSuppliers.push(idSupplier);
+    }
+  }
+
+  allowedSelection(idSupplier, protocol) {
+    return _.indexOf(protocol.selectedSuppliers, idSupplier) === -1;
+  }
+
+  supplierSelected(idSupplier, protocolValue) {
+    return _.indexOf(protocolValue.suppliers, idSupplier) > -1;
+  }
+
+  addValue(protocol) {
+    protocol.values.push({content: '', suppliers: []});
+
+  }
+
+  hiddenSupplier(protocol, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier)
+  }
+
+  removeValue(protocol, index) {
+    protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, protocol.values[index].suppliers);
+    protocol.values.splice(index, 1);
+  }
+
+  getNamesTypeList(value) {
+    const self = this;
+    const suppliersName = [];
+    _.each(self.suppliers, function(supplier) {
+      if (_.includes(value.suppliers, supplier.idSupplier)) {
+        suppliersName.push(supplier.companyName);
+      }
+    });
+    return suppliersName.join(', ');
+  }
+
+  disabledSupplier(protocol, value, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier) && !_.includes(value.suppliers, supplier.idSupplier);
+  }
+
+  checkedSupplier(protocol, value, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
+  }
+
+  validContent(protocol, pos) {
+    let valid = true;
+    if (protocol.values[pos].content === '') {
+         valid = false;
+    }
+    return valid;
+  }
+
+  checkSuppliers(protocol, pos) {
+    let show = true;
+    if (protocol.values[pos].suppliers.length > 0) {
+      show = false;
+    }
+    return show;
+  }
 }
