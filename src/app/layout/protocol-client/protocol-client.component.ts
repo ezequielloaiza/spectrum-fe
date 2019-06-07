@@ -290,23 +290,45 @@ export class ProtocolClientComponent implements OnInit {
   ///////////// copy of other component
 
   loadFields() {
-    if (this.protocolsCopy.length === 0) {
-      this.protocols = [
-        // {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
-        // {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
-        // {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
-        {label: 'Recipient'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter recipient',id:1},
-        {label: 'Shipping Address'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2},
-        {label: 'Shipping Frecuency'                   , values:[{content: '', suppliers: [],showB:"false",showW:"false"}], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3},
-        {label: 'Shipping Method'                      , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4},
-        {label: 'Shipping Details'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5},
-        {label: 'Account Number for Shipping Carrier'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6},
-        {label: 'Comments'                             , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter comments',id:7},
-        //  {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
-        ];
-    } else {
-      this.protocols = this.protocolsCopy;
-    }
+
+    this.protocols = [
+      // {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
+      // {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
+      // {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
+      {key: 'recipient', label: 'Recipient', values:[], selectedSuppliers: [], placeHolder:'Enter recipient',id:1},
+      {key: 'shippingAddress', label: 'Shipping Address', values:[], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2},
+      {key: 'shippingFrecuency', label: 'Shipping Frecuency', values:[], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3},
+      {key: 'shippingMethod', label: 'Shipping Method', values:[], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4},
+      {key: 'shippingDetails', label: 'Shipping Details', values:[], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5},
+      {key: 'accountNumber', label: 'Account Number for Shipping Carrier', values:[], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6},
+      {key: 'comment', label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:7},
+      //  {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
+    ];
+
+    this.protocolClientService.allByUser$(this.user.userResponse.idUser).subscribe(res => {
+      var protocols = this.protocols;
+      _.each(res.data, function(protocol) {
+        Object.keys(protocol).forEach(key => {
+          var keyFound = _.find(protocols, ['key', key]);
+          if (!!keyFound && !!protocol[key]) {
+            var valueFound = _.find(keyFound.values, ['content', protocol[key]]);
+            if (!!valueFound) {
+              valueFound.suppliers.push(protocol.supplier.idSupplier);
+              valueFound.selectedSuppliers.push(protocol.supplier.idSupplier);
+            } else {
+              keyFound.values.push({content: protocol[key], suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
+            }
+          }
+        });
+      });
+
+      _.each(this.protocols, function(protocol) {
+        if (protocol.values.length === 0) {
+          protocol.values.push({content: '', suppliers: []});
+          protocol.selectedSuppliers = [];
+        }
+      });
+    });
 
     this.quantityValuesOriginal = this.quantityValues();
   }
