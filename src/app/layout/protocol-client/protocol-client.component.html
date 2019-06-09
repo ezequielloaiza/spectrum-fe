@@ -13,7 +13,7 @@
               <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit" (click)="cleanChanges()">{{ 'Cancel' | translate }}&nbsp;
                 <i class="fa fa-times"></i>
               </button>
-              <button type="button" class="btn btn-main" *ngIf="edit" [disabled]="saving" (click)="update()">{{ 'Save' | translate }}&nbsp;
+              <button type="button" class="btn btn-main" *ngIf="edit" [disabled]="saving" (click)="updateManageAll()">{{ 'Save' | translate }}&nbsp;
                 <i class="fa fa-save"></i>
               </button>
             </div>

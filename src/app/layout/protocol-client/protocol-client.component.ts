@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
 import * as _ from 'lodash';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
 
 @Component({
   selector: 'app-protocol-client',
@@ -35,8 +36,7 @@ export class ProtocolClientComponent implements OnInit {
 
   protocols: Array<any> = new Array;
   protocolsCopy: Array<any> = new Array;
-  /*quantityValuesOriginal: any;
-  quantityValuesCopy: any;*/
+  protocolsSave: Array<Protocol> = new Array;
 
   constructor(private fb: FormBuilder,
               private supplierService: SupplierService,
@@ -53,6 +53,7 @@ export class ProtocolClientComponent implements OnInit {
     this.getCountry();
     this.initializeForm();
     this.getSupplier();
+    this.loadSuppliers();
     this.loadFields();
   }
 
@@ -274,21 +275,112 @@ export class ProtocolClientComponent implements OnInit {
   ////////////////////////////////////////// MANAGE ALL /////////////////////////////////////////////
   
   ///////////// new functions
-  quantityValues() {
-    return _.sumBy(this.protocols, function (protocol) {
-      return protocol.values.length;
+
+  updateManageAll() {
+    this.buildProtocols();
+    let listProtocolsShipping = this.protocolsSave;
+    let serviceShipping = this.protocolClientService;
+    let recordsShipping = 0;
+    let self = this;
+    this.spinner.show();
+    _.each(listProtocolsShipping, function(protocolShipping) {
+      serviceShipping.updateManageAll$(protocolShipping).subscribe(res => {
+        recordsShipping++;
+        self.showMessage(recordsShipping);
+        self.edit = false;
+      });
     });
   }
 
-  /*hasSomeChanges() {
-    this.quantityValuesCopy = this.quantityValues();
-    return this.quantityValuesOriginal !== this.quantityValuesCopy;
-  }*/
-
+  showMessage(records) {
+    if (records === this.protocolsSave.length) {
+      this.spinner.hide();
+      this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+        this.notification.success('', res);
+      });
+    }
+  }
 
   cleanChanges() {
     this.edit = false;
     this.loadFields();
+  }
+
+  buildProtocols() {
+    const protocolsSuppliersAux: Array<Protocol> = new Array;
+    const protocolsSuppliers = this.protocolsSave;
+    let protocolsClient = [];
+    let protocols = JSON.parse(JSON.stringify(this.protocols));
+    let userId = this.user.userResponse.idUser;
+    //Protocolos seleccionados
+    _.each(protocolsSuppliers, function(item) {
+      const protocolAux: Protocol = new Protocol();
+      _.each(protocols, function(protocol, index) {
+        // Values
+        _.each(protocol.values, function(itemValue) {
+            // Suppliers
+          _.each(itemValue.suppliers, function(supplier) {
+            if (item.supplierId === supplier ) {
+              protocolAux.valid = true;
+              protocolAux.supplierId = supplier;
+              protocolAux.clientId = userId; //cambiar cuando se una completo
+              switch (protocol.id) {
+                case 1:
+                  protocolAux.recipient = itemValue.content;
+                  break;
+                case 2:
+                  protocolAux.shippingAddress = itemValue.content;
+                  break;
+                case 3:
+                  protocolAux.shippingFrecuency = itemValue.content;
+                  break;
+                case 4:
+                  protocolAux.shippingMethod = itemValue.content;
+                  break;
+                case 5:
+                  protocolAux.shippingDetail = itemValue.content;
+                  break;
+                case 6:
+                  protocolAux.accountNumber = itemValue.content;
+                  break;
+                case 7:
+                  protocolAux.comment = itemValue.content;
+                  break;
+              }
+            }
+          });
+        });
+      });
+      if (protocolAux.valid) {
+        protocolsSuppliersAux.push(protocolAux);
+      }
+    });
+    this.protocolsSave = JSON.parse(JSON.stringify(protocolsSuppliersAux));
+    //console.log(this.protocolsCopy);
+  }
+
+  getProtocols() {
+    const protocolsSave = [];
+    _.each(this.suppliers, function(supplier) {
+    const protocol: Protocol = new Protocol();
+    protocol.supplierId = supplier.idSupplier;
+    protocol.valid = false;
+    protocolsSave.push(protocol);
+    });
+    this.protocolsSave = protocolsSave;
+  }
+
+  loadSuppliers() {
+    this.supplierService.findAll$().subscribe(res => {
+    if (res.code === CodeHttp.ok) {
+      this.suppliers = res.data;
+      this.getProtocols();
+    } else {
+      console.log(res.errors[0].detail);
+    }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   ///////////// copy of other component
@@ -318,8 +410,8 @@ export class ProtocolClientComponent implements OnInit {
             var valueFound = _.find(keyFound.values, ['content', protocol[key]]);
             if (!!valueFound) {
               valueFound.suppliers.push(protocol.supplier.idSupplier);
-              valueFound.selectedSuppliers.push(protocol.supplier.idSupplier);
             } else {
+              keyFound.selectedSuppliers.push(protocol.supplier.idSupplier);
               keyFound.values.push({content: protocol[key], suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
             }
           }
@@ -336,7 +428,6 @@ export class ProtocolClientComponent implements OnInit {
           protocol.selectedSuppliers = [];
         }
       });
-      //this.quantityValuesOriginal = this.quantityValues();
     });
   }
 
