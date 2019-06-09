@@ -35,8 +35,8 @@ export class ProtocolClientComponent implements OnInit {
 
   protocols: Array<any> = new Array;
   protocolsCopy: Array<any> = new Array;
-  quantityValuesOriginal: any;
-  quantityValuesCopy: any;
+  /*quantityValuesOriginal: any;
+  quantityValuesCopy: any;*/
 
   constructor(private fb: FormBuilder,
               private supplierService: SupplierService,
@@ -160,23 +160,25 @@ export class ProtocolClientComponent implements OnInit {
     this.country.setValue(protocol.country);
   }
 
-  assignShippingFrecuency(value: number) {
-    switch (value) {
+  assignShippingFrecuency(protocol, type, pos) {
+    switch (type) {
       case 1:
-          this.valueFrecuency = 'Monthly';
-          this.protocolForm.get('shippingFrecuencyB').setValue(null);
-          this.protocolForm.get('shippingFrecuencyW').setValue(null);
+          protocol.values[pos].content = 'Monthly';
+          protocol.values[pos].showW = 'false';
+          protocol.values[pos].showB = 'false';
         break;
       case 2:
-           this.valueFrecuency = 'Biweekly';
-           this.protocolForm.get('shippingFrecuencyW').setValue(null);
+          protocol.values[pos].content = '';
+          protocol.values[pos].showB = 'true';
+          protocol.values[pos].showW = 'false';
         break;
       case 3:
-           this.valueFrecuency = 'Weekly';
-           this.protocolForm.get('shippingFrecuencyB').setValue(null);
+          protocol.values[pos].content = '';
+          protocol.values[pos].showW = 'true';
+          protocol.values[pos].showB = 'false';
         break;
-    }
-  }
+      }
+}
 
   setShippingFrecuency() {
       if (this.protocol.shippingFrecuency === 'Monthly' || this.protocol.shippingFrecuency === null) {
@@ -278,12 +280,14 @@ export class ProtocolClientComponent implements OnInit {
     });
   }
 
-  hasSomeChanges() {
+  /*hasSomeChanges() {
     this.quantityValuesCopy = this.quantityValues();
     return this.quantityValuesOriginal !== this.quantityValuesCopy;
-  }
+  }*/
+
 
   cleanChanges() {
+    this.edit = false;
     this.loadFields();
   }
 
@@ -324,13 +328,16 @@ export class ProtocolClientComponent implements OnInit {
 
       _.each(this.protocols, function(protocol) {
         if (protocol.values.length === 0) {
-          protocol.values.push({content: '', suppliers: []});
+          if (protocol.key === 'shippingFrecuency') {
+            protocol.values.push({content: '', suppliers: [],showB:"false",showW:"false"});
+          } else {
+            protocol.values.push({content: '', suppliers: []});
+          }
           protocol.selectedSuppliers = [];
         }
       });
+      //this.quantityValuesOriginal = this.quantityValues();
     });
-
-    this.quantityValuesOriginal = this.quantityValues();
   }
 
   selectSupplier(idSupplier, protocol, value) {
