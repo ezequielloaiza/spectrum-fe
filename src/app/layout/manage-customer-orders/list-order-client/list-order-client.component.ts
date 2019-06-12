@@ -110,6 +110,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           });
           this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
           this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
+          this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
           this.spinner.hide();
         }
       });
@@ -128,11 +129,11 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           });
           this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
           this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
+          this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
           this.spinner.hide();
         }
       });
     }
-    this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
   }
 
   pageChange(event) {
