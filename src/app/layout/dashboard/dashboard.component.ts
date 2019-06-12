@@ -12,6 +12,7 @@ import { formatDate } from '@angular/common';
 import { InvoiceClientService, InvoicePaymentService } from '../../shared/services';
 import { Router } from '@angular/router';
 import { StatusInvoiceClient } from '../../shared/enum/status-invoice-client.enum';
+import { SupplierService } from '../../shared/services/suppliers/supplier.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,7 +46,8 @@ export class DashboardComponent implements OnInit {
   porcShipped = 0;
   months = 6;
   locale: any;
-
+  listSupplierUser: Array<any> = new Array;
+  disabledNew = false;
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -205,7 +207,8 @@ export class DashboardComponent implements OnInit {
               private warrantyService: WarrantyService,
               private invoicePaymentService: InvoicePaymentService,
               public router: Router,
-              private sage: SageService) {
+              private sage: SageService,
+              private supplierService: SupplierService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.sliders.push(
       {
@@ -266,6 +269,20 @@ export class DashboardComponent implements OnInit {
     this.getCountOrders();
     this.getCountOrdersTotal();
     this.getPendingPayments();
+    if (this.user.role.idRole === 3) {
+      this.getSupplierByUser(this.user.userResponse.idUser);
+    }
+  }
+
+  getSupplierByUser(id: any) {
+    this.supplierService.findByUser$(id).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listSupplierUser = res.data;
+        if (this.listSupplierUser.length === 0){
+          this.disabledNew = true;
+        }
+      }
+    });
   }
 
   public closeAlert(alert: any) {
