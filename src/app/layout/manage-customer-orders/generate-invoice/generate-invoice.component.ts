@@ -314,6 +314,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.quantity = pRequested.quantity == null ? pRequested.productRequested.quantity : pRequested.quantity;
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
+      productR.codeSpectrum = pRequested.codeSpectrum == null ? pRequested.productRequested.product.codeSpectrum : pRequested.codeSpectrum;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -339,6 +340,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.quantity = pRequested.quantity == null ? pRequested.productRequested.quantity : pRequested.quantity;
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
+      productR.codeSpectrum = pRequested.codeSpectrum == null ? pRequested.productRequested.product.codeSpectrum : pRequested.codeSpectrum;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -364,6 +366,7 @@ export class GenerateInvoiceComponent implements OnInit {
         pRequested.productRequested.product.name : '') + ' ' + (pRequested.productRequested.product.material !== null ?
           pRequested.productRequested.product.material : '');
       productR.description = code + name;
+      productR.codeSpectrum = pRequested.productRequested.product.codeSpectrum;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -570,6 +573,10 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateDescription($event, index) {
     this.invoice.listProductRequested[index].description = $event.target.value;
+  }
+
+  updateCode($event, index) {
+    this.invoice.listProductRequested[index].codeSpectrum = $event.target.value;
   }
 
   updateTax($event, index) {

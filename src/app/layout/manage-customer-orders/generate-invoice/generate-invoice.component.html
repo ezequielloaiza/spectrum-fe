@@ -174,6 +174,7 @@
                 <thead>
                   <tr>
                     <th class="table-tr bold">{{ 'Description' | translate }}</th>
+                    <th class="table-tr bold">{{ 'Code' | translate }}</th>
                     <th class="table-tr bold">{{ 'Qty' | translate }}</th>
                     <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
                     <th class="table-tr bold">{{ 'Tax Rate' | translate }}</th>
@@ -193,6 +194,11 @@
                           <option value="" disabled [selected]="true" translate>Select product</option>
                           <option *ngFor="let pR of listProducts" value="{{pR.idProductRequested}}">{{pR.product.name}} - {{ pR.product.name}} </option>
                         </select>
+                      </td>
+                      <td class="table-tr td-table" *ngIf="pilot">{{productR.codeSpectrum}}</td>
+                      <td class="table-tr td-table" *ngIf="!pilot">
+                        <input type="text" id="code{{i}}" [value]="productR.codeSpectrum" class="form-control" (change)="updateCode($event, i)"
+                            placeholder="{{ 'Enter code' | translate }}" required>
                       </td>
                       <td class="table-tr td-table" *ngIf="pilot">{{productR.quantity}}</td>
                       <td class="table-tr td-table" *ngIf="!pilot">
