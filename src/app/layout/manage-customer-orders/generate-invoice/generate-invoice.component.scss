@@ -1,24 +1,70 @@
 @import '../../../../styles/spectrum/spectrum';
-@include tr-sizes((10%,30%,5%,30%,5%,20%));
+@include tr-sizes((30%,10%,17%,17%,20%,6%));
 
 .label-value {
-  width: 100px;
+  width: 50%;
+  display: inline-flex;
 }
 
 .label {
-  width: 100px;
+  width: 40%;
   font-weight: bold;
 }
 
+.input-form {
+  width: 55%;
+  margin-bottom: .7em;
+  display: inline-block;
+  font-size: .85em;
+}
+
+.table > tbody > tr:nth-last-child(1) {
+  height: 90%;
+}
+
+.input-group {
+  width: 55%;
+  display: inline-flex;
+  .input-group-append {
+    display: inline;
+    .btn {
+      font-size: .9rem;
+    }
+  }
+}
+
+.hand-over {
+  cursor: pointer;
+  /*display: flex;*/
+  justify-content: space-evenly;
+}
+
+.margin-span {
+  margin-right: 10%;
+}
+
+
+.input-date {
+  width: 80px;
+  margin-bottom: .7em;
+  display: inline-block;
+  font-size: .85em;
+}
+
 .address {
-  width: 150px;
+  width: 75%;
+  align-items: center;
 }
 
 .address-client {
   padding-left: 50px;
   width: 250px;
+  align-items: center;
 }
-
+.customer {
+  margin-left: 35px;
+  width: 95%;
+}
 .address-spectrum {
   text-align: right;
 }
@@ -26,12 +72,13 @@
   color: lightblue;
 }
 .row-height {
-  height: 20px;
+  height: 30px;
 }
 .label-amount {
   text-align: right;
-  padding-right: 15px;
-  width: 150px;
+  width: 40%;
+  /*padding-right: 15px;
+  width: 150px;*/
 }
 
 .bold{
@@ -41,6 +88,7 @@
 .label-order {
   margin-left: 5px;
   font-weight: 550;
+  width: 50%;
 }
 
 .border-bottom {
@@ -66,8 +114,32 @@
   border-bottom: 2px solid cornflowerblue;
 }
 
+.table-tr:nth-child(6) {
+  vertical-align: middle;
+}
+
+.table > thead > tr > th:nth-child(5) {
+  text-align: center;
+}
+
+.td-align {
+  text-align: right;
+  padding-right: 10%;
+}
+
 .amount-div {
-  display: flex;
+  display: inline-flex;
+}
+
+.amount-total {
+  width: 50%;
+  text-align: right;
+  padding-right: 10%;
+  margin-left: 8%;
+}
+
+.align-row {
+  align-items: center;
 }
 
 .address-top {
@@ -86,3 +158,26 @@
   border-right: lightgray solid 1px;
 }
 
+.half-flex {
+  flex-basis: 100%;
+}
+
+.unassigned {
+  color: $color-text-menu;
+  font-style: oblique;
+  font-size: 0.95em;
+  font-weight: normal !important;
+  padding-left: 12%;
+}
+
+.tab-border {
+  border-left: lightgray solid 2px;
+}
+
+.tab-margin {
+  margin-top: 3%;
+}
+
+.margin-left {
+  margin-left: 1%;
+}

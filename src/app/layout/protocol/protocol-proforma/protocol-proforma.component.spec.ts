@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PasswordTemporalsComponent } from './password-temporals.component';
+import { ProtocolProformaComponent } from './protocol-proforma.component';
 
-describe('PasswordTemporalsComponent', () => {
-  let component: PasswordTemporalsComponent;
-  let fixture: ComponentFixture<PasswordTemporalsComponent>;
+describe('ProtocolProformaComponent', () => {
+  let component: ProtocolProformaComponent;
+  let fixture: ComponentFixture<ProtocolProformaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PasswordTemporalsComponent ]
+      declarations: [ ProtocolProformaComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PasswordTemporalsComponent);
+    fixture = TestBed.createComponent(ProtocolProformaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
