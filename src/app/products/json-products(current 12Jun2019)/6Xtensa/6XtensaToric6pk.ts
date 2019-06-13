@@ -1,7 +1,7 @@
 
 this.products = [
   { "code": "PE4", "name": "Xtensa Toric 6pk",
-    "codeSpectrum": "37B (Blister)",
+    "codeSpectrum": "37B (6PK)",
     "priceBase": 0, "price1": 0, "price2": 14, "price3": 14,
     "father": "Xtensa",
     "category": "Contact Lenses",

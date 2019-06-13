@@ -1,6 +1,7 @@
 
 this.products = [
   { "code": "XX4", "name": "Xtensa Blister",
+    "codeSpectrum": "",
     "priceBase": 0, "price1": 0, "price2": 0, "price3": 0,
     "father": "Xtensa",
     "category": "Contact Lenses",

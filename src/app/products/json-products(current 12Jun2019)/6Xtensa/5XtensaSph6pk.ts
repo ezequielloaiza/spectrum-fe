@@ -1,7 +1,7 @@
 
 this.products = [
   { "code":"AP4", "name": "Xtensa Sph 6pk",
-    "codeSpectrum": "37A (Blister)",
+    "codeSpectrum": "37A (6PK)",
     "priceBase": 0, "price1": 0, "price2": 7, "price3": 7,
     "father": "Xtensa",
     "category": "Contact Lenses",

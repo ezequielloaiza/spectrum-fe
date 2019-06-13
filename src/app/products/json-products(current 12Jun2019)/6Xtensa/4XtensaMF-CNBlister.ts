@@ -1,6 +1,7 @@
 
 this.products = [
   { "code": "V63", "name": "Xtensa MF CN Blister",
+    "codeSpectrum": "37H (Blister)",
     "priceBase": 4000, "price1": 3500, "price2": 3600, "price3": 3700,
     "father": "Xtensa",
     "category": "Contact Lenses",

@@ -1,7 +1,7 @@
 
 this.products = [
   { "code":"CA4", "name": "Xtensa Sph Blister",
-    "codeSpectrum": "",
+    "codeSpectrum": "37F (Blister)",
     "priceBase": 4000, "price1": 3500, "price2": 3600, "price3": 3700,
     "father": "Xtensa",
     "category": "Contact Lenses",
