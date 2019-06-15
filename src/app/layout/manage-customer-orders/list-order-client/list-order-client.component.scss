@@ -563,3 +563,8 @@
   margin-left: 0.3rem;
   margin-top: -2rem;
 }
+
+::ng-deep .modal-dialog {
+  max-width: 1000px;
+  width: 120%;
+}
