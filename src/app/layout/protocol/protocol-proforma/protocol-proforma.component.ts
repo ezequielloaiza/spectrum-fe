@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -16,13 +16,18 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-protocol-proforma',
   templateUrl: './protocol-proforma.component.html',
-  styleUrls: ['./protocol-proforma.component.scss']
+  styleUrls: ['./protocol-proforma.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProtocolProformaComponent implements OnInit {
 
   protocol: ProtocolProforma = new ProtocolProforma();
   suppliers: Array<any> = new Array();
   countries: Array<any> = new Array();
+  allProtocols: Array<any> = new Array();
+  //protocols: Array<any> = new Array();
+  protocols: any;
+  protocolsAux: any;
   protocolForm: FormGroup;
   edit = false;
   editField = false;
@@ -31,6 +36,7 @@ export class ProtocolProformaComponent implements OnInit {
   idClient: any;
   saving = false;
   download = false;
+  saveAllProtocol = false;
   today: Date = new Date();
 
   constructor(private fb: FormBuilder,
@@ -44,9 +50,11 @@ export class ProtocolProformaComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(this.userStorageService.getCurrentUser());
+    this.loadFields();
     this.initializeForm();
     this.getSupplier();
     this.getIdClient();
+    this.getAllProtocolByUser(); 
   }
 
   initializeForm() {
@@ -100,6 +108,124 @@ export class ProtocolProformaComponent implements OnInit {
     });
   }
 
+  loadFields() {
+    this.protocols = {
+      aspectrumProforma: {label: 'Spectrum Proforma', values:[], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
+      badditionalDocuments: {label: 'Additional Documents', values:[], selectedSuppliers: [], placeHolder:'Enter additional documents',id:2},
+      comments: {label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:3},
+      tariffCodes: {label: 'HS Code', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:4},
+      protocolSpectrum: {label: 'Protocol From Spectrum', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:5},
+      outputs: {label: 'Outputs (Send information to Spectrum team)', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:6},
+      maximumAmount: {label: 'Maximum Amount to Declare', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:7},
+      documentation: {label: 'Documentation that must accompany the delivery and proforma invoice', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:8},
+      fixedPrices: {label: 'Fixed Prices for Proforma Invoice', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:9},
+      emailComment: {label: 'Email Comments', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:10}
+    };  
+  }
+
+  getAllProtocolByUser() {
+    const self = this;   
+    this.protocolProformaService.allProtocolByUserId$(this.idClient).subscribe(res => {
+      _.each(res.data, function(protocol, key) {
+        _.each(protocol, function(obj, _key) {
+          const clave = _key === 'spectrumProforma' ? 'aspectrumProforma' : (_key === 'additionalDocuments' ? 'badditionalDocuments' : _key);
+          if (!!self.protocols[clave]) {
+            if (protocol[_key] !== '' && protocol[_key] !== null) {  
+              if (self.protocols[clave].values.length === 0) {
+                const object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
+                self.protocols[clave].values.push(object);
+                self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
+              } else {
+                const index = _.findIndex(self.protocols[clave].values, function(value: any) {
+                  return value.content === protocol[_key]; 
+                });
+                if (index !== -1) {
+                  self.protocols[clave].values[index].suppliers.push(protocol.supplier.idSupplier);
+                  self.protocols[clave].values[index].ids.push({idSupplier: protocol.supplier.idSupplier});
+                  self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
+                } else {
+                  const object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
+                  self.protocols[clave].values.push(object);
+                  self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
+                }            
+              }           
+            }          
+          }        
+        });
+        self.protocolsAux = JSON.parse(JSON.stringify(self.protocols));
+      });
+    }, error => {
+
+    })
+  }
+
+  checkedSupplier(protocol, value, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
+  }
+
+  disabledSupplier(protocol, value, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier) && !_.includes(value.suppliers, supplier.idSupplier);
+  }
+
+  addValue(protocol) {
+    protocol.values.push({content: '', suppliers: [], ids: [{idSupplier: null}]});
+  }
+
+  selectSupplier(idSupplier, protocol, value) {
+    let index = _.indexOf(value.suppliers, idSupplier);
+    if (index > -1) {
+      value.suppliers.splice(index, 1);
+      protocol.selectedSuppliers.splice(_.indexOf(protocol.selectedSuppliers, idSupplier), 1);
+    } else if (this.allowedSelection(idSupplier, protocol)) {
+      value.suppliers.push(idSupplier);
+      protocol.selectedSuppliers.push(idSupplier);
+    }
+  }
+
+  allowedSelection(idSupplier, protocol) {
+    return _.indexOf(protocol.selectedSuppliers, idSupplier) === -1;
+  }
+
+  removeValue(protocol, index) {
+    protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, protocol.values[index].suppliers);
+    protocol.values.splice(index, 1);
+  }
+
+  cancelAll() {
+    this.protocols = JSON.parse(JSON.stringify(this.protocolsAux));
+  }
+
+  saveAll() {
+    const self = this;
+    const protocolsProforma = [];
+    this.saveAllProtocol = true;
+    _.each(this.suppliers, function(supplier) {
+      const protocolSave = {spectrumProforma: null, additionalDocuments: null, comments: null, tariffCodes: null, protocolSpectrum: null,
+        outputs: null, maximumAmount: null, documentation: null, fixedPrices: null, emailComment: null, supplierId: null, clientId: null, id: null
+      }; 
+      protocolSave.supplierId = supplier.idSupplier;
+      protocolSave.clientId = self.idClient;
+      _.each(self.protocols, function(protocol, key) {
+        const _key = key === 'aspectrumProforma' ? 'spectrumProforma' : (key === 'badditionalDocuments' ? 'additionalDocuments' : key);
+        _.each(protocol.values, function(value) {
+          if (_.includes(value.suppliers, supplier.idSupplier)) {
+            const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier])
+            protocolSave[_key] = value.content;            
+          }
+        });       
+      });
+      protocolsProforma.push(JSON.parse(JSON.stringify(protocolSave)));
+    });
+    this.protocolProformaService.saveAll$(protocolsProforma).subscribe(res => {
+      this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+        this.notification.success('', res);
+      });
+      this.saveAllProtocol = false;
+    }, error => {
+      this.saveAllProtocol = false;
+    });
+  }
+
   update() {
     this.saving = true;
     if (this.protocolForm.value.spectrumProforma == null) {
@@ -129,8 +255,12 @@ export class ProtocolProformaComponent implements OnInit {
   beforeChangeProforma($event: NgbTabChangeEvent) {
     if ($event.activeId !== $event.nextId) {
       // this.cancel();
-      this.edit = false;
-      this.getProtocol(this.idClient, $event.nextId);
+      if (Number($event.nextId) === 8) {
+        this.getAllProtocolByUser();
+      } else {
+        this.edit = false;
+        this.getProtocol(this.idClient, $event.nextId);
+      }   
     }
   }
 
