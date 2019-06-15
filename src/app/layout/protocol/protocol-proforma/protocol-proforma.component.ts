@@ -226,6 +226,14 @@ export class ProtocolProformaComponent implements OnInit {
     });
   }
 
+  validContent(protocol, pos) {
+    let valid = true;
+    if (protocol.values[pos].content === '') {
+         valid = false;
+    }
+    return valid;
+  }
+
   update() {
     this.saving = true;
     if (this.protocolForm.value.spectrumProforma == null) {

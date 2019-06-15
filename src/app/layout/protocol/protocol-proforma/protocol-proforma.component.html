@@ -207,7 +207,7 @@
                   </div>
                   <div class="w-46">
                     <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
-                      <button class="btn border-type w-100 text-left" ngbDropdownToggle required>
+                      <button class="btn border-type w-100 text-left" ngbDropdownToggle required [disabled]="!validContent(protocol.value, pos)">
                         <div class="text-overflow"></div>
                         <span class="tcs-text-overflow">
                           {{ "Select At Least a Supplier" | translate }}
