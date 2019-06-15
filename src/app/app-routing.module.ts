@@ -8,7 +8,7 @@ const routes: Routes = [
     { path: '', loadChildren: './layout/layout.module#LayoutModule', canActivate: [AuthGuard] },
     { path: 'products', loadChildren: './products/products.module#ProductsModule', canActivate: [AuthGuard] },
     { path: 'reports', loadChildren: './reports/reports.module#ReportsModule', canActivate: [AuthGuard] },
-    { path: 'password-temporals', loadChildren: './password-temporals/password-temporals.module#PasswordTemporalsModule', canActivate: [AuthGuard] },
+    { path: 'initial-sessions', loadChildren: './initial-sessions/initial-sessions.module#InitialSessionsModule', canActivate: [AuthGuard] },
     { path: 'signin', loadChildren: './login/login.module#LoginModule' },
     { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'recovery-password', component: RecoveryPasswordComponent },
