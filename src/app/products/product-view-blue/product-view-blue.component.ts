@@ -109,7 +109,7 @@ export class ProductViewBlueComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplier$(6).subscribe(res => {
+    this.productService.findBySupplierInView$(6).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();

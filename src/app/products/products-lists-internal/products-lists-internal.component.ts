@@ -181,7 +181,7 @@ export class ProductsListInternalComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplier$(this.idSupplier).subscribe(res => {
+    this.productService.findBySupplierInView$(this.idSupplier).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.setPrice();

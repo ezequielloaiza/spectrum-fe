@@ -23,6 +23,10 @@ export class ProductService {
     return this.http.get(environment.apiUrl + 'products/findBySupplier/' + idSupplier);
   }
 
+  public findBySupplierInView$(idSupplier): Observable<any> {
+    return this.http.get(environment.apiUrl + 'products/findBySupplierInView/' + idSupplier);
+  }
+
   public download$(name): Observable<any> {
     return this.http.get(environment.apiUrl + 'products/download/' + name, {
       responseType: 'blob'

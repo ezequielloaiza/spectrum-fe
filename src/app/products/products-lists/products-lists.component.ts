@@ -168,7 +168,7 @@ export class ProductsListsComponent implements OnInit {
           this.router.navigate(['/products/' + idSupplier + '/internal']);
           break;
         case 5: //magic look
-            this.productService.findBySupplier$(idSupplier).subscribe(res => {
+            this.productService.findBySupplierInView$(idSupplier).subscribe(res => {
               if (res.code === CodeHttp.ok) {
                 this.products = res.data;
                 this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-magic']);
@@ -181,7 +181,7 @@ export class ProductsListsComponent implements OnInit {
             });
           break;
         case 6:  // Blue Light
-            this.productService.findBySupplier$(idSupplier).subscribe(res => {
+            this.productService.findBySupplierInView$(idSupplier).subscribe(res => {
               if (res.code === CodeHttp.ok) {
                 this.products = res.data;
                 this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-blue']);
