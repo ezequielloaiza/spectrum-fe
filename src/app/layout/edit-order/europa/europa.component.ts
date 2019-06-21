@@ -8,6 +8,7 @@ import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { BasketproductrequestedService } from '../../../shared/services/basketproductrequested/basketproductrequested.service';
 
 @Component({
   selector: 'app-europa',
@@ -19,6 +20,8 @@ export class EuropaComponent implements OnInit {
   basket: any;
   productRequested: ProductRequested = new ProductRequested();
   productRequestedAux: ProductRequested = new ProductRequested();
+  listBasketProductREquested: Array<any> = new Array;
+  listAux: Array<any> = new Array;
   product: any;
   detail: any;
   detailEdit: any;
@@ -45,12 +48,16 @@ export class EuropaComponent implements OnInit {
   additionalHidrapeg = false;
   additionalInserts = false;
   userOrder: any;
+  lenghtGroup: any;
+  valueInserts: any;
+  changeInserts = false;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
               private userService: UserStorageService,
-              private spinner: NgxSpinnerService) {
+              private spinner: NgxSpinnerService,
+              private basketProductRequestedService: BasketproductrequestedService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
@@ -58,9 +65,11 @@ export class EuropaComponent implements OnInit {
     if (this.typeEdit === 1 ) { // Basket
       this.productRequested = this.basket.productRequested;
       this.membership = this.basket.basket.user.membership.idMembership;
+      this.findBasketByGroupdId();
     } else { // order-detail
       this.productRequested = this.detailEdit;
       this.membership = this.userOrder.membership.idMembership;
+      this.findByGroupdId();
     }
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
@@ -68,8 +77,32 @@ export class EuropaComponent implements OnInit {
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
-
   }
+
+  findBasketByGroupdId() {
+    this.basketProductRequestedService.allBasketByGroupId$(this.productRequested.groupId).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.listBasketProductREquested = res.data;
+          this.lenghtGroup = this.listBasketProductREquested.length;
+        } else {
+          console.log(res);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    }
+
+  findByGroupdId() {
+      this.productRequestedService.allByGroupId$(this.productRequested.groupId).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            this.listBasketProductREquested = res.data;
+            this.lenghtGroup = this.listBasketProductREquested.length;
+            console.log(res);
+          }
+        }, error => {
+          console.log('error', error);
+        });
+      }
 
   close() {
     this.modalReference.close();
@@ -171,12 +204,19 @@ export class EuropaComponent implements OnInit {
     this.definePriceNotch(this.membership);
     // this.definePriceTickness(this.membership);
     this.definePriceInserts(this.membership);
+    let valueInserts = 0;
+    if (this.lenghtGroup === 2) {
+      valueInserts = this.inserts / 2;
+    } else {
+      valueInserts = this.inserts;
+    }
+    this.valueInserts = valueInserts;
     if (parameter.name === 'Diameter (mm)') {
          this.checkAdditional();
          if (value === '18.0' || value === '20.0' ) {
-           this.price = this.priceB + this.notch + this.thickness + this.hidrapeg + this.inserts;
+           this.price = this.priceB + this.notch + this.thickness + this.hidrapeg + valueInserts;
          } else {
-           this.price = this.priceA + this.notch + this.thickness + this.hidrapeg + this.inserts;
+           this.price = this.priceA + this.notch + this.thickness + this.hidrapeg + valueInserts;
          }
     }
     if (parameter.name === 'Hidrapeg') {
@@ -189,12 +229,13 @@ export class EuropaComponent implements OnInit {
       }
     }
     if (parameter.name === 'Inserts (DMV)') {
+      this.changeInserts = true;
       if (value === 'Yes') {
         this.additionalInserts = true;
-        this.price = this.price + this.inserts;
+        this.price = this.price + valueInserts;
       } else {
         this.additionalInserts = false;
-        this.price = this.price - this.inserts;
+        this.price = this.price - valueInserts;
       }
     }
     /*if (parameter.name === 'Thickness') {
@@ -510,18 +551,87 @@ export class EuropaComponent implements OnInit {
   }
 
   update(productRequested) {
+    let lenghtGroup = this.lenghtGroup;
+    let self = this;
     this.productRequestedService.update$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.spinner.hide();
-        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
-          this.notification.success('', res);
-        });
-        this.modalReference.close(productRequested);
+        if (lenghtGroup === 2 && self.changeInserts) {
+           self.updateEuropa(res.data);
+        } else {
+          this.spinner.hide();
+          this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+            this.notification.success('', res);
+          });
+          productRequested.detail = JSON.parse(productRequested.detail);
+          this.modalReference.close(productRequested);
+        }
       } else {
         console.log(res);
       }
     }, error => {
       console.log('error', error);
     });
+  }
+
+  updateEuropa(productRequested) {
+    let self = this;
+    let detail;
+    let oldInserts;
+    let basket;
+    let productRequestedAux;
+    let idProductRequested;
+    let price;
+    let productRequested1 = new ProductRequested();
+    //Se obtiene el otro ojo asociado al group_id
+    if (this.typeEdit === 1) { // Basket
+        basket = _.find(self.listBasketProductREquested, function(o) {
+          return o.productRequested.idProductRequested !== productRequested.idProductRequested;
+        });
+        idProductRequested = basket.productRequested.idProductRequested;
+        detail = JSON.parse(basket.productRequested.detail);
+        price = basket.productRequested.price;
+    } else { // Orden
+        productRequestedAux = _.find(self.listBasketProductREquested, function(o) {
+          return o.idProductRequested !== productRequested.idProductRequested;
+        });
+        idProductRequested = productRequestedAux.idProductRequested;
+        detail = JSON.parse(productRequestedAux.detail);
+        price = productRequestedAux.price;
+    }
+    productRequested1.idProductRequested = idProductRequested;
+    //Cambio en header del detalle
+    _.each( detail, function(item) {
+      _.each(item.header, function(itemH, index) {
+        if (itemH.name === 'Inserts (DMV)') {
+          oldInserts = item.header[index].selected;
+          item.header[index].selected = self.additionalInserts;
+        }
+      });
+    });
+    productRequested1.detail = JSON.stringify(detail);
+    //Cambio de precio
+    if (oldInserts !== self.additionalInserts) {
+      if (self.additionalInserts === true) {
+        productRequested1.price = price + self.valueInserts;
+     } else {
+        productRequested1.price = price - self.valueInserts;
+     }
+    } else {
+       productRequested1.price = price;
+    }
+    //Modificacion
+    self.productRequestedService.updatePriceEuropa$(productRequested1).subscribe(res1 => {
+      if (res1.code === CodeHttp.ok) {
+        this.spinner.hide();
+        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res2: string) => {
+          this.notification.success('', res2);
+        });
+        productRequested.detail = JSON.parse(productRequested.detail);
+        res1.data.detail = JSON.parse(res1.data.detail);
+        self.listAux.push(productRequested);
+        self.listAux.push(res1.data);
+        this.modalReference.close(self.listAux);
+      }
+  });
   }
 }

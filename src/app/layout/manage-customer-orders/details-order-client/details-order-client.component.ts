@@ -131,6 +131,7 @@ export class DetailsOrderClientComponent implements OnInit {
           detailsOrder.productRequested.quantity = item.quantity;
           detailsOrder.productRequested.observations = item.observations;
           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
+          detailsOrder.productRequested.detail = item.detail;
         }
       });
 

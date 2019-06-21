@@ -11,6 +11,7 @@ export class ProductRequested {
   public  patient: string;
   public  observations: string;
   public  subtotal: number;
+  public  groupId: number;
   public fileProductRequestedList: Array<FileProductRequested>;
 
   public constructor() { }

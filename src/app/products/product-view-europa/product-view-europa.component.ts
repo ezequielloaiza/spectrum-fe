@@ -772,7 +772,6 @@ export class ProductViewEuropaComponent implements OnInit {
           if (parameter.name === 'Inserts (DMV)') {
             product.headerLeft[index].selected = valueInsert;
           }
-          debugger
         });
         productSelected.header = product.headerLeft;
 

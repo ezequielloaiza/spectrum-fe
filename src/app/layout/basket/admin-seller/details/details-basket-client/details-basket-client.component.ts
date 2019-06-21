@@ -167,19 +167,41 @@ export class DetailsBasketClientComponent implements OnInit {
     if (this.checkedAll === false && checked === true) {
       this.checkboxModel.value1 = false;
     }
-    basket.checked = !checked;
-    let id = basket.idBasketProductRequested;
-    let exist = _.includes(this.productRequestedToBuy, id);
-    if (exist) {
-      _.remove(this.productRequestedToBuy,  function (product)  {
-        return product === id;
-      });
-    } else {
-      this.productRequestedToBuy = _.concat(this.productRequestedToBuy, id);
-    }
-    if (checked === false && this.productRequestedToBuy.length === this.listBasket.length) {
-      this.checkboxModel.value1 = true;
-    }
+     if (basket.supplier === 2) {//Europa
+      let arrayAux = this.productRequestedToBuy;
+      let groupId = basket.productRequested.groupId;
+      _.each(this.listBasket, function(item) {
+        if (item.productRequested.groupId === groupId) {
+          item.checked = !checked;
+          let id = item.idBasketProductRequested;
+          let exist = _.includes(arrayAux, id);
+          if (exist) {
+              if (checked === true) {
+              _.remove(arrayAux,  function (product)  {
+                return product === id;
+              });
+            }
+          } else {
+            arrayAux = _.concat(arrayAux, id);
+          }
+        }
+        });
+        this.productRequestedToBuy = arrayAux;
+     } else {
+        basket.checked = !checked;
+        let id = basket.idBasketProductRequested;
+        let exist = _.includes(this.productRequestedToBuy, id);
+        if (exist) {
+          _.remove(this.productRequestedToBuy,  function (product)  {
+            return product === id;
+          });
+        } else {
+          this.productRequestedToBuy = _.concat(this.productRequestedToBuy, id);
+        }
+     }
+      if (checked === false && this.productRequestedToBuy.length === this.listBasket.length) {
+        this.checkboxModel.value1 = true;
+      }
   }
 
   onSelectionAll(valueChecked) {
@@ -200,6 +222,7 @@ export class DetailsBasketClientComponent implements OnInit {
         }
       });
       this.productRequestedToBuy = arrayAux;
+
   }
 
   openParams(basket) {
