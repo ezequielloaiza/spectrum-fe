@@ -1,6 +1,8 @@
 import { Address } from './address';
 import { InvoiceSupplierProductRequested} from './invoicesupplierproductrequested';
 import { User } from './user';
+import { InvoiceSupplierProtocolClient } from './invoicesupplierprotocolclient';
+import { InvoiceSupplierProtocolProforma } from './invoicesupplierprotocolproforma';
 export class InvoiceSupplier {
 
     public idInvoice: number;
@@ -20,8 +22,18 @@ export class InvoiceSupplier {
     public idUser: number;
     public client: User;
     public idClient: number;
+    public original: boolean;
+    public numberOriginal: number;
+    public comments: string;
     public listProductRequested: Array<InvoiceSupplierProductRequested>;
     public listOrders: Array<Number>;
+    public shippingInstructions: string;
+    public termsAndConditions: string;
+    public deliverTo: string;
+    public customer: string;
+    public invoiceProtocolClientRequest: InvoiceSupplierProtocolClient;
+    public invoiceProtocolProformaRequest: InvoiceSupplierProtocolProforma;
+
 
     public constructor() { }
 

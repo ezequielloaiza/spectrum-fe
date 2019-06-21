@@ -1,0 +1,43 @@
+@import '../../../../styles/spectrum/spectrum';
+
+.container {
+  padding: 10px 0px 0px 30px;
+
+  ngb-tabset {
+    width: 100%;
+  }
+
+  .border-tab {
+    border-bottom: solid 1px $border-grey;
+    border-left: solid 1px $border-grey;
+    border-right: solid 1px $border-grey;
+    padding: 1em;
+
+    span {
+      color: #868e96;
+      font-weight: bold;
+    }
+  }
+
+  .form-group > label{
+    margin-bottom: 0;
+  }
+
+  .half-flex {
+    flex-basis: 50%;
+  }
+
+  .unassigned {
+    color: $color-text-menu;
+    font-style: oblique;
+    font-size: 0.95em;
+    font-weight: normal !important;
+  }
+
+  .truncate{
+    width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
