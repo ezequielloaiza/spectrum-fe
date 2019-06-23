@@ -148,16 +148,17 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab id="8">
+      <ngb-tab id="1000">
         <ng-template ngbTabTitle>
           <b>{{ 'Manage All'}}</b>
         </ng-template>
         <ng-template ngbTabContent>
           <div class="border-tab overflow">
-            <div class="text-right pb-3">
-              <button type="button" class="btn btn-main mr-3" (click)="cancelAll()" [disabled]="saveAllProtocol">{{ 'Cancel' | translate }}</button>
-              <button type="button" class="btn btn-main" (click)="saveAll()" [disabled]="saveAllProtocol">{{ 'Save' | translate }}</button>
-            </div>
+              <div class="text-right pb-3">
+                <button type="button" class="btn btn-main mr-3" *ngIf="!edit" (click)="enableEdit()">{{ 'Edit' | translate }}
+                  <i class="fa fa-edit"></i>
+                </button>
+              </div>
             <div class="row" *ngFor="let protocol of protocols | keyvalue">
               <div class="w-100 border-protocol p-3 mb-3" 
               *ngIf="(editField && protocol.value.label === 'Maximum Amount to Declare')
@@ -179,12 +180,12 @@
                   </div>
                 </div>
 
-                <div class="d-flex w-100 pt-2 pb-1" *ngFor="let value of protocol.value.values; let pos = index">
+                <div class="d-flex w-100 pt-2 pb-1" [ngClass]="{ 'border-item': !edit }" *ngFor="let value of protocol.value.values; let pos = index">
                   <div class="w-50 mr-3">
                     <!-- WRITE VALUE -->
                     <div class="input-value">
                       <div *ngIf="protocol.value.label === 'Spectrum Proforma'" class="mb-2 mr-sm-2 mb-sm-0">
-                        <div class="custom-control-inline">
+                        <div class="custom-control-inline" *ngIf="edit">
                           <div class="custom-control custom-radio">
                             <input type="radio" id="{{'customRadioYes'+pos}}" name="{{'spectrumProforma'+pos}}" class="custom-control-input" [(ngModel)]="value.content"
                               [value]="true">
@@ -197,19 +198,26 @@
                           </div>
                         </div>
                       </div>
-                      <textarea *ngIf="protocol.value.label === 'Additional Documents' || protocol.value.label === 'Comments' || protocol.value.label === 'Documentation that must accompany the delivery and proforma invoice' || protocol.value.label === 'Email Comments'"
-                        style="overflow-x: hidden;" type="text" class="form-control" placeholder="{{ protocol.placeHolder | translate }}"
+                      <textarea *ngIf="edit && (protocol.value.label === 'Additional Documents' || protocol.value.label === 'Comments' || protocol.value.label === 'Documentation that must accompany the delivery and proforma invoice' || protocol.value.label === 'Email Comments')"
+                        style="overflow-x: hidden;" type="text" maxlength="254" class="form-control" placeholder="{{ protocol.placeHolder | translate }}"
                         [(ngModel)]="value.content"></textarea>
-                      <input *ngIf="protocol.value.label !== 'Additional Documents' && protocol.value.label !== 'Comments' && protocol.value.label !== 'Documentation that must accompany the delivery and proforma invoice' && protocol.value.label !== 'Email Comments' && protocol.value.label !== 'Spectrum Proforma'"
-                        type="text" class="form-control" placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content"
-                      />
+                      <input *ngIf="edit && protocol.value.label !== 'Maximum Amount to Declare' && protocol.value.label !== 'Additional Documents' && protocol.value.label !== 'Comments' && protocol.value.label !== 'Documentation that must accompany the delivery and proforma invoice' && protocol.value.label !== 'Email Comments' && protocol.value.label !== 'Spectrum Proforma'"
+                        type="text" maxlength="120" class="form-control" placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content"
+                        />
+                      <div *ngIf="edit && protocol.value.label === 'Maximum Amount to Declare'" class="input-group-append">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content" currencyMask [options]=" {prefix: '', miles: ',', decimal: '.'}"
+                          />
+                      </div>
+                      <span *ngIf="!edit && protocol.value.label !== 'Spectrum Proforma'">{{ value.content }}</span>
+                      <span *ngIf="!edit && protocol.value.label === 'Spectrum Proforma'">{{ value.content ? ('Yes' | translate) : ('No' | translate) }}</span>
                     </div>
                   </div>
                   <div class="w-46">
-                    <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
+                    <div *ngIf="edit" class="d-inline-block w-100" ngbDropdown autoClose="outside">
                       <button class="btn border-type w-100 text-left" ngbDropdownToggle required [disabled]="!validContent(protocol.value, pos)">
-                        <div class="text-overflow"></div>
-                        <span class="tcs-text-overflow">
+                        <div class="text-overflow">{{ getNamesTypeList(value) }}</div>
+                        <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol.value, pos)">
                           {{ "Select At Least a Supplier" | translate }}
                         </span>
                       </button>
@@ -229,18 +237,29 @@
                         </div>
                       </ul>
                     </div>
+                    <div *ngIf="!edit">
+                        <span>{{ getNamesTypeList(value) }}</span>
+                    </div>
                   </div>
-                  <div class="trash" [hidden]="protocol.value.values.length === 1">
+                  <div *ngIf="edit" class="trash">
                     <span class="fa fa-trash" [ngClass]="{'top': (protocol.value.label === 'Additional Documents' || protocol.value.label === 'Comments' || protocol.value.label === 'Tariff Codes')}"
                       placement="top" ngbTooltip="{{'Delete protocol value' | translate}}" (click)="removeValue(protocol.value, pos)"></span>
                   </div>
                 </div>
-                <div>
+                <div *ngIf="edit">
                   <button type="button" class="btn btn-main" [hidden]="suppliers.length === protocol.value.selectedSuppliers.length" (click)="addValue(protocol.value)">{{ 'Add' | translate }}
                     <i class="fa fa-plus-circle ml-2"></i>
                   </button>
                 </div>
               </div>
+            </div>
+            <div class="text-right pb-3 mb-3" *ngIf="edit">
+              <button type="button" class="btn btn-secondary mr-3" (click)="cancelAll()" [disabled]="saveAllProtocol">{{ 'Cancel' | translate }}
+                <i class="fa fa-times"></i>
+              </button>
+              <button type="button" class="btn btn-main" (click)="saveAll()" [disabled]="saveAllProtocol">{{ 'Save' | translate }}
+                <i class="fa fa-save"></i>
+              </button>
             </div>
           </div>
         </ng-template>

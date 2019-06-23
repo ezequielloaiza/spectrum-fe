@@ -89,7 +89,7 @@ export class ProtocolProformaComponent implements OnInit {
 
   getSupplier() {
     this.supplierService.findAll$().subscribe(res => {
-      this.suppliers = res.data;
+      this.suppliers = _.orderBy(res.data, ['companyName']);
       this.getProtocol(this.idClient, this.suppliers[0].idSupplier);
     });
   }
@@ -124,6 +124,7 @@ export class ProtocolProformaComponent implements OnInit {
   }
 
   getAllProtocolByUser() {
+    this.loadFields();
     const self = this;   
     this.protocolProformaService.allProtocolByUserId$(this.idClient).subscribe(res => {
       _.each(res.data, function(protocol, key) {
@@ -192,6 +193,7 @@ export class ProtocolProformaComponent implements OnInit {
   }
 
   cancelAll() {
+    this.edit = false;
     this.protocols = JSON.parse(JSON.stringify(this.protocolsAux));
   }
 
@@ -221,8 +223,10 @@ export class ProtocolProformaComponent implements OnInit {
         this.notification.success('', res);
       });
       this.saveAllProtocol = false;
+      this.edit = false;
     }, error => {
       this.saveAllProtocol = false;
+      this.edit = false;
     });
   }
 
@@ -262,14 +266,32 @@ export class ProtocolProformaComponent implements OnInit {
 
   beforeChangeProforma($event: NgbTabChangeEvent) {
     if ($event.activeId !== $event.nextId) {
-      // this.cancel();
-      if (Number($event.nextId) === 8) {
+      if (Number($event.nextId) === 1000) {
         this.getAllProtocolByUser();
       } else {
         this.edit = false;
         this.getProtocol(this.idClient, $event.nextId);
       }   
     }
+  }
+
+  getNamesTypeList(value) {
+    const self = this;
+    const suppliersName = [];
+    _.each(self.suppliers, function(supplier) {
+      if (_.includes(value.suppliers, supplier.idSupplier)) {
+        suppliersName.push(supplier.companyName);
+      }
+    });
+    return suppliersName.join(', ');
+  }
+
+  checkSuppliers(protocol, pos) {
+    let show = true;
+    if (protocol.values[pos].suppliers.length > 0) {
+      show = false;
+    }
+    return show;
   }
 
   setProtocol(protocol: ProtocolProforma) {

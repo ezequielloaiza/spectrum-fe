@@ -27,6 +27,14 @@
       color: #868e96;
       font-weight: bold;
     }
+
+    .border-item {
+      border-bottom: solid 1px #cecfd161;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
   }
 
   .form-group > label{
