@@ -139,6 +139,7 @@ export class ProtocolClientComponent implements OnInit {
     if ($event.activeId !== $event.nextId) {
       this.cancel();
       this.getProtocol(this.user.userResponse.idUser, $event.nextId);
+      this.loadFields();
     }
   }
 
@@ -326,7 +327,7 @@ export class ProtocolClientComponent implements OnInit {
 
     this.spinner.show();
     _.each(protocolsClient, function(protocolShipping) {
-      serviceShipping.updateManageAll$(protocolShipping).subscribe(res => {
+      serviceShipping.updateManageAll$(protocolShipping, this.user.idUser).subscribe(res => {
         recordsShipping++;
         self.showMessage(recordsShipping);
       });
