@@ -23,10 +23,6 @@ export class ProductsRequestedService {
     return this.http.get(environment.apiUrl + 'orderProductsRequested/findAllProducts');
   }
 
-  public allByGroupId$(id): Observable<any> {
-    return this.http.get(environment.apiUrl + 'productsRequested/allByGroupId/' + id);
-  }
-
   public updatePriceEuropa$(productsRequested): Observable<any> {
     return this.http.put(environment.apiUrl + 'productsRequested/updatePriceEuropa', productsRequested);
   }

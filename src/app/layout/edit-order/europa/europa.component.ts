@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { ProductsRequestedService } from '../../../shared/services';
+import { ProductsRequestedService, OrderProductRequestedService } from '../../../shared/services';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BasketproductrequestedService } from '../../../shared/services/basketproductrequested/basketproductrequested.service';
-
 @Component({
   selector: 'app-europa',
   templateUrl: './europa.component.html',
@@ -51,10 +50,12 @@ export class EuropaComponent implements OnInit {
   lenghtGroup: any;
   valueInserts: any;
   changeInserts = false;
+  order: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
+              private orderProductRequestedService: OrderProductRequestedService,
               private userService: UserStorageService,
               private spinner: NgxSpinnerService,
               private basketProductRequestedService: BasketproductrequestedService) {
@@ -93,7 +94,7 @@ export class EuropaComponent implements OnInit {
     }
 
   findByGroupdId() {
-      this.productRequestedService.allByGroupId$(this.productRequested.groupId).subscribe(res => {
+      this.orderProductRequestedService.allByGroupId$(this.productRequested.groupId, this.order.idOrder).subscribe(res => {
           if (res.code === CodeHttp.ok) {
             this.listBasketProductREquested = res.data;
             this.lenghtGroup = this.listBasketProductREquested.length;
@@ -592,11 +593,11 @@ export class EuropaComponent implements OnInit {
         price = basket.productRequested.price;
     } else { // Orden
         productRequestedAux = _.find(self.listBasketProductREquested, function(o) {
-          return o.idProductRequested !== productRequested.idProductRequested;
+          return o.productRequested.idProductRequested !== productRequested.idProductRequested;
         });
-        idProductRequested = productRequestedAux.idProductRequested;
-        detail = JSON.parse(productRequestedAux.detail);
-        price = productRequestedAux.price;
+        idProductRequested = productRequestedAux.productRequested.idProductRequested;
+        detail = JSON.parse(productRequestedAux.productRequested.detail);
+        price = productRequestedAux.productRequested.price;
     }
     productRequested1.idProductRequested = idProductRequested;
     //Cambio en header del detalle
