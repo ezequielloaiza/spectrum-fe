@@ -183,13 +183,13 @@
             <!--params left-->
             <div class="col-lg-2 margin-col padding-col" *ngFor="let parameter of product.parametersLeft">
               <div>
-                <!--param name--parameter>
+                <!--param name-->
                 <div class="row label">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
                 </div>
                 <!--param values-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
-                  <ng-select (chparameterange)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft"
+                  <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft"
                     [(ngModel)]="parameter.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}"
                     [required]="product.eyeLeft">
                     {{item}}
