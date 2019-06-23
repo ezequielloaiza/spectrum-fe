@@ -12,6 +12,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
 import * as _ from 'lodash';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
+import { Role } from '../../shared/enum/role.enum';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-protocol-client',
@@ -26,6 +28,7 @@ export class ProtocolClientComponent implements OnInit {
   protocolForm: FormGroup;
   edit = false;
   user: any;
+  idClient: any;
   saving = false;
   listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
   listBiweekly = [ '15', '30'];
@@ -39,6 +42,7 @@ export class ProtocolClientComponent implements OnInit {
   protocolsSave: Array<Protocol> = new Array;
 
   constructor(private fb: FormBuilder,
+              private route: ActivatedRoute,
               private supplierService: SupplierService,
               private translate: TranslateService,
               private notification: ToastrService,
@@ -51,6 +55,7 @@ export class ProtocolClientComponent implements OnInit {
     this.user = JSON.parse(this.userStorageService.getCurrentUser());
     this.valueFrecuency = 'ANY';
     this.getCountry();
+    this.getIdClient();
     this.initializeForm();
     this.getSupplier();
     this.loadSuppliers();
@@ -276,25 +281,18 @@ export class ProtocolClientComponent implements OnInit {
   
   ///////////// new functions
 
-  updateManageAll() {
-    this.buildProtocols();
-    let listProtocolsShipping = this.protocolsSave;
-    let serviceShipping = this.protocolClientService;
-    let recordsShipping = 0;
-    let self = this;
-    this.spinner.show();
-    _.each(listProtocolsShipping, function(protocolShipping) {
-      serviceShipping.updateManageAll$(protocolShipping).subscribe(res => {
-        recordsShipping++;
-        self.showMessage(recordsShipping);
-        self.edit = false;
-      });
-    });
+  getIdClient() {
+    if (this.user.role.idRole === Role.User) {
+      this.idClient = this.user.userResponse.idUser;
+    } else {
+      this.idClient = this.route.parent.snapshot.paramMap.get('id');
+    }
   }
 
   showMessage(records) {
     if (records === this.protocolsSave.length) {
       this.spinner.hide();
+      this.edit = false;
       this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
         this.notification.success('', res);
       });
@@ -306,58 +304,35 @@ export class ProtocolClientComponent implements OnInit {
     this.loadFields();
   }
 
-  buildProtocols() {
-    const protocolsSuppliersAux: Array<Protocol> = new Array;
-    const protocolsSuppliers = this.protocolsSave;
-    let protocolsClient = [];
-    let protocols = JSON.parse(JSON.stringify(this.protocols));
-    let userId = this.user.userResponse.idUser;
-    //Protocolos seleccionados
-    _.each(protocolsSuppliers, function(item) {
-      const protocolAux: Protocol = new Protocol();
-      _.each(protocols, function(protocol, index) {
-        // Values
-        _.each(protocol.values, function(itemValue) {
-            // Suppliers
-          _.each(itemValue.suppliers, function(supplier) {
-            if (item.supplierId === supplier ) {
-              protocolAux.valid = true;
-              protocolAux.supplierId = supplier;
-              protocolAux.clientId = userId; //cambiar cuando se una completo
-              switch (protocol.id) {
-                case 1:
-                  protocolAux.recipient = itemValue.content;
-                  break;
-                case 2:
-                  protocolAux.shippingAddress = itemValue.content;
-                  break;
-                case 3:
-                  protocolAux.shippingFrecuency = itemValue.content;
-                  break;
-                case 4:
-                  protocolAux.shippingMethod = itemValue.content;
-                  break;
-                case 5:
-                  protocolAux.shippingDetail = itemValue.content;
-                  break;
-                case 6:
-                  protocolAux.accountNumber = itemValue.content;
-                  break;
-                case 7:
-                  protocolAux.comment = itemValue.content;
-                  break;
-              }
-            }
-          });
-        });
+  updateManageAll() {
+    const self = this;
+    const protocolsClient = [];
+    let recordsShipping = 0;
+    let serviceShipping = this.protocolClientService;
+
+    _.each(this.suppliers, function(supplier) {
+      const protocolSave = {recipient: null, shippingAddress: null, shippingFrecuency: null, shippingMethod: null, shippingDetails: null, accountNumber: null,
+                            comment: null, supplierId: supplier.idSupplier, clientId: self.idClient, id: null};
+      _.each(self.protocols, function(protocol) {
+        _.each(protocol.values, function(value) {
+          if (_.includes(value.suppliers, supplier.idSupplier)) {
+            const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier])
+            protocolSave[protocol.key] = value.content;            
+          }
+        });       
       });
-      if (protocolAux.valid) {
-        protocolsSuppliersAux.push(protocolAux);
-      }
+      protocolsClient.push(JSON.parse(JSON.stringify(protocolSave)));
     });
-    this.protocolsSave = JSON.parse(JSON.stringify(protocolsSuppliersAux));
-    //console.log(this.protocolsCopy);
+
+    this.spinner.show();
+    _.each(protocolsClient, function(protocolShipping) {
+      serviceShipping.updateManageAll$(protocolShipping).subscribe(res => {
+        recordsShipping++;
+        self.showMessage(recordsShipping);
+      });
+    });
   }
+
 
   getProtocols() {
     const protocolsSave = [];
@@ -388,20 +363,25 @@ export class ProtocolClientComponent implements OnInit {
   loadFields() {
 
     this.protocols = [
-      // {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
-      // {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
-      // {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
-      {key: 'recipient', label: 'Recipient', values:[], selectedSuppliers: [], placeHolder:'Enter recipient',id:1},
-      {key: 'shippingAddress', label: 'Shipping Address', values:[], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2},
-      {key: 'shippingFrecuency', label: 'Shipping Frecuency', values:[], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3},
-      {key: 'shippingMethod', label: 'Shipping Method', values:[], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4},
-      {key: 'shippingDetails', label: 'Shipping Details', values:[], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5},
-      {key: 'accountNumber', label: 'Account Number for Shipping Carrier', values:[], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6},
-      {key: 'comment', label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:7},
-      //  {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
+      //only admin
+      /*{key: 'accNumber', label: 'ACC Number', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number', id:8, edit: this.user.role.idRole === 1},
+      {key: 'country', label: 'Country', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country', id:9, edit: this.user.role.idRole === 1},
+      {key: 'businessName', label: 'Business Name', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name', id:10, edit: this.user.role.idRole === 1},*/
+
+      //permitted client
+      {key: 'recipient', label: 'Recipient', values:[], selectedSuppliers: [], placeHolder:'Enter recipient',id:1, edit:true},
+      {key: 'shippingAddress', label: 'Shipping Address', values:[], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2, edit:true},
+      {key: 'shippingFrecuency', label: 'Shipping Frecuency', values:[], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3, edit:true},
+      {key: 'shippingMethod', label: 'Shipping Method', values:[], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4, edit:true},
+      {key: 'shippingDetails', label: 'Shipping Details', values:[], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5, edit:true},
+      {key: 'accountNumber', label: 'Account Number for Shipping Carrier', values:[], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6, edit:true},
+      {key: 'comment', label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:7, edit:true},
+
+      //only admin
+      //{key: 'emailComments', label: 'Email Comments', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments', id:11, edit: this.user.role.idRole === 1}
     ];
 
-    this.protocolClientService.allByUser$(this.user.userResponse.idUser).subscribe(res => {
+    this.protocolClientService.allByUser$(this.idClient).subscribe(res => {
       var protocols = this.protocols;
       _.each(res.data, function(protocol) {
         Object.keys(protocol).forEach(key => {
@@ -411,9 +391,9 @@ export class ProtocolClientComponent implements OnInit {
             if (!!valueFound) {
               valueFound.suppliers.push(protocol.supplier.idSupplier);
             } else {
-              keyFound.selectedSuppliers.push(protocol.supplier.idSupplier);
               keyFound.values.push({content: protocol[key], suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
             }
+            keyFound.selectedSuppliers.push(protocol.supplier.idSupplier);
           }
         });
       });

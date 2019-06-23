@@ -44,7 +44,7 @@
                         placeholder="{{ protocol.placeHolder | translate }}"
                         [(ngModel)]="value.content"
                         [ngModelOptions]="{standalone: true}"
-                        [disabled]="!edit"
+                        [disabled]="!edit || !protocol.edit"
                       />
                       <textarea
                         *ngIf="
@@ -58,7 +58,7 @@
                         placeholder="{{ protocol.placeHolder | translate }}"
                         [(ngModel)]="value.content"
                         [ngModelOptions]="{standalone: true}"
-                        [disabled]="!edit"
+                        [disabled]="!edit || !protocol.edit"
                       ></textarea>
             
                       <!--Shipping Frecuency-->
@@ -72,7 +72,7 @@
                               class="custom-control-input"
                               (change)="assignShippingFrecuency(protocol, 1, pos)"
                               [checked]="value.content === 'Monthly'"
-                              [disabled]="!edit"
+                              [disabled]="!edit || !protocol.edit"
                             />
                             <label
                               class="custom-control-label"
@@ -91,7 +91,7 @@
                               class="custom-control-input"
                               (change)="assignShippingFrecuency(protocol, 2, pos)"
                               [checked]="value.content === '15' || value.content === '30'"
-                              [disabled]="!edit"
+                              [disabled]="!edit || !protocol.edit"
                             />
                             <label
                               class="custom-control-label"
@@ -110,7 +110,7 @@
                               class="custom-control-input"
                               (change)="assignShippingFrecuency(protocol, 3, pos)"
                               [checked]="value.content !== 'Monthly' && value.content !== '15' && value.content !== '30' && value.content !== '' "
-                              [disabled]="!edit"
+                              [disabled]="!edit || !protocol.edit"
                             />
                             <label
                               class="custom-control-label"
@@ -126,7 +126,7 @@
                           [ngModelOptions]="{standalone: true}"
                           class="form-control"
                           name="{{ 'shippingFrecuencyB' + pos }}"
-                          [disabled]="!edit"
+                          [disabled]="!edit || !protocol.edit"
                         >
                           <option value="" [selected]="true" translate>Select value</option>
                           <option
@@ -141,7 +141,7 @@
                           [ngModelOptions]="{standalone: true}"
                           class="form-control"
                           name="{{ 'shippingFrecuencyW' + pos }}"
-                          [disabled]="!edit"
+                          [disabled]="!edit || !protocol.edit"
                         >
                           <option value="" [selected]="true" translate>Select value</option>
                           <option *ngFor="let weekly of listWeekly" value="{{ weekly }}">{{
@@ -157,8 +157,7 @@
                         class="btn border-type w-100 text-left"
                         ngbDropdownToggle
                         required
-                        [disabled]="!validContent(protocol,pos) || !edit"
-                      >
+                        [disabled]="!validContent(protocol,pos) || !edit || !protocol.edit">
                         <div class="text-overflow">{{ getNamesTypeList(value) }}</div>
                         <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol,pos)">
                           {{ "Select At Least a Supplier" | translate }}
@@ -178,7 +177,7 @@
                                   [checked]="checkedSupplier(protocol, value, supplier)"
                                   (click)="selectSupplier(supplier.idSupplier, protocol, value)"
                                   class="custom-control-input"
-                                  [disabled]="disabledSupplier(protocol, value, supplier) || !edit"
+                                  [disabled]="disabledSupplier(protocol, value, supplier) || !edit || !protocol.edit"
                                 />
                                 <label
                                   class="custom-control-label"
@@ -195,7 +194,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="trash" [hidden]="protocol.values.length === 1 || !edit">
+                  <div class="trash" [hidden]="protocol.values.length === 1 || !edit || !protocol.edit">
                     <span
                       class="fa fa-trash"
                       [ngClass]="{
@@ -212,7 +211,7 @@
                 </div>
                 <div>
                   <button type="button" class="btn btn-main" 
-                          [hidden]="suppliers.length === protocol.selectedSuppliers.length || protocol.values.length === suppliers.length || !edit"
+                          [hidden]="suppliers.length === protocol.selectedSuppliers.length || protocol.values.length === suppliers.length || !edit || !protocol.edit"
                           (click)="addValue(protocol)">{{ 'Add' | translate }}
                     <i class="fa fa-plus-circle ml-2"></i>
                   </button>
@@ -258,9 +257,9 @@
                   class="form-control"
                   formControlName="accNumber"
                   maxlength="120"
-                  *ngIf="false"
+                  *ngIf="user.role.idRole === 1"
                 />
-                <div class="truncate">
+                <div class="truncate" ng-if="user.role.idRole !== 1">
                   <span [ngClass]="{ unassigned: !protocol.accNumber }">{{ protocol.accNumber ? protocol.accNumber :
                     'Unassigned' | translate
                   }}</span>
@@ -275,11 +274,11 @@
                     bindValue="idCountry"
                     bindLabel="name"
                     formControlName="country"
-                    *ngIf="false"
+                    *ngIf="user.role.idRole === 1"
                   >
                   </ng-select>
                 </div>
-                <div class="truncate" *ngIf="true">
+                <div class="truncate" *ngIf="user.role.idRole !== 1">
                   <span [ngClass]="{ unassigned: !protocol.countryName }">{{ protocol.countryName ? protocol.countryName :
                     'Unassigned' | translate
                   }}</span>
@@ -294,10 +293,10 @@
                   class="form-control"
                   formControlName="businessName"
                   maxlength="120"
-                  *ngIf="false"
+                  *ngIf="user.role.idRole === 1"
                   placeholder="{{ 'Enter business name' | translate }}"
                 />
-                <div class="truncate" *ngIf="true">
+                <div class="truncate" *ngIf="user.role.idRole !== 1">
                   <span [ngClass]="{ unassigned: !protocol.businessName }">{{ protocol.businessName ? protocol.businessName :
                     'Unassigned' | translate
                   }}</span>
@@ -464,14 +463,14 @@
               <div class="form-group pr-3 half-flex">
                 <label *ngIf="false">{{ 'Email Comments' | translate }}</label>
                  <textarea style="overflow-x: hidden;"
-                 *ngIf="false"
+                 *ngIf="user.role.idRole === 1"
                   type="text"
                   class="form-control"
                   formControlName="emailComment"
                   maxlength="254"
                   placeholder="{{ 'Enter email comments' | translate }}"
                 ></textarea>
-                <div  class="truncate" *ngIf="false">
+                <div  class="truncate" *ngIf="user.role.idRole !== 1">
                   <span [ngClass]="{ unassigned: !protocol.emailComment }">{{ protocol.emailComment ? protocol.emailComment :
                     'Unassigned' | translate
                   }}</span>
