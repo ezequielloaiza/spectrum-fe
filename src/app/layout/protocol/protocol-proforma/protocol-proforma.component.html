@@ -160,7 +160,7 @@
                 </button>
               </div>
             <div class="row" *ngFor="let protocol of protocols | keyvalue">
-              <div class="w-100 border-protocol p-3 mb-3" 
+              <div class="w-100 border-protocol p-3 mb-3"
               *ngIf="(editField && protocol.value.label === 'Maximum Amount to Declare')
                 || (editField && protocol.value.label ==='Fixed Prices for Proforma Invoice')
                 || (editField && protocol.value.label === 'Outputs (Send information to Spectrum team)')

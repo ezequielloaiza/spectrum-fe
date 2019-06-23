@@ -7,13 +7,14 @@ import { ChangePasswordTemporalComponent } from './change-password-temporal/chan
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderModule } from '../shared/modules/header/header.module';
 import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { PageHeaderModule } from '../shared';
+import { PageHeaderModule, RoleGuard } from '../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProtocolsComponent } from './protocols/protocols.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ProtocolsproformaComponent } from './protocols/protocolsproforma/protocolsproforma.component';
 import { ProtocolsshippingComponent } from './protocols/protocolsshipping/protocolsshipping.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AuthorizationService } from '../shared/services';
 
 @NgModule({
   imports: [
@@ -28,6 +29,17 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NgSelectModule,
     NgxSpinnerModule
   ],
-  declarations: [InitialSessionsComponent, ChangePasswordTemporalComponent, ProtocolsComponent, ProtocolsproformaComponent, ProtocolsshippingComponent]
+  declarations: [
+    InitialSessionsComponent,
+    ChangePasswordTemporalComponent,
+    ProtocolsComponent,
+    ProtocolsproformaComponent,
+    ProtocolsshippingComponent
+  ],
+  providers: [
+    RoleGuard,
+    AuthorizationService
+  ]
+
 })
 export class InitialSessionsModule { }

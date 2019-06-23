@@ -39,5 +39,6 @@ export enum RoleAdmin {
   ProductViewMedmontComponent,
   EntrustingCompany,
   EditShippingProtocol,
-  ProtocolProforma
+  ProtocolProforma,
+  ChangePassword
 }
