@@ -11,6 +11,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
+import * as _ from 'lodash';
+import { Role } from '../../../../shared/enum/role.enum';
+import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 @Component({
   selector: 'app-shipping-protocol',
   templateUrl: './shipping-protocol.component.html',
@@ -19,6 +22,8 @@ import { saveAs } from 'file-saver';
 export class ShippingProtocolComponent implements OnInit {
 
   protocol: Protocol = new Protocol();
+  protocols: Array<any> = new Array;
+  protocolsSave: Array<Protocol> = new Array;
   suppliers: Array<any> = new Array();
   countries: Array<any> = new Array();
   protocolForm: FormGroup;
@@ -32,6 +37,8 @@ export class ShippingProtocolComponent implements OnInit {
   download = false;
   today: Date = new Date();
   user: any;
+  IDClient: any;
+  validRecords = 0;
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -48,8 +55,11 @@ export class ShippingProtocolComponent implements OnInit {
     this.valueFrecuency = 'ANY';
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getCountry();
+    this.getIdClient();
     this.initializeForm();
     this.getSupplier();
+    this.loadSuppliers();
+    this.loadFields();
   }
 
   initializeForm() {
@@ -129,6 +139,7 @@ export class ShippingProtocolComponent implements OnInit {
     if ($event.activeId !== $event.nextId) {
       this.cancel();
       this.getProtocol(this.id, $event.nextId);
+      this.loadFields();
     }
   }
 
@@ -263,6 +274,208 @@ export class ShippingProtocolComponent implements OnInit {
         this.notification.error('', res);
       });
     });
+  }
+
+  ////////////////////////////////////////// MANAGE ALL /////////////////////////////////////////////
+  
+  ///////////// new functions
+
+  getIdClient() {
+    if (this.user.role.idRole === Role.User) {
+      this.IDClient = this.user.userResponse.idUser;
+    } else {
+      this.IDClient = this.route.parent.snapshot.paramMap.get('id');
+    }
+  }
+
+  showMessage(records) {
+    if (records === this.protocolsSave.length) {
+      this.spinner.hide();
+      this.edit = false;
+      this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+        this.notification.success('', res);
+      });
+    }
+  }
+
+  cleanChanges() {
+    this.edit = false;
+    this.loadFields();
+  }
+
+  updateManageAll() {
+    const self = this;
+    const protocolsClient = [];
+    let recordsShipping = 0;
+    let serviceShipping = this.protocolClientService;
+
+    _.each(this.suppliers, function(supplier) {
+      const protocolSave = {accNumber:null, country:null, businessName:null, recipient: null, shippingAddress: null, shippingFrecuency: null, shippingMethod: null, shippingDetails: null, accountNumber: null,
+                            comment: null, emailComments:null, supplierId: supplier.idSupplier, clientId: self.IDClient, id: null};
+      _.each(self.protocols, function(protocol) {
+        _.each(protocol.values, function(value) {
+          if (_.includes(value.suppliers, supplier.idSupplier)) {
+            const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier])
+            protocolSave[protocol.key] = value.content;            
+          }
+        });       
+      });
+      protocolsClient.push(protocolSave);
+    });
+
+    this.spinner.show();
+    _.each(protocolsClient, function(protocolShipping) {
+      serviceShipping.updateManageAll$(protocolShipping, self.user.userResponse.idUser).subscribe(res => {
+        recordsShipping++;
+        self.showMessage(recordsShipping);
+      });
+    });
+  }
+
+
+  getProtocols() {
+    const protocolsSave = [];
+    _.each(this.suppliers, function(supplier) {
+    const protocol: Protocol = new Protocol();
+    protocol.supplierId = supplier.idSupplier;
+    protocol.valid = false;
+    protocolsSave.push(protocol);
+    });
+    this.protocolsSave = protocolsSave;
+  }
+
+  loadSuppliers() {
+    this.supplierService.findAll$().subscribe(res => {
+    if (res.code === CodeHttp.ok) {
+      this.suppliers = res.data;
+      this.getProtocols();
+    } else {
+      console.log(res.errors[0].detail);
+    }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  ///////////// copy of other component
+
+  loadFields() {
+
+    this.protocols = [
+      //only admin
+      {key: 'accNumber', label: 'ACC Number', values:[], selectedSuppliers: [], placeHolder:'Enter ACC Number', id:8, edit: this.user.role.idRole === 1},
+      {key: 'country', label: 'Country', values:[], selectedSuppliers: [], placeHolder:'Enter Country', id:9, edit: this.user.role.idRole === 1},
+      {key: 'businessName', label: 'Business Name', values:[], selectedSuppliers: [], placeHolder:'Enter Business Name', id:10, edit: this.user.role.idRole === 1},
+
+      //permitted client
+      {key: 'recipient', label: 'Recipient', values:[], selectedSuppliers: [], placeHolder:'Enter recipient',id:1, edit:true},
+      {key: 'shippingAddress', label: 'Shipping Address', values:[], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2, edit:true},
+      {key: 'shippingFrecuency', label: 'Shipping Frecuency', values:[], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3, edit:true},
+      {key: 'shippingMethod', label: 'Shipping Method', values:[], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4, edit:true},
+      {key: 'shippingDetails', label: 'Shipping Details', values:[], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5, edit:true},
+      {key: 'accountNumber', label: 'Account Number for Shipping Carrier', values:[], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6, edit:true},
+      {key: 'comment', label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:7, edit:true},
+
+      //only admin
+      {key: 'emailComments', label: 'Email Comments', values:[], selectedSuppliers: [], placeHolder:'Enter Email Comments', id:11, edit: this.user.role.idRole === 1}
+    ];
+
+    this.protocolClientService.allByUser$(this.IDClient).subscribe(res => {
+      var protocols = this.protocols;
+      _.each(res.data, function(protocol) {
+        Object.keys(protocol).forEach(key => {
+          var keyFound = _.find(protocols, ['key', key]);
+          if (!!keyFound && !!protocol[key]) {
+            var valueFound = _.find(keyFound.values, ['content', protocol[key]]);
+            if (!!valueFound) {
+              valueFound.suppliers.push(protocol.supplier.idSupplier);
+            } else {
+              keyFound.values.push({content: protocol[key], suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
+            }
+            keyFound.selectedSuppliers.push(protocol.supplier.idSupplier);
+          }
+        });
+      });
+
+      _.each(this.protocols, function(protocol) {
+        if (protocol.values.length === 0) {
+          if (protocol.key === 'shippingFrecuency') {
+            protocol.values.push({content: '', suppliers: [],showB:"false",showW:"false"});
+          } else {
+            protocol.values.push({content: '', suppliers: []});
+          }
+          protocol.selectedSuppliers = [];
+        }
+      });
+    });
+  }
+
+  selectSupplier(idSupplier, protocol, value) {
+    let index = _.indexOf(value.suppliers, idSupplier);
+    if (index > -1) {
+      value.suppliers.splice(index, 1);
+      protocol.selectedSuppliers.splice(_.indexOf(protocol.selectedSuppliers, idSupplier), 1);
+    } else if (this.allowedSelection(idSupplier, protocol)) {
+      value.suppliers.push(idSupplier);
+      protocol.selectedSuppliers.push(idSupplier);
+    }
+  }
+
+  allowedSelection(idSupplier, protocol) {
+    return _.indexOf(protocol.selectedSuppliers, idSupplier) === -1;
+  }
+
+  supplierSelected(idSupplier, protocolValue) {
+    return _.indexOf(protocolValue.suppliers, idSupplier) > -1;
+  }
+
+  addValue(protocol) {
+    protocol.values.push({content: '', suppliers: []});
+
+  }
+
+  hiddenSupplier(protocol, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier)
+  }
+
+  removeValue(protocol, index) {
+    protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, protocol.values[index].suppliers);
+    protocol.values.splice(index, 1);
+  }
+
+  getNamesTypeList(value) {
+    const self = this;
+    const suppliersName = [];
+    _.each(self.suppliers, function(supplier) {
+      if (_.includes(value.suppliers, supplier.idSupplier)) {
+        suppliersName.push(supplier.companyName);
+      }
+    });
+    return suppliersName.join(', ');
+  }
+
+  disabledSupplier(protocol, value, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier) && !_.includes(value.suppliers, supplier.idSupplier);
+  }
+
+  checkedSupplier(protocol, value, supplier) {
+    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
+  }
+
+  validContent(protocol, pos) {
+    let valid = true;
+    if (protocol.values[pos].content === '') {
+         valid = false;
+    }
+    return valid;
+  }
+
+  checkSuppliers(protocol, pos) {
+    let show = true;
+    if (protocol.values[pos].suppliers.length > 0) {
+      show = false;
+    }
+    return show;
   }
 
 }

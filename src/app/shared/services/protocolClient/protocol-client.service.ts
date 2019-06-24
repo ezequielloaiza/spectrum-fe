@@ -25,8 +25,8 @@ export class ProtocolClientService {
     return this.http.put(environment.apiUrl + 'protocol/update', protocol);
   }
 
-  public updateManageAll$(protocol): Observable<any> {
-    return this.http.put(environment.apiUrl + 'protocol/updateManageAll', protocol);
+  public updateManageAll$(protocol, idUser): Observable<any> {
+    return this.http.put(environment.apiUrl + 'protocol/updateManageAll/' + idUser , protocol);
   }
 
   public reportProtocolById$(protocolId, roleId): Observable<any> {

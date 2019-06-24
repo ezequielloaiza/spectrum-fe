@@ -35,6 +35,9 @@
                     <div class="input-value">
                       <input
                         *ngIf="
+                          protocol.label === 'ACC Number' ||
+                          protocol.label === 'Country' ||
+                          protocol.label === 'Business Name' ||
                           protocol.label === 'Recipient' ||
                           protocol.label === 'Shipping Method' ||
                           protocol.label === 'Account Number for Shipping Carrier'
@@ -50,7 +53,8 @@
                         *ngIf="
                           protocol.label === 'Shipping Address' ||
                           protocol.label === 'Comments' ||
-                          protocol.label === 'Shipping Details'
+                          protocol.label === 'Shipping Details' ||
+                          protocol.label === 'Email Comments'
                         "
                         style="overflow-x: hidden;"
                         type="text"
@@ -461,7 +465,7 @@
                   }}</span>
                 </div>
               </div>
-              
+
               <div class="form-group pr-3 half-flex">
                 <label *ngIf="false">{{ 'DMV' | translate }}</label>
                 <input
