@@ -183,7 +183,6 @@ export class ProductViewEuclidComponent implements OnInit {
         this.productService.findBySupplierAndInViewAndCategory$(4, false, 10).subscribe(res1 => {
           if (res1.code === CodeHttp.ok) {
             this.productsCode = res1.data;
-            this.setCodeProduct();
           } else {
             console.log(res1.errors[0].detail);
             this.spinner.hide();
@@ -223,11 +222,11 @@ export class ProductViewEuclidComponent implements OnInit {
     this.setPrice();
   }
 
-  setCodeProduct() {
+  setCodeProduct(cod) {
     const productName = this.product.name;
     let prCode;
     _.each(this.productsCode, function (pr) {
-      if (_.includes(pr.name, productName)) {
+      if (_.includes(pr.name, productName) && _.includes(pr.codeSpectrum, cod)) {
         prCode = pr;
       }
     });
@@ -241,19 +240,23 @@ export class ProductViewEuclidComponent implements OnInit {
       if (eye === 'right') {
         if (parameter.selected === 'Yes') {
           this.warrantyRight = true;
+          this.setCodeProduct('(W)');
         } else {
           this.warrantyRight = false;
+          this.setCodeProduct('(NW)');
         }
       }
 
       if (eye === 'left') {
         if (parameter.selected === 'Yes') {
           this.warrantyLeft = true;
+          this.setCodeProduct('(W)');
         } else {
           this.warrantyLeft = false;
+          this.setCodeProduct('(NW)');
         }
       }
-      if (this.client){
+      if (this.client) {
         this.definePrice(this.client.membership.idMembership);
       }
     }
