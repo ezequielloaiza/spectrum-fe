@@ -73,6 +73,7 @@ export class ProductsListInternalComponent implements OnInit {
     var productsBluGen = [];
     var productsBluKidz = [];
     var productsXtensa = [];
+    var productsXtensaRx = [];
     var productsSaphir = [];
     var productsQuattroX3 = [];
     var productsQuattroX1 = [];
@@ -98,6 +99,9 @@ export class ProductsListInternalComponent implements OnInit {
             break;
           case 'Xtensa':
             productsXtensa.push(product);
+            break;
+          case 'Xtensa Rx':
+            productsXtensaRx.push(product);
             break;
           case 'Saphir':
             productsSaphir.push(product);
@@ -150,6 +154,13 @@ export class ProductsListInternalComponent implements OnInit {
                                     mainImg:"assets/images/products/markennovy/xtensa.png",
                                     replacementPeriod:"Monthly",
                                     father: "Xtensa"});
+    }
+
+    if (productsXtensaRx.length) {
+      this.productsMarkennovy.push({name:"Xtensa Rx",
+                                    mainImg:"assets/images/products/markennovy/xtensa.png",
+                                    replacementPeriod:"Monthly",
+                                    father: "Xtensa Rx"});
     }
     if (productsJade.length) {
       this.productsMarkennovy.push({name:"Jade",
@@ -540,7 +551,7 @@ export class ProductsListInternalComponent implements OnInit {
     }
 
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
-        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa' ||
+        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa Rx' ||
         product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Jade') {
 
           this.packings.push({ 'product': product, 'type': 'Blister'});
@@ -551,7 +562,7 @@ export class ProductsListInternalComponent implements OnInit {
     }
 
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
-        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa') {
+        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa Rx') {
       this.packings.push({ 'product': product, 'type': '3pk'});
     }
 
