@@ -170,8 +170,8 @@
                   <br>
                   <span  translate>{{'Warning: Includes' | translate}}</span>&nbsp;
                   <span *ngIf="additionalHidrapeg">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : " USD $" }}</span>&nbsp;
-                  <span  *ngIf="additionalHidrapeg && additionalInserts">|</span>
-                  <span *ngIf="additionalInserts">{{'Inserts (DMV)' | translate}}:{{ inserts | currency : " USD $" }}</span>&nbsp;
+                  <span  *ngIf="additionalInserts && additionalHidrapeg">|</span>
+                  <span *ngIf="additionalInserts">{{'Inserts' | translate}}:{{ inserts | currency : " USD $" }}</span>&nbsp;
                   <span  *ngIf="(additionalInserts || additionalHidrapeg) && additionalNotch">|</span>
                   <span *ngIf="additionalNotch">{{'Notch (mm)' | translate}}:{{ notch | currency : " USD $" }}</span>&nbsp;
                   <!--<span  *ngIf="(additionalHidrapeg || additionalInserts || additionalNotch) && additionalThickness">|</span>

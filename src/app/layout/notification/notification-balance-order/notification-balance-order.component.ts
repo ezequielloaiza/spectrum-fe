@@ -6,12 +6,14 @@ import { BasketService } from '../../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { OrderService } from '../../../shared/services';
+import { OrderService, ProductsRequestedService } from '../../../shared/services';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { Router } from '@angular/router';
 import { Order } from '../../../shared/models/order';
 import { ModalsShippingComponent } from '../../manage-customer-orders/modals-shipping/modals-shipping.component';
+import * as _ from 'lodash';
+
 
 @Component({
   selector: 'app-notification-balance-order',
@@ -29,6 +31,8 @@ export class NotificationBalanceOrderComponent implements OnInit {
   message: any;
   visibleAdmin = false;
   newStatus: any;
+  listAux: Array<any>;
+  validRecords = 0;
   constructor(public modalReference: NgbActiveModal,
               private basketService: BasketService,
               private alertify: AlertifyService,
@@ -38,7 +42,8 @@ export class NotificationBalanceOrderComponent implements OnInit {
               private spinner: NgxSpinnerService,
               private userStorageService: UserStorageService,
               public router: Router,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private productRequestedService: ProductsRequestedService) {
           this.user = JSON.parse(userStorageService.getCurrentUser());
                }
 
@@ -63,12 +68,16 @@ export class NotificationBalanceOrderComponent implements OnInit {
     if (this.type === 1) { // Genera desde la cesta
       this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          this.close();
-          this.spinner.hide();
-          this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-            this.notification.success('', res);
-          });
-          this.redirectListOrder();
+          if (this.listAux.length > 0) {
+            this.update();
+          } else {
+            this.close();
+            this.spinner.hide();
+            this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+              this.notification.success('', res);
+            });
+            this.redirectListOrder();
+          }
         } else {
           this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
             this.notification.error('', res);
@@ -149,5 +158,29 @@ export class NotificationBalanceOrderComponent implements OnInit {
       this.close();
     });
   }
+
+
+  update() {
+    let self = this;
+    let records = this.validRecords;
+    _.each(this.listAux, function(item) {
+      self.productRequestedService.updatePriceEuropa$(item).subscribe(res1 => {
+        records++;
+        self.showMessage(records);
+     });
+   });
+  }
+
+  showMessage(records) {
+    this.validRecords = records;
+    if (this.validRecords === this.listAux.length) {
+      this.close();
+      this.spinner.hide();
+      this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+        this.notification.success('', res);
+      });
+      this.redirectListOrder();
+    }
+ }
 
 }

@@ -112,9 +112,6 @@ export class ConfirmationEuropaComponent implements OnInit {
           if (parameters.name === 'Hidrapeg' && parameters.selected) {
             quantityHidrapeg = quantityHidrapeg + productRequested.quantity;
           }
-          if (parameters.name === 'Inserts (DMV)' && parameters.selected) {
-            quantityInserts = quantityInserts + productRequested.quantity;
-          }
          });
         _.each(detail.parameters, function (parameters) {
           if (parameters.name === 'Notch (mm)' && (parameters.selected !== '0x0')) {
@@ -132,7 +129,7 @@ export class ConfirmationEuropaComponent implements OnInit {
     this.price = priceAcum;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
     this.totalHidrapeg = this.additionalHidrapeg * quantityHidrapeg;
-    this.totalInserts = this.additionalInserts * quantityInserts;
+    this.totalInserts = this.additionalInserts;
     this.totalNotch = this.additionalNotch * quantityNotch;
     this.totalThickness = this.additionalThickness * quantityThickness;
   }

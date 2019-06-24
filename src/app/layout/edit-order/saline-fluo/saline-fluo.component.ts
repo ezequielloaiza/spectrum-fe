@@ -96,6 +96,7 @@ export class SalineFluoComponent implements OnInit {
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
+        productRequested.detail = JSON.parse(productRequested.detail);
         this.modalReference.close(productRequested);
       } else {
         console.log(res);
