@@ -26,4 +26,12 @@ export class ProtocolProformaService {
       responseType: 'blob'
     });
   }
+
+  public allProtocolByUserId$(userId: any): Observable<any> {
+    return this.http.get(environment.apiUrl + 'protocolProforma/allByUser/' + userId);
+  }
+
+  public saveAll$(protocol): Observable<any> {
+    return this.http.put(environment.apiUrl + 'protocolProforma/saveAll', protocol);
+  }
 }

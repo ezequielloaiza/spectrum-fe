@@ -32,7 +32,7 @@
               </div>
             </div>
           </div>
-          <textarea *ngIf="protocol.label === 'Additional Documents' || protocol.label === 'Comments' || protocol.label === 'Tariff Codes'"
+          <textarea *ngIf="protocol.label === 'Additional Documents' || protocol.label === 'Comments' || protocol.label === 'HS Code' || protocol.label === 'Documentation that must accompany the delivery and proforma invoice'"
             style="overflow-x: hidden;" type="text" class="form-control" placeholder="{{ protocol.placeHolder | translate }}"
             [(ngModel)]="value.content"></textarea>
         </div>
