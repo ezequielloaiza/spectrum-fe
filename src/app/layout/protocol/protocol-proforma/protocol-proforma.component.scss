@@ -5,6 +5,10 @@
 
   ngb-tabset {
     width: 100%;
+
+    > div.tab-content {
+      height: 100%;
+    }
   }
 
   .border-tab {
@@ -13,9 +17,23 @@
     border-right: solid 1px $border-grey;
     padding: 1em;
 
+    &.overflow {
+      height: 800px;
+      overflow: auto;
+      overflow-x: hidden;
+    }
+
     span {
       color: #868e96;
-      font-weight: bold;
+      //font-weight: bold;
+    }
+
+    .border-item {
+      border-bottom: solid 1px #cecfd161;
+
+      &:last-child {
+        border-bottom: 0;
+      }
     }
   }
 
@@ -41,3 +59,93 @@
   }
 }
 
+.form-group {
+  span {
+    color: $color-text-menu;
+    font-weight: bold;
+  }
+
+  label {
+    margin-bottom: 0;
+  }
+
+  > div:nth-child(1) {
+    display: flex;
+  }
+
+  .input-value {
+    display: flex;
+  }
+}
+
+.border-bottom {
+  border-bottom: solid 1px #c4c5c7;
+}
+
+.border-type {
+  border: solid 1px #ced4da;
+  background: white;
+  height: 34px;
+
+  &::after {
+    position: absolute;
+    left: 95%;
+    top: 15px;
+  }
+}
+
+.w-46 {
+  width: 46%
+}
+
+.trash {
+  width: 3%;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  position: relative;
+
+  > span {
+    position: absolute;
+    top: -7px;
+
+    &.top {
+      top: -18px;
+    }
+  }
+}
+
+.dropdown-list {
+  &.dropdown-menu {
+    top: 31px !important;
+    left: 0px !important;
+
+    &::before {
+      content: none;
+    }
+
+    &::after {
+      content: none;
+    }
+
+    span {
+      color: #30414a;
+      font-weight: bold;
+    }
+  }
+
+  .custom-checkbox .custom-control-label::before {
+    border: solid 1px #cccccd;
+    border-radius: .3em;
+  }
+}
+
+.custom-control-input:disabled ~ .custom-control-label {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.border-protocol {
+  border: 1px solid #e9ecef !important;
+  margin: 0 1em;
+}
