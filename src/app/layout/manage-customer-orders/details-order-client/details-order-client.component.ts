@@ -131,12 +131,13 @@ export class DetailsOrderClientComponent implements OnInit {
           detailsOrder.productRequested.quantity = item.quantity;
           detailsOrder.productRequested.observations = item.observations;
           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
+          detailsOrder.productRequested.detail = item.detail;
         }
       });
-
     });
     this.listDetails = this.order.listProductRequested;
     this.listDetailsAux = this.order.listProductRequested;
+    this.updateTotal();
   }
 
   openEdit(lista, image) {
@@ -152,6 +153,15 @@ export class DetailsOrderClientComponent implements OnInit {
     } , (reason) => {
 
     });
+  }
+
+  updateTotal() {
+     let total = 0.0;
+    _.each(this.listDetails, function (item) {
+       total = total + item.productRequested.subtotal;
+    });
+    this.order.total = total;
+    this.order.subtotal = total;
   }
 }
 
