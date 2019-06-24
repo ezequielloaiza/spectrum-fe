@@ -115,7 +115,7 @@ export class ProductViewMagicComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplierInView$(5).subscribe(res => {
+    this.productService.findBySupplierInView$(5, true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();

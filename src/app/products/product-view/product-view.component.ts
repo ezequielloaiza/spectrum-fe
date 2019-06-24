@@ -31,7 +31,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ProductViewComponent implements OnInit {
 
   products: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
   product: any;
+  productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -79,10 +81,12 @@ export class ProductViewComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplierInView$(1).subscribe(res => {
+    this.id = +this.route.snapshot.paramMap.get('id');
+    this.productService.findById$(this.id).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
+        this.setCodeProduct();
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -116,6 +120,30 @@ export class ProductViewComponent implements OnInit {
     this.setClient();
     this.setPrice();
     this.addSign();
+  }
+
+  setCodeProduct() {
+    const productCode = this.product.codeSpectrum;
+    const productCategory = this.product.category;
+    let prCode;
+    console.log(productCategory);
+    this.productService.findBySupplierAndInViewAndCategory$(1, false, productCategory.idCategory).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        console.log(res.data);
+        this.productsCode = res.data;
+        _.each(this.productsCode, function (pr) {
+          console.log('includes', _.includes(pr.codeSpectrum, productCode));
+          if (_.includes(pr.codeSpectrum, productCode)) {
+            prCode = pr;
+          }
+        });
+        this.productCode = prCode;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   changeSelect(eye, parameter, value) {
@@ -239,11 +267,12 @@ export class ProductViewComponent implements OnInit {
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.productCopy;
+    let productCode = this.productCode;
     let productsSelected = this.productsSelected;
 
     _.each(productsSelected, function(productSelected, index) {
 
-      productSelected.id = product.idProduct;
+      productSelected.id = productCode.idProduct;
       productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
 
