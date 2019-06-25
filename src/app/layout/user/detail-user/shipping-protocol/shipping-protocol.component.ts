@@ -167,23 +167,40 @@ export class ShippingProtocolComponent implements OnInit {
     this.country.setValue(protocol.country);
   }
 
-
-  assignShippingFrecuency(value: number) {
-    switch (value) {
+  assignShippingFrecuency(protocol, type, pos) {
+    switch (type) {
       case 1:
+        if (pos !== null) {
+          protocol.values[pos].content = 'Monthly';
+          protocol.values[pos].showW = 'false';
+          protocol.values[pos].showB = 'false';
+        } else {
           this.valueFrecuency = 'Monthly';
           this.protocolForm.get('shippingFrecuencyB').setValue(null);
           this.protocolForm.get('shippingFrecuencyW').setValue(null);
+        }
         break;
       case 2:
-           this.valueFrecuency = 'Biweekly';
-           this.protocolForm.get('shippingFrecuencyW').setValue(null);
+        if (pos !== null) {
+            protocol.values[pos].content = '';
+            protocol.values[pos].showB = 'true';
+            protocol.values[pos].showW = 'false';
+        } else {
+          this.valueFrecuency = 'Biweekly';
+          this.protocolForm.get('shippingFrecuencyW').setValue(null);
+        }
         break;
       case 3:
-           this.valueFrecuency = 'Weekly';
-           this.protocolForm.get('shippingFrecuencyB').setValue(null);
+        if (pos !== null) {
+          protocol.values[pos].content = '';
+          protocol.values[pos].showW = 'true';
+          protocol.values[pos].showB = 'false';
+        } else {
+          this.valueFrecuency = 'Weekly';
+          this.protocolForm.get('shippingFrecuencyB').setValue(null);
+        }
         break;
-    }
+      }
   }
 
   setShippingFrecuency() {
@@ -197,6 +214,24 @@ export class ShippingProtocolComponent implements OnInit {
         this.valueFrecuency = 'Weekly';
         this.protocolForm.get('shippingFrecuencyW').setValue(this.protocol.shippingFrecuency);
       }
+
+      _.each(this.protocols, function(protocol) {
+        _.each(protocol.values, function(value, pos) {
+          if (protocol.key === "shippingFrecuency") {
+            if (value.content === 'Monthly' || value.content === null) {
+              protocol.values[pos].content = 'Monthly';
+              protocol.values[pos].showW = 'false';
+              protocol.values[pos].showB = 'false';
+            } else if (value.content === '15' || value.content === '30') {
+              protocol.values[pos].showW = 'false';
+              protocol.values[pos].showB = 'true';
+            } else {
+              protocol.values[pos].showW = 'true';
+              protocol.values[pos].showB = 'false';
+            } 
+          }
+        });
+      });
   }
 
   getShippingFrecuency() {
@@ -358,6 +393,20 @@ export class ShippingProtocolComponent implements OnInit {
   }
 
   ///////////// copy of other component
+
+  isValidProtocols() {
+    var isValid = true;
+
+    _.each(this.protocols, function (protocol) {
+      _.each(protocol.values, function(value){
+        var emptyContent = value.content === '' || value.content === null || value.content === undefined || false;
+        if ((!emptyContent && value.suppliers.length === 0) || (emptyContent && value.suppliers.length > 0)) {
+          isValid = false;
+        }
+      });
+    });
+    return isValid;
+  }
 
   loadFields() {
 

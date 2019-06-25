@@ -13,7 +13,7 @@
               <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit" (click)="cleanChanges()">{{ 'Cancel' | translate }}&nbsp;
                 <i class="fa fa-times"></i>
               </button>
-              <button type="button" class="btn btn-main" *ngIf="edit" [disabled]="saving" (click)="updateManageAll()">{{ 'Save' | translate }}&nbsp;
+              <button type="button" class="btn btn-main" *ngIf="edit" [disabled]="saving || !isValidProtocols()" (click)="updateManageAll()">{{ 'Save' | translate }}&nbsp;
                 <i class="fa fa-save"></i>
               </button>
             </div>
@@ -223,21 +223,6 @@
               </div>
             </div>
             <!-- End manage all-->
-
-            <div class="text-right pb-3">
-              <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit" (click)="cancel()">{{ 'Cancel' | translate }}&nbsp;
-                <i class="fa fa-times"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-main"
-                *ngIf="edit"
-                [disabled]="saving"
-                (click)="update()"
-              >{{ 'Save' | translate }}&nbsp;
-                <i class="fa fa-save"></i>
-              </button>
-            </div>
           </div>
         </ng-template>
       </ngb-tab>
@@ -345,15 +330,15 @@
                 <div *ngIf="edit" class="mb-2 mr-sm-2 mb-sm-0">
                   <div class="custom-control-inline">
                     <div class="custom-control custom-radio">
-                      <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 1, pos)" [checked]="valueFrecuency === 'Monthly'">
+                      <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 1, null)" [checked]="valueFrecuency === 'Monthly'">
                       <label class="custom-control-label" for="customRadio1">{{ 'Monthly' | translate }}</label>
                     </div>
                     <div style="margin-left: 10px;" class="custom-control custom-radio">
-                      <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 2, pos)" [checked]="valueFrecuency === 'Biweekly'">
+                      <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 2, null)" [checked]="valueFrecuency === 'Biweekly'">
                       <label class="custom-control-label" for="customRadio2">{{ 'Biweekly' | translate }}</label>
                     </div>
                     <div style="margin-left: 10px;" class="custom-control custom-radio">
-                      <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 3, pos)" [checked]="valueFrecuency === 'Weekly'">
+                      <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 3, null)" [checked]="valueFrecuency === 'Weekly'">
                       <label class="custom-control-label" for="customRadio3">{{ 'Weekly' | translate }}</label>
                     </div>
                   </div>
