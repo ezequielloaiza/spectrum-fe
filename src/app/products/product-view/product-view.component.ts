@@ -126,13 +126,10 @@ export class ProductViewComponent implements OnInit {
     const productCode = this.product.codeSpectrum;
     const productCategory = this.product.category;
     let prCode;
-    console.log(productCategory);
     this.productService.findBySupplierAndInViewAndCategory$(1, false, productCategory.idCategory).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        console.log(res.data);
         this.productsCode = res.data;
         _.each(this.productsCode, function (pr) {
-          console.log('includes', _.includes(pr.codeSpectrum, productCode));
           if (_.includes(pr.codeSpectrum, productCode)) {
             prCode = pr;
           }
