@@ -62,10 +62,18 @@ export class SupplierEuropaComponent implements OnInit {
     modalRefEuropa.componentInstance.detailEdit = this.lista;
     modalRefEuropa.componentInstance.typeEdit = 2;
     modalRefEuropa.componentInstance.userOrder = this.order.user;
+    modalRefEuropa.componentInstance.order = this.order;
     modalRefEuropa.componentInstance.image = this.urlImage;
     modalRefEuropa.result.then((result) => {
-      this.listAux = result;
-      this.sendReply();
+      if (result.length === 2) {
+        this.listAux = result[0];
+        this.sendReply();
+        this.listAux = result[1];
+        this.sendReply();
+      } else {
+        this.listAux = result;
+        this.sendReply();
+      }
     } , (reason) => {
 
     });

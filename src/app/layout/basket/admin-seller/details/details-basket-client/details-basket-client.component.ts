@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService } from '../../../../../shared/services/basket/basket.service';
 import { BasketproductrequestedService } from '../../../../../shared/services/basketproductrequested/basketproductrequested.service';
-import { OrderService, UserService } from '../../../../../shared/services';
+import { OrderService, UserService, ProductsRequestedService } from '../../../../../shared/services';
 import { UserStorageService } from '../../../../../http/user-storage.service';
 import { AlertifyService } from '../../../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
@@ -29,6 +29,7 @@ import { DetailSalineFluoComponent } from '../../../modals/detail-product/detail
 import { SalineFluoComponent } from '../../../../edit-order/saline-fluo/saline-fluo.component';
 import { DetailLenticonComponent } from '../../../modals/detail-product/detail-lenticon/detail-lenticon.component';
 import { LenticonComponent } from '../../../../edit-order/lenticon/lenticon.component';
+import { ProductRequested } from '../../../../../shared/models/productrequested';
 
 
 
@@ -53,6 +54,9 @@ export class DetailsBasketClientComponent implements OnInit {
   };
   checkedAll: any;
   customer: any;
+  inserts = 0;
+  basketUpdate;
+  productRequested1: ProductRequested;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -64,7 +68,8 @@ export class DetailsBasketClientComponent implements OnInit {
     private translate: TranslateService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private productRequestedService: ProductsRequestedService) {
       this.user = JSON.parse(userStorageService.getCurrentUser());
     }
 
@@ -102,19 +107,27 @@ export class DetailsBasketClientComponent implements OnInit {
     });
   }
   borrar(id): void {
-    this.basketProductRequestedService.removeById$(id).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.getListBasket();
-        // tslint:disable-next-line:no-shadowed-variable
-        this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res: string) => {
-          this.notification.success('', res);
-        });
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
+   //Basket a eliminar
+    let basket = _.find(this.listBasket, function(o) {
+      return o.idBasketProductRequested === id;
     });
+     if (basket.productRequested.product.supplier.idSupplier === 2) {
+       this.updateBasketGroupId(id, basket);
+     } else {
+      this.basketProductRequestedService.removeById$(id).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.getListBasket();
+          // tslint:disable-next-line:no-shadowed-variable
+          this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res: string) => {
+            this.notification.success('', res);
+          });
+        } else {
+          console.log(res.errors[0].detail);
+        }
+      }, error => {
+        console.log('error', error);
+      });
+     }
   }
 
   delete(id) {
@@ -180,7 +193,7 @@ export class DetailsBasketClientComponent implements OnInit {
     if (checked === false && this.productRequestedToBuy.length === this.listBasket.length) {
       this.checkboxModel.value1 = true;
     }
-  }
+    }
 
   onSelectionAll(valueChecked) {
     this.checkedAll = valueChecked;
@@ -200,6 +213,7 @@ export class DetailsBasketClientComponent implements OnInit {
         }
       });
       this.productRequestedToBuy = arrayAux;
+
   }
 
   openParams(basket) {
@@ -357,6 +371,7 @@ export class DetailsBasketClientComponent implements OnInit {
     modalRef.componentInstance.total = this.total;
     modalRef.componentInstance.buyBasket = this.buyBasket;
     modalRef.componentInstance.quantity = this.productRequestedToBuy.length;
+    modalRef.componentInstance.list = this.listBasket;
     modalRef.result.then((result) => {
       this.getCustomer();
       this.getListBasket();
@@ -379,5 +394,85 @@ export class DetailsBasketClientComponent implements OnInit {
       });
       this.subtotal = subtotal;
       this.total = subtotal;
+  }
+
+  updateBasketGroupId(id, basket) {
+    this.verifyInserts(basket);
+    let self = this;
+    let priceNew;
+    this.productRequested1 = new ProductRequested();
+      if (this.basketUpdate !== undefined) {
+        this.definePriceInserts(this.basketUpdate.basket.user.membership.idMembership, this.basketUpdate);
+        this.productRequested1.idProductRequested = this.basketUpdate.productRequested.idProductRequested;
+        this.productRequested1.detail = JSON.stringify(this.basketUpdate.productRequested.detail);
+        priceNew = this.basketUpdate.productRequested.price - (this.inserts / 2);
+        this.productRequested1.price = priceNew + this.inserts;
+        this.basketProductRequestedService.removeById$(id).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+              self.productRequestedService.updatePriceEuropa$(self.productRequested1).subscribe(res1 => {
+                if (res1.code === CodeHttp.ok) {
+                  this.getListBasket();
+                  // tslint:disable-next-line:no-shadowed-variable
+                  this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res1: string) => {
+                  this.notification.success('', res1);
+                  });
+                }
+              });
+          } else {
+            console.log(res.errors[0].detail);
+          }
+        }, error => {
+          console.log('error', error);
+        });
+     } else {
+        this.basketProductRequestedService.removeById$(id).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            this.getListBasket();
+            // tslint:disable-next-line:no-shadowed-variable
+            this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res: string) => {
+              this.notification.success('', res);
+            });
+          } else {
+            console.log(res.errors[0].detail);
+          }
+        }, error => {
+          console.log('error', error);
+        });
+     }
+  }
+
+  definePriceInserts(membership, basket) {
+    let pricesAditionalInserts = JSON.parse(basket.productRequested.product.infoAditional)[0].values[1];
+    switch (membership) {
+      case 1:
+        this.inserts = pricesAditionalInserts.values[0].price;
+        break;
+      case 2:
+        this.inserts =  pricesAditionalInserts.values[1].price;
+        break;
+      case 3:
+        this.inserts = pricesAditionalInserts.values[2].price;
+        break;
+    }
+  }
+
+  verifyInserts(basket) {
+    let idProductRequested = basket.productRequested.idProductRequested;
+    let detail = basket.productRequested.detail;
+    let oldInserts;
+    let self = this;
+    _.each( detail, function(item) {
+      _.each(item.header, function(itemH, index) {
+        if (itemH.name === 'Inserts (DMV)') {
+          oldInserts = item.header[index].selected;
+        }
+      });
+    });
+    if (oldInserts) { //si tenia DMV
+      this.basketUpdate = _.find(this.listBasket, function(o) {
+        return o.productRequested.idProductRequested !== idProductRequested
+        && basket.productRequested.groupId === o.productRequested.groupId;
+      });
+    }
   }
 }

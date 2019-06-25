@@ -305,45 +305,28 @@ export class ProductViewEuropaComponent implements OnInit {
       }
       if (parameter.name === 'Inserts (DMV)') {
         if (value === 'Yes') {
-          if (eye === 'right') {
             if (this.membership !== 0) {
               this.additionalInserts = true;
-              this.product.priceSaleRight = this.product.priceSaleRight + this.inserts;
+              this.additionalInsertsL = true;
             } else {
               this.additionalInserts = false;
-            }
-          } else {
-            if (this.membership !== 0) {
-              this.additionalInsertsL = true;
-              this.product.priceSaleLeft = this.product.priceSaleLeft + this.inserts;
-            } else {
               this.additionalInsertsL = false;
             }
-          }
         } else {
-          if (eye === 'right') {
             if (this.membership !== 0) {
               if (this.additionalInserts) {
                 this.additionalInserts = false;
-                if (this.product.priceSaleRight > 0 ) {
-                  this.product.priceSaleRight = this.product.priceSaleRight - this.inserts;
-                }
               }
             } else {
               this.additionalInserts = false;
             }
-          } else {
             if (this.membership !== 0) {
-              if (this.additionalInsertsL){
+              if (this.additionalInsertsL) {
                 this.additionalInsertsL = false;
-                if (this.product.priceSaleLeft > 0 ) {
-                  this.product.priceSaleLeft = this.product.priceSaleLeft - this.inserts;
-                }
               }
             } else {
               this.additionalInsertsL = false;
             }
-          }
         }
       }
       /*if (parameter.name === 'Thickness') {
@@ -484,7 +467,7 @@ export class ProductViewEuropaComponent implements OnInit {
       } else {
         this.clean(eye);
         this.additionalHidrapeg = false;
-        this.additionalInserts = false;
+       // this.additionalInserts = false;
         this.additionalNotch = false;
        // this.additionalThickness = false;
        // this.flagThickness = false;
@@ -500,7 +483,7 @@ export class ProductViewEuropaComponent implements OnInit {
       } else {
         this.clean(eye);
         this.additionalHidrapegL = false;
-        this.additionalInsertsL = false;
+      //  this.additionalInsertsL = false;
         this.additionalNotchL = false;
        // this.additionalThicknessL = false;
        // this.flagThicknessL = false;
@@ -561,9 +544,9 @@ export class ProductViewEuropaComponent implements OnInit {
           this.valueDiameter(valueD, 'right');
         } else {
             this.product.priceSaleRight = 0;
-            if (this.additionalInserts) {
-                this.product.priceSaleRight = this.product.priceSaleRight + this.inserts;
-            }
+            /*if (this.additionalInserts) {
+                this.product.priceSaleRight = this.product.priceSaleRight + (this.inserts / 2);
+            }*/
             if (this.additionalHidrapeg) {
               this.product.priceSaleRight = this.product.priceSaleRight + this.hidrapeg;
             }
@@ -590,9 +573,9 @@ export class ProductViewEuropaComponent implements OnInit {
            this.valueDiameter(valueD, 'left');
          } else {
             this.product.priceSaleLeft = 0;
-            if (this.additionalInsertsL) {
-                this.product.priceSaleLeft = this.product.priceSaleLeft + this.inserts;
-            }
+           /* if (this.additionalInsertsL) {
+                this.product.priceSaleLeft = this.product.priceSaleLeft + (this.inserts / 2);
+            }*/
             if (this.additionalHidrapegL) {
               this.product.priceSaleLeft = this.product.priceSaleLeft + this.hidrapeg;
             }
@@ -719,6 +702,10 @@ export class ProductViewEuropaComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let signPowerLeft = this.signPowerLeft;
     let signPowerRight = this.signPowerRight;
+    let additionalInserts = this.additionalInserts;
+    let additionalInsertsL = this.additionalInsertsL;
+    let inserts = this.inserts;
+    let valueInsert = false;
 
     _.each(productsSelected, function(productSelected, index) {
 
@@ -726,13 +713,22 @@ export class ProductViewEuropaComponent implements OnInit {
       productSelected.patient = product.patient;
 
       if (productSelected.eye === "Right") {
-        productSelected.price = product.priceSaleRight;
+        if (additionalInserts && product.eyeLeft) {
+          productSelected.price = product.priceSaleRight + (inserts / 2);
+        } else if (additionalInserts && !product.eyeLeft) {
+          productSelected.price = product.priceSaleRight + inserts;
+        } else {
+          productSelected.price = product.priceSaleRight;
+        }
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
 
         /* headers*/
         _.each(product.headerRight, function(parameter, index) {
           product.headerRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
+          if (parameter.name === 'Inserts (DMV)') {
+            valueInsert = parameter.selected;
+          }
         });
         productSelected.header = product.headerRight;
 
@@ -760,13 +756,22 @@ export class ProductViewEuropaComponent implements OnInit {
       }
 
       if (productSelected.eye === "Left") {
-        productSelected.price = product.priceSaleLeft;
+        if (additionalInsertsL && product.eyeRight) {
+          productSelected.price = product.priceSaleLeft + (inserts / 2);
+        } else if (additionalInsertsL && !product.eyeRight) {
+          productSelected.price = product.priceSaleLeft + inserts;
+        } else {
+          productSelected.price = product.priceSaleLeft;
+        }
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
 
         /* headers*/
         _.each(product.headerLeft, function(parameter, index) {
           product.headerLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
+          if (parameter.name === 'Inserts (DMV)') {
+            product.headerLeft[index].selected = valueInsert;
+          }
         });
         productSelected.header = product.headerLeft;
 
@@ -858,6 +863,14 @@ export class ProductViewEuropaComponent implements OnInit {
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
+
+    _.each(this.product.headerRight, function (param) {
+      if (param.name === 'Inserts (DMV)') {
+       if (param.selected === null || param.selected === undefined) {
+        isValid = false;
+       }
+      }
+    });
 
     if (this.product.eyeRight) {
       _.each(this.product.parametersRight, function (param) {
@@ -1081,13 +1094,13 @@ export class ProductViewEuropaComponent implements OnInit {
                     additionalH = true;
                   }
               }
-              if (itemHeader.name === 'Inserts (DMV)') {
+             /* if (itemHeader.name === 'Inserts (DMV)') {
                 if (itemHeader.selected === false || itemHeader.selected === null) {
                     inserts = 0;
                 } else {
                   additionalI = true;
                 }
-              }
+              }*/
           });
         // parameters
           _.each(paramet, function(productSelected) {
@@ -1109,7 +1122,7 @@ export class ProductViewEuropaComponent implements OnInit {
               }*/
           });
       this.notch = notch;
-      this.inserts = inserts;
+    //  this.inserts = inserts;
       this.hidrapeg = hidrapeg;
      // this.thickness = thickness;
       if (eye === 'right') {
@@ -1135,18 +1148,18 @@ export class ProductViewEuropaComponent implements OnInit {
         value === '20.0' ) {
       if (eye === 'right') {
         this.checkAdditional('right');
-        this.product.priceSaleRight = this.priceB + this.notch + this.thickness + this.hidrapeg + this.inserts;
+        this.product.priceSaleRight = this.priceB + this.notch + this.thickness + this.hidrapeg;
       } else {
         this.checkAdditional('left');
-        this.product.priceSaleLeft = this.priceB + this.notch + this.thickness + this.hidrapeg + this.inserts;
+        this.product.priceSaleLeft = this.priceB + this.notch + this.thickness + this.hidrapeg;
       }
     } else {
       if (eye === 'right') {
        this.checkAdditional('right');
-       this.product.priceSaleRight = this.priceA + this.notch + this.thickness + this.hidrapeg + this.inserts;
+       this.product.priceSaleRight = this.priceA + this.notch + this.thickness + this.hidrapeg;
       } else {
         this.checkAdditional('left');
-        this.product.priceSaleLeft = this.priceA + this.notch + this.thickness + this.hidrapeg + this.inserts;
+        this.product.priceSaleLeft = this.priceA + this.notch + this.thickness + this.hidrapeg;
       }
     }
   }

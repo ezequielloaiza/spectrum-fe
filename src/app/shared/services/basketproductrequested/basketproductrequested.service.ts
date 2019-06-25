@@ -17,4 +17,8 @@ export class BasketproductrequestedService {
   public checkProduct$(id): Observable<any> {
     return this.http.get(environment.apiUrl + 'basketProductRequested/checkSpectrumSaline/' + id);
   }
+
+  public allBasketByGroupId$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'basketProductRequested/allBasketByGroupId/' + id);
+  }
 }

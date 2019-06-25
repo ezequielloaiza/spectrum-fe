@@ -22,4 +22,8 @@ export class ProductsRequestedService {
   public findAllProducts$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'orderProductsRequested/findAllProducts');
   }
+
+  public updatePriceEuropa$(productsRequested): Observable<any> {
+    return this.http.put(environment.apiUrl + 'productsRequested/updatePriceEuropa', productsRequested);
+  }
 }
