@@ -80,7 +80,9 @@ export class ShippingProtocolComponent implements OnInit {
     supplierId: [null],
     country: [null],
     shippingFrecuencyB: [null],
-    shippingFrecuencyW: [null]
+    shippingFrecuencyW: [null],
+    countryAll: [null],
+    shippingMethodAll: [null]
     });
   }
 
@@ -167,23 +169,40 @@ export class ShippingProtocolComponent implements OnInit {
     this.country.setValue(protocol.country);
   }
 
-
-  assignShippingFrecuency(value: number) {
-    switch (value) {
+  assignShippingFrecuency(protocol, type, pos) {
+    switch (type) {
       case 1:
+        if (pos !== null) {
+          protocol.values[pos].content = 'Monthly';
+          protocol.values[pos].showW = 'false';
+          protocol.values[pos].showB = 'false';
+        } else {
           this.valueFrecuency = 'Monthly';
           this.protocolForm.get('shippingFrecuencyB').setValue(null);
           this.protocolForm.get('shippingFrecuencyW').setValue(null);
+        }
         break;
       case 2:
-           this.valueFrecuency = 'Biweekly';
-           this.protocolForm.get('shippingFrecuencyW').setValue(null);
+        if (pos !== null) {
+            protocol.values[pos].content = '';
+            protocol.values[pos].showB = 'true';
+            protocol.values[pos].showW = 'false';
+        } else {
+          this.valueFrecuency = 'Biweekly';
+          this.protocolForm.get('shippingFrecuencyW').setValue(null);
+        }
         break;
       case 3:
-           this.valueFrecuency = 'Weekly';
-           this.protocolForm.get('shippingFrecuencyB').setValue(null);
+        if (pos !== null) {
+          protocol.values[pos].content = '';
+          protocol.values[pos].showW = 'true';
+          protocol.values[pos].showB = 'false';
+        } else {
+          this.valueFrecuency = 'Weekly';
+          this.protocolForm.get('shippingFrecuencyB').setValue(null);
+        }
         break;
-    }
+      }
   }
 
   setShippingFrecuency() {
@@ -197,6 +216,24 @@ export class ShippingProtocolComponent implements OnInit {
         this.valueFrecuency = 'Weekly';
         this.protocolForm.get('shippingFrecuencyW').setValue(this.protocol.shippingFrecuency);
       }
+
+      _.each(this.protocols, function(protocol) {
+        _.each(protocol.values, function(value, pos) {
+          if (protocol.key === 'shippingFrecuency') {
+            if (value.content === 'Monthly' || value.content === null) {
+              protocol.values[pos].content = 'Monthly';
+              protocol.values[pos].showW = 'false';
+              protocol.values[pos].showB = 'false';
+            } else if (value.content === '15' || value.content === '30') {
+              protocol.values[pos].showW = 'false';
+              protocol.values[pos].showB = 'true';
+            } else {
+              protocol.values[pos].showW = 'true';
+              protocol.values[pos].showB = 'false';
+            }
+          }
+        });
+      });
   }
 
   getShippingFrecuency() {
@@ -277,7 +314,7 @@ export class ShippingProtocolComponent implements OnInit {
   }
 
   ////////////////////////////////////////// MANAGE ALL /////////////////////////////////////////////
-  
+
   ///////////// new functions
 
   getIdClient() {
@@ -315,17 +352,17 @@ export class ShippingProtocolComponent implements OnInit {
       _.each(self.protocols, function(protocol) {
         _.each(protocol.values, function(value) {
           if (_.includes(value.suppliers, supplier.idSupplier)) {
-            const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier])
-            protocolSave[protocol.key] = value.content;            
+            const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier]);
+            protocolSave[protocol.key] = value.content;
           }
-        });       
+        });
       });
       protocolsClient.push(protocolSave);
     });
 
     this.spinner.show();
     _.each(protocolsClient, function(protocolShipping) {
-      serviceShipping.updateManageAll$(protocolShipping, self.user.userResponse.idUser).subscribe(res => {
+      serviceShipping.updateManageAll$(protocolShipping, self.IDClient).subscribe(res => {
         recordsShipping++;
         self.showMessage(recordsShipping);
       });
@@ -359,6 +396,20 @@ export class ShippingProtocolComponent implements OnInit {
 
   ///////////// copy of other component
 
+  isValidProtocols() {
+    var isValid = true;
+
+    _.each(this.protocols, function (protocol) {
+      _.each(protocol.values, function(value){
+        var emptyContent = value.content === '' || value.content === null || value.content === undefined || false;
+        if ((!emptyContent && value.suppliers.length === 0) || (emptyContent && value.suppliers.length > 0)) {
+          isValid = false;
+        }
+      });
+    });
+    return isValid;
+  }
+
   loadFields() {
 
     this.protocols = [
@@ -382,18 +433,25 @@ export class ShippingProtocolComponent implements OnInit {
 
     this.protocolClientService.allByUser$(this.IDClient).subscribe(res => {
       var protocols = this.protocols;
+      let self=this;
+      debugger
       _.each(res.data, function(protocol) {
         Object.keys(protocol).forEach(key => {
+        if (key !== 'country') {
           var keyFound = _.find(protocols, ['key', key]);
           if (!!keyFound && !!protocol[key]) {
             var valueFound = _.find(keyFound.values, ['content', protocol[key]]);
             if (!!valueFound) {
               valueFound.suppliers.push(protocol.supplier.idSupplier);
             } else {
-              keyFound.values.push({content: protocol[key], suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
+              keyFound.values.push({content: protocol[key] , suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
             }
             keyFound.selectedSuppliers.push(protocol.supplier.idSupplier);
           }
+        } else {
+          var keyFound = _.find(protocols, ['key', key]);
+          keyFound.values.push({content: protocol[key].idCountry, suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
+        }
         });
       });
 

@@ -13,13 +13,13 @@
               <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit" (click)="cleanChanges()">{{ 'Cancel' | translate }}&nbsp;
                 <i class="fa fa-times"></i>
               </button>
-              <button type="button" class="btn btn-main" *ngIf="edit" [disabled]="saving" (click)="updateManageAll()">{{ 'Save' | translate }}&nbsp;
+              <button type="button" class="btn btn-main" *ngIf="edit" [disabled]="saving || !isValidProtocols()" (click)="updateManageAll()">{{ 'Save' | translate }}&nbsp;
                 <i class="fa fa-save"></i>
               </button>
             </div>
-            
+
             <!--Manage all-->
-            <div class="row" *ngFor="let protocol of protocols">
+            <div *ngFor="let protocol of protocols">
               <div class="w-100 border-protocol p-3 mb-3">
                 <div class="d-flex w-100 border-bottom">
                   <div class="w-50 mr-3">
@@ -29,14 +29,13 @@
                     <span class="font-weight-bold">{{ "Supplier" | translate }}</span>
                   </div>
                 </div>
-            
+
                 <div class="d-flex align-items-center w-100 pt-2 pb-1" *ngFor="let value of protocol.values; let pos = index">
                   <div class="w-50 mr-3">
                     <div class="input-value">
                       <input
                         *ngIf="
                           protocol.label === 'Recipient' ||
-                          protocol.label === 'Shipping Method' ||
                           protocol.label === 'Account Number for Shipping Carrier'
                         "
                         type="text"
@@ -60,7 +59,15 @@
                         [ngModelOptions]="{standalone: true}"
                         [disabled]="!edit || !protocol.edit"
                       ></textarea>
-            
+                      <div *ngIf="protocol.label === 'Shipping Method'">
+                        <select
+                        class="form-control"
+                        name="shippingMethod"
+                        formControlName="shippingMethodAll"
+                        [(ngModel)]="value.content">
+                          <option *ngFor="let shippingMethod of listShippingMethod" value="{{shippingMethod}}">{{ shippingMethod | translate }}</option>
+                        </select>
+                      </div>
                       <!--Shipping Frecuency-->
                       <div *ngIf="protocol.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0 d-flex align-items-center">
                         <div class="custom-control-inline">
@@ -183,7 +190,7 @@
                                   class="custom-control-label"
                                   for="{{ protocol.label }}-{{ i }}-{{ pos }}"
                                 ></label>
-            
+
                                 <span class="tcs-text-overflow">
                                   {{ supplier.companyName | titlecase }}
                                 </span>
@@ -210,7 +217,7 @@
                   </div>
                 </div>
                 <div>
-                  <button type="button" class="btn btn-main" 
+                  <button type="button" class="btn btn-main"
                           [hidden]="suppliers.length === protocol.selectedSuppliers.length || protocol.values.length === suppliers.length || !edit || !protocol.edit"
                           (click)="addValue(protocol)">{{ 'Add' | translate }}
                     <i class="fa fa-plus-circle ml-2"></i>
@@ -219,21 +226,6 @@
               </div>
             </div>
             <!-- End manage all-->
-
-            <div class="text-right pb-3">
-              <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit" (click)="cancel()">{{ 'Cancel' | translate }}&nbsp;
-                <i class="fa fa-times"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-main"
-                *ngIf="edit"
-                [disabled]="saving"
-                (click)="update()"
-              >{{ 'Save' | translate }}&nbsp;
-                <i class="fa fa-save"></i>
-              </button>
-            </div>
           </div>
         </ng-template>
       </ngb-tab>
@@ -341,15 +333,15 @@
                 <div *ngIf="edit" class="mb-2 mr-sm-2 mb-sm-0">
                   <div class="custom-control-inline">
                     <div class="custom-control custom-radio">
-                      <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 1, pos)" [checked]="valueFrecuency === 'Monthly'">
+                      <input type="radio" id="customRadio1" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 1, null)" [checked]="valueFrecuency === 'Monthly'">
                       <label class="custom-control-label" for="customRadio1">{{ 'Monthly' | translate }}</label>
                     </div>
                     <div style="margin-left: 10px;" class="custom-control custom-radio">
-                      <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 2, pos)" [checked]="valueFrecuency === 'Biweekly'">
+                      <input type="radio" id="customRadio2" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 2, null)" [checked]="valueFrecuency === 'Biweekly'">
                       <label class="custom-control-label" for="customRadio2">{{ 'Biweekly' | translate }}</label>
                     </div>
                     <div style="margin-left: 10px;" class="custom-control custom-radio">
-                      <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 3, pos)" [checked]="valueFrecuency === 'Weekly'">
+                      <input type="radio" id="customRadio3" name="shippingFrecuency" class="custom-control-input" (change)="assignShippingFrecuency(protocol, 3, null)" [checked]="valueFrecuency === 'Weekly'">
                       <label class="custom-control-label" for="customRadio3">{{ 'Weekly' | translate }}</label>
                     </div>
                   </div>
