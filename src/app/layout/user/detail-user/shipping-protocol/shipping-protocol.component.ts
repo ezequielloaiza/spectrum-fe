@@ -80,7 +80,9 @@ export class ShippingProtocolComponent implements OnInit {
     supplierId: [null],
     country: [null],
     shippingFrecuencyB: [null],
-    shippingFrecuencyW: [null]
+    shippingFrecuencyW: [null],
+    countryAll: [null],
+    shippingMethodAll: [null]
     });
   }
 
@@ -217,7 +219,7 @@ export class ShippingProtocolComponent implements OnInit {
 
       _.each(this.protocols, function(protocol) {
         _.each(protocol.values, function(value, pos) {
-          if (protocol.key === "shippingFrecuency") {
+          if (protocol.key === 'shippingFrecuency') {
             if (value.content === 'Monthly' || value.content === null) {
               protocol.values[pos].content = 'Monthly';
               protocol.values[pos].showW = 'false';
@@ -228,7 +230,7 @@ export class ShippingProtocolComponent implements OnInit {
             } else {
               protocol.values[pos].showW = 'true';
               protocol.values[pos].showB = 'false';
-            } 
+            }
           }
         });
       });
@@ -312,7 +314,7 @@ export class ShippingProtocolComponent implements OnInit {
   }
 
   ////////////////////////////////////////// MANAGE ALL /////////////////////////////////////////////
-  
+
   ///////////// new functions
 
   getIdClient() {
@@ -350,17 +352,17 @@ export class ShippingProtocolComponent implements OnInit {
       _.each(self.protocols, function(protocol) {
         _.each(protocol.values, function(value) {
           if (_.includes(value.suppliers, supplier.idSupplier)) {
-            const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier])
-            protocolSave[protocol.key] = value.content;            
+            const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier]);
+            protocolSave[protocol.key] = value.content;
           }
-        });       
+        });
       });
       protocolsClient.push(protocolSave);
     });
 
     this.spinner.show();
     _.each(protocolsClient, function(protocolShipping) {
-      serviceShipping.updateManageAll$(protocolShipping, self.user.userResponse.idUser).subscribe(res => {
+      serviceShipping.updateManageAll$(protocolShipping, self.IDClient).subscribe(res => {
         recordsShipping++;
         self.showMessage(recordsShipping);
       });
@@ -431,18 +433,25 @@ export class ShippingProtocolComponent implements OnInit {
 
     this.protocolClientService.allByUser$(this.IDClient).subscribe(res => {
       var protocols = this.protocols;
+      let self=this;
+      debugger
       _.each(res.data, function(protocol) {
         Object.keys(protocol).forEach(key => {
+        if (key !== 'country') {
           var keyFound = _.find(protocols, ['key', key]);
           if (!!keyFound && !!protocol[key]) {
             var valueFound = _.find(keyFound.values, ['content', protocol[key]]);
             if (!!valueFound) {
               valueFound.suppliers.push(protocol.supplier.idSupplier);
             } else {
-              keyFound.values.push({content: protocol[key], suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
+              keyFound.values.push({content: protocol[key] , suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
             }
             keyFound.selectedSuppliers.push(protocol.supplier.idSupplier);
           }
+        } else {
+          var keyFound = _.find(protocols, ['key', key]);
+          keyFound.values.push({content: protocol[key].idCountry, suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
+        }
         });
       });
 

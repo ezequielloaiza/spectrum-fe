@@ -80,7 +80,8 @@ export class ProtocolClientComponent implements OnInit {
       supplierId: [null],
       country: [null],
       shippingFrecuencyB: [null],
-      shippingFrecuencyW: [null]
+      shippingFrecuencyW: [null],
+      shippingMethodAll: [null]
     });
   }
 
@@ -92,6 +93,7 @@ export class ProtocolClientComponent implements OnInit {
   }
 
   getProtocol(clientId: any, supplierId: any) {
+    debugger
     this.protocolClientService.findByClienSupplier$(clientId, supplierId).subscribe(res => {
       this.protocol = res;
       if (res.id !== null) {
@@ -228,7 +230,7 @@ export class ProtocolClientComponent implements OnInit {
             } else {
               protocol.values[pos].showW = 'true';
               protocol.values[pos].showB = 'false';
-            } 
+            }
           }
         });
       });
@@ -313,7 +315,7 @@ export class ProtocolClientComponent implements OnInit {
 
 
   ////////////////////////////////////////// MANAGE ALL /////////////////////////////////////////////
-  
+
   ///////////// new functions
 
   getIdClient() {
@@ -352,9 +354,9 @@ export class ProtocolClientComponent implements OnInit {
         _.each(protocol.values, function(value) {
           if (_.includes(value.suppliers, supplier.idSupplier)) {
             const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier])
-            protocolSave[protocol.key] = value.content;            
+            protocolSave[protocol.key] = value.content;
           }
-        });       
+        });
       });
       protocolsClient.push(JSON.parse(JSON.stringify(protocolSave)));
     });
