@@ -128,11 +128,11 @@ export class ProductViewFluoStripsComponent implements OnInit {
   }
 
   setCodeProduct() {
-    const productName = this.product.name;
+    const productName = this.product.codeSpectrum;
     let prCode;
+    console.log(this.productsCode);
     _.each(this.productsCode, function (pr) {
-      debugger
-      if (_.includes(pr.name, productName)) {
+      if (pr.codeSpectrum == productName) {
         prCode = pr;
       }
     });

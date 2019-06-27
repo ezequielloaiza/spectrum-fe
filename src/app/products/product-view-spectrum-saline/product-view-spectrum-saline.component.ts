@@ -36,7 +36,9 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 export class ProductViewSpectrumSalineComponent implements OnInit {
 
   products: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
   product: any;
+  productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -93,6 +95,18 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
     this.productService.findBySupplierInView$(7 , true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
+        this.productService.findBySupplierAndInViewAndCategory$(7, false, 10).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.productsCode = res1.data;
+            this.setCodeProduct();
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
         this.getProductView();
         this.spinner.hide();
       } else {
@@ -112,6 +126,19 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
     this.product.priceSale = '';
     this.setClient();
     this.setPrice();
+  }
+
+  setCodeProduct() {
+    const productName = this.product.codeSpectrum;
+    let codesP = [];
+    let prCode;
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, productName)) {
+        prCode = pr;
+        codesP.push(prCode);
+      }
+    });
+    this.productCode = codesP;
   }
 
   setClient() {
@@ -204,8 +231,20 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
   buildProductSelected() {
     let product = this.productCopy;
     let productSelected = product;
-
-    productSelected.id = product.idProduct;
+    let productCode;
+    let flag = '';
+    if (this.product.quantity >= 250 && this.product.quantity < 500) {
+      flag = '250';
+    } else if (this.product.quantity >= 500) {
+      flag = '500';
+    }
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, flag)) {
+        productCode = pr;
+      }
+    });
+    this.productCode = productCode;
+    productSelected.idProduct = productCode.idProduct;
     productSelected.price = product.priceSale;
     productSelected.quantity = product.quantity;
     productSelected.detail = '';
@@ -220,14 +259,13 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
     const productRequest: ProductRequested = new ProductRequested();
     const productoSelect: Product = new Product();
-    productoSelect.idProduct = product.id;
+    productoSelect.idProduct = product.idProduct;
     productRequest.product = productoSelect;
     productRequest.quantity = product.quantity;
     productRequest.price = product.price;
     productRequest.detail = '';
     productRequest.observations = product.observations;
     productsRequested.push(productRequest);
-
 
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
@@ -238,7 +276,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationSpectrumSalineComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.product = this.productCode;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
