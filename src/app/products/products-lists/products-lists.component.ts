@@ -96,11 +96,11 @@ export class ProductsListsComponent implements OnInit {
             });
             this.listSupplierFilter = supplierFiltered;
             this.orderList();
-            this.listSupplier = this.listSupplierFilter;
+            this.listSupplier = _.filter(this.listSupplierFilter, function(s) { return s.idSupplier < 8 && s.idSupplier > 0;  });
             this.spinner.hide();
           } else {
             this.orderList();
-            this.listSupplier = this.listSupplierFilter;
+            this.listSupplier = _.filter(this.listSupplierFilter, function(s) { return s.idSupplier < 8 && s.idSupplier > 0;  });
             this.spinner.hide();
           }
           this.setImageSupplier();

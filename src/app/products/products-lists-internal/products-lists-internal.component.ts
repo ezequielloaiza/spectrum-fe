@@ -546,9 +546,7 @@ export class ProductsListInternalComponent implements OnInit {
 
   redirectPacking(product) {
     this.packings = [];
-    if (product.father !== 'Saphir Rx') {
-      this.packings.push({ 'product': product, 'type': 'All'});
-    }
+    this.packings.push({ 'product': product, 'type': 'All'});
 
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
         product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa Rx' ||
@@ -568,10 +566,6 @@ export class ProductsListInternalComponent implements OnInit {
 
     if (product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
       this.packings.push({ 'product': product, 'type': '2pk'});
-    }
-
-    if (product.father === 'Saphir Rx') {
-      this.packings.push({ 'product': product, 'type': 'All'});
     }
 
     this.currentFather = product.father;
