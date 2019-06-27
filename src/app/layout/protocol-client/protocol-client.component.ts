@@ -37,7 +37,8 @@ export class ProtocolClientComponent implements OnInit {
   today: Date = new Date();
   download = false;
 
-  protocols: Array<any> = new Array;
+  protocols: any;
+  protocolsAux: any;
   protocolsCopy: Array<any> = new Array;
   protocolsSave: Array<Protocol> = new Array;
 
@@ -93,7 +94,6 @@ export class ProtocolClientComponent implements OnInit {
   }
 
   getProtocol(clientId: any, supplierId: any) {
-    debugger
     this.protocolClientService.findByClienSupplier$(clientId, supplierId).subscribe(res => {
       this.protocol = res;
       if (res.id !== null) {
@@ -326,15 +326,6 @@ export class ProtocolClientComponent implements OnInit {
     }
   }
 
-  showMessage(records) {
-    if (records === this.protocolsSave.length) {
-      this.spinner.hide();
-      this.edit = false;
-      this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
-        this.notification.success('', res);
-      });
-    }
-  }
 
   cleanChanges() {
     this.edit = false;
@@ -344,29 +335,37 @@ export class ProtocolClientComponent implements OnInit {
   updateManageAll() {
     const self = this;
     const protocolsClient = [];
-    let recordsShipping = 0;
-    let serviceShipping = this.protocolClientService;
-
+    this.saving = true;
     _.each(this.suppliers, function(supplier) {
+      // tslint:disable-next-line:max-line-length
       const protocolSave = {recipient: null, shippingAddress: null, shippingFrecuency: null, shippingMethod: null, shippingDetails: null, accountNumber: null,
-                            comment: null, supplierId: supplier.idSupplier, clientId: self.idClient, id: null};
-      _.each(self.protocols, function(protocol) {
+                            comment: null, supplierId: supplier.idSupplier, clientId:self.user.userResponse.idUser, id: null
+      };
+      protocolSave.supplierId = supplier.idSupplier;
+      protocolSave.clientId = self.user.userResponse.idUser;
+      _.each(self.protocols, function(protocol, key) {
+         const _key = key;
         _.each(protocol.values, function(value) {
           if (_.includes(value.suppliers, supplier.idSupplier)) {
-            const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier])
-            protocolSave[protocol.key] = value.content;
+            const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier]);
+            protocolSave[_key] = value.content;
           }
         });
       });
       protocolsClient.push(JSON.parse(JSON.stringify(protocolSave)));
     });
-
     this.spinner.show();
-    _.each(protocolsClient, function(protocolShipping) {
-      serviceShipping.updateManageAll$(protocolShipping, self.user.userResponse.idUser).subscribe(res => {
-        recordsShipping++;
-        self.showMessage(recordsShipping);
-      });
+    this.protocolClientService.updateManageAll$(protocolsClient, self.user.userResponse.idUser).subscribe(res => {
+      this.spinner.hide();
+      this.edit = false;
+      this.saving = false;
+      this.loadFields();
+      this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+       this.notification.success('', res);
+     });
+   }, error => {
+      this.saving = false;
+      this.edit = false;
     });
   }
 
@@ -413,53 +412,56 @@ export class ProtocolClientComponent implements OnInit {
 
   loadFields() {
 
-    this.protocols = [
-      //only admin
-      /*{key: 'accNumber', label: 'ACC Number', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number', id:8, edit: this.user.role.idRole === 1},
-      {key: 'country', label: 'Country', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country', id:9, edit: this.user.role.idRole === 1},
-      {key: 'businessName', label: 'Business Name', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name', id:10, edit: this.user.role.idRole === 1},*/
+    this.protocols = {
+       //permitted client
+       recipient: {label: 'Recipient', values:[], selectedSuppliers: [], placeHolder:'Enter recipient',id:1, edit:true},
+       shippingAddress: {label: 'Shipping Address', values:[], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2, edit:true},
+       shippingFrecuency:{label: 'Shipping Frecuency', values:[], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3, edit:true},
+       shippingMethod: { label: 'Shipping Method', values:[], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4, edit:true},
+       shippingDetails: {label: 'Shipping Details', values:[], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5, edit:true},
+       accountNumber:{label: 'Account Number for Shipping Carrier', values:[], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6, edit:true},
+       comment: { label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:7, edit:true}
 
-      //permitted client
-      {key: 'recipient', label: 'Recipient', values:[], selectedSuppliers: [], placeHolder:'Enter recipient',id:1, edit:true},
-      {key: 'shippingAddress', label: 'Shipping Address', values:[], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2, edit:true},
-      {key: 'shippingFrecuency', label: 'Shipping Frecuency', values:[], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3, edit:true},
-      {key: 'shippingMethod', label: 'Shipping Method', values:[], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4, edit:true},
-      {key: 'shippingDetails', label: 'Shipping Details', values:[], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5, edit:true},
-      {key: 'accountNumber', label: 'Account Number for Shipping Carrier', values:[], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6, edit:true},
-      {key: 'comment', label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:7, edit:true},
-
-      //only admin
-      //{key: 'emailComments', label: 'Email Comments', values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments', id:11, edit: this.user.role.idRole === 1}
-    ];
+    };
 
     this.protocolClientService.allByUser$(this.idClient).subscribe(res => {
       var protocols = this.protocols;
-      _.each(res.data, function(protocol) {
-        Object.keys(protocol).forEach(key => {
-          var keyFound = _.find(protocols, ['key', key]);
-          if (!!keyFound && !!protocol[key]) {
-            var valueFound = _.find(keyFound.values, ['content', protocol[key]]);
-            if (!!valueFound) {
-              valueFound.suppliers.push(protocol.supplier.idSupplier);
-            } else {
-              keyFound.values.push({content: protocol[key], suppliers: [protocol.supplier.idSupplier], selectedSuppliers: [protocol.supplier.idSupplier]});
-            }
-            keyFound.selectedSuppliers.push(protocol.supplier.idSupplier);
-          }
-        });
-      });
+      let self=this;
+    _.each(res.data, function(protocol, key) {
+      _.each(protocol, function(obj, _key) {
+        const clave = _key;
+        if (!!self.protocols[clave]) {
+          if (protocol[_key] !== '' && protocol[_key] !== null) {
+              if (self.protocols[clave].values.length === 0) {
+                  let object;
+                   // tslint:disable-next-line:max-line-length
+                   object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
+                  self.protocols[clave].values.push(object);
+                  self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
+                } else {
+                  const index = _.findIndex(self.protocols[clave].values, function(value: any) {
+                      return value.content === protocol[_key];
+                  });
+                  if (index !== -1) {
+                    self.protocols[clave].values[index].suppliers.push(protocol.supplier.idSupplier);
+                    self.protocols[clave].values[index].ids.push({idSupplier: protocol.supplier.idSupplier});
+                    self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
+                  } else {
+                    let object;
+                    // tslint:disable-next-line:max-line-length
+                    object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
+                    self.protocols[clave].values.push(object);
+                    self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
 
-      _.each(this.protocols, function(protocol) {
-        if (protocol.values.length === 0) {
-          if (protocol.key === 'shippingFrecuency') {
-            protocol.values.push({content: '', suppliers: [],showB:"false",showW:"false"});
-          } else {
-            protocol.values.push({content: '', suppliers: []});
+                  }
+            }
           }
-          protocol.selectedSuppliers = [];
         }
       });
+      self.protocolsAux = JSON.parse(JSON.stringify(self.protocols));
     });
+  }, error => {
+  });
   }
 
   selectSupplier(idSupplier, protocol, value) {

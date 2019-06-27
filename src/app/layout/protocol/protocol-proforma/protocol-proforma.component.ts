@@ -54,7 +54,7 @@ export class ProtocolProformaComponent implements OnInit {
     this.initializeForm();
     this.getSupplier();
     this.getIdClient();
-    this.getAllProtocolByUser(); 
+    this.getAllProtocolByUser();
   }
 
   initializeForm() {
@@ -120,25 +120,25 @@ export class ProtocolProformaComponent implements OnInit {
       documentation: {label: 'Documentation that must accompany the delivery and proforma invoice', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:8},
       fixedPrices: {label: 'Fixed Prices for Proforma Invoice', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:9},
       emailComment: {label: 'Email Comments', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:10}
-    };  
+    };
   }
 
   getAllProtocolByUser() {
     this.loadFields();
-    const self = this;   
+    const self = this;
     this.protocolProformaService.allProtocolByUserId$(this.idClient).subscribe(res => {
       _.each(res.data, function(protocol, key) {
         _.each(protocol, function(obj, _key) {
           const clave = _key === 'spectrumProforma' ? 'aspectrumProforma' : (_key === 'additionalDocuments' ? 'badditionalDocuments' : _key);
           if (!!self.protocols[clave]) {
-            if (protocol[_key] !== '' && protocol[_key] !== null) {  
+            if (protocol[_key] !== '' && protocol[_key] !== null) {
               if (self.protocols[clave].values.length === 0) {
                 const object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
                 self.protocols[clave].values.push(object);
                 self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
               } else {
                 const index = _.findIndex(self.protocols[clave].values, function(value: any) {
-                  return value.content === protocol[_key]; 
+                  return value.content === protocol[_key];
                 });
                 if (index !== -1) {
                   self.protocols[clave].values[index].suppliers.push(protocol.supplier.idSupplier);
@@ -148,10 +148,11 @@ export class ProtocolProformaComponent implements OnInit {
                   const object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
                   self.protocols[clave].values.push(object);
                   self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
-                }            
-              }           
-            }          
-          }        
+                }
+              }
+
+            }
+          }
         });
         self.protocolsAux = JSON.parse(JSON.stringify(self.protocols));
       });
@@ -204,7 +205,7 @@ export class ProtocolProformaComponent implements OnInit {
     _.each(this.suppliers, function(supplier) {
       const protocolSave = {spectrumProforma: null, additionalDocuments: null, comments: null, tariffCodes: null, protocolSpectrum: null,
         outputs: null, maximumAmount: null, documentation: null, fixedPrices: null, emailComment: null, supplierId: null, clientId: null, id: null
-      }; 
+      };
       protocolSave.supplierId = supplier.idSupplier;
       protocolSave.clientId = self.idClient;
       _.each(self.protocols, function(protocol, key) {
@@ -212,9 +213,9 @@ export class ProtocolProformaComponent implements OnInit {
         _.each(protocol.values, function(value) {
           if (_.includes(value.suppliers, supplier.idSupplier)) {
             const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier])
-            protocolSave[_key] = value.content;            
+            protocolSave[_key] = value.content;
           }
-        });       
+        });
       });
       protocolsProforma.push(JSON.parse(JSON.stringify(protocolSave)));
     });
@@ -271,7 +272,7 @@ export class ProtocolProformaComponent implements OnInit {
       } else {
         this.edit = false;
         this.getProtocol(this.idClient, $event.nextId);
-      }   
+      }
     }
   }
 
