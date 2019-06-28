@@ -37,6 +37,15 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 export class ProductViewEuropaComponent implements OnInit {
 
   products: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
+  productsCodeSelectL: Array<any> = new Array;
+  productsCodeSelectR: Array<any> = new Array;
+  productName = '';
+  productDiameterL: any;
+  productDiameterR: any;
+  productNotch: any;
+  productHydraPEG: any;
+  productDMV: any;
   product: any;
   productCopy: any;
   id: any;
@@ -201,7 +210,19 @@ export class ProductViewEuropaComponent implements OnInit {
     this.productService.findBySupplierInView$(2 , true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
+        this.productService.findBySupplierAndInViewAndCategory$(2, false, 10).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.productsCode = res1.data;
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
         this.getProductView();
+        this.setNameProduct();
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -245,6 +266,39 @@ export class ProductViewEuropaComponent implements OnInit {
     this.setPrice();
   }
 
+  setNameProduct() {
+    if (_.includes(this.product.name, 'Bi-Toric')) {
+      this.productName = 'Europa Bitoric';
+    } else if (_.includes(this.product.name, 'SPH')) {
+      this.productName = 'Europa Sphere';
+    } else if (_.includes(this.product.name, 'Multifocal')
+              || _.includes(this.product.name, 'Front Toric')
+              || _.includes(this.product.name, 'TPC')) {
+      this.productName = 'Europa FT, TPC,  MF';
+    }
+  }
+
+  setCodeProduct(name) {
+    let prCode;
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, name)) {
+        prCode = pr;
+      }
+    });
+    return prCode;
+  }
+
+  setCodeProductByDiameter(name, diameter) {
+    let prCode;
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, name) && _.includes(pr.name, diameter)) {
+        prCode = pr;
+      }
+    });
+
+    return prCode;
+  }
+
   changeSelect(eye, parameter, value, value2) {
     parameter.selected = value;
     if (parameter.name === 'Hidrapeg' || parameter.name === 'Inserts (DMV)') {
@@ -262,6 +316,7 @@ export class ProductViewEuropaComponent implements OnInit {
       }
       if (parameter.name === 'Hidrapeg') {
         if (value === 'Yes') {
+          this.productHydraPEG = this.setCodeProduct('HydraPEG');
           if (eye === 'right') {
             if (this.membership !== 0) {
               this.additionalHidrapeg = true;
@@ -305,6 +360,7 @@ export class ProductViewEuropaComponent implements OnInit {
       }
       if (parameter.name === 'Inserts (DMV)') {
         if (value === 'Yes') {
+          this.productDMV = this.setCodeProduct('DMV Insertion and Removal Set');
             if (this.membership !== 0) {
               this.additionalInserts = true;
               this.additionalInsertsL = true;
@@ -383,6 +439,9 @@ export class ProductViewEuropaComponent implements OnInit {
         }
       }*/
       if (parameter.name === 'Notch (mm)') {
+        if ((parseFloat(value) !== 0 && value !== null) && (value2 !== null)) {
+          this.productNotch = this.setCodeProduct('Notch');
+        }
         if (eye === 'right') {
           if ((parseFloat(value) !== 0 && value !== null) && (value2 !== null)) {
             if (this.membership !== 0) {
@@ -669,6 +728,7 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   definePriceNotch(membership) {
+    this.notch = 0;
     switch (membership) {
       case 1:
         this.notch = this.product.pricesAditionalNotch.values[0].price;
@@ -699,6 +759,8 @@ export class ProductViewEuropaComponent implements OnInit {
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.productCopy;
+    let productDiameterL = this.productDiameterL;
+    let productDiameterR = this.productDiameterR;
     let productsSelected = this.productsSelected;
     let signPowerLeft = this.signPowerLeft;
     let signPowerRight = this.signPowerRight;
@@ -709,10 +771,10 @@ export class ProductViewEuropaComponent implements OnInit {
 
     _.each(productsSelected, function(productSelected, index) {
 
-      productSelected.id = product.idProduct;
       productSelected.patient = product.patient;
 
-      if (productSelected.eye === "Right") {
+      if (productSelected.eye === 'Right') {
+        productSelected.id = productDiameterR.idProduct;
         if (additionalInserts && product.eyeLeft) {
           productSelected.price = product.priceSaleRight + (inserts / 2);
         } else if (additionalInserts && !product.eyeLeft) {
@@ -755,7 +817,8 @@ export class ProductViewEuropaComponent implements OnInit {
 
       }
 
-      if (productSelected.eye === "Left") {
+      if (productSelected.eye === 'Left') {
+        productSelected.id = productDiameterL.idProduct;
         if (additionalInsertsL && product.eyeRight) {
           productSelected.price = product.priceSaleLeft + (inserts / 2);
         } else if (additionalInsertsL && !product.eyeRight) {
@@ -801,7 +864,37 @@ export class ProductViewEuropaComponent implements OnInit {
       productSelected.detail = { name: product.type, eye: productSelected.eye, header: productSelected.header, parameters: productSelected.parameters, pasos:productSelected.pasos };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header'])
     });
+    debugger
+    // add products code
+    const productDMV = this.productDMV;
+    const productHydraPEG = this.productHydraPEG;
+    const productNotch = this.productNotch;
+    let productsSelectedAuxList = productsSelected;
+    debugger
+    _.each(productsSelectedAuxList, function(productAux) {
+      debugger
+      if (productAux.detail.header[1].selected === true) {
+        let productH = productAux;
+        productH.id = productHydraPEG.idProduct;
+        debugger
+        productsSelected.push(productH);
+        debugger
+      }
 
+      if (productAux.detail.header[2].selected === true) {
+        let productD = productAux;
+        productD.id = productDMV.idProduct;
+        productsSelected.push(productD);
+      }
+
+      if (productAux.detail.parameters[3].selected !== '0x0') {
+        let productN = productAux;
+        productN.id = productNotch.idProduct;
+        productsSelected.push(productN);
+      }
+    });
+
+    debugger
     return productsSelected;
   }
 
@@ -812,6 +905,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
+    debugger
     _.each(productsSelected, function (product) {
       const productRequest: ProductRequested = new ProductRequested();
       const productoSelect: Product = new Product();
@@ -1146,20 +1240,28 @@ export class ProductViewEuropaComponent implements OnInit {
         value === '19.0' ||
         value === '19.5' ||
         value === '20.0' ) {
+      // assing product code
+      const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 18.0-22.0)');
       if (eye === 'right') {
         this.checkAdditional('right');
         this.product.priceSaleRight = this.priceB + this.notch + this.thickness + this.hidrapeg;
+        this.productDiameterR = prCode;
       } else {
         this.checkAdditional('left');
         this.product.priceSaleLeft = this.priceB + this.notch + this.thickness + this.hidrapeg;
+        this.productDiameterL = prCode;
       }
     } else {
+      // assing product code
+      const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 16.0-16.5)');
       if (eye === 'right') {
        this.checkAdditional('right');
        this.product.priceSaleRight = this.priceA + this.notch + this.thickness + this.hidrapeg;
+       this.productDiameterR = prCode;
       } else {
         this.checkAdditional('left');
         this.product.priceSaleLeft = this.priceA + this.notch + this.thickness + this.hidrapeg;
+        this.productDiameterL = prCode;
       }
     }
   }
