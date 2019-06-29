@@ -88,7 +88,7 @@ export class ProtocolClientComponent implements OnInit {
 
   getSupplier() {
     this.supplierService.findAll$().subscribe(res => {
-      this.suppliers = res.data;
+      this.suppliers =  _.orderBy(res.data, ['companyName']);
       this.getProtocol(this.user.userResponse.idUser, this.suppliers[0].idSupplier);
     });
   }
@@ -418,7 +418,7 @@ export class ProtocolClientComponent implements OnInit {
        shippingAddress: {label: 'Shipping Address', values:[], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2, edit:true},
        shippingFrecuency:{label: 'Shipping Frecuency', values:[], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3, edit:true},
        shippingMethod: { label: 'Shipping Method', values:[], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4, edit:true},
-       shippingDetails: {label: 'Shipping Details', values:[], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5, edit:true},
+       shippingDetail: {label: 'Shipping Details', values:[], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5, edit:true},
        accountNumber:{label: 'Account Number for Shipping Carrier', values:[], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6, edit:true},
        comment: { label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:7, edit:true}
 

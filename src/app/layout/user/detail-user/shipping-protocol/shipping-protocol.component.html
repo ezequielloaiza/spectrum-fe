@@ -133,7 +133,7 @@
                       <option *ngFor="let weekly of listWeekly" value="{{weekly}}">{{ weekly | translate }}</option>
                   </select>
                 </div>
-                <div  class="truncate" *ngIf="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.shippingFrecuency }" translate>{{ protocol.shippingFrecuency ? protocol.shippingFrecuency :
                     'Unassigned' | translate
                   }}</span>
@@ -256,17 +256,17 @@
       </ngb-tab>
        <!--Manage All-->
        <ngb-tab id="1000">
-        <ng-template ngbTabTitle><b>{{ 'Manage All' }}</b></ng-template>
+        <ng-template ngbTabTitle><b>{{ 'Manage All' }}</b>
+        </ng-template>
         <ng-template ngbTabContent>
-          <div class="border-tab">
+          <div class="border-tab overflow">
             <div class="text-right pb-3">
               <button type="button" class="btn btn-main mr-3" *ngIf="!edit" (click)="enableEdit()">{{ 'Edit' | translate }}
                 <i class="fa fa-edit"></i>
               </button>
             </div>
-
             <!--Manage all-->
-            <div *ngFor="let protocol of protocols | keyvalue">
+            <div class="row" *ngFor="let protocol of protocols | keyvalue">
               <div class="w-100 border-protocol p-3 mb-3">
                 <div class="d-flex w-100 border-bottom">
                   <div class="w-50 mr-3">
@@ -277,16 +277,15 @@
                   </div>
                 </div>
 
-                <div class="d-flex align-items-center w-100 pt-2 pb-1" *ngFor="let value of protocol.value.values; let pos = index">
+                <div class="d-flex w-100 pt-2 pb-1" [ngClass]="{ 'border-item': !edit }" *ngFor="let value of protocol.value.values; let pos = index">
                   <div class="w-50 mr-3">
                     <div class="input-value">
                       <input
                         *ngIf="
-                          protocol.value.label === 'ACC Number' ||
+                          (protocol.value.label === 'ACC Number' ||
                           protocol.value.label === 'Business Name' ||
                           protocol.value.label === 'Recipient' ||
-                          protocol.value.label === 'Account Number for Shipping Carrier'
-                        "
+                          protocol.value.label === 'Account Number for Shipping Carrier') && edit"
                         maxlength="120"
                         type="text"
                         class="form-control"
@@ -297,11 +296,10 @@
                       />
                       <textarea
                         *ngIf="
-                          protocol.value.label === 'Shipping Address' ||
+                          (protocol.value.label === 'Shipping Address' ||
                           protocol.value.label === 'Comments' ||
                           protocol.value.label === 'Shipping Details' ||
-                          protocol.value.label === 'Email Comments'
-                        "
+                          protocol.value.label === 'Email Comments') && edit"
                         maxlength="254"
                         style="overflow-x: hidden;"
                         type="text"
@@ -312,7 +310,7 @@
                         [disabled]="!edit"
                       ></textarea>
                         <div *ngIf="protocol.value.label === 'Country'">
-                          <div >
+                          <div class="form-group pr-3 half-flex">
                             <ng-select
                               [items]="countries"
                               [searchable]="true"
@@ -323,11 +321,11 @@
                               *ngIf="edit"
                             >
                             </ng-select>
-                          </div>
-                          <div *ngIf="!edit">
-                            <span [ngClass]="{ unassigned: !value.countryName }">{{ value.countryName ? value.countryName :
-                              'Unassigned' | translate
-                            }}</span>
+                            <div *ngIf="!edit">
+                              <span [ngClass]="{ unassigned: !value.countryName }">{{ value.countryName ? value.countryName :
+                                'Unassigned' | translate
+                              }}</span>
+                            </div>
                           </div>
                         </div>
                         <div *ngIf="protocol.value.label === 'Shipping Method'">
@@ -340,14 +338,9 @@
                               <option *ngFor="let shippingMethod of listShippingMethod" value="{{shippingMethod}}">{{ shippingMethod | translate }}</option>
                             </select>
                           </div>
-                          <div *ngIf="!edit">
-                              <span [ngClass]="{ unassigned: !value.content }">{{ value.content ? value.content :
-                                'Unassigned' | translate
-                              }}</span>
-                          </div>
                         </div>
                       <!--Shipping Frecuency-->
-                      <div *ngIf="protocol.value.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0 d-flex align-items-center">
+                      <div *ngIf="protocol.value.label === 'Shipping Frecuency' && edit" class="mb-2 mr-sm-2 mb-sm-0 d-flex align-items-center">
                         <div class="custom-control-inline">
                           <div class="custom-control custom-radio">
                             <input
@@ -434,15 +427,20 @@
                           }}</option>
                         </select>
                       </div>
+                      <div class="truncate" *ngIf="(protocol.value.label !== 'Country') && !edit">
+                      <span [ngClass]="{ unassigned: !value.content }">{{ value.content ? value.content :
+                        'Unassigned' | translate
+                      }}</span>
+                    </div>
                     </div>
                   </div>
                   <div class="w-46">
-                    <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
+                    <div *ngIf="edit" class="d-inline-block w-100" ngbDropdown autoClose="outside">
                       <button
                         class="btn border-type w-100 text-left"
                         ngbDropdownToggle
                         required
-                        [disabled]="!validContent(protocol.value,pos) || !edit">
+                        [disabled]="!validContent(protocol.value,pos)">
                         <div class="text-overflow">{{ getNamesTypeList(value) }}</div>
                         <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol.value,pos)">
                           {{ "Select At Least a Supplier" | translate }}
@@ -478,6 +476,9 @@
                         </div>
                       </ul>
                     </div>
+                    <div *ngIf="!edit">
+                      <span>{{ getNamesTypeList(value) }}</span>
+                   </div>
                   </div>
                   <div class="trash"  *ngIf="edit">
                     <span

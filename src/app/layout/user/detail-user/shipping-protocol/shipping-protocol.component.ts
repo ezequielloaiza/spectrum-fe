@@ -384,7 +384,7 @@ export class ShippingProtocolComponent implements OnInit {
   loadSuppliers() {
     this.supplierService.findAll$().subscribe(res => {
     if (res.code === CodeHttp.ok) {
-      this.suppliers = res.data;
+      this.suppliers =  _.orderBy(res.data, ['companyName']);
       this.getProtocols();
     } else {
       console.log(res.errors[0].detail);
@@ -400,7 +400,7 @@ export class ShippingProtocolComponent implements OnInit {
     var isValid = true;
 
     _.each(this.protocols, function (protocol) {
-      _.each(protocol.values, function(value){
+      _.each(protocol.values, function(value) {
         var emptyContent = value.content === '' || value.content === null || value.content === undefined || false;
         if ((!emptyContent && value.suppliers.length === 0) || (emptyContent && value.suppliers.length > 0)) {
           isValid = false;
@@ -414,21 +414,18 @@ export class ShippingProtocolComponent implements OnInit {
 
     this.protocols = {
       //only admin
-      accNumber: {label: 'ACC Number', values:[], selectedSuppliers: [], placeHolder:'Enter ACC Number', id:8, edit: this.user.role.idRole === 1},
-      country: {label: 'Country', values:[], selectedSuppliers: [], placeHolder:'Enter Country', id:9, edit: this.user.role.idRole === 1},
-      businessName: { label: 'Business Name', values:[], selectedSuppliers: [], placeHolder:'Enter Business Name', id:10, edit: this.user.role.idRole === 1},
-
+      accNumber: {label: 'ACC Number', values:[], selectedSuppliers: [], placeHolder:'Enter ACC Number', id:1, edit:true},
+      country: {label: 'Country', values:[], selectedSuppliers: [], placeHolder:'Enter Country', id:2, edit:true},
+      businessName: { label: 'Business Name', values:[], selectedSuppliers: [], placeHolder:'Enter Business Name', id:3, edit:true},
+      emailComment: { label: 'Email Comments', values: [], selectedSuppliers: [], placeHolder: 'Enter Email Comments', id: 4, edit: true},
       //permitted client
-      recipient: {label: 'Recipient', values:[], selectedSuppliers: [], placeHolder:'Enter recipient',id:1, edit:true},
-      shippingAddress: {label: 'Shipping Address', values:[], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2, edit:true},
-      shippingFrecuency:{label: 'Shipping Frecuency', values:[], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3, edit:true},
-      shippingMethod: { label: 'Shipping Method', values:[], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4, edit:true},
-      shippingDetails: {label: 'Shipping Details', values:[], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5, edit:true},
-      accountNumber:{label: 'Account Number for Shipping Carrier', values:[], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6, edit:true},
-      comment: { label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:7, edit:true},
-
-      //only admin
-      emailComments:{ label: 'Email Comments', values:[], selectedSuppliers: [], placeHolder:'Enter Email Comments', id:11, edit: this.user.role.idRole === 1}
+      recipient: {label: 'Recipient', values:[], selectedSuppliers: [], placeHolder:'Enter recipient',id:5, edit:true},
+      shippingAddress: {label: 'Shipping Address', values:[], selectedSuppliers: [], placeHolder:'Enter shipping address',id:6, edit:true},
+      shippingFrecuency:{label: 'Shipping Frecuency', values:[], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:7, edit:true},
+      shippingMethod: { label: 'Shipping Method', values:[], selectedSuppliers: [], placeHolder:'Enter shipping method',id:8, edit:true},
+      shippingDetail: {label: 'Shipping Details', values:[], selectedSuppliers: [], placeHolder:'Enter shipping details',id:9, edit:true},
+      accountNumber:{label: 'Account Number for Shipping Carrier', values:[], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:10, edit:true},
+      comment: { label: 'Comments', values: [], selectedSuppliers: [], placeHolder:'Enter comments', id: 11, edit: true}
     };
 
     this.protocolClientService.allByUser$(this.IDClient).subscribe(res => {
