@@ -97,7 +97,6 @@ export class ProductViewFluoStripsComponent implements OnInit {
         this.productService.findBySupplierAndInViewAndCategory$(7, false, 10).subscribe(res1 => {
           if (res1.code === CodeHttp.ok) {
             this.productsCode = res1.data;
-            this.setCodeProduct();
           } else {
             console.log(res1.errors[0].detail);
             this.spinner.hide();
@@ -127,12 +126,17 @@ export class ProductViewFluoStripsComponent implements OnInit {
     this.setPrice();
   }
 
-  setCodeProduct() {
+  setCodeProduct(clienteSelect) {
     const productName = this.product.codeSpectrum;
     let prCode;
-    console.log(this.productsCode);
+    let condition;
+    if (clienteSelect.name === 'MEDICAL CHOICE' && this.product.codeSpectrum === '40') {
+      condition = '40A (M.C.)';
+    } else {
+      condition = productName;
+    }
     _.each(this.productsCode, function (pr) {
-      if (pr.codeSpectrum == productName) {
+      if (pr.codeSpectrum == condition) {
         prCode = pr;
       }
     });
@@ -160,6 +164,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
       this.client = clienteSelect.idUser;
       this.findShippingAddress(this.client);
       this.definePrice(clienteSelect.membership.idMembership);
+      this.setCodeProduct(clienteSelect);
     } else {
       this.client = '';
       this.product.shippingAddress = '';
