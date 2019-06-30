@@ -472,7 +472,7 @@ export class ProductViewEuclidComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let warrantyRight = this.warrantyRight;
     let warrantyLeft = this.warrantyLeft;
-    
+
     _.each(productsSelected, function(productSelected, index) {
 
       productSelected.patient = product.patient;
