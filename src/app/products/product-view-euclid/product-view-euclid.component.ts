@@ -37,7 +37,8 @@ export class ProductViewEuclidComponent implements OnInit {
   products: Array<any> = new Array;
   productsCode: Array<any> = new Array;
   product: any;
-  productCode: any;
+  productCodeL: any;
+  productCodeR: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -222,7 +223,7 @@ export class ProductViewEuclidComponent implements OnInit {
     this.setPrice();
   }
 
-  setCodeProduct(cod) {
+  setCodeProduct(cod, lat) {
     const productName = this.product.name;
     let prCode;
     _.each(this.productsCode, function (pr) {
@@ -230,7 +231,11 @@ export class ProductViewEuclidComponent implements OnInit {
         prCode = pr;
       }
     });
-    this.productCode = prCode;
+    if (lat === 'right') {
+      this.productCodeR = prCode;
+    } else {
+      this.productCodeL = prCode;
+    }
   }
 
 
@@ -240,20 +245,20 @@ export class ProductViewEuclidComponent implements OnInit {
       if (eye === 'right') {
         if (parameter.selected === 'Yes') {
           this.warrantyRight = true;
-          this.setCodeProduct('(W)');
+          this.setCodeProduct('(W)' , 'right');
         } else {
           this.warrantyRight = false;
-          this.setCodeProduct('(NW)');
+          this.setCodeProduct('(NW)', 'right');
         }
       }
 
       if (eye === 'left') {
         if (parameter.selected === 'Yes') {
           this.warrantyLeft = true;
-          this.setCodeProduct('(W)');
+          this.setCodeProduct('(W)', 'left');
         } else {
           this.warrantyLeft = false;
-          this.setCodeProduct('(NW)');
+          this.setCodeProduct('(NW)', 'left');
         }
       }
       if (this.client) {
@@ -462,16 +467,19 @@ export class ProductViewEuclidComponent implements OnInit {
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.productCopy;
-    let productCode = this.productCode;
+    let productCodeL = this.productCodeL;
+    let productCodeR = this.productCodeR;
     let productsSelected = this.productsSelected;
     let warrantyRight = this.warrantyRight;
     let warrantyLeft = this.warrantyLeft;
+    
     _.each(productsSelected, function(productSelected, index) {
 
-      productSelected.id = productCode.idProduct;
       productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
       if (productSelected.eye === "Right") {
+        productSelected.id = productCodeR.idProduct;
+        productSelected.codeSpectrum = productCodeR.codeSpectrum;
         productSelected.quantity = product.quantityRight;
 
         if (warrantyRight) {
@@ -489,6 +497,8 @@ export class ProductViewEuclidComponent implements OnInit {
       }
 
       if (productSelected.eye === "Left") {
+        productSelected.id = productCodeL.idProduct;
+        productSelected.codeSpectrum = productCodeL.codeSpectrum;
         productSelected.quantity = product.quantityLeft;
 
         if (warrantyLeft) {
@@ -506,7 +516,7 @@ export class ProductViewEuclidComponent implements OnInit {
       }
 
       productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
-      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye'])
+      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye']);
     });
     return productsSelected;
   }
@@ -522,6 +532,7 @@ export class ProductViewEuclidComponent implements OnInit {
       const productRequest: ProductRequested = new ProductRequested();
       const productoSelect: Product = new Product();
       productoSelect.idProduct = product.id;
+      productoSelect.codeSpectrum = product.codeSpectrum;
       productRequest.product = productoSelect;
       productRequest.quantity = product.quantity;
       productRequest.price = product.price;
@@ -547,7 +558,7 @@ export class ProductViewEuclidComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationEuclidComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.productCode;
+    modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     // modalRef.componentInstance.listFileBasket = this.listFileBasket;
