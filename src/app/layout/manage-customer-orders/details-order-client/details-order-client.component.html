@@ -153,7 +153,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier === 4 || list.productRequested.product.supplier.idSupplier == 7">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier === 4 || list.productRequested.product.supplier.idSupplier == 7 || list.productRequested.product.supplier.idSupplier == 6">
                           <dl class="align-item">
                             <dt>{{ 'Spectrum code' | translate }}</dt>
                             <dt>
@@ -196,7 +196,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier !== 5">
                           <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
@@ -206,7 +206,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier.idSupplier !== 7">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier.idSupplier !== 7 && list.productRequested.product.supplier.idSupplier !== 6">
                           <dl class="align-item">
                             <dt>{{ 'Spectrum code' | translate }}</dt>
                             <dt>
@@ -214,6 +214,14 @@
                             </dt>
                           </dl>
                         </div>
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier === 5">
+                            <dl class="align-item">
+                              <dt>{{'Subtotal'| translate}}</dt>
+                              <dt>
+                                <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
+                              </dt>
+                            </dl>
+                          </div>
 
                       </div>
                     </div>
