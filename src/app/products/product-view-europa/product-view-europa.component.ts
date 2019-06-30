@@ -792,6 +792,13 @@ export class ProductViewEuropaComponent implements OnInit {
             valueInsert = parameter.selected;
           }
         });
+
+        // add header spectrum code
+        const headerCodeSpectrum = JSON.parse(JSON.stringify(product.headerRight[0]));
+        headerCodeSpectrum.name = 'Spectrum code';
+        headerCodeSpectrum.selected = productDiameterR.codeSpectrum;
+        product.headerRight.push(headerCodeSpectrum);
+
         productSelected.header = product.headerRight;
 
         /*params*/
@@ -836,6 +843,13 @@ export class ProductViewEuropaComponent implements OnInit {
             product.headerLeft[index].selected = valueInsert;
           }
         });
+
+        // add header spectrum code
+        const headerCodeSpectrumL = JSON.parse(JSON.stringify(product.headerLeft[0]));
+        headerCodeSpectrumL.name = 'Spectrum code';
+        headerCodeSpectrumL.selected = productDiameterL.codeSpectrum;
+        product.headerRight.push(headerCodeSpectrumL);
+
         productSelected.header = product.headerLeft;
 
         /*params*/
@@ -864,37 +878,54 @@ export class ProductViewEuropaComponent implements OnInit {
       productSelected.detail = { name: product.type, eye: productSelected.eye, header: productSelected.header, parameters: productSelected.parameters, pasos:productSelected.pasos };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header'])
     });
-    debugger
+
     // add products code
     const productDMV = this.productDMV;
     const productHydraPEG = this.productHydraPEG;
     const productNotch = this.productNotch;
-    let productsSelectedAuxList = productsSelected;
-    debugger
-    _.each(productsSelectedAuxList, function(productAux) {
-      debugger
+    const auxList = JSON.parse(JSON.stringify(productsSelected));
+
+    _.each(auxList, function(productAux) {
       if (productAux.detail.header[1].selected === true) {
-        let productH = productAux;
+        const productH =  JSON.parse(JSON.stringify(productAux));
         productH.id = productHydraPEG.idProduct;
-        debugger
+        productH.price = 0;
+        _.each(productAux.detail.header, function(header, index) {
+          if (header.name === 'Spectrum code') {
+            productH.detail.header[index].selected = productHydraPEG.codeSpectrum;
+          }
+        });
         productsSelected.push(productH);
-        debugger
       }
 
       if (productAux.detail.header[2].selected === true) {
-        let productD = productAux;
+        const productD =  JSON.parse(JSON.stringify(productAux));
         productD.id = productDMV.idProduct;
+        productD.price = 0;
+        _.each(productAux.detail.header, function(header, index) {
+          if (header.name === 'Spectrum code') {
+            productD.detail.header[index].selected = productDMV.codeSpectrum;
+          }
+        });
         productsSelected.push(productD);
       }
 
-      if (productAux.detail.parameters[3].selected !== '0x0') {
-        let productN = productAux;
-        productN.id = productNotch.idProduct;
-        productsSelected.push(productN);
-      }
+      /*params*/
+      _.each(productAux.detail.parameters, function(parameter) {
+        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
+          const productN =  JSON.parse(JSON.stringify(productAux));
+          productN.id = productNotch.idProduct;
+          productN.price = 0;
+          _.each(productAux.detail.header, function(header, index) {
+            if (header.name === 'Spectrum code') {
+              productN.detail.header[index].selected = productNotch.codeSpectrum;
+            }
+          });
+          productsSelected.push(productN);
+        }
+      });
     });
 
-    debugger
     return productsSelected;
   }
 
@@ -905,7 +936,6 @@ export class ProductViewEuropaComponent implements OnInit {
     this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
-    debugger
     _.each(productsSelected, function (product) {
       const productRequest: ProductRequested = new ProductRequested();
       const productoSelect: Product = new Product();
