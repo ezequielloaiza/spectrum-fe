@@ -184,7 +184,7 @@ export class ProtocolClientComponent implements OnInit {
         break;
       case 2:
         if (pos !== null) {
-            protocol.values[pos].content = '';
+            //protocol.values[pos].content = '';
             protocol.values[pos].showB = 'true';
             protocol.values[pos].showW = 'false';
         } else {
@@ -194,7 +194,7 @@ export class ProtocolClientComponent implements OnInit {
         break;
       case 3:
         if (pos !== null) {
-          protocol.values[pos].content = '';
+         // protocol.values[pos].content = '';
           protocol.values[pos].showW = 'true';
           protocol.values[pos].showB = 'false';
         } else {
@@ -459,6 +459,20 @@ export class ProtocolClientComponent implements OnInit {
         }
       });
       self.protocolsAux = JSON.parse(JSON.stringify(self.protocols));
+    });
+    _.each(this.protocols, function(protocol) {
+      if (protocol.label === 'Shipping Frecuency') {
+      _.each(protocol.values, function(value, pos) {
+          if (value.content === 'Monthly' || value.content === null) {
+            self.assignShippingFrecuency(protocol, 1, pos);
+          } else if (value.content === '15' || value.content === '30') {
+            self.assignShippingFrecuency(protocol, 2, pos);
+          } else {
+            self.assignShippingFrecuency(protocol, 3, pos);
+          }
+
+      });
+    }
     });
   }, error => {
   });
