@@ -74,7 +74,7 @@
           <div *ngFor="let specification of lista.detail">
             <div class="row  div-parametros">
               <div class="col-sm-2" *ngFor="let param of specification.header">
-                <div class="container-supplier">
+                <div *ngIf="param.name !== 'Spectrum code'" class="container-supplier">
                   <dl class="align-item">
                     <dt>{{ param.name | translate }}</dt>
                     <dt
