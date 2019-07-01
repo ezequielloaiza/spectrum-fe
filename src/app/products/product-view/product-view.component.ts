@@ -31,9 +31,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ProductViewComponent implements OnInit {
 
   products: Array<any> = new Array;
-  productsCode: Array<any> = new Array;
+  // productsCode: Array<any> = new Array;
   product: any;
-  productCode: any;
+  // productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -86,7 +86,7 @@ export class ProductViewComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
-        this.setCodeProduct();
+        //this.setCodeProduct();
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -122,7 +122,7 @@ export class ProductViewComponent implements OnInit {
     this.addSign();
   }
 
-  setCodeProduct() {
+  /*setCodeProduct() {
     const productCode = this.product.codeSpectrum;
     const productCategory = this.product.category;
     let prCode;
@@ -141,7 +141,7 @@ export class ProductViewComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
-  }
+  }*/
 
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
@@ -264,12 +264,12 @@ export class ProductViewComponent implements OnInit {
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.productCopy;
-    let productCode = this.productCode;
+    //let productCode = this.productCode;
     let productsSelected = this.productsSelected;
 
     _.each(productsSelected, function(productSelected, index) {
 
-      productSelected.id = productCode.idProduct;
+      productSelected.id = product.idProduct;
       productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
 
