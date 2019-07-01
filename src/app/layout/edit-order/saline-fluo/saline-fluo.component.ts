@@ -89,6 +89,7 @@ export class SalineFluoComponent implements OnInit {
   changeSpectrumSaline() {
     let productCode;
     let flag = '';
+    console.log('this.quantity >= 250 && this.quantity < 500', this.quantity >= 250 && this.quantity < 500);
     if (this.quantity >= 250 && this.quantity < 500) {
       flag = '250';
     } else if (this.quantity >= 500) {
@@ -142,6 +143,7 @@ export class SalineFluoComponent implements OnInit {
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
+        productRequested = res.data;
         productRequested.detail = JSON.parse(JSON.stringify(productRequested.detail));
         this.modalReference.close(productRequested);
       } else {
