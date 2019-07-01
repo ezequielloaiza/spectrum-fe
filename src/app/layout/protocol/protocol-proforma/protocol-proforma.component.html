@@ -209,7 +209,9 @@
                         <input type="text" class="form-control" placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content" currencyMask [options]=" {prefix: '', miles: ',', decimal: '.'}"
                           />
                       </div>
+                    <div class="truncate">
                       <span *ngIf="!edit && protocol.value.label !== 'Spectrum Proforma'">{{ value.content }}</span>
+                    </div>
                       <span *ngIf="!edit && protocol.value.label === 'Spectrum Proforma'">{{ value.content ? ('Yes' | translate) : ('No' | translate) }}</span>
                     </div>
                   </div>

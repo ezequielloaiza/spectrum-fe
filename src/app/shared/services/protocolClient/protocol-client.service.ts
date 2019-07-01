@@ -12,6 +12,10 @@ export class ProtocolClientService {
 
   constructor(private http: HttpClient) { }
 
+  public allByUser$(clientId: any): Observable<any> {
+    return this.http.get(environment.apiUrl  + 'protocol/allByUser/' + clientId);
+  }
+
   public findByClienSupplier$(clientId: any, supplierId: any): Observable<Protocol> {
     return this.http.get<Protocol>(environment.apiUrl + 'protocol/findByClientSupplier/' + clientId + '/' + supplierId)
     .pipe(map(response => new Protocol(response)));
@@ -19,6 +23,10 @@ export class ProtocolClientService {
 
   public update$(protocol): Observable<any> {
     return this.http.put(environment.apiUrl + 'protocol/update', protocol);
+  }
+
+  public updateManageAll$(protocol, idUser): Observable<any> {
+    return this.http.put(environment.apiUrl + 'protocol/updateManageAll/' + idUser , protocol);
   }
 
   public reportProtocolById$(protocolId, roleId): Observable<any> {
