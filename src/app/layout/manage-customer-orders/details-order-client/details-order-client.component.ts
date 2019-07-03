@@ -127,6 +127,7 @@ export class DetailsOrderClientComponent implements OnInit {
       _.each(list, function (item) {
         if (detailsOrder.productRequested.idProductRequested === item.idProductRequested) {
           detailsOrder.productRequested.patient = item.patient;
+          detailsOrder.productRequested.product = item.product;
           detailsOrder.productRequested.price = item.price;
           detailsOrder.productRequested.quantity = item.quantity;
           detailsOrder.productRequested.observations = item.observations;
