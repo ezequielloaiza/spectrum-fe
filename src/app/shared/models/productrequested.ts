@@ -3,6 +3,8 @@ import { FileProductRequested } from './fileproductrequested';
 
 export class ProductRequested {
   public  idProductRequested: number;
+  public  name: string;
+  public  codeSpectrum: string;
   public  product: Product;
   public  detail: string;
   public  quantity: number;
