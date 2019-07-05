@@ -880,6 +880,7 @@ export class ProductViewEuropaComponent implements OnInit {
       }
 
       // add products aditionals
+      productsAditional = [];
       if (productSelected.header[1].selected === true) {
         const productH =  { id: productHydraPEG.idProduct,
           name: productHydraPEG.name,
@@ -918,45 +919,47 @@ export class ProductViewEuropaComponent implements OnInit {
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional'])
     });
 
-    // add products code
-    const auxList = JSON.parse(JSON.stringify(productsSelected));
+    // add products code buy
+    //if (this.type === 2) {
+      const auxList = JSON.parse(JSON.stringify(productsSelected));
 
-    _.each(auxList, function(productAux) {
-      if (productAux.detail.header[1].selected === true) {
-        const productH =  JSON.parse(JSON.stringify(productAux));
-        productH.id = productHydraPEG.idProduct;
-        productH.name = productHydraPEG.name;
-        productH.price = hidrapegPrice;
-        productH.codeSpectrum = productHydraPEG.codeSpectrum;
-        productsSelected.push(productH);
-      }
-
-      if (productAux.detail.header[2].selected === true) {
-        const productD =  JSON.parse(JSON.stringify(productAux));
-        productD.id = productDMV.idProduct;
-        productD.name = 'Inserts (DMV)';
-        if (auxList.length > 1) {
-          productD.price = dMVPrice / 2;
-        } else {
-          productD.price = dMVPrice;
+      _.each(auxList, function(productAux) {
+        if (productAux.detail.header[1].selected === true) {
+          const productH =  JSON.parse(JSON.stringify(productAux));
+          productH.id = productHydraPEG.idProduct;
+          productH.name = productHydraPEG.name;
+          productH.price = hidrapegPrice;
+          productH.codeSpectrum = productHydraPEG.codeSpectrum;
+          productsSelected.push(productH);
         }
 
-        productD.codeSpectrum = productDMV.codeSpectrum;
-        productsSelected.push(productD);
-      }
+        if (productAux.detail.header[2].selected === true) {
+          const productD =  JSON.parse(JSON.stringify(productAux));
+          productD.id = productDMV.idProduct;
+          productD.name = 'Inserts (DMV)';
+          if (auxList.length > 1) {
+            productD.price = dMVPrice / 2;
+          } else {
+            productD.price = dMVPrice;
+          }
 
-      /*params*/
-      _.each(productAux.detail.parameters, function(parameter) {
-        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
-          const productN =  JSON.parse(JSON.stringify(productAux));
-          productN.id = productNotch.idProduct;
-          productN.name = productNotch.name;
-          productN.price = notchPrice;
-          productN.detail.codeSpectrum = productNotch.codeSpectrum;
-          productsSelected.push(productN);
+          productD.codeSpectrum = productDMV.codeSpectrum;
+          productsSelected.push(productD);
         }
+
+        /*params*/
+        _.each(productAux.detail.parameters, function(parameter) {
+          if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
+            const productN =  JSON.parse(JSON.stringify(productAux));
+            productN.id = productNotch.idProduct;
+            productN.name = productNotch.name;
+            productN.price = notchPrice;
+            productN.codeSpectrum = productNotch.codeSpectrum;
+            productsSelected.push(productN);
+          }
+        });
       });
-    });
+    // }
 
     return productsSelected;
   }
@@ -1305,7 +1308,7 @@ export class ProductViewEuropaComponent implements OnInit {
         value === '19.5' ||
         value === '20.0' ) {
       // assing product code
-      const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 18.0-22.0)');
+      const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 17.0-20.0)');
       if (eye === 'right') {
         this.checkAdditional('right');
         this.product.priceSaleRight = this.priceB + this.notch + this.thickness + this.hidrapeg;

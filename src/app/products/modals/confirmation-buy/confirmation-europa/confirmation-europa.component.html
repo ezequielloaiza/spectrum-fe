@@ -64,21 +64,14 @@
       </div>
       <div class="col-lg-12" *ngFor="let list of listBasket">
         <div class="row padding-params">
-          <div class="col-lg-12 title eye-info">
+          <div class="col-lg-6 title eye-info">
             <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
-          <div class="col-sm-12">
-            <div class="parameters">{{ "Products Aditionals" | translate }}:</div>
+
+          <div class="col-lg-6 title eye-info">
+            <span>{{ list.product.codeSpectrum }}</span>&nbsp;&nbsp;
           </div>
-          <div class="col-sm-4" *ngFor="let productA of list.detail[0].productsAditional">
-            <dl class="align-item">
-              <dt>{{ productA.name | translate }}</dt>
-              <hr class="separators" />
-              <dl>
-                <dt class="items">{{ productA.codeSpectrum }}</dt>
-              </dl>
-            </dl>
-          </div>
+
           <div class="col-sm-4" *ngFor="let parameter of list.detail[0].header">
             <dl *ngIf="parameter.name !== 'Inserts (DMV)'" class="align-item">
               <dt>{{ parameter.name | translate }}</dt>
@@ -93,6 +86,18 @@
                     "No" | translate
                   }}</span>
                 </dt>
+              </dl>
+            </dl>
+          </div>
+          <div class="col-sm-12">
+            <div class="parameters">{{ "Products Aditionals" | translate }}:</div>
+          </div>
+          <div class="col-sm-4" *ngFor="let productA of list.detail[0].productsAditional">
+            <dl class="align-item">
+              <dt>{{ productA.name | translate }}</dt>
+              <hr class="separators" />
+              <dl>
+                <dt class="items">{{ productA.codeSpectrum }}</dt>
               </dl>
             </dl>
           </div>

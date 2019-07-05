@@ -74,7 +74,7 @@
           <div *ngFor="let specification of lista.detail">
             <div class="row  div-parametros">
               <div class="col-sm-2" *ngFor="let param of specification.header">
-                <div *ngIf="param.name !== 'Spectrum code'" class="container-supplier">
+                <div class="container-supplier">
                   <dl class="align-item">
                     <dt>{{ param.name | translate }}</dt>
                     <dt
@@ -98,6 +98,19 @@
                       <span *ngIf="param.selected === false" class="font-text">{{
                         "No" | translate
                       }}</span>
+                      <hr />
+                    </dt>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="row  div-parametros">
+              <div class="col-sm-2" *ngFor="let product of specification.productsAditional">
+                <div class="container-supplier">
+                  <dl class="align-item">
+                    <dt>{{ product.name | translate }}</dt>
+                    <dt>
+                      <span class="font-text"> {{ product.codeSpectrum }}</span>
                       <hr />
                     </dt>
                   </dl>

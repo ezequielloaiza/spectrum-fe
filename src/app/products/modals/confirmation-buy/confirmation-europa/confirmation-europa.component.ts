@@ -129,7 +129,6 @@ export class ConfirmationEuropaComponent implements OnInit {
         listBasketAux.push(productRequested);
       }
     });
-
     this.listBasket = listBasketAux;
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;
