@@ -922,15 +922,17 @@ export class ProductViewEuropaComponent implements OnInit {
     // add products code buy
     //if (this.type === 2) {
       const auxList = JSON.parse(JSON.stringify(productsSelected));
-
+      const auxproductsSelected = [];
       _.each(auxList, function(productAux) {
+        auxproductsSelected.push(JSON.parse(JSON.stringify(productAux)));
         if (productAux.detail.header[1].selected === true) {
-          const productH =  JSON.parse(JSON.stringify(productAux));
+          const productH = JSON.parse(JSON.stringify(productAux));
           productH.id = productHydraPEG.idProduct;
           productH.name = productHydraPEG.name;
           productH.price = hidrapegPrice;
           productH.codeSpectrum = productHydraPEG.codeSpectrum;
-          productsSelected.push(productH);
+          // productsSelected.push(productH);
+          auxproductsSelected.push(productH);
         }
 
         if (productAux.detail.header[2].selected === true) {
@@ -944,7 +946,8 @@ export class ProductViewEuropaComponent implements OnInit {
           }
 
           productD.codeSpectrum = productDMV.codeSpectrum;
-          productsSelected.push(productD);
+          // productsSelected.push(productD);
+          auxproductsSelected.push(productD);
         }
 
         /*params*/
@@ -955,10 +958,13 @@ export class ProductViewEuropaComponent implements OnInit {
             productN.name = productNotch.name;
             productN.price = notchPrice;
             productN.codeSpectrum = productNotch.codeSpectrum;
-            productsSelected.push(productN);
+            //productsSelected.push(productN);
+            auxproductsSelected.push(productN);
           }
         });
       });
+
+      productsSelected = auxproductsSelected;
     // }
 
     return productsSelected;
