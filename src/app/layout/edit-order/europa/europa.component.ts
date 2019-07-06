@@ -9,6 +9,8 @@ import * as _ from 'lodash';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BasketproductrequestedService } from '../../../shared/services/basketproductrequested/basketproductrequested.service';
+import { ProductService } from '../../../shared/services/products/product.service';
+
 @Component({
   selector: 'app-europa',
   templateUrl: './europa.component.html',
@@ -19,6 +21,13 @@ export class EuropaComponent implements OnInit {
   basket: any;
   productRequested: ProductRequested = new ProductRequested();
   productRequestedAux: ProductRequested = new ProductRequested();
+  productsOriginal: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
+  productOriginal: any;
+  productName = '';
+  productNotch: any;
+  productHydraPEG: any;
+  productDMV: any;
   listBasketProductREquested: Array<any> = new Array;
   listAux: Array<any> = new Array;
   product: any;
@@ -54,6 +63,7 @@ export class EuropaComponent implements OnInit {
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
+              private productService: ProductService,
               private productRequestedService: ProductsRequestedService,
               private orderProductRequestedService: OrderProductRequestedService,
               private userService: UserStorageService,
@@ -73,8 +83,8 @@ export class EuropaComponent implements OnInit {
       this.findByGroupdId();
     }
     this.detail = this.productRequested.detail[0];
-    this.product = this.productRequested.product;
-    this.getProductView();
+    this.getProductsEuropa();
+
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
@@ -83,6 +93,7 @@ export class EuropaComponent implements OnInit {
   findBasketByGroupdId() {
     this.basketProductRequestedService.allBasketByGroupId$(this.productRequested.groupId).subscribe(res => {
         if (res.code === CodeHttp.ok) {
+          debugger
           this.listBasketProductREquested = res.data;
           this.lenghtGroup = this.listBasketProductREquested.length;
         } else {
@@ -107,6 +118,61 @@ export class EuropaComponent implements OnInit {
 
   close() {
     this.modalReference.close();
+  }
+
+  getProductsEuropa() {
+    this.productService.findBySupplierInView$(2, true).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.productsOriginal = res.data;
+        this.productService.findBySupplierAndInViewAndCategory$(2, false, 10).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.productsCode = res1.data;
+            this.productNotch = this.setProduct(res1.data, 'Notch');
+            this.productDMV = this.setProduct(res1.data, 'DMV Insertion and Removal Set');
+            this.productHydraPEG = this.setProduct(res1.data, 'HydraPEG');
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
+        this.setNameProduct();
+        this.product = this.setProduct(res.data, this.productName);
+        this.getProductView();
+      } else {
+        console.log(res.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
+  }
+
+  setNameProduct() {
+    if (_.includes(this.detail.name, 'Bitorico')) {
+      this.productName = 'Europa Bi-Toric';
+    } else if (_.includes(this.detail.name, 'Sphere')) {
+      this.productName = 'Europa SPH';
+    } else if (_.includes(this.detail.name, 'M.F')) {
+      this.productName = 'Europa Multifocal';
+    } else if (_.includes(this.detail.name, 'T.F')) {
+      this.productName = 'Europa Front Toric';
+    } else if (_.includes(this.detail.name, 'TPC')) {
+      this.productName = 'Europa TPC';
+    }
+  }
+
+  setProduct(list, name) {
+    let prCode;
+    _.each(list, function (pr) {
+      if (_.includes(pr.name, name)) {
+        prCode = pr;
+      }
+    });
+    return prCode;
   }
 
   getProductView() {
@@ -336,11 +402,55 @@ export class EuropaComponent implements OnInit {
         }
      });
     });
+    // add products code
+    const productsAditional = [];
+    const productDMV = this.productDMV;
+    const productHydraPEG = this.productHydraPEG;
+    const productNotch = this.productNotch;
+    const hidrapegPrice = this.hidrapeg;
+    const dMVPrice = this.inserts;
+    const notchPrice = this.notch;
+
+    // add products aditionals
+    if (this.detail.header[1].selected === true) {
+      const productH =  { id: productHydraPEG.idProduct,
+        name: productHydraPEG.name,
+        price: hidrapegPrice,
+        codeSpectrum: productHydraPEG.codeSpectrum };
+      productsAditional.push(productH);
+    }
+
+    if (this.detail.header[2].selected === true) {
+      let price = 0;
+      if (this.lenghtGroup === 2) {
+        price = dMVPrice / 2;
+      } else {
+        price = dMVPrice;
+      }
+
+      const productD = { id: productDMV.idProduct,
+        name: 'Inserts (DMV)',
+        price: price,
+        codeSpectrum: productDMV.codeSpectrum };
+      productsAditional.push(productD);
+    }
+
+    /*params*/
+    _.each(this.detail.parameters, function(parameter) {
+      if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
+        const productN =  { id: productNotch.idProduct,
+          name: productNotch.name,
+          price: notchPrice,
+          codeSpectrum: productNotch.codeSpectrum };
+        productsAditional.push(productN);
+      }
+    });
+
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
       this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
       header: this.detail.header, parameters: this.detail.parameters,
-      pasos: this.detail.pasos}) + ']';
+      pasos: this.detail.pasos, productsAditional: productsAditional }) + ']';
       this.productRequested.observations = this.observations;
       this.productRequested.price = this.price;
       this.productRequested.quantity = this.quantity;
@@ -351,7 +461,7 @@ export class EuropaComponent implements OnInit {
       this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
       this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
       header: this.detail.header, parameters: this.detail.parameters,
-      pasos: this.detail.pasos}) + ']';
+      pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
       this.productRequestedAux.observations = this.observations;
       this.productRequestedAux.price = this.price;
       this.productRequestedAux.quantity = this.quantity;
@@ -549,6 +659,7 @@ export class EuropaComponent implements OnInit {
     this.inserts = inserts;
     this.hidrapeg = hidrapeg;
     // this.thickness = thickness;
+
   }
 
   update(productRequested) {
@@ -563,6 +674,7 @@ export class EuropaComponent implements OnInit {
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
             this.notification.success('', res);
           });
+          productRequested = res.data;
           productRequested.detail = JSON.parse(productRequested.detail);
           this.modalReference.close(productRequested);
         }
@@ -627,6 +739,7 @@ export class EuropaComponent implements OnInit {
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res2: string) => {
           this.notification.success('', res2);
         });
+        productRequested = res1.data;
         productRequested.detail = JSON.parse(productRequested.detail);
         res1.data.detail = JSON.parse(res1.data.detail);
         self.listAux.push(productRequested);
