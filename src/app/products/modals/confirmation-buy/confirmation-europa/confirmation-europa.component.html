@@ -89,7 +89,7 @@
               </dl>
             </dl>
           </div>
-          <div class="col-sm-12">
+          <div *ngIf="list.detail[0].productsAditional.length > 0" class="col-sm-12">
             <div class="parameters">{{ "Products Aditionals" | translate }}:</div>
           </div>
           <div class="col-sm-4" *ngFor="let productA of list.detail[0].productsAditional">

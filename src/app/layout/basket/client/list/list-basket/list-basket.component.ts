@@ -38,6 +38,7 @@ export class ListBasketComponent implements OnInit {
 
   listBasket: Array<any> = new Array;
   listBasketAux: Array<any> = new Array;
+  listBasketAll: Array<any> = new Array;
   user: any;
   buyBasket: Buy = new Buy();
   subtotal: any;
@@ -72,13 +73,24 @@ export class ListBasketComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listBasket = res.data;
         this.listBasketAux = res.data;
+        this.listBasketAll = res.data;
+
+        const auxList = [];
         _.each(this.listBasket, function (basket) {
           basket.checked = false;
           basket.supplier = basket.productRequested.product.supplier.idSupplier;
           if (basket.productRequested.detail.length > 0) {
             basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
           }
+          const productId = basket.productRequested.product.idProduct;
+          if (productId !== 145
+                && productId !== 146
+                && productId !== 147) {
+            auxList.push(basket);
+          }
         });
+        this.listBasketAll = this.listBasket;
+        this.listBasket = auxList;
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.spinner.hide();
@@ -106,7 +118,14 @@ export class ListBasketComponent implements OnInit {
       this.translate.get('Are you sure do you want to delete this register?',
       {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
-          this.borrar(id);
+          const basket = this.getBasket(id);
+          const  idSupplier = basket.productRequested.product.supplier.idSupplier;
+
+          if (idSupplier === 2) {
+            this.deleteProductsAditionalEuropa(basket);
+          } else {
+            this.borrar(id);
+          }
           }, () => {});
         });
       });
@@ -131,7 +150,65 @@ export class ListBasketComponent implements OnInit {
   buy() {
     this.calculationsSummary();
     this.openSumary();
-    }
+  }
+
+  getProductsAditionalEuropa(groupId, eye) {
+    const auxList = [];
+
+    _.each(this.listBasketAll, function(item) {
+      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === eye) {
+        auxList.push(item);
+      }
+    });
+
+    return auxList;
+  }
+
+  getBasket(id) {
+    let basket;
+    _.each(this.listBasket, function(item) {
+      if (item.idBasketProductRequested === id) {
+        basket = item;
+      }
+    });
+    return basket;
+  }
+
+  addProductsAditionalEuropa() {
+    let listPA = [];
+    let arrayAux = [];
+    let self = this;
+
+    const listSelect = this.productRequestedToBuy;
+    _.each(this.listBasket, function(item) {
+        _.each(listSelect, function(itemBasket) {
+          if (item.idBasketProductRequested === itemBasket) {
+            listPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
+              item.productRequested.detail[0].eye);
+          }
+      });
+    });
+
+    _.each(listPA, function(item) {
+      const id = item.idBasketProductRequested;
+      arrayAux = _.concat(arrayAux, id);
+    });
+
+    this.productRequestedToBuy = arrayAux;
+  }
+
+  deleteProductsAditionalEuropa(basket) {
+    let auxList = [];
+    let arrayAux = [];
+
+    auxList = this.getProductsAditionalEuropa(basket.productRequested.groupId,
+      basket.productRequested.detail[0].eye);
+
+    _.each(auxList, function(item) {
+      const id = item.idBasketProductRequested;
+      arrayAux = _.concat(arrayAux, id);
+    });
+  }
 
   onSelection(basket, checked) {
     if (this.checkedAll === false && checked === true) {
@@ -318,6 +395,7 @@ export class ListBasketComponent implements OnInit {
   }
 
   openSumary() {
+    this.addProductsAditionalEuropa();
     this.buyBasket.idUser = this.user.userResponse.idUser;
     this.buyBasket.listBasket = this.productRequestedToBuy;
     this.buyBasket.idRole = this.user.role.idRole;

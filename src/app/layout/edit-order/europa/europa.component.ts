@@ -92,29 +92,46 @@ export class EuropaComponent implements OnInit {
 
   findBasketByGroupdId() {
     this.basketProductRequestedService.allBasketByGroupId$(this.productRequested.groupId).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          debugger
-          this.listBasketProductREquested = res.data;
-          this.lenghtGroup = this.listBasketProductREquested.length;
-        } else {
-          console.log(res);
-        }
-      }, error => {
-        console.log('error', error);
-      });
-    }
+      if (res.code === CodeHttp.ok) {
+        const auxList = [];
+        _.each(res.data, function (basket) {
+          const productId = basket.productRequested.product.idProduct;
+          if (productId !== 145
+                && productId !== 146
+                && productId !== 147) {
+            auxList.push(basket);
+          }
+        });
+        this.listBasketProductREquested = auxList;
+        this.lenghtGroup = this.listBasketProductREquested.length;
+      } else {
+        console.log(res);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
 
   findByGroupdId() {
-      this.orderProductRequestedService.allByGroupId$(this.productRequested.groupId, this.order.idOrder).subscribe(res => {
-          if (res.code === CodeHttp.ok) {
-            this.listBasketProductREquested = res.data;
-            this.lenghtGroup = this.listBasketProductREquested.length;
-            console.log(res);
+    this.orderProductRequestedService.allByGroupId$(this.productRequested.groupId, this.order.idOrder).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        const auxList = [];
+        _.each(res.data, function (basket) {
+          const productId = basket.productRequested.product.idProduct;
+          if (productId !== 145
+                && productId !== 146
+                && productId !== 147) {
+            auxList.push(basket);
           }
-        }, error => {
-          console.log('error', error);
         });
+        this.listBasketProductREquested = auxList;
+        this.lenghtGroup = this.listBasketProductREquested.length;
+        console.log(res);
       }
+    }, error => {
+      console.log('error', error);
+    });
+  }
 
   close() {
     this.modalReference.close();
@@ -132,11 +149,9 @@ export class EuropaComponent implements OnInit {
             this.productHydraPEG = this.setProduct(res1.data, 'HydraPEG');
           } else {
             console.log(res1.errors[0].detail);
-            this.spinner.hide();
           }
         }, error => {
           console.log('error', error);
-          this.spinner.hide();
         });
         this.setNameProduct();
         this.product = this.setProduct(res.data, this.productName);
@@ -154,7 +169,7 @@ export class EuropaComponent implements OnInit {
   setNameProduct() {
     if (_.includes(this.detail.name, 'Bitorico')) {
       this.productName = 'Europa Bi-Toric';
-    } else if (_.includes(this.detail.name, 'Sphere')) {
+    } else if (_.includes(this.detail.name, 'SPH')) {
       this.productName = 'Europa SPH';
     } else if (_.includes(this.detail.name, 'M.F')) {
       this.productName = 'Europa Multifocal';

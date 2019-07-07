@@ -14,6 +14,10 @@ export class BasketproductrequestedService {
     return this.http.delete(environment.apiUrl + 'basketProductRequested/removeById/' + id);
   }
 
+  public removeByIds$(ids): Observable<any> {
+    return this.http.delete(environment.apiUrl + 'basketProductRequested/removeByIds/' + ids);
+  }
+
   public checkProduct$(id): Observable<any> {
     return this.http.get(environment.apiUrl + 'basketProductRequested/checkSpectrumSaline/' + id);
   }
