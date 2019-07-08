@@ -42,6 +42,7 @@ export class DetailsBasketClientComponent implements OnInit {
 
   listBasket: Array<any> = new Array;
   listBasketAux: Array<any> = new Array;
+  listBasketAll: Array<any> = new Array;
   user: any;
   id: any;
   buyBasket: Buy = new Buy();
@@ -93,23 +94,25 @@ export class DetailsBasketClientComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listBasket = res.data;
         this.listBasketAux = res.data;
-        const list = [];
+        this.listBasketAll = res.data;
+
+        const auxList = [];
         _.each(this.listBasket, function (basket) {
+          basket.checked = false;
+          basket.supplier = basket.productRequested.product.supplier.idSupplier;
+          if (basket.productRequested.detail.length > 0) {
+            basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
+          }
           const productId = basket.productRequested.product.idProduct;
           if (productId !== 145
-              && productId !== 146
-              && productId !== 147) {
-            basket.checked = false;
-            basket.supplier = basket.productRequested.product.supplier.idSupplier;
-            if (basket.productRequested.detail.length > 0) {
-              basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
-            }
-            list.push(basket);
+                && productId !== 146
+                && productId !== 147) {
+            auxList.push(basket);
           }
         });
-
-        this.listBasket = list;
-        this.listBasketAux = list;
+        this.listBasketAll = this.listBasket;
+        this.listBasket = auxList;
+        this.listBasketAux = auxList;
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.spinner.hide();
@@ -145,7 +148,16 @@ export class DetailsBasketClientComponent implements OnInit {
       this.translate.get('Are you sure do you want to delete this register?',
        {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
          this.alertify.confirm(title, msg, () => {
-           this.borrar(id);
+          const basket = this.getBasket(id);
+          const idSupplier = basket.productRequested.product.supplier.idSupplier;
+
+          if (idSupplier === 2) {
+            this.updateBasketGroupId(id, basket);
+            this.deleteProductsAditionalEuropa(basket);
+          } else {
+            this.borrar(id);
+          }
+
           }, () => {});
         });
       });
@@ -170,15 +182,84 @@ export class DetailsBasketClientComponent implements OnInit {
   buy() {
     this.calculationsSummary();
     this.openSumary();
-    this.addProductsAditionalEuropa();
+  }
+
+  getProductsAditionalEuropa(groupId, eye) {
+    const auxList = [];
+
+    _.each(this.listBasketAll, function(item) {
+      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === eye) {
+        auxList.push(item);
+      }
+    });
+
+    return auxList;
+  }
+
+  getBasket(id) {
+    let basket;
+    _.each(this.listBasket, function(item) {
+      if (item.idBasketProductRequested === id) {
+        basket = item;
+      }
+    });
+    return basket;
   }
 
   addProductsAditionalEuropa() {
-    debugger
-    // id basket y ojo
-    /*this.productRequestedToBuy = this.listBasketAll.filter((item) => {
-      return ((item.productRequested.patient.toLowerCase().indexOf(val.toLowerCase()) > -1));
-    });*/
+    let listPA = [];
+    let arrayAux = [];
+    let arrayAuxPA = [];
+    let self = this;
+
+    const listSelect = this.productRequestedToBuy;
+    _.each(this.listBasket, function(item) {
+        _.each(listSelect, function(itemBasket) {
+          if (item.idBasketProductRequested === itemBasket) {
+            arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
+              item.productRequested.detail[0].eye);
+            listPA = _.concat(listPA, arrayAuxPA);
+          }
+      });
+    });
+
+    _.each(listPA, function(item) {
+      const id = item.idBasketProductRequested;
+      arrayAux = _.concat(arrayAux, id);
+    });
+
+    this.productRequestedToBuy = arrayAux;
+  }
+
+  deleteProductsAditionalEuropa(basket) {
+    let auxList = [];
+    let arrayAux = [];
+
+    auxList = this.getProductsAditionalEuropa(basket.productRequested.groupId,
+      basket.productRequested.detail[0].eye);
+
+    _.each(auxList, function(item) {
+      const id = item.idBasketProductRequested;
+      arrayAux = _.concat(arrayAux, id);
+    });
+
+    this.deleteByIds(arrayAux);
+  }
+
+  deleteByIds(ids): void {
+    this.basketProductRequestedService.removeByIds$(ids).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.getListBasket();
+        // tslint:disable-next-line:no-shadowed-variable
+        this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res: string) => {
+          this.notification.success('', res);
+        });
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   buyAll() {
@@ -381,6 +462,7 @@ export class DetailsBasketClientComponent implements OnInit {
    }
 
   openSumary() {
+    this.addProductsAditionalEuropa();
     this.buyBasket.idUser = this.id;
     this.buyBasket.listBasket = this.productRequestedToBuy;
     this.buyBasket.idRole = this.user.role.idRole;
