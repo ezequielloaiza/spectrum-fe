@@ -53,7 +53,7 @@
             <dl>
               <dt *ngIf="parameter.selected === true || parameter.selected === false" class="items">
                 <span *ngIf="parameter.selected === true">{{
-                  "Yes" | translate
+                  "Yes" + ' ' + insertCodeSpectrum | translate
                 }}</span>
                 <span *ngIf="parameter.selected === false">{{
                   "No" | translate
@@ -69,7 +69,7 @@
           </div>
 
           <div class="col-lg-6 title eye-info">
-            <span>{{ list.product.codeSpectrum }}</span>&nbsp;&nbsp;
+            <span>{{ 'Spectrum code' + '  ' + list.product.codeSpectrum | translate }}</span>&nbsp;&nbsp;
           </div>
 
           <div class="col-sm-4" *ngFor="let parameter of list.detail[0].header">
@@ -90,7 +90,7 @@
             </dl>
           </div>
           <div *ngIf="list.detail[0].productsAditional.length > 0" class="col-sm-12">
-            <div class="parameters">{{ "Products Aditionals" | translate }}:</div>
+            <div class="parameters">{{ 'Additional Products' | translate }}:</div>
           </div>
           <div class="col-sm-4" *ngFor="let productA of list.detail[0].productsAditional">
             <dl class="align-item">

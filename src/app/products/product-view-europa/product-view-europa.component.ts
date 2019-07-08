@@ -46,6 +46,7 @@ export class ProductViewEuropaComponent implements OnInit {
   productNotch: any;
   productHydraPEG: any;
   productDMV: any;
+  insertCodeSpectrum = '';
   product: any;
   productCopy: any;
   id: any;
@@ -889,21 +890,6 @@ export class ProductViewEuropaComponent implements OnInit {
         productsAditional.push(productH);
       }
 
-      if (productSelected.header[2].selected === true) {
-        let price = 0;
-        if (productsSelected.length > 1) {
-          price = dMVPrice / 2;
-        } else {
-          price = dMVPrice;
-        }
-
-        const productD = { id: productDMV.idProduct,
-          name: 'Inserts (DMV)',
-          price: price,
-          codeSpectrum: productDMV.codeSpectrum };
-        productsAditional.push(productD);
-      }
-
       /*params*/
       _.each(productSelected.parameters, function(parameter) {
         if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
@@ -919,53 +905,51 @@ export class ProductViewEuropaComponent implements OnInit {
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional'])
     });
 
-    // add products code buy
-    //if (this.type === 2) {
-      const auxList = JSON.parse(JSON.stringify(productsSelected));
-      const auxproductsSelected = [];
-      _.each(auxList, function(productAux) {
-        auxproductsSelected.push(JSON.parse(JSON.stringify(productAux)));
-        if (productAux.detail.header[1].selected === true) {
-          const productH = JSON.parse(JSON.stringify(productAux));
-          productH.id = productHydraPEG.idProduct;
-          productH.name = productHydraPEG.name;
-          productH.price = hidrapegPrice;
-          productH.codeSpectrum = productHydraPEG.codeSpectrum;
-          // productsSelected.push(productH);
-          auxproductsSelected.push(productH);
+    // add products code
+    const auxList = JSON.parse(JSON.stringify(productsSelected));
+    const auxproductsSelected = [];
+    let exist =  false;
+    let insertCodeSpectrum = '';
+
+    _.each(auxList, function(productAux) {
+      auxproductsSelected.push(JSON.parse(JSON.stringify(productAux)));
+      if (productAux.detail.header[1].selected === true) {
+        const productH = JSON.parse(JSON.stringify(productAux));
+        productH.id = productHydraPEG.idProduct;
+        productH.name = productHydraPEG.name;
+        productH.price = hidrapegPrice;
+        productH.codeSpectrum = productHydraPEG.codeSpectrum;
+        auxproductsSelected.push(productH);
+      }
+
+      if (productAux.detail.header[2].selected === true
+          && !exist) {
+        const productD =  JSON.parse(JSON.stringify(productAux));
+        productD.id = productDMV.idProduct;
+        productD.name = 'Inserts (DMV)';
+        productD.price = dMVPrice;
+        productD.codeSpectrum = productDMV.codeSpectrum;
+        insertCodeSpectrum = productDMV.codeSpectrum;
+        exist = true;
+        auxproductsSelected.push(productD);
+      }
+
+      /*params*/
+      _.each(productAux.detail.parameters, function(parameter) {
+        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
+          const productN =  JSON.parse(JSON.stringify(productAux));
+          productN.id = productNotch.idProduct;
+          productN.name = productNotch.name;
+          productN.price = notchPrice;
+          productN.codeSpectrum = productNotch.codeSpectrum;
+          auxproductsSelected.push(productN);
         }
-
-        if (productAux.detail.header[2].selected === true) {
-          const productD =  JSON.parse(JSON.stringify(productAux));
-          productD.id = productDMV.idProduct;
-          productD.name = 'Inserts (DMV)';
-          if (auxList.length > 1) {
-            productD.price = dMVPrice / 2;
-          } else {
-            productD.price = dMVPrice;
-          }
-
-          productD.codeSpectrum = productDMV.codeSpectrum;
-          // productsSelected.push(productD);
-          auxproductsSelected.push(productD);
-        }
-
-        /*params*/
-        _.each(productAux.detail.parameters, function(parameter) {
-          if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
-            const productN =  JSON.parse(JSON.stringify(productAux));
-            productN.id = productNotch.idProduct;
-            productN.name = productNotch.name;
-            productN.price = notchPrice;
-            productN.codeSpectrum = productNotch.codeSpectrum;
-            //productsSelected.push(productN);
-            auxproductsSelected.push(productN);
-          }
-        });
       });
+    });
 
-      productsSelected = auxproductsSelected;
-    // }
+    this.insertCodeSpectrum = insertCodeSpectrum;
+
+    productsSelected = auxproductsSelected;
 
     return productsSelected;
   }
@@ -1006,6 +990,7 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   openModal(type): void {
+    debugger
     this.spinner.hide();
     const modalRef = this.modalService.open( ConfirmationEuropaComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
@@ -1019,6 +1004,7 @@ export class ProductViewEuropaComponent implements OnInit {
     modalRef.componentInstance.additionalInserts = this.inserts;
     modalRef.componentInstance.additionalNotch = this.notch;
     modalRef.componentInstance.additionalThickness = this.thickness;
+    modalRef.componentInstance.insertCodeSpectrum = this.insertCodeSpectrum;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {

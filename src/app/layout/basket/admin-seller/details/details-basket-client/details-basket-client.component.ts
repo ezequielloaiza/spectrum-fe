@@ -93,13 +93,23 @@ export class DetailsBasketClientComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listBasket = res.data;
         this.listBasketAux = res.data;
+        const list = [];
         _.each(this.listBasket, function (basket) {
-          basket.checked = false;
-          basket.supplier = basket.productRequested.product.supplier.idSupplier;
-          if (basket.productRequested.detail.length > 0) {
-            basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
+          const productId = basket.productRequested.product.idProduct;
+          if (productId !== 145
+              && productId !== 146
+              && productId !== 147) {
+            basket.checked = false;
+            basket.supplier = basket.productRequested.product.supplier.idSupplier;
+            if (basket.productRequested.detail.length > 0) {
+              basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
+            }
+            list.push(basket);
           }
         });
+
+        this.listBasket = list;
+        this.listBasketAux = list;
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.spinner.hide();
@@ -160,6 +170,15 @@ export class DetailsBasketClientComponent implements OnInit {
   buy() {
     this.calculationsSummary();
     this.openSumary();
+    this.addProductsAditionalEuropa();
+  }
+
+  addProductsAditionalEuropa() {
+    debugger
+    // id basket y ojo
+    /*this.productRequestedToBuy = this.listBasketAll.filter((item) => {
+      return ((item.productRequested.patient.toLowerCase().indexOf(val.toLowerCase()) > -1));
+    });*/
   }
 
   buyAll() {

@@ -58,6 +58,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   balance_modal: Boolean = false;
   company: Company = new Company();
   available: any;
+  insertCodeSpectrum: any;
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
@@ -129,6 +130,7 @@ export class ConfirmationEuropaComponent implements OnInit {
         listBasketAux.push(productRequested);
       }
     });
+
     this.listBasket = listBasketAux;
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;

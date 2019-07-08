@@ -177,14 +177,16 @@ export class ListBasketComponent implements OnInit {
   addProductsAditionalEuropa() {
     let listPA = [];
     let arrayAux = [];
+    let arrayAuxPA = [];
     let self = this;
 
     const listSelect = this.productRequestedToBuy;
     _.each(this.listBasket, function(item) {
         _.each(listSelect, function(itemBasket) {
           if (item.idBasketProductRequested === itemBasket) {
-            listPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
+            arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
               item.productRequested.detail[0].eye);
+            listPA = _.concat(listPA, arrayAuxPA);
           }
       });
     });
@@ -207,6 +209,24 @@ export class ListBasketComponent implements OnInit {
     _.each(auxList, function(item) {
       const id = item.idBasketProductRequested;
       arrayAux = _.concat(arrayAux, id);
+    });
+
+    this.deleteByIds(arrayAux);
+  }
+
+  deleteByIds(ids): void {
+    this.basketProductRequestedService.removeByIds$(ids).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.getListBasket();
+        // tslint:disable-next-line:no-shadowed-variable
+        this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res: string) => {
+          this.notification.success('', res);
+        });
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
   }
 
