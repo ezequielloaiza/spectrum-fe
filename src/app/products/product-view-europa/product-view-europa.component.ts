@@ -768,6 +768,10 @@ export class ProductViewEuropaComponent implements OnInit {
     let signPowerRight = this.signPowerRight;
     let additionalInserts = this.additionalInserts;
     let additionalInsertsL = this.additionalInsertsL;
+    const additionalH = this.additionalHidrapeg;
+    const additionalHL = this.additionalHidrapegL;
+    const additionalN = this.additionalNotch;
+    const additionalNL = this.additionalNotchL;
     let inserts = this.inserts;
     let valueInsert = false;
     let productsAditional = [];
@@ -789,13 +793,22 @@ export class ProductViewEuropaComponent implements OnInit {
         productSelected.id = productDiameterR.idProduct;
         productSelected.codeSpectrum = productDiameterR.codeSpectrum;
 
-        if (additionalInserts && product.eyeLeft) {
+        /*if (additionalInserts && product.eyeLeft) {
           productSelected.price = product.priceSaleRight + (inserts / 2);
         } else if (additionalInserts && !product.eyeLeft) {
           productSelected.price = product.priceSaleRight + inserts;
         } else {
           productSelected.price = product.priceSaleRight;
+       // }*/
+
+       if (additionalH) {
+          productSelected.price = product.priceSaleRight - hidrapegPrice;
         }
+        if (additionalN) {
+          productSelected.price = product.priceSaleRight - notchPrice;
+        }
+
+        productSelected.price = product.priceSaleRight;
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
 
@@ -837,13 +850,20 @@ export class ProductViewEuropaComponent implements OnInit {
         productSelected.id = productDiameterL.idProduct;
         productSelected.codeSpectrum = productDiameterL.codeSpectrum;
 
-        if (additionalInsertsL && product.eyeRight) {
+        /*if (additionalInsertsL && product.eyeRight) {
           productSelected.price = product.priceSaleLeft + (inserts / 2);
         } else if (additionalInsertsL && !product.eyeRight) {
           productSelected.price = product.priceSaleLeft + inserts;
         } else {
           productSelected.price = product.priceSaleLeft;
+       // }*/
+        if (additionalHL) {
+          productSelected.price = product.priceSaleLeft - hidrapegPrice;
         }
+        if (additionalNL) {
+          productSelected.price = product.priceSaleLeft - notchPrice;
+        }
+        productSelected.price = product.priceSaleLeft;
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
 
@@ -990,7 +1010,6 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   openModal(type): void {
-    debugger
     this.spinner.hide();
     const modalRef = this.modalService.open( ConfirmationEuropaComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
