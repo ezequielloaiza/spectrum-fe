@@ -772,8 +772,6 @@ export class ProductViewEuropaComponent implements OnInit {
     const additionalHL = this.additionalHidrapegL;
     const additionalN = this.additionalNotch;
     const additionalNL = this.additionalNotchL;
-    let inserts = this.inserts;
-    let valueInsert = false;
     let productsAditional = [];
     // add products code
     const productDMV = this.productDMV;
@@ -816,7 +814,7 @@ export class ProductViewEuropaComponent implements OnInit {
         _.each(product.headerRight, function(parameter, index) {
           product.headerRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
           if (parameter.name === 'Inserts (DMV)') {
-            valueInsert = parameter.selected;
+            product.headerLeft[index].selected = additionalInserts;
           }
         });
 
@@ -871,7 +869,7 @@ export class ProductViewEuropaComponent implements OnInit {
         _.each(product.headerLeft, function(parameter, index) {
           product.headerLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
           if (parameter.name === 'Inserts (DMV)') {
-            product.headerLeft[index].selected = valueInsert;
+            product.headerLeft[index].selected = additionalInsertsL;
           }
         });
 
