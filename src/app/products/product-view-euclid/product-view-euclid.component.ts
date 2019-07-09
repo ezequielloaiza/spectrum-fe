@@ -239,9 +239,6 @@ export class ProductViewEuclidComponent implements OnInit {
     (parameter.name === 'Sphere (D)' && parameter.type === 'input')) {
       parameter.selected = this.format(value);
     }
-    if (parameter.name === 'Cylinder (D)') {
-      parameter.selected = this.cilinderFormat(value);
-    }
   }
 
   axisFormat(value): any {
