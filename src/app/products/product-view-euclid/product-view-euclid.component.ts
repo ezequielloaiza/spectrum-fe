@@ -239,9 +239,6 @@ export class ProductViewEuclidComponent implements OnInit {
     (parameter.name === 'Sphere (D)' && parameter.type === 'input')) {
       parameter.selected = this.format(value);
     }
-    if (parameter.name === 'Cylinder (D)') {
-      parameter.selected = this.cilinderFormat(value);
-    }
   }
 
   axisFormat(value): any {
@@ -542,6 +539,9 @@ export class ProductViewEuclidComponent implements OnInit {
           isValid = false;
         }
       });
+      if (!this.product.quantityRight) {
+        isValid = false;
+      }
     }
 
     if (this.product.eyeLeft) {
@@ -550,6 +550,9 @@ export class ProductViewEuclidComponent implements OnInit {
           isValid = false;
         }
       });
+      if (!this.product.quantityLeft) {
+        isValid = false;
+      }
     }
     return isValid;
   }
