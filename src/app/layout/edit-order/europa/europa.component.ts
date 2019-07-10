@@ -471,6 +471,7 @@ export class EuropaComponent implements OnInit {
     const hidrapegPrice = this.hidrapeg;
     const notchPrice = this.notch;
     const dMVPrice = this.inserts;
+    const groupId = this.productRequested.groupId;
 
     // add products aditionals
     if (this.detail.header[1].selected === true) {
@@ -488,6 +489,7 @@ export class EuropaComponent implements OnInit {
       this.productRequestedHydraPEG.product = productHydraPEG.idProduct;
       this.productRequestedHydraPEG.patient = this.patient;
       this.productRequestedHydraPEG.delete = false;
+      this.productRequestedHydraPEG.groupId = groupId;
       productsAditional.push(productH);
     } else if (this.productRequestedHydraPEG != undefined) {
       this.productRequestedHydraPEG.product = productHydraPEG.idProduct;
@@ -516,6 +518,7 @@ export class EuropaComponent implements OnInit {
       this.productRequestedDMV.product = this.productDMV.idProduct;
       this.productRequestedDMV.patient = this.patient;
       this.productRequestedDMV.delete = false;
+      this.productRequestedDMV.groupId = groupId;
       productsAditional.push(productD);
     } else if (this.productRequestedDMV != undefined) {
       this.productRequestedDMV.product = productHydraPEG.idProduct;
@@ -540,7 +543,11 @@ export class EuropaComponent implements OnInit {
         prNotch.product = productNotch.idProduct;
         prNotch.patient = patient;
         prNotch.delete = !flagNotch;
+        prNotch.groupId = groupId;
         productsAditional.push(productN);
+      } else if (parameter.name === 'Notch (mm)' && parameter.selected === '0x0') {
+        prNotch.product = productNotch.idProduct;
+        prNotch.delete = true;
       }
     });
     this.productRequestedNotch = prNotch;
