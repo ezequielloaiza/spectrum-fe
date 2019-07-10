@@ -57,13 +57,23 @@ export class DetailsOrderComponent implements OnInit {
         if (res.data.dateSend !== null && res.data.supplier.idSupplier !== 1) {
           this.download = true;
         }
+
+        const auxList = [];
         _.each(this.order.listProductRequested, function (detailsOrder) {
+          const productId = detailsOrder.productRequested.product.idProduct;
           detailsOrder.productRequested.show = false;
           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
-          if (detailsOrder.productRequested.detail.length){
+          if (detailsOrder.productRequested.detail.length) {
             detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
           }
+          if (productId !== 145
+              && productId !== 146
+              && productId !== 147) {
+            auxList.push(detailsOrder);
+          }
         });
+
+        this.order.listProductRequested = auxList;
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
         this.spinner.hide();

@@ -34,6 +34,7 @@ export class EuropaComponent implements OnInit {
   listBasketProductREquested: Array<any> = new Array;
   listAux: Array<any> = new Array;
   product: any;
+  productCode: any;
   detail: any;
   detailEdit: any;
   typeEdit: any;
@@ -86,6 +87,7 @@ export class EuropaComponent implements OnInit {
       this.findByGroupdId();
     }
     this.detail = this.productRequested.detail[0];
+    this.productCode = this.productRequested.product;
     this.getProductsEuropa();
     console.log('4', this.productRequested);
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
@@ -211,7 +213,8 @@ export class EuropaComponent implements OnInit {
   setNameProduct() {
     if (_.includes(this.detail.name, 'Bitorico')) {
       this.productName = 'Europa Bi-Toric';
-    } else if (_.includes(this.detail.name, 'SPH')) {
+    } else if (_.includes(this.detail.name, 'SPH')
+        || _.includes(this.productCode.name, 'Sphere')) {
       this.productName = 'Europa SPH';
     } else if (_.includes(this.detail.name, 'M.F')) {
       this.productName = 'Europa Multifocal';
@@ -466,8 +469,8 @@ export class EuropaComponent implements OnInit {
     const productHydraPEG = this.productHydraPEG;
     const productNotch = this.productNotch;
     const hidrapegPrice = this.hidrapeg;
-    const dMVPrice = this.inserts;
     const notchPrice = this.notch;
+    const dMVPrice = this.inserts;
 
     // add products aditionals
     if (this.detail.header[1].selected === true) {
@@ -475,14 +478,20 @@ export class EuropaComponent implements OnInit {
         name: productHydraPEG.name,
         price: hidrapegPrice,
         codeSpectrum: productHydraPEG.codeSpectrum };
+      if (this.productRequestedHydraPEG == undefined) {
+        this.productRequestedHydraPEG = new ProductRequested();
+      }
       this.productRequestedHydraPEG.detail = '';
       this.productRequestedHydraPEG.observations = this.observations;
       this.productRequestedHydraPEG.price = hidrapegPrice;
       this.productRequestedHydraPEG.quantity = 1;
-      this.productRequestedHydraPEG.product = this.productHydraPEG.idProduct;
+      this.productRequestedHydraPEG.product = productHydraPEG.idProduct;
       this.productRequestedHydraPEG.patient = this.patient;
-      this.productRequestedHydraPEG.delete = !this.additionalHidrapeg;
+      this.productRequestedHydraPEG.delete = false;
       productsAditional.push(productH);
+    } else if (this.productRequestedHydraPEG != undefined) {
+      this.productRequestedHydraPEG.product = productHydraPEG.idProduct;
+      this.productRequestedHydraPEG.delete = true;
     }
 
     if (this.detail.header[2].selected === true) {
@@ -497,59 +506,76 @@ export class EuropaComponent implements OnInit {
         name: 'Inserts (DMV)',
         price: price,
         codeSpectrum: productDMV.codeSpectrum };
+      if (this.productRequestedDMV == undefined) {
+        this.productRequestedDMV = new ProductRequested();
+      }
       this.productRequestedDMV.detail = '';
       this.productRequestedDMV.observations = this.observations;
-      this.productRequestedDMV.price = hidrapegPrice;
+      this.productRequestedDMV.price = price;
       this.productRequestedDMV.quantity = 1;
       this.productRequestedDMV.product = this.productDMV.idProduct;
       this.productRequestedDMV.patient = this.patient;
-      this.productRequestedDMV.delete = !this.additionalInserts;
+      this.productRequestedDMV.delete = false;
       productsAditional.push(productD);
+    } else if (this.productRequestedDMV != undefined) {
+      this.productRequestedDMV.product = productHydraPEG.idProduct;
+      this.productRequestedDMV.delete = true;
     }
 
     /*params*/
+    const prNotch: ProductRequested = new ProductRequested();
+    const patient = this.patient;
+    const flagNotch = this.additionalNotch;
+    const obs = this.observations;
     _.each(this.detail.parameters, function(parameter) {
       if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
         const productN =  { id: productNotch.idProduct,
           name: productNotch.name,
           price: notchPrice,
           codeSpectrum: productNotch.codeSpectrum };
-        this.productRequestedNotch.detail = '';
-        this.productRequestedNotch.observations = this.observations;
-        this.productRequestedNotch.price = hidrapegPrice;
-        this.productRequestedNotch.quantity = 1;
-        this.productRequestedNotch.product = this.productNotch.idProduct;
-        this.productRequestedNotch.patient = this.patient;
-        this.productRequestedNotch.delete = !this.additionalNotch;
+        prNotch.detail = '';
+        prNotch.observations = obs;
+        prNotch.price = notchPrice;
+        prNotch.quantity = 1;
+        prNotch.product = productNotch.idProduct;
+        prNotch.patient = patient;
+        prNotch.delete = !flagNotch;
         productsAditional.push(productN);
       }
     });
-
-    productsRequestedsAditional.push(this.productRequestedHydraPEG);
-    productsRequestedsAditional.push(this.productRequestedDMV);
-    productsRequestedsAditional.push(this.productRequestedNotch);
+    this.productRequestedNotch = prNotch;
+    if (this.productRequestedHydraPEG != undefined) {
+      productsRequestedsAditional.push(this.productRequestedHydraPEG);
+    }
+    if (this.productRequestedDMV != undefined) {
+      productsRequestedsAditional.push(this.productRequestedDMV);
+    }
+    if (this.productRequestedNotch != undefined) {
+      productsRequestedsAditional.push(this.productRequestedNotch);
+    }
 
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-      this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+      this.productRequested.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional }) + ']';
       this.productRequested.observations = this.observations;
       this.productRequested.price = this.price;
       this.productRequested.quantity = this.quantity;
-      this.productRequested.product = this.product.idProduct;
+      this.productRequested.product = this.productCode.idProduct;
+      console.log('pcode', this.productCode);
       this.productRequested.patient = this.patient;
       productsRequestedsAditional.push(this.productRequested);
       this.update(productsRequestedsAditional);
     } else { // Order Detail
       this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-      this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
       this.productRequestedAux.observations = this.observations;
       this.productRequestedAux.price = this.price;
       this.productRequestedAux.quantity = this.quantity;
-      this.productRequestedAux.product = this.product.idProduct;
+      this.productRequestedAux.product = this.productCode.idProduct;
       this.productRequestedAux.patient = this.patient;
       productsRequestedsAditional.push(this.productRequested);
       this.update(productsRequestedsAditional);
@@ -752,6 +778,8 @@ export class EuropaComponent implements OnInit {
     let self = this;
     this.productRequestedService.updateList$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        let listAux = res.data;
+        console.log('listAux' , listAux);
         if (lenghtGroup === 2 && self.changeInserts) {
            self.updateEuropa(res.data);
         } else {
@@ -759,7 +787,7 @@ export class EuropaComponent implements OnInit {
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
             this.notification.success('', res);
           });
-          productRequested = res.data;
+          productRequested = listAux[0];
           productRequested.detail = JSON.parse(productRequested.detail);
           this.modalReference.close(productRequested);
         }
