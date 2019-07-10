@@ -578,6 +578,9 @@ export class ProductViewEuclidComponent implements OnInit {
     }
 
     if (this.product.eyeRight) {
+      if (this.product.quantityRight === undefined) {
+        return false;
+      }
       _.each(this.product.parametersRight, function (param){
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
@@ -586,6 +589,9 @@ export class ProductViewEuclidComponent implements OnInit {
     }
 
     if (this.product.eyeLeft) {
+      if (this.product.quantityLeft === undefined) {
+        return false;
+      }
       _.each(this.product.parametersLeft, function (param){
         if (param.selected === null || param.selected === undefined) {
           isValid = false;

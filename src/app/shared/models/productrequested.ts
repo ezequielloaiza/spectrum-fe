@@ -15,6 +15,7 @@ export class ProductRequested {
   public  subtotal: number;
   public  groupId: number;
   public fileProductRequestedList: Array<FileProductRequested>;
+  public delete: boolean;
 
   public constructor() { }
 

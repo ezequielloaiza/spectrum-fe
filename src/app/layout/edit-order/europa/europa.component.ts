@@ -28,6 +28,9 @@ export class EuropaComponent implements OnInit {
   productNotch: any;
   productHydraPEG: any;
   productDMV: any;
+  productRequestedNotch: any;
+  productRequestedHydraPEG: any;
+  productRequestedDMV: any;
   listBasketProductREquested: Array<any> = new Array;
   listAux: Array<any> = new Array;
   product: any;
@@ -84,7 +87,7 @@ export class EuropaComponent implements OnInit {
     }
     this.detail = this.productRequested.detail[0];
     this.getProductsEuropa();
-
+    console.log('4', this.productRequested);
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
@@ -94,16 +97,37 @@ export class EuropaComponent implements OnInit {
     this.basketProductRequestedService.allBasketByGroupId$(this.productRequested.groupId).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         const auxList = [];
+        let prNotch;
+        let prDMV;
+        let prHydrapeg;
         _.each(res.data, function (basket) {
           const productId = basket.productRequested.product.idProduct;
           if (productId !== 145
                 && productId !== 146
                 && productId !== 147) {
             auxList.push(basket);
+          } else {
+            switch (productId) {
+              case 145:
+                prNotch = basket.productRequested;
+                break;
+              case 146:
+                prDMV = basket.productRequested;
+                break;
+              case 147:
+                prHydrapeg = basket.productRequested;
+                break;
+            }
           }
         });
+        this.productRequestedNotch = prNotch;
+        this.productRequestedDMV = prDMV;
+        this.productRequestedHydraPEG = prHydrapeg;
         this.listBasketProductREquested = auxList;
         this.lenghtGroup = this.listBasketProductREquested.length;
+        console.log('1', this.productRequestedDMV);
+    console.log('2', this.productRequestedHydraPEG);
+    console.log('3', this.productRequestedNotch);
       } else {
         console.log(res);
       }
@@ -116,14 +140,32 @@ export class EuropaComponent implements OnInit {
     this.orderProductRequestedService.allByGroupId$(this.productRequested.groupId, this.order.idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         const auxList = [];
+        let prNotch;
+        let prDMV;
+        let prHydrapeg;
         _.each(res.data, function (basket) {
           const productId = basket.productRequested.product.idProduct;
           if (productId !== 145
                 && productId !== 146
                 && productId !== 147) {
             auxList.push(basket);
+          } else {
+            switch (productId) {
+              case 145:
+                prNotch = basket.productRequested;
+                break;
+              case 146:
+                prDMV = basket.productRequested;
+                break;
+              case 147:
+                prHydrapeg = basket.productRequested;
+                break;
+            }
           }
         });
+        this.productRequestedNotch = prNotch;
+        this.productRequestedDMV = prDMV;
+        this.productRequestedHydraPEG = prHydrapeg;
         this.listBasketProductREquested = auxList;
         this.lenghtGroup = this.listBasketProductREquested.length;
         console.log(res);
@@ -419,6 +461,7 @@ export class EuropaComponent implements OnInit {
     });
     // add products code
     const productsAditional = [];
+    const productsRequestedsAditional = [];
     const productDMV = this.productDMV;
     const productHydraPEG = this.productHydraPEG;
     const productNotch = this.productNotch;
@@ -432,6 +475,13 @@ export class EuropaComponent implements OnInit {
         name: productHydraPEG.name,
         price: hidrapegPrice,
         codeSpectrum: productHydraPEG.codeSpectrum };
+      this.productRequestedHydraPEG.detail = '';
+      this.productRequestedHydraPEG.observations = this.observations;
+      this.productRequestedHydraPEG.price = hidrapegPrice;
+      this.productRequestedHydraPEG.quantity = 1;
+      this.productRequestedHydraPEG.product = this.productHydraPEG.idProduct;
+      this.productRequestedHydraPEG.patient = this.patient;
+      this.productRequestedHydraPEG.delete = !this.additionalHidrapeg;
       productsAditional.push(productH);
     }
 
@@ -447,6 +497,13 @@ export class EuropaComponent implements OnInit {
         name: 'Inserts (DMV)',
         price: price,
         codeSpectrum: productDMV.codeSpectrum };
+      this.productRequestedDMV.detail = '';
+      this.productRequestedDMV.observations = this.observations;
+      this.productRequestedDMV.price = hidrapegPrice;
+      this.productRequestedDMV.quantity = 1;
+      this.productRequestedDMV.product = this.productDMV.idProduct;
+      this.productRequestedDMV.patient = this.patient;
+      this.productRequestedDMV.delete = !this.additionalInserts;
       productsAditional.push(productD);
     }
 
@@ -457,9 +514,20 @@ export class EuropaComponent implements OnInit {
           name: productNotch.name,
           price: notchPrice,
           codeSpectrum: productNotch.codeSpectrum };
+        this.productRequestedNotch.detail = '';
+        this.productRequestedNotch.observations = this.observations;
+        this.productRequestedNotch.price = hidrapegPrice;
+        this.productRequestedNotch.quantity = 1;
+        this.productRequestedNotch.product = this.productNotch.idProduct;
+        this.productRequestedNotch.patient = this.patient;
+        this.productRequestedNotch.delete = !this.additionalNotch;
         productsAditional.push(productN);
       }
     });
+
+    productsRequestedsAditional.push(this.productRequestedHydraPEG);
+    productsRequestedsAditional.push(this.productRequestedDMV);
+    productsRequestedsAditional.push(this.productRequestedNotch);
 
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
@@ -471,7 +539,8 @@ export class EuropaComponent implements OnInit {
       this.productRequested.quantity = this.quantity;
       this.productRequested.product = this.product.idProduct;
       this.productRequested.patient = this.patient;
-      this.update(this.productRequested);
+      productsRequestedsAditional.push(this.productRequested);
+      this.update(productsRequestedsAditional);
     } else { // Order Detail
       this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
       this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
@@ -482,7 +551,8 @@ export class EuropaComponent implements OnInit {
       this.productRequestedAux.quantity = this.quantity;
       this.productRequestedAux.product = this.product.idProduct;
       this.productRequestedAux.patient = this.patient;
-      this.update(this.productRequestedAux);
+      productsRequestedsAditional.push(this.productRequested);
+      this.update(productsRequestedsAditional);
     }
 
   }
@@ -680,7 +750,7 @@ export class EuropaComponent implements OnInit {
   update(productRequested) {
     let lenghtGroup = this.lenghtGroup;
     let self = this;
-    this.productRequestedService.update$(productRequested).subscribe(res => {
+    this.productRequestedService.updateList$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         if (lenghtGroup === 2 && self.changeInserts) {
            self.updateEuropa(res.data);
