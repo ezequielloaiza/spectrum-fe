@@ -31,6 +31,7 @@ export class EuropaComponent implements OnInit {
   listBasketProductREquested: Array<any> = new Array;
   listAux: Array<any> = new Array;
   product: any;
+  productCode: any;
   detail: any;
   detailEdit: any;
   typeEdit: any;
@@ -83,6 +84,7 @@ export class EuropaComponent implements OnInit {
       this.findByGroupdId();
     }
     this.detail = this.productRequested.detail[0];
+    this.productCode = this.productRequested.product;
     this.getProductsEuropa();
 
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
@@ -169,7 +171,8 @@ export class EuropaComponent implements OnInit {
   setNameProduct() {
     if (_.includes(this.detail.name, 'Bitorico')) {
       this.productName = 'Europa Bi-Toric';
-    } else if (_.includes(this.detail.name, 'SPH')) {
+    } else if (_.includes(this.detail.name, 'SPH')
+        || _.includes(this.productCode.name, 'Sphere')) {
       this.productName = 'Europa SPH';
     } else if (_.includes(this.detail.name, 'M.F')) {
       this.productName = 'Europa Multifocal';
@@ -423,7 +426,6 @@ export class EuropaComponent implements OnInit {
     const productHydraPEG = this.productHydraPEG;
     const productNotch = this.productNotch;
     const hidrapegPrice = this.hidrapeg;
-    const dMVPrice = this.inserts;
     const notchPrice = this.notch;
 
     // add products aditionals
@@ -433,21 +435,6 @@ export class EuropaComponent implements OnInit {
         price: hidrapegPrice,
         codeSpectrum: productHydraPEG.codeSpectrum };
       productsAditional.push(productH);
-    }
-
-    if (this.detail.header[2].selected === true) {
-      let price = 0;
-      if (this.lenghtGroup === 2) {
-        price = dMVPrice / 2;
-      } else {
-        price = dMVPrice;
-      }
-
-      const productD = { id: productDMV.idProduct,
-        name: 'Inserts (DMV)',
-        price: price,
-        codeSpectrum: productDMV.codeSpectrum };
-      productsAditional.push(productD);
     }
 
     /*params*/
@@ -463,24 +450,24 @@ export class EuropaComponent implements OnInit {
 
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-      this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+      this.productRequested.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional }) + ']';
       this.productRequested.observations = this.observations;
       this.productRequested.price = this.price;
       this.productRequested.quantity = this.quantity;
-      this.productRequested.product = this.product.idProduct;
+      this.productRequested.product = this.productCode.idProduct;
       this.productRequested.patient = this.patient;
       this.update(this.productRequested);
     } else { // Order Detail
       this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-      this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
       this.productRequestedAux.observations = this.observations;
       this.productRequestedAux.price = this.price;
       this.productRequestedAux.quantity = this.quantity;
-      this.productRequestedAux.product = this.product.idProduct;
+      this.productRequestedAux.product = this.productCode.idProduct;
       this.productRequestedAux.patient = this.patient;
       this.update(this.productRequestedAux);
     }
