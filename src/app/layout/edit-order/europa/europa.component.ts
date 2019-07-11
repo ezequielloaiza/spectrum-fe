@@ -83,13 +83,13 @@ export class EuropaComponent implements OnInit {
       this.findBasketByGroupdId();
     } else { // order-detail
       this.productRequested = this.detailEdit;
+      this.productRequestedAux = this.detailEdit;
       this.membership = this.userOrder.membership.idMembership;
       this.findByGroupdId();
     }
     this.detail = this.productRequested.detail[0];
     this.productCode = this.productRequested.product;
     this.getProductsEuropa();
-    console.log('4', this.productRequested);
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
@@ -127,9 +127,6 @@ export class EuropaComponent implements OnInit {
         this.productRequestedHydraPEG = prHydrapeg;
         this.listBasketProductREquested = auxList;
         this.lenghtGroup = this.listBasketProductREquested.length;
-        console.log('1', this.productRequestedDMV);
-    console.log('2', this.productRequestedHydraPEG);
-    console.log('3', this.productRequestedNotch);
       } else {
         console.log(res);
       }
@@ -484,6 +481,8 @@ export class EuropaComponent implements OnInit {
         codeSpectrum: productHydraPEG.codeSpectrum };
       if (this.productRequestedHydraPEG == undefined) {
         this.productRequestedHydraPEG = new ProductRequested();
+      } else {
+        this.productRequestedHydraPEG.idProductRequested = this.productRequestedHydraPEG.idProductRequested;
       }
       this.productRequestedHydraPEG.detail = detail;
       this.productRequestedHydraPEG.observations = this.observations;
@@ -524,12 +523,13 @@ export class EuropaComponent implements OnInit {
       this.productRequestedDMV.groupId = groupId;
       productsAditional.push(productD);
     } else if (this.productRequestedDMV != undefined) {
-      this.productRequestedDMV.product = productHydraPEG.idProduct;
+      this.productRequestedDMV.product = this.productDMV.idProduct;
       this.productRequestedDMV.delete = true;
     }
 
     /*params*/
     const prNotch: ProductRequested = new ProductRequested();
+    const pRNotch = this.productRequestedNotch;
     const patient = this.patient;
     const flagNotch = this.additionalNotch;
     const obs = this.observations;
@@ -549,18 +549,21 @@ export class EuropaComponent implements OnInit {
         prNotch.groupId = groupId;
         productsAditional.push(productN);
       } else if (parameter.name === 'Notch (mm)' && parameter.selected === '0x0') {
-        prNotch.product = productNotch.idProduct;
-        prNotch.delete = true;
+        if (pRNotch != undefined) {
+          prNotch.product = productNotch.idProduct;
+          prNotch.delete = true;
+        }
       }
     });
     this.productRequestedNotch = prNotch;
+
     if (this.productRequestedHydraPEG != undefined) {
       productsRequestedsAditional.push(this.productRequestedHydraPEG);
     }
     if (this.productRequestedDMV != undefined) {
       productsRequestedsAditional.push(this.productRequestedDMV);
     }
-    if (this.productRequestedNotch != undefined) {
+    if (this.productRequestedNotch != undefined && this.productRequestedNotch.product != undefined) {
       productsRequestedsAditional.push(this.productRequestedNotch);
     }
 
@@ -573,12 +576,11 @@ export class EuropaComponent implements OnInit {
       this.productRequested.price = this.price;
       this.productRequested.quantity = this.quantity;
       this.productRequested.product = this.productCode.idProduct;
-      console.log('pcode', this.productCode);
       this.productRequested.patient = this.patient;
       productsRequestedsAditional.push(this.productRequested);
       this.update(productsRequestedsAditional);
     } else { // Order Detail
-      this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
+      this.productRequestedAux.idProductRequested = this.productRequested.idProductRequested;
       this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
@@ -789,7 +791,6 @@ export class EuropaComponent implements OnInit {
     this.productRequestedService.updateList$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         let listAux = res.data;
-        console.log('listAux' , listAux);
         if (lenghtGroup === 2 && self.changeInserts) {
            self.updateEuropa(res.data);
         } else {
