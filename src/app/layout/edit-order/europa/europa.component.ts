@@ -472,6 +472,9 @@ export class EuropaComponent implements OnInit {
     const notchPrice = this.notch;
     const dMVPrice = this.inserts;
     const groupId = this.productRequested.groupId;
+    const detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
+      header: this.detail.header, parameters: this.detail.parameters,
+      pasos: this.detail.pasos}) + ']';
 
     // add products aditionals
     if (this.detail.header[1].selected === true) {
@@ -482,7 +485,7 @@ export class EuropaComponent implements OnInit {
       if (this.productRequestedHydraPEG == undefined) {
         this.productRequestedHydraPEG = new ProductRequested();
       }
-      this.productRequestedHydraPEG.detail = '';
+      this.productRequestedHydraPEG.detail = detail;
       this.productRequestedHydraPEG.observations = this.observations;
       this.productRequestedHydraPEG.price = hidrapegPrice;
       this.productRequestedHydraPEG.quantity = 1;
@@ -511,7 +514,7 @@ export class EuropaComponent implements OnInit {
       if (this.productRequestedDMV == undefined) {
         this.productRequestedDMV = new ProductRequested();
       }
-      this.productRequestedDMV.detail = '';
+      this.productRequestedDMV.detail = detail;
       this.productRequestedDMV.observations = this.observations;
       this.productRequestedDMV.price = price;
       this.productRequestedDMV.quantity = 1;
@@ -536,7 +539,7 @@ export class EuropaComponent implements OnInit {
           name: productNotch.name,
           price: notchPrice,
           codeSpectrum: productNotch.codeSpectrum };
-        prNotch.detail = '';
+        prNotch.detail = detail;
         prNotch.observations = obs;
         prNotch.price = notchPrice;
         prNotch.quantity = 1;
