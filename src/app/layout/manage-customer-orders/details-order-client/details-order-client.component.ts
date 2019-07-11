@@ -33,12 +33,13 @@ export class DetailsOrderClientComponent implements OnInit {
   listDetailsAux: Array<any> = new Array;
   listAux: Array<ProductRequested> = new Array<ProductRequested>();
   advancedPagination: number;
-  itemPerPage = 1;
+  itemPerPage = 2;
   generar = false;
   download = false;
   user: any;
   company: any;
   prueba: any;
+  init = false;
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
     public productImageService: ProductoimageService,
@@ -93,6 +94,7 @@ export class DetailsOrderClientComponent implements OnInit {
         this.order.listProductRequested = auxList;
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
+        this.listDetails = this.listDetailsAux.slice(0, this.itemPerPage);
         this.spinner.hide();
       }
     });
@@ -145,8 +147,10 @@ export class DetailsOrderClientComponent implements OnInit {
         }
       });
     });
-    this.listDetails = this.order.listProductRequested;
-    this.listDetailsAux = this.order.listProductRequested;
+    if (this.init) {
+      this.listDetails = this.order.listProductRequested;
+      this.listDetailsAux = this.order.listProductRequested;
+    }
     this.updateTotal();
   }
 
