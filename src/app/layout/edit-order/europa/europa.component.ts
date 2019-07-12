@@ -791,15 +791,20 @@ export class EuropaComponent implements OnInit {
     this.productRequestedService.updateList$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         let listAux = res.data;
+        const principal = listAux.filter((item) => {
+          return ((item.product.idProduct != 145 &&  item.product.idProduct != 146 
+            && item.product.idProduct != 147));
+        });
         if (lenghtGroup === 2 && self.changeInserts) {
-           self.updateEuropa(res.data);
+           self.updateEuropa(principal[0]);
         } else {
           this.spinner.hide();
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
             this.notification.success('', res);
           });
-          productRequested = listAux[0];
+          productRequested = principal[0];
           productRequested.detail = JSON.parse(productRequested.detail);
+          console.log('productRequested',productRequested);
           this.modalReference.close(productRequested);
         }
       } else {
@@ -865,10 +870,8 @@ export class EuropaComponent implements OnInit {
         });
         productRequested = res1.data;
         productRequested.detail = JSON.parse(productRequested.detail);
-        res1.data.detail = JSON.parse(res1.data.detail);
-        self.listAux.push(productRequested);
-        self.listAux.push(res1.data);
-        this.modalReference.close(self.listAux);
+        console.log('updatePriceEuropa', productRequested);
+        this.modalReference.close(productRequested);
       }
   });
   }
