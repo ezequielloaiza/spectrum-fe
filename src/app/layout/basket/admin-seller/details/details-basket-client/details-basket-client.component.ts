@@ -30,7 +30,7 @@ import { SalineFluoComponent } from '../../../../edit-order/saline-fluo/saline-f
 import { DetailLenticonComponent } from '../../../modals/detail-product/detail-lenticon/detail-lenticon.component';
 import { LenticonComponent } from '../../../../edit-order/lenticon/lenticon.component';
 import { ProductRequested } from '../../../../../shared/models/productrequested';
-
+import { ProductService } from '../../../../../shared/services/products/product.service';
 
 
 @Component({
@@ -58,6 +58,7 @@ export class DetailsBasketClientComponent implements OnInit {
   inserts = 0;
   basketUpdate;
   productRequested1: ProductRequested;
+  productDMV: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -70,7 +71,8 @@ export class DetailsBasketClientComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
-    private productRequestedService: ProductsRequestedService) {
+    private productRequestedService: ProductsRequestedService,
+    private productService: ProductService) {
       this.user = JSON.parse(userStorageService.getCurrentUser());
     }
 
@@ -111,9 +113,21 @@ export class DetailsBasketClientComponent implements OnInit {
           }
         });
         this.listBasketAll = this.listBasket;
-        this.assignPriceAllEuropa(auxList);
         this.listBasket = auxList;
         this.listBasketAux = auxList;
+        // search product insertor
+        this.productService.findById$(146).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.assignPriceAllEuropa(auxList, res1.data[0]);
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
+
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.spinner.hide();
@@ -121,11 +135,12 @@ export class DetailsBasketClientComponent implements OnInit {
     });
   }
 
-  assignPriceAllEuropa(auxList): void {
+  assignPriceAllEuropa(auxList, productDMV): void {
     let arrayProductAditionals = [];
     const self = this;
     let priceAll = 0;
     let priceInsertor = 0;
+
     let existContraryEye = false;
 
     _.each(auxList, function(basket) {
@@ -139,20 +154,39 @@ export class DetailsBasketClientComponent implements OnInit {
           const productId = basket.productRequested.product.idProduct;
           if (productId !== 146) {
             priceAll = priceAll + item.productRequested.price;
-          } else {
-            priceInsertor = item.productRequested.price;
           }
         });
         // price insertors
         const insertor = basket.productRequested.detail[0].header[2].selected === true;
+        priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
+
         if (insertor && existContraryEye) {
           priceAll = priceAll + (priceInsertor / 2);
-        } else {
+        } else if (insertor) {
           priceAll = priceAll + priceInsertor;
         }
+
         basket.productRequested.price = priceAll;
       }
     });
+  }
+
+  getPriceInsertor(membership, productDMV) {
+    let price = 0;
+
+    switch (membership) {
+      case 1:
+        price = productDMV.price1;
+        break;
+      case 2:
+        price = productDMV.price2;
+        break;
+      case 3:
+        price = productDMV.price3;
+        break;
+    }
+
+    return price;
   }
 
   contraryEye(groupId, eye) {
@@ -179,7 +213,7 @@ export class DetailsBasketClientComponent implements OnInit {
       return o.idBasketProductRequested === id;
     });
      if (basket.productRequested.product.supplier.idSupplier === 2) {
-       this.updateBasketGroupId(id, basket);
+       //this.updateBasketGroupId(id, basket);
      } else {
       this.basketProductRequestedService.removeById$(id).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -206,7 +240,7 @@ export class DetailsBasketClientComponent implements OnInit {
           const idSupplier = basket.productRequested.product.supplier.idSupplier;
 
           if (idSupplier === 2) {
-            this.updateBasketGroupId(id, basket);
+            //this.updateBasketGroupId(id, basket);
             this.deleteProductsAditionalEuropa(basket);
           } else {
             this.borrar(id);

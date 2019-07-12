@@ -42,6 +42,7 @@ export class EuropaComponent implements OnInit {
   quantity: any;
   observations: any;
   price: any;
+  priceBase: any;
   editPrice = false;
   user: any;
   patient: any;
@@ -244,6 +245,7 @@ export class EuropaComponent implements OnInit {
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
+    this.priceBase = this.productRequested.price;
     this.patient = this.productRequested.patient;
     let paramet = this.product.parameters;
     let header = this.product.header;
@@ -338,9 +340,11 @@ export class EuropaComponent implements OnInit {
     if (parameter.name === 'Diameter (mm)') {
          this.checkAdditional();
          if (value === '18.0' || value === '20.0' ) {
+           this.priceBase = this.priceB;
            this.price = this.priceB + this.notch + this.thickness + this.hidrapeg + valueInserts;
          } else {
-           this.price = this.priceA + this.notch + this.thickness + this.hidrapeg + valueInserts;
+          this.priceBase = this.priceA;
+          this.price = this.priceA + this.notch + this.thickness + this.hidrapeg + valueInserts;
          }
     }
     if (parameter.name === 'Hidrapeg') {
@@ -382,6 +386,7 @@ export class EuropaComponent implements OnInit {
         if (!this.flagNotch) {
           this.additionalNotch = true;
           this.flagNotch = true;
+          this.priceBase = this.price;
           this.price = this.price + this.notch;
         }
       } else if (parseFloat(value) === 0 && (value2 !== null) &&  parseFloat(value2) !== 0) {
@@ -560,9 +565,9 @@ export class EuropaComponent implements OnInit {
     if (this.productRequestedHydraPEG != undefined) {
       productsRequestedsAditional.push(this.productRequestedHydraPEG);
     }
-    if (this.productRequestedDMV != undefined) {
+    /*if (this.productRequestedDMV != undefined) {
       productsRequestedsAditional.push(this.productRequestedDMV);
-    }
+    }*/
     if (this.productRequestedNotch != undefined && this.productRequestedNotch.product != undefined) {
       productsRequestedsAditional.push(this.productRequestedNotch);
     }
@@ -573,7 +578,7 @@ export class EuropaComponent implements OnInit {
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional }) + ']';
       this.productRequested.observations = this.observations;
-      this.productRequested.price = this.price;
+      this.productRequested.price = this.priceBase;
       this.productRequested.quantity = this.quantity;
       this.productRequested.product = this.productCode.idProduct;
       this.productRequested.patient = this.patient;
@@ -585,7 +590,7 @@ export class EuropaComponent implements OnInit {
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
       this.productRequestedAux.observations = this.observations;
-      this.productRequestedAux.price = this.price;
+      this.productRequestedAux.price = this.priceBase;
       this.productRequestedAux.quantity = this.quantity;
       this.productRequestedAux.product = this.productCode.idProduct;
       this.productRequestedAux.patient = this.patient;
@@ -804,9 +809,13 @@ export class EuropaComponent implements OnInit {
         }
       } else {
         console.log(res);
+        this.spinner.hide();
+        this.modalReference.close(self.listAux);
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
+      this.modalReference.close(self.listAux);
     });
   }
 
@@ -847,7 +856,7 @@ export class EuropaComponent implements OnInit {
     });
     productRequested1.detail = JSON.stringify(detail);
     //Cambio de precio
-    if (oldInserts !== self.additionalInserts) {
+    /*if (oldInserts !== self.additionalInserts) {
       if (self.additionalInserts === true) {
         productRequested1.price = price + self.valueInserts;
      } else {
@@ -855,7 +864,7 @@ export class EuropaComponent implements OnInit {
      }
     } else {
        productRequested1.price = price;
-    }
+    }*/
     //Modificacion
     self.productRequestedService.updatePriceEuropa$(productRequested1).subscribe(res1 => {
       if (res1.code === CodeHttp.ok) {
