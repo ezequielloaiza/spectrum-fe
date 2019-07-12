@@ -111,6 +111,7 @@ export class DetailsBasketClientComponent implements OnInit {
           }
         });
         this.listBasketAll = this.listBasket;
+        this.assignPriceAllEuropa(auxList);
         this.listBasket = auxList;
         this.listBasketAux = auxList;
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
@@ -119,6 +120,59 @@ export class DetailsBasketClientComponent implements OnInit {
       }
     });
   }
+
+  assignPriceAllEuropa(auxList): void {
+    let arrayProductAditionals = [];
+    const self = this;
+    let priceAll = 0;
+    let priceInsertor = 0;
+    let existContraryEye = false;
+
+    _.each(auxList, function(basket) {
+      if (basket.productRequested.product.supplier.idSupplier === 2) {
+        arrayProductAditionals = self.getProductsAditionalEuropa(basket.productRequested.groupId,
+          basket.productRequested.detail[0].eye);
+        priceAll = 0;
+        existContraryEye = self.contraryEye(basket.productRequested.groupId,
+          basket.productRequested.detail[0].eye);
+        _.each(arrayProductAditionals, function(item) {
+          const productId = basket.productRequested.product.idProduct;
+          if (productId !== 146) {
+            priceAll = priceAll + item.productRequested.price;
+          } else {
+            priceInsertor = item.productRequested.price;
+          }
+        });
+        // price insertors
+        const insertor = basket.productRequested.detail[0].header[2].selected === true;
+        if (insertor && existContraryEye) {
+          priceAll = priceAll + (priceInsertor / 2);
+        } else {
+          priceAll = priceAll + priceInsertor;
+        }
+        basket.productRequested.price = priceAll;
+      }
+    });
+  }
+
+  contraryEye(groupId, eye) {
+    let exist = false;
+    let contraryEye = '';
+
+    if (eye === 'Left') {
+      contraryEye = 'Right';
+    } else {
+      contraryEye = 'Left';
+    }
+
+    _.each(this.listBasketAll, function(item) {
+      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === contraryEye) {
+        exist = true;
+      }
+    });
+    return exist;
+  }
+
   borrar(id): void {
    //Basket a eliminar
     let basket = _.find(this.listBasket, function(o) {
