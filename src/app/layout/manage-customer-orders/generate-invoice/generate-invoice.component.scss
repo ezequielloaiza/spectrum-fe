@@ -181,3 +181,8 @@
 .margin-left {
   margin-left: 1%;
 }
+
+.truncate{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

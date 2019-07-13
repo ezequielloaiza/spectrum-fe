@@ -203,7 +203,7 @@
                       <td class="table-tr td-table" *ngIf="pilot">{{productR.quantity}}</td>
                       <td class="table-tr td-table" *ngIf="!pilot">
                         <div class="amount-div">
-                          <input type="number" id="quantity{{i}}" [value]="productR.quantity" class="form-control" (change)="updateQuantity($event, i)"
+                          <input type="number" min="1" id="quantity{{i}}" [value]="productR.quantity" class="form-control" (change)="updateQuantity($event, i)"
                             placeholder="{{ 'Enter quantity' | translate }}" required>
                         </div>
                       </td>
@@ -213,7 +213,7 @@
                         <div class="input-group-append">
                           <span class="input-group-text">$</span>
                         </div>
-                        <input type="number" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice($event, i)"
+                        <input type="number" min="0" id="unitPrice{{i}}" [value]="productR.price" class="form-control" (change)="updateUnitPrice($event, i)"
                           placeholder="{{ 'Enter unit price' | translate }}" required>
                       </div>
                       </td>
@@ -223,7 +223,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">$</span>
                           </div>
-                          <input type="number" id="tax{{i}}" [value]="productR.tax" class="form-control" (change)="updateTax($event, i)"
+                          <input type="number" min="0" id="tax{{i}}" [value]="productR.tax" class="form-control" (change)="updateTax($event, i)"
                             placeholder="{{ 'Enter tax' | translate }}" required>
                         </div>
                         </td>
@@ -233,7 +233,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">$</span>
                           </div>
-                          <input type="number" id="netAmount{{i}}" [value]="productR.netAmount" class="form-control" (change)="updateNetAmount($event, i)"
+                          <input type="number" min="0" id="netAmount{{i}}" [value]="productR.netAmount" class="form-control" (change)="updateNetAmount($event, i)"
                             placeholder="{{ 'Enter Net Amount' | translate }}" required>
                         </div>
                       </td>
@@ -336,7 +336,7 @@
             </div>
             <div class="col col-xl-12 col-lg-12">
               <div class="row">
-                <div class="col-xl-12" *ngIf="protocolShippingInv || editBusinessName || editRecipient || editComment">
+                <div class="col-xl-12 truncate" *ngIf="protocolShippingInv || editBusinessName || editRecipient || editComment">
                   <br>
                   <label *ngIf="(pilot && invShippingProtocol?.businessName != null) || (!pilot && editBusinessName)" class="bold">{{ 'Business Name' }}: </label>
                   <label *ngIf="pilot && invShippingProtocol?.businessName != null" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
@@ -350,7 +350,7 @@
                   <label *ngIf="pilot && invShippingProtocol?.comment != null" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment: '') }}</label>
                   <label *ngIf="!pilot && editComment" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment : '') }}</label>
                 </div>
-                <div class="col-xl-12" *ngIf="protocolProformaInv || editTariffCodes">
+                <div class="col-xl-12 truncate" *ngIf="protocolProformaInv || editTariffCodes">
                   <label *ngIf="(pilot && invProtocolProforma?.tariffCodes != null) || (!pilot && editTariffCodes)" class="bold">{{ 'HS Code' }}: </label>
                   <label *ngIf="pilot && invProtocolProforma?.tariffCodes != null" class="margin-left">{{ (invProtocolProforma ? invProtocolProforma?.tariffCodes : '') }}</label>
                   <label *ngIf="!pilot && editTariffCodes" class="margin-left">{{ (invProtocolProforma ? invProtocolProforma?.tariffCodes : '') }}</label>
@@ -376,7 +376,7 @@
                   <div *ngIf="shippingProtocol == null || shippingProtocol == undefined || shippingProtocol.id == null" class="message-error" style="margin: 10%;">
                     <label class="bold">{{ 'Shippings protocols has not been defined for the provider' | translate }}</label>
                   </div>
-                  <div *ngIf="shippingProtocol != null && shippingProtocol != undefined && shippingProtocol.id != null">
+                  <div class="truncate" *ngIf="shippingProtocol != null && shippingProtocol != undefined && shippingProtocol.id != null">
                     <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
                       <label>{{ 'Select the protocols to include' | translate }}</label>
                     </div>
@@ -587,7 +587,7 @@
                   <div *ngIf="protocolProforma == null || protocolProforma == undefined || protocolProforma.id == null" class="message-error" style="margin: 10%;">
                     <label class="bold">{{ 'Proforma protocols has not been defined for the provider' | translate }}</label>
                   </div>
-                  <div *ngIf="protocolProforma != null && protocolProforma != undefined && protocolProforma.id != null">
+                  <div  class="truncate" *ngIf="protocolProforma != null && protocolProforma != undefined && protocolProforma.id != null">
                     <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
                       <label>{{ 'Select the protocols to include' | translate }}</label>
                     </div>
