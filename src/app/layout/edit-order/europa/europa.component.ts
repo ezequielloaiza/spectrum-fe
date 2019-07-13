@@ -809,7 +809,6 @@ export class EuropaComponent implements OnInit {
           });
           productRequested = principal[0];
           productRequested.detail = JSON.parse(productRequested.detail);
-          console.log('productRequested',productRequested);
           this.modalReference.close(productRequested);
         }
       } else {
@@ -867,9 +866,9 @@ export class EuropaComponent implements OnInit {
      } else {
         productRequested1.price = price - self.valueInserts;
      }
-    } else {
+    } else {*/
        productRequested1.price = price;
-    }*/
+    //}
     //Modificacion
     self.productRequestedService.updatePriceEuropa$(productRequested1).subscribe(res1 => {
       if (res1.code === CodeHttp.ok) {
@@ -879,7 +878,6 @@ export class EuropaComponent implements OnInit {
         });
         productRequested = res1.data;
         productRequested.detail = JSON.parse(productRequested.detail);
-        console.log('updatePriceEuropa', productRequested);
         this.modalReference.close(productRequested);
       }
   });
