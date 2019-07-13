@@ -129,7 +129,7 @@ export class ListBasketComponent implements OnInit {
         existContraryEye = self.contraryEye(basket.productRequested.groupId,
           basket.productRequested.detail[0].eye);
         _.each(arrayProductAditionals, function(item) {
-          const productId = basket.productRequested.product.idProduct;
+          const productId = item.productRequested.product.idProduct;
           if (productId !== 146) {
             priceAll = priceAll + item.productRequested.price;
           }
@@ -137,7 +137,6 @@ export class ListBasketComponent implements OnInit {
         // price insertors
         const insertor = basket.productRequested.detail[0].header[2].selected === true;
         priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
-
         if (insertor && existContraryEye) {
           priceAll = priceAll + (priceInsertor / 2);
         } else if (insertor) {

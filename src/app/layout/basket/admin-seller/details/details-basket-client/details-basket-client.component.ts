@@ -151,7 +151,7 @@ export class DetailsBasketClientComponent implements OnInit {
         existContraryEye = self.contraryEye(basket.productRequested.groupId,
           basket.productRequested.detail[0].eye);
         _.each(arrayProductAditionals, function(item) {
-          const productId = basket.productRequested.product.idProduct;
+          const productId = item.productRequested.product.idProduct;
           if (productId !== 146) {
             priceAll = priceAll + item.productRequested.price;
           }
@@ -199,7 +199,7 @@ export class DetailsBasketClientComponent implements OnInit {
       contraryEye = 'Left';
     }
 
-    _.each(this.listBasketAll, function(item) {
+    _.each(this.listBasket, function(item) {
       if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === contraryEye) {
         exist = true;
       }
@@ -322,9 +322,37 @@ export class DetailsBasketClientComponent implements OnInit {
   deleteProductsAditionalEuropa(basket) {
     let auxList = [];
     let arrayAux = [];
+    let arrayDelete = [];
+    let eye;
+    let productRDmv;
 
     auxList = this.getProductsAditionalEuropa(basket.productRequested.groupId,
       basket.productRequested.detail[0].eye);
+
+    // insertors
+    const insertor = basket.productRequested.detail[0].header[2].selected === true;
+    const existContraryEye = this.contraryEye(basket.productRequested.groupId,
+      basket.productRequested.detail[0].eye);
+
+    if (insertor && existContraryEye) {
+      productRDmv = _.find(auxList, function(o) {
+        return o.productRequested.product.idProduct === 146;
+      });
+
+      eye = basket.productRequested.detail[0].eye === 'Left' ? 'Right' : 'Left';
+      productRDmv.productRequested.detail[0].eye = eye;
+
+      /*this.productRequestedService.updatePriceEuropa$(productRDmv.productRequested).subscribe(res1 => {
+        if (res1.code === CodeHttp.ok) {
+          debugger
+          arrayDelete = _.remove(auxList, function(o) {
+            return o.productRequested.product.idProduct === 146;
+          });
+          auxList = arrayDelete;
+          debugger
+        }
+      });*/
+    }
 
     _.each(auxList, function(item) {
       const id = item.idBasketProductRequested;
