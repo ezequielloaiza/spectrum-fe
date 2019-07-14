@@ -589,7 +589,6 @@ export class ProductViewEuropaComponent implements OnInit {
       this.definePriceNotch(this.membership);
      // this.definePriceTickness(this.membership);
       this.definePriceInserts(this.membership);
-
       if (this.product.eyeRight) {
         let paramet = this.product.parametersRight;
         let valueD = null;

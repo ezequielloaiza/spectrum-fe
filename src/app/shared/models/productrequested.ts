@@ -9,6 +9,7 @@ export class ProductRequested {
   public  detail: string;
   public  quantity: number;
   public  price: number;
+  public  priceBase: number;
   public  show: boolean;
   public  patient: string;
   public  observations: string;

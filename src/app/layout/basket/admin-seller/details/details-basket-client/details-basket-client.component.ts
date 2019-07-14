@@ -165,7 +165,7 @@ export class DetailsBasketClientComponent implements OnInit {
         } else if (insertor) {
           priceAll = priceAll + priceInsertor;
         }
-
+        basket.productRequested.priceBase = basket.productRequested.price;
         basket.productRequested.price = priceAll;
       }
     });

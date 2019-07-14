@@ -91,6 +91,7 @@ export class EuropaComponent implements OnInit {
     this.detail = this.productRequested.detail[0];
     this.productCode = this.productRequested.product;
     this.getProductsEuropa();
+    this.priceBase = this.productRequested.priceBase;
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
@@ -128,9 +129,6 @@ export class EuropaComponent implements OnInit {
         this.productRequestedHydraPEG = prHydrapeg;
         this.listBasketProductREquested = auxList;
         this.lenghtGroup = this.listBasketProductREquested.length;
-        this.priceBase = auxList.find((item) => {
-          return (item.productRequested.idProductRequested == this.productRequested.idProductRequested);
-        }).price;
       } else {
         console.log(res);
       }
@@ -171,9 +169,6 @@ export class EuropaComponent implements OnInit {
         this.productRequestedHydraPEG = prHydrapeg;
         this.listBasketProductREquested = auxList;
         this.lenghtGroup = this.listBasketProductREquested.length;
-        this.priceBase = auxList.find((item) => {
-          return (item.productRequested.idProductRequested == this.productRequested.idProductRequested);
-        }).price;
         console.log(res);
       }
     }, error => {
