@@ -42,7 +42,7 @@ export class EuropaComponent implements OnInit {
   quantity: any;
   observations: any;
   price: any;
-  priceBase: any;
+  priceBase = 0;
   editPrice = false;
   user: any;
   patient: any;
@@ -504,23 +504,16 @@ export class EuropaComponent implements OnInit {
     }
 
     if (this.detail.header[2].selected === true) {
-      let price = 0;
-      if (this.lenghtGroup === 2) {
-        price = dMVPrice / 2;
-      } else {
-        price = dMVPrice;
-      }
-
       const productD = { id: productDMV.idProduct,
         name: 'Inserts (DMV)',
-        price: price,
+        price: dMVPrice,
         codeSpectrum: productDMV.codeSpectrum };
       if (this.productRequestedDMV == undefined) {
         this.productRequestedDMV = new ProductRequested();
       }
       this.productRequestedDMV.detail = detail;
       this.productRequestedDMV.observations = this.observations;
-      this.productRequestedDMV.price = price;
+      this.productRequestedDMV.price = dMVPrice;
       this.productRequestedDMV.quantity = 1;
       this.productRequestedDMV.product = this.productDMV.idProduct;
       this.productRequestedDMV.patient = this.patient;
@@ -563,12 +556,27 @@ export class EuropaComponent implements OnInit {
     this.productRequestedNotch = prNotch;
 
     if (this.productRequestedHydraPEG != undefined) {
+      if (this.typeEdit === 1) {
+        this.productRequestedHydraPEG.basketId = this.basket.basket.idBasket;
+      } else {
+        this.productRequestedHydraPEG.orderId = this.order.idOrder;
+      }
       productsRequestedsAditional.push(this.productRequestedHydraPEG);
     }
-    /*if (this.productRequestedDMV != undefined) {
+    if (this.productRequestedDMV != undefined && this.lenghtGroup === 1) {
+      if (this.typeEdit === 1) {
+        this.productRequestedDMV.basketId = this.basket.basket.idBasket;
+      } else {
+        this.productRequestedDMV.orderId = this.order.idOrder;
+      }
       productsRequestedsAditional.push(this.productRequestedDMV);
-    }*/
+    }
     if (this.productRequestedNotch != undefined && this.productRequestedNotch.product != undefined) {
+      if (this.typeEdit === 1) {
+        this.productRequestedNotch.basketId = this.basket.basket.idBasket;
+      } else {
+        this.productRequestedNotch.orderId = this.order.idOrder;
+      }
       productsRequestedsAditional.push(this.productRequestedNotch);
     }
 
@@ -578,10 +586,11 @@ export class EuropaComponent implements OnInit {
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional }) + ']';
       this.productRequested.observations = this.observations;
-      this.productRequested.price = this.priceBase;
+      // this.productRequested.price = this.priceBase;
       this.productRequested.quantity = this.quantity;
       this.productRequested.product = this.productCode.idProduct;
       this.productRequested.patient = this.patient;
+      this.productRequested.basketId = this.basket.basket.idBasket;
       productsRequestedsAditional.push(this.productRequested);
       this.update(productsRequestedsAditional);
     } else { // Order Detail
@@ -590,10 +599,11 @@ export class EuropaComponent implements OnInit {
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
       this.productRequestedAux.observations = this.observations;
-      this.productRequestedAux.price = this.priceBase;
+      // this.productRequestedAux.price = this.priceBase;
       this.productRequestedAux.quantity = this.quantity;
       this.productRequestedAux.product = this.productCode.idProduct;
       this.productRequestedAux.patient = this.patient;
+      this.productRequestedAux.orderId = this.order.idOrder;
       productsRequestedsAditional.push(this.productRequested);
       this.update(productsRequestedsAditional);
     }
@@ -793,11 +803,12 @@ export class EuropaComponent implements OnInit {
   update(productRequested) {
     let lenghtGroup = this.lenghtGroup;
     let self = this;
+
     this.productRequestedService.updateList$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         let listAux = res.data;
         const principal = listAux.filter((item) => {
-          return ((item.product.idProduct != 145 &&  item.product.idProduct != 146 
+          return ((item.product.idProduct != 145 &&  item.product.idProduct != 146
             && item.product.idProduct != 147));
         });
         if (lenghtGroup === 2 && self.changeInserts) {

@@ -14,6 +14,8 @@ export class ProductRequested {
   public  observations: string;
   public  subtotal: number;
   public  groupId: number;
+  public  basketId: number;
+  public  orderId: number;
   public fileProductRequestedList: Array<FileProductRequested>;
   public delete: boolean;
 
