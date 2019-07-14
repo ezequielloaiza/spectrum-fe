@@ -98,6 +98,7 @@ export class EuropaComponent implements OnInit {
   }
 
   findBasketByGroupdId() {
+    const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
     this.basketProductRequestedService.allBasketByGroupId$(this.productRequested.groupId).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         const auxList = [];
@@ -113,13 +114,17 @@ export class EuropaComponent implements OnInit {
           } else {
             switch (productId) {
               case 145:
-                prNotch = basket.productRequested;
+                if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                  prNotch = basket.productRequested;
+                }
                 break;
               case 146:
                 prDMV = basket.productRequested;
                 break;
               case 147:
-                prHydrapeg = basket.productRequested;
+                if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                  prHydrapeg = basket.productRequested;
+                }
                 break;
             }
           }
@@ -129,7 +134,6 @@ export class EuropaComponent implements OnInit {
         this.productRequestedHydraPEG = prHydrapeg;
         this.listBasketProductREquested = auxList;
         this.lenghtGroup = this.listBasketProductREquested.length;
-        this.validateEye();
       } else {
         console.log(res);
       }
