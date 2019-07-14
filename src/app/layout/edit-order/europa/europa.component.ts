@@ -153,19 +153,21 @@ export class EuropaComponent implements OnInit {
                 && productId !== 147) {
             auxList.push(basket);
           } else {
-            if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
               switch (productId) {
                 case 145:
-                  prNotch = basket.productRequested;
+                  if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                    prNotch = basket.productRequested;
+                  }
                   break;
                 case 146:
                   prDMV = basket.productRequested;
                   break;
                 case 147:
-                  prHydrapeg = basket.productRequested;
+                  if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                    prHydrapeg = basket.productRequested;
+                  }
                   break;
               }
-            }
           }
         });
         this.productRequestedNotch = prNotch;
@@ -173,7 +175,6 @@ export class EuropaComponent implements OnInit {
         this.productRequestedHydraPEG = prHydrapeg;
         this.listBasketProductREquested = auxList;
         this.lenghtGroup = this.listBasketProductREquested.length;
-        //this.validateEye();
         console.log(res);
       }
     }, error => {
@@ -183,20 +184,6 @@ export class EuropaComponent implements OnInit {
 
   close() {
     this.modalReference.close();
-  }
-
-  validateEye() {
-    const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
-    if (this.productRequestedHydraPEG !== undefined) {
-      if (eye !== this.productRequestedHydraPEG.detail[0].eye) {
-        this.productRequestedHydraPEG = undefined;
-      }
-    }
-    if (this.productRequestedNotch !== undefined) {
-      if (eye !== this.productRequestedNotch.detail[0].eye) {
-        this.productRequestedNotch = undefined;
-      }
-    }
   }
 
   getProductsEuropa() {
