@@ -589,6 +589,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.definePriceNotch(this.membership);
      // this.definePriceTickness(this.membership);
       this.definePriceInserts(this.membership);
+
       if (this.product.eyeRight) {
         let paramet = this.product.parametersRight;
         let valueD = null;
@@ -929,6 +930,12 @@ export class ProductViewEuropaComponent implements OnInit {
     const auxList = JSON.parse(JSON.stringify(productsSelected));
     const auxproductsSelected = [];
     let exist =  false;
+    this.definePriceHidrapeg(this.membership);
+    this.definePriceInserts(this.membership);
+    this.definePriceNotch(this.membership);
+    const hidrapegPr = this.hidrapeg;
+    const dMVPr = this.inserts;
+    const notchPr = this.notch;
 
     _.each(auxList, function(productAux) {
       auxproductsSelected.push(JSON.parse(JSON.stringify(productAux)));
@@ -936,7 +943,7 @@ export class ProductViewEuropaComponent implements OnInit {
         const productH = JSON.parse(JSON.stringify(productAux));
         productH.id = productHydraPEG.idProduct;
         productH.name = productHydraPEG.name;
-        productH.price = hidrapegPrice;
+        productH.price = hidrapegPr;
         productH.codeSpectrum = productHydraPEG.codeSpectrum;
         auxproductsSelected.push(productH);
       }
@@ -946,7 +953,7 @@ export class ProductViewEuropaComponent implements OnInit {
         const productD =  JSON.parse(JSON.stringify(productAux));
         productD.id = productDMV.idProduct;
         productD.name = 'Inserts (DMV)';
-        productD.price = dMVPrice;
+        productD.price = dMVPr;
         productD.codeSpectrum = productDMV.codeSpectrum;
         exist = true;
         auxproductsSelected.push(productD);
@@ -958,7 +965,7 @@ export class ProductViewEuropaComponent implements OnInit {
           const productN =  JSON.parse(JSON.stringify(productAux));
           productN.id = productNotch.idProduct;
           productN.name = productNotch.name;
-          productN.price = notchPrice;
+          productN.price = notchPr;
           productN.codeSpectrum = productNotch.codeSpectrum;
           auxproductsSelected.push(productN);
         }
