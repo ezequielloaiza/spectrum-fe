@@ -31,6 +31,7 @@ export class EuropaComponent implements OnInit {
   productRequestedNotch: any;
   productRequestedHydraPEG: any;
   productRequestedDMV: any;
+  productRequestedDMVContrary: any;
   listBasketProductREquested: Array<any> = new Array;
   listAux: Array<any> = new Array;
   product: any;
@@ -536,6 +537,18 @@ export class EuropaComponent implements OnInit {
             }
           });
         });
+
+        this.productRequestedDMVContrary = contraryEye.productRequested;
+        this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+          header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+          pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+        this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
+        this.productRequestedDMVContrary.price = contraryEye.productRequested.price;
+        this.productRequestedDMVContrary.quantity = 1;
+        this.productRequestedDMVContrary.product = contraryEye.productRequested.product.idProduct;
+        this.productRequestedDMVContrary.patient = contraryEye.productRequested.patient;
+        this.productRequestedDMVContrary.delete = false;
+        this.productRequestedDMVContrary.groupId = groupId;
       }
       this.productRequestedDMV.detail = detail;
       this.productRequestedDMV.observations = this.observations;
@@ -563,6 +576,19 @@ export class EuropaComponent implements OnInit {
           });
         });
         this.productRequestedDMV.delete = true;
+
+        this.productRequestedDMVContrary = contraryEye.productRequested;
+        this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+          header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+          pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+
+        this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
+        this.productRequestedDMVContrary.price = contraryEye.productRequested.price;
+        this.productRequestedDMVContrary.quantity = 1;
+        this.productRequestedDMVContrary.product = contraryEye.productRequested.product.idProduct;
+        this.productRequestedDMVContrary.patient = contraryEye.productRequested.patient;
+        this.productRequestedDMVContrary.delete = false;
+        this.productRequestedDMVContrary.groupId = groupId;
       }
     } else {
       if (this.productRequestedDMV != undefined ) {
@@ -631,6 +657,11 @@ export class EuropaComponent implements OnInit {
       productsRequestedsAditional.push(this.productRequestedNotch);
     }
 
+    if (this.productRequestedDMVContrary != undefined) {
+      productsRequestedsAditional.push(this.productRequestedDMVContrary);
+    }
+
+    debugger
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
       this.productRequested.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
