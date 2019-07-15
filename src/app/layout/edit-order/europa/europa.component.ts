@@ -534,12 +534,11 @@ export class EuropaComponent implements OnInit {
       this.productRequestedDMV.delete = false;
       this.productRequestedDMV.groupId = groupId;
       productsAditional.push(productD);
-    } else if (this.productRequestedDMV != undefined && this.lenghtGroup == 1) {
-      this.productRequestedDMV.product = this.productDMV.idProduct;
-      this.productRequestedDMV.delete = true;
     } else {
-      this.productRequestedDMV.product = this.productDMV.idProduct;
-      this.productRequestedDMV.delete = false;
+      if (this.productRequestedDMV != undefined && this.lenghtGroup == 1) {
+        this.productRequestedDMV.product = this.productDMV.idProduct;
+        this.productRequestedDMV.delete = true;
+      }
     }
 
     /*params*/
@@ -843,7 +842,6 @@ export class EuropaComponent implements OnInit {
           });
           productRequested = principal[0];
           productRequested.detail = JSON.parse(productRequested.detail);
-          console.log(productRequested);
           this.modalReference.close(productRequested);
         }
       } else {
@@ -913,7 +911,6 @@ export class EuropaComponent implements OnInit {
         });
         productRequested = res1.data;
         productRequested.detail = JSON.parse(productRequested.detail);
-        console.log(productRequested);
         this.modalReference.close(productRequested);
       }
   });
