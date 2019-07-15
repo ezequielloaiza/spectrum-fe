@@ -525,8 +525,18 @@ export class EuropaComponent implements OnInit {
         this.productRequestedDMV = new ProductRequested();
       } else {
         this.productRequestedDMV.idProductRequested = this.productRequestedDMV.idProductRequested;
-        const idPR = this.productRequested.idProductRequested;
-        const contraryEye = this.listBasketProductREquested.find(function(o) {
+      }
+      this.productRequestedDMV.detail = detail;
+      this.productRequestedDMV.observations = this.observations;
+      this.productRequestedDMV.price = dMVPrice;
+      this.productRequestedDMV.quantity = 1;
+      this.productRequestedDMV.product = this.productDMV.idProduct;
+      this.productRequestedDMV.patient = this.patient;
+      this.productRequestedDMV.delete = false;
+      this.productRequestedDMV.groupId = groupId;
+
+      const idPR = this.productRequested.idProductRequested;
+      const contraryEye = this.listBasketProductREquested.find(function(o) {
           return o.productRequested.idProductRequested !== idPR;
         });
         const detailContrary = JSON.parse(contraryEye.productRequested.detail);
@@ -538,26 +548,19 @@ export class EuropaComponent implements OnInit {
           });
         });
 
-        this.productRequestedDMVContrary = contraryEye.productRequested;
-        this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
-          header: detailContrary[0].header, parameters: detailContrary[0].parameters,
-          pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
-        this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
-        this.productRequestedDMVContrary.price = contraryEye.productRequested.price;
-        this.productRequestedDMVContrary.quantity = 1;
-        this.productRequestedDMVContrary.product = contraryEye.productRequested.product.idProduct;
-        this.productRequestedDMVContrary.patient = contraryEye.productRequested.patient;
-        this.productRequestedDMVContrary.delete = false;
-        this.productRequestedDMVContrary.groupId = groupId;
-      }
-      this.productRequestedDMV.detail = detail;
-      this.productRequestedDMV.observations = this.observations;
-      this.productRequestedDMV.price = dMVPrice;
-      this.productRequestedDMV.quantity = 1;
-      this.productRequestedDMV.product = this.productDMV.idProduct;
-      this.productRequestedDMV.patient = this.patient;
-      this.productRequestedDMV.delete = false;
-      this.productRequestedDMV.groupId = groupId;
+        if (contraryEye != undefined) {
+          this.productRequestedDMVContrary = contraryEye.productRequested;
+          this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+            header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+            pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+          this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
+          this.productRequestedDMVContrary.price = contraryEye.productRequested.price;
+          this.productRequestedDMVContrary.quantity = 1;
+          this.productRequestedDMVContrary.product = contraryEye.productRequested.product.idProduct;
+          this.productRequestedDMVContrary.patient = contraryEye.productRequested.patient;
+          this.productRequestedDMVContrary.delete = false;
+          this.productRequestedDMVContrary.groupId = groupId;
+        }
       productsAditional.push(productD);
     } else if (this.detail.header[2].selected === false && this.lenghtGroup === 2) {
       if (this.productRequestedDMV != undefined ) {
@@ -661,7 +664,6 @@ export class EuropaComponent implements OnInit {
       productsRequestedsAditional.push(this.productRequestedDMVContrary);
     }
 
-    debugger
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
       this.productRequested.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
