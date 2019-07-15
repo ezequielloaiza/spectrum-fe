@@ -524,6 +524,18 @@ export class EuropaComponent implements OnInit {
         this.productRequestedDMV = new ProductRequested();
       } else {
         this.productRequestedDMV.idProductRequested = this.productRequestedDMV.idProductRequested;
+        const idPR = this.productRequested.idProductRequested;
+        const contraryEye = this.listBasketProductREquested.find(function(o) {
+          return o.productRequested.idProductRequested !== idPR;
+        });
+        const detailContrary = JSON.parse(contraryEye.productRequested.detail);
+        _.each( detailContrary, function(item) {
+          _.each(item.header, function(itemH, index) {
+            if (itemH.name === 'Inserts (DMV)') {
+              item.header[index].selected = true;
+            }
+          });
+        });
       }
       this.productRequestedDMV.detail = detail;
       this.productRequestedDMV.observations = this.observations;
@@ -534,8 +546,27 @@ export class EuropaComponent implements OnInit {
       this.productRequestedDMV.delete = false;
       this.productRequestedDMV.groupId = groupId;
       productsAditional.push(productD);
+    } else if (this.detail.header[2].selected === false && this.lenghtGroup === 2) {
+      if (this.productRequestedDMV != undefined ) {
+        this.productRequestedDMV.idProductRequested = this.productRequestedDMV.idProductRequested;
+        this.productRequestedDMV.product = this.productDMV.idProduct;
+        const idPR = this.productRequested.idProductRequested;
+        const contraryEye = this.listBasketProductREquested.find(function(o) {
+          return o.productRequested.idProductRequested !== idPR;
+        });
+        const detailContrary = JSON.parse(contraryEye.productRequested.detail);
+        _.each( detailContrary, function(item) {
+          _.each(item.header, function(itemH, index) {
+            if (itemH.name === 'Inserts (DMV)' && itemH.selected == true) {
+              item.header[index].selected = false;
+            }
+          });
+        });
+        this.productRequestedDMV.delete = true;
+      }
     } else {
-      if (this.productRequestedDMV != undefined && this.lenghtGroup == 1) {
+      if (this.productRequestedDMV != undefined ) {
+        this.productRequestedDMV.idProductRequested = this.productRequestedDMV.idProductRequested;
         this.productRequestedDMV.product = this.productDMV.idProduct;
         this.productRequestedDMV.delete = true;
       }
@@ -823,7 +854,6 @@ export class EuropaComponent implements OnInit {
   }
 
   update(productRequested) {
-    let lenghtGroup = this.lenghtGroup;
     let self = this;
 
     this.productRequestedService.updateList$(productRequested).subscribe(res => {
@@ -833,17 +863,13 @@ export class EuropaComponent implements OnInit {
           return ((item.product.idProduct != 145 &&  item.product.idProduct != 146
             && item.product.idProduct != 147));
         });
-        if (lenghtGroup === 2 && self.changeInserts) {
-           self.updateEuropa(principal[0]);
-        } else {
-          this.spinner.hide();
-          this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
-            this.notification.success('', res);
-          });
-          productRequested = principal[0];
-          productRequested.detail = JSON.parse(productRequested.detail);
-          this.modalReference.close(productRequested);
-        }
+        this.spinner.hide();
+        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
+        productRequested = principal[0];
+        productRequested.detail = JSON.parse(productRequested.detail);
+        this.modalReference.close(productRequested);
       } else {
         console.log(res);
         this.spinner.hide();
