@@ -65,15 +65,9 @@ export class SupplierEuropaComponent implements OnInit {
     modalRefEuropa.componentInstance.order = this.order;
     modalRefEuropa.componentInstance.image = this.urlImage;
     modalRefEuropa.result.then((result) => {
-      if (result.length === 2) {
-        this.listAux = result[0];
-        this.sendReply();
-        this.listAux = result[1];
-        this.sendReply();
-      } else {
+      console.log(result);
         this.listAux = result;
         this.sendReply();
-      }
     } , (reason) => {
 
     });

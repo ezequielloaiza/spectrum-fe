@@ -27,7 +27,7 @@ import { DetailSalineFluoComponent } from '../../../modals/detail-product/detail
 import { SalineFluoComponent } from '../../../../edit-order/saline-fluo/saline-fluo.component';
 import { DetailLenticonComponent } from '../../../modals/detail-product/detail-lenticon/detail-lenticon.component';
 import { LenticonComponent } from '../../../../edit-order/lenticon/lenticon.component';
-
+import { ProductService } from '../../../../../shared/services/products/product.service';
 
 @Component({
   selector: 'app-list-basket',
@@ -50,6 +50,7 @@ export class ListBasketComponent implements OnInit {
   };
   basket: any;
   checkedAll: any;
+  productDMV: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -59,7 +60,8 @@ export class ListBasketComponent implements OnInit {
     private notification: ToastrService,
     private modalService: NgbModal,
     private translate: TranslateService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private productService: ProductService) {
       this.user = JSON.parse(userService.getCurrentUser());
     }
 
@@ -91,12 +93,97 @@ export class ListBasketComponent implements OnInit {
         });
         this.listBasketAll = this.listBasket;
         this.listBasket = auxList;
+        this.listBasketAux = auxList;
+        // search product insertor
+        this.productService.findById$(146).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.assignPriceAllEuropa(auxList, res1.data[0]);
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.spinner.hide();
       }
     });
   }
+
+  assignPriceAllEuropa(auxList, productDMV): void {
+    let arrayProductAditionals = [];
+    const self = this;
+    let priceAll = 0;
+    let priceInsertor = 0;
+
+    let existContraryEye = false;
+
+    _.each(auxList, function(basket) {
+      if (basket.productRequested.product.supplier.idSupplier === 2) {
+        arrayProductAditionals = self.getProductsAditionalEuropa(basket.productRequested.groupId,
+          basket.productRequested.detail[0].eye);
+        priceAll = 0;
+        existContraryEye = self.contraryEye(basket.productRequested.groupId,
+          basket.productRequested.detail[0].eye);
+        _.each(arrayProductAditionals, function(item) {
+          const productId = item.productRequested.product.idProduct;
+          if (productId !== 146) {
+            priceAll = priceAll + item.productRequested.price;
+          }
+        });
+        // price insertors
+        const insertor = basket.productRequested.detail[0].header[2].selected === true;
+        priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
+        if (insertor && existContraryEye) {
+          priceAll = priceAll + (priceInsertor / 2);
+        } else if (insertor) {
+          priceAll = priceAll + priceInsertor;
+        }
+
+        basket.productRequested.price = priceAll;
+      }
+    });
+  }
+
+  getPriceInsertor(membership, productDMV) {
+    let price = 0;
+
+    switch (membership) {
+      case 1:
+        price = productDMV.price1;
+        break;
+      case 2:
+        price = productDMV.price2;
+        break;
+      case 3:
+        price = productDMV.price3;
+        break;
+    }
+
+    return price;
+  }
+
+  contraryEye(groupId, eye) {
+    let exist = false;
+    let contraryEye = '';
+
+    if (eye === 'Left') {
+      contraryEye = 'Right';
+    } else {
+      contraryEye = 'Left';
+    }
+
+    _.each(this.listBasketAll, function(item) {
+      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === contraryEye) {
+        exist = true;
+      }
+    });
+    return exist;
+  }
+
   borrar(id): void {
     this.basketProductRequestedService.removeById$(id).subscribe(res => {
       if (res.code === CodeHttp.ok) {

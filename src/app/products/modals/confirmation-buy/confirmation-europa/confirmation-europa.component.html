@@ -35,7 +35,7 @@
               <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;
               <span *ngIf="totalHidrapeg">{{'Hidrapeg' | translate}}:{{ totalHidrapeg | currency : " USD $" }}</span>&nbsp;
               <span  *ngIf="totalHidrapeg && totalInserts">|</span>
-              <span *ngIf="totalInserts">{{'Inserts (DMV)' | translate}}:{{ totalInserts | currency : " USD $" }}</span>&nbsp;
+              <span *ngIf="totalInserts && existInserts">{{'Inserts (DMV)' | translate}}:{{ totalInserts | currency : " USD $" }}</span>&nbsp;
               <span  *ngIf="(totalInserts || totalHidrapeg) && totalNotch">|</span>
               <span *ngIf="totalNotch">{{'Notch (mm)' | translate}}:{{ totalNotch | currency : " USD $" }}</span>&nbsp;
               <span  *ngIf="(totalHidrapeg || totalInserts || totalNotch) && totalThickness">|</span>

@@ -31,6 +31,7 @@ export class EuropaComponent implements OnInit {
   productRequestedNotch: any;
   productRequestedHydraPEG: any;
   productRequestedDMV: any;
+  productRequestedDMVContrary: any;
   listBasketProductREquested: Array<any> = new Array;
   listAux: Array<any> = new Array;
   product: any;
@@ -42,6 +43,7 @@ export class EuropaComponent implements OnInit {
   quantity: any;
   observations: any;
   price: any;
+  priceBase = 0;
   editPrice = false;
   user: any;
   patient: any;
@@ -83,19 +85,21 @@ export class EuropaComponent implements OnInit {
       this.findBasketByGroupdId();
     } else { // order-detail
       this.productRequested = this.detailEdit;
+      this.productRequestedAux = this.detailEdit;
       this.membership = this.userOrder.membership.idMembership;
       this.findByGroupdId();
     }
     this.detail = this.productRequested.detail[0];
     this.productCode = this.productRequested.product;
     this.getProductsEuropa();
-    console.log('4', this.productRequested);
+    this.priceBase = this.productRequested.priceBase;
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
   }
 
   findBasketByGroupdId() {
+    const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
     this.basketProductRequestedService.allBasketByGroupId$(this.productRequested.groupId).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         const auxList = [];
@@ -111,13 +115,17 @@ export class EuropaComponent implements OnInit {
           } else {
             switch (productId) {
               case 145:
-                prNotch = basket.productRequested;
+                if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                  prNotch = basket.productRequested;
+                }
                 break;
               case 146:
                 prDMV = basket.productRequested;
                 break;
               case 147:
-                prHydrapeg = basket.productRequested;
+                if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                  prHydrapeg = basket.productRequested;
+                }
                 break;
             }
           }
@@ -127,9 +135,6 @@ export class EuropaComponent implements OnInit {
         this.productRequestedHydraPEG = prHydrapeg;
         this.listBasketProductREquested = auxList;
         this.lenghtGroup = this.listBasketProductREquested.length;
-        console.log('1', this.productRequestedDMV);
-    console.log('2', this.productRequestedHydraPEG);
-    console.log('3', this.productRequestedNotch);
       } else {
         console.log(res);
       }
@@ -139,6 +144,7 @@ export class EuropaComponent implements OnInit {
   }
 
   findByGroupdId() {
+    const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
     this.orderProductRequestedService.allByGroupId$(this.productRequested.groupId, this.order.idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         const auxList = [];
@@ -152,17 +158,21 @@ export class EuropaComponent implements OnInit {
                 && productId !== 147) {
             auxList.push(basket);
           } else {
-            switch (productId) {
-              case 145:
-                prNotch = basket.productRequested;
-                break;
-              case 146:
-                prDMV = basket.productRequested;
-                break;
-              case 147:
-                prHydrapeg = basket.productRequested;
-                break;
-            }
+              switch (productId) {
+                case 145:
+                  if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                    prNotch = basket.productRequested;
+                  }
+                  break;
+                case 146:
+                  prDMV = basket.productRequested;
+                  break;
+                case 147:
+                  if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                    prHydrapeg = basket.productRequested;
+                  }
+                  break;
+              }
           }
         });
         this.productRequestedNotch = prNotch;
@@ -341,9 +351,11 @@ export class EuropaComponent implements OnInit {
     if (parameter.name === 'Diameter (mm)') {
          this.checkAdditional();
          if (value === '18.0' || value === '20.0' ) {
+           this.priceBase = this.priceB;
            this.price = this.priceB + this.notch + this.thickness + this.hidrapeg + valueInserts;
          } else {
-           this.price = this.priceA + this.notch + this.thickness + this.hidrapeg + valueInserts;
+          this.priceBase = this.priceA;
+          this.price = this.priceA + this.notch + this.thickness + this.hidrapeg + valueInserts;
          }
     }
     if (parameter.name === 'Hidrapeg') {
@@ -463,6 +475,9 @@ export class EuropaComponent implements OnInit {
      });
     });
     // add products code
+    this.definePriceHidrapeg(this.membership);
+    this.definePriceNotch(this.membership);
+    this.definePriceInserts(this.membership);
     const productsAditional = [];
     const productsRequestedsAditional = [];
     const productDMV = this.productDMV;
@@ -484,6 +499,8 @@ export class EuropaComponent implements OnInit {
         codeSpectrum: productHydraPEG.codeSpectrum };
       if (this.productRequestedHydraPEG == undefined) {
         this.productRequestedHydraPEG = new ProductRequested();
+      } else {
+        this.productRequestedHydraPEG.idProductRequested = this.productRequestedHydraPEG.idProductRequested;
       }
       this.productRequestedHydraPEG.detail = detail;
       this.productRequestedHydraPEG.observations = this.observations;
@@ -500,36 +517,93 @@ export class EuropaComponent implements OnInit {
     }
 
     if (this.detail.header[2].selected === true) {
-      let price = 0;
-      if (this.lenghtGroup === 2) {
-        price = dMVPrice / 2;
-      } else {
-        price = dMVPrice;
-      }
-
       const productD = { id: productDMV.idProduct,
         name: 'Inserts (DMV)',
-        price: price,
+        price: dMVPrice,
         codeSpectrum: productDMV.codeSpectrum };
       if (this.productRequestedDMV == undefined) {
         this.productRequestedDMV = new ProductRequested();
+      } else {
+        this.productRequestedDMV.idProductRequested = this.productRequestedDMV.idProductRequested;
       }
       this.productRequestedDMV.detail = detail;
       this.productRequestedDMV.observations = this.observations;
-      this.productRequestedDMV.price = price;
+      this.productRequestedDMV.price = dMVPrice;
       this.productRequestedDMV.quantity = 1;
       this.productRequestedDMV.product = this.productDMV.idProduct;
       this.productRequestedDMV.patient = this.patient;
       this.productRequestedDMV.delete = false;
       this.productRequestedDMV.groupId = groupId;
+
+      const idPR = this.productRequested.idProductRequested;
+      const contraryEye = this.listBasketProductREquested.find(function(o) {
+          return o.productRequested.idProductRequested !== idPR;
+        });
+        const detailContrary = JSON.parse(contraryEye.productRequested.detail);
+        _.each( detailContrary, function(item) {
+          _.each(item.header, function(itemH, index) {
+            if (itemH.name === 'Inserts (DMV)') {
+              item.header[index].selected = true;
+            }
+          });
+        });
+
+        if (contraryEye != undefined) {
+          this.productRequestedDMVContrary = contraryEye.productRequested;
+          this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+            header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+            pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+          this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
+          this.productRequestedDMVContrary.price = contraryEye.productRequested.price;
+          this.productRequestedDMVContrary.quantity = 1;
+          this.productRequestedDMVContrary.product = contraryEye.productRequested.product.idProduct;
+          this.productRequestedDMVContrary.patient = contraryEye.productRequested.patient;
+          this.productRequestedDMVContrary.delete = false;
+          this.productRequestedDMVContrary.groupId = groupId;
+        }
       productsAditional.push(productD);
-    } else if (this.productRequestedDMV != undefined) {
-      this.productRequestedDMV.product = productHydraPEG.idProduct;
-      this.productRequestedDMV.delete = true;
+    } else if (this.detail.header[2].selected === false && this.lenghtGroup === 2) {
+      if (this.productRequestedDMV != undefined ) {
+        this.productRequestedDMV.idProductRequested = this.productRequestedDMV.idProductRequested;
+        this.productRequestedDMV.product = this.productDMV.idProduct;
+        const idPR = this.productRequested.idProductRequested;
+        const contraryEye = this.listBasketProductREquested.find(function(o) {
+          return o.productRequested.idProductRequested !== idPR;
+        });
+        const detailContrary = JSON.parse(contraryEye.productRequested.detail);
+        _.each( detailContrary, function(item) {
+          _.each(item.header, function(itemH, index) {
+            if (itemH.name === 'Inserts (DMV)' && itemH.selected == true) {
+              item.header[index].selected = false;
+            }
+          });
+        });
+        this.productRequestedDMV.delete = true;
+
+        this.productRequestedDMVContrary = contraryEye.productRequested;
+        this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+          header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+          pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+
+        this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
+        this.productRequestedDMVContrary.price = contraryEye.productRequested.price;
+        this.productRequestedDMVContrary.quantity = 1;
+        this.productRequestedDMVContrary.product = contraryEye.productRequested.product.idProduct;
+        this.productRequestedDMVContrary.patient = contraryEye.productRequested.patient;
+        this.productRequestedDMVContrary.delete = false;
+        this.productRequestedDMVContrary.groupId = groupId;
+      }
+    } else {
+      if (this.productRequestedDMV != undefined ) {
+        this.productRequestedDMV.idProductRequested = this.productRequestedDMV.idProductRequested;
+        this.productRequestedDMV.product = this.productDMV.idProduct;
+        this.productRequestedDMV.delete = true;
+      }
     }
 
     /*params*/
     const prNotch: ProductRequested = new ProductRequested();
+    const pRNotch = this.productRequestedNotch;
     const patient = this.patient;
     const flagNotch = this.additionalNotch;
     const obs = this.observations;
@@ -545,23 +619,49 @@ export class EuropaComponent implements OnInit {
         prNotch.quantity = 1;
         prNotch.product = productNotch.idProduct;
         prNotch.patient = patient;
-        prNotch.delete = !flagNotch;
+        prNotch.delete = false;
         prNotch.groupId = groupId;
+        if (pRNotch !== undefined && pRNotch.idProductRequested != null) {
+          prNotch.idProductRequested = pRNotch.idProductRequested;
+        }
         productsAditional.push(productN);
       } else if (parameter.name === 'Notch (mm)' && parameter.selected === '0x0') {
-        prNotch.product = productNotch.idProduct;
-        prNotch.delete = true;
+        if (pRNotch != undefined) {
+          prNotch.idProductRequested = pRNotch.idProductRequested;
+          prNotch.product = productNotch.idProduct;
+          prNotch.delete = true;
+        }
       }
     });
     this.productRequestedNotch = prNotch;
+
     if (this.productRequestedHydraPEG != undefined) {
+      if (this.typeEdit === 1) {
+        this.productRequestedHydraPEG.basketId = this.basket.basket.idBasket;
+      } else {
+        this.productRequestedHydraPEG.orderId = this.order.idOrder;
+      }
       productsRequestedsAditional.push(this.productRequestedHydraPEG);
     }
     if (this.productRequestedDMV != undefined) {
+      if (this.typeEdit === 1) {
+        this.productRequestedDMV.basketId = this.basket.basket.idBasket;
+      } else {
+        this.productRequestedDMV.orderId = this.order.idOrder;
+      }
       productsRequestedsAditional.push(this.productRequestedDMV);
     }
-    if (this.productRequestedNotch != undefined) {
+    if (this.productRequestedNotch != undefined && this.productRequestedNotch.product != undefined) {
+      if (this.typeEdit === 1) {
+        this.productRequestedNotch.basketId = this.basket.basket.idBasket;
+      } else {
+        this.productRequestedNotch.orderId = this.order.idOrder;
+      }
       productsRequestedsAditional.push(this.productRequestedNotch);
+    }
+
+    if (this.productRequestedDMVContrary != undefined) {
+      productsRequestedsAditional.push(this.productRequestedDMVContrary);
     }
 
     if (this.typeEdit === 1) { // Basket
@@ -570,24 +670,27 @@ export class EuropaComponent implements OnInit {
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional }) + ']';
       this.productRequested.observations = this.observations;
-      this.productRequested.price = this.price;
+      this.productRequested.price = this.priceBase;
       this.productRequested.quantity = this.quantity;
       this.productRequested.product = this.productCode.idProduct;
-      console.log('pcode', this.productCode);
       this.productRequested.patient = this.patient;
+      this.productRequested.delete = false;
+      this.productRequested.basketId = this.basket.basket.idBasket;
       productsRequestedsAditional.push(this.productRequested);
       this.update(productsRequestedsAditional);
     } else { // Order Detail
-      this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
+      this.productRequestedAux.idProductRequested = this.productRequested.idProductRequested;
       this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
       header: this.detail.header, parameters: this.detail.parameters,
       pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
       this.productRequestedAux.observations = this.observations;
-      this.productRequestedAux.price = this.price;
+      this.productRequestedAux.price = this.priceBase;
       this.productRequestedAux.quantity = this.quantity;
       this.productRequestedAux.product = this.productCode.idProduct;
       this.productRequestedAux.patient = this.patient;
-      productsRequestedsAditional.push(this.productRequested);
+      this.productRequestedAux.delete = false;
+      this.productRequestedAux.orderId = this.order.idOrder;
+      productsRequestedsAditional.push(this.productRequestedAux);
       this.update(productsRequestedsAditional);
     }
 
@@ -784,28 +887,31 @@ export class EuropaComponent implements OnInit {
   }
 
   update(productRequested) {
-    let lenghtGroup = this.lenghtGroup;
     let self = this;
+
     this.productRequestedService.updateList$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         let listAux = res.data;
-        console.log('listAux' , listAux);
-        if (lenghtGroup === 2 && self.changeInserts) {
-           self.updateEuropa(res.data);
-        } else {
-          this.spinner.hide();
-          this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
-            this.notification.success('', res);
-          });
-          productRequested = listAux[0];
-          productRequested.detail = JSON.parse(productRequested.detail);
-          this.modalReference.close(productRequested);
-        }
+        const principal = listAux.filter((item) => {
+          return ((item.product.idProduct != 145 &&  item.product.idProduct != 146
+            && item.product.idProduct != 147));
+        });
+        this.spinner.hide();
+        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
+        productRequested = principal[0];
+        productRequested.detail = JSON.parse(productRequested.detail);
+        this.modalReference.close(productRequested);
       } else {
         console.log(res);
+        this.spinner.hide();
+        this.modalReference.close(self.listAux);
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
+      this.modalReference.close(self.listAux);
     });
   }
 
@@ -846,15 +952,15 @@ export class EuropaComponent implements OnInit {
     });
     productRequested1.detail = JSON.stringify(detail);
     //Cambio de precio
-    if (oldInserts !== self.additionalInserts) {
+    /*if (oldInserts !== self.additionalInserts) {
       if (self.additionalInserts === true) {
         productRequested1.price = price + self.valueInserts;
      } else {
         productRequested1.price = price - self.valueInserts;
      }
-    } else {
-       productRequested1.price = price;
-    }
+    } else {*/
+       productRequested1.price = self.priceBase;
+    //}
     //Modificacion
     self.productRequestedService.updatePriceEuropa$(productRequested1).subscribe(res1 => {
       if (res1.code === CodeHttp.ok) {
@@ -864,10 +970,7 @@ export class EuropaComponent implements OnInit {
         });
         productRequested = res1.data;
         productRequested.detail = JSON.parse(productRequested.detail);
-        res1.data.detail = JSON.parse(res1.data.detail);
-        self.listAux.push(productRequested);
-        self.listAux.push(res1.data);
-        this.modalReference.close(self.listAux);
+        this.modalReference.close(productRequested);
       }
   });
   }

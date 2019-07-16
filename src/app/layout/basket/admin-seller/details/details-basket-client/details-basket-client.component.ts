@@ -30,7 +30,7 @@ import { SalineFluoComponent } from '../../../../edit-order/saline-fluo/saline-f
 import { DetailLenticonComponent } from '../../../modals/detail-product/detail-lenticon/detail-lenticon.component';
 import { LenticonComponent } from '../../../../edit-order/lenticon/lenticon.component';
 import { ProductRequested } from '../../../../../shared/models/productrequested';
-
+import { ProductService } from '../../../../../shared/services/products/product.service';
 
 
 @Component({
@@ -58,6 +58,7 @@ export class DetailsBasketClientComponent implements OnInit {
   inserts = 0;
   basketUpdate;
   productRequested1: ProductRequested;
+  productDMV: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -70,7 +71,8 @@ export class DetailsBasketClientComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
-    private productRequestedService: ProductsRequestedService) {
+    private productRequestedService: ProductsRequestedService,
+    private productService: ProductService) {
       this.user = JSON.parse(userStorageService.getCurrentUser());
     }
 
@@ -113,19 +115,105 @@ export class DetailsBasketClientComponent implements OnInit {
         this.listBasketAll = this.listBasket;
         this.listBasket = auxList;
         this.listBasketAux = auxList;
+        // search product insertor
+        this.productService.findById$(146).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.assignPriceAllEuropa(auxList, res1.data[0]);
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
+
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.spinner.hide();
       }
     });
   }
+
+  assignPriceAllEuropa(auxList, productDMV): void {
+    let arrayProductAditionals = [];
+    const self = this;
+    let priceAll = 0;
+    let priceInsertor = 0;
+
+    let existContraryEye = false;
+
+    _.each(auxList, function(basket) {
+      if (basket.productRequested.product.supplier.idSupplier === 2) {
+        arrayProductAditionals = self.getProductsAditionalEuropa(basket.productRequested.groupId,
+          basket.productRequested.detail[0].eye);
+        priceAll = 0;
+        existContraryEye = self.contraryEye(basket.productRequested.groupId,
+          basket.productRequested.detail[0].eye);
+        _.each(arrayProductAditionals, function(item) {
+          const productId = item.productRequested.product.idProduct;
+          if (productId !== 146) {
+            priceAll = priceAll + item.productRequested.price;
+          }
+        });
+        // price insertors
+        const insertor = basket.productRequested.detail[0].header[2].selected === true;
+        priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
+
+        if (insertor && existContraryEye) {
+          priceAll = priceAll + (priceInsertor / 2);
+        } else if (insertor) {
+          priceAll = priceAll + priceInsertor;
+        }
+        basket.productRequested.priceBase = basket.productRequested.price;
+        basket.productRequested.price = priceAll;
+      }
+    });
+  }
+
+  getPriceInsertor(membership, productDMV) {
+    let price = 0;
+
+    switch (membership) {
+      case 1:
+        price = productDMV.price1;
+        break;
+      case 2:
+        price = productDMV.price2;
+        break;
+      case 3:
+        price = productDMV.price3;
+        break;
+    }
+
+    return price;
+  }
+
+  contraryEye(groupId, eye) {
+    let exist = false;
+    let contraryEye = '';
+
+    if (eye === 'Left') {
+      contraryEye = 'Right';
+    } else {
+      contraryEye = 'Left';
+    }
+
+    _.each(this.listBasket, function(item) {
+      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === contraryEye) {
+        exist = true;
+      }
+    });
+    return exist;
+  }
+
   borrar(id): void {
    //Basket a eliminar
     let basket = _.find(this.listBasket, function(o) {
       return o.idBasketProductRequested === id;
     });
      if (basket.productRequested.product.supplier.idSupplier === 2) {
-       this.updateBasketGroupId(id, basket);
+       //this.updateBasketGroupId(id, basket);
      } else {
       this.basketProductRequestedService.removeById$(id).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -152,7 +240,7 @@ export class DetailsBasketClientComponent implements OnInit {
           const idSupplier = basket.productRequested.product.supplier.idSupplier;
 
           if (idSupplier === 2) {
-            this.updateBasketGroupId(id, basket);
+            //this.updateBasketGroupId(id, basket);
             this.deleteProductsAditionalEuropa(basket);
           } else {
             this.borrar(id);
@@ -234,9 +322,37 @@ export class DetailsBasketClientComponent implements OnInit {
   deleteProductsAditionalEuropa(basket) {
     let auxList = [];
     let arrayAux = [];
+    let arrayDelete = [];
+    let eye;
+    let productRDmv;
 
     auxList = this.getProductsAditionalEuropa(basket.productRequested.groupId,
       basket.productRequested.detail[0].eye);
+
+    // insertors
+    const insertor = basket.productRequested.detail[0].header[2].selected === true;
+    const existContraryEye = this.contraryEye(basket.productRequested.groupId,
+      basket.productRequested.detail[0].eye);
+
+    if (insertor && existContraryEye) {
+      productRDmv = _.find(auxList, function(o) {
+        return o.productRequested.product.idProduct === 146;
+      });
+
+      eye = basket.productRequested.detail[0].eye === 'Left' ? 'Right' : 'Left';
+      productRDmv.productRequested.detail[0].eye = eye;
+
+      /*this.productRequestedService.updatePriceEuropa$(productRDmv.productRequested).subscribe(res1 => {
+        if (res1.code === CodeHttp.ok) {
+          debugger
+          arrayDelete = _.remove(auxList, function(o) {
+            return o.productRequested.product.idProduct === 146;
+          });
+          auxList = arrayDelete;
+          debugger
+        }
+      });*/
+    }
 
     _.each(auxList, function(item) {
       const id = item.idBasketProductRequested;

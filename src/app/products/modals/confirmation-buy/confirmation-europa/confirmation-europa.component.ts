@@ -59,6 +59,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   company: Company = new Company();
   available: any;
   insertCodeSpectrum: any;
+  existInserts: Boolean = false;
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
@@ -100,11 +101,14 @@ export class ConfirmationEuropaComponent implements OnInit {
     let quantityInserts = 0;
     let quantityNotch = 0;
     let quantityThickness = 0;
+    let existInserts = false;
+    let insertCodeSpectrum = '';
     _.each(this.listBasket, function (productRequested) {
+      priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
       if (productRequested.name !== 'Inserts (DMV)'
          && productRequested.name !== 'Notch'
          && productRequested.name !== 'HydraPEG') {
-        priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+        // priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
         patient = productRequested.patient;
         if (productRequested.observations === undefined) {
           productRequested.observations = '';
@@ -126,8 +130,12 @@ export class ConfirmationEuropaComponent implements OnInit {
             }
           });
         });
+
         productRequested.detail = JSON.parse(productRequested.detail);
         listBasketAux.push(productRequested);
+      } else if (productRequested.name === 'Inserts (DMV)') {
+        existInserts = true;
+        insertCodeSpectrum = productRequested.product.codeSpectrum;
       }
     });
 
@@ -135,6 +143,8 @@ export class ConfirmationEuropaComponent implements OnInit {
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;
     this.price = priceAcum;
+    this.existInserts = existInserts;
+    this.insertCodeSpectrum = insertCodeSpectrum;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
     this.totalHidrapeg = this.additionalHidrapeg * quantityHidrapeg;
     this.totalInserts = this.additionalInserts;
