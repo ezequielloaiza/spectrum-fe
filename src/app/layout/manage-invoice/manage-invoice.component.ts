@@ -29,7 +29,7 @@ export class ManageInvoiceComponent implements OnInit {
   listInvoicesCopy: Array<any> = new Array;
   listInvoicesAuxCopy: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage: number = 8;
+  itemPerPage: number = 10;
   order: any;
   filterStatus = [{ id: 0, name: 'Pending' },
                   { id: 1, name: 'Sent' }
@@ -50,6 +50,8 @@ export class ManageInvoiceComponent implements OnInit {
   search: String;
   searchOriginal: String;
   searchCopy: String;
+  eveCopy: any;
+  eveOriginal: any;
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
     private notification: ToastrService,
@@ -76,12 +78,14 @@ export class ManageInvoiceComponent implements OnInit {
   }*/
 
   pageChangeOriginal(event) {
+    this.eveOriginal = event;
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
     this.listInvoicesOriginal = this.listInvoicesAuxOriginal.slice(startItem, endItem);
   }
 
   pageChangeCopy(event) {
+    this.eveCopy = event;
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
     this.listInvoicesCopy = this.listInvoicesAuxCopy.slice(startItem, endItem);
@@ -100,15 +104,27 @@ export class ManageInvoiceComponent implements OnInit {
           // Original
           this.listInvoicesOriginal = _.filter(res.data, { 'original': true });
           this.listInvoicesAuxOriginal = _.filter(res.data, { 'original': true });
-          this.listInvoicesOriginal = _.orderBy(this.listInvoicesOriginal, ['date'], ['desc']);
-          this.listInvoicesAuxOriginal = _.orderBy(this.listInvoicesAuxOriginal, ['date'], ['desc']);
-          this.listInvoicesOriginal = this.listInvoicesAuxOriginal.slice(0, this.itemPerPage);
+          this.listInvoicesOriginal = _.orderBy(this.listInvoicesOriginal, ['idInvoice', 'date'], ['desc', 'asc']);
+          this.listInvoicesAuxOriginal = _.orderBy(this.listInvoicesAuxOriginal,  ['idInvoice', 'date'], ['desc', 'asc']);
+          if (this.eveOriginal === undefined) {
+            this.listInvoicesOriginal = this.listInvoicesAuxOriginal.slice(0, this.itemPerPage);
+          } else {
+            const startItem = (this.eveOriginal - 1) * this.itemPerPage;
+            const endItem = this.eveOriginal * this.itemPerPage;
+            this.listInvoicesOriginal = this.listInvoicesAuxOriginal.slice(startItem, endItem);
+          }
           // Copy
           this.listInvoicesCopy = _.filter(res.data, { 'original': false });
           this.listInvoicesAuxCopy = _.filter(res.data, { 'original': false });
-          this.listInvoicesCopy = _.orderBy(this.listInvoicesCopy, ['date'], ['desc']);
-          this.listInvoicesAuxCopy = _.orderBy(this.listInvoicesAuxCopy, ['date'], ['desc']);
-          this.listInvoicesCopy = this.listInvoicesAuxCopy.slice(0, this.itemPerPage);
+          this.listInvoicesCopy = _.orderBy(this.listInvoicesCopy,  ['idInvoice', 'date'], ['desc', 'asc']);
+          this.listInvoicesAuxCopy = _.orderBy(this.listInvoicesAuxCopy, ['idInvoice', 'date'], ['desc', 'asc']);
+          if (this.eveCopy === undefined) {
+            this.listInvoicesCopy = this.listInvoicesAuxCopy.slice(0, this.itemPerPage);
+          } else {
+            const startItem = ((this.eveCopy)  - 1) * this.itemPerPage;
+            const endItem = this.eveCopy  * this.itemPerPage;
+            this.listInvoicesCopy = this.listInvoicesAuxCopy.slice(startItem, endItem);
+          }
           this.spinner.hide();
         } else {
           console.log(res.code);
