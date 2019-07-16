@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService} from '../../../../../shared/services/basket/basket.service';
 import { BasketproductrequestedService } from '../../../../../shared/services/basketproductrequested/basketproductrequested.service';
-import { OrderService } from '../../../../../shared/services/order/order.service';
+import { OrderService, UserService, ProductsRequestedService } from '../../../../../shared/services';
 import { CodeHttp } from '../../../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
 import { AlertifyService } from '../../../../../shared/services/alertify/alertify.service';
@@ -62,6 +62,7 @@ export class ListBasketComponent implements OnInit {
     private modalService: NgbModal,
     private translate: TranslateService,
     private spinner: NgxSpinnerService,
+    private productRequestedService: ProductsRequestedService,
     private productService: ProductService) {
       this.user = JSON.parse(userService.getCurrentUser());
     }
