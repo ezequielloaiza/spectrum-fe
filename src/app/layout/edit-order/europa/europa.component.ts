@@ -210,6 +210,7 @@ export class EuropaComponent implements OnInit {
         this.setNameProduct();
         this.product = this.setProduct(res.data, this.productName);
         this.getProductView();
+        this.setNameProductCode();
       } else {
         console.log(res.errors[0].detail);
         this.spinner.hide();
@@ -235,6 +236,18 @@ export class EuropaComponent implements OnInit {
     }
   }
 
+  setNameProductCode() {
+    if (_.includes(this.product.name, 'Bi-Toric')) {
+      this.productName = 'Europa Bitoric';
+    } else if (_.includes(this.product.name, 'SPH')) {
+      this.productName = 'Europa Sphere';
+    } else if (_.includes(this.product.name, 'Multifocal')
+              || _.includes(this.product.name, 'Front Toric')
+              || _.includes(this.product.name, 'TPC')) {
+      this.productName = 'Europa FT, TPC,  MF';
+    }
+  }
+
   setProduct(list, name) {
     let prCode;
     _.each(list, function (pr) {
@@ -242,6 +255,17 @@ export class EuropaComponent implements OnInit {
         prCode = pr;
       }
     });
+    return prCode;
+  }
+
+  setCodeProductByDiameter(name, diameter) {
+    let prCode;
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, name) && _.includes(pr.name, diameter)) {
+        prCode = pr;
+      }
+    });
+
     return prCode;
   }
 
@@ -349,14 +373,24 @@ export class EuropaComponent implements OnInit {
     }
     this.valueInserts = valueInserts;
     if (parameter.name === 'Diameter (mm)') {
-         this.checkAdditional();
-         if (value === '18.0' || value === '20.0' ) {
-           this.priceBase = this.priceB;
-           this.price = this.priceB + this.notch + this.thickness + this.hidrapeg + valueInserts;
-         } else {
-          this.priceBase = this.priceA;
-          this.price = this.priceA + this.notch + this.thickness + this.hidrapeg + valueInserts;
-         }
+      this.checkAdditional();
+      if (value === '17.0' ||
+          value === '17.5' ||
+          value === '18.0' ||
+          value === '18.5' ||
+          value === '19.0' ||
+          value === '19.5' ||
+          value === '20.0' ) {
+        const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 17.0-20.0)');
+        this.productCode = prCode;
+        this.priceBase = this.priceB;
+        this.price = this.inserts > 0 ? this.priceB + this.notch + this.hidrapeg + valueInserts : this.priceB + this.notch + this.hidrapeg;
+      } else {
+        const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 16.0-16.5)');
+        this.productCode = prCode;
+        this.priceBase = this.priceA;
+        this.price = this.inserts > 0 ? this.priceA + this.notch + this.hidrapeg + valueInserts : this.priceA + this.notch + this.hidrapeg;
+      }
     }
     if (parameter.name === 'Hidrapeg') {
       if (value === 'Yes') {
