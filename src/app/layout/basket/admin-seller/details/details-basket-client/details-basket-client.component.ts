@@ -323,6 +323,10 @@ export class DetailsBasketClientComponent implements OnInit {
     let auxList = [];
     let arrayAux = [];
     let arrayDelete = [];
+    let detail;
+    let idProductRequested;
+    let price;
+    const productRequested1 = new ProductRequested();
     let eye;
     let productRDmv;
 
@@ -333,33 +337,57 @@ export class DetailsBasketClientComponent implements OnInit {
     const insertor = basket.productRequested.detail[0].header[2].selected === true;
     const existContraryEye = this.contraryEye(basket.productRequested.groupId,
       basket.productRequested.detail[0].eye);
-
-    if (insertor && existContraryEye) {
-      productRDmv = _.find(auxList, function(o) {
-        return o.productRequested.product.idProduct === 146;
-      });
-
-      eye = basket.productRequested.detail[0].eye === 'Left' ? 'Right' : 'Left';
-      productRDmv.productRequested.detail[0].eye = eye;
-
-      /*this.productRequestedService.updatePriceEuropa$(productRDmv.productRequested).subscribe(res1 => {
-        if (res1.code === CodeHttp.ok) {
-          debugger
-          arrayDelete = _.remove(auxList, function(o) {
-            return o.productRequested.product.idProduct === 146;
-          });
-          auxList = arrayDelete;
-          debugger
-        }
-      });*/
-    }
-
-    _.each(auxList, function(item) {
-      const id = item.idBasketProductRequested;
-      arrayAux = _.concat(arrayAux, id);
+    productRDmv = _.find(auxList, function(o) {
+      return o.productRequested.product.idProduct === 146;
     });
 
-    this.deleteByIds(arrayAux);
+    if (insertor && existContraryEye && productRDmv !== undefined) {
+      eye = basket.productRequested.detail[0].eye === 'Left' ? 'Right' : 'Left';
+
+      idProductRequested = productRDmv.productRequested.idProductRequested;
+      const detailContrary = productRDmv.productRequested.detail;
+      _.each(detailContrary, function(item) {
+        item.eye = eye;
+        _.each(item.header, function(itemH, index) {
+          if (itemH.name === 'Inserts (DMV)') {
+            item.header[index].selected = true;
+          }
+        });
+      });
+
+      price = productRDmv.productRequested.price;
+
+      // build object
+      productRequested1.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+        header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+        pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+      productRequested1.idProductRequested = idProductRequested;
+      productRequested1.price = price;
+
+      this.productRequestedService.updatePriceEuropa$(productRequested1).subscribe(res1 => {
+        if (res1.code === CodeHttp.ok) {
+          _.each(auxList, function(item) {
+            if (item.productRequested.product.idProduct !== 146) {
+              arrayDelete.push(item);
+            }
+          });
+          auxList = arrayDelete;
+
+          _.each(auxList, function(item) {
+            const id = item.idBasketProductRequested;
+            arrayAux = _.concat(arrayAux, id);
+          });
+          this.deleteByIds(arrayAux);
+        }
+      });
+    } else {
+      _.each(auxList, function(item) {
+        const id = item.idBasketProductRequested;
+        arrayAux = _.concat(arrayAux, id);
+      });
+
+      this.deleteByIds(arrayAux);
+    }
   }
 
   deleteByIds(ids): void {
