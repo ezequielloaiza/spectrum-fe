@@ -936,7 +936,7 @@ export class ProductViewEuropaComponent implements OnInit {
     const dMVPr = this.inserts;
     const notchPr = this.notch;
 
-    _.each(auxList, function(productAux) {
+    _.each(auxList, function(productAux, index: number) {
       auxproductsSelected.push(JSON.parse(JSON.stringify(productAux)));
       if (productAux.detail.header[1].selected === true) {
         const productH = JSON.parse(JSON.stringify(productAux));
@@ -945,17 +945,6 @@ export class ProductViewEuropaComponent implements OnInit {
         productH.price = hidrapegPr;
         productH.codeSpectrum = productHydraPEG.codeSpectrum;
         auxproductsSelected.push(productH);
-      }
-
-      if (productAux.detail.header[2].selected === true
-          && !exist) {
-        const productD =  JSON.parse(JSON.stringify(productAux));
-        productD.id = productDMV.idProduct;
-        productD.name = 'Inserts (DMV)';
-        productD.price = dMVPr;
-        productD.codeSpectrum = productDMV.codeSpectrum;
-        exist = true;
-        auxproductsSelected.push(productD);
       }
 
       /*params*/
@@ -969,6 +958,17 @@ export class ProductViewEuropaComponent implements OnInit {
           auxproductsSelected.push(productN);
         }
       });
+
+      if (productAux.detail.header[2].selected === true
+        && (index === (auxList.length - 1) )) {
+      const productD =  JSON.parse(JSON.stringify(productAux));
+      productD.id = productDMV.idProduct;
+      productD.name = 'Inserts (DMV)';
+      productD.price = dMVPr;
+      productD.codeSpectrum = productDMV.codeSpectrum;
+      exist = true;
+      auxproductsSelected.push(productD);
+    }
     });
 
     productsSelected = auxproductsSelected;
