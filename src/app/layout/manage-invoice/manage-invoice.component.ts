@@ -27,6 +27,8 @@ export class ManageInvoiceComponent implements OnInit {
   listInvoicesOriginal: Array<any> = new Array;
   listInvoicesAuxOriginal: Array<any> = new Array;
   listInvoicesCopy: Array<any> = new Array;
+  listCopy: Array<any> = new Array;
+  listOriginal: Array<any> = new Array;
   listInvoicesAuxCopy: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number = 10;
@@ -106,6 +108,7 @@ export class ManageInvoiceComponent implements OnInit {
           this.listInvoicesAuxOriginal = _.filter(res.data, { 'original': true });
           this.listInvoicesOriginal = _.orderBy(this.listInvoicesOriginal, ['idInvoice', 'date'], ['desc', 'asc']);
           this.listInvoicesAuxOriginal = _.orderBy(this.listInvoicesAuxOriginal,  ['idInvoice', 'date'], ['desc', 'asc']);
+          this.listOriginal = this.listInvoicesAuxOriginal;
           if (this.eveOriginal === undefined) {
             this.listInvoicesOriginal = this.listInvoicesAuxOriginal.slice(0, this.itemPerPage);
           } else {
@@ -118,6 +121,7 @@ export class ManageInvoiceComponent implements OnInit {
           this.listInvoicesAuxCopy = _.filter(res.data, { 'original': false });
           this.listInvoicesCopy = _.orderBy(this.listInvoicesCopy,  ['idInvoice', 'date'], ['desc', 'asc']);
           this.listInvoicesAuxCopy = _.orderBy(this.listInvoicesAuxCopy, ['idInvoice', 'date'], ['desc', 'asc']);
+          this.listCopy = this.listInvoicesAuxCopy;
           if (this.eveCopy === undefined) {
             this.listInvoicesCopy = this.listInvoicesAuxCopy.slice(0, this.itemPerPage);
           } else {
@@ -311,9 +315,8 @@ export class ManageInvoiceComponent implements OnInit {
     const val = ev.target.value;
     this.valorClient = val;
     const lista = [];
-
     if (type === 'original') {
-      this.listInvoicesOriginal = this.listInvoicesAuxOriginal;
+      this.listInvoicesOriginal = this.listOriginal;
       const valorStatus = this.selectedStatusOriginal;
       this.validOriginal = true;
       if (val && val.trim() !== '') {
@@ -323,6 +326,11 @@ export class ManageInvoiceComponent implements OnInit {
             return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
             (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
           });
+           //*
+           this.listInvoicesAuxOriginal = this.listInvoicesOriginal;
+           this.advancedPagination = 1;
+           this.pageChangeOriginal(this.advancedPagination);
+           //*
         } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
             this.filterStatusNombre(client , valorStatus, type);
         } else if (_.toString(valorStatus) === '' && this.tamano.length === 15) { // si no selecciono status y fecha si
@@ -336,6 +344,9 @@ export class ManageInvoiceComponent implements OnInit {
         if (this.tamano.length === 15) {
           this.validOriginal = true;
           let fecha: String;
+           //*
+           this.listInvoicesAuxOriginal = this.listOriginal;
+           //*
           // FechaFiltro
           fecha = this.getFecha();
           _.filter(this.listInvoicesAuxOriginal, function (orders) {
@@ -346,11 +357,25 @@ export class ManageInvoiceComponent implements OnInit {
               lista.push(orders);
             }
           });
+          //*
           this.listInvoicesOriginal = lista;
+          this.listInvoicesAuxOriginal = this.listInvoicesOriginal;
+          this.advancedPagination = 1;
+          this.pageChangeOriginal(this.advancedPagination);
+          //*
         }
       }
+       //*
+       if (val === '' && _.toString(valorStatus) === '' &&  this.tamano.length === 9) {
+        this.listInvoicesAuxOriginal = this.listInvoicesOriginal;
+        this.advancedPagination = 1;
+        this.pageChangeOriginal(this.advancedPagination);
+      }
+      //*
     } else {
-      this.listInvoicesCopy = this.listInvoicesAuxCopy;
+      //*
+      this.listInvoicesCopy = this.listCopy;
+      //*
       const valorStatus = this.selectedStatusCopy;
       const lista = [];
       this.validCopy = true;
@@ -361,6 +386,11 @@ export class ManageInvoiceComponent implements OnInit {
             return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
             (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
           });
+          //*
+          this.listInvoicesAuxCopy = this.listInvoicesCopy;
+          this.advancedPagination = 1;
+          this.pageChangeCopy(this.advancedPagination);
+          //*
         } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
             this.filterStatusNombre(client , valorStatus, type);
         } else if (_.toString(valorStatus) === '' && this.tamano.length === 15) { // si no selecciono status y fecha si
@@ -374,6 +404,9 @@ export class ManageInvoiceComponent implements OnInit {
         if (this.tamano.length === 15) {
           this.validCopy = true;
           let fecha: String;
+          //*
+          this.listInvoicesAuxCopy = this.listCopy;
+          //*
           // FechaFiltro
           fecha = this.getFecha();
           _.filter(this.listInvoicesAuxCopy, function (orders) {
@@ -384,18 +417,38 @@ export class ManageInvoiceComponent implements OnInit {
               lista.push(orders);
             }
           });
+          //*
           this.listInvoicesCopy = lista;
+          this.listInvoicesAuxCopy = this.listInvoicesCopy;
+          this.advancedPagination = 1;
+          this.pageChangeCopy(this.advancedPagination);
+          //*
         }
       }
+      //*
+      if (val === '' && _.toString(valorStatus) === '' &&  this.tamano.length === 9) {
+        this.listInvoicesAuxCopy = this.listInvoicesCopy;
+        this.advancedPagination = 1;
+        this.pageChangeCopy(this.advancedPagination);
+      }
+      //*
     }
   }
 
   filter(type: String): void {
     if (type === 'original') {
+        //*
+        this.listInvoicesAuxOriginal = this.listOriginal;
+        //*
       if (this.selectedStatusOriginal !== '') {
         this.validOriginal = true;
         if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
           this.listInvoicesOriginal = _.filter(this.listInvoicesAuxOriginal, { 'status': parseInt(this.selectedStatusOriginal) });
+           //*
+           this.listInvoicesAuxOriginal =  this.listInvoicesOriginal;
+           this.advancedPagination = 1;
+           this.pageChangeOriginal(this.advancedPagination);
+          //*
         } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
           this.filterStatusDate(this.selectedStatusOriginal, type);
         } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
@@ -407,10 +460,18 @@ export class ManageInvoiceComponent implements OnInit {
         }
       }
     } else {
+      //*
+      this.listInvoicesAuxCopy = this.listCopy;
+      //*
       if (this.selectedStatusCopy !== '') {
         this.validCopy = true;
         if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
           this.listInvoicesCopy = _.filter(this.listInvoicesAuxCopy, { 'status': parseInt(this.selectedStatusCopy) });
+         //*
+          this.listInvoicesAuxCopy =  this.listInvoicesCopy;
+          this.advancedPagination = 1;
+          this.pageChangeCopy(this.advancedPagination);
+         //*
         } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
           this.filterStatusDate(this.selectedStatusCopy, type);
         } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
@@ -439,7 +500,10 @@ export class ManageInvoiceComponent implements OnInit {
     if (this.tamano.length === 15) {
       if (type === 'original' &&
         (_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        // FechaFiltro
+            //*
+            this.listInvoicesAuxOriginal = this.listOriginal;
+            //*
+          // FechaFiltro
          let fecha: String;
          fecha = this.getFecha();
           _.filter(this.listInvoicesAuxOriginal, function (invoices) {
@@ -450,9 +514,17 @@ export class ManageInvoiceComponent implements OnInit {
                lista.push(invoices);
              }
           });
-        this.listInvoicesOriginal = lista;
+          //*
+         this.listInvoicesOriginal = lista;
+         this.listInvoicesAuxOriginal = this.listInvoicesOriginal;
+         this.advancedPagination = 1;
+         this.pageChangeOriginal(this.advancedPagination);
+         //*
       } else if (type === 'copy' &&
         (_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+          //*
+           this.listInvoicesAuxCopy = this.listCopy;
+          //*
         // FechaFiltro
         let fecha: String;
         fecha = this.getFecha();
@@ -464,7 +536,12 @@ export class ManageInvoiceComponent implements OnInit {
               lista.push(invoices);
             }
           });
+        //*
         this.listInvoicesCopy = lista;
+        this.listInvoicesAuxCopy = this.listInvoicesCopy;
+        this.advancedPagination = 1;
+        this.pageChangeCopy(this.advancedPagination);
+        //*
       } else if ((_.toString(valorStatus) !== '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
         this.filterStatusDate(valorStatus, type);
       } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) === '')) {
@@ -478,6 +555,9 @@ export class ManageInvoiceComponent implements OnInit {
   filterStatusNombre(nombreCliente, status, type): void {
     const lista = [];
     if (type === 'original') {
+       //*
+       this.listInvoicesAuxOriginal = this.listOriginal;
+       //*
       _.filter(this.listInvoicesAuxOriginal, function (invoices) {
         if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
         (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
@@ -486,8 +566,16 @@ export class ManageInvoiceComponent implements OnInit {
           lista.push(invoices);
         }
       });
+      //*
       this.listInvoicesOriginal = lista;
+      this.listInvoicesAuxOriginal =  this.listInvoicesOriginal;
+      this.advancedPagination = 1;
+      this.pageChangeOriginal(this.advancedPagination);
+      //*
     } else {
+       //*
+       this.listInvoicesAuxCopy = this.listCopy;
+       //*
       _.filter(this.listInvoicesAuxCopy, function (invoices) {
         if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
         (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
@@ -496,7 +584,12 @@ export class ManageInvoiceComponent implements OnInit {
           lista.push(invoices);
         }
       });
+      //*
       this.listInvoicesCopy = lista;
+      this.listInvoicesAuxCopy =  this.listInvoicesCopy;
+      this.advancedPagination = 1;
+      this.pageChangeCopy(this.advancedPagination);
+      //*
     }
   }
 
@@ -506,6 +599,9 @@ export class ManageInvoiceComponent implements OnInit {
     // FechaFiltro
     fecha = this.getFecha();
     if (type === 'original') {
+         //*
+         this.listInvoicesAuxOriginal = this.listOriginal;
+         //*
       _.filter(this.listInvoicesAuxOriginal, function (invoices) {
         // Fecha Listado
         const fechaList = _.toString(invoices.date.slice(0, 10));
@@ -515,9 +611,16 @@ export class ManageInvoiceComponent implements OnInit {
           lista.push(invoices);
         }
       });
+      //*
       this.listInvoicesOriginal = lista;
-
+      this.listInvoicesAuxOriginal = this.listInvoicesOriginal;
+      this.advancedPagination = 1;
+      this.pageChangeOriginal(this.advancedPagination);
+      //*
     } else {
+      //*
+      this.listInvoicesAuxCopy = this.listCopy;
+      //*
       _.filter(this.listInvoicesAuxCopy, function (invoices) {
         // Fecha Listado
         const fechaList = _.toString(invoices.date.slice(0, 10));
@@ -527,7 +630,12 @@ export class ManageInvoiceComponent implements OnInit {
           lista.push(invoices);
         }
       });
+      //*
       this.listInvoicesCopy = lista;
+      this.listInvoicesAuxCopy = this.listInvoicesCopy;
+      this.advancedPagination = 1;
+      this.pageChangeCopy(this.advancedPagination);
+      //*
     }
   }
 
@@ -537,6 +645,9 @@ export class ManageInvoiceComponent implements OnInit {
     // FechaFiltro
     fecha = this.getFecha();
     if (type === 'original') {
+       //*
+       this.listInvoicesAuxOriginal = this.listOriginal;
+       //*
       _.filter(this.listInvoicesAuxOriginal, function (invoices) {
         let fechaList: String;
         // Fecha Listado
@@ -546,8 +657,16 @@ export class ManageInvoiceComponent implements OnInit {
           lista.push(invoices);
         }
       });
+      //*
       this.listInvoicesOriginal = lista;
+      this.listInvoicesAuxOriginal =  this.listInvoicesOriginal;
+      this.advancedPagination = 1;
+      this.pageChangeOriginal(this.advancedPagination);
+      //*
     } else {
+      //*
+      this.listInvoicesAuxCopy = this.listCopy;
+      //*
       _.filter(this.listInvoicesAuxCopy, function (invoices) {
         let fechaList: String;
         // Fecha Listado
@@ -557,7 +676,12 @@ export class ManageInvoiceComponent implements OnInit {
           lista.push(invoices);
         }
       });
+      //*
       this.listInvoicesCopy = lista;
+      this.listInvoicesAuxCopy =  this.listInvoicesCopy;
+      this.advancedPagination = 1;
+      this.pageChangeCopy(this.advancedPagination);
+      //*
     }
   }
 
@@ -585,6 +709,7 @@ export class ManageInvoiceComponent implements OnInit {
 
     if (type === 'original') {
       // Lista actual
+      this.listInvoicesAuxOriginal = this.listOriginal;
       _.filter(this.listInvoicesAuxOriginal, function (invoices) {
         // Fecha Listado
         const fechaList = _.toString(invoices.date.slice(0, 10));
@@ -595,9 +720,16 @@ export class ManageInvoiceComponent implements OnInit {
           lista.push(invoices);
         }
       });
+      //*
       this.listInvoicesOriginal = lista;
+      this.listInvoicesAuxOriginal = this.listInvoicesOriginal;
+      this.advancedPagination = 1;
+      this.pageChangeOriginal(this.advancedPagination);
+      //*
     } else {
       // Lista actual
+      this.listInvoicesAuxCopy = this.listCopy;
+      //*
       _.filter(this.listInvoicesAuxCopy, function (invoices) {
         // Fecha Listado
         const fechaList = _.toString(invoices.date.slice(0, 10));
@@ -608,7 +740,12 @@ export class ManageInvoiceComponent implements OnInit {
           lista.push(invoices);
         }
       });
+      //*
       this.listInvoicesCopy = lista;
+      this.listInvoicesAuxCopy = this.listInvoicesCopy;
+      this.advancedPagination = 1;
+      this.pageChangeCopy(this.advancedPagination);
+      //*
     }
   }
 
@@ -622,6 +759,9 @@ export class ManageInvoiceComponent implements OnInit {
 
   clean(type) {
     this.getListInvoices();
+    this.advancedPagination = 1;
+    this.pageChangeCopy(this.advancedPagination);
+    this.pageChangeOriginal(this.advancedPagination);
     if (type === 'original') {
       this.validOriginal = false;
       this.selectedStatusOriginal = '';
