@@ -20,6 +20,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
 
   listOrders: Array<any> = new Array;
   listOrdersAux: Array<any> = new Array;
+  list: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage = 5;
   filterStatus = [{ id: 0, name: "Pending" },
@@ -83,6 +84,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
         });
         this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
         this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
+        this.list = this.listOrdersAux;
         this.spinner.hide();
       }
       this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
@@ -98,11 +100,18 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   filter(): void {
    const status = this.selectedStatus;
    const lista = [];
+    //*
+    this.listOrders = this.list;
+    //*
   if (this.selectedStatus !== '') {
       this.valid = true;
       if (this.tamano.length === 9) {
         // tslint:disable-next-line:radix
         this.listOrders = _.filter(this.listOrdersAux, { 'paymentStatus': parseInt(this.selectedStatus) });
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
       } else {
          let fecha: String;
         // FechaFiltro
@@ -116,7 +125,12 @@ export class ListOrderComponent implements OnInit, OnDestroy {
             lista.push(orders);
           }
         });
+        //*
         this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
       }
     }
   }
@@ -126,6 +140,9 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     const valorStatus = this.selectedStatus;
     this.tamano = this.valueDate(this.model);
     const lista = [];
+     //*
+     this.listOrders = this.list;
+     //*
     if (this.tamano.length === 15) {
       this.valid = true;
       let fecha: String;
@@ -144,7 +161,12 @@ export class ListOrderComponent implements OnInit, OnDestroy {
               lista.push(orders);
           }
       });
+      //*
       this.listOrders = lista;
+      this.listOrdersAux = this.listOrders;
+      this.advancedPagination = 1;
+      this.pageChange(this.advancedPagination);
+      //*
     }
   }
 
@@ -166,6 +188,9 @@ export class ListOrderComponent implements OnInit, OnDestroy {
 
   clean() {
     this.getListOrders();
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    this.router.navigate(['/order-list-client'], { queryParams: { status: this.status } });
     this.valid = false;
     this.tamano = 'undefined';
     this.selectedStatus = '';
