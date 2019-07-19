@@ -147,7 +147,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   filter(): void {
     //*
-    this.listOrders = this.list;
+    this.listOrdersAux = this.list;
     //*
     if (this.selectedStatus !== '') {
       this.valid1 = true;
@@ -197,7 +197,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.tamano = this.valueDate(this.model);
     const lista = [];
     //*
-    this.listOrders = this.list;
+    this.listOrdersAux = this.list;
     //*
     if (this.tamano.length === 15) {
       this.valid1 = true;
@@ -249,6 +249,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const lista = [];
     //*
     this.listOrders = this.list;
+    this.listOrdersAux  = this.list;
     //*
     if (val && val.trim() !== '') {
       const client = val;
@@ -345,6 +346,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const lista = [];
      //*
      this.listOrders = this.list;
+     this.listOrdersAux  = this.list;
      //*
     if (val && val.trim() !== '') {
       const product = val;
