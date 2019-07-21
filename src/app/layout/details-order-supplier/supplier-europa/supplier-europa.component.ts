@@ -37,7 +37,7 @@ export class SupplierEuropaComponent implements OnInit {
               private modalService: NgbModal,
               private userStorageService: UserStorageService,
               private route: ActivatedRoute,
-              private orderService: OrderService, 
+              private orderService: OrderService,
               private router: Router) {
         this.user = JSON.parse(userStorageService.getCurrentUser());
 }
