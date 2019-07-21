@@ -10,7 +10,7 @@ import { Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserStorageService } from '../../../http/user-storage.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { OrderService } from '../../../shared/services';
 import { EuropaComponent } from '../../edit-order/europa/europa.component';
 
@@ -37,9 +37,15 @@ export class SupplierEuropaComponent implements OnInit {
               private modalService: NgbModal,
               private userStorageService: UserStorageService,
               private route: ActivatedRoute,
-              private orderService: OrderService) {
+              private orderService: OrderService, 
+              private router: Router) {
         this.user = JSON.parse(userStorageService.getCurrentUser());
 }
+
+  skipLocationAndRedirect(uri) {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+    this.router.navigate([uri]));
+  }
 
   ngOnInit() {
     this.listAux = this.lista;
@@ -65,9 +71,10 @@ export class SupplierEuropaComponent implements OnInit {
     modalRefEuropa.componentInstance.order = this.order;
     modalRefEuropa.componentInstance.image = this.urlImage;
     modalRefEuropa.result.then((result) => {
-      console.log(result);
-        this.listAux = result;
-        this.sendReply();
+      /*console.log(result);
+      this.listAux = result;
+      this.sendReply();*/
+      this.skipLocationAndRedirect(this.router.url);
     } , (reason) => {
 
     });
