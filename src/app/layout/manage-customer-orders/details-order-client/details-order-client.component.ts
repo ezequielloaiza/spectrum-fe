@@ -35,7 +35,7 @@ export class DetailsOrderClientComponent implements OnInit {
   listDetailsAux: Array<any> = new Array;
   listAux: Array<ProductRequested> = new Array<ProductRequested>();
   advancedPagination: number;
-  itemPerPage = 1;
+  itemPerPage = 2;
   generar = false;
   download = false;
   user: any;
@@ -97,8 +97,8 @@ export class DetailsOrderClientComponent implements OnInit {
 
         this.listDetailsAll = this.order.listProductRequested;
         this.order.listProductRequested = auxList;
-        this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
+        this.listDetails = this.listDetailsAux.slice(0, this.itemPerPage);
 
         // search product insertor
         if (res.data.supplier.idSupplier === 2) {
@@ -251,7 +251,7 @@ export class DetailsOrderClientComponent implements OnInit {
     });
     this.listDetails = this.order.listProductRequested;
     this.listDetailsAux = this.order.listProductRequested;
-    // this.updateTotal();
+    this.updateTotal();
   }
 
   openEdit(lista, image) {
