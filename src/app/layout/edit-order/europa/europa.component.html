@@ -169,11 +169,11 @@
                 <div class="message-error">
                   <br>
                   <span  translate>{{'Warning: Includes' | translate}}</span>&nbsp;
-                  <span *ngIf="additionalHidrapeg">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : " USD $" }}</span>&nbsp;
-                  <span  *ngIf="additionalInserts && additionalHidrapeg">|</span>
-                  <span *ngIf="additionalInserts">{{'Inserts' | translate}}:{{ inserts | currency : " USD $" }}</span>&nbsp;
-                  <span  *ngIf="(additionalInserts || additionalHidrapeg) && additionalNotch">|</span>
-                  <span *ngIf="additionalNotch">{{'Notch (mm)' | translate}}:{{ notch | currency : " USD $" }}</span>&nbsp;
+                  <span *ngIf="additionalHidrapeg">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : " USD $" }}</span>
+                  <span  *ngIf="additionalInserts && additionalHidrapeg">&nbsp;|&nbsp;</span>
+                  <span *ngIf="additionalInserts">{{'Inserts' | translate}}:{{ inserts | currency : " USD $" }}</span>
+                  <span  *ngIf="(additionalInserts || additionalHidrapeg) && additionalNotch">&nbsp;|&nbsp;</span>
+                  <span *ngIf="additionalNotch">{{'Notch (mm)' | translate}}:{{ notch | currency : " USD $" }}</span>
                   <!--<span  *ngIf="(additionalHidrapeg || additionalInserts || additionalNotch) && additionalThickness">|</span>
                   <span *ngIf="additionalThickness">{{'Thickness' | translate}}:{{ thickness | currency : " USD $" }}</span>&nbsp;-->
                 </div>

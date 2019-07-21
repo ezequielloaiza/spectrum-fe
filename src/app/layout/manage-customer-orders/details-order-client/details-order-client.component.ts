@@ -152,6 +152,7 @@ export class DetailsOrderClientComponent implements OnInit {
       detailsOrder.productRequested.price = priceAll;
       detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
     });
+    this.updateTotal();
   }
 
   getProductsAditionalEuropa(eye) {
