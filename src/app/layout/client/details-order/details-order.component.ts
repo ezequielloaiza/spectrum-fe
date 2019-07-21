@@ -27,7 +27,7 @@ export class DetailsOrderComponent implements OnInit {
   listDetailsAux: Array<any> = new Array;
   listDetailsAll: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage = 1;
+  itemPerPage = 2;
   download = false;
   listAux: Array<ProductRequested> = new Array<ProductRequested>();
 
@@ -79,6 +79,7 @@ export class DetailsOrderComponent implements OnInit {
         this.order.listProductRequested = auxList;
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
+        this.listDetails = this.listDetailsAux.slice(0, this.itemPerPage);
 
         // search product insertor
         if (res.data.supplier.idSupplier === 2) {
@@ -220,7 +221,7 @@ export class DetailsOrderComponent implements OnInit {
        });
 
      });
-     this.listDetails = this.order.listProductRequested;
+    // this.listDetails = this.order.listProductRequested;
      this.listDetailsAux = this.order.listProductRequested;
    }
 }
