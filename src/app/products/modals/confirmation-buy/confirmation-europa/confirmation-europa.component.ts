@@ -58,6 +58,8 @@ export class ConfirmationEuropaComponent implements OnInit {
   balance_modal: Boolean = false;
   company: Company = new Company();
   available: any;
+  insertCodeSpectrum: any;
+  existInserts: Boolean = false;
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
@@ -94,45 +96,58 @@ export class ConfirmationEuropaComponent implements OnInit {
     let eyesSelected = [];
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
-
+    const listBasketAux = [];
     let quantityHidrapeg = 0;
     let quantityInserts = 0;
     let quantityNotch = 0;
     let quantityThickness = 0;
+    let existInserts = false;
+    let insertCodeSpectrum = '';
     _.each(this.listBasket, function (productRequested) {
       priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
-      patient = productRequested.patient;
-      if (productRequested.observations === undefined) {
-        productRequested.observations = '';
+      if (productRequested.name !== 'Inserts (DMV)'
+         && productRequested.name !== 'Notch'
+         && productRequested.name !== 'HydraPEG') {
+        // priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+        patient = productRequested.patient;
+        if (productRequested.observations === undefined) {
+          productRequested.observations = '';
+        }
+        let details = JSON.parse(productRequested.detail);
+        _.each(details, function (detail) {
+          eyesSelected.push(detail.eye);
+          _.each(detail.header, function (parameters) {
+            if (parameters.name === 'Hidrapeg' && parameters.selected) {
+              quantityHidrapeg = quantityHidrapeg + productRequested.quantity;
+            }
+          });
+          _.each(detail.parameters, function (parameters) {
+            if (parameters.name === 'Notch (mm)' && (parameters.selected !== '0x0')) {
+              quantityNotch = quantityNotch + productRequested.quantity;
+            }
+            if (parameters.name === 'Thickness' && parameters.selected) {
+              quantityThickness = quantityThickness + productRequested.quantity;
+            }
+          });
+        });
+
+        productRequested.detail = JSON.parse(productRequested.detail);
+        listBasketAux.push(productRequested);
+      } else if (productRequested.name === 'Inserts (DMV)') {
+        existInserts = true;
+        insertCodeSpectrum = productRequested.product.codeSpectrum;
       }
-      let details = JSON.parse(productRequested.detail);
-      _.each(details, function (detail) {
-        eyesSelected.push(detail.eye);
-        _.each(detail.header, function (parameters) {
-          if (parameters.name === 'Hidrapeg' && parameters.selected) {
-            quantityHidrapeg = quantityHidrapeg + productRequested.quantity;
-          }
-          if (parameters.name === 'Inserts (DMV)' && parameters.selected) {
-            quantityInserts = quantityInserts + productRequested.quantity;
-          }
-         });
-        _.each(detail.parameters, function (parameters) {
-          if (parameters.name === 'Notch (mm)' && (parameters.selected !== '0x0')) {
-            quantityNotch = quantityNotch + productRequested.quantity;
-          }
-          if (parameters.name === 'Thickness' && parameters.selected) {
-            quantityThickness = quantityThickness + productRequested.quantity;
-          }
-         });
-      });
-      productRequested.detail = JSON.parse(productRequested.detail);
     });
+
+    this.listBasket = listBasketAux;
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;
     this.price = priceAcum;
+    this.existInserts = existInserts;
+    this.insertCodeSpectrum = insertCodeSpectrum;
     this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
     this.totalHidrapeg = this.additionalHidrapeg * quantityHidrapeg;
-    this.totalInserts = this.additionalInserts * quantityInserts;
+    this.totalInserts = this.additionalInserts;
     this.totalNotch = this.additionalNotch * quantityNotch;
     this.totalThickness = this.additionalThickness * quantityThickness;
   }

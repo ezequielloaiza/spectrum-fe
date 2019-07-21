@@ -23,7 +23,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  padding-top: 1.0rem;
+  padding-top: 2.0rem;
+
+  .filter-date{
+    margin-top: 14px !important;
+  }
+
 }
 
 .pending {

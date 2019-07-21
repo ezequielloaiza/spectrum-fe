@@ -19,7 +19,15 @@ export class ProductsRequestedService {
     return this.http.put(environment.apiUrl + 'productsRequested/update', productsRequested);
   }
 
+  public updateList$(listProductsRequested: Array<any>): Observable<any> {
+    return this.http.put(environment.apiUrl + 'productsRequested/updateList', listProductsRequested);
+  }
+
   public findAllProducts$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'orderProductsRequested/findAllProducts');
+  }
+
+  public updatePriceEuropa$(productsRequested): Observable<any> {
+    return this.http.put(environment.apiUrl + 'productsRequested/updatePriceEuropa', productsRequested);
   }
 }

@@ -11,6 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SalineFluoComponent } from '../../edit-order/saline-fluo/saline-fluo.component';
 import { ProductRequested } from '../../../shared/models/productrequested';
+import { ProductService } from '../../../shared/services/products/product.service';
 
 @Component({
   selector: 'app-details-order',
@@ -24,6 +25,7 @@ export class DetailsOrderComponent implements OnInit {
   order: Order = new Order();
   listDetails: Array<any> = new Array;
   listDetailsAux: Array<any> = new Array;
+  listDetailsAll: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage = 1;
   download = false;
@@ -32,6 +34,7 @@ export class DetailsOrderComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
     public productImageService: ProductoimageService,
+    private productService: ProductService,
     private fileProductRequestedService: FileProductRequestedService,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService) { }
@@ -57,18 +60,126 @@ export class DetailsOrderComponent implements OnInit {
         if (res.data.dateSend !== null && res.data.supplier.idSupplier !== 1) {
           this.download = true;
         }
+
+        const auxList = [];
         _.each(this.order.listProductRequested, function (detailsOrder) {
+          const productId = detailsOrder.productRequested.product.idProduct;
           detailsOrder.productRequested.show = false;
           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
-          if (detailsOrder.productRequested.detail.length){
+          if (detailsOrder.productRequested.detail.length) {
             detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
           }
+          if (productId !== 145
+              && productId !== 146
+              && productId !== 147) {
+            auxList.push(detailsOrder);
+          }
         });
+        this.listDetailsAll = this.order.listProductRequested;
+        this.order.listProductRequested = auxList;
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
+
+        // search product insertor
+        if (res.data.supplier.idSupplier === 2) {
+          this.productService.findById$(146).subscribe(res1 => {
+            if (res1.code === CodeHttp.ok) {
+              this.assignPriceAllEuropa(auxList, res1.data[0]);
+            } else {
+              console.log(res1.errors[0].detail);
+              this.spinner.hide();
+            }
+          }, error => {
+            console.log('error', error);
+            this.spinner.hide();
+          });
+        }
+
         this.spinner.hide();
       }
     });
+  }
+
+  assignPriceAllEuropa(auxList, productDMV): void {
+    let arrayProductAditionals = [];
+    const self = this;
+    let priceAll = 0;
+    let priceInsertor = 0;
+
+    let existContraryEye = false;
+
+    _.each(auxList, function(detailsOrder) {
+      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye);
+        priceAll = 0;
+        existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye);
+        _.each(arrayProductAditionals, function(item) {
+          const productId = item.productRequested.product.idProduct;
+          if (productId !== 146) {
+            priceAll = priceAll + item.productRequested.price;
+          }
+        });
+        // price insertors
+        const insertor = detailsOrder.productRequested.detail[0].header[2].selected === true;
+
+        priceInsertor = self.getPriceInsertor(detailsOrder.order.user.membership.idMembership, productDMV);
+
+        if (insertor && existContraryEye) {
+          priceAll = priceAll + (priceInsertor / 2);
+        } else if (insertor) {
+          priceAll = priceAll + priceInsertor;
+        }
+
+        detailsOrder.productRequested.price = priceAll;
+        detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
+    });
+  }
+
+  getProductsAditionalEuropa(eye) {
+    const auxList = [];
+
+    _.each(this.listDetailsAll, function(item) {
+      if (item.productRequested.detail[0].eye === eye) {
+        auxList.push(item);
+      }
+    });
+
+    return auxList;
+  }
+
+  getPriceInsertor(membership, productDMV) {
+    let price = 0;
+
+    switch (membership) {
+      case 1:
+        price = productDMV.price1;
+        break;
+      case 2:
+        price = productDMV.price2;
+        break;
+      case 3:
+        price = productDMV.price3;
+        break;
+    }
+
+    return price;
+  }
+
+  contraryEye(eye) {
+    let exist = false;
+    let contraryEye = '';
+
+    if (eye === 'Left') {
+      contraryEye = 'Right';
+    } else {
+      contraryEye = 'Left';
+    }
+
+    _.each(this.listDetailsAll, function(item) {
+      if (item.productRequested.detail[0].eye === contraryEye) {
+        exist = true;
+      }
+    });
+    return exist;
   }
 
   downloadOrder(order) {

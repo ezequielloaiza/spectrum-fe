@@ -8,6 +8,8 @@ import { UserStorageService } from '../../../http/user-storage.service';
 import { Router } from '@angular/router';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ProductService } from '../../../shared/services/products/product.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-saline-fluo',
@@ -19,6 +21,8 @@ export class SalineFluoComponent implements OnInit {
   basket: any;
   productRequested: ProductRequested = new ProductRequested();
   productRequestedAux: ProductRequested = new ProductRequested();
+  productsCode: any;
+  productCode: any;
   product: any;
   detail: any;
   detailEdit: any;
@@ -31,6 +35,7 @@ export class SalineFluoComponent implements OnInit {
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
+              private productService: ProductService,
               private productRequestedService: ProductsRequestedService,
               private userService: UserStorageService,
               public router: Router,
@@ -46,6 +51,7 @@ export class SalineFluoComponent implements OnInit {
     }
     this.product = this.productRequested.product;
     this.getProductView();
+    this.getProductsCode();
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
@@ -61,14 +67,55 @@ export class SalineFluoComponent implements OnInit {
     this.price = this.productRequested.price;
   }
 
+  getProductsCode() {
+    if (this.product.codeSpectrum == '44A' || this.product.codeSpectrum == '44B') {
+      this.productService.findBySupplierAndInViewAndCategory$(7, false, 10).subscribe(res1 => {
+        if (res1.code === CodeHttp.ok) {
+          this.productsCode = res1.data;
+          this.productsCode = _.filter(res1.data, function (p) {
+            return _.includes(p.codeSpectrum, '44');
+          });
+        } else {
+          console.log(res1.errors[0].detail);
+          this.spinner.hide();
+        }
+      }, error => {
+        console.log('error', error);
+        this.spinner.hide();
+      });
+    }
+  }
+
+  changeSpectrumSaline() {
+    let productCode;
+    let flag = '';
+    console.log('this.quantity >= 250 && this.quantity < 500', this.quantity >= 250 && this.quantity < 500);
+    if (this.quantity >= 250 && this.quantity < 500) {
+      flag = '250';
+    } else if (this.quantity >= 500) {
+      flag = '500';
+    }
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, flag)) {
+        productCode = pr;
+      }
+    });
+    this.productCode = productCode;
+  }
+
   save() {
+    let idProduct = this.product.idProduct;
+    if (this.product.codeSpectrum == '44A' || this.product.codeSpectrum == '44B') {
+      this.changeSpectrumSaline();
+      idProduct = this.productCode.idProduct;
+    }
     if (this.typeEdit === 1) { // Basket
         this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
         this.productRequested.price = this.price;
         this.productRequested.detail = '';
         this.productRequested.patient = null;
         this.productRequested.quantity = this.quantity;
-        this.productRequested.product = this.product.idProduct;
+        this.productRequested.product = idProduct;
         this.update(this.productRequested);
    } else { // Order Detail
         this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
@@ -76,7 +123,7 @@ export class SalineFluoComponent implements OnInit {
         this.productRequestedAux.detail = '';
         this.productRequestedAux.patient = null;
         this.productRequestedAux.quantity = this.quantity;
-        this.productRequestedAux.product = this.product.idProduct;
+        this.productRequestedAux.product = idProduct;
         this.update(this.productRequestedAux);
     }
   }
@@ -96,6 +143,8 @@ export class SalineFluoComponent implements OnInit {
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
+        productRequested = res.data;
+        productRequested.detail = JSON.parse(JSON.stringify(productRequested.detail));
         this.modalReference.close(productRequested);
       } else {
         console.log(res);

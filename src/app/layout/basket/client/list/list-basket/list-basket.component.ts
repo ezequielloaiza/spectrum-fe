@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService} from '../../../../../shared/services/basket/basket.service';
 import { BasketproductrequestedService } from '../../../../../shared/services/basketproductrequested/basketproductrequested.service';
-import { OrderService } from '../../../../../shared/services/order/order.service';
+import { OrderService, UserService, ProductsRequestedService } from '../../../../../shared/services';
 import { CodeHttp } from '../../../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
 import { AlertifyService } from '../../../../../shared/services/alertify/alertify.service';
@@ -27,7 +27,8 @@ import { DetailSalineFluoComponent } from '../../../modals/detail-product/detail
 import { SalineFluoComponent } from '../../../../edit-order/saline-fluo/saline-fluo.component';
 import { DetailLenticonComponent } from '../../../modals/detail-product/detail-lenticon/detail-lenticon.component';
 import { LenticonComponent } from '../../../../edit-order/lenticon/lenticon.component';
-
+import { ProductService } from '../../../../../shared/services/products/product.service';
+import { ProductRequested } from '../../../../../shared/models/productrequested';
 
 @Component({
   selector: 'app-list-basket',
@@ -38,6 +39,7 @@ export class ListBasketComponent implements OnInit {
 
   listBasket: Array<any> = new Array;
   listBasketAux: Array<any> = new Array;
+  listBasketAll: Array<any> = new Array;
   user: any;
   buyBasket: Buy = new Buy();
   subtotal: any;
@@ -49,6 +51,7 @@ export class ListBasketComponent implements OnInit {
   };
   basket: any;
   checkedAll: any;
+  productDMV: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -58,7 +61,9 @@ export class ListBasketComponent implements OnInit {
     private notification: ToastrService,
     private modalService: NgbModal,
     private translate: TranslateService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private productRequestedService: ProductsRequestedService,
+    private productService: ProductService) {
       this.user = JSON.parse(userService.getCurrentUser());
     }
 
@@ -72,12 +77,36 @@ export class ListBasketComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listBasket = res.data;
         this.listBasketAux = res.data;
+        this.listBasketAll = res.data;
+
+        const auxList = [];
         _.each(this.listBasket, function (basket) {
           basket.checked = false;
           basket.supplier = basket.productRequested.product.supplier.idSupplier;
           if (basket.productRequested.detail.length > 0) {
             basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
           }
+          const productId = basket.productRequested.product.idProduct;
+          if (productId !== 145
+                && productId !== 146
+                && productId !== 147) {
+            auxList.push(basket);
+          }
+        });
+        this.listBasketAll = this.listBasket;
+        this.listBasket = auxList;
+        this.listBasketAux = auxList;
+        // search product insertor
+        this.productService.findById$(146).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.assignPriceAllEuropa(auxList, res1.data[0]);
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
         });
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
@@ -85,6 +114,78 @@ export class ListBasketComponent implements OnInit {
       }
     });
   }
+
+  assignPriceAllEuropa(auxList, productDMV): void {
+    let arrayProductAditionals = [];
+    const self = this;
+    let priceAll = 0;
+    let priceInsertor = 0;
+
+    let existContraryEye = false;
+
+    _.each(auxList, function(basket) {
+      if (basket.productRequested.product.supplier.idSupplier === 2) {
+        arrayProductAditionals = self.getProductsAditionalEuropa(basket.productRequested.groupId,
+          basket.productRequested.detail[0].eye);
+        priceAll = 0;
+        existContraryEye = self.contraryEye(basket.productRequested.groupId,
+          basket.productRequested.detail[0].eye);
+        _.each(arrayProductAditionals, function(item) {
+          const productId = item.productRequested.product.idProduct;
+          if (productId !== 146) {
+            priceAll = priceAll + item.productRequested.price;
+          }
+        });
+        // price insertors
+        const insertor = basket.productRequested.detail[0].header[2].selected === true;
+        priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
+        if (insertor && existContraryEye) {
+          priceAll = priceAll + (priceInsertor / 2);
+        } else if (insertor) {
+          priceAll = priceAll + priceInsertor;
+        }
+
+        basket.productRequested.price = priceAll;
+      }
+    });
+  }
+
+  getPriceInsertor(membership, productDMV) {
+    let price = 0;
+
+    switch (membership) {
+      case 1:
+        price = productDMV.price1;
+        break;
+      case 2:
+        price = productDMV.price2;
+        break;
+      case 3:
+        price = productDMV.price3;
+        break;
+    }
+
+    return price;
+  }
+
+  contraryEye(groupId, eye) {
+    let exist = false;
+    let contraryEye = '';
+
+    if (eye === 'Left') {
+      contraryEye = 'Right';
+    } else {
+      contraryEye = 'Left';
+    }
+
+    _.each(this.listBasketAll, function(item) {
+      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === contraryEye) {
+        exist = true;
+      }
+    });
+    return exist;
+  }
+
   borrar(id): void {
     this.basketProductRequestedService.removeById$(id).subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -106,7 +207,14 @@ export class ListBasketComponent implements OnInit {
       this.translate.get('Are you sure do you want to delete this register?',
       {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
-          this.borrar(id);
+          const basket = this.getBasket(id);
+          const  idSupplier = basket.productRequested.product.supplier.idSupplier;
+
+          if (idSupplier === 2) {
+            this.deleteProductsAditionalEuropa(basket);
+          } else {
+            this.borrar(id);
+          }
           }, () => {});
         });
       });
@@ -131,7 +239,140 @@ export class ListBasketComponent implements OnInit {
   buy() {
     this.calculationsSummary();
     this.openSumary();
+  }
+
+  getProductsAditionalEuropa(groupId, eye) {
+    const auxList = [];
+
+    _.each(this.listBasketAll, function(item) {
+      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === eye) {
+        auxList.push(item);
+      }
+    });
+
+    return auxList;
+  }
+
+  getBasket(id) {
+    let basket;
+    _.each(this.listBasket, function(item) {
+      if (item.idBasketProductRequested === id) {
+        basket = item;
+      }
+    });
+    return basket;
+  }
+
+  addProductsAditionalEuropa() {
+    let listPA = [];
+    let arrayAux = [];
+    let arrayAuxPA = [];
+    let self = this;
+
+    const listSelect = this.productRequestedToBuy;
+    _.each(this.listBasket, function(item) {
+        _.each(listSelect, function(itemBasket) {
+          if (item.idBasketProductRequested === itemBasket) {
+            arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
+              item.productRequested.detail[0].eye);
+            listPA = _.concat(listPA, arrayAuxPA);
+          }
+      });
+    });
+
+    _.each(listPA, function(item) {
+      const id = item.idBasketProductRequested;
+      arrayAux = _.concat(arrayAux, id);
+    });
+
+    this.productRequestedToBuy = arrayAux;
+  }
+
+  deleteProductsAditionalEuropa(basket) {
+    let auxList = [];
+    let arrayAux = [];
+    let arrayDelete = [];
+    let idProductRequested;
+    let price;
+    const productRequested1 = new ProductRequested();
+    let eye;
+    let productRDmv;
+
+    auxList = this.getProductsAditionalEuropa(basket.productRequested.groupId,
+      basket.productRequested.detail[0].eye);
+
+    // insertors
+    const insertor = basket.productRequested.detail[0].header[2].selected === true;
+    const existContraryEye = this.contraryEye(basket.productRequested.groupId,
+      basket.productRequested.detail[0].eye);
+    productRDmv = _.find(auxList, function(o) {
+      return o.productRequested.product.idProduct === 146;
+    });
+
+    if (insertor && existContraryEye && productRDmv !== undefined) {
+      eye = basket.productRequested.detail[0].eye === 'Left' ? 'Right' : 'Left';
+
+      idProductRequested = productRDmv.productRequested.idProductRequested;
+      const detailContrary = productRDmv.productRequested.detail;
+      _.each(detailContrary, function(item) {
+        item.eye = eye;
+        _.each(item.header, function(itemH, index) {
+          if (itemH.name === 'Inserts (DMV)') {
+            item.header[index].selected = true;
+          }
+        });
+      });
+
+      price = productRDmv.productRequested.price;
+
+      // build object
+      productRequested1.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+        header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+        pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+      productRequested1.idProductRequested = idProductRequested;
+      productRequested1.price = price;
+
+      this.productRequestedService.updatePriceEuropa$(productRequested1).subscribe(res1 => {
+        if (res1.code === CodeHttp.ok) {
+          _.each(auxList, function(item) {
+            if (item.productRequested.product.idProduct !== 146) {
+              arrayDelete.push(item);
+            }
+          });
+          auxList = arrayDelete;
+
+          _.each(auxList, function(item) {
+            const id = item.idBasketProductRequested;
+            arrayAux = _.concat(arrayAux, id);
+          });
+          this.deleteByIds(arrayAux);
+        }
+      });
+    } else {
+      _.each(auxList, function(item) {
+        const id = item.idBasketProductRequested;
+        arrayAux = _.concat(arrayAux, id);
+      });
+
+      this.deleteByIds(arrayAux);
     }
+  }
+
+  deleteByIds(ids): void {
+    this.basketProductRequestedService.removeByIds$(ids).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.getListBasket();
+        // tslint:disable-next-line:no-shadowed-variable
+        this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res: string) => {
+          this.notification.success('', res);
+        });
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
 
   onSelection(basket, checked) {
     if (this.checkedAll === false && checked === true) {
@@ -318,6 +559,7 @@ export class ListBasketComponent implements OnInit {
   }
 
   openSumary() {
+    this.addProductsAditionalEuropa();
     this.buyBasket.idUser = this.user.userResponse.idUser;
     this.buyBasket.listBasket = this.productRequestedToBuy;
     this.buyBasket.idRole = this.user.role.idRole;

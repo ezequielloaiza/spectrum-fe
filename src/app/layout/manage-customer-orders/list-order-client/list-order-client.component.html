@@ -205,12 +205,14 @@
                 <div class="row product" *ngFor="let listDetails of order.listProductRequested">
                   <div class="col-lg-2">
                     <div>
+                      <span *ngIf="listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147">
+                        - </span>
                       <span>{{listDetails.productRequested.product.name}}</span>
                     </div>
                     <div *ngIf="listDetails.productRequested.detail.length > 0 ">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
                     </div>
-                    <div *ngIf="listDetails.productRequested.detail.length > 0 ">
+                    <div *ngIf="listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>
                     </div>
                   </div>

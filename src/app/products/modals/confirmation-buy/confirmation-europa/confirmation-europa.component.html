@@ -35,7 +35,7 @@
               <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;
               <span *ngIf="totalHidrapeg">{{'Hidrapeg' | translate}}:{{ totalHidrapeg | currency : " USD $" }}</span>&nbsp;
               <span  *ngIf="totalHidrapeg && totalInserts">|</span>
-              <span *ngIf="totalInserts">{{'Inserts (DMV)' | translate}}:{{ totalInserts | currency : " USD $" }}</span>&nbsp;
+              <span *ngIf="totalInserts && existInserts">{{'Inserts (DMV)' | translate}}:{{ totalInserts | currency : " USD $" }}</span>&nbsp;
               <span  *ngIf="(totalInserts || totalHidrapeg) && totalNotch">|</span>
               <span *ngIf="totalNotch">{{'Notch (mm)' | translate}}:{{ totalNotch | currency : " USD $" }}</span>&nbsp;
               <span  *ngIf="(totalHidrapeg || totalInserts || totalNotch) && totalThickness">|</span>
@@ -46,13 +46,40 @@
         </div>
       </div>
       <!-- PARAMETERS -->
+      <div class="col-sm-12" *ngFor="let parameter of listBasket[0].detail[0].header">
+          <dl *ngIf="parameter.name === 'Inserts (DMV)'" class="align-item">
+            <dt>{{ parameter.name | translate }}</dt>
+            <hr class="separators" />
+            <dl>
+              <dt *ngIf="parameter.selected === true || parameter.selected === false" class="items">
+                <span *ngIf="parameter.selected === true">{{
+                  "Yes" + ' ' + insertCodeSpectrum | translate
+                }}</span>
+                <span *ngIf="parameter.selected === false">{{
+                  "No" | translate
+                }}</span>
+              </dt>
+            </dl>
+          </dl>
+      </div>
       <div class="col-lg-12" *ngFor="let list of listBasket">
         <div class="row padding-params">
           <div class="col-lg-12 title eye-info">
             <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
-          <div class="col-sm-4" *ngFor="let parameter of list.detail[0].header">
+
+          <div class="col-lg-4">
             <dl class="align-item">
+              <dt>{{ 'Spectrum code' | translate }}</dt>
+              <hr class="separators" />
+              <dl>
+                <dt class="items">{{ list.product.codeSpectrum }}</dt>
+              </dl>
+            </dl>
+          </div>
+
+          <div class="col-sm-4" *ngFor="let parameter of list.detail[0].header">
+            <dl *ngIf="parameter.name !== 'Inserts (DMV)'" class="align-item">
               <dt>{{ parameter.name | translate }}</dt>
               <hr class="separators" />
               <dl>
@@ -65,6 +92,18 @@
                     "No" | translate
                   }}</span>
                 </dt>
+              </dl>
+            </dl>
+          </div>
+          <div *ngIf="list.detail[0].productsAditional.length > 0" class="col-sm-12">
+            <div class="parameters">{{ 'Additional Products' | translate }}:</div>
+          </div>
+          <div class="col-sm-4" *ngFor="let productA of list.detail[0].productsAditional">
+            <dl class="align-item">
+              <dt>{{ productA.name | translate }}</dt>
+              <hr class="separators" />
+              <dl>
+                <dt class="items">{{ productA.codeSpectrum }}</dt>
               </dl>
             </dl>
           </div>
