@@ -222,5 +222,15 @@ export class DetailsOrderComponent implements OnInit {
      });
      this.listDetails = this.order.listProductRequested;
      this.listDetailsAux = this.order.listProductRequested;
+     this.updateTotal();
    }
+
+   updateTotal() {
+    let total = 0.0;
+   _.each(this.listDetails, function (item) {
+      total = total + item.productRequested.subtotal;
+   });
+   this.order.total = total;
+   this.order.subtotal = total;
+ }
 }
