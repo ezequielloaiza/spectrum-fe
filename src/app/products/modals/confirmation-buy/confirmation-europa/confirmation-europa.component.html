@@ -30,13 +30,13 @@
           </dl>
           <dl>
             <dt>{{ price | currency: "USD $" }}</dt>
-            <p class="eye-info" *ngIf="totalInserts || totalHidrapeg || totalNotch || totalThickness">
+            <p class="eye-info" *ngIf="(totalInserts && existInserts) || totalHidrapeg || totalNotch || totalThickness">
               (
-              <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;
+              <span>{{ 'Includes' | translate }}</span>&nbsp;
               <span *ngIf="totalHidrapeg">{{'Hidrapeg' | translate}}:{{ totalHidrapeg | currency : " USD $" }}</span>&nbsp;
-              <span  *ngIf="totalHidrapeg && totalInserts">|</span>
+              <span  *ngIf="totalHidrapeg && (totalInserts && existInserts )">|</span>
               <span *ngIf="totalInserts && existInserts">{{'Inserts (DMV)' | translate}}:{{ totalInserts | currency : " USD $" }}</span>&nbsp;
-              <span  *ngIf="(totalInserts || totalHidrapeg) && totalNotch">|</span>
+              <span  *ngIf="((totalInserts && existInserts) || totalHidrapeg) && totalNotch">|</span>&nbsp;
               <span *ngIf="totalNotch">{{'Notch (mm)' | translate}}:{{ totalNotch | currency : " USD $" }}</span>&nbsp;
               <span  *ngIf="(totalHidrapeg || totalInserts || totalNotch) && totalThickness">|</span>
               <span *ngIf="totalThickness">{{'Thickness' | translate}}:{{ totalThickness | currency : " USD $" }}</span>
