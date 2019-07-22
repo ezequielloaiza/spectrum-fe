@@ -345,7 +345,7 @@ export class ProductViewMagicComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    var totalQuantity =_.sumBy(this.boxes, 'quantity');
+    var totalQuantity = _.sumBy(this.boxes, 'quantity');
     if ( totalQuantity < 250 ) {
       return false;
     }
@@ -355,6 +355,9 @@ export class ProductViewMagicComponent implements OnInit {
     _.each(this.boxes, function(product) {
       _.each(product.parameters, function(param){
         if (param.selected === null || param.selected === undefined) {
+          isValid = false;
+        }
+        if (!product.quantity) {
           isValid = false;
         }
       });
