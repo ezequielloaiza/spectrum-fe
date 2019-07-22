@@ -364,6 +364,9 @@ export class ProductViewBlueComponent implements OnInit {
           isValid = false;
         }
       });
+      if (!this.product.quantityRight) {
+        isValid = false;
+      }
     }
 
     if (this.product.eyeLeft) {
@@ -372,6 +375,9 @@ export class ProductViewBlueComponent implements OnInit {
           isValid = false;
         }
       });
+      if (!this.product.quantityLeft) {
+        isValid = false;
+      }
     }
     return isValid;
   }

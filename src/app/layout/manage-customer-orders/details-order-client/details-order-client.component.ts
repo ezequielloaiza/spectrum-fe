@@ -250,7 +250,7 @@ export class DetailsOrderClientComponent implements OnInit {
         }
       });
     });
-    this.listDetails = this.order.listProductRequested;
+   // this.listDetails = this.order.listProductRequested;
     this.listDetailsAux = this.order.listProductRequested;
     this.updateTotal();
   }
