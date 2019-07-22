@@ -33,7 +33,7 @@ export class DetailsOrderClientComponent implements OnInit {
   listDetailsAux: Array<any> = new Array;
   listAux: Array<ProductRequested> = new Array<ProductRequested>();
   advancedPagination: number;
-  itemPerPage = 1;
+  itemPerPage = 2;
   generar = false;
   download = false;
   user: any;
@@ -84,6 +84,7 @@ export class DetailsOrderClientComponent implements OnInit {
         });
         this.listDetails = this.order.listProductRequested;
         this.listDetailsAux = this.order.listProductRequested;
+        this.listDetails = this.listDetailsAux.slice(0, this.itemPerPage);
         this.spinner.hide();
       }
     });
@@ -135,7 +136,7 @@ export class DetailsOrderClientComponent implements OnInit {
         }
       });
     });
-    this.listDetails = this.order.listProductRequested;
+   // this.listDetails = this.order.listProductRequested;
     this.listDetailsAux = this.order.listProductRequested;
     this.updateTotal();
   }
