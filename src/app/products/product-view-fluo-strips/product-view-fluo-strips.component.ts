@@ -94,9 +94,13 @@ export class ProductViewFluoStripsComponent implements OnInit {
     this.productService.findBySupplierInView$(7 , true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
+        this.getProductView();
         this.productService.findBySupplierAndInViewAndCategory$(7, false, 10).subscribe(res1 => {
           if (res1.code === CodeHttp.ok) {
             this.productsCode = res1.data;
+            if (this.user.role.idRole === 3) {
+              this.setCodeProduct(this.currentUser.name);
+            }
           } else {
             console.log(res1.errors[0].detail);
             this.spinner.hide();
@@ -105,7 +109,6 @@ export class ProductViewFluoStripsComponent implements OnInit {
           console.log('error', error);
           this.spinner.hide();
         });
-        this.getProductView();
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -148,7 +151,6 @@ export class ProductViewFluoStripsComponent implements OnInit {
       this.client = this.currentUser.idUser;
       this.product.client = this.currentUser.name;
       this.findShippingAddress(this.client);
-
     } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {

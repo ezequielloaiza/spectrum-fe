@@ -58,3 +58,20 @@
     text-align: center;
   }
 }
+
+.strips{
+  padding-top: 20px;
+  color:$secondary-info;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.error-quantity {
+  color:$error-quantity;
+}
+
+.message-quantity {
+  color:$message-quantity;
+  font-size: 0.85rem;
+  margin-left: 1rem;
+}

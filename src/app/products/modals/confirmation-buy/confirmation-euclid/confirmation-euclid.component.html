@@ -41,8 +41,11 @@
             <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
           <div class="col-lg-6 title eye-info">
-              <span>{{ list.product.codeSpectrum }}</span>&nbsp;&nbsp;
-            </div>
+            <span>{{ 'Spectrum code' | translate }}</span>
+            <dl>
+              <dt><span>{{ list.product.codeSpectrum }}</span>&nbsp;&nbsp;</dt>
+            </dl>
+          </div>
           <div class="col-sm-3">
             <dl class="align-item">
               <dt>{{'Quantity'| translate}}

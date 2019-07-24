@@ -30,8 +30,11 @@ export class SalineFluoComponent implements OnInit {
   quantity: any;
   price: any;
   editPrice = false;
+  fluo = false;
+  saline = false;
   user: any;
   image: any;
+  strips: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -52,10 +55,14 @@ export class SalineFluoComponent implements OnInit {
     this.product = this.productRequested.product;
     this.getProductView();
     this.getProductsCode();
+    if (_.includes(this.product.name, 'Saline')) {
+      this.saline = true;
+    } else {
+      this.fluo =  true;
+    }
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
-
   }
 
   close() {
@@ -64,6 +71,7 @@ export class SalineFluoComponent implements OnInit {
 
   getProductView() {
     this.quantity = this.productRequested.quantity;
+    this.strips = this.quantity * 100;
     this.price = this.productRequested.price;
   }
 
@@ -130,10 +138,16 @@ export class SalineFluoComponent implements OnInit {
 
   formIsValid() {
     let valido = true;
-     if (this.quantity === null  || this.price === null) {
+     if (!this.strips || this.price === null) {
           valido = false;
      }
      return valido;
+  }
+
+  change(quantity) {
+    if (quantity % 25 === 0) {
+      this.strips = quantity * 100;
+    }
   }
 
   update(productRequested) {

@@ -272,10 +272,12 @@ export class ListBasketComponent implements OnInit {
     const listSelect = this.productRequestedToBuy;
     _.each(this.listBasket, function(item) {
         _.each(listSelect, function(itemBasket) {
-          if (item.idBasketProductRequested === itemBasket) {
-            arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
-              item.productRequested.detail[0].eye);
-            listPA = _.concat(listPA, arrayAuxPA);
+          if (item.productRequested.product.supplier.idSupplier === 2) {
+            if (item.idBasketProductRequested === itemBasket) {
+              arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
+                item.productRequested.detail[0].eye);
+              listPA = _.concat(listPA, arrayAuxPA);
+            }
           }
       });
     });
@@ -285,7 +287,9 @@ export class ListBasketComponent implements OnInit {
       arrayAux = _.concat(arrayAux, id);
     });
 
-    this.productRequestedToBuy = arrayAux;
+    if (arrayAux.length > 0) {
+      this.productRequestedToBuy = arrayAux;
+    }
   }
 
   deleteProductsAditionalEuropa(basket) {
