@@ -19,7 +19,7 @@
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'ACC Number' | translate }}</label>
                 <input type="text" class="form-control" formControlName="accNumber" maxlength="120" *ngIf="edit" />
-                <div class="truncate" ng-if="!edit">
+                <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.accNumber }">{{ protocol.accNumber ? protocol.accNumber :
                     'Unassigned' | translate
                   }}</span>

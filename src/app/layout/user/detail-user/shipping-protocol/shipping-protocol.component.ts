@@ -89,7 +89,7 @@ export class ShippingProtocolComponent implements OnInit {
 
   getSupplier() {
     this.supplierService.findAll$().subscribe(res => {
-      this.suppliers = res.data;
+      this.suppliers = _.orderBy(res.data, ['companyName']);
       this.getProtocol(this.id, this.suppliers[0].idSupplier);
     });
   }

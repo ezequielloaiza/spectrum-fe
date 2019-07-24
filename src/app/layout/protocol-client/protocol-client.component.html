@@ -16,14 +16,7 @@
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'ACC Number' | translate }}</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="accNumber"
-                  maxlength="120"
-                  *ngIf="edit"
-                />
-                <div class="truncate" ng-if="!edit">
+                <div class="truncate">
                   <span [ngClass]="{ unassigned: !protocol.accNumber }">{{ protocol.accNumber ? protocol.accNumber :
                     'Unassigned' | translate
                   }}</span>
@@ -31,18 +24,7 @@
               </div>
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Country' | translate }}</label>
-                <div>
-                  <ng-select
-                    [items]="countries"
-                    [searchable]="true"
-                    bindValue="idCountry"
-                    bindLabel="name"
-                    formControlName="country"
-                    *ngIf="edit"
-                  >
-                  </ng-select>
-                </div>
-                <div class="truncate" *ngIf="!edit">
+                <div class="truncate">
                   <span [ngClass]="{ unassigned: !protocol.countryName }">{{ protocol.countryName ? protocol.countryName :
                     'Unassigned' | translate
                   }}</span>
@@ -52,15 +34,7 @@
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Business Name' | translate}}</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="businessName"
-                  maxlength="120"
-                  *ngIf="edit"
-                  placeholder="{{ 'Enter business name' | translate }}"
-                />
-                <div class="truncate" *ngIf="!edit">
+                <div class="truncate">
                   <span [ngClass]="{ unassigned: !protocol.businessName }">{{ protocol.businessName ? protocol.businessName :
                     'Unassigned' | translate
                   }}</span>
@@ -208,24 +182,6 @@
               </div>
             </div>
             <div class="d-flex">
-
-              <div class="form-group pr-3 half-flex">
-                <label *ngIf="true">{{ 'Email Comments' | translate }}</label>
-                 <textarea style="overflow-x: hidden;"
-                 *ngIf="edit"
-                  type="text"
-                  class="form-control"
-                  formControlName="emailComment"
-                  maxlength="254"
-                  placeholder="{{ 'Enter email comments' | translate }}"
-                ></textarea>
-                <div  class="truncate" *ngIf="!edit">
-                  <span [ngClass]="{ unassigned: !protocol.emailComment }">{{ protocol.emailComment ? protocol.emailComment :
-                    'Unassigned' | translate
-                  }}</span>
-                </div>
-              </div>
-
               <div class="form-group pr-3 half-flex">
                 <label *ngIf="false">{{ 'DMV' | translate }}</label>
                 <input
@@ -267,7 +223,7 @@
             </div>
             <!--Manage all-->
             <div class="row" *ngFor="let protocol of protocols | keyvalue">
-              <div class="w-100 border-protocol p-3 mb-3">
+              <div class="w-100 border-protocol p-3 mb-3" [hidden]="(protocol.value.label === 'ACC Number' || protocol.value.label ==='Country'  || protocol.value.label ==='Business Name') && edit">
                 <div class="d-flex w-100 border-bottom">
                   <div class="w-50 mr-3">
                     <label class="font-weight-bold">{{ protocol.value.label | translate }}</label>
@@ -289,7 +245,6 @@
                         placeholder="{{ protocol.placeHolder | translate }}"
                         [(ngModel)]="value.content"
                         [ngModelOptions]="{standalone: true}"
-                        [disabled]="edit"
                       />
                       <textarea
                         *ngIf="
@@ -405,16 +360,17 @@
                         </select>
                       </div>
                       <div class="truncate" *ngIf="!edit">
-                      <span [ngClass]="{ unassigned: !value.content }">{{ value.content ? value.content :
+                      <span *ngIf="protocol.value.label !=='Country'" [ngClass]="{ unassigned: !value.content }">{{ value.content ? value.content :
                         'Unassigned' | translate
                       }}</span>
+                      <span *ngIf="protocol.value.label ==='Country'" [ngClass]="{ unassigned: !value.countryName }">{{ value.countryName ? value.countryName: 'Unassigned' | translate }}</span>
                     </div>
                     </div>
                   </div>
                   <div class="w-46">
                     <div *ngIf="edit" class="d-inline-block w-100" ngbDropdown autoClose="outside">
                       <button
-                        class="btn border-type w-100 text-left"
+                        class="btn border-type w-100 text-left truncate"
                         ngbDropdownToggle
                         required
                         [disabled]="!validContent(protocol.value,pos)">

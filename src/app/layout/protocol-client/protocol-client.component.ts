@@ -384,7 +384,7 @@ export class ProtocolClientComponent implements OnInit {
   loadSuppliers() {
     this.supplierService.findAll$().subscribe(res => {
     if (res.code === CodeHttp.ok) {
-      this.suppliers = res.data;
+      this.suppliers =  _.orderBy(res.data, ['companyName']);
       this.getProtocols();
     } else {
       console.log(res.errors[0].detail);
@@ -413,6 +413,10 @@ export class ProtocolClientComponent implements OnInit {
   loadFields() {
 
     this.protocols = {
+      //view client
+       accNumber: {label: 'ACC Number', values:[], selectedSuppliers: [], placeHolder:'Enter ACC Number', id:8, edit:false},
+       country: {label: 'Country', values:[], selectedSuppliers: [], placeHolder:'Enter Country', id:9, edit:false},
+       businessName: { label: 'Business Name', values:[], selectedSuppliers: [], placeHolder:'Enter Business Name', id:10, edit:true},
        //permitted client
        recipient: {label: 'Recipient', values:[], selectedSuppliers: [], placeHolder:'Enter recipient',id:1, edit:true},
        shippingAddress: {label: 'Shipping Address', values:[], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2, edit:true},
@@ -433,25 +437,39 @@ export class ProtocolClientComponent implements OnInit {
         if (!!self.protocols[clave]) {
           if (protocol[_key] !== '' && protocol[_key] !== null) {
               if (self.protocols[clave].values.length === 0) {
-                  let object;
-                   // tslint:disable-next-line:max-line-length
-                   object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
-                  self.protocols[clave].values.push(object);
+                let object;
+                if (_key !== 'country') {
+                 // tslint:disable-next-line:max-line-length
+                 object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
+                } else {
+                  // tslint:disable-next-line:max-line-length
+                  object = {content: protocol[_key].idCountry, countryName: protocol[_key].name, suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
+                }
+                self.protocols[clave].values.push(object);
+                self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
+              } else {
+                const index = _.findIndex(self.protocols[clave].values, function(value: any) {
+                  if (_key !== 'country') {
+                    return value.content === protocol[_key];
+                  } else {
+                    return value.content === protocol[_key].idCountry;
+                  }
+                });
+                if (index !== -1) {
+                  self.protocols[clave].values[index].suppliers.push(protocol.supplier.idSupplier);
+                  self.protocols[clave].values[index].ids.push({idSupplier: protocol.supplier.idSupplier});
                   self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
                 } else {
-                  const index = _.findIndex(self.protocols[clave].values, function(value: any) {
-                      return value.content === protocol[_key];
-                  });
-                  if (index !== -1) {
-                    self.protocols[clave].values[index].suppliers.push(protocol.supplier.idSupplier);
-                    self.protocols[clave].values[index].ids.push({idSupplier: protocol.supplier.idSupplier});
-                    self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
-                  } else {
-                    let object;
+                  let object;
+                  if (_key !== 'country') {
                     // tslint:disable-next-line:max-line-length
                     object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
-                    self.protocols[clave].values.push(object);
-                    self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
+                  } else {
+                    // tslint:disable-next-line:max-line-length
+                    object = {content: protocol[_key].idCountry, countryName: protocol[_key].name ,suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
+                  }
+                  self.protocols[clave].values.push(object);
+                  self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
 
                   }
             }
