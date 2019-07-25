@@ -140,7 +140,7 @@
             [disabled]="!validContent(protocol,pos)"
           >
             <div class="text-overflow">{{ getNamesTypeList(value) }}</div>
-            <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol,pos)">
+            <span *ngIf="checkSuppliers(protocol,pos)">
               {{ "Select At Least a Supplier" | translate }}
            </span>
           </button>
@@ -165,7 +165,7 @@
                       for="{{ protocol.label }}-{{ i }}-{{ pos }}"
                     ></label>
 
-                    <span class="tcs-text-overflow">
+                    <span>
                       {{ supplier.companyName | titlecase }}
                     </span>
                   </div>
