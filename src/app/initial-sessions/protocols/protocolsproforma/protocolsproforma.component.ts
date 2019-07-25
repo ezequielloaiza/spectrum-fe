@@ -81,7 +81,7 @@ export class ProtocolsproformaComponent implements OnInit {
   loadSuppliers() {
     this.supplierService.findAll$().subscribe(res => {
     if (res.code === CodeHttp.ok) {
-      this.suppliers = res.data;
+      this.suppliers = _.orderBy(res.data, ['companyName']);
       this.getProtocols();
     } else {
       console.log(res.errors[0].detail);
