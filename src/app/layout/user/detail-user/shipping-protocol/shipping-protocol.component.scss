@@ -1,5 +1,11 @@
 @import '../../../../../styles/spectrum/spectrum';
 
+.text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .container {
   padding: 10px 0px 0px 30px;
 

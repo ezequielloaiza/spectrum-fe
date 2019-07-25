@@ -250,7 +250,7 @@
                       <button class="btn border-type w-100 text-left" ngbDropdownToggle required
                         [disabled]="!validContent(protocol.value, pos)">
                         <div class="text-overflow">{{ getNamesTypeList(value) }}</div>
-                        <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol.value, pos)">
+                        <span *ngIf="checkSuppliers(protocol.value, pos)">
                           {{ "Select At Least a Supplier" | translate }}
                         </span>
                       </button>
@@ -266,7 +266,7 @@
                                   (click)="selectSupplier(supplier.idSupplier, protocol.value, value)">
                                 <label class="custom-control-label"
                                   for="{{protocol.value.label}}-{{ i }}-{{ pos }}"></label>
-                                <span class="tcs-text-overflow"> {{ supplier.companyName | titlecase }} </span>
+                                <span> {{ supplier.companyName | titlecase }} </span>
                               </div>
                             </div>
                           </li>
