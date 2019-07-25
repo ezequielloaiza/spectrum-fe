@@ -432,8 +432,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   loadInvoiceShippingProtocol(invoice) {
     // Shipping Protocol
-    if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null 
-      && invoice.invoiceProtocolClientResponse.idInvoiceProtocolClient != null) {
+    if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null) {
       this.invShippingProtocol.accNumber = invoice.invoiceProtocolClientResponse.accNumber;
       this.editAccNumber = (this.invShippingProtocol.accNumber != null && !this.pilot) ? true : false;
       this.invShippingProtocol.accountNumber = invoice.invoiceProtocolClientResponse.accountNumber;
@@ -492,8 +491,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   loadInvoiceProtocolProforma(invoice) {
     // Protocol Proforma
-    if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null 
-      && invoice.invoiceProtocolProformaResponse.idInvoiceProtocolProforma != null) {
+    if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null) {
       this.invProtocolProforma.additionalDocuments = invoice.invoiceProtocolProformaResponse.additionalDocuments;
       this.editAdditionalDocuments = (this.invProtocolProforma.additionalDocuments != null && !this.pilot) ? true : false;
       this.invProtocolProforma.comments = invoice.invoiceProtocolProformaResponse.comments;
