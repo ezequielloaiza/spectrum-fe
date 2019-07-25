@@ -491,7 +491,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   loadInvoiceProtocolProforma(invoice) {
     // Protocol Proforma
-    if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null ) {
+    if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null) {
       this.invProtocolProforma.additionalDocuments = invoice.invoiceProtocolProformaResponse.additionalDocuments;
       this.editAdditionalDocuments = (this.invProtocolProforma.additionalDocuments != null && !this.pilot) ? true : false;
       this.invProtocolProforma.comments = invoice.invoiceProtocolProformaResponse.comments;
@@ -879,13 +879,13 @@ export class GenerateInvoiceComponent implements OnInit {
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
-            this.close();
             this.translate
               .get('Successfully Generated', { value: 'Successfully Generated' })
               .subscribe((res1: string) => {
                 this.notification.success('', res1);
               });
             this.spinner.hide();
+            this.close();
           } else {
             this.spinner.hide();
             console.log(res.code);
