@@ -1,5 +1,10 @@
 @import '../../../../styles/spectrum/spectrum';
 
+.text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 
 .context {
 
