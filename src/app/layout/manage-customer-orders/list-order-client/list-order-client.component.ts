@@ -747,6 +747,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.original = order.invoiceSupplier;
     }
     modalRef.result.then((result) => {
+      this.ngOnInit();
       this.getListOrders();
     }, (reason) => {
     });
@@ -1015,6 +1016,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listAux = [];
           this.selectedAll = false;
           this.initialize();
+          this.getListOrders();
           this.spinner.hide();
         } else {
           this.spinner.hide();
