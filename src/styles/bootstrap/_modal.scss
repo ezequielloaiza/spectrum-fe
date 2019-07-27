@@ -56,6 +56,12 @@
   min-height: calc(100% - (#{$modal-dialog-margin} * 2));
 }
 
+.modal-dialog-invoice {
+  .modal-dialog {
+    max-width: 95% !important;
+  }
+}
+
 // Actual modal
 .modal-content {
   position: relative;
