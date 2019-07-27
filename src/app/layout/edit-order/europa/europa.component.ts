@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { ProductsRequestedService } from '../../../shared/services';
+import { ProductsRequestedService, OrderProductRequestedService } from '../../../shared/services';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { BasketproductrequestedService } from '../../../shared/services/basketproductrequested/basketproductrequested.service';
+import { ProductService } from '../../../shared/services/products/product.service';
 
 @Component({
   selector: 'app-europa',
@@ -19,7 +21,21 @@ export class EuropaComponent implements OnInit {
   basket: any;
   productRequested: ProductRequested = new ProductRequested();
   productRequestedAux: ProductRequested = new ProductRequested();
+  productsOriginal: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
+  productOriginal: any;
+  productName = '';
+  productNotch: any;
+  productHydraPEG: any;
+  productDMV: any;
+  productRequestedNotch: any;
+  productRequestedHydraPEG: any;
+  productRequestedDMV: any;
+  productRequestedDMVContrary: any;
+  listBasketProductREquested: Array<any> = new Array;
+  listAux: Array<any> = new Array;
   product: any;
+  productCode: any;
   detail: any;
   detailEdit: any;
   typeEdit: any;
@@ -27,6 +43,7 @@ export class EuropaComponent implements OnInit {
   quantity: any;
   observations: any;
   price: any;
+  priceBase = 0;
   editPrice = false;
   user: any;
   patient: any;
@@ -45,12 +62,19 @@ export class EuropaComponent implements OnInit {
   additionalHidrapeg = false;
   additionalInserts = false;
   userOrder: any;
+  lenghtGroup: any;
+  valueInserts: any;
+  changeInserts = false;
+  order: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
+              private productService: ProductService,
               private productRequestedService: ProductsRequestedService,
+              private orderProductRequestedService: OrderProductRequestedService,
               private userService: UserStorageService,
-              private spinner: NgxSpinnerService) {
+              private spinner: NgxSpinnerService,
+              private basketProductRequestedService: BasketproductrequestedService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
@@ -58,21 +82,191 @@ export class EuropaComponent implements OnInit {
     if (this.typeEdit === 1 ) { // Basket
       this.productRequested = this.basket.productRequested;
       this.membership = this.basket.basket.user.membership.idMembership;
+      this.findBasketByGroupdId();
     } else { // order-detail
       this.productRequested = this.detailEdit;
+      this.productRequestedAux = this.detailEdit;
       this.membership = this.userOrder.membership.idMembership;
+      this.findByGroupdId();
     }
     this.detail = this.productRequested.detail[0];
-    this.product = this.productRequested.product;
-    this.getProductView();
+    this.productCode = this.productRequested.product;
+    this.getProductsEuropa();
+    this.priceBase = this.productRequested.priceBase;
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
+  }
 
+  findBasketByGroupdId() {
+    const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
+    this.basketProductRequestedService.allBasketByGroupId$(this.productRequested.groupId).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        const auxList = [];
+        let prNotch;
+        let prDMV;
+        let prHydrapeg;
+        _.each(res.data, function (basket) {
+          const productId = basket.productRequested.product.idProduct;
+          if (productId !== 145
+                && productId !== 146
+                && productId !== 147) {
+            auxList.push(basket);
+          } else {
+            switch (productId) {
+              case 145:
+                if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                  prNotch = basket.productRequested;
+                }
+                break;
+              case 146:
+                prDMV = basket.productRequested;
+                break;
+              case 147:
+                if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                  prHydrapeg = basket.productRequested;
+                }
+                break;
+            }
+          }
+        });
+        this.productRequestedNotch = prNotch;
+        this.productRequestedDMV = prDMV;
+        this.productRequestedHydraPEG = prHydrapeg;
+        this.listBasketProductREquested = auxList;
+        this.lenghtGroup = this.listBasketProductREquested.length;
+      } else {
+        console.log(res);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  findByGroupdId() {
+    const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
+    this.orderProductRequestedService.allByGroupId$(this.productRequested.groupId, this.order.idOrder).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        const auxList = [];
+        let prNotch;
+        let prDMV;
+        let prHydrapeg;
+        _.each(res.data, function (basket) {
+          const productId = basket.productRequested.product.idProduct;
+          if (productId !== 145
+                && productId !== 146
+                && productId !== 147) {
+            auxList.push(basket);
+          } else {
+              switch (productId) {
+                case 145:
+                  if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                    prNotch = basket.productRequested;
+                  }
+                  break;
+                case 146:
+                  prDMV = basket.productRequested;
+                  break;
+                case 147:
+                  if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                    prHydrapeg = basket.productRequested;
+                  }
+                  break;
+              }
+          }
+        });
+        this.productRequestedNotch = prNotch;
+        this.productRequestedDMV = prDMV;
+        this.productRequestedHydraPEG = prHydrapeg;
+        this.listBasketProductREquested = auxList;
+        this.lenghtGroup = this.listBasketProductREquested.length;
+        console.log(res);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   close() {
     this.modalReference.close();
+  }
+
+  getProductsEuropa() {
+    this.productService.findBySupplierInView$(2, true).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.productsOriginal = res.data;
+        this.productService.findBySupplierAndInViewAndCategory$(2, false, 10).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.productsCode = res1.data;
+            this.productNotch = this.setProduct(res1.data, 'Notch');
+            this.productDMV = this.setProduct(res1.data, 'DMV Insertion and Removal Set');
+            this.productHydraPEG = this.setProduct(res1.data, 'HydraPEG');
+          } else {
+            console.log(res1.errors[0].detail);
+          }
+        }, error => {
+          console.log('error', error);
+        });
+        this.setNameProduct();
+        this.product = this.setProduct(res.data, this.productName);
+        this.getProductView();
+        this.setNameProductCode();
+      } else {
+        console.log(res.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
+  }
+
+  setNameProduct() {
+    if (_.includes(this.detail.name, 'Bitorico')) {
+      this.productName = 'Europa Bi-Toric';
+    } else if (_.includes(this.detail.name, 'SPH')
+        || _.includes(this.productCode.name, 'Sphere')) {
+      this.productName = 'Europa SPH';
+    } else if (_.includes(this.detail.name, 'M.F')) {
+      this.productName = 'Europa Multifocal';
+    } else if (_.includes(this.detail.name, 'T.F')) {
+      this.productName = 'Europa Front Toric';
+    } else if (_.includes(this.detail.name, 'TPC')) {
+      this.productName = 'Europa TPC';
+    }
+  }
+
+  setNameProductCode() {
+    if (_.includes(this.product.name, 'Bi-Toric')) {
+      this.productName = 'Europa Bitoric';
+    } else if (_.includes(this.product.name, 'SPH')) {
+      this.productName = 'Europa Sphere';
+    } else if (_.includes(this.product.name, 'Multifocal')
+              || _.includes(this.product.name, 'Front Toric')
+              || _.includes(this.product.name, 'TPC')) {
+      this.productName = 'Europa FT, TPC,  MF';
+    }
+  }
+
+  setProduct(list, name) {
+    let prCode;
+    _.each(list, function (pr) {
+      if (_.includes(pr.name, name)) {
+        prCode = pr;
+      }
+    });
+    return prCode;
+  }
+
+  setCodeProductByDiameter(name, diameter) {
+    let prCode;
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, name) && _.includes(pr.name, diameter)) {
+        prCode = pr;
+      }
+    });
+
+    return prCode;
   }
 
   getProductView() {
@@ -171,13 +365,32 @@ export class EuropaComponent implements OnInit {
     this.definePriceNotch(this.membership);
     // this.definePriceTickness(this.membership);
     this.definePriceInserts(this.membership);
+    let valueInserts = 0;
+    if (this.lenghtGroup === 2) {
+      valueInserts = this.inserts / 2;
+    } else {
+      valueInserts = this.inserts;
+    }
+    this.valueInserts = valueInserts;
     if (parameter.name === 'Diameter (mm)') {
-         this.checkAdditional();
-         if (value === '18.0' || value === '20.0' ) {
-           this.price = this.priceB + this.notch + this.thickness + this.hidrapeg + this.inserts;
-         } else {
-           this.price = this.priceA + this.notch + this.thickness + this.hidrapeg + this.inserts;
-         }
+      this.checkAdditional();
+      if (value === '17.0' ||
+          value === '17.5' ||
+          value === '18.0' ||
+          value === '18.5' ||
+          value === '19.0' ||
+          value === '19.5' ||
+          value === '20.0' ) {
+        const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 17.0-20.0)');
+        this.productCode = prCode;
+        this.priceBase = this.priceB;
+        this.price = this.inserts > 0 ? this.priceB + this.notch + this.hidrapeg + valueInserts : this.priceB + this.notch + this.hidrapeg;
+      } else {
+        const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 16.0-16.5)');
+        this.productCode = prCode;
+        this.priceBase = this.priceA;
+        this.price = this.inserts > 0 ? this.priceA + this.notch + this.hidrapeg + valueInserts : this.priceA + this.notch + this.hidrapeg;
+      }
     }
     if (parameter.name === 'Hidrapeg') {
       if (value === 'Yes') {
@@ -189,12 +402,13 @@ export class EuropaComponent implements OnInit {
       }
     }
     if (parameter.name === 'Inserts (DMV)') {
+      this.changeInserts = true;
       if (value === 'Yes') {
         this.additionalInserts = true;
-        this.price = this.price + this.inserts;
+        this.price = this.price + valueInserts;
       } else {
         this.additionalInserts = false;
-        this.price = this.price - this.inserts;
+        this.price = this.price - valueInserts;
       }
     }
     /*if (parameter.name === 'Thickness') {
@@ -294,28 +508,226 @@ export class EuropaComponent implements OnInit {
         }
      });
     });
+    // add products code
+    this.definePriceHidrapeg(this.membership);
+    this.definePriceNotch(this.membership);
+    this.definePriceInserts(this.membership);
+    const productsAditional = [];
+    const productsRequestedsAditional = [];
+    const productDMV = this.productDMV;
+    const productHydraPEG = this.productHydraPEG;
+    const productNotch = this.productNotch;
+    const hidrapegPrice = this.hidrapeg;
+    const notchPrice = this.notch;
+    const dMVPrice = this.inserts;
+    const groupId = this.productRequested.groupId;
+    const detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
+      header: this.detail.header, parameters: this.detail.parameters,
+      pasos: this.detail.pasos}) + ']';
+
+    // add products aditionals
+    if (this.detail.header[1].selected === true) {
+      const productH =  { id: productHydraPEG.idProduct,
+        name: productHydraPEG.name,
+        price: hidrapegPrice,
+        codeSpectrum: productHydraPEG.codeSpectrum };
+      if (this.productRequestedHydraPEG == undefined) {
+        this.productRequestedHydraPEG = new ProductRequested();
+      } else {
+        this.productRequestedHydraPEG.idProductRequested = this.productRequestedHydraPEG.idProductRequested;
+      }
+      this.productRequestedHydraPEG.detail = detail;
+      this.productRequestedHydraPEG.observations = this.observations;
+      this.productRequestedHydraPEG.price = hidrapegPrice;
+      this.productRequestedHydraPEG.quantity = 1;
+      this.productRequestedHydraPEG.product = productHydraPEG.idProduct;
+      this.productRequestedHydraPEG.patient = this.patient;
+      this.productRequestedHydraPEG.delete = false;
+      this.productRequestedHydraPEG.groupId = groupId;
+      productsAditional.push(productH);
+    } else if (this.productRequestedHydraPEG != undefined) {
+      this.productRequestedHydraPEG.product = productHydraPEG.idProduct;
+      this.productRequestedHydraPEG.delete = true;
+    }
+
+    if (this.detail.header[2].selected === true) {
+      const productD = { id: productDMV.idProduct,
+        name: 'Inserts (DMV)',
+        price: dMVPrice,
+        codeSpectrum: productDMV.codeSpectrum };
+      if (this.productRequestedDMV == undefined) {
+        this.productRequestedDMV = new ProductRequested();
+      } else {
+        this.productRequestedDMV.idProductRequested = this.productRequestedDMV.idProductRequested;
+      }
+      this.productRequestedDMV.detail = detail;
+      this.productRequestedDMV.observations = this.observations;
+      this.productRequestedDMV.price = dMVPrice;
+      this.productRequestedDMV.quantity = 1;
+      this.productRequestedDMV.product = this.productDMV.idProduct;
+      this.productRequestedDMV.patient = this.patient;
+      this.productRequestedDMV.delete = false;
+      this.productRequestedDMV.groupId = groupId;
+      if (this.lenghtGroup == 2) {
+        const idPR = this.productRequested.idProductRequested;
+        const contraryEye = this.listBasketProductREquested.find(function(o) {
+            return o.productRequested.idProductRequested !== idPR;
+          });
+          const detailContrary = JSON.parse(contraryEye.productRequested.detail);
+          _.each( detailContrary, function(item) {
+            _.each(item.header, function(itemH, index) {
+              if (itemH.name === 'Inserts (DMV)') {
+                item.header[index].selected = true;
+              }
+            });
+          });
+
+          if (contraryEye != undefined) {
+            this.productRequestedDMVContrary = contraryEye.productRequested;
+            this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+              header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+              pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+            this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
+            this.productRequestedDMVContrary.price = contraryEye.productRequested.price;
+            this.productRequestedDMVContrary.quantity = 1;
+            this.productRequestedDMVContrary.product = contraryEye.productRequested.product.idProduct;
+            this.productRequestedDMVContrary.patient = contraryEye.productRequested.patient;
+            this.productRequestedDMVContrary.delete = false;
+            this.productRequestedDMVContrary.groupId = groupId;
+          }
+      }
+
+      productsAditional.push(productD);
+    } else if (this.detail.header[2].selected === false && this.lenghtGroup === 2) {
+      if (this.productRequestedDMV != undefined ) {
+        this.productRequestedDMV.idProductRequested = this.productRequestedDMV.idProductRequested;
+        this.productRequestedDMV.product = this.productDMV.idProduct;
+        const idPR = this.productRequested.idProductRequested;
+        const contraryEye = this.listBasketProductREquested.find(function(o) {
+          return o.productRequested.idProductRequested !== idPR;
+        });
+        const detailContrary = JSON.parse(contraryEye.productRequested.detail);
+        _.each( detailContrary, function(item) {
+          _.each(item.header, function(itemH, index) {
+            if (itemH.name === 'Inserts (DMV)' && itemH.selected == true) {
+              item.header[index].selected = false;
+            }
+          });
+        });
+        this.productRequestedDMV.delete = true;
+
+        this.productRequestedDMVContrary = contraryEye.productRequested;
+        this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+          header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+          pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+
+        this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
+        this.productRequestedDMVContrary.price = contraryEye.productRequested.price;
+        this.productRequestedDMVContrary.quantity = 1;
+        this.productRequestedDMVContrary.product = contraryEye.productRequested.product.idProduct;
+        this.productRequestedDMVContrary.patient = contraryEye.productRequested.patient;
+        this.productRequestedDMVContrary.delete = false;
+        this.productRequestedDMVContrary.groupId = groupId;
+      }
+    } else {
+      if (this.productRequestedDMV != undefined ) {
+        this.productRequestedDMV.idProductRequested = this.productRequestedDMV.idProductRequested;
+        this.productRequestedDMV.product = this.productDMV.idProduct;
+        this.productRequestedDMV.delete = true;
+      }
+    }
+
+    /*params*/
+    const prNotch: ProductRequested = new ProductRequested();
+    const pRNotch = this.productRequestedNotch;
+    const patient = this.patient;
+    const flagNotch = this.additionalNotch;
+    const obs = this.observations;
+    _.each(this.detail.parameters, function(parameter) {
+      if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
+        const productN =  { id: productNotch.idProduct,
+          name: productNotch.name,
+          price: notchPrice,
+          codeSpectrum: productNotch.codeSpectrum };
+        prNotch.detail = detail;
+        prNotch.observations = obs;
+        prNotch.price = notchPrice;
+        prNotch.quantity = 1;
+        prNotch.product = productNotch.idProduct;
+        prNotch.patient = patient;
+        prNotch.delete = false;
+        prNotch.groupId = groupId;
+        if (pRNotch !== undefined && pRNotch.idProductRequested != null) {
+          prNotch.idProductRequested = pRNotch.idProductRequested;
+        }
+        productsAditional.push(productN);
+      } else if (parameter.name === 'Notch (mm)' && parameter.selected === '0x0') {
+        if (pRNotch != undefined) {
+          prNotch.idProductRequested = pRNotch.idProductRequested;
+          prNotch.product = productNotch.idProduct;
+          prNotch.delete = true;
+        }
+      }
+    });
+    this.productRequestedNotch = prNotch;
+
+    if (this.productRequestedHydraPEG != undefined) {
+      if (this.typeEdit === 1) {
+        this.productRequestedHydraPEG.basketId = this.basket.basket.idBasket;
+      } else {
+        this.productRequestedHydraPEG.orderId = this.order.idOrder;
+      }
+      productsRequestedsAditional.push(this.productRequestedHydraPEG);
+    }
+    if (this.productRequestedDMV != undefined) {
+      if (this.typeEdit === 1) {
+        this.productRequestedDMV.basketId = this.basket.basket.idBasket;
+      } else {
+        this.productRequestedDMV.orderId = this.order.idOrder;
+      }
+      productsRequestedsAditional.push(this.productRequestedDMV);
+    }
+    if (this.productRequestedNotch != undefined && this.productRequestedNotch.product != undefined) {
+      if (this.typeEdit === 1) {
+        this.productRequestedNotch.basketId = this.basket.basket.idBasket;
+      } else {
+        this.productRequestedNotch.orderId = this.order.idOrder;
+      }
+      productsRequestedsAditional.push(this.productRequestedNotch);
+    }
+
+    if (this.productRequestedDMVContrary != undefined) {
+      productsRequestedsAditional.push(this.productRequestedDMVContrary);
+    }
+
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-      this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+      this.productRequested.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
       header: this.detail.header, parameters: this.detail.parameters,
-      pasos: this.detail.pasos}) + ']';
+      pasos: this.detail.pasos, productsAditional: productsAditional }) + ']';
       this.productRequested.observations = this.observations;
-      this.productRequested.price = this.price;
+      this.productRequested.price = this.priceBase;
       this.productRequested.quantity = this.quantity;
-      this.productRequested.product = this.product.idProduct;
+      this.productRequested.product = this.productCode.idProduct;
       this.productRequested.patient = this.patient;
-      this.update(this.productRequested);
+      this.productRequested.delete = false;
+      this.productRequested.basketId = this.basket.basket.idBasket;
+      productsRequestedsAditional.push(this.productRequested);
+      this.update(productsRequestedsAditional);
     } else { // Order Detail
-      this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-      this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+      this.productRequestedAux.idProductRequested = this.productRequested.idProductRequested;
+      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
       header: this.detail.header, parameters: this.detail.parameters,
-      pasos: this.detail.pasos}) + ']';
+      pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
       this.productRequestedAux.observations = this.observations;
-      this.productRequestedAux.price = this.price;
+      this.productRequestedAux.price = this.priceBase;
       this.productRequestedAux.quantity = this.quantity;
-      this.productRequestedAux.product = this.product.idProduct;
+      this.productRequestedAux.product = this.productCode.idProduct;
       this.productRequestedAux.patient = this.patient;
-      this.update(this.productRequestedAux);
+      this.productRequestedAux.delete = false;
+      this.productRequestedAux.orderId = this.order.idOrder;
+      productsRequestedsAditional.push(this.productRequestedAux);
+      this.update(productsRequestedsAditional);
     }
 
   }
@@ -507,21 +919,95 @@ export class EuropaComponent implements OnInit {
     this.inserts = inserts;
     this.hidrapeg = hidrapeg;
     // this.thickness = thickness;
+
   }
 
   update(productRequested) {
-    this.productRequestedService.update$(productRequested).subscribe(res => {
+    let self = this;
+
+    this.productRequestedService.updateList$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        let listAux = res.data;
+        const principal = listAux.filter((item) => {
+          return ((item.product.idProduct != 145 &&  item.product.idProduct != 146
+            && item.product.idProduct != 147));
+        });
         this.spinner.hide();
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
+        productRequested = principal[0];
+        productRequested.detail = JSON.parse(productRequested.detail);
         this.modalReference.close(productRequested);
       } else {
         console.log(res);
+        this.spinner.hide();
+        this.modalReference.close(self.listAux);
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
+      this.modalReference.close(self.listAux);
     });
+  }
+
+  updateEuropa(productRequested) {
+    let self = this;
+    let detail;
+    let oldInserts;
+    let basket;
+    let productRequestedAux;
+    let idProductRequested;
+    let price;
+    let productRequested1 = new ProductRequested();
+    //Se obtiene el otro ojo asociado al group_id
+    if (this.typeEdit === 1) { // Basket
+        basket = _.find(self.listBasketProductREquested, function(o) {
+          return o.productRequested.idProductRequested !== productRequested.idProductRequested;
+        });
+        idProductRequested = basket.productRequested.idProductRequested;
+        detail = JSON.parse(basket.productRequested.detail);
+        price = basket.productRequested.price;
+    } else { // Orden
+        productRequestedAux = _.find(self.listBasketProductREquested, function(o) {
+          return o.productRequested.idProductRequested !== productRequested.idProductRequested;
+        });
+        idProductRequested = productRequestedAux.productRequested.idProductRequested;
+        detail = JSON.parse(productRequestedAux.productRequested.detail);
+        price = productRequestedAux.productRequested.price;
+    }
+    productRequested1.idProductRequested = idProductRequested;
+    //Cambio en header del detalle
+    _.each( detail, function(item) {
+      _.each(item.header, function(itemH, index) {
+        if (itemH.name === 'Inserts (DMV)') {
+          oldInserts = item.header[index].selected;
+          item.header[index].selected = self.additionalInserts;
+        }
+      });
+    });
+    productRequested1.detail = JSON.stringify(detail);
+    //Cambio de precio
+    /*if (oldInserts !== self.additionalInserts) {
+      if (self.additionalInserts === true) {
+        productRequested1.price = price + self.valueInserts;
+     } else {
+        productRequested1.price = price - self.valueInserts;
+     }
+    } else {*/
+       productRequested1.price = self.priceBase;
+    //}
+    //Modificacion
+    self.productRequestedService.updatePriceEuropa$(productRequested1).subscribe(res1 => {
+      if (res1.code === CodeHttp.ok) {
+        this.spinner.hide();
+        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res2: string) => {
+          this.notification.success('', res2);
+        });
+        productRequested = res1.data;
+        productRequested.detail = JSON.parse(productRequested.detail);
+        this.modalReference.close(productRequested);
+      }
+  });
   }
 }

@@ -41,7 +41,7 @@
                   </select>
                 </div>
                 <div class="col-xl-3 filter">
-                    <div class="input-group">
+                    <div class="input-group filter-date">
                       <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecCopy" [(ngModel)]="fechaSelecCopy" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecCopy, 'copy')">
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
@@ -50,8 +50,7 @@
                       </div>
                     </div>
                 </div>
-
-                <div class="col-xl-2 btn-clean">
+                <div class="col-xl-2 btn-clean filter-date">
                   <button class="btn btn-outline-secondary" translate [hidden]="!validCopy" (click)="clean('copy')">Clean Filters</button>
                 </div>
               </div>
@@ -173,7 +172,7 @@
                   </select>
                 </div>
                 <div class="col-xl-3 filter">
-                    <div class="input-group">
+                    <div class="input-group filter-date">
                       <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOriginal" [(ngModel)]="fechaSelecOriginal" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOriginal, 'original')">
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
@@ -183,7 +182,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-2 btn-clean">
+                <div class="col-xl-2 btn-clean filter-date">
                   <button class="btn btn-outline-secondary" translate [hidden]="!validOriginal" (click)="clean('original')">Clean Filters</button>
                 </div>
               </div>

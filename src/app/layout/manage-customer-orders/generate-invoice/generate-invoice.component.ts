@@ -314,6 +314,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.quantity = pRequested.quantity == null ? pRequested.productRequested.quantity : pRequested.quantity;
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
+      productR.codeSpectrum = pRequested.codeSpectrum == null ? pRequested.productRequested.product.codeSpectrum : pRequested.codeSpectrum;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -339,6 +340,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.quantity = pRequested.quantity == null ? pRequested.productRequested.quantity : pRequested.quantity;
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
+      productR.codeSpectrum = pRequested.codeSpectrum == null ? pRequested.productRequested.product.codeSpectrum : pRequested.codeSpectrum;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -364,6 +366,7 @@ export class GenerateInvoiceComponent implements OnInit {
         pRequested.productRequested.product.name : '') + ' ' + (pRequested.productRequested.product.material !== null ?
           pRequested.productRequested.product.material : '');
       productR.description = code + name;
+      productR.codeSpectrum = pRequested.productRequested.product.codeSpectrum;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -429,7 +432,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   loadInvoiceShippingProtocol(invoice) {
     // Shipping Protocol
-    if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null 
+    if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null
       && invoice.invoiceProtocolClientResponse.idInvoiceProtocolClient != null) {
       this.invShippingProtocol.accNumber = invoice.invoiceProtocolClientResponse.accNumber;
       this.editAccNumber = (this.invShippingProtocol.accNumber != null && !this.pilot) ? true : false;
@@ -489,7 +492,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   loadInvoiceProtocolProforma(invoice) {
     // Protocol Proforma
-    if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null 
+    if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null
       && invoice.invoiceProtocolProformaResponse.idInvoiceProtocolProforma != null ) {
       this.invProtocolProforma.additionalDocuments = invoice.invoiceProtocolProformaResponse.additionalDocuments;
       this.editAdditionalDocuments = (this.invProtocolProforma.additionalDocuments != null && !this.pilot) ? true : false;
@@ -572,6 +575,10 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateDescription($event, index) {
     this.invoice.listProductRequested[index].description = $event.target.value;
+  }
+
+  updateCode($event, index) {
+    this.invoice.listProductRequested[index].codeSpectrum = $event.target.value;
   }
 
   updateTax($event, index) {
@@ -881,6 +888,7 @@ export class GenerateInvoiceComponent implements OnInit {
                 this.notification.success('', res1);
               });
             this.spinner.hide();
+            this.close();
           } else {
             this.spinner.hide();
             console.log(res.code);

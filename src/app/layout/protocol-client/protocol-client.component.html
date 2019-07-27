@@ -16,6 +16,13 @@
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'ACC Number' | translate }}</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="accNumber"
+                  maxlength="120"
+                  *ngIf="false"
+                />
                 <div class="truncate">
                   <span [ngClass]="{ unassigned: !protocol.accNumber }">{{ protocol.accNumber ? protocol.accNumber :
                     'Unassigned' | translate
@@ -24,7 +31,18 @@
               </div>
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Country' | translate }}</label>
-                <div class="truncate">
+                <div>
+                  <ng-select
+                    [items]="countries"
+                    [searchable]="true"
+                    bindValue="idCountry"
+                    bindLabel="name"
+                    formControlName="country"
+                    *ngIf="false"
+                  >
+                  </ng-select>
+                </div>
+                <div class="truncate" *ngIf="true">
                   <span [ngClass]="{ unassigned: !protocol.countryName }">{{ protocol.countryName ? protocol.countryName :
                     'Unassigned' | translate
                   }}</span>
@@ -34,7 +52,15 @@
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Business Name' | translate}}</label>
-                <div class="truncate">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="businessName"
+                  maxlength="120"
+                  *ngIf="false"
+                  placeholder="{{ 'Enter business name' | translate }}"
+                />
+                <div class="truncate" *ngIf="true">
                   <span [ngClass]="{ unassigned: !protocol.businessName }">{{ protocol.businessName ? protocol.businessName :
                     'Unassigned' | translate
                   }}</span>
@@ -197,7 +223,22 @@
                   }}</span>
                 </div>
               </div>
-
+              <div class="form-group pr-3 half-flex">
+                <label *ngIf="false">{{ 'Email Comments' | translate }}</label>
+                 <textarea style="overflow-x: hidden;"
+                 *ngIf="false"
+                  type="text"
+                  class="form-control"
+                  formControlName="emailComment"
+                  maxlength="254"
+                  placeholder="{{ 'Enter email comments' | translate }}"
+                ></textarea>
+                <div  class="truncate" *ngIf="false">
+                  <span [ngClass]="{ unassigned: !protocol.emailComment }">{{ protocol.emailComment ? protocol.emailComment :
+                    'Unassigned' | translate
+                  }}</span>
+                </div>
+              </div>
             </div>
             <div class="text-right pb-3">
               <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit" (click)="cancel()">{{ 'Cancel' | translate }}&nbsp;

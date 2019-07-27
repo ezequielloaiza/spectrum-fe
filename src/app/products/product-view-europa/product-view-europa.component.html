@@ -102,6 +102,36 @@
       <div class="row product-info">
         <div class="col-md-12 title">
           <label> {{ 'Please specific your product' | translate }}</label>
+          <div class="col-lg-3" *ngFor="let header of product.headerRight">
+            <div class="row" *ngIf ="header.name === 'Inserts (DMV)'">
+              <label class="form-check-label">{{ header.name | translate }}</label>&nbsp;&nbsp;
+            </div>
+            <div class="row">
+              <div class="select-values col-sm-12" *ngIf="header.type === 'selected' && header.name === 'Inserts (DMV)'">
+                <ng-select (change)="changeSelect('right', header, $event,0)" [items]="header.values"
+                  [(ngModel)]="header.sel" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="true"
+                  [clearable]="false">
+                  <ng-template ng-label-tmp let-item="item">
+                    <div class="supplier-body">
+                      <span>{{ item | translate }}</span>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <div class="supplier-body">
+                      <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                    </div>
+                  </ng-template>
+                </ng-select>
+              </div>
+
+            </div>
+          </div>
+          <div class="row additional col-lg-12">
+            <p *ngIf="additionalInserts === true && membership !== 0">
+              <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;
+              <span>{{'Inserts (DMV)' | translate}}:{{ inserts | currency : " USD $" }}</span>&nbsp;
+            </p>
+          </div>
         </div>
       </div>
 
@@ -117,11 +147,11 @@
           <!--row header right (contamac / hydrapeg / insertors)-->
           <div class="row header-europa">
             <div class="col-lg-3" *ngFor="let header of product.headerRight">
-              <div class="row">
+              <div class="row" *ngIf ="header.name !== 'Inserts (DMV)'">
                 <label class="form-check-label">{{ header.name | translate }}</label>&nbsp;&nbsp;
               </div>
               <div class="row">
-                <div class="select-values col-sm-12" *ngIf="header.type === 'selected'">
+                <div class="select-values col-sm-12" *ngIf="header.type === 'selected' && header.name !== 'Inserts (DMV)'">
                   <ng-select (change)="changeSelect('right', header, $event,0)" [items]="header.values" [disabled]="!product.eyeRight"
                     [(ngModel)]="header.sel" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeRight"
                     [clearable]="false">
@@ -217,12 +247,12 @@
                     <div class="row selected-double">
                       <div class="col-sm-6">
                         <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
-                          [required]="product.eyeRight" [(ngModel)]="parameter.values[0].selected" (change)="setNotch(parameter);changeSelect('right', parameter, parameter.values[0].selected,parameter.values[1].selected)"
+                          [required]="product.eyeRight" [(ngModel)]="parameter.values[0].selected" (change)="setNotch(parameter);changeSelect('right', parameter, parameter.values[0].selected,parameter.values[1].selected)"  (keyup)="changeSelect('right', parameter, parameter.values[0].selected,parameter.values[1].selected)"
                           oninput="validity.valid||(value='');" step="0.01" [disabled]="!product.eyeRight">
                       </div>
                       <div class="col-sm-6">
                         <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
-                          [required]="product.eyeRight" [(ngModel)]="parameter.values[1].selected" (change)="setNotch(parameter);changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)"
+                          [required]="product.eyeRight" [(ngModel)]="parameter.values[1].selected" (change)="setNotch(parameter);changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)" (keyup)="changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)"
                           oninput="validity.valid||(value='');" step="0.01" [disabled]="!product.eyeRight">
                       </div>
                     </div>
@@ -233,16 +263,11 @@
           </div>
           <!--price right-->
           <div class="row additional col-lg-12">
-            <p *ngIf="(additionalInserts || additionalHidrapeg || additionalNotch) && product.priceSaleRight!==0">
+            <p *ngIf="(additionalHidrapeg || additionalNotch) && product.priceSaleRight!==0">
               <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;
               <span *ngIf="additionalHidrapeg">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : " USD $" }}</span>&nbsp;
-              <span *ngIf="additionalHidrapeg && additionalInserts">| </span>
-              <span *ngIf="additionalInserts">{{'Inserts (DMV)' | translate}}:{{ inserts | currency : " USD $" }}</span>&nbsp;
-              <span *ngIf="(additionalInserts || additionalHidrapeg) && additionalNotch">| </span>
+              <span *ngIf="additionalHidrapeg && additionalNotch">| </span>
               <span *ngIf="additionalNotch">{{'Notch (mm)' | translate}}:{{ notch | currency : " USD $" }}</span>&nbsp;
-             <!-- <span *ngIf="(additionalHidrapeg || additionalInserts || additionalNotch) && additionalThickness">|
-              </span>
-              <span *ngIf="additionalThickness">{{'Thickness' | translate}}:{{ thickness | currency : " USD $" }}</span>&nbsp;-->
             </p>
           </div>
 
@@ -280,11 +305,11 @@
           <!--row header left (contamac / hydrapeg / insertors)-->
           <div class="row header-europa">
             <div class="col-lg-3" *ngFor="let header of product.headerLeft">
-              <div class="row">
+              <div class="row" *ngIf="header.name !== 'Inserts (DMV)'">
                 <label class="form-check-label">{{ header.name }}</label>&nbsp;&nbsp;
               </div>
               <div class="row">
-                <div class="select-values col-sm-12" *ngIf="header.type === 'selected'">
+                <div class="select-values col-sm-12" *ngIf="header.type === 'selected' && header.name !== 'Inserts (DMV)'">
                   <ng-select (change)="changeSelect('left', header, $event,0)" [items]="header.values" [disabled]="!product.eyeLeft"
                     [required]="product.eyeLeft" [(ngModel)]="header.sel" bindValue="item" placeholder="{{ 'Select value' | translate }}"
                     [clearable]="false">
@@ -381,12 +406,12 @@
                     <div class="row selected-double">
                       <div class="col-sm-6">
                         <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
-                          [required]="product.eyeLeft" [(ngModel)]="parameter.values[0].selected" step="0.01" (change)="setNotch(parameter);changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)"
+                          [required]="product.eyeLeft" [(ngModel)]="parameter.values[0].selected" step="0.01" (change)="setNotch(parameter);changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)" (keyup)="changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)"
                           oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                       </div>
                       <div class="col-sm-6">
                         <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
-                          [required]="product.eyeLeft" [(ngModel)]="parameter.values[1].selected" step="0.01" (change)="setNotch(parameter);changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)"
+                          [required]="product.eyeLeft" [(ngModel)]="parameter.values[1].selected" step="0.01" (change)="setNotch(parameter);changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)" (keyup)="changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)"
                           oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                       </div>
                     </div>
@@ -398,16 +423,11 @@
 
           <!--price left-->
           <div class="row additional col-lg-12">
-            <p *ngIf="(additionalInsertsL || additionalHidrapegL || additionalNotchL) && product.priceSaleLeft!==0">
+            <p *ngIf="(additionalHidrapegL || additionalNotchL) && product.priceSaleLeft!==0">
               <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;
               <span *ngIf="additionalHidrapegL">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : " USD $" }}</span>&nbsp;
-              <span *ngIf="additionalHidrapegL && additionalInsertsL">| </span>
-              <span *ngIf="additionalInsertsL">{{'Inserts (DMV)' | translate}}:{{ inserts | currency : " USD $" }}</span>&nbsp;
-              <span *ngIf="(additionalInsertsL || additionalHidrapegL) && additionalNotchL">| </span>
+              <span *ngIf="additionalHidrapegL && additionalNotchL">| </span>
               <span *ngIf="additionalNotchL">{{'Notch (mm)' | translate}}:{{ notch | currency : " USD $" }}</span>&nbsp;
-            <!--  <span *ngIf="(additionalHidrapegL || additionalInsertsL || additionalNotchL) && additionalThicknessL">|
-              </span>
-              <span *ngIf="additionalThicknessL">{{'Thickness' | translate}}:{{ thickness | currency : " USD $" }}</span>&nbsp;-->
             </p>
           </div>
 

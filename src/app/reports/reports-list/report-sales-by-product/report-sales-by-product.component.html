@@ -28,7 +28,7 @@
       <div class="col-xl-10 form-group" >
         <div class="custom-control">
           <label >{{'Select Country' | translate}}</label>
-          <select class="form-control" name="country" id="country" [(ngModel)]="country" (change)="onSelectCountry()">
+          <select class="form-control" name="country" id="country" [(ngModel)]="country" >
             <option *ngFor="let c of countries" value="{{c.idCountry}}">{{ c.name | translate }}</option>
           </select>
         </div>

@@ -96,11 +96,11 @@ export class ProductsListsComponent implements OnInit {
             });
             this.listSupplierFilter = supplierFiltered;
             this.orderList();
-            this.listSupplier = this.listSupplierFilter;
+            this.listSupplier = _.filter(this.listSupplierFilter, function(s) { return s.idSupplier < 8 && s.idSupplier > 0;  });
             this.spinner.hide();
           } else {
             this.orderList();
-            this.listSupplier = this.listSupplierFilter;
+            this.listSupplier = _.filter(this.listSupplierFilter, function(s) { return s.idSupplier < 8 && s.idSupplier > 0;  });
             this.spinner.hide();
           }
           this.setImageSupplier();
@@ -168,7 +168,7 @@ export class ProductsListsComponent implements OnInit {
           this.router.navigate(['/products/' + idSupplier + '/internal']);
           break;
         case 5: //magic look
-            this.productService.findBySupplier$(idSupplier).subscribe(res => {
+            this.productService.findBySupplierInView$(idSupplier, true).subscribe(res => {
               if (res.code === CodeHttp.ok) {
                 this.products = res.data;
                 this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-magic']);
@@ -181,7 +181,7 @@ export class ProductsListsComponent implements OnInit {
             });
           break;
         case 6:  // Blue Light
-            this.productService.findBySupplier$(idSupplier).subscribe(res => {
+            this.productService.findBySupplierInView$(idSupplier, true).subscribe(res => {
               if (res.code === CodeHttp.ok) {
                 this.products = res.data;
                 this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-blue']);
