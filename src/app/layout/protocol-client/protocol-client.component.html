@@ -273,7 +273,9 @@
                     <label class="font-weight-bold">{{ "Supplier" | translate }}</label>
                   </div>
                 </div>
-
+                <div *ngIf="protocol.value.values == 0 && !edit"  class="empty-message">
+                  <span>{{ 'No information has been added' | translate}}</span>
+                </div>
                 <div class="d-flex w-100 pt-2 pb-1" [ngClass]="{ 'border-item': !edit }" *ngFor="let value of protocol.value.values; let pos = index">
                   <div class="w-50 mr-3">
                     <div class="input-value">
@@ -470,7 +472,7 @@
                   </div>
                 </div>
                 <div *ngIf="edit">
-                  <button type="button" class="btn btn-main"
+                  <button type="button" class="btn btn-main btn-add"
                           [hidden]="suppliers.length === protocol.value.selectedSuppliers.length"
                           (click)="addValue(protocol.value)">{{ 'Add' | translate }}
                     <i class="fa fa-plus-circle ml-2"></i>
