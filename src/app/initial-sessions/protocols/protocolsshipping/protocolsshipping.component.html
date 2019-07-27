@@ -41,7 +41,14 @@
             placeholder="{{ protocol.placeHolder | translate }}"
             [(ngModel)]="value.content"
           ></textarea>
-
+          <div *ngIf="protocol.label === 'Shipping Method'">
+            <div>
+              <select class="form-control" name="shippingMethod" [(ngModel)]="value.content">
+                <option *ngFor="let shippingMethod of listShippingMethod" value="{{shippingMethod}}">
+                  {{ shippingMethod | translate }}</option>
+              </select>
+            </div>
+          </div>
           <!--Shipping Frecuency-->
           <div *ngIf="protocol.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0 d-flex align-items-center">
             <div class="custom-control-inline">

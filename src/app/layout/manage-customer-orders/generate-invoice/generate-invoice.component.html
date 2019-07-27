@@ -176,9 +176,9 @@
                     <th class="table-tr bold">{{ 'Description' | translate }}</th>
                     <th class="table-tr bold">{{ 'Code' | translate }}</th>
                     <th class="table-tr bold">{{ 'Qty' | translate }}</th>
-                    <th class="table-tr bold td-align-price">{{ 'Price in USD' | translate }}</th>
-                    <th class="table-tr bold td-align-price padding-tax">{{ 'Tax Rate' | translate }}</th>
-                    <th class="table-tr bold padding-amount">{{ 'Amount' | translate}}</th>
+                    <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
+                    <th class="table-tr bold">{{ 'Tax Rate' | translate }}</th>
+                    <th class="table-tr bold">{{ 'Amount' | translate}}</th>
                     <th class="table-tr bold">
                       <span *ngIf="allDelete" class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
                     </th>
@@ -203,11 +203,11 @@
                       <td class="table-tr td-table" *ngIf="pilot">{{productR.quantity}}</td>
                       <td class="table-tr td-table" *ngIf="!pilot">
                         <div class="amount-div">
-                          <input type="number" min="1" id="quantity{{i}}" [value]="productR.quantity" class="form-control" (change)="updateQuantity($event, i)"
+                          <input type="number" id="quantity{{i}}" [value]="productR.quantity" class="form-control" (change)="updateQuantity($event, i)"
                             placeholder="{{ 'Enter quantity' | translate }}" required>
                         </div>
                       </td>
-                      <td class="table-tr td-table td-align-price" *ngIf="pilot" colspan="1"> {{productR.price | currency }}</td>
+                      <td class="table-tr td-table" *ngIf="pilot"> {{productR.price | currency }}</td>
                       <td class="table-tr td-table" *ngIf="!pilot">
                       <div class="amount-div">
                         <div class="input-group-append">

@@ -67,10 +67,11 @@ export class ProtocolsproformaComponent implements OnInit {
   loadFields() {
     if (this.protocolsCopy.length === 0) {
       this.protocols = [
-        {label: 'Spectrum Proforma'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
-        {label: 'Additional Documents'                         , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter additional documents',id:2},
-        {label: 'Comments'                                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter comments',id:3},
-        {label: 'Tariff Codes'                                 , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:4},
+        {label: 'Spectrum Proforma'                                                   , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
+        {label: 'Additional Documents'                                                , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter additional documents',id:2},
+        {label: 'Comments'                                                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter comments',id:3},
+        {label: 'HS Code'                                                             , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter hs code',id:4},
+        {label: 'Documentation that must accompany the delivery and proforma invoice' , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter documentation that must accompany the delivery and proforma invoice',id:5},
         ];
     } else {
       this.protocols = this.protocolsCopy;
@@ -80,7 +81,7 @@ export class ProtocolsproformaComponent implements OnInit {
   loadSuppliers() {
     this.supplierService.findAll$().subscribe(res => {
     if (res.code === CodeHttp.ok) {
-      this.suppliers = res.data;
+      this.suppliers = _.orderBy(res.data, ['companyName']);
       this.getProtocols();
     } else {
       console.log(res.errors[0].detail);
@@ -152,6 +153,9 @@ export class ProtocolsproformaComponent implements OnInit {
                     break;
                   case 4:
                     protocolProforma.tariffCodes = itemValue.content;
+                    break;
+                  case 5:
+                    protocolProforma.documentation = itemValue.content;
                     break;
                 }
             }

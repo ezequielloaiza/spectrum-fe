@@ -13,6 +13,7 @@ import { InvoiceClientService, InvoicePaymentService } from '../../shared/servic
 import { Router } from '@angular/router';
 import { StatusInvoiceClient } from '../../shared/enum/status-invoice-client.enum';
 import { SupplierService } from '../../shared/services/suppliers/supplier.service';
+import SweetScroll from 'sweet-scroll';
 
 @Component({
   selector: 'app-dashboard',
@@ -283,6 +284,7 @@ export class DashboardComponent implements OnInit {
         }
       }
     });
+    this.getFocus();
   }
 
   public closeAlert(alert: any) {
@@ -424,6 +426,15 @@ export class DashboardComponent implements OnInit {
         console.log('error', error);
       }
     )
+  }
+
+  getFocus(): void {
+    const scroller = new SweetScroll({
+      duration: 1200,
+      easing: 'easeOutExpo',
+    },);
+    //scroller.toTop(0);
+    scroller.toElement(document.getElementById('main'));
   }
 
   getListPayments(invoice): void {

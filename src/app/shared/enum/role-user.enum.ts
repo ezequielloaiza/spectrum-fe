@@ -23,5 +23,7 @@ export enum RoleUser {
   ProductViewMedmontComponent,
   Protocols,
   ProtocolClient,
-  ProtocolProforma
+  ProtocolProforma,
+  InitialsProtocols,
+  ChangePassword
 }

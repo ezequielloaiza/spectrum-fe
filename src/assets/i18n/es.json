@@ -1199,5 +1199,6 @@
     "Shippings protocols has not been defined for the provider": "Los protocolos de envío no han sido definidos para el proveedor.",
     "Proforma protocols has not been defined for the provider": "Los protocolos de proforma no han sido definidos para el proveedor.",
     "Select At Least a Supplier":"Seleccione al menos un proveedor",
-    "Additional Products": "Productos Adicionales"
+    "Additional Products": "Productos Adicionales",
+    "No information has been added": "No se ha agregado información"
 }

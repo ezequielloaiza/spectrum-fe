@@ -432,7 +432,8 @@ export class GenerateInvoiceComponent implements OnInit {
 
   loadInvoiceShippingProtocol(invoice) {
     // Shipping Protocol
-    if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null) {
+    if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null
+      && invoice.invoiceProtocolClientResponse.idInvoiceProtocolClient != null) {
       this.invShippingProtocol.accNumber = invoice.invoiceProtocolClientResponse.accNumber;
       this.editAccNumber = (this.invShippingProtocol.accNumber != null && !this.pilot) ? true : false;
       this.invShippingProtocol.accountNumber = invoice.invoiceProtocolClientResponse.accountNumber;
@@ -491,7 +492,8 @@ export class GenerateInvoiceComponent implements OnInit {
 
   loadInvoiceProtocolProforma(invoice) {
     // Protocol Proforma
-    if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null) {
+    if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null
+      && invoice.invoiceProtocolProformaResponse.idInvoiceProtocolProforma != null ) {
       this.invProtocolProforma.additionalDocuments = invoice.invoiceProtocolProformaResponse.additionalDocuments;
       this.editAdditionalDocuments = (this.invProtocolProforma.additionalDocuments != null && !this.pilot) ? true : false;
       this.invProtocolProforma.comments = invoice.invoiceProtocolProformaResponse.comments;
@@ -879,6 +881,7 @@ export class GenerateInvoiceComponent implements OnInit {
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
+            this.close();
             this.translate
               .get('Successfully Generated', { value: 'Successfully Generated' })
               .subscribe((res1: string) => {
