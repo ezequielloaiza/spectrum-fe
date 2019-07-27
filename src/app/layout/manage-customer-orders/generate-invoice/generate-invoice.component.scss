@@ -1,5 +1,5 @@
 @import '../../../../styles/spectrum/spectrum';
-@include tr-sizes((30%,10%,17%,17%,20%,6%));
+@include tr-sizes((25%,10%,10%,17%,16%,16%,6%));
 
 .label-value {
   width: 50%;
@@ -124,7 +124,7 @@
 
 .td-align {
   text-align: right;
-  padding-right: 10%;
+  padding-right: 9%;
 }
 
 .amount-div {
@@ -180,4 +180,22 @@
 
 .margin-left {
   margin-left: 1%;
+}
+
+.truncate{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.td-align-price{
+  text-align: right;
+  padding-right: 4%;
+}
+
+.padding-tax{
+  padding-left: 6%;
+}
+
+.padding-amount{
+  padding-left: 7%;
 }

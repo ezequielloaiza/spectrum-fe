@@ -71,7 +71,7 @@
                 <dl *ngFor="let parameter of parametList">
                   <dt>
                     <div>
-                      <input class="form-control col-sm-11" type="number" step="50" min="50" (change)="changeQuantity(parameter.id, $event)"
+                      <input class="form-control col-sm-11" type="number" step="50" min="50" [ngClass]="{'error-quantity':  parameter.quantitySelected && parameter.quantitySelected%50 !== 0 }" (change)="changeQuantity(parameter.id, $event)"
                         [(ngModel)]="parameter.quantitySelected" required>
                     </div>
                   </dt>
@@ -154,6 +154,9 @@
             </div>
           </div>-->
           <!--Fin Boxes-->
+          <div class="col-md-12 message-quantity">
+            <span translate>{{'To make the order the minimum quantity is' | translate}} 250 {{ 'units' | translate}}</span>
+          </div>
         </div>
       </div>
     </div>

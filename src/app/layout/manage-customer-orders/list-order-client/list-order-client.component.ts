@@ -26,6 +26,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   listOrders: Array<any> = new Array;
   listOrdersAux: Array<any> = new Array;
+  list: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage = 5;
   filterStatus = [{ id: 0, name: "Pending" },
@@ -110,6 +111,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           });
           this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
           this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
+          this.list = this.listOrdersAux;
+          this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
           this.spinner.hide();
         }
       });
@@ -128,11 +131,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           });
           this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
           this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
+          this.list = this.listOrdersAux;
+          this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
           this.spinner.hide();
         }
       });
     }
-    this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
   }
 
   pageChange(event) {
@@ -142,12 +146,19 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   filter(): void {
+    //*
+    this.listOrdersAux = this.list;
+    //*
     if (this.selectedStatus !== '') {
       this.valid1 = true;
       if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')
         && (_.toString(this.valorProduct).length === 0 || this.valorProduct.trim() === '')) {
         // tslint:disable-next-line:radix
         this.listOrders = _.filter(this.listOrdersAux, { 'paymentStatus': parseInt(this.selectedStatus) });
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
       } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')
         && (_.toString(this.valorProduct).length === 0 || this.valorProduct.trim() === '')) {
         this.filterStatusDate(this.selectedStatus);
@@ -185,6 +196,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const valorStatus = this.selectedStatus;
     this.tamano = this.valueDate(this.model);
     const lista = [];
+    //*
+    this.listOrdersAux = this.list;
+    //*
     if (this.tamano.length === 15) {
       this.valid1 = true;
       if ((_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')
@@ -200,7 +214,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
             lista.push(orders);
           }
         });
+        //*
         this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
       } else if ((_.toString(valorStatus) !== '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')
         && (_.toString(this.valorProduct).length === 0 || this.valorProduct.trim() === '')) {
         this.filterStatusDate(valorStatus);
@@ -228,6 +247,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.valorClient = val;
     const valorStatus = this.selectedStatus;
     const lista = [];
+    //*
+    this.listOrders = this.list;
+    this.listOrdersAux  = this.list;
+    //*
     if (val && val.trim() !== '') {
       const client = val;
       if (_.toString(valorStatus) === '' && this.tamano.length === 9
@@ -236,21 +259,35 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           return ((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.listProductRequested.find((pR) => {
-              return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
+              if (pR.productRequested.patient !== null) {
+                return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
+              }
             }))) ;
         });
+         //*
+         this.listOrdersAux = this.listOrders;
+         this.advancedPagination = 1;
+         this.pageChange(this.advancedPagination);
+         //*
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
         && _.toString(this.valorProduct) !== '') {// si selecciono status y no fecha ni cliente
         this.listOrders = this.listOrders.filter((item) => {
           return (((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.listProductRequested.find((pR) => {
-              return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
-            })))
+                if (pR.productRequested.patient !== null) {
+                  return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
+                }
+              })))
             && (item.listProductRequested.find((pR) => {
               return (pR.productRequested.product.name.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1);
             })));
         });
+         //*
+         this.listOrdersAux = this.listOrders;
+         this.advancedPagination = 1;
+         this.pageChange(this.advancedPagination);
+         //*
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
         && _.toString(this.valorProduct) === '') {// si selecciono status y no fecha ni producto
         this.filterStatusNombre(client, valorStatus);
@@ -287,8 +324,18 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           }
         });
         this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
       }
     }
+     //*
+     if (val === '' && _.toString(valorStatus) === '' &&  this.tamano.length === 9 && this.valorProduct === '') {
+      this.listOrdersAux = this.listOrders;
+      this.advancedPagination = 1;
+      this.pageChange(this.advancedPagination);
+    }
+    //*
   }
 
   getItemsProduct(ev: any) {
@@ -297,6 +344,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.valorProduct = val;
     const valorStatus = this.selectedStatus;
     const lista = [];
+     //*
+     this.listOrders = this.list;
+     this.listOrdersAux  = this.list;
+     //*
     if (val && val.trim() !== '') {
       const product = val;
       if (_.toString(valorStatus) === '' && this.tamano.length === 9 &&
@@ -306,16 +357,26 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
             return (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1);
           });
         });
+        //*
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
         && _.toString(this.valorClient) !== '') {// si selecciono status y no fecha ni cliente
         this.listOrders = this.listOrders.filter((item) => {
           return item.listProductRequested.find((pR) => {
             return (((item.nameUser.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
             (item.number.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
-            pR.productRequested.patient.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1)
+            (pR.productRequested.patient ? pR.productRequested.patient.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1 : false))
             && (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1));
           });
         });
+        //*
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
         && _.toString(this.valorClient) === '') {// si selecciono status y no fecha ni cliente
         this.filterStatusProducto(product, valorStatus);
@@ -351,9 +412,20 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
             lista.push(orders);
           }
         });
+        //*
         this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
       }
     }
+     //*
+     if (val === '' && _.toString(valorStatus) === '' &&  this.tamano.length === 9 && this.valorProduct === '') {
+      this.listOrdersAux = this.listOrders;
+      this.advancedPagination = 1;
+      this.pageChange(this.advancedPagination);
+    }
+    //*
   }
 
   fullFilter(nombreCliente, producto, status): void {
@@ -362,12 +434,15 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     fecha = this.getFecha();
     const lista = [];
     // Lista actual
+    this.listOrdersAux = this.list;
     _.filter(this.listOrdersAux, function (orders) {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          }
         }))) &&
         (orders.listProductRequested.find((pR) => {
           return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
@@ -377,7 +452,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         lista.push(orders);
       }
     });
+    //*
     this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
   }
 
   filterDateStatusProducto(status, producto): void {
@@ -386,6 +466,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     fecha = this.getFecha();
     const lista = [];
     // Lista actual
+      this.listOrdersAux = this.list;
     _.filter(this.listOrdersAux, function (orders) {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
@@ -396,7 +477,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         lista.push(orders);
       }
     });
+    //*
     this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
   }
 
   filterDateStatusCliente(status, nombreCliente): void {
@@ -405,28 +491,39 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     fecha = this.getFecha();
     const lista = [];
     // Lista actual
+     this.listOrdersAux = this.list;
     _.filter(this.listOrdersAux, function (orders) {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) ||
         (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          }
         })) ) &&
         // tslint:disable-next-line:radix
         ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
       }
     });
+    //*
     this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
   }
 
   filterStatusClienteProducto(nombreCliente, producto, status): void {
     const lista = [];
+    this.listOrdersAux = this.list;
     _.filter(this.listOrdersAux, function (orders) {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          }
         }))) &&
         (orders.listProductRequested.find((pR) => {
           return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
@@ -435,27 +532,41 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         lista.push(orders);
       }
     });
+    //*
     this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
   }
 
   filterStatusNombre(nombreCliente, status): void {
     const lista = [];
+    this.listOrdersAux = this.list;
     _.filter(this.listOrdersAux, function (orders) {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
         (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          }
         }))) &&
         // tslint:disable-next-line:radix
         (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
       }
     });
+    //*
     this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
   }
 
   filterStatusProducto(producto, status): void {
     const lista = [];
+    this.listOrdersAux = this.list;
     _.filter(this.listOrdersAux, function (orders) {
       if (((orders.listProductRequested.find((pR) => {
         return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); }))) &&
@@ -464,12 +575,18 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         lista.push(orders);
       }
     });
+    //*
     this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
   }
 
   filterDateClienteProducto(nombreCliente, producto): void {
     const lista = [];
     let fecha: String;
+    this.listOrdersAux = this.list;
     // FechaFiltro
     fecha = this.getFecha();
     _.filter(this.listOrdersAux, function (orders) {
@@ -478,7 +595,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
         (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          }
         }))) &&
         (orders.listProductRequested.find((pR) => {
           return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
@@ -486,12 +605,18 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         lista.push(orders);
       }
     });
+    //*
     this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
   }
 
   filterDateNombre(nombreCliente): void {
     const lista = [];
     let fecha: String;
+    this.listOrdersAux = this.list;
     // FechaFiltro
     fecha = this.getFecha();
     _.filter(this.listOrdersAux, function (orders) {
@@ -500,18 +625,26 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
          (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+           if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+           }
         }))) &&
         ((_.isEqual(fecha, fechaList)))) {
         lista.push(orders);
       }
     });
+    //*
     this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
   }
 
   filterDateProducto(producto): void {
     const lista = [];
     let fecha: String;
+    this.listOrdersAux = this.list;
     // FechaFiltro
     fecha = this.getFecha();
     _.filter(this.listOrdersAux, function (orders) {
@@ -523,12 +656,18 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         lista.push(orders);
       }
     });
+    //*
     this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
   }
 
   filterStatusDate(status): void {
     const lista = [];
     let fecha: String;
+    this.listOrdersAux = this.list;
     // FechaFiltro
     fecha = this.getFecha();
     _.filter(this.listOrdersAux, function (orders) {
@@ -540,7 +679,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         lista.push(orders);
       }
     });
+    //*
     this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
   }
   getFecha(): String {
     let ano;
@@ -561,6 +705,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   clean() {
     this.auxStatus = this.status;
     this.getListOrders();
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: this.status } });
     this.valid1 = false;
     this.selectedStatus = '';
     this.tamano = 'undefined';
@@ -600,6 +747,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.original = order.invoiceSupplier;
     }
     modalRef.result.then((result) => {
+      this.ngOnInit();
       this.getListOrders();
     }, (reason) => {
     });
@@ -868,6 +1016,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listAux = [];
           this.selectedAll = false;
           this.initialize();
+          this.getListOrders();
           this.spinner.hide();
         } else {
           this.spinner.hide();

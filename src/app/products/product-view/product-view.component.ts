@@ -31,7 +31,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ProductViewComponent implements OnInit {
 
   products: Array<any> = new Array;
+  // productsCode: Array<any> = new Array;
   product: any;
+  // productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -79,10 +81,12 @@ export class ProductViewComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplier$(1).subscribe(res => {
+    this.id = +this.route.snapshot.paramMap.get('id');
+    this.productService.findById$(this.id).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
+        //this.setCodeProduct();
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -117,6 +121,27 @@ export class ProductViewComponent implements OnInit {
     this.setPrice();
     this.addSign();
   }
+
+  /*setCodeProduct() {
+    const productCode = this.product.codeSpectrum;
+    const productCategory = this.product.category;
+    let prCode;
+    this.productService.findBySupplierAndInViewAndCategory$(1, false, productCategory.idCategory).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.productsCode = res.data;
+        _.each(this.productsCode, function (pr) {
+          if (_.includes(pr.codeSpectrum, productCode)) {
+            prCode = pr;
+          }
+        });
+        this.productCode = prCode;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }*/
 
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
@@ -239,6 +264,7 @@ export class ProductViewComponent implements OnInit {
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.productCopy;
+    //let productCode = this.productCode;
     let productsSelected = this.productsSelected;
 
     _.each(productsSelected, function(productSelected, index) {
@@ -311,8 +337,10 @@ export class ProductViewComponent implements OnInit {
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
-
     if (this.product.eyeRight) {
+      if (this.product.quantityRight === undefined) {
+        return false;
+      }
       _.each(this.product.parametersRight, function (param) {
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
@@ -324,6 +352,9 @@ export class ProductViewComponent implements OnInit {
     }
 
     if (this.product.eyeLeft) {
+      if (this.product.quantityLeft === undefined) {
+        return false;
+      }
       _.each(this.product.parametersLeft, function (param) {
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
