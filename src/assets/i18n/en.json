@@ -1020,5 +1020,8 @@
     "Proforma protocols has not been defined for the provider": "Proforma protocols has not been defined for the provider",
     "Select At Least a Supplier":"Select At Least a Supplier",
     "Additional Products": "Additional Products",
-    "No information has been added": "No information has been added"
+    "No information has been added": "No information has been added",
+    "Inserts (DMV)": "Inserts (DMV)",
+    "Payments Awaiting Confirmation": "Payments Awaiting Confirmation",
+    "Invoices with Pending Payments": "Pending Unpaid Invoices"
 }
