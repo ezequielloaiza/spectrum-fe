@@ -699,6 +699,8 @@ export class EuropaComponent implements OnInit {
     if (this.productRequestedDMVContrary != undefined) {
       productsRequestedsAditional.push(this.productRequestedDMVContrary);
     }
+    this.definePrice(this.membership);
+    this.updatePriceBase(this.detail.parameters);
 
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
@@ -730,6 +732,29 @@ export class EuropaComponent implements OnInit {
       this.update(productsRequestedsAditional);
     }
 
+  }
+
+  updatePriceBase(parameters) {
+    const priceA = this.priceA;
+    const priceB = this.priceB;
+    let priceBase;
+    _.each(parameters, function(parameter) {
+      if (parameter.name === 'Diameter (mm)') {
+        if (parameter.selected === '17.0' ||
+            parameter.selected === '17.5' ||
+            parameter.selected === '18.0' ||
+            parameter.selected === '18.5' ||
+            parameter.selected === '19.0' ||
+            parameter.selected === '19.5' ||
+            parameter.selected === '20.0' ) {
+          priceBase = priceB;
+        } else {
+          priceBase = priceA;
+        }
+      }
+    });
+
+    this.priceBase = priceBase;
   }
 
   formIsValid() {
