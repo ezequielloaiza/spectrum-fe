@@ -8,6 +8,7 @@ import { UserStorageService } from '../../../http/user-storage.service';
 import * as _ from 'lodash';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-blue-light',
@@ -36,7 +37,8 @@ export class BlueLightComponent implements OnInit {
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
               private userService: UserStorageService,
-              public router: Router) {
+              public router: Router,
+              private spinner: NgxSpinnerService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
@@ -78,6 +80,7 @@ export class BlueLightComponent implements OnInit {
   }
 
   save() {
+    this.spinner.show();
     let paramet = this.product.parameters;
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
@@ -124,9 +127,11 @@ export class BlueLightComponent implements OnInit {
   update(productRequested) {
     this.productRequestedService.update$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        this.spinner.hide();
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
+        productRequested.detail = JSON.parse(productRequested.detail);
         this.modalReference.close(productRequested);
       } else {
         console.log(res);

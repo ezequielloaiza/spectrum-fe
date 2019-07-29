@@ -61,6 +61,12 @@
                     <div>
                       <span>{{'#'}}{{order.number}}</span>
                     </div>
+                    <div class="title">
+                      <span *ngIf="order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null">{{'Patient'| translate }}</span>
+                    </div>
+                    <div>
+                      <span>{{order.listProductRequested[0].productRequested.patient ? order.listProductRequested[0].productRequested.patient:''}}</span>
+                    </div>
                   </div>
                   <div class="col-lg-3 title-status">
                     <div>
@@ -114,12 +120,14 @@
                 <div class="row product" *ngFor="let listDetails of order.listProductRequested">
                   <div class="col-lg-3">
                     <div>
+                      <span *ngIf="listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147">
+                            - </span>
                       <span>{{listDetails.productRequested.product.name}}</span>
                     </div>
                     <div *ngIf="listDetails.productRequested.detail.length > 0">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
                     </div>
-                    <div  *ngIf="listDetails.productRequested.detail.length > 0">
+                    <div  *ngIf="listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>
                     </div>
                   </div>

@@ -11,15 +11,11 @@
       <div class="col-xl-12">
         <fieldset class="form-group">
           <label>{{ 'Company' | translate }}</label>
-          <select class="form-control" name="companyId" formControlName="companyId" required>
-            <option *ngFor="let company of companies" [ngValue]="company.idCompany">{{ company.companyName }}</option>
-          </select>
+          <div>
+            <span>{{companyName}}</span>
+          </div>
         </fieldset>
       </div>
-      <div class="message-error" [hidden]="companyId.valid || companyId.pristine">
-        <span>{{ 'Company is required' | translate }}</span>
-      </div>
-
       <div class="col-xl-6">
         <fieldset class="form-group">
           <label>{{ 'City' | translate }}</label>

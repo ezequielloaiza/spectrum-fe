@@ -36,10 +36,12 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 export class ProductViewMagicComponent implements OnInit {
 
   products: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
   boxes: Array<any> = new Array;
   boxesCopy: any;
   tones: Array<any> = new Array;
   product: any;
+  productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -115,9 +117,21 @@ export class ProductViewMagicComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplier$(5).subscribe(res => {
+    this.productService.findBySupplierInView$(5, true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
+        this.productService.findBySupplierAndInViewAndCategory$(5, false, 10).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.productsCode = res1.data;
+            this.setCodeProduct();
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
         this.getProductView();
         this.spinner.hide();
       } else {
@@ -144,6 +158,17 @@ export class ProductViewMagicComponent implements OnInit {
     this.boxes.push(parametersBox);
     this.setClient();
     this.setPrice();
+  }
+
+  setCodeProduct() {
+    const productName = this.product.name;
+    let prCode;
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, productName)) {
+        prCode = pr;
+      }
+    });
+    this.productCode = prCode;
   }
 
   addBox() {
@@ -274,11 +299,12 @@ export class ProductViewMagicComponent implements OnInit {
   buildProductsSelected() {
     let productsSelected = [];
     let product = this.productCopy;
+    let productCode = this.productCode;
     let boxes = this.boxesCopy;
     let boxesProduct = [];
 
     let productSelected = {
-      id      : product.idProduct,
+      id      : productCode.idProduct,
       quantity: 0,
       price   : product.priceSale,
       detail  : {},
@@ -333,7 +359,7 @@ export class ProductViewMagicComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationMagicLookComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.product = this.productCode;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
@@ -345,7 +371,7 @@ export class ProductViewMagicComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    var totalQuantity =_.sumBy(this.boxes, 'quantity');
+    var totalQuantity = _.sumBy(this.boxes, 'quantity');
     if ( totalQuantity < 250 ) {
       return false;
     }
@@ -355,6 +381,9 @@ export class ProductViewMagicComponent implements OnInit {
     _.each(this.boxes, function(product) {
       _.each(product.parameters, function(param){
         if (param.selected === null || param.selected === undefined) {
+          isValid = false;
+        }
+        if (!product.quantity) {
           isValid = false;
         }
       });

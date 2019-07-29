@@ -10,6 +10,7 @@ import { EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { MagicLookComponent } from '../../edit-order/magic-look/magic-look.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-supplier-magic-look',
@@ -28,9 +29,15 @@ export class SupplierMagicLookComponent implements OnInit {
   valueStatus: any;
   user: any;
   constructor(private modalService: NgbModal,
-    private userStorageService: UserStorageService) {
+    private userStorageService: UserStorageService,
+    private router: Router) {
               this.user = JSON.parse(userStorageService.getCurrentUser());
 }
+
+  skipLocationAndRedirect(uri) {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+    this.router.navigate([uri]));
+  }
 
   ngOnInit() {
     this.listAux = this.lista;
@@ -46,8 +53,9 @@ export class SupplierMagicLookComponent implements OnInit {
     modalRefMagic.componentInstance.userOrder = this.order.user;
     modalRefMagic.componentInstance.image = this.urlImage;
     modalRefMagic.result.then((result) => {
-      this.listAux = result;
-      this.sendReply();
+      /*this.listAux = result;
+      this.sendReply();*/
+      this.skipLocationAndRedirect(this.router.url);
     } , (reason) => {
     });
   }

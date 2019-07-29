@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ProductsRequestedService } from '../../../shared/services';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { ProductRequested } from '../../../shared/models/productrequested';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-markennovy',
@@ -32,7 +33,8 @@ export class MarkennovyComponent implements OnInit {
               private notification: ToastrService,
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
-              private userService: UserStorageService) {
+              private userService: UserStorageService,
+              private spinner: NgxSpinnerService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
@@ -62,7 +64,7 @@ export class MarkennovyComponent implements OnInit {
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
     this.patient = this.productRequested.patient;
-    let paramet = this.product.parameters;
+    let paramet = this.addSign();
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
@@ -78,6 +80,7 @@ export class MarkennovyComponent implements OnInit {
   }
 
   save() {
+    this.spinner.show();
     let paramet = this.product.parameters;
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
@@ -124,9 +127,12 @@ export class MarkennovyComponent implements OnInit {
   update(productRequested) {
     this.productRequestedService.update$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        this.spinner.hide();
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
+        productRequested = res.data;
+        productRequested.detail = JSON.parse(productRequested.detail);
         this.modalReference.close(productRequested);
       } else {
         console.log(res);
@@ -134,5 +140,27 @@ export class MarkennovyComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+  }
+
+  addSign(): any {
+    let parameters = this.product.parameters;;
+    let auxNeg = [];
+    let auxPos = [];
+    _.each(parameters, function(param, index) {
+      if (param.name === 'Sphere (D)') {
+        _.each(param.values, function(item) {
+            if (_.includes(item, '-') || item === '0.00' ) {
+              auxNeg.push(item);
+            } else {
+              item = '+' + item;
+              auxPos.push(item);
+            }
+        });
+        _.reverse(auxNeg);
+        auxPos = _.concat(auxPos, auxNeg);
+        parameters[index].values = auxPos;
+      }
+    });
+    return parameters;
   }
 }

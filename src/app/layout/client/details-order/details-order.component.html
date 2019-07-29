@@ -93,6 +93,11 @@
                             <h3>-({{list.productRequested.detail[0].name}})</h3>
                           </span>
                         </div>
+                        <div class="padding-params" *ngIf="order.status === 0 && list.productRequested.product.supplier.idSupplier === 7">
+                          <button type="button" (click)="openEdit(list.productRequested, list.urlImage)" class="btn btn-outline-primary" translate>
+                            Edit
+                          </button>
+                        </div>
                         <br>
                         <br>
                       </div>
@@ -141,6 +146,15 @@
                             </dt>
                           </dl>
                         </div>
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier === 4 || list.productRequested.product.supplier.idSupplier == 7" >
+                          <dl class="align-item">
+                            <dt>{{'Spectrum Code'| translate}}
+                            </dt>
+                            <dt>
+                              <span class="font-text">{{list.productRequested.product.codeSpectrum}}</span>
+                            </dt>
+                          </dl>
+                        </div>
                         <div class="col-sm-2">
                           <dl class="align-item" *ngIf="list.productRequested.product.supplier.idSupplier !== 4 ">
                             <dt *ngIf="list.productRequested.detail.length > 0 && list.productRequested.detail[0].eye !== ''">{{'Eye'| translate}}</dt>
@@ -177,7 +191,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier !== 5">
                           <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
@@ -186,6 +200,25 @@
                           </dl>
                         </div>
                       </div>
+                      <div class="row">
+                          <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier.idSupplier !== 7">
+                            <dl class="align-item">
+                              <dt>{{ 'Spectrum code' | translate }}</dt>
+                              <dt>
+                                <span class="font-text">{{ list.productRequested.product.codeSpectrum }}</span>
+                              </dt>
+                            </dl>
+                          </div>
+                          <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier === 5">
+                              <dl class="align-item">
+                                <dt>{{'Subtotal'| translate}}</dt>
+                                <dt>
+                                  <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
+                                </dt>
+                              </dl>
+                            </div>
+  
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -193,22 +226,22 @@
             </aside>
           </div>
           <!--Markennovy-->
-          <app-supplier-markennovy [lista]="list.productRequested" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
+          <app-supplier-markennovy [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventMarkennovy)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
           <!--Find Markennovy-->
           <!--Europa-->
-          <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
+          <app-supplier-europa [lista]="list.productRequested" [image]="list.urlImage" [files]="list.fileProductRequestedList" [order]="order" (emitEventEuropa)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
           <!--Fin Europa-->
           <!--Lenticon-->
-          <app-supplier-lenticon [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
+          <app-supplier-lenticon [lista]="list.productRequested" [image]="list.urlImage" [files]="list.fileProductRequestedList" [order]="order" (emitEventLenticon)="refresh($event)"  *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
           <!--Fin Lenticon-->
           <!--Euclid-->
-          <app-supplier-euclid [lista]="list.productRequested" [files]="list.fileProductRequestedList" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
+          <app-supplier-euclid [lista]="list.productRequested" [image]="list.urlImage" [files]="list.fileProductRequestedList" [order]="order" (emitEventEuclid)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
           <!--Fin Euclid-->
           <!--Magic Look-->
-          <app-supplier-magic-look [lista]="list.productRequested" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
+          <app-supplier-magic-look [lista]="list.productRequested" [image]="list.urlImage" [order]="order"  (emitEventMagic)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
           <!--Blue Light-->
-          <app-supplier-blue-light [lista]="list.productRequested" [order]="order" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
+          <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventBlue)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
         </div>
       </div>

@@ -18,6 +18,7 @@ import { CountryService } from '../../../../shared/services/country/country.serv
 import { ListSupplierModalComponent } from '../list-supplier-modal/list-supplier-modal.component';
 import { UserStorageService } from '../../../../http/user-storage.service';
 import * as _ from 'lodash';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-user-modal',
   templateUrl: './user-modal.component.html',
@@ -57,7 +58,8 @@ export class UserModalComponent implements OnInit {
     private membershipService: MembershipService,
     private notification: ToastrService,
     private modalService: NgbModal,
-    private countryService: CountryService) { }
+    private countryService: CountryService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -95,7 +97,7 @@ export class UserModalComponent implements OnInit {
       companyName: ['', [Validators.required]],
       companyContactName: ['', [Validators.required]],
       companyAddress: ['', [Validators.required]],
-      shippingInstructions: ['', [Validators.required]],
+      shippingInstructions: [''],
       companyPhone: [''],
       companyEmail: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       creditLimit: ['', [Validators.required]],
@@ -144,6 +146,7 @@ export class UserModalComponent implements OnInit {
   }
 
   save(): void {
+    this.spinner.show();
     this.form.get('city').setValue(this.valorCity.description);
     this.form.get('companyCity').setValue(this.valorCompanyCity.description);
     this.form.get('suppliers').setValue(this.listSuppliers);
@@ -247,6 +250,7 @@ export class UserModalComponent implements OnInit {
     this.membershipService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.memberships = res.data;
+        this.memberships = _.orderBy(this.memberships, ['idMembership'], ['desc']);
       }
     });
   }

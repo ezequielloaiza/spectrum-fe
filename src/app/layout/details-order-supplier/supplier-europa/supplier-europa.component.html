@@ -1,5 +1,5 @@
 <div class="col-lg-12">
-  <div class="row padding-params display-edit" *ngIf="valueStatus === 0 && user.role.idRole === 1">
+  <div class="row padding-params display-edit" *ngIf="valueStatus === 0 && user.role.idRole !== 2">
     <button type="button" (click)="openEdit()" class="edit btn btn-outline-primary" translate>
       Edit
     </button>
@@ -98,6 +98,19 @@
                       <span *ngIf="param.selected === false" class="font-text">{{
                         "No" | translate
                       }}</span>
+                      <hr />
+                    </dt>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="row  div-parametros">
+              <div class="col-sm-2" *ngFor="let product of specification.productsAditional">
+                <div class="container-supplier">
+                  <dl class="align-item">
+                    <dt>{{ product.name | translate }}</dt>
+                    <dt>
+                      <span class="font-text"> {{ product.codeSpectrum }}</span>
                       <hr />
                     </dt>
                   </dl>

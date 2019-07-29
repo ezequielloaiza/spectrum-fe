@@ -36,7 +36,9 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 export class ProductViewFluoStripsComponent implements OnInit {
 
   products: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
   product: any;
+  productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -89,10 +91,24 @@ export class ProductViewFluoStripsComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplier$(7).subscribe(res => {
+    this.productService.findBySupplierInView$(7 , true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
+        this.productService.findBySupplierAndInViewAndCategory$(7, false, 10).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.productsCode = res1.data;
+            if (this.user.role.idRole === 3) {
+              this.setCodeProduct(this.currentUser.name);
+            }
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -113,12 +129,28 @@ export class ProductViewFluoStripsComponent implements OnInit {
     this.setPrice();
   }
 
+  setCodeProduct(clienteSelect) {
+    const productName = this.product.codeSpectrum;
+    let prCode;
+    let condition;
+    if (clienteSelect.name === 'MEDICAL CHOICE' && this.product.codeSpectrum === '40') {
+      condition = '40A (M.C.)';
+    } else {
+      condition = productName;
+    }
+    _.each(this.productsCode, function (pr) {
+      if (pr.codeSpectrum == condition) {
+        prCode = pr;
+      }
+    });
+    this.productCode = prCode;
+  }
+
   setClient() {
     if (this.user.role.idRole === 3) {
       this.client = this.currentUser.idUser;
       this.product.client = this.currentUser.name;
       this.findShippingAddress(this.client);
-
     } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -134,6 +166,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
       this.client = clienteSelect.idUser;
       this.findShippingAddress(this.client);
       this.definePrice(clienteSelect.membership.idMembership);
+      this.setCodeProduct(clienteSelect);
     } else {
       this.client = '';
       this.product.shippingAddress = '';
@@ -180,9 +213,10 @@ export class ProductViewFluoStripsComponent implements OnInit {
 
   buildProductSelected() {
     let product = this.productCopy;
+    let productCode = this.productCode;
     let productSelected = product;
 
-    productSelected.id = product.idProduct;
+    productSelected.id = productCode.idProduct;
     productSelected.price = product.priceSale;
     productSelected.quantity = product.quantity;
     productSelected.detail = '';
@@ -215,7 +249,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationSpectrumSalineComponent,
     { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.product = this.productCode;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;

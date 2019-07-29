@@ -3,6 +3,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { UserService } from '../../../shared/services';
+import { SupplierService } from '../../../shared/services/suppliers/supplier.service';
+import { CodeHttp } from '../../../shared/enum/code-http.enum';
 
 @Component({
     selector: 'app-sidebar',
@@ -14,8 +16,9 @@ export class SidebarComponent {
     showMenu: string = '';
     pushRightClass: string = 'push-right';
     user: any;
+    listSupplierUser: Array<any> = new Array;
 
-    constructor(private translate: TranslateService, public router: Router, private userService: UserStorageService) {
+    constructor(private translate: TranslateService, public router: Router, private userService: UserStorageService, private supplierService: SupplierService) {
         this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de']);
         this.translate.use(this.userService.getLanguage());
         this.user = JSON.parse(userService.getCurrentUser());
@@ -29,6 +32,18 @@ export class SidebarComponent {
                 this.toggleSidebar();
             }
         });
+    }
+
+    ngOnInit() {
+      this.getSupplierByUser(this.user.userResponse.idUser);
+    }
+
+    getSupplierByUser(id: any) {
+      this.supplierService.findByUser$(id).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.listSupplierUser = res.data;
+        }
+      });
     }
 
     eventCalled() {

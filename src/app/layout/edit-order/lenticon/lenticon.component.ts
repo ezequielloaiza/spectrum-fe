@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import * as _ from 'lodash';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-lenticon',
@@ -35,7 +36,8 @@ export class LenticonComponent implements OnInit {
               private notification: ToastrService,
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
-              private userService: UserStorageService) {
+              private userService: UserStorageService,
+              private spinner: NgxSpinnerService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
@@ -135,6 +137,7 @@ export class LenticonComponent implements OnInit {
   }
 
   save() {
+    this.spinner.show();
     let paramet = this.product.parameters;
     let set = this.product.set;
     let pupillary = this.product.pupillary;
@@ -225,9 +228,11 @@ export class LenticonComponent implements OnInit {
   update(productRequested) {
     this.productRequestedService.update$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        this.spinner.hide();
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
+        productRequested.detail = JSON.parse(productRequested.detail);
         this.modalReference.close(productRequested);
       } else {
         console.log(res);

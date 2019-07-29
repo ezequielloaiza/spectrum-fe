@@ -3,7 +3,7 @@
 		<a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
 		</a>
-		<a routerLink="/products" [routerLinkActive]="['router-link-active']" class="list-group-item">
+		<a routerLink="/products" [routerLinkActive]="['router-link-active']" class="list-group-item" *ngIf="listSupplierUser.length > 0 && user.role.idRole === 3 || user.role.idRole !== 3">
 			<i class="fa fa-shopping-cart"></i>&nbsp;{{ 'New Order' | translate }}
 		</a>
 		<!--USER MENU-->
@@ -26,6 +26,12 @@
 							<a routerLink="/shipping-address" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-truck"></i>&nbsp; {{ 'Your Shipping Addresses' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a routerLink="/protocol" [routerLinkActive]="['router-link-active']">
+								<span>
+									<i class="fa fa-address-card"></i>&nbsp; {{ 'Protocols' | translate }}</span>
 							</a>
 						</li>
 						<!--<li>
@@ -93,13 +99,14 @@
                 <span>
                   <i class="fa fa-money"></i>&nbsp; {{ 'Add Payment' | translate }}</span>
               </a>
-            </li>-->
+            </li>
 						<li>
 							<a href="javascript:void(0)" [routerLinkActive]="['router-link-active']">
 								<span>
 									<i class="fa fa-exclamation-triangle"></i>&nbsp; {{ 'Report a Problem' | translate }}</span>
 							</a>
-						</li>
+            </li>
+            -->
 					</ul>
 				</li>
 			</div>
@@ -113,7 +120,7 @@
 							<li>
 								<a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
 									<span>
-										<i class="fa fa-file"></i>&nbsp; {{ 'Pending Payments to Check' | translate }}</span>
+										<i class="fa fa-file"></i>&nbsp; {{ 'Payments Awaiting Confirmation' | translate }}</span>
 								</a>
 							</li>
 							<li>
