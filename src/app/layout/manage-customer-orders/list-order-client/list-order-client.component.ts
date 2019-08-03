@@ -258,6 +258,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         this.listOrders = this.listOrders.filter((item) => {
           return ((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.supplier.companyName.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.listProductRequested.find((pR) => {
               if (pR.productRequested.patient !== null) {
                 return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
@@ -274,6 +275,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         this.listOrders = this.listOrders.filter((item) => {
           return (((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.supplier.companyName.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.listProductRequested.find((pR) => {
                 if (pR.productRequested.patient !== null) {
                   return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
@@ -368,6 +370,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           return item.listProductRequested.find((pR) => {
             return (((item.nameUser.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
             (item.number.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
+            (item.supplier.companyName.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
             (pR.productRequested.patient ? pR.productRequested.patient.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1 : false))
             && (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1));
           });
@@ -439,7 +442,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find((pR) => {
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))  ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find((pR) => {
           if (pR.productRequested.patient !== null) {
             return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
           }
@@ -496,7 +500,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))) ||
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) ||
         (orders.listProductRequested.find((pR) => {
           if (pR.productRequested.patient !== null) {
             return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
@@ -520,7 +525,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.listOrdersAux = this.list;
     _.filter(this.listOrdersAux, function (orders) {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find((pR) => {
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+         (orders.listProductRequested.find((pR) => {
           if (pR.productRequested.patient !== null) {
             return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
           }
@@ -546,6 +553,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     _.filter(this.listOrdersAux, function (orders) {
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
         (orders.listProductRequested.find((pR) => {
           if (pR.productRequested.patient !== null) {
             return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
@@ -594,6 +602,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       const fechaList = _.toString(orders.date.slice(0, 10));
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
         (orders.listProductRequested.find((pR) => {
           if (pR.productRequested.patient !== null) {
             return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
@@ -624,6 +633,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       const fechaList = _.toString(orders.date.slice(0, 10));
       if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
         (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
          (orders.listProductRequested.find((pR) => {
            if (pR.productRequested.patient !== null) {
             return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
