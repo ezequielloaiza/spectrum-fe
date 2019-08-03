@@ -300,6 +300,7 @@ export class UserModalComponent implements OnInit {
       }
       if (this.form.get('city') !== null) {
         this.form.get('companyCity').setValue(this.form.get('city').value);
+        this.valorCompanyCity = this.valorCity;
       }
       if (this.form.get('idCountry') !== null) {
         this.form.get('idCompanyCountry').setValue(this.form.get('idCountry').value);
@@ -328,6 +329,7 @@ export class UserModalComponent implements OnInit {
   asigCity() {
     if (this.marked) {
       this.form.get('companyCity').setValue(this.form.get('city').value);
+      this.valorCompanyCity = this.valorCity;
     }
   }
 

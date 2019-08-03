@@ -37,6 +37,7 @@ export class EditCompanyComponent implements OnInit {
   selectedCountry: any = null;
   locale: any;
   quantityProcessed: any;
+  valorCompanyCity: any;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -153,6 +154,7 @@ export class EditCompanyComponent implements OnInit {
       this.form.get('postalCode').setValue(this.googleService.getPostalCode());
       this.form.get('cityPlace').setValue({description: this.googleService.getCity()});
       this.form.get('city').setValue({ description: this.googleService.getCity() });
+      this.valorCompanyCity = { description: this.googleService.getCity() };
     });
   }
 
@@ -180,6 +182,7 @@ export class EditCompanyComponent implements OnInit {
 
   save(): void {
     this.saving = true;
+    this.form.get('city').setValue(this.valorCompanyCity.description);
     this.companyService.update$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.canEdit = false;
