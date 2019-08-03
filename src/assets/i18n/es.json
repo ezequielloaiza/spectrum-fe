@@ -1203,5 +1203,6 @@
     "No information has been added": "No se ha agregado información",
     "Inserts (DMV)": "Insertores (DMV)",
     "Payments Awaiting Confirmation": "Pagos en Espera de Confirmación",
-    "Invoices with Pending Payments": "Facturas con Pagos Pendientes"
+    "Invoices with Pending Payments": "Facturas con Pagos Pendientes",
+    "Same address as above":"Misma dirección que arriba"
 }

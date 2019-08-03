@@ -36,7 +36,7 @@
             <label>{{ 'City' | translate }}</label>
             <input id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt" name="city" formControlName="city"
               [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead" placeholder="{{ 'Enter city' | translate }}"
-              required />
+              required (keyup)="asigCity()"/>
           </fieldset>
           <div *ngIf="searching" class="spinner">
             <div class="bounce1"></div>
@@ -50,7 +50,7 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'State' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state">
+            <input class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state" (change)="asigState()">
           </fieldset>
           <div class="message-error" [hidden]="state.valid || state.pristine">
             <span>{{ 'State is required' | translate }}</span>
@@ -60,7 +60,7 @@
           <fieldset class="form-group">
             <label>{{ 'Country' | translate }}</label>
             <ng-select [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
-              [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}" required>
+              [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}" required (change)="asigCountry()">
               <ng-template ng-label-tmp let-item="item">
                 <div class="supplier-body">
                   <span>{{ item.name | translate }}</span>
@@ -80,7 +80,7 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Postal Code' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal">
+            <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal" (change)="asigPostal()">
           </fieldset>
         </div>
         <div class="col-xl-6">
@@ -96,14 +96,14 @@
         <div class="col-xl-12">
           <fieldset class="form-group">
             <label>{{ 'Address' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address">
+            <input class="form-control" placeholder="{{ 'Enter address' | translate }}" name="address" formControlName="address" (change)="asigAddress()">
           </fieldset>
         </div>
       </div>
       <br>
       <h5>{{ 'Company Information ' | translate }}</h5>
       <div class="row">
-        <div class="col-xl-6">
+        <div class="col-xl-12">
           <fieldset class="form-group">
             <label>{{ 'Company Name' | translate }}</label>
             <input class="form-control" placeholder="{{ 'Enter company' | translate }}" name="companyName" formControlName="companyName"
@@ -158,12 +158,24 @@
             <span>{{ 'Phone not valid' | translate }}</span>
           </div>
         </div>
+        <div class="col-xl-12">
+          <fieldset class="form-group">
+            <div class="row">
+              <div class="col-xl-12">
+                <div class="col-xl-12 custom-control custom-radio">
+                  <input type="checkbox"  name="theCheckbox"  formControlName="theCheckbox" data-md-icheck (change)="copyaddress($event)"/>
+                  <label>{{ 'Same address as above' | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'City' | translate }}</label>
             <input id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt" name="companyCity"
               formControlName="companyCity" [inputFormatter]="formatter" (selectItem)="findPlaceCompany($event)" #instance="ngbTypeahead"
-              placeholder="{{ 'Enter city' | translate }}" required />
+              placeholder="{{ 'Enter city' | translate }}" required/>
           </fieldset>
           <div *ngIf="searching" class="spinner">
             <div class="bounce1"></div>
@@ -210,7 +222,7 @@
             <input class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="companyPostal" formControlName="companyPostal">
           </fieldset>
         </div>
-        <div class="col-xl-6">
+        <div class="col-xl-12">
           <fieldset class="form-group">
             <label>{{ 'Address' | translate }}
             </label>
