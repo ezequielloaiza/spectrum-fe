@@ -185,6 +185,8 @@
                             {{ 'Change Status' | translate }}</button>
                           <button [hidden]="user.role.idRole !== 1 || (order.status === 4)" class="dropdown-item" (click)="cancel(order)">
                             {{ 'Cancel Order' | translate }}</button>
+                          <button [hidden]="!order.generate" class="dropdown-item" (click)="generateOrder(order)">
+                              {{ 'Generate Order' | translate }}</button>
                         </div>
                       </div>
                     </div>

@@ -16,6 +16,7 @@ import { saveAs } from 'file-saver';
 import { InvoiceClient } from '../../../shared/models/invoiceclient';
 import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
 import { ModalsInvoiceComponent } from '../modals-invoice/modals-invoice.component';
+import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
 
 @Component({
   selector: 'app-list-order-client',
@@ -103,6 +104,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listOrders = res.data;
           this.listOrdersAux = res.data;
           _.each(this.listOrders, function (order) {
+              order.generate = false;
             _.each(order.listProductRequested, function (listDetails) {
               if (listDetails.productRequested.detail.length > 0){
                 listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
@@ -123,6 +125,15 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listOrders = res.data;
           this.listOrdersAux = res.data;
           _.each(this.listOrders, function (order) {
+              if (order.status !== 0 ) {
+                order.generate = false;
+              } else {
+                if (order.dateSend !== null) {
+                  order.generate = false;
+                } else {
+                  order.generate = true;
+                }
+              }
             _.each(order.listProductRequested, function (listDetails) {
               if (listDetails.productRequested.detail.length > 0){
                 listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
@@ -1098,4 +1109,14 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     });
     this.validoProvider = validoProvider;
   }
+
+  generateOrder(order): void {
+    const modalRef = this.modalService.open(ModalsConfirmationComponent ,
+    {backdrop  : 'static', keyboard  : false});
+      modalRef.componentInstance.order = order;
+      modalRef.result.then((result) => {
+        } , (reason) => {
+          this.ngOnInit();
+      });
+    }
 }
