@@ -152,7 +152,7 @@ export class ProductsListInternalComponent implements OnInit {
     if (productsXtensa.length) {
       this.productsMarkennovy.push({name:"Xtensa",
                                     mainImg:"assets/images/products/markennovy/xtensa.png",
-                                    replacementPeriod:"Monthly",
+                                    replacementPeriod:"Monthly Disposable",
                                     father: "Xtensa"});
     }
 
@@ -550,7 +550,8 @@ export class ProductsListInternalComponent implements OnInit {
 
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
         product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa Rx' ||
-        product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Jade') {
+        product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Jade'
+        || product.father === 'Xtensa') {
 
           this.packings.push({ 'product': product, 'type': 'Blister'});
     }
