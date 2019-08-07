@@ -193,6 +193,68 @@
           </div>
         </div>
 
+        <!--comments right-->
+        <div class="col-md-12">
+          <div class="row header">
+            <div class="col-md-6">
+              <div class="title">{{ 'Comments Right Eye' | translate }}</div>
+              <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsRight"
+                [disabled]="!product.eyeRight" placeholder="{{ 'Enter right eye observations' | translate }}"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!--files right-->
+        <div class="documents col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="">
+                <dt class="title">{{ 'Documents Right Eye (Topography, Tangential Map, etc.)' | translate }}</dt>
+                <div class="custom-file">
+                  <input #selectedFilesRightEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderRightEye"
+                    [disabled]="!product.eyeRight || uploaderRightEye.queue.length > 4" multiple />
+                  <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                  <div class="invalid-feedback">Example invalid custom file feedback</div>
+                  <div class="message-error">
+                    <span translate>{{'Max files size:' | translate}} 25MB</span>
+                    <span> / </span>
+                    <span translate>{{'Maximum files number:' | translate }} 5</span>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="" style="margin-bottom: 40px" *ngIf="uploaderRightEye.queue.length > 0">
+                <div class="row justify-content-end" *ngIf="uploaderRightEye.queue.length > 1">
+                  <button type="button" class="btn btn-danger btn-s" (click)="uploaderRightEye.clearQueue()" [disabled]="!uploaderRightEye.queue.length">
+                    <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                  </button>
+                </div>
+                <br>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th width="50%">{{ 'Name' | translate }}</th>
+                      <th>{{ 'Size' | translate }}</th>
+                      <th>{{ 'Actions' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of uploaderRightEye.queue">
+                      <td><strong>{{ item?.file?.name }}</strong></td>
+                      <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td nowrap>
+                        <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Right')">
+                          <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- row (parameters left) -->
         <div class="col-lg-12 custom-control custom-checkbox">
           <!--header-->
@@ -271,120 +333,70 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <!--comments-->
-      <div class="comments col-md-12">
-        <div class="row header">
-          <div class="col-md-6">
-            <div class="title">{{ 'Comments Right Eye' | translate }}</div>
-            <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsRight"
-              [disabled]="!product.eyeRight" placeholder="{{ 'Enter right eye observations' | translate }}"></textarea>
-          </div>
-          <div class="col-md-6">
-            <div class="title">{{ 'Comments Left Eye' | translate }}</div>
-            <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsLeft"
-              [disabled]="!product.eyeLeft" placeholder="{{ 'Enter left eye observations' | translate }}"></textarea>
+         <!--comments left-->
+        <div class="col-md-12">
+          <div class="row header">
+            <div class="col-md-6">
+              <div class="title">{{ 'Comments Left Eye' | translate }}</div>
+              <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsLeft"
+                [disabled]="!product.eyeLeft" placeholder="{{ 'Enter left eye observations' | translate }}"></textarea>
+            </div>
           </div>
         </div>
-      </div>
-      <br>
-
-      <!--files-->
-      <div class="comments col-md-12">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="">
-              <dt class="title">{{ 'Documents Right Eye (Topography, Tangential Map, etc.)' | translate }}</dt>
-              <div class="custom-file">
-                <input #selectedFilesRightEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderRightEye"
-                  [disabled]="!product.eyeRight || uploaderRightEye.queue.length > 4" multiple />
-                <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
-                <div class="invalid-feedback">Example invalid custom file feedback</div>
-                <div class="message-error">
-                  <span translate>{{'Max files size:' | translate}} 25MB</span>
-                  <span> / </span>
-                  <span translate>{{'Maximum files number:' | translate }} 5</span>
+  
+        <!--files left-->
+        <div class="documents col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="">
+                <dt class="title">{{ 'Documents Left Eye (Topography, Tangential Map, etc.)' | translate }}</dt>
+                <div class="custom-file">
+                  <input #selectedFilesLeftEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderLeftEye"
+                    [disabled]="!product.eyeLeft || uploaderLeftEye.queue.length > 4" multiple />
+                  <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                  <div class="invalid-feedback">Example invalid custom file feedback</div>
+                  <div class="message-error">
+                    <span translate>{{'Max files size:' | translate}} 25MB</span>
+                    <span> / </span>
+                    <span translate>{{'Maximum files number:' | translate }} 5</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <br>
-            <div class="" style="margin-bottom: 40px" *ngIf="uploaderRightEye.queue.length > 0">
-              <div class="row justify-content-end" *ngIf="uploaderRightEye.queue.length > 1">
-                <button type="button" class="btn btn-danger btn-s" (click)="uploaderRightEye.clearQueue()" [disabled]="!uploaderRightEye.queue.length">
-                  <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
-                </button>
-              </div>
               <br>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th width="50%">{{ 'Name' | translate }}</th>
-                    <th>{{ 'Size' | translate }}</th>
-                    <th>{{ 'Actions' | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of uploaderRightEye.queue">
-                    <td><strong>{{ item?.file?.name }}</strong></td>
-                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                    <td nowrap>
-                      <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Right')">
-                        <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="">
-              <dt class="title">{{ 'Documents Left Eye (Topography, Tangential Map, etc.)' | translate }}</dt>
-              <div class="custom-file">
-                <input #selectedFilesLeftEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderLeftEye"
-                  [disabled]="!product.eyeLeft || uploaderLeftEye.queue.length > 4" multiple />
-                <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
-                <div class="invalid-feedback">Example invalid custom file feedback</div>
-                <div class="message-error">
-                  <span translate>{{'Max files size:' | translate}} 25MB</span>
-                  <span> / </span>
-                  <span translate>{{'Maximum files number:' | translate }} 5</span>
+              <div class="" style="margin-bottom: 40px" *ngIf="uploaderLeftEye.queue.length > 0">
+                <div class="row justify-content-end" *ngIf="uploaderLeftEye.queue.length > 1">
+                  <button type="button" class="btn btn-danger btn-s" (click)="uploaderLeftEye.clearQueue()" [disabled]="!uploaderLeftEye.queue.length">
+                    <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                  </button>
                 </div>
+                <br>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th width="50%">{{ 'Name' | translate }}</th>
+                      <th>{{ 'Size' | translate }}</th>
+                      <th>{{ 'Actions' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of uploaderLeftEye.queue">
+                      <td><strong>{{ item?.file?.name }}</strong></td>
+                      <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td nowrap>
+                        <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Left')">
+                          <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            </div>
-            <br>
-            <div class="" style="margin-bottom: 40px" *ngIf="uploaderLeftEye.queue.length > 0">
-              <div class="row justify-content-end" *ngIf="uploaderLeftEye.queue.length > 1">
-                <button type="button" class="btn btn-danger btn-s" (click)="uploaderLeftEye.clearQueue()" [disabled]="!uploaderLeftEye.queue.length">
-                  <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
-                </button>
-              </div>
-              <br>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th width="50%">{{ 'Name' | translate }}</th>
-                    <th>{{ 'Size' | translate }}</th>
-                    <th>{{ 'Actions' | translate }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of uploaderLeftEye.queue">
-                    <td><strong>{{ item?.file?.name }}</strong></td>
-                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                    <td nowrap>
-                      <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Left')">
-                        <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
       </div>
+
     </div>
 
     <br>
