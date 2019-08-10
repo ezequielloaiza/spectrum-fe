@@ -1023,5 +1023,6 @@
     "No information has been added": "No information has been added",
     "Inserts (DMV)": "Inserts (DMV)",
     "Payments Awaiting Confirmation": "Payments Awaiting Confirmation",
-    "Invoices with Pending Payments": "Pending Unpaid Invoices"
+    "Invoices with Pending Payments": "Pending Unpaid Invoices",
+    "More Details": "More Details"
 }
