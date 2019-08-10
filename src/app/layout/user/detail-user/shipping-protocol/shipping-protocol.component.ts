@@ -40,6 +40,7 @@ export class ShippingProtocolComponent implements OnInit {
   user: any;
   IDClient: any;
   validRecords = 0;
+  selectedAll: any;
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -498,6 +499,7 @@ export class ShippingProtocolComponent implements OnInit {
   }
 
   selectSupplier(idSupplier, protocol, value) {
+    debugger
     let index = _.indexOf(value.suppliers, idSupplier);
     if (index > -1) {
       value.suppliers.splice(index, 1);
@@ -505,6 +507,7 @@ export class ShippingProtocolComponent implements OnInit {
     } else if (this.allowedSelection(idSupplier, protocol)) {
       value.suppliers.push(idSupplier);
       protocol.selectedSuppliers.push(idSupplier);
+      debugger
     }
   }
 
@@ -546,6 +549,7 @@ export class ShippingProtocolComponent implements OnInit {
   }
 
   checkedSupplier(protocol, value, supplier) {
+    debugger
     return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
   }
 
@@ -564,6 +568,17 @@ export class ShippingProtocolComponent implements OnInit {
     }
     return show;
   }
+
+  onSelectionAll(protocol, value) {
+    let self = this;
+    _.each(value.ids, function(supplierId) {
+      self.selectSupplier(supplierId, protocol, value);
+      self.checkedSupplier(protocol, value, supplierId);
+    });
+    debugger
+  }
+
+
 
 }
 

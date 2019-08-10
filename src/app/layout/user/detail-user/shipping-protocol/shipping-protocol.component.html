@@ -18,14 +18,8 @@
             <div class="d-flex">
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'ACC Number' | translate }}</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="accNumber"
-                  maxlength="120"
-                  *ngIf="edit"
-                  placeholder="{{ 'Enter ACC number' | translate }}"
-                />
+                <input type="text" class="form-control" formControlName="accNumber" maxlength="120" *ngIf="edit"
+                  placeholder="{{ 'Enter ACC number' | translate }}" />
                 <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.accNumber }">{{ protocol.accNumber ? protocol.accNumber :
                     'Unassigned'
@@ -35,15 +29,8 @@
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Country' | translate }}</label>
                 <div class="mb-2 mr-sm-2 mb-sm-0">
-                  <ng-select
-                    [items]="countries"
-                    [searchable]="true"
-                    bindValue="idCountry"
-                    bindLabel="name"
-                    formControlName="country"
-                    *ngIf="edit"
-                    placeholder="{{ 'Enter country' | translate }}"
-                  >
+                  <ng-select [items]="countries" [searchable]="true" bindValue="idCountry" bindLabel="name"
+                    formControlName="country" *ngIf="edit" placeholder="{{ 'Enter country' | translate }}">
                   </ng-select>
                 </div>
                 <div class="truncate" *ngIf="!edit">
@@ -236,7 +223,7 @@
                   </div>
                 </div>
 
-                <div *ngIf="protocol.value.values == 0 && !edit"  class="empty-message">
+                <div *ngIf="protocol.value.values == 0 && !edit" class="empty-message">
                   <span>{{ 'No information has been added' | translate}}</span>
                 </div>
                 <div class="d-flex w-100 pt-2 pb-1" [ngClass]="{ 'border-item': !edit }"
@@ -341,6 +328,11 @@
                       </button>
                       <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
                         <div class="select-type">
+                          <div class="custom-control custom-checkbox">
+                            <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll"
+                              (click)="onSelectionAll(protocol.value, value)" class="custom-control-input">
+                            <label class="custom-control-label" for="checkboxAll">{{ 'Select All' | translate }}</label>
+                          </div>
                           <li *ngFor="let supplier of suppliers; index as i">
                             <div>
                               <div class="custom-control custom-checkbox" data-toggle="tooltip" data-placement="left"
@@ -352,7 +344,6 @@
                                   [disabled]="disabledSupplier(protocol.value, value, supplier)" />
                                 <label class="custom-control-label"
                                   for="{{ protocol.value.label }}-{{ i }}-{{ pos }}"></label>
-
                                 <span>
                                   {{ supplier.companyName | titlecase }}
                                 </span>
