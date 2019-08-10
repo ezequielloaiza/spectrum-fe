@@ -141,6 +141,12 @@
   }
 }
 
+.select-required {
+  background-color: red;
+  height: 34px;
+  width: 2px;
+}
+
 .custom-control-input:disabled ~ .custom-control-label {
   cursor: not-allowed;
   opacity: .5;
