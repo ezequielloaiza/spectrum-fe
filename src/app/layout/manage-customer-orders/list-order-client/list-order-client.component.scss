@@ -170,7 +170,6 @@
 
   > div {
     &:first-child {
-      border-bottom: 1px solid #bfbfbf;
       font-size: .9em;
       color: gray;
       padding: .4em 0;
@@ -223,13 +222,32 @@
         padding-left: 90px;
       }
     }
+
+    &:nth-child(2) {
+      border-top: 1px solid #bfbfbf;
+    }
   }
+
   .link {
     color: $bg-blue;
     cursor: pointer;
 
     &:hover {
       text-decoration: underline;
+    }
+  }
+
+  .more-details {
+    display: flex;
+    justify-content: flex-end;
+
+    .more-link {
+      color: $bg-blue;
+    }
+
+    label:hover {
+      color: $bg-blue;
+      cursor: pointer;
     }
   }
 }
@@ -562,4 +580,9 @@
 .margin {
   margin-left: 0.3rem;
   margin-top: -2rem;
+}
+
+::ng-deep .modal-dialog {
+  max-width: 1000px;
+  width: 120%;
 }

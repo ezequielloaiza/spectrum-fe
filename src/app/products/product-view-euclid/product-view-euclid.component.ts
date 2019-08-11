@@ -35,7 +35,10 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 export class ProductViewEuclidComponent implements OnInit {
 
   products: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
   product: any;
+  productCodeL: any;
+  productCodeR: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -175,9 +178,20 @@ export class ProductViewEuclidComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplier$(4).subscribe(res => {
+    this.productService.findBySupplierInView$(4, true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
+        this.productService.findBySupplierAndInViewAndCategory$(4, false, 10).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.productsCode = res1.data;
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
         this.getProductView();
         this.spinner.hide();
       } else {
@@ -209,25 +223,45 @@ export class ProductViewEuclidComponent implements OnInit {
     this.setPrice();
   }
 
+  setCodeProduct(cod, lat) {
+    const productName = this.product.name;
+    let prCode;
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, productName) && _.includes(pr.codeSpectrum, cod)) {
+        prCode = pr;
+      }
+    });
+    if (lat === 'right') {
+      this.productCodeR = prCode;
+    } else {
+      this.productCodeL = prCode;
+    }
+  }
+
+
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
     if (parameter.name === 'Warranty') {
       if (eye === 'right') {
         if (parameter.selected === 'Yes') {
           this.warrantyRight = true;
+          this.setCodeProduct('(W)' , 'right');
         } else {
           this.warrantyRight = false;
+          this.setCodeProduct('(NW)', 'right');
         }
       }
 
       if (eye === 'left') {
         if (parameter.selected === 'Yes') {
           this.warrantyLeft = true;
+          this.setCodeProduct('(W)', 'left');
         } else {
           this.warrantyLeft = false;
+          this.setCodeProduct('(NW)', 'left');
         }
       }
-      if (this.client){
+      if (this.client) {
         this.definePrice(this.client.membership.idMembership);
       }
     }
@@ -238,9 +272,6 @@ export class ProductViewEuclidComponent implements OnInit {
     if (parameter.name === 'Flat K' || parameter.name === 'Steep K' || parameter.name === 'HVID' ||
     (parameter.name === 'Sphere (D)' && parameter.type === 'input')) {
       parameter.selected = this.format(value);
-    }
-    if (parameter.name === 'Cylinder (D)') {
-      parameter.selected = this.cilinderFormat(value);
     }
   }
 
@@ -433,15 +464,19 @@ export class ProductViewEuclidComponent implements OnInit {
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.productCopy;
+    let productCodeL = this.productCodeL;
+    let productCodeR = this.productCodeR;
     let productsSelected = this.productsSelected;
     let warrantyRight = this.warrantyRight;
     let warrantyLeft = this.warrantyLeft;
+
     _.each(productsSelected, function(productSelected, index) {
 
-      productSelected.id = product.idProduct;
       productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
       if (productSelected.eye === "Right") {
+        productSelected.id = productCodeR.idProduct;
+        productSelected.codeSpectrum = productCodeR.codeSpectrum;
         productSelected.quantity = product.quantityRight;
 
         if (warrantyRight) {
@@ -459,6 +494,8 @@ export class ProductViewEuclidComponent implements OnInit {
       }
 
       if (productSelected.eye === "Left") {
+        productSelected.id = productCodeL.idProduct;
+        productSelected.codeSpectrum = productCodeL.codeSpectrum;
         productSelected.quantity = product.quantityLeft;
 
         if (warrantyLeft) {
@@ -476,7 +513,7 @@ export class ProductViewEuclidComponent implements OnInit {
       }
 
       productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
-      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye'])
+      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye']);
     });
     return productsSelected;
   }
@@ -492,6 +529,7 @@ export class ProductViewEuclidComponent implements OnInit {
       const productRequest: ProductRequested = new ProductRequested();
       const productoSelect: Product = new Product();
       productoSelect.idProduct = product.id;
+      productoSelect.codeSpectrum = product.codeSpectrum;
       productRequest.product = productoSelect;
       productRequest.quantity = product.quantity;
       productRequest.price = product.price;
@@ -537,19 +575,31 @@ export class ProductViewEuclidComponent implements OnInit {
     }
 
     if (this.product.eyeRight) {
+      if (this.product.quantityRight === undefined) {
+        return false;
+      }
       _.each(this.product.parametersRight, function (param){
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
+      if (!this.product.quantityRight) {
+        isValid = false;
+      }
     }
 
     if (this.product.eyeLeft) {
+      if (this.product.quantityLeft === undefined) {
+        return false;
+      }
       _.each(this.product.parametersLeft, function (param){
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
+      if (!this.product.quantityLeft) {
+        isValid = false;
+      }
     }
     return isValid;
   }

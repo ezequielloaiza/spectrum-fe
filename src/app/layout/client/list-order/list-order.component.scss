@@ -134,8 +134,9 @@ a:link {
 }
 
 .title {
-  text-align: center;
+  text-align: center !important;
   font-size: 14px;
+  font-weight: 600 !important;
 }
 
 .list-orden {
@@ -148,7 +149,6 @@ a:link {
 
   > div {
     &:first-child {
-      border-bottom: 1px solid #bfbfbf;
       font-size: .9em;
       color: gray;
       padding: .4em 0;
@@ -198,6 +198,24 @@ a:link {
       div:nth-child(4) > div {
         font-weight: 600;
       }
+    }
+
+    &:nth-child(2) {
+      border-top: 1px solid #bfbfbf;
+    }
+  }
+
+  .more-details {
+    display: flex;
+    justify-content: flex-end;
+
+    .more-link {
+      color: $bg-blue;
+    }
+
+    label:hover {
+      color: $bg-blue;
+      cursor: pointer;
     }
   }
 }

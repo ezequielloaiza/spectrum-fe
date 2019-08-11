@@ -40,14 +40,32 @@
                 <dt>{{'Quantity'| translate}}
                 </dt>
                 <dl>
-                  <div>
-                    <input class="form-control" type="number" step=1 min="1" [(ngModel)]="quantity" oninput="validity.valid||(value='');" required>
+                  <div class="" *ngIf="fluo">
+                    <input class="form-control" type="number" step="25" min="25" max="1000" [ngClass]="{'error-quantity':  quantity && (quantity%25 !== 0 || quantity > 1000) }"
+                      [(ngModel)]="quantity" (change)="quantity%25 !== 0 || quantity > 1000? quantity = '' : '';change(quantity)" required>
+                  </div>
+                  <div class="" *ngIf="saline">
+                    <input class="form-control" type="number" step="25" min="25" max="2000" [ngClass]="{'error-quantity':  quantity && (quantity%25 !== 0 || quantity > 2000) }"
+                      [(ngModel)]="quantity" (change)="quantity%25 !== 0 || quantity > 2000? quantity = '' : '';change(quantity)" required>
                   </div>
                 </dl>
               </dl>
             </div>
+            <div class="col-sm-3">
+              <div class="" *ngIf="strips > 0">
+                <label class="form-check-label strips">({{ strips }} {{ 'Strips' | translate }})</label>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="col-md-12 message-quantity" *ngIf="fluo">
+        <span>{{'To make the order the minimum quantity is' | translate }} 25 {{ 'units' | translate }}</span>&nbsp;
+        <span>{{'and maximum' | translate}} 1000 {{ 'units' | translate }}</span>
+      </div>
+      <div class="col-md-12 message-quantity" *ngIf="saline">
+        <span>{{'To make the order the minimum quantity is' | translate }} 250 {{ 'units' | translate }}</span>&nbsp;
+        <span>{{'and maximum' | translate}} 2000 {{ 'units' | translate }}</span>
       </div>
       <!--Fin parameters-->
     </div>

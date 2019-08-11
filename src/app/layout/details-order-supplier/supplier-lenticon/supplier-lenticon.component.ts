@@ -11,7 +11,7 @@ import { Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { OrderService } from '../../../shared/services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LenticonComponent } from '../../edit-order/lenticon/lenticon.component';
 
 const URL = environment.apiUrl + 'fileProductRequested/downloadFile/';
@@ -38,9 +38,15 @@ export class SupplierLenticonComponent implements OnInit {
               private modalService: NgbModal,
               private userStorageService: UserStorageService,
               private route: ActivatedRoute,
-              private orderService: OrderService) {
+              private orderService: OrderService,
+              private router: Router) {
         this.user = JSON.parse(userStorageService.getCurrentUser());
     }
+
+  skipLocationAndRedirect(uri) {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+    this.router.navigate([uri]));
+  }
 
   ngOnInit() {
     this.listAux = this.lista;
@@ -65,8 +71,9 @@ export class SupplierLenticonComponent implements OnInit {
     modalRefEuclid.componentInstance.userOrder = this.order.user;
     modalRefEuclid.componentInstance.image = this.urlImage;
     modalRefEuclid.result.then((result) => {
-      this.listAux = result;
-      this.sendReply();
+      /*this.listAux = result;
+      this.sendReply();*/
+      this.skipLocationAndRedirect(this.router.url);
     } , (reason) => {
 
     });

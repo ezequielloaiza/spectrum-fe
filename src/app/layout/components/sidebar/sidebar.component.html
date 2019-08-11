@@ -28,6 +28,12 @@
 									<i class="fa fa-truck"></i>&nbsp; {{ 'Your Shipping Addresses' | translate }}</span>
 							</a>
 						</li>
+						<li>
+							<a routerLink="/protocol" [routerLinkActive]="['router-link-active']">
+								<span>
+									<i class="fa fa-address-card"></i>&nbsp; {{ 'Protocols' | translate }}</span>
+							</a>
+						</li>
 						<!--<li>
 							<a href="javascript:void(0)">
 								<span>
@@ -114,7 +120,7 @@
 							<li>
 								<a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
 									<span>
-										<i class="fa fa-file"></i>&nbsp; {{ 'Pending Payments to Check' | translate }}</span>
+										<i class="fa fa-file"></i>&nbsp; {{ 'Payments Awaiting Confirmation' | translate }}</span>
 								</a>
 							</li>
 							<li>

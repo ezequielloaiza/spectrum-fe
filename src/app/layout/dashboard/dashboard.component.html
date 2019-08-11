@@ -19,14 +19,38 @@
   -->
   <!--<button (click)="loginSage()">sage</button>-->
   <div class="">
-    <div class="row">
-      <div class="col-lg-3">
+    <div class="row" id="main">
+      <div class="col-lg-3" *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
                 <span class="label label-success pull-right">Monthly</span>
                 -->
             <h5>{{ 'Pending Payments to Check' | translate }}</h5>
+          </div>
+          <div class="ibox-content">
+            <div class="info-card icon-card">
+              <h1 class="no-margins card-text">{{ pendingPayment | currency : "USD $" }}</h1>
+              <i class="fa fa-credit-card"></i>
+            </div>
+            <br>
+            <div class="stat-percent text-info">
+              <small>
+                <a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3" *ngIf="user.role.idRole === 3">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <!--
+                <span class="label label-success pull-right">Monthly</span>
+                -->
+            <h5>{{ 'Payments Awaiting Confirmation' | translate }}</h5>
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
@@ -160,7 +184,7 @@
             <div>
               <div>
                 <div class="ml-auto p-2">
-                  <button class="btn btn-main" (click)="redirectProduts()">
+                  <button class="btn btn-main" (click)="redirectProduts()" [disabled]="disabledNew">
                     <span><i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
                   </button>
                 </div>
@@ -435,7 +459,7 @@
           <div class="col-lg-12">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
-                <h5>{{ 'Pending Payments to Check' | translate }}</h5>
+                <h5>{{ 'Invoices with Pending Payments' | translate }}</h5>
               </div>
               <div class="ibox-content">
                 <table class="table table-hover no-margins">

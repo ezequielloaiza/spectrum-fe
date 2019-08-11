@@ -8,6 +8,7 @@ import { BlueLightComponent } from '../../edit-order/blue-light/blue-light.compo
 import { UserStorageService } from '../../../http/user-storage.service';
 import { Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 const URL = environment.apiUrl + 'fileProductRequested/downloadFile/';
 
@@ -27,9 +28,15 @@ export class SupplierBlueLightComponent implements OnInit {
   valueStatus: any;
   user: any;
   constructor(private modalService: NgbModal,
-              private userStorageService: UserStorageService) {
+              private userStorageService: UserStorageService,
+              private router: Router) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
    }
+
+  skipLocationAndRedirect(uri) {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
+    this.router.navigate([uri]));
+  }
 
   ngOnInit() {
     this.listAux = this.lista;
@@ -44,8 +51,9 @@ export class SupplierBlueLightComponent implements OnInit {
     modalRefBlue.componentInstance.typeEdit = 2;
     modalRefBlue.componentInstance.image = this.urlImage;
     modalRefBlue.result.then((result) => {
-      this.listAux = result;
-      this.sendReply();
+      /*this.listAux = result;
+      this.sendReply();*/
+      this.skipLocationAndRedirect(this.router.url);
     } , (reason) => {
     });
   }

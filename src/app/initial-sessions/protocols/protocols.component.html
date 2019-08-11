@@ -1,0 +1,12 @@
+<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
+<div class="container bootstrap snippet">
+    <div class="row">
+      <div class="col-sm-12">
+        <!-- Protocols Shipping -->
+        <app-protocolsshipping *ngIf="showShipping" [lista]="protocolsShippingCopy" (emitEventShipping)="getProtocolsShipping($event)"></app-protocolsshipping>
+         <!-- Protocols Proforma -->
+        <app-protocolsproforma *ngIf="!showShipping" [lista]="protocolsProformaCopy" (emitEventProforma)="getProtocolsProforma($event)"></app-protocolsproforma>
+        <br>
+      </div>
+    </div>
+  </div>

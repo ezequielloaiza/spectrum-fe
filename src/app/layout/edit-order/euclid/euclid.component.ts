@@ -8,6 +8,7 @@ import { UserStorageService } from '../../../http/user-storage.service';
 import * as _ from 'lodash';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ProductService } from '../../../shared/services/products/product.service';
 
 @Component({
   selector: 'app-euclid',
@@ -33,11 +34,14 @@ export class EuclidComponent implements OnInit {
   membership: any;
   additional = 0;
   userOrder: any;
+  productsCode: Array<any> = new Array;
+  productCode: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
               private userService: UserStorageService,
+              private productService: ProductService,
               private spinner: NgxSpinnerService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
@@ -52,11 +56,27 @@ export class EuclidComponent implements OnInit {
     }
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
+    this.productCode = this.productRequested.product;
+    this.getProductsCode();
     this.getProductView();
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
 
+  }
+
+  getProductsCode() {
+    this.productService.findBySupplierAndInViewAndCategory$(4, false, 10).subscribe(res1 => {
+      if (res1.code === CodeHttp.ok) {
+        this.productsCode = res1.data;
+      } else {
+        console.log(res1.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
   }
 
   close() {
@@ -98,10 +118,12 @@ export class EuclidComponent implements OnInit {
       if (parameter.selected === 'Yes') {
         this.warranty = true;
         this.definePriceWarranty(this.membership);
+        this.productCode = this.setCodeProduct('(W)');
       } else {
         this.warranty = false;
         this.additional = 0;
         this.definePrice(this.membership);
+        this.productCode = this.setCodeProduct('(NW)');
       }
     }
     if (parameter.name === 'Axes (º)') {
@@ -110,6 +132,18 @@ export class EuclidComponent implements OnInit {
     if (parameter.name === 'Flat K' || parameter.name === 'Steep K' || parameter.name === 'HVID') {
       parameter.selected = this.format(value);
     }
+  }
+
+  setCodeProduct(cod) {
+    const productName = this.product.name;
+    let prCode;
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, productName) && _.includes(pr.codeSpectrum, cod)) {
+        prCode = pr;
+      }
+    });
+
+    return prCode;
   }
 
   save() {
@@ -132,7 +166,7 @@ export class EuclidComponent implements OnInit {
       this.productRequested.observations = this.observations;
       this.productRequested.price = this.price;
       this.productRequested.quantity = this.quantity;
-      this.productRequested.product = this.product.idProduct;
+      this.productRequested.product = this.productCode.idProduct;
       this.productRequested.patient = this.patient;
       this.update(this.productRequested);
     } else { // Order Detail
@@ -141,7 +175,7 @@ export class EuclidComponent implements OnInit {
       this.productRequestedAux.observations = this.observations;
       this.productRequestedAux.price = this.price;
       this.productRequestedAux.quantity = this.quantity;
-      this.productRequestedAux.product = this.product.idProduct;
+      this.productRequestedAux.product = this.productCode.idProduct;
       this.productRequestedAux.patient = this.patient;
       this.update(this.productRequestedAux);
     }
@@ -290,6 +324,8 @@ export class EuclidComponent implements OnInit {
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
           this.notification.success('', res);
         });
+        productRequested = res.data;
+        productRequested.detail = JSON.parse(productRequested.detail);
         this.modalReference.close(productRequested);
       } else {
         console.log(res);

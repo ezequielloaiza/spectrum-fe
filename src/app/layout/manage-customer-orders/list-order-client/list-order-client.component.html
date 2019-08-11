@@ -201,23 +201,32 @@
                       </div>
                     </div>
                   </div>
+                  <div class="more-details col-lg-12">
+                    <label (click)="order.showMore = !order.showMore" [ngClass]="{'more-link': order.showMore}">
+                      {{ 'More Details' | translate }} <i [hidden]="order.showMore" class="fa fa-caret-right"></i> <i [hidden]="!order.showMore" class="fa fa-caret-down"></i>
+                    </label>
+                  </div>
                 </div>
-                <div class="row product" *ngFor="let listDetails of order.listProductRequested">
+                <div class="row product" [hidden]="!order.showMore" *ngFor="let listDetails of order.listProductRequested">
                   <div class="col-lg-2">
                     <div>
+                      <span *ngIf="listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147">
+                        - </span>
                       <span>{{listDetails.productRequested.product.name}}</span>
                     </div>
                     <div *ngIf="listDetails.productRequested.detail.length > 0 ">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
                     </div>
-                    <div *ngIf="listDetails.productRequested.detail.length > 0 ">
+                    <div *ngIf="listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>
                     </div>
                   </div>
                   <div class="col-lg-3">
+                    <!--
                     <div [hidden]="listDetails.productRequested.product.material === null">
                       <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>
                     </div>
+                    -->
                     <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
                       <span>{{'Replacement period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>

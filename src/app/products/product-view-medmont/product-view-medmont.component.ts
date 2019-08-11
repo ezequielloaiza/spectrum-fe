@@ -20,7 +20,9 @@ import * as _ from 'lodash';
 export class ProductViewMedmontComponent implements OnInit {
 
   products: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
   product: any;
+  productCode: any;
   productCopy: any;
   id: any;
   currentUser: any;
@@ -52,7 +54,7 @@ export class ProductViewMedmontComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplier$(7).subscribe(res => {
+    this.productService.findBySupplierInView$(7 , true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
@@ -71,6 +73,29 @@ export class ProductViewMedmontComponent implements OnInit {
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.setClient();
+    this.setCodeProduct();
+  }
+
+  setCodeProduct() {
+    const productCode = this.product.codeSpectrum;
+    const productCategory = this.product.category;
+    let prCode;
+    this.productService.findBySupplierAndInViewAndCategory$(8, false, productCategory.idCategory).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.productsCode = res.data;
+        _.each(this.productsCode, function (pr) {
+          console.log(_.includes(pr.codeSpectrum, productCode));
+          if (_.includes(pr.codeSpectrum, productCode)) {
+            prCode = pr;
+          }
+        });
+        this.productCode = prCode;
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 
   setClient() {
