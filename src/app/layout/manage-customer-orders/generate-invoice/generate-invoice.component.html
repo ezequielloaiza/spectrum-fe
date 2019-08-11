@@ -59,8 +59,13 @@
                   </div>
                 </div>
                 <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
+                  <label *ngIf="pilot" class="address">{{ invShippingProtocol?.recipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
+                  <!--
+                  <label *ngIf="pilot" class="address">{{ invShippingProtocol?.recipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
                   <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
+                  (change)="updateDeliverTo($event)" required>
+                  -->
+                  <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{ invShippingProtocol?.recipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
                   (change)="updateDeliverTo($event)" required>
                 </div>
                 <div class="col-xl-3">
@@ -119,8 +124,15 @@
               <div class="row row-height align-row">
                 <div class="col-xl-6 address-top">
                   <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
-                  <label *ngIf="pilot" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{invoice.customer != null ? invoice.customer : invoice.user?.name }}"
+                  <label *ngIf="pilot" class="address-client">{{ invShippingProtocol?.businessName ? invShippingProtocol.businessName : invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
+                  <!--
+                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ invoice.customer != null ? invoice.customer : invoice.user?.name }}"
+                  (change)="updateCustomer($event)" required>
+
+                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ invoice.customer != null ? invoice.customer : invoice.user?.name }}"
+                  (change)="updateCustomer($event)" required>
+                  -->
+                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ invShippingProtocol?.businessName ? invShippingProtocol.businessName : invoice.customer != null ? invoice.customer : invoice.user?.name }}"
                   (change)="updateCustomer($event)" required>
                 </div>
                 <div class="col-xl-6 address-spectrum">
