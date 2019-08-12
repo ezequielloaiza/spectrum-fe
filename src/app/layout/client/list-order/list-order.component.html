@@ -116,8 +116,13 @@
                       <a class="ng-tns-c4-0" routerLink="/details-order/{{order.idOrder}}/view" translate>View Details</a>
                     </div>
                   </div>
+                  <div class="more-details col-lg-12">
+                    <label (click)="order.showMore = !order.showMore" [ngClass]="{'more-link': order.showMore}">
+                      {{ 'More Details' | translate }} <i [hidden]="order.showMore" class="fa fa-caret-right"></i> <i [hidden]="!order.showMore" class="fa fa-caret-down"></i>
+                    </label>
+                  </div>
                 </div>
-                <div class="row product" *ngFor="let listDetails of order.listProductRequested">
+                <div class="row product" [hidden]="!order.showMore" *ngFor="let listDetails of order.listProductRequested">
                   <div class="col-lg-3">
                     <div>
                       <span *ngIf="listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147">

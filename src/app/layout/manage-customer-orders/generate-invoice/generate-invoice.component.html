@@ -788,10 +788,10 @@
     {{ "Save" | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
-  <button [hidden]="!pilot" type="button" class="btn btn-main" (click)="sendInvoice()">
+  <!--<button [hidden]="!pilot" type="button" class="btn btn-main" (click)="sendInvoice()">
     {{ "Send" | translate }}&nbsp;
     <i class="fa fa-send"></i>
-  </button>
+  </button>-->
   <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1)" [disabled]="invDate == null || invDate == undefined || invDueDate == null || invDueDate == undefined">
     {{ "Save and Send" | translate }}&nbsp;
     <i class="fa fa-send"></i>

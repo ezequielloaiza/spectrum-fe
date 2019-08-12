@@ -410,6 +410,7 @@
                     </div>
                     </div>
                   </div>
+                  <div class="select-required" *ngIf="validContent(protocol.value,pos) && checkSuppliers(protocol.value,pos)"></div>
                   <div class="w-46">
                     <div *ngIf="edit" class="d-inline-block w-100" ngbDropdown autoClose="outside">
                       <button

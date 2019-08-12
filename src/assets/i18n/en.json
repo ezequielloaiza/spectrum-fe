@@ -1024,5 +1024,6 @@
     "Inserts (DMV)": "Inserts (DMV)",
     "Payments Awaiting Confirmation": "Payments Awaiting Confirmation",
     "Invoices with Pending Payments": "Pending Unpaid Invoices",
-    "Same address as above":"Same address as above"
+    "Same address as above":"Same address as above",
+    "More Details": "More Details"
 }
