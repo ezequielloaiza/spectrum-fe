@@ -264,7 +264,7 @@
               </div>
             </ng-template>
           </ngb-tab>
-          <ngb-tab title="{{ 'Integration'| translate}}">
+          <ngb-tab title="{{ 'Integration'| translate}}" *ngIf="isAdmin">
             <ng-template ngbTabContent>
               <div>
                 <img src="assets/images/QuickbooksOnline.png" style="width: 40%">

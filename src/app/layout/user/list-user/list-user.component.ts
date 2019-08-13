@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
+import { UserStorageService } from '../../../http/user-storage.service';
 
 @Component({
   selector: 'app-list',
@@ -27,15 +28,19 @@ export class ListUserComponent implements OnInit {
 	reverseSort = true;
   typeSort = 0;
   today: Date = new Date();
+  connected = false;
 
   constructor(private userService: UserService,
     private alertify: AlertifyService,
     private notification: ToastrService,
     private modalService: NgbModal,
     private translate: TranslateService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private userStorageService: UserStorageService) { }
 
   ngOnInit() {
+    this.connected = this.userStorageService.getIsIntegratedQBO();
+    debugger
     this.getListUser(-1);
     this.advancedPagination = 1;
   }

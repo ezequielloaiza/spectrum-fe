@@ -31,10 +31,15 @@
           <div class="align-self-center">
             {{ 'All Customers' | translate }}
           </div>
-          <div class="ml-auto p-2">
-            <button type="button" class="btn btn-main" (click)="openModal()">{{ 'Add' | translate }}
+          <div class="ml-auto p-2" *ngIf="connected">
+            <button type="button" class="btn btn-main" [disabled]="!connected" placement="top" (click)="openModal()">{{ 'Add' | translate }}
               <i class="fa fa-plus"></i>
-            </button>
+            </button>         
+          </div>
+          <div class="ml-auto p-2" *ngIf="!connected">
+            <button type="button" class="btn btn-main disabled" placement="top" ngbTooltip="To create a client you must be integrated with QuickBooks">{{ 'Add' | translate }}
+              <i class="fa fa-plus"></i>
+            </button>           
           </div>
           <div class="align-btn-detail">
             <button type="button" class="btn btn-success btn-xs" (click)="downloadCustomer()">{{ 'Download PDF' | translate }}

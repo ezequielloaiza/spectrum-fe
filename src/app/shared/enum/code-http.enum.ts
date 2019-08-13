@@ -4,5 +4,6 @@ export enum CodeHttp {
   notAcceptable = 406,
   UNAUTHORIZED = 401,
   forbidden = 403,
-  notContent = 204
+  notContent = 204,
+  conflict = 409
 }

@@ -39,6 +39,7 @@ export class ProfileComponent implements OnInit {
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   private uploadResult: any = null;
   connected = false;
+  isAdmin = false;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
@@ -79,6 +80,8 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isAdmin = this.userStorageService.getIsAdmin();
+    this.connected = this.userStorageService.getIsIntegratedQBO();
     this.initializeForm();
     this.initializeAvatar();
     this.getCountries();
@@ -280,6 +283,7 @@ export class ProfileComponent implements OnInit {
 
   public updateConnection() {
     this.connected = !this.connected;
+    this.userStorageService.setIsIntegratedQBO(this.connected);
   }
 
   /*
