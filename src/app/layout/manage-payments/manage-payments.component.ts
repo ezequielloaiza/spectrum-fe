@@ -34,8 +34,10 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   itemPerPage: number = 8;
   order: any;
   filterStatus = [{ id: 0, name: "Pending" },
-                  { id: 1, name: "Sent" }
-                ];
+                  { id: 1, name: "Part Paid" },
+                  { id: 2, name: "Paid" },
+                  { id: 3, name: "Overdue" }
+                 ];
   listAux = [];
   valid = false;
   selectedAll: any;
