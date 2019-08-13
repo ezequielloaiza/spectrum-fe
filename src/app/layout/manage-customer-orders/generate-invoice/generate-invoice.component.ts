@@ -645,11 +645,9 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateDeliverTo($event) {
-    debugger
     this.invoice.deliverTo = $event.target.value;
   }
   updateCustomer($event) {
-    debugger
     this.invoice.customer = $event.target.value;
   }
 
@@ -715,7 +713,6 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateRecipient($event) {
-    debugger
     this.invShippingProtocol.recipient = $event.target.value;
     if (!this.protocolShippingInv ) {
       this.protocolShippingInv = true;
@@ -723,7 +720,6 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateShippingAddress($event) {
-    debugger
     this.invShippingProtocol.shippingAddress = $event.target.value;
   }
 
