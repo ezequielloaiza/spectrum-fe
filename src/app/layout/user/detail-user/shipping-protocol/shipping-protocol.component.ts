@@ -40,6 +40,7 @@ export class ShippingProtocolComponent implements OnInit {
   user: any;
   IDClient: any;
   validRecords = 0;
+  selectedAll: any;
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -549,6 +550,10 @@ export class ShippingProtocolComponent implements OnInit {
     return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
   }
 
+  checkedAllSuppliers(protocol) {
+    return this.suppliers.length === protocol.selectedSuppliers.length;
+  }
+
   validContent(protocol, pos) {
     let valid = true;
     if (protocol.values[pos].content === '') {
@@ -565,5 +570,20 @@ export class ShippingProtocolComponent implements OnInit {
     return show;
   }
 
+  onSelectionAll(protocol, value) {
+    let self = this;
+
+    if (this.checkedAllSuppliers(protocol)) {
+      value.suppliers = [];
+      protocol.selectedSuppliers = [];
+    } else {
+      _.each(self.suppliers, function(supplier) {
+        if (self.allowedSelection(supplier.idSupplier, protocol)) {
+          value.suppliers.push(supplier.idSupplier);
+          protocol.selectedSuppliers.push(supplier.idSupplier);
+        }
+      });
+    }
+  }
 }
 
