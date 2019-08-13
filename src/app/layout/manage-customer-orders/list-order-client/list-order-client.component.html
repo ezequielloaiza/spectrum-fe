@@ -33,7 +33,7 @@
             <div class="col-xl-5 filter">
               <div class="row search">
                 <div class="col col-xl-12 col-lg-12">
-                  <input class="form-control" (keyup)="getItems($event)" [(ngModel)]="valorClient" placeholder="{{'Enter order, client or patient' | translate }}">
+                  <input class="form-control" (keyup)="getItems($event)" [(ngModel)]="valorClient" placeholder="{{'Enter order, client, patient o supplier' | translate }}">
                   <i class="fa fa-search"></i>
                 </div>
               </div>
@@ -185,6 +185,8 @@
                             {{ 'Change Status' | translate }}</button>
                           <button [hidden]="user.role.idRole !== 1 || (order.status === 4)" class="dropdown-item" (click)="cancel(order)">
                             {{ 'Cancel Order' | translate }}</button>
+                          <button [hidden]="!order.generate" class="dropdown-item" (click)="generateOrder(order)">
+                              {{ 'Generate Order' | translate }}</button>
                         </div>
                       </div>
                     </div>

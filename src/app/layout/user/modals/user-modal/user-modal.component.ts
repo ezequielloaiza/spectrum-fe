@@ -46,6 +46,8 @@ export class UserModalComponent implements OnInit {
   selectedCountryCompany: any = null;
   locale: any;
   msjPayment = true;
+  marked = false;
+  theCheckbox = false;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -116,7 +118,8 @@ export class UserModalComponent implements OnInit {
       suppliers: [''],
       paymentMethod: ['', [Validators.required]],
       creditDays: [''],
-      balance: ['']
+      balance: [''],
+      theCheckbox: []
     });
   }
 
@@ -188,6 +191,10 @@ export class UserModalComponent implements OnInit {
       this.form.get('postal').setValue(this.googleService.getPostalCode());
       this.form.get('city').setValue({ description: this.googleService.getCity() });
       this.valorCity = { description: this.googleService.getCity() };
+      this.asigCity();
+      this.asigCountry();
+      this.asigState();
+      this.asigPostal();
     });
   }
 
@@ -279,5 +286,68 @@ export class UserModalComponent implements OnInit {
     }
     this.msjPayment = false;
     this.form.get('paymentMethod').setValue(method.id);
+  }
+
+  assignAddress(value){
+
+  }
+
+  copyaddress(e) {
+    this.marked = e.target.checked;
+    if (this.marked) {
+      if (this.form.get('address').value !== null) {
+        this.form.get('companyAddress').setValue(this.form.get('address').value);
+      }
+      if (this.form.get('city') !== null) {
+        this.form.get('companyCity').setValue(this.form.get('city').value);
+        this.valorCompanyCity = this.valorCity;
+      }
+      if (this.form.get('idCountry') !== null) {
+        this.form.get('idCompanyCountry').setValue(this.form.get('idCountry').value);
+      }
+      if (this.form.get('state') !== null) {
+        this.form.get('companyState').setValue(this.form.get('state').value);
+      }
+      if (this.form.get('postal') !== null) {
+        this.form.get('companyPostal').setValue(this.form.get('postal').value);
+      }
+    } else {
+      this.form.get('companyAddress').setValue(null);
+      this.form.get('companyCity').setValue(null);
+      this.form.get('idCompanyCountry').setValue(null);
+      this.form.get('companyState').setValue(null);
+      this.form.get('companyPostal').setValue(null);
+    }
+  }
+
+  asigAddress() {
+    if (this.marked) {
+        this.form.get('companyAddress').setValue(this.form.get('address').value);
+    }
+  }
+
+  asigCity() {
+    if (this.marked) {
+      this.form.get('companyCity').setValue(this.form.get('city').value);
+      this.valorCompanyCity = this.valorCity;
+    }
+  }
+
+  asigCountry() {
+    if (this.marked) {
+      this.form.get('idCompanyCountry').setValue(this.form.get('idCountry').value);
+    }
+  }
+
+  asigState() {
+    if (this.marked) {
+      this.form.get('companyState').setValue(this.form.get('state').value);
+    }
+  }
+
+  asigPostal() {
+    if (this.marked) {
+      this.form.get('companyPostal').setValue(this.form.get('postal').value);
+    }
   }
 }
