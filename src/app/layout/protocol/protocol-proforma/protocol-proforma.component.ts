@@ -395,4 +395,3 @@ export class ProtocolProformaComponent implements OnInit {
     }
   }
 }
-}
