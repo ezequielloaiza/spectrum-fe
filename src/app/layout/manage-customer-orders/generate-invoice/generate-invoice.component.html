@@ -59,8 +59,8 @@
                   </div>
                 </div>
                 <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
+                  <label *ngIf="pilot" class="address">{{ invShippingProtocol.recipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
+                  <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{ invShippingProtocol?.recipient && editRecipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
                   (change)="updateDeliverTo($event)" required>
                 </div>
                 <div class="col-xl-3">
@@ -119,8 +119,8 @@
               <div class="row row-height align-row">
                 <div class="col-xl-6 address-top">
                   <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
-                  <label *ngIf="pilot" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{invoice.customer != null ? invoice.customer : invoice.user?.name }}"
+                  <label *ngIf="pilot" class="address-client">{{ invShippingProtocol?.businessName ? invShippingProtocol.businessName : invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
+                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ invShippingProtocol?.businessName && editBusinessName ? invShippingProtocol.businessName : invoice.customer != null ? invoice.customer : invoice.user?.name }}"
                   (change)="updateCustomer($event)" required>
                 </div>
                 <div class="col-xl-6 address-spectrum">
@@ -329,11 +329,19 @@
                 <div class="col-xl-12">
                   <br>
                   <label class="">{{ 'This invoice includes the following orders' | translate }}: </label>
-                  <label class="label-order">{{ ordersNumber }}</label>
                   <br>
                 </div>
               </div>
             </div>
+            <div class="col col-xl-12 col-lg-12">
+              <div class="row">
+                <div class="col-xl-12 " *ngFor="let it of numbers; let i = index">
+                    <label class="label-order" *ngIf="it.patient !==''">{{ 'Patient: '+ it.patient +' ('+ it.number+')'}}</label>
+                    <label class="label-order" *ngIf="it.patient ===''">{{ it.number }}</label>
+                </div>
+              </div>
+            </div>
+
             <div class="col col-xl-12 col-lg-12">
               <div class="row">
                 <div class="col-xl-12 truncate" *ngIf="protocolShippingInv || editBusinessName || editRecipient || editComment">
@@ -780,10 +788,10 @@
     {{ "Save" | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
-  <button [hidden]="!pilot" type="button" class="btn btn-main" (click)="sendInvoice()">
+  <!--<button [hidden]="!pilot" type="button" class="btn btn-main" (click)="sendInvoice()">
     {{ "Send" | translate }}&nbsp;
     <i class="fa fa-send"></i>
-  </button>
+  </button>-->
   <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1)" [disabled]="invDate == null || invDate == undefined || invDueDate == null || invDueDate == undefined">
     {{ "Save and Send" | translate }}&nbsp;
     <i class="fa fa-send"></i>

@@ -288,6 +288,7 @@
                         *ngIf="!edit && protocol.value.label === 'Spectrum Proforma'">{{ value.content ? ('Yes' | translate) : ('No' | translate) }}</span>
                     </div>
                   </div>
+                  <div class="select-required" *ngIf="validContent(protocol.value,pos) && checkSuppliers(protocol.value,pos)"></div>
                   <div class="w-46">
                     <div *ngIf="edit" class="d-inline-block w-100" ngbDropdown autoClose="outside">
                       <button class="btn border-type w-100 text-left" ngbDropdownToggle required
@@ -299,6 +300,12 @@
                       </button>
                       <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
                         <div class="select-type">
+                          <div class="custom-control custom-checkbox">
+                            <input attr.id="{{protocol.value.label}}-{{ i }}-{{ pos }}-all" type="checkbox" name="checkboxAll"
+                              [checked]="checkedAllSuppliers(protocol.value)"
+                              (click)="onSelectionAll(protocol.value, value)" class="custom-control-input">
+                            <label class="custom-control-label" for="{{protocol.value.label}}-{{ i }}-{{ pos }}-all">{{ 'Select All' | translate }}</label>
+                          </div>
                           <li *ngFor="let supplier of suppliers; index as i">
                             <div>
                               <div class="custom-control custom-checkbox">

@@ -131,6 +131,7 @@
           </div>
         </div>
       </div>
+      <div class="select-required" *ngIf="validContent(protocol,pos) && checkSuppliers(protocol,pos)"></div>
       <div class="w-46">
         <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
           <button
@@ -150,6 +151,12 @@
             aria-labelledby="dropdownManual"
           >
             <div class="select-type">
+              <div class="custom-control custom-checkbox">
+                <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}-all" type="checkbox" name="checkboxAll"
+                  [checked]="checkedAllSuppliers(protocol)"
+                  (click)="onSelectionAll(protocol, value)" class="custom-control-input">
+                <label class="custom-control-label" for="{{protocol.label}}-{{ i }}-{{ pos }}-all">{{ 'Select All' | translate }}</label>
+              </div>
               <li *ngFor="let supplier of suppliers; index as i">
                 <div>
                   <div class="custom-control custom-checkbox" data-toggle="tooltip" data-placement="left" title="{{ 'If it is disabled, it was previously selected' | translate }}">

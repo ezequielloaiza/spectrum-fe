@@ -45,6 +45,7 @@ export class GenerateInvoiceComponent implements OnInit {
   copy: any;
   shippingProtocol: any;
   countries: Array<any> = new Array();
+  numbers: Array<any> = new Array();
   listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
   protocolProforma: any;
   invShippingProtocol: InvoiceSupplierProtocolClient = new InvoiceSupplierProtocolClient();
@@ -252,20 +253,38 @@ export class GenerateInvoiceComponent implements OnInit {
         ids = [this.order.idOrder];
       }
     }
+    let self = this;
     this.idsOrders = ids;
     this.orderService.findByIds$(ids).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         const orders = res.data;
         let supplier, user;
         _.each(orders, function(order) {
-          auxNumbers += order.number + ', ';
+        //  auxNumbers += order.number + ', ';
+            let obj;
+          _.each(order.listProductRequested, function(Pr) {
+            if (self.numbers.length > 0) {
+               let exist = _.find(self.numbers, { 'number': order.number, 'patient': Pr.productRequested.patient });
+                  if (exist === undefined) {
+                    if (Pr.productRequested.patient !== null && Pr.productRequested.patient !== '') {
+                      obj = { number: order.number, patient: Pr.productRequested.patient};
+                    } else {
+                      obj = {number: order.number, patient: ''};
+                    }
+                     self.numbers.push(obj);
+                  }
+            } else {
+              if (Pr.productRequested.patient !== null && Pr.productRequested.patient !== '') {
+                obj = { number: order.number, patient: Pr.productRequested.patient};
+              } else {
+                obj = {number: order.number, patient: ''};
+              }
+               self.numbers.push(obj);
+            }
+          });
         });
         supplier = orders[0].supplier.idSupplier;
         user = orders[0].user.idUser;
-        if (auxNumbers.trim().endsWith(',')) {
-          auxNumbers = auxNumbers.substring(0, auxNumbers.lastIndexOf(', '));
-        }
-        this.ordersNumber = auxNumbers;
         this.listOrders = orders;
         this.getProducts();
         this.loadProtocols(supplier, user);
@@ -626,9 +645,11 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateDeliverTo($event) {
+    debugger
     this.invoice.deliverTo = $event.target.value;
   }
   updateCustomer($event) {
+    debugger
     this.invoice.customer = $event.target.value;
   }
 
@@ -694,6 +715,7 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateRecipient($event) {
+    debugger
     this.invShippingProtocol.recipient = $event.target.value;
     if (!this.protocolShippingInv ) {
       this.protocolShippingInv = true;
@@ -701,6 +723,7 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateShippingAddress($event) {
+    debugger
     this.invShippingProtocol.shippingAddress = $event.target.value;
   }
 

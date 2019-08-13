@@ -236,6 +236,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
     productRequest.quantity = product.quantity;
     productRequest.price = product.price;
     productRequest.detail = '';
+    productRequest.patient = '';
     productRequest.observations = product.observations;
     productsRequested.push(productRequest);
 

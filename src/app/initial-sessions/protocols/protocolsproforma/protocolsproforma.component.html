@@ -37,6 +37,7 @@
             [(ngModel)]="value.content"></textarea>
         </div>
       </div>
+      <div class="select-required" *ngIf="validContent(protocol,pos) && checkSuppliers(protocol,pos)"></div>
       <div class="w-46">
         <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
           <button class="btn border-type w-100 text-left" ngbDropdownToggle required [disabled]="!validContent(protocol,pos)">
@@ -47,6 +48,12 @@
           </button>
           <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
             <div class="select-type">
+              <div class="custom-control custom-checkbox">
+                <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}-all" type="checkbox" name="checkboxAll"
+                  [checked]="checkedAllSuppliers(protocol)"
+                  (click)="onSelectionAll(protocol, value)" class="custom-control-input">
+                <label class="custom-control-label" for="{{protocol.label}}-{{ i }}-{{ pos }}-all">{{ 'Select All' | translate }}</label>
+              </div>
               <li *ngFor="let supplier of suppliers; index as i">
                 <div>
                   <div class="custom-control custom-checkbox">
