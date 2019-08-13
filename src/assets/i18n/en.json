@@ -824,7 +824,7 @@
     "Documents Right Eye": "Documents Right Eye",
     "Documents Left Eye (Topography, Tangential Map, etc.)": "Documents Left Eye (Topography, Tangential Map, etc.)",
     "Documents Right Eye (Topography, Tangential Map, etc.)": "Documents Right Eye (Topography, Tangential Map, etc.)",
-    "Enter order, client or patient" : "Enter order, client or patient",
+    "Enter order, client, patient o supplier" : "Enter order, client, patient o supplier",
     "Amount Shipping" : "Amount Shipping",
     "Attached files" : "Attached files",
     "Bulk Payments":"Bulk Payments",
@@ -1024,5 +1024,6 @@
     "Inserts (DMV)": "Inserts (DMV)",
     "Payments Awaiting Confirmation": "Payments Awaiting Confirmation",
     "Invoices with Pending Payments": "Pending Unpaid Invoices",
+    "Same address as above":"Same address as above",
     "More Details": "More Details"
 }
