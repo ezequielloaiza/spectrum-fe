@@ -1205,5 +1205,6 @@
     "Payments Awaiting Confirmation": "Pagos en Espera de Confirmación",
     "Invoices with Pending Payments": "Facturas con Pagos Pendientes",
     "Same address as above":"Misma dirección que arriba",
-    "More Details": "Más Detalles"
+    "More Details": "Más Detalles",
+    "Select All": "Seleccionar todos"
 }
