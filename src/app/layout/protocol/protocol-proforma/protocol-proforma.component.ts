@@ -374,4 +374,25 @@ export class ProtocolProformaComponent implements OnInit {
       });
     });
   }
+
+  checkedAllSuppliers(protocol) {
+    return this.suppliers.length === protocol.selectedSuppliers.length;
+  }
+
+  onSelectionAll(protocol, value) {
+    let self = this;
+
+    if (this.checkedAllSuppliers(protocol)) {
+      value.suppliers = [];
+      protocol.selectedSuppliers = [];
+    } else {
+      _.each(self.suppliers, function(supplier) {
+        if (self.allowedSelection(supplier.idSupplier, protocol)) {
+          value.suppliers.push(supplier.idSupplier);
+          protocol.selectedSuppliers.push(supplier.idSupplier);
+        }
+      });
+    }
+  }
+}
 }

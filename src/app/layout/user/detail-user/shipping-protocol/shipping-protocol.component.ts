@@ -499,7 +499,6 @@ export class ShippingProtocolComponent implements OnInit {
   }
 
   selectSupplier(idSupplier, protocol, value) {
-    debugger
     let index = _.indexOf(value.suppliers, idSupplier);
     if (index > -1) {
       value.suppliers.splice(index, 1);
@@ -507,7 +506,6 @@ export class ShippingProtocolComponent implements OnInit {
     } else if (this.allowedSelection(idSupplier, protocol)) {
       value.suppliers.push(idSupplier);
       protocol.selectedSuppliers.push(idSupplier);
-      debugger
     }
   }
 
@@ -549,8 +547,11 @@ export class ShippingProtocolComponent implements OnInit {
   }
 
   checkedSupplier(protocol, value, supplier) {
-    debugger
     return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
+  }
+
+  checkedAllSuppliers(protocol) {
+    return this.suppliers.length === protocol.selectedSuppliers.length;
   }
 
   validContent(protocol, pos) {
@@ -571,14 +572,18 @@ export class ShippingProtocolComponent implements OnInit {
 
   onSelectionAll(protocol, value) {
     let self = this;
-    _.each(value.ids, function(supplierId) {
-      self.selectSupplier(supplierId, protocol, value);
-      self.checkedSupplier(protocol, value, supplierId);
-    });
-    debugger
+
+    if (this.checkedAllSuppliers(protocol)) {
+      value.suppliers = [];
+      protocol.selectedSuppliers = [];
+    } else {
+      _.each(self.suppliers, function(supplier) {
+        if (self.allowedSelection(supplier.idSupplier, protocol)) {
+          value.suppliers.push(supplier.idSupplier);
+          protocol.selectedSuppliers.push(supplier.idSupplier);
+        }
+      });
+    }
   }
-
-
-
 }
 

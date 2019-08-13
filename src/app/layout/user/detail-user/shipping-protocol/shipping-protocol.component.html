@@ -331,9 +331,10 @@
                       <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
                         <div class="select-type">
                           <div class="custom-control custom-checkbox">
-                            <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll"
+                            <input attr.id="{{protocol.value.label}}-{{ i }}-{{ pos }}-all" type="checkbox" name="checkboxAll"
+                              [checked]="checkedAllSuppliers(protocol.value)"
                               (click)="onSelectionAll(protocol.value, value)" class="custom-control-input">
-                            <label class="custom-control-label" for="checkboxAll">{{ 'Select All' | translate }}</label>
+                            <label class="custom-control-label" for="{{protocol.value.label}}-{{ i }}-{{ pos }}-all">{{ 'Select All' | translate }}</label>
                           </div>
                           <li *ngFor="let supplier of suppliers; index as i">
                             <div>
