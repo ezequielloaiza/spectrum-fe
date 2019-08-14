@@ -52,6 +52,7 @@ export class GenerateInvoiceComponent implements OnInit {
   invProtocolProforma: InvoiceSupplierProtocolProforma = new InvoiceSupplierProtocolProforma();
   // check protocolProforma
   editSpectrumP = false;
+  editOriginUsa = false;
   editAdditionalDocuments = false;
   editOutputs = false;
   editDocumentation = false;
@@ -125,6 +126,8 @@ export class GenerateInvoiceComponent implements OnInit {
       emailCommentProforma: [this.invProtocolProforma.emailComment],
       cbTariffCodes: [this.editTariffCodes],
       tariffCodes: [this.invProtocolProforma.tariffCodes],
+      cbOriginUsa: [this.editOriginUsa],
+      originUsa: [this.invProtocolProforma.originUsa],
       // protocol client
       cbAccNumber: [this.editAccNumber],
       accNumber: [this.invShippingProtocol.accNumber],
@@ -531,6 +534,8 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invProtocolProforma.protocolProforma = invoice.invoiceProtocolProformaResponse.protocolProforma;
       this.invProtocolProforma.spectrumProforma = invoice.invoiceProtocolProformaResponse.spectrumProforma;
       this.editSpectrumP = (this.invProtocolProforma.spectrumProforma != null && !this.pilot) ? true : false;
+      this.invProtocolProforma.originUsa = invoice.invoiceProtocolProformaResponse.originUsa;
+      this.editOriginUsa = (this.invProtocolProforma.originUsa != null && !this.pilot) ? true : false;
       this.invProtocolProforma.tariffCodes = invoice.invoiceProtocolProformaResponse.tariffCodes;
       this.editTariffCodes = (this.invProtocolProforma.tariffCodes != null && !this.pilot) ? true : false;
       this.invProtocolProforma.protocolSpectrum = invoice.invoiceProtocolProformaResponse.protocolSpectrum;
@@ -554,6 +559,8 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invProtocolProforma.protocolProforma = this.protocolProforma.protocolProforma;
       this.editSpectrumP = false;
       this.invProtocolProforma.spectrumProforma = this.protocolProforma.spectrumProforma;
+      this.editOriginUsa = true;
+      this.invProtocolProforma.originUsa = this.protocolProforma.originUsa;
       this.editTariffCodes = false;
       this.invProtocolProforma.tariffCodes = this.protocolProforma.tariffCodes;
       this.invProtocolProforma.protocolSpectrum = this.protocolProforma.protocolSpectrum;
@@ -645,11 +652,9 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateDeliverTo($event) {
-    debugger
     this.invoice.deliverTo = $event.target.value;
   }
   updateCustomer($event) {
-    debugger
     this.invoice.customer = $event.target.value;
   }
 
@@ -715,7 +720,6 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateRecipient($event) {
-    debugger
     this.invShippingProtocol.recipient = $event.target.value;
     if (!this.protocolShippingInv ) {
       this.protocolShippingInv = true;
@@ -723,7 +727,6 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateShippingAddress($event) {
-    debugger
     this.invShippingProtocol.shippingAddress = $event.target.value;
   }
 
@@ -848,6 +851,10 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invProtocolProforma.spectrumProforma = null;
     }
 
+    /*if (!this.editOriginUsa) {
+      this.invProtocolProforma.originUsa = null;
+    }*/
+
     if (!this.editAdditionalDocuments) {
       this.invProtocolProforma.additionalDocuments = null;
     }
@@ -875,7 +882,7 @@ export class GenerateInvoiceComponent implements OnInit {
     if (this.editSpectrumP || this.editAdditionalDocuments ||
         this.editOutputs || this.editDocumentation ||
         this.editComments || this.editEmailCommentProforma ||
-        this.editTariffCodes) {
+        this.editTariffCodes || this.editOriginUsa) {
       this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
     } else {
       this.invProtocolProforma = null;
@@ -888,6 +895,11 @@ export class GenerateInvoiceComponent implements OnInit {
   assignSpectrumProforma(value: number) {
     this.form.get('spectrumProforma').setValue(value);
     this.invProtocolProforma.spectrumProforma = value == 0 ? false : true;
+  }
+
+  assignOriginUsa(value: number) {
+    this.form.get('originUsa').setValue(value);
+    this.invProtocolProforma.originUsa = value == 0 ? false : true;
   }
 
   generateInvoice(send) {

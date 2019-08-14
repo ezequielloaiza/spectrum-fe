@@ -630,6 +630,36 @@
                       </div>
                     </div>
                     <div class="form-group pr-3 half-flex">
+                      <!--<div *ngIf="!pilot" class="custom-control custom-checkbox">
+                        <input id="cbOriginUsa" type="checkbox" [checked]="editOriginUsa" class="custom-control-input" (change)="editOriginUsa = !editOriginUsa">
+                        <label class="custom-control-label" for="cbOriginUsa">{{ 'Origin Of Goods' | translate }}</label>
+                      </div>-->
+                      <div class="tab-margin">
+                        <label class="">{{ 'Origin Of Goods' | translate }}</label>
+                      </div>
+                      <div *ngIf="editOriginUsa" class="mb-2 mr-sm-2 mb-sm-0">
+                        <div class="custom-control-inline">
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadioOrig1" name="originUsa" class="custom-control-input" (change)="assignOriginUsa(true)" [checked]="invProtocolProforma ? invProtocolProforma?.originUsa : false">
+                            <label class="custom-control-label" for="customRadioOrig1">{{ 'Yes' | translate }}</label>
+                          </div>
+                          <div style="margin-left: 10px;" class="custom-control custom-radio">
+                            <input type="radio" id="customRadioOrig2" name="originUsa" class="custom-control-input" (change)="assignOriginUsa(false)" [checked]="invProtocolProforma ? !invProtocolProforma?.originUsa : true">
+                            <label class="custom-control-label" for="customRadioOrig2">{{ 'No' | translate }}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="pilot && invProtocolProforma?.originUsa === true">
+                        <span class="unassigned" translate>{{ 'Yes' }}</span>
+                      </div>
+                      <div *ngIf="pilot && !invProtocolProforma?.originUsa && invProtocolProforma?.originUsa !== null">
+                        <span class="unassigned" translate>{{ 'No' | translate }}</span>
+                      </div>
+                      <div *ngIf="pilot && invProtocolProforma?.originUsa === null">
+                        <span class="unassigned" translate>{{ 'Unassigned' | translate }}</span>
+                      </div>
+                    </div>
+                    <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbAdditionalDocuments" type="checkbox" [checked]="editAdditionalDocuments" (change)="editAdditionalDocuments = !editAdditionalDocuments" class="custom-control-input">
                         <label class="custom-control-label" for="cbAdditionalDocuments">{{ 'Additional Documents' | translate }}</label>

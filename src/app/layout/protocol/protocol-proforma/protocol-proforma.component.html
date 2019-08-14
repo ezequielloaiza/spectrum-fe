@@ -196,6 +196,32 @@
                 </div>
               </div>
             </div>
+            <div class="d-flex" *ngIf="user.role.idRole !== 3">
+              <div class="form-group pr-3 half-flex">
+                  <label>{{ 'Origin Of Goods' | translate }}</label>
+                  <div *ngIf="edit" class="mb-2 mr-sm-2 mb-sm-0">
+                    <div class="custom-control-inline">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadioOrig1" name="originUsa" class="custom-control-input" (change)="assignOriginUsa(true)" [checked]="protocol ? protocol.originUsa : false">
+                        <label class="custom-control-label" for="customRadioOrig1">{{ 'Yes' | translate }}</label>
+                      </div>
+                      <div style="margin-left: 10px;" class="custom-control custom-radio">
+                        <input type="radio" id="customRadioOrig2" name="originUsa" class="custom-control-input" (change)="assignOriginUsa(false)" [checked]="protocol ? !protocol.originUsa : true">
+                        <label class="custom-control-label" for="customRadioOrig2">{{ 'No' | translate }}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="truncate" *ngIf="!edit && protocol.originUsa === true">
+                    <span translate>{{ 'Yes' }}</span>
+                  </div>
+                  <div class="truncate" *ngIf="!edit && !protocol.originUsa && protocol.originUsa !== null">
+                    <span translate>{{ 'No' | translate }}</span>
+                  </div>
+                  <div class="truncate" *ngIf="!edit && protocol.originUsa === null">
+                    <span translate>{{ 'Unassigned' | translate }}</span>
+                  </div>
+                </div>
+            </div>
             <div class="text-right pb-3">
               <button type="button" class="btn btn-secondary mr-3" [disabled]="saving" *ngIf="edit"
                 (click)="cancel()">{{ 'Cancel' | translate }}&nbsp;
@@ -228,6 +254,7 @@
                 || (editField && protocol.value.label === 'Outputs (Send information to Spectrum team)')
                 || (editField && protocol.value.label === 'Email Comments')
                 || (protocol.value.label === 'Spectrum Proforma')
+                || (protocol.value.label === 'Origin Of Goods' && user.role.idRole !== 3)
                 || (protocol.value.label === 'Additional Documents')
                 || (editField && protocol.value.label === 'Protocol From Spectrum')
                 || (protocol.value.label === 'Documentation that must accompany the delivery and proforma invoice')
@@ -266,12 +293,28 @@
                           </div>
                         </div>
                       </div>
+                      <div *ngIf="protocol.value.label === 'Origin Of Goods'" class="mb-2 mr-sm-2 mb-sm-0">
+                          <div class="custom-control-inline" *ngIf="edit">
+                            <div class="custom-control custom-radio">
+                              <input type="radio" id="{{'customRadioOrigYes'+pos}}" name="{{'originUsa'+pos}}"
+                                class="custom-control-input" [(ngModel)]="value.content" [value]="true">
+                              <label class="custom-control-label"
+                                for="{{'customRadioOrigYes'+pos}}">{{ 'Yes' | translate }}</label>
+                            </div>
+                            <div style="margin-left: 10px;" class="custom-control custom-radio">
+                              <input type="radio" id="{{'customRadioOrigNo'+pos}}" name="{{'originUsa'+pos}}"
+                                class="custom-control-input" [(ngModel)]="value.content" [value]="false">
+                              <label class="custom-control-label"
+                                for="{{'customRadioOrigNo'+pos}}">{{ 'No' | translate }}</label>
+                            </div>
+                          </div>
+                      </div>
                       <textarea
                         *ngIf="edit && (protocol.value.label === 'Additional Documents' || protocol.value.label === 'Comments' || protocol.value.label === 'Documentation that must accompany the delivery and proforma invoice' || protocol.value.label === 'Email Comments')"
                         style="overflow-x: hidden;" type="text" maxlength="254" class="form-control"
                         placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content"></textarea>
                       <input
-                        *ngIf="edit && protocol.value.label !== 'Maximum Amount to Declare' && protocol.value.label !== 'Additional Documents' && protocol.value.label !== 'Comments' && protocol.value.label !== 'Documentation that must accompany the delivery and proforma invoice' && protocol.value.label !== 'Email Comments' && protocol.value.label !== 'Spectrum Proforma'"
+                        *ngIf="edit && protocol.value.label !== 'Maximum Amount to Declare' && protocol.value.label !== 'Additional Documents' && protocol.value.label !== 'Comments' && protocol.value.label !== 'Documentation that must accompany the delivery and proforma invoice' && protocol.value.label !== 'Email Comments' && protocol.value.label !== 'Spectrum Proforma' && protocol.value.label !== 'Origin Of Goods'"
                         type="text" maxlength="120" class="form-control"
                         placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content" />
                       <div *ngIf="edit && protocol.value.label === 'Maximum Amount to Declare'"
@@ -282,10 +325,12 @@
                           [options]=" {prefix: '', miles: ',', decimal: '.'}" />
                       </div>
                       <div class="truncate">
-                        <span *ngIf="!edit && protocol.value.label !== 'Spectrum Proforma'">{{ value.content }}</span>
+                        <span *ngIf="!edit && protocol.value.label !== 'Spectrum Proforma' && protocol.value.label !== 'Origin Of Goods'">{{ value.content }}</span>
                       </div>
                       <span
                         *ngIf="!edit && protocol.value.label === 'Spectrum Proforma'">{{ value.content ? ('Yes' | translate) : ('No' | translate) }}</span>
+                      <span
+                        *ngIf="!edit && protocol.value.label === 'Origin Of Goods'">{{ value.content ? ('Yes' | translate) : ('No' | translate) }}</span>
                     </div>
                   </div>
                   <div class="select-required" *ngIf="validContent(protocol.value,pos) && checkSuppliers(protocol.value,pos)"></div>
