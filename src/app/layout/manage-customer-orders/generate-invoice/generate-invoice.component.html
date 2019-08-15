@@ -59,8 +59,8 @@
                   </div>
                 </div>
                 <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
+                  <label *ngIf="pilot" class="address">{{ invShippingProtocol.recipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
+                  <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{ invShippingProtocol?.recipient && editRecipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
                   (change)="updateDeliverTo($event)" required>
                 </div>
                 <div class="col-xl-3">
@@ -119,8 +119,8 @@
               <div class="row row-height align-row">
                 <div class="col-xl-6 address-top">
                   <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
-                  <label *ngIf="pilot" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{invoice.customer != null ? invoice.customer : invoice.user?.name }}"
+                  <label *ngIf="pilot" class="address-client">{{ invShippingProtocol?.businessName ? invShippingProtocol.businessName : invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
+                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ invShippingProtocol?.businessName && editBusinessName ? invShippingProtocol.businessName : invoice.customer != null ? invoice.customer : invoice.user?.name }}"
                   (change)="updateCustomer($event)" required>
                 </div>
                 <div class="col-xl-6 address-spectrum">
@@ -626,6 +626,36 @@
                         <span class="unassigned" translate>{{ 'No' | translate }}</span>
                       </div>
                       <div *ngIf="!editSpectrumP && invProtocolProforma?.spectrumProforma === null">
+                        <span class="unassigned" translate>{{ 'Unassigned' | translate }}</span>
+                      </div>
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <!--<div *ngIf="!pilot" class="custom-control custom-checkbox">
+                        <input id="cbOriginUsa" type="checkbox" [checked]="editOriginUsa" class="custom-control-input" (change)="editOriginUsa = !editOriginUsa">
+                        <label class="custom-control-label" for="cbOriginUsa">{{ 'Origin Of Goods' | translate }}</label>
+                      </div>-->
+                      <div class="tab-margin">
+                        <label class="">{{ 'Origin Of Goods' | translate }}</label>
+                      </div>
+                      <div *ngIf="editOriginUsa" class="mb-2 mr-sm-2 mb-sm-0">
+                        <div class="custom-control-inline">
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadioOrig1" name="originUsa" class="custom-control-input" (change)="assignOriginUsa(true)" [checked]="invProtocolProforma ? invProtocolProforma?.originUsa : false">
+                            <label class="custom-control-label" for="customRadioOrig1">{{ 'Yes' | translate }}</label>
+                          </div>
+                          <div style="margin-left: 10px;" class="custom-control custom-radio">
+                            <input type="radio" id="customRadioOrig2" name="originUsa" class="custom-control-input" (change)="assignOriginUsa(false)" [checked]="invProtocolProforma ? !invProtocolProforma?.originUsa : true">
+                            <label class="custom-control-label" for="customRadioOrig2">{{ 'No' | translate }}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="pilot && invProtocolProforma?.originUsa === true">
+                        <span class="unassigned" translate>{{ 'Yes' }}</span>
+                      </div>
+                      <div *ngIf="pilot && !invProtocolProforma?.originUsa && invProtocolProforma?.originUsa !== null">
+                        <span class="unassigned" translate>{{ 'No' | translate }}</span>
+                      </div>
+                      <div *ngIf="pilot && invProtocolProforma?.originUsa === null">
                         <span class="unassigned" translate>{{ 'Unassigned' | translate }}</span>
                       </div>
                     </div>
