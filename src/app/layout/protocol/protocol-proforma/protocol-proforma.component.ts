@@ -383,8 +383,8 @@ export class ProtocolProformaComponent implements OnInit {
     let self = this;
 
     if (this.checkedAllSuppliers(protocol)) {
+      protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, value.suppliers);
       value.suppliers = [];
-      protocol.selectedSuppliers = [];
     } else {
       _.each(self.suppliers, function(supplier) {
         if (self.allowedSelection(supplier.idSupplier, protocol)) {
