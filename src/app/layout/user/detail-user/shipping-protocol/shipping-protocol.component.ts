@@ -585,5 +585,11 @@ export class ShippingProtocolComponent implements OnInit {
       });
     }
   }
+
+  hideAdd(protocol){
+    return this.suppliers.length === protocol.value.selectedSuppliers.length ||
+           protocol.value.values.length === this.suppliers.length ||
+           (protocol.value.values.length === 3 &&  (protocol.value.label === 'Shipping Frecuency' || protocol.value.label === 'Shipping Method'));
+  }
 }
 

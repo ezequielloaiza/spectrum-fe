@@ -583,4 +583,10 @@ export class ProtocolClientComponent implements OnInit {
       });
     }
   }
+
+  hideAdd(protocol) {
+    return this.suppliers.length === protocol.value.selectedSuppliers.length ||
+           this.suppliers.length === protocol.value.values.length ||
+           (protocol.value.values.length === 3 &&  (protocol.value.label === 'Shipping Frecuency' || protocol.value.label === 'Shipping Method'));
+  }
 }

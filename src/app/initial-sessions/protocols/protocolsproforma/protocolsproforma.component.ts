@@ -288,4 +288,10 @@ export class ProtocolsproformaComponent implements OnInit {
     }
   }
 
+  hideAdd(protocol){
+    return this.suppliers.length === protocol.selectedSuppliers.length || 
+           this.suppliers.length === protocol.values.length ||
+           (protocol.label === 'Spectrum Proforma' && protocol.values.length === 2)
+  }
+
 }

@@ -394,4 +394,10 @@ export class ProtocolProformaComponent implements OnInit {
       });
     }
   }
+
+  hideAdd(protocol){
+    return this.suppliers.length === protocol.value.selectedSuppliers.length || 
+           this.suppliers.length === protocol.value.values.length ||
+           (protocol.value.label === 'Spectrum Proforma' && protocol.value.values.length === 2)
+  }
 }
