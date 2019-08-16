@@ -250,7 +250,7 @@
             </div>
             <div class="col col-xl-12 col-lg-12">
               <div class="row">
-                <div  *ngIf="!pilot" class="col-xl-6">
+                <div  *ngIf="!pilot" class="col-xl-7">
                   <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
                   <br>
                   <input type="text" class="form-control" value="{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}"
@@ -261,9 +261,9 @@
                   <br>
                   <label class="">{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}</label>
                 </div>
-                <div class="col-xl-6">
-                  <label class="label-amount bold">{{ 'Subtotal' | translate }}</label>
-                  <label *ngIf="pilot" class="label-amount">{{invoice.subtotal | currency }}</label>
+                <div class="col-xl-5">
+                  <label [ngClass]="{'label-amount-view': pilot, 'label-amount bold': !pilot }">{{ 'Subtotal' | translate }}</label>
+                  <label *ngIf="pilot" [ngClass]="{'amount-view': pilot, 'label-amount': !pilot }">{{invoice.subtotal | currency }}</label>
                   <div *ngIf="!pilot" class="amount-div amount-total ">
                       <div class="input-group-append">
                         <span class="input-group-text">$</span>
@@ -271,8 +271,8 @@
                       <input type="number" id="subtotal" [value]="invoice.subtotal" class="form-control" (change)="updateSubtotal($event)" required>
                     </div>
                   <br>
-                  <label class="label-amount bold">{{ 'Shipping' | translate }}</label>
-                  <label *ngIf="pilot" class="label-amount">{{invoice.shipping | currency }}</label>
+                  <label [ngClass]="{'label-amount-view': pilot, 'label-amount bold': !pilot }">{{ 'Shipping' | translate }}</label>
+                  <label *ngIf="pilot" [ngClass]="{'amount-view': pilot, 'label-amount': !pilot }">{{invoice.shipping | currency }}</label>
                   <div *ngIf="!pilot" class="amount-div amount-total ">
                       <div class="input-group-append">
                         <span class="input-group-text">$</span>
@@ -280,8 +280,8 @@
                       <input type="number" id="shipping" [value]="invoice.shipping" class="form-control" (change)="updateShipping($event)" required>
                     </div>
                   <br>
-                  <label class="label-amount bold">{{ 'Total' | translate }}</label>
-                  <label *ngIf="pilot" class="label-amount ">{{invoice.total | currency }}</label>
+                  <label [ngClass]="{'label-amount-view': pilot, 'label-amount bold': !pilot }">{{ 'Total' | translate }}</label>
+                  <label *ngIf="pilot" [ngClass]="{'amount-view': pilot, 'label-amount': !pilot }">{{invoice.total | currency }}</label>
                   <div *ngIf="!pilot" class="amount-div amount-total ">
                       <div class="input-group-append">
                         <span class="input-group-text">$</span>
@@ -289,8 +289,8 @@
                       <input type="number" id="total" [value]="invoice.total" class="form-control" (change)="updateTotal($event)" required>
                     </div>
                   <br>
-                  <label class="label-amount bold">{{ 'Amount Due' | translate }}</label>
-                  <label *ngIf="pilot" class="label-amount">{{invoice.due | currency : "USD $" }}</label>
+                  <label [ngClass]="{'label-amount-view': pilot, 'label-amount bold': !pilot }">{{ 'Amount Due' | translate }}</label>
+                  <label *ngIf="pilot" [ngClass]="{'amount-view': pilot, 'label-amount': !pilot }">{{invoice.due | currency : "USD $" }}</label>
                   <div *ngIf="!pilot" class="amount-div amount-total ">
                       <div class="input-group-append">
                         <span class="input-group-text">$</span>
