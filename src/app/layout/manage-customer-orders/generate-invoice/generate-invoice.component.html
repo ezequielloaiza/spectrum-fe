@@ -20,7 +20,7 @@
     <form [formGroup]="form">
       <div class="col col-xl-12 col-lg-12">
         <div class="row">
-          <div class="col col-xl-8 col-lg-8">
+          <div class="col col-xl-9 col-lg-9">
             <div class="col col-xl-12 col-lg-12">
               <div class="row ">
                 <div class="col-xl-4">
@@ -174,10 +174,11 @@
                 <thead>
                   <tr>
                     <th class="table-tr bold">{{ 'Description' | translate }}</th>
+                    <th class="table-tr bold" *ngIf="pilot">{{ 'Patient' | translate }}</th>
                     <th class="table-tr bold">{{ 'Code' | translate }}</th>
                     <th class="table-tr bold">{{ 'Qty' | translate }}</th>
                     <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
-                    <th class="table-tr bold">{{ 'Tax Rate' | translate }}</th>
+                    <th [ngClass]="{'table-tr bold padding-tax': pilot, 'table-tr bold': !pilot }">{{ 'Tax Rate' | translate }}</th>
                     <th class="table-tr bold">{{ 'Amount' | translate}}</th>
                     <th class="table-tr bold">
                       <span *ngIf="allDelete" class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
@@ -195,6 +196,7 @@
                           <option *ngFor="let pR of listProducts" value="{{pR.idProductRequested}}">{{pR.product.name}} - {{ pR.product.name}} </option>
                         </select>
                       </td>
+                      <td class="table-tr td-table" *ngIf="pilot">{{productR.patient}}</td>
                       <td class="table-tr td-table" *ngIf="pilot">{{productR.codeSpectrum}}</td>
                       <td class="table-tr td-table" *ngIf="!pilot">
                         <input type="text" id="code{{i}}" [value]="productR.codeSpectrum" class="form-control" (change)="updateCode($event, i)"
@@ -254,7 +256,7 @@
                   <input type="text" class="form-control" value="{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}"
                   (change)="updateTerms($event)" maxlength="130" required>
                 </div>
-                <div  *ngIf="pilot" class="col-xl-6">
+                <div  *ngIf="pilot" class="col-xl-7">
                   <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
                   <br>
                   <label class="">{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}</label>
@@ -336,8 +338,7 @@
             <div class="col col-xl-12 col-lg-12">
               <div class="row">
                 <div class="col-xl-12 " *ngFor="let it of numbers; let i = index">
-                    <label class="label-order" *ngIf="it.patient !==''">{{ 'Patient: '+ it.patient +' ('+ it.number+')'}}</label>
-                    <label class="label-order" *ngIf="it.patient ===''">{{ it.number }}</label>
+                    <label class="label-order">{{ it.number }}</label>
                 </div>
               </div>
             </div>
@@ -377,7 +378,7 @@
               </div>
             </div>
           </div>
-          <div class="col col-xl-4 col-lg-4 tab-border">
+          <div class="col col-xl-3 col-lg-3 tab-border">
             <ngb-tabset destroyOnHide="false">
               <ngb-tab title="{{ 'Shippings Protocols' | translate }}">
                 <ng-template ngbTabContent class="tab-margin ">
@@ -637,7 +638,7 @@
                       <div class="tab-margin">
                         <label class="">{{ 'Origin Of Goods' | translate }}</label>
                       </div>
-                      <div *ngIf="editOriginUsa" class="mb-2 mr-sm-2 mb-sm-0">
+                      <div *ngIf="!pilot" class="mb-2 mr-sm-2 mb-sm-0">
                         <div class="custom-control-inline">
                           <div class="custom-control custom-radio">
                             <input type="radio" id="customRadioOrig1" name="originUsa" class="custom-control-input" (change)="assignOriginUsa(true)" [checked]="invProtocolProforma ? invProtocolProforma?.originUsa : false">

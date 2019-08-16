@@ -263,28 +263,17 @@ export class GenerateInvoiceComponent implements OnInit {
         const orders = res.data;
         let supplier, user;
         _.each(orders, function(order) {
-        //  auxNumbers += order.number + ', ';
             let obj;
-          _.each(order.listProductRequested, function(Pr) {
             if (self.numbers.length > 0) {
-               let exist = _.find(self.numbers, { 'number': order.number, 'patient': Pr.productRequested.patient });
-                  if (exist === undefined) {
-                    if (Pr.productRequested.patient !== null && Pr.productRequested.patient !== '') {
-                      obj = { number: order.number, patient: Pr.productRequested.patient};
-                    } else {
-                      obj = {number: order.number, patient: ''};
-                    }
-                     self.numbers.push(obj);
-                  }
+               let exist = _.find(self.numbers, { 'number': order.number});
+                if (exist === undefined) {
+                    obj = {number: order.number};
+                    self.numbers.push(obj);
+                }
             } else {
-              if (Pr.productRequested.patient !== null && Pr.productRequested.patient !== '') {
-                obj = { number: order.number, patient: Pr.productRequested.patient};
-              } else {
-                obj = {number: order.number, patient: ''};
+                obj = {number: order.number};
+                self.numbers.push(obj);
               }
-               self.numbers.push(obj);
-            }
-          });
         });
         supplier = orders[0].supplier.idSupplier;
         user = orders[0].user.idUser;
@@ -363,6 +352,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
       productR.codeSpectrum = pRequested.codeSpectrum == null ? pRequested.productRequested.product.codeSpectrum : pRequested.codeSpectrum;
+      productR.patient = pRequested.productRequested.patient === '' ? 'Not apply' : pRequested.productRequested.patient;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -389,6 +379,7 @@ export class GenerateInvoiceComponent implements OnInit {
           pRequested.productRequested.product.material : '');
       productR.description = code + name;
       productR.codeSpectrum = pRequested.productRequested.product.codeSpectrum;
+      productR.patient = pRequested.productRequested.patient === '' ? 'Not apply' : pRequested.productRequested.patient;
       productR.delete = false;
       productReq.push(productR);
     });
