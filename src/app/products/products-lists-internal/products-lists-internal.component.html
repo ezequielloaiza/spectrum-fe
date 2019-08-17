@@ -179,9 +179,7 @@
               <div class="product-btns">
                 <div class="btn-group">
                   <button (click)="redirectView(product)" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-primary">{{ 'View' | translate}}</button>
-                  <!--
                   <button (click)="open(product,'edit')" [hidden]="user.role.idRole === 3 || user.role.idRole === 2"  type="button" class="btn btn-sm btn-outline-secondary">{{ 'Edit' | translate }}</button>
-                  -->
                 </div>
               </div>
             </div>

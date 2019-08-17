@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators } from '@angular/forms';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-edit-product-euclid',
@@ -19,6 +20,7 @@ export class EditProductEuclidComponent implements OnInit {
 
   form: FormGroup;
   product: any;
+  productsToUpdate: any;
   searching = false;
   action: string;
   public model: any;
@@ -46,6 +48,7 @@ export class EditProductEuclidComponent implements OnInit {
   ngOnInit() {
     this.getPrices();
     this.initializeForm();
+    this.getProductsOutView();
   }
 
   formatter = (x: { description: string }) => x.description;
@@ -112,31 +115,57 @@ export class EditProductEuclidComponent implements OnInit {
     let jsonInfo = JSON.stringify([infProperties, Prices]);
    return jsonInfo;
   }
-  save(): void {
-    this.setProductRequest();
-    this.productService.update$(this.productUpdate).subscribe(
-      res => {
-        if (res.code === CodeHttp.ok) {
-          this.translate.get('Successfully Updated', { value: 'Successfully Updated' })
-            .subscribe((rest: string) => {
-              this.notification.success('', rest);
-            });
-          this.close(res);
-        } else if (res.code === CodeHttp.notAcceptable) {
-          this.translate.get('The product already exists', {
-              value: 'The product already exists'
-            })
-            .subscribe((rest: string) => {
-              this.notification.warning('', rest);
-            });
-        } else {
-          console.log(res.errors[0].detail);
-        }
-      },
-      error => {
-        console.log('error', error);
+
+  getProductsOutView() {
+    let self = this;
+    this.productService.findBySupplierInView$(this.product.supplier.idSupplier, false).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+       var productsOutView = res.data;
+        var nameProductInView = _.split(this.product.name,' ',2);
+        this.productsToUpdate = _.filter(productsOutView, function(product) {
+          var nameProductOutView = _.split(product.name,' ',2);
+          return nameProductInView.length ===  _.intersection(nameProductInView, nameProductOutView).length;
+        });
+      } else {
+        console.log(res.errors[0].detail);
       }
-    );
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  save(): void {
+    let self = this;
+    this.productsToUpdate.unshift(this.product)
+    _.each(this.productsToUpdate, function(product, index) {
+      self.setProductRequest(product);
+      self.productService.update$(self.productUpdate).subscribe(
+        res => {
+          if (!index) {
+            if (res.code === CodeHttp.ok) {
+              self.translate.get('Successfully Updated', { value: 'Successfully Updated' })
+                .subscribe((rest: string) => {
+                  self.notification.success('', rest);
+                });
+                self.close(res);
+            } else if (res.code === CodeHttp.notAcceptable) {
+              self.translate.get('The product already exists', {
+                  value: 'The product already exists'
+                })
+                .subscribe((rest: string) => {
+                  self.notification.warning('', rest);
+                });
+            } else {
+              console.log(res.errors[0].detail);
+            }
+          }
+          
+        },
+        error => {
+          console.log('error', error);
+        }
+      );
+    });
   }
 
   getPrices() {
@@ -149,9 +178,9 @@ export class EditProductEuclidComponent implements OnInit {
     this.pricePW = parseFloat(info[1].values[0].values[2].price);
   }
 
-  setProductRequest() {
-    this.productUpdate.id = this.product.idProduct;
-    this.productUpdate.name = this.form.get('name').value;
+  setProductRequest(product) {
+    this.productUpdate.id = product.idProduct;
+    this.productUpdate.name = this.product.idProduct === product.idProduct ? this.form.get('name').value : product.name;
     this.productUpdate.descriptionShort = this.form.get('descriptionShort').value;
     this.productUpdate.price1 = this.form.get('price1').value;
     this.productUpdate.price2 = this.form.get('price2').value;

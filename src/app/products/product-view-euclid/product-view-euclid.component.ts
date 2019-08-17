@@ -55,7 +55,6 @@ export class ProductViewEuclidComponent implements OnInit {
   CustomersSelected: any;
   warrantyRight = false;
   warrantyLeft = false;
-  download = false;
   type: any;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
@@ -216,7 +215,6 @@ export class ProductViewEuclidComponent implements OnInit {
     _.reverse(this.product.parametersLeft[4].values);
     this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.pricesAditionalWarranties = JSON.parse(this.product.infoAditional)[1].values[0];
-    this.download = JSON.parse(this.product.infoAditional)[2].value;
     this.product.priceSale = '';
     this.product.additional = '';
     this.setClient();
