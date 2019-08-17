@@ -336,7 +336,7 @@
                 </div>
                 <div *ngIf="edit">
                   <button type="button" class="btn btn-main btn-add"
-                    [hidden]="suppliers.length === protocol.value.selectedSuppliers.length"
+                    [hidden]="hideAdd(protocol)"
                     (click)="addValue(protocol.value)">{{ 'Add' | translate }}
                     <i class="fa fa-plus-circle ml-2"></i>
                   </button>
