@@ -72,6 +72,7 @@ export class GenerateInvoiceComponent implements OnInit {
   // invoice
   protocolProformaInv = false;
   protocolShippingInv = false;
+  idInvoiceSupplierProtocolClient:any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -447,6 +448,7 @@ export class GenerateInvoiceComponent implements OnInit {
     // Shipping Protocol
     if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null
       && invoice.invoiceProtocolClientResponse.idInvoiceProtocolClient != null) {
+      this.invoiceProtocolClientResponse =
       this.invShippingProtocol.accNumber = invoice.invoiceProtocolClientResponse.accNumber;
       this.editAccNumber = (this.invShippingProtocol.accNumber != null && !this.pilot) ? true : false;
       this.invShippingProtocol.accountNumber = invoice.invoiceProtocolClientResponse.accountNumber;
@@ -826,8 +828,8 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invShippingProtocol.countryName =  null;
     }
 
-
-    if (this.editAccNumber || this.editBusinessName ||
+    this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
+    /*if (this.editAccNumber || this.editBusinessName ||
         this.editRecipient || this.editShippingAddress ||
         this.editShippingMethod || this.editAccountNumber ||
         this.editComment || this.editEmailComment ||
@@ -835,7 +837,7 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
     } else {
       this.invShippingProtocol = null;
-    }
+    }*/
 
     // Protocol Proforma
     if (!this.editSpectrumP) {
@@ -881,6 +883,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
     this.invoice.invoiceProtocolClientRequest = this.invShippingProtocol;
     this.invoice.invoiceProtocolProformaRequest = this.invProtocolProforma;
+    debugger
   }
 
   assignSpectrumProforma(value: number) {
@@ -904,6 +907,7 @@ export class GenerateInvoiceComponent implements OnInit {
       this.original.status = send;
       inv.push(this.original);
       inv.push(this.invoice);
+      debugger
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
