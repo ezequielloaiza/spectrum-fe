@@ -59,8 +59,9 @@
                   </div>
                 </div>
                 <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ invShippingProtocol.recipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{ invShippingProtocol?.recipient && editRecipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
+                <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.recipient !== null ? invoice.invoiceProtocolClientResponse.recipient : invoice.deliverTo !== null ? invoice.deliverTo : invoice.user?.name }}</label>
+                <label *ngIf="pilot && viewOriginal " class="address">{{ invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name}}</label>
+                <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{ invShippingProtocol?.recipient && editRecipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
                   (change)="updateDeliverTo($event)" required>
                 </div>
                 <div class="col-xl-3">

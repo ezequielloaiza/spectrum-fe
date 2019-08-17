@@ -73,6 +73,8 @@ export class GenerateInvoiceComponent implements OnInit {
   protocolProformaInv = false;
   protocolShippingInv = false;
   idInvoiceSupplierProtocolClient:any;
+  viewOriginal = false;
+  viewCopy = false;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -448,29 +450,43 @@ export class GenerateInvoiceComponent implements OnInit {
     // Shipping Protocol
     if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null
       && invoice.invoiceProtocolClientResponse.idInvoiceProtocolClient != null) {
-      this.invShippingProtocol.accNumber = invoice.invoiceProtocolClientResponse.accNumber;
-      this.editAccNumber = (this.invShippingProtocol.accNumber != null && !this.pilot) ? true : false;
-      this.invShippingProtocol.accountNumber = invoice.invoiceProtocolClientResponse.accountNumber;
-      this.editAccountNumber = (this.invShippingProtocol.accountNumber != null && !this.pilot) ? true : false;
-      this.invShippingProtocol.businessName = invoice.invoiceProtocolClientResponse.businessName;
-      this.editBusinessName = (this.invShippingProtocol.businessName != null && !this.pilot) ? true : false;
-      this.invShippingProtocol.comment = invoice.invoiceProtocolClientResponse.comment;
-      this.editComment = (this.invShippingProtocol.comment != null && !this.pilot) ? true : false;
+      this.viewCopy = true;
+      this.viewOriginal = false;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.accNumber = invoice.invoiceProtocolClientResponse.accNumber == null ? this.shippingProtocol.accNumber : invoice.invoiceProtocolClientResponse.accNumber;
+      this.editAccNumber = ( invoice.invoiceProtocolClientResponse.accNumber != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.accountNumber = invoice.invoiceProtocolClientResponse.accountNumber == null ? this.shippingProtocol.accountNumber : invoice.invoiceProtocolClientResponse.accountNumber;
+      this.editAccountNumber = (invoice.invoiceProtocolClientResponse.accountNumber != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.businessName = invoice.invoiceProtocolClientResponse.businessName == null ? this.shippingProtocol.businessName : invoice.invoiceProtocolClientResponse.businessName;
+      this.editBusinessName = (invoice.invoiceProtocolClientResponse.businessName != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.comment = invoice.invoiceProtocolClientResponse.comment == null ? this.shippingProtocol.comment : invoice.invoiceProtocolClientResponse.comment;
+      this.editComment = (invoice.invoiceProtocolClientResponse.comment != null && !this.pilot) ? true : false;
       this.invShippingProtocol.country = (invoice.invoiceProtocolClientResponse.country != null) ?
-                                         invoice.invoiceProtocolClientResponse.country.idCountry : null;
+                                         invoice.invoiceProtocolClientResponse.country.idCountry : this.shippingProtocol.country;
       this.editCountry = (this.invShippingProtocol.country != null && !this.pilot) ? true : false;
-      this.invShippingProtocol.countryName = invoice.invoiceProtocolClientResponse.countryName;
-      this.invShippingProtocol.emailComment = invoice.invoiceProtocolClientResponse.emailComment;
-      this.editEmailComment = (this.invShippingProtocol.emailComment != null && !this.pilot) ? true : false;
-      this.invShippingProtocol.recipient = invoice.invoiceProtocolClientResponse.recipient;
-      this.editRecipient = (this.invShippingProtocol.recipient != null && !this.pilot) ? true : false;
-      this.invShippingProtocol.shippingAddress = invoice.invoiceProtocolClientResponse.shippingAddress;
-      this.editShippingAddress = (this.invShippingProtocol.shippingAddress != null && !this.pilot) ? true : false;
-      this.invShippingProtocol.shippingMethod = invoice.invoiceProtocolClientResponse.shippingMethod;
-      this.editShippingMethod = (this.invShippingProtocol.shippingMethod != null && !this.pilot) ? true : false;
-      this.invShippingProtocol.shippingFrecuency = invoice.invoiceProtocolClientResponse.shippingFrecuency;
-      this.invShippingProtocol.shippingDetails = invoice.invoiceProtocolClientResponse.shippingDetails;
-      this.invShippingProtocol.dmv = invoice.invoiceProtocolClientResponse.dmv;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.countryName = invoice.invoiceProtocolClientResponse.countryName == null ? this.shippingProtocol.countryName : invoice.invoiceProtocolClientResponse.countryName;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.emailComment = invoice.invoiceProtocolClientResponse.emailComment == null ? this.shippingProtocol.emailComment : invoice.invoiceProtocolClientResponse.emailComment;
+      this.editEmailComment = (invoice.invoiceProtocolClientResponse.emailComment != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.recipient = invoice.invoiceProtocolClientResponse.recipient == null ? this.shippingProtocol.recipient : invoice.invoiceProtocolClientResponse.recipient;
+      this.editRecipient = (invoice.invoiceProtocolClientResponse.recipient != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.shippingAddress = invoice.invoiceProtocolClientResponse.shippingAddress == null ? this.shippingProtocol.shippingAddress : invoice.invoiceProtocolClientResponse.shippingAddress;
+      this.editShippingAddress = (invoice.invoiceProtocolClientResponse.shippingAddress != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.shippingMethod = invoice.invoiceProtocolClientResponse.shippingMethod == null ? this.shippingProtocol.shippingMethod : invoice.invoiceProtocolClientResponse.shippingMethod;
+      this.editShippingMethod = (invoice.invoiceProtocolClientResponse.shippingMethod != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.shippingFrecuency = invoice.invoiceProtocolClientResponse.shippingFrecuency == null ? this.shippingProtocol.shippingFrecuency : invoice.invoiceProtocolClientResponse.shippingFrecuency;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.shippingDetails = invoice.invoiceProtocolClientResponse.shippingDetails == null ? this.shippingProtocol.shippingDetails : invoice.invoiceProtocolClientResponse.shippingDetails;
+      // tslint:disable-next-line:max-line-length
+      this.invShippingProtocol.dmv = invoice.invoiceProtocolClientResponse.dmv == null ? this.shippingProtocol.dmv : invoice.invoiceProtocolClientResponse.dmv;
       this.invShippingProtocol.idInvoice = invoice.invoiceProtocolClientResponse.idInvoice;
       this.invShippingProtocol.idInvoiceSupplierProtocolClient = invoice.invoiceProtocolClientResponse.idInvoiceSupplierProtocolClient;
       this.invShippingProtocol.idProtocolClient = invoice.invoiceProtocolClientResponse.idProtocolClient;
@@ -478,6 +494,8 @@ export class GenerateInvoiceComponent implements OnInit {
         this.protocolShippingInv = true;
       }
     } else {
+      this.viewCopy = false;
+      this.viewOriginal = true;
       this.invShippingProtocol.accNumber = this.shippingProtocol.accNumber;
       this.editAccNumber = false;
       this.invShippingProtocol.accountNumber = this.shippingProtocol.accountNumber;
@@ -508,30 +526,41 @@ export class GenerateInvoiceComponent implements OnInit {
     // Protocol Proforma
     if (invoice.invoiceProtocolProformaResponse != undefined && invoice.invoiceProtocolProformaResponse != null
       && invoice.invoiceProtocolProformaResponse.idInvoiceProtocolProforma != null ) {
-      this.invProtocolProforma.additionalDocuments = invoice.invoiceProtocolProformaResponse.additionalDocuments;
-      this.editAdditionalDocuments = (this.invProtocolProforma.additionalDocuments != null && !this.pilot) ? true : false;
-      this.invProtocolProforma.comments = invoice.invoiceProtocolProformaResponse.comments;
-      this.editComments = (this.invProtocolProforma.comments != null && !this.pilot) ? true : false;
-      this.invProtocolProforma.documentation = invoice.invoiceProtocolProformaResponse.documentation;
-      this.editDocumentation = (this.invProtocolProforma.documentation != null && !this.pilot) ? true : false;
-      this.invProtocolProforma.emailComment = invoice.invoiceProtocolProformaResponse.emailComment;
-      this.editEmailCommentProforma = (this.invProtocolProforma.emailComment != null && !this.pilot) ? true : false;
-      this.invProtocolProforma.fixedPrices = invoice.invoiceProtocolProformaResponse.fixedPrices;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.additionalDocuments = invoice.invoiceProtocolProformaResponse.additionalDocuments == null ? this.protocolProforma.additionalDocuments : invoice.invoiceProtocolProformaResponse.additionalDocuments ;
+      this.editAdditionalDocuments = (invoice.invoiceProtocolProformaResponse.additionalDocuments != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.comments = invoice.invoiceProtocolProformaResponse.comments == null ? this.protocolProforma.comments : invoice.invoiceProtocolProformaResponse.comments;
+      this.editComments = (invoice.invoiceProtocolProformaResponse.comments != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.documentation = invoice.invoiceProtocolProformaResponse.documentation == null ? this.protocolProforma.documentation : invoice.invoiceProtocolProformaResponse.documentation;
+      this.editDocumentation = (invoice.invoiceProtocolProformaResponse.documentation != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.emailComment = invoice.invoiceProtocolProformaResponse.emailComment == null ? this.protocolProforma.emailComment : invoice.invoiceProtocolProformaResponse.emailComment;
+      this.editEmailCommentProforma = (invoice.invoiceProtocolProformaResponse.emailComment != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.fixedPrices = invoice.invoiceProtocolProformaResponse.fixedPrices == null ? this.protocolProforma.fixedPrices : invoice.invoiceProtocolProformaResponse.fixedPrices;
       this.invProtocolProforma.idInvoice = invoice.invoiceProtocolProformaResponse.idInvoice;
       this.invProtocolProforma.idInvoiceSupplierProtocolProforma =
                     invoice.invoiceProtocolProformaResponse.idInvoiceSupplierProtocolProforma;
       this.invProtocolProforma.idProtocolProforma = invoice.invoiceProtocolProformaResponse.idProtocolProforma;
-      this.invProtocolProforma.outputs = invoice.invoiceProtocolProformaResponse.outputs;
-      this.editOutputs = (this.invProtocolProforma.outputs != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.outputs = invoice.invoiceProtocolProformaResponse.outputs == null ? this.protocolProforma.outputs : invoice.invoiceProtocolProformaResponse.outputs;
+      this.editOutputs = (invoice.invoiceProtocolProformaResponse.outputs != null && !this.pilot) ? true : false;
       this.invProtocolProforma.protocolProforma = invoice.invoiceProtocolProformaResponse.protocolProforma;
-      this.invProtocolProforma.spectrumProforma = invoice.invoiceProtocolProformaResponse.spectrumProforma;
-      this.editSpectrumP = (this.invProtocolProforma.spectrumProforma != null && !this.pilot) ? true : false;
-      this.invProtocolProforma.originUsa = invoice.invoiceProtocolProformaResponse.originUsa;
-      this.editOriginUsa = (this.invProtocolProforma.originUsa != null && !this.pilot) ? true : false;
-      this.invProtocolProforma.tariffCodes = invoice.invoiceProtocolProformaResponse.tariffCodes;
-      this.editTariffCodes = (this.invProtocolProforma.tariffCodes != null && !this.pilot) ? true : false;
-      this.invProtocolProforma.protocolSpectrum = invoice.invoiceProtocolProformaResponse.protocolSpectrum;
-      this.invProtocolProforma.maximumAmount = invoice.invoiceProtocolProformaResponse.maximumAmount;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.spectrumProforma = invoice.invoiceProtocolProformaResponse.spectrumProforma == null ? this.protocolProforma.spectrumProforma : invoice.invoiceProtocolProformaResponse.spectrumProforma;
+      this.editSpectrumP = (invoice.invoiceProtocolProformaResponse.spectrumProforma != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.originUsa = invoice.invoiceProtocolProformaResponse.originUsa == null ? this.protocolProforma.originUsa : invoice.invoiceProtocolProformaResponse.originUsa;
+      this.editOriginUsa = (invoice.invoiceProtocolProformaResponse.originUsa != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.tariffCodes = invoice.invoiceProtocolProformaResponse.tariffCodes == null ? this.protocolProforma.tariffCodes : invoice.invoiceProtocolProformaResponse.tariffCodes;
+      this.editTariffCodes = (invoice.invoiceProtocolProformaResponse.tariffCodes != null && !this.pilot) ? true : false;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.protocolSpectrum = invoice.invoiceProtocolProformaResponse.protocolSpectrum == null ? this.protocolProforma.protocolSpectrum : invoice.invoiceProtocolProformaResponse.protocolSpectrum;
+      // tslint:disable-next-line:max-line-length
+      this.invProtocolProforma.maximumAmount = invoice.invoiceProtocolProformaResponse.maximumAmount == null ? this.protocolProforma.maximumAmount : invoice.invoiceProtocolProformaResponse.maximumAmount;
       if (this.invProtocolProforma.tariffCodes != null) {
         this.protocolProformaInv = true;
       }
@@ -843,10 +872,6 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invProtocolProforma.spectrumProforma = null;
     }
 
-    /*if (!this.editOriginUsa) {
-      this.invProtocolProforma.originUsa = null;
-    }*/
-
     if (!this.editAdditionalDocuments) {
       this.invProtocolProforma.additionalDocuments = null;
     }
@@ -870,19 +895,18 @@ export class GenerateInvoiceComponent implements OnInit {
     if (!this.editTariffCodes) {
       this.invProtocolProforma.tariffCodes = null;
     }
-
-    if (this.editSpectrumP || this.editAdditionalDocuments ||
+    this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
+    /*if (this.editSpectrumP || this.editAdditionalDocuments ||
         this.editOutputs || this.editDocumentation ||
         this.editComments || this.editEmailCommentProforma ||
         this.editTariffCodes || this.editOriginUsa) {
       this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
     } else {
       this.invProtocolProforma = null;
-    }
+    }*/
 
     this.invoice.invoiceProtocolClientRequest = this.invShippingProtocol;
     this.invoice.invoiceProtocolProformaRequest = this.invProtocolProforma;
-    debugger
   }
 
   assignSpectrumProforma(value: number) {
@@ -906,7 +930,6 @@ export class GenerateInvoiceComponent implements OnInit {
       this.original.status = send;
       inv.push(this.original);
       inv.push(this.invoice);
-      debugger
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
