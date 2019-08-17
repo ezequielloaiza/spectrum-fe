@@ -448,7 +448,6 @@ export class GenerateInvoiceComponent implements OnInit {
     // Shipping Protocol
     if (invoice.invoiceProtocolClientResponse != undefined && invoice.invoiceProtocolClientResponse != null
       && invoice.invoiceProtocolClientResponse.idInvoiceProtocolClient != null) {
-      this.invoiceProtocolClientResponse =
       this.invShippingProtocol.accNumber = invoice.invoiceProtocolClientResponse.accNumber;
       this.editAccNumber = (this.invShippingProtocol.accNumber != null && !this.pilot) ? true : false;
       this.invShippingProtocol.accountNumber = invoice.invoiceProtocolClientResponse.accountNumber;
