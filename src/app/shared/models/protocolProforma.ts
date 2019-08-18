@@ -14,6 +14,7 @@ export class ProtocolProforma {
   clientId: any;
   supplierId: any;
   valid: boolean;
+  originUsa: Boolean;
 
   constructor(obj?: any) {
     Object.assign(this, obj);

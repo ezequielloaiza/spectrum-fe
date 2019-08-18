@@ -59,8 +59,9 @@
                   </div>
                 </div>
                 <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ invShippingProtocol.recipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{ invShippingProtocol?.recipient && editRecipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
+                <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.recipient !== null ? invoice.invoiceProtocolClientResponse.recipient : invoice.deliverTo !== null ? invoice.deliverTo : invoice.user?.name }}</label>
+                <label *ngIf="pilot && viewOriginal " class="address">{{ invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name}}</label>
+                <input *ngIf="!pilot" type="text" class="form-control input-form" value="{{ invShippingProtocol?.recipient && editRecipient ? invShippingProtocol.recipient : invoice.deliverTo != null ? invoice.deliverTo : invoice.user?.name }}"
                   (change)="updateDeliverTo($event)" required>
                 </div>
                 <div class="col-xl-3">
@@ -80,18 +81,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
+                <div class="col-xl-5">
+                  <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? invoice.invoiceProtocolClientResponse.shippingAddress: invoice.address?.name}}</label>
+                  <label *ngIf="pilot && viewOriginal" class="address">{{invoice.address?.name}}</label>
                   <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
                 </div>
-                <div class="col-xl-3">
+                <div class="col-xl-2">
                 </div>
               </div>
               <div class="row row-height align-row">
                 <div class="col-xl-5">
                 </div>
                 <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? '' : (invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : '')}}</label>
+                  <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? '' : (invoice.address ? (invoice.address.city + (invoice.address.state !== null ? ' - ' + invoice.address.state : '')) : '')}}</label>
+                  <label *ngIf="pilot && viewOriginal" class="address">{{ invoice.address ? invoice.address.city + (invoice.address.state !== null ? ' - ' + invoice.address.state : '') : ''}}</label>
                   <label *ngIf="!pilot" class="address">{{(invShippingProtocol?.shippingAddress && editShippingAddress) ? '' : (invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : '')}}</label>
                 </div>
                 <div class="col-xl-3">
@@ -101,7 +104,8 @@
                 <div class="col-xl-5">
                 </div>
                 <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
+                  <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
+                  <label *ngIf="pilot && viewOriginal" class="address">{{ (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
                   <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
                 </div>
                 <div class="col-xl-3">
@@ -119,7 +123,8 @@
               <div class="row row-height align-row">
                 <div class="col-xl-6 address-top">
                   <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
-                  <label *ngIf="pilot" class="address-client">{{ invShippingProtocol?.businessName ? invShippingProtocol.businessName : invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
+                  <label *ngIf="pilot && viewCopy" class="address-client">{{ invoice.invoiceProtocolClientResponse.businessName !== null ? invoice.invoiceProtocolClientResponse.businessName : invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
+                  <label *ngIf="pilot && viewOriginal" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
                   <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ invShippingProtocol?.businessName && editBusinessName ? invShippingProtocol.businessName : invoice.customer != null ? invoice.customer : invoice.user?.name }}"
                   (change)="updateCustomer($event)" required>
                 </div>
@@ -137,7 +142,7 @@
               </div>
               <div class="row row-height">
                 <div class="col-xl-6 address-middle">
-                  <label class="address-client">{{invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : ''}}</label>
+                  <label class="address-client">{{invoice.address ? (invoice.address.city + (invoice.address.state != null ? ' - ' +invoice.address.state : '')) : ''}}</label>
                 </div>
                 <div class="col-xl-6 address-spectrum">
                   <label class="address-spectrum">ATLANTA GA 30319</label>
@@ -177,7 +182,7 @@
                     <th class="table-tr bold">{{ 'Code' | translate }}</th>
                     <th class="table-tr bold">{{ 'Qty' | translate }}</th>
                     <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
-                    <th class="table-tr bold">{{ 'Tax Rate' | translate }}</th>
+                    <th [ngClass]="{'table-tr bold padding-tax': pilot, 'table-tr bold': !pilot }">{{ 'Tax Rate' | translate }}</th>
                     <th class="table-tr bold">{{ 'Amount' | translate}}</th>
                     <th class="table-tr bold">
                       <span *ngIf="allDelete" class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
@@ -187,7 +192,7 @@
                 <tbody>
                   <ng-container *ngFor="let productR of invoice.listProductRequested; let i = index">
                     <tr *ngIf="productR.delete == null || productR.delete == false">
-                      <td class="table-tr td-table" *ngIf="pilot" >{{productR.description}}</td>
+                      <td class="table-tr td-table" *ngIf="pilot" >{{productR.description}}+{{productR.patient !== '' ? + ', '+ productR.patient : ''}}</td>
                       <td class="table-tr td-table" *ngIf="!pilot">
                         <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.description"  (change)="updateDescription($event, i)" class="form-control" required>
                         <select *ngIf="productR.idProductRequested == null" class="form-control" id="productDescription{{i}}" (change)="updateProduct($event, i)">
@@ -248,20 +253,20 @@
             </div>
             <div class="col col-xl-12 col-lg-12">
               <div class="row">
-                <div  *ngIf="!pilot" class="col-xl-6">
+                <div  *ngIf="!pilot" class="col-xl-7">
                   <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
                   <br>
                   <input type="text" class="form-control" value="{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}"
                   (change)="updateTerms($event)" maxlength="130" required>
                 </div>
-                <div  *ngIf="pilot" class="col-xl-6">
+                <div  *ngIf="pilot" class="col-xl-7">
                   <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
                   <br>
                   <label class="">{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}</label>
                 </div>
-                <div class="col-xl-6">
-                  <label class="label-amount bold">{{ 'Subtotal' | translate }}</label>
-                  <label *ngIf="pilot" class="label-amount">{{invoice.subtotal | currency }}</label>
+                <div class="col-xl-5">
+                  <label [ngClass]="{'label-amount-view': pilot, 'label-amount bold': !pilot }">{{ 'Subtotal' | translate }}</label>
+                  <label *ngIf="pilot" [ngClass]="{'amount-view': pilot, 'label-amount': !pilot }">{{invoice.subtotal | currency }}</label>
                   <div *ngIf="!pilot" class="amount-div amount-total ">
                       <div class="input-group-append">
                         <span class="input-group-text">$</span>
@@ -269,8 +274,8 @@
                       <input type="number" id="subtotal" [value]="invoice.subtotal" class="form-control" (change)="updateSubtotal($event)" required>
                     </div>
                   <br>
-                  <label class="label-amount bold">{{ 'Shipping' | translate }}</label>
-                  <label *ngIf="pilot" class="label-amount">{{invoice.shipping | currency }}</label>
+                  <label [ngClass]="{'label-amount-view': pilot, 'label-amount bold': !pilot }">{{ 'Shipping' | translate }}</label>
+                  <label *ngIf="pilot" [ngClass]="{'amount-view': pilot, 'label-amount': !pilot }">{{invoice.shipping | currency }}</label>
                   <div *ngIf="!pilot" class="amount-div amount-total ">
                       <div class="input-group-append">
                         <span class="input-group-text">$</span>
@@ -278,8 +283,8 @@
                       <input type="number" id="shipping" [value]="invoice.shipping" class="form-control" (change)="updateShipping($event)" required>
                     </div>
                   <br>
-                  <label class="label-amount bold">{{ 'Total' | translate }}</label>
-                  <label *ngIf="pilot" class="label-amount ">{{invoice.total | currency }}</label>
+                  <label [ngClass]="{'label-amount-view': pilot, 'label-amount bold': !pilot }">{{ 'Total' | translate }}</label>
+                  <label *ngIf="pilot" [ngClass]="{'amount-view': pilot, 'label-amount': !pilot }">{{invoice.total | currency }}</label>
                   <div *ngIf="!pilot" class="amount-div amount-total ">
                       <div class="input-group-append">
                         <span class="input-group-text">$</span>
@@ -287,8 +292,8 @@
                       <input type="number" id="total" [value]="invoice.total" class="form-control" (change)="updateTotal($event)" required>
                     </div>
                   <br>
-                  <label class="label-amount bold">{{ 'Amount Due' | translate }}</label>
-                  <label *ngIf="pilot" class="label-amount">{{invoice.due | currency : "USD $" }}</label>
+                  <label [ngClass]="{'label-amount-view': pilot, 'label-amount bold': !pilot }">{{ 'Amount Due' | translate }}</label>
+                  <label *ngIf="pilot" [ngClass]="{'amount-view': pilot, 'label-amount': !pilot }">{{invoice.due | currency : "USD $" }}</label>
                   <div *ngIf="!pilot" class="amount-div amount-total ">
                       <div class="input-group-append">
                         <span class="input-group-text">$</span>
@@ -336,8 +341,7 @@
             <div class="col col-xl-12 col-lg-12">
               <div class="row">
                 <div class="col-xl-12 " *ngFor="let it of numbers; let i = index">
-                    <label class="label-order" *ngIf="it.patient !==''">{{ 'Patient: '+ it.patient +' ('+ it.number+')'}}</label>
-                    <label class="label-order" *ngIf="it.patient ===''">{{ it.number }}</label>
+                    <label class="label-order">{{ it.number }}</label>
                 </div>
               </div>
             </div>
@@ -626,6 +630,36 @@
                         <span class="unassigned" translate>{{ 'No' | translate }}</span>
                       </div>
                       <div *ngIf="!editSpectrumP && invProtocolProforma?.spectrumProforma === null">
+                        <span class="unassigned" translate>{{ 'Unassigned' | translate }}</span>
+                      </div>
+                    </div>
+                    <div class="form-group pr-3 half-flex">
+                      <!--<div *ngIf="!pilot" class="custom-control custom-checkbox">
+                        <input id="cbOriginUsa" type="checkbox" [checked]="editOriginUsa" class="custom-control-input" (change)="editOriginUsa = !editOriginUsa">
+                        <label class="custom-control-label" for="cbOriginUsa">{{ 'Origin Of Goods' | translate }}</label>
+                      </div>-->
+                      <div class="tab-margin">
+                        <label class="">{{ 'Origin Of Goods' | translate }}</label>
+                      </div>
+                      <div *ngIf="!pilot" class="mb-2 mr-sm-2 mb-sm-0">
+                        <div class="custom-control-inline">
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadioOrig1" name="originUsa" class="custom-control-input" (change)="assignOriginUsa(true)" [checked]="invProtocolProforma ? invProtocolProforma?.originUsa : false">
+                            <label class="custom-control-label" for="customRadioOrig1">{{ 'Yes' | translate }}</label>
+                          </div>
+                          <div style="margin-left: 10px;" class="custom-control custom-radio">
+                            <input type="radio" id="customRadioOrig2" name="originUsa" class="custom-control-input" (change)="assignOriginUsa(false)" [checked]="invProtocolProforma ? !invProtocolProforma?.originUsa : true">
+                            <label class="custom-control-label" for="customRadioOrig2">{{ 'No' | translate }}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="pilot && invProtocolProforma?.originUsa === true">
+                        <span class="unassigned" translate>{{ 'Yes' }}</span>
+                      </div>
+                      <div *ngIf="pilot && !invProtocolProforma?.originUsa && invProtocolProforma?.originUsa !== null">
+                        <span class="unassigned" translate>{{ 'No' | translate }}</span>
+                      </div>
+                      <div *ngIf="pilot && invProtocolProforma?.originUsa === null">
                         <span class="unassigned" translate>{{ 'Unassigned' | translate }}</span>
                       </div>
                     </div>
