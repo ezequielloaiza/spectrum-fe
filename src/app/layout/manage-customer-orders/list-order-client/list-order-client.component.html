@@ -85,14 +85,28 @@
                   </div>
                 </div>
               </div>
+              <div class="custom-control custom-checkbox selection-all" *ngIf="user.role.idRole === 1 && status === '0' && listOrdersPending.length > 0">
+                <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll" (click)="onSelectionAllPending($event)" [checked]="selectedAll"
+                      class="custom-control-input">
+                <label class="custom-control-label select-all" for="checkboxAll"></label>
+                <div class="margin">
+                  <div class="col-xl-12 btn-clean">
+                    <button class="btn btn-outline-secondary" translate [hidden]="listAux.length === 0" (click)="processMultipleOrders()">Generate Order</button>&nbsp;
+                  </div>
+                </div>
+              </div>
               <div class="list-orden" *ngFor="let order of listOrders; let i = index">
                 <div class="row">
                   <div class="col-lg-2">
                     <div class="title">
                       <div class="custom-control custom-checkbox">
-                          <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="order.idOrder" [(ngModel)]="order.checked" (change)="onSelection(order.idOrder,order.checked)"
-                                class="custom-control-input">
+                          <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" *ngIf="user.role.idRole === 1 && (order.status !== 0 && order.status !== 4)" [value]="order.idOrder" [(ngModel)]="order.checked" (change)="onSelection(order.idOrder,order.checked)"
+                          class="custom-control-input">
                           <label class="custom-control-label" for="checkbox{{i}}" *ngIf="user.role.idRole === 1 && (order.status !== 0 && order.status !== 4)"></label>
+                         <!--Pending-->
+                          <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="order.idOrder" [(ngModel)]="order.checked" (change)="onSelectionPending(order.idOrder,order.checked)"
+                                class="custom-control-input" [hidden]="!order.generate && order.status === 0">
+                          <label class="custom-control-label" for="checkbox{{i}}" *ngIf="user.role.idRole === 1 && (order.status !== 4)" [hidden]="!order.generate && order.status === 0"></label>
                           <span>{{'ORDER'| translate }}</span>
                       </div>
                     </div>

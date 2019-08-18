@@ -58,7 +58,7 @@
 
 .address-client {
   padding-left: 50px;
-  width: 250px;
+  //width: 250px;
   align-items: center;
 }
 .customer {
@@ -79,6 +79,17 @@
   width: 40%;
   /*padding-right: 15px;
   width: 150px;*/
+}
+
+.label-amount-view {
+  text-align: right;
+  width: 46%;
+  font-weight: bold;
+}
+
+.amount-view {
+  text-align: right;
+  width: 46%;
 }
 
 .bold{
