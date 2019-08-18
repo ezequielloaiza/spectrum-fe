@@ -81,18 +81,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
+                <div class="col-xl-5">
+                  <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? invoice.invoiceProtocolClientResponse.shippingAddress: invoice.address?.name}}</label>
+                  <label *ngIf="pilot && viewOriginal" class="address">{{invoice.address?.name}}</label>
                   <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
                 </div>
-                <div class="col-xl-3">
+                <div class="col-xl-2">
                 </div>
               </div>
               <div class="row row-height align-row">
                 <div class="col-xl-5">
                 </div>
                 <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? '' : (invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : '')}}</label>
+                  <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? '' : (invoice.address ? (invoice.address.city + (invoice.address.state !== null ? ' - ' + invoice.address.state : '')) : '')}}</label>
+                  <label *ngIf="pilot && viewOriginal" class="address">{{ invoice.address ? invoice.address.city + (invoice.address.state !== null ? ' - ' + invoice.address.state : '') : ''}}</label>
                   <label *ngIf="!pilot" class="address">{{(invShippingProtocol?.shippingAddress && editShippingAddress) ? '' : (invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : '')}}</label>
                 </div>
                 <div class="col-xl-3">
@@ -102,7 +104,8 @@
                 <div class="col-xl-5">
                 </div>
                 <div class="col-xl-4">
-                  <label *ngIf="pilot" class="address">{{ (invShippingProtocol?.shippingAddress) ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
+                  <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
+                  <label *ngIf="pilot && viewOriginal" class="address">{{ (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
                   <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
                 </div>
                 <div class="col-xl-3">
@@ -120,7 +123,8 @@
               <div class="row row-height align-row">
                 <div class="col-xl-6 address-top">
                   <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
-                  <label *ngIf="pilot" class="address-client">{{ invShippingProtocol?.businessName ? invShippingProtocol.businessName : invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
+                  <label *ngIf="pilot && viewCopy" class="address-client">{{ invoice.invoiceProtocolClientResponse.businessName !== null ? invoice.invoiceProtocolClientResponse.businessName : invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
+                  <label *ngIf="pilot && viewOriginal" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
                   <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ invShippingProtocol?.businessName && editBusinessName ? invShippingProtocol.businessName : invoice.customer != null ? invoice.customer : invoice.user?.name }}"
                   (change)="updateCustomer($event)" required>
                 </div>
@@ -138,7 +142,7 @@
               </div>
               <div class="row row-height">
                 <div class="col-xl-6 address-middle">
-                  <label class="address-client">{{invoice.address ? (invoice.address.city + ' - ' +invoice.address.state) : ''}}</label>
+                  <label class="address-client">{{invoice.address ? (invoice.address.city + (invoice.address.state != null ? ' - ' +invoice.address.state : '')) : ''}}</label>
                 </div>
                 <div class="col-xl-6 address-spectrum">
                   <label class="address-spectrum">ATLANTA GA 30319</label>
