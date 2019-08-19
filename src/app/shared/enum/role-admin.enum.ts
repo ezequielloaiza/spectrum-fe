@@ -40,5 +40,6 @@ export enum RoleAdmin {
   EntrustingCompany,
   EditShippingProtocol,
   ProtocolProforma,
-  ChangePassword
+  ChangePassword,
+  ClientInvoice
 }

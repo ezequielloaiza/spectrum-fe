@@ -54,6 +54,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   listInvoiceSupplier = [];
   valido = true;
   validoProvider = true;
+  connected: boolean;
   constructor(private orderService: OrderService,
     private userService: UserStorageService,
     private modalService: NgbModal,
@@ -74,6 +75,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.connected = this.userService.getIsIntegratedQBO();
     this.route.queryParams.subscribe(params => {
       this.status = params.status;
     });

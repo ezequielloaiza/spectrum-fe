@@ -78,4 +78,8 @@ export class InvoiceClientService {
       responseType: 'blob'
     });
   }
+
+  public allInvoiceQBO$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceQBO');
+  }
 }

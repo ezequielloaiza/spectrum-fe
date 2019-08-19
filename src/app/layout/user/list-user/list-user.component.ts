@@ -40,7 +40,6 @@ export class ListUserComponent implements OnInit {
 
   ngOnInit() {
     this.connected = this.userStorageService.getIsIntegratedQBO();
-    debugger
     this.getListUser(-1);
     this.advancedPagination = 1;
   }
