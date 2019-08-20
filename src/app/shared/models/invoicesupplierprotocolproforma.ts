@@ -18,6 +18,7 @@ export class InvoiceSupplierProtocolProforma {
   public tariffCodes: string;
   public protocolSpectrum: string;
   public maximumAmount: number;
+  public originUsa: Boolean;
 
   constructor(obj?: any) {
     Object.assign(this, obj);
