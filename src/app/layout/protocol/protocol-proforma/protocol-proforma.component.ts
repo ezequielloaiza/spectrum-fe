@@ -71,7 +71,8 @@ export class ProtocolProformaComponent implements OnInit {
       emailComment: [null],
       tariffCodes: [null],
       clientId: [null],
-      supplierId: [null]
+      supplierId: [null],
+      originUsa: [false]
     });
   }
 
@@ -110,8 +111,8 @@ export class ProtocolProformaComponent implements OnInit {
 
   loadFields() {
     this.protocols = {
-      aspectrumProforma: {label: 'Spectrum Proforma', values:[], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
-      badditionalDocuments: {label: 'Additional Documents', values:[], selectedSuppliers: [], placeHolder:'Enter additional documents',id:2},
+      spectrumProforma: {label: 'Spectrum Proforma', values:[], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
+      additionalDocuments: {label: 'Additional Documents', values:[], selectedSuppliers: [], placeHolder:'Enter additional documents',id:2},
       comments: {label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:3},
       tariffCodes: {label: 'HS Code', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:4},
       protocolSpectrum: {label: 'Protocol From Spectrum', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:5},
@@ -119,7 +120,8 @@ export class ProtocolProformaComponent implements OnInit {
       maximumAmount: {label: 'Maximum Amount to Declare', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:7},
       documentation: {label: 'Documentation that must accompany the delivery and proforma invoice', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:8},
       fixedPrices: {label: 'Fixed Prices for Proforma Invoice', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:9},
-      emailComment: {label: 'Email Comments', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:10}
+      emailComment: {label: 'Email Comments', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:10},
+      originUsa: {label: 'Origin Of Goods', values:[], selectedSuppliers: [], placeHolder:'Enter Origin Of Goods',id:11}
     };
   }
 
@@ -129,7 +131,7 @@ export class ProtocolProformaComponent implements OnInit {
     this.protocolProformaService.allProtocolByUserId$(this.idClient).subscribe(res => {
       _.each(res.data, function(protocol, key) {
         _.each(protocol, function(obj, _key) {
-          const clave = _key === 'spectrumProforma' ? 'aspectrumProforma' : (_key === 'additionalDocuments' ? 'badditionalDocuments' : _key);
+          const clave = _key;
           if (!!self.protocols[clave]) {
             if (protocol[_key] !== '' && protocol[_key] !== null) {
               if (self.protocols[clave].values.length === 0) {
@@ -209,7 +211,7 @@ export class ProtocolProformaComponent implements OnInit {
       protocolSave.supplierId = supplier.idSupplier;
       protocolSave.clientId = self.idClient;
       _.each(self.protocols, function(protocol, key) {
-        const _key = key === 'aspectrumProforma' ? 'spectrumProforma' : (key === 'badditionalDocuments' ? 'additionalDocuments' : key);
+        const _key = key;
         _.each(protocol.values, function(value) {
           if (_.includes(value.suppliers, supplier.idSupplier)) {
             const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier])
@@ -243,6 +245,9 @@ export class ProtocolProformaComponent implements OnInit {
     this.saving = true;
     if (this.protocolForm.value.spectrumProforma == null) {
       this.spectrumProforma.setValue(false);
+    }
+    if (this.protocolForm.value.originUsa == null) {
+      this.originUsa.setValue(false);
     }
     this.protocolProformaService.update$(this.protocolForm.value).subscribe(res => {
       this.protocol = res;
@@ -314,6 +319,7 @@ export class ProtocolProformaComponent implements OnInit {
     this.tariffCodes.setValue(protocol.tariffCodes);
     this.clientId.setValue(protocol.clientId);
     this.supplierId.setValue(protocol.supplierId);
+    this.originUsa.setValue(protocol.originUsa);
   }
 
   get id() {
@@ -356,7 +362,13 @@ export class ProtocolProformaComponent implements OnInit {
     return this.protocolForm.get('supplierId');
   }
 
+  get originUsa() {
+    return this.protocolForm.get('originUsa');
+  }
+
   assignSpectrumProforma(value: number) { this.protocolForm.get('spectrumProforma').setValue(value); }
+
+  assignOriginUsa(value: number) { this.protocolForm.get('originUsa').setValue(value); }
 
   downloadProtocol() {
     this.spinner.show();
@@ -373,5 +385,31 @@ export class ProtocolProformaComponent implements OnInit {
         this.notification.error('', res);
       });
     });
+  }
+
+  checkedAllSuppliers(protocol) {
+    return this.suppliers.length === protocol.selectedSuppliers.length;
+  }
+
+  onSelectionAll(protocol, value) {
+    let self = this;
+
+    if (this.checkedAllSuppliers(protocol)) {
+      protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, value.suppliers);
+      value.suppliers = [];
+    } else {
+      _.each(self.suppliers, function(supplier) {
+        if (self.allowedSelection(supplier.idSupplier, protocol)) {
+          value.suppliers.push(supplier.idSupplier);
+          protocol.selectedSuppliers.push(supplier.idSupplier);
+        }
+      });
+    }
+  }
+
+  hideAdd(protocol){
+    return this.suppliers.length === protocol.value.selectedSuppliers.length || 
+           this.suppliers.length === protocol.value.values.length ||
+           (protocol.value.label === 'Spectrum Proforma' && protocol.value.values.length === 2)
   }
 }

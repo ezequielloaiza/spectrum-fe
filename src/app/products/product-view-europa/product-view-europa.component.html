@@ -219,7 +219,7 @@
                     </ng-select>
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
-                      [disabled]="!product.eyeRight" min="0">
+                      [disabled]="!product.eyeRight" min="0.00" step="0.01">
                   </div>
 
                   <!--Only Base Curve-->

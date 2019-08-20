@@ -15,6 +15,7 @@ export class InvoiceSupplierProductRequested {
   public  codeSpectrum: string;
   public  quantity: number;
   public  delete: boolean;
+  public  patient: string;
 
     public constructor() { }
 

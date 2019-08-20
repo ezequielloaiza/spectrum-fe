@@ -40,6 +40,7 @@ export class ShippingProtocolComponent implements OnInit {
   user: any;
   IDClient: any;
   validRecords = 0;
+  selectedAll: any;
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -549,6 +550,10 @@ export class ShippingProtocolComponent implements OnInit {
     return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
   }
 
+  checkedAllSuppliers(protocol) {
+    return this.suppliers.length === protocol.selectedSuppliers.length;
+  }
+
   validContent(protocol, pos) {
     let valid = true;
     if (protocol.values[pos].content === '') {
@@ -565,5 +570,26 @@ export class ShippingProtocolComponent implements OnInit {
     return show;
   }
 
+  onSelectionAll(protocol, value) {
+    let self = this;
+
+    if (this.checkedAllSuppliers(protocol)) {
+      protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, value.suppliers);
+      value.suppliers = [];
+    } else {
+      _.each(self.suppliers, function(supplier) {
+        if (self.allowedSelection(supplier.idSupplier, protocol)) {
+          value.suppliers.push(supplier.idSupplier);
+          protocol.selectedSuppliers.push(supplier.idSupplier);
+        }
+      });
+    }
+  }
+
+  hideAdd(protocol){
+    return this.suppliers.length === protocol.value.selectedSuppliers.length ||
+           protocol.value.values.length === this.suppliers.length ||
+           (protocol.value.values.length === 3 &&  (protocol.value.label === 'Shipping Frecuency' || protocol.value.label === 'Shipping Method'));
+  }
 }
 

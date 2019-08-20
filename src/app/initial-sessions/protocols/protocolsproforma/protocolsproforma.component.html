@@ -48,6 +48,12 @@
           </button>
           <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
             <div class="select-type">
+              <div class="custom-control custom-checkbox">
+                <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}-all" type="checkbox" name="checkboxAll"
+                  [checked]="checkedAllSuppliers(protocol)"
+                  (click)="onSelectionAll(protocol, value)" class="custom-control-input">
+                <label class="custom-control-label" for="{{protocol.label}}-{{ i }}-{{ pos }}-all">{{ 'Select All' | translate }}</label>
+              </div>
               <li *ngFor="let supplier of suppliers; index as i">
                 <div>
                   <div class="custom-control custom-checkbox">
@@ -68,7 +74,7 @@
     </div>
 
     <div>
-      <button type="button" class="btn btn-main" [hidden]="suppliers.length === protocol.selectedSuppliers.length" (click)="addValue(protocol)">{{ 'Add' | translate }}
+      <button type="button" class="btn btn-main" [hidden]="hideAdd(protocol)" (click)="addValue(protocol)">{{ 'Add' | translate }}
         <i class="fa fa-plus-circle ml-2"></i>
       </button>
     </div>
