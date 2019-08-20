@@ -272,10 +272,10 @@
               <div class="success"><span *ngIf="connected">Successful Connection</span></div>
               <div class="d-flex justify-content-between">
                 <div>
-                  <button *ngIf="!connected" class="btn btn-main btn-edit" (click)="connectToQuickBooks()">Connect to QuickBooks</button>
+                  <button *ngIf="!connected" class="btn btn-main btn-edit" (click)="connectToQuickBooks()">{{ 'Connect to QuickBooks' | translate }}</button>
                 </div>
                 <div>
-                  <button *ngIf="connected" class="btn btn-secondary" (click)="revokeToken()">Revoke Access</button>
+                  <button *ngIf="connected" class="btn btn-secondary" (click)="revokeToken()">{{ 'Revoke Access' | translate }}</button>
                 </div>
               </div>
             </ng-template>          
