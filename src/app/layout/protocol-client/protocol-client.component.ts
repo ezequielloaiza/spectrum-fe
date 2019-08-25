@@ -572,8 +572,8 @@ export class ProtocolClientComponent implements OnInit {
     let self = this;
 
     if (this.checkedAllSuppliers(protocol)) {
+      protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, value.suppliers);
       value.suppliers = [];
-      protocol.selectedSuppliers = [];
     } else {
       _.each(self.suppliers, function(supplier) {
         if (self.allowedSelection(supplier.idSupplier, protocol)) {
@@ -582,5 +582,11 @@ export class ProtocolClientComponent implements OnInit {
         }
       });
     }
+  }
+
+  hideAdd(protocol) {
+    return this.suppliers.length === protocol.value.selectedSuppliers.length ||
+           this.suppliers.length === protocol.value.values.length ||
+           (protocol.value.values.length === 3 &&  (protocol.value.label === 'Shipping Frecuency' || protocol.value.label === 'Shipping Method'));
   }
 }
