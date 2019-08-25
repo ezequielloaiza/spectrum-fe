@@ -181,6 +181,7 @@ export class EditProductEuclidComponent implements OnInit {
   setProductRequest(product) {
     this.productUpdate.id = product.idProduct;
     this.productUpdate.name = this.product.idProduct === product.idProduct ? this.form.get('name').value : product.name;
+    this.productUpdate.codeSpectrum = product.codeSpectrum;
     this.productUpdate.descriptionShort = this.form.get('descriptionShort').value;
     this.productUpdate.price1 = this.form.get('price1').value;
     this.productUpdate.price2 = this.form.get('price2').value;

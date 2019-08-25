@@ -22,6 +22,7 @@ export class ProductRequest {
   public types: string;
   public status: number;
   public father: string;
+  public codeSpectrum: string;
     public constructor() { }
 
   }
