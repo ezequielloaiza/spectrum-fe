@@ -12,7 +12,7 @@
         <div class="col-xl-6">
           <fieldset class="form-group">
             <label>{{ 'Name' | translate }}</label>
-            <input class="form-control" maxlength="40" placeholder="{{ 'Enter product name' | translate }}" name="name" formControlName="name"
+            <input class="form-control" maxlength="40" placeholder="{{ 'Enter product name' | translate }}" name="name" formControlName="name" readonly
               required>
           </fieldset>
           <div class="message-error" [hidden]="name.valid || name.pristine">
