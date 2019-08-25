@@ -163,7 +163,7 @@
                 <div *ngIf="parameter.type === 'input' && parameter.name ==='Sphere (D)'" class="row select-values">
                   <input class="form-control" type="number" step="00.01" placeholder="{{ parameter.placeholder | translate }}"
                     [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');" [disabled]="!product.eyeRight"
-                    [required]="product.eyeRight" (change)="changeSelect('left',parameter, parameter.selected)">
+                    [required]="product.eyeRight" (change)="changeSelect('right',parameter, parameter.selected)">
                 </div>
                 <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)' && parameter.name ==='Cylinder (D)'"
                   class="row select-values">
@@ -344,7 +344,7 @@
             </div>
           </div>
         </div>
-  
+
         <!--files left-->
         <div class="documents col-md-12">
           <div class="row">
