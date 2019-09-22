@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
+import { User } from '../../../shared/models/user';
 
 @Component({
   selector: 'app-list',
@@ -164,6 +165,40 @@ export class ListUserComponent implements OnInit {
       this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe((res: string) => {
         this.notification.error('', res);
       });
+    });
+  }
+
+  updateCustomer() {
+    let customers = [
+      {
+       'sparse': true,
+       'Id': '217',
+       'SyncToken': '0',
+       'CompanyName': 'Magdalena D\'Adrea',
+       'DisplayName': 'Flexcel Group SRL'
+      },
+      {
+        'sparse': true,
+        'Id': '218',
+        'SyncToken': '0',
+        'CompanyName': 'Jorge Echeverria',
+        'DisplayName': 'Medical Choice'
+       },
+       {
+        'sparse': true,
+        'Id': '219',
+        'SyncToken': '0',
+        'CompanyName': 'Melissa Serrano',
+        'DisplayName': 'LENTES NOVA VISUAL S.A'
+       }
+    ];
+    let cust = JSON.stringify(customers);
+    let user: User = new User();
+    user.address = cust;
+    this.userService.updateCustormer$(user).subscribe(res => {
+
+    }, error => {
+      console.log('error', error);
     });
   }
 

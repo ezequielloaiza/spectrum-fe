@@ -108,4 +108,9 @@ export class UserService {
     });
   }
 
+
+
+  public updateCustormer$(user): Observable<any> {
+    return this.http.put(environment.apiUrl + 'user/updateCustormers', user);
+  }
 }
