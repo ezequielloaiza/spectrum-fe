@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://54.209.228.182:8443/api/v1/',
+  apiUrl: 'https://www.myspectrumorders.com:8443/api/v1/',
   firebase: {
     apiKey: 'AIzaSyDueIh6nxo-wxTG2moQbq_iNDKFFtNDARI',
       authDomain: 'spectrum-app.firebaseapp.com',
