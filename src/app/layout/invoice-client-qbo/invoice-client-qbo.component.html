@@ -164,12 +164,9 @@
                         <div ngbDropdownMenu>
                           <button class="dropdown-item" (click)="open(invoice)">
                             <i class="fa fa-credit-card"></i> {{ 'Payments' | translate }}</button>
-                            <!--
-                          <button class="dropdown-item" (click)="downloadInvoice(invoice)">
-                            <i class="fa fa-download"></i> {{ 'Download' | translate }}</button>
-                            -->
-                          <button class="dropdown-item" (click)="delete(invoice)">
-                            <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
+                            
+                          <button class="dropdown-item" (click)="downloadInvoiceQBO(invoice.qboInvoiceId)">
+                            <i class="fa fa-download"></i> {{ 'Download' | translate }}</button>                          
                         </div>
                       </div>
                     </div>

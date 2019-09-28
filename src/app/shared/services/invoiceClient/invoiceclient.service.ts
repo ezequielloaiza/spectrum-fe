@@ -82,4 +82,10 @@ export class InvoiceClientService {
   public allInvoiceQBO$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceQBO');
   }
+
+  public downloadInvoiceQBO$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/downloadInvoiceQBO/' + id, {
+      responseType: 'blob'
+    });
+  }
 }
