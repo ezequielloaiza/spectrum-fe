@@ -1207,5 +1207,12 @@
     "Same address as above":"Misma dirección que arriba",
     "More Details": "Más Detalles",
     "Select All": "Seleccionar todos",
-    "Origin Of Goods":"Origen de Fondos"
+    "Origin Of Goods":"Origen de Fondos",
+    "To create a customer you must authorize to Quickbooks to complete the integration": "Para crear un cliente, debe autorizar a Quickbooks para completar la integración",
+    "To update a customer you must authorize to Quickbooks to complete the integration": "Para actualizar un cliente, debe autorizar a Quickbooks para completar la integración",
+    "To update a company you must authorize to Quickbooks to complete the integration": "Para actualizar un compañia, debe autorizar a Quickbooks para completar la integración",
+    "To create a invoice you must authorize to Quickbooks to complete the integration": "Para crear una factura, debe autorizar a Quickbooks para completar la integración",
+    "Integration": "Integración",
+    "Connect to QuickBooks": "Conectar a QuickBooks",
+    "Revoke Access": "Revoke Access"
 }

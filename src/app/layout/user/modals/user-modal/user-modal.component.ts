@@ -46,6 +46,7 @@ export class UserModalComponent implements OnInit {
   selectedCountryCompany: any = null;
   locale: any;
   msjPayment = true;
+  saving = false;
   marked = false;
   theCheckbox = false;
 
@@ -153,6 +154,7 @@ export class UserModalComponent implements OnInit {
     this.form.get('city').setValue(this.valorCity.description);
     this.form.get('companyCity').setValue(this.valorCompanyCity.description);
     this.form.get('suppliers').setValue(this.listSuppliers);
+    this.saving = true;
     this.userSerice.signUp$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.modal.close();
@@ -165,13 +167,21 @@ export class UserModalComponent implements OnInit {
         this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
+      } else if (res.code === CodeHttp.conflict) {
+        this.form.get('city').setValue(this.valorCity);
+        this.form.get('companyCity').setValue(this.valorCompanyCity);
+        this.translate.get('The user already exists in QuickBooks', { value: 'The user already exists in QuickBooks' }).subscribe((res: string) => {
+          this.notification.warning('', res);
+        });
       } else {
         this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
           this.notification.error('', res);
           console.log(res);
         });
       }
+      this.saving = false;
     }, error => {
+      this.saving = false;
       console.log('error', error);
     });
   }

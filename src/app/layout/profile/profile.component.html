@@ -264,6 +264,22 @@
               </div>
             </ng-template>
           </ngb-tab>
+          <ngb-tab title="{{ 'Integration'| translate}}" *ngIf="isAdmin">
+            <ng-template ngbTabContent>
+              <div>
+                <img src="assets/images/QuickbooksOnline.png" style="width: 40%">
+              </div>
+              <div class="success"><span *ngIf="connected">Successful Connection</span></div>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <button *ngIf="!connected" class="btn btn-main btn-edit" (click)="connectToQuickBooks()">{{ 'Connect to QuickBooks' | translate }}</button>
+                </div>
+                <div>
+                  <button *ngIf="connected" class="btn btn-secondary" (click)="revokeToken()">{{ 'Revoke Access' | translate }}</button>
+                </div>
+              </div>
+            </ng-template>          
+          </ngb-tab>
         </ngb-tabset>
         <br>
       </form>

@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { environment } from '../../../../src/environments/environment';
 import * as _ from 'lodash';
+import { QuickbooksService } from '../../shared/services/quickbooks/quickbooks.service';
 
 const URL = environment.apiUrl + 'user/uploaderAvatar';
 
@@ -37,6 +38,8 @@ export class ProfileComponent implements OnInit {
   queueLimit = 1;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   private uploadResult: any = null;
+  connected = false;
+  isAdmin = false;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
@@ -52,7 +55,8 @@ export class ProfileComponent implements OnInit {
     private userStorageService: UserStorageService,
     private notification: ToastrService,
     private translate: TranslateService,
-    private countryService: CountryService) {
+    private countryService: CountryService,
+    private quickbooksService: QuickbooksService) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
     this.initializeAvatar();
 
@@ -76,6 +80,8 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isAdmin = this.userStorageService.getIsAdmin();
+    this.connected = this.userStorageService.getIsIntegratedQBO();
     this.initializeForm();
     this.initializeAvatar();
     this.getCountries();
@@ -254,6 +260,30 @@ export class ProfileComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  public connectToQuickBooks() {
+    const self = this;
+    this.quickbooksService.connectToQuickbooks$().subscribe((res) => {
+      const windowOauth =  window.open(res.data,"Quickbooks","menubar=1,resizable=1,width=650,height=680,left=350");
+      const timer = setInterval(function() { 
+        if (windowOauth.closed) {
+          clearInterval(timer);
+          self.updateConnection();         
+        }
+      }, 1000);
+    });
+  }
+
+  public revokeToken() {
+    this.quickbooksService.revokeToken$().subscribe((res) => {
+      this.updateConnection();
+    });
+  }
+
+  public updateConnection() {
+    this.connected = !this.connected;
+    this.userStorageService.setIsIntegratedQBO(this.connected);
   }
 
   /*

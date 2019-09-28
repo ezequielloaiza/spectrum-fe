@@ -79,7 +79,9 @@
                 <label class="custom-control-label select-all" for="checkboxAll"></label>
                 <div class="margin">
                   <div class="col-xl-12 btn-clean">
-                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billCustomers()">Bill To Customer</button>&nbsp;
+                    <button class="btn btn-outline-secondary mr-1" translate [hidden]="!valid" (click)="billCustomers()" *ngIf="connected">Bill To Customer</button>&nbsp;
+                    <button type="button" class="btn btn-outline-secondary disabled mr-1" [hidden]="!valid" placement="top" ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}" container="body" *ngIf="!connected">{{ 'Bill To Customer' | translate }}                      
+                    </button>           
                     <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billProviders()">Bill To Provider</button>
                   </div>
                 </div>
@@ -210,9 +212,11 @@
                         <div ngbDropdownMenu class="dropdown-menu-invoice">
                           <button class="dropdown-item" (click)="generateInvoice(order)">
                             {{ 'To Provider' | translate }}</button>
-                          <button class="dropdown-item" (click)="invoiceClient(order)">
+                          <button class="dropdown-item" (click)="invoiceClient(order)" *ngIf="connected">
                             {{ 'To Customer' | translate }}</button>
-                        </div>
+                          <button class="dropdown-item disabled" placement="top" ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}" container="body" *ngIf="!connected">
+                            {{ 'To Customer' | translate }}</button>
+                        </div>                     
                       </div>
                     </div>
                   </div>
