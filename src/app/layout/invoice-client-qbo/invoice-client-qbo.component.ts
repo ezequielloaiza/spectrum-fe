@@ -32,4 +32,10 @@ export class InvoiceClientQBOComponent implements OnInit {
     })
   }
 
+  sentToEmail(id) {
+    this.invoiceClientService.sentToEmailInvoiceQBO$(id).subscribe(res => {
+
+    });
+  }
+
 }

@@ -88,4 +88,8 @@ export class InvoiceClientService {
       responseType: 'blob'
     });
   }
+
+  public sentToEmailInvoiceQBO$(id): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesClient/sentToEmail/' + id, {});
+  }
 }
