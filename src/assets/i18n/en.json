@@ -1027,5 +1027,6 @@
     "Same address as above":"Same address as above",
     "More Details": "More Details",
     "Select All": "Select All",
-    "Origin Of Goods":"Origin Of Goods"
+    "Origin Of Goods":"Origin Of Goods",
+    "All invoices must belong to the same customer to make bulk payments": "All invoices must belong to the same customer to make bulk payments"
 }

@@ -1207,5 +1207,6 @@
     "Same address as above":"Misma dirección que arriba",
     "More Details": "Más Detalles",
     "Select All": "Seleccionar todos",
-    "Origin Of Goods":"Origen de Fondos"
+    "Origin Of Goods":"Origen de Fondos",
+    "All invoices must belong to the same customer to make bulk payments": "Todas las facturas deben pertenecer al mismo cliente para realizar pagos masivos"
 }
