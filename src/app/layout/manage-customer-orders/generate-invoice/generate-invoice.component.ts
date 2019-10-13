@@ -108,7 +108,6 @@ export class GenerateInvoiceComponent implements OnInit {
     this.verify = false;
     this.edit = true;
     this.allDelete = false;
-    debugger
   }
 
   initializeForm() {
