@@ -173,7 +173,11 @@ export class ProfileComponent implements OnInit {
   }
 
   savePersonal(): void {
-    this.form.get('city').setValue(this.form.value.city.description);
+    if (this.form.value.city.description) {
+      this.form.get('city').setValue(this.form.value.city.description);
+    } else {
+      this.form.get('city').setValue(this.form.value.city);
+    }
     this.userService.updateProfile$(this.form.value).subscribe(res => {
       this.form.get('city').setValue({ description: this.user.userResponse.city });
       if (res.code === CodeHttp.ok) {
@@ -196,7 +200,11 @@ export class ProfileComponent implements OnInit {
   }
 
   saveAccount(): void {
-    this.form.get('city').setValue(this.form.value.city.description);
+    if (this.form.value.city.description) {
+      this.form.get('city').setValue(this.form.value.city.description);
+    } else {
+      this.form.get('city').setValue(this.form.value.city);
+    }
     this.userService.changePassword$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.user.userResponse = res.data;

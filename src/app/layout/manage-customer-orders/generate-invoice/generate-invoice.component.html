@@ -123,9 +123,9 @@
               <div class="row row-height align-row">
                 <div class="col-xl-6 address-top">
                   <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
-                  <label *ngIf="pilot && viewCopy" class="address-client">{{ invoice.invoiceProtocolClientResponse.businessName !== null ? invoice.invoiceProtocolClientResponse.businessName : invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
+                  <label *ngIf="pilot && viewCopy" class="address-client">{{ invoice.invoiceProtocolClientResponse.businessName !== null ? invoice.invoiceProtocolClientResponse.businessName : invoice.user.company.companyName }}</label>
                   <label *ngIf="pilot && viewOriginal" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ invShippingProtocol?.businessName && editBusinessName ? invShippingProtocol.businessName : invoice.customer != null ? invoice.customer : invoice.user?.name }}"
+                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ invShippingProtocol?.businessName && editBusinessName ? invShippingProtocol.businessName : invoice.user.company.companyName }}"
                   (change)="updateCustomer($event)" required>
                 </div>
                 <div class="col-xl-6 address-spectrum">
@@ -350,6 +350,7 @@
               <div class="row">
                 <div class="col-xl-12 truncate" *ngIf="protocolShippingInv || editBusinessName || editRecipient || editComment">
                   <br>
+                  <!--
                   <label *ngIf="(pilot && invShippingProtocol?.businessName != null) || (!pilot && editBusinessName)" class="bold">{{ 'Business Name' }}: </label>
                   <label *ngIf="pilot && invShippingProtocol?.businessName != null" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
                   <label *ngIf="editBusinessName" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.businessName : '' }}</label>
@@ -358,6 +359,7 @@
                   <label *ngIf="pilot && invShippingProtocol?.recipient != null" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.recipient : '' }}</label>
                   <label *ngIf="!pilot && editRecipient" class="margin-left">{{ invShippingProtocol ? invShippingProtocol?.recipient : '' }}</label>
                   <br *ngIf="editRecipient || (pilot && invShippingProtocol?.recipient != null)">
+                  -->
                   <label *ngIf="(pilot && invShippingProtocol?.comment != null) || (!pilot && editComment)" class="bold">{{ 'Comments' }}: </label>
                   <label *ngIf="pilot && invShippingProtocol?.comment != null" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment: '') }}</label>
                   <label *ngIf="!pilot && editComment" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.comment : '') }}</label>
