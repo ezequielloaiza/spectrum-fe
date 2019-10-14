@@ -852,7 +852,6 @@
     "Design": "Design",
     "Power(D)": "Power(D)",
     "Eccentricity": "Eccentricity",
-    "Diameter zo (mm)": "Diameter zo (mm)",
     "Center": "Center",
     "Pupillary diameter": "Pupillary diameter",
     "Enter name patient": "Enter name patient",
@@ -1027,5 +1026,6 @@
     "Same address as above":"Same address as above",
     "More Details": "More Details",
     "Select All": "Select All",
-    "Origin Of Goods":"Origin Of Goods"
+    "Origin Of Goods":"Origin Of Goods",
+    "All invoices must belong to the same customer to make bulk payments": "All invoices must belong to the same customer to make bulk payments"
 }

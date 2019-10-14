@@ -1031,7 +1031,6 @@
     "Design": "Diseño",
     "Power(D)": "Poder(D)",
     "Eccentricity": "Excentricidad",
-    "Diameter zo (mm)": "Diámetro zo (mm)",
     "Center": "Centrar",
     "Pupillary diameter": "Diámetro pupilar",
     "Silicone fluor-acrylate (optimum extra)": "Flúor-acrilato de silicona (óptimo extra)",
@@ -1207,5 +1206,6 @@
     "Same address as above":"Misma dirección que arriba",
     "More Details": "Más Detalles",
     "Select All": "Seleccionar todos",
-    "Origin Of Goods":"Origen de Fondos"
+    "Origin Of Goods":"Origen de Fondos",
+    "All invoices must belong to the same customer to make bulk payments": "Todas las facturas deben pertenecer al mismo cliente para realizar pagos masivos"
 }
