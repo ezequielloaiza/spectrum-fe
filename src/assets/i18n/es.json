@@ -1031,7 +1031,6 @@
     "Design": "Diseño",
     "Power(D)": "Poder(D)",
     "Eccentricity": "Excentricidad",
-    "Diameter zo (mm)": "Diámetro zo (mm)",
     "Center": "Centrar",
     "Pupillary diameter": "Diámetro pupilar",
     "Silicone fluor-acrylate (optimum extra)": "Flúor-acrilato de silicona (óptimo extra)",
@@ -1216,5 +1215,6 @@
     "Connect to QuickBooks": "Conectar a QuickBooks",
     "Revoke Access": "Revoke Access",
     "All client Invoices": "Todas las facturas del cliente",
-    "Sent by email": "Enviar por correo"
+    "Sent by email": "Enviar por correo",
+    "All invoices must belong to the same customer to make bulk payments": "Todas las facturas deben pertenecer al mismo cliente para realizar pagos masivos"
 }

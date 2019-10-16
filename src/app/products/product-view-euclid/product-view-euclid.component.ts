@@ -216,7 +216,7 @@ export class ProductViewEuclidComponent implements OnInit {
     _.reverse(this.product.parametersLeft[4].values);
     this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.pricesAditionalWarranties = JSON.parse(this.product.infoAditional)[1].values[0];
-    this.download = JSON.parse(this.product.infoAditional)[2].value;
+    //this.download = JSON.parse(this.product.infoAditional)[2].value;
     this.product.priceSale = '';
     this.product.additional = '';
     this.setClient();

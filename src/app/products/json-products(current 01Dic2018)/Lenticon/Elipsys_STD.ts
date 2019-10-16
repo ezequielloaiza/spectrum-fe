@@ -368,7 +368,7 @@ this.products = [
             "selected": null
           },
           {
-            "name": "Diameter zo (mm)",
+            "name": "Diameter (mm)",
             "type": "selected",
             "values": [
               "6.00",
@@ -520,7 +520,7 @@ this.products = [
             "selected": null
           },
           {
-            "name": "Diameter zo (mm)",
+            "name": "Diameter (mm)",
             "type": "input",
             "values": [
               "9.80"

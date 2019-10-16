@@ -23,7 +23,7 @@ import { StatusInvoiceClient } from '../../shared/enum/status-invoice-client.enu
 })
 export class ManagePaymentsComponent implements OnInit, OnDestroy {
   orderByField = 'number';
-	reverseSort = true;
+  reverseSort = true;
   typeSort = 0;
   invoice: any;
   user: any;
@@ -34,10 +34,10 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   itemPerPage: number = 8;
   order: any;
   filterStatus = [{ id: 0, name: "Pending" },
-                  { id: 1, name: "Part Paid" },
-                  { id: 2, name: "Paid" },
-                  { id: 3, name: "Overdue" }
-                 ];
+  { id: 1, name: "Part Paid" },
+  { id: 2, name: "Paid" },
+  { id: 3, name: "Overdue" }
+  ];
   listAux = [];
   valid = false;
   selectedAll: any;
@@ -51,6 +51,8 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   search: String;
   navigationSubscription;
   listPayments: Array<any> = new Array;
+  invoicesSameClient = [];
+
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
     private notification: ToastrService,
@@ -62,13 +64,13 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     public router: Router,
     private route: ActivatedRoute,
     private invoicePaymentService: InvoicePaymentService) {
-      this.user = JSON.parse(userStorageService.getCurrentUser());
-      this.navigationSubscription = this.router.events.subscribe((e: any) => {
-        if (e instanceof NavigationEnd) {
-          this.ngOnInit();
-        }
-      });
-    }
+    this.user = JSON.parse(userStorageService.getCurrentUser());
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      if (e instanceof NavigationEnd) {
+        this.ngOnInit();
+      }
+    });
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -112,14 +114,14 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
         if (res.code === CodeHttp.ok) {
           this.listInvoices = res.data;
           this.listInvoicesAux = res.data;
-          _.each(this.listInvoices, function(invoice) {
+          _.each(this.listInvoices, function (invoice) {
             invoice.pay = false;
-            _.each(invoice.invoiceClientInvoicePayments, function(payment) {
+            _.each(invoice.invoiceClientInvoicePayments, function (payment) {
               if (payment.invoicePayment.status === 0) {
                 invoice.pay = true;
               }
             });
-           });
+          });
           this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
           this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
           this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
@@ -137,36 +139,36 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   }
 
   sortInvoice(key) {
-	  if (this.orderByField !== key) {
-			this.typeSort = 0;
-			this.reverseSort = false;
-		}
-		this.orderByField = key;
-		if (this.orderByField !== 'number') {
-			this.typeSort ++;
-			if (this.typeSort > 2) {
-				this.typeSort = 0;
-				this.orderByField = 'number';
-			 	key = 'number';
+    if (this.orderByField !== key) {
+      this.typeSort = 0;
+      this.reverseSort = false;
+    }
+    this.orderByField = key;
+    if (this.orderByField !== 'number') {
+      this.typeSort++;
+      if (this.typeSort > 2) {
+        this.typeSort = 0;
+        this.orderByField = 'number';
+        key = 'number';
         this.reverseSort = true;
         this.getListInvoices();
-			}
-		}
-    let invoicesSort = this.listInvoicesAux.sort(function(a, b) {
+      }
+    }
+    let invoicesSort = this.listInvoicesAux.sort(function (a, b) {
       let x = a[key].toString().toLowerCase(); let y = b[key].toString().toLowerCase();
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-		});
-		this.listInvoicesAux = invoicesSort;
-		if (this.reverseSort) {
-			this.listInvoicesAux = invoicesSort.reverse();
-		}
-		this.advancedPagination = 1;
-		this.pageChange(this.advancedPagination);
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+    this.listInvoicesAux = invoicesSort;
+    if (this.reverseSort) {
+      this.listInvoicesAux = invoicesSort.reverse();
+    }
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
   }
 
   moveFirstPage() {
-		this.advancedPagination = 1;
-		this.pageChange(this.advancedPagination);
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
   }
 
   getOrder(idOrder) {
@@ -186,23 +188,27 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
       this.translate.get('Are you sure you want to delete the invoice? You must notify the provider this change.',
         { value: 'Are you sure you want to delete the invoice? You must notify the provider this change.' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
-              this.invoiceService.delete$(invoice.idInvoice).subscribe(res => {
-                if (res.code === CodeHttp.ok) {
-                  this.getListInvoices();
-                  this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
-                    this.notification.success('', res1);
-                  });
-                } else {
-                  console.log(res.errors[0].detail);
-                }
-              }, error => {
-                console.log('error', error);
-              });
-            }, () => {
+            this.invoiceService.delete$(invoice.idInvoice).subscribe(res => {
+              if (res.code === CodeHttp.ok) {
+                this.getListInvoices();
+                this.translate.get('Successfully Deleted', { value: 'Successfully Deleted' }).subscribe((res1: string) => {
+                  this.notification.success('', res1);
+                });
+              } else {
+                console.log(res.errors[0].detail);
+              }
+            }, error => {
+              console.log('error', error);
+            });
+          }, () => {
           });
         });
-      });
-    }
+    });
+  }
+
+  showItemOnlyAdmin(): boolean {
+    return this.user.role.idRole === 1;
+  }
 
   downloadInvoice(invoice): void {
     this.invoiceService.downloadInvoice$(invoice.number).subscribe(res => {
@@ -228,14 +234,14 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
       if (_.toString(valorStatus) === '' && this.tamano.length === 9) { // Si no ha seleccionado status y fecha
         this.listInvoices = this.listInvoices.filter((item) => {
           return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
+            (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
-          this.filterStatusNombre(client , valorStatus);
+        this.filterStatusNombre(client, valorStatus);
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 15) { // si no selecciono status y fecha si
-          this.filterDateNombre(client);
+        this.filterDateNombre(client);
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15) { // si escribio nombre y selecciono fecha
-          this.fullFilter(client, valorStatus);
+        this.fullFilter(client, valorStatus);
       }
     } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
       this.filter();
@@ -267,10 +273,10 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
         this.filterStatusDate(this.selectedStatus);
       } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
         const nombre = this.valorClient;
-        this.filterStatusNombre(nombre , this.selectedStatus);
+        this.filterStatusNombre(nombre, this.selectedStatus);
       } else if ((this.tamano.length === 15) && (this.valorClient.trim() !== '')) {
         const nombre = this.valorClient;
-        this.fullFilter(nombre , this.selectedStatus);
+        this.fullFilter(nombre, this.selectedStatus);
       }
     }
   }
@@ -283,25 +289,25 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     if (this.tamano.length === 15) {
       this.valid1 = true;
       if ((_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-       // FechaFiltro
+        // FechaFiltro
         let fecha: String;
         fecha = this.getFecha();
-         _.filter(this.listInvoicesAux, function (invoices) {
+        _.filter(this.listInvoicesAux, function (invoices) {
           let fechaList: String;
           // Fecha Listado
           fechaList = _.toString(invoices.date.slice(0, 10));
-            if (_.isEqual(fecha, fechaList)) {
-              lista.push(invoices);
-            }
-         });
-      this.listInvoices = lista;
-     } else if ((_.toString(valorStatus) !== '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-         this.filterStatusDate(valorStatus);
-     } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) === '')) {
+          if (_.isEqual(fecha, fechaList)) {
+            lista.push(invoices);
+          }
+        });
+        this.listInvoices = lista;
+      } else if ((_.toString(valorStatus) !== '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+        this.filterStatusDate(valorStatus);
+      } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) === '')) {
         this.filterDateNombre(this.valorClient);
-     } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) !== '')) {
-        this.fullFilter(this.valorClient , valorStatus);
-     }
+      } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) !== '')) {
+        this.fullFilter(this.valorClient, valorStatus);
+      }
     }
   }
 
@@ -309,9 +315,9 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     const lista = [];
     _.filter(this.listInvoicesAux, function (invoices) {
       if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
-      (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-      // tslint:disable-next-line:radix
-      (_.isEqual(parseInt(status), invoices.status))) {
+        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
+        // tslint:disable-next-line:radix
+        (_.isEqual(parseInt(status), invoices.status))) {
         lista.push(invoices);
       }
     });
@@ -327,8 +333,8 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(invoices.date.slice(0, 10));
       if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
-      (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-      ((_.isEqual(fecha, fechaList)))) {
+        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
+        ((_.isEqual(fecha, fechaList)))) {
         lista.push(invoices);
       }
     });
@@ -374,13 +380,13 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     fecha = this.getFecha();
     const lista = [];
     // Lista actual
-     _.filter(this.listInvoicesAux, function (invoices) {
+    _.filter(this.listInvoicesAux, function (invoices) {
       // Fecha Listado
       const fechaList = _.toString(invoices.date.slice(0, 10));
       if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
-      (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-       // tslint:disable-next-line:radix
-       ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), invoices.status))) {
+        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
+        // tslint:disable-next-line:radix
+        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), invoices.status))) {
         lista.push(invoices);
       }
     });
@@ -412,7 +418,8 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   onSelection(id, checked) {
     let arrayAux = this.listAux;
     let due = false;
-    _.each(this.listInvoices, function(item) {
+    var self = this;
+    _.each(this.listInvoices, function (item) {
       if (item.idInvoice === id) {
         let existe: boolean;
         existe = _.includes(arrayAux, id);
@@ -420,7 +427,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
         if (item.due !== 0) {
           if (existe) {
             if (!checked) {
-              _.remove(arrayAux,  function (n)  {
+              _.remove(arrayAux, function (n) {
                 return n === id;
               });
             }
@@ -448,7 +455,8 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     let arrayAux = this.listAux;
     const check = event.target.checked;
     let due = false;
-    _.each(this.listInvoices, function(item) {
+    var self = this;
+    _.each(this.listInvoices, function (item) {
       item.checked = check;
       let existe: boolean;
       const id = item.idInvoice;
@@ -456,7 +464,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
       if (item.due !== 0) {
         if (existe) {
           if (!check) {
-            _.remove(arrayAux,  function (n)  {
+            _.remove(arrayAux, function (n) {
               return n === id;
             });
           }
@@ -478,9 +486,30 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     this.listAux.length > 1 ? this.valid = true : this.valid = false;
   }
 
+  checkSameClient(): any {
+    let self = this;
+    let invoices = [];
+    let allSameClient = false;
+    _.each(this.listAux, function(invoiceSelected) {
+      _.each(self.listInvoices, function(invoice) {
+        if (invoice.idInvoice == invoiceSelected) {
+          invoices.push(invoice);
+        }
+      });
+    });
+    if (invoices.length > 0) {
+      let idUser = invoices[0].idUser;
+      allSameClient = _.every(invoices, function(invoice) {
+        return invoice.idUser == idUser;
+      });
+      return  allSameClient;
+    }
+    return allSameClient;
+  }
+
   openModal(invoice, action, payment): void {
     const modalRef = this.modalService.open(AddPaymentModalComponent,
-    { size: 'lg', backdrop  : 'static', keyboard  : false });
+      { size: 'lg', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.invoice = invoice;
     modalRef.componentInstance.action = action;
     modalRef.componentInstance.invoicePayment = payment;
