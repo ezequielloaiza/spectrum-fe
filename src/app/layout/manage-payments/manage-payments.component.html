@@ -213,14 +213,12 @@
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">
-                      <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle *ngIf="showItemOnlyAdmin() && connected">{{ 'Actions' | translate }}</button>
+                      <button class="btn btn-dropdown-main" ngbDropdownToggle *ngIf="!showItemOnlyAdmin()">{{ 'Actions' | translate }}</button>
+                      <button type="button" class="btn btn-outline-secondary disabled mr-1" placement="top" ngbTooltip="{{ 'To perform an action you must authorize to Quickbooks to complete the integration' | translate }}" container="body" *ngIf="showItemOnlyAdmin() && !connected">{{ 'Actions' | translate }}</button>                     
                       <div ngbDropdownMenu>
                         <button class="dropdown-item" (click)="open(invoice)">
-                          <i class="fa fa-credit-card"></i> {{ 'Payments' | translate }}</button>
-                        <!--
-                          <button class="dropdown-item" (click)="downloadInvoice(invoice)">
-                            <i class="fa fa-download"></i> {{ 'Download' | translate }}</button>
-                            -->
+                          <i class="fa fa-credit-card"></i> {{ 'Payments' | translate }}</button>                       
                         <button class="dropdown-item" (click)="delete(invoice)" *ngIf="showItemOnlyAdmin()">
                           <i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
                       </div>
