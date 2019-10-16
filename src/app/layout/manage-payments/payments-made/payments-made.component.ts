@@ -31,6 +31,7 @@ export class PaymentsMadeComponent implements OnInit {
   itemPerPage: number = 5;
   order: any;
   user: any;
+  connected: boolean;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -43,10 +44,11 @@ export class PaymentsMadeComponent implements OnInit {
     private invoicePaymentService: InvoicePaymentService,
     private spinner: NgxSpinnerService,
     public router: Router) {
-      this.user = JSON.parse(userStorageService.getCurrentUser());
-    }
+    this.user = JSON.parse(userStorageService.getCurrentUser());
+  }
 
   ngOnInit() {
+    this.connected = this.userStorageService.getIsIntegratedQBO();
     const id = this.route.snapshot.paramMap.get('idInvoice');
     this.getInvoice(id);
     this.getListPayments(id);
@@ -131,12 +133,12 @@ export class PaymentsMadeComponent implements OnInit {
     } else {
       if (payment != null && (payment.invoiceClientInvoicePaymentList.length > 1) && (action == 'edit')) {
         this.translate.get('It can not edit a multiple payment',
-        { value: 'It can not edit a multiple payment' }).subscribe((res1: string) => {
-          this.notification.success('', res1);
-        });
+          { value: 'It can not edit a multiple payment' }).subscribe((res1: string) => {
+            this.notification.success('', res1);
+          });
       } else {
         const modalRef = this.modalService.open(AddPaymentModalComponent,
-        { size: 'lg', backdrop  : 'static', keyboard  : false });
+          { size: 'lg', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.invoice = invoice;
         modalRef.componentInstance.action = action;
         modalRef.componentInstance.idsInvoiceClient = [invoice.idInvoice];
@@ -155,18 +157,18 @@ export class PaymentsMadeComponent implements OnInit {
       let partial = this.getPartialPayment(payment, this.invoice);
       if ((partial > this.invoice.due) && (payment.status == 0)) {
         this.translate
-        .get('The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.',
-        { value: 'The amount of the payment is greater than the debt of the invoice. Please verify the payment amount' })
-        .subscribe((res1: string) => {
-          this.notification.success('', res1);
-        });
+          .get('The amount of the payment is greater than the debt of the invoice. Please verify the payment amount.',
+            { value: 'The amount of the payment is greater than the debt of the invoice. Please verify the payment amount' })
+          .subscribe((res1: string) => {
+            this.notification.success('', res1);
+          });
       } else {
-        const modalRef = this.modalService.open(ChangeStatusComponent ,
-        {backdrop  : 'static', keyboard  : false});
+        const modalRef = this.modalService.open(ChangeStatusComponent,
+          { backdrop: 'static', keyboard: false });
         modalRef.componentInstance.payment = payment;
         modalRef.result.then((result) => {
-        const id = this.route.snapshot.paramMap.get('idInvoice');
-        this.ngOnInit();
+          const id = this.route.snapshot.paramMap.get('idInvoice');
+          this.ngOnInit();
         }, (reason) => {
         });
       }
@@ -264,6 +266,10 @@ export class PaymentsMadeComponent implements OnInit {
           });
         });
     });
+  }
+
+  showItemOnlyAdmin(): boolean {
+    return this.user.role.idRole === 1;
   }
 
   downloadInvoice(invoice): void {

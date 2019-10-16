@@ -852,7 +852,6 @@
     "Design": "Design",
     "Power(D)": "Power(D)",
     "Eccentricity": "Eccentricity",
-    "Diameter zo (mm)": "Diameter zo (mm)",
     "Center": "Center",
     "Pupillary diameter": "Pupillary diameter",
     "Enter name patient": "Enter name patient",
@@ -1036,5 +1035,7 @@
     "Connect to QuickBooks": "Connect to QuickBooks",
     "Revoke Access": "Revoke Access",
     "All client Invoices": "All client Invoices",
-    "Sent by email": "Sent by email"
+    "Sent by email": "Sent by email",
+    "All invoices must belong to the same customer to make bulk payments": "All invoices must belong to the same customer to make bulk payments",
+    "To perform an action, you must authorize Quickbooks to complete the integration": "To perform an action, you must authorize Quickbooks to complete the integration"
 }
