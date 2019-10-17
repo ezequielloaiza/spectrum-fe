@@ -143,7 +143,7 @@ export class MagicLookComponent implements OnInit {
   changeQuantity(id, ev) {
     const val = ev.target.value;
     let modulo: number;
-    modulo = (parseInt(val) % 50);
+    modulo = (parseInt(val) % 10);
     if (modulo === 0) {
       // Actualizo la cantidad Total
       this.quantity = _.sumBy(this.parametList, 'quantitySelected');
@@ -236,7 +236,7 @@ export class MagicLookComponent implements OnInit {
           }
      });
      _.each(this.parametList, function(boxeSelected) {
-       let modulo = parseInt(boxeSelected.quantitySelected)%50;
+       let modulo = parseInt(boxeSelected.quantitySelected)%10;
         if ((boxeSelected.selected === null || boxeSelected.selected === undefined) ||
            (modulo !== 0 || boxeSelected.quantitySelected === null || boxeSelected.quantitySelected === undefined) ||
            (boxeSelected.colorSelected === null || boxeSelected.colorSelected === undefined)) {
