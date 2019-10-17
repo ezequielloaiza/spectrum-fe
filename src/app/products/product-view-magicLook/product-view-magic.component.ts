@@ -442,7 +442,7 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   setPriceBoxes(quantity) {
-    if (quantity%50 === 0) {
+    if (quantity%10 === 0) {
       var totalQuantity = _.sumBy(this.boxes, 'quantity');
       let info = JSON.parse(this.product.infoAditional);
       let  membership = 0;

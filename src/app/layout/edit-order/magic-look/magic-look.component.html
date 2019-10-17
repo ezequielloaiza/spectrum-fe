@@ -71,7 +71,7 @@
                 <dl *ngFor="let parameter of parametList">
                   <dt>
                     <div>
-                      <input class="form-control col-sm-11" type="number" step="50" min="50" [ngClass]="{'error-quantity':  parameter.quantitySelected && parameter.quantitySelected%50 !== 0 }" (change)="changeQuantity(parameter.id, $event)"
+                      <input class="form-control col-sm-11" type="number" step="10" min="10" [ngClass]="{'error-quantity':  parameter.quantitySelected && parameter.quantitySelected%10 !== 0 }" (change)="changeQuantity(parameter.id, $event)"
                         [(ngModel)]="parameter.quantitySelected" required>
                     </div>
                   </dt>
