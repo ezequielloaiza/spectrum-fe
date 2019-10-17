@@ -150,9 +150,24 @@ export class UserModalComponent implements OnInit {
   }
 
   save(): void {
+
     this.spinner.show();
-    this.form.get('city').setValue(this.valorCity.description);
-    this.form.get('companyCity').setValue(this.valorCompanyCity.description);
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.valorCity.description) {
+      this.form.get('city').setValue(this.valorCity.description);
+    } else {
+      this.form.get('city').setValue(this.valorCity);
+    }
+
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('companyCity').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.valorCompanyCity.description) {
+      this.form.get('companyCity').setValue(this.valorCompanyCity.description);
+    } else {
+      this.form.get('companyCity').setValue(this.valorCompanyCity);
+    }
+
     this.form.get('suppliers').setValue(this.listSuppliers);
     this.saving = true;
     this.userSerice.signUp$(this.form.value).subscribe(res => {
@@ -199,8 +214,8 @@ export class UserModalComponent implements OnInit {
       }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
-      this.valorCity = { description: this.googleService.getCity() };
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
+      this.valorCity = { description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name };
       this.asigCity();
       this.asigCountry();
       this.asigState();
@@ -220,8 +235,8 @@ export class UserModalComponent implements OnInit {
       }
       this.form.get('companyState').setValue(this.googleService.getState());
       this.form.get('companyPostal').setValue(this.googleService.getPostalCode());
-      this.form.get('companyCity').setValue({ description: this.googleService.getCity() });
-      this.valorCompanyCity = { description: this.googleService.getCity() };
+      this.form.get('companyCity').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
+      this.valorCompanyCity = { description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name };
     });
   }
 

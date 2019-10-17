@@ -61,10 +61,10 @@
                     <div>
                       <span>{{'#'}}{{order.number}}</span>
                     </div>
-                    <div class="title">
+                    <div class="title" *ngIf="order.listProductRequested.length == 1">
                       <span *ngIf="order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null">{{'Patient'| translate }}</span>
                     </div>
-                    <div>
+                    <div *ngIf="order.listProductRequested.length == 1">
                       <span>{{order.listProductRequested[0].productRequested.patient ? order.listProductRequested[0].productRequested.patient:''}}</span>
                     </div>
                   </div>
@@ -137,9 +137,14 @@
                     </div>
                   </div>
                   <div class="col-lg-3">
+                    <!--
                     <div [hidden]="listDetails.productRequested.product.material === null">
                       <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>
                     </div>
+                    -->
+                    <div [hidden]="listDetails.productRequested.patient === null || listDetails.productRequested.patient == ''">
+                        <span>{{'Patient'| translate}}{{': '}}{{ listDetails.productRequested.patient }}</span>
+                      </div>
                     <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
                       <span>{{'Replacement period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>

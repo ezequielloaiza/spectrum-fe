@@ -161,8 +161,8 @@ export class EditUserComponent implements OnInit {
       }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('cityPlace').setValue({description: this.googleService.getCity()});
-      this.form.get('city').setValue(this.googleService.getCity());
+      this.form.get('cityPlace').setValue({description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name});
+      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name);
     });
   }
 
