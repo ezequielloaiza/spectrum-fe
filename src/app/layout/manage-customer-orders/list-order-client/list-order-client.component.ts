@@ -120,6 +120,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.list = this.listOrdersAux;
           this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
           this.spinner.hide();
+        } else {
+          this.spinner.hide();
         }
       });
     } else if (this.user.role.idRole === 1) {

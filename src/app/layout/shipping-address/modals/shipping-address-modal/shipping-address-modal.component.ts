@@ -86,9 +86,15 @@ export class ShippingAddressModalComponent implements OnInit {
 
   save(): void {
     this.form.get('companyId').setValue(this.companies.idCompany);
-    if (this.form.get('city').value.description) {
-      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.address.city);
+
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.address.city.description) {
+      this.form.get('city').setValue(this.address.city.city.description);
+    } else {
+      this.form.get('city').setValue(this.address.city);
     }
+
     if (this.action !== 'edit') {
       this.shippingAddressService.save$(this.form.value).subscribe(res => {
         this.form.get('city').setValue({description: this.form.value.city});
@@ -170,7 +176,7 @@ export class ShippingAddressModalComponent implements OnInit {
       }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
     });
   }
 

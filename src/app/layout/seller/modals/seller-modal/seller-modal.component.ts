@@ -99,7 +99,13 @@ export class SellerModalComponent implements OnInit {
   }
 
   save(): void {
-    this.form.get('city').setValue(this.googleService.getCity());
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.form.value.city.description) {
+      this.form.get('city').setValue(this.form.value.city.description);
+    } else {
+      this.form.get('city').setValue(this.form.value.city);
+    }
     this.userSerice.registerSeller$(this.form.value).subscribe(res => {
       this.form.get('city').setValue({description: this.form.value.city});
       if (res.code === CodeHttp.ok) {
@@ -131,7 +137,7 @@ export class SellerModalComponent implements OnInit {
       }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
     });
   }
 
