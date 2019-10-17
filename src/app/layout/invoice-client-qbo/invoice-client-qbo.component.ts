@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InvoiceClientService } from '../../shared/services';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-invoice-client-qbo',
@@ -20,6 +21,20 @@ export class InvoiceClientQBOComponent implements OnInit {
   getInvoiceClientQBO() {
     this.invoiceClientService.allInvoiceQBO$().subscribe(res => {
       this.listInvoices = res.data;
+    });
+  }
+
+  downloadInvoiceQBO(id) {
+    this.invoiceClientService.downloadInvoiceQBO$(id).subscribe(res => {
+      if (res != null) {
+        saveAs(res, 'prueba.pdf');
+      }   
+    })
+  }
+
+  sentToEmail(id) {
+    this.invoiceClientService.sentToEmailInvoiceQBO$(id).subscribe(res => {
+
     });
   }
 

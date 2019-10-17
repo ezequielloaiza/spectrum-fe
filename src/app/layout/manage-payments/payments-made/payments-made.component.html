@@ -193,7 +193,7 @@
                           [hidden]="!showItemOnlyAdmin() && payment.status === 1">
                           <i class="fa fa-trash-o"></i> {{ 'Delete Payment' | translate }}
                         </button>
-                        <button *ngIf="showItemOnlyAdmin()" class="dropdown-item" (click)="changeStatus(payment)">
+                        <button *ngIf="showItemOnlyAdmin() && connected" class="dropdown-item" (click)="changeStatus(payment)">
                           <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}
                         </button>
                       </div>

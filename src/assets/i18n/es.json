@@ -1214,5 +1214,8 @@
     "Integration": "Integración",
     "Connect to QuickBooks": "Conectar a QuickBooks",
     "Revoke Access": "Revoke Access",
-    "All invoices must belong to the same customer to make bulk payments": "Todas las facturas deben pertenecer al mismo cliente para realizar pagos masivos"
+    "All client Invoices": "Todas las facturas del cliente",
+    "Sent by email": "Enviar por correo",
+    "All invoices must belong to the same customer to make bulk payments": "Todas las facturas deben pertenecer al mismo cliente para realizar pagos masivos",
+    "To perform an action, you must authorize Quickbooks to complete the integration": "Para realizar una accion, debe autorizar a Quickbooks para completar la integración"
 }

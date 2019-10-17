@@ -77,7 +77,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    debugger
     this.connected = this.userService.getIsIntegratedQBO();
     this.route.queryParams.subscribe(params => {
       this.status = params.status;

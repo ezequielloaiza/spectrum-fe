@@ -1034,5 +1034,8 @@
     "Integration": "Integration",
     "Connect to QuickBooks": "Connect to QuickBooks",
     "Revoke Access": "Revoke Access",
-    "All invoices must belong to the same customer to make bulk payments": "All invoices must belong to the same customer to make bulk payments"
+    "All client Invoices": "All client Invoices",
+    "Sent by email": "Sent by email",
+    "All invoices must belong to the same customer to make bulk payments": "All invoices must belong to the same customer to make bulk payments",
+    "To perform an action, you must authorize Quickbooks to complete the integration": "To perform an action, you must authorize Quickbooks to complete the integration"
 }
