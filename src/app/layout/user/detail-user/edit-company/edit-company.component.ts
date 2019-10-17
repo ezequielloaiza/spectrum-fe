@@ -154,9 +154,9 @@ export class EditCompanyComponent implements OnInit {
       }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postalCode').setValue(this.googleService.getPostalCode());
-      this.form.get('cityPlace').setValue({description: this.googleService.getCity()});
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
-      this.valorCompanyCity = { description: this.googleService.getCity() };
+      this.form.get('cityPlace').setValue({description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name});
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
+      this.valorCompanyCity = { description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name };
     });
   }
 
@@ -184,7 +184,13 @@ export class EditCompanyComponent implements OnInit {
 
   save(): void {
     this.saving = true;
-    this.valorCompanyCity ? this.form.get('city').setValue(this.valorCompanyCity.description): '';
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('companyCity').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.valorCompanyCity.description) {
+      this.form.get('companyCity').setValue(this.valorCompanyCity.description);
+    } else {
+      this.form.get('companyCity').setValue(this.valorCompanyCity);
+    }
     this.companyService.update$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.canEdit = false;

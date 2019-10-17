@@ -35,6 +35,8 @@ export class ListBasketClientComponent implements OnInit {
           this.listBasket = res.data;
           this.listBasketAux = res.data;
           this.spinner.hide();
+        } else {
+          this.spinner.hide();
         }
       });
     } else if (this.user.role.idRole === 1) {

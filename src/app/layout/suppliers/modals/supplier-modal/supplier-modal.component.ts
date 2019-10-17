@@ -96,9 +96,15 @@ export class SupplierModalComponent implements OnInit {
   }
 
   save(): void {
-    if (this.form.get('city').value.description) {
-      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.supplier.city);
+
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.supplier.city.description) {
+      this.form.get('city').setValue(this.supplier.city.description);
+    } else {
+      this.form.get('city').setValue(this.supplier.city);
     }
+
     if (this.action !== 'edit') {
       /*save*/
       this.supplierService.save$(this.form.value).subscribe(res => {
@@ -171,8 +177,8 @@ export class SupplierModalComponent implements OnInit {
       }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
-      this.valorCity = {description: this.googleService.getCity()};
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
+      this.valorCity = { description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name };
     });
   }
 

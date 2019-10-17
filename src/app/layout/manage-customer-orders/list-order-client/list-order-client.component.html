@@ -73,7 +73,7 @@
           </div>
           <div class="card-body table-responsive">
             <div>
-              <div class="custom-control custom-checkbox selection-all" *ngIf="user.role.idRole === 1 && status !== '0' && status !== '4'">
+              <div class="custom-control custom-checkbox selection-all" *ngIf="(user.role.idRole === 1 || user.role.idRole === 2) && status !== '0' && status !== '4'">
                 <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll" (click)="onSelectionAll($event)" [checked]="selectedAll"
                       class="custom-control-input">
                 <label class="custom-control-label select-all" for="checkboxAll"></label>
@@ -135,10 +135,10 @@
                       <span>{{order? order.nameUser:''}}</span>
                     </div>
                     <div>
-                      <div>
+                      <div *ngIf="order.listProductRequested.length == 1">
                         <span *ngIf="order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null">{{'Patient'| translate }}</span>
                       </div>
-                      <div>
+                      <div *ngIf="order.listProductRequested.length == 1">
                         <span>{{order.listProductRequested[0].productRequested.patient ? order.listProductRequested[0].productRequested.patient:''}}</span>
                       </div>
                     </div>
@@ -246,6 +246,9 @@
                       <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>
                     </div>
                     -->
+                    <div [hidden]="listDetails.productRequested.patient === null || listDetails.productRequested.patient == ''">
+                      <span>{{'Patient'| translate}}{{': '}}{{ listDetails.productRequested.patient }}</span>
+                    </div>
                     <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
                       <span>{{'Replacement period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>
