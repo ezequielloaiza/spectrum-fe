@@ -74,13 +74,15 @@
           </div>
           <div class="card-body table-responsive">
             <div>
-              <div class="custom-control custom-checkbox selection-all" *ngIf="user.role.idRole === 1 && status !== '0' && status !== '4'">
+              <div class="custom-control custom-checkbox selection-all" *ngIf="(user.role.idRole === 1 || user.role.idRole === 2) && status !== '0' && status !== '4'">
                 <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll" (click)="onSelectionAll($event)" [checked]="selectedAll"
                       class="custom-control-input">
                 <label class="custom-control-label select-all" for="checkboxAll"></label>
                 <div class="margin">
                   <div class="col-xl-12 btn-clean">
-                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billCustomers()">Bill To Customer</button>&nbsp;
+                    <button class="btn btn-outline-secondary mr-1" translate [hidden]="!valid" (click)="billCustomers()" *ngIf="connected">Bill To Customer</button>&nbsp;
+                    <button type="button" class="btn btn-outline-secondary disabled mr-1" [hidden]="!valid" placement="top" ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}" container="body" *ngIf="!connected">{{ 'Bill To Customer' | translate }}
+                    </button>
                     <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billProviders()">Bill To Provider</button>
                   </div>
                 </div>
@@ -134,10 +136,10 @@
                       <span>{{order? order.nameUser:''}}</span>
                     </div>
                     <div>
-                      <div>
+                      <div *ngIf="order.listProductRequested.length == 1">
                         <span *ngIf="order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null">{{'Patient'| translate }}</span>
                       </div>
-                      <div>
+                      <div *ngIf="order.listProductRequested.length == 1">
                         <span>{{order.listProductRequested[0].productRequested.patient ? order.listProductRequested[0].productRequested.patient:''}}</span>
                       </div>
                     </div>
@@ -213,6 +215,8 @@
                             {{ 'To Provider' | translate }}</button>
                           <button class="dropdown-item" (click)="invoiceClient(order)">
                             {{ 'To Customer' | translate }}</button>
+                          <button class="dropdown-item disabled" placement="top" ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}" container="body" *ngIf="!connected">
+                            {{ 'To Customer' | translate }}</button>
                         </div>
                       </div>
                     </div>
@@ -243,6 +247,9 @@
                       <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>
                     </div>
                     -->
+                    <div [hidden]="listDetails.productRequested.patient === null || listDetails.productRequested.patient == ''">
+                      <span>{{'Patient'| translate}}{{': '}}{{ listDetails.productRequested.patient }}</span>
+                    </div>
                     <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
                       <span>{{'Replacement period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>
