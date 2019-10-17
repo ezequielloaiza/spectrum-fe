@@ -1031,7 +1031,6 @@
     "Design": "Diseño",
     "Power(D)": "Poder(D)",
     "Eccentricity": "Excentricidad",
-    "Diameter zo (mm)": "Diámetro zo (mm)",
     "Center": "Centrar",
     "Pupillary diameter": "Diámetro pupilar",
     "Silicone fluor-acrylate (optimum extra)": "Flúor-acrilato de silicona (óptimo extra)",
@@ -1214,5 +1213,6 @@
     "To create a invoice you must authorize to Quickbooks to complete the integration": "Para crear una factura, debe autorizar a Quickbooks para completar la integración",
     "Integration": "Integración",
     "Connect to QuickBooks": "Conectar a QuickBooks",
-    "Revoke Access": "Revoke Access"
+    "Revoke Access": "Revoke Access",
+    "All invoices must belong to the same customer to make bulk payments": "Todas las facturas deben pertenecer al mismo cliente para realizar pagos masivos"
 }
