@@ -17,4 +17,9 @@ export class QuickbooksService {
   public revokeToken$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'revokeToken');
   }
+
+  public checkConnectToQuickbooks$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'checkConnectToQuickbooks');
+  }
+  
 }

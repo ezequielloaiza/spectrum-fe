@@ -11,6 +11,7 @@ import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-uplo
 import { environment } from '../../../../src/environments/environment';
 import * as _ from 'lodash';
 import { QuickbooksService } from '../../shared/services/quickbooks/quickbooks.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const URL = environment.apiUrl + 'user/uploaderAvatar';
 
@@ -56,7 +57,8 @@ export class ProfileComponent implements OnInit {
     private notification: ToastrService,
     private translate: TranslateService,
     private countryService: CountryService,
-    private quickbooksService: QuickbooksService) {
+    private quickbooksService: QuickbooksService,
+    private spinner: NgxSpinnerService) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
     this.initializeAvatar();
 
@@ -278,23 +280,39 @@ export class ProfileComponent implements OnInit {
     const self = this;
     this.quickbooksService.connectToQuickbooks$().subscribe((res) => {
       const windowOauth =  window.open(res.data,"Quickbooks","menubar=1,resizable=1,width=650,height=680,left=350");
-      const timer = setInterval(function() { 
+      const timer = setInterval(function() {
         if (windowOauth.closed) {
-          clearInterval(timer);
-          self.updateConnection();         
+          self.spinner.show();
+          self.quickbooksService.checkConnectToQuickbooks$().subscribe(resp => {
+            clearInterval(timer);
+            if (resp.data) {            
+              self.updateConnection(true); 
+            } else {
+              self.updateConnection(false);
+            }
+            self.spinner.hide();
+          }, errorr => {
+            self.spinner.hide();
+          });               
         }
       }, 1000);
+    }, error => {
+      self.updateConnection(false);
     });
   }
 
   public revokeToken() {
+    this.spinner.show();
     this.quickbooksService.revokeToken$().subscribe((res) => {
-      this.updateConnection();
+      this.updateConnection(false);
+      this.spinner.hide();
+    }, error => {
+      this.spinner.hide();
     });
   }
 
-  public updateConnection() {
-    this.connected = !this.connected;
+  public updateConnection(tryConnect) {
+    this.connected = tryConnect;
     this.userStorageService.setIsIntegratedQBO(this.connected);
   }
 

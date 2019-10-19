@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { InvoiceClientService } from '../../shared/services';
 import { saveAs } from 'file-saver';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-invoice-client-qbo',
@@ -12,29 +14,40 @@ export class InvoiceClientQBOComponent implements OnInit {
   listInvoices: Array<any> = new Array;
   listInvoicesAux: Array<any> = new Array;
   
-  constructor(private invoiceClientService: InvoiceClientService) { }
+  constructor(private invoiceClientService: InvoiceClientService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getInvoiceClientQBO();
   }
 
   getInvoiceClientQBO() {
+    this.spinner.show();
     this.invoiceClientService.allInvoiceQBO$().subscribe(res => {
       this.listInvoices = res.data;
+      this.spinner.hide();
+    }, error => {
+      this.spinner.hide();
     });
   }
 
-  downloadInvoiceQBO(id) {
-    this.invoiceClientService.downloadInvoiceQBO$(id).subscribe(res => {
+  downloadInvoiceQBO(invoice: any) {
+    this.spinner.show();
+    this.invoiceClientService.downloadInvoiceQBO$(invoice.qboInvoiceId).subscribe(res => {
       if (res != null) {
-        saveAs(res, 'prueba.pdf');
-      }   
-    })
+        saveAs(res, 'invoice-qb' + invoice.docNumber + '.pdf');
+      } 
+      this.spinner.hide();
+    }, error => {
+      this.spinner.hide();
+    });
   }
 
   sentToEmail(id) {
+    this.spinner.show();
     this.invoiceClientService.sentToEmailInvoiceQBO$(id).subscribe(res => {
-
+      this.spinner.hide();
+    }, error => {
+      this.spinner.hide();
     });
   }
 
