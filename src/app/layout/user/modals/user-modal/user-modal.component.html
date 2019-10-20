@@ -322,14 +322,14 @@
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">
-            <label>{{ 'Membership' | translate }}</label>
+            <label>{{ 'Price List' | translate }}</label>
             <select class="form-control" name="membershipId" formControlName="membershipId" required>
               <option *ngFor="let membership of memberships" [ngValue]="membership.idMembership">
                 {{ membership.name | translate}}</option>
             </select>
           </fieldset>
           <div class="message-error" [hidden]="membershipId.valid || membershipId.pristine">
-            <span>{{ 'Membership is required' | translate }}</span>
+            <span>{{ 'Price List is required' | translate }}</span>
           </div>
         </div>
         <div class="col-xl-6">

@@ -131,6 +131,8 @@ export class DetailsBasketClientComponent implements OnInit {
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.spinner.hide();
+      } else {
+        this.spinner.hide();
       }
     });
   }
