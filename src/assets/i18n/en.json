@@ -1027,5 +1027,15 @@
     "More Details": "More Details",
     "Select All": "Select All",
     "Origin Of Goods":"Origin Of Goods",
-    "All invoices must belong to the same customer to make bulk payments": "All invoices must belong to the same customer to make bulk payments"
+    "To create a customer you must authorize to Quickbooks to complete the integration": "To create a customer you must authorize to Quickbooks to complete the integration",
+    "To update a customer you must authorize to Quickbooks to complete the integration": "To update a customer you must authorize to Quickbooks to complete the integration",
+    "To update a company you must authorize to Quickbooks to complete the integration": "To update a company you must authorize to Quickbooks to complete the integration",
+    "To create a invoice you must authorize to Quickbooks to complete the integration": "To create a invoice you must authorize to Quickbooks to complete the integration",
+    "Integration": "Integration",
+    "Connect to QuickBooks": "Connect to QuickBooks",
+    "Revoke Access": "Revoke Access",
+    "All client Invoices": "All client Invoices",
+    "Sent by email": "Sent by email",
+    "All invoices must belong to the same customer to make bulk payments": "All invoices must belong to the same customer to make bulk payments",
+    "To perform an action, you must authorize Quickbooks to complete the integration": "To perform an action, you must authorize Quickbooks to complete the integration"
 }
