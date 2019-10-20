@@ -22,7 +22,8 @@
             {{ 'All orders' | translate }}
           </div>
           <div class="align-btn-detail">
-            <button type="button" class="btn btn-success btn-xs" (click)="downloadOrder()">{{ 'Download PDF' | translate}}
+            <button type="button" class="btn btn-success btn-xs"
+              (click)="downloadOrder()">{{ 'Download PDF' | translate}}
               <i class="fa fa-download"></i>
             </button>
           </div>
@@ -32,7 +33,8 @@
             <div class="col-xl-5 filter">
               <div class="row search">
                 <div class="col col-xl-12 col-lg-12">
-                  <input class="form-control" (keyup)="getItems($event)" [(ngModel)]="valorClient" placeholder="{{'Enter order, client, patient o supplier' | translate }}">
+                  <input class="form-control" (keyup)="getItems($event)" [(ngModel)]="valorClient"
+                    placeholder="{{'Enter order, client, patient o supplier' | translate }}">
                   <i class="fa fa-search"></i>
                 </div>
               </div>
@@ -40,7 +42,8 @@
             <div class="col-xl-5 filter">
               <div class="row search">
                 <div class="col col-xl-12 col-lg-12">
-                  <input class="form-control" (keyup)="getItemsProduct($event)" [(ngModel)]="valorProduct" placeholder="{{'Enter product name' | translate }}">
+                  <input class="form-control" (keyup)="getItemsProduct($event)" [(ngModel)]="valorProduct"
+                    placeholder="{{'Enter product name' | translate }}">
                   <i class="fa fa-search"></i>
                 </div>
               </div>
@@ -67,32 +70,40 @@
               </div>
             </div>
             <div class="col-xl-2 btn-clean">
-              <button class="btn btn-outline-secondary" [routerLink]="['/order-list-client-byseller']" translate [hidden]="!valid1"
-                (click)="clean()">Clean Filters</button>
+              <button class="btn btn-outline-secondary" [routerLink]="['/order-list-client-byseller']" translate
+                [hidden]="!valid1" (click)="clean()">Clean Filters</button>
             </div>
           </div>
           <div class="card-body table-responsive">
             <div>
-              <div class="custom-control custom-checkbox selection-all" *ngIf="(user.role.idRole === 1 || user.role.idRole === 2) && status !== '0' && status !== '4'">
-                <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll" (click)="onSelectionAll($event)" [checked]="selectedAll"
-                      class="custom-control-input">
+              <div class="custom-control custom-checkbox selection-all"
+                *ngIf="(user.role.idRole === 1 || user.role.idRole === 2) && status !== '0' && status !== '4'">
+                <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll"
+                  (click)="onSelectionAll($event)" [checked]="selectedAll" class="custom-control-input">
                 <label class="custom-control-label select-all" for="checkboxAll"></label>
                 <div class="margin">
                   <div class="col-xl-12 btn-clean">
-                    <button class="btn btn-outline-secondary mr-1" translate [hidden]="!valid" (click)="billCustomers()" *ngIf="connected">Bill To Customer</button>&nbsp;
-                    <button type="button" class="btn btn-outline-secondary disabled mr-1" [hidden]="!valid" placement="top" ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}" container="body" *ngIf="!connected">{{ 'Bill To Customer' | translate }}                      
-                    </button>           
-                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billProviders()">Bill To Provider</button>
+                    <button class="btn btn-outline-secondary mr-1" translate [hidden]="!valid" (click)="billCustomers()"
+                      *ngIf="connected">Bill To Customer</button>&nbsp;
+                    <button type="button" class="btn btn-outline-secondary disabled mr-1" [hidden]="!valid"
+                      placement="top"
+                      ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}"
+                      container="body" *ngIf="!connected">{{ 'Bill To Customer' | translate }}
+                    </button>
+                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billProviders()">Bill
+                      To Provider</button>
                   </div>
                 </div>
               </div>
-              <div class="custom-control custom-checkbox selection-all" *ngIf="user.role.idRole === 1 && status === '0' && listOrdersPending.length > 0">
-                <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll" (click)="onSelectionAllPending($event)" [checked]="selectedAll"
-                      class="custom-control-input">
+              <div class="custom-control custom-checkbox selection-all"
+                *ngIf="user.role.idRole === 1 && status === '0' && listOrdersPending.length > 0">
+                <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll"
+                  (click)="onSelectionAllPending($event)" [checked]="selectedAll" class="custom-control-input">
                 <label class="custom-control-label select-all" for="checkboxAll"></label>
                 <div class="margin">
                   <div class="col-xl-12 btn-clean">
-                    <button class="btn btn-outline-secondary" translate [hidden]="listAux.length === 0" (click)="processMultipleOrders()">Generate Order</button>&nbsp;
+                    <button class="btn btn-outline-secondary" translate [hidden]="listAux.length === 0"
+                      (click)="processMultipleOrders()">Generate Order</button>&nbsp;
                   </div>
                 </div>
               </div>
@@ -100,43 +111,39 @@
                 <div class="row">
                   <div class="col-lg-2">
                     <div class="title">
-                      <div class="custom-control custom-checkbox">
-                          <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" *ngIf="user.role.idRole === 1 && (order.status !== 0 && order.status !== 4)" [value]="order.idOrder" [(ngModel)]="order.checked" (change)="onSelection(order.idOrder,order.checked)"
-                          class="custom-control-input">
-                          <label class="custom-control-label" for="checkbox{{i}}" *ngIf="user.role.idRole === 1 && (order.status !== 0 && order.status !== 4)"></label>
-                         <!--Pending-->
-                          <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="order.idOrder" [(ngModel)]="order.checked" (change)="onSelectionPending(order.idOrder,order.checked)"
-                                class="custom-control-input" [hidden]="!order.generate && order.status === 0">
-                          <label class="custom-control-label" for="checkbox{{i}}" *ngIf="user.role.idRole === 1 && (order.status !== 4)" [hidden]="!order.generate && order.status === 0"></label>
-                          <span>{{'ORDER'| translate }}</span>
+                      <div class="custom-control custom-checkbox title-status left-span">
+                        <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup"
+                          *ngIf="user.role.idRole === 1 && (order.status !== 0 && order.status !== 4)"
+                          [value]="order.idOrder" [(ngModel)]="order.checked"
+                          (change)="onSelection(order.idOrder,order.checked)" class="custom-control-input">
+                        <label class="custom-control-label" for="checkbox{{i}}"
+                          *ngIf="user.role.idRole === 1 && (order.status !== 0 && order.status !== 4)"></label>
+                        <!--Pending-->
+                        <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="order.idOrder"
+                          [(ngModel)]="order.checked" (change)="onSelectionPending(order.idOrder,order.checked)"
+                          class="custom-control-input" [hidden]="!order.generate && order.status === 0">
+                        <label class="custom-control-label" for="checkbox{{i}}"
+                          *ngIf="user.role.idRole === 1 && (order.status !== 4)"
+                          [hidden]="!order.generate && order.status === 0"></label>
+                        <span>{{'Order Number'| translate }}</span>
                       </div>
                     </div>
                     <div>
                       <span>{{ '#'+order.number}}</span>
                     </div>
-                    <div>
-                        <span>{{'Customer invoice'| translate }}</span>
-                    </div>
-                    <div>
-                        <span>{{order.invoiceClient ? '#'+order.invoiceClient.number : 'Not generated' | translate}}</span>
-                    </div>
-                    <div>
-                        <span>{{'Supplier invoice'| translate }}</span>
-                    </div>
-                    <div>
-                        <span>{{order.invoiceSupplier ? '#'+order.invoiceSupplier.number : 'Not generated' | translate}}</span>
-                    </div>
                   </div>
                   <div class="col-lg-2">
-                    <div>
+                    <div class="title-status">
                       <span>{{'Customer'| translate }}</span>
                     </div>
                     <div>
-                      <span>{{order? order.nameUser:''}}</span>
+                      <span>{{order ? order.nameUser:''}}</span>
                     </div>
+                    <br>
                     <div>
-                      <div *ngIf="order.listProductRequested.length == 1">
-                        <span *ngIf="order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null">{{'Patient'| translate }}</span>
+                      <div *ngIf="order.listProductRequested.length == 1" class="title-status">
+                        <span
+                          *ngIf="order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null">{{'Patient'| translate }}</span>
                       </div>
                       <div *ngIf="order.listProductRequested.length == 1">
                         <span>{{order.listProductRequested[0].productRequested.patient ? order.listProductRequested[0].productRequested.patient:''}}</span>
@@ -164,6 +171,20 @@
                         <div translate>Canceled</div>
                       </span>
                     </div>
+                    <br>
+                    <div class="title-status">
+                      <span>{{'Customer Invoice'| translate }}</span>
+                    </div>
+                    <div class="div-status">
+                      <span
+                        class="center-span">{{order.invoiceClient ? '#'+order.invoiceClient.number : 'Not generated' | translate}}</span>
+                      <span *ngIf="!order.invoiceClient" class="div-pending">
+                        <div translate>Pending to send</div>
+                      </span>
+                      <span *ngIf="!!order.invoiceClient" class="div-shipped">
+                        <div translate>Sent</div>
+                      </span>
+                    </div>
                   </div>
                   <div class="col-lg-2">
                     <div class="title-payment">
@@ -177,9 +198,23 @@
                         <div translate>Paid</div>
                       </span>
                     </div>
+                    <br>
+                    <div class="title-status">
+                      <span>{{'Supplier Invoice'| translate }}</span>
+                    </div>
+                    <div class="div-status">
+                      <span
+                        class="center-span">{{order.invoiceSupplier ? '#'+order.invoiceSupplier.number : 'Not generated' | translate}}</span>
+                      <span *ngIf='!order.invoiceSupplier' class="div-pending">
+                        <div translate>Pending to send</div>
+                      </span>
+                      <span *ngIf='!!order.invoiceSupplier' class="div-shipped">
+                        <div translate>Sent</div>
+                      </span>
+                    </div>
                   </div>
                   <div class="col-lg-2 title">
-                    <div>
+                    <div class="title-status">
                       <span>Total</span>
                     </div>
                     <div>
@@ -187,25 +222,28 @@
                     </div>
                   </div>
                   <div class="col-lg-2">
-                    <div class="div-date">
+                    <div class="div-date title-status right-span">
                       <span>{{order.date | date:'yyyy-MM-dd'}}</span>
                     </div>
                     <div class="div-dropdown">
                       <div ngbDropdown class="d-inline-block dropdown">
-                        <button class="btn btn-dropdown-main btn-dd" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                        <button class="btn btn-dropdown-main btn-dd"
+                          ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                         <div ngbDropdownMenu class="dropdown-menu-actions">
                           <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
                             {{ 'View Details' | translate }}</button>
                           <button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
                             {{ 'Change Status' | translate }}</button>
-                          <button [hidden]="user.role.idRole !== 1 || (order.status === 4)" class="dropdown-item" (click)="cancel(order)">
+                          <button [hidden]="user.role.idRole !== 1 || (order.status === 4)" class="dropdown-item"
+                            (click)="cancel(order)">
                             {{ 'Cancel Order' | translate }}</button>
                           <button [hidden]="!order.generate" class="dropdown-item" (click)="generateOrder(order)">
-                              {{ 'Generate Order' | translate }}</button>
+                            {{ 'Generate Order' | translate }}</button>
                         </div>
                       </div>
                     </div>
-                    <div class="div-dropdown" [hidden]="order.status === 0 || order.status === 4">
+                    <div class="div-dropdown"
+                      [hidden]="order.status === 0 || order.status === 1 || order.status === 3 || order.status === 4">
                       <div ngbDropdown class="d-inline-block dropdown">
                         <button class="btn btn-dropdown-main btn-dd" ngbDropdownToggle>{{ 'Generate Invoice' |
                           translate }}</button>
@@ -214,29 +252,35 @@
                             {{ 'To Provider' | translate }}</button>
                           <button class="dropdown-item" (click)="invoiceClient(order)" *ngIf="connected">
                             {{ 'To Customer' | translate }}</button>
-                          <button class="dropdown-item disabled" placement="top" ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}" container="body" *ngIf="!connected">
+                          <button class="dropdown-item disabled" placement="top"
+                            ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}"
+                            container="body" *ngIf="!connected">
                             {{ 'To Customer' | translate }}</button>
-                        </div>                     
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div class="more-details col-lg-12">
                     <label (click)="order.showMore = !order.showMore" [ngClass]="{'more-link': order.showMore}">
-                      {{ 'More Details' | translate }} <i [hidden]="order.showMore" class="fa fa-caret-right"></i> <i [hidden]="!order.showMore" class="fa fa-caret-down"></i>
+                      {{ 'More Details' | translate }} <i [hidden]="order.showMore" class="fa fa-caret-right"></i> <i
+                        [hidden]="!order.showMore" class="fa fa-caret-down"></i>
                     </label>
                   </div>
                 </div>
-                <div class="row product" [hidden]="!order.showMore" *ngFor="let listDetails of order.listProductRequested">
+                <div class="row product" [hidden]="!order.showMore"
+                  *ngFor="let listDetails of order.listProductRequested">
                   <div class="col-lg-2">
                     <div>
-                      <span *ngIf="listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147">
+                      <span
+                        *ngIf="listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147">
                         - </span>
                       <span>{{listDetails.productRequested.product.name}}</span>
                     </div>
                     <div *ngIf="listDetails.productRequested.detail.length > 0 ">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
                     </div>
-                    <div *ngIf="listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
+                    <div
+                      *ngIf="listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>
                     </div>
                   </div>
@@ -246,7 +290,8 @@
                       <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>
                     </div>
                     -->
-                    <div [hidden]="listDetails.productRequested.patient === null || listDetails.productRequested.patient == ''">
+                    <div
+                      [hidden]="listDetails.productRequested.patient === null || listDetails.productRequested.patient == ''">
                       <span>{{'Patient'| translate}}{{': '}}{{ listDetails.productRequested.patient }}</span>
                     </div>
                     <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
@@ -286,8 +331,9 @@
               </p>
             </div>
             <div class="pagination-list" [hidden]="listOrders.length === 0">
-              <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listOrdersAux.length"
-                [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+              <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)"
+                [collectionSize]="listOrdersAux.length" [(page)]="advancedPagination" [maxSize]="5"
+                [pageSize]="itemPerPage" [boundaryLinks]="true">
               </ngb-pagination>
               <span class="count-elements">{{ listOrders.length + ' ' + ('of' | translate) + ' ' + listOrdersAux.length
                 + ' ' + ('register(s)' | translate)

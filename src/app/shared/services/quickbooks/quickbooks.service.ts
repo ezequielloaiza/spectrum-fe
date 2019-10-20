@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+simport { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -17,4 +17,9 @@ export class QuickbooksService {
   public revokeToken$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'revokeToken');
   }
+
+  public checkConnectToQuickbooks$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'checkConnectToQuickbooks');
+  }
+
 }
