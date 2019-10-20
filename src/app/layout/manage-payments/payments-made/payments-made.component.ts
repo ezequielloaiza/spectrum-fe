@@ -31,6 +31,7 @@ export class PaymentsMadeComponent implements OnInit {
   itemPerPage: number = 5;
   order: any;
   user: any;
+  connected: boolean;
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -47,6 +48,7 @@ export class PaymentsMadeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.connected = this.userStorageService.getIsIntegratedQBO();
     const id = this.route.snapshot.paramMap.get('idInvoice');
     this.getInvoice(id);
     this.getListPayments(id);

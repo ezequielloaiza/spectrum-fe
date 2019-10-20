@@ -36,6 +36,7 @@ export class EditUserComponent implements OnInit {
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
   locale: any;
+  connected: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -51,6 +52,7 @@ export class EditUserComponent implements OnInit {
               private basketProductRequestedService: BasketproductrequestedService) { }
 
   ngOnInit() {
+    this.connected = this.userStorageService.getIsIntegratedQBO();
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getMembershipAll();
     this.getUser(this.id);

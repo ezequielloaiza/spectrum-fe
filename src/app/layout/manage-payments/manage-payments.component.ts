@@ -52,6 +52,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   navigationSubscription;
   listPayments: Array<any> = new Array;
   invoicesSameClient = [];
+  connected: boolean;
 
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
@@ -73,6 +74,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.connected = this.userStorageService.getIsIntegratedQBO();
     this.route.queryParams.subscribe(params => {
       this.statusRoute = params.status;
     });
