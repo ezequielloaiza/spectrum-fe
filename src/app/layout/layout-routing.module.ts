@@ -32,6 +32,7 @@ import { ProtocolComponent } from './protocol/protocol.component';
 import { ProtocolProformaComponent } from './protocol/protocol-proforma/protocol-proforma.component';
 import { ProtocolClientComponent } from './protocol-client/protocol-client.component';
 import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/shipping-protocol.component';
+import { InvoiceClientQBOComponent } from './invoice-client-qbo/invoice-client-qbo.component';
 
 const routes: Routes = [
   {
@@ -71,6 +72,10 @@ const routes: Routes = [
       {
         path: 'invoice', component: ManageInvoiceComponent,
         data: { option: 'Invoice' }
+      },
+      {
+        path: 'client-invoice', component: InvoiceClientQBOComponent,
+        data: { option: 'ClientInvoice' }
       },
       {
         path: 'commission', component: ManageCommissionComponent,

@@ -5,9 +5,12 @@
       <form [formGroup]="form">
         <div class="form-options">
           <span class="sp-title">{{ 'Company Info' | translate }}</span>
-          <button class="btn btn-main" (click)="edit()" [hidden]="canEdit">{{ 'Edit' | translate }}&nbsp;
+          <button class="btn btn-main" (click)="edit()" [hidden]="canEdit" *ngIf="connected">{{ 'Edit' | translate }}&nbsp;
             <i class="fa fa-edit"></i>
           </button>
+          <button class="btn btn-main disabled" placement="top" ngbTooltip="{{'To update a company you must authorize to Quickbooks to complete the integration' | translate }}" (click)="edit()" [hidden]="canEdit" *ngIf="!connected">{{ 'Edit' | translate }}&nbsp;           
+            <i class="fa fa-edit"></i>
+          </button>        
         </div>
         <br>
         <div class="row">

@@ -93,6 +93,7 @@ import { ProtocolClientComponent } from './protocol-client/protocol-client.compo
 import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/shipping-protocol.component';
 import { ProtocolComponent } from './protocol/protocol.component';
 import { ProtocolProformaComponent } from './protocol/protocol-proforma/protocol-proforma.component';
+import { InvoiceClientQBOComponent } from './invoice-client-qbo/invoice-client-qbo.component';
 
 @NgModule({
     imports: [
@@ -193,7 +194,8 @@ import { ProtocolProformaComponent } from './protocol/protocol-proforma/protocol
         ProtocolClientComponent,
         ShippingProtocolComponent,
         ProtocolComponent,
-        ProtocolProformaComponent
+        ProtocolProformaComponent,
+        InvoiceClientQBOComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,

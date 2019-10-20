@@ -349,11 +349,10 @@
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
+  <button type="button" class="btn btn-secondary" [disabled]="saving" (click)="close()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button"
-    [disabled]="form.invalid || (companyPhone.value.length > 1 && companyPhone.value.length < 8) || (phone.value.length > 1 && phone.value.length < 8) || listSuppliers.length === 0"
+  <button type="button" [disabled]="saving || form.invalid || (companyPhone.value.length > 1 && companyPhone.value.length < 8) || (phone.value.length > 1 && phone.value.length < 8) || listSuppliers.length === 0"
     class="btn btn-main" (click)="save()">{{ 'Save' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>

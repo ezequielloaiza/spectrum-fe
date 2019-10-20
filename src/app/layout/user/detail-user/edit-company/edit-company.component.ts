@@ -38,6 +38,7 @@ export class EditCompanyComponent implements OnInit {
   locale: any;
   quantityProcessed: any;
   valorCompanyCity: any;
+  connected: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -51,6 +52,7 @@ export class EditCompanyComponent implements OnInit {
               private orderService: OrderService) { }
 
   ngOnInit() {
+    this.connected = this.userStorageService.getIsIntegratedQBO();
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getBussinesAll();
     this.getCompany(this.id);

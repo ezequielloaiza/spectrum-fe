@@ -1216,5 +1216,15 @@
     "Corporation":"Corporación",
     "All Pro Forma Invoices":"Todas las facturas proforma",
     "Order Number":"Número de orden",
-    "Pending to send":"Pendiente por enviar"
+    "Pending to send":"Pendiente por enviar",
+    "To create a customer you must authorize to Quickbooks to complete the integration": "Para crear un cliente, debe autorizar a Quickbooks para completar la integración",
+    "To update a customer you must authorize to Quickbooks to complete the integration": "Para actualizar un cliente, debe autorizar a Quickbooks para completar la integración",
+    "To update a company you must authorize to Quickbooks to complete the integration": "Para actualizar un compañia, debe autorizar a Quickbooks para completar la integración",
+    "To create a invoice you must authorize to Quickbooks to complete the integration": "Para crear una factura, debe autorizar a Quickbooks para completar la integración",
+    "Integration": "Integración",
+    "Connect to QuickBooks": "Conectar a QuickBooks",
+    "Revoke Access": "Revoke Access",
+    "All client Invoices": "Todas las facturas del cliente",
+    "Sent by email": "Enviar por correo",
+    "To perform an action, you must authorize Quickbooks to complete the integration": "Para realizar una accion, debe autorizar a Quickbooks para completar la integración"
 }

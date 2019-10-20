@@ -290,6 +290,12 @@
 					<span>
 						<i class="fa fa-file"></i>&nbsp; {{ 'Manage Pro Forma Invoices' | translate }}</span>
 				</a>
+			</div>
+			<div class="nested-menu">
+				<a [routerLink]="['/client-invoice']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+					<span>
+						<i class="fa fa-file"></i>&nbsp; {{ 'Client Invoices' | translate }}</span>
+				</a>
       </div>
       <div class="nested-menu">
 				<a  class="list-group-item" (click)="addExpandClass('payments')">
