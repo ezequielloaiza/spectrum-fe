@@ -188,8 +188,8 @@ export class EditUserComponent implements OnInit {
          const quantity = res1.data;
          if (quantity > 0) {
           this.translate.get('Confirm Update', {value: 'Confirm Update'}).subscribe((title: string) => {
-            this.translate.get('Are you sure you want to change the membership? The customer has products that will be removed from his cart.',
-             {value: 'Are you sure you want to change the membership? The customer has products that will be removed from his cart.'}).subscribe((msg: string) => {
+            this.translate.get('Are you sure you want to change the price list? The customer has products that will be removed from his cart.',
+             {value: 'Are you sure you want to change the price list? The customer has products that will be removed from his cart.'}).subscribe((msg: string) => {
               this.alertify.confirm(title, msg, () => {
                 this.saveUser();
               }, () => {

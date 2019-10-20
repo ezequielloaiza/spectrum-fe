@@ -126,6 +126,10 @@
   text-align: center;
   padding-left: 15%;
   font-size: 14px;
+
+  .center-span {
+    margin-right: 20px;
+  }
 }
 
 .div-date{
@@ -146,6 +150,16 @@
   font-size: 14px;
   font-weight: 600;
   text-align: center;
+
+  &.left-span {
+    text-align: left;
+  }
+
+  &.right-span {
+    text-align: rigth;
+  }
+
+
 }
 
 .title-payment{

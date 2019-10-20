@@ -41,7 +41,7 @@
           </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
-              <label>{{ 'Membership' | translate }}</label>
+              <label>{{ 'Price List' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.membership.name }}</span>
                 <select [hidden]="!canEdit" class="form-control" name="membershipId" formControlName="membershipId" required>
@@ -50,7 +50,7 @@
               </div>
             </fieldset>
             <div class="message-error" [hidden]="membershipId.valid || membershipId.pristine">
-              <span>{{ 'Membership is required' | translate }}</span>
+              <span>{{ 'Price List is required' | translate }}</span>
             </div>
           </div>
           <div class="col-xl-6">

@@ -42,8 +42,8 @@ export class ModalsShippingComponent implements OnInit {
 
   initializeForm() {
     this.form = this.formBuilder.group({
-      trackingNumber: ['', [Validators.required]],
-      shippingPrice: ['', [Validators.required]],
+      trackingNumber: [''],
+      shippingPrice: [''],
       entrustingId : ['', [ Validators.required]]
     });
   }
