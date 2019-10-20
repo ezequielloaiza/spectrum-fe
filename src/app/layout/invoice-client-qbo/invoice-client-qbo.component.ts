@@ -51,4 +51,20 @@ export class InvoiceClientQBOComponent implements OnInit {
     });
   }
 
+  getItems(ev: any) {
+    this.listInvoices = this.listInvoices;
+
+    const val = ev.target.value;
+
+    if (val && val.trim() !== '') {
+      this.listInvoices = this.listInvoices.filter((item) => {
+        return ((item.number.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.docNumber.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.date.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.dueDate.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (item.qboTotalAmt.toLowerCase().indexOf(val.toLowerCase()) > -1));
+      });
+    }
+  }
+
 }

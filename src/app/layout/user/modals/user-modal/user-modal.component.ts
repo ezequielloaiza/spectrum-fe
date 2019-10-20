@@ -171,6 +171,7 @@ export class UserModalComponent implements OnInit {
     this.form.get('suppliers').setValue(this.listSuppliers);
     this.saving = true;
     this.userSerice.signUp$(this.form.value).subscribe(res => {
+      this.spinner.hide();
       if (res.code === CodeHttp.ok) {
         this.modal.close();
         this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
@@ -197,6 +198,7 @@ export class UserModalComponent implements OnInit {
       this.saving = false;
     }, error => {
       this.saving = false;
+      this.spinner.hide();
       console.log('error', error);
     });
   }
