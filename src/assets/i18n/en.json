@@ -1048,5 +1048,8 @@
     "Revoke Access": "Revoke Access",
     "All client Invoices": "All client Invoices",
     "Sent by email": "Sent by email",
-    "To perform an action, you must authorize Quickbooks to complete the integration": "To perform an action, you must authorize Quickbooks to complete the integration"
+    "To perform an action, you must authorize Quickbooks to complete the integration": "To perform an action, you must authorize Quickbooks to complete the integration",
+    "Invoice No QBO": "Invoice No QBO",
+    "Enter Invoice No, Invoice No QBO or Total": "Enter Invoice No, Invoice No QBO or Total",
+    "Enter Date or Due Date": "Enter Date or Due Date"
 }
