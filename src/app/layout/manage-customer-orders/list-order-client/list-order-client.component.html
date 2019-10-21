@@ -220,6 +220,13 @@
                     <div>
                       <span>{{order.total | currency : "USD $" }}</span>
                     </div>
+                    <br>
+                    <div class="title-status">
+                      <span>{{'Supplier'| translate }}</span>
+                    </div>
+                    <div class="div-status">
+                      <span class="center-span">{{order.supplier.companyName}}</span>
+                    </div>
                   </div>
                   <div class="col-lg-2">
                     <div class="div-date title-status right-span">
