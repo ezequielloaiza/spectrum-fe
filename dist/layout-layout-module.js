@@ -5511,7 +5511,7 @@ var DetailsOrderComponent = /** @class */ (function () {
         return exist;
     };
     DetailsOrderComponent.prototype.downloadOrder = function (order) {
-        this.orderService.downloadOrder$(order.number).subscribe(function (res) {
+        this.orderService.downloadOrder$(order.idOrder).subscribe(function (res) {
             var filename = order.number + '.pdf';
             Object(file_saver__WEBPACK_IMPORTED_MODULE_8__["saveAs"])(res, filename);
         }, function (error) {
