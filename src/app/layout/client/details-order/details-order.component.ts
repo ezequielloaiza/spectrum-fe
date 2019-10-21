@@ -183,7 +183,7 @@ export class DetailsOrderComponent implements OnInit {
   }
 
   downloadOrder(order) {
-    this.orderService.downloadOrder$(order.number).subscribe(res => {
+    this.orderService.downloadOrder$(order.idOrder).subscribe(res => {
       const filename = order.number + '.pdf';
       saveAs(res, filename);
     }, error => {
