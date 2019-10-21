@@ -30,6 +30,7 @@ export class InvoiceClientQBOComponent implements OnInit {
     this.spinner.show();
     this.invoiceClientService.allInvoiceQBO$().subscribe(res => {
       this.listInvoices = res.data;
+      this.listInvoicesAux = res.data;
       this.spinner.hide();
     }, error => {
       this.spinner.hide();
@@ -57,16 +58,20 @@ export class InvoiceClientQBOComponent implements OnInit {
     });
   }
 
+  clean() {
+    this.getInvoiceClientQBO();
+  }
+
   getItems(ev: any) {
-    this.listInvoices = this.listInvoices;
+    this.listInvoices = this.listInvoicesAux;
 
     const val = ev.target.value;
 
     if (val && val.trim() !== '') {
       this.listInvoices = this.listInvoices.filter((item) => {
-        return ((item.number.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.docNumber.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (item.qboTotalAmt.toLowerCase().indexOf(val.toLowerCase()) > -1));
+        return ((_.toString(item.number).toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (_.toString(item.docNumber).toLowerCase().indexOf(val.toLowerCase()) > -1) ||
+          (_.toString(item.qboTotalAmt).toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
   }
