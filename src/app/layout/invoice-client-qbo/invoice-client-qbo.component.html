@@ -22,10 +22,19 @@
           </div>
         </div>
 
-        <div class="row search">
+        <div class="row search-filter">
           <div class="col col-xl-4 col-lg-4">
             <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter invoice search..' | translate}}">
             <i class="fa fa-search"></i>
+          </div>
+          <div class="col-xl-4 input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="fechaFilter" [(ngModel)]="fechaFilter"
+              ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filterDate(fechaFilter)">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                <i class="fa fa-calendar"></i>
+              </button>
+            </div>
           </div>
         </div>
         <!--

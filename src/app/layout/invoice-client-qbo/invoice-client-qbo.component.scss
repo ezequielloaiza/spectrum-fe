@@ -3,10 +3,10 @@
 @include tr-sizes((20%,15%,15%,15%, 15%,15%));
 
 
-.search {
+.search-filter {
   padding-bottom: 1.0rem;
   padding-left: 1.0rem;
-  i {
+  i.fa-search {
     position: absolute;
     top: 10px;
     right: 25px;
@@ -18,9 +18,13 @@
   margin-left: 0.3rem;
 }
 
+
+.filter {
+  padding-top: 10px;
+}
+
 .filters {
   padding-left: 2%;
-  padding-right: 2%;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
