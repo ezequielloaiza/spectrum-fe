@@ -59,7 +59,9 @@ export class InvoiceClientQBOComponent implements OnInit {
   }
 
   clean() {
-    this.getInvoiceClientQBO();
+    this.listInvoices = this.listInvoicesAux;
+    this.fechaSelecOrd = null;
+
   }
 
   getItems(ev: any) {
