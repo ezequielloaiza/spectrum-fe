@@ -33,7 +33,7 @@ export class ProtocolsshippingComponent implements OnInit {
   validRecords = 0;
   suppliers: Array<any> = new Array;
   countries: Array<any> = new Array();
-  listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
+  listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM', 'Ground'];
   listBiweekly = [ '15', '30'];
   listWeekly = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   valueFrecuency: any;
