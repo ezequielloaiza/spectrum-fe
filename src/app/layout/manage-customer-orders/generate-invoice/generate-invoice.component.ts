@@ -46,7 +46,7 @@ export class GenerateInvoiceComponent implements OnInit {
   shippingProtocol: any;
   countries: Array<any> = new Array();
   numbers: Array<any> = new Array();
-  listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
+  listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM', 'Ground'];
   protocolProforma: any;
   invShippingProtocol: InvoiceSupplierProtocolClient = new InvoiceSupplierProtocolClient();
   invProtocolProforma: InvoiceSupplierProtocolProforma = new InvoiceSupplierProtocolProforma();
