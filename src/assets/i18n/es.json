@@ -1228,5 +1228,6 @@
     "To perform an action, you must authorize Quickbooks to complete the integration": "Para realizar una accion, debe autorizar a Quickbooks para completar la integración",
     "Invoice No QBO": "Factura No QBO",
     "Enter Invoice No, Invoice No QBO or Total": "Ingrese No factura, No factura QBO o Total",
-    "Enter Date or Due Date": "Ingrese Fecha o Vencimiento"
+    "Enter Date or Due Date": "Ingrese Fecha o Vencimiento",
+    "Client Invoices": "Facturas de clientes"
 }
