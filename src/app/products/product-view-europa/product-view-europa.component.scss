@@ -157,7 +157,7 @@
   padding-left: 0px;
 }
 
-.param-power {
+.param-flex {
   display: flex;
 }
 
@@ -316,14 +316,6 @@ img {
 
 }
 
-.selected-double {
-  >div:nth-child(1) {
-    padding-right: 0px;
-  }
-  >div:nth-child(2) {
-    padding-left: 2px;
-  }
-}
 
 
 .custom-file-input {

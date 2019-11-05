@@ -1051,5 +1051,10 @@
     "Invoice No QBO": "Invoice No QBO",
     "Enter Invoice No, Invoice No QBO or Total": "Enter Invoice No, Invoice No QBO or Total",
     "Enter Date or Due Date": "Enter Date or Due Date",
-    "Client Invoices": "Client Invoices"
+    "Client Invoices": "Client Invoices",
+    "TPC Diopters (PC4)": "TPC Diopters (PC4)",
+    "TPC Meridian (PC4)": "TPC Meridian (PC4)",
+    "For other diameters, contact us": "For other diameters, contact us",
+    "Unit": "Unit",
+    "Temporary": "Temporary"
 }

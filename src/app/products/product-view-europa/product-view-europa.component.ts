@@ -63,6 +63,10 @@ export class ProductViewEuropaComponent implements OnInit {
   CustomersSelected: any;
   signPowerRight: any;
   signPowerLeft: any;
+  typeCurveRight: any;
+  typeCurveLeft: any;
+  typeNotchRight: any;
+  typeNotchLeft: any;
   priceA = 0;
   priceB = 0;
   membership: any;
@@ -765,6 +769,10 @@ export class ProductViewEuropaComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let signPowerLeft = this.signPowerLeft;
     let signPowerRight = this.signPowerRight;
+    let typeCurveLeft = this.typeCurveLeft;
+    let typeCurveRight = this.typeCurveRight;
+    let typeNotchRight = this.typeNotchRight;
+    let typeNotchLeft = this.typeNotchLeft;
     let additionalInserts = this.additionalInserts;
     let additionalInsertsL = this.additionalInsertsL;
     let inserts = this.inserts;
@@ -824,11 +832,14 @@ export class ProductViewEuropaComponent implements OnInit {
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          if (parameter.name === 'Base Curve') {
+            product.parametersRight[index].selected = parameter.selected + '(' + typeCurveRight + ')';
+          }
           if (parameter.name === 'Power') {
             product.parametersRight[index].selected = signPowerRight + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
-            product.parametersRight[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
+            product.parametersRight[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + '(' + typeNotchRight + ')';
           }
         });
         productSelected.parameters = product.parametersRight;
@@ -880,11 +891,14 @@ export class ProductViewEuropaComponent implements OnInit {
         /*params*/
         _.each(product.parametersLeft, function(parameter, index) {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          if (parameter.name === 'Base Curve') {
+            product.parametersLeft[index].selected = parameter.selected + '(' + typeCurveLeft + ')';
+          }
           if (parameter.name === "Power") {
             product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
-            product.parametersLeft[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
+            product.parametersLeft[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + '(' + typeNotchLeft + ')';;
           }
         });
         productSelected.parameters = product.parametersLeft;
@@ -1055,10 +1069,7 @@ export class ProductViewEuropaComponent implements OnInit {
           isValid = false;
         }
       });
-      if (!this.signPowerRight) {
-        isValid = false;
-      }
-      if (!this.product.quantityRight) {
+      if (!this.typeCurveRight || !this.signPowerRight || !this.product.quantityRight || !this.typeNotchRight) {
         isValid = false;
       }
     }
@@ -1073,10 +1084,7 @@ export class ProductViewEuropaComponent implements OnInit {
           isValid = false;
         }
       });
-      if (!this.signPowerLeft) {
-        isValid = false;
-      }
-      if (!this.product.quantityLeft) {
+      if (!this.typeCurveLeft || !this.signPowerLeft || !this.product.quantityLeft || !this.typeNotchLeft) {
         isValid = false;
       }
     }
@@ -1340,7 +1348,7 @@ export class ProductViewEuropaComponent implements OnInit {
       }
     } else {
       // assing product code
-      const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 16.0-16.5)');
+      const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 15.2-16.5)');
       if (eye === 'right') {
        this.checkAdditional('right');
        this.product.priceBaseRight = this.priceA;
@@ -1401,12 +1409,20 @@ export class ProductViewEuropaComponent implements OnInit {
       this.product.headerRight = header;
       this.product.parametersRight = parameters;
       this.product.pasosRight = pasos;
+      this.typeCurveRight = null;
       this.signPowerRight = null;
+      this.typeNotchRight = null;
     } else {
       this.product.headerLeft = header;
       this.product.parametersLeft = parameters;
       this.product.pasosLeft = pasos;
+      this.typeCurveLeft = null;
       this.signPowerLeft = null;
+      this.typeNotchLeft = null;
     }
+  }
+
+  disabledOption(item) {
+    return item === "For other diameters, contact us";
   }
 }

@@ -386,7 +386,7 @@ export class EuropaComponent implements OnInit {
         this.priceBase = this.priceB;
         this.price = this.inserts > 0 ? this.priceB + this.notch + this.hidrapeg + valueInserts : this.priceB + this.notch + this.hidrapeg;
       } else {
-        const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 16.0-16.5)');
+        const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 15.2-16.5)');
         this.productCode = prCode;
         this.priceBase = this.priceA;
         this.price = this.inserts > 0 ? this.priceA + this.notch + this.hidrapeg + valueInserts : this.priceA + this.notch + this.hidrapeg;
