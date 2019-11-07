@@ -90,7 +90,7 @@ export class ProtocolsshippingComponent implements OnInit {
   }
 
   loadSuppliers() {
-    this.supplierService.findAll$().subscribe(res => {
+    this.supplierService.findByUser$(this.currentUser.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.suppliers = _.orderBy(res.data, ['companyName']);
         this.getProtocols();

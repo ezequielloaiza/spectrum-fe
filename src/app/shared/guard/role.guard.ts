@@ -18,7 +18,8 @@ export class RoleGuard implements CanActivateChild {
       /*
       if (childRoute.data['option'] === 'ChangePassword' && !user.userResponse.pwsTemporal) {
         this.router.navigate(['/dashboard']);
-      } if (childRoute.data['option'] === 'InitialsProtocols' && !this.router.navigated) {
+      }
+      if (childRoute.data['option'] === 'InitialsProtocols' && !this.router.navigated) {
         this.router.navigate(['/dashboard']);
       } else {
         return true;
