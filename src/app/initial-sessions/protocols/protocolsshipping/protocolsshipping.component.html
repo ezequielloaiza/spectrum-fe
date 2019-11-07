@@ -3,174 +3,80 @@
   <span class="sp-title">{{ "Shippings Protocols" | translate }}</span>
 </div>
 <br />
-<div class="row" *ngFor="let protocol of protocols">
-  <div class="w-100 border-protocol p-3 mb-3">
-    <div class="d-flex w-100 border-bottom">
-      <div class="w-50 mr-3">
-        <span class="font-weight-bold">{{ protocol.label | translate }}</span>
-      </div>
-      <div class="w-46">
-        <span class="font-weight-bold">{{ "Supplier" | translate }}</span>
+<div class="row border-protocol">
+  <div class="w-46 m-4" *ngFor="let protocol of protocols, let pos = index">
+    <!--<div class="w-100 border-protocol p-3 mb-3">-->
+    <div class="w-50 mr-3" *ngIf="pos === 0">
+      <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
+        <button class="btn border-type w-100 text-left" ngbDropdownToggle required
+          [disabled]="!validContent(protocol,pos)">
+          <div class="text-overflow">{{ getNamesTypeList(protocol.values) }}</div>
+          <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol,pos)">
+            {{ "Select At Least a Supplier" | translate }}
+          </span>
+        </button>
+        <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
+          <div class="select-type">
+            <div class="custom-control custom-checkbox">
+              <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}-all" type="checkbox" name="checkboxAll"
+                [checked]="checkedAllSuppliers(protocol)" (click)="onSelectionAll(protocol, protocol.values)"
+                class="custom-control-input">
+              <label class="custom-control-label"
+                for="{{protocol.label}}-{{ i }}-{{ pos }}-all">{{ 'Select All' | translate }}</label>
+            </div>
+            <li *ngFor="let supplier of suppliers; index as i">
+              <div>
+                <div class="custom-control custom-checkbox" data-toggle="tooltip" data-placement="left"
+                  title="{{ 'If it is disabled, it was previously selected' | translate }}">
+                  <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}" type="checkbox" name="checkboxGroupAll"
+                    [checked]="checkedSupplier(protocol, protocol.values, supplier)"
+                    (click)="selectSupplier(supplier.idSupplier, protocol, protocol.values)"
+                    class="custom-control-input" [disabled]="disabledSupplier(protocol, protocol.values, supplier)" />
+                  <label class="custom-control-label" for="{{ protocol.label }}-{{ i }}-{{ pos }}"></label>
+
+                  <span class="tcs-text-overflow">
+                    {{ supplier.companyName | titlecase }}
+                  </span>
+                </div>
+              </div>
+            </li>
+          </div>
+        </ul>
       </div>
     </div>
+    <!--INPUTS-->
+    <div *ngFor="let value of protocol.values; let pos = index">
 
-    <div class="d-flex align-items-center w-100 pt-2 pb-1" *ngFor="let value of protocol.values; let pos = index">
-      <div class="w-50 mr-3">
-        <div class="input-value">
-          <input
-            *ngIf="
-              protocol.label === 'Recipient' ||
-              protocol.label === 'Account Number for Shipping Carrier'
-            "
-            type="text"
-            [hidden]="!modeEdit"
-            class="form-control"
-            placeholder="{{ protocol.placeHolder | translate }}"
-            [(ngModel)]="value.content"
-          />
-          <textarea
-            *ngIf="
-              protocol.label === 'Shipping Address' ||
-              protocol.label === 'Comments' ||
-              protocol.label === 'Shipping Details'
-            "
-            style="overflow-x: hidden;"
-            type="text"
-            class="form-control"
-            placeholder="{{ protocol.placeHolder | translate }}"
-            [(ngModel)]="value.content"
-          ></textarea>
-          <div *ngIf="protocol.label === 'Shipping Method'">
-            <div>
-              <select class="form-control" name="shippingMethod" [(ngModel)]="value.content">
-                <option *ngFor="let shippingMethod of listShippingMethod" value="{{shippingMethod}}">
-                  {{ shippingMethod | translate }}</option>
-              </select>
-            </div>
-          </div>
-          <!--Shipping Frecuency-->
-          <div *ngIf="protocol.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0 d-flex align-items-center">
-            <div class="custom-control-inline">
-              <div class="custom-control custom-radio">
-                <input
-                  type="radio"
-                  id="{{ 'customRadioM' + pos }}"
-                  name="{{ 'shippingFrecuency' + pos }}"
-                  class="custom-control-input"
-                  (change)="assignShippingFrecuency(protocol, 1, pos)"
-                  [checked]="value.content === 'Monthly'"
-                />
-                <label
-                  class="custom-control-label"
-                  for="{{ 'customRadioM' + pos }}"
-                  >{{ "Monthly" | translate }}</label
-                >
-              </div>
-              <div
-                style="margin-left: 10px;"
-                class="custom-control custom-radio"
-              >
-                <input
-                  type="radio"
-                  id="{{ 'customRadioB' + pos }}"
-                  name="{{ 'shippingFrecuency' + pos }}"
-                  class="custom-control-input"
-                  (change)="assignShippingFrecuency(protocol, 2, pos)"
-                  [checked]="value.content === '15' || value.content === '30'"
-                />
-                <label
-                  class="custom-control-label"
-                  for="{{ 'customRadioB' + pos }}"
-                  >{{ "Biweekly" | translate }}</label
-                >
-              </div>
-              <div
-                style="margin-left: 10px;"
-                class="custom-control custom-radio"
-              >
-                <input
-                  type="radio"
-                  id="{{ 'customRadioW' + pos }}"
-                  name="{{ 'shippingFrecuency' + pos }}"
-                  class="custom-control-input"
-                  (change)="assignShippingFrecuency(protocol, 3, pos)"
-                  [checked]="value.content !== 'Monthly' && value.content !== '15' && value.content !== '30' && value.content !== '' "
-                />
-                <label
-                  class="custom-control-label"
-                  for="{{ 'customRadioW' + pos }}"
-                  >{{ "Weekly" | translate }}</label
-                >
-              </div>
-            </div>
-            <!--<span>{{ shippingFrecuency.value }}</span>-->
-            <select
-              *ngIf="value.showB === 'true'"
-              [(ngModel)]="value.content"
-              class="form-control"
-              name="{{ 'shippingFrecuencyB' + pos }}"
-            >
-              <option value="" [selected]="true" translate>Select value</option>
-              <option
-                *ngFor="let biweekly of listBiweekly"
-                value="{{ biweekly }}"
-                >{{ biweekly | translate }}</option
-              >
-            </select>
-            <select
-              *ngIf="value.showW === 'true'"
-              [(ngModel)]="value.content"
-              class="form-control"
-              name="{{ 'shippingFrecuencyW' + pos }}"
-            >
-              <option value="" [selected]="true" translate>Select value</option>
-              <option *ngFor="let weekly of listWeekly" value="{{ weekly }}">{{
-                weekly | translate
-              }}</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <!--SUPPLIERS SELECT-->
+      <!--
       <div class="select-required" *ngIf="validContent(protocol,pos) && checkSuppliers(protocol,pos)"></div>
-      <div class="w-46">
+      <div class="w-50 mr-3">
         <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
-          <button
-            class="btn border-type w-100 text-left"
-            ngbDropdownToggle
-            required
-            [disabled]="!validContent(protocol,pos)"
-          >
+          <button class="btn border-type w-100 text-left" ngbDropdownToggle required
+            [disabled]="!validContent(protocol,pos)">
             <div class="text-overflow">{{ getNamesTypeList(value) }}</div>
             <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol,pos)">
               {{ "Select At Least a Supplier" | translate }}
-           </span>
+            </span>
           </button>
-          <ul
-            ngbDropdownMenu
-            class="w-100 p-3 dropdown-list"
-            aria-labelledby="dropdownManual"
-          >
+          <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
             <div class="select-type">
               <div class="custom-control custom-checkbox">
                 <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}-all" type="checkbox" name="checkboxAll"
-                  [checked]="checkedAllSuppliers(protocol)"
-                  (click)="onSelectionAll(protocol, value)" class="custom-control-input">
-                <label class="custom-control-label" for="{{protocol.label}}-{{ i }}-{{ pos }}-all">{{ 'Select All' | translate }}</label>
+                  [checked]="checkedAllSuppliers(protocol)" (click)="onSelectionAll(protocol, value)"
+                  class="custom-control-input">
+                <label class="custom-control-label"
+                  for="{{protocol.label}}-{{ i }}-{{ pos }}-all">{{ 'Select All' | translate }}</label>
               </div>
               <li *ngFor="let supplier of suppliers; index as i">
                 <div>
-                  <div class="custom-control custom-checkbox" data-toggle="tooltip" data-placement="left" title="{{ 'If it is disabled, it was previously selected' | translate }}">
-                    <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}"
-                      type="checkbox" name="checkboxGroupAll"
+                  <div class="custom-control custom-checkbox" data-toggle="tooltip" data-placement="left"
+                    title="{{ 'If it is disabled, it was previously selected' | translate }}">
+                    <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}" type="checkbox" name="checkboxGroupAll"
                       [checked]="checkedSupplier(protocol, value, supplier)"
-                      (click)="selectSupplier(supplier.idSupplier, protocol, value)"
-                      class="custom-control-input"
-                      [disabled]="disabledSupplier(protocol, value, supplier)"
-                    />
-                    <label
-                      class="custom-control-label"
-                      for="{{ protocol.label }}-{{ i }}-{{ pos }}"
-                    ></label>
+                      (click)="selectSupplier(supplier.idSupplier, protocol, value)" class="custom-control-input"
+                      [disabled]="disabledSupplier(protocol, value, supplier)" />
+                    <label class="custom-control-label" for="{{ protocol.label }}-{{ i }}-{{ pos }}"></label>
 
                     <span class="tcs-text-overflow">
                       {{ supplier.companyName | titlecase }}
@@ -182,28 +88,97 @@
           </ul>
         </div>
       </div>
-      <div class="trash" [hidden]="protocol.values.length === 1">
-        <span
-          class="fa fa-trash"
-          [ngClass]="{
-            top:
-              protocol.label === 'Shipping Address' ||
-              protocol.label === 'Comments' ||
-              protocol.label === 'Shipping Details'
-          }"
-          placement="top"
-          ngbTooltip="{{ 'Delete protocol value' | translate }}"
-          (click)="removeValue(protocol, pos)"
-        ></span>
+      -->
+
+      <!--PROTOCOL NAME-->
+      <div class="margin-title">
+        <span class="font-weight-bold">{{ value.label | translate }}</span>
       </div>
+      <!--INPUTS PROTOCOLS-->
+      <div class="input-value">
+        <input *ngIf="
+              value.label === 'Recipient' ||
+              value.label === 'Account Number for Shipping Carrier'
+            " type="text" [hidden]="!modeEdit" class="form-control"
+          placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content" />
+        <textarea *ngIf="
+              value.label === 'Shipping Address' ||
+              value.label === 'Comments' ||
+              value.label === 'Shipping Details'
+            " style="overflow-x: hidden;" type="text" class="form-control"
+          placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content"></textarea>
+        <div *ngIf="value.label === 'Shipping Method'">
+          <div>
+            <select class="form-control" name="shippingMethod" [(ngModel)]="value.content">
+              <option *ngFor="let shippingMethod of listShippingMethod" value="{{shippingMethod}}">
+                {{ shippingMethod | translate }}</option>
+            </select>
+          </div>
+        </div>
+        <!--Shipping Frecuency-->
+        <div *ngIf="value.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0 d-flex align-items-center">
+          <div class="custom-control-inline">
+            <div class="custom-control custom-radio">
+              <input type="radio" id="{{ 'customRadioM' + pos }}" name="{{ 'shippingFrecuency' + pos }}"
+                class="custom-control-input" (change)="assignShippingFrecuency(protocol, 1, pos)"
+                [checked]="value.content === 'Monthly'" />
+              <label class="custom-control-label" for="{{ 'customRadioM' + pos }}">{{ "Monthly" | translate }}</label>
+            </div>
+            <div style="margin-left: 10px;" class="custom-control custom-radio">
+              <input type="radio" id="{{ 'customRadioB' + pos }}" name="{{ 'shippingFrecuency' + pos }}"
+                class="custom-control-input" (change)="assignShippingFrecuency(protocol, 2, pos)"
+                [checked]="value.content === '15' || value.content === '30'" />
+              <label class="custom-control-label" for="{{ 'customRadioB' + pos }}">{{ "Biweekly" | translate }}</label>
+            </div>
+            <div style="margin-left: 10px;" class="custom-control custom-radio">
+              <input type="radio" id="{{ 'customRadioW' + pos }}" name="{{ 'shippingFrecuency' + pos }}"
+                class="custom-control-input" (change)="assignShippingFrecuency(protocol, 3, pos)"
+                [checked]="value.content !== 'Monthly' && value.content !== '15' && value.content !== '30' && value.content !== '' " />
+              <label class="custom-control-label" for="{{ 'customRadioW' + pos }}">{{ "Weekly" | translate }}</label>
+            </div>
+          </div>
+          <!--<span>{{ shippingFrecuency.value }}</span>-->
+          <select *ngIf="value.showB === 'true'" [(ngModel)]="value.content" class="form-control"
+            name="{{ 'shippingFrecuencyB' + pos }}">
+            <option value="" [selected]="true" translate>Select value</option>
+            <option *ngFor="let biweekly of listBiweekly" value="{{ biweekly }}">{{ biweekly | translate }}</option>
+          </select>
+          <select *ngIf="value.showW === 'true'" [(ngModel)]="value.content" class="form-control"
+            name="{{ 'shippingFrecuencyW' + pos }}">
+            <option value="" [selected]="true" translate>Select value</option>
+            <option *ngFor="let weekly of listWeekly" value="{{ weekly }}">{{
+                weekly | translate
+              }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!--TRASH-->
+      <div class="trash" [hidden]="protocol.values.length === 1">
+        <span class="fa fa-trash" [ngClass]="{
+            top:
+              value.label === 'Shipping Address' ||
+              value.label === 'Comments' ||
+              value.label === 'Shipping Details'
+          }" placement="top" ngbTooltip="{{ 'Delete protocol value' | translate }}"
+          (click)="removeValue(protocol, pos)"></span>
+      </div>
+
     </div>
-    <div>
-      <button type="button" class="btn btn-main" [hidden]="hideAdd(protocol)" (click)="addValue(protocol)">{{ 'Add' | translate }}
-        <i class="fa fa-plus-circle ml-2"></i>
-      </button>
-    </div>
+
+
   </div>
 </div>
+
+<!--ADD BUTTON-->
+<div>
+  <!--<button type="button" class="btn btn-main" [hidden]="hideAdd(protocols)"-->
+  <button type="button" class="btn btn-main" (click)="addValue(protocols)">{{ 'Add' | translate }}
+    <i class="fa fa-plus-circle ml-2"></i>
+  </button>
+</div>
+
+
 
 <br />
 <div class="footer-form">

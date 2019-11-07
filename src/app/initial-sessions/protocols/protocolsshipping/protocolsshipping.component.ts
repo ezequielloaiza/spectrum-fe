@@ -33,9 +33,9 @@ export class ProtocolsshippingComponent implements OnInit {
   validRecords = 0;
   suppliers: Array<any> = new Array;
   countries: Array<any> = new Array();
-  listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM', 'Ground'];
-  listBiweekly = [ '15', '30'];
-  listWeekly = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  listShippingMethod = ['2nd day', 'Overnight', 'Overnight AM', 'Ground'];
+  listBiweekly = ['15', '30'];
+  listWeekly = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   valueFrecuency: any;
   currentUser: any;
   validRecordsShipping = 0;
@@ -51,8 +51,8 @@ export class ProtocolsshippingComponent implements OnInit {
     public router: Router,
     private protocolClientService: ProtocolClientService,
     private spinner: NgxSpinnerService) {
-      this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
-    }
+    this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
+  }
 
   ngOnInit() {
     this.protocolsCopy = this.lista;
@@ -65,7 +65,7 @@ export class ProtocolsshippingComponent implements OnInit {
 
   initializeForm() {
     this.form = this.formBuilder.group({
-    accNumber: ['', [ Validators.required]]
+      accNumber: ['', [Validators.required]]
     });
   }
 
@@ -75,15 +75,15 @@ export class ProtocolsshippingComponent implements OnInit {
         // {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
         // {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
         // {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
-        {label: 'Recipient'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter recipient',id:1},
-        {label: 'Shipping Address'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2},
-        {label: 'Shipping Frecuency'                   , values:[{content: '', suppliers: [],showB:"false",showW:"false"}], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3},
-        {label: 'Shipping Method'                      , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4},
-        {label: 'Shipping Details'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5},
-        {label: 'Account Number for Shipping Carrier'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6},
-        {label: 'Comments'                             , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter comments',id:7},
+        { title: 'Recipient', values: [{ label: 'Recipient', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter recipient', id: 1 },
+        { title: 'Shipping Address', values: [{ label: 'Shipping Address', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter shipping address', id: 2 },
+        { title: 'Shipping Frecuency', values: [{ label: 'Shipping Frecuency', content: '', suppliers: [], showB: "false", showW: "false" }], selectedSuppliers: [], placeHolder: 'Enter shipping frecuency', id: 3 },
+        { title: 'Shipping Method', values: [{ label: 'Shipping Method', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter shipping method', id: 4 },
+        { title: 'Shipping Details', values: [{ label: 'Shipping Details', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter shipping details', id: 5 },
+        { title: 'Account Number for Shipping Carrier', values: [{ label: 'Account Number for Shipping Carrier', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter account number for shipping carrier', id: 6 },
+        { title: 'Comments', values: [{ label: 'Comments', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter comments', id: 7 },
         //  {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
-        ];
+      ];
     } else {
       this.protocols = this.protocolsCopy;
     }
@@ -91,12 +91,12 @@ export class ProtocolsshippingComponent implements OnInit {
 
   loadSuppliers() {
     this.supplierService.findAll$().subscribe(res => {
-    if (res.code === CodeHttp.ok) {
-      this.suppliers = _.orderBy(res.data, ['companyName']);
-      this.getProtocols();
-    } else {
-      console.log(res.errors[0].detail);
-    }
+      if (res.code === CodeHttp.ok) {
+        this.suppliers = _.orderBy(res.data, ['companyName']);
+        this.getProtocols();
+      } else {
+        console.log(res.errors[0].detail);
+      }
     }, error => {
       console.log('error', error);
     });
@@ -121,8 +121,10 @@ export class ProtocolsshippingComponent implements OnInit {
     return _.indexOf(protocolValue.suppliers, idSupplier) > -1;
   }
 
-  addValue(protocol) {
-    protocol.values.push({content: '', suppliers: []});
+  addValue(protocols) {
+    _.each(protocols, function (protocol) {
+      protocol.values.push({ content: '', suppliers: [] });
+    })
 
   }
 
@@ -137,33 +139,33 @@ export class ProtocolsshippingComponent implements OnInit {
 
   getCountry() {
     this.countryService.findAll$().subscribe(res => {
-    this.countries = res.data;
+      this.countries = res.data;
     });
   }
 
   assignShippingFrecuency(protocol, type, pos) {
     switch (type) {
       case 1:
-          protocol.values[pos].content = 'Monthly';
-          protocol.values[pos].showW = 'false';
-          protocol.values[pos].showB = 'false';
+        protocol.values[pos].content = 'Monthly';
+        protocol.values[pos].showW = 'false';
+        protocol.values[pos].showB = 'false';
         break;
       case 2:
-          protocol.values[pos].content = '';
-          protocol.values[pos].showB = 'true';
-          protocol.values[pos].showW = 'false';
+        protocol.values[pos].content = '';
+        protocol.values[pos].showB = 'true';
+        protocol.values[pos].showW = 'false';
         break;
       case 3:
-          protocol.values[pos].content = '';
-          protocol.values[pos].showW = 'true';
-          protocol.values[pos].showB = 'false';
+        protocol.values[pos].content = '';
+        protocol.values[pos].showW = 'true';
+        protocol.values[pos].showB = 'false';
         break;
-      }
-}
+    }
+  }
 
   save() {
-
     this.buildProtocols();
+    debugger
     let listProtocolsShipping = this.protocolsSave;
     let serviceShipping = this.protocolClientService;
     let recordsShipping = this.validRecordsShipping;
@@ -172,92 +174,92 @@ export class ProtocolsshippingComponent implements OnInit {
     if (listProtocolsShipping.length > 0) {
       this.spinner.show();
       serviceShipping.remove$(userId).subscribe(resRem => {
-          if (resRem.code === CodeHttp.ok) {
-            _.each(listProtocolsShipping, function(protocolShipping) {
-              serviceShipping.update$(protocolShipping).subscribe(res => {
-                recordsShipping++;
-                self.showMessage(recordsShipping);
+        if (resRem.code === CodeHttp.ok) {
+          _.each(listProtocolsShipping, function (protocolShipping) {
+            serviceShipping.update$(protocolShipping).subscribe(res => {
+              recordsShipping++;
+              self.showMessage(recordsShipping);
             });
           });
-          }
+        }
       });
     } else {
       this.sendReply();
     }
-}
+  }
 
   showMessage(records) {
     this.validRecords = records;
     if (this.validRecords === this.protocolsSave.length) {
-    this.spinner.hide();
-    this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
-    this.notification.success('', res);
+      this.spinner.hide();
+      this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+        this.notification.success('', res);
         this.sendReply();
-    });
+      });
     }
-}
+  }
 
   buildProtocols() {
-      const protocolsSuppliersAux: Array<Protocol> = new Array;
-      const protocolsSuppliers = this.protocolsSave;
-      let protocolsClient = [];
-      this.protocolsCopy = JSON.parse(JSON.stringify(this.protocols));
-      let protocols = this.protocolsCopy;
-      let userId = this.currentUser.idUser;
-      //Protocolos seleccionados
-      _.each(protocolsSuppliers, function(item) {
+    const protocolsSuppliersAux: Array<Protocol> = new Array;
+    const protocolsSuppliers = this.protocolsSave;
+    let protocolsClient = [];
+    this.protocolsCopy = JSON.parse(JSON.stringify(this.protocols));
+    let protocols = this.protocolsCopy;
+    let userId = this.currentUser.idUser;
+    //Protocolos seleccionados
+    _.each(protocolsSuppliers, function (item) {
       const protocolAux: Protocol = new Protocol();
-      _.each(protocols, function(protocol, index) {
-      // Values
-      _.each(protocol.values, function(itemValue) {
-        // Suppliers
-      _.each(itemValue.suppliers, function(supplier) {
-            if (item.supplierId === supplier ) {
-                protocolAux.valid = true;
-                protocolAux.supplierId = supplier;
-                protocolAux.clientId = userId; //cambiar cuando se una completo
-                switch (protocol.id) {
-                  case 1:
-                    protocolAux.recipient = itemValue.content;
-                    break;
-                  case 2:
-                    protocolAux.shippingAddress = itemValue.content;
-                    break;
-                  case 3:
-                    protocolAux.shippingFrecuency = itemValue.content;
-                    break;
-                  case 4:
-                    protocolAux.shippingMethod = itemValue.content;
-                    break;
-                  case 5:
-                    protocolAux.shippingDetail = itemValue.content;
-                    break;
-                  case 6:
-                    protocolAux.accountNumber = itemValue.content;
-                    break;
-                  case 7:
-                    protocolAux.comment = itemValue.content;
-                    break;
-                }
+      _.each(protocols, function (protocol, index) {
+        // Values
+        _.each(protocol.values, function (itemValue) {
+          // Suppliers
+          _.each(itemValue.suppliers, function (supplier) {
+            if (item.supplierId === supplier) {
+              protocolAux.valid = true;
+              protocolAux.supplierId = supplier;
+              protocolAux.clientId = userId; //cambiar cuando se una completo
+              switch (protocol.id) {
+                case 1:
+                  protocolAux.recipient = itemValue.content;
+                  break;
+                case 2:
+                  protocolAux.shippingAddress = itemValue.content;
+                  break;
+                case 3:
+                  protocolAux.shippingFrecuency = itemValue.content;
+                  break;
+                case 4:
+                  protocolAux.shippingMethod = itemValue.content;
+                  break;
+                case 5:
+                  protocolAux.shippingDetail = itemValue.content;
+                  break;
+                case 6:
+                  protocolAux.accountNumber = itemValue.content;
+                  break;
+                case 7:
+                  protocolAux.comment = itemValue.content;
+                  break;
+              }
             }
           });
         });
       });
       if (protocolAux.valid) {
-      protocolsSuppliersAux.push(protocolAux);
+        protocolsSuppliersAux.push(protocolAux);
       }
-      });
-      this.protocolsSave = JSON.parse(JSON.stringify(protocolsSuppliersAux));
-      //console.log(this.protocolsCopy);
-}
+    });
+    this.protocolsSave = JSON.parse(JSON.stringify(protocolsSuppliersAux));
+    //console.log(this.protocolsCopy);
+  }
 
   getProtocols() {
     const protocolsSave = [];
-    _.each(this.suppliers, function(supplier) {
-    const protocol: Protocol = new Protocol();
-    protocol.supplierId = supplier.idSupplier;
-    protocol.valid = false;
-    protocolsSave.push(protocol);
+    _.each(this.suppliers, function (supplier) {
+      const protocol: Protocol = new Protocol();
+      protocol.supplierId = supplier.idSupplier;
+      protocol.valid = false;
+      protocolsSave.push(protocol);
     });
     this.protocolsSave = protocolsSave;
   }
@@ -278,18 +280,22 @@ export class ProtocolsshippingComponent implements OnInit {
     this.sendReply();
   }
 
-  getNamesTypeList(value) {
+  getNamesTypeList(values) {
     const self = this;
     const suppliersName = [];
-    _.each(self.suppliers, function(supplier) {
-      if (_.includes(value.suppliers, supplier.idSupplier)) {
-        suppliersName.push(supplier.companyName);
-      }
-    });
+    _.each(values, function (value) {
+      _.each(self.suppliers, function (supplier) {
+        if (_.includes(value.suppliers, supplier.idSupplier)) {
+          suppliersName.push(supplier.companyName);
+        }
+      });
+
+    })
     return suppliersName.join(', ');
   }
 
   disabledSupplier(protocol, value, supplier) {
+    debugger
     return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier) && !_.includes(value.suppliers, supplier.idSupplier);
   }
 
@@ -300,12 +306,12 @@ export class ProtocolsshippingComponent implements OnInit {
   formIsValid() {
     let valid = true;
     let protocols = JSON.parse(JSON.stringify(this.protocols));
-    _.each(protocols, function(protocol, index) {
-      _.each(protocol.values, function(itemValue) {
-          if (itemValue.content !== '' && itemValue.suppliers.length === 0) {
-            valid = false;
-            return valid;
-          }
+    _.each(protocols, function (protocol, index) {
+      _.each(protocol.values, function (itemValue) {
+        if (itemValue.content !== '' && itemValue.suppliers.length === 0) {
+          valid = false;
+          return valid;
+        }
       });
     });
     return valid;
@@ -313,15 +319,16 @@ export class ProtocolsshippingComponent implements OnInit {
 
   validContent(protocol, pos) {
     let valid = true;
-    if (protocol.values[pos].content === '') {
-         valid = false;
+    if (protocol.values[pos] && protocol.values[pos].content === '') {
+      valid = false;
     }
     return valid;
   }
 
   checkSuppliers(protocol, pos) {
+    debugger
     let show = true;
-    if (protocol.values[pos].suppliers.length > 0) {
+    if (protocol.values[pos] && protocol.values[pos].suppliers.length > 0) {
       show = false;
     }
     return show;
@@ -338,7 +345,7 @@ export class ProtocolsshippingComponent implements OnInit {
       protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, value.suppliers);
       value.suppliers = [];
     } else {
-      _.each(self.suppliers, function(supplier) {
+      _.each(self.suppliers, function (supplier) {
         if (self.allowedSelection(supplier.idSupplier, protocol)) {
           value.suppliers.push(supplier.idSupplier);
           protocol.selectedSuppliers.push(supplier.idSupplier);
@@ -348,8 +355,11 @@ export class ProtocolsshippingComponent implements OnInit {
   }
 
   hideAdd(protocol){
+    return false;
+    /*
     return this.suppliers.length === protocol.selectedSuppliers.length ||
            protocol.values.length === this.suppliers.length ||
            (protocol.values.length === 3 &&  (protocol.label === 'Shipping Frecuency' || protocol.label === 'Shipping Method'));
+    */
   }
 }
