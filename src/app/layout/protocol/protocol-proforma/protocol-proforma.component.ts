@@ -12,6 +12,7 @@ import { ProtocolProforma } from '../../../shared/models/protocolProforma';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
 import * as _ from 'lodash';
+import { CodeHttp } from '../../../shared/enum/code-http.enum';
 
 @Component({
   selector: 'app-protocol-proforma',
@@ -40,20 +41,20 @@ export class ProtocolProformaComponent implements OnInit {
   today: Date = new Date();
 
   constructor(private fb: FormBuilder,
-              private route: ActivatedRoute,
-              private translate: TranslateService,
-              private spinner: NgxSpinnerService,
-              private notification: ToastrService,
-              private supplierService: SupplierService,
-              private protocolProformaService: ProtocolProformaService,
-              private userStorageService: UserStorageService) { }
+    private route: ActivatedRoute,
+    private translate: TranslateService,
+    private spinner: NgxSpinnerService,
+    private notification: ToastrService,
+    private supplierService: SupplierService,
+    private protocolProformaService: ProtocolProformaService,
+    private userStorageService: UserStorageService) { }
 
   ngOnInit() {
     this.user = JSON.parse(this.userStorageService.getCurrentUser());
     this.loadFields();
     this.initializeForm();
-    this.getSupplier();
     this.getIdClient();
+    this.getSupplier();
     this.getAllProtocolByUser();
   }
 
@@ -89,9 +90,15 @@ export class ProtocolProformaComponent implements OnInit {
   }
 
   getSupplier() {
-    this.supplierService.findAll$().subscribe(res => {
-      this.suppliers = _.orderBy(res.data, ['companyName']);
-      this.getProtocol(this.idClient, this.suppliers[0].idSupplier);
+    this.supplierService.findByUser$(this.idClient).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.suppliers = _.orderBy(res.data, ['companyName']);
+        this.getProtocol(this.idClient, this.suppliers[0].idSupplier);
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
     });
   }
 
@@ -111,17 +118,17 @@ export class ProtocolProformaComponent implements OnInit {
 
   loadFields() {
     this.protocols = {
-      spectrumProforma: {label: 'Spectrum Proforma', values:[], selectedSuppliers: [], placeHolder:'Enter Spectrum Proforma',id:1},
-      additionalDocuments: {label: 'Additional Documents', values:[], selectedSuppliers: [], placeHolder:'Enter additional documents',id:2},
-      comments: {label: 'Comments', values:[], selectedSuppliers: [], placeHolder:'Enter comments',id:3},
-      tariffCodes: {label: 'HS Code', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:4},
-      protocolSpectrum: {label: 'Protocol From Spectrum', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:5},
-      outputs: {label: 'Outputs (Send information to Spectrum team)', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:6},
-      maximumAmount: {label: 'Maximum Amount to Declare', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:7},
-      documentation: {label: 'Documentation that must accompany the delivery and proforma invoice', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:8},
-      fixedPrices: {label: 'Fixed Prices for Proforma Invoice', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:9},
-      emailComment: {label: 'Email Comments', values:[], selectedSuppliers: [], placeHolder:'Enter tariff codes',id:10},
-      originUsa: {label: 'Origin Of Goods', values:[], selectedSuppliers: [], placeHolder:'Enter Origin Of Goods',id:11}
+      spectrumProforma: { label: 'Spectrum Proforma', values: [], selectedSuppliers: [], placeHolder: 'Enter Spectrum Proforma', id: 1 },
+      additionalDocuments: { label: 'Additional Documents', values: [], selectedSuppliers: [], placeHolder: 'Enter additional documents', id: 2 },
+      comments: { label: 'Comments', values: [], selectedSuppliers: [], placeHolder: 'Enter comments', id: 3 },
+      tariffCodes: { label: 'HS Code', values: [], selectedSuppliers: [], placeHolder: 'Enter tariff codes', id: 4 },
+      protocolSpectrum: { label: 'Protocol From Spectrum', values: [], selectedSuppliers: [], placeHolder: 'Enter tariff codes', id: 5 },
+      outputs: { label: 'Outputs (Send information to Spectrum team)', values: [], selectedSuppliers: [], placeHolder: 'Enter tariff codes', id: 6 },
+      maximumAmount: { label: 'Maximum Amount to Declare', values: [], selectedSuppliers: [], placeHolder: 'Enter tariff codes', id: 7 },
+      documentation: { label: 'Documentation that must accompany the delivery and proforma invoice', values: [], selectedSuppliers: [], placeHolder: 'Enter tariff codes', id: 8 },
+      fixedPrices: { label: 'Fixed Prices for Proforma Invoice', values: [], selectedSuppliers: [], placeHolder: 'Enter tariff codes', id: 9 },
+      emailComment: { label: 'Email Comments', values: [], selectedSuppliers: [], placeHolder: 'Enter tariff codes', id: 10 },
+      originUsa: { label: 'Origin Of Goods', values: [], selectedSuppliers: [], placeHolder: 'Enter Origin Of Goods', id: 11 }
     };
   }
 
@@ -129,25 +136,25 @@ export class ProtocolProformaComponent implements OnInit {
     this.loadFields();
     const self = this;
     this.protocolProformaService.allProtocolByUserId$(this.idClient).subscribe(res => {
-      _.each(res.data, function(protocol, key) {
-        _.each(protocol, function(obj, _key) {
+      _.each(res.data, function (protocol, key) {
+        _.each(protocol, function (obj, _key) {
           const clave = _key;
           if (!!self.protocols[clave]) {
             if (protocol[_key] !== '' && protocol[_key] !== null) {
               if (self.protocols[clave].values.length === 0) {
-                const object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
+                const object = { content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{ idSupplier: protocol.supplier.idSupplier }] };
                 self.protocols[clave].values.push(object);
                 self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
               } else {
-                const index = _.findIndex(self.protocols[clave].values, function(value: any) {
+                const index = _.findIndex(self.protocols[clave].values, function (value: any) {
                   return value.content === protocol[_key];
                 });
                 if (index !== -1) {
                   self.protocols[clave].values[index].suppliers.push(protocol.supplier.idSupplier);
-                  self.protocols[clave].values[index].ids.push({idSupplier: protocol.supplier.idSupplier});
+                  self.protocols[clave].values[index].ids.push({ idSupplier: protocol.supplier.idSupplier });
                   self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
                 } else {
-                  const object = {content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{idSupplier: protocol.supplier.idSupplier}]};
+                  const object = { content: protocol[_key], suppliers: [protocol.supplier.idSupplier], ids: [{ idSupplier: protocol.supplier.idSupplier }] };
                   self.protocols[clave].values.push(object);
                   self.protocols[clave].selectedSuppliers.push(protocol.supplier.idSupplier);
                 }
@@ -172,7 +179,7 @@ export class ProtocolProformaComponent implements OnInit {
   }
 
   addValue(protocol) {
-    protocol.values.push({content: '', suppliers: [], ids: [{idSupplier: null}]});
+    protocol.values.push({ content: '', suppliers: [], ids: [{ idSupplier: null }] });
   }
 
   selectSupplier(idSupplier, protocol, value) {
@@ -204,15 +211,16 @@ export class ProtocolProformaComponent implements OnInit {
     const self = this;
     const protocolsProforma = [];
     this.saveAllProtocol = true;
-    _.each(this.suppliers, function(supplier) {
-      const protocolSave = {spectrumProforma: null, additionalDocuments: null, comments: null, tariffCodes: null, protocolSpectrum: null,
+    _.each(this.suppliers, function (supplier) {
+      const protocolSave = {
+        spectrumProforma: null, additionalDocuments: null, comments: null, tariffCodes: null, protocolSpectrum: null,
         outputs: null, maximumAmount: null, documentation: null, fixedPrices: null, emailComment: null, supplierId: null, clientId: null, id: null
       };
       protocolSave.supplierId = supplier.idSupplier;
       protocolSave.clientId = self.idClient;
-      _.each(self.protocols, function(protocol, key) {
+      _.each(self.protocols, function (protocol, key) {
         const _key = key;
-        _.each(protocol.values, function(value) {
+        _.each(protocol.values, function (value) {
           if (_.includes(value.suppliers, supplier.idSupplier)) {
             const obj = _.find(value.ids, ['idSupplier', supplier.idSupplier])
             protocolSave[_key] = value.content;
@@ -236,7 +244,7 @@ export class ProtocolProformaComponent implements OnInit {
   validContent(protocol, pos) {
     let valid = true;
     if (protocol.values[pos].content === '') {
-         valid = false;
+      valid = false;
     }
     return valid;
   }
@@ -284,7 +292,7 @@ export class ProtocolProformaComponent implements OnInit {
   getNamesTypeList(value) {
     const self = this;
     const suppliersName = [];
-    _.each(self.suppliers, function(supplier) {
+    _.each(self.suppliers, function (supplier) {
       if (_.includes(value.suppliers, supplier.idSupplier)) {
         suppliersName.push(supplier.companyName);
       }
@@ -373,8 +381,10 @@ export class ProtocolProformaComponent implements OnInit {
   downloadProtocol() {
     this.spinner.show();
     this.protocolProformaService.reportProtocolById$(this.protocol.id, this.user.role.idRole).subscribe(res => {
-      const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
-        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes()};
+      const aux = {
+        year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
+        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes()
+      };
       const filename = 'ProtocolProforma-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
       saveAs(res, filename);
       this.spinner.hide();
@@ -398,7 +408,7 @@ export class ProtocolProformaComponent implements OnInit {
       protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, value.suppliers);
       value.suppliers = [];
     } else {
-      _.each(self.suppliers, function(supplier) {
+      _.each(self.suppliers, function (supplier) {
         if (self.allowedSelection(supplier.idSupplier, protocol)) {
           value.suppliers.push(supplier.idSupplier);
           protocol.selectedSuppliers.push(supplier.idSupplier);
@@ -407,9 +417,9 @@ export class ProtocolProformaComponent implements OnInit {
     }
   }
 
-  hideAdd(protocol){
-    return this.suppliers.length === protocol.value.selectedSuppliers.length || 
-           this.suppliers.length === protocol.value.values.length ||
-           (protocol.value.label === 'Spectrum Proforma' && protocol.value.values.length === 2)
+  hideAdd(protocol) {
+    return this.suppliers.length === protocol.value.selectedSuppliers.length ||
+      this.suppliers.length === protocol.value.values.length ||
+      (protocol.value.label === 'Spectrum Proforma' && protocol.value.values.length === 2)
   }
 }
