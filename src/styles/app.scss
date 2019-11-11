@@ -10,6 +10,18 @@
   background-color: #e9ecef;
 }
 
+.ng-select {
+  .ng-dropdown-panel .scroll-host {
+    max-height: 280px !important;
+  }
+}
+
+.select-notch {
+  .ng-dropdown-panel {
+    width: 170% !important;
+  }
+}
+
 .alertify-notifier .ajs-message.ajs-success {
   background-color: #00cc00 !important;
   color: #ffffff;

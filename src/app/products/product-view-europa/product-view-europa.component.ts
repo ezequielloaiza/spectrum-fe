@@ -35,7 +35,8 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
   styleUrls: ['./product-view-europa.component.scss']
 })
 export class ProductViewEuropaComponent implements OnInit {
-
+  @ViewChild('notchRight') notchRight;
+  @ViewChild('notchLeft') notchLeft;
   products: Array<any> = new Array;
   productsCode: Array<any> = new Array;
   productsCodeSelectL: Array<any> = new Array;
@@ -771,8 +772,6 @@ export class ProductViewEuropaComponent implements OnInit {
     let signPowerRight = this.signPowerRight;
     let typeCurveLeft = this.typeCurveLeft;
     let typeCurveRight = this.typeCurveRight;
-    let typeNotchRight = this.typeNotchRight;
-    let typeNotchLeft = this.typeNotchLeft;
     let additionalInserts = this.additionalInserts;
     let additionalInsertsL = this.additionalInsertsL;
     let inserts = this.inserts;
@@ -839,7 +838,7 @@ export class ProductViewEuropaComponent implements OnInit {
             product.parametersRight[index].selected = signPowerRight + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
-            product.parametersRight[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + '(' + typeNotchRight + ')';
+            product.parametersRight[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + '(' + parameter.selectedNotchTime + ')';
           }
         });
         productSelected.parameters = product.parametersRight;
@@ -898,7 +897,7 @@ export class ProductViewEuropaComponent implements OnInit {
             product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
-            product.parametersLeft[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + '(' + typeNotchLeft + ')';;
+            product.parametersLeft[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + '(' + parameter.selectedNotchTime + ')';;
           }
         });
         productSelected.parameters = product.parametersLeft;
@@ -926,7 +925,10 @@ export class ProductViewEuropaComponent implements OnInit {
 
       /*params*/
       _.each(productSelected.parameters, function(parameter) {
-        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
+        debugger
+        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0(undefined)' &&
+            parameter.selected !== '0x0(Temporal Superior)' && parameter.selected !== '0x0(Temporal Inferior)' && 
+            parameter.selected !== '0x0(Nasal Superior)' && parameter.selected !== '0x0(Nasal Inferior)') {
           const productN =  { id: productNotch.idProduct,
             name: productNotch.name,
             price: notchPrice,
@@ -963,7 +965,9 @@ export class ProductViewEuropaComponent implements OnInit {
 
       /*params*/
       _.each(productAux.detail.parameters, function(parameter) {
-        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
+        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0(undefined)' &&
+            parameter.selected !== '0x0(Temporal Superior)' && parameter.selected !== '0x0(Temporal Inferior)' && 
+            parameter.selected !== '0x0(Nasal Superior)' && parameter.selected !== '0x0(Nasal Inferior)') {
           const productN =  JSON.parse(JSON.stringify(productAux));
           productN.id = productNotch.idProduct;
           productN.name = productNotch.name;
@@ -1065,11 +1069,16 @@ export class ProductViewEuropaComponent implements OnInit {
           if (param.values[0].selected === null || param.values[1].selected === null) {
             isValid = false;
           }
+
+          if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !param.selectedNotchTime) {
+            isValid = false;
+          }
+
         } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
-      if (!this.typeCurveRight || !this.signPowerRight || !this.product.quantityRight || !this.typeNotchRight) {
+      if (!this.typeCurveRight || !this.signPowerRight || !this.product.quantityRight) {
         isValid = false;
       }
     }
@@ -1080,11 +1089,16 @@ export class ProductViewEuropaComponent implements OnInit {
           if (param.values[0].selected === null || param.values[1].selected === null) {
             isValid = false;
           }
+
+          if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !param.selectedNotchTime) {
+            isValid = false;
+          }
+
         } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
-      if (!this.typeCurveLeft || !this.signPowerLeft || !this.product.quantityLeft || !this.typeNotchLeft) {
+      if (!this.typeCurveLeft || !this.signPowerLeft || !this.product.quantityLeft) {
         isValid = false;
       }
     }
@@ -1424,5 +1438,19 @@ export class ProductViewEuropaComponent implements OnInit {
 
   disabledOption(item) {
     return item === "For other diameters, contact us";
+  }
+
+  changeNotchTime(eye, parameter, value) {
+    parameter.selectedNotchTime = value;
+    switch (eye) {
+      case 'right':
+        this.notchRight.itemsList._items[0].label = value;
+        this.notchRight.itemsList._items[0].value = value;
+        break;
+      case 'left':
+        this.notchLeft.itemsList._items[0].label = value;
+        this.notchLeft.itemsList._items[0].value = value;
+        break;
+    }
   }
 }

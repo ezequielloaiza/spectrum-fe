@@ -383,3 +383,30 @@ img {
   color: #cc0000;
   font-size: 0.85rem;
 }
+
+.notch {
+  width: 40%;
+}
+
+area {
+  display: block !important;
+}
+
+.select-notch {  
+  img {
+    border-radius: 0;
+    opacity: 0.6;
+  }
+
+  img:hover {
+    border: 3px blue solid;
+    border-radius: 15px;
+    opacity: 1;
+  }
+}
+
+.selected-image {
+  border: 3px #8faab4 solid;
+  border-radius: 15px !important;
+  opacity: 1 !important;
+}

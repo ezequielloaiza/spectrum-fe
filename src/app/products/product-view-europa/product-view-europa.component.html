@@ -193,7 +193,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-3" *ngFor="let parameter of product.parametersRight">
+            <div class="col-lg-3" *ngFor="let parameter of product.parametersRight; let indexRight = index">
               <div>
                 <!--param name-->
                 <div class="row label">
@@ -205,7 +205,7 @@
                     <ng-select (change)="changeSelect('right', parameter, $event,0)"
                                [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
                                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
-                              <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of parameter.values">{{ item  | translate }}</ng-option>                     
+                              <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of parameter.values">{{ item  | translate }}</ng-option>
                     </ng-select>
                   </div>
 
@@ -248,16 +248,34 @@
                   </div>
 
                   <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex col-sm-12">
-                    <ng-select [disabled]="!product.eyeRight" [required]="parameter.values[0].selected || parameter.values[1].selected"
+                    <!--<ng-select [disabled]="!product.eyeRight" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0"
                       [(ngModel)]="typeNotchRight" bindLabel="item" bindValue="item" placeholder="{{ 'Type' | translate }}"
                       [clearable]="false">
                         <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of ['Nasal', 'Temporary']">{{ item  | translate }}</ng-option>
+                    </ng-select>-->
+
+                    <ng-select #notchRight class="select-notch" [items]="['Temporal Superior']"
+                               [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
+                               [disabled]="!product.eyeRight" required>
+                      <ng-template ng-option-tmp>
+                        <div class="main-info">
+                          <div class="one-two">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Temporal Superior'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('right', parameter, 'Temporal Superior')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Nasal Superior'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('right', parameter, 'Nasal Superior')">
+                          </div>
+                          <div clas="three-four">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Temporal Inferior'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('right', parameter, 'Temporal Inferior')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Nasal Inferior'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('right', parameter, 'Nasal Inferior')">
+                          </div>
+                        </div>
+                      </ng-template>
                     </ng-select>
-                    <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
+
+                    <input class="form-control notch" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.values[0].selected" (change)="setNotch(parameter);changeSelect('right', parameter, parameter.values[0].selected,parameter.values[1].selected)"  (keyup)="changeSelect('right', parameter, parameter.values[0].selected,parameter.values[1].selected)"
                       oninput="validity.valid||(value='');" step="0.01" [disabled]="!product.eyeRight">
 
-                    <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
+                    <input class="form-control notch" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.values[1].selected" (change)="setNotch(parameter);changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)" (keyup)="changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)"
                       oninput="validity.valid||(value='');" step="0.01" [disabled]="!product.eyeRight">
 
@@ -480,15 +498,31 @@
                   </div>
 
                   <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex col-sm-12">
-                    <ng-select [disabled]="!product.eyeLeft" [required]="parameter.values[0].selected || parameter.values[1].selected"
+                    <!--<ng-select [disabled]="!product.eyeLeft" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0"
                       [(ngModel)]="typeNotchLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Type' | translate }}"
                       [clearable]="false">
                         <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of ['Nasal', 'Temporary']">{{ item  | translate }}</ng-option>
+                    </ng-select>-->
+                    <ng-select #notchLeft class="select-notch" [items]="['Temporal Superior']"
+                               [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
+                               [disabled]="!product.eyeLeft" required>
+                      <ng-template ng-option-tmp>
+                        <div class="main-info">
+                          <div class="one-two">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Temporal Superior'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('left', parameter, 'Temporal Superior')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Nasal Superior'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('left', parameter, 'Nasal Superior')">
+                          </div>
+                          <div clas="three-four">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Temporal Inferior'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('left', parameter, 'Temporal Inferior')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Nasal Inferior'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('left', parameter, 'Nasal Inferior')">
+                          </div>
+                        </div>
+                      </ng-template>
                     </ng-select>
-                    <input class="form-control" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
+                    <input class="form-control notch" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
                       [required]="product.eyeLeft" [(ngModel)]="parameter.values[0].selected" step="0.01" (change)="setNotch(parameter);changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)" (keyup)="changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)"
                       oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
-                    <input class="form-control" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
+                    <input class="form-control notch" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
                       [required]="product.eyeLeft" [(ngModel)]="parameter.values[1].selected" step="0.01" (change)="setNotch(parameter);changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)" (keyup)="changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)"
                       oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                   </div>
