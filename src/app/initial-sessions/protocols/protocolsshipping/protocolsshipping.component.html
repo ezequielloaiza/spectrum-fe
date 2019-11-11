@@ -4,36 +4,33 @@
 </div>
 <br />
 <div class="row border-protocol">
-  <div class="w-46 m-4" *ngFor="let protocol of protocols, let pos = index">
-    <!--<div class="w-100 border-protocol p-3 mb-3">-->
-    <div class="w-50 mr-3" *ngIf="pos === 0">
+  <div class="w-100 m-4 bottom-label">
+    <span class="font-weight-bold">{{ 'Suppliers' | translate }}:</span>
+  </div>
+  <!--SELECT SUPPLIERS-->
+  <div class="w-96 m-4 form-options">
+    <div class="select-required" *ngIf="!suppliersSelected.length"></div>
+    <div class="w-100">
       <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
-        <button class="btn border-type w-100 text-left" ngbDropdownToggle required
-          [disabled]="!validContent(protocol,pos)">
-          <div class="text-overflow">{{ getNamesTypeList(protocol.values) }}</div>
-          <span class="tcs-text-overflow" *ngIf="checkSuppliers(protocol,pos)">
-            {{ "Select At Least a Supplier" | translate }}
+        <button class="btn border-type w-100 text-left" ngbDropdownToggle required>
+          <div class="text-overflow">{{ getSuppliersName() }}</div>
+          <span class="tcs-text-overflow" *ngIf="false">
+            {{ "Select at Least a Supplier" | translate }}
           </span>
         </button>
         <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
           <div class="select-type">
             <div class="custom-control custom-checkbox">
-              <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}-all" type="checkbox" name="checkboxAll"
-                [checked]="checkedAllSuppliers(protocol)" (click)="onSelectionAll(protocol, protocol.values)"
-                class="custom-control-input">
-              <label class="custom-control-label"
-                for="{{protocol.label}}-{{ i }}-{{ pos }}-all">{{ 'Select All' | translate }}</label>
+              <input id="test1" type="checkbox" name="checkboxAll" class="custom-control-input"
+                [checked]="checkedAllSuppliers()" (click)="onSelectionAll()">
+              <label class="custom-control-label" for="test1">{{ 'Select All' | translate }}</label>
             </div>
             <li *ngFor="let supplier of suppliers; index as i">
               <div>
-                <div class="custom-control custom-checkbox" data-toggle="tooltip" data-placement="left"
-                  title="{{ 'If it is disabled, it was previously selected' | translate }}">
-                  <input attr.id="{{protocol.label}}-{{ i }}-{{ pos }}" type="checkbox" name="checkboxGroupAll"
-                    [checked]="checkedSupplier(protocol, protocol.values, supplier)"
-                    (click)="selectSupplier(supplier.idSupplier, protocol, protocol.values)"
-                    class="custom-control-input" [disabled]="disabledSupplier(protocol, protocol.values, supplier)" />
-                  <label class="custom-control-label" for="{{ protocol.label }}-{{ i }}-{{ pos }}"></label>
-
+                <div class="custom-control custom-checkbox">
+                  <input id="{{ i }}" type="checkbox" name="checkboxSupplier" class="custom-control-input"
+                    [checked]="checkedSupplier(supplier)" (click)="selectSupplier(supplier)" [disabled]="false" />
+                  <label class="custom-control-label" for="{{ i }}"></label>
                   <span class="tcs-text-overflow">
                     {{ supplier.companyName | titlecase }}
                   </span>
@@ -44,6 +41,9 @@
         </ul>
       </div>
     </div>
+  </div>
+  <div class="w-46 m-4" *ngFor="let protocol of protocols, let pos = index">
+    <!--<div class="w-100 border-protocol p-3 mb-3">-->
     <!--INPUTS-->
     <div *ngFor="let value of protocol.values; let pos = index">
 
@@ -165,8 +165,6 @@
       </div>
 
     </div>
-
-
   </div>
 </div>
 
@@ -187,7 +185,8 @@
     <i class="fa fa-times"></i>
   </button>
   &nbsp;&nbsp;
-  <button class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">
+  <!--<button class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">-->
+  <button class="btn btn-main" (click)="save()">
     {{ "Save & Next" | translate }}&nbsp;
     <i class="fa fa-arrow-right"></i>
   </button>

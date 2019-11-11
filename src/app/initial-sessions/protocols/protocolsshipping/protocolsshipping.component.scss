@@ -55,6 +55,10 @@
   justify-content: space-between;
 }
 
+.bottom-label {
+  margin-bottom: -10px !important;
+}
+
 .form-group {
   span {
     color: $color-text-menu;
@@ -96,7 +100,11 @@
 }
 
 .w-46 {
-  width: 46%
+  width: 46%;
+}
+
+.w-96 {
+  width: 96%;
 }
 
 .trash {
