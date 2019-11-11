@@ -162,6 +162,7 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invoiceService.allInvoiceByOrder$(this.order.idOrder).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
+            debugger
             const invoices = res.data;
             if (invoices.length > 0) {
               this.original = invoices[0];
@@ -256,7 +257,7 @@ export class GenerateInvoiceComponent implements OnInit {
       ids = this.invoice.listOrders.map(String);
     } else {
       if (this.order !== undefined) {
-        ids = [this.order.idOrder];
+        ids = this.order.ids;
       }
     }
     let self = this;

@@ -946,14 +946,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
             }, (reason) => {
           });
         } else {
-          this.translate.get('Confirm invoice generation', {value: 'Confirm invoice generation'}).subscribe((title: string) => {
-            this.translate.get('Are you sure want to bill all selected orders to provider?',
-            {value: 'Are you sure want to bill all selected orders to provider?'}).subscribe((msg: string) => {
-              this.alertify.confirm(title, msg, () => {
-                this.generateInvoiceSupplier();
-                }, () => {});
-              });
-            });
+          this.generateInvoiceSupplier();
         }
       } else {
         this.translate.get('All orders must belong to the same provider', { value: 'All orders must belong to the same provider' })
@@ -970,34 +963,21 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   generateInvoiceSupplier() {
-    this.invoiceSupplier.date = this.today;
-    const ship = 0;
-    this.invoiceSupplier.shipping = ship;
-    this.invoiceSupplier.listOrders = this.listAux;
-    this.spinner.show();
-    this.orderService.generateInvoiceSupplier$(this.invoiceSupplier).subscribe(
-      res => {
-        if (res.code === CodeHttp.ok) {
-          this.translate
-            .get('Successfully Generated', { value: 'Successfully Generated' })
-            .subscribe((res1: string) => {
-              this.notification.success('', res1);
-            });
-          this.valid = false;
-          this.listAux = [];
-          this.selectedAll = false;
-          this.initialize();
-          this.getListOrders();
-          this.spinner.hide();
-        } else {
-          this.spinner.hide();
-          console.log(res.code);
-        }
-      },
-      error => {
-        console.log('error', error);
-      }
-    );
+    const self = this;
+    const order = _.find(this.listOrders, { 'idOrder':  this.listAux[0] });
+    _.each(this.listAux, function(id) {
+     if(order.idOrder !== id) {
+      const _order: any =_.find(self.listOrders, { 'idOrder':  id });
+      _.each(_order.listProductRequested, function(productRequested) {
+        order.listProductRequested.push(productRequested);
+      });
+      order.total += _order.total;
+      order.subtotal += _order.subtotal;
+      order.shipping += _order.shipping;
+     }
+    });
+    order.ids = this.listAux;
+    this.generateInvoice(order);
   }
 
   initialize() {
