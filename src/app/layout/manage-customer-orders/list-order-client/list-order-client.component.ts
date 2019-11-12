@@ -57,6 +57,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   valido = true;
   validoProvider = true;
   connected: boolean;
+  ordersMap = {};
   constructor(private orderService: OrderService,
     private userService: UserStorageService,
     private modalService: NgbModal,
@@ -775,8 +776,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.original = order.invoiceSupplier;
     }
     modalRef.result.then((result) => {
-      this.ngOnInit();
-      this.getListOrders();
+      this.router.navigate(['/invoice']);
     }, (reason) => {
     });
   }
@@ -946,14 +946,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
             }, (reason) => {
           });
         } else {
-          this.translate.get('Confirm invoice generation', {value: 'Confirm invoice generation'}).subscribe((title: string) => {
-            this.translate.get('Are you sure want to bill all selected orders to provider?',
-            {value: 'Are you sure want to bill all selected orders to provider?'}).subscribe((msg: string) => {
-              this.alertify.confirm(title, msg, () => {
-                this.generateInvoiceSupplier();
-                }, () => {});
-              });
-            });
+          this.generateInvoiceSupplier();
         }
       } else {
         this.translate.get('All orders must belong to the same provider', { value: 'All orders must belong to the same provider' })
@@ -970,34 +963,21 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   generateInvoiceSupplier() {
-    this.invoiceSupplier.date = this.today;
-    const ship = 0;
-    this.invoiceSupplier.shipping = ship;
-    this.invoiceSupplier.listOrders = this.listAux;
-    this.spinner.show();
-    this.orderService.generateInvoiceSupplier$(this.invoiceSupplier).subscribe(
-      res => {
-        if (res.code === CodeHttp.ok) {
-          this.translate
-            .get('Successfully Generated', { value: 'Successfully Generated' })
-            .subscribe((res1: string) => {
-              this.notification.success('', res1);
-            });
-          this.valid = false;
-          this.listAux = [];
-          this.selectedAll = false;
-          this.initialize();
-          this.getListOrders();
-          this.spinner.hide();
-        } else {
-          this.spinner.hide();
-          console.log(res.code);
-        }
-      },
-      error => {
-        console.log('error', error);
-      }
-    );
+    const self = this;
+    const order = JSON.parse(JSON.stringify(_.find(this.listOrdersAux, { 'idOrder':  this.listAux[0] })));
+    _.each(this.listAux, function(id) {
+     if(order.idOrder !== id) {
+      const _order: any =_.find(self.listOrdersAux, { 'idOrder':  id });
+      _.each(_order.listProductRequested, function(productRequested) {
+        order.listProductRequested.push(productRequested);
+      });
+      order.total += _order.total;
+      order.subtotal += _order.subtotal;
+      order.shipping += _order.shipping;
+     }
+    });
+    order.ids = this.listAux;
+    this.generateInvoice(order);
   }
 
   initialize() {
@@ -1060,7 +1040,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   verifyInvoice() {
     let listInvoiceClient = [];
     let listInvoiceSupplier = [];
-    let orders = this.listOrders;
+    let orders = this.listOrdersAux;
     _.each(this.listAux, function(item) {
        let order = _.find(orders, { 'idOrder': item});
        if ( order.invoiceClient != null ) {
@@ -1078,7 +1058,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   checkClient() {
     let valido = true;
     let listAux = this.listAux;
-    let orders = this.listOrders;
+    let orders = this.listOrdersAux;
     let order;
     let orderAux;
     let aux;
@@ -1099,7 +1079,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   checkProvider() {
     let validoProvider = true;
     let listAux = this.listAux;
-    let orders = this.listOrders;
+    let orders = this.listOrdersAux;
     let order;
     let orderAux;
     let aux;

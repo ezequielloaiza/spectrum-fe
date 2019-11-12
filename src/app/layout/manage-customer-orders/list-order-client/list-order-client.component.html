@@ -206,9 +206,12 @@
                       <span
                         class="center-span">{{order.invoiceSupplier ? '#'+order.invoiceSupplier.number : 'Not generated' | translate}}</span>
                       <span *ngIf='!order.invoiceSupplier' class="div-pending">
+                        <div translate>Pending</div>
+                      </span>
+                      <span *ngIf='(order.invoiceSupplier && order.invoiceSupplier.status === 0)' class="div-pending">
                         <div translate>Pending to send</div>
                       </span>
-                      <span *ngIf='!!order.invoiceSupplier' class="div-shipped">
+                      <span *ngIf='(order.invoiceSupplier && order.invoiceSupplier.status === 1)' class="div-shipped">
                         <div translate>Sent</div>
                       </span>
                     </div>
