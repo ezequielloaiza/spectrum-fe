@@ -162,7 +162,6 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invoiceService.allInvoiceByOrder$(this.order.idOrder).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
-            debugger
             const invoices = res.data;
             if (invoices.length > 0) {
               this.original = invoices[0];
@@ -257,7 +256,7 @@ export class GenerateInvoiceComponent implements OnInit {
       ids = this.invoice.listOrders.map(String);
     } else {
       if (this.order !== undefined) {
-        ids = this.order.ids;
+        ids = this.order.ids ?  this.order.ids :  [this.order.idOrder];
       }
     }
     let self = this;
@@ -857,7 +856,9 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invShippingProtocol.countryName =  null;
     }
 
-    this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
+    if (this.shippingProtocol && this.shippingProtocol.id) {
+      this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
+    }
     /*if (this.editAccNumber || this.editBusinessName ||
         this.editRecipient || this.editShippingAddress ||
         this.editShippingMethod || this.editAccountNumber ||
@@ -896,7 +897,10 @@ export class GenerateInvoiceComponent implements OnInit {
     if (!this.editTariffCodes) {
       this.invProtocolProforma.tariffCodes = null;
     }
-    this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
+
+    if (this.protocolProforma && this.protocolProforma.id) {
+      this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
+    }
     /*if (this.editSpectrumP || this.editAdditionalDocuments ||
         this.editOutputs || this.editDocumentation ||
         this.editComments || this.editEmailCommentProforma ||

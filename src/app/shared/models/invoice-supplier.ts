@@ -18,7 +18,7 @@ export class InvoiceSupplier {
     public due: number;
     public total: number;
     public status: number;
-    public user: User;
+    public user: User = new User();
     public idUser: number;
     public client: User;
     public idClient: number;

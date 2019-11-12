@@ -57,6 +57,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   valido = true;
   validoProvider = true;
   connected: boolean;
+  ordersMap = {};
   constructor(private orderService: OrderService,
     private userService: UserStorageService,
     private modalService: NgbModal,
@@ -775,8 +776,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.original = order.invoiceSupplier;
     }
     modalRef.result.then((result) => {
-      this.ngOnInit();
-      this.getListOrders();
+      this.router.navigate(['/invoice']);
     }, (reason) => {
     });
   }
@@ -964,10 +964,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   generateInvoiceSupplier() {
     const self = this;
-    const order = _.find(this.listOrders, { 'idOrder':  this.listAux[0] });
+    const order = JSON.parse(JSON.stringify(_.find(this.listOrdersAux, { 'idOrder':  this.listAux[0] })));
     _.each(this.listAux, function(id) {
      if(order.idOrder !== id) {
-      const _order: any =_.find(self.listOrders, { 'idOrder':  id });
+      const _order: any =_.find(self.listOrdersAux, { 'idOrder':  id });
       _.each(_order.listProductRequested, function(productRequested) {
         order.listProductRequested.push(productRequested);
       });
@@ -1040,7 +1040,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   verifyInvoice() {
     let listInvoiceClient = [];
     let listInvoiceSupplier = [];
-    let orders = this.listOrders;
+    let orders = this.listOrdersAux;
     _.each(this.listAux, function(item) {
        let order = _.find(orders, { 'idOrder': item});
        if ( order.invoiceClient != null ) {
@@ -1058,7 +1058,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   checkClient() {
     let valido = true;
     let listAux = this.listAux;
-    let orders = this.listOrders;
+    let orders = this.listOrdersAux;
     let order;
     let orderAux;
     let aux;
@@ -1079,7 +1079,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   checkProvider() {
     let validoProvider = true;
     let listAux = this.listAux;
-    let orders = this.listOrders;
+    let orders = this.listOrdersAux;
     let order;
     let orderAux;
     let aux;
