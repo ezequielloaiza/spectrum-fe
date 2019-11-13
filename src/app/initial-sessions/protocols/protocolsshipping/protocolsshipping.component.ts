@@ -241,12 +241,16 @@ export class ProtocolsshippingComponent implements OnInit {
     let self = this;
     let serviceShipping = this.protocolClientService;
     if (this.protocolsBySupplier.length > 0) {
-      _.each(this.protocolsBySupplier, function (protocolSupplier) {
-        self.spinner.show();
-        serviceShipping.update$(protocolSupplier).subscribe(res => {
+      this.spinner.show();
+      serviceShipping.remove$(self.currentUser.idUser).subscribe(resRem => {
+        if (resRem.code === CodeHttp.ok) {
+          _.each(this.protocolsBySupplier, function (protocolSupplier) {
+            serviceShipping.update$(protocolSupplier).subscribe(res => {
+            });
+          });
           self.showMessage();
           self.sendReply();
-        });
+        }
       });
     } else {
       self.sendReply();
@@ -450,7 +454,7 @@ export class ProtocolsshippingComponent implements OnInit {
   getSuppliersName() {
     if (!!this.suppliersSelected.length) {
       let suppliersName = [];
-      _.each(this.suppliersSelected, function(supplierSelected) {
+      _.each(this.suppliersSelected, function (supplierSelected) {
         suppliersName = _.concat(suppliersName, supplierSelected.companyName);
       });
       return suppliersName.join(', ');

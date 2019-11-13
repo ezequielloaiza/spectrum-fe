@@ -186,7 +186,7 @@
   </button>
   &nbsp;&nbsp;
   <!--<button class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">-->
-  <button class="btn btn-main" (click)="save()">
+  <button class="btn btn-main" (click)="save()" [disabled]="!suppliersSelected.length">
     {{ "Save & Next" | translate }}&nbsp;
     <i class="fa fa-arrow-right"></i>
   </button>
