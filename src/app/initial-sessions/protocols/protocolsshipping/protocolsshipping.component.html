@@ -4,41 +4,43 @@
 </div>
 <br />
 <div class="row border-protocol">
-  <div class="w-100 m-4 bottom-label">
-    <span class="font-weight-bold">{{ 'Suppliers' | translate }}:</span>
-  </div>
   <!--SELECT SUPPLIERS-->
-  <div class="w-96 m-4 form-options">
-    <div class="select-required" *ngIf="!suppliersSelected.length"></div>
-    <div class="w-100">
-      <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
-        <button class="btn border-type w-100 text-left" ngbDropdownToggle required>
-          <div class="text-overflow">{{ getSuppliersName() }}</div>
-          <span class="tcs-text-overflow" *ngIf="false">
-            {{ "Select at Least a Supplier" | translate }}
-          </span>
-        </button>
-        <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
-          <div class="select-type">
-            <div class="custom-control custom-checkbox">
-              <input id="test1" type="checkbox" name="checkboxAll" class="custom-control-input"
-                [checked]="checkedAllSuppliers()" (click)="onSelectionAll()">
-              <label class="custom-control-label" for="test1">{{ 'Select All' | translate }}</label>
-            </div>
-            <li *ngFor="let supplier of suppliers; index as i">
-              <div>
-                <div class="custom-control custom-checkbox">
-                  <input id="{{ i }}" type="checkbox" name="checkboxSupplier" class="custom-control-input"
-                    [checked]="checkedSupplier(supplier)" (click)="selectSupplier(supplier)" [disabled]="false" />
-                  <label class="custom-control-label" for="{{ i }}"></label>
-                  <span class="tcs-text-overflow">
-                    {{ supplier.companyName | titlecase }}
-                  </span>
-                </div>
+  <div class="w-100" *ngFor="let selectSupplier of selectsSuppliers, let pos = index">
+    <div class="w-100 m-4 bottom-label">
+      <span class="font-weight-bold">{{ 'Suppliers' | translate }}:</span>
+    </div>
+    <div class="w-96 m-4 form-options">
+      <div class="select-required" *ngIf="!suppliersSelected.length"></div>
+      <div class="w-100">
+        <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
+          <button class="btn border-type w-100 text-left" ngbDropdownToggle required>
+            <div class="text-overflow">{{ getSuppliersName() }}</div>
+            <span class="tcs-text-overflow" *ngIf="false">
+              {{ "Select at Least a Supplier" | translate }}
+            </span>
+          </button>
+          <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
+            <div class="select-type">
+              <div class="custom-control custom-checkbox">
+                <input id="test1" type="checkbox" name="checkboxAll" class="custom-control-input"
+                  [checked]="checkedAllSuppliers()" (click)="onSelectionAll()">
+                <label class="custom-control-label" for="test1">{{ 'Select All' | translate }}</label>
               </div>
-            </li>
-          </div>
-        </ul>
+              <li *ngFor="let supplier of suppliers; index as i">
+                <div>
+                  <div class="custom-control custom-checkbox">
+                    <input id="{{ i }}" type="checkbox" name="checkboxSupplier" class="custom-control-input"
+                      [checked]="checkedSupplier(supplier)" (click)="selectSupplier(supplier)" [disabled]="false" />
+                    <label class="custom-control-label" for="{{ i }}"></label>
+                    <span class="tcs-text-overflow">
+                      {{ supplier.companyName | titlecase }}
+                    </span>
+                  </div>
+                </div>
+              </li>
+            </div>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -167,17 +169,13 @@
     </div>
   </div>
 </div>
-
 <!--ADD BUTTON-->
 <div>
   <!--<button type="button" class="btn btn-main" [hidden]="hideAdd(protocols)"-->
-  <button type="button" class="btn btn-main" (click)="addValue(protocols)">{{ 'Add' | translate }}
+  <button type="button" class="btn btn-main" (click)="addForm()">{{ 'Add' | translate }}
     <i class="fa fa-plus-circle ml-2"></i>
   </button>
 </div>
-
-
-
 <br />
 <div class="footer-form">
   <button class="btn btn-secondary" (click)="Skip()">

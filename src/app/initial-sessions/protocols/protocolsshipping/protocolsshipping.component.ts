@@ -32,6 +32,7 @@ export class ProtocolsshippingComponent implements OnInit {
   protocolsCopy: Array<any> = new Array;
   protocolsSave: Array<Protocol> = new Array;
   protocolsBySupplier: Array<Protocol> = new Array;
+  selectsSuppliers: Array<any> = new Array;
   validRecords = 0;
   suppliers: Array<any> = new Array;
   countries: Array<any> = new Array();
@@ -114,6 +115,8 @@ export class ProtocolsshippingComponent implements OnInit {
     //} else {
     //  this.protocols = this.protocolsCopy;
     //}
+
+    this.selectsSuppliers = [{test: 'test'}];
   }
 
   loadSuppliers() {
@@ -172,7 +175,8 @@ export class ProtocolsshippingComponent implements OnInit {
   */
 
   addForm() {
-
+    this.protocols = _.concat(this.protocols, this.protocols);
+    this.selectsSuppliers = _.concat(this.selectsSuppliers, this.selectsSuppliers);
   }
 
   hiddenSupplier(protocol, supplier) {
