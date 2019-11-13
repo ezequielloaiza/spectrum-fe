@@ -349,13 +349,7 @@ img {
 }
 
 .header-europa {
-  padding: 15px 0 5px 0;
-
-  > div:nth-child(1),
-  > div:nth-child(2),
-  > div:nth-child(3) {
-    padding-left: 2%;
-  }
+  padding: 5px 0 20px 0;
 }
 
 .additional {
@@ -363,7 +357,7 @@ img {
   margin-top: 10px;
   > p:nth-child(1) {
   font-size: 15px;
-  color: red;
+  color: green;
   }
 }
 

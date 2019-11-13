@@ -390,8 +390,7 @@
     "Total Amount": "Monto Total",
     "Edit Product":"Editar Producto",
     "Tone":"Tono",
-    "Base Curve (mm)":"Curva base (mm)",
-    "Base Curve (d)":"Curva base (d)",
+    "Base Curve":"Curva base",
     "Diameter (mm)":"Diámetro (mm)",
     "Sphere (D)": "Esfera (D)",
     "Cylinder (D)":"Cilindro (D)",
@@ -1234,5 +1233,6 @@
     "TPC Meridian (PC4)": "TPC Meridiano (PC4)",
     "For other diameters, please contact us": "Para otros diámetros, por favor contáctenos",
     "Unit": "Unidad",
-    "Select type": "Seleccione tipo"
+    "Select type": "Seleccione tipo",
+    "Trial Lens Used": "Lente de prueba utilizado"
 }

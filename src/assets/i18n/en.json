@@ -391,8 +391,7 @@
     "To Client": "To Client",
     "Edit Product":"Edit Product",
     "Tone":"Tone",
-    "Base Curve (mm)":"Base Curve (mm)",
-    "Base Curve (d)":"Base Curve (d)",
+    "Base Curve":"Base Curve",
     "Diameter (mm)":"Diameter (mm)",
     "Sphere (D)":"Sphere (D)",
     "Cylinder (D)":"Cylinder (D)",
@@ -1056,5 +1055,6 @@
     "TPC Meridian (PC4)": "TPC Meridian (PC4)",
     "For other diameters, please contact us": "For other diameters, please contact us",
     "Unit": "Unit",
-    "Select type": "Select type"
+    "Select type": "Select type",
+    "Trial Lens Used": "Trial Lens Used"
 }

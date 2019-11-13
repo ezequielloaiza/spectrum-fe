@@ -64,8 +64,12 @@ export class ProductViewEuropaComponent implements OnInit {
   CustomersSelected: any;
   signPowerRight: any;
   signPowerLeft: any;
+  signPowerRightTrial: any;
+  signPowerLeftTrial:any;
   typeCurveRight: any;
   typeCurveLeft: any;
+  typeCurveRightTrial: any;
+  typeCurveLeftTrial: any;
   typeNotchRight: any;
   typeNotchLeft: any;
   priceA = 0;
@@ -246,11 +250,13 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.eyeLeft = false;
     this.product.type = JSON.parse(this.product.types)[0].name;
     let orderCylinder;
+    this.product.setRight = JSON.parse(this.product.types)[0].set;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     orderCylinder = _.find(this.product.parametersRight, {name: 'Cylinder (D)'});
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
     }
+    this.product.setLeft = JSON.parse(this.product.types)[0].set;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     orderCylinder = _.find(this.product.parametersLeft, {name: 'Cylinder (D)'});
     if (orderCylinder != null) {
@@ -770,8 +776,12 @@ export class ProductViewEuropaComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let signPowerLeft = this.signPowerLeft;
     let signPowerRight = this.signPowerRight;
+    let signPowerRightTrial = this.signPowerRightTrial;
+    let signPowerLeftTrial = this.signPowerLeftTrial;
     let typeCurveLeft = this.typeCurveLeft;
     let typeCurveRight = this.typeCurveRight;
+    let typeCurveLeftTrial = this.typeCurveLeftTrial;
+    let typeCurveRightTrial = this.typeCurveRightTrial;
     let additionalInserts = this.additionalInserts;
     let additionalInsertsL = this.additionalInsertsL;
     let inserts = this.inserts;
@@ -817,6 +827,18 @@ export class ProductViewEuropaComponent implements OnInit {
         productSelected.price = product.priceBaseRight;
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
+
+        //set
+         _.each(product.setRight, function(parameter, index) {
+          product.setRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
+          if (parameter.name === 'Base Curve') {
+            product.setRight[index].selected = parameter.selected + '(' + typeCurveRightTrial + ')';
+          }
+          if (parameter.name === 'Power') {
+            product.setRight[index].selected = signPowerRightTrial + parameter.selected;
+          }
+        });
+        productSelected.set = product.setRight;
 
         /* headers*/
         _.each(product.headerRight, function(parameter, index) {
@@ -876,6 +898,19 @@ export class ProductViewEuropaComponent implements OnInit {
         productSelected.price = product.priceBaseLeft;
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
+
+        //set
+        _.each(product.setLeft, function(parameter, index) {
+          product.setLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
+          if (parameter.name === 'Base Curve') {
+            product.setLeft[index].selected = parameter.selected + '(' + typeCurveLeftTrial + ')';
+          }
+
+          if (parameter.name === "Power") {
+            product.setLeft[index].selected = signPowerLeftTrial + parameter.selected;
+          }
+        });
+        productSelected.set = product.setLeft;
 
         /* headers*/
         _.each(product.headerLeft, function(parameter, index) {
@@ -937,8 +972,8 @@ export class ProductViewEuropaComponent implements OnInit {
         }
       });
 
-      productSelected.detail = { name: product.type, eye: productSelected.eye, header: productSelected.header, parameters: productSelected.parameters, pasos:productSelected.pasos, productsAditional: productsAditional };
-      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional'])
+      productSelected.detail = { name: product.type, eye: productSelected.eye, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos:productSelected.pasos, productsAditional: productsAditional };
+      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional', 'set'])
     });
 
     // add products code
@@ -1424,20 +1459,24 @@ export class ProductViewEuropaComponent implements OnInit {
       this.product.parametersRight = parameters;
       this.product.pasosRight = pasos;
       this.typeCurveRight = null;
+      this.typeCurveRightTrial = null;
       this.signPowerRight = null;
+      this.signPowerRightTrial = null;
       this.typeNotchRight = null;
     } else {
       this.product.headerLeft = header;
       this.product.parametersLeft = parameters;
       this.product.pasosLeft = pasos;
       this.typeCurveLeft = null;
+      this.typeCurveLeftTrial = null;
       this.signPowerLeft = null;
+      this.signPowerLeftTrial = null;
       this.typeNotchLeft = null;
     }
   }
 
   disabledOption(item) {
-    return item === "For other diameters, contact us";
+    return item === "For other diameters, please contact us";
   }
 
   changeNotchTime(eye, parameter, value) {

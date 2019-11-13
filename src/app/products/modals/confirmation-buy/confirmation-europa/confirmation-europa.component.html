@@ -89,6 +89,24 @@
               </dl>
             </dl>
           </div>
+
+          <div class="col-lg-12 title title-info">
+            <div class="parameters">{{ 'Test set' | translate }}</div>&nbsp;&nbsp;
+          </div>
+          <div class="col-sm-4" *ngFor="let parameter of list.detail[0].set">
+            <dl class="align-item"  *ngIf="parameter.selected !== ''">
+              <dt>{{ parameter.name | translate }}
+              </dt>
+              <hr class="separators">
+              <dl>
+                <dt class="items">
+                  {{ parameter.selected}}
+                </dt>
+              </dl>
+            </dl>
+          </div>
+          <div class="separator-set"></div>
+          
           <div *ngIf="list.detail[0].productsAditional.length > 0" class="col-sm-12">
             <div class="parameters">{{ 'Additional Products' | translate }}:</div>
           </div>
