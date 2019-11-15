@@ -115,8 +115,7 @@ export class ProtocolsshippingComponent implements OnInit {
     //} else {
     //  this.protocols = this.protocolsCopy;
     //}
-
-    this.selectsSuppliers = [{test: 'test'}];
+    this.selectsSuppliers = [{ FormNumber: '0' }];
   }
 
   loadSuppliers() {
@@ -174,9 +173,12 @@ export class ProtocolsshippingComponent implements OnInit {
   }
   */
 
-  addForm() {
-    this.protocols = _.concat(this.protocols, this.protocols);
+  addForm(size) {
     this.selectsSuppliers = _.concat(this.selectsSuppliers, this.selectsSuppliers);
+  }
+
+  removeForm(pos) {
+    this.selectsSuppliers = _.slice(this.selectsSuppliers, 0, pos);
   }
 
   hiddenSupplier(protocol, supplier) {

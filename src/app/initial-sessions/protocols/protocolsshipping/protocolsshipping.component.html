@@ -3,15 +3,21 @@
   <span class="sp-title">{{ "Shippings Protocols" | translate }}</span>
 </div>
 <br />
-<div class="row border-protocol">
-  <!--SELECT SUPPLIERS-->
-  <div class="w-100" *ngFor="let selectSupplier of selectsSuppliers, let pos = index">
+<div class="row border-protocol" *ngFor="let selectSuppliers of selectsSuppliers, let pos = index">
+  <div class="w-100 btn-remove" *ngIf="pos > 0">
+    <button type="button" class="btn btn-secondary" (click)="removeForm(pos)"
+      *ngIf="!checkedAllSuppliers()">
+      <i class="fa fa-times"  placement="top" ngbTooltip="{{'Remove Form' | translate}}"></i>
+      <!--SELECT SUPPLIERS-->
+    </button>
+  </div>
+  <div class="w-96">
     <div class="w-100 m-4 bottom-label">
       <span class="font-weight-bold">{{ 'Suppliers' | translate }}:</span>
     </div>
     <div class="w-96 m-4 form-options">
       <div class="select-required" *ngIf="!suppliersSelected.length"></div>
-      <div class="w-100">
+      <div>
         <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
           <button class="btn border-type w-100 text-left" ngbDropdownToggle required>
             <div class="text-overflow">{{ getSuppliersName() }}</div>
@@ -47,7 +53,7 @@
   <div class="w-46 m-4" *ngFor="let protocol of protocols, let pos = index">
     <!--<div class="w-100 border-protocol p-3 mb-3">-->
     <!--INPUTS-->
-    <div *ngFor="let value of protocol.values; let pos = index">
+    <div *ngFor="let value of protocol.values; let pos = index" class="form-inputs">
 
       <!--SUPPLIERS SELECT-->
       <!--
@@ -170,9 +176,10 @@
   </div>
 </div>
 <!--ADD BUTTON-->
-<div>
+<div class="btn-form">
   <!--<button type="button" class="btn btn-main" [hidden]="hideAdd(protocols)"-->
-  <button type="button" class="btn btn-main" (click)="addForm()">{{ 'Add' | translate }}
+  <button type="button" class="btn btn-main" (click)="addForm(selectsSuppliers.length)"
+    *ngIf="!checkedAllSuppliers()">{{ 'Add New Form' | translate }}
     <i class="fa fa-plus-circle ml-2"></i>
   </button>
 </div>
