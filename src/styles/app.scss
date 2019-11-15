@@ -22,6 +22,10 @@
   }
 }
 
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-disabled {
+  color: #686464;
+}
+
 .alertify-notifier .ajs-message.ajs-success {
   background-color: #00cc00 !important;
   color: #ffffff;

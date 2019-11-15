@@ -237,9 +237,16 @@
             <div class="col-lg-3" *ngFor="let parameter of product.parametersRight; let indexRight = index">
               <div>
                 <!--param name-->
-                <div class="row label">
+                <div class="row label" *ngIf="parameter.type !== 'selected-double'">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
                 </div>
+
+                <div class="row label notch-lbl" *ngIf="parameter.type === 'selected-double'">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>
+                  <label class="form-check-label">{{ parameter.values[0].placeholder | translate }}</label>
+                  <label class="form-check-label">{{ parameter.values[1].placeholder | translate }}</label>
+                </div>
+
                 <!--param values-->
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
@@ -297,7 +304,7 @@
 
                     <ng-select #notchRight class="select-notch" [items]="['Temporal Superior']"
                                [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
-                               [disabled]="!product.eyeRight" required>
+                               [disabled]="!product.eyeRight" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
                       <ng-template ng-option-tmp>
                         <div class="main-info">
                           <div class="one-two">

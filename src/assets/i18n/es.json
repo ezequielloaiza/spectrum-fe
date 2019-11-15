@@ -1234,5 +1234,7 @@
     "For other diameters, please contact us": "Para otros diámetros, por favor contáctenos",
     "Unit": "Unidad",
     "Select type": "Seleccione tipo",
-    "Trial Lens Used": "Lente de prueba utilizado"
+    "Trial Lens Used": "Lente de prueba utilizado", 
+    "depth": "prof.",
+    "length": "long."
 }
