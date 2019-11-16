@@ -1051,5 +1051,6 @@
     "Invoice No QBO": "Invoice No QBO",
     "Enter Invoice No, Invoice No QBO or Total": "Enter Invoice No, Invoice No QBO or Total",
     "Enter Date or Due Date": "Enter Date or Due Date",
-    "Client Invoices": "Client Invoices"
+    "Client Invoices": "Client Invoices",
+    "Orders To Bill": "Orders To Bill"
 }

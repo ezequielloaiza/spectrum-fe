@@ -1229,5 +1229,6 @@
     "Invoice No QBO": "Factura No QBO",
     "Enter Invoice No, Invoice No QBO or Total": "Ingrese No factura, No factura QBO o Total",
     "Enter Date or Due Date": "Ingrese Fecha o Vencimiento",
-    "Client Invoices": "Facturas de clientes"
+    "Client Invoices": "Facturas de clientes",
+    "Orders To Bill": "Órdenes por Facturar"
 }
