@@ -296,12 +296,6 @@
                   </div>
 
                   <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex col-sm-12">
-                    <!--<ng-select [disabled]="!product.eyeRight" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0"
-                      [(ngModel)]="typeNotchRight" bindLabel="item" bindValue="item" placeholder="{{ 'Type' | translate }}"
-                      [clearable]="false">
-                        <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of ['Nasal', 'Temporary']">{{ item  | translate }}</ng-option>
-                    </ng-select>-->
-
                     <ng-select #notchRight class="select-notch" [items]="['Temporal Superior']"
                                [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
                                [disabled]="!product.eyeRight" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
@@ -326,7 +320,6 @@
                     <input class="form-control notch" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.values[1].selected" (change)="setNotch(parameter);changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)" (keyup)="changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)"
                       oninput="validity.valid||(value='');" step="0.01" [disabled]="!product.eyeRight">
-
                   </div>
                 </div>
               </div>

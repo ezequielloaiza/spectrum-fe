@@ -49,6 +49,9 @@ export class EuropaComponent implements OnInit {
   patient: any;
   membership: any;
   signPower: any;
+  signPowerTrial: any;
+  typeCurve: any;
+  typeCurveTrial: any;
   priceA = 0;
   priceB = 0;
   notch = 0;
@@ -272,6 +275,7 @@ export class EuropaComponent implements OnInit {
   getProductView() {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.header = JSON.parse(this.product.types)[0].header;
+    this.product.set = JSON.parse(this.product.types)[0].set;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
     this.product.steps = JSON.parse(this.product.types)[0].pasos;
     this.product.pricesAditionalHidrapeg = JSON.parse(this.product.infoAditional)[0].values[0];
@@ -286,21 +290,44 @@ export class EuropaComponent implements OnInit {
     let header = this.product.header;
     let steps = this.product.steps;
     let sign;
+    let signPowerTrial;
+    let typeCurve;
+    let typeCurveTrial;
+    let set = this.product.set;
      // header
     _.each(this.detail.header, function(item) {
-     _.each(header, function(itemHeader) {
-          if (itemHeader.name === item.name) {
-            if (itemHeader.name === 'Hidrapeg' || itemHeader.name === 'Inserts (DMV)') {
-              itemHeader.selected = item.selected === true ? 'Yes' : 'No';
-            } else {
-              itemHeader.selected = item.selected;
-            }
+      _.each(header, function(itemHeader) {
+        if (itemHeader.name === item.name) {
+          if (itemHeader.name === 'Hidrapeg' || itemHeader.name === 'Inserts (DMV)') {
+            itemHeader.selected = item.selected === true ? 'Yes' : 'No';
+          } else {
+            itemHeader.selected = item.selected;
           }
+        }
       });
-
     });
+
+    // set
+    _.each(this.detail.set, function(item) {
+      _.each(set, function(itemSet) {
+        if (itemSet.name === item.name) {
+          if (itemSet.name === 'Power') {
+            signPowerTrial = item.selected.slice( 0, 1);
+            itemSet.selected = item.selected.slice( 1, item.selected.length);
+          } else if (itemSet.name === 'Base Curve') {
+            let  pos = _.indexOf(item.selected, '(');
+            var itemSelected = String(item.selected);
+            itemSet.selected = itemSelected.slice(0, pos-1);
+            typeCurveTrial = itemSelected.slice( pos + 1, pos + 2);
+          } else {
+            itemSet.selected = item.selected;
+          }
+        }
+      });
+    });
+
     // parameters
-   // let flag = this.flagThickness;
+    // let flag = this.flagThickness;
     let flagN = this.flagNotch;
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
@@ -308,7 +335,12 @@ export class EuropaComponent implements OnInit {
           if (productSelected.name === 'Power') {
             sign = item.selected.slice( 0, 1);
             productSelected.selected = item.selected.slice( 1, item.selected.length);
-          } else if (productSelected.name === 'Notch (mm)') {
+          } else if (productSelected.name === 'Base Curve') {
+            let  pos = _.indexOf(item.selected, '(');
+            var itemSelected = String(item.selected);
+            productSelected.selected = itemSelected.slice(0, pos-1);
+            typeCurve = itemSelected.slice( pos + 1, pos + 2);
+          }else if (productSelected.name === 'Notch (mm)') {
               let  pos = _.indexOf(item.selected, 'x');
               var itemSelected = String(item.selected);
               productSelected.values[0].selected = itemSelected.slice( 0, pos);
@@ -348,11 +380,15 @@ export class EuropaComponent implements OnInit {
        });
       });
     this.signPower = sign;
+    this.signPowerTrial = signPowerTrial;
     this.product.parameters = paramet;
     this.product.header =  header;
     this.product.steps = steps;
     // this.flagThickness = flag;
     this.flagNotch = flagN;
+    this.product.set = set;
+    this.typeCurve = typeCurve;
+    this.typeCurveTrial = typeCurveTrial;
   }
 
   changeSelect(parameter, value, value2) {
@@ -1034,5 +1070,9 @@ export class EuropaComponent implements OnInit {
         this.modalReference.close(productRequested);
       }
   });
+  }
+
+  disabledOption(item) {
+    return item === "For other diameters, please contact us";
   }
 }

@@ -62,6 +62,12 @@
   }
 }
 
+.modal-edit-europa {
+  .modal-dialog {
+    max-width: 1150px !important;
+  }
+}
+
 // Actual modal
 .modal-content {
   position: relative;

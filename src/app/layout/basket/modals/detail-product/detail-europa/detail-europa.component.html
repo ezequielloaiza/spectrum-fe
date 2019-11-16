@@ -39,7 +39,7 @@
         <!-- PARAMETERS -->
         <div class="col-lg-12">
           <div class="row padding-params">
-            <!-- PARAMS -->
+            <!-- HEADER -->
             <div class="col-sm-4" *ngFor="let parameter of detail.header">
               <dl class="align-item">
                 <dt>{{ parameter.name | translate }}</dt>
@@ -71,6 +71,22 @@
                 </dl>
               </dl>
             </div>
+
+            <!-- TEST SET-->
+            <div class="col-sm-12">
+              <div class="parameters">{{ 'Test set' | translate }}</div>
+            </div>
+            <div class="col-sm-4" *ngFor="let parameter of detail.set">
+              <dl class="align-item">
+                <dt>{{ parameter.name | translate }}</dt>
+                <hr class="separators">
+                <dl>
+                  <dt class="items">{{ parameter.selected}}</dt>
+                </dl>
+              </dl>
+            </div>
+
+            <!-- PARAMS -->
             <div class="col-sm-12">
               <div class="parameters">{{ "Parameters" | translate }}:</div>
             </div>
