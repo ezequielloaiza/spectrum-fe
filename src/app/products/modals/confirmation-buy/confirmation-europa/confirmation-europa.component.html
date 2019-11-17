@@ -99,9 +99,8 @@
               </dt>
               <hr class="separators">
               <dl>
-                <dt class="items">
-                  {{ parameter.selected}}
-                </dt>
+                <dt class="items" *ngIf="!!parameter.selected && parameter.selected !== null && parameter.selected !== ''">{{ parameter.selected}}</dt>
+                <dt class="items" *ngIf="parameter.selected === null || parameter.selected === '' || !parameter.selected">{{ 'Unassigned' | translate}}</dt>
               </dl>
             </dl>
           </div>
