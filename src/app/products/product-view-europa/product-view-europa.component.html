@@ -582,14 +582,9 @@
                   </div>
 
                   <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex col-sm-12">
-                    <!--<ng-select [disabled]="!product.eyeLeft" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0"
-                      [(ngModel)]="typeNotchLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Type' | translate }}"
-                      [clearable]="false">
-                        <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of ['Nasal', 'Temporary']">{{ item  | translate }}</ng-option>
-                    </ng-select>-->
                     <ng-select #notchLeft class="select-notch" [items]="['Temporal Superior']"
                                [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
-                               [disabled]="!product.eyeLeft" required>
+                               [disabled]="!product.eyeLeft" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
                       <ng-template ng-option-tmp>
                         <div class="main-info">
                           <div class="one-two">
