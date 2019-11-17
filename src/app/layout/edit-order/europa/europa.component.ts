@@ -558,7 +558,7 @@ export class EuropaComponent implements OnInit {
             item.selected = signPower + productSelected.selected;
           } else if (productSelected.name === 'Notch (mm)') {
             if (productSelected.values[0].selected === null || productSelected.values[1].selected === null || !selectedNotch) {
-              item.selected = '';
+              item.selected = '0x0';
             } else {
               item.selected = productSelected.values[0].selected + 'x' + productSelected.values[1].selected + ' (' + selectedNotch + ')';
             }
@@ -747,7 +747,7 @@ export class EuropaComponent implements OnInit {
           prNotch.idProductRequested = pRNotch.idProductRequested;
         }
         productsAditional.push(productN);
-      } else if (parameter.name === 'Notch (mm)' && (parameter.selected !== '0x0' || parameter.selected === '0x0 (undefined)' || parameter.selected === '0x0 (Temporal Superior)' ||
+      } else if (parameter.name === 'Notch (mm)' && (parameter.selected === '0x0' || parameter.selected === '0x0 (undefined)' || parameter.selected === '0x0 (Temporal Superior)' ||
                  parameter.selected === '0x0 (Temporal Inferior)' || parameter.selected === '0x0 (Nasal Superior)' || parameter.selected === '0x0 (Nasal Inferior)')) {
         if (pRNotch != undefined) {
           prNotch.idProductRequested = pRNotch.idProductRequested;

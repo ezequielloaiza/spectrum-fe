@@ -1182,7 +1182,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   setNotch(parameter) {
     if (parameter.values[0].selected === null || parameter.values[1].selected === null) {
-      parameter.selected = null;
+      parameter.selected = '0x0';
     } else {
       parameter.selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
     }
