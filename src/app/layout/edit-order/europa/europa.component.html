@@ -89,16 +89,16 @@
               </dt>
               <div class="row">
                 <div class="select-values col-sm-12" *ngIf="itemSet.type === 'selected'">
-                  <ng-select (change)="changeSelect('right', itemSet, $event,0)" [(ngModel)]="itemSet.selected"
-                            bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                  <ng-select (change)="changeSelect(itemSet, $event, 0)" [(ngModel)]="itemSet.selected"
+                            bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="true">
                     <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of itemSet.values">{{ item | translate }}</ng-option>
                   </ng-select>
                 </div>
 
                 <!--Only Power-->
-                <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Power'" class="select-values param-flex col-sm-12">
+                <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Power'" class="select-values param-flex col-sm-12 param-power">
                   <ng-select [items]="['+', '-']" [(ngModel)]="signPowerTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
-                    [clearable]="false">
+                    [clearable]="true">
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}"
@@ -108,7 +108,7 @@
                 <!--Only Base Curve-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Base Curve'" class="select-values param-flex col-sm-12">
                   <ng-select [items]="['D', 'mm']" [(ngModel)]="typeCurveTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
-                    [clearable]="false">
+                    [clearable]="true">
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}" [(ngModel)]="itemSet.selected" oninput="validity.valid||(value='');"
@@ -200,17 +200,17 @@
                       </div>
 
                       <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex">
-                        <ng-select #notchRight class="select-notch" [items]="['Temporal Superior']"
-                                  [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
+                        <ng-select #notchTime class="select-notch" [items]="['Temporal Superior']"
+                                  [(ngModel)]="selectedNotch" placeholder="{{ 'Select type' | translate }}" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
                           <ng-template ng-option-tmp>
                             <div class="main-info">
                               <div class="one-two">
-                                <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Temporal Superior'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('right', parameter, 'Temporal Superior')">
-                                <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Nasal Superior'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('right', parameter, 'Nasal Superior')">
+                                <img [ngClass]="{'selected-image': selectedNotch === 'Temporal Superior'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('Temporal Superior')">
+                                <img [ngClass]="{'selected-image': selectedNotch === 'Nasal Superior'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('Nasal Superior')">
                               </div>
                               <div clas="three-four">
-                                <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Temporal Inferior'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('right', parameter, 'Temporal Inferior')">
-                                <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Nasal Inferior'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('right', parameter, 'Nasal Inferior')">
+                                <img [ngClass]="{'selected-image': selectedNotch === 'Temporal Inferior'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('Temporal Inferior')">
+                                <img [ngClass]="{'selected-image': selectedNotch === 'Nasal Inferior'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('Nasal Inferior')">
                               </div>
                             </div>
                           </ng-template>
@@ -229,7 +229,7 @@
                <!--Fin parameters-->
                <div class="col-md-12" *ngIf="additionalInserts || additionalHidrapeg || additionalNotch">
                 <!-- Warning Warranty -->
-                <div class="message-error">
+                <div class="warnings">
                   <br>
                   <span  translate>{{'Warning: Includes' | translate}}</span>&nbsp;
                   <span *ngIf="additionalHidrapeg">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : " USD $" }}</span>

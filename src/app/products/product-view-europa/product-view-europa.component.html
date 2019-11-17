@@ -152,7 +152,7 @@
               <div class="row">
                 <div class="select-values col-sm-12" *ngIf="itemSet.type === 'selected'">
                   <ng-select (change)="changeSelect('right', itemSet, $event,0)" [disabled]="!product.eyeRight" [(ngModel)]="itemSet.sel"
-                             bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                             bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="true">
                     <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of itemSet.values">{{ item | translate }}</ng-option>
                   </ng-select>
                 </div>
@@ -161,7 +161,7 @@
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Power'" class="select-values param-flex col-sm-12">
                   <ng-select [items]="['+', '-']" [disabled]="!product.eyeRight"
                     [(ngModel)]="signPowerRightTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
-                    [clearable]="false">
+                    [clearable]="true">
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}"
@@ -173,7 +173,7 @@
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Base Curve'" class="select-values param-flex col-sm-12">
                   <ng-select [items]="['D', 'mm']" [disabled]="!product.eyeRight"
                     [(ngModel)]="typeCurveRightTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
-                    [clearable]="false">
+                    [clearable]="true">
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}" [(ngModel)]="itemSet.selected" oninput="validity.valid||(value='');"
@@ -444,7 +444,7 @@
                 <div class="select-values col-sm-12" *ngIf="itemSet.type === 'selected'">
                   <ng-select (change)="changeSelect('left', itemSet, $event,0)" [disabled]="!product.eyeLeft"
                     [(ngModel)]="itemSet.sel" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}"
-                    [clearable]="false">
+                    [clearable]="true">
                     <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of itemSet.values">{{ item | translate }}</ng-option>
                   </ng-select>
                 </div>
@@ -453,7 +453,7 @@
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Power'" class="select-values param-flex col-sm-12">
                   <ng-select [items]="['+', '-']" [disabled]="!product.eyeLeft"
                     [(ngModel)]="signPowerLeftTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
-                    [clearable]="false">
+                    [clearable]="true">
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}"
@@ -466,7 +466,7 @@
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Base Curve'" class="select-values param-flex col-sm-12">
                   <ng-select [items]="['D', 'mm']" [disabled]="!product.eyeLeft"
                     [(ngModel)]="typeCurveLeftTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
-                    [clearable]="false">
+                    [clearable]="true">
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}" [(ngModel)]="itemSet.selected" oninput="validity.valid||(value='');"

@@ -832,7 +832,11 @@ export class ProductViewEuropaComponent implements OnInit {
          _.each(product.setRight, function(parameter, index) {
           product.setRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
           if (parameter.name === 'Base Curve') {
-            product.setRight[index].selected = parameter.selected + ' (' + typeCurveRightTrial + ')';
+            if (!!typeCurveRightTrial) {
+              product.setRight[index].selected = parameter.selected + ' (' + typeCurveRightTrial + ')';
+            } else {
+              product.setRight[index].selected = null;
+            }
           }
           if (parameter.name === 'Power') {
             product.setRight[index].selected = signPowerRightTrial + parameter.selected;
@@ -854,7 +858,11 @@ export class ProductViewEuropaComponent implements OnInit {
         _.each(product.parametersRight, function(parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
           if (parameter.name === 'Base Curve') {
-            product.parametersRight[index].selected = parameter.selected + ' (' + typeCurveRight + ')';
+            if (!!typeCurveRight) {
+              product.parametersRight[index].selected = parameter.selected + ' (' + typeCurveRight + ')';
+            } else {
+              product.parametersRight[index].selected = null;
+            }
           }
           if (parameter.name === 'Power') {
             product.parametersRight[index].selected = signPowerRight + parameter.selected;
@@ -903,7 +911,11 @@ export class ProductViewEuropaComponent implements OnInit {
         _.each(product.setLeft, function(parameter, index) {
           product.setLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
           if (parameter.name === 'Base Curve') {
-            product.setLeft[index].selected = parameter.selected + ' (' + typeCurveLeftTrial + ')';
+            if (!!typeCurveLeftTrial) {
+              product.setLeft[index].selected = parameter.selected + ' (' + typeCurveLeftTrial + ')';
+            } else {
+              product.setLeft[index].selected = null;
+            }
           }
 
           if (parameter.name === "Power") {
@@ -926,7 +938,11 @@ export class ProductViewEuropaComponent implements OnInit {
         _.each(product.parametersLeft, function(parameter, index) {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
           if (parameter.name === 'Base Curve') {
-            product.parametersLeft[index].selected = parameter.selected + ' (' + typeCurveLeft + ')';
+            if (!!typeCurveLeft) {
+              product.parametersLeft[index].selected = parameter.selected + ' (' + typeCurveLeft + ')';
+            } else {
+              product.parametersLeft[index].selected = null;
+            }
           }
           if (parameter.name === "Power") {
             product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
