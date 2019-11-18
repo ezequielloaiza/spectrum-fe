@@ -237,7 +237,7 @@
     "Inactive":"Inactive",
     "Sellers":"Sellers",
     "Customer Data":"Customer Data",
-    "Personal information":"Personal information",
+    "Personal Information":"Personal Information",
     "Deactivate":"Deactivate",
     "Activate":"Activate",
     "Status":"Status",
@@ -266,7 +266,6 @@
     "Seller":"Seller",
     "Customer":"Customer",
     "Assign seller":"Assign seller",
-    "Personal info":"Personal info",
     "Company Info":"Company Info",
     "Business Types":"Business Types",
     "Customer status":"Customer status",
@@ -1060,5 +1059,7 @@
     "Trial Lens Used": "Trial Lens Used",
     "Hidrapeg": "Hydrapeg",
     "depth": "depth",
-    "length": "length"
+    "length": "length",
+    "Spectrum Account Number": "Spectrum Account Number",
+    "Enter Spectrum Account Number": "Enter Spectrum Account Number"
 }

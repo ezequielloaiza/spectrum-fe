@@ -153,6 +153,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
           this.listCustomersAux = res.data;
           this.listCustomers = this.listCustomersAux;
           this.excludeClients(this.listCustomers, this.product.supplier.idSupplier, this.product);
+          this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.country.name + ' ' + i.name; return i; });
         }
       });
     }

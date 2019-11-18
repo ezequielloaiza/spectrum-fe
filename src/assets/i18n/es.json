@@ -181,7 +181,7 @@
     "Inactives":"Inactivos",
     "Sellers":"Vendedores",
     "Customer Data":"Datos Cliente",
-    "Personal information":"Datos personales",
+    "Personal Information":"Datos personales",
     "Deactivate":"Desactivar",
     "Activate":"Activar",
     "Status":"Estado",
@@ -268,11 +268,10 @@
     "Enter user search..":"Ingrese la búsqueda del usuario",
     "Seller":"Vendedor",
     "Assign seller":"Asignar vendedor",
-    "Personal info":"Datos Personales",
+    "Personal Info":"Datos Personales",
     "Company Info":"Datos de Compañía",
     "Customer status":"Estado del Cliente",
     "Phone Number is not valid": "El número de teléfono no es válido",
-    "Personal Info": "Información personal",
     "Account Info": "Información de cuenta",
     "Username": "Usuario",
     "Password": "Contraseña",
@@ -1237,5 +1236,7 @@
     "Select type": "Seleccione tipo",
     "Trial Lens Used": "Lente de prueba utilizado",
     "depth": "prof.",
-    "length": "long."
+    "length": "long.",
+    "Spectrum Account Number": "Número de cuenta Spectrum",
+    "Enter Spectrum Account Number": "Ingrese el número de cuenta Spectrum"
 }
