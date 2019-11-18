@@ -186,7 +186,7 @@
                 <tbody>
                   <ng-container *ngFor="let productR of invoice.listProductRequested; let i = index">
                     <tr *ngIf="productR.delete == null || productR.delete == false">
-                      <td class="table-tr td-table" *ngIf="pilot" >{{productR.description}}+{{productR.patient !== '' ? + ', '+ productR.patient : ''}}</td>
+                      <td class="table-tr td-table" *ngIf="pilot" >{{ productR.description + (productR.patient !== '' ? ', ' + productR.patient : '') }}</td>
                       <td class="table-tr td-table" *ngIf="!pilot">
                         <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.description"  (change)="updateDescription($event, i)" class="form-control" required>
                         <select *ngIf="productR.idProductRequested == null" class="form-control" id="productDescription{{i}}" (change)="updateProduct($event, i)">
