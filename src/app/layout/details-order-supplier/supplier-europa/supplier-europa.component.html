@@ -121,6 +121,31 @@
         </div>
       </ng-template>
     </ngb-tab>
+    <ngb-tab title="{{'Trial Lens Used'| translate}}">
+      <ng-template ngbTabContent>
+        <div class="card-body table-responsive">
+          <div *ngFor="let specification of lista.detail">
+            <div class="d-flex flex-lg-wrap">
+              <div
+                class="col-sm-3"
+                *ngFor="let param of specification.set"
+              >
+                <div class="container-supplier">
+                  <dl class="align-item">
+                    <dt>{{ param.name | translate }}</dt>
+                    <dt>
+                      <span class="font-text" *ngIf="!!param.selected"> {{ param.selected }}</span>
+                      <span class="font-text" *ngIf="!param.selected"> {{ 'Unassigned' | translate }}</span>
+                      <hr />
+                    </dt>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
     <ngb-tab title="{{'Comments'| translate}}">
       <ng-template ngbTabContent>
         <div class="card-body table-responsive">

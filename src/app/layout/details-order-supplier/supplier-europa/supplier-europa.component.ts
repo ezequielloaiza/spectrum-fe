@@ -64,7 +64,7 @@ export class SupplierEuropaComponent implements OnInit {
 
   openEdit() {
     const modalRefEuropa = this.modalService.open( EuropaComponent,
-    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false});
+    { size: 'lg', windowClass: 'modal-content-border modal-edit-europa', backdrop  : 'static', keyboard  : false});
     modalRefEuropa.componentInstance.detailEdit = this.lista;
     modalRefEuropa.componentInstance.typeEdit = 2;
     modalRefEuropa.componentInstance.userOrder = this.order.user;
