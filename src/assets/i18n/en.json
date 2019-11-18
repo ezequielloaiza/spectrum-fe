@@ -1051,6 +1051,7 @@
     "Enter Invoice No, Invoice No QBO or Total": "Enter Invoice No, Invoice No QBO or Total",
     "Enter Date or Due Date": "Enter Date or Due Date",
     "Client Invoices": "Client Invoices",
+    "Orders To Bill": "Orders To Bill",
     "TPC Diopters (PC4)": "TPC Diopters (PC4)",
     "TPC Meridian (PC4)": "TPC Meridian (PC4)",
     "For other diameters, please contact us": "For other diameters, please contact us",
@@ -1059,5 +1060,5 @@
     "Trial Lens Used": "Trial Lens Used",
     "Hidrapeg": "Hydrapeg",
     "depth": "depth",
-    "length": "length" 
+    "length": "length"
 }

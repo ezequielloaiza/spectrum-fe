@@ -1229,12 +1229,13 @@
     "Enter Invoice No, Invoice No QBO or Total": "Ingrese No factura, No factura QBO o Total",
     "Enter Date or Due Date": "Ingrese Fecha o Vencimiento",
     "Client Invoices": "Facturas de clientes",
+    "Orders To Bill": "Órdenes por Facturar",
     "TPC Diopters (PC4)": "TPC Dioptrías (PC4)",
     "TPC Meridian (PC4)": "TPC Meridiano (PC4)",
     "For other diameters, please contact us": "Para otros diámetros, por favor contáctenos",
     "Unit": "Unidad",
     "Select type": "Seleccione tipo",
-    "Trial Lens Used": "Lente de prueba utilizado", 
+    "Trial Lens Used": "Lente de prueba utilizado",
     "depth": "prof.",
     "length": "long."
 }
