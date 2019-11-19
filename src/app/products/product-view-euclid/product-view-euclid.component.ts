@@ -406,8 +406,8 @@ export class ProductViewEuclidComponent implements OnInit {
           });
           //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.certificationCode + ' ' + i.country.name + ' ' + i.name; return i; });
           this.listCustomers.map((i) => {
-            let accSpct = !!i.accSpct ?  i.accSpct + ' ' : '';
-            i.fullName = accSpct + i.name + ', '  +  i.certificationCode + ', ' + i.country.name;
+            let accSpct = !!i.accSpct ?  i.accSpct + ' | ' : '';
+            i.fullName = accSpct +  i.certificationCode + ' - ' + i.name + ', ' + i.country.name;
             return i;
           });
         }
