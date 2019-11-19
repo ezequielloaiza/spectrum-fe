@@ -20,7 +20,7 @@
   <!--<button (click)="loginSage()">sage</button>-->
   <div class="">
     <div class="row" id="main">
-      <div class="col-lg-3" *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
+      <div class="col-lg-4" *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
@@ -44,7 +44,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3" *ngIf="user.role.idRole === 3">
+      <div class="col-lg-4" *ngIf="user.role.idRole === 3">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
@@ -68,7 +68,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-2">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
@@ -103,7 +103,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3" *ngIf="user.role.idRole === 3">
+      <div class="col-lg-2" *ngIf="user.role.idRole === 3">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
@@ -127,7 +127,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3" *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
+      <div class="col-lg-2" *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
@@ -151,7 +151,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-2">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
@@ -162,12 +162,36 @@
           <div class="ibox-content">
             <div class="info-card icon-card">
               <h1 class="no-margins card-text">{{warranties | number:'2.0-0'}}</h1>
-              <i class="fa fa-certificate"></i>
+              <i class="fa fa-check-square"></i>
             </div>
             <br>
             <div class="stat-percent text-info">
               <small>
                 <a routerLink="/warranty" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <!--
+                <span class="label label-danger pull-right">Low value</span>
+                -->
+            <h5>{{ 'Orders To Bill' | translate }}</h5>
+          </div>
+          <div class="ibox-content">
+            <div class="info-card icon-card">
+              <h1 class="no-margins card-text">{{ ordersToBill | number:'2.0-0'}}</h1>
+              <i class="fa fa-list-alt "></i>
+            </div>
+            <br>
+            <div class="stat-percent text-info">
+              <small>
+                <a [routerLink]="user.role.idRole === 3 ? ['/order-list-client'] : ['/order-list-client-byseller']" [queryParams]="{status: 2}" [routerLinkActive]="['router-link-active']">
                   {{ 'View Details' | translate }}
                 </a>
               </small>

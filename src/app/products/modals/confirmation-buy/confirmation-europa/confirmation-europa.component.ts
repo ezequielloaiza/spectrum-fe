@@ -121,11 +121,13 @@ export class ConfirmationEuropaComponent implements OnInit {
               quantityHidrapeg = quantityHidrapeg + productRequested.quantity;
             }
           });
-          _.each(detail.parameters, function (parameters) {
-            if (parameters.name === 'Notch (mm)' && (parameters.selected !== '0x0')) {
+          _.each(detail.parameters, function (parameter) {
+            if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0' && parameter.selected !== '0x0 (undefined)' &&
+                parameter.selected !== '0x0 (Temporal Superior)' && parameter.selected !== '0x0 (Temporal Inferior)' && 
+                parameter.selected !== '0x0 (Nasal Superior)' && parameter.selected !== '0x0 (Nasal Inferior)') {
               quantityNotch = quantityNotch + productRequested.quantity;
             }
-            if (parameters.name === 'Thickness' && parameters.selected) {
+            if (parameter.name === 'Thickness' && parameter.selected) {
               quantityThickness = quantityThickness + productRequested.quantity;
             }
           });

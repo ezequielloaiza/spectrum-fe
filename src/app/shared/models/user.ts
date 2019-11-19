@@ -21,6 +21,7 @@ export class User {
   public nameSeller: string;
   public cardCode: string;
   public certificationCode: string;
+  public accSpct: string;
   public avatar: string;
   public pwsTemporal: boolean;
   public membership: Membership = new Membership();

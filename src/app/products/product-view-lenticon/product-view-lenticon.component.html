@@ -75,7 +75,7 @@
         </div>
 
         <!-- client -->
-        <div class="col-lg-3">
+        <div class="col-lg-4">
           <dt class="title">{{ 'Account Name' | translate }}</dt>
           <div class="row info-content" [hidden]="user.role.idRole !== 3">
             <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}" [(ngModel)]="product.client"
@@ -83,7 +83,7 @@
           </div>
           <div class="row info-content" [hidden]="user.role.idRole === 3">
             <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
-              [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Select value' | translate }}"
+              [virtualScroll]="true" bindLabel="fullName" bindValue="idUser" placeholder="{{ 'Select value' | translate }}"
               required>
             </ng-select>
           </div>
@@ -96,7 +96,7 @@
               readonly>
           </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-1">
           <h5 class="padding-price" [hidden]="product.priceSale === ''">
             <span>{{ product.priceSale | currency : "USD $" }}</span>
           </h5>
@@ -116,7 +116,7 @@
           <!--header-->
           <input id="right" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('right')" [checked]="product.eyeRight"
             class="custom-control-input">
-          <label class="custom-control-label" for="right">{{ 'Right Eye' | translate }}</label>
+          <label class="custom-control-label" for="right">{{ 'OD' }}</label>
           <!--row header right (contamac / hydrapeg / insertors)-->
           <br>
           <br>
@@ -216,9 +216,9 @@
           <div class="comments">
             <div class="row header">
               <div class="col-md-12">
-                <div class="title">{{ 'Comments Right Eye' | translate }}</div>
+                <div class="title">{{ 'OD Comments' | translate }}</div>
                 <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsRight"
-                  [disabled]="!product.eyeRight" placeholder="{{ 'Enter right eye observations' | translate }}"></textarea>
+                  [disabled]="!product.eyeRight" placeholder="{{ 'Enter OD Observations' | translate }}"></textarea>
               </div>
             </div>
             <br>
@@ -230,7 +230,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="">
-                  <dt class="title">{{ 'Documents Right Eye | Attach consultation form' | translate }}</dt>
+                  <dt class="title">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>
                   <div class="custom-file">
                     <input #selectedFilesRightEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderRightEye"
                       [disabled]="!product.eyeRight || uploaderRightEye.queue.length > 4" multiple />
@@ -282,7 +282,7 @@
           <!--header-->
           <input id="left" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('left')" [checked]="product.eyeLeft"
             class="custom-control-input">
-          <label class="custom-control-label" for="left">{{ 'Left Eye' | translate }}</label>
+          <label class="custom-control-label" for="left">{{ 'OS' }}</label>
           <!--row header left (contamac / hydrapeg / insertors)-->
           <br>
           <br>
@@ -383,9 +383,9 @@
           <div class="comments">
             <div class="row header">
               <div class="col-md-12">
-                <div class="title">{{ 'Comments Left Eye' | translate }}</div>
+                <div class="title">{{ 'OS Comments' | translate }}</div>
                 <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsLeft"
-                  [disabled]="!product.eyeLeft" placeholder="{{ 'Enter left eye observations' | translate }}"></textarea>
+                  [disabled]="!product.eyeLeft" placeholder="{{ 'Enter OS Observations' | translate }}"></textarea>
               </div>
             </div>
             <br>
@@ -397,7 +397,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="">
-                  <dt class="title">{{ 'Documents Left Eye | Attach consultation form' | translate }}</dt>
+                  <dt class="title">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>
                   <div class="custom-file">
                     <input #selectedFilesLeftEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderLeftEye"
                       [disabled]="!product.eyeLeft || uploaderLeftEye.queue.length > 4" multiple />
