@@ -207,7 +207,12 @@ export class ProductViewComponent implements OnInit {
           this.listCustomers = _.filter(this.listCustomersAux, function (u) {
             return !(u.cardCode === null || u.cardCode === '');
           });
-          this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.cardCode + ' ' + i.country.name + ' ' + i.name; return i; });
+          //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.cardCode + ' ' + i.country.name + ' ' + i.name; return i; });
+          this.listCustomers.map((i) => {
+            let accSpct = !!i.accSpct ?  i.accSpct + ' ' : '';
+            i.fullName = accSpct + i.name + ', '  +  i.cardCode + ', ' + i.country.name;
+            return i;
+          });
         }
       });
     }

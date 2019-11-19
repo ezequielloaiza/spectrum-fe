@@ -49,7 +49,8 @@
             <fieldset class="form-group">
               <label>{{ 'Spectrum Account Number' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ user.accSpct }}</span>
+                <span [hidden]="canEdit || !user.accSpct">{{ user.accSpct }}</span>
+                <span [hidden]="canEdit || !!user.accSpct">{{ 'Unassigned' | translate }}</span>
                 <input [hidden]="!canEdit" class="form-control"
                   placeholder="{{ 'Enter Spectrum Account Number' | translate }}" name="accSpct"
                   formControlName="accSpct">

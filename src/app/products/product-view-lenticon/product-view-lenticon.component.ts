@@ -302,7 +302,12 @@ export class ProductViewLenticonComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
           this.listCustomers = this.listCustomersAux;
-          this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.country.name + ' ' + i.name; return i; });
+          //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.country.name + ' ' + i.name; return i; });
+          this.listCustomers.map((i) => {
+            let accSpct = !!i.accSpct ?  i.accSpct + ' ' : '';
+            i.fullName = accSpct + i.name + ', ' + i.country.name;
+            return i;
+          });
         }
       });
     }
