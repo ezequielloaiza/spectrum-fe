@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Protocol } from '../../../shared/models/protocol';
 import { FormBuilder } from '@angular/forms';
-import { CountryService } from '../../../shared/services';
 import { SupplierService } from '../../../shared/services/suppliers/supplier.service';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,25 +29,17 @@ export class ProtocolsshippingComponent implements OnInit {
   modeEdit = true;
   formulario: FormGroup;
   protocols: Array<any> = new Array;
-  protocolsCopy: Array<any> = new Array;
   protocolsSave: Array<Protocol> = new Array;
-  protocolsBySupplier: Array<Protocol> = new Array;
   protocolForms: Array<any> = new Array;
-  validRecords = 0;
   suppliers: Array<any> = new Array;
-  countries: Array<any> = new Array();
   listShippingMethod = ['2nd day', 'Overnight', 'Overnight AM', 'Ground'];
   listBiweekly = ['15', '30'];
   listWeekly = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  valueFrecuency: any;
   currentUser: any;
-  suppliersSelected: Array<any> = new Array;
-  validRecordsShipping = 0;
   @Input() lista: Array<any>;
   @Output() emitEventShipping: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private formBuilder: FormBuilder,
-    private countryService: CountryService,
     private supplierService: SupplierService,
     private userStorageService: UserStorageService,
     private translate: TranslateService,
@@ -60,18 +51,8 @@ export class ProtocolsshippingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.protocolsCopy = this.lista;
     this.protocolsSave = this.protocols
-    //this.initializeForm();
     this.initializeInfo();
-    this.getCountry();
-    this.valueFrecuency = 'ANY';
-  }
-
-  initializeForm() {
-    this.formulario = this.formBuilder.group({
-      accNumber: ['', [Validators.required]]
-    });
   }
 
   initializeInfo() {
@@ -92,13 +73,13 @@ export class ProtocolsshippingComponent implements OnInit {
       // {label: 'ACC Number'                           , values:[{content: ''}], placeHolder:'Enter ACC Number'},
       // {label: 'Country'                              , values:[{content: ''}], placeHolder:'Enter Country'},
       // {label: 'Business Name'                        , values:[{content: ''}], placeHolder:'Enter Business Name'},
-      { title: 'Recipient', values: [{ label: 'Recipient', content: ''}], placeHolder: 'Enter recipient', id: 1 },
-      { title: 'Shipping Address', values: [{ label: 'Shipping Address', content: ''}], placeHolder: 'Enter shipping address', id: 2 },
-      { title: 'Shipping Frecuency', values: [{ label: 'Shipping Frecuency', content: '', showB: "false", showW: "false" }], placeHolder: 'Enter shipping frecuency', id: 3 },
-      { title: 'Shipping Method', values: [{ label: 'Shipping Method', content: ''}], placeHolder: 'Enter shipping method', id: 4 },
-      { title: 'Shipping Details', values: [{ label: 'Shipping Details', content: ''}], placeHolder: 'Enter shipping details', id: 5 },
-      { title: 'Account Number for Shipping Carrier', values: [{ label: 'Account Number for Shipping Carrier', content: ''}], placeHolder: 'Enter account number for shipping carrier', id: 6 },
-      { title: 'Comments', values: [{ label: 'Comments', content: ''}], placeHolder: 'Enter comments', id: 7 },
+      { title: 'Recipient', values: [{ label: 'Recipient', content: ''}], placeHolder: 'Enter recipient'},
+      { title: 'Shipping Address', values: [{ label: 'Shipping Address', content: ''}], placeHolder: 'Enter shipping address'},
+      { title: 'Shipping Frecuency', values: [{ label: 'Shipping Frecuency', content: '', showB: "false", showW: "false" }], placeHolder: 'Enter shipping frecuency'},
+      { title: 'Shipping Method', values: [{ label: 'Shipping Method', content: ''}], placeHolder: 'Enter shipping method'},
+      { title: 'Shipping Details', values: [{ label: 'Shipping Details', content: ''}], placeHolder: 'Enter shipping details'},
+      { title: 'Account Number for Shipping Carrier', values: [{ label: 'Account Number for Shipping Carrier', content: ''}], placeHolder: 'Enter account number for shipping carrier'},
+      { title: 'Comments', values: [{ label: 'Comments', content: ''}], placeHolder: 'Enter comments'},
       //  {label: 'Email Comments'                       , values:[{content: ''}],  placeHolder:'Enter Email Comments'}
     ];
     return protocols;
@@ -147,9 +128,12 @@ export class ProtocolsshippingComponent implements OnInit {
     return this.suppliers.length === form.supplier.selectedSuppliers.length;
   }
 
+  suppliersSelected() {
+    return _.sumBy(this.protocolForms, function(form) { return form.supplier.selectedSuppliers.length; });
+  }
+
   checkedAllSuppliers() {
-    let selectedLength =_.sumBy(this.protocolForms, function(form) { return form.supplier.selectedSuppliers.length; });
-    return this.suppliers.length === selectedLength;
+    return this.suppliers.length === this.suppliersSelected();
   }
 
   addForm() {
@@ -180,102 +164,43 @@ export class ProtocolsshippingComponent implements OnInit {
     }
   }
 
+  buildProtocols() {
+    const self = this;
+    _.each(self.protocolForms, function (form) {
+      _.each(form.supplier.selectedSuppliers, function (supplier) {
+        let protocols = form.protocols;
+        const protocolNew: Protocol = new Protocol();
 
+        protocolNew.recipient = protocols[0].values[0].content;
+        protocolNew.shippingAddress = protocols[1].values[0].content;
+        protocolNew.shippingFrecuency = protocols[2].values[0].content;
+        protocolNew.shippingMethod = protocols[3].values[0].content;
+        protocolNew.shippingDetail = protocols[4].values[0].content;
+        protocolNew.accountNumber = protocols[5].values[0].content;
+        protocolNew.comment = protocols[6].values[0].content;
+        protocolNew.clientId = self.currentUser.idUser;
+        protocolNew.supplierId = supplier.idSupplier;
 
-
-
-
-
-
-
-
-
-
-
-
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////
-
-  allowedSelection(idSupplier, protocol) {
-    return _.indexOf(protocol.selectedSuppliers, idSupplier) === -1;
-  }
-
-  hiddenSupplier(protocol, supplier) {
-    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier)
-  }
-
-  removeValue(protocol, index) {
-    protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, protocol.values[index].suppliers);
-    protocol.values.splice(index, 1);
-  }
-
-  getCountry() {
-    this.countryService.findAll$().subscribe(res => {
-      this.countries = res.data;
+        self.protocolsSave.push(protocolNew);
+      });
     });
   }
 
-
-
-  /*
   save() {
     this.buildProtocols();
-    let listProtocolsShipping = this.protocolsSave;
-    let serviceShipping = this.protocolClientService;
-    let recordsShipping = this.validRecordsShipping;
     let self = this;
-    let userId = this.currentUser.idUser;
-    if (listProtocolsShipping.length > 0) {
-      this.spinner.show();
-      serviceShipping.remove$(userId).subscribe(resRem => {
-        if (resRem.code === CodeHttp.ok) {
-          _.each(listProtocolsShipping, function (protocolShipping) {
-            serviceShipping.update$(protocolShipping).subscribe(res => {
-              recordsShipping++;
-              self.showMessage(recordsShipping);
-            });
+    this.spinner.show();
+    this.protocolClientService.remove$(this.currentUser.idUser).subscribe(resRem => {
+      if (resRem.code === CodeHttp.ok) {
+        _.each(this.protocolsSave, function (protocol) {
+          self.protocolClientService.update$(protocol).subscribe(res => {
           });
-        }
-      });
-    } else {
-      this.sendReply();
-    }
+        });
+        self.showMessage();
+        self.sendReply();
+      }
+    });
   }
-  */
-
-  save() {
-    this.buildProtocols(null);
-    let self = this;
-    let serviceShipping = this.protocolClientService;
-    if (this.protocolsBySupplier.length > 0) {
-      this.spinner.show();
-      serviceShipping.remove$(self.currentUser.idUser).subscribe(resRem => {
-        if (resRem.code === CodeHttp.ok) {
-          _.each(this.protocolsBySupplier, function (protocolSupplier) {
-            serviceShipping.update$(protocolSupplier).subscribe(res => {
-            });
-          });
-          self.showMessage();
-          self.sendReply();
-        }
-      });
-    } else {
-      self.sendReply();
-    }
-  }
-
-  /*
-  showMessage(records) {
-    this.validRecords = records;
-    if (this.validRecords === this.protocolsSave.length) {
-      this.spinner.hide();
-      this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
-        this.notification.success('', res);
-        this.sendReply();
-      });
-    }
-  }
-  */
 
   showMessage() {
     this.spinner.hide();
@@ -284,194 +209,35 @@ export class ProtocolsshippingComponent implements OnInit {
     });
   }
 
-  /*
-  buildProtocols() {
-    const protocolsSuppliersAux: Array<Protocol> = new Array;
-    const protocolsSuppliers = this.protocolsSave;
-    let protocolsClient = [];
-    this.protocolsCopy = JSON.parse(JSON.stringify(this.protocols));
-    let protocols = this.protocolsCopy;
-    let userId = this.currentUser.idUser;
-    //Protocolos seleccionados
-    _.each(protocolsSuppliers, function (item) {
-      const protocolAux: Protocol = new Protocol();
-      _.each(protocols, function (protocol, index) {
-        // Values
-        _.each(protocol.values, function (itemValue) {
-          // Suppliers
-          _.each(itemValue.suppliers, function (supplier) {
-            if (item.supplierId === supplier) {
-              protocolAux.valid = true;
-              protocolAux.supplierId = supplier;
-              protocolAux.clientId = userId; //cambiar cuando se una completo
-              switch (protocol.id) {
-                case 1:
-                  protocolAux.recipient = itemValue.content;
-                  break;
-                case 2:
-                  protocolAux.shippingAddress = itemValue.content;
-                  break;
-                case 3:
-                  protocolAux.shippingFrecuency = itemValue.content;
-                  break;
-                case 4:
-                  protocolAux.shippingMethod = itemValue.content;
-                  break;
-                case 5:
-                  protocolAux.shippingDetail = itemValue.content;
-                  break;
-                case 6:
-                  protocolAux.accountNumber = itemValue.content;
-                  break;
-                case 7:
-                  protocolAux.comment = itemValue.content;
-                  break;
-              }
-            }
-          });
-        });
-      });
-      if (protocolAux.valid) {
-        protocolsSuppliersAux.push(protocolAux);
-      }
-    });
-    this.protocolsSave = JSON.parse(JSON.stringify(protocolsSuppliersAux));
-    //console.log(this.protocolsCopy);
-  }
-  */
-
-  buildProtocols(protocol) {
-    const self = this;
-    _.each(self.suppliersSelected, function (supplier) {
-      if (!protocol) {
-        const protocol: Protocol = new Protocol();
-        //protocol.accNumber: string;
-        //protocol.businessName: string;
-        protocol.recipient = self.protocols[0].values[0].content;
-        protocol.shippingAddress = self.protocols[1].values[0].content;
-        //protocol.dmv: string;
-        protocol.shippingFrecuency = self.protocols[2].values[0].content;
-        protocol.shippingMethod = self.protocols[3].values[0].content;
-        protocol.shippingDetail = self.protocols[4].values[0].content;
-        protocol.accountNumber = self.protocols[5].values[0].content;
-        protocol.comment = self.protocols[6].values[0].content;
-        //emailComment: string;
-        protocol.clientId = self.currentUser.idUser;
-        protocol.supplierId = supplier.idSupplier;
-        //country: number;
-        //countryName: string;
-        //valid: boolean;
-        if (!!self.protocolsBySupplier.length) {
-          const findProtocol = _.find(self.protocolsBySupplier, protocol);
-          if (findProtocol === undefined) {
-            self.protocolsBySupplier = _.concat(self.protocolsBySupplier, protocol);
-          } else {
-            self.protocolsBySupplier = _.filter(self.protocolsBySupplier, function (protocolBySupplier) {
-              return protocolBySupplier.supplierId !== protocol.supplierId;
-            });
-          }
-        } else {
-          self.protocolsBySupplier = _.concat(self.protocolsBySupplier, protocol);
-        }
-      } else {
-        //protocol.accNumber: string;
-        //protocol.businessName: string;
-        self.protocols[0].values[0].content = protocol.recipient;
-        self.protocols[1].values[0].content = protocol.shippingAddress;
-        //protocol.dmv: string;
-        self.protocols[2].values[0].content = protocol.shippingFrecuency;
-        self.protocols[3].values[0].content = protocol.shippingMethod;
-        self.protocols[4].values[0].content = protocol.shippingDetail;
-        self.protocols[5].values[0].content = protocol.accountNumber;
-        self.protocols[6].values[0].content = protocol.comment;
-        //emailComment: string;
-        //protocol.clientId = self.currentUser.idUser;
-        //protocol.supplierId = supplier.idSupplier;
-        //country: number;
-        //countryName: string;
-        //valid: boolean;
-      }
-    });
-  }
-
   public sendReply(): any {
     const fResponse = [];
     fResponse.push(this.protocolsSave);
     fResponse.push(false);
-    fResponse.push(this.protocolsCopy);
     this.emitEventShipping.emit(fResponse);
     return fResponse;
   }
 
-  Skip() {
-    this.buildProtocols(null);
-    this.protocolsCopy = new Array;
-    this.sendReply();
-  }
-
-  /*
-  getNamesTypeList(value) {
-    const self = this;
-    const suppliersName = [];
-    _.each(self.suppliers, function (supplier) {
-      if (_.includes(value.suppliers, supplier.idSupplier)) {
-        suppliersName.push(supplier.companyName);
-      }
-    });
-    return suppliersName.join(', ');
-  }
-  */
-
-  disabledSupplier(protocol, value, supplier) {
-    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier) && !_.includes(value.suppliers, supplier.idSupplier);
-  }
-
-  /*
-  checkedSupplier(protocol, value, supplier) {
-    return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
-  }
-  */
-
 
   formIsValid() {
+    if (!this.suppliersSelected()) {
+      return false;
+    }
     let valid = true;
-    let protocols = JSON.parse(JSON.stringify(this.protocols));
-    _.each(protocols, function (protocol, index) {
-      _.each(protocol.values, function (itemValue) {
-        if (itemValue.content !== '' && itemValue.suppliers.length === 0) {
-          valid = false;
-          return valid;
-        }
-      });
+    _.each(this.protocolForms, function (form) {
+      if (!form.supplier.selectedSuppliers.length) {
+        valid = false;
+        return valid;
+      };
+      if (_.every(form.protocols, function (protocol) { return protocol.values[0].content === ''})) {
+        valid = false;
+        return valid;
+      }
     });
     return valid;
   }
 
-  validContent(protocol, pos) {
-    let valid = true;
-    if (protocol.values[pos].content === '') {
-      valid = false;
-    }
-    return valid;
-  }
-
-  checkSuppliers(protocol, pos) {
-    let show = true;
-    if (protocol.values[pos].suppliers.length > 0) {
-      show = false;
-    }
-    return show;
-  }
-
-  /*
-  checkedAllSuppliers(protocol) {
-    return this.suppliers.length === protocol.selectedSuppliers.length;
-  }
-  */
-
-  hideAdd(protocol) {
-    return this.suppliers.length === protocol.selectedSuppliers.length ||
-      protocol.values.length === this.suppliers.length ||
-      (protocol.values.length === 3 && (protocol.label === 'Shipping Frecuency' || protocol.label === 'Shipping Method'));
+  skip() {
+    this.buildProtocols();
+    this.sendReply();
   }
 }

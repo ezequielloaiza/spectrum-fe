@@ -118,23 +118,11 @@
         </div>
       </div>
 
-      <!--TRASH-->
-      <div class="trash" [hidden]="protocol.values.length === 1">
-        <span class="fa fa-trash" [ngClass]="{
-            top:
-              value.label === 'Shipping Address' ||
-              value.label === 'Comments' ||
-              value.label === 'Shipping Details'
-          }" placement="top" ngbTooltip="{{ 'Delete protocol value' | translate }}"
-          (click)="removeValue(protocol, pos)"></span>
-      </div>
-
     </div>
   </div>
 </div>
 <!--ADD BUTTON-->
 <div class="btn-form">
-  <!--<button type="button" class="btn btn-main" [hidden]="hideAdd(protocols)"-->
   <button type="button" class="btn btn-main" (click)="addForm()"
     *ngIf="!checkedAllSuppliers()">{{ 'Add New Form' | translate }}
     <i class="fa fa-plus-circle ml-2"></i>
@@ -142,13 +130,12 @@
 </div>
 <br />
 <div class="footer-form">
-  <button class="btn btn-secondary" (click)="Skip()">
+  <button class="btn btn-secondary" (click)="skip()">
     {{ "Skip" | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
   &nbsp;&nbsp;
-  <!--<button class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">-->
-  <button class="btn btn-main" (click)="save()" [disabled]="!suppliersSelected.length">
+  <button class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">
     {{ "Save & Next" | translate }}&nbsp;
     <i class="fa fa-arrow-right"></i>
   </button>
