@@ -75,7 +75,7 @@
         </div>
 
         <!-- client -->
-        <div class="col-lg-3">
+        <div class="col-lg-4">
           <dt class="title">{{ 'Account Name' | translate }}</dt>
           <div class="row info-content" [hidden]="user.role.idRole !== 3">
             <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}" [(ngModel)]="product.client"
@@ -83,7 +83,7 @@
           </div>
           <div class="row info-content" [hidden]="user.role.idRole === 3">
             <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
-              [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Select value' | translate }}"
+              [virtualScroll]="true" bindLabel="fullName" bindValue="idUser" placeholder="{{ 'Select value' | translate }}"
               required>
             </ng-select>
           </div>
@@ -96,7 +96,7 @@
               readonly>
           </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-1">
           <h5 class="padding-price" [hidden]="product.priceSale === ''">
             <span>{{ product.priceSale | currency : "USD $" }}</span>
           </h5>

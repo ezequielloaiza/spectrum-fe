@@ -4,11 +4,14 @@
       <br>
       <form [formGroup]="form">
         <div class="form-options">
-          <span class="sp-title">{{ 'Personal info' | translate }}</span>
-          <button class="btn btn-main" (click)="edit()" [hidden]="canEdit" *ngIf="connected">{{ 'Edit' | translate }}&nbsp;
+          <span class="sp-title">{{ 'Personal Info' | translate }}</span>
+          <button class="btn btn-main" (click)="edit()" [hidden]="canEdit"
+            *ngIf="connected">{{ 'Edit' | translate }}&nbsp;
             <i class="fa fa-edit"></i>
           </button>
-          <button class="btn btn-main disabled" placement="top" ngbTooltip="{{'To update a customer you must authorize to Quickbooks to complete the integration' | translate }}" (click)="edit()" [hidden]="canEdit" *ngIf="!connected">{{ 'Edit' | translate }}&nbsp;           
+          <button class="btn btn-main disabled" placement="top"
+            ngbTooltip="{{'To update a customer you must authorize to Quickbooks to complete the integration' | translate }}"
+            (click)="edit()" [hidden]="canEdit" *ngIf="!connected">{{ 'Edit' | translate }}&nbsp;
             <i class="fa fa-edit"></i>
           </button>
         </div>
@@ -19,8 +22,8 @@
               <label>{{ 'Name' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.name }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name" formControlName="name"
-                  required>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter name' | translate }}" name="name"
+                  formControlName="name" required>
               </div>
             </fieldset>
             <div class="message-error" [hidden]="name.valid || name.pristine">
@@ -32,8 +35,8 @@
               <label>{{ 'Email' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.email }}</span>
-                <input [hidden]="!canEdit" type="email" class="form-control" placeholder="{{ 'Enter email' | translate }}" name="email" formControlName="email"
-                  required>
+                <input [hidden]="!canEdit" type="email" class="form-control"
+                  placeholder="{{ 'Enter email' | translate }}" name="email" formControlName="email" required>
               </div>
             </fieldset>
             <div class="message-error" [hidden]="email.pristine">
@@ -44,11 +47,33 @@
           </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
+              <label>{{ 'Spectrum Account Number' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit || !user.accSpct">{{ user.accSpct }}</span>
+                <span [hidden]="canEdit || !!user.accSpct">{{ 'Unassigned' | translate }}</span>
+                <input [hidden]="!canEdit" class="form-control"
+                  placeholder="{{ 'Enter Spectrum Account Number' | translate }}" name="accSpct"
+                  formControlName="accSpct">
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
+              <label>{{ 'Username' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span>{{ user.username }}</span>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-xl-6">
+            <fieldset class="form-group">
               <label>{{ 'Price List' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.membership.name }}</span>
-                <select [hidden]="!canEdit" class="form-control" name="membershipId" formControlName="membershipId" required>
-                  <option *ngFor="let membership of memberships" [ngValue]="membership.idMembership">{{ membership.name }}</option>
+                <select [hidden]="!canEdit" class="form-control" name="membershipId" formControlName="membershipId"
+                  required>
+                  <option *ngFor="let membership of memberships" [ngValue]="membership.idMembership">
+                    {{ membership.name }}</option>
                 </select>
               </div>
             </fieldset>
@@ -61,9 +86,10 @@
               <label>{{ 'City' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.city }}</span>
-                <input [hidden]="!canEdit" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search" [resultTemplate]="rt"
-                  name="cityPlace" formControlName="cityPlace" [inputFormatter]="formatter" (selectItem)="findPlace($event)" #instance="ngbTypeahead"
-                  placeholder="{{ 'Enter city' | translate }}" required />
+                <input [hidden]="!canEdit" id="typeahead-focus" type="text" class="form-control" [ngbTypeahead]="search"
+                  [resultTemplate]="rt" name="cityPlace" formControlName="cityPlace" [inputFormatter]="formatter"
+                  (selectItem)="findPlace($event)" #instance="ngbTypeahead" placeholder="{{ 'Enter city' | translate }}"
+                  required />
               </div>
             </fieldset>
             <div *ngIf="searching" class="spinner">
@@ -80,7 +106,8 @@
               <label>{{ 'State' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.state }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}" name="state" formControlName="state">
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter state' | translate }}"
+                  name="state" formControlName="state">
               </div>
             </fieldset>
             <div class="message-error" [hidden]="state.valid || state.pristine">
@@ -92,7 +119,9 @@
               <label>{{ 'Country' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.country? (user.country.name | translate) : '' }}</span>
-                <ng-select [hidden]="!canEdit" [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}" [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}" [searchable]="false" required>
+                <ng-select [hidden]="!canEdit" [items]="listCountries" formControlName="idCountry"
+                  notFoundText="{{ 'No country found' | translate }}" [(ngModel)]="selectedCountry"
+                  bindValue="idCountry" placeholder="{{ 'Select country' | translate }}" [searchable]="false" required>
                   <ng-template ng-label-tmp let-item="item">
                     <div class="supplier-body">
                       <span>{{ item.name | translate }}</span>
@@ -115,7 +144,8 @@
               <label>{{ 'Postal Code' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.postalCode }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter postal code' | translate }}" name="postal" formControlName="postal">
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter postal code' | translate }}"
+                  name="postal" formControlName="postal">
               </div>
             </fieldset>
             <div class="message-error" [hidden]="postal.valid || postal.pristine">
@@ -128,7 +158,9 @@
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.phone }}</span>
                 <!--<input [hidden]="!canEdit" class="form-control" name="phone" formControlName="phone">-->
-                <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip" data-placement="right" title="{{'Select a country by clicking on the map' | translate }}"></int-phone-prefix>
+                <int-phone-prefix [hidden]="!canEdit" name="phone" formControlName="phone" data-toggle="tooltip"
+                  data-placement="right" title="{{'Select a country by clicking on the map' | translate }}">
+                </int-phone-prefix>
               </div>
             </fieldset>
             <div class="message-error" [hidden]="!canEdit || phone.value.length === 0 || phone.value.length > 7">
@@ -142,19 +174,22 @@
           </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
-              <label>{{ 'Card Code' | translate }}  ({{ 'Field required for MarkEnnovy' | translate}})</label>
+              <label>{{ 'Card Code' | translate }} ({{ 'Field required for MarkEnnovy' | translate}})</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.cardCode }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter card code' | translate }}" name="cardCode" formControlName="cardCode">
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter card code' | translate }}"
+                  name="cardCode" formControlName="cardCode">
               </div>
             </fieldset>
           </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
-              <label>{{ 'Certification Code' | translate }}  ({{ 'Field required for Euclid' | translate}})</label>
+              <label>{{ 'Certification Code' | translate }} ({{ 'Field required for Euclid' | translate}})</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.certificationCode }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter certification code' | translate }}" name="certificationCode" formControlName="certificationCode">
+                <input [hidden]="!canEdit" class="form-control"
+                  placeholder="{{ 'Enter certification code' | translate }}" name="certificationCode"
+                  formControlName="certificationCode">
               </div>
             </fieldset>
           </div>
@@ -163,7 +198,8 @@
               <label>{{ 'Address' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ user.address }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}" maxlength="255" name="address" formControlName="address">
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter address' | translate }}"
+                  maxlength="255" name="address" formControlName="address">
               </div>
             </fieldset>
           </div>
@@ -171,8 +207,10 @@
             <fieldset class="form-group">
               <label>{{ 'Seller' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ user.nameSeller ? user.nameSeller : ('No seller assigned' | translate) }}</span>
-                <button class="btn btn-main" (click)="openSeller()" *ngIf="canEdit && !nameSeller">{{ 'Assign seller' | translate }}&nbsp;</button>
+                <span
+                  [hidden]="canEdit">{{ user.nameSeller ? user.nameSeller : ('No seller assigned' | translate) }}</span>
+                <button class="btn btn-main" (click)="openSeller()"
+                  *ngIf="canEdit && !nameSeller">{{ 'Assign seller' | translate }}&nbsp;</button>
                 <div *ngIf="canEdit && nameSeller">
                   <span>{{ nameSeller }}</span>
                   &nbsp;
@@ -186,14 +224,6 @@
               <span>{{ 'Postal code is required' | translate }}</span>
             </div>
           </div>
-          <div class="col-xl-6">
-            <fieldset class="form-group">
-              <label>{{ 'Username' | translate }}</label>
-              <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span >{{ user.username }}</span>
-              </div>
-            </fieldset>
-          </div>
           <a class="active" [style.pointer-events]="!canEdit ? 'none' : 'auto'" (click)="resetKey(user)">
             <span>
               <i class="fa fa-key"></i>&nbsp; {{ 'Password recovery' | translate }}
@@ -202,12 +232,14 @@
         </div>
         <br>
         <div class="footer-form">
-          <button class="btn btn-secondary" (click)="cancel()" [disabled]="saving" [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
+          <button class="btn btn-secondary" (click)="cancel()" [disabled]="saving"
+            [hidden]="!canEdit">{{ 'Cancel' | translate }}&nbsp;
             <i class="fa fa-times"></i>
           </button>
           &nbsp;&nbsp;
           <!--<button class="btn btn-main" (click)="save()" [disabled]="form.invalid || phone.value =='' ||  (phone.value.length < 8 && !!phone.value.length) || saving" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;-->
-          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || saving" [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
+          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || saving"
+            [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
             <i class="fa fa-save"></i>
           </button>
         </div>
