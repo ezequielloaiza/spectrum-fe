@@ -17,7 +17,6 @@ import { EventEmitter } from '@angular/core';
 import { Input } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TestBed } from '@angular/core/testing';
-import { find } from 'rxjs/operators';
 
 @Component({
   selector: 'app-protocolsshipping',
@@ -28,12 +27,12 @@ import { find } from 'rxjs/operators';
 export class ProtocolsshippingComponent implements OnInit {
 
   modeEdit = true;
-  formulario: FormGroup;
+  form: FormGroup;
   protocols: Array<any> = new Array;
   protocolsCopy: Array<any> = new Array;
   protocolsSave: Array<Protocol> = new Array;
   protocolsBySupplier: Array<Protocol> = new Array;
-  protocolForms: Array<any> = new Array;
+  selectsSuppliers: Array<any> = new Array;
   validRecords = 0;
   suppliers: Array<any> = new Array;
   countries: Array<any> = new Array();
@@ -62,33 +61,45 @@ export class ProtocolsshippingComponent implements OnInit {
   ngOnInit() {
     this.protocolsCopy = this.lista;
     this.protocolsSave = this.protocols
-    //this.initializeForm();
-    this.initializeInfo();
+    this.initializeForm();
+    this.loadFields();
+    this.loadSuppliers();
+    this.getProtocols();
     this.getCountry();
     this.valueFrecuency = 'ANY';
   }
 
   initializeForm() {
-    this.formulario = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       accNumber: ['', [Validators.required]]
     });
   }
 
-  initializeInfo() {
-    this.supplierService.findByUser$(this.currentUser.idUser).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.suppliers = _.orderBy(res.data, ['companyName']);
-        this.protocolForms = [{ supplier: { values: this.suppliers, selectedSuppliers: [] }, protocols: this.newProtocols() }];
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
+  /*
+  loadFields() {
+    if (this.protocolsCopy.length === 0) {
+      this.protocols = [
+        // {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
+        // {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
+        // {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
+        {label: 'Recipient'                            , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter recipient',id:1},
+        {label: 'Shipping Address'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping address',id:2},
+        {label: 'Shipping Frecuency'                   , values:[{content: '', suppliers: [],showB:"false",showW:"false"}], selectedSuppliers: [], placeHolder:'Enter shipping frecuency',id:3},
+        {label: 'Shipping Method'                      , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping method',id:4},
+        {label: 'Shipping Details'                     , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter shipping details',id:5},
+        {label: 'Account Number for Shipping Carrier'  , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter account number for shipping carrier',id:6},
+        {label: 'Comments'                             , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter comments',id:7},
+        //  {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
+        ];
+    } else {
+      this.protocols = this.protocolsCopy;
+    }
   }
+  */
 
-  newProtocols() {
-    let protocols = [
+  loadFields() {
+    //if (this.protocolsCopy.length === 0) {
+    this.protocols = [
       // {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
       // {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
       // {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
@@ -101,84 +112,73 @@ export class ProtocolsshippingComponent implements OnInit {
       { title: 'Comments', values: [{ label: 'Comments', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter comments', id: 7 },
       //  {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
     ];
-    return protocols;
+    //} else {
+    //  this.protocols = this.protocolsCopy;
+    //}
+    this.selectsSuppliers = [{ FormNumber: '0' }];
   }
 
-  getSuppliersName(form) {
-    if (!!form.supplier.selectedSuppliers.length) {
-      let suppliersName = [];
-      _.each(form.supplier.selectedSuppliers, function (supplier) {
-        suppliersName = _.concat(suppliersName, supplier.companyName);
-      });
-      return suppliersName.join(', ');
+  loadSuppliers() {
+    this.supplierService.findByUser$(this.currentUser.idUser).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.suppliers = _.orderBy(res.data, ['companyName']);
+        this.getProtocols();
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  /*
+  selectSupplier(idSupplier, protocol, value) {
+    let index = _.indexOf(value.suppliers, idSupplier);
+    if (index > -1) {
+      value.suppliers.splice(index, 1);
+      protocol.selectedSuppliers.splice(_.indexOf(protocol.selectedSuppliers, idSupplier), 1);
+    } else if (this.allowedSelection(idSupplier, protocol)) {
+      value.suppliers.push(idSupplier);
+      protocol.selectedSuppliers.push(idSupplier);
     }
   }
+  */
 
-  selectSupplier(form, supplier) {
-    if (!_.find(form.supplier.selectedSuppliers, supplier)) {
-      form.supplier.selectedSuppliers.push(supplier);
+  selectSupplier(supplier) {
+    if (this.suppliersSelected.length > 0) {
+      const findSupplier = _.find(this.suppliersSelected, supplier);
+      if (findSupplier === undefined) {
+        this.suppliersSelected = _.concat(this.suppliersSelected, supplier);
+      } else {
+        this.suppliersSelected = _.filter(this.suppliersSelected, function (supplierSelected) {
+          return supplierSelected.idSupplier !== supplier.idSupplier;
+        });
+      }
     } else {
-      form.supplier.selectedSuppliers = _.filter(form.supplier.selectedSuppliers, function (supplierSelected) {
-        return supplierSelected.idSupplier !== supplier.idSupplier;
-      });
+      this.suppliersSelected = _.concat(this.suppliersSelected, supplier);
     }
   }
-
-  disabledCheck(supplier, posForm) {
-    return !!_.some(this.protocolForms, function(form, pos) {
-      return pos !== posForm && !!_.find(form.supplier.selectedSuppliers, supplier);
-    });
-  }
-
-  checkedSupplier(supplier) {
-    //return !!_.find(form.supplier.selectedSuppliers, supplier);
-    return !!_.some(this.protocolForms, function(form) {
-      return !!_.find(form.supplier.selectedSuppliers, supplier);
-    });
-  }
-
-  onSelectionAll(form) {
-    let self = this;
-    _.each(this.suppliers, function (supplier) {
-      self.selectSupplier(form, supplier);
-    })
-  }
-
-  checkedAllSupplierByForm(form) {
-    return this.suppliers.length === form.supplier.selectedSuppliers.length;
-  }
-
-  checkedAllSuppliers() {
-    let selectedLength =_.sumBy(this.protocolForms, function(form) { return form.supplier.selectedSuppliers.length; });
-    return this.suppliers.length === selectedLength;
-  }
-
-  addForm() {
-    this.protocolForms.push({ supplier: { values: this.suppliers, selectedSuppliers: [] }, protocols: this.newProtocols() });
-  }
-
-  removeForm(pos) {
-    this.protocolForms = _.slice(this.protocolForms, 0, pos);
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////
 
   allowedSelection(idSupplier, protocol) {
     return _.indexOf(protocol.selectedSuppliers, idSupplier) === -1;
+  }
+
+  supplierSelected(idSupplier, protocolValue) {
+    return _.indexOf(protocolValue.suppliers, idSupplier) > -1;
+  }
+
+  /*
+  addValue(protocol) {
+    protocol.values.push({ content: '', suppliers: [] });
+  }
+  */
+
+  addForm(size) {
+    this.selectsSuppliers = _.concat(this.selectsSuppliers, this.selectsSuppliers);
+  }
+
+  removeForm(pos) {
+    this.selectsSuppliers = _.slice(this.selectsSuppliers, 0, pos);
   }
 
   hiddenSupplier(protocol, supplier) {
@@ -393,6 +393,40 @@ export class ProtocolsshippingComponent implements OnInit {
     });
   }
 
+  /*
+  getProtocols() {
+    const protocolsSave = [];
+    _.each(this.suppliers, function (supplier) {
+      const protocol: Protocol = new Protocol();
+      protocol.supplierId = supplier.idSupplier;
+      protocol.valid = false;
+      protocolsSave.push(protocol);
+    });
+    this.protocolsSave = protocolsSave;
+  }
+  */
+
+  getProtocols() {
+    let self = this;
+    self.protocolClientService.allByUser$(this.currentUser.idUser).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        if (res.data.length > 0) {
+          _.each(res.data, function (protocol) {
+            self.selectSupplier(protocol.supplier);
+            self.buildProtocols(protocol);
+          });
+        }
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+
+  }
+
+
+
   public sendReply(): any {
     const fResponse = [];
     fResponse.push(this.protocolsSave);
@@ -405,6 +439,8 @@ export class ProtocolsshippingComponent implements OnInit {
   Skip() {
     this.buildProtocols(null);
     this.protocolsCopy = new Array;
+    this.loadFields();
+    this.getProtocols();
     this.sendReply();
   }
 
@@ -421,6 +457,16 @@ export class ProtocolsshippingComponent implements OnInit {
   }
   */
 
+  getSuppliersName() {
+    if (!!this.suppliersSelected.length) {
+      let suppliersName = [];
+      _.each(this.suppliersSelected, function (supplierSelected) {
+        suppliersName = _.concat(suppliersName, supplierSelected.companyName);
+      });
+      return suppliersName.join(', ');
+    }
+  }
+
   disabledSupplier(protocol, value, supplier) {
     return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier) && !_.includes(value.suppliers, supplier.idSupplier);
   }
@@ -431,6 +477,23 @@ export class ProtocolsshippingComponent implements OnInit {
   }
   */
 
+
+  checkedSupplier(supplier) {
+    if (!!this.suppliersSelected.length) {
+      //let findSupplier;
+      _.each(this.suppliersSelected, function (supplierSelected) {
+        return supplierSelected.idSupplier === supplier.idSupplier;
+      });
+      //return _.includes(_.map(this.suppliersSelected, 'idSupplier'),  supplier.idSupplier);
+      /*
+      findSupplier = _.find(this.suppliersSelected, function (supplierSelected) {
+        return supplierSelected.idSupplier === supplier.idSupplier;
+      });
+      debugger
+      return !!findSupplier;
+      */
+    }
+  }
 
   formIsValid() {
     let valid = true;
@@ -468,6 +531,10 @@ export class ProtocolsshippingComponent implements OnInit {
   }
   */
 
+  checkedAllSuppliers() {
+    return this.suppliers.length === this.suppliersSelected.length;
+  }
+
   /*
   onSelectionAll(protocol, value) {
     let self = this;
@@ -486,7 +553,12 @@ export class ProtocolsshippingComponent implements OnInit {
   }
   */
 
-
+  onSelectionAll() {
+    let self = this;
+    _.each(this.suppliers, function (supplier) {
+      self.selectSupplier(supplier);
+    })
+  }
 
   hideAdd(protocol) {
     return this.suppliers.length === protocol.selectedSuppliers.length ||

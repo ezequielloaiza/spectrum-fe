@@ -3,9 +3,9 @@
   <span class="sp-title">{{ "Shippings Protocols" | translate }}</span>
 </div>
 <br />
-<div class="row border-protocol" *ngFor="let selectSuppliers of selectsSuppliers, let pos = index">
-  <div class="w-100 btn-remove" *ngIf="pos > 0">
-    <button type="button" class="btn btn-secondary" (click)="removeForm(pos)"
+<div class="row border-protocol" *ngFor="let formProtocol of protocolForms, let indexForm = index">
+  <div class="w-100 btn-remove" *ngIf="protocolForms.length > 0">
+    <button type="button" class="btn btn-secondary" (click)="removeForm(indexForm)"
       *ngIf="!checkedAllSuppliers()">
       <i class="fa fa-times"  placement="top" ngbTooltip="{{'Remove Form' | translate}}"></i>
       <!--SELECT SUPPLIERS-->
@@ -20,7 +20,7 @@
       <div>
         <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
           <button class="btn border-type w-100 text-left" ngbDropdownToggle required>
-            <div class="text-overflow">{{ getSuppliersName() }}</div>
+            <div class="text-overflow">{{ getSuppliersName(formProtocol) }}</div>
             <span class="tcs-text-overflow" *ngIf="false">
               {{ "Select at Least a Supplier" | translate }}
             </span>
@@ -29,14 +29,14 @@
             <div class="select-type">
               <div class="custom-control custom-checkbox">
                 <input id="test1" type="checkbox" name="checkboxAll" class="custom-control-input"
-                  [checked]="checkedAllSuppliers()" (click)="onSelectionAll()">
+                  [checked]="checkedAllSupplierByForm(formProtocol)" (click)="onSelectionAll(formProtocol)">
                 <label class="custom-control-label" for="test1">{{ 'Select All' | translate }}</label>
               </div>
-              <li *ngFor="let supplier of suppliers; index as i">
+              <li *ngFor="let supplier of formProtocol.supplier.values; index as i">
                 <div>
                   <div class="custom-control custom-checkbox">
                     <input id="{{ i }}" type="checkbox" name="checkboxSupplier" class="custom-control-input"
-                      [checked]="checkedSupplier(supplier)" (click)="selectSupplier(supplier)" [disabled]="false" />
+                      [checked]="checkedSupplier(supplier)" (click)="selectSupplier(formProtocol, supplier)" [disabled]="disabledCheck(supplier, indexForm)" />
                     <label class="custom-control-label" for="{{ i }}"></label>
                     <span class="tcs-text-overflow">
                       {{ supplier.companyName | titlecase }}
@@ -50,7 +50,7 @@
       </div>
     </div>
   </div>
-  <div class="w-46 m-4" *ngFor="let protocol of protocols, let pos = index">
+  <div class="w-46 m-4" *ngFor="let protocol of formProtocol.protocols, let pos = index">
     <!--<div class="w-100 border-protocol p-3 mb-3">-->
     <!--INPUTS-->
     <div *ngFor="let value of protocol.values; let pos = index" class="form-inputs">
@@ -178,7 +178,7 @@
 <!--ADD BUTTON-->
 <div class="btn-form">
   <!--<button type="button" class="btn btn-main" [hidden]="hideAdd(protocols)"-->
-  <button type="button" class="btn btn-main" (click)="addForm(selectsSuppliers.length)"
+  <button type="button" class="btn btn-main" (click)="addForm()"
     *ngIf="!checkedAllSuppliers()">{{ 'Add New Form' | translate }}
     <i class="fa fa-plus-circle ml-2"></i>
   </button>
