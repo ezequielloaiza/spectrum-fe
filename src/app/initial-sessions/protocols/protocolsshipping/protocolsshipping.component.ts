@@ -89,17 +89,17 @@ export class ProtocolsshippingComponent implements OnInit {
 
   newProtocols() {
     let protocols = [
-      // {label: 'ACC Number'                           , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter ACC Number'},
-      // {label: 'Country'                              , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Country'},
-      // {label: 'Business Name'                        , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Business Name'},
-      { title: 'Recipient', values: [{ label: 'Recipient', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter recipient', id: 1 },
-      { title: 'Shipping Address', values: [{ label: 'Shipping Address', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter shipping address', id: 2 },
-      { title: 'Shipping Frecuency', values: [{ label: 'Shipping Frecuency', content: '', suppliers: [], showB: "false", showW: "false" }], selectedSuppliers: [], placeHolder: 'Enter shipping frecuency', id: 3 },
-      { title: 'Shipping Method', values: [{ label: 'Shipping Method', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter shipping method', id: 4 },
-      { title: 'Shipping Details', values: [{ label: 'Shipping Details', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter shipping details', id: 5 },
-      { title: 'Account Number for Shipping Carrier', values: [{ label: 'Account Number for Shipping Carrier', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter account number for shipping carrier', id: 6 },
-      { title: 'Comments', values: [{ label: 'Comments', content: '', suppliers: [] }], selectedSuppliers: [], placeHolder: 'Enter comments', id: 7 },
-      //  {label: 'Email Comments'                       , values:[{content: '', suppliers: []}], selectedSuppliers: [], placeHolder:'Enter Email Comments'}
+      // {label: 'ACC Number'                           , values:[{content: ''}], placeHolder:'Enter ACC Number'},
+      // {label: 'Country'                              , values:[{content: ''}], placeHolder:'Enter Country'},
+      // {label: 'Business Name'                        , values:[{content: ''}], placeHolder:'Enter Business Name'},
+      { title: 'Recipient', values: [{ label: 'Recipient', content: ''}], placeHolder: 'Enter recipient', id: 1 },
+      { title: 'Shipping Address', values: [{ label: 'Shipping Address', content: ''}], placeHolder: 'Enter shipping address', id: 2 },
+      { title: 'Shipping Frecuency', values: [{ label: 'Shipping Frecuency', content: '', showB: "false", showW: "false" }], placeHolder: 'Enter shipping frecuency', id: 3 },
+      { title: 'Shipping Method', values: [{ label: 'Shipping Method', content: ''}], placeHolder: 'Enter shipping method', id: 4 },
+      { title: 'Shipping Details', values: [{ label: 'Shipping Details', content: ''}], placeHolder: 'Enter shipping details', id: 5 },
+      { title: 'Account Number for Shipping Carrier', values: [{ label: 'Account Number for Shipping Carrier', content: ''}], placeHolder: 'Enter account number for shipping carrier', id: 6 },
+      { title: 'Comments', values: [{ label: 'Comments', content: ''}], placeHolder: 'Enter comments', id: 7 },
+      //  {label: 'Email Comments'                       , values:[{content: ''}],  placeHolder:'Enter Email Comments'}
     ];
     return protocols;
   }
@@ -131,17 +131,16 @@ export class ProtocolsshippingComponent implements OnInit {
   }
 
   checkedSupplier(supplier) {
-    //return !!_.find(form.supplier.selectedSuppliers, supplier);
     return !!_.some(this.protocolForms, function(form) {
       return !!_.find(form.supplier.selectedSuppliers, supplier);
     });
   }
 
-  onSelectionAll(form) {
+  selectionAll(posForm) {
     let self = this;
     _.each(this.suppliers, function (supplier) {
-      self.selectSupplier(form, supplier);
-    })
+      !self.disabledCheck(supplier, posForm) && self.selectSupplier(self.protocolForms[posForm], supplier);
+    });
   }
 
   checkedAllSupplierByForm(form) {
@@ -159,6 +158,26 @@ export class ProtocolsshippingComponent implements OnInit {
 
   removeForm(pos) {
     this.protocolForms = _.slice(this.protocolForms, 0, pos);
+  }
+
+  assignShippingFrecuency(protocol, type, pos) {
+    switch (type) {
+      case 1:
+        protocol.values[pos].content = 'Monthly';
+        protocol.values[pos].showW = 'false';
+        protocol.values[pos].showB = 'false';
+        break;
+      case 2:
+        protocol.values[pos].content = '';
+        protocol.values[pos].showB = 'true';
+        protocol.values[pos].showW = 'false';
+        break;
+      case 3:
+        protocol.values[pos].content = '';
+        protocol.values[pos].showW = 'true';
+        protocol.values[pos].showB = 'false';
+        break;
+    }
   }
 
 
@@ -196,25 +215,7 @@ export class ProtocolsshippingComponent implements OnInit {
     });
   }
 
-  assignShippingFrecuency(protocol, type, pos) {
-    switch (type) {
-      case 1:
-        protocol.values[pos].content = 'Monthly';
-        protocol.values[pos].showW = 'false';
-        protocol.values[pos].showB = 'false';
-        break;
-      case 2:
-        protocol.values[pos].content = '';
-        protocol.values[pos].showB = 'true';
-        protocol.values[pos].showW = 'false';
-        break;
-      case 3:
-        protocol.values[pos].content = '';
-        protocol.values[pos].showW = 'true';
-        protocol.values[pos].showB = 'false';
-        break;
-    }
-  }
+
 
   /*
   save() {
@@ -467,26 +468,6 @@ export class ProtocolsshippingComponent implements OnInit {
     return this.suppliers.length === protocol.selectedSuppliers.length;
   }
   */
-
-  /*
-  onSelectionAll(protocol, value) {
-    let self = this;
-
-    if (this.checkedAllSuppliers(protocol)) {
-      protocol.selectedSuppliers = _.difference(protocol.selectedSuppliers, value.suppliers);
-      value.suppliers = [];
-    } else {
-      _.each(self.suppliers, function (supplier) {
-        if (self.allowedSelection(supplier.idSupplier, protocol)) {
-          value.suppliers.push(supplier.idSupplier);
-          protocol.selectedSuppliers.push(supplier.idSupplier);
-        }
-      });
-    }
-  }
-  */
-
-
 
   hideAdd(protocol) {
     return this.suppliers.length === protocol.selectedSuppliers.length ||
