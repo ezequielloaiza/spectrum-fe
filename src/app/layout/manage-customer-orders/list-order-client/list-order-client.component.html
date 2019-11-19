@@ -81,17 +81,20 @@
                 <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll"
                   (click)="onSelectionAll($event)" [checked]="selectedAll" class="custom-control-input">
                 <label class="custom-control-label select-all" for="checkboxAll"></label>
-                <div class="margin">
+                <div class="margin" *ngIf="status === '2'">
                   <div class="col-xl-12 btn-clean">
                     <button class="btn btn-outline-secondary mr-1" translate [hidden]="!valid" (click)="billCustomers()"
-                      *ngIf="connected">Bill To Customer</button>&nbsp;
-                    <button type="button" class="btn btn-outline-secondary disabled mr-1" [hidden]="!valid"
+                      *ngIf="connected">Bill To Customer</button>
+                      <button type="button" class="btn btn-outline-secondary disabled mr-1" [hidden]="!valid"
                       placement="top"
                       ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}"
                       container="body" *ngIf="!connected">{{ 'Bill To Customer' | translate }}
                     </button>
-                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billProviders()">Bill
-                      To Provider</button>
+                  </div>
+                </div>
+                <div class="margin" *ngIf="status === '1'">
+                  <div class="col-xl-12 btn-clean">                   
+                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billProviders()">Generate Proforma</button>
                   </div>
                 </div>
               </div>
@@ -242,17 +245,39 @@
                         <div ngbDropdownMenu class="dropdown-menu-actions">
                           <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
                             {{ 'View Details' | translate }}</button>
-                          <button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
-                            {{ 'Change Status' | translate }}</button>
+                          <!--<button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
+                            {{ 'Change Status' | translate }}</button>-->
                           <button [hidden]="user.role.idRole !== 1 || (order.status === 4)" class="dropdown-item"
-                            (click)="cancel(order)">
+                            (click)="cancel(order)"  *ngIf="order.status === 1 || order.status === 0">
                             {{ 'Cancel Order' | translate }}</button>
-                          <button [hidden]="!order.generate" class="dropdown-item" (click)="generateOrder(order)">
+
+                            <button class="dropdown-item" (click)="generateInvoice(order)" *ngIf="order.status === 2 && order.invoiceSupplier">
+                             {{  order.invoiceSupplier.status === 0 ? 'Sent Preforma' : 'Resend Proforma' | translate }}</button>
+                            
+                         <!-- <button [hidden]="!order.generate" class="dropdown-item" (click)="generateOrder(order)">
                             {{ 'Generate Order' | translate }}</button>
+                            -->
                         </div>
+                      
                       </div>
                     </div>
-                    <div class="div-dropdown"
+                    <div class="text-right" *ngIf="order.status === 0">
+                      <button class="btn btn-outline-secondary" (click)="generateOrder(order)">
+                          {{ 'Generate Order' | translate }}</button>
+                    </div>
+                    <div class="text-right" *ngIf="order.status === 1">
+                    <button class="btn btn-outline-secondary" (click)="generateInvoice(order)">
+                        {{ 'Generate Proforma' | translate }}</button>
+                    </div>
+                    <div class="text-right" *ngIf="order.status === 2">
+                      <button class="btn btn-outline-secondary" (click)="invoiceClient(order)"  *ngIf="connected">
+                          {{ 'Generate Invoice' | translate }}</button>
+                      <button class="btn btn-disabled" placement="top"
+                      ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}"
+                      container="body" *ngIf="!connected">
+                      {{ 'Generate Invoice' | translate }}</button>
+                    </div>
+                   <!-- <div class="div-dropdown"
                       [hidden]="order.status === 0 || order.status === 1 || order.status === 3 || order.status === 4">
                       <div ngbDropdown class="d-inline-block dropdown">
                         <button class="btn btn-dropdown-main btn-dd" ngbDropdownToggle>{{ 'Generate Invoice' |
@@ -268,8 +293,8 @@
                             {{ 'To Customer' | translate }}</button>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </div>-->
+                   </div>
                   <div class="more-details col-lg-12">
                     <label (click)="order.showMore = !order.showMore" [ngClass]="{'more-link': order.showMore}">
                       {{ 'More Details' | translate }} <i [hidden]="order.showMore" class="fa fa-caret-right"></i> <i

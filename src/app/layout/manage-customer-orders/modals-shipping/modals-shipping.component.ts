@@ -81,7 +81,7 @@ export class ModalsShippingComponent implements OnInit {
     this.orderService.updateOrder$(this.order).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
-          this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: this.idStatus } });
+          //this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: this.idStatus } });
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' })
             .subscribe((rest: string) => {
               this.notification.success('', rest);

@@ -600,3 +600,10 @@
   max-width: 1000px;
   width: 120%;
 }
+
+.btn-disabled {
+  cursor: not-allowed !important;
+  background: white;
+  border-color: gray;
+  opacity: .5;
+}

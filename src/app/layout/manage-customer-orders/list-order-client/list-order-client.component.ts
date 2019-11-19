@@ -17,6 +17,7 @@ import { InvoiceClient } from '../../../shared/models/invoiceclient';
 import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
 import { ModalsInvoiceComponent } from '../modals-invoice/modals-invoice.component';
 import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
+import { ModalsShippingComponent } from '../modals-shipping/modals-shipping.component';
 
 @Component({
   selector: 'app-list-order-client',
@@ -119,11 +120,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
           this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
           this.list = this.listOrdersAux;
-          this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
-          this.spinner.hide();
-        } else {
-          this.spinner.hide();
-        }
+          this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);      
+        } 
+        this.spinner.hide();
       });
     } else if (this.user.role.idRole === 1) {
       this.orderService.allOrderWithStatus$(this.status).subscribe(res => {
@@ -764,6 +763,17 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     });
   }
 
+  openModalShipping(order): void {
+    const modalRef = this.modalService.open(ModalsShippingComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
+    modalRef.componentInstance.orderModal = order;
+    modalRef.componentInstance.idStatus = 3;
+    modalRef.result.then((result) => {
+      this.spinner.show();
+      this.individualInvoice(order);
+    } , (reason) => {    
+    });
+  }
 
   generateInvoice(order) {
     let pilot = order.invoiceSupplier === null ? false : true;
@@ -997,7 +1007,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       this.translate.get('Are you sure want to bill selected order to customer?',
        {value: 'Are you sure want to bill selected order to customer?'}).subscribe((msg: string) => {
          this.alertify.confirm(title, msg, () => {
-           this.individualInvoice(order);
+          this.openModalShipping(order);
           }, () => {});
         });
       });
@@ -1011,7 +1021,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const list = [];
     list.push(order.idOrder);
     this.invoice.listOrders = list;
-    this.spinner.show();
     this.orderService.generateInvoiceClient$(this.invoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
@@ -1026,6 +1035,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.initialize();
           this.getListOrders();
           this.spinner.hide();
+          this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 3 } });
         } else {
           this.spinner.hide();
           console.log(res.code);
