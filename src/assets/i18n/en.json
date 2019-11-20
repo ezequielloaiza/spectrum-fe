@@ -307,7 +307,7 @@
     "Generate Order":"Generate Order",
     "Order generated successfully":"Order generated successfully",
     "Are you sure you want to generate the order?":"Are you sure you want to generate the order?",
-    "to the provider":"to the provider",
+    "to the supplier":"to the supplier",
     "Change Temporary Password ": "Change Temporary Password",
     "Please change the temporary password to access the system": "Please change the temporary password to access the system",
     "Patient":"Patient",
@@ -1061,5 +1061,9 @@
     "depth": "depth",
     "length": "length",
     "Spectrum Account Number": "Spectrum Account Number",
-    "Enter Spectrum Account Number": "Enter Spectrum Account Number"
+    "Enter Spectrum Account Number": "Enter Spectrum Account Number",
+    "Generate Proforma": "Generate Proforma",
+    "Send Proforma": "Send Proforma",
+    "Resend Proforma": "Resend Proforma",
+    "Resend": "Resend"
 }
