@@ -926,15 +926,15 @@ export class ProductViewEuropaComponent implements OnInit {
           product.setLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
 
           if (parameter.name === 'Base Curve') {
-            if (!!typeCurveRightTrial && !!parameter.selected) {
-              product.setLeft[index].selected = parameter.selected + ' (' + typeCurveRightTrial + ')';
+            if (!!typeCurveLeftTrial && !!parameter.selected) {
+              product.setLeft[index].selected = parameter.selected + ' (' + typeCurveLeftTrial + ')';
             } else {
               product.setLeft[index].selected = null;
             }
           }
           if (parameter.name === 'Power') {
-            if (!!signPowerRightTrial && !!parameter.selected) {
-              product.setLeft[index].selected = signPowerRightTrial + parameter.selected;
+            if (!!signPowerLeftTrial && !!parameter.selected) {
+              product.setLeft[index].selected = signPowerLeftTrial + parameter.selected;
             } else {
               product.setLeft[index].selected = null;
             }
