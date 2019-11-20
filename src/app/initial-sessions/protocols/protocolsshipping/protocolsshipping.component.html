@@ -29,7 +29,7 @@
             <div class="select-type">
               <div class="custom-control custom-checkbox">
                 <input id="checkAll-{{indexForm}}" type="checkbox" name="checkboxAll" class="custom-control-input"
-                  [checked]="checkedAllSupplierByForm(formProtocol)" (click)="selectionAll(indexForm)">
+                  [checked]="checkedAllSupplierByForm(indexForm)" (click)="selectionAll(indexForm)">
                 <label class="custom-control-label" for="checkAll-{{indexForm}}">{{ 'Select All' | translate }}</label>
               </div>
               <li *ngFor="let supplier of formProtocol.supplier.values; index as i">

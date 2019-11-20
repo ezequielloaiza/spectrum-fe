@@ -119,13 +119,35 @@ export class ProtocolsshippingComponent implements OnInit {
 
   selectionAll(posForm) {
     let self = this;
-    _.each(this.suppliers, function (supplier) {
-      !self.disabledCheck(supplier, posForm) && self.selectSupplier(self.protocolForms[posForm], supplier);
-    });
+    if (this.checkedAllSupplierByForm(posForm)) {
+      this.protocolForms[posForm].supplier.selectedSuppliers = [];
+    } else {
+      _.each(this.suppliers, function (supplier) {
+        if (!self.disabledCheck(supplier, posForm)) {
+          if (!_.find(self.protocolForms[posForm].supplier.selectedSuppliers, supplier)) {
+            self.protocolForms[posForm].supplier.selectedSuppliers.push(supplier);
+          }
+        }
+      });
+    }
   }
 
-  checkedAllSupplierByForm(form) {
-    return this.suppliers.length === form.supplier.selectedSuppliers.length;
+  countSelectedDistinct(posForm) {
+    let self = this;
+    let countSelected = 0;
+    _.each(this.suppliers, function(supplier) {
+      _.each(self.protocolForms, function(form, pos) {
+        if (pos !== posForm && !!_.find(form.supplier.selectedSuppliers, supplier)) {
+          countSelected++;
+        }
+      });
+    });
+    return countSelected;
+  }
+
+  checkedAllSupplierByForm(posForm) {
+    let selectedSuppliers = this.protocolForms[posForm].supplier.selectedSuppliers.length
+    return !!selectedSuppliers && ((this.suppliers.length - this.countSelectedDistinct(posForm)) === selectedSuppliers);
   }
 
   suppliersSelected() {
