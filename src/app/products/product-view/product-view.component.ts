@@ -12,7 +12,7 @@ import { AlertifyService } from '../../shared/services/alertify/alertify.service
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
-import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
@@ -54,16 +54,16 @@ export class ProductViewComponent implements OnInit {
   CustomersSelected: any;
 
   constructor(private productService: ProductService,
-              private route: ActivatedRoute,
-              private userStorageService: UserStorageService,
-              private basketService: BasketService,
-              private shippingAddressService: ShippingAddressService,
-              private userService: UserService,
-              private modalService: NgbModal,
-              private alertify: AlertifyService,
-              private notification: ToastrService,
-              private translate: TranslateService,
-              private spinner: NgxSpinnerService) {
+    private route: ActivatedRoute,
+    private userStorageService: UserStorageService,
+    private basketService: BasketService,
+    private shippingAddressService: ShippingAddressService,
+    private userService: UserService,
+    private modalService: NgbModal,
+    private alertify: AlertifyService,
+    private notification: ToastrService,
+    private translate: TranslateService,
+    private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -75,8 +75,8 @@ export class ProductViewComponent implements OnInit {
   }
 
   setAxesXtensa() {
-    this.axesXtensa = [ { "values": ["5º","10º","15º","20º","25º","30º","35º","40º","45º","50º","55º","60º","65º","70º","75º","80º","85º","90º","95º","100º","105º","110º","115º","120º","125º","130º","135º","140º","145º","150º","155º","160º","165º","170º","175º","180º"] },
-                        { "values": ["10º", "20º","30º","40º","50º","60º","70º","80º","90º","100º","110º","120º","130º","140º","150º","160º","170º","180º"] }];
+    this.axesXtensa = [{ "values": ["5º", "10º", "15º", "20º", "25º", "30º", "35º", "40º", "45º", "50º", "55º", "60º", "65º", "70º", "75º", "80º", "85º", "90º", "95º", "100º", "105º", "110º", "115º", "120º", "125º", "130º", "135º", "140º", "145º", "150º", "155º", "160º", "165º", "170º", "175º", "180º"] },
+    { "values": ["10º", "20º", "30º", "40º", "50º", "60º", "70º", "80º", "90º", "100º", "110º", "120º", "130º", "140º", "150º", "160º", "170º", "180º"] }];
   }
 
   getProducts() {
@@ -100,18 +100,18 @@ export class ProductViewComponent implements OnInit {
 
   getProductView() {
     this.id = +this.route.snapshot.paramMap.get('id');
-    this.product = _.find(this.products, {idProduct: this.id});
+    this.product = _.find(this.products, { idProduct: this.id });
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
     this.product.type = JSON.parse(this.product.types)[0].name;
     let orderCylinder;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
-    orderCylinder = _.find(this.product.parametersRight, {name: 'Cylinder (D)'});
+    orderCylinder = _.find(this.product.parametersRight, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
     }
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
-    orderCylinder = _.find(this.product.parametersLeft, {name: 'Cylinder (D)'});
+    orderCylinder = _.find(this.product.parametersLeft, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
     }
@@ -176,9 +176,9 @@ export class ProductViewComponent implements OnInit {
       }
     } else {
       this.product.eyeLeft = !this.product.eyeLeft;
-        if (!this.product.eyeLeft) {
-          this.clean('left');
-        }
+      if (!this.product.eyeLeft) {
+        this.clean('left');
+      }
     }
   }
 
@@ -186,10 +186,10 @@ export class ProductViewComponent implements OnInit {
     this.productsSelected = [];
 
     if (this.product.eyeRight) {
-      this.productsSelected.push({eye: 'Right'});
+      this.productsSelected.push({ eye: 'Right' });
     }
     if (this.product.eyeLeft) {
-      this.productsSelected.push({eye: 'Left'});
+      this.productsSelected.push({ eye: 'Left' });
     }
   }
 
@@ -199,14 +199,20 @@ export class ProductViewComponent implements OnInit {
       this.product.client = this.currentUser.name;
       this.findShippingAddress(this.client);
 
-    } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+    } else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
           // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
-            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-              return !(u.cardCode === null || u.cardCode === '');
-            });
+          this.listCustomers = _.filter(this.listCustomersAux, function (u) {
+            return !(u.cardCode === null || u.cardCode === '');
+          });
+          //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.cardCode + ' ' + i.country.name + ' ' + i.name; return i; });
+          this.listCustomers.map((i) => {
+            let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
+            i.fullName = accSpct + i.name + ' | ' + i.cardCode + ' | ' + i.country.name;
+            return i;
+          });
         }
       });
     }
@@ -231,9 +237,9 @@ export class ProductViewComponent implements OnInit {
       } else if (res.code === CodeHttp.notContent) {
         this.product.shippingAddress = '';
         this.translate.get('You must enter a main address in the shipping address module',
-         {value: 'You must enter a main address in the shipping address module'}).subscribe(( res: string) => {
-          this.notification.warning('', res);
-        });
+          { value: 'You must enter a main address in the shipping address module' }).subscribe((res: string) => {
+            this.notification.warning('', res);
+          });
       } else {
         this.product.shippingAddress = '';
       }
@@ -243,7 +249,7 @@ export class ProductViewComponent implements OnInit {
   setPrice() {
     if (this.user.role.idRole === 3) {
       const membership = this.currentUser.membership.idMembership;
-       this.definePrice(membership);
+      this.definePrice(membership);
     }
   }
 
@@ -267,7 +273,7 @@ export class ProductViewComponent implements OnInit {
     //let productCode = this.productCode;
     let productsSelected = this.productsSelected;
 
-    _.each(productsSelected, function(productSelected, index) {
+    _.each(productsSelected, function (productSelected, index) {
 
       productSelected.id = product.idProduct;
       productSelected.patient = product.patient;
@@ -276,7 +282,7 @@ export class ProductViewComponent implements OnInit {
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
-        _.each(product.parametersRight, function(parameter, index) {
+        _.each(product.parametersRight, function (parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersRight;
@@ -285,8 +291,8 @@ export class ProductViewComponent implements OnInit {
       if (productSelected.eye === "Left") {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
-        _.each(product.parametersLeft, function(parameter, index) {
-          product.parametersLeft[index] = _.omit(parameter, ['type', 'values' , 'sel']);
+        _.each(product.parametersLeft, function (parameter, index) {
+          product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersLeft;
       }
@@ -320,15 +326,15 @@ export class ProductViewComponent implements OnInit {
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationMarkennovyComponent,
-    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
+    const modalRef = this.modalService.open(ConfirmationMarkennovyComponent,
+      { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
     modalRef.result.then((result) => {
       this.ngOnInit();
-    } , (reason) => {
+    }, (reason) => {
     });
   }
 
@@ -379,9 +385,9 @@ export class ProductViewComponent implements OnInit {
       this.product.observationsLeft = '';
     }
     // parameter
-    _.each(parameters, function(param) {
-          param.selected = null;
-          param.sel = null;
+    _.each(parameters, function (param) {
+      param.selected = null;
+      param.sel = null;
     });
     if (eye === 'right') {
       this.product.parametersRight = parameters;
@@ -394,15 +400,15 @@ export class ProductViewComponent implements OnInit {
     let parametersR = this.product.parametersRight;
     let auxNeg = [];
     let auxPos = [];
-    _.each(parametersR, function(param, index) {
+    _.each(parametersR, function (param, index) {
       if (param.name === 'Sphere (D)') {
-        _.each(param.values, function(item) {
-            if (_.includes(item, '-') || item === '0.00' ) {
-              auxNeg.push(item);
-            } else {
-              item = '+' + item;
-              auxPos.push(item);
-            }
+        _.each(param.values, function (item) {
+          if (_.includes(item, '-') || item === '0.00') {
+            auxNeg.push(item);
+          } else {
+            item = '+' + item;
+            auxPos.push(item);
+          }
         });
         _.reverse(auxNeg);
         auxPos = _.concat(auxPos, auxNeg);
@@ -410,19 +416,19 @@ export class ProductViewComponent implements OnInit {
       }
     });
     this.product.parametersRight = parametersR;
-   // Left
-   let parametersL = this.product.parametersLeft;
+    // Left
+    let parametersL = this.product.parametersLeft;
     let auxNegL = [];
     let auxPosL = [];
-    _.each(parametersL, function(param, index) {
+    _.each(parametersL, function (param, index) {
       if (param.name === 'Sphere (D)') {
-        _.each(param.values, function(item) {
-            if (_.includes(item, '-') || item === '0.00' ) {
-              auxNegL.push(item);
-            } else {
-              item = '+' + item;
-              auxPosL.push(item);
-            }
+        _.each(param.values, function (item) {
+          if (_.includes(item, '-') || item === '0.00') {
+            auxNegL.push(item);
+          } else {
+            item = '+' + item;
+            auxPosL.push(item);
+          }
         });
         _.reverse(auxNegL);
         auxPosL = _.concat(auxPosL, auxNegL);

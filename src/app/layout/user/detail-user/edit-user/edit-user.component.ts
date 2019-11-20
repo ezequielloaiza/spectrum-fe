@@ -72,10 +72,11 @@ export class EditUserComponent implements OnInit {
       phone       : ['', []],
       cardCode    : [''],
       certificationCode: [''],
+      accSpct     : [''],
       membershipId: ['', [Validators.required]],
       id          : [this.id, [Validators.required]],
       userId      : [],
-      city        : []
+      city        : [],
       });
   }
 
@@ -178,6 +179,7 @@ export class EditUserComponent implements OnInit {
     this.form.get('phone').setValue(this.user.phone == null ? '' : this.user.phone);
     this.form.get('cardCode').setValue(this.user.cardCode );
     this.form.get('certificationCode').setValue(this.user.certificationCode);
+    this.form.get('accSpct').setValue(this.user.accSpct);
     this.form.get('membershipId').setValue(user.membership.idMembership);
     this.nameSeller = user.nameSeller;
     this.form.get('userId').setValue(user.idSeller);
@@ -282,6 +284,7 @@ export class EditUserComponent implements OnInit {
   get postal() { return this.form.get('postal'); }
   get cardCode() { return this.form.get('cardCode'); }
   get certificationCode() { return this.form.get('cerfiticationCode'); }
+  get accSpct() { return this.form.get('accSpct'); }
   get membershipId() { return this.form.get('membershipId'); }
 
   unlink(): void {

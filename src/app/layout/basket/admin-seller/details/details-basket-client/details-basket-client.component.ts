@@ -550,7 +550,7 @@ export class DetailsBasketClientComponent implements OnInit {
           break;
      case 2: // Europa
           const modalRefEuropa = this.modalService.open( EuropaComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+          { size: 'lg', windowClass: 'modal-content-border modal-edit-europa' , backdrop : 'static', keyboard : false });
           modalRefEuropa.componentInstance.basket = basket;
           modalRefEuropa.componentInstance.typeEdit = 1;
           modalRefEuropa.result.then((result) => {

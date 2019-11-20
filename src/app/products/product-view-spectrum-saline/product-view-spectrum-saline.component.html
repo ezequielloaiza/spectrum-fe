@@ -57,7 +57,7 @@
       <!-- row (pacient, client, shipping address) -->
       <div class="row product-info">
         <!-- client -->
-        <div class="col-lg-3">
+        <div class="col-lg-4">
           <dt class="title">{{ 'Account Name' | translate }}</dt>
           <div class="row info-content" [hidden]="user.role.idRole !== 3">
             <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}" required
@@ -65,7 +65,7 @@
           </div>
           <div class="row info-content" [hidden]="user.role.idRole === 3">
             <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
-              required [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Select value' | translate }}">
+              required [virtualScroll]="true" bindLabel="fullName" bindValue="idUser" placeholder="{{ 'Select value' | translate }}">
             </ng-select>
           </div>
         </div>
