@@ -22,7 +22,6 @@ export class ProtocolClientService {
   }
 
   public update$(protocol): Observable<any> {
-    debugger
     return this.http.put(environment.apiUrl + 'protocol/update', protocol);
   }
 

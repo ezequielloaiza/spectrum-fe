@@ -27,9 +27,8 @@ import { find } from 'rxjs/operators';
 export class ProtocolsshippingComponent implements OnInit {
 
   modeEdit = true;
-  formulario: FormGroup;
-  protocols: Array<any> = new Array;
   protocolsSave: Array<Protocol> = new Array;
+  copyProtocolForms: Array<any> = new Array;
   protocolForms: Array<any> = new Array;
   suppliers: Array<any> = new Array;
   listShippingMethod = ['2nd day', 'Overnight', 'Overnight AM', 'Ground'];
@@ -51,15 +50,19 @@ export class ProtocolsshippingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.protocolsSave = this.protocols
-    this.initializeInfo();
+    this.copyProtocolForms = JSON.parse(localStorage.getItem(this.currentUser.idUser + 'copyProtocolForms'));
+    this.loadSuppliers();
   }
 
-  initializeInfo() {
+  loadSuppliers() {
     this.supplierService.findByUser$(this.currentUser.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.suppliers = _.orderBy(res.data, ['companyName']);
-        this.protocolForms = [{ supplier: { values: this.suppliers, selectedSuppliers: [] }, protocols: this.newProtocols() }];
+        if (!!this.copyProtocolForms && !!this.copyProtocolForms.length) {
+          this.protocolForms = this.copyProtocolForms;
+        } else {
+          this.protocolForms = [{ supplier: { values: this.suppliers, selectedSuppliers: [] }, protocols: this.newProtocols() }];
+        }
       } else {
         console.log(res.errors[0].detail);
       }
@@ -220,6 +223,7 @@ export class ProtocolsshippingComponent implements OnInit {
         });
         self.showMessage();
         self.sendReply();
+        localStorage.setItem(this.currentUser.idUser + 'copyProtocolForms', JSON.stringify(self.protocolForms));
       }
     });
   }
@@ -233,7 +237,6 @@ export class ProtocolsshippingComponent implements OnInit {
 
   public sendReply(): any {
     const fResponse = [];
-    fResponse.push(this.protocolsSave);
     fResponse.push(false);
     this.emitEventShipping.emit(fResponse);
     return fResponse;
@@ -259,7 +262,7 @@ export class ProtocolsshippingComponent implements OnInit {
   }
 
   skip() {
-    this.buildProtocols();
+    //this.buildProtocols();
     this.sendReply();
   }
 }
