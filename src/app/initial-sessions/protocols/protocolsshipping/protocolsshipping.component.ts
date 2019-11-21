@@ -35,7 +35,6 @@ export class ProtocolsshippingComponent implements OnInit {
   listBiweekly = ['15', '30'];
   listWeekly = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   currentUser: any;
-  @Input() lista: Array<any>;
   @Output() emitEventShipping: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private formBuilder: FormBuilder,
