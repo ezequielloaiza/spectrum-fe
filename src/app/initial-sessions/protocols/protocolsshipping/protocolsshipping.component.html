@@ -16,7 +16,7 @@
       <span class="font-weight-bold">{{ 'Suppliers' | translate }}:</span>
     </div>
     <div class="w-96 m-4 form-options">
-      <div class="select-required" *ngIf="!suppliersSelected.length"></div>
+      <div class="select-required" *ngIf="!formProtocol.supplier.selectedSuppliers.length"></div>
       <div>
         <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
           <button class="btn border-type w-100 text-left" ngbDropdownToggle required>
