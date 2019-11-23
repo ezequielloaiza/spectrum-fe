@@ -15,6 +15,7 @@ export class RoleGuard implements CanActivateChild {
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> | Observable<boolean> {
     let user = JSON.parse(this.userService.getCurrentUser());
     if (this.verifyPermission(childRoute.data['option'])) {
+      /*
       if (childRoute.data['option'] === 'ChangePassword' && !user.userResponse.pwsTemporal) {
         this.router.navigate(['/dashboard']);
       }
@@ -23,6 +24,8 @@ export class RoleGuard implements CanActivateChild {
       } else {
         return true;
       }
+      */
+     return true;
     } else {
       this.router.navigate(['/dashboard']);
     }
