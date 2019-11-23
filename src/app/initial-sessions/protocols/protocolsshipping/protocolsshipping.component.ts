@@ -165,7 +165,7 @@ export class ProtocolsshippingComponent implements OnInit {
   }
 
   removeForm(pos) {
-    this.protocolForms = _.slice(this.protocolForms, 0, pos);
+    this.protocolForms.splice(pos, 1);
   }
 
   assignShippingFrecuency(protocol, type, pos) {
@@ -261,7 +261,18 @@ export class ProtocolsshippingComponent implements OnInit {
   }
 
   skip() {
-    //this.buildProtocols();
     this.sendReply();
+  }
+
+  hiddenRemove() {
+    return this.protocolForms.length < 2;
+  }
+
+  hiddenNewForm() {
+    let countSelectedSuppliers = _.sumBy(this.protocolForms, function(form) {
+      return form.supplier.selectedSuppliers.length;
+    }); 
+
+    return countSelectedSuppliers === this.suppliers.length || (this.suppliers.length - countSelectedSuppliers) === this.protocolForms.length;
   }
 }

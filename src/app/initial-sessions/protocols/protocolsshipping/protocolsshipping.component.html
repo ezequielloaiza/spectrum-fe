@@ -3,10 +3,10 @@
   <span class="sp-title">{{ "Shippings Protocols" | translate }}</span>
 </div>
 <br />
-<div class="row border-protocol" *ngFor="let formProtocol of protocolForms, let indexForm = index">
+<div class="row border-protocol-shipping" *ngFor="let formProtocol of protocolForms, let indexForm = index">
   <div class="w-100 btn-remove" *ngIf="protocolForms.length > 0">
     <button type="button" class="btn btn-secondary" (click)="removeForm(indexForm)"
-      *ngIf="!checkedAllSuppliers()">
+      *ngIf="!hiddenRemove()">
       <i class="fa fa-times"  placement="top" ngbTooltip="{{'Remove Form' | translate}}"></i>
       <!--SELECT SUPPLIERS-->
     </button>
@@ -124,7 +124,7 @@
 <!--ADD BUTTON-->
 <div class="btn-form">
   <button type="button" class="btn btn-main" (click)="addForm()"
-    *ngIf="!checkedAllSuppliers()">{{ 'Add New Form' | translate }}
+    *ngIf="!hiddenNewForm()">{{ 'Add New Form' | translate }}
     <i class="fa fa-plus-circle ml-2"></i>
   </button>
 </div>
