@@ -111,8 +111,8 @@ export class ProductViewMedmontComponent implements OnInit {
           this.listCustomers = this.listCustomersAux;
           //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.country.name + ' ' + i.name; return i; });
           this.listCustomers.map((i) => {
-            let accSpct = !!i.accSpct ?  i.accSpct + ' ' : '';
-            i.fullName = accSpct + i.name + ', ' + i.country.name;
+            let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
+            i.fullName = accSpct + i.name + ' | ' + i.country.name;
             return i;
           });
         }
