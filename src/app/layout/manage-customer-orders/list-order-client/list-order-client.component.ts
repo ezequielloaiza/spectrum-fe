@@ -107,6 +107,28 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     if (this.user.role.idRole === 2) {
       this.orderService.findOrdersClientBySeller$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
+          let invoiceSupplierIds = [];
+          if (res.data.length && this.status == 2) {
+            invoiceSupplierIds = res.data[0].invoiceSupplierIds;
+            if (invoiceSupplierIds.length) {
+              _.each(invoiceSupplierIds, function(id) {
+                const orders: any[] = _.filter(res.data, { 'invoiceSupplierId': id });
+                if (orders.length) {
+                  const index = _.findIndex(res.data, {'idOrder': orders[0].idOrder});
+                  res.data[index].listOrderGroups = orders;
+                  _.each(orders, function(o, j) {
+                    if (j !== 0) {
+                      res.data[index].listProductRequested = _.concat(res.data[index].listProductRequested ,o.listProductRequested);
+                      const i = _.findIndex(res.data, {'idOrder': o.idOrder});
+                      res.data.splice(i, 1);
+                    }
+                  });
+                }           
+              })         
+            }
+          }
+          
+
           this.listOrders = res.data;
           this.listOrdersAux = res.data;
           _.each(this.listOrders, function (order) {
@@ -127,6 +149,26 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     } else if (this.user.role.idRole === 1) {
       this.orderService.allOrderWithStatus$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
+          let invoiceSupplierIds = [];
+          if (res.data.length && this.status == 2) {
+            invoiceSupplierIds = res.data[0].invoiceSupplierIds;
+            if (invoiceSupplierIds.length) {
+              _.each(invoiceSupplierIds, function(id) {
+                const orders: any[] = _.filter(res.data, { 'invoiceSupplierId': id });
+                if (orders.length) {
+                  const index = _.findIndex(res.data, {'idOrder': orders[0].idOrder});
+                  res.data[index].listOrderGroups = orders;
+                  _.each(orders, function(o, j) {
+                    if (j !== 0) {
+                      res.data[index].listProductRequested = _.concat(res.data[index].listProductRequested ,o.listProductRequested);
+                      const i = _.findIndex(res.data, {'idOrder': o.idOrder});
+                      res.data.splice(i, 1);
+                    }
+                  });
+                }           
+              })         
+            }
+          }
           this.mostrarStatus = true;
           this.listOrders = res.data;
           this.listOrdersAux = res.data;
@@ -1019,7 +1061,14 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const ship = 0;
     this.invoice.shipping = ship;
     const list = [];
-    list.push(order.idOrder);
+    if (order.listOrderGroups) {
+      _.each(order.listOrderGroups, function(orderGroup) {
+        list.push(orderGroup.idOrder);
+      });
+    } else {
+      list.push(order.idOrder);
+    }
+    
     this.invoice.listOrders = list;
     this.orderService.generateInvoiceClient$(this.invoice).subscribe(
       res => {
