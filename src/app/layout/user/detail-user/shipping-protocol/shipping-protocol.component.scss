@@ -169,3 +169,47 @@
   border: 1px solid #e9ecef !important;
   margin: 0 1em;
 }
+
+//NEW LAYOUT
+
+.border-protocol-shipping {
+  border: 25px solid #e9ecef !important;
+
+  div:last-child {
+    width: 100%;
+  }
+
+  .margin-title {
+    margin-bottom: 0.5em;
+  }
+}
+
+.w-96 {
+  width: 96%;
+}
+
+.w-98 {
+  width: 98%;
+}
+
+.w-45 {
+  width: 45%;
+}
+
+.btn-form {
+  padding: 10px;
+
+  >button {
+    width: 100%;
+  }
+}
+
+.btn-remove {
+  padding: 10px;
+  text-align: right;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+}

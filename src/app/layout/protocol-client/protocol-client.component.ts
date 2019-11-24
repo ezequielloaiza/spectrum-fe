@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SupplierService } from '../../shared/services/suppliers/supplier.service';
 import { ProtocolClientService } from '../../shared/services/protocolClient/protocol-client.service';
 import { Protocol } from '../../shared/models/protocol';
@@ -41,6 +41,14 @@ export class ProtocolClientComponent implements OnInit {
   protocolsAux: any;
   protocolsCopy: Array<any> = new Array;
   protocolsSave: Array<Protocol> = new Array;
+
+  //INIT NEW LAYOUT
+  modeEdit = true;
+  copyProtocolForms: Array<any> = new Array;
+  protocolForms: Array<any> = new Array;
+  currentUser: any;
+  @Output() emitEventShipping: EventEmitter<any> = new EventEmitter<any>();
+  //END NEW LAYOUT
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -175,6 +183,7 @@ export class ProtocolClientComponent implements OnInit {
     this.country.setValue(protocol.country);
   }
 
+  /*
   assignShippingFrecuency(protocol, type, pos) {
     switch (type) {
       case 1:
@@ -210,6 +219,7 @@ export class ProtocolClientComponent implements OnInit {
         break;
     }
   }
+  */
 
   setShippingFrecuency() {
     if (this.protocol.shippingFrecuency === 'Monthly' || this.protocol.shippingFrecuency === null) {
@@ -345,7 +355,6 @@ export class ProtocolClientComponent implements OnInit {
     const protocolsClient = [];
     this.saving = true;
     _.each(this.suppliers, function (supplier) {
-      // tslint:disable-next-line:max-line-length
       const protocolSave = {
         recipient: null, shippingAddress: null, shippingFrecuency: null, shippingMethod: null, shippingDetails: null, accountNumber: null,
         comment: null, supplierId: supplier.idSupplier, clientId: self.user.userResponse.idUser, id: null
@@ -392,20 +401,6 @@ export class ProtocolClientComponent implements OnInit {
 
   /*
   loadSuppliers() {
-    this.supplierService.findAll$().subscribe(res => {
-    if (res.code === CodeHttp.ok) {
-      this.suppliers =  _.orderBy(res.data, ['companyName']);
-      this.getProtocols();
-    } else {
-      console.log(res.errors[0].detail);
-    }
-    }, error => {
-      console.log('error', error);
-    });
-  }
-  */
-
-  loadSuppliers() {
     this.supplierService.findByUser$(this.idClient).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.suppliers = _.orderBy(res.data, ['companyName']);
@@ -417,6 +412,7 @@ export class ProtocolClientComponent implements OnInit {
       console.log('error', error);
     });
   }
+  */
 
   ///////////// copy of other component
 
@@ -520,6 +516,7 @@ export class ProtocolClientComponent implements OnInit {
     });
   }
 
+  /*
   selectSupplier(idSupplier, protocol, value) {
     let index = _.indexOf(value.suppliers, idSupplier);
     if (index > -1) {
@@ -530,6 +527,7 @@ export class ProtocolClientComponent implements OnInit {
       protocol.selectedSuppliers.push(idSupplier);
     }
   }
+  */
 
   allowedSelection(idSupplier, protocol) {
     return _.indexOf(protocol.selectedSuppliers, idSupplier) === -1;
@@ -568,9 +566,11 @@ export class ProtocolClientComponent implements OnInit {
     return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier) && !_.includes(value.suppliers, supplier.idSupplier);
   }
 
+  /*
   checkedSupplier(protocol, value, supplier) {
     return !!_.includes(protocol.selectedSuppliers, supplier.idSupplier);
   }
+  */
 
   validContent(protocol, pos) {
     let valid = true;
@@ -588,10 +588,13 @@ export class ProtocolClientComponent implements OnInit {
     return show;
   }
 
+  /*
   checkedAllSuppliers(protocol) {
     return this.suppliers.length === protocol.selectedSuppliers.length;
   }
+  */
 
+  /*
   onSelectionAll(protocol, value) {
     let self = this;
 
@@ -607,10 +610,242 @@ export class ProtocolClientComponent implements OnInit {
       });
     }
   }
+  */
 
   hideAdd(protocol) {
     return this.suppliers.length === protocol.value.selectedSuppliers.length ||
       this.suppliers.length === protocol.value.values.length ||
       (protocol.value.values.length === 3 && (protocol.value.label === 'Shipping Frecuency' || protocol.value.label === 'Shipping Method'));
   }
+
+  //INIT NEW LAYOUT
+
+  loadSuppliers() {
+    this.supplierService.findByUser$(this.idClient).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.suppliers = _.orderBy(res.data, ['companyName']);
+        if (!!this.copyProtocolForms && !!this.copyProtocolForms.length) {
+          this.protocolForms = this.copyProtocolForms;
+        } else {
+          this.protocolForms = [{ supplier: { values: this.suppliers, selectedSuppliers: [] }, protocols: this.newProtocols() }];
+        }
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  newProtocols() {
+    let protocols = [
+
+      //Only view client
+      { title: 'ACC Number', values: [{ label: 'ACC Number', content: ''}], placeHolder: 'Enter ACC Number'},
+      { title: 'Country', values: [{ label: 'Country', content: ''}], placeHolder: 'Enter Country'},
+      { title: 'Business Name ', values: [{ label: 'Business Name', content: ''}], placeHolder: 'Enter Business Name'},
+
+      //Can edit client
+      { title: 'Recipient', values: [{ label: 'Recipient', content: ''}], placeHolder: 'Enter recipient'},
+      { title: 'Shipping Address', values: [{ label: 'Shipping Address', content: ''}], placeHolder: 'Enter shipping address'},
+      { title: 'Shipping Frecuency', values: [{ label: 'Shipping Frecuency', content: '', showB: "false", showW: "false" }], placeHolder: 'Enter shipping frecuency'},
+      { title: 'Shipping Method', values: [{ label: 'Shipping Method', content: ''}], placeHolder: 'Enter shipping method'},
+      { title: 'Shipping Details', values: [{ label: 'Shipping Details', content: ''}], placeHolder: 'Enter shipping details'},
+      { title: 'Account Number for Shipping Carrier', values: [{ label: 'Account Number for Shipping Carrier', content: ''}], placeHolder: 'Enter account number for shipping carrier'},
+      { title: 'Comments', values: [{ label: 'Comments', content: ''}], placeHolder: 'Enter comments'},
+      //  {label: 'Email Comments'                       , values:[{content: ''}],  placeHolder:'Enter Email Comments'}
+    ];
+    return protocols;
+  }
+
+  getSuppliersName(form) {
+    if (!!form.supplier.selectedSuppliers.length) {
+      let suppliersName = [];
+      _.each(form.supplier.selectedSuppliers, function (supplier) {
+        suppliersName = _.concat(suppliersName, supplier.companyName);
+      });
+      return suppliersName.join(', ');
+    }
+  }
+
+  selectSupplier(form, supplier) {
+    if (!_.find(form.supplier.selectedSuppliers, supplier)) {
+      form.supplier.selectedSuppliers.push(supplier);
+    } else {
+      form.supplier.selectedSuppliers = _.filter(form.supplier.selectedSuppliers, function (supplierSelected) {
+        return supplierSelected.idSupplier !== supplier.idSupplier;
+      });
+    }
+  }
+
+  disabledCheck(supplier, posForm) {
+    return !!_.some(this.protocolForms, function(form, pos) {
+      return pos !== posForm && !!_.find(form.supplier.selectedSuppliers, supplier);
+    });
+  }
+
+  checkedSupplier(supplier) {
+    return !!_.some(this.protocolForms, function(form) {
+      return !!_.find(form.supplier.selectedSuppliers, supplier);
+    });
+  }
+
+  selectionAll(posForm) {
+    let self = this;
+    if (this.checkedAllSupplierByForm(posForm)) {
+      this.protocolForms[posForm].supplier.selectedSuppliers = [];
+    } else {
+      _.each(this.suppliers, function (supplier) {
+        if (!self.disabledCheck(supplier, posForm)) {
+          if (!_.find(self.protocolForms[posForm].supplier.selectedSuppliers, supplier)) {
+            self.protocolForms[posForm].supplier.selectedSuppliers.push(supplier);
+          }
+        }
+      });
+    }
+  }
+
+  countSelectedDistinct(posForm) {
+    let self = this;
+    let countSelected = 0;
+    _.each(this.suppliers, function(supplier) {
+      _.each(self.protocolForms, function(form, pos) {
+        if (pos !== posForm && !!_.find(form.supplier.selectedSuppliers, supplier)) {
+          countSelected++;
+        }
+      });
+    });
+    return countSelected;
+  }
+
+  checkedAllSupplierByForm(posForm) {
+    let selectedSuppliers = this.protocolForms[posForm].supplier.selectedSuppliers.length
+    return !!selectedSuppliers && ((this.suppliers.length - this.countSelectedDistinct(posForm)) === selectedSuppliers);
+  }
+
+  suppliersSelected() {
+    return _.sumBy(this.protocolForms, function(form) { return form.supplier.selectedSuppliers.length; });
+  }
+
+  checkedAllSuppliers() {
+    return this.suppliers.length === this.suppliersSelected();
+  }
+
+  addForm() {
+    this.protocolForms.push({ supplier: { values: this.suppliers, selectedSuppliers: [] }, protocols: this.newProtocols() });
+  }
+
+  removeForm(pos) {
+    this.protocolForms.splice(pos, 1);
+  }
+
+  assignShippingFrecuency(protocol, type, pos) {
+    switch (type) {
+      case 1:
+        protocol.values[pos].content = 'Monthly';
+        protocol.values[pos].showW = 'false';
+        protocol.values[pos].showB = 'false';
+        break;
+      case 2:
+        protocol.values[pos].content = '';
+        protocol.values[pos].showB = 'true';
+        protocol.values[pos].showW = 'false';
+        break;
+      case 3:
+        protocol.values[pos].content = '';
+        protocol.values[pos].showW = 'true';
+        protocol.values[pos].showB = 'false';
+        break;
+    }
+  }
+
+  buildProtocols() {
+    const self = this;
+    _.each(self.protocolForms, function (form) {
+      _.each(form.supplier.selectedSuppliers, function (supplier) {
+        let protocols = form.protocols;
+        const protocolNew: Protocol = new Protocol();
+
+        protocolNew.recipient = protocols[0].values[0].content;
+        protocolNew.shippingAddress = protocols[1].values[0].content;
+        protocolNew.shippingFrecuency = protocols[2].values[0].content;
+        protocolNew.shippingMethod = protocols[3].values[0].content;
+        protocolNew.shippingDetail = protocols[4].values[0].content;
+        protocolNew.accountNumber = protocols[5].values[0].content;
+        protocolNew.comment = protocols[6].values[0].content;
+        protocolNew.clientId = self.idClient;
+        protocolNew.supplierId = supplier.idSupplier;
+
+        self.protocolsSave.push(protocolNew);
+      });
+    });
+  }
+
+  save() {
+    this.buildProtocols();
+    let self = this;
+    this.spinner.show();
+    this.protocolClientService.remove$(self.idClient).subscribe(resRem => {
+      if (resRem.code === CodeHttp.ok) {
+        _.each(this.protocolsSave, function (protocol) {
+          self.protocolClientService.update$(protocol).subscribe(res => {
+          });
+        });
+        self.showMessage();
+        self.sendReply();
+        localStorage.setItem(self.idClient + 'copyProtocolForms', JSON.stringify(self.protocolForms));
+      }
+    });
+  }
+
+  showMessage() {
+    this.spinner.hide();
+    this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+      this.notification.success('', res);
+    });
+  }
+
+  public sendReply(): any {
+    const fResponse = [];
+    fResponse.push(false);
+    this.emitEventShipping.emit(fResponse);
+    return fResponse;
+  }
+
+
+  formIsValid() {
+    if (!this.suppliersSelected()) {
+      return false;
+    }
+    let valid = true;
+    _.each(this.protocolForms, function (form) {
+      if (!form.supplier.selectedSuppliers.length) {
+        valid = false;
+        return valid;
+      };
+      if (_.every(form.protocols, function (protocol) { return protocol.values[0].content === ''})) {
+        valid = false;
+        return valid;
+      }
+    });
+    return valid;
+  }
+
+  skip() {
+    this.sendReply();
+  }
+
+  hiddenRemove() {
+    return this.protocolForms.length < 2;
+  }
+
+  hiddenNewForm() {
+    let countSelectedSuppliers = _.sumBy(this.protocolForms, function(form) {
+      return form.supplier.selectedSuppliers.length;
+    });
+
+    return countSelectedSuppliers === this.suppliers.length || (this.suppliers.length - countSelectedSuppliers) === this.protocolForms.length;
+  }
+
+  //END NEW LAYOUT
 }
