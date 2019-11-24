@@ -229,7 +229,7 @@
                       <span>Total</span>
                     </div>
                     <div>
-                      <span>{{order.total | currency : "USD $" }}</span>
+                      <span>{{ order.listOrderGroups ? (order.invoiceSupplier.total | currency : "USD $") : (order.total | currency : "USD $") }}</span>
                     </div>
                     <br>
                     <div class="title-status">
