@@ -23,7 +23,6 @@ export class RoleGuard implements CanActivateChild {
       } else {
         return true;
       }
-     return true;
     } else {
       this.router.navigate(['/dashboard']);
     }
