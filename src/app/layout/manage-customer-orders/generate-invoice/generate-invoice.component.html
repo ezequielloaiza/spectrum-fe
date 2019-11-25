@@ -379,10 +379,10 @@
           </div>
           <div class="col col-xl-4 col-lg-4 tab-border">
             <ngb-tabset destroyOnHide="false">
-              <ngb-tab title="{{ 'Shippings Protocols' | translate }}">
+              <ngb-tab title="{{ 'Shipping Protocols' | translate }}">
                 <ng-template ngbTabContent class="tab-margin ">
                   <div *ngIf="shippingProtocol == null || shippingProtocol == undefined || shippingProtocol.id == null" class="message-error" style="margin: 10%;">
-                    <label class="bold">{{ 'Shippings protocols has not been defined for the provider' | translate }}</label>
+                    <label class="bold">{{ 'Shipping protocols has not been defined for the provider' | translate }}</label>
                   </div>
                   <div class="truncate" *ngIf="shippingProtocol != null && shippingProtocol != undefined && shippingProtocol.id != null">
                     <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">

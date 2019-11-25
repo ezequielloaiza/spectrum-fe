@@ -953,8 +953,7 @@
     "The shipping company already exists": "The shipping company already exists",
     "Monthly Disposable": "Monthly Disposable",
     "Unassigned": "Unassigned",
-    "Shipping's Protocols": "Shipping's Protocols",
-    "Shippings Protocols": "Shippings Protocols",
+    "Shipping Protocols": "Shipping Protocols",
     "Protocol Proforma": "Protocol Proforma",
     "Spectrum Proforma": "Spectrum Proforma",
     "Additional Documents": "Additional Documents",
@@ -1014,7 +1013,7 @@
     "Skip":"Skip",
     "If it is disabled, it was previously selected": "If it is disabled, it was previously selected",
     "Save & Next":"Save & Next",
-    "Shippings protocols has not been defined for the provider": "Shippings protocols has not been defined for the provider",
+    "Shipping protocols has not been defined for the provider": "Shipping protocols has not been defined for the provider",
     "Proforma protocols has not been defined for the provider": "Proforma protocols has not been defined for the provider",
     "Select At Least a Supplier":"Select At Least a Supplier",
     "Additional Products": "Additional Products",
@@ -1061,6 +1060,6 @@
     "depth": "depth",
     "length": "length",
     "Spectrum Account Number": "Spectrum Account Number",
-    "Enter Spectrum Account Number": "Enter Spectrum Account Number", 
+    "Enter Spectrum Account Number": "Enter Spectrum Account Number",
     "Suppliers": "Suppliers"
 }
