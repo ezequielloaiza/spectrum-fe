@@ -248,7 +248,7 @@
                         <button class="btn btn-dropdown-main btn-dd"
                           ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                         <div ngbDropdownMenu class="dropdown-menu-actions">
-                          <button class="dropdown-item" routerLink="/details-order-client/{{order.idOrder}}/view">
+                          <button class="dropdown-item" routerLink="/details-order-client/{{(status === '2' || status === '3') ? order.invoiceSupplierId : order.idOrder}}/view" [queryParams]="{status: status}">
                             {{ 'View Details' | translate }}</button>
                           <!--<button [hidden]="!mostrarStatus" class="dropdown-item" (click)="open(order)">
                             {{ 'Change Status' | translate }}</button>-->

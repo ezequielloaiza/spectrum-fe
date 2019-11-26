@@ -29,10 +29,7 @@ import { ProductService } from '../../../shared/services/products/product.servic
 export class DetailsOrderClientComponent implements OnInit {
 
   id: any;
-  order: Order = new Order();
-  listDetails: Array<any> = new Array;
-  listDetailsAll: Array<any> = new Array;
-  listDetailsAux: Array<any> = new Array;
+  orders: Array<any> = new Array;
   listAux: Array<ProductRequested> = new Array<ProductRequested>();
   advancedPagination: number;
   itemPerPage = 2;
@@ -41,6 +38,7 @@ export class DetailsOrderClientComponent implements OnInit {
   user: any;
   company: any;
   prueba: any;
+  status: any;
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
     public productImageService: ProductoimageService,
@@ -57,70 +55,78 @@ export class DetailsOrderClientComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
+    this.route.queryParams.subscribe(params => {
+      this.status = params.status;
+    });
     this.advancedPagination = 1;
     this.getOrder(this.id);
   }
 
-  pageChange(event) {
+  pageChange(event, order) {
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
-    this.listDetails = this.listDetailsAux.slice(startItem, endItem);
+    order.listDetails = order.listDetailsAux.slice(startItem, endItem);
   }
 
   getOrder(idOrder): void {
+    const self = this;
     this.spinner.show();
-    this.orderService.findId$(idOrder).subscribe(res => {
+    this.orderService.findOrderGroup$(idOrder, this.status).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.order = res.data;
-        if (this.order.status !== 1 && this.order.dateSend === null && this.user.role.idRole === 1) {
-           this.generar = true;
-        }
-
-        if (res.data.dateSend !== null && res.data.supplier.idSupplier !== 1) {
-          this.download = true;
-        }
-        const auxList = [];
-        _.each(this.order.listProductRequested, function (detailsOrder) {
-          detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
-          detailsOrder.productRequested.priceBase = detailsOrder.productRequested.price;
-          if (detailsOrder.productRequested.detail.length > 0) {
-            detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
-          }
-
-          const productId = detailsOrder.productRequested.product.idProduct;
-            if (productId !== 145
-                && productId !== 146
-                && productId !== 147) {
-            auxList.push(detailsOrder);
-          }
-        });
-
-        this.listDetailsAll = this.order.listProductRequested;
-        this.order.listProductRequested = auxList;
-        this.listDetailsAux = this.order.listProductRequested;
-        this.listDetails = this.listDetailsAux.slice(0, this.itemPerPage);
-
-        // search product insertor
-        if (res.data.supplier.idSupplier === 2) {
-          this.productService.findById$(146).subscribe(res1 => {
-            if (res1.code === CodeHttp.ok) {
-              this.assignPriceAllEuropa(auxList, res1.data[0]);
-            } else {
-              console.log(res1.errors[0].detail);
-              this.spinner.hide();
+        //this.order = res.data[0];
+        this.orders = res.data;
+        _.each(this.orders, function(order) {
+          if (order.status !== 1 && order.dateSend === null && self.user.role.idRole === 1) {
+            self.generar = true;
+         }
+ 
+         if (order.dateSend !== null && order.supplier.idSupplier !== 1) {
+           self.download = true;
+         }
+         order.auxList = [];
+         _.each(order.listProductRequested, function (detailsOrder) {
+           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
+           detailsOrder.productRequested.priceBase = detailsOrder.productRequested.price;
+           if (detailsOrder.productRequested.detail.length > 0) {
+             detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
+           }
+ 
+           const productId = detailsOrder.productRequested.product.idProduct;
+            if (productId !== 145 && productId !== 146 && productId !== 147) {
+              order.auxList.push(detailsOrder);
             }
-          }, error => {
-            console.log('error', error);
-            this.spinner.hide();
-          });
-        }
+         });
+         order.listDetails = [];
+         order.listDetailsAux = [];
+         order.listDetailsAll = [];
+         order.listDetailsAll = order.listProductRequested;
+         order.listProductRequested = order.auxList;
+         order.listDetailsAux = order.listProductRequested;
+         order.listDetails = order.listDetailsAux.slice(0, self.itemPerPage);
+ 
+         // search product insertor
+         if (order.supplier.idSupplier === 2) {
+          self.productService.findById$(146).subscribe(res1 => {
+             if (res1.code === CodeHttp.ok) {
+              self.assignPriceAllEuropa(order, res1.data);
+             } else {
+               console.log(res1.errors[0].detail);
+               self.spinner.hide();
+             }
+           }, error => {
+             console.log('error', error);
+             self.spinner.hide();
+           });
+         }
+        });
+        
 
         this.spinner.hide();
       }
     });
   }
 
-  assignPriceAllEuropa(auxList, productDMV): void {
+  assignPriceAllEuropa(order, productDMV): void {
     let arrayProductAditionals = [];
     const self = this;
     let priceAll = 0;
@@ -128,10 +134,10 @@ export class DetailsOrderClientComponent implements OnInit {
 
     let existContraryEye = false;
 
-    _.each(auxList, function(detailsOrder) {
-      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye);
+    _.each(order.auxList, function(detailsOrder) {
+      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye, order);
       priceAll = 0;
-      existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye);
+      existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye, order);
       _.each(arrayProductAditionals, function(item) {
         const productId = item.productRequested.product.idProduct;
         if (productId !== 146) {
@@ -152,13 +158,13 @@ export class DetailsOrderClientComponent implements OnInit {
       detailsOrder.productRequested.price = priceAll;
       detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
     });
-    this.updateTotal();
+    this.updateTotal(order);
   }
 
-  getProductsAditionalEuropa(eye) {
+  getProductsAditionalEuropa(eye, order) {
     const auxList = [];
 
-    _.each(this.listDetailsAll, function(item) {
+    _.each(order.listDetailsAll, function(item) {
       if (item.productRequested.detail[0].eye === eye) {
         auxList.push(item);
       }
@@ -185,7 +191,7 @@ export class DetailsOrderClientComponent implements OnInit {
     return price;
   }
 
-  contraryEye(eye) {
+  contraryEye(eye, order) {
     let exist = false;
     let contraryEye = '';
 
@@ -195,7 +201,7 @@ export class DetailsOrderClientComponent implements OnInit {
       contraryEye = 'Left';
     }
 
-    _.each(this.listDetailsAll, function(item) {
+    _.each(order.listDetailsAll, function(item) {
       if (item.productRequested.detail[0].eye === contraryEye) {
         exist = true;
       }
@@ -214,30 +220,30 @@ export class DetailsOrderClientComponent implements OnInit {
   }
 
   downloadOrder(order) {
-    this.spinner.show();
-    this.orderService.downloadOrder$(order.idOrder).subscribe(res => {
+    const self = this;
+    self.orderService.downloadOrder$(order.idOrder).subscribe(res => {
       const filename = order.number + '.pdf';
       if (res.size > 0) {
-        this.spinner.hide();
+        self.spinner.hide();
         saveAs(res, filename);
       } else {
-        this.spinner.hide();
-        this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res1: string) => {
-          this.notification.error('', res1);
+        self.spinner.hide();
+        self.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res1: string) => {
+          self.notification.error('', res1);
         });
       }
     }, error => {
-      this.spinner.hide();
-      this.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
-        this.notification.error('', res);
+      self.spinner.hide();
+      self.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
+        self.notification.error('', res);
       });
       console.log('error', error);
     });
   }
 
-  refresh(productRequested: any): void {
+  refresh(productRequested: any, order): void {
    const list: Array<ProductRequested> = productRequested;
-    _.each(this.order.listProductRequested, function (detailsOrder) {
+    _.each(order.listProductRequested, function (detailsOrder) {
       _.each(list, function (item) {
         if (detailsOrder.productRequested.idProductRequested === item.idProductRequested) {
           detailsOrder.productRequested.patient = item.patient;
@@ -251,32 +257,32 @@ export class DetailsOrderClientComponent implements OnInit {
       });
     });
    // this.listDetails = this.order.listProductRequested;
-    this.listDetailsAux = this.order.listProductRequested;
-    this.updateTotal();
+    order.listDetailsAux = order.listProductRequested;
+    this.updateTotal(order);
   }
 
-  openEdit(lista, image) {
+  openEdit(lista, image, order) {
     const modalRefSalineFluo = this.modalService.open( SalineFluoComponent,
     { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false });
     modalRefSalineFluo.componentInstance.detailEdit = lista;
     modalRefSalineFluo.componentInstance.typeEdit = 2;
-    modalRefSalineFluo.componentInstance.userOrder = this.order.user;
+    modalRefSalineFluo.componentInstance.userOrder = order.user;
     modalRefSalineFluo.componentInstance.image = image;
     modalRefSalineFluo.result.then((result) => {
       this.listAux.push(result);
-      this.refresh(this.listAux);
+      this.refresh(this.listAux, order);
     } , (reason) => {
 
     });
   }
 
-  updateTotal() {
+  updateTotal(order) {
      let total = 0.0;
-    _.each(this.listDetails, function (item) {
+    _.each(order.listDetails, function (item) {
        total = total + item.productRequested.subtotal;
     });
-    this.order.total = total;
-    this.order.subtotal = total;
+    order.total = total;
+    order.subtotal = total;
   }
 }
 

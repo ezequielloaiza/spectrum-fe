@@ -108,7 +108,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       this.orderService.findOrdersClientBySeller$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           let invoiceSupplierIds = [];
-          if (res.data.length && this.status == 2) {
+          if (res.data.length && (this.status == 2 || this.status == 3)) {
             invoiceSupplierIds = res.data[0].invoiceSupplierIds;
             if (invoiceSupplierIds.length) {
               _.each(invoiceSupplierIds, function(id) {
@@ -150,7 +150,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       this.orderService.allOrderWithStatus$(this.status).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           let invoiceSupplierIds = [];
-          if (res.data.length && this.status == 2) {
+          if (res.data.length && (this.status == 2 || this.status == 3)) {
             invoiceSupplierIds = res.data[0].invoiceSupplierIds;
             if (invoiceSupplierIds.length) {
               _.each(invoiceSupplierIds, function(id) {
@@ -317,7 +317,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         && _.toString(this.valorProduct) === '') { // Si no ha seleccionado status y fecha
         this.listOrders = this.listOrders.filter((item) => {
           return ((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
-            (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.number && item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.supplier.companyName.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.listProductRequested.find((pR) => {
               if (pR.productRequested.patient !== null) {
@@ -334,7 +334,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         && _.toString(this.valorProduct) !== '') {// si selecciono status y no fecha ni cliente
         this.listOrders = this.listOrders.filter((item) => {
           return (((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
-            (item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.number && item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.supplier.companyName.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.listProductRequested.find((pR) => {
                 if (pR.productRequested.patient !== null) {
@@ -805,14 +805,14 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     });
   }
 
-  openModalShipping(order): void {
+  openModalShipping(orders): void {
     const modalRef = this.modalService.open(ModalsShippingComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
-    modalRef.componentInstance.orderModal = order;
+    modalRef.componentInstance.orderModal = orders;
     modalRef.componentInstance.idStatus = 3;
     modalRef.result.then((result) => {
       this.spinner.show();
-      this.individualInvoice(order);
+      this.individualInvoice(orders);
     } , (reason) => {    
     });
   }
@@ -938,7 +938,15 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         this.translate.get('Are you sure want to bill all selected orders to customer?',
         {value: 'Are you sure want to bill all selected orders to customer?'}).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
-            this.generateInvoiceClient();
+            const self = this;
+            let orders = new Array;
+            _.each(this.listAux, function(item) {
+               const order = _.find(self.listOrdersAux, { 'idOrder': item});
+               if (order) {
+                order.listOrderGroups ? orders = _.concat(orders, order.listOrderGroups) : orders.push(order);
+               }               
+            });
+            this.openModalShipping(orders);
             }, () => {});
           });
         });
@@ -1049,25 +1057,27 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       this.translate.get('Are you sure want to bill selected order to customer?',
        {value: 'Are you sure want to bill selected order to customer?'}).subscribe((msg: string) => {
          this.alertify.confirm(title, msg, () => {
-          this.openModalShipping(order);
+          let orders = new Array;
+          if (order.listOrderGroups) {
+            orders = _.concat(orders, order.listOrderGroups);
+          } else {
+            orders.push(order)
+          }
+          this.openModalShipping(orders);
           }, () => {});
         });
       });
     }
   }
 
-  individualInvoice(order) {
+  individualInvoice(orders) {
     this.invoice.date = this.today;
     const ship = 0;
     this.invoice.shipping = ship;
     const list = [];
-    if (order.listOrderGroups) {
-      _.each(order.listOrderGroups, function(orderGroup) {
-        list.push(orderGroup.idOrder);
-      });
-    } else {
+    _.each(orders, function(order) {
       list.push(order.idOrder);
-    }
+    });
     
     this.invoice.listOrders = list;
     this.orderService.generateInvoiceClient$(this.invoice).subscribe(
@@ -1103,7 +1113,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     _.each(this.listAux, function(item) {
        let order = _.find(orders, { 'idOrder': item});
        if ( order.invoiceClient != null ) {
-        listInvoiceClient.push(order);
+        order.listOrderGroups ? listInvoiceClient =_.concat(listInvoiceClient, order.listOrderGroups) : listInvoiceClient.push(order);
        }
        if ( order.invoiceSupplier != null ) {
         listInvoiceSupplier.push(order);
