@@ -2304,6 +2304,12 @@ var OrderService = /** @class */ (function () {
     OrderService.prototype.findOrdersClientBySeller$ = function (status) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/findOrdersClientBySeller/' + status);
     };
+    OrderService.prototype.allOrdersUsersBySellerAndStatusNot$ = function (status) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/allOrdersUsersBySellerAndStatusNot/' + status);
+    };
+    OrderService.prototype.allOrdersByUserAndStatusNot$ = function (userId, status) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/allOrdersByUserAndStatusNot/' + userId + '/' + status);
+    };
     OrderService.prototype.allOrder$ = function () {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/allOrder');
     };
@@ -2372,6 +2378,12 @@ var OrderService = /** @class */ (function () {
     };
     OrderService.prototype.updateOrder$ = function (order) {
         return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/updateOrder', order);
+    };
+    OrderService.prototype.saveShippingOrder$ = function (orders) {
+        return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/saveShippingOrder', orders);
+    };
+    OrderService.prototype.findOrderGroup$ = function (id, status) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/findOrderGroup/' + id + '?status=' + status);
     };
     OrderService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
