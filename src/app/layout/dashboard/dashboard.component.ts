@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { StatusInvoiceClient } from '../../shared/enum/status-invoice-client.enum';
 import { SupplierService } from '../../shared/services/suppliers/supplier.service';
 import SweetScroll from 'sweet-scroll';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -210,7 +211,8 @@ export class DashboardComponent implements OnInit {
               private invoicePaymentService: InvoicePaymentService,
               public router: Router,
               private sage: SageService,
-              private supplierService: SupplierService) {
+              private supplierService: SupplierService,
+              private spinner: NgxSpinnerService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.sliders.push(
       {

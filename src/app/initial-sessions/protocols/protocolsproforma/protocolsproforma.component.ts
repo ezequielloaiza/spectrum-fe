@@ -17,6 +17,7 @@ import * as _ from 'lodash';
 import { ProtocolProformaService } from '../../../shared/services/protocolProforma/protocol-proforma.service';
 import { ProtocolProforma } from '../../../shared/models/protocolProforma';
 import { ProtocolsComponent } from '../protocols.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-protocolsproforma',
@@ -47,7 +48,8 @@ export class ProtocolsproformaComponent implements OnInit {
     private translate: TranslateService,
     private notification: ToastrService,
     public router: Router,
-    private protocolProformaService: ProtocolProformaService) {
+    private protocolProformaService: ProtocolProformaService,
+    private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
   }
 
@@ -182,6 +184,7 @@ export class ProtocolsproformaComponent implements OnInit {
   }
 
   public save(): any {
+    this.spinner.show();
     this.buildProtocols();
     const fResponse = [];
     this.vSkip = false;
@@ -190,7 +193,15 @@ export class ProtocolsproformaComponent implements OnInit {
     fResponse.push(false);
     fResponse.push(this.protocolsCopy);
     this.emitEventProforma.emit(fResponse);
+    this.showMessage();
     return fResponse;
+  }
+
+  showMessage() {
+    this.spinner.hide();
+    this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
+      this.notification.success('', res);
+    });
   }
 
   back() {

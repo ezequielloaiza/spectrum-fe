@@ -22,8 +22,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 export class ProtocolsComponent implements OnInit {
 
-  protocolsShippingSave: Array<Protocol> = new Array;
-  protocolsShippingCopy: Array<Protocol> = new Array;
   protocolsProformaSave: Array<Protocol> = new Array;
   protocolsProformaCopy: Array<Protocol> = new Array;
   currentUser: any;
@@ -48,9 +46,7 @@ export class ProtocolsComponent implements OnInit {
   }
 
   getProtocolsShipping(listProtocols: any): void {
-    this.protocolsShippingSave = listProtocols[0];
-    this.showShipping = listProtocols[1];
-    this.protocolsShippingCopy = listProtocols[2];
+    this.showShipping = listProtocols[0];
   }
 
   getProtocolsProforma(listProtocols: any): void {
