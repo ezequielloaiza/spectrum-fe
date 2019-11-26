@@ -46,7 +46,7 @@ export class GenerateInvoiceComponent implements OnInit {
   shippingProtocol: any;
   countries: Array<any> = new Array();
   numbers: Array<any> = new Array();
-  listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM' ];
+  listShippingMethod = [ '2nd day', 'Overnight', 'Overnight AM', 'Ground'];
   protocolProforma: any;
   invShippingProtocol: InvoiceSupplierProtocolClient = new InvoiceSupplierProtocolClient();
   invProtocolProforma: InvoiceSupplierProtocolProforma = new InvoiceSupplierProtocolProforma();
@@ -256,7 +256,7 @@ export class GenerateInvoiceComponent implements OnInit {
       ids = this.invoice.listOrders.map(String);
     } else {
       if (this.order !== undefined) {
-        ids = [this.order.idOrder];
+        ids = this.order.ids ?  this.order.ids :  [this.order.idOrder];
       }
     }
     let self = this;
@@ -856,7 +856,9 @@ export class GenerateInvoiceComponent implements OnInit {
       this.invShippingProtocol.countryName =  null;
     }
 
-    this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
+    if (this.shippingProtocol && this.shippingProtocol.id) {
+      this.invShippingProtocol.idProtocolClient = this.shippingProtocol.id;
+    }
     /*if (this.editAccNumber || this.editBusinessName ||
         this.editRecipient || this.editShippingAddress ||
         this.editShippingMethod || this.editAccountNumber ||
@@ -895,7 +897,10 @@ export class GenerateInvoiceComponent implements OnInit {
     if (!this.editTariffCodes) {
       this.invProtocolProforma.tariffCodes = null;
     }
-    this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
+
+    if (this.protocolProforma && this.protocolProforma.id) {
+      this.invProtocolProforma.idProtocolProforma = this.protocolProforma.id;
+    }
     /*if (this.editSpectrumP || this.editAdditionalDocuments ||
         this.editOutputs || this.editDocumentation ||
         this.editComments || this.editEmailCommentProforma ||

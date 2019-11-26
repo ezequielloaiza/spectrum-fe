@@ -35,7 +35,8 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
   styleUrls: ['./product-view-europa.component.scss']
 })
 export class ProductViewEuropaComponent implements OnInit {
-
+  @ViewChild('notchRight') notchRight;
+  @ViewChild('notchLeft') notchLeft;
   products: Array<any> = new Array;
   productsCode: Array<any> = new Array;
   productsCodeSelectL: Array<any> = new Array;
@@ -63,6 +64,14 @@ export class ProductViewEuropaComponent implements OnInit {
   CustomersSelected: any;
   signPowerRight: any;
   signPowerLeft: any;
+  signPowerRightTrial: any;
+  signPowerLeftTrial:any;
+  typeCurveRight: any;
+  typeCurveLeft: any;
+  typeCurveRightTrial: any;
+  typeCurveLeftTrial: any;
+  typeNotchRight: any;
+  typeNotchLeft: any;
   priceA = 0;
   priceB = 0;
   membership: any;
@@ -241,11 +250,13 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.eyeLeft = false;
     this.product.type = JSON.parse(this.product.types)[0].name;
     let orderCylinder;
+    this.product.setRight = JSON.parse(this.product.types)[0].set;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     orderCylinder = _.find(this.product.parametersRight, {name: 'Cylinder (D)'});
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
     }
+    this.product.setLeft = JSON.parse(this.product.types)[0].set;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     orderCylinder = _.find(this.product.parametersLeft, {name: 'Cylinder (D)'});
     if (orderCylinder != null) {
@@ -574,6 +585,12 @@ export class ProductViewEuropaComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
           this.listCustomers = this.listCustomersAux;
+          //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.country.name + ' ' + i.name; return i; });
+          this.listCustomers.map((i) => {
+            let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
+            i.fullName = accSpct + i.name + ' | ' + i.country.name;
+            return i;
+          });
         }
       });
     }
@@ -765,6 +782,12 @@ export class ProductViewEuropaComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let signPowerLeft = this.signPowerLeft;
     let signPowerRight = this.signPowerRight;
+    let signPowerRightTrial = this.signPowerRightTrial;
+    let signPowerLeftTrial = this.signPowerLeftTrial;
+    let typeCurveLeft = this.typeCurveLeft;
+    let typeCurveRight = this.typeCurveRight;
+    let typeCurveLeftTrial = this.typeCurveLeftTrial;
+    let typeCurveRightTrial = this.typeCurveRightTrial;
     let additionalInserts = this.additionalInserts;
     let additionalInsertsL = this.additionalInsertsL;
     let inserts = this.inserts;
@@ -811,6 +834,26 @@ export class ProductViewEuropaComponent implements OnInit {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
 
+        //set
+         _.each(product.setRight, function(parameter, index) {
+          product.setRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
+          if (parameter.name === 'Base Curve') {
+            if (!!typeCurveRightTrial && !!parameter.selected) {
+              product.setRight[index].selected = parameter.selected + ' (' + typeCurveRightTrial + ')';
+            } else {
+              product.setRight[index].selected = null;
+            }
+          }
+          if (parameter.name === 'Power') {
+            if (!!signPowerRightTrial && !!parameter.selected) {
+              product.setRight[index].selected = signPowerRightTrial + parameter.selected;
+            } else {
+              product.setRight[index].selected = null;
+            }
+          }
+        });
+        productSelected.set = product.setRight;
+
         /* headers*/
         _.each(product.headerRight, function(parameter, index) {
           product.headerRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
@@ -824,11 +867,22 @@ export class ProductViewEuropaComponent implements OnInit {
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          if (parameter.name === 'Base Curve') {
+            if (!!typeCurveRight) {
+              product.parametersRight[index].selected = parameter.selected + ' (' + typeCurveRight + ')';
+            } else {
+              product.parametersRight[index].selected = null;
+            }
+          }
           if (parameter.name === 'Power') {
             product.parametersRight[index].selected = signPowerRight + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
-            product.parametersRight[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
+            if (!parameter.selectedNotchTime) {
+              product.parametersRight[index].selected = '0x0'
+            } else {
+              product.parametersRight[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + ' (' + parameter.selectedNotchTime + ')';
+            }
           }
         });
         productSelected.parameters = product.parametersRight;
@@ -867,6 +921,27 @@ export class ProductViewEuropaComponent implements OnInit {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
 
+        //set
+        _.each(product.setLeft, function(parameter, index) {
+          product.setLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
+
+          if (parameter.name === 'Base Curve') {
+            if (!!typeCurveLeftTrial && !!parameter.selected) {
+              product.setLeft[index].selected = parameter.selected + ' (' + typeCurveLeftTrial + ')';
+            } else {
+              product.setLeft[index].selected = null;
+            }
+          }
+          if (parameter.name === 'Power') {
+            if (!!signPowerLeftTrial && !!parameter.selected) {
+              product.setLeft[index].selected = signPowerLeftTrial + parameter.selected;
+            } else {
+              product.setLeft[index].selected = null;
+            }
+          }
+        });
+        productSelected.set = product.setLeft;
+
         /* headers*/
         _.each(product.headerLeft, function(parameter, index) {
           product.headerLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
@@ -880,11 +955,22 @@ export class ProductViewEuropaComponent implements OnInit {
         /*params*/
         _.each(product.parametersLeft, function(parameter, index) {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
+          if (parameter.name === 'Base Curve') {
+            if (!!typeCurveLeft) {
+              product.parametersLeft[index].selected = parameter.selected + ' (' + typeCurveLeft + ')';
+            } else {
+              product.parametersLeft[index].selected = null;
+            }
+          }
           if (parameter.name === "Power") {
             product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
-            product.parametersLeft[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
+            if (!parameter.selectedNotchTime) {
+              product.parametersLeft[index].selected = '0x0'
+            } else {
+              product.parametersLeft[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + ' (' + parameter.selectedNotchTime + ')';
+            }
           }
         });
         productSelected.parameters = product.parametersLeft;
@@ -912,7 +998,9 @@ export class ProductViewEuropaComponent implements OnInit {
 
       /*params*/
       _.each(productSelected.parameters, function(parameter) {
-        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
+        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0' && parameter.selected !== '0x0 (undefined)' &&
+            parameter.selected !== '0x0 (Temporal Superior)' && parameter.selected !== '0x0 (Temporal Inferior)' &&
+            parameter.selected !== '0x0 (Nasal Superior)' && parameter.selected !== '0x0 (Nasal Inferior)') {
           const productN =  { id: productNotch.idProduct,
             name: productNotch.name,
             price: notchPrice,
@@ -921,8 +1009,8 @@ export class ProductViewEuropaComponent implements OnInit {
         }
       });
 
-      productSelected.detail = { name: product.type, eye: productSelected.eye, header: productSelected.header, parameters: productSelected.parameters, pasos:productSelected.pasos, productsAditional: productsAditional };
-      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional'])
+      productSelected.detail = { name: product.type, eye: productSelected.eye, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos:productSelected.pasos, productsAditional: productsAditional };
+      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional', 'set'])
     });
 
     // add products code
@@ -949,7 +1037,9 @@ export class ProductViewEuropaComponent implements OnInit {
 
       /*params*/
       _.each(productAux.detail.parameters, function(parameter) {
-        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0') {
+        if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0' && parameter.selected !== '0x0 (undefined)' &&
+            parameter.selected !== '0x0 (Temporal Superior)' && parameter.selected !== '0x0 (Temporal Inferior)' &&
+            parameter.selected !== '0x0 (Nasal Superior)' && parameter.selected !== '0x0 (Nasal Inferior)') {
           const productN =  JSON.parse(JSON.stringify(productAux));
           productN.id = productNotch.idProduct;
           productN.name = productNotch.name;
@@ -1051,14 +1141,16 @@ export class ProductViewEuropaComponent implements OnInit {
           if (param.values[0].selected === null || param.values[1].selected === null) {
             isValid = false;
           }
+
+          if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !param.selectedNotchTime) {
+            isValid = false;
+          }
+
         } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
-      if (!this.signPowerRight) {
-        isValid = false;
-      }
-      if (!this.product.quantityRight) {
+      if (!this.typeCurveRight || !this.signPowerRight || !this.product.quantityRight) {
         isValid = false;
       }
     }
@@ -1069,14 +1161,16 @@ export class ProductViewEuropaComponent implements OnInit {
           if (param.values[0].selected === null || param.values[1].selected === null) {
             isValid = false;
           }
+
+          if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !param.selectedNotchTime) {
+            isValid = false;
+          }
+
         } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
       });
-      if (!this.signPowerLeft) {
-        isValid = false;
-      }
-      if (!this.product.quantityLeft) {
+      if (!this.typeCurveLeft || !this.signPowerLeft || !this.product.quantityLeft) {
         isValid = false;
       }
     }
@@ -1094,7 +1188,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   setNotch(parameter) {
     if (parameter.values[0].selected === null || parameter.values[1].selected === null) {
-      parameter.selected = null;
+      parameter.selected = '0x0';
     } else {
       parameter.selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
     }
@@ -1340,7 +1434,7 @@ export class ProductViewEuropaComponent implements OnInit {
       }
     } else {
       // assing product code
-      const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 16.0-16.5)');
+      const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 15.2-16.5)');
       if (eye === 'right') {
        this.checkAdditional('right');
        this.product.priceBaseRight = this.priceA;
@@ -1356,6 +1450,7 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   clean(eye) {
+    let set;
     let header;
     let parameters;
     let pasos;
@@ -1363,31 +1458,40 @@ export class ProductViewEuropaComponent implements OnInit {
      header = this.product.headerRight;
      parameters = this.product.parametersRight;
      pasos = this.product.pasosRight;
+     set = this.product.setRight;
      this.product.observationsRight = '';
     } else {
       header = this.product.headerLeft;
       parameters = this.product.parametersLeft;
       pasos = this.product.pasosLeft;
+      set = this.product.setLeft;
       this.product.observationsLeft = '';
     }
+     // set
+     _.each(set, function(item) {
+      item.selected = null;
+      item.sel = null;
+    });
      // header
      _.each(header, function(itemHeader) {
-        itemHeader.selected = null;
-        itemHeader.sel = null;
+        if (itemHeader.name !== 'Inserts (DMV)' ) {
+          itemHeader.selected = null;
+          itemHeader.sel = null;
+        }
       });
     // parameter
     _.each(parameters, function(param) {
-        if (param.name === 'Notch (mm)') {
-            param.values[0].selected = 0;
-            param.values[0].sel = 0;
-            param.values[1].selected = 0;
-            param.values[1].sel = 0;
-        } else if (param.name === 'Thickness') {
-            param.selected = 0;
-        } else {
-          param.selected = null;
-          param.sel = null;
-        }
+      if (param.name === 'Notch (mm)') {
+          param.values[0].selected = 0;
+          param.values[0].sel = 0;
+          param.values[1].selected = 0;
+          param.values[1].sel = 0;
+      } else if (param.name === 'Thickness') {
+          param.selected = 0;
+      } else {
+        param.selected = null;
+        param.sel = null;
+      }
     });
     // Pasos
     _.each(pasos, function(item) {
@@ -1401,12 +1505,38 @@ export class ProductViewEuropaComponent implements OnInit {
       this.product.headerRight = header;
       this.product.parametersRight = parameters;
       this.product.pasosRight = pasos;
+      this.typeCurveRight = null;
+      this.typeCurveRightTrial = null;
       this.signPowerRight = null;
+      this.signPowerRightTrial = null;
+      this.typeNotchRight = null;
     } else {
       this.product.headerLeft = header;
       this.product.parametersLeft = parameters;
       this.product.pasosLeft = pasos;
+      this.typeCurveLeft = null;
+      this.typeCurveLeftTrial = null;
       this.signPowerLeft = null;
+      this.signPowerLeftTrial = null;
+      this.typeNotchLeft = null;
+    }
+  }
+
+  disabledOption(item) {
+    return item === "For other diameters, please contact us";
+  }
+
+  changeNotchTime(eye, parameter, value) {
+    parameter.selectedNotchTime = value;
+    switch (eye) {
+      case 'right':
+        this.notchRight.itemsList._items[0].label = value;
+        this.notchRight.itemsList._items[0].value = value;
+        break;
+      case 'left':
+        this.notchLeft.itemsList._items[0].label = value;
+        this.notchLeft.itemsList._items[0].value = value;
+        break;
     }
   }
 }

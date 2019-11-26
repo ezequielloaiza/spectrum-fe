@@ -297,7 +297,7 @@
 .dropdown-menu-actions{
   left: -70% !important;
   font-size: 0.8rem;
-  width: 8rem;
+  width: 9.1rem;
   &::before {
     position: absolute;
     top: -7px;
@@ -599,4 +599,11 @@
 ::ng-deep .modal-dialog {
   max-width: 1000px;
   width: 120%;
+}
+
+.btn-disabled {
+  cursor: not-allowed !important;
+  background: white;
+  border-color: gray;
+  opacity: .5;
 }

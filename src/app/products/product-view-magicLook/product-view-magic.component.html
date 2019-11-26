@@ -64,7 +64,7 @@
       <div class="row product-info">
 
         <!-- client -->
-        <div class="col-lg-3 margin-col">
+        <div class="col-lg-4 margin-col">
           <dt class="title">{{ 'Account Name' | translate }}</dt>
           <div class="row input-align info-content" [hidden]="user.role.idRole !== 3">
             <input class="form-control" type="text" placeholder="{{ 'Introduce name client' | translate }}" [(ngModel)]="product.client"
@@ -72,13 +72,13 @@
           </div>
           <div class="row input-align info-content" [hidden]="user.role.idRole === 3">
             <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
-              [virtualScroll]="true" bindLabel="name" bindValue="idUser" placeholder="{{ 'Introduce name client' | translate }}"
+              [virtualScroll]="true" bindLabel="fullName" bindValue="idUser" placeholder="{{ 'Introduce name client' | translate }}"
               required>
             </ng-select>
           </div>
         </div>
         <!--shipping address-->
-        <div class="col-lg-5 margin-col">
+        <div class="col-lg-4 margin-col">
           <span class="title">{{ 'Shipping Address' | translate }}</span>
           <div class="row info-content">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected' | translate }}"

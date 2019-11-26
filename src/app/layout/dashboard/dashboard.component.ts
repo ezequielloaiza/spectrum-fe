@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { StatusInvoiceClient } from '../../shared/enum/status-invoice-client.enum';
 import { SupplierService } from '../../shared/services/suppliers/supplier.service';
 import SweetScroll from 'sweet-scroll';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,6 +33,7 @@ export class DashboardComponent implements OnInit {
   listPayments: Array<any> = new Array;
   user: any;
   orders = 0;
+  ordersToBill = 0;
   total = 0;
   warranties = 0;
   pendingPayment = 0;
@@ -209,7 +211,8 @@ export class DashboardComponent implements OnInit {
               private invoicePaymentService: InvoicePaymentService,
               public router: Router,
               private sage: SageService,
-              private supplierService: SupplierService) {
+              private supplierService: SupplierService,
+              private spinner: NgxSpinnerService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.sliders.push(
       {
@@ -270,6 +273,7 @@ export class DashboardComponent implements OnInit {
     this.getCountOrders();
     this.getCountOrdersTotal();
     this.getPendingPayments();
+    this.getOrdersToBill();
     if (this.user.role.idRole === 3) {
       this.getSupplierByUser(this.user.userResponse.idUser);
     }
@@ -319,6 +323,31 @@ export class DashboardComponent implements OnInit {
       this.orderService.allOrderWithStatus$(0).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.orders = res.data.length;
+        }
+      });
+    }
+  }
+
+  getOrdersToBill() {
+    //Admin Role
+    if (this.user.role.idRole === 1) {
+      this.orderService.allOrderWithStatus$(2).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.ordersToBill = res.data.length;
+        }
+      });
+    //Seller Role
+    } else if (this.user.role.idRole === 2) {
+      this.orderService.findOrdersClientBySeller$(2).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.ordersToBill = res.data.length;
+        }
+      });
+    // Client Role
+    } else if (this.user.role.idRole === 3) {
+      this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 2).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.ordersToBill = res.data.length;
         }
       });
     }

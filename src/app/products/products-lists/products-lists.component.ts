@@ -27,13 +27,13 @@ export class ProductsListsComponent implements OnInit {
   user: any;
   products: Array<any> = new Array;
   constructor(private userStorageService: UserStorageService,
-              private modalService: NgbModal,
-              private supplierUserService: SupplieruserService,
-              public router: Router,
-              private supplierService: SupplierService,
-              private categoryService: CategoryService,
-              private spinner: NgxSpinnerService,
-              private productService: ProductService) {
+    private modalService: NgbModal,
+    private supplierUserService: SupplieruserService,
+    public router: Router,
+    private supplierService: SupplierService,
+    private categoryService: CategoryService,
+    private spinner: NgxSpinnerService,
+    private productService: ProductService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
   }
@@ -54,7 +54,7 @@ export class ProductsListsComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listSupplierAux = res.data;
           const userConc = this.currentUser;
-          this.listSupplier = _.filter(this.listSupplierAux, function(u) {
+          this.listSupplier = _.filter(this.listSupplierAux, function (u) {
             const idSupp = u.supplier.idSupplier;
             switch (idSupp) {
               case 1: // Markennoy
@@ -64,7 +64,7 @@ export class ProductsListsComponent implements OnInit {
               case 3: // Lenticon
                 return u;
               case 4: // Euclid
-               return !(userConc.certificationCode === null || userConc.certificationCode === '');
+                return !(userConc.certificationCode === null || userConc.certificationCode === '');
               case 5: // Magic Look
                 return u;
               case 6: // Blue Light
@@ -83,27 +83,32 @@ export class ProductsListsComponent implements OnInit {
     this.spinner.show();
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-          this.listSupplierFilter = res.data;
-          if (this.user.role.idRole === 3) {
-            const lista = this.listSupplier; // los asociado a los clientes
-            const supplierFiltered = [];
-            _.each(this.listSupplierFilter, function(supplier) {
-              _.each(lista, function(item) {
-                if (supplier.idSupplier === item.supplier.idSupplier) {
-                  supplierFiltered.push(supplier);
-                }
-              });
+        this.listSupplierFilter = res.data;
+        if (this.user.role.idRole === 3) {
+          if (this.user.userResponse.membership.idMembership !== 2) {
+            this.listSupplier = _.remove(this.listSupplier, function (supplier) {
+              return supplier.supplier.idSupplier !== 6;
             });
-            this.listSupplierFilter = supplierFiltered;
-            this.orderList();
-            this.listSupplier = _.filter(this.listSupplierFilter, function(s) { return s.idSupplier < 8 && s.idSupplier > 0;  });
-            this.spinner.hide();
-          } else {
-            this.orderList();
-            this.listSupplier = _.filter(this.listSupplierFilter, function(s) { return s.idSupplier < 8 && s.idSupplier > 0;  });
-            this.spinner.hide();
           }
-          this.setImageSupplier();
+          const lista = this.listSupplier; // los asociado a los clientes
+          const supplierFiltered = [];
+          _.each(this.listSupplierFilter, function (supplier) {
+            _.each(lista, function (item) {
+              if (supplier.idSupplier === item.supplier.idSupplier) {
+                supplierFiltered.push(supplier);
+              }
+            });
+          });
+          this.listSupplierFilter = supplierFiltered;
+          this.orderList();
+          this.listSupplier = _.filter(this.listSupplierFilter, function (s) { return s.idSupplier < 8 && s.idSupplier > 0; });
+          this.spinner.hide();
+        } else {
+          this.orderList();
+          this.listSupplier = _.filter(this.listSupplierFilter, function (s) { return s.idSupplier < 8 && s.idSupplier > 0; });
+          this.spinner.hide();
+        }
+        this.setImageSupplier();
       } else {
         console.log(res.errors[0].detail);
         this.spinner.hide();
@@ -115,7 +120,7 @@ export class ProductsListsComponent implements OnInit {
   }
 
   setImageSupplier() {
-    _.each(this.listSupplier, function(supplier){
+    _.each(this.listSupplier, function (supplier) {
       switch (supplier.idSupplier) {
         case 1: // Markennoy
           supplier.image = 'assets/images/suppliers/markennovy.png';
@@ -168,31 +173,31 @@ export class ProductsListsComponent implements OnInit {
           this.router.navigate(['/products/' + idSupplier + '/internal']);
           break;
         case 5: //magic look
-            this.productService.findBySupplierInView$(idSupplier, true).subscribe(res => {
-              if (res.code === CodeHttp.ok) {
-                this.products = res.data;
-                this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-magic']);
-              } else {
-                console.log(res.errors[0].detail);
-              }
-            }, error => {
-              console.log('error', error);
-              this.spinner.hide();
-            });
+          this.productService.findBySupplierInView$(idSupplier, true).subscribe(res => {
+            if (res.code === CodeHttp.ok) {
+              this.products = res.data;
+              this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-magic']);
+            } else {
+              console.log(res.errors[0].detail);
+            }
+          }, error => {
+            console.log('error', error);
+            this.spinner.hide();
+          });
           break;
         case 6:  // Blue Light
-            this.productService.findBySupplierInView$(idSupplier, true).subscribe(res => {
-              if (res.code === CodeHttp.ok) {
-                this.products = res.data;
-                this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-blue']);
-              } else {
-                console.log(res.errors[0].detail);
-              }
-            }, error => {
-              console.log('error', error);
-              this.spinner.hide();
-            });
-        }
+          this.productService.findBySupplierInView$(idSupplier, true).subscribe(res => {
+            if (res.code === CodeHttp.ok) {
+              this.products = res.data;
+              this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-blue']);
+            } else {
+              console.log(res.errors[0].detail);
+            }
+          }, error => {
+            console.log('error', error);
+            this.spinner.hide();
+          });
+      }
     }
   }
 
@@ -202,7 +207,7 @@ export class ProductsListsComponent implements OnInit {
     }
   }
 
-  orderList(){
-   this.listSupplierFilter = _.orderBy(this.listSupplierFilter, ['idSupplier'], ['asc']);
+  orderList() {
+    this.listSupplierFilter = _.orderBy(this.listSupplierFilter, ['idSupplier'], ['asc']);
   }
 }

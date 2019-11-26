@@ -119,7 +119,7 @@
                   <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
                   <label *ngIf="pilot && viewCopy" class="address-client">{{ invoice.invoiceProtocolClientResponse.businessName !== null ? invoice.invoiceProtocolClientResponse.businessName : invoice.user.company.companyName }}</label>
                   <label *ngIf="pilot && viewOriginal" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ invShippingProtocol?.businessName && editBusinessName ? invShippingProtocol.businessName : invoice.user.company.companyName }}"
+                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ (invShippingProtocol.businessName && editBusinessName) ? invShippingProtocol.businessName : invoice.user.company.companyName }}"
                   (change)="updateCustomer($event)" required>
                 </div>
                 <div class="col-xl-6 address-spectrum">
@@ -186,7 +186,7 @@
                 <tbody>
                   <ng-container *ngFor="let productR of invoice.listProductRequested; let i = index">
                     <tr *ngIf="productR.delete == null || productR.delete == false">
-                      <td class="table-tr td-table" *ngIf="pilot" >{{productR.description}}+{{productR.patient !== '' ? + ', '+ productR.patient : ''}}</td>
+                      <td class="table-tr td-table" *ngIf="pilot" >{{ productR.description + (productR.patient !== '' ? ', ' + productR.patient : '') }}</td>
                       <td class="table-tr td-table" *ngIf="!pilot">
                         <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.description"  (change)="updateDescription($event, i)" class="form-control" required>
                         <select *ngIf="productR.idProductRequested == null" class="form-control" id="productDescription{{i}}" (change)="updateProduct($event, i)">
@@ -379,10 +379,10 @@
           </div>
           <div class="col col-xl-4 col-lg-4 tab-border">
             <ngb-tabset destroyOnHide="false">
-              <ngb-tab title="{{ 'Shippings Protocols' | translate }}">
+              <ngb-tab title="{{ 'Shipping Protocols' | translate }}">
                 <ng-template ngbTabContent class="tab-margin ">
                   <div *ngIf="shippingProtocol == null || shippingProtocol == undefined || shippingProtocol.id == null" class="message-error" style="margin: 10%;">
-                    <label class="bold">{{ 'Shippings protocols has not been defined for the provider' | translate }}</label>
+                    <label class="bold">{{ 'Shipping protocols has not been defined for the provider' | translate }}</label>
                   </div>
                   <div class="truncate" *ngIf="shippingProtocol != null && shippingProtocol != undefined && shippingProtocol.id != null">
                     <div *ngIf="!pilot" class="form-group pr-3 half-flex tab-margin">
@@ -820,6 +820,10 @@
   </button>
   <button [hidden]="!pilot || invoice.status === 1" type="button" class="btn btn-main" (click)="sendInvoice()">
     {{ "Send" | translate }}&nbsp;
+    <i class="fa fa-send"></i>
+  </button>
+  <button *ngIf="invoice.status === 1" type="button" class="btn btn-main" (click)="sendInvoice()">
+    {{ "Resend" | translate }}&nbsp;
     <i class="fa fa-send"></i>
   </button>
   <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1)" [disabled]="invDate == null || invDate == undefined || invDueDate == null || invDueDate == undefined">

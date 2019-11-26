@@ -30,6 +30,14 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/findOrdersClientBySeller/' + status);
   }
 
+  public allOrdersUsersBySellerAndStatusNot$(status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrdersUsersBySellerAndStatusNot/' + status);
+  }
+
+  public allOrdersByUserAndStatusNot$(userId, status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrdersByUserAndStatusNot/' + userId + '/' + status);
+  }
+
   public allOrder$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/allOrder');
   }
@@ -97,7 +105,7 @@ export class OrderService {
   public generateInvoiceClient$(invoice): Observable<any> {
     return this.http.put(environment.apiUrl + 'order/generateInvoiceClient', invoice);
   }
-  
+
   public generateInvoiceSupplier$(invoice): Observable<any> {
     return this.http.put(environment.apiUrl + 'order/generateInvoiceSupplier', invoice);
   }
@@ -118,6 +126,14 @@ export class OrderService {
 
   public updateOrder$(order): Observable<any> {
     return this.http.put(environment.apiUrl + 'order/updateOrder', order);
+  }
+
+  public saveShippingOrder$(orders: any): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/saveShippingOrder', orders);
+  }
+
+  public findOrderGroup$(id, status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/findOrderGroup/' + id + '?status=' + status);
   }
 
 }
