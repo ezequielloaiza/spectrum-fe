@@ -822,6 +822,10 @@
     {{ "Send" | translate }}&nbsp;
     <i class="fa fa-send"></i>
   </button>
+  <button *ngIf="invoice.status === 1" type="button" class="btn btn-main" (click)="sendInvoice()">
+    {{ "Resend" | translate }}&nbsp;
+    <i class="fa fa-send"></i>
+  </button>
   <button [hidden]="pilot" type="button" class="btn btn-main" (click)="generateInvoice(1)" [disabled]="invDate == null || invDate == undefined || invDueDate == null || invDueDate == undefined">
     {{ "Save and Send" | translate }}&nbsp;
     <i class="fa fa-send"></i>

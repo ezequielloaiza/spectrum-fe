@@ -9,6 +9,7 @@ import { Validators } from '@angular/forms';
 import { OrderService, EntrustingCompanyService } from '../../../shared/services';
 import { Order } from '../../../shared/models/order';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-modals-shipping',
@@ -18,7 +19,7 @@ import { Router } from '@angular/router';
 export class ModalsShippingComponent implements OnInit {
 
   form: FormGroup;
-  order: Order = new Order();
+  orders: Array<Order> = new Array;
   orderModal: any;
   idStatus: any;
   companies: Array<any>;
@@ -56,11 +57,6 @@ export class ModalsShippingComponent implements OnInit {
     this.modalReference.dismiss();
   }
 
-
-  get trackingNumber() { return this.form.get('trackingNumber'); }
-  get shippingPrice() { return this.form.get('shippingPrice'); }
-
-
   save(): void {
     this.orderClientService.changeStatus$(this.orderModal.idOrder, this.idStatus).subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -74,14 +70,19 @@ export class ModalsShippingComponent implements OnInit {
   }
 
   saveShipping() {
-    this.order.idOrder = this.orderModal.idOrder;
-    this.order.shippingPrice = this.form.get('shippingPrice').value;
-    this.order.trackingNumber = this.form.get('trackingNumber').value;
-    this.order.idEntrustingCompany = this.form.get('entrustingId').value;
-    this.orderService.updateOrder$(this.order).subscribe(
+    const self = this;
+    _.each(this.orderModal, function(_order) {
+      const order: any = {};
+      order.idOrder = _order.idOrder;
+      order.shippingPrice = self.shippingPrice.value;
+      order.trackingNumber = self.trackingNumber.value;
+      order.idEntrustingCompany = self.entrustingId.value
+      self.orders.push(order);
+    });
+    this.orderService.saveShippingOrder$(this.orders).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
-          this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: this.idStatus } });
+          //this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: this.idStatus } });
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' })
             .subscribe((rest: string) => {
               this.notification.success('', rest);
@@ -109,4 +110,9 @@ export class ModalsShippingComponent implements OnInit {
     });
 
   }
+
+  get trackingNumber() { return this.form.get('trackingNumber'); }
+  get shippingPrice() { return this.form.get('shippingPrice'); }
+  get entrustingId() { return this.form.get('entrustingId'); }
+
 }

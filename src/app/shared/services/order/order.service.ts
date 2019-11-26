@@ -128,4 +128,12 @@ export class OrderService {
     return this.http.put(environment.apiUrl + 'order/updateOrder', order);
   }
 
+  public saveShippingOrder$(orders: any): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/saveShippingOrder', orders);
+  }
+
+  public findOrderGroup$(id, status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/findOrderGroup/' + id + '?status=' + status);
+  }
+
 }
