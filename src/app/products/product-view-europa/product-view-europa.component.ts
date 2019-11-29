@@ -1538,5 +1538,12 @@ export class ProductViewEuropaComponent implements OnInit {
         this.notchLeft.itemsList._items[0].value = value;
         break;
     }
+
+    //set null in values notch
+    if (parameter.values[0].selected === 0)
+      parameter.values[0].selected = null;
+    
+    if (parameter.values[1].selected === 0)
+      parameter.values[1].selected = null;
   }
 }

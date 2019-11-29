@@ -1132,9 +1132,16 @@ export class EuropaComponent implements OnInit {
     return item === "For other diameters, please contact us";
   }
 
-  changeNotchTime(value) {
+  changeNotchTime(value, parameter) {
     this.selectedNotch = value;
     this.notchTime.itemsList._items[0].label = value;
     this.notchTime.itemsList._items[0].value = value;
+
+    //set null in values notch
+    if (parameter.values[0].selected === 0)
+      parameter.values[0].selected = null;
+    
+    if (parameter.values[1].selected === 0)
+      parameter.values[1].selected = null;
   }
 }

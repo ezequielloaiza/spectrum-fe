@@ -205,12 +205,12 @@
                           <ng-template ng-option-tmp>
                             <div class="main-info">
                               <div class="one-two">
-                                <img [ngClass]="{'selected-image': selectedNotch === 'Temporal Superior'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('Temporal Superior')">
-                                <img [ngClass]="{'selected-image': selectedNotch === 'Nasal Superior'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('Nasal Superior')">
+                                <img [ngClass]="{'selected-image': selectedNotch === 'Temporal Superior'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('Temporal Superior', parameter)">
+                                <img [ngClass]="{'selected-image': selectedNotch === 'Nasal Superior'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('Nasal Superior', parameter)">
                               </div>
                               <div clas="three-four">
-                                <img [ngClass]="{'selected-image': selectedNotch === 'Temporal Inferior'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('Temporal Inferior')">
-                                <img [ngClass]="{'selected-image': selectedNotch === 'Nasal Inferior'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('Nasal Inferior')">
+                                <img [ngClass]="{'selected-image': selectedNotch === 'Temporal Inferior'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('Temporal Inferior', parameter)">
+                                <img [ngClass]="{'selected-image': selectedNotch === 'Nasal Inferior'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('Nasal Inferior', parameter)">
                               </div>
                             </div>
                           </ng-template>
