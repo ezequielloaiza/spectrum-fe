@@ -878,7 +878,7 @@ export class ProductViewEuropaComponent implements OnInit {
             product.parametersRight[index].selected = signPowerRight + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
-            if (!parameter.selectedNotchTime) {
+            if (!parameter.selectedNotchTime || (parameter.values[0].selected === 0 && parameter.values[1].selected === 0)) {
               product.parametersRight[index].selected = '0x0'
             } else {
               product.parametersRight[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + ' (' + parameter.selectedNotchTime + ')';
@@ -966,7 +966,7 @@ export class ProductViewEuropaComponent implements OnInit {
             product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
-            if (!parameter.selectedNotchTime) {
+            if (!parameter.selectedNotchTime || (parameter.values[0].selected === 0 && parameter.values[1].selected === 0)) {
               product.parametersLeft[index].selected = '0x0'
             } else {
               product.parametersLeft[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + ' (' + parameter.selectedNotchTime + ')';
@@ -999,8 +999,8 @@ export class ProductViewEuropaComponent implements OnInit {
       /*params*/
       _.each(productSelected.parameters, function(parameter) {
         if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0' && parameter.selected !== '0x0 (undefined)' &&
-            parameter.selected !== '0x0 (Temporal Superior)' && parameter.selected !== '0x0 (Temporal Inferior)' &&
-            parameter.selected !== '0x0 (Nasal Superior)' && parameter.selected !== '0x0 (Nasal Inferior)') {
+            parameter.selected !== '0x0 (Upper Temporal)' && parameter.selected !== '0x0 (Lower Temporal)' &&
+            parameter.selected !== '0x0 (Upper Nasal)' && parameter.selected !== '0x0 (Lower Nasal)') {
           const productN =  { id: productNotch.idProduct,
             name: productNotch.name,
             price: notchPrice,
@@ -1038,8 +1038,8 @@ export class ProductViewEuropaComponent implements OnInit {
       /*params*/
       _.each(productAux.detail.parameters, function(parameter) {
         if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0' && parameter.selected !== '0x0 (undefined)' &&
-            parameter.selected !== '0x0 (Temporal Superior)' && parameter.selected !== '0x0 (Temporal Inferior)' &&
-            parameter.selected !== '0x0 (Nasal Superior)' && parameter.selected !== '0x0 (Nasal Inferior)') {
+            parameter.selected !== '0x0 (Upper Temporal)' && parameter.selected !== '0x0 (Lower Temporal)' &&
+            parameter.selected !== '0x0 (Upper Nasal)' && parameter.selected !== '0x0 (Lower Nasal)') {
           const productN =  JSON.parse(JSON.stringify(productAux));
           productN.id = productNotch.idProduct;
           productN.name = productNotch.name;

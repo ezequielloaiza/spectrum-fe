@@ -123,8 +123,8 @@ export class ConfirmationEuropaComponent implements OnInit {
           });
           _.each(detail.parameters, function (parameter) {
             if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0' && parameter.selected !== '0x0 (undefined)' &&
-                parameter.selected !== '0x0 (Temporal Superior)' && parameter.selected !== '0x0 (Temporal Inferior)' && 
-                parameter.selected !== '0x0 (Nasal Superior)' && parameter.selected !== '0x0 (Nasal Inferior)') {
+                parameter.selected !== '0x0 (Upper Temporal)' && parameter.selected !== '0x0 (Lower Temporal)' && 
+                parameter.selected !== '0x0 (Upper Nasal)' && parameter.selected !== '0x0 (Lower Nasal)') {
               quantityNotch = quantityNotch + productRequested.quantity;
             }
             if (parameter.name === 'Thickness' && parameter.selected) {
