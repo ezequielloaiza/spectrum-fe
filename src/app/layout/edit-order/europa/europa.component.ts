@@ -557,7 +557,7 @@ export class EuropaComponent implements OnInit {
           } else if (productSelected.name === 'Power') {
             item.selected = signPower + productSelected.selected;
           } else if (productSelected.name === 'Notch (mm)') {
-            if (productSelected.values[0].selected === null || productSelected.values[1].selected === null || !selectedNotch) {
+            if (productSelected.values[0].selected === null || productSelected.values[1].selected === null || !selectedNotch || (productSelected.values[0].selected === 0 && productSelected.values[1].selected === 0)) {
               item.selected = '0x0';
             } else {
               item.selected = productSelected.values[0].selected + 'x' + productSelected.values[1].selected + ' (' + selectedNotch + ')';
@@ -729,8 +729,8 @@ export class EuropaComponent implements OnInit {
     const flagNotch = this.additionalNotch;
     const obs = this.observations;
     _.each(this.detail.parameters, function(parameter) {
-      if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0' && parameter.selected !== '0x0 (undefined)' && parameter.selected !== '0x0 (Temporal Superior)' &&
-          parameter.selected !== '0x0 (Temporal Inferior)' && parameter.selected !== '0x0 (Nasal Superior)' && parameter.selected !== '0x0 (Nasal Inferior)') {
+      if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0' && parameter.selected !== '0x0 (undefined)' && parameter.selected !== '0x0 (Upper Temporal)' &&
+          parameter.selected !== '0x0 (Lower Temporal)' && parameter.selected !== '0x0 (Upper Nasal)' && parameter.selected !== '0x0 (Lower Nasal)') {
         const productN =  { id: productNotch.idProduct,
           name: productNotch.name,
           price: notchPrice,
@@ -747,8 +747,8 @@ export class EuropaComponent implements OnInit {
           prNotch.idProductRequested = pRNotch.idProductRequested;
         }
         productsAditional.push(productN);
-      } else if (parameter.name === 'Notch (mm)' && (parameter.selected === '0x0' || parameter.selected === '0x0 (undefined)' || parameter.selected === '0x0 (Temporal Superior)' ||
-                 parameter.selected === '0x0 (Temporal Inferior)' || parameter.selected === '0x0 (Nasal Superior)' || parameter.selected === '0x0 (Nasal Inferior)')) {
+      } else if (parameter.name === 'Notch (mm)' && (parameter.selected === '0x0' || parameter.selected === '0x0 (undefined)' || parameter.selected === '0x0 (Upper Temporal)' ||
+                 parameter.selected === '0x0 (Lower Temporal)' || parameter.selected === '0x0 (Upper Nasal)' || parameter.selected === '0x0 (Lower Nasal)')) {
         if (pRNotch != undefined) {
           prNotch.idProductRequested = pRNotch.idProductRequested;
           prNotch.product = productNotch.idProduct;
@@ -1132,9 +1132,16 @@ export class EuropaComponent implements OnInit {
     return item === "For other diameters, please contact us";
   }
 
-  changeNotchTime(value) {
+  changeNotchTime(value, parameter) {
     this.selectedNotch = value;
     this.notchTime.itemsList._items[0].label = value;
     this.notchTime.itemsList._items[0].value = value;
+
+    //set null in values notch
+    if (parameter.values[0].selected === 0)
+      parameter.values[0].selected = null;
+    
+    if (parameter.values[1].selected === 0)
+      parameter.values[1].selected = null;
   }
 }
