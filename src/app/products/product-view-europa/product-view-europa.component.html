@@ -296,18 +296,18 @@
                   </div>
 
                   <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex col-sm-12">
-                    <ng-select #notchRight class="select-notch" [items]="['Temporal Superior']"
+                    <ng-select #notchRight class="select-notch" [items]="['Upper Temporal']"
                                [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
                                [disabled]="!product.eyeRight" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
                       <ng-template ng-option-tmp>
                         <div class="main-info">
                           <div class="one-two">
-                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Temporal Superior'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('right', parameter, 'Temporal Superior')">
-                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Nasal Superior'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('right', parameter, 'Nasal Superior')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('right', parameter, 'Upper Temporal')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('right', parameter, 'Upper Nasal')">
                           </div>
                           <div clas="three-four">
-                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Temporal Inferior'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('right', parameter, 'Temporal Inferior')">
-                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Nasal Inferior'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('right', parameter, 'Nasal Inferior')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('right', parameter, 'Lower Temporal')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('right', parameter, 'Lower Nasal')">
                           </div>
                         </div>
                       </ng-template>
@@ -582,18 +582,18 @@
                   </div>
 
                   <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex col-sm-12">
-                    <ng-select #notchLeft class="select-notch" [items]="['Temporal Superior']"
+                    <ng-select #notchLeft class="select-notch" [items]="['Upper Temporal']"
                                [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
                                [disabled]="!product.eyeLeft" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
                       <ng-template ng-option-tmp>
                         <div class="main-info">
                           <div class="one-two">
-                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Temporal Superior'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('left', parameter, 'Temporal Superior')">
-                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Nasal Superior'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('left', parameter, 'Nasal Superior')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('left', parameter, 'Upper Temporal')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('left', parameter, 'Upper Nasal')">
                           </div>
                           <div clas="three-four">
-                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Temporal Inferior'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('left', parameter, 'Temporal Inferior')">
-                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Nasal Inferior'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('left', parameter, 'Nasal Inferior')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('left', parameter, 'Lower Temporal')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('left', parameter, 'Lower Nasal')">
                           </div>
                         </div>
                       </ng-template>
