@@ -145,15 +145,18 @@
                       <span>{{'Customer'| translate }}</span>
                     </div>
                     <div>
-                      <span>{{order ? order.nameUser:''}}</span>
+                      <span>{{order ? order.nameUser :''}}</span>
                     </div>
                     <br>
-                    <div>
-                      <div *ngIf="order.listProductRequested.length == 1" class="title-status">
+                    <div *ngIf="order.listProductRequested.length > 0">
+                      <div *ngIf="order.listProductRequested.length > 0" class="title-status">
                         <span
-                          *ngIf="order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null">{{'Patient'| translate }}</span>
+                          *ngIf="order.listProductRequested[0].productRequested.patient !== '' && order.listProductRequested[0].productRequested.patient !== null">{{'Patient'| translate }}</span>
                       </div>
-                      <div *ngIf="order.listProductRequested.length == 1">
+                      <div  *ngFor="let patient of order.patients; let i = index">
+                        <span>{{ patient }}</span>
+                      </div>
+                      <div *ngIf="!order.patients">
                         <span>{{order.listProductRequested[0].productRequested.patient ? order.listProductRequested[0].productRequested.patient:''}}</span>
                       </div>
                     </div>

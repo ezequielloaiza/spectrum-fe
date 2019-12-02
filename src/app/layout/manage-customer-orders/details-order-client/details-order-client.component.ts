@@ -178,13 +178,13 @@ export class DetailsOrderClientComponent implements OnInit {
 
     switch (membership) {
       case 1:
-        price = productDMV.price1;
+        price = productDMV[0].price1;
         break;
       case 2:
-        price = productDMV.price2;
+        price = productDMV[0].price2;
         break;
       case 3:
-        price = productDMV.price3;
+        price = productDMV[0].price3;
         break;
     }
 
