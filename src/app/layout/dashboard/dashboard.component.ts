@@ -268,6 +268,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.show();
     this.getOrdersPending();
     this.getWarrantiesPendings();
     this.getCountOrders();
@@ -277,6 +278,7 @@ export class DashboardComponent implements OnInit {
     if (this.user.role.idRole === 3) {
       this.getSupplierByUser(this.user.userResponse.idUser);
     }
+    this.spinner.hide();
   }
 
   getSupplierByUser(id: any) {

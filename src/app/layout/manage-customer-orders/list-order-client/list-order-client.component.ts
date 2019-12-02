@@ -116,13 +116,16 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
                 if (orders.length) {
                   const index = _.findIndex(res.data, {'idOrder': orders[0].idOrder});
                   res.data[index].listOrderGroups = orders;
+                  const patients = [];
                   _.each(orders, function(o, j) {
+                    patients.push(_.uniq(_.map(o.listProductRequested, 'productRequested.patient')));
                     if (j !== 0) {
                       res.data[index].listProductRequested = _.concat(res.data[index].listProductRequested ,o.listProductRequested);
                       const i = _.findIndex(res.data, {'idOrder': o.idOrder});
                       res.data.splice(i, 1);
                     }
                   });
+                  res.data[index].patients = patients;
                 }           
               })         
             }
@@ -143,7 +146,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
           this.list = this.listOrdersAux;
           this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);      
-        } 
+        }
         this.spinner.hide();
       });
     } else if (this.user.role.idRole === 1) {
@@ -158,13 +161,16 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
                 if (orders.length) {
                   const index = _.findIndex(res.data, {'idOrder': orders[0].idOrder});
                   res.data[index].listOrderGroups = orders;
+                  const patients = [];
                   _.each(orders, function(o, j) {
+                    patients.push(_.uniq(_.map(o.listProductRequested, 'productRequested.patient')));
                     if (j !== 0) {
                       res.data[index].listProductRequested = _.concat(res.data[index].listProductRequested ,o.listProductRequested);
                       const i = _.findIndex(res.data, {'idOrder': o.idOrder});
                       res.data.splice(i, 1);
                     }
                   });
+                  res.data[index].patients = patients;
                 }           
               })         
             }
