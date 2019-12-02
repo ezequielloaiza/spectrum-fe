@@ -94,10 +94,12 @@ export class EntrustingCompanyModalComponent implements OnInit {
   save(): void {
     if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
       this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
-    } else if (this.entrustingCompany.city.description) {
+    } else if (this.entrustingCompany && this.entrustingCompany.city.description) {
       this.form.get('city').setValue(this.entrustingCompany.city.description);
-    } else {
+    } else if (this.entrustingCompany && this.entrustingCompany.city) {
       this.form.get('city').setValue(this.entrustingCompany.city);
+    } else {
+      this.form.get('city').setValue("");
     }
 
     if (this.action !== 'edit') {
