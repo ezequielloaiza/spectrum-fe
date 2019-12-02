@@ -72,9 +72,9 @@
             <div class="col-md-2">
               <p class="font-weight-bold text-left" translate>{{'Totals'}}</p>
               <p class="font-weight-normal" translate>
-                <span>{{ (order? order.subtotal:'') | currency : "USD $" }}</span>
+                <span>{{ (order ? order.subtotal : '') | currency : "USD $" }}</span>
               </p>
-              <p class="font-weight-bold text-left">{{ (order? order.total:'') | currency : "USD $" }}</p>
+              <p class="font-weight-bold text-left">{{ (order ? order.total :'') | currency : "USD $" }}</p>
             </div>
           </div>
         </div>
