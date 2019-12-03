@@ -744,15 +744,8 @@ var ProtocolsproformaComponent = /** @class */ (function () {
         fResponse.push(false);
         fResponse.push(this.protocolsCopy);
         this.emitEventProforma.emit(fResponse);
-        this.showMessage();
-        return fResponse;
-    };
-    ProtocolsproformaComponent.prototype.showMessage = function () {
-        var _this = this;
         this.spinner.hide();
-        this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe(function (res) {
-            _this.notification.success('', res);
-        });
+        return fResponse;
     };
     ProtocolsproformaComponent.prototype.back = function () {
         this.buildProtocols();

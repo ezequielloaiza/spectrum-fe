@@ -33641,6 +33641,7 @@ var DashboardComponent = /** @class */ (function () {
          */
     };
     DashboardComponent.prototype.ngOnInit = function () {
+        this.spinner.show();
         this.getOrdersPending();
         this.getWarrantiesPendings();
         this.getCountOrders();
@@ -33650,6 +33651,7 @@ var DashboardComponent = /** @class */ (function () {
         if (this.user.role.idRole === 3) {
             this.getSupplierByUser(this.user.userResponse.idUser);
         }
+        this.spinner.hide();
     };
     DashboardComponent.prototype.getSupplierByUser = function (id) {
         var _this = this;
