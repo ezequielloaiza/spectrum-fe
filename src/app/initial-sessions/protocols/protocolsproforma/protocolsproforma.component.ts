@@ -193,15 +193,8 @@ export class ProtocolsproformaComponent implements OnInit {
     fResponse.push(false);
     fResponse.push(this.protocolsCopy);
     this.emitEventProforma.emit(fResponse);
-    this.showMessage();
-    return fResponse;
-  }
-
-  showMessage() {
     this.spinner.hide();
-    this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
-      this.notification.success('', res);
-    });
+    return fResponse;
   }
 
   back() {
