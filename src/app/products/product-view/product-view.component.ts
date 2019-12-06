@@ -197,7 +197,8 @@ export class ProductViewComponent implements OnInit {
     if (this.user.role.idRole === 3) {
       this.client = this.currentUser.idUser;
       let accSpct = !!this.currentUser.accSpct ?  this.currentUser.accSpct + ' - ' : '';
-      this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
+      let cardCode = !!this.currentUser.cardCode ? ' | ' + this.currentUser.cardCode : '';
+      this.product.client = accSpct + this.currentUser.name + cardCode + ' | ' + this.currentUser.country.name;
       this.findShippingAddress(this.client);
     } else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
