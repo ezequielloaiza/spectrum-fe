@@ -837,18 +837,21 @@ export class ProductViewEuropaComponent implements OnInit {
         //set
          _.each(product.setRight, function(parameter, index) {
           product.setRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
+          if (parameter.name === 'Diameter (mm)' && !parameter.selected) {
+            product.setRight[index].selected = '';
+          }
           if (parameter.name === 'Base Curve') {
             if (!!typeCurveRightTrial && !!parameter.selected) {
               product.setRight[index].selected = parameter.selected + ' (' + typeCurveRightTrial + ')';
             } else {
-              product.setRight[index].selected = null;
+              product.setRight[index].selected = '';
             }
           }
           if (parameter.name === 'Power') {
             if (!!signPowerRightTrial && !!parameter.selected) {
               product.setRight[index].selected = signPowerRightTrial + parameter.selected;
             } else {
-              product.setRight[index].selected = null;
+              product.setRight[index].selected = '';
             }
           }
         });
@@ -924,19 +927,21 @@ export class ProductViewEuropaComponent implements OnInit {
         //set
         _.each(product.setLeft, function(parameter, index) {
           product.setLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
-
+          if (parameter.name === 'Diameter (mm)' && !parameter.selected) {
+            product.setLeft[index].selected = '';
+          }
           if (parameter.name === 'Base Curve') {
             if (!!typeCurveLeftTrial && !!parameter.selected) {
               product.setLeft[index].selected = parameter.selected + ' (' + typeCurveLeftTrial + ')';
             } else {
-              product.setLeft[index].selected = null;
+              product.setLeft[index].selected = '';
             }
           }
           if (parameter.name === 'Power') {
             if (!!signPowerLeftTrial && !!parameter.selected) {
               product.setLeft[index].selected = signPowerLeftTrial + parameter.selected;
             } else {
-              product.setLeft[index].selected = null;
+              product.setLeft[index].selected = '';
             }
           }
         });
