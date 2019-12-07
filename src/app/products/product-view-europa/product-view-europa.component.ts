@@ -577,9 +577,9 @@ export class ProductViewEuropaComponent implements OnInit {
   setClient() {
     if (this.user.role.idRole === 3) {
       this.client = this.currentUser.idUser;
-      this.product.client = this.currentUser.name;
+      let accSpct = !!this.currentUser.accSpct ?  this.currentUser.accSpct + ' - ' : '';
+      this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
       this.findShippingAddress(this.client);
-
     } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -1547,7 +1547,7 @@ export class ProductViewEuropaComponent implements OnInit {
     //set null in values notch
     if (parameter.values[0].selected === 0)
       parameter.values[0].selected = null;
-    
+
     if (parameter.values[1].selected === 0)
       parameter.values[1].selected = null;
   }

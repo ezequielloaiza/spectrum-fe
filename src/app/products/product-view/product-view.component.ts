@@ -196,9 +196,10 @@ export class ProductViewComponent implements OnInit {
   setClient() {
     if (this.user.role.idRole === 3) {
       this.client = this.currentUser.idUser;
-      this.product.client = this.currentUser.name;
+      let accSpct = !!this.currentUser.accSpct ?  this.currentUser.accSpct + ' - ' : '';
+      let cardCode = !!this.currentUser.cardCode ? ' | ' + this.currentUser.cardCode : '';
+      this.product.client = accSpct + this.currentUser.name + cardCode + ' | ' + this.currentUser.country.name;
       this.findShippingAddress(this.client);
-
     } else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
