@@ -285,15 +285,15 @@ export class ProfileComponent implements OnInit {
           self.spinner.show();
           self.quickbooksService.checkConnectToQuickbooks$().subscribe(resp => {
             clearInterval(timer);
-            if (resp.data) {            
-              self.updateConnection(true); 
+            if (resp.data) {
+              self.updateConnection(true);
             } else {
               self.updateConnection(false);
             }
             self.spinner.hide();
           }, errorr => {
             self.spinner.hide();
-          });               
+          });
         }
       }, 1000);
     }, error => {
