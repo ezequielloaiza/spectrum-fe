@@ -24,8 +24,8 @@ this.products = [
           { "name": "Diameter (mm)", "type": "selected", "values": ["16.0", "18.0", "20.0"], "selected": null },
           { "name": "Base Curve (d)", "type":"input", "values": ["any"], "placeholder":"e.g. 08.00", "selected": null },
           { "name": "Power", "type":"input", "values": ["any"],"placeholder":"e.g. 2.00", "selected": null },
-          { "name": "TPC Diopters (PC4)", "type": "selected", "values": ["0.50", "1.00", "1.50", "2.00", "2.50", "3.00", "3.50", "4.00", "4.50", "5.00", "5.50", "6.00", "6.50", "7.00", "7.50", "8.00"], "selected": null },
-          { "name": "TPC Meridian (PC4)", "type": "selected", "values": [ "horizontal", "vertical"], "selected": null },
+          { "name": "TPC Diopters", "type": "selected", "values": ["0.50", "1.00", "1.50", "2.00", "2.50", "3.00", "3.50", "4.00", "4.50", "5.00", "5.50", "6.00", "6.50", "7.00", "7.50", "8.00"], "selected": null },
+          { "name": "TPC Meridian", "type": "selected", "values": [ "horizontal", "vertical"], "selected": null },
           { "name": "Notch (mm)", "type": "selected-double", "values": [
                                                                         { "name":"profundidad",
                                                                           "type":"input",

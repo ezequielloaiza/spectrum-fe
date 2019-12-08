@@ -201,7 +201,9 @@
 
                       <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex">
                         <ng-select #notchTime class="select-notch" [items]="['Upper Temporal']"
-                                  [(ngModel)]="selectedNotch" placeholder="{{ 'Select type' | translate }}" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
+                                  [(ngModel)]="selectedNotch" placeholder="{{ 'Select type' | translate }}" 
+                                  (clear)="validateSelectedNotch(parameter)" (change)="validateSelectedNotch(parameter)"
+                                  [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
                           <ng-template ng-option-tmp>
                             <div class="main-info">
                               <div class="one-two">
