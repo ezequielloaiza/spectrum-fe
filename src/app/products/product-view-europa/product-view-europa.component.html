@@ -298,7 +298,8 @@
                   <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex col-sm-12">
                     <ng-select #notchRight class="select-notch" [items]="['Upper Temporal']"
                                [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
-                               [disabled]="!product.eyeRight" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
+                               [disabled]="!product.eyeRight" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0"
+                               (click)="validateSelectedNotch(parameter)" (clear)="validateSelectedNotch(parameter)">
                       <ng-template ng-option-tmp>
                         <div class="main-info">
                           <div class="one-two">
@@ -584,7 +585,8 @@
                   <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex col-sm-12">
                     <ng-select #notchLeft class="select-notch" [items]="['Upper Temporal']"
                                [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
-                               [disabled]="!product.eyeLeft" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
+                               [disabled]="!product.eyeLeft" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0"
+                               (clear)="validateSelectedNotch(parameter)" (change)="validateSelectedNotch(parameter)">
                       <ng-template ng-option-tmp>
                         <div class="main-info">
                           <div class="one-two">
