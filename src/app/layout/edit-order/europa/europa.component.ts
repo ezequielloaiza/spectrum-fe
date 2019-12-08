@@ -525,17 +525,20 @@ export class EuropaComponent implements OnInit {
     _.each(this.detail.set, function(item) {
       _.each(set, function(itemSet) {
         if (itemSet.name === item.name) {
+          if (itemSet.name === 'Diameter (mm)' && !itemSet.selected) {
+            item.selected = '';
+          }
           if (itemSet.name === 'Base Curve') {
             if (!!typeCurveTrial && !!itemSet.selected) {
               item.selected = itemSet.selected + ' (' + typeCurveTrial + ')';
             } else {
-              item.selected = null;
+              item.selected = '';
             }
           } else if (itemSet.name === 'Power') {
             if (!!signPowerTrial && !!itemSet.selected) {
               item.selected = signPowerTrial + itemSet.selected;
             } else {
-              item.selected = null;
+              item.selected = '';
             }
           } else {
             item.selected = itemSet.selected;
@@ -1143,5 +1146,12 @@ export class EuropaComponent implements OnInit {
     
     if (parameter.values[1].selected === 0)
       parameter.values[1].selected = null;
+  }
+
+  validateSelectedNotch(parameter) {
+    if (this.selectedNotch === null) {
+      parameter.values[0].selected = 0;
+      parameter.values[1].selected = 0;
+    }
   }
 }
