@@ -1147,4 +1147,11 @@ export class EuropaComponent implements OnInit {
     if (parameter.values[1].selected === 0)
       parameter.values[1].selected = null;
   }
+
+  validateSelectedNotch(parameter) {
+    if (this.selectedNotch === null) {
+      parameter.values[0].selected = 0;
+      parameter.values[1].selected = 0;
+    }
+  }
 }

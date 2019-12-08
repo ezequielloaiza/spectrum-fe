@@ -586,7 +586,7 @@
                     <ng-select #notchLeft class="select-notch" [items]="['Upper Temporal']"
                                [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
                                [disabled]="!product.eyeLeft" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0"
-                               (click)="validateSelectedNotch(parameter)" (clear)="validateSelectedNotch(parameter)">
+                               (clear)="validateSelectedNotch(parameter)" (change)="validateSelectedNotch(parameter)">
                       <ng-template ng-option-tmp>
                         <div class="main-info">
                           <div class="one-two">
