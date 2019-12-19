@@ -25,5 +25,6 @@ export enum RoleUser {
   ProtocolClient,
   ProtocolProforma,
   InitialsProtocols,
-  ChangePassword
+  ChangePassword,
+  ProductsViewSynergeyes
 }

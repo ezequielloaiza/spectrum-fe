@@ -287,6 +287,9 @@ export class ProductsListInternalComponent implements OnInit {
       case 6:  // magic blue
         this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
         break;
+      case 9:
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-synergeyes']);
+        break;
       case 7:  // fluo strips y spectrum saline
         if (product.father === 'Fluo Strips') {
           this.router.navigate(['/products/' + product.idProduct + '/product-view-fluo-strips']);

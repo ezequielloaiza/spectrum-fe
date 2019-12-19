@@ -31,5 +31,6 @@ export enum RoleSeller {
   EntrustingCompany,
   EditShippingProtocol,
   ProtocolProforma,
-  ChangePassword
+  ChangePassword,
+  ProductsViewSynergeyes
 }

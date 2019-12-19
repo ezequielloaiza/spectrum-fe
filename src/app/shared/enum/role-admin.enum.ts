@@ -41,5 +41,6 @@ export enum RoleAdmin {
   EditShippingProtocol,
   ProtocolProforma,
   ChangePassword,
-  ClientInvoice
+  ClientInvoice,
+  ProductsViewSynergeyesComponent
 }

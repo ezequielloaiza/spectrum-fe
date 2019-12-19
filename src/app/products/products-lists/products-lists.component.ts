@@ -83,7 +83,9 @@ export class ProductsListsComponent implements OnInit {
     this.spinner.show();
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        const suppliersId = [1, 2, 3, 4, 5, 6, 7, 9, 10];
         this.listSupplierFilter = res.data;
+        console.log(res.data);
         if (this.user.role.idRole === 3) {
           if (this.user.userResponse.membership.idMembership !== 2) {
             this.listSupplier = _.remove(this.listSupplier, function (supplier) {
@@ -101,11 +103,11 @@ export class ProductsListsComponent implements OnInit {
           });
           this.listSupplierFilter = supplierFiltered;
           this.orderList();
-          this.listSupplier = _.filter(this.listSupplierFilter, function (s) { return s.idSupplier < 8 && s.idSupplier > 0; });
+          this.listSupplier = _.filter(this.listSupplierFilter, function (s) { return suppliersId.indexOf(s.idSupplier) > -1; });
           this.spinner.hide();
         } else {
           this.orderList();
-          this.listSupplier = _.filter(this.listSupplierFilter, function (s) { return s.idSupplier < 8 && s.idSupplier > 0; });
+          this.listSupplier = _.filter(this.listSupplierFilter, function (s) { return suppliersId.indexOf(s.idSupplier) > -1; });
           this.spinner.hide();
         }
         this.setImageSupplier();
@@ -143,6 +145,9 @@ export class ProductsListsComponent implements OnInit {
         case 7: // Fluo Strips y spectrum saline
           supplier.image = 'assets/images/suppliers/spectrum_products.jpg';
           break
+        case 9: // Fluo Strips y spectrum saline
+          supplier.image = 'assets/images/suppliers/synergeyes.png';
+          break
       }
     });
   }
@@ -169,7 +174,8 @@ export class ProductsListsComponent implements OnInit {
         case 2: //europa
         case 3: //Lenticon
         case 4:  //euclid
-        case 7:  //fluo strips y saline spectrum
+        case 7: //fluo strips y saline spectrum 
+        case 9:  //synergeyes
           this.router.navigate(['/products/' + idSupplier + '/internal']);
           break;
         case 5: //magic look
