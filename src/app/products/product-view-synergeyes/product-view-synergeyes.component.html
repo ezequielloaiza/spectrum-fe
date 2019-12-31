@@ -120,31 +120,7 @@
           <!--row header right (contamac / hydrapeg / insertors)-->
           <br>
           <br>
-          <div class="row title">{{ 'Test Set' | translate }}</div>
-          <br>
-          <div class="row">
-            <div class="col-lg-3" *ngFor="let itemSet of product.setRight">
-              <div class="row">
-                <label class="form-check-label">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;
-              </div>
-              <div class="row">
-                <div class="select-values col-sm-12" *ngIf="itemSet.type === 'selected'">
-                  <ng-select (change)="changeSelect('right', itemSet, $event,0)" [items]="itemSet.values" [disabled]="!product.eyeRight"
-                    [(ngModel)]="itemSet.sel" bindLabel="value" bindValue="id" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeRight"
-                    [clearable]="false">
-                  </ng-select>
-                </div>
-                 <div *ngIf="itemSet.type === 'input'" class="select-values param-power col-sm-12">
-                  <input class="form-control" type="text" placeholder="{{ itemSet.placeholder | translate }}"
-                    [required]="product.eyeRight" [(ngModel)]="itemSet.selected"
-                    [disabled]=true>
-                </div>
-              </div>
-            </div>
-          </div>
-          <br>
           <div class="row title">{{ 'Parameters' | translate }}</div>
-          <br>
           <!--params right-->
           <div class="row">
             <!--quantity right-->
@@ -167,45 +143,29 @@
                 </div>
                 <!--param values-->
                 <div class="row">
-                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('right', parameter, $event,0)" [items]="parameter.values"
                       [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
                       {{item}}
                     </ng-select>
                   </div>
-                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Addition'" class="select-values col-sm-12">
-                    <ng-select (change)="changeSelect('right', parameter, $event,0)" [items]="parameter.values"
-                      [disabled]="!addRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
-                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
-                      {{item}}
-                    </ng-select>
-                  </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Far Zone Diameter'" class="select-values col-sm-12">
-                    <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-12">
+                    <input class="form-control" type="number" min="-15.00" max="10.00" placeholder="{{ parameter.placeholder | translate }}" 
+                      (click)="validatePower(parameter)" (clear)="validatePower(parameter)" (change)="validatePower(parameter)"
                       [required]="product.eyeRight" [(ngModel)]="parameter.selected"
+                      [ngClass]="{'error-quantity':  parameter.selected && (parameter.selected < -15.00 && parameter.selected > 10.00) }"
                       [disabled]="!product.eyeRight">
                   </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Far Zone Diameter'" class="select-values col-sm-12">
-                    <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
+                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power'" class="select-values col-sm-12">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.selected"
-                      [disabled]="true" step="0.10">
+                      [disabled]="!product.eyeRight">
                   </div>
                 </div>
               </div>
             </div>
             <br>
-            <div class="col-lg-3" *ngIf="addRight">
-              <div class="row">
-                  <label class="form-check-label">{{ 'Pupillary diameter' | translate }}</label>
-              </div>
-              <div class="row">
-                <div class="select-values col-sm-12">
-                  <input class="form-control" type="number" min="1" step="0.10" [(ngModel)]="product.pupillaryRight" oninput="validity.valid||(value='');"
-                      [required]="product.eyeRight" (change)="changePupillary('right', product.pupillaryRight)">
-                </div>
-              </div>
-            </div>
           </div>
           <br>
         </div>
@@ -225,41 +185,66 @@
           </div>
         </div>
 
+        <!--files right-->
+        <div class="documents col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="">
+                <dt class="title">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>
+                <div class="custom-file">
+                  <input #selectedFilesRightEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderRightEye"
+                    [disabled]="!product.eyeRight || uploaderRightEye.queue.length > 4" multiple />
+                  <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                  <div class="invalid-feedback">Example invalid custom file feedback</div>
+                  <div class="message-error">
+                    <span translate>{{'Max files size:' | translate}} 25MB</span>
+                    <span> / </span>
+                    <span translate>{{'Maximum files number:' | translate }} 5</span>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="" style="margin-bottom: 40px" *ngIf="uploaderRightEye.queue.length > 0">
+                <div class="row justify-content-end" *ngIf="uploaderRightEye.queue.length > 1">
+                  <button type="button" class="btn btn-danger btn-s" (click)="uploaderRightEye.clearQueue()" [disabled]="!uploaderRightEye.queue.length">
+                    <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                  </button>
+                </div>
+                <br>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th width="50%">{{ 'Name' | translate }}</th>
+                      <th>{{ 'Size' | translate }}</th>
+                      <th>{{ 'Actions' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of uploaderRightEye.queue">
+                      <td><strong>{{ item?.file?.name }}</strong></td>
+                      <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td nowrap>
+                        <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Right')">
+                          <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- row (parameters left) -->
         <div class="col-lg-12 custom-control custom-checkbox">
           <!--header-->
           <input id="left" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('left')" [checked]="product.eyeLeft"
             class="custom-control-input">
           <label class="custom-control-label" for="left">{{ 'OS' }}</label>
-          <!--row header left (contamac / hydrapeg / insertors)-->
           <br>
           <br>
-          <div class="row title">{{ 'Test Set' | translate }}</div>
-          <br>
-          <div class="row">
-            <div class="col-lg-3" *ngFor="let setLeft of product.setLeft">
-              <div class="row">
-                <label class="form-check-label">{{ setLeft.name | translate }}</label>&nbsp;&nbsp;
-              </div>
-              <div class="row">
-                <div class="select-values col-sm-12" *ngIf="setLeft.type === 'selected'">
-                  <ng-select (change)="changeSelect('left', setLeft, $event,0)" [items]="setLeft.values" [disabled]="!product.eyeLeft"
-                    [required]="product.eyeLeft" [(ngModel)]="setLeft.sel" bindLabel="value" bindValue="id" placeholder="{{ 'Select value' | translate }}"
-                    [clearable]="false">
-                  </ng-select>
-                </div>
-                <!--Only Design-->
-                <div *ngIf="setLeft.type === 'input'" class="select-values param-power col-sm-12">
-                  <input class="form-control" type="text" placeholder="{{ setLeft.placeholder | translate }}"
-                    [required]="product.eyeLeft" [(ngModel)]="setLeft.selected"
-                    [disabled]=true>
-                </div>
-              </div>
-            </div>
-          </div>
-           <br>
           <div class="row title">{{ 'Parameters' | translate }}</div>
-          <br>
           <!--params left-->
           <div class="row">
             <!--quantity left-->
@@ -282,45 +267,30 @@
                 </div>
                 <!--param values-->
                 <div class="row">
-                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('left', parameter, $event,0)" [items]="parameter.values"
                       [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
-                      bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
                       {{item}}
                     </ng-select>
                   </div>
-                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Addition'" class="select-values col-sm-12">
-                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [items]="parameter.values"
-                      [disabled]="!addLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel"
-                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
-                      {{item}}
-                    </ng-select>
-                  </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Far Zone Diameter'" class="select-values col-sm-12">
-                    <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
+
+                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-12">
+                    <input class="form-control" type="number" min="-15.00" max="10.00" placeholder="{{ parameter.placeholder | translate }}" 
+                      (click)="validatePower(parameter)" (clear)="validatePower(parameter)" (change)="validatePower(parameter)"
                       [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
+                      [ngClass]="{'error-quantity':  parameter.selected && (parameter.selected < -15.00 && parameter.selected > 10.00) }"
                       [disabled]="!product.eyeLeft">
                   </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Far Zone Diameter'" class="select-values col-sm-12">
-                    <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
+                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power'" class="select-values col-sm-12">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
-                      [disabled]="true" step="0.10">
+                      [disabled]="!product.eyeLeft">
                   </div>
                 </div>
               </div>
             </div>
             <br>
-            <div class="col-lg-3" *ngIf="addLeft">
-              <div class="row">
-                  <label class="form-check-label">{{ 'Pupillary diameter' | translate }}</label>
-              </div>
-              <div class="row">
-                <div class="select-values col-sm-12">
-                  <input class="form-control" type="number" min="1" step="0.10" [(ngModel)]="product.pupillaryLeft" oninput="validity.valid||(value='');"
-                      [required]="product.eyeLeft" (change)="changePupillary('left', product.pupillaryLeft)">
-                </div>
-              </div>
-            </div>
           </div>
 
         </div>
@@ -339,8 +309,59 @@
             <br>
           </div>
         </div>
-      </div>
+      </div>     
       <br>
+      <!--files left-->
+      <div class="documents col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="">
+              <dt class="title">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>
+              <div class="custom-file">
+                <input #selectedFilesLeftEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderLeftEye"
+                  [disabled]="!product.eyeLeft || uploaderLeftEye.queue.length > 4" multiple />
+                <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                <div class="invalid-feedback">Example invalid custom file feedback</div>
+                <div class="message-error">
+                  <span translate>{{'Max files size:' | translate}} 25MB</span>
+                  <span> / </span>
+                  <span translate>{{'Maximum files number:' | translate }} 5</span>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="" style="margin-bottom: 40px" *ngIf="uploaderLeftEye.queue.length > 0">
+              <div class="row justify-content-end" *ngIf="uploaderLeftEye.queue.length > 1">
+                <button type="button" class="btn btn-danger btn-s" (click)="uploaderLeftEye.clearQueue()" [disabled]="!uploaderLeftEye.queue.length">
+                  <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                </button>
+              </div>
+              <br>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th width="50%">{{ 'Name' | translate }}</th>
+                    <th>{{ 'Size' | translate }}</th>
+                    <th>{{ 'Actions' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of uploaderLeftEye.queue">
+                    <td><strong>{{ item?.file?.name }}</strong></td>
+                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td nowrap>
+                      <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Left')">
+                        <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-md-12 buy-btns">
           <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
