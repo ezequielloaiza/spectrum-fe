@@ -195,11 +195,23 @@ export class ProductViewSynergeyesComponent implements OnInit {
   setCodeProduct(warranty) {
     const prName = this.product.codeSpectrum;
     let prCode;
+
+
+    for (let i = 0, len = this.productsCode.length; i < len; i++) {
+      let pr = this.productsCode[i];
+      if (_.includes(pr.codeSpectrum, prName) && _.includes(pr.codeSpectrum, warranty)) {
+        prCode = pr;
+        console.log('Loop is going to break.');
+        break;
+      }
+      console.log('Loop will continue.');
+    }
+    /*
     _.each(this.productsCode, function (pr) {
       if (_.includes(pr.codeSpectrum, prName) && _.includes(pr.codeSpectrum, warranty)) {
         prCode = pr;
       }
-    });
+    });*/
     console.log('prCode', prCode);
     this.productCode = prCode;
   }
