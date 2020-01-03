@@ -18,7 +18,7 @@ export class InvoiceClientQBOComponent implements OnInit {
   listInvoicesAux: Array<any> = new Array;
   model: NgbDateStruct;
   fechaSelecOrd: NgbDatepicker;
-  
+
   constructor(private invoiceClientService: InvoiceClientService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class InvoiceClientQBOComponent implements OnInit {
     this.invoiceClientService.downloadInvoiceQBO$(invoice.qboInvoiceId).subscribe(res => {
       if (res != null) {
         saveAs(res, 'invoice-qb' + invoice.docNumber + '.pdf');
-      } 
+      }
       this.spinner.hide();
     }, error => {
       this.spinner.hide();
