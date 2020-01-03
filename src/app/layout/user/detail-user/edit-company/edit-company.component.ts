@@ -185,11 +185,11 @@ export class EditCompanyComponent implements OnInit {
   save(): void {
     this.saving = true;
     if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
-      this.form.get('companyCity').setValue(this.googleService.place.address_components[0].long_name);
-    } else if (this.valorCompanyCity.description) {
-      this.form.get('companyCity').setValue(this.valorCompanyCity.description);
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.valorCompanyCity && this.valorCompanyCity.description) {
+      this.form.get('city').setValue(this.valorCompanyCity.description);
     } else {
-      this.form.get('companyCity').setValue(this.valorCompanyCity);
+      this.form.get('city').setValue(this.valorCompanyCity);
     }
     this.companyService.update$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
