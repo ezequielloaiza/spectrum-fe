@@ -10,7 +10,7 @@ this.products = [
     "descriptionShort": "My description short by Elipsys_STD",
     "description": "",
     "replacementPeriod": "Yearly",
-    "url": "http://spctinternational.com/wp-content/uploads/2019/10/Cat%C3%A1logo-synergeyes-ingl%C3%A9s.pdf",",
+    "url": "http://spctinternational.com/wp-content/uploads/2019/10/Cat%C3%A1logo-synergeyes-ingl%C3%A9s.pdf",
     "stock": 10,
     "types": [
       {
