@@ -61,6 +61,13 @@
             <a href="{{ product.url }}" target="_blank">{{ 'Download' | translate }}</a>
           </dd>
         </div>
+
+        <div class="col-md-2" *ngIf="product.idProduct==263">
+          <dt>{{ 'Duette Calculator' | translate }}</dt>
+          <dd>
+            <a href="https://ebusiness.synergeyes.com/practitioners/rxconnect/duettecal/duettecal.cfm" target="_blank">{{ 'Calculator' | translate }}</a>
+          </dd>
+        </div>
       </div>
 
       <!-- row (pacient, client, shipping address) -->
@@ -139,29 +146,35 @@
               <div>
                 <!--param name-->
                 <div class="row label">
-                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>
+                  <span *ngIf="parameter.name === 'Power'">(D)</span>
+                  <span *ngIf="parameter.name === 'Skirt Curve'">(mm)</span>
+                  <span *ngIf="parameter.name === 'Base Curve' && product.idProduct !=265" >(mm)</span>
+                  <span *ngIf="parameter.name === 'Base Curve' && product.idProduct ==265" >(μ)</span>
+                  &nbsp;&nbsp;
                 </div>
                 <!--param values-->
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
-                    <ng-select (change)="changeSelect('right', parameter, $event,0)" [items]="parameter.values"
+                    <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
                       [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
                       {{item}}
                     </ng-select>
                   </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-12">
-                    <input class="form-control" type="number" min="-15.00" max="10.00" placeholder="{{ parameter.placeholder | translate }}" 
-                      (click)="validatePower(parameter)" (clear)="validatePower(parameter)" (change)="validatePower(parameter)"
-                      [required]="product.eyeRight" [(ngModel)]="parameter.selected"
-                      [ngClass]="{'error-quantity':  parameter.selected && (parameter.selected < -15.00 && parameter.selected > 10.00) }"
-                      [disabled]="!product.eyeRight">
+
+                  <div *ngIf="parameter.type === 'input' && product.idProduct !== 265" class="select-values col-sm-12">
+                    <input class="form-control" type="number" min="7.10" max="8.30" step="0.10" placeholder="{{ parameter.placeholder | translate }}"
+                      [required]="product.eyeRight" [(ngModel)]="parameter.selected" (input)="changeSelect('right', parameter,  parameter.selected)"
+                       [disabled]="!product.eyeRight">
                   </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power'" class="select-values col-sm-12">
-                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                      [required]="product.eyeRight" [(ngModel)]="parameter.selected"
-                      [disabled]="!product.eyeRight">
+
+                  <div *ngIf="parameter.type === 'input' && product.idProduct === 265 " class="select-values col-sm-12">
+                    <input class="form-control" type="number" min="50" max="550" step="50" placeholder="{{ parameter.placeholder | translate }}"
+                      [required]="product.eyeRight" [(ngModel)]="parameter.selected" (change)="changeSelect('right', parameter,  parameter.selected)"
+                      oninput="validity.valid||(value='');" [disabled]="!product.eyeRight">
                   </div>
+
                 </div>
               </div>
             </div>
@@ -264,28 +277,29 @@
                 <!--param name-->
                 <div class="row label">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                  <span *ngIf="parameter.name === 'Power'">(D)</span>
+                  <span *ngIf="parameter.name === 'Base Curve' && product.idProduct !=265" >(mm)</span>
+                  <span *ngIf="parameter.name === 'Base Curve' && product.idProduct ==265" >(μ)</span>
                 </div>
                 <!--param values-->
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
-                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [items]="parameter.values"
+                    <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
                       [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
                       bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
                       {{item}}
                     </ng-select>
                   </div>
 
-                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-12">
-                    <input class="form-control" type="number" min="-15.00" max="10.00" placeholder="{{ parameter.placeholder | translate }}" 
-                      (click)="validatePower(parameter)" (clear)="validatePower(parameter)" (change)="validatePower(parameter)"
-                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
-                      [ngClass]="{'error-quantity':  parameter.selected && (parameter.selected < -15.00 && parameter.selected > 10.00) }"
-                      [disabled]="!product.eyeLeft">
+                  <div *ngIf="parameter.type === 'input' && product.idProduct !== 265"  class="select-values col-sm-12">
+                    <input class="form-control" type="number" min="7.10" max="8.30" step="0.10" placeholder="{{ parameter.placeholder | translate }}"
+                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected" (change)="changeSelect('left', parameter,  parameter.selected)"
+                      [disabled]="!product.eyeLeft" oninput="validity.valid||(value='');">
                   </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power'" class="select-values col-sm-12">
-                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
-                      [disabled]="!product.eyeLeft">
+                  <div *ngIf="parameter.type === 'input' && product.idProduct === 265 " class="select-values col-sm-12">
+                    <input class="form-control" type="number" min="50" max="550" step="50" placeholder="{{ parameter.placeholder | translate }}"
+                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected" (change)="changeSelect('left', parameter,  parameter.selected)"
+                      oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft">
                   </div>
                 </div>
               </div>

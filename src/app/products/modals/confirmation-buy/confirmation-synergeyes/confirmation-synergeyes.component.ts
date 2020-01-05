@@ -27,6 +27,7 @@ export class ConfirmationSynergeyesComponent implements OnInit {
 
   datos: any;
   product: any;
+  codeSpectrum: any;
   file: File;
   role: any;
   listBasket: Array<ProductRequested> = new Array;
@@ -35,7 +36,6 @@ export class ConfirmationSynergeyesComponent implements OnInit {
   namePatient: any;
   basketRequest: BasketRequest = new BasketRequest();
   buyNow: BuyNow = new BuyNow();
-  eyesSelected: any;
   typeBuy: any;
   price: any;
   user: any;
@@ -51,7 +51,6 @@ export class ConfirmationSynergeyesComponent implements OnInit {
   company: Company = new Company();
   available: any;
   additional: any;
-  quantityWarranty: any;
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
@@ -85,8 +84,6 @@ export class ConfirmationSynergeyesComponent implements OnInit {
   getDatos() {
     let patient;
     let  priceAcum = 0;
-    let eyesSelected = [];
-    let quantityW = 0;
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     _.each(this.listBasket, function (productRequested) {
@@ -95,24 +92,10 @@ export class ConfirmationSynergeyesComponent implements OnInit {
       if (productRequested.observations === undefined) {
         productRequested.observations = '';
       }
-      let details = JSON.parse(productRequested.detail);
-      _.each(details, function (detail) {
-        eyesSelected.push(detail.eye);
-        _.each(detail.parameters, function (parameters) {
-          if (parameters.name === 'Warranty') {
-            if (parameters.selected) {
-              quantityW = quantityW +  productRequested.quantity;
-            }
-          }
-         });
-      });
       productRequested.detail = JSON.parse(productRequested.detail);
     });
-    this.eyesSelected = eyesSelected;
     this.namePatient = patient;
     this.price = priceAcum;
-    this.quantityWarranty = quantityW;
-    this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
   }
 
   save(): void {

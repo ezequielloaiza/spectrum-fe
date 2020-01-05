@@ -12,19 +12,30 @@
         <div>
           <span class="title">{{ product.name }}</span>
         </div>
-        <!-- Image -->
+        <!--Image-->
         <div class="label-title">
-          <img class="img-product" src="{{ product.mainImg }}" />
+          <img class="img-product" src="{{ product.mainImg }}">
         </div>
-        <!-- Patient -->
-        <div class="col-lg-12 title label-title patient-info">
-          <span>{{ "Patient" | translate }}</span>
-          <dl>
-            <dt>{{ namePatient }}</dt>
-          </dl>
-          <dl>
-            <dt>{{ price | currency: "USD $" }}</dt>
-          </dl>
+        <div class="row">
+          <div class="col-lg-4 title label-title patient-info">
+            <span>{{ 'Spectrum code' | translate }}</span>
+            <dl>
+              <dt>{{ codeSpectrum }}</dt>
+            </dl>
+          </div>
+          <!--Patient-->
+          <div class="col-lg-4 title label-title patient-info">
+            <span>{{ 'Patient' | translate }}</span>
+            <dl>
+              <dt>{{ namePatient}}</dt>
+            </dl>
+          </div>
+          <div class="col-lg-4 title label-title patient-info">
+            <span>{{ 'Price' | translate }}</span>
+            <dl>
+              <dt>{{ price | currency : "USD $" }}</dt>
+            </dl>
+          </div>
         </div>
       </div>
       <!-- PARAMETERS -->
@@ -32,16 +43,6 @@
         <div class="row padding-params">
           <div class="col-lg-12 title eye-info">
             <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
-          </div>
-
-          <div class="col-lg-4">
-            <dl class="align-item">
-              <dt>{{ 'Spectrum code' | translate }}</dt>
-              <hr class="separators" />
-              <dl>
-                <dt class="items">{{ list.product.codeSpectrum }}</dt>
-              </dl>
-            </dl>
           </div>
 
           <div class="col-sm-12">
@@ -64,40 +65,10 @@
               <dt>{{ parameter.name | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items">{{ parameter.selected }}</dt>
+                <dt class="items" *ngIf="parameter.name !== 'Profile' && parameter.name !== 'Warranty'">{{ parameter.selected }}</dt>
+                <dt class="items" *ngIf="parameter.name === 'Profile' || parameter.name === 'Warranty'">{{ (parameter.selected == true ? 'Yes' : 'No') | translate }}</dt>
               </dl>
             </dl>
-          </div>
-          <div class="col-sm-12" *ngFor="let parameter of list.detail[0].pasos">
-            <div class="row padding-params">
-              <div class="col-sm-2">
-                  <dl class="name-parameters">
-                      <dt>{{ parameter.name | translate }}
-                          <hr class="separators" />
-                      </dt>
-                  </dl>
-              </div>
-              <div class="col-sm-5" *ngFor="let item of parameter.values">
-                <dl>
-                  <dt>{{ item.name | translate }}</dt>
-                </dl>
-                <div class="row justify-steps">
-                  <div class="col-sm-6" *ngFor="let val of item.values">
-                    <dl>
-                      <dt class="items">
-                        {{ val.name | translate }}:
-                        <span *ngIf="val.selected === true">{{
-                          "Yes" | translate
-                        }}</span>
-                        <span *ngIf="val.selected === false">{{
-                          "No" | translate
-                        }}</span>
-                      </dt>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <br />
           <!-- Comments -->

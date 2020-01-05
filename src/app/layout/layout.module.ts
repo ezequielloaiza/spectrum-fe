@@ -94,6 +94,7 @@ import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/
 import { ProtocolComponent } from './protocol/protocol.component';
 import { ProtocolProformaComponent } from './protocol/protocol-proforma/protocol-proforma.component';
 import { InvoiceClientQBOComponent } from './invoice-client-qbo/invoice-client-qbo.component';
+import { DetailSynergeyesComponent } from './basket/modals/detail-product/detail-synergeyes/detail-synergeyes.component';
 
 @NgModule({
     imports: [
@@ -195,7 +196,8 @@ import { InvoiceClientQBOComponent } from './invoice-client-qbo/invoice-client-q
         ShippingProtocolComponent,
         ProtocolComponent,
         ProtocolProformaComponent,
-        InvoiceClientQBOComponent
+        InvoiceClientQBOComponent,
+        DetailSynergeyesComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -236,7 +238,8 @@ import { InvoiceClientQBOComponent } from './invoice-client-qbo/invoice-client-q
       ChangeStatusCommissionComponent,
       ModalsShippingComponent,
       EntrustingCompanyModalComponent,
-      EntrustingCompanyComponent
+      EntrustingCompanyComponent,
+      DetailSynergeyesComponent
     ],
     providers: [
       BusinessTypeService,

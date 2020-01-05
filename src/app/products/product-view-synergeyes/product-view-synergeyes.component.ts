@@ -182,8 +182,6 @@ export class ProductViewSynergeyesComponent implements OnInit {
     this.product.eyeLeft = false;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
-    this.product.setRight = JSON.parse(this.product.types)[0].set;
-    this.product.setLeft = JSON.parse(this.product.types)[0].set;
     this.product.priceSaleRight = 0;
     this.product.priceSaleLeft = 0;
     this.product.pupillaryRight = null;
@@ -196,23 +194,13 @@ export class ProductViewSynergeyesComponent implements OnInit {
     const prName = this.product.codeSpectrum;
     let prCode;
 
-
     for (let i = 0, len = this.productsCode.length; i < len; i++) {
       let pr = this.productsCode[i];
       if (_.includes(pr.codeSpectrum, prName) && _.includes(pr.codeSpectrum, warranty)) {
         prCode = pr;
-        console.log('Loop is going to break.');
         break;
       }
-      console.log('Loop will continue.');
     }
-    /*
-    _.each(this.productsCode, function (pr) {
-      if (_.includes(pr.codeSpectrum, prName) && _.includes(pr.codeSpectrum, warranty)) {
-        prCode = pr;
-      }
-    });*/
-    console.log('prCode', prCode);
     this.productCode = prCode;
   }
 
@@ -292,9 +280,9 @@ export class ProductViewSynergeyesComponent implements OnInit {
       }
     }
 
-    if (parameter.name === 'Skirt Curve' || parameter.name === 'Power' || parameter.name === 'Base Curve') {
+    if ( parameter.name === 'Base Curve') {
       parameter.selected = this.format(value);
-    }
+    } 
   }
 
 
@@ -428,7 +416,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
 
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
-          if (parameter.name === 'Warranty') {
+          if (parameter.name === 'Warranty' || parameter.name === 'Profile') {
             parameter.selected = parameter.selected === 'Yes' ? true : false;
          }
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
@@ -442,7 +430,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
 
         /*params*/
         _.each(product.parametersLeft, function(parameter, index) {
-          if (parameter.name === 'Warranty') {
+          if (parameter.name === 'Warranty' || parameter.name === 'Profile') {
             parameter.selected = parameter.selected === 'Yes' ? true : false;
           }
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
@@ -450,11 +438,10 @@ export class ProductViewSynergeyesComponent implements OnInit {
         productSelected.parameters = product.parametersLeft;
       }
 
-      productSelected.detail = { name: product.name, eye: productSelected.eye, parameters: productSelected.parameters,
-        set: productSelected.set };
+      productSelected.detail = { name: product.name, eye: productSelected.eye, parameters: productSelected.parameters };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'set']);
     });
-
+    console.log('pS', productsSelected);
     return productsSelected;
   }
 
@@ -507,6 +494,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
       { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.codeSpectrum = this.productCode.codeSpectrum;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     modalRef.componentInstance.typeBuy = type;
@@ -624,17 +612,19 @@ export class ProductViewSynergeyesComponent implements OnInit {
   }
 
   validatePower(parameter) {
+    parameter.selected = parseFloat(parameter.selected);
     if (parameter.selected < -15.00 && parameter.selected > 10.00 ) {
       parameter.selected = 0;
     } else {
       if (parameter.selected < -8.00 || parameter.selected > 8.00) {
         if (parameter.selected % 0.5 == 0) {
-          parameter = parameter;
+          parameter.selected = this.format(parameter.selected);
         } else {
           parameter = 0;
         }
       } else {
         if (parameter.selected % 0.25 == 0) {
+          parameter.selected = this.format(parameter.selected);
           parameter = parameter;
         } else {
           parameter = 0;

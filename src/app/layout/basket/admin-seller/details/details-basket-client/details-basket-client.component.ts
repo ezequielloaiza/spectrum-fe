@@ -31,6 +31,7 @@ import { DetailLenticonComponent } from '../../../modals/detail-product/detail-l
 import { LenticonComponent } from '../../../../edit-order/lenticon/lenticon.component';
 import { ProductRequested } from '../../../../../shared/models/productrequested';
 import { ProductService } from '../../../../../shared/services/products/product.service';
+import { DetailSynergeyesComponent } from '../../../modals/detail-product/detail-synergeyes/detail-synergeyes.component';
 
 
 @Component({
@@ -529,6 +530,15 @@ export class DetailsBasketClientComponent implements OnInit {
           modalRefFluoSaline.componentInstance.basket = basket;
           modalRefFluoSaline.result.then((result) => {
             this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
+      case 9: // Synergeyes
+        const modalRefSynergeyes = this.modalService.open(DetailSynergeyesComponent,
+          { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false});
+          modalRefSynergeyes.componentInstance.basket = basket;
+          modalRefSynergeyes.result.then((result) => {
+          this.ngOnInit();
           } , (reason) => {
           });
           break;
