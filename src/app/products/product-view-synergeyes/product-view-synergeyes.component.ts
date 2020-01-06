@@ -167,8 +167,8 @@ export class ProductViewSynergeyesComponent implements OnInit {
       if (res1.code === CodeHttp.ok) {
         this.productsCode = res1.data;
         let pC = this.productsCode.filter((item) => {
-          return _.includes(item.codeSpectrum, this.product.codeSpectrum)});
-        this.productsCode = pC;
+          return _.includes(item.codeSpectrum, this.product.codeSpectrum); });
+        this.productsCode = pC.sort((a, b) => (b.idProduct > a.idProduct) ? -1 : 1);
         this.setCodeProduct('');
         console.log(this.productsCode);
       } else {
