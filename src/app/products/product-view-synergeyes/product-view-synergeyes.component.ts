@@ -150,23 +150,29 @@ export class ProductViewSynergeyesComponent implements OnInit {
     this.productService.findBySupplierInView$(9 , true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
-        console.log(this.products);
-        this.productService.findBySupplierAndInViewAndCategory$(9, false, 10).subscribe(res1 => {
-          if (res1.code === CodeHttp.ok) {
-            this.productsCode = res1.data;
-            this.setCodeProduct('(NW)');
-          } else {
-            console.log(res1.errors[0].detail);
-            this.spinner.hide();
-          }
-        }, error => {
-          console.log('error', error);
-          this.spinner.hide();
-        });
         this.getProductView();
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
+  }
+
+  getProductsCode() {
+    this.productService.findBySupplierAndInViewAndCategory$(9, false, 10).subscribe(res1 => {
+      if (res1.code === CodeHttp.ok) {
+        this.productsCode = res1.data;
+        let pC = this.productsCode.filter((item) => {
+          return _.includes(item.codeSpectrum, this.product.codeSpectrum)});
+        this.productsCode = pC;
+        this.setCodeProduct('');
+        console.log(this.productsCode);
+      } else {
+        console.log(res1.errors[0].detail);
         this.spinner.hide();
       }
     }, error => {
@@ -188,6 +194,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
     this.product.pupillaryLeft = null;
     this.setClient();
     this.setPrice();
+    this.getProductsCode();
   }
 
   setCodeProduct(warranty) {
@@ -196,7 +203,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
 
     for (let i = 0, len = this.productsCode.length; i < len; i++) {
       let pr = this.productsCode[i];
-      if (_.includes(pr.codeSpectrum, prName) && _.includes(pr.codeSpectrum, warranty)) {
+      if (_.includes(pr.codeSpectrum, prName ) && _.includes(pr.codeSpectrum, warranty)) {
         prCode = pr;
         break;
       }
@@ -279,10 +286,6 @@ export class ProductViewSynergeyesComponent implements OnInit {
         this.definePrice(this.client.membership.idMembership);
       }
     }
-
-    if ( parameter.name === 'Base Curve') {
-      parameter.selected = this.format(value);
-    } 
   }
 
 
@@ -441,7 +444,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
       productSelected.detail = { name: product.name, eye: productSelected.eye, parameters: productSelected.parameters };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'set']);
     });
-    console.log('pS', productsSelected);
+
     return productsSelected;
   }
 
@@ -579,7 +582,6 @@ export class ProductViewSynergeyesComponent implements OnInit {
     }
     if (this.uploaderRightEye.queue) {
       _.each(this.uploaderRightEye.queue, function (item) {
-        console.log('here', item);
         item.upload();
       });
     }

@@ -59,7 +59,6 @@ export class SynergeyesComponent implements OnInit {
       this.membership = this.userOrder.membership.idMembership;
     }
     this.detail = this.productRequested.detail[0];
-    console.log(this.productRequested);
     this.product = this.productRequested.product;
     this.productCode = this.productRequested.product;
     this.getProductsCode();
