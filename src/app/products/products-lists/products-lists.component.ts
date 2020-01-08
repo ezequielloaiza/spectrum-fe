@@ -71,6 +71,10 @@ export class ProductsListsComponent implements OnInit {
                 return u;
               case 7: // Fluo Strips y Spectrum Saline
                 return u;
+              case 9: // Synergeyes
+                return u;
+              case 10: // Orion
+                return u;
             }
           });
           this.getSuppliers();
