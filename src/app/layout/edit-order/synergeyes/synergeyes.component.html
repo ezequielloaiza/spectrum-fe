@@ -63,7 +63,7 @@
               <dl>
                 <dt>
                   <div *ngIf="parameter.type === 'selected'">
-                    <ng-select class="display-row" (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected"
+                    <ng-select class="display-row" (change)="changeSelect(detail.eye, parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected"
                                 bindValue="item" placeholder="{{ 'Select value' | translate }}" required>
                       <ng-template ng-label-tmp let-item="item">
                         <div class="supplier-body">
@@ -76,14 +76,6 @@
                         </div>
                       </ng-template>
                     </ng-select>
-                  </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name !=='Axes (º)'" class="separator">
-                    <input class="form-control col-sm-12" type="number" min="00.00" step="00.01" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(parameter, parameter.selected)"
-                      oninput="validity.valid||(value='');" required>
-                  </div>
-                  <div *ngIf="parameter.type === 'input' && parameter.name ==='Axes (º)'" class="separator">
-                    <input class="form-control col-sm-12" type="number" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(parameter, parameter.selected)"
-                      oninput="validity.valid||(value='');" required>
                   </div>
                 </dt>
               </dl>

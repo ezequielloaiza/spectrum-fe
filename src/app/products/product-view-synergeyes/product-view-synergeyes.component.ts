@@ -170,7 +170,6 @@ export class ProductViewSynergeyesComponent implements OnInit {
           return _.includes(item.codeSpectrum, this.product.codeSpectrum); });
         this.productsCode = pC.sort((a, b) => (b.idProduct > a.idProduct) ? -1 : 1);
         this.setCodeProduct('');
-        console.log(this.productsCode);
       } else {
         console.log(res1.errors[0].detail);
         this.spinner.hide();
@@ -209,14 +208,21 @@ export class ProductViewSynergeyesComponent implements OnInit {
       }
     }
     this.productCode = prCode;
+    if (this.productCode) {
+      this.product.price1 = this.productCode.price1;
+      this.product.price2 = this.productCode.price2;
+      this.product.price3 = this.productCode.price3;
+    }
   }
 
   setClient() {
     if (this.user.role.idRole === 3) {
-      this.client = this.currentUser.idUser;
+      this.client = this.currentUser;
+      this.membership = this.currentUser.membership;
       const accSpct = !!this.currentUser.accSpct ?  this.currentUser.accSpct + ' - ' : '';
       this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
-      this.findShippingAddress(this.client);
+      this.findShippingAddress(this.client.idUser);
+      this.definePrice(this.membership.idMembership);
     } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -270,6 +276,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
         } else {
           this.warrantyRight = false;
           this.setCodeProduct('(NW)');
+          console.log()
         }
       }
 

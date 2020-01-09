@@ -105,7 +105,6 @@ export class ConfirmationSynergeyesComponent implements OnInit {
       this.basketRequest.productRequestedList = this.lista;
       this.basketRequest.listFileRightEye = this.listFileRightEye;
       this.basketRequest.listFileLeftEye = this.listFileLeftEye;
-      console.log(this.basketRequest);
       this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
         if (res.code === CodeHttp.ok) {
             this.save_success = true;
