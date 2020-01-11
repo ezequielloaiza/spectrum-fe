@@ -26,5 +26,6 @@ export enum RoleUser {
   ProtocolProforma,
   InitialsProtocols,
   ChangePassword,
-  ProductViewSynergeyesComponent
+  ProductViewSynergeyesComponent,
+  ProductViewOrionComponent
 }

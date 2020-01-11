@@ -41,6 +41,7 @@ import { EditProductMedmontComponent } from './modals/edit-product/edit-product-
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { ProductViewSynergeyesComponent } from './product-view-synergeyes/product-view-synergeyes.component';
 import { ConfirmationSynergeyesComponent } from './modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component';
+import { ProductViewOrionComponent } from './product-view-orion/product-view-orion.component';
 
 @NgModule({
   imports: [
@@ -86,7 +87,8 @@ import { ConfirmationSynergeyesComponent } from './modals/confirmation-buy/confi
     ProductViewMedmontComponent,
     EditProductMedmontComponent,
     ProductViewSynergeyesComponent,
-    ConfirmationSynergeyesComponent
+    ConfirmationSynergeyesComponent,
+    ProductViewOrionComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
