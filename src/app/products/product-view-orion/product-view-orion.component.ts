@@ -80,11 +80,10 @@ export class ProductViewOrionComponent implements OnInit {
     const productCode = this.product.codeSpectrum;
     const productCategory = this.product.category;
     let prCode;
-    this.productService.findBySupplierAndInViewAndCategory$(8, false, productCategory.idCategory).subscribe(res => {
+    this.productService.findBySupplierAndInViewAndCategory$(10, false, productCategory.idCategory).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.productsCode = res.data;
         _.each(this.productsCode, function (pr) {
-          console.log(_.includes(pr.codeSpectrum, productCode));
           if (_.includes(pr.codeSpectrum, productCode)) {
             prCode = pr;
           }
@@ -109,7 +108,6 @@ export class ProductViewOrionComponent implements OnInit {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
           this.listCustomers = this.listCustomersAux;
-          //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.country.name + ' ' + i.name; return i; });
           this.listCustomers.map((i) => {
             let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
             i.fullName = accSpct + i.name + ' | ' + i.country.name;
@@ -146,21 +144,6 @@ export class ProductViewOrionComponent implements OnInit {
     });
   }
 
-
-  openModal(type): void {
-    /*const modalRef = this.modalService.open( ConfirmationSpectrumSalineComponent, { size: 'lg', windowClass: 'modal-content-border' });
-    modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.product;
-    modalRef.componentInstance.listFileBasket = this.listFileBasket;
-    modalRef.componentInstance.role = this.user.role.idRole;
-    modalRef.componentInstance.typeBuy = type;
-    modalRef.componentInstance.view = 2; // fluo strips
-    modalRef.result.then((result) => {
-      this.ngOnInit();
-    } , (reason) => {
-    });*/
-  }
-
   formIsValid() {
     let isValid = true;
     if (this.client === '' || this.client === undefined) {
@@ -170,7 +153,6 @@ export class ProductViewOrionComponent implements OnInit {
   }
 
   getQuote() {
-
     this.translate.get('Confirm quote', {value: 'Confirm quote'}).subscribe((title: string) => {
       this.translate.get('Are you sure you want to get a quote?',
        {value: 'Are you sure you want to get a quote?'}).subscribe((msg: string) => {
@@ -192,6 +174,5 @@ export class ProductViewOrionComponent implements OnInit {
           }, () => {});
         });
       });
-
   }
 }

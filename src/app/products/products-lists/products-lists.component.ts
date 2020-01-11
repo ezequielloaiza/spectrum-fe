@@ -148,8 +148,11 @@ export class ProductsListsComponent implements OnInit {
         case 7: // Fluo Strips y spectrum saline
           supplier.image = 'assets/images/suppliers/spectrum_products.jpg';
           break
-        case 9: // Fluo Strips y spectrum saline
+        case 9: // Synergeyes
           supplier.image = 'assets/images/suppliers/synergeyes.png';
+          break
+        case 10: // Orion
+          supplier.image = 'assets/images/suppliers/orion.png';
           break
       }
     });
@@ -179,6 +182,7 @@ export class ProductsListsComponent implements OnInit {
         case 4:  //euclid
         case 7: //fluo strips y saline spectrum 
         case 9:  //synergeyes
+        case 10:  //orion
           this.router.navigate(['/products/' + idSupplier + '/internal']);
           break;
         case 5: //magic look
