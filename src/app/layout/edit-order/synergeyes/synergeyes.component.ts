@@ -72,6 +72,10 @@ export class SynergeyesComponent implements OnInit {
     this.productService.findBySupplierAndInViewAndCategory$(9, false, 10).subscribe(res1 => {
       if (res1.code === CodeHttp.ok) {
         this.productsCode = res1.data;
+        let pC = this.productsCode.filter((item) => {
+          return _.includes(item.name, this.product.name); });
+        this.productsCode = pC.sort((a, b) => (b.idProduct > a.idProduct) ? -1 : 1);
+        this.setCodeProduct('');
       } else {
         console.log(res1.errors[0].detail);
         this.spinner.hide();
@@ -83,17 +87,23 @@ export class SynergeyesComponent implements OnInit {
   }
 
   setCodeProduct(warranty) {
-    const prName = this.product.codeSpectrum;
+    const prName = this.product.name;
     let prCode;
 
     for (let i = 0, len = this.productsCode.length; i < len; i++) {
       let pr = this.productsCode[i];
-      if (_.includes(pr.codeSpectrum, prName) && _.includes(pr.codeSpectrum, warranty)) {
+      if (_.includes(pr.name, prName) && _.includes(pr.codeSpectrum, warranty)) {
         prCode = pr;
         break;
       }
     }
     this.productCode = prCode;
+
+    if (this.productCode) {
+      this.product.price1 = this.productCode.price1;
+      this.product.price2 = this.productCode.price2;
+      this.product.price3 = this.productCode.price3;
+    }
   }
 
   close() {
@@ -126,7 +136,7 @@ export class SynergeyesComponent implements OnInit {
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
     if (parameter.name === 'Warranty') {
-      if (eye === 'right') {
+      if (eye === 'Right') {
         if (parameter.selected === 'Yes') {
           this.warrantyRight = true;
           this.setCodeProduct('(W)' );
@@ -136,7 +146,7 @@ export class SynergeyesComponent implements OnInit {
         }
       }
 
-      if (eye === 'left') {
+      if (eye === 'Left') {
         if (parameter.selected === 'Yes') {
           this.warrantyLeft = true;
           this.setCodeProduct('(W)');
@@ -145,14 +155,11 @@ export class SynergeyesComponent implements OnInit {
           this.setCodeProduct('(NW)');
         }
       }
-      if (this.client) {
-        this.definePrice(this.client.membership.idMembership);
+      if (this.membership) {
+        this.definePrice(this.membership);
       }
     }
 
-    if ( parameter.name === 'Base Curve') {
-      parameter.selected = this.format(value);
-    }
   }
 
 
@@ -202,12 +209,15 @@ export class SynergeyesComponent implements OnInit {
     switch (membership) {
       case 1:
         this.product.priceSale = this.product.price1;
+        this.price = this.product.price1;
         break;
       case 2:
         this.product.priceSale = this.product.price2;
+        this.price = this.product.price2;
         break;
       case 3:
         this.product.priceSale = this.product.price3;
+        this.price = this.product.price3;
         break;
     }
   }

@@ -71,6 +71,10 @@ export class ProductsListsComponent implements OnInit {
                 return u;
               case 7: // Fluo Strips y Spectrum Saline
                 return u;
+              case 9: // Synergeyes
+                return u;
+              case 10: // Orion
+                return u;
             }
           });
           this.getSuppliers();
@@ -85,7 +89,6 @@ export class ProductsListsComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         const suppliersId = [1, 2, 3, 4, 5, 6, 7, 9, 10];
         this.listSupplierFilter = res.data;
-        console.log(res.data);
         if (this.user.role.idRole === 3) {
           if (this.user.userResponse.membership.idMembership !== 2) {
             this.listSupplier = _.remove(this.listSupplier, function (supplier) {

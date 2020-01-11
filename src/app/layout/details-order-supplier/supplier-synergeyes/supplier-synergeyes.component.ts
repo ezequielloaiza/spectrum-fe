@@ -8,6 +8,7 @@ import { UserStorageService } from '../../../http/user-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../../../shared/services';
 import { SynergeyesComponent } from '../../edit-order/synergeyes/synergeyes.component';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-supplier-synergeyes',
