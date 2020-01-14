@@ -276,7 +276,6 @@ export class ProductViewSynergeyesComponent implements OnInit {
         } else {
           this.warrantyRight = false;
           this.setCodeProduct('(NW)');
-          console.log()
         }
       }
 
@@ -364,6 +363,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
   onSelectedClient(clientSelect) {
     if (clientSelect !== undefined) {
       this.client = clientSelect;
+      this.membership = this.client.membership;
       this.findShippingAddress(this.client.idUser);
       this.definePrice(clientSelect.membership.idMembership);
     } else {
@@ -413,11 +413,12 @@ export class ProductViewSynergeyesComponent implements OnInit {
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.productCopy;
-    let productCode = this.productCode;
     let productsSelected = this.productsSelected;
-    _.each(productsSelected, function(productSelected, index) {
+    let warrantyLeft = this.warrantyLeft;
+    let warrantyRight = this.warrantyRight;
+    const membership = this.membership.idMembership;
+    _.each(productsSelected, function(this, productSelected, index) {
 
-      productSelected.id = productCode.idProduct;
       productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
       if (productSelected.eye === "Right") {
@@ -451,8 +452,53 @@ export class ProductViewSynergeyesComponent implements OnInit {
       productSelected.detail = { name: product.name, eye: productSelected.eye, parameters: productSelected.parameters };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'set']);
     });
+    // add products code
+    const auxList = JSON.parse(JSON.stringify(productsSelected));
+    const auxproductsSelected = [];
+    const productsCode = this.productsCode;
+    let context = this;
+
+    _.each(auxList, function (productAux, index: number) {
+      const productH = JSON.parse(JSON.stringify(productAux));
+      let prCode: any;
+      let warrant = '';
+
+      if (productH.detail.eye === 'Left') {
+        warrant = warrantyLeft ? '(W)' : '(NW)';
+      } else if (productH.detail.eye === 'Right') {
+        warrant = warrantyRight ? '(W)' : '(NW)';
+      }
+
+      for (let i = 0, len = productsCode.length; i < len; i++) {
+        let pr = productsCode[i];
+        if (_.includes(pr.codeSpectrum, warrant )) {
+          prCode = pr;
+          break;
+        }
+      }
+
+      const priceSale = context.definePriceProduct(membership, prCode);
+      productH.id = prCode.idProduct;
+      productH.name = prCode.name;
+      productH.price = priceSale;
+      productH.codeSpectrum = prCode.codeSpectrum;
+      auxproductsSelected.push(productH);
+    });
+
+    productsSelected = auxproductsSelected;
 
     return productsSelected;
+  }
+
+  definePriceProduct(membership, prCode) {
+    switch (membership) {
+      case 1:
+        return prCode.price1;
+      case 2:
+        return prCode.price2;
+      case 3:
+        return prCode.price3;
+    }
   }
 
   formIsValid() {
@@ -504,7 +550,6 @@ export class ProductViewSynergeyesComponent implements OnInit {
       { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
-    modalRef.componentInstance.codeSpectrum = this.productCode.codeSpectrum;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     modalRef.componentInstance.typeBuy = type;
@@ -519,13 +564,14 @@ export class ProductViewSynergeyesComponent implements OnInit {
     this.type = type;
     this.spinner.show();
     this.productCopy = JSON.parse(JSON.stringify(this.product));
-    this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
+    this.saveFiles();
     _.each(productsSelected, function (product) {
       const productRequest: ProductRequested = new ProductRequested();
       const productoSelect: Product = new Product();
       productoSelect.idProduct = product.id;
+      productoSelect.codeSpectrum = product.codeSpectrum;
       productRequest.product = productoSelect;
       productRequest.quantity = product.quantity;
       productRequest.price = product.price;

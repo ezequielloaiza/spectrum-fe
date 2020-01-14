@@ -17,20 +17,14 @@
           <img class="img-product" src="{{ product.mainImg }}">
         </div>
         <div class="row">
-          <div class="col-lg-4 title label-title patient-info">
-            <span>{{ 'Spectrum code' | translate }}</span>
-            <dl>
-              <dt>{{ codeSpectrum }}</dt>
-            </dl>
-          </div>
           <!--Patient-->
-          <div class="col-lg-4 title label-title patient-info">
+          <div class="col-lg-6 title label-title patient-info">
             <span>{{ 'Patient' | translate }}</span>
             <dl>
               <dt>{{ namePatient}}</dt>
             </dl>
           </div>
-          <div class="col-lg-4 title label-title patient-info">
+          <div class="col-lg-6 title label-title patient-info">
             <span>{{ 'Price' | translate }}</span>
             <dl>
               <dt>{{ price | currency : "USD $" }}</dt>
@@ -41,10 +35,15 @@
       <!-- PARAMETERS -->
       <div class="col-lg-12" *ngFor="let list of listBasket">
         <div class="row padding-params">
-          <div class="col-lg-12 title eye-info">
+          <div class="col-lg-6 title label-title eye-info">
             <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
-
+          <div class="col-lg-6 title label-title patient-info">
+            <span>{{ 'Spectrum code' | translate }}</span>
+            <dl>
+              <dt>{{ list.product.codeSpectrum }}</dt>
+            </dl>
+          </div>
           <div class="col-sm-12">
             <div class="parameters">{{ "Parameters" | translate }}:</div>
           </div>
@@ -53,7 +52,7 @@
               <dt>{{ "Quantity" | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items">{{ listBasket[0].quantity }}</dt>
+                <dt class="items">{{ list.quantity }}</dt>
               </dl>
             </dl>
           </div>
