@@ -34,6 +34,9 @@ export class ProductViewSynergeyesComponent implements OnInit {
   id: any;
   parameters: any;
   quantity = 1;
+  priceAcum = 0;
+  priceLeft = 0;
+  priceRight = 0;
   order: any;
   productsSelected: Array<any> = new Array;
   currentUser: any;
@@ -288,10 +291,23 @@ export class ProductViewSynergeyesComponent implements OnInit {
           this.setCodeProduct('(NW)');
         }
       }
+
       if (this.client) {
         this.definePrice(this.client.membership.idMembership);
+        if (eye === 'right') {
+          this.product.priceSaleRight = this.product.priceSale;
+        } else if (eye === 'left') {
+          this.product.priceSaleLeft = this.product.priceSale;
+        }
+        this.priceAcum = ((this.product.quantityLeft ? (this.product.quantityLeft * this.product.priceSaleLeft) : 0)
+        + (this.product.quantityRight ? (this.product.quantityRight * this.product.priceSaleRight) : 0));
       }
     }
+  }
+
+  updatePriceSale() {
+    this.priceAcum = ((this.product.quantityLeft ? (this.product.quantityLeft * this.product.priceSaleLeft) : 0)
+        + (this.product.quantityRight ? (this.product.quantityRight * this.product.priceSaleRight) : 0));
   }
 
 
@@ -420,10 +436,10 @@ export class ProductViewSynergeyesComponent implements OnInit {
     _.each(productsSelected, function(this, productSelected, index) {
 
       productSelected.patient = product.patient;
-      productSelected.price = product.priceSale;
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
+        productSelected.price = product.priceSaleRight;
 
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
@@ -437,6 +453,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
       }
       if (productSelected.eye === "Left") {
         productSelected.quantity = product.quantityLeft;
+        productSelected.price = product.priceSaleLeft;
         productSelected.observations = product.observationsLeft;
 
         /*params*/

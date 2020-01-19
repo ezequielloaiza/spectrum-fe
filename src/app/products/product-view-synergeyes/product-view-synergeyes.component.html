@@ -104,8 +104,8 @@
           </div>
         </div>
         <div class="col-lg-1">
-          <h5 class="padding-price" [hidden]="product.priceSale === ''">
-            <span>{{ product.priceSale | currency : "USD $" }}</span>
+          <h5 class="padding-price" [hidden]="priceAcum === 0">
+            <span>{{ priceAcum | currency : "USD $" }}</span>
           </h5>
         </div>
       </div>
@@ -138,7 +138,7 @@
               <div class="row">
                 <div class="select-values col-sm-12">
                   <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
-                     [required]="product.eyeRight"  [disabled]="!product.eyeRight" min="1">
+                     [required]="product.eyeRight"  [disabled]="!product.eyeRight" (change)="updatePriceSale()" min="1">
                 </div>
               </div>
             </div>

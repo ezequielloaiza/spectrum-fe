@@ -117,9 +117,9 @@
               <div class="row row-height align-row">
                 <div class="col-xl-6 address-top">
                   <!--<label class="address-client">{{pilot ? invoice.user.name : order.nameUser}}</label>-->
-                  <label *ngIf="pilot && viewCopy" class="address-client">{{ invoice.invoiceProtocolClientResponse.businessName !== null ? invoice.invoiceProtocolClientResponse.businessName : invoice.user.company.companyName }}</label>
+                  <label *ngIf="pilot && viewCopy" class="address-client">{{ invoice.invoiceProtocolClientResponse.businessName !== null ? invoice.invoiceProtocolClientResponse.businessName : invoice.customer == null ? invoice.user.company.companyName : invoice.customer }}</label>
                   <label *ngIf="pilot && viewOriginal" class="address-client">{{ invoice.customer == null ? invoice.user?.name : invoice.customer }}</label>
-                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ (invShippingProtocol.businessName && editBusinessName) ? invShippingProtocol.businessName : invoice.user.company.companyName }}"
+                  <input *ngIf="!pilot" type="text" class="form-control customer" value="{{ (invShippingProtocol.businessName && editBusinessName) ? invShippingProtocol.businessName : invoice.customer == null ? invoice.user.company.companyName : invoice.customer }}"
                   (change)="updateCustomer($event)" required>
                 </div>
                 <div class="col-xl-6 address-spectrum">
