@@ -131,7 +131,6 @@ export class ConfirmationSynergeyesComponent implements OnInit {
       this.buyNow.idRole = this.role;
       this.buyNow.listFileRightEye = this.listFileRightEye;
       this.buyNow.listFileLeftEye = this.listFileLeftEye;
-      console.log(this.buyNow);
       this.validateAvailableBalance();
       if (this.available) {
           this.spinner.show();
