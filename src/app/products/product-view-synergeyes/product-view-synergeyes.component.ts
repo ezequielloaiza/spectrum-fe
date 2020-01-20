@@ -473,7 +473,6 @@ export class ProductViewSynergeyesComponent implements OnInit {
     const auxList = JSON.parse(JSON.stringify(productsSelected));
     const auxproductsSelected = [];
     const productsCode = this.productsCode;
-    let context = this;
 
     _.each(auxList, function (productAux, index: number) {
       const productH = JSON.parse(JSON.stringify(productAux));
@@ -494,10 +493,8 @@ export class ProductViewSynergeyesComponent implements OnInit {
         }
       }
 
-      const priceSale = context.definePriceProduct(membership, prCode);
       productH.id = prCode.idProduct;
       productH.name = prCode.name;
-      productH.price = priceSale;
       productH.codeSpectrum = prCode.codeSpectrum;
       auxproductsSelected.push(productH);
     });
