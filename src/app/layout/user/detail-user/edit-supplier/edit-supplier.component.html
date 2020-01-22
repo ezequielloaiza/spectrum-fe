@@ -56,7 +56,7 @@
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
           <div class="supplier-body">
             <h5 [ngOptionHighlight]="search">{{ item.companyName }}</h5>
-            <h6>{{ item.city }} {{ item.country }}</h6>
+            <h6>{{ item.city }} {{ item.country.name }}</h6>
             <div>
               <i class="fa fa-envelope" aria-hidden="true"></i>
               <p>{{ item.email }}</p>

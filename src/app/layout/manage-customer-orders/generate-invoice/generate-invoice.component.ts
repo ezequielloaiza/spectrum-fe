@@ -404,7 +404,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.total = this.order.total;
     this.invoice.idUser = this.order.user.idUser;
     this.invoice.deliverTo = this.order.nameUser;
-    this.invoice.customer = this.order.nameUser;
+    this.invoice.customer = this.order.user.company.companyName;
     this.invoice.original = false;
     this.invoice.shippingInstructions = (this.order.user.company.shippingInstructions ?
       this.order.user.company.shippingInstructions : 'No Instructions Shipping');
@@ -433,7 +433,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.original.total = order.total;
     this.original.idUser = order.user.idUser;
     this.original.deliverTo = order.nameUser;
-    this.original.customer = order.nameUser;
+    this.original.customer = order.user.company.companyName;
     this.original.original = true;
     this.original.shippingInstructions = (order.user.company.shippingInstructions ?
       order.user.company.shippingInstructions : 'No Instructions Shipping');
