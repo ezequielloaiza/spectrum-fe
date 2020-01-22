@@ -374,6 +374,8 @@ export class ProductViewSynergeyesComponent implements OnInit {
     } else {
       this.product.parametersLeft = parameters;
     }
+
+    this.updatePriceSale();
   }
 
   onSelectedClient(clientSelect) {
