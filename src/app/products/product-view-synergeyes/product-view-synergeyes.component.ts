@@ -54,7 +54,6 @@ export class ProductViewSynergeyesComponent implements OnInit {
   warrantyLeft = false;
   download = false;
   type: any;
-  lang: any;
   urlSynergeyes: any;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
@@ -170,13 +169,11 @@ export class ProductViewSynergeyesComponent implements OnInit {
 
   getUrl() {
     const lang = this.userStorageService.getLanguage();
-    console.log('lang', this.lang);
     if (lang === 'en') {
       this.urlSynergeyes = JSON.parse(this.product.url)[0].en;
     } else {
       this.urlSynergeyes = JSON.parse(this.product.url)[0].es;
     }
-    console.log(this.urlSynergeyes);
     return this.urlSynergeyes;
   }
 
