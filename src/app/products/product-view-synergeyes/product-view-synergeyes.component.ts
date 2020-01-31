@@ -155,6 +155,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
         this.products = res.data;
         this.getProductView();
         this.spinner.hide();
+        this.getUrl();
       } else {
         console.log(res.errors[0].detail);
         this.spinner.hide();
@@ -163,6 +164,11 @@ export class ProductViewSynergeyesComponent implements OnInit {
       console.log('error', error);
       this.spinner.hide();
     });
+  }
+
+  getUrl() {
+    const lang = this.userStorageService.getLanguage();
+    return lang === 'en' ? JSON.parse(this.product.url)[0].en : JSON.parse(this.product.url)[0].es;
   }
 
   getProductsCode() {
