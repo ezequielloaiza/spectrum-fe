@@ -13,6 +13,8 @@ import { ProductViewFluoStripsComponent } from './product-view-fluo-strips/produ
 import { ProductViewSpectrumSalineComponent } from './product-view-spectrum-saline/product-view-spectrum-saline.component';
 import { ProductViewLenticonComponent } from './product-view-lenticon/product-view-lenticon.component';
 import { ProductViewMedmontComponent } from './product-view-medmont/product-view-medmont.component';
+import { ProductViewSynergeyesComponent } from './product-view-synergeyes/product-view-synergeyes.component';
+import { ProductViewOrionComponent } from './product-view-orion/product-view-orion.component';
 
 const routes: Routes = [
   {
@@ -31,6 +33,8 @@ const routes: Routes = [
         { path: ':id/product-view-spectrum-saline', component: ProductViewSpectrumSalineComponent, data: { option: 'ProductsViewSpectrumSaline' }},
         { path: ':id/product-view-lenticon', component: ProductViewLenticonComponent, data: { option: 'ProductsViewLenticon' }},
         { path: ':id/product-view-medmont', component: ProductViewMedmontComponent, data: { option: 'ProductViewMedmontComponent' }},
+        { path: ':id/product-view-synergeyes', component: ProductViewSynergeyesComponent, data: { option: 'ProductViewSynergeyesComponent' }},
+        { path: ':id/product-view-orion', component: ProductViewOrionComponent, data: { option: 'ProductViewOrionComponent' }}
     ] , data: { option: 'ProductsList' }
 }
 
