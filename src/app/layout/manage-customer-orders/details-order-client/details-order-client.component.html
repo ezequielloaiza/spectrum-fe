@@ -247,6 +247,9 @@
           <!--Blue Light-->
           <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventBlue)="refresh($event, order)" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
+          <!--Synergeyes-->
+          <app-supplier-synergeyes [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventSynergeyes)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 9"></app-supplier-synergeyes>
+          <!--Fin Synergeyes-->
         </div>
       </div>
     </div>

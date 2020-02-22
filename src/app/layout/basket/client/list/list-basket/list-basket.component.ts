@@ -29,6 +29,8 @@ import { DetailLenticonComponent } from '../../../modals/detail-product/detail-l
 import { LenticonComponent } from '../../../../edit-order/lenticon/lenticon.component';
 import { ProductService } from '../../../../../shared/services/products/product.service';
 import { ProductRequested } from '../../../../../shared/models/productrequested';
+import { DetailSynergeyesComponent } from '../../../modals/detail-product/detail-synergeyes/detail-synergeyes.component';
+import { SynergeyesComponent } from '../../../../edit-order/synergeyes/synergeyes.component';
 
 @Component({
   selector: 'app-list-basket',
@@ -483,6 +485,15 @@ export class ListBasketComponent implements OnInit {
         } , (reason) => {
         });
         break;
+      case 9: // Synergeyes
+        const modalRefSynergeyes = this.modalService.open(DetailSynergeyesComponent,
+          { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false});
+          modalRefSynergeyes.componentInstance.basket = basket;
+          modalRefSynergeyes.result.then((result) => {
+          this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
      }
   }
 
@@ -555,6 +566,16 @@ export class ListBasketComponent implements OnInit {
         modalRefSalineFluo.componentInstance.basket = basket;
         modalRefSalineFluo.componentInstance.typeEdit = 1;
         modalRefSalineFluo.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
+    case 9: // Synergeyes
+        const modalRefSynergeyes = this.modalService.open( SynergeyesComponent,
+        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+        modalRefSynergeyes.componentInstance.basket = basket;
+        modalRefSynergeyes.componentInstance.typeEdit = 1;
+        modalRefSynergeyes.result.then((result) => {
           this.ngOnInit();
         } , (reason) => {
         });
