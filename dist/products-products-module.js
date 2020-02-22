@@ -2391,6 +2391,312 @@ var ConfirmationSpectrumSalineComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.html":
+/*!*****************************************************************************************************************!*\
+  !*** ./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.html ***!
+  \*****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ \"Confirm purchase\" | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!-- Image -->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!--Image-->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\">\n        </div>\n        <div class=\"row\">\n          <!--Patient-->\n          <div class=\"col-lg-6 title label-title patient-info\">\n            <span>{{ 'Patient' | translate }}</span>\n            <dl>\n              <dt>{{ namePatient}}</dt>\n            </dl>\n          </div>\n          <div class=\"col-lg-6 title label-title patient-info\">\n            <span>{{ 'Price' | translate }}</span>\n            <dl>\n              <dt>{{ price | currency : \"USD $\" }}</dt>\n            </dl>\n          </div>\n        </div>\n      </div>\n      <!-- PARAMETERS -->\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-6 title label-title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n          <div class=\"col-lg-6 title label-title patient-info\">\n            <span>{{ 'Spectrum code' | translate }}</span>\n            <dl>\n              <dt>{{ list.product.codeSpectrum }}</dt>\n            </dl>\n          </div>\n          <div class=\"col-sm-12\">\n            <div class=\"parameters\">{{ \"Parameters\" | translate }}:</div>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Quantity\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.quantity }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div\n            class=\"col-sm-3\"\n            *ngFor=\"let parameter of list.detail[0].parameters\"\n          >\n            <dl class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\" *ngIf=\"parameter.name !== 'Profile' && parameter.name !== 'Warranty'\">{{ parameter.selected }}</dt>\n                <dt class=\"items\" *ngIf=\"parameter.name === 'Profile' || parameter.name === 'Warranty'\">{{ (parameter.selected == true ? 'Yes' : 'No') | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <br />\n          <!-- Comments -->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{ \"Comments\" | translate }}</dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations ==='' || list.observations === null\">\n                      <span translate>{{'No comments' | translate}}</span>\n                    </dl>\n                  <dl>\n                    <span style=\"overflow-x: hidden;\">\n                      {{ list.observations }}</span\n                    >\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!-- FIN PARAMETERS -->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">\n      {{ \"Cancel\" | translate }}&nbsp; <i class=\"fa fa-times\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 2\"\n    >\n      {{ \"Save\" | translate }}&nbsp; <i class=\"fa fa-save\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 1\"\n    >\n      {{ \"Buy\" | translate }}&nbsp; <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description }}\n  </ng-template>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.scss":
+/*!*****************************************************************************************************************!*\
+  !*** ./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.scss ***!
+  \*****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.body {\n  overflow-y: auto; }\n.list-basket {\n  max-height: 630px;\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.list-basket .main-info {\n    text-align: center; }\n.list-basket .img-product {\n    width: 40%;\n    border-radius: 12px;\n    margin-top: 1em; }\n.list-basket .display-row {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between; }\n.list-basket .display-price {\n    -webkit-box-pack: center;\n            justify-content: center; }\n.list-basket .padding-params {\n    padding: 0 2em 1em; }\n.list-basket .padding-params .parameters {\n      color: #868e96;\n      margin-left: 1.8rem;\n      margin-bottom: 0.1rem;\n      font-weight: 600;\n      padding-top: 1rem; }\n.list-basket .padding-params .justify-steps {\n      -webkit-box-pack: center;\n              justify-content: center; }\n.list-basket .padding-params .justify-steps > div:nth-child(2) {\n        padding-left: 0; }\n.list-basket .padding-params .name-parameters {\n      padding-left: 1rem;\n      color: #868e96;\n      padding-top: 0.5rem; }\n.list-basket .padding-params .comment {\n      color: #868e96;\n      padding: 0 1.5em; }\n.list-basket .params {\n    padding-top: 1em; }\n.list-basket .params .separator {\n      margin-bottom: 1em; }\n.list-basket .title {\n    font-weight: 600; }\n.list-basket .label-title {\n    padding-top: 1.5em; }\n.list-basket .patient-info {\n    padding-bottom: 1.5em; }\n.list-basket .eye-info {\n    color: #868e96;\n    padding-bottom: 2em;\n    text-align: center; }\n.list-basket .align-item {\n    text-align: center; }\n.list-basket .items {\n    color: #868e96; }\n.list-basket .comments {\n    padding: 0 2.5em; }\n.list-basket .separators {\n    border-top: 1.5px solid rgba(0, 0, 0, 0.1);\n    margin-top: 0.5rem;\n    margin-bottom: 0.5rem; }\n.list-basket .param {\n    color: #f8ac59; }\n"
+
+/***/ }),
+
+/***/ "./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.ts":
+/*!***************************************************************************************************************!*\
+  !*** ./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.ts ***!
+  \***************************************************************************************************************/
+/*! exports provided: ConfirmationSynergeyesComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmationSynergeyesComponent", function() { return ConfirmationSynergeyesComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../shared/services/alertify/alertify.service */ "./src/app/shared/services/alertify/alertify.service.ts");
+/* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
+/* harmony import */ var _shared_models_buynow__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../shared/models/buynow */ "./src/app/shared/models/buynow.ts");
+/* harmony import */ var _shared_models_company__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../shared/models/company */ "./src/app/shared/models/company.ts");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _shared_services_basket_basket_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../shared/services/basket/basket.service */ "./src/app/shared/services/basket/basket.service.ts");
+/* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../shared/services/fileproductrequested/fileproductrequested.service */ "./src/app/shared/services/fileproductrequested/fileproductrequested.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _http_user_storage_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../../http/user-storage.service */ "./src/app/http/user-storage.service.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../notification-balance/notification-balance.component */ "./src/app/products/modals/notification-balance/notification-balance.component.ts");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_16__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var ConfirmationSynergeyesComponent = /** @class */ (function () {
+    function ConfirmationSynergeyesComponent(modalReference, alertify, notification, translate, basketService, orderService, fileProductRequestedService, router, userStorageService, spinner, userService, modalService) {
+        this.modalReference = modalReference;
+        this.alertify = alertify;
+        this.notification = notification;
+        this.translate = translate;
+        this.basketService = basketService;
+        this.orderService = orderService;
+        this.fileProductRequestedService = fileProductRequestedService;
+        this.router = router;
+        this.userStorageService = userStorageService;
+        this.spinner = spinner;
+        this.userService = userService;
+        this.modalService = modalService;
+        this.listBasket = new Array;
+        this.lista = new Array;
+        this.listNameParameters = new Array;
+        this.basketRequest = new _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_3__["BasketRequest"]();
+        this.buyNow = new _shared_models_buynow__WEBPACK_IMPORTED_MODULE_4__["BuyNow"]();
+        // list for File
+        this.listFileBasket = new Array;
+        this.listUrlFiles = new Array;
+        this.listFileLeftEye = new Array;
+        this.listFileRightEye = new Array;
+        // boolean for delete file
+        this.save_success = false;
+        this.balance_modal = false;
+        this.company = new _shared_models_company__WEBPACK_IMPORTED_MODULE_5__["Company"]();
+        this.user = JSON.parse(userStorageService.getCurrentUser());
+    }
+    ConfirmationSynergeyesComponent.prototype.ngOnInit = function () {
+        this.getDatos();
+        this.getBalance();
+    };
+    ConfirmationSynergeyesComponent.prototype.close = function () {
+        if (!this.save_success && !this.balance_modal) {
+            this.listUrlFiles = this.buildUrlFiles();
+            this.deleteAllFile();
+        }
+        this.modalReference.dismiss();
+        this.modalReference.close();
+    };
+    ConfirmationSynergeyesComponent.prototype.getDatos = function () {
+        var patient;
+        var priceAcum = 0;
+        this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
+        this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
+        lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listBasket, function (productRequested) {
+            priceAcum = priceAcum + (productRequested.price * productRequested.quantity);
+            patient = productRequested.patient;
+            if (productRequested.observations === undefined) {
+                productRequested.observations = '';
+            }
+            productRequested.detail = JSON.parse(productRequested.detail);
+        });
+        this.namePatient = patient;
+        this.price = priceAcum;
+    };
+    ConfirmationSynergeyesComponent.prototype.save = function () {
+        var _this = this;
+        if (this.typeBuy === 1) {
+            this.spinner.show();
+            this.basketRequest.idUser = this.datos.idUser;
+            this.basketRequest.productRequestedList = this.lista;
+            this.basketRequest.listFileRightEye = this.listFileRightEye;
+            this.basketRequest.listFileLeftEye = this.listFileLeftEye;
+            this.basketService.saveBasket$(this.basketRequest).subscribe(function (res) {
+                if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_15__["CodeHttp"].ok) {
+                    _this.save_success = true;
+                    _this.close();
+                    _this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe(function (res1) {
+                        _this.notification.success('', res1);
+                    });
+                    _this.spinner.hide();
+                    _this.redirectListProducts();
+                    // this.redirectListBasket();
+                }
+                else {
+                    console.log(res);
+                    _this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe(function (res1) {
+                        _this.notification.error('', res1);
+                    });
+                    _this.spinner.hide();
+                }
+            }, function (error) {
+                console.log('error', error);
+            });
+        }
+        else {
+            this.buyNow.idUser = this.datos.idUser;
+            this.buyNow.productRequestedList = this.lista;
+            this.buyNow.idRole = this.role;
+            this.buyNow.listFileRightEye = this.listFileRightEye;
+            this.buyNow.listFileLeftEye = this.listFileLeftEye;
+            this.validateAvailableBalance();
+            if (this.available) {
+                this.spinner.show();
+                this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
+                    if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_15__["CodeHttp"].ok) {
+                        _this.save_success = true;
+                        _this.spinner.hide();
+                        _this.close();
+                        _this.translate.get('Order generated successfully', { value: 'Order generated successfully' }).subscribe(function (res1) {
+                            _this.notification.success('', res1);
+                        });
+                        _this.redirectListOrder();
+                    }
+                    else {
+                        console.log(res);
+                        _this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe(function (res1) {
+                            _this.notification.error('', res1);
+                        });
+                        _this.spinner.hide();
+                        _this.close();
+                    }
+                }, function (error) {
+                    console.log('error', error);
+                });
+            }
+            else {
+                this.balance_modal = true;
+                this.openModal(); // No tiene disponible el balance de credito
+                this.close();
+            }
+        }
+    };
+    ConfirmationSynergeyesComponent.prototype.buildUrlFiles = function () {
+        var listUrlFiles = new Array;
+        lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listFileLeftEye, function (file) {
+            listUrlFiles.push(file.url);
+        });
+        lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listFileRightEye, function (file) {
+            listUrlFiles.push(file.url);
+        });
+        return listUrlFiles;
+    };
+    ConfirmationSynergeyesComponent.prototype.deleteAllFile = function () {
+        this.fileProductRequestedService.deleteAllFile$(this.buildUrlFiles()).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_15__["CodeHttp"].ok) {
+                console.log('Delete files');
+            }
+            else {
+                console.log(res.errors[0].detail);
+            }
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
+    ConfirmationSynergeyesComponent.prototype.redirectListProducts = function () {
+        this.router.navigate(['/products/']);
+    };
+    ConfirmationSynergeyesComponent.prototype.redirectListBasket = function () {
+        if (this.user.role.idRole === 3) {
+            this.router.navigate(['/list-basket-client']);
+        }
+        else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+            this.router.navigate(['/list-basket']);
+        }
+    };
+    ConfirmationSynergeyesComponent.prototype.redirectListOrder = function () {
+        if (this.user.role.idRole === 3) {
+            this.router.navigate(['/order-list-client'], { queryParams: { status: 0 } });
+        }
+        else if (this.user.role.idRole === 1) {
+            this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 1 } });
+        }
+        else if (this.user.role.idRole === 2) {
+            this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
+        }
+    };
+    ConfirmationSynergeyesComponent.prototype.getBalance = function () {
+        var _this = this;
+        this.userService.findById$(this.datos.idUser).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_15__["CodeHttp"].ok) {
+                _this.company = res.data.company;
+                _this.balace = _this.company.balance;
+            }
+            else {
+                console.log(res.errors[0].detail);
+            }
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
+    ConfirmationSynergeyesComponent.prototype.validateAvailableBalance = function () {
+        var available = true;
+        if (this.company.paymentMethod === 1 && ((this.price) > this.balace)) {
+            available = false;
+        }
+        this.available = available;
+    };
+    ConfirmationSynergeyesComponent.prototype.openModal = function () {
+        var _this = this;
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_14__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
+        modalRef.componentInstance.buyNowModal = this.buyNow;
+        modalRef.result.then(function (result) {
+            _this.save_success = true;
+            _this.ngOnInit();
+        }, function (reason) {
+            _this.save_success = true;
+            _this.balance_modal = false;
+            _this.close();
+        });
+    };
+    ConfirmationSynergeyesComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-confirmation-synergeyes',
+            template: __webpack_require__(/*! ./confirmation-synergeyes.component.html */ "./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.html"),
+            styles: [__webpack_require__(/*! ./confirmation-synergeyes.component.scss */ "./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbActiveModal"],
+            _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_2__["AlertifyService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__["TranslateService"],
+            _shared_services_basket_basket_service__WEBPACK_IMPORTED_MODULE_8__["BasketService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_9__["OrderService"],
+            _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_10__["FileProductRequestedService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_11__["Router"],
+            _http_user_storage_service__WEBPACK_IMPORTED_MODULE_12__["UserStorageService"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_13__["NgxSpinnerService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_9__["UserService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbModal"]])
+    ], ConfirmationSynergeyesComponent);
+    return ConfirmationSynergeyesComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/products/modals/edit-product/edit-product-euclid/edit-product-euclid.component.html":
 /*!*****************************************************************************************************!*\
   !*** ./src/app/products/modals/edit-product/edit-product-euclid/edit-product-euclid.component.html ***!
@@ -8675,6 +8981,245 @@ var ProductViewMedmontComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/products/product-view-orion/product-view-orion.component.html":
+/*!*******************************************************************************!*\
+  !*** ./src/app/products/product-view-orion/product-view-orion.component.html ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div>-->\n        </div>\n      </div>\n      <div class=\"row product-info\" >\n        <div class=\"item-properties col-md-12\" >\n          <p>{{'The Medmont E300 USB Corneal Topographer offers the practitioner extreme accuracy for the mapping of a patients cornea.Using a PC, the patients full corneal history can be stored and accessed quickly and efficiently.A huge range of display options is now available providing the user with information that they previously would only have dreamed about.'| translate }} </p>\n        </div>\n      </div>\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" required\n              [(ngModel)]=\"product.client\" disabled>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              required [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\">\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n         <!--shipping address-->\n        <div class=\"col-lg-5\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content \">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n        <div class=\"col-lg-3\">\n          <span class=\"title\">{{ 'More Information' | translate }}</span>\n          <div class=\"row info-content \">\n            <a href=\"{{ product.url }}\" target=\"_blank\">{{ 'View' | translate }}</a>\n          </div>\n        </div>\n      </div>\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"getQuote()\"\n            [disabled]=\"!formIsValid()\">\n           {{ 'Get a quote' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n"
+
+/***/ }),
+
+/***/ "./src/app/products/product-view-orion/product-view-orion.component.scss":
+/*!*******************************************************************************!*\
+  !*** ./src/app/products/product-view-orion/product-view-orion.component.scss ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.info-breadcrumbs {\n  margin-top: 80px;\n  margin-left: 3%; }\n.info-breadcrumbs .header-body {\n    width: 100%;\n    background: #ffffff;\n    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.info-breadcrumbs .header-body .link {\n      color: #1756a6;\n      padding-left: 0px; }\n.info-breadcrumbs .header-body .breadcrumb {\n      background-color: transparent;\n      border-radius: 0px;\n      border-bottom: 0px;\n      padding-top: 0px;\n      padding-bottom: 0px; }\n.info-breadcrumbs .header-body h4 {\n      padding-left: 15px; }\n.padding-detail {\n  padding: 10px 40px 10px 40px; }\n.padding-detail .card {\n    background: #ffffff;\n    padding: 2em;\n    line-height: 1.5em; }\n.padding-detail .card .main-info {\n      text-align: center; }\n.padding-detail .card .main-info .img-color {\n        border-radius: 35px; }\n@media screen and (min-width: 997px) {\n  .wrapper {\n    display: -webkit-box;\n    display: flex;\n    margin-bottom: 10px; } }\n.tab-content {\n  overflow: hidden; }\n.tab-content img {\n  width: 100%;\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .3s; }\n.preview {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  flex-direction: column; }\n@media screen and (max-width: 996px) {\n  .preview {\n    margin-bottom: 20px; }\n  .padding-col {\n    padding-left: 3em; }\n  .margin-button {\n    margin-bottom: 3%; } }\n.margin-button {\n  margin-right: 2%; }\n.margin-col {\n  margin-left: 1%;\n  margin-right: 1%; }\n.preview-pic {\n  -webkit-box-flex: 1;\n  flex-grow: 1; }\n.preview-pic #pic-1 img {\n    height: 15em;\n    width: 25em;\n    border-radius: 12px; }\n.preview-pic > div:nth-child(2) {\n    margin-top: 10px; }\n.product-title,\n.price,\n.sizes,\n.colors {\n  text-transform: UPPERCASE;\n  font-weight: bold; }\n.product-title {\n  margin-top: 0; }\n.ng-select {\n  width: 100%; }\n.product-info {\n  padding-top: 2em; }\n.product-info .item-properties {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-align: center;\n            align-items: center;\n    padding-bottom: 1em; }\n.product-info .item-properties i {\n      font-size: 30px; }\n.product-info .item-properties p {\n      font-size: 0.9rem;\n      padding: 0px 0 0 10px;\n      margin-bottom: 0; }\n.select-values {\n  padding-left: 0px; }\n.card-body {\n  padding: 20px !important; }\nbody {\n  font-family: 'open sans';\n  overflow-x: hidden; }\nimg {\n  max-width: 100%; }\n.checked,\n.price span {\n  color: #ff9f1a; }\n.rating,\n.price,\n.vote,\n.sizes {\n  margin-bottom: 15px; }\n.buy-btns {\n  text-align: right; }\n.tooltip-inner {\n  padding: 1.3em; }\n@-webkit-keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n@keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n.fa-arrow-left {\n  margin-top: 10px; }\n.title {\n  font-weight: 600; }\n.custom-control-label::before {\n  border: solid 1px #c3c2c2; }\n.info-content {\n  margin-left: 15px;\n  margin-bottom: 0px; }\n"
+
+/***/ }),
+
+/***/ "./src/app/products/product-view-orion/product-view-orion.component.ts":
+/*!*****************************************************************************!*\
+  !*** ./src/app/products/product-view-orion/product-view-orion.component.ts ***!
+  \*****************************************************************************/
+/*! exports provided: ProductViewOrionComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductViewOrionComponent", function() { return ProductViewOrionComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var _shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/services/products/product.service */ "./src/app/shared/services/products/product.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _http_user_storage_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../http/user-storage.service */ "./src/app/http/user-storage.service.ts");
+/* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
+/* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../shared/services/alertify/alertify.service */ "./src/app/shared/services/alertify/alertify.service.ts");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_12__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+var ProductViewOrionComponent = /** @class */ (function () {
+    function ProductViewOrionComponent(productService, route, userStorageService, shippingAddressService, userService, modalService, alertify, notification, translate, spinner) {
+        this.productService = productService;
+        this.route = route;
+        this.userStorageService = userStorageService;
+        this.shippingAddressService = shippingAddressService;
+        this.userService = userService;
+        this.modalService = modalService;
+        this.alertify = alertify;
+        this.notification = notification;
+        this.translate = translate;
+        this.spinner = spinner;
+        this.products = new Array;
+        this.productsCode = new Array;
+        this.listCustomers = new Array;
+        this.listCustomersAux = new Array;
+        this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
+        this.user = JSON.parse(userStorageService.getCurrentUser());
+    }
+    ProductViewOrionComponent.prototype.ngOnInit = function () {
+        this.getProducts();
+    };
+    ProductViewOrionComponent.prototype.getProducts = function () {
+        var _this = this;
+        this.spinner.show();
+        this.productService.findBySupplierInView$(10, true).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                _this.products = res.data;
+                _this.getProductView();
+                _this.spinner.hide();
+            }
+            else {
+                console.log(res.errors[0].detail);
+                _this.spinner.hide();
+            }
+        }, function (error) {
+            console.log('error', error);
+            _this.spinner.hide();
+        });
+    };
+    ProductViewOrionComponent.prototype.getProductView = function () {
+        this.id = +this.route.snapshot.paramMap.get('id');
+        this.product = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](this.products, { idProduct: this.id });
+        this.setClient();
+        this.setCodeProduct();
+    };
+    ProductViewOrionComponent.prototype.setCodeProduct = function () {
+        var _this = this;
+        var productCode = this.product.codeSpectrum;
+        var productCategory = this.product.category;
+        var prCode;
+        this.productService.findBySupplierAndInViewAndCategory$(10, false, productCategory.idCategory).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                _this.productsCode = res.data;
+                lodash__WEBPACK_IMPORTED_MODULE_12__["each"](_this.productsCode, function (pr) {
+                    if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.codeSpectrum, productCode)) {
+                        prCode = pr;
+                    }
+                });
+                _this.productCode = prCode;
+            }
+            else {
+                console.log(res.errors[0].detail);
+            }
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
+    ProductViewOrionComponent.prototype.setClient = function () {
+        var _this = this;
+        if (this.user.role.idRole === 3) {
+            this.client = this.currentUser.idUser;
+            var accSpct = !!this.currentUser.accSpct ? this.currentUser.accSpct + ' - ' : '';
+            this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
+            this.findShippingAddress(this.client);
+        }
+        else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+            this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(function (res) {
+                if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                    _this.listCustomersAux = res.data;
+                    _this.listCustomers = _this.listCustomersAux;
+                    _this.listCustomers.map(function (i) {
+                        var accSpct = !!i.accSpct ? i.accSpct + ' - ' : '';
+                        i.fullName = accSpct + i.name + ' | ' + i.country.name;
+                        return i;
+                    });
+                }
+            });
+        }
+    };
+    ProductViewOrionComponent.prototype.onSelectedClient = function (clienteSelect) {
+        if (clienteSelect !== undefined) {
+            this.client = clienteSelect.idUser;
+            this.findShippingAddress(this.client);
+        }
+        else {
+            this.client = '';
+            this.product.shippingAddress = '';
+        }
+    };
+    ProductViewOrionComponent.prototype.findShippingAddress = function (idCliente) {
+        var _this = this;
+        this.shippingAddressService.findIdUser$(idCliente).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                _this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
+            }
+            else if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].notContent) {
+                _this.product.shippingAddress = '';
+                _this.translate.get('You must enter a main address in the shipping address module', { value: 'You must enter a main address in the shipping address module' }).subscribe(function (res) {
+                    _this.notification.warning('', res);
+                });
+            }
+            else {
+                _this.product.shippingAddress = '';
+            }
+        });
+    };
+    ProductViewOrionComponent.prototype.formIsValid = function () {
+        var isValid = true;
+        if (this.client === '' || this.client === undefined) {
+            isValid = false;
+        }
+        return isValid;
+    };
+    ProductViewOrionComponent.prototype.getQuote = function () {
+        var _this = this;
+        this.translate.get('Confirm quote', { value: 'Confirm quote' }).subscribe(function (title) {
+            _this.translate.get('Are you sure you want to get a quote?', { value: 'Are you sure you want to get a quote?' }).subscribe(function (msg) {
+                _this.alertify.confirm(title, msg, function () {
+                    _this.productService.getQuote$(_this.client, _this.id).subscribe(function (res) {
+                        if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                            _this.translate.get('Request for quotation sent successfully', { value: 'Request for quotation sent successfully' }).subscribe(function (res1) {
+                                _this.notification.success('', res1);
+                            });
+                        }
+                        else {
+                            console.log(res.errors[0].detail);
+                            _this.spinner.hide();
+                        }
+                    }, function (error) {
+                        console.log('error', error);
+                        _this.spinner.hide();
+                    });
+                }, function () { });
+            });
+        });
+    };
+    ProductViewOrionComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-product-view-orion',
+            template: __webpack_require__(/*! ./product-view-orion.component.html */ "./src/app/products/product-view-orion/product-view-orion.component.html"),
+            styles: [__webpack_require__(/*! ./product-view-orion.component.scss */ "./src/app/products/product-view-orion/product-view-orion.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+            _http_user_storage_service__WEBPACK_IMPORTED_MODULE_4__["UserStorageService"],
+            _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_5__["ShippingAddressService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_6__["UserService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__["NgbModal"],
+            _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_8__["AlertifyService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_9__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_10__["TranslateService"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_11__["NgxSpinnerService"]])
+    ], ProductViewOrionComponent);
+    return ProductViewOrionComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/products/product-view-spectrum-saline/product-view-spectrum-saline.component.html":
 /*!***************************************************************************************************!*\
   !*** ./src/app/products/product-view-spectrum-saline/product-view-spectrum-saline.component.html ***!
@@ -9085,6 +9630,754 @@ var ProductViewSpectrumSalineComponent = /** @class */ (function () {
             ngx_spinner__WEBPACK_IMPORTED_MODULE_19__["NgxSpinnerService"]])
     ], ProductViewSpectrumSalineComponent);
     return ProductViewSpectrumSalineComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/products/product-view-synergeyes/product-view-synergeyes.component.html":
+/*!*****************************************************************************************!*\
+  !*** ./src/app/products/product-view-synergeyes/product-view-synergeyes.component.html ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div> -->\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"col-md-3\">\n          <dt>{{ 'Material' | translate }}</dt>\n          <dd>\n            <a>{{ product.material | translate }}</a>\n          </dd>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Replacemente Period' | translate }}</dt>\n          <p>{{ product.replacementPeriod | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Warranty' | translate }}</dt>\n          <p>{{ product.warranty }} {{ 'days' | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ getUrl() }}\" target=\"_blank\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n\n        <div class=\"col-md-2\" *ngIf=\"product.idProduct==263\">\n          <dt>{{ 'Duette Calculator' | translate }}</dt>\n          <dd>\n            <a href=\"https://ebusiness.synergeyes.com/practitioners/rxconnect/duettecal/duettecal.cfm\" target=\"_blank\">{{ 'Calculator' | translate }}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"20\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" [(ngModel)]=\"product.client\"\n              disabled required>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\"\n              required>\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content\">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n        <div class=\"col-lg-1\">\n          <h5 class=\"padding-price\" [hidden]=\"priceAcum === 0\">\n            <span>{{ priceAcum | currency : \"USD $\" }}</span>\n          </h5>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specific your product' | translate }}</label>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header-params\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n          <!--row header right (contamac / hydrapeg / insertors)-->\n          <br>\n          <br>\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n          <!--params right-->\n          <div class=\"row\">\n            <!--quantity right-->\n            <div class=\"col-lg-3\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                     [required]=\"product.eyeRight\"  [disabled]=\"!product.eyeRight\" (change)=\"updatePriceSale()\" min=\"1\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3\" *ngFor=\"let parameter of product.parametersRight\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>\n                  <span *ngIf=\"parameter.name === 'Power'\">(D)</span>\n                  <span *ngIf=\"parameter.name === 'Skirt Curve'\">(mm)</span>\n                  <span *ngIf=\"parameter.name === 'Base Curve' && product.idProduct !=265 && product.idProduct !=266\" >(mm)</span>\n                  <span *ngIf=\"parameter.name === 'Base Curve' && (product.idProduct ==265 || product.idProduct ==266)\" >(μ)</span>\n                  &nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <div *ngIf=\"parameter.type === 'selected'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter,  parameter.sel)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.sel\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <!--\n                  <div *ngIf=\"parameter.type === 'input' && product.idProduct !== 265\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" min=\"7.10\" max=\"8.30\" step=\"0.10\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" (input)=\"changeSelect('right', parameter,  parameter.selected)\"\n                       [disabled]=\"!product.eyeRight\">\n                  </div>\n\n                  <div *ngIf=\"parameter.type === 'input' && product.idProduct === 265 \" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" min=\"50\" max=\"550\" step=\"50\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" (change)=\"changeSelect('right', parameter,  parameter.selected)\"\n                      oninput=\"validity.valid||(value='');\" [disabled]=\"!product.eyeRight\">\n                  </div>\n                  -->\n                </div>\n              </div>\n            </div>\n            <br>\n          </div>\n          <br>\n        </div>\n\n        <!--comments right-->\n        <br>\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row header\">\n              <div class=\"col-md-12\">\n                <div class=\"title\">{{ 'OD Comments' | translate }}</div>\n                <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\"\n                  [disabled]=\"!product.eyeRight\" placeholder=\"{{ 'Enter OD Observations' | translate }}\"></textarea>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n\n        <!--files right-->\n        <div class=\"documents col-md-12\">\n          <div class=\"row\">\n            <div class=\"col-md-12\">\n              <div class=\"\">\n                <dt class=\"title\">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>\n                <div class=\"custom-file\">\n                  <input #selectedFilesRightEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderRightEye\"\n                    [disabled]=\"!product.eyeRight || uploaderRightEye.queue.length > 4\" multiple />\n                  <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                  <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                  <div class=\"message-error\">\n                    <span translate>{{'Max files size:' | translate}} 25MB</span>\n                    <span> / </span>\n                    <span translate>{{'Maximum files number:' | translate }} 5</span>\n                  </div>\n                </div>\n              </div>\n              <br>\n              <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderRightEye.queue.length > 0\">\n                <div class=\"row justify-content-end\" *ngIf=\"uploaderRightEye.queue.length > 1\">\n                  <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderRightEye.clearQueue()\" [disabled]=\"!uploaderRightEye.queue.length\">\n                    <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                  </button>\n                </div>\n                <br>\n                <table class=\"table\">\n                  <thead>\n                    <tr>\n                      <th width=\"50%\">{{ 'Name' | translate }}</th>\n                      <th>{{ 'Size' | translate }}</th>\n                      <th>{{ 'Actions' | translate }}</th>\n                    </tr>\n                  </thead>\n                  <tbody>\n                    <tr *ngFor=\"let item of uploaderRightEye.queue\">\n                      <td><strong>{{ item?.file?.name }}</strong></td>\n                      <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                      <td nowrap>\n                        <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Right')\">\n                          <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                        </button>\n                      </td>\n                    </tr>\n                  </tbody>\n                </table>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n          <br>\n          <br>\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n          <!--params left-->\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-3\">\n              <div class=\"row \">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityLeft\" [required]=\"product.eyeLeft\"\n                    oninput=\"validity.valid||(value='');\" [disabled]=\"!product.eyeLeft\" min=\"1\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                  <span *ngIf=\"parameter.name === 'Power'\">(D)</span>\n                  <span *ngIf=\"parameter.name === 'Base Curve' && product.idProduct !=265 && product.idProduct !=266\" >(mm)</span>\n                  <span *ngIf=\"parameter.name === 'Base Curve' && (product.idProduct ==265 || product.idProduct ==266)\" >(μ)</span>\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <div *ngIf=\"parameter.type === 'selected'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter,  parameter.sel)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.sel\" bindLabel=\"item\"\n                      bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\" >\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <!--\n                  <div *ngIf=\"parameter.type === 'input' && product.idProduct !== 265\"  class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" min=\"7.10\" max=\"8.30\" step=\"0.10\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" (change)=\"changeSelect('left', parameter,  parameter.selected)\"\n                      [disabled]=\"!product.eyeLeft\" oninput=\"validity.valid||(value='');\">\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input' && product.idProduct === 265 \" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" min=\"50\" max=\"550\" step=\"50\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" (change)=\"changeSelect('left', parameter,  parameter.selected)\"\n                      oninput=\"validity.valid||(value='');\" [disabled]=\"!product.eyeLeft\">\n                      -->\n                </div>\n              </div>\n            </div>\n            <br>\n          </div>\n\n        </div>\n\n        <!--comments left-->\n        <br>\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row header\">\n              <div class=\"col-md-12\">\n                <div class=\"title\">{{ 'OS Comments' | translate }}</div>\n                <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\"\n                  [disabled]=\"!product.eyeLeft\" placeholder=\"{{ 'Enter OS Observations' | translate }}\"></textarea>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n      </div>     \n      <br>\n      <!--files left-->\n      <div class=\"documents col-md-12\">\n        <div class=\"row\">\n          <div class=\"col-md-12\">\n            <div class=\"\">\n              <dt class=\"title\">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>\n              <div class=\"custom-file\">\n                <input #selectedFilesLeftEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderLeftEye\"\n                  [disabled]=\"!product.eyeLeft || uploaderLeftEye.queue.length > 4\" multiple />\n                <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                <div class=\"message-error\">\n                  <span translate>{{'Max files size:' | translate}} 25MB</span>\n                  <span> / </span>\n                  <span translate>{{'Maximum files number:' | translate }} 5</span>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderLeftEye.queue.length > 0\">\n              <div class=\"row justify-content-end\" *ngIf=\"uploaderLeftEye.queue.length > 1\">\n                <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderLeftEye.clearQueue()\" [disabled]=\"!uploaderLeftEye.queue.length\">\n                  <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                </button>\n              </div>\n              <br>\n              <table class=\"table\">\n                <thead>\n                  <tr>\n                    <th width=\"50%\">{{ 'Name' | translate }}</th>\n                    <th>{{ 'Size' | translate }}</th>\n                    <th>{{ 'Actions' | translate }}</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of uploaderLeftEye.queue\">\n                    <td><strong>{{ item?.file?.name }}</strong></td>\n                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                    <td nowrap>\n                      <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Left')\">\n                        <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                      </button>\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/products/product-view-synergeyes/product-view-synergeyes.component.scss":
+/*!*****************************************************************************************!*\
+  !*** ./src/app/products/product-view-synergeyes/product-view-synergeyes.component.scss ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.info-breadcrumbs {\n  margin-top: 80px;\n  margin-left: 3%; }\n.info-breadcrumbs .header-body {\n    width: 100%;\n    background: #ffffff;\n    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.info-breadcrumbs .header-body .link {\n      color: #1756a6;\n      padding-left: 0px; }\n.info-breadcrumbs .header-body .breadcrumb {\n      background-color: transparent;\n      border-radius: 0px;\n      border-bottom: 0px;\n      padding-top: 0px;\n      padding-bottom: 0px; }\n.info-breadcrumbs .header-body h4 {\n      padding-left: 15px; }\n.padding-detail {\n  padding: 10px 40px 10px 40px; }\n.padding-detail .card {\n    background: #ffffff;\n    padding: 2em;\n    line-height: 1.5em; }\n.padding-detail .card .main-info {\n      text-align: center; }\n.padding-detail .card .main-info .img-color {\n        border-radius: 35px; }\n@media screen and (min-width: 997px) {\n  .wrapper {\n    display: -webkit-box;\n    display: flex;\n    margin-bottom: 10px; } }\n.tab-content {\n  overflow: hidden; }\n.tab-content img {\n  width: 100%;\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .3s; }\n.preview {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  flex-direction: column; }\n@media screen and (max-width: 996px) {\n  .preview {\n    margin-bottom: 20px; }\n  .margin-button {\n    margin-bottom: 3%; } }\n.margin-button {\n  margin-right: 2%; }\n.ng-select {\n  width: 100%; }\n.preview-pic {\n  -webkit-box-flex: 1;\n  flex-grow: 1; }\n.preview-pic #pic-1 img {\n    height: 15em;\n    width: 25em;\n    border-radius: 12px; }\n.preview-pic > div:nth-child(2) {\n    margin-top: 10px; }\n.product-title,\n.price,\n.sizes,\n.colors {\n  text-transform: UPPERCASE;\n  font-weight: bold; }\n.product-title {\n  margin-top: 0; }\n.header-params {\n  padding-left: 1em; }\n.header-params .custom-control {\n    margin-bottom: 1em; }\n.header-params .quantity {\n    padding-left: 2em; }\n.product-info {\n  padding-top: 2em; }\n.product-info .item-properties img {\n    width: 30px;\n    cursor: pointer; }\n.select-values {\n  padding-left: 0px; }\n.param-power {\n  display: -webkit-box;\n  display: flex; }\n.card-body {\n  padding: 20px !important; }\nbody {\n  font-family: 'open sans';\n  overflow-x: hidden; }\nimg {\n  max-width: 100%; }\n.checked,\n.price span {\n  color: #ff9f1a; }\n.rating,\n.price,\n.vote {\n  margin-bottom: 15px; }\n.add-to-cart,\n.like {\n  background: #ff9f1a;\n  padding: 1.2em 1.5em;\n  border: none;\n  text-transform: UPPERCASE;\n  font-weight: bold;\n  color: #fff;\n  -webkit-transition: background .3s ease;\n  transition: background .3s ease; }\n.add-to-cart:hover,\n.like:hover {\n  background: #b36800;\n  color: #fff; }\n.not-available {\n  text-align: center;\n  line-height: 2em; }\n.buy-btns {\n  text-align: right; }\n.not-available:before {\n  font-family: fontawesome;\n  content: \"\\f00d\";\n  color: #fff; }\n.tooltip-inner {\n  padding: 1.3em; }\n@-webkit-keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n@keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n.fa-arrow-left {\n  margin-top: 10px; }\n.title {\n  font-weight: 600; }\n.info-content {\n  margin-left: 15px;\n  margin-bottom: 0px;\n  line-height: 30px; }\n.item-properties img {\n  width: 30px; }\n.check-steps {\n  display: -webkit-box;\n  display: flex; }\n.check-steps > input:nth-child(1) {\n    width: 20px;\n    height: 10px;\n    margin-left: 20px; }\n.content-steps .selection {\n  padding-right: 1.5rem;\n  padding-top: 30px; }\n.content-steps .steeps > div:nth-child(2) {\n  padding-left: 0; }\n.content-steps .sub-label {\n  padding-left: 25px; }\n.content-steps .sub-label .row {\n    padding-top: 5px;\n    padding-left: 15px; }\n.content-steps > div:nth-child(1) {\n  padding-left: 0; }\n.content-steps > div:nth-child(2) {\n  border-left: 1px solid #ccc; }\n.content-steps > div:nth-child(3) {\n  border-left: 1px solid #ccc; }\n.selected-double > div:nth-child(1) {\n  padding-right: 0px; }\n.selected-double > div:nth-child(2) {\n  padding-left: 2px; }\n.custom-file-input {\n  cursor: pointer; }\n.message-error {\n  margin-top: 0; }\n.custom-control-label::before {\n  border: solid 1px #c3c2c2; }\n.custom-control-label {\n  font-size: 0.9rem;\n  padding-left: -2%; }\n.page-header-fixed {\n  margin-left: 15px; }\n.padding-price {\n  padding-top: 1.1em; }\n.header-europa {\n  padding: 15px 0 5px 0; }\n.header-europa > div:nth-child(1),\n  .header-europa > div:nth-child(2),\n  .header-europa > div:nth-child(3) {\n    padding-left: 2%; }\n.additional {\n  -webkit-box-pack: start;\n          justify-content: flex-start;\n  margin-top: 10px; }\n.additional > p:nth-child(1) {\n    font-size: 15px;\n    color: red; }\n.prices {\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .6s;\n  padding-top: 10px; }\n.prices > p:nth-child(1) {\n    font-size: 26px;\n    font-weight: bold; }\n.error-quantity {\n  color: red; }\n.message-error-file {\n  color: #cc0000;\n  font-size: 0.85rem; }\n.title-pupullary {\n  padding-left: 2rem; }\n"
+
+/***/ }),
+
+/***/ "./src/app/products/product-view-synergeyes/product-view-synergeyes.component.ts":
+/*!***************************************************************************************!*\
+  !*** ./src/app/products/product-view-synergeyes/product-view-synergeyes.component.ts ***!
+  \***************************************************************************************/
+/*! exports provided: ProductViewSynergeyesComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductViewSynergeyesComponent", function() { return ProductViewSynergeyesComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/services/products/product.service */ "./src/app/shared/services/products/product.service.ts");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var _http_user_storage_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../http/user-storage.service */ "./src/app/http/user-storage.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
+/* harmony import */ var _shared_models_productrequested__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../shared/models/productrequested */ "./src/app/shared/models/productrequested.ts");
+/* harmony import */ var _shared_models_product__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../shared/models/product */ "./src/app/shared/models/product.ts");
+/* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
+/* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../shared/models/fileproductrequested */ "./src/app/shared/models/fileproductrequested.ts");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component */ "./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var URL = _environments_environment__WEBPACK_IMPORTED_MODULE_16__["environment"].apiUrl + 'fileProductRequested/uploader';
+var ProductViewSynergeyesComponent = /** @class */ (function () {
+    function ProductViewSynergeyesComponent(productService, userService, route, notification, translate, spinner, shippingAddressService, modalService, userStorageService) {
+        var _this = this;
+        this.productService = productService;
+        this.userService = userService;
+        this.route = route;
+        this.notification = notification;
+        this.translate = translate;
+        this.spinner = spinner;
+        this.shippingAddressService = shippingAddressService;
+        this.modalService = modalService;
+        this.userStorageService = userStorageService;
+        this.products = new Array;
+        this.productsCode = new Array;
+        this.quantity = 1;
+        this.priceAcum = 0;
+        this.priceLeft = 0;
+        this.priceRight = 0;
+        this.productsSelected = new Array;
+        this.basketRequestModal = new _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_9__["BasketRequest"]();
+        this.listCustomers = new Array;
+        this.listCustomersAux = new Array;
+        this.addRight = false;
+        this.addLeft = false;
+        this.warrantyRight = false;
+        this.warrantyLeft = false;
+        this.download = false;
+        this.queueLimit = 5;
+        this.maxFileSize = 25 * 1024 * 1024; // 25 MB
+        this.listFileBasket = new Array;
+        this.listFileLeftEye = new Array;
+        this.listFileRightEye = new Array;
+        this.uploadResult = null;
+        this.uploadResultLeftEye = null;
+        this.uploadResultRightEye = null;
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_15__["FileUploader"]({ url: URL,
+            itemAlias: 'files',
+            queueLimit: this.queueLimit,
+            maxFileSize: this.maxFileSize,
+            removeAfterUpload: false,
+            authToken: this.userStorageService.getToke(),
+            autoUpload: false });
+        this.uploaderLeftEye = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_15__["FileUploader"]({ url: URL,
+            itemAlias: 'files',
+            queueLimit: this.queueLimit,
+            maxFileSize: this.maxFileSize,
+            removeAfterUpload: false,
+            authToken: this.userStorageService.getToke(),
+            autoUpload: false });
+        this.uploaderRightEye = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_15__["FileUploader"]({ url: URL,
+            itemAlias: 'files',
+            queueLimit: this.queueLimit,
+            maxFileSize: this.maxFileSize,
+            removeAfterUpload: false,
+            authToken: this.userStorageService.getToke(),
+            autoUpload: false });
+        this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
+        this.user = JSON.parse(userStorageService.getCurrentUser());
+        this.uploaderLeftEye.onAfterAddingFile = function (item) {
+            var maxSize = _this.maxFilesSize();
+            if (maxSize > _this.maxFileSize) {
+                _this.removeFile(item, 'Left');
+                _this.translate.get('Exceeds the maximum size allowed', { value: 'Exceeds the maximum size allowed' }).subscribe(function (res) {
+                    _this.notification.error('', res);
+                });
+            }
+        };
+        this.uploaderLeftEye.onSuccessItem = function (item, response, status, headers) {
+            _this.uploadResultLeftEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+            if (_this.uploadResultLeftEye) {
+                _this.buildFileProductRequested('Left');
+            }
+        };
+        this.uploaderLeftEye.onErrorItem = function (item, response, status, headers) {
+            _this.uploadResultLeftEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+        };
+        this.uploaderRightEye.onAfterAddingFile = function (item) {
+            var maxSize = _this.maxFilesSize();
+            if (maxSize > _this.maxFileSize) {
+                _this.removeFile(item, 'Right');
+                _this.translate.get('Exceeds the maximum size allowed', { value: 'Exceeds the maximum size allowed' }).subscribe(function (res) {
+                    _this.notification.error('', res);
+                });
+            }
+        };
+        this.uploaderRightEye.onSuccessItem = function (item, response, status, headers) {
+            _this.uploadResultRightEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+            if (_this.uploadResultRightEye) {
+                _this.buildFileProductRequested('Right');
+            }
+        };
+        this.uploaderRightEye.onErrorItem = function (item, response, status, headers) {
+            _this.uploadResultRightEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+        };
+    }
+    ProductViewSynergeyesComponent.prototype.ngOnInit = function () {
+        this.getProducts();
+    };
+    ProductViewSynergeyesComponent.prototype.getProducts = function () {
+        var _this = this;
+        this.spinner.show();
+        this.productService.findBySupplierInView$(9, true).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_5__["CodeHttp"].ok) {
+                _this.products = res.data;
+                _this.getProductView();
+                _this.spinner.hide();
+                _this.getUrl();
+            }
+            else {
+                console.log(res.errors[0].detail);
+                _this.spinner.hide();
+            }
+        }, function (error) {
+            console.log('error', error);
+            _this.spinner.hide();
+        });
+    };
+    ProductViewSynergeyesComponent.prototype.getUrl = function () {
+        var lang = this.userStorageService.getLanguage();
+        return lang === 'en' ? JSON.parse(this.product.url)[0].en : JSON.parse(this.product.url)[0].es;
+    };
+    ProductViewSynergeyesComponent.prototype.getProductsCode = function () {
+        var _this = this;
+        this.productService.findBySupplierAndInViewAndCategory$(9, false, 10).subscribe(function (res1) {
+            if (res1.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_5__["CodeHttp"].ok) {
+                _this.productsCode = res1.data;
+                var pC = _this.productsCode.filter(function (item) {
+                    return lodash__WEBPACK_IMPORTED_MODULE_8__["includes"](item.codeSpectrum, _this.product.codeSpectrum);
+                });
+                _this.productsCode = pC.sort(function (a, b) { return (b.idProduct > a.idProduct) ? -1 : 1; });
+                _this.setCodeProduct('');
+            }
+            else {
+                console.log(res1.errors[0].detail);
+                _this.spinner.hide();
+            }
+        }, function (error) {
+            console.log('error', error);
+            _this.spinner.hide();
+        });
+    };
+    ProductViewSynergeyesComponent.prototype.getProductView = function () {
+        this.id = +this.route.snapshot.paramMap.get('id');
+        this.product = lodash__WEBPACK_IMPORTED_MODULE_8__["find"](this.products, { idProduct: this.id });
+        this.product.eyeRight = false;
+        this.product.eyeLeft = false;
+        this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+        this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+        this.product.priceSaleRight = 0;
+        this.product.priceSaleLeft = 0;
+        this.product.pupillaryRight = null;
+        this.product.pupillaryLeft = null;
+        this.setClient();
+        this.setPrice();
+        this.getProductsCode();
+    };
+    ProductViewSynergeyesComponent.prototype.setCodeProduct = function (warranty) {
+        var prName = this.product.codeSpectrum;
+        var prCode;
+        for (var i = 0, len = this.productsCode.length; i < len; i++) {
+            var pr = this.productsCode[i];
+            if (lodash__WEBPACK_IMPORTED_MODULE_8__["includes"](pr.codeSpectrum, prName) && lodash__WEBPACK_IMPORTED_MODULE_8__["includes"](pr.codeSpectrum, warranty)) {
+                prCode = pr;
+                break;
+            }
+        }
+        this.productCode = prCode;
+        if (this.productCode) {
+            this.product.price1 = this.productCode.price1;
+            this.product.price2 = this.productCode.price2;
+            this.product.price3 = this.productCode.price3;
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.setClient = function () {
+        var _this = this;
+        if (this.user.role.idRole === 3) {
+            this.client = this.currentUser;
+            this.membership = this.currentUser.membership;
+            var accSpct = !!this.currentUser.accSpct ? this.currentUser.accSpct + ' - ' : '';
+            this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
+            this.findShippingAddress(this.client.idUser);
+            this.definePrice(this.membership.idMembership);
+        }
+        else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+            this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(function (res) {
+                if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_5__["CodeHttp"].ok) {
+                    _this.listCustomersAux = res.data;
+                    _this.listCustomers = _this.listCustomersAux;
+                    _this.listCustomers.map(function (i) {
+                        var accSpct = !!i.accSpct ? i.accSpct + ' - ' : '';
+                        i.fullName = accSpct + i.name + ' | ' + i.country.name;
+                        return i;
+                    });
+                }
+            });
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.setValueEye = function (eye) {
+        if (eye === 'right') {
+            this.product.eyeRight = !this.product.eyeRight;
+            if (!this.product.eyeRight) {
+                this.clean('right');
+                this.addRight = false;
+            }
+        }
+        else {
+            this.product.eyeLeft = !this.product.eyeLeft;
+            if (!this.product.eyeLeft) {
+                this.clean('left');
+                this.addLeft = false;
+            }
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.setEyeSelected = function () {
+        this.productsSelected = [];
+        if (this.product.eyeRight) {
+            this.productsSelected.push({ eye: 'Right' });
+        }
+        if (this.product.eyeLeft) {
+            this.productsSelected.push({ eye: 'Left' });
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.changeSelect = function (eye, parameter, value) {
+        parameter.selected = value;
+        if (parameter.name === 'Warranty') {
+            if (eye === 'right') {
+                if (parameter.selected === 'Yes') {
+                    this.warrantyRight = true;
+                    this.setCodeProduct('(W)');
+                }
+                else {
+                    this.warrantyRight = false;
+                    this.setCodeProduct('(NW)');
+                }
+            }
+            if (eye === 'left') {
+                if (parameter.selected === 'Yes') {
+                    this.warrantyLeft = true;
+                    this.setCodeProduct('(W)');
+                }
+                else {
+                    this.warrantyLeft = false;
+                    this.setCodeProduct('(NW)');
+                }
+            }
+            if (this.client) {
+                this.definePrice(this.client.membership.idMembership);
+                if (eye === 'right') {
+                    this.product.priceSaleRight = this.product.priceSale;
+                }
+                else if (eye === 'left') {
+                    this.product.priceSaleLeft = this.product.priceSale;
+                }
+                this.priceAcum = ((this.product.quantityLeft ? (this.product.quantityLeft * this.product.priceSaleLeft) : 0)
+                    + (this.product.quantityRight ? (this.product.quantityRight * this.product.priceSaleRight) : 0));
+            }
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.updatePriceSale = function () {
+        this.priceAcum = ((this.product.quantityLeft ? (this.product.quantityLeft * this.product.priceSaleLeft) : 0)
+            + (this.product.quantityRight ? (this.product.quantityRight * this.product.priceSaleRight) : 0));
+    };
+    ProductViewSynergeyesComponent.prototype.format = function (value) {
+        var flat;
+        var partInt;
+        var partDec;
+        var pos;
+        var toString;
+        if (value !== null) {
+            toString = value.toString();
+            if (lodash__WEBPACK_IMPORTED_MODULE_8__["includes"](toString, '.')) {
+                pos = lodash__WEBPACK_IMPORTED_MODULE_8__["indexOf"](toString, '.');
+                partInt = toString.slice(0, pos);
+                if (partInt <= 99) {
+                    partDec = toString.slice(pos + 1, toString.length);
+                    flat = this.completeStart(partInt, 2) + '.' + this.completeEnd(partDec, 2);
+                }
+                else {
+                    flat = null;
+                }
+            }
+            else {
+                if (value <= 99) {
+                    flat = this.completeStart(value, 2) + '.00';
+                }
+                else {
+                    flat = null;
+                }
+            }
+            return flat;
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.completeStart = function (value, tamano) {
+        var filteredId = value.toString();
+        filteredId = lodash__WEBPACK_IMPORTED_MODULE_8__["padStart"](filteredId, tamano, '0');
+        return filteredId;
+    };
+    ProductViewSynergeyesComponent.prototype.completeEnd = function (value, tamano) {
+        var filteredId = value.toString();
+        filteredId = lodash__WEBPACK_IMPORTED_MODULE_8__["padEnd"](filteredId, tamano, '0');
+        return filteredId;
+    };
+    ProductViewSynergeyesComponent.prototype.clean = function (eye) {
+        var parameters;
+        if (eye === 'right') {
+            parameters = this.product.parametersRight;
+            this.product.quantityRight = '';
+            this.product.observationsRight = '';
+        }
+        else {
+            parameters = this.product.parametersLeft;
+            this.product.quantityLeft = '';
+            this.product.observationsLeft = '';
+        }
+        // parameter
+        lodash__WEBPACK_IMPORTED_MODULE_8__["each"](parameters, function (param) {
+            param.selected = null;
+            param.sel = null;
+        });
+        if (eye === 'right') {
+            this.product.parametersRight = parameters;
+        }
+        else {
+            this.product.parametersLeft = parameters;
+        }
+        this.updatePriceSale();
+    };
+    ProductViewSynergeyesComponent.prototype.onSelectedClient = function (clientSelect) {
+        if (clientSelect !== undefined) {
+            this.client = clientSelect;
+            this.membership = this.client.membership;
+            this.findShippingAddress(this.client.idUser);
+            this.definePrice(clientSelect.membership.idMembership);
+        }
+        else {
+            this.client = '';
+            this.product.shippingAddress = '';
+            this.product.priceSale = '';
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.findShippingAddress = function (idCliente) {
+        var _this = this;
+        this.shippingAddressService.findIdUser$(idCliente).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_5__["CodeHttp"].ok) {
+                _this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
+            }
+            else if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_5__["CodeHttp"].notContent) {
+                _this.product.shippingAddress = '';
+                _this.translate.get('You must enter a main address in the shipping address module', { value: 'You must enter a main address in the shipping address module' }).subscribe(function (res1) {
+                    _this.notification.warning('', res1);
+                });
+            }
+            else {
+                _this.product.shippingAddress = '';
+            }
+        });
+    };
+    ProductViewSynergeyesComponent.prototype.setPrice = function () {
+        if (this.user.role.idRole === 3) {
+            this.membership = this.currentUser.membership.idMembership;
+            this.definePrice(this.membership);
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.definePrice = function (membership) {
+        switch (membership) {
+            case 1:
+                this.product.priceSale = this.product.price1;
+                break;
+            case 2:
+                this.product.priceSale = this.product.price2;
+                break;
+            case 3:
+                this.product.priceSale = this.product.price3;
+                break;
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.buildProductsSelected = function () {
+        this.setEyeSelected();
+        var product = this.productCopy;
+        var productsSelected = this.productsSelected;
+        var warrantyLeft = this.warrantyLeft;
+        var warrantyRight = this.warrantyRight;
+        var membership = this.membership.idMembership;
+        lodash__WEBPACK_IMPORTED_MODULE_8__["each"](productsSelected, function (productSelected, index) {
+            productSelected.patient = product.patient;
+            if (productSelected.eye === "Right") {
+                productSelected.quantity = product.quantityRight;
+                productSelected.observations = product.observationsRight;
+                productSelected.price = product.priceSaleRight;
+                /*params*/
+                lodash__WEBPACK_IMPORTED_MODULE_8__["each"](product.parametersRight, function (parameter, index) {
+                    if (parameter.name === 'Warranty' || parameter.name === 'Profile') {
+                        parameter.selected = parameter.selected === 'Yes' ? true : false;
+                    }
+                    product.parametersRight[index] = lodash__WEBPACK_IMPORTED_MODULE_8__["omit"](parameter, ['type', 'values', 'sel', 'placeholder']);
+                });
+                productSelected.parameters = product.parametersRight;
+            }
+            if (productSelected.eye === "Left") {
+                productSelected.quantity = product.quantityLeft;
+                productSelected.price = product.priceSaleLeft;
+                productSelected.observations = product.observationsLeft;
+                /*params*/
+                lodash__WEBPACK_IMPORTED_MODULE_8__["each"](product.parametersLeft, function (parameter, index) {
+                    if (parameter.name === 'Warranty' || parameter.name === 'Profile') {
+                        parameter.selected = parameter.selected === 'Yes' ? true : false;
+                    }
+                    product.parametersLeft[index] = lodash__WEBPACK_IMPORTED_MODULE_8__["omit"](parameter, ['type', 'values', 'sel', 'placeholder']);
+                });
+                productSelected.parameters = product.parametersLeft;
+            }
+            productSelected.detail = { name: product.name, eye: productSelected.eye, parameters: productSelected.parameters };
+            productsSelected[index] = lodash__WEBPACK_IMPORTED_MODULE_8__["omit"](productSelected, ['parameters', 'eye', 'set']);
+        });
+        // add products code
+        var auxList = JSON.parse(JSON.stringify(productsSelected));
+        var auxproductsSelected = [];
+        var productsCode = this.productsCode;
+        lodash__WEBPACK_IMPORTED_MODULE_8__["each"](auxList, function (productAux, index) {
+            var productH = JSON.parse(JSON.stringify(productAux));
+            var prCode;
+            var warrant = '';
+            if (productH.detail.eye === 'Left') {
+                warrant = warrantyLeft ? '(W)' : '(NW)';
+            }
+            else if (productH.detail.eye === 'Right') {
+                warrant = warrantyRight ? '(W)' : '(NW)';
+            }
+            for (var i = 0, len = productsCode.length; i < len; i++) {
+                var pr = productsCode[i];
+                if (lodash__WEBPACK_IMPORTED_MODULE_8__["includes"](pr.codeSpectrum, warrant)) {
+                    prCode = pr;
+                    break;
+                }
+            }
+            productH.id = prCode.idProduct;
+            productH.name = prCode.name;
+            productH.codeSpectrum = prCode.codeSpectrum;
+            auxproductsSelected.push(productH);
+        });
+        productsSelected = auxproductsSelected;
+        return productsSelected;
+    };
+    ProductViewSynergeyesComponent.prototype.definePriceProduct = function (membership, prCode) {
+        switch (membership) {
+            case 1:
+                return prCode.price1;
+            case 2:
+                return prCode.price2;
+            case 3:
+                return prCode.price3;
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.formIsValid = function () {
+        var isValid = true;
+        if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+            return false;
+        }
+        if (this.product.eyeRight) {
+            if (this.product.quantityRight === undefined) {
+                return false;
+            }
+            lodash__WEBPACK_IMPORTED_MODULE_8__["each"](this.product.parametersRight, function (param) {
+                if (param.selected === null || param.selected === undefined) {
+                    isValid = false;
+                }
+            });
+            if (!this.product.quantityRight) {
+                isValid = false;
+            }
+        }
+        if (this.product.eyeLeft) {
+            if (this.product.quantityLeft === undefined) {
+                return false;
+            }
+            lodash__WEBPACK_IMPORTED_MODULE_8__["each"](this.product.parametersLeft, function (param) {
+                if (param.selected === null || param.selected === undefined) {
+                    isValid = false;
+                }
+            });
+            if (!this.product.quantityLeft) {
+                isValid = false;
+            }
+        }
+        return isValid;
+    };
+    ProductViewSynergeyesComponent.prototype.verifyOpenModal = function () {
+        if (this.uploaderRightEye.queue.length === this.listFileRightEye.length
+            && this.uploaderLeftEye.queue.length === this.listFileLeftEye.length) {
+            this.openModal(this.type);
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.openModal = function (type) {
+        var _this = this;
+        this.spinner.hide();
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_17__["ConfirmationSynergeyesComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
+        modalRef.componentInstance.datos = this.basketRequestModal;
+        modalRef.componentInstance.product = this.product;
+        modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
+        modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
+        modalRef.componentInstance.typeBuy = type;
+        modalRef.componentInstance.role = this.user.role.idRole;
+        modalRef.result.then(function (result) {
+            _this.ngOnInit();
+        }, function (reason) {
+        });
+    };
+    ProductViewSynergeyesComponent.prototype.addToCart = function (type) {
+        this.type = type;
+        this.spinner.show();
+        this.productCopy = JSON.parse(JSON.stringify(this.product));
+        var productsRequested = [];
+        var productsSelected = this.buildProductsSelected();
+        this.saveFiles();
+        lodash__WEBPACK_IMPORTED_MODULE_8__["each"](productsSelected, function (product) {
+            var productRequest = new _shared_models_productrequested__WEBPACK_IMPORTED_MODULE_10__["ProductRequested"]();
+            var productoSelect = new _shared_models_product__WEBPACK_IMPORTED_MODULE_11__["Product"]();
+            productoSelect.idProduct = product.id;
+            productoSelect.codeSpectrum = product.codeSpectrum;
+            productRequest.product = productoSelect;
+            productRequest.quantity = product.quantity;
+            productRequest.price = product.price;
+            productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
+            productRequest.patient = product.patient;
+            productRequest.observations = product.observations;
+            productsRequested.push(productRequest);
+        });
+        this.basketRequestModal.idUser = this.client.idUser;
+        this.basketRequestModal.productRequestedList = productsRequested;
+        // this.openModal(type);
+    };
+    ProductViewSynergeyesComponent.prototype.maxFilesSize = function () {
+        var maxFileSize = 0;
+        if (this.uploader.queue) {
+            lodash__WEBPACK_IMPORTED_MODULE_8__["each"](this.uploader.queue, function (item) {
+                maxFileSize = maxFileSize + item.file.size;
+            });
+        }
+        return maxFileSize;
+    };
+    ProductViewSynergeyesComponent.prototype.removeFile = function (item, eye) {
+        if (eye === 'Right') {
+            this.uploaderRightEye.removeFromQueue(item);
+        }
+        else if (eye === 'Left') {
+            this.uploaderLeftEye.removeFromQueue(item);
+        }
+        this.clearSelectedFile(eye);
+    };
+    ProductViewSynergeyesComponent.prototype.clearSelectedFile = function (eye) {
+        if (eye === 'Right') {
+            this.selectedFilesRightEye.nativeElement.value = '';
+        }
+        else if (eye === 'Left') {
+            this.selectedFilesLeftEye.nativeElement.value = '';
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.clearFiles = function () {
+        if (this.uploaderLeftEye.queue.length) {
+            this.uploaderLeftEye.clearQueue();
+            this.clearSelectedFile('Left');
+        }
+        if (this.uploaderRightEye.queue.length) {
+            this.uploaderRightEye.clearQueue();
+            this.clearSelectedFile('Right');
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.saveFiles = function () {
+        this.listFileLeftEye = new Array;
+        this.listFileRightEye = new Array;
+        if (this.uploaderLeftEye.queue) {
+            lodash__WEBPACK_IMPORTED_MODULE_8__["each"](this.uploaderLeftEye.queue, function (item) {
+                item.upload();
+            });
+        }
+        if (this.uploaderRightEye.queue) {
+            lodash__WEBPACK_IMPORTED_MODULE_8__["each"](this.uploaderRightEye.queue, function (item) {
+                item.upload();
+            });
+        }
+        if (!this.uploaderLeftEye.queue.length && !this.uploaderRightEye.queue.length) {
+            this.openModal(this.type);
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.buildFileProductRequested = function (eye) {
+        if (eye === 'Right' && this.uploadResultRightEye.success) {
+            var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_14__["FileProductRequested"]();
+            fileProductRequest.url = JSON.parse(this.uploadResultRightEye.response).data;
+            fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+            fileProductRequest.type = this.uploadResultRightEye.item.file.type;
+            fileProductRequest.size = this.uploadResultRightEye.item.file.size;
+            fileProductRequest.createdAt = new Date();
+            this.listFileRightEye.push(fileProductRequest);
+            this.verifyOpenModal();
+        }
+        if (eye === 'Left' && this.uploadResultLeftEye.success) {
+            var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_14__["FileProductRequested"]();
+            fileProductRequest.url = JSON.parse(this.uploadResultLeftEye.response).data;
+            fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+            fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
+            fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
+            fileProductRequest.createdAt = new Date();
+            this.listFileLeftEye.push(fileProductRequest);
+            this.verifyOpenModal();
+        }
+    };
+    ProductViewSynergeyesComponent.prototype.validatePower = function (parameter) {
+        parameter.selected = parseFloat(parameter.selected);
+        if (parameter.selected < -15.00 && parameter.selected > 10.00) {
+            parameter.selected = 0;
+        }
+        else {
+            if (parameter.selected < -8.00 || parameter.selected > 8.00) {
+                if (parameter.selected % 0.5 == 0) {
+                    parameter.selected = this.format(parameter.selected);
+                }
+                else {
+                    parameter = 0;
+                }
+            }
+            else {
+                if (parameter.selected % 0.25 == 0) {
+                    parameter.selected = this.format(parameter.selected);
+                    parameter = parameter;
+                }
+                else {
+                    parameter = 0;
+                }
+            }
+        }
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('selectedFiles'),
+        __metadata("design:type", Object)
+    ], ProductViewSynergeyesComponent.prototype, "selectedFiles", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('selectedFilesLeftEye'),
+        __metadata("design:type", Object)
+    ], ProductViewSynergeyesComponent.prototype, "selectedFilesLeftEye", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('selectedFilesRightEye'),
+        __metadata("design:type", Object)
+    ], ProductViewSynergeyesComponent.prototype, "selectedFilesRightEye", void 0);
+    ProductViewSynergeyesComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-product-view-synergeyes',
+            template: __webpack_require__(/*! ./product-view-synergeyes.component.html */ "./src/app/products/product-view-synergeyes/product-view-synergeyes.component.html"),
+            styles: [__webpack_require__(/*! ./product-view-synergeyes.component.scss */ "./src/app/products/product-view-synergeyes/product-view-synergeyes.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_1__["ProductService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_13__["UserService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_7__["ActivatedRoute"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_2__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_4__["NgxSpinnerService"],
+            _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_12__["ShippingAddressService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_18__["NgbModal"],
+            _http_user_storage_service__WEBPACK_IMPORTED_MODULE_6__["UserStorageService"]])
+    ], ProductViewSynergeyesComponent);
+    return ProductViewSynergeyesComponent;
 }());
 
 
@@ -9889,6 +11182,12 @@ var ProductsListInternalComponent = /** @class */ (function () {
             case 6:// magic blue
                 this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
                 break;
+            case 9:
+                this.router.navigate(['/products/' + product.idProduct + '/product-view-synergeyes']);
+                break;
+            case 10:
+                this.router.navigate(['/products/' + product.idProduct + '/product-view-orion']);
+                break;
             case 7:// fluo strips y spectrum saline
                 if (product.father === 'Fluo Strips') {
                     this.router.navigate(['/products/' + product.idProduct + '/product-view-fluo-strips']);
@@ -10308,6 +11607,10 @@ var ProductsListsComponent = /** @class */ (function () {
                             return u;
                         case 7:// Fluo Strips y Spectrum Saline
                             return u;
+                        case 9:// Synergeyes
+                            return u;
+                        case 10:// Orion
+                            return u;
                     }
                 });
                 _this.getSuppliers();
@@ -10320,6 +11623,7 @@ var ProductsListsComponent = /** @class */ (function () {
         this.spinner.show();
         this.supplierService.findAll$().subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                var suppliersId_1 = [1, 2, 3, 4, 5, 6, 7, 9, 10];
                 _this.listSupplierFilter = res.data;
                 if (_this.user.role.idRole === 3) {
                     if (_this.user.userResponse.membership.idMembership !== 2) {
@@ -10338,12 +11642,12 @@ var ProductsListsComponent = /** @class */ (function () {
                     });
                     _this.listSupplierFilter = supplierFiltered_1;
                     _this.orderList();
-                    _this.listSupplier = lodash__WEBPACK_IMPORTED_MODULE_3__["filter"](_this.listSupplierFilter, function (s) { return s.idSupplier < 8 && s.idSupplier > 0; });
+                    _this.listSupplier = lodash__WEBPACK_IMPORTED_MODULE_3__["filter"](_this.listSupplierFilter, function (s) { return suppliersId_1.indexOf(s.idSupplier) > -1; });
                     _this.spinner.hide();
                 }
                 else {
                     _this.orderList();
-                    _this.listSupplier = lodash__WEBPACK_IMPORTED_MODULE_3__["filter"](_this.listSupplierFilter, function (s) { return s.idSupplier < 8 && s.idSupplier > 0; });
+                    _this.listSupplier = lodash__WEBPACK_IMPORTED_MODULE_3__["filter"](_this.listSupplierFilter, function (s) { return suppliersId_1.indexOf(s.idSupplier) > -1; });
                     _this.spinner.hide();
                 }
                 _this.setImageSupplier();
@@ -10381,6 +11685,12 @@ var ProductsListsComponent = /** @class */ (function () {
                 case 7:// Fluo Strips y spectrum saline
                     supplier.image = 'assets/images/suppliers/spectrum_products.jpg';
                     break;
+                case 9:// Synergeyes
+                    supplier.image = 'assets/images/suppliers/synergeyes.png';
+                    break;
+                case 10:// Orion
+                    supplier.image = 'assets/images/suppliers/orion.png';
+                    break;
             }
         });
     };
@@ -10409,7 +11719,9 @@ var ProductsListsComponent = /** @class */ (function () {
                 case 2: //europa
                 case 3: //Lenticon
                 case 4: //euclid
-                case 7://fluo strips y saline spectrum
+                case 7: //fluo strips y saline spectrum 
+                case 9: //synergeyes
+                case 10://orion
                     this.router.navigate(['/products/' + idSupplier + '/internal']);
                     break;
                 case 5://magic look
@@ -10497,12 +11809,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _product_view_spectrum_saline_product_view_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./product-view-spectrum-saline/product-view-spectrum-saline.component */ "./src/app/products/product-view-spectrum-saline/product-view-spectrum-saline.component.ts");
 /* harmony import */ var _product_view_lenticon_product_view_lenticon_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./product-view-lenticon/product-view-lenticon.component */ "./src/app/products/product-view-lenticon/product-view-lenticon.component.ts");
 /* harmony import */ var _product_view_medmont_product_view_medmont_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./product-view-medmont/product-view-medmont.component */ "./src/app/products/product-view-medmont/product-view-medmont.component.ts");
+/* harmony import */ var _product_view_synergeyes_product_view_synergeyes_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./product-view-synergeyes/product-view-synergeyes.component */ "./src/app/products/product-view-synergeyes/product-view-synergeyes.component.ts");
+/* harmony import */ var _product_view_orion_product_view_orion_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./product-view-orion/product-view-orion.component */ "./src/app/products/product-view-orion/product-view-orion.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -10535,6 +11851,8 @@ var routes = [
             { path: ':id/product-view-spectrum-saline', component: _product_view_spectrum_saline_product_view_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_12__["ProductViewSpectrumSalineComponent"], data: { option: 'ProductsViewSpectrumSaline' } },
             { path: ':id/product-view-lenticon', component: _product_view_lenticon_product_view_lenticon_component__WEBPACK_IMPORTED_MODULE_13__["ProductViewLenticonComponent"], data: { option: 'ProductsViewLenticon' } },
             { path: ':id/product-view-medmont', component: _product_view_medmont_product_view_medmont_component__WEBPACK_IMPORTED_MODULE_14__["ProductViewMedmontComponent"], data: { option: 'ProductViewMedmontComponent' } },
+            { path: ':id/product-view-synergeyes', component: _product_view_synergeyes_product_view_synergeyes_component__WEBPACK_IMPORTED_MODULE_15__["ProductViewSynergeyesComponent"], data: { option: 'ProductViewSynergeyesComponent' } },
+            { path: ':id/product-view-orion', component: _product_view_orion_product_view_orion_component__WEBPACK_IMPORTED_MODULE_16__["ProductViewOrionComponent"], data: { option: 'ProductViewOrionComponent' } }
         ], data: { option: 'ProductsList' }
     }
 ];
@@ -10668,6 +11986,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_edit_product_edit_product_medmont_edit_product_medmont_component__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./modals/edit-product/edit-product-medmont/edit-product-medmont.component */ "./src/app/products/modals/edit-product/edit-product-medmont/edit-product-medmont.component.ts");
 /* harmony import */ var ng2_currency_mask__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ng2-currency-mask */ "./node_modules/ng2-currency-mask/index.js");
 /* harmony import */ var ng2_currency_mask__WEBPACK_IMPORTED_MODULE_39___default = /*#__PURE__*/__webpack_require__.n(ng2_currency_mask__WEBPACK_IMPORTED_MODULE_39__);
+/* harmony import */ var _product_view_synergeyes_product_view_synergeyes_component__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./product-view-synergeyes/product-view-synergeyes.component */ "./src/app/products/product-view-synergeyes/product-view-synergeyes.component.ts");
+/* harmony import */ var _modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component */ "./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.ts");
+/* harmony import */ var _product_view_orion_product_view_orion_component__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./product-view-orion/product-view-orion.component */ "./src/app/products/product-view-orion/product-view-orion.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10708,6 +12029,9 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 // tslint:disable-next-line:max-line-length
+
+
+
 
 
 
@@ -10761,7 +12085,10 @@ var ProductsModule = /** @class */ (function () {
                 _modals_confirmation_buy_confirmation_lenticon_confirmation_lenticon_component__WEBPACK_IMPORTED_MODULE_35__["ConfirmationLenticonComponent"],
                 _modals_edit_product_edit_product_spectrum_saline_edit_product_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_36__["EditProductSpectrumSalineComponent"],
                 _product_view_medmont_product_view_medmont_component__WEBPACK_IMPORTED_MODULE_37__["ProductViewMedmontComponent"],
-                _modals_edit_product_edit_product_medmont_edit_product_medmont_component__WEBPACK_IMPORTED_MODULE_38__["EditProductMedmontComponent"]
+                _modals_edit_product_edit_product_medmont_edit_product_medmont_component__WEBPACK_IMPORTED_MODULE_38__["EditProductMedmontComponent"],
+                _product_view_synergeyes_product_view_synergeyes_component__WEBPACK_IMPORTED_MODULE_40__["ProductViewSynergeyesComponent"],
+                _modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_41__["ConfirmationSynergeyesComponent"],
+                _product_view_orion_product_view_orion_component__WEBPACK_IMPORTED_MODULE_42__["ProductViewOrionComponent"]
             ],
             entryComponents: [_modals_confirmation_buy_confirmation_buy_component__WEBPACK_IMPORTED_MODULE_14__["ConfirmationBuyComponent"],
                 _modals_edit_product_edit_product_component__WEBPACK_IMPORTED_MODULE_16__["EditProductComponent"],
@@ -10777,7 +12104,8 @@ var ProductsModule = /** @class */ (function () {
                 _modals_confirmation_buy_confirmation_spectrum_saline_confirmation_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_33__["ConfirmationSpectrumSalineComponent"],
                 _modals_confirmation_buy_confirmation_lenticon_confirmation_lenticon_component__WEBPACK_IMPORTED_MODULE_35__["ConfirmationLenticonComponent"],
                 _modals_edit_product_edit_product_spectrum_saline_edit_product_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_36__["EditProductSpectrumSalineComponent"],
-                _modals_edit_product_edit_product_medmont_edit_product_medmont_component__WEBPACK_IMPORTED_MODULE_38__["EditProductMedmontComponent"]
+                _modals_edit_product_edit_product_medmont_edit_product_medmont_component__WEBPACK_IMPORTED_MODULE_38__["EditProductMedmontComponent"],
+                _modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_41__["ConfirmationSynergeyesComponent"]
             ],
             providers: [_shared__WEBPACK_IMPORTED_MODULE_11__["RoleGuard"], _shared_services__WEBPACK_IMPORTED_MODULE_13__["AuthorizationService"]]
         })

@@ -777,6 +777,8 @@ var RoleAdmin;
     RoleAdmin[RoleAdmin["ProtocolProforma"] = 40] = "ProtocolProforma";
     RoleAdmin[RoleAdmin["ChangePassword"] = 41] = "ChangePassword";
     RoleAdmin[RoleAdmin["ClientInvoice"] = 42] = "ClientInvoice";
+    RoleAdmin[RoleAdmin["ProductViewSynergeyesComponent"] = 43] = "ProductViewSynergeyesComponent";
+    RoleAdmin[RoleAdmin["ProductViewOrionComponent"] = 44] = "ProductViewOrionComponent";
 })(RoleAdmin || (RoleAdmin = {}));
 
 
@@ -827,6 +829,8 @@ var RoleSeller;
     RoleSeller[RoleSeller["EditShippingProtocol"] = 30] = "EditShippingProtocol";
     RoleSeller[RoleSeller["ProtocolProforma"] = 31] = "ProtocolProforma";
     RoleSeller[RoleSeller["ChangePassword"] = 32] = "ChangePassword";
+    RoleSeller[RoleSeller["ProductViewSynergeyesComponent"] = 33] = "ProductViewSynergeyesComponent";
+    RoleSeller[RoleSeller["ProductViewOrionComponent"] = 34] = "ProductViewOrionComponent";
 })(RoleSeller || (RoleSeller = {}));
 
 
@@ -871,6 +875,8 @@ var RoleUser;
     RoleUser[RoleUser["ProtocolProforma"] = 24] = "ProtocolProforma";
     RoleUser[RoleUser["InitialsProtocols"] = 25] = "InitialsProtocols";
     RoleUser[RoleUser["ChangePassword"] = 26] = "ChangePassword";
+    RoleUser[RoleUser["ProductViewSynergeyesComponent"] = 27] = "ProductViewSynergeyesComponent";
+    RoleUser[RoleUser["ProductViewOrionComponent"] = 28] = "ProductViewOrionComponent";
 })(RoleUser || (RoleUser = {}));
 
 
