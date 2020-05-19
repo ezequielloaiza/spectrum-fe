@@ -585,6 +585,7 @@ export class ListBasketComponent implements OnInit {
 
   openSumary() {
     this.addProductsAditionalEuropa();
+    console.log(this.user);
     this.buyBasket.idUser = this.user.userResponse.idUser;
     this.buyBasket.listBasket = this.productRequestedToBuy;
     this.buyBasket.idRole = this.user.role.idRole;

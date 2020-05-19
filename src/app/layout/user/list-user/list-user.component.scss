@@ -32,6 +32,15 @@
   }
 }
 
+.in-default {
+  color: $bg-white;
+  > div {
+    background: $processed-status;
+    text-align: center;
+    border-radius: 12px;
+  }
+}
+
 .dropdown-menu {
   left: -33px !important;
 

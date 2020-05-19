@@ -126,8 +126,8 @@ export class ConfirmationLenticonComponent implements OnInit {
       this.buyNow.idRole = this.role;
       this.buyNow.listFileRightEye = this.listFileRightEye;
       this.buyNow.listFileLeftEye = this.listFileLeftEye;
-      this.validateAvailableBalance();
-      if (this.available) {
+      // this.validateAvailableBalance();
+      // if (this.available) {
           this.spinner.show();
           this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
           if (res.code === CodeHttp.ok) {
@@ -149,11 +149,11 @@ export class ConfirmationLenticonComponent implements OnInit {
         }, error => {
           console.log('error', error);
         });
-      } else {
+      /*} else {
         this.balance_modal = true;
         this.openModal(); // No tiene disponible el balance de credito
         this.close();
-      }
+      }*/
     }
   }
 

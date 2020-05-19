@@ -131,8 +131,8 @@ export class ConfirmationBuyComponent implements OnInit {
       this.buyNow.idRole = this.role;
       this.buyNow.listFileRightEye = this.listFileRightEye;
       this.buyNow.listFileLeftEye = this.listFileLeftEye;
-      this.validateAvailableBalance();
-      if (this.available) {
+      // this.validateAvailableBalance();
+      // if (this.available) {
         this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.save_success = true;
@@ -153,10 +153,10 @@ export class ConfirmationBuyComponent implements OnInit {
       }, error => {
         console.log('error', error);
       });
-      } else {
+      /*} else {
         this.openModal(); // No tiene disponible el balance de credito
         this.close();
-      }
+      }*/
     }
   }
 

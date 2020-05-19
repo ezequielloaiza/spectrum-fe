@@ -111,8 +111,8 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
       this.buyNow.idRole = this.role;
       this.basketRequest.listFileRightEye = [];
       this.basketRequest.listFileLeftEye = [];
-      this.validateAvailableBalance();
-      if (this.available) {
+      // this.validateAvailableBalance();
+      // if (this.available) {
           this.spinner.show();
           this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
           if (res.code === CodeHttp.ok) {
@@ -132,10 +132,10 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
         }, error => {
           console.log('error', error);
         });
-      } else {
+      /*} else {
         this.openModal(); // No tiene disponible el balance de credito
         this.close();
-      }
+      }*/
     }
   }
 

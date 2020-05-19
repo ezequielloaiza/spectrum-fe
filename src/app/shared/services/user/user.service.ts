@@ -30,6 +30,10 @@ export class UserService {
     return this.http.get(environment.apiUrl + 'user/changeStatus/' + id);
   }
 
+  public changeStatusUser$(id, status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/changeStatusUser/' + id + '/' + status);
+  }
+
   public findById$(id): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/findById/' + id);
   }

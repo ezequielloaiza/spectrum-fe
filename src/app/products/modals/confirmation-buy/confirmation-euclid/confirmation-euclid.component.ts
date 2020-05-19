@@ -17,6 +17,7 @@ import { BuyNow } from '../../../../shared/models/buynow';
 import { BasketRequest } from '../../../../shared/models/basketrequest';
 import { ProductRequested } from '../../../../shared/models/productrequested';
 import * as _ from 'lodash';
+import { StatusUser } from '../../../../shared/enum/status-user.enum';
 
 @Component({
   selector: 'app-confirmation-euclid',
@@ -39,6 +40,7 @@ export class ConfirmationEuclidComponent implements OnInit {
   typeBuy: any;
   price: any;
   user: any;
+  client: any;
   balace: any;
   // list for File
   listFileBasket: Array<FileProductRequested> = new Array;
@@ -149,34 +151,34 @@ export class ConfirmationEuclidComponent implements OnInit {
       this.buyNow.idRole = this.role;
       this.buyNow.listFileRightEye = this.listFileRightEye;
       this.buyNow.listFileLeftEye = this.listFileLeftEye;
-      this.validateAvailableBalance();
-      if (this.available) {
-          this.spinner.show();
-          this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
-          if (res.code === CodeHttp.ok) {
-            this.save_success = true;
-            this.spinner.hide();
-            this.close();
-            this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-              this.notification.success('', res);
-            });
-            this.redirectListOrder();
-          } else {
-            console.log(res);
-            this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
-              this.notification.error('', res);
-            });
-            this.spinner.hide();
-            this.close();
-          }
-        }, error => {
-          console.log('error', error);
-        });
-      } else {
-        this.balance_modal = true;
-        this.openModal(); // No tiene disponible el balance de credito
-        this.close();
-      }
+      // this.validateAvailableBalance();
+      // if (this.available) {
+      this.spinner.show();
+      this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.save_success = true;
+          this.spinner.hide();
+          this.close();
+          this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+            this.notification.success('', res);
+          });
+          this.redirectListOrder();
+        } else {
+          console.log(res);
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+          });
+          this.spinner.hide();
+          this.close();
+        }
+    }, error => {
+      console.log('error', error);
+    });
+        /*} else {
+          this.balance_modal = true;
+          this.openModal(); // No tiene disponible el balance de credito
+          this.close();
+        }*/
     }
   }
 

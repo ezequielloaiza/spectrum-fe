@@ -115,6 +115,9 @@
                 <td class="table-tr" class="inactive" *ngIf="user.status === 1">
                   <div>{{'Inactive' | translate}}</div>
                 </td>
+                <td class="table-tr" class="in-default" *ngIf="user.status === 2">
+                  <div>{{'In Default' | translate}}</div>
+                </td>
                 <td class="table-tr td-table">{{user.name}}</td>
                 <td class="table-tr td-table">{{user.email}}</td>
                 <td class="table-tr td-table">{{user.company.companyName}}</td>
@@ -127,10 +130,8 @@
                       <div ngbDropdownMenu>
                         <button class="dropdown-item" routerLink="/user/{{user.idUser}}">
                           <i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
-                        <button *ngIf="user.status === 0" class="dropdown-item" (click)="changeStatus(user.idUser)">
-                          <i class="fa fa-times"></i> {{ 'Deactivate' | translate }}</button>
-                        <button *ngIf="user.status === 1" class="dropdown-item" (click)="changeStatus(user.idUser)">
-                          <i class="fa fa-check"></i> {{ 'Activate' | translate }}</button>
+                        <button class="dropdown-item" (click)="changeStatus(user)">
+                          <i class="fa fa-check"></i> {{ 'Change Status' | translate }}</button>
                       </div>
                     </div>
                   </div>
