@@ -644,6 +644,7 @@ export class DetailsBasketClientComponent implements OnInit {
     modalRef.componentInstance.buyBasket = this.buyBasket;
     modalRef.componentInstance.quantity = this.productRequestedToBuy.length;
     modalRef.componentInstance.list = this.listBasket;
+    modalRef.componentInstance.client = this.user;
     modalRef.result.then((result) => {
       this.getCustomer();
       this.getListBasket();

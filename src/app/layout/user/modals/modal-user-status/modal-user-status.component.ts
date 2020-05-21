@@ -34,7 +34,6 @@ export class ModalUserStatusComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    console.log(this.user);
   }
 
   initializeForm() {
@@ -57,7 +56,7 @@ export class ModalUserStatusComponent implements OnInit {
       .subscribe((msg: string) => {
         this.alertify.confirm(title, msg, () => {
           this.userService.changeStatusUser$(this.user.idUser, this.idStatus).subscribe(res => {
-            if (res.status === CodeHttp.ok) {
+            if (res.code === CodeHttp.ok) {
               this.close();
               this.translate.get('Status changed', { value: 'Status changed' }).subscribe((res1: string) => {
                 this.notification.success('', res1);

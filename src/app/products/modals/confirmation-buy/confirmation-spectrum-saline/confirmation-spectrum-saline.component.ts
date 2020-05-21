@@ -15,6 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { NotificationBalanceComponent } from '../../notification-balance/notification-balance.component';
 import * as _ from 'lodash';
+import { StatusUser } from '../../../../shared/enum/status-user.enum';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
   typeBuy: any;
   price: any;
   user: any;
+  client: any;
   balace: any;
   company: Company = new Company();
   available: any;
@@ -106,36 +108,47 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
         console.log('error', error);
       });
     } else {
-      this.buyNow.idUser = this.datos.idUser;
-      this.buyNow.productRequestedList = this.lista;
-      this.buyNow.idRole = this.role;
-      this.basketRequest.listFileRightEye = [];
-      this.basketRequest.listFileLeftEye = [];
-      // this.validateAvailableBalance();
-      // if (this.available) {
-          this.spinner.show();
-          this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
-          if (res.code === CodeHttp.ok) {
-            this.spinner.hide();
+      if (this.client.status === StatusUser.InDefault) {
+        this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
+          this.translate.get('Your account was deactivated. Please contact with the administrator',
+          { value: 'Your account was deactivated. Please contact with the administrator' })
+          .subscribe((msg: string) => {
+            this.alertify.warning(msg);
             this.close();
-            this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-              this.notification.success('', res);
-            });
-            this.redirectListOrder();
-          } else {
-            this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
-              this.notification.error('', res);
-              this.spinner.hide();
-              console.log(res);
-            });
-          }
-        }, error => {
-          console.log('error', error);
+          });
         });
-      /*} else {
-        this.openModal(); // No tiene disponible el balance de credito
-        this.close();
-      }*/
+      } else {
+        this.buyNow.idUser = this.datos.idUser;
+        this.buyNow.productRequestedList = this.lista;
+        this.buyNow.idRole = this.role;
+        this.basketRequest.listFileRightEye = [];
+        this.basketRequest.listFileLeftEye = [];
+        // this.validateAvailableBalance();
+        // if (this.available) {
+            this.spinner.show();
+            this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
+            if (res.code === CodeHttp.ok) {
+              this.spinner.hide();
+              this.close();
+              this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+                this.notification.success('', res);
+              });
+              this.redirectListOrder();
+            } else {
+              this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+                this.notification.error('', res);
+                this.spinner.hide();
+                console.log(res);
+              });
+            }
+          }, error => {
+            console.log('error', error);
+          });
+        /*} else {
+          this.openModal(); // No tiene disponible el balance de credito
+          this.close();
+        }*/
+      }
     }
   }
 
@@ -165,8 +178,9 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
   getBalance() {
     this.userService.findById$(this.datos.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-         this.company = res.data.company;
-         this.balace = this.company.balance;
+        this.client = res.data;
+        this.company = res.data.company;
+        this.balace = this.company.balance;
       } else {
         console.log(res.errors[0].detail);
       }

@@ -60,7 +60,7 @@ export class SummaryProductsComponent implements OnInit {
 
   generateOrder() {
     // this.validateAvailableBalance();
-    if (this.client.status === StatusUser.InDefault && this.user.idRole === 3) {
+    if (this.client.status === StatusUser.InDefault) {
       this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
         this.translate.get('Your account was deactivated. Please contact with the administrator',
         { value: 'Your account was deactivated. Please contact with the administrator' })

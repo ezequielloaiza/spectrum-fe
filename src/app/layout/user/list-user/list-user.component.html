@@ -22,6 +22,12 @@
         <label class="custom-control-label" for="customRadio3">{{ 'Inactives' | translate }}</label>
       </div>
     </div>
+    <div class="col col-xl-1 col-lg-1">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio4" name="customRadio" value="2" class="custom-control-input" (change)="filter(2)">
+        <label class="custom-control-label" for="customRadio4">{{ 'In Default' | translate }}</label>
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
@@ -33,12 +39,12 @@
           <div class="ml-auto p-2" *ngIf="connected">
             <button type="button" class="btn btn-main" [disabled]="!connected" placement="top" (click)="openModal()">{{ 'Add' | translate }}
               <i class="fa fa-plus"></i>
-            </button>         
+            </button>
           </div>
           <div class="ml-auto p-2" *ngIf="!connected">
             <button type="button" class="btn btn-main disabled" placement="top" ngbTooltip="{{'To create a customer you must authorize to Quickbooks to complete the integration' | translate }}">{{ 'Add' | translate }}
               <i class="fa fa-plus"></i>
-            </button>           
+            </button>
           </div>
           <div class="align-btn-detail">
             <button type="button" class="btn btn-success btn-xs" (click)="downloadCustomer()">{{ 'Download PDF' | translate }}

@@ -146,39 +146,50 @@ export class ConfirmationEuclidComponent implements OnInit {
         console.log('error', error);
       });
     } else {
-      this.buyNow.idUser = this.datos.idUser;
-      this.buyNow.productRequestedList = this.lista;
-      this.buyNow.idRole = this.role;
-      this.buyNow.listFileRightEye = this.listFileRightEye;
-      this.buyNow.listFileLeftEye = this.listFileLeftEye;
-      // this.validateAvailableBalance();
-      // if (this.available) {
-      this.spinner.show();
-      this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.save_success = true;
-          this.spinner.hide();
-          this.close();
-          this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-            this.notification.success('', res);
+      if (this.client.status === StatusUser.InDefault) {
+        this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
+          this.translate.get('Your account was deactivated. Please contact with the administrator',
+          { value: 'Your account was deactivated. Please contact with the administrator' })
+          .subscribe((msg: string) => {
+            this.alertify.warning(msg);
+            this.close();
           });
-          this.redirectListOrder();
-        } else {
-          console.log(res);
-          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
-            this.notification.error('', res);
-          });
-          this.spinner.hide();
-          this.close();
-        }
-    }, error => {
-      console.log('error', error);
-    });
-        /*} else {
-          this.balance_modal = true;
-          this.openModal(); // No tiene disponible el balance de credito
-          this.close();
-        }*/
+        });
+      } else {
+        this.buyNow.idUser = this.datos.idUser;
+        this.buyNow.productRequestedList = this.lista;
+        this.buyNow.idRole = this.role;
+        this.buyNow.listFileRightEye = this.listFileRightEye;
+        this.buyNow.listFileLeftEye = this.listFileLeftEye;
+        // this.validateAvailableBalance();
+        // if (this.available) {
+        this.spinner.show();
+        this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            this.save_success = true;
+            this.spinner.hide();
+            this.close();
+            this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+              this.notification.success('', res);
+            });
+            this.redirectListOrder();
+          } else {
+            console.log(res);
+            this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+              this.notification.error('', res);
+            });
+            this.spinner.hide();
+            this.close();
+          }
+        }, error => {
+          console.log('error', error);
+        });
+          /*} else {
+            this.balance_modal = true;
+            this.openModal(); // No tiene disponible el balance de credito
+            this.close();
+          }*/
+      }
     }
   }
 
@@ -231,8 +242,9 @@ export class ConfirmationEuclidComponent implements OnInit {
   getBalance() {
     this.userService.findById$(this.datos.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-         this.company = res.data.company;
-         this.balace = this.company.balance;
+        this.client = res.data;
+        this.company = res.data.company;
+        this.balace = this.company.balance;
       } else {
         console.log(res.errors[0].detail);
       }
