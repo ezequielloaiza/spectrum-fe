@@ -99,7 +99,7 @@
                             <h3>-({{list.productRequested.detail[0].name}})</h3>
                           </span>
                         </div>
-                        <div class="padding-params" *ngIf="order.status === 0 && user.role.idRole === 1 && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 7">
+                        <div class="padding-params" *ngIf="order.status === 0 && user.role.idRole === 1 && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 7 && order.user.status !== 2">
                             <button type="button" (click)="openEdit(list.productRequested, list.urlImage, order)" class="btn btn-outline-primary" translate>
                               Edit
                             </button>
