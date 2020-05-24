@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderService, ProductsRequestedService } from '../../../shared/services';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,6 +17,8 @@ import { ProtocolProformaService } from '../../../shared/services/protocolProfor
 import { InvoiceSupplierProtocolClient } from '../../../shared/models/invoicesupplierprotocolclient';
 import { InvoiceSupplierProtocolProforma } from '../../../shared/models/invoicesupplierprotocolproforma';
 import { CountryService } from '../../../shared/services';
+import { ModalSendInvoiceComponent } from '../modal-send-invoice/modal-send-invoice.component';
+import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
 
 @Component({
   selector: 'app-generate-invoice',
@@ -75,6 +77,7 @@ export class GenerateInvoiceComponent implements OnInit {
   idInvoiceSupplierProtocolClient:any;
   viewOriginal = false;
   viewCopy = false;
+  supplier: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -89,6 +92,7 @@ export class GenerateInvoiceComponent implements OnInit {
     private invoiceService: InvoiceSupplierService,
     private countryService: CountryService,
     private spinner: NgxSpinnerService,
+    private modalService: NgbModal,
     private cdRef: ChangeDetectorRef
   ) {}
 
@@ -281,6 +285,7 @@ export class GenerateInvoiceComponent implements OnInit {
         supplier = orders[0].supplier.idSupplier;
         user = orders[0].user.idUser;
         this.listOrders = orders;
+        this.supplier = supplier;
         this.getProducts();
         this.loadProtocols(supplier, user);
       } else {
@@ -624,6 +629,10 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.listProductRequested[index].description = $event.target.value;
   }
 
+  updatePatient($event, index) {
+    this.invoice.listProductRequested[index].patient = $event.target.value;
+  }
+
   updateCode($event, index) {
     this.invoice.listProductRequested[index].codeSpectrum = $event.target.value;
   }
@@ -935,26 +944,35 @@ export class GenerateInvoiceComponent implements OnInit {
       this.original.status = send;
       inv.push(this.original);
       inv.push(this.invoice);
-      this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
-        res => {
-          if (res.code === CodeHttp.ok) {
-            this.close();
-            this.translate
-              .get('Successfully Generated', { value: 'Successfully Generated' })
-              .subscribe((res1: string) => {
-                this.notification.success('', res1);
-              });
-            this.spinner.hide();
-            this.close();
-          } else {
-            this.spinner.hide();
-            console.log(res.code);
-          }
-        },
-        error => {
-          console.log('error', error);
-        }
-      );
+      console.log(inv);
+      switch (send) {
+        case 0:
+          this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
+            res => {
+              if (res.code === CodeHttp.ok) {
+                this.close();
+                this.translate
+                  .get('Successfully Generated', { value: 'Successfully Generated' })
+                  .subscribe((res1: string) => {
+                    this.notification.success('', res1);
+                  });
+                this.spinner.hide();
+                this.close();
+              } else {
+                this.spinner.hide();
+                console.log(res.code);
+              }
+            },
+            error => {
+              console.log('error', error);
+            }
+          );
+          break;
+        case 1:
+          this.spinner.hide();
+          this.openModalSend(inv);
+          break;
+      }
     } else {
       this.translate
               .get('One or more items are not complete', { value: 'One or more items are not complete' })
@@ -963,6 +981,19 @@ export class GenerateInvoiceComponent implements OnInit {
               });
             this.spinner.hide();
     }
+  }
+
+  openModalSend(invoices) {
+    console.log(this.order);
+    const modalRef = this.modalService.open(ModalSendInvoiceComponent ,
+    {backdrop  : 'static', keyboard  : false});
+    modalRef.componentInstance.idsOrders = this.idsOrders;
+    modalRef.componentInstance.invoices = invoices;
+    modalRef.componentInstance.supplier = this.supplier;
+    modalRef.result.then((result) => {
+    } , (reason) => {
+      this.close();
+    });
   }
 
   sendInvoice() {

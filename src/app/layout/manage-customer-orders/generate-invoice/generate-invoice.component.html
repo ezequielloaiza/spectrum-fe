@@ -27,7 +27,7 @@
                 </div>
               </div>
               <div class="row row-height align-row" [ngStyle]="{'margin-bottom': pilot ? '2%' : '0%'}">
-                <div class="col-xl-5">
+                <div class="col-xl-4">
                   <label class="label">{{ 'Invoice No' | translate }}</label>
                   <label *ngIf="pilot" class="label-value">{{invoice.number}}</label>
                   <input *ngIf="!pilot" class="form-control input-form" [value]="invoice.number" (change)="updateNumber($event)" required>
@@ -39,7 +39,7 @@
                 </div>
               </div>
               <div class="row row-height align-row">
-                <div class="col-xl-5">
+                <div class="col-xl-4">
                   <label class="label">{{ 'Invoice Date' | translate }}</label>
                   <label *ngIf="pilot" class="label-value">{{ (invoice.date ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
                   <div *ngIf="!pilot" class="input-group">
@@ -62,7 +62,7 @@
                 </div>
               </div>
               <div class="row row-height align-row">
-                <div class="col-xl-5">
+                <div class="col-xl-4">
                   <label class="label">{{ 'Due Date' | translate }}</label>
                   <label *ngIf="pilot" class="label-value">{{ (invoice.dueDate ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
                   <div *ngIf="!pilot" class="input-group">
@@ -75,7 +75,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-5">
+                <div class="col-xl-4">
                   <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? invoice.invoiceProtocolClientResponse.shippingAddress: invoice.address?.name}}</label>
                   <label *ngIf="pilot && viewOriginal" class="address">{{invoice.address?.name}}</label>
                   <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
@@ -84,7 +84,7 @@
                 </div>
               </div>
               <div class="row row-height align-row">
-                <div class="col-xl-5">
+                <div class="col-xl-4">
                 </div>
                 <div class="col-xl-4">
                   <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? '' : (invoice.address ? (invoice.address.city + (invoice.address.state !== null ? ' - ' + invoice.address.state : '')) : '')}}</label>
@@ -95,7 +95,7 @@
                 </div>
               </div>
               <div class="row row-height align-row">
-                <div class="col-xl-5">
+                <div class="col-xl-4">
                 </div>
                 <div class="col-xl-4">
                   <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? '' : (invoice.address? (invoice.address.country.name | translate) : '')}}</label>
@@ -123,7 +123,7 @@
                   (change)="updateCustomer($event)" required>
                 </div>
                 <div class="col-xl-6 address-spectrum">
-                  <label class="address-spectrum">3522 ASHFORD DUNWOODY ROAD NE</label>
+                  <label class="address-spectrum">1345 Seaboard Industrial Blvd NW</label>
                 </div>
               </div>
               <div class="row row-height">
@@ -131,7 +131,7 @@
                   <label class="address-client">{{invoice.address?.name}}</label>
                 </div>
                 <div class="col-xl-6 address-spectrum">
-                  <label class="address-spectrum">#293</label>
+                  <label class="address-spectrum">Unit# C-2</label>
                 </div>
               </div>
               <div class="row row-height">
@@ -139,7 +139,7 @@
                   <label class="address-client">{{invoice.address ? (invoice.address.city + (invoice.address.state != null ? ' - ' +invoice.address.state : '')) : ''}}</label>
                 </div>
                 <div class="col-xl-6 address-spectrum">
-                  <label class="address-spectrum">ATLANTA GA 30319</label>
+                  <label class="address-spectrum">Atlanta, GA 30318</label>
                 </div>
               </div>
               <div class="row row-height">
@@ -161,7 +161,7 @@
                 <div class="col-xl-6">
                 </div>
                 <div class="col-xl-6 address-spectrum">
-                  <label class="address-spectrum">marketing@spctinternational.com</label>
+                  <label class="address-spectrum">sales@spctinternational.com</label>
                 </div>
               </div>
             </div>
@@ -174,6 +174,7 @@
                   <tr>
                     <th class="table-tr bold">{{ 'Description' | translate }}</th>
                     <th class="table-tr bold">{{ 'Code' | translate }}</th>
+                    <th class="table-tr bold">{{ 'Patient' | translate }}</th>
                     <th class="table-tr bold">{{ 'Qty' | translate }}</th>
                     <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
                     <th [ngClass]="{'table-tr bold padding-tax': pilot, 'table-tr bold': !pilot }">{{ 'Tax Rate' | translate }}</th>
@@ -187,7 +188,7 @@
                   <ng-container *ngFor="let productR of invoice.listProductRequested; let i = index">
                     <tr *ngIf="productR.delete == null || productR.delete == false">
                       <td class="table-tr td-table" *ngIf="pilot" >2{{ productR.description + (productR.patient !== '' ? ', ' + productR.patient : '') }}</td>
-                      <td class="table-tr td-table" *ngIf="!pilot">
+                      <td class="table-tr td-table less-pad" *ngIf="!pilot">
                         <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.description"  (change)="updateDescription($event, i)" class="form-control" required>
                         <select *ngIf="productR.idProductRequested == null" class="form-control" id="productDescription{{i}}" (change)="updateProduct($event, i)">
                           <option value="" disabled [selected]="true" translate>Select product</option>
@@ -195,19 +196,23 @@
                         </select>
                       </td>
                       <td class="table-tr td-table" *ngIf="pilot">{{productR.codeSpectrum}}</td>
-                      <td class="table-tr td-table" *ngIf="!pilot">
+                      <td class="table-tr td-table less-pad" *ngIf="!pilot">
                         <input type="text" id="code{{i}}" [value]="productR.codeSpectrum" class="form-control" (change)="updateCode($event, i)"
                             placeholder="{{ 'Enter code' | translate }}" required>
                       </td>
+                      <td class="table-tr td-table" *ngIf="pilot" >{{ productR.patient !== '' ? productR.patient : '' }}</td>
+                      <td class="table-tr td-table less-pad" *ngIf="!pilot">
+                        <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.patient !== '' ? productR.patient : ''"  (change)="updatePatient($event, i)" class="form-control" required>
+                      </td>
                       <td class="table-tr td-table" *ngIf="pilot">{{productR.quantity}}</td>
-                      <td class="table-tr td-table" *ngIf="!pilot">
+                      <td class="table-tr td-table less-pad" *ngIf="!pilot">
                         <div class="amount-div">
                           <input type="number" id="quantity{{i}}" [value]="productR.quantity" class="form-control" (change)="updateQuantity($event, i)"
                             placeholder="{{ 'Enter quantity' | translate }}" required>
                         </div>
                       </td>
                       <td class="table-tr td-table" *ngIf="pilot"> {{productR.price | currency }}</td>
-                      <td class="table-tr td-table" *ngIf="!pilot">
+                      <td class="table-tr td-table less-pad" *ngIf="!pilot">
                       <div class="amount-div">
                         <div class="input-group-append">
                           <span class="input-group-text">$</span>
@@ -217,7 +222,7 @@
                       </div>
                       </td>
                       <td class="table-tr td-table td-align-price" *ngIf="pilot" colspan="1">{{(productR.tax | currency )}}</td>
-                      <td class="table-tr td-table" *ngIf="!pilot">
+                      <td class="table-tr td-table less-pad" *ngIf="!pilot">
                         <div class="amount-div">
                           <div class="input-group-append">
                             <span class="input-group-text">$</span>
@@ -227,7 +232,7 @@
                         </div>
                         </td>
                       <td class="table-tr td-table td-align" *ngIf="pilot" colspan="2">{{(productR.netAmount | currency )}}</td>
-                      <td class="table-tr td-table" *ngIf="!pilot">
+                      <td class="table-tr td-table less-pad" *ngIf="!pilot">
                         <div class="amount-div">
                           <div class="input-group-append">
                             <span class="input-group-text">$</span>
@@ -236,7 +241,7 @@
                             placeholder="{{ 'Enter Net Amount' | translate }}" required>
                         </div>
                       </td>
-                    <td class="table-tr td-table hand-over" *ngIf="!pilot">
+                    <td class="table-tr td-table hand-over less-pad" *ngIf="!pilot">
                       <span class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
                       <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete' | translate}}" (click)="removeItem(i)"></span>
                     </td>
