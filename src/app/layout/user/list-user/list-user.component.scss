@@ -13,6 +13,18 @@
     color: $bg-imput;
   }
 }
+.radio-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .custom-control{
+    margin-right: 4%;
+    label {
+      white-space: nowrap;
+    }
+  }
+}
 
 .active {
   color: $bg-white;
@@ -42,12 +54,12 @@
 }
 
 .dropdown-menu {
-  left: -33px !important;
+  left: -40px !important;
 
   &::before {
     position: absolute;
     top: -7px;
-    left: 103px;
+    left: 100px;
     display: inline-block;
     border-right: 7px solid transparent;
     border-bottom: 7px solid #CCC;
@@ -59,12 +71,16 @@
   &::after {
     position: absolute;
     top: -6px;
-    left: 104px;
+    left: 101px;
     display: inline-block;
     border-right: 6px solid transparent;
     border-bottom: 6px solid $bg-white;
     border-left: 6px solid transparent;
     content: '';
+  }
+
+  .dropdown-item {
+    padding: 0.20rem 1.15rem;
   }
 }
 
