@@ -26,6 +26,7 @@ export class SupplierBlueLightComponent implements OnInit {
   listAux: Array<any> = new Array;
   urlImage: any;
   valueStatus: any;
+  valueClient: any;
   user: any;
   constructor(private modalService: NgbModal,
               private userStorageService: UserStorageService,
@@ -42,6 +43,7 @@ export class SupplierBlueLightComponent implements OnInit {
     this.listAux = this.lista;
     this.urlImage = this.image;
     this.valueStatus = this.order.status;
+    this.valueClient = this.order.user.status;
   }
 
   openEdit() {
