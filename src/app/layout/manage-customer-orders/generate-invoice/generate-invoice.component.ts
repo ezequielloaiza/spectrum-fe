@@ -334,6 +334,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
       productR.codeSpectrum = pRequested.codeSpectrum == null ? pRequested.productRequested.product.codeSpectrum : pRequested.codeSpectrum;
+      productR.patient = pRequested.patient == null ? pRequested.productRequested.patient : pRequested.patient;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -360,7 +361,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
       productR.codeSpectrum = pRequested.codeSpectrum == null ? pRequested.productRequested.product.codeSpectrum : pRequested.codeSpectrum;
-      productR.patient = pRequested.productRequested.patient === '' ? 'Not apply' : pRequested.productRequested.patient;
+      productR.patient = pRequested.patient == null ? pRequested.productRequested.patient : pRequested.patient;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -712,6 +713,7 @@ export class GenerateInvoiceComponent implements OnInit {
     invSupplier.tax = 0.00;
     invSupplier.quantity = 0;
     invSupplier.delete = false;
+    invSupplier.patient = '';
     this.invoice.listProductRequested.push(invSupplier);
     if (this.allDelete) {
       this.allDelete = false;
@@ -944,7 +946,6 @@ export class GenerateInvoiceComponent implements OnInit {
       this.original.status = send;
       inv.push(this.original);
       inv.push(this.invoice);
-      console.log(inv);
       switch (send) {
         case 0:
           this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
@@ -970,7 +971,7 @@ export class GenerateInvoiceComponent implements OnInit {
           break;
         case 1:
           this.spinner.hide();
-          this.openModalSend(inv);
+          this.openModalSend(inv, null, true);
           break;
       }
     } else {
@@ -983,14 +984,16 @@ export class GenerateInvoiceComponent implements OnInit {
     }
   }
 
-  openModalSend(invoices) {
-    console.log(this.order);
+  openModalSend(invoices, idInvoice, send) {
     const modalRef = this.modalService.open(ModalSendInvoiceComponent ,
-    {backdrop  : 'static', keyboard  : false});
+    {backdrop  : 'static', windowClass: 'modal-content-border', keyboard  : false});
     modalRef.componentInstance.idsOrders = this.idsOrders;
     modalRef.componentInstance.invoices = invoices;
-    modalRef.componentInstance.supplier = this.supplier;
+    modalRef.componentInstance.supplierId = this.supplier;
+    modalRef.componentInstance.idInvoice = idInvoice;
+    modalRef.componentInstance.saveAndSend = send;
     modalRef.result.then((result) => {
+      this.close();
     } , (reason) => {
       this.close();
     });
@@ -1004,7 +1007,10 @@ export class GenerateInvoiceComponent implements OnInit {
     } else {
       idInvoice = this.original.idInvoice;
     }
-    this.invoiceService.sendInvoice$(idInvoice).subscribe(
+
+    this.spinner.hide();
+    this.openModalSend(null, idInvoice, false);
+    /*this.invoiceService.sendInvoice$(idInvoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.close();
@@ -1023,6 +1029,6 @@ export class GenerateInvoiceComponent implements OnInit {
         this.spinner.hide();
         console.log('error', error);
       }
-    );
+    );*/
   }
 }

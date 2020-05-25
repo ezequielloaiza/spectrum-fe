@@ -9,17 +9,20 @@
     <div class="row">
       <div class="col-xl-12" >
         <div class="custom-control custom-radio">
-          <input type="radio" id="radioGroup1" name="radioGroup" [value]="1" (change)="onSelectionChange(1)" class="custom-control-input" >
-          <label class="custom-control-label" for="radioGroup1">{{ 'Send to supplier' | translate }} ({{supplier.email }})</label>
+          <input type="radio" id="radioGroup1" name="radioGroup1" [value]="!spectrum" (change)="onSelectionChange(1)" class="custom-control-input" [checked]="!spectrum">
+          <label class="custom-control-label" for="radioGroup1">{{ 'Send to supplier' | translate }} ({{supplier?.email }})</label>
         </div>
       </div>
       <div class="col-xl-12" >
         <div class="custom-control custom-radio">
-          <input type="radio" id="radioGroup2" name="radioGroup" [value]="2" (change)="onSelectionChange(2)" class="custom-control-input" >
+          <input type="radio" id="radioGroup2" name="radioGroup2" [value]="spectrum" (change)="onSelectionChange(2)" class="custom-control-input" [checked]="spectrum">
           <label class="custom-control-label" for="radioGroup2">{{ 'Send to Spectrum' | translate }}</label>
         </div>
-        <div *ngIf="spectrum!!" class="form-group">
-          <input type="text" [ngModel]="emailSupplier" id="email" formControlName="email" class="custom-control-input">
+      </div>
+      <div class="col-xl-12">
+        <div *ngIf="spectrum" class="custom-control form-group">
+          <label>{{ 'Email' | translate }}</label>
+          <input type="text" [value]="emailSupplier" class="form-control" formControlName="emailSupplier">
         </div>
       </div>
     </div>
@@ -29,7 +32,7 @@
   <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="send()">{{ 'Save and Send' | translate }}&nbsp;
+  <button type="button" class="btn btn-main" [disabled]="!validForm()" (click)="send()">{{ 'Save and Send' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
 </div>

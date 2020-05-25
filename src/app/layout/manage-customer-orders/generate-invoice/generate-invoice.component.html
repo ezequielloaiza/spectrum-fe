@@ -173,8 +173,8 @@
                 <thead>
                   <tr>
                     <th class="table-tr bold">{{ 'Description' | translate }}</th>
+                    <th *ngIf="!pilot" class="table-tr bold">{{ 'Patient' | translate }}</th>
                     <th class="table-tr bold">{{ 'Code' | translate }}</th>
-                    <th class="table-tr bold">{{ 'Patient' | translate }}</th>
                     <th class="table-tr bold">{{ 'Qty' | translate }}</th>
                     <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
                     <th [ngClass]="{'table-tr bold padding-tax': pilot, 'table-tr bold': !pilot }">{{ 'Tax Rate' | translate }}</th>
@@ -187,7 +187,7 @@
                 <tbody>
                   <ng-container *ngFor="let productR of invoice.listProductRequested; let i = index">
                     <tr *ngIf="productR.delete == null || productR.delete == false">
-                      <td class="table-tr td-table" *ngIf="pilot" >2{{ productR.description + (productR.patient !== '' ? ', ' + productR.patient : '') }}</td>
+                      <td class="table-tr td-table" *ngIf="pilot" >{{ productR.description + (productR.patient !== '' ? ', ' + productR.patient : '') }}</td>
                       <td class="table-tr td-table less-pad" *ngIf="!pilot">
                         <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.description"  (change)="updateDescription($event, i)" class="form-control" required>
                         <select *ngIf="productR.idProductRequested == null" class="form-control" id="productDescription{{i}}" (change)="updateProduct($event, i)">
@@ -195,14 +195,14 @@
                           <option *ngFor="let pR of listProducts" value="{{pR.idProductRequested}}">{{pR.product.name}} - {{ pR.product.name}} </option>
                         </select>
                       </td>
+                      <!--td class="table-tr td-table" *ngIf="pilot" >{{ productR.patient !== '' ? productR.patient : '' }}</td-->
+                      <td class="table-tr td-table less-pad" *ngIf="!pilot">
+                        <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.patient !== '' ? productR.patient : ''"  (change)="updatePatient($event, i)" class="form-control" required>
+                      </td>
                       <td class="table-tr td-table" *ngIf="pilot">{{productR.codeSpectrum}}</td>
                       <td class="table-tr td-table less-pad" *ngIf="!pilot">
                         <input type="text" id="code{{i}}" [value]="productR.codeSpectrum" class="form-control" (change)="updateCode($event, i)"
                             placeholder="{{ 'Enter code' | translate }}" required>
-                      </td>
-                      <td class="table-tr td-table" *ngIf="pilot" >{{ productR.patient !== '' ? productR.patient : '' }}</td>
-                      <td class="table-tr td-table less-pad" *ngIf="!pilot">
-                        <input *ngIf="productR.idProductRequested != null" type="text" [value]= "productR.patient !== '' ? productR.patient : ''"  (change)="updatePatient($event, i)" class="form-control" required>
                       </td>
                       <td class="table-tr td-table" *ngIf="pilot">{{productR.quantity}}</td>
                       <td class="table-tr td-table less-pad" *ngIf="!pilot">
