@@ -12,6 +12,8 @@ import { NotificationBalanceOrderComponent } from '../../../notification/notific
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { ProductRequested } from '../../../../shared/models/productrequested';
+import { StatusUser } from '../../../../shared/enum/status-user.enum';
+import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
 
 @Component({
   selector: 'app-summary-products',
@@ -25,6 +27,7 @@ export class SummaryProductsComponent implements OnInit {
   buyBasket: Buy;
   quantity: any;
   user: any;
+  client: any;
   balace: any;
   company: Company = new Company();
   available: any;
@@ -34,6 +37,7 @@ export class SummaryProductsComponent implements OnInit {
   validRecords = 0;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
+              private alertify: AlertifyService,
               private translate: TranslateService,
               private orderService: OrderService,
               private spinner: NgxSpinnerService,
@@ -55,40 +59,52 @@ export class SummaryProductsComponent implements OnInit {
   }
 
   generateOrder() {
-    this.validateAvailableBalance();
-    if (this.available) {
-      this.spinner.show();
-      this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          if (this.listAux.length > 0) {
-             this.update();//caso europa
-          } else {
-            this.close();
-            this.spinner.hide();
-            this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-              this.notification.success('', res);
-            });
-            this.redirectListOrder();
-          }
-        } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
-        }
-      }, error => {
-        console.log('error', error);
+    // this.validateAvailableBalance();
+    if (this.client.status === StatusUser.InDefault) {
+      this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
+        this.translate.get('Your account was deactivated. Please contact with the administrator',
+        { value: 'Your account was deactivated. Please contact with the administrator' })
+        .subscribe((msg: string) => {
+          this.alertify.warning(msg);
+          this.close();
+        });
       });
-   } else {
-     this.openModal();
-     this.close();
-   }
+    } else {
+      // if (this.available) {
+        this.spinner.show();
+        this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            if (this.listAux.length > 0) {
+               this.update();//caso europa
+            } else {
+              this.close();
+              this.spinner.hide();
+              this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+                this.notification.success('', res);
+              });
+              this.redirectListOrder();
+            }
+          } else {
+            console.log(res.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+        });
+     /*} else {
+       this.openModal();
+       this.close();
+     }*/
+    }
   }
 
 
   getBalance() {
     this.userService.findById$(this.buyBasket.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-         this.company = res.data.company;
-         this.balace = this.company.balance;
+        this.client = res.data;
+        this.company = res.data.company;
+        this.balace = this.company.balance;
       } else {
         console.log(res.errors[0].detail);
       }

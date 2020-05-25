@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
 import { UserStorageService } from '../../../http/user-storage.service';
+import { ModalUserStatusComponent } from '../modals/modal-user-status/modal-user-status.component';
 
 @Component({
   selector: 'app-list',
@@ -112,21 +113,15 @@ export class ListUserComponent implements OnInit {
     }
   }
 
-  changeStatus(id): void {
-    this.translate.get('Customer status', { value: 'Customer status' }).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to change the status?', { value: 'Are you sure you want to change the status?' })
-      .subscribe((msg: string) => {
-        this.alertify.confirm(title, msg, () => {
-          this.userService.changeStatus$(id).subscribe(res => {
-            this.translate.get('Status changed', { value: 'Status changed' }).subscribe((res: string) => {
-              this.notification.success('', res);
-              this.getListUser(-1);
-            });
-          });
-        }, () => {
-        });
+  changeStatus(user): void {
+    const modalRef = this.modalService.open(ModalUserStatusComponent,
+      { size: 'sm', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
+      modalRef.componentInstance.user = user;
+      modalRef.result.then((result) => {
+        this.getListUser(-1);
+        this.moveFirstPage();
+      } , (reason) => {
       });
-    });
   }
 
   openModal(): void {
