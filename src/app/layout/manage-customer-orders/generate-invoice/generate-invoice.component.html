@@ -197,7 +197,8 @@
                       </td>
                       <!--td class="table-tr td-table" *ngIf="pilot" >{{ productR.patient !== '' ? productR.patient : '' }}</td-->
                       <td class="table-tr td-table less-pad" *ngIf="!pilot">
-                        <input *ngIf="productR.idProductRequested != null" type="text" maxlength="20" [value]= "productR.patient !== '' ? productR.patient : ''"  (change)="updatePatient($event, i)" class="form-control" required>
+                        <input *ngIf="productR.idProductRequested != null" type="text" maxlength="20" [value]= "productR.patient !== '' ? productR.patient : ''"
+                        (change)="updatePatient($event, i)" class="form-control" [disabled]="productR.patient === '' || productR.patient === 'Not apply'" required>
                       </td>
                       <td class="table-tr td-table" *ngIf="pilot">{{productR.codeSpectrum}}</td>
                       <td class="table-tr td-table less-pad" *ngIf="!pilot">

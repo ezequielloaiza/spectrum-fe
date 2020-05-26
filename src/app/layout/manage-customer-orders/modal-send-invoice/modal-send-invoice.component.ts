@@ -71,16 +71,19 @@ export class ModalSendInvoiceComponent implements OnInit {
         this.spectrum = true;
         this.form.get('emailSupplier').setValidators([Validators.required,
           Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]);
-        this.form.get('emailSupplier').setValue(this.supplier.email2);
-        this.email = this.supplier.email2;
+        if (this.supplier.email2 !== undefined && this.supplier.email2 !== null) {
+          this.email = this.supplier.email2;
+        }
         break;
     }
   }
 
   validForm() {
     if (this.spectrum) {
-      if (this.email !== '' && this.email !== undefined && this.email !== null) {
+      if (this.email !== '' && this.email !== undefined && this.email !== null && this.form.get('emailSupplier').valid) {
         this.valid = true;
+      } else {
+        this.valid = false;
       }
     } else {
       this.valid = true;
