@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { OrderService, InvoiceSupplierService } from '../../../shared/services';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -21,7 +20,7 @@ export class ModalSendInvoiceComponent implements OnInit {
   invoices: any;
   supplierId: any;
   supplier: any;
-  emailSupplier: any;
+  email: any;
   valid = false;
   saveAndSend = false;
   idInvoice: any;
@@ -33,12 +32,10 @@ export class ModalSendInvoiceComponent implements OnInit {
     private invoiceService: InvoiceSupplierService,
     private translate: TranslateService,
     private spinner: NgxSpinnerService,
-    private supplierService: SupplierService,
-    private alertify: AlertifyService,
-    private modalService: NgbModal) { }
+    private supplierService: SupplierService) { }
 
   ngOnInit() {
-    this.emailSupplier = '';
+    this.email = '';
     this.initializeForm();
     this.loadSupplier();
   }
@@ -47,7 +44,7 @@ export class ModalSendInvoiceComponent implements OnInit {
     this.form = this.formBuilder.group({
       radioGroup1: [''],
       radioGroup2: [''],
-      emailSupplier: ['', [Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]]
+      emailSupplier: ['']
     });
   }
 
@@ -61,6 +58,10 @@ export class ModalSendInvoiceComponent implements OnInit {
     });
   }
 
+  onChangeEmail($event) {
+    this.email = $event.target.value;
+  }
+
   onSelectionChange(value) {
     switch (value) {
       case 1:
@@ -68,15 +69,17 @@ export class ModalSendInvoiceComponent implements OnInit {
         break;
       case 2:
         this.spectrum = true;
+        this.form.get('emailSupplier').setValidators([Validators.required,
+          Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]);
         this.form.get('emailSupplier').setValue(this.supplier.email2);
-        this.emailSupplier = this.supplier.email2;
+        this.email = this.supplier.email2;
         break;
     }
   }
 
   validForm() {
     if (this.spectrum) {
-      if (this.emailSupplier !== '' && this.emailSupplier !== undefined && this.emailSupplier !== null) {
+      if (this.email !== '' && this.email !== undefined && this.email !== null) {
         this.valid = true;
       }
     } else {
@@ -87,12 +90,13 @@ export class ModalSendInvoiceComponent implements OnInit {
 
   send() {
     this.spinner.show();
-    this.emailSupplier = this.form.get('emailSupplier');
-    if (this.spectrum) {
-      this.invoices[0].emailTo = this.emailSupplier;
-      this.invoices[1].emailTo = this.emailSupplier;
-    }
     if (this.saveAndSend) {
+      if (this.spectrum) {
+        this.invoices[0].emailTo = this.email;
+        this.invoices[0].status = 1;
+        this.invoices[1].emailTo = this.email;
+        this.invoices[1].status = 1;
+      }
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, 1, this.invoices).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
@@ -113,16 +117,17 @@ export class ModalSendInvoiceComponent implements OnInit {
             }
       );
     } else {
-      this.invoiceService.sendInvoice$(this.idInvoice).subscribe(
+      const emailTo = this.spectrum ? this.email : this.supplier.email;
+      this.invoiceService.sendInvoice$(this.idInvoice, emailTo).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
+            this.spinner.hide();
             this.close();
             this.translate
               .get('Successfully Send', { value: 'Successfully Send' })
               .subscribe((res1: string) => {
                 this.notification.success('', res1);
               });
-            this.spinner.hide();
           } else {
             this.spinner.hide();
             console.log(res.code);

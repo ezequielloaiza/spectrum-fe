@@ -22,7 +22,7 @@
       <div class="col-xl-12">
         <div *ngIf="spectrum" class="custom-control form-group">
           <label>{{ 'Email' | translate }}</label>
-          <input type="text" [value]="emailSupplier" class="form-control" formControlName="emailSupplier">
+          <input type="text" [value]="emailSupplier" class="form-control" (change)="onChangeEmail($event)" formControlName="emailSupplier">
         </div>
       </div>
     </div>

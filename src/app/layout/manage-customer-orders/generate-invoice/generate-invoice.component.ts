@@ -942,12 +942,12 @@ export class GenerateInvoiceComponent implements OnInit {
       this.updateDates();
       this.buildInvoiceProtocols();
       let inv: Array<any> = new Array;
-      this.invoice.status = send;
-      this.original.status = send;
-      inv.push(this.original);
-      inv.push(this.invoice);
       switch (send) {
         case 0:
+          this.invoice.status = send;
+          this.original.status = send;
+          inv.push(this.original);
+          inv.push(this.invoice);
           this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
             res => {
               if (res.code === CodeHttp.ok) {
@@ -970,6 +970,8 @@ export class GenerateInvoiceComponent implements OnInit {
           );
           break;
         case 1:
+          inv.push(this.original);
+          inv.push(this.invoice);
           this.spinner.hide();
           this.openModalSend(inv, null, true);
           break;
@@ -986,7 +988,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   openModalSend(invoices, idInvoice, send) {
     const modalRef = this.modalService.open(ModalSendInvoiceComponent ,
-    {backdrop  : 'static', windowClass: 'modal-content-border', keyboard  : false});
+    {backdrop  : 'static', windowClass: 'modal-send-invoice', backdropClass: 'modal-send-invoice backdrop-send', keyboard  : false});
     modalRef.componentInstance.idsOrders = this.idsOrders;
     modalRef.componentInstance.invoices = invoices;
     modalRef.componentInstance.supplierId = this.supplier;

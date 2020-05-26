@@ -40,7 +40,7 @@ export class InvoiceSupplierService {
     return this.http.get(environment.apiUrl + 'invoicesSupplier/findCopyByNumberOriginal/' + number);
   }
 
-  public sendInvoice$(id): Observable<any> {
-    return this.http.get(environment.apiUrl + 'invoicesSupplier/sendInvoice/' + id);
+  public sendInvoice$(id, email): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesSupplier/sendInvoice/' + id + '/' + email);
   }
 }
