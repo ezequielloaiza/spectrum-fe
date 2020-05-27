@@ -73,6 +73,7 @@ export class ModalSendInvoiceComponent implements OnInit {
           Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]);
         if (this.supplier.email2 !== undefined && this.supplier.email2 !== null) {
           this.email = this.supplier.email2;
+          this.form.get('emailSupplier').setValue(this.email);
         }
         break;
     }
@@ -95,9 +96,10 @@ export class ModalSendInvoiceComponent implements OnInit {
     this.spinner.show();
     if (this.saveAndSend) {
       if (this.spectrum) {
-        this.invoices[0].emailTo = this.email;
+        const emailTo = this.spectrum ? this.email : this.supplier.email;
+        this.invoices[0].emailTo = emailTo;
         this.invoices[0].status = 1;
-        this.invoices[1].emailTo = this.email;
+        this.invoices[1].emailTo = emailTo;
         this.invoices[1].status = 1;
       }
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, 1, this.invoices).subscribe(

@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">{{ 'Send Invoice' | translate }}</h4>
+  <h4 class="modal-title">{{ 'Send Proforma' | translate }}</h4>
   <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -10,7 +10,7 @@
       <div class="col-xl-12" >
         <div class="custom-control custom-radio">
           <input type="radio" id="radioGroup1" name="radioGroup1" [value]="!spectrum" (change)="onSelectionChange(1)" class="custom-control-input" [checked]="!spectrum">
-          <label class="custom-control-label" for="radioGroup1">{{ 'Send to supplier' | translate }} ({{supplier?.email }})</label>
+          <label class="custom-control-label" for="radioGroup1">{{ 'Send to Supplier' | translate }} ({{supplier?.email }})</label>
         </div>
       </div>
       <div class="col-xl-12" >
@@ -22,7 +22,7 @@
       <div class="col-xl-12">
         <div *ngIf="spectrum" class="custom-control form-group">
           <label>{{ 'Email' | translate }}</label>
-          <input type="text" [value]="email" class="form-control" (change)="onChangeEmail($event)" formControlName="emailSupplier">
+          <input type="text" [value]="email" class="form-control" (change)="onChangeEmail($event)" formControlName="emailSupplier" name="emailSupplier">
         </div>
       </div>
     </div>
