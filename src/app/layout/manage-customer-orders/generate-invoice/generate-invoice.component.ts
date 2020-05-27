@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderService, ProductsRequestedService } from '../../../shared/services';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,6 +17,8 @@ import { ProtocolProformaService } from '../../../shared/services/protocolProfor
 import { InvoiceSupplierProtocolClient } from '../../../shared/models/invoicesupplierprotocolclient';
 import { InvoiceSupplierProtocolProforma } from '../../../shared/models/invoicesupplierprotocolproforma';
 import { CountryService } from '../../../shared/services';
+import { ModalSendInvoiceComponent } from '../modal-send-invoice/modal-send-invoice.component';
+import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
 
 @Component({
   selector: 'app-generate-invoice',
@@ -75,6 +77,7 @@ export class GenerateInvoiceComponent implements OnInit {
   idInvoiceSupplierProtocolClient:any;
   viewOriginal = false;
   viewCopy = false;
+  supplier: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -89,6 +92,7 @@ export class GenerateInvoiceComponent implements OnInit {
     private invoiceService: InvoiceSupplierService,
     private countryService: CountryService,
     private spinner: NgxSpinnerService,
+    private modalService: NgbModal,
     private cdRef: ChangeDetectorRef
   ) {}
 
@@ -281,6 +285,7 @@ export class GenerateInvoiceComponent implements OnInit {
         supplier = orders[0].supplier.idSupplier;
         user = orders[0].user.idUser;
         this.listOrders = orders;
+        this.supplier = supplier;
         this.getProducts();
         this.loadProtocols(supplier, user);
       } else {
@@ -329,6 +334,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
       productR.codeSpectrum = pRequested.codeSpectrum == null ? pRequested.productRequested.product.codeSpectrum : pRequested.codeSpectrum;
+      productR.patient = pRequested.patient == null ? pRequested.productRequested.patient : pRequested.patient;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -355,7 +361,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
       productR.codeSpectrum = pRequested.codeSpectrum == null ? pRequested.productRequested.product.codeSpectrum : pRequested.codeSpectrum;
-      productR.patient = pRequested.productRequested.patient === '' ? 'Not apply' : pRequested.productRequested.patient;
+      productR.patient = pRequested.patient == null ? pRequested.productRequested.patient : pRequested.patient;
       productR.delete = false;
       productReq.push(productR);
     });
@@ -624,6 +630,10 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.listProductRequested[index].description = $event.target.value;
   }
 
+  updatePatient($event, index) {
+    this.invoice.listProductRequested[index].patient = $event.target.value;
+  }
+
   updateCode($event, index) {
     this.invoice.listProductRequested[index].codeSpectrum = $event.target.value;
   }
@@ -703,6 +713,7 @@ export class GenerateInvoiceComponent implements OnInit {
     invSupplier.tax = 0.00;
     invSupplier.quantity = 0;
     invSupplier.delete = false;
+    invSupplier.patient = '';
     this.invoice.listProductRequested.push(invSupplier);
     if (this.allDelete) {
       this.allDelete = false;
@@ -931,30 +942,40 @@ export class GenerateInvoiceComponent implements OnInit {
       this.updateDates();
       this.buildInvoiceProtocols();
       let inv: Array<any> = new Array;
-      this.invoice.status = send;
-      this.original.status = send;
-      inv.push(this.original);
-      inv.push(this.invoice);
-      this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
-        res => {
-          if (res.code === CodeHttp.ok) {
-            this.close();
-            this.translate
-              .get('Successfully Generated', { value: 'Successfully Generated' })
-              .subscribe((res1: string) => {
-                this.notification.success('', res1);
-              });
-            this.spinner.hide();
-            this.close();
-          } else {
-            this.spinner.hide();
-            console.log(res.code);
-          }
-        },
-        error => {
-          console.log('error', error);
-        }
-      );
+      switch (send) {
+        case 0:
+          this.invoice.status = send;
+          this.original.status = send;
+          inv.push(this.original);
+          inv.push(this.invoice);
+          this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, send, inv).subscribe(
+            res => {
+              if (res.code === CodeHttp.ok) {
+                this.close();
+                this.translate
+                  .get('Successfully Generated', { value: 'Successfully Generated' })
+                  .subscribe((res1: string) => {
+                    this.notification.success('', res1);
+                  });
+                this.spinner.hide();
+                this.close();
+              } else {
+                this.spinner.hide();
+                console.log(res.code);
+              }
+            },
+            error => {
+              console.log('error', error);
+            }
+          );
+          break;
+        case 1:
+          inv.push(this.original);
+          inv.push(this.invoice);
+          this.spinner.hide();
+          this.openModalSend(inv, null, true);
+          break;
+      }
     } else {
       this.translate
               .get('One or more items are not complete', { value: 'One or more items are not complete' })
@@ -965,6 +986,21 @@ export class GenerateInvoiceComponent implements OnInit {
     }
   }
 
+  openModalSend(invoices, idInvoice, send) {
+    const modalRef = this.modalService.open(ModalSendInvoiceComponent ,
+    {backdrop  : 'static', windowClass: 'modal-send-invoice', backdropClass: 'modal-send-invoice backdrop-send', keyboard  : false});
+    modalRef.componentInstance.idsOrders = this.idsOrders;
+    modalRef.componentInstance.invoices = invoices;
+    modalRef.componentInstance.supplierId = this.supplier;
+    modalRef.componentInstance.idInvoice = idInvoice;
+    modalRef.componentInstance.saveAndSend = send;
+    modalRef.result.then((result) => {
+      this.close();
+    } , (reason) => {
+      this.close();
+    });
+  }
+
   sendInvoice() {
     this.spinner.show();
     let idInvoice;
@@ -973,7 +1009,10 @@ export class GenerateInvoiceComponent implements OnInit {
     } else {
       idInvoice = this.original.idInvoice;
     }
-    this.invoiceService.sendInvoice$(idInvoice).subscribe(
+
+    this.spinner.hide();
+    this.openModalSend(null, idInvoice, false);
+    /*this.invoiceService.sendInvoice$(idInvoice).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           this.close();
@@ -992,6 +1031,6 @@ export class GenerateInvoiceComponent implements OnInit {
         this.spinner.hide();
         console.log('error', error);
       }
-    );
+    );*/
   }
 }

@@ -97,6 +97,7 @@ import { InvoiceClientQBOComponent } from './invoice-client-qbo/invoice-client-q
 import { DetailSynergeyesComponent } from './basket/modals/detail-product/detail-synergeyes/detail-synergeyes.component';
 import { SynergeyesComponent } from './edit-order/synergeyes/synergeyes.component';
 import { SupplierSynergeyesComponent } from './details-order-supplier/supplier-synergeyes/supplier-synergeyes.component';
+import { ModalSendInvoiceComponent } from './manage-customer-orders/modal-send-invoice/modal-send-invoice.component';
 import { ModalUserStatusComponent } from './user/modals/modal-user-status/modal-user-status.component';
 
 @NgModule({
@@ -203,6 +204,7 @@ import { ModalUserStatusComponent } from './user/modals/modal-user-status/modal-
         DetailSynergeyesComponent,
         SynergeyesComponent,
         SupplierSynergeyesComponent,
+        ModalSendInvoiceComponent,
         ModalUserStatusComponent
     ],
     entryComponents: [
@@ -247,6 +249,7 @@ import { ModalUserStatusComponent } from './user/modals/modal-user-status/modal-
       EntrustingCompanyComponent,
       DetailSynergeyesComponent,
       SynergeyesComponent,
+      ModalSendInvoiceComponent,
       ModalUserStatusComponent
     ],
     providers: [
