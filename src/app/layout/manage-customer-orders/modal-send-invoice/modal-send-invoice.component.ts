@@ -95,13 +95,11 @@ export class ModalSendInvoiceComponent implements OnInit {
   send() {
     this.spinner.show();
     if (this.saveAndSend) {
-      if (this.spectrum) {
-        const emailTo = this.spectrum ? this.email : this.supplier.email;
-        this.invoices[0].emailTo = emailTo;
-        this.invoices[0].status = 1;
-        this.invoices[1].emailTo = emailTo;
-        this.invoices[1].status = 1;
-      }
+      const emailTo = this.spectrum ? this.email : this.supplier.email;
+      this.invoices[0].emailTo = emailTo;
+      this.invoices[1].emailTo = emailTo;
+      this.invoices[1].status = 1;
+      this.invoices[0].status = 1;
       this.orderService.generateInvoiceSupplierAndCopy$(this.idsOrders, 1, this.invoices).subscribe(
         res => {
           if (res.code === CodeHttp.ok) {
