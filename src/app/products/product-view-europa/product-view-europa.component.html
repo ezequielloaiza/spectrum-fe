@@ -249,7 +249,7 @@
 
                 <!--param values-->
                 <div class="row">
-                  <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('right', parameter, $event,0)"
                                [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
                                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
@@ -286,6 +286,15 @@
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
                       [disabled]="!product.eyeRight" step="0.01" (change)="changeSelect('right', parameter, parameter.selected,0)">
+                  </div>
+
+                  <!--Only Axes-->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('right', parameter, $event,0)"
+                               [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
+                               bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                              <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of axesValues('right')">{{ item  | translate }}</ng-option>
+                    </ng-select>
                   </div>
 
                   <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve' && parameter.name !== 'Thickness'"

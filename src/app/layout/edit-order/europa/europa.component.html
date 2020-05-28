@@ -152,7 +152,7 @@
                     </div>
                   <dl>
                     <dt>
-                      <div *ngIf="parameter.type === 'selected'">
+                      <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Axes (º)'">
                         <ng-select class="display-row" [items]="parameter.values" [(ngModel)]="parameter.selected"
                                     bindValue="item" placeholder="{{ 'Select value' | translate }}"
                                     (change)="changeSelect(parameter, parameter.selected,0)"
@@ -187,6 +187,15 @@
                         </ng-select>
                         <input class="form-control" type="number" min="00.00" step="00.01" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
                                (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');" required>
+                      </div>
+
+                      <!--Only Axes-->
+                      <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values col-sm-12">
+                        <ng-select (change)="changeSelect(parameter, parameter.selected,0)"
+                                  [required]="selectedNotch" [(ngModel)]="parameter.selected"
+                                  bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                                  <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of axesValues()">{{ item  | translate }}</ng-option>
+                        </ng-select>
                       </div>
 
                       <div *ngIf="parameter.type === 'input' && parameter.name === 'Thickness'" class="separator">

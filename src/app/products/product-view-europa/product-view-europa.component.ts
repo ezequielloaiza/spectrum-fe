@@ -132,6 +132,8 @@ export class ProductViewEuropaComponent implements OnInit {
     authToken: this.userStorageService.getToke(),
     autoUpload: false
   });
+  axesNotch: any;
+  axesSelected: any;
 
   constructor(private productService: ProductService,
     private route: ActivatedRoute,
@@ -1550,15 +1552,30 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   changeNotchTime(eye, parameter, value) {
+    //validating change in notch time
+    var changedNotch = parameter.selectedNotchTime !== value;
+
     parameter.selectedNotchTime = value;
     switch (eye) {
       case 'right':
         this.notchRight.itemsList._items[0].label = value;
         this.notchRight.itemsList._items[0].value = value;
+
+        // restart axes after change
+        if (changedNotch) {
+          this.axesSelected = _.find(this.product.parametersRight, { name: 'Axes (º)' });
+          this.axesSelected.sel = null; this.axesSelected.selected = null
+        }
         break;
       case 'left':
         this.notchLeft.itemsList._items[0].label = value;
         this.notchLeft.itemsList._items[0].value = value;
+
+        // restart axes after change
+        if (changedNotch) {
+          this.axesSelected = _.find(this.product.parametersLeft, { name: 'Axes (º)' });
+          this.axesSelected.sel = null; this.axesSelected.selected = null
+        }
         break;
     }
 
@@ -1576,6 +1593,43 @@ export class ProductViewEuropaComponent implements OnInit {
     if (parameter.selectedNotchTime === null) {
       parameter.values[0].selected = 0;
       parameter.values[1].selected = 0;
+    }
+  }
+
+  axesValues(eye) {
+    switch (eye) {
+      case 'right':
+        this.axesNotch = _.find(this.product.parametersRight, { name: 'Notch (mm)' });
+        this.axesSelected = _.find(this.product.parametersRight, { name: 'Axes (º)' });
+        if (this.axesNotch.selectedNotchTime === null) { this.axesSelected.sel = null; this.axesSelected.selected = null };
+        switch (this.axesNotch.selectedNotchTime) {
+          case 'Upper Temporal':
+            return _.range(90, 181).toString().split(",")
+          case 'Lower Temporal':
+            return _.range(180, 271).toString().split(",");
+          case 'Upper Nasal':
+            return _.range(0, 91).toString().split(",");
+          case 'Lower Nasal':
+            return _.range(270, 361).toString().split(",");
+          default:
+            return [];
+        }
+      case 'left':
+        this.axesNotch = _.find(this.product.parametersLeft, { name: 'Notch (mm)' });
+        this.axesSelected = _.find(this.product.parametersLeft, { name: 'Axes (º)' });
+        if (this.axesNotch.selectedNotchTime === null) { this.axesSelected.sel = null; this.axesSelected.selected = null };
+        switch (this.axesNotch.selectedNotchTime) {
+          case 'Upper Temporal':
+            return _.range(90, 181).toString().split(",")
+          case 'Lower Temporal':
+            return _.range(180, 271).toString().split(",");
+          case 'Upper Nasal':
+            return _.range(0, 91).toString().split(",");
+          case 'Lower Nasal':
+            return _.range(270, 361).toString().split(",");
+          default:
+            return [];
+        }
     }
   }
 }

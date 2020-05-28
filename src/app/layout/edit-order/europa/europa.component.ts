@@ -71,6 +71,7 @@ export class EuropaComponent implements OnInit {
   valueInserts: any;
   changeInserts = false;
   order: any;
+  axesSelected: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -854,11 +855,15 @@ export class EuropaComponent implements OnInit {
     let selectedNotch = this.selectedNotch;
       _.each(paramet, function(productSelected) {
         if (productSelected.name === 'Notch (mm)') {
-          if (productSelected.values[0].selected === null || productSelected.values[1].selected === null) {
+          if (productSelected.values[0].selected === null || productSelected.values[1].selected === null ) {
             valido = false;
           }
-          
+
           if ((productSelected.values[0].selected !== 0 || productSelected.values[1].selected !== 0) && !selectedNotch) {
+            valido = false;
+          }
+        } else if (productSelected.name === "Axes (º)") {
+          if (!!selectedNotch &&  (productSelected.selected === null || productSelected.selected === undefined)) {
             valido = false;
           }
         } else if (productSelected.selected === null || productSelected.selected === undefined) {
@@ -1136,14 +1141,24 @@ export class EuropaComponent implements OnInit {
   }
 
   changeNotchTime(value, parameter) {
+    //validating change in notch time
+    var changedNotch = this.selectedNotch !== value;
+
     this.selectedNotch = value;
+
     this.notchTime.itemsList._items[0].label = value;
     this.notchTime.itemsList._items[0].value = value;
+
+     // restart axes after change
+     if (changedNotch) {
+      this.axesSelected = _.find(this.product.parameters, { name: 'Axes (º)' });
+      this.axesSelected.selected = null
+    }
 
     //set null in values notch
     if (parameter.values[0].selected === 0)
       parameter.values[0].selected = null;
-    
+
     if (parameter.values[1].selected === 0)
       parameter.values[1].selected = null;
   }
@@ -1152,6 +1167,24 @@ export class EuropaComponent implements OnInit {
     if (this.selectedNotch === null) {
       parameter.values[0].selected = 0;
       parameter.values[1].selected = 0;
+      this.axesSelected.selected = null
+    }
+  }
+
+  axesValues() {
+    this.axesSelected = _.find(this.product.parameters, { name: 'Axes (º)' });
+    if (this.selectedNotch === null) { this.axesSelected.selected = null };
+    switch (this.selectedNotch) {
+      case 'Upper Temporal':
+        return _.range(90, 181).toString().split(",")
+      case 'Lower Temporal':
+        return _.range(180, 271).toString().split(",");
+      case 'Upper Nasal':
+        return _.range(0, 91).toString().split(",");
+      case 'Lower Nasal':
+        return _.range(270, 361).toString().split(",");
+      default:
+        return [];
     }
   }
 }
