@@ -31,6 +31,7 @@ export class SupplierEuropaComponent implements OnInit {
   listAux: Array<ProductRequested> = new Array;
   urlImage: any;
   valueStatus: any;
+  valueClient: any;
   user: any;
 
   constructor(private fileProductRequestedService: FileProductRequestedService,
@@ -51,6 +52,7 @@ export class SupplierEuropaComponent implements OnInit {
     this.listAux = this.lista;
     this.urlImage = this.image;
     this.valueStatus = this.order.status;
+    this.valueClient = this.order.user.status;
     this.sendReply();
   }
 

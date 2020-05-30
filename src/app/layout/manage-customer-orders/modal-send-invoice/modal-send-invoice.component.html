@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'Send Proforma' | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-xl-12" >
+        <div class="custom-control custom-radio">
+          <input type="radio" id="radioGroup1" name="radioGroup1" [value]="!spectrum" (change)="onSelectionChange(1)" class="custom-control-input" [checked]="!spectrum">
+          <label class="custom-control-label" for="radioGroup1">{{ 'Send to Supplier' | translate }} ({{supplier?.email }})</label>
+        </div>
+      </div>
+      <div class="col-xl-12" >
+        <div class="custom-control custom-radio">
+          <input type="radio" id="radioGroup2" name="radioGroup2" [value]="spectrum" (change)="onSelectionChange(2)" class="custom-control-input" [checked]="spectrum">
+          <label class="custom-control-label" for="radioGroup2">{{ 'Send to Spectrum' | translate }}</label>
+        </div>
+      </div>
+      <div class="col-xl-12">
+        <div *ngIf="spectrum" class="custom-control form-group">
+          <label>{{ 'Email' | translate }}</label>
+          <input type="text" [value]="email" class="form-control" (change)="onChangeEmail($event)" formControlName="emailSupplier" name="emailSupplier">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" class="btn btn-main" [disabled]="!validForm()" (click)="send()">{{ 'Save and Send' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>
+
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.description}}
+</ng-template>
