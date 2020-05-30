@@ -190,7 +190,7 @@
                       </div>
 
                       <!--Only Axes-->
-                      <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values col-sm-12">
+                      <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values">
                         <ng-select (change)="changeSelect(parameter, parameter.selected,0)"
                                   [required]="selectedNotch" [(ngModel)]="parameter.selected"
                                   bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">

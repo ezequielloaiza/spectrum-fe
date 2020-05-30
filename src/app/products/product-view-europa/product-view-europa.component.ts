@@ -1148,6 +1148,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
+    let self = this;
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
@@ -1171,6 +1172,9 @@ export class ProductViewEuropaComponent implements OnInit {
             isValid = false;
           }
 
+        } else if (param.name === "Axes (º)") {
+          self.axesNotch = _.find(self.product.parametersRight, { name: 'Notch (mm)' });
+          isValid = !((!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)));
         } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
@@ -1191,6 +1195,9 @@ export class ProductViewEuropaComponent implements OnInit {
             isValid = false;
           }
 
+        } else if (param.name === "Axes (º)") {
+          self.axesNotch = _.find(self.product.parametersLeft, { name: 'Notch (mm)' });
+          isValid = !((!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)));
         } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
@@ -1630,6 +1637,17 @@ export class ProductViewEuropaComponent implements OnInit {
           default:
             return [];
         }
+    }
+  }
+
+  axesRequired(eye) {
+    switch (eye) {
+      case 'right':
+        this.axesNotch = _.find(this.product.parametersRight, { name: 'Notch (mm)' });
+        return !!this.axesNotch.selectedNotchTime;
+      case 'left':
+        this.axesNotch = _.find(this.product.parametersLeft, { name: 'Notch (mm)' });
+        return !!this.axesNotch.selectedNotchTime;
     }
   }
 }
