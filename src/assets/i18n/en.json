@@ -1075,5 +1075,10 @@
     "Send to Spectrum": "Send to Spectrum",
     "Dominance": "Dominance",
     "TPC Microns (PC4)": "TPC Microns (PC4)",
-    "TPC Meridian Curve (PC4)": "TPC Meridian Curve (PC4)"
+    "TPC Meridian Curve (PC4)": "TPC Meridian Curve (PC4)",
+    "Please design my lens": "Please design my lens",
+    "Final Lens": "Final Lens",
+    "Over-Refaction": "Over-Refaction",
+    "Final Power": "Final Power",
+    "If you want us to calculate it please select \"Please design my lens\"": "If you want us to calculate it please select \"Please design my lens\""
 }

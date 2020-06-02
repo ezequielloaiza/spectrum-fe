@@ -264,6 +264,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product = _.find(this.products, { idProduct: this.id });
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
+    this.product.typeLens = JSON.parse(this.product.types)[0].typeLens;
     this.product.type = JSON.parse(this.product.types)[0].name;
     let orderCylinder;
     this.product.setRight = JSON.parse(this.product.types)[0].set;
@@ -791,6 +792,7 @@ export class ProductViewEuropaComponent implements OnInit {
   }*/
 
   buildProductsSelected() {
+    let self = this;
     this.setEyeSelected();
     let product = this.productCopy;
     let productDiameterL = this.productDiameterL;
@@ -824,6 +826,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
       productSelected.patient = product.patient;
       productSelected.name = product.name;
+      productSelected.typeLens = product.typeLens.selected;
 
       if (productSelected.eye === 'Right') {
         // add header spectrum code
@@ -893,7 +896,7 @@ export class ProductViewEuropaComponent implements OnInit {
               product.parametersRight[index].selected = null;
             }
           }
-          if (parameter.name === 'Power') {
+          if (self.isPower(parameter)) {
             product.parametersRight[index].selected = signPowerRight + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
@@ -983,7 +986,7 @@ export class ProductViewEuropaComponent implements OnInit {
               product.parametersLeft[index].selected = null;
             }
           }
-          if (parameter.name === "Power") {
+          if (self.isPower(parameter)) {
             product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
@@ -1033,9 +1036,8 @@ export class ProductViewEuropaComponent implements OnInit {
           productsAditional.push(productN);
         }
       });
-
-      productSelected.detail = { name: product.type, eye: productSelected.eye, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
-      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional', 'set'])
+      productSelected.detail = { name: product.type, typeLens: productSelected.typeLens, eye: productSelected.eye, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
+      productsSelected[index] = _.omit(productSelected, ['parameters', 'typeLens', 'eye', 'pasos', 'header', 'productsAditional', 'set'])
     });
 
     // add products code
@@ -1648,6 +1650,26 @@ export class ProductViewEuropaComponent implements OnInit {
       case 'left':
         this.axesNotch = _.find(this.product.parametersLeft, { name: 'Notch (mm)' });
         return !!this.axesNotch.selectedNotchTime;
+    }
+  }
+
+  isPower(param) {
+    return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power';
+  }
+
+  changeTypeLens(value) {
+    this.product.typeLens.selected = value;
+    let powerRight = _.find(this.product.parametersRight, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
+    let powerLeft = _.find(this.product.parametersLeft, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
+    switch (value) {
+      case 'Please design my lens':
+        powerRight.name = 'Over-Refaction';
+        powerLeft.name = 'Over-Refaction';
+        break;
+      case 'Final Lens':
+        powerRight.name = 'Final Power';
+        powerLeft.name = 'Final Power';
+      break;
     }
   }
 }

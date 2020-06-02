@@ -77,6 +77,21 @@
     padding-bottom: 1.5em;
   }
 
+  .type-lens {
+    display: flex;
+    margin: 15px 30px;
+
+    > div:nth-child(1), > div:nth-child(2) {
+      margin-right: 50px;
+      font-size: 14px;
+
+      label {
+        font-weight: 300;
+        font-size: 14px;
+      }
+    }
+  }
+
   .eye-info {
     color: $secondary-info;
     padding: 0 2em;

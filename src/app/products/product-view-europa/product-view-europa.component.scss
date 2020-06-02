@@ -142,6 +142,21 @@
   }
 }
 
+.type-lens {
+  display: flex;
+  margin: 15px 0;
+
+  > div:nth-child(1), > div:nth-child(2) {
+    margin-right: 50px;
+    font-size: 14px;
+
+    label {
+      font-weight: 300;
+      font-size: 14px;
+    }
+  }
+}
+
 .product-info {
   padding-top: 2em;
 
@@ -378,6 +393,11 @@ img {
   font-size: 0.85rem;
 }
 
+.message-power {
+  font-size: 12px;
+  color: #950f0f;
+}
+
 .notch {
   width: 40%;
 }
@@ -386,7 +406,7 @@ area {
   display: block !important;
 }
 
-.select-notch {  
+.select-notch {
   img {
     border-radius: 0;
     height: 130px;

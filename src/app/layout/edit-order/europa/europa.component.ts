@@ -277,6 +277,7 @@ export class EuropaComponent implements OnInit {
 
   getProductView() {
     this.product.type = JSON.parse(this.product.types)[0].name;
+    this.product.typeLens = JSON.parse(this.product.types)[0].typeLens;
     this.product.header = JSON.parse(this.product.types)[0].header;
     this.product.set = JSON.parse(this.product.types)[0].set;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
@@ -285,6 +286,8 @@ export class EuropaComponent implements OnInit {
     this.product.pricesAditionalInserts = JSON.parse(this.product.infoAditional)[0].values[1];
     this.product.pricesAditionalNotch = JSON.parse(this.product.infoAditional)[0].values[2];
     // this.product.pricesAditionalThickness = JSON.parse(this.product.infoAditional)[0].values[3];
+    //set type lens
+    this.changeTypeLens(this.detail.typeLens);
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
@@ -298,6 +301,7 @@ export class EuropaComponent implements OnInit {
     let typeCurveTrial;
     let set = this.product.set;
     let selectedNotch;
+    let self = this;
      // header
     _.each(this.detail.header, function(item) {
       _.each(header, function(itemHeader) {
@@ -340,7 +344,7 @@ export class EuropaComponent implements OnInit {
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
-          if (productSelected.name === 'Power') {
+          if (self.isPower(item)) {
             sign = item.selected.slice( 0, 1);
             productSelected.selected = item.selected.slice( 1, item.selected.length);
           } else if (productSelected.name === 'Base Curve') {
@@ -503,6 +507,7 @@ export class EuropaComponent implements OnInit {
   }
 
   save() {
+    let self = this;
     this.spinner.show();
     // Header
     let header = this.product.header;
@@ -558,7 +563,7 @@ export class EuropaComponent implements OnInit {
         if (productSelected.name === item.name) {
           if (productSelected.name === 'Base Curve') {
             item.selected = productSelected.selected + ' (' + typeCurve + ')';
-          } else if (productSelected.name === 'Power') {
+          } else if (self.isPower(item)) {
             item.selected = signPower + productSelected.selected;
           } else if (productSelected.name === 'Notch (mm)') {
             if (productSelected.values[0].selected === null || productSelected.values[1].selected === null || !selectedNotch || (productSelected.values[0].selected === 0 && productSelected.values[1].selected === 0)) {
@@ -1185,6 +1190,23 @@ export class EuropaComponent implements OnInit {
         return _.range(270, 361).toString().split(",");
       default:
         return [];
+    }
+  }
+
+  isPower(param) {
+    return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power';
+  }
+
+  changeTypeLens(value) {
+    this.product.typeLens.selected = value;
+    let power = _.find(this.product.parameters, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
+    switch (value) {
+      case 'Please design my lens':
+        power.name = 'Over-Refaction';
+        break;
+      case 'Final Lens':
+        power.name = 'Final Power';
+      break;
     }
   }
 }

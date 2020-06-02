@@ -34,6 +34,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   lista: Array<ProductRequested> = new Array;
   listNameParameters: Array<any> = new Array;
   namePatient: any;
+  typeLens: any;
   basketRequest: BasketRequest = new BasketRequest();
   buyNow: BuyNow = new BuyNow();
   eyesSelected: any;
