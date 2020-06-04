@@ -99,6 +99,9 @@ import { SynergeyesComponent } from './edit-order/synergeyes/synergeyes.componen
 import { SupplierSynergeyesComponent } from './details-order-supplier/supplier-synergeyes/supplier-synergeyes.component';
 import { ModalSendInvoiceComponent } from './manage-customer-orders/modal-send-invoice/modal-send-invoice.component';
 import { ModalUserStatusComponent } from './user/modals/modal-user-status/modal-user-status.component';
+import { DetailOrionComponent } from './basket/modals/detail-product/detail-orion/detail-orion.component';
+import { SupplierOrionComponent } from './details-order-supplier/supplier-orion/supplier-orion.component';
+import { OrionComponent } from './edit-order/orion/orion/orion.component';
 
 @NgModule({
     imports: [
@@ -205,7 +208,10 @@ import { ModalUserStatusComponent } from './user/modals/modal-user-status/modal-
         SynergeyesComponent,
         SupplierSynergeyesComponent,
         ModalSendInvoiceComponent,
-        ModalUserStatusComponent
+        ModalUserStatusComponent,
+        DetailOrionComponent,
+        SupplierOrionComponent,
+        OrionComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -250,7 +256,9 @@ import { ModalUserStatusComponent } from './user/modals/modal-user-status/modal-
       DetailSynergeyesComponent,
       SynergeyesComponent,
       ModalSendInvoiceComponent,
-      ModalUserStatusComponent
+      ModalUserStatusComponent,
+      DetailOrionComponent,
+      OrionComponent
     ],
     providers: [
       BusinessTypeService,

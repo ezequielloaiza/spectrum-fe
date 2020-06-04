@@ -42,6 +42,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { ProductViewSynergeyesComponent } from './product-view-synergeyes/product-view-synergeyes.component';
 import { ConfirmationSynergeyesComponent } from './modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component';
 import { ProductViewOrionComponent } from './product-view-orion/product-view-orion.component';
+import { ConfirmationOrionComponent } from './modals/confirmation-buy/confirmation-orion/confirmation-orion.component';
 
 @NgModule({
   imports: [
@@ -88,7 +89,8 @@ import { ProductViewOrionComponent } from './product-view-orion/product-view-ori
     EditProductMedmontComponent,
     ProductViewSynergeyesComponent,
     ConfirmationSynergeyesComponent,
-    ProductViewOrionComponent
+    ProductViewOrionComponent,
+    ConfirmationOrionComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
@@ -105,7 +107,8 @@ import { ProductViewOrionComponent } from './product-view-orion/product-view-ori
                     ConfirmationLenticonComponent,
                     EditProductSpectrumSalineComponent,
                     EditProductMedmontComponent,
-                    ConfirmationSynergeyesComponent
+                    ConfirmationSynergeyesComponent,
+                    ConfirmationOrionComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })
