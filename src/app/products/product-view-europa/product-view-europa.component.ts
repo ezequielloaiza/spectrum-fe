@@ -1665,11 +1665,24 @@ export class ProductViewEuropaComponent implements OnInit {
       case 'Please design my lens':
         powerRight.name = 'Over-Refaction';
         powerLeft.name = 'Over-Refaction';
+        this.resetTrialLens();
         break;
       case 'Final Lens':
         powerRight.name = 'Final Power';
         powerLeft.name = 'Final Power';
       break;
     }
+  }
+
+  resetTrialLens() {
+    // OD
+    _.each(this.product.setRight, function (param) { param.selected = null; param.sel = null });
+    this.signPowerRightTrial = null;
+    this.typeCurveRightTrial = null;
+
+    //OS
+    _.each(this.product.setLeft, function (param) { param.selected = null; param.sel = null });
+    this.signPowerLeftTrial = null;
+    this.typeCurveLeftTrial = null;
   }
 }

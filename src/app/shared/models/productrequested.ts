@@ -19,7 +19,6 @@ export class ProductRequested {
   public  orderId: number;
   public fileProductRequestedList: Array<FileProductRequested>;
   public delete: boolean;
-  public typeLens: string;
 
   public constructor() { }
 

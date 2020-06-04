@@ -614,7 +614,7 @@ export class EuropaComponent implements OnInit {
     const notchPrice = this.notch;
     const dMVPrice = this.inserts;
     const groupId = this.productRequested.groupId;
-    const detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
+    const detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye, typeLens: this.product.typeLens.selected,
       header: this.detail.header, parameters: this.detail.parameters,
       set: this.detail.set,
       pasos: this.detail.pasos}) + ']';
@@ -800,7 +800,7 @@ export class EuropaComponent implements OnInit {
 
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-      this.productRequested.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
+      this.productRequested.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye, typeLens: this.product.typeLens.selected,
                                       set: this.detail.set, header: this.detail.header, parameters: this.detail.parameters,
                                       pasos: this.detail.pasos, productsAditional: productsAditional }) + ']';
       this.productRequested.observations = this.observations;
@@ -814,7 +814,7 @@ export class EuropaComponent implements OnInit {
       this.update(productsRequestedsAditional);
     } else { // Order Detail
       this.productRequestedAux.idProductRequested = this.productRequested.idProductRequested;
-      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
+      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye, typeLens: this.product.typeLens.selected,
                                         set: this.detail.set, header: this.detail.header, parameters: this.detail.parameters,
                                         pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
       this.productRequestedAux.observations = this.observations;
@@ -1054,7 +1054,6 @@ export class EuropaComponent implements OnInit {
 
   update(productRequested) {
     let self = this;
-
     this.productRequestedService.updateList$(productRequested).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         let listAux = res.data;
@@ -1200,13 +1199,23 @@ export class EuropaComponent implements OnInit {
   changeTypeLens(value) {
     this.product.typeLens.selected = value;
     let power = _.find(this.product.parameters, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
+    let powerDetail = _.find(this.detail.parameters, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
     switch (value) {
       case 'Please design my lens':
         power.name = 'Over-Refaction';
+        powerDetail.name = 'Over-Refaction';
+        this.resetTrialLens();
         break;
       case 'Final Lens':
         power.name = 'Final Power';
+        powerDetail.name = 'Final Power';
       break;
     }
+  }
+
+  resetTrialLens() {
+    _.each(this.product.set, function (param) { param.selected = null });
+    this.signPowerTrial = null;
+    this.typeCurveTrial = null;
   }
 }

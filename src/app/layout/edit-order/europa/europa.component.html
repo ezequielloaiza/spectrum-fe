@@ -29,7 +29,7 @@
           <div class="type-lens">
             <div *ngFor="let value of product.typeLens.values; let i = index">
               <div class="custom-control custom-radio">
-                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLens" [value]="value" (change)="changeTypeLens(value)" class="custom-control-input" [checked]="product.typeLens.selected==value">
+                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLens" [value]="value" (change)="changeTypeLens(value)" class="custom-control-input" [checked]="product.typeLens.selected === value">
                 <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
               </div>
             </div>
