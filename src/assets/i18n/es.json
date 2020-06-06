@@ -1250,5 +1250,18 @@
     "Your account was deactivated. Please contact with the administrator": "Su cuenta fue desactivada. Por favor contacte con el administrador.",
     "Send to Supplier": "Enviar al Proveedor",
     "Send to Spectrum": "Enviar a Spectrum",
-    "Dominance": "Dominio"
+    "Dominance": "Dominio",
+    "Cosmetic": "Cosmetico",
+    "Prosthetic": "Protésico",
+    "Limbal Ring": "Anillo Limbal",
+    "Starbust": "Starbust",
+    "Underprint": "Underprint",
+    "Clear Pupil": "Pupila Transparente",
+    "Black Pupil": "Pupila Negra",
+    "Light Sensitivity": "Sensitividad a la Luz",
+    "Series": "Series",
+    "Iris Code": "Código del Iris",
+    "Cylinder": "Cilindro",
+    "Sphere": "Esfera",
+    "Please indicate the order of the color layers. Fx: 1, 2 etc. from bottom to top": "Por favor indique en al orden en el que los colores deben estar en capas. Ej: 1, 2 etc. desde abajo hasta arriba."
 }

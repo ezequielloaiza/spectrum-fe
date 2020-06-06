@@ -58,7 +58,7 @@
             </dl>
           </div>
           <div class="col-sm-3" *ngFor="let parameter of product.parameters">
-            <dl>
+            <dl *ngIf="parameter.name !== 'Iris Code'">
               <dt>{{ parameter.name| translate}}</dt>
               <dl>
                 <dt>
@@ -84,6 +84,18 @@
                   </div>
                 </dt>
               </dl>
+            </dl>
+          </div>
+          <div class="col-sm-12" *ngFor="let parameter of product.parameters" >
+            <dl *ngIf="parameter.name === 'Iris Code'" class="align-item">
+              <dt>{{ parameter.name | translate }}</dt>
+              <hr class="separators" />
+              <div class="col-sm-12 codes-value">
+                <div *ngFor="let value of parameter.selected" class="select-values col-lg-3">
+                  <label>{{ value.name | translate }}</label>
+                  <input type="number" class="form-control" [(ngModel)]="value.selected" (input)="changeSelect('right', value,  value.selected)" >
+                </div>
+              </div>
             </dl>
           </div>
         </div>

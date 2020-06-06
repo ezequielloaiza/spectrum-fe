@@ -56,17 +56,28 @@
               </dl>
             </dl>
           </div>
-          <div
-            class="col-sm-3"
-            *ngFor="let parameter of list.detail[0].parameters"
-          >
-            <dl class="align-item">
+          <div class="col-sm-3" *ngFor="let parameter of list.detail[0].parameters" >
+            <dl *ngIf="parameter.name !== 'Iris Code'" class="align-item">
               <dt>{{ parameter.name | translate }}</dt>
               <hr class="separators" />
               <dl>
                 <dt class="items" *ngIf="parameter.name !== 'Profile' && parameter.name !== 'Warranty'">{{ parameter.selected }}</dt>
                 <dt class="items" *ngIf="parameter.name === 'Profile' || parameter.name === 'Warranty'">{{ (parameter.selected == true ? 'Yes' : 'No') | translate }}</dt>
               </dl>
+            </dl>
+          </div>
+          <div class="col-sm-12" *ngFor="let parameter of list.detail[0].parameters" >
+            <dl *ngIf="parameter.name === 'Iris Code'" class="align-item">
+              <dt>{{ parameter.name | translate }}</dt>
+              <hr class="separators" />
+              <div class="col-sm-12 code-iris">
+                <div *ngFor="let param of parameter.selected" class="col-sm-3">
+                  <dl >
+                    <dt class="items">{{ param.name }}</dt>
+                    <dt class="items">{{ param.selected === null ? 'N/A' : param.selected}}</dt>
+                  </dl>
+                </div>
+              </div>
             </dl>
           </div>
           <br />

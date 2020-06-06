@@ -209,15 +209,22 @@ export class ProductViewOrionComponent implements OnInit {
   setCodeProduct(value) {
     const productCode = this.product.codeSpectrum;
     const productName = this.product.name;
+    const idProduct = this.product.idProduct;
     const productCategory = this.product.category;
     let prCode;
     this.productService.findBySupplierAndInViewAndCategory$(10, false, productCategory.idCategory).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.productsCode = res.data;
         _.each(this.productsCode, function (pr) {
-          if (_.includes(pr.name.toLowerCase(), productName.toLowerCase()) && _.includes(pr.name.toLowerCase(), 'Sphere') 
-          && _.includes(pr.name.toLowerCase(), value)) {
-            prCode = pr;
+          if (idProduct === 267) {
+            if (_.includes(pr.name.toLowerCase(), productName.toLowerCase()) && _.includes(pr.name.toLowerCase(), value.toLowerCase())) {
+              prCode = pr;
+            }
+          } else {
+            if (_.includes(pr.name.toLowerCase(), productName.toLowerCase()) && _.includes(pr.name.toLowerCase(), value.toLowerCase())
+              && _.includes(pr.name.toLowerCase(), 'sphere')) {
+                prCode = pr;
+            }
           }
         });
         this.productCode = prCode;
@@ -433,8 +440,10 @@ export class ProductViewOrionComponent implements OnInit {
         return false;
       }
       _.each(this.product.parametersRight, function (param) {
-        if (param.selected === null || param.selected === undefined) {
-          isValid = false;
+        if (param.name !== 'Iris Code') {
+          if (param.selected === null || param.selected === undefined) {
+            isValid = false;
+          }
         }
       });
       if (!this.product.quantityRight) {
@@ -447,8 +456,10 @@ export class ProductViewOrionComponent implements OnInit {
         return false;
       }
       _.each(this.product.parametersLeft, function (param) {
-        if (param.selected === null || param.selected === undefined) {
-          isValid = false;
+        if (param.name !== 'Iris Code') {
+          if (param.selected === null || param.selected === undefined) {
+            isValid = false;
+          }
         }
       });
       if (!this.product.quantityLeft) {
@@ -568,9 +579,16 @@ export class ProductViewOrionComponent implements OnInit {
 
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
-          if (parameter.name === 'Warranty' || parameter.name === 'Profile') {
+          if (parameter.name === 'Warranty' ) {
             parameter.selected = parameter.selected === 'Yes' ? true : false;
-         }
+          }
+          if (parameter.name === 'Iris Code') {
+            let values: any[] = [];
+            _.each(parameter.values, function(param, index) {
+              values[index] = ({ name: param.name, selected: param.selected }) ;
+            });
+            parameter.selected = values;
+          }
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
         productSelected.parameters = product.parametersRight;
@@ -583,8 +601,15 @@ export class ProductViewOrionComponent implements OnInit {
 
         /*params*/
         _.each(product.parametersLeft, function(parameter, index) {
-          if (parameter.name === 'Warranty' || parameter.name === 'Profile') {
+          if (parameter.name === 'Warranty') {
             parameter.selected = parameter.selected === 'Yes' ? true : false;
+          }
+          if (parameter.name === 'Iris Code') {
+            let values: any[] = [];
+            _.each(parameter.values, function(param, index) {
+              values[index] = ({ name: param.name, selected: param.selected }) ;
+            });
+            parameter.selected = values;
           }
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });

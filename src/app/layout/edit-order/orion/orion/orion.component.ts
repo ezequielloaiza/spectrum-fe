@@ -88,14 +88,22 @@ export class OrionComponent implements OnInit {
 
   setCodeProduct(value) {
     const prName = this.product.name;
+    const idProduct = this.product.idProduct;
     let prCode;
 
     for (let i = 0, len = this.productsCode.length; i < len; i++) {
       let pr = this.productsCode[i];
-      if (_.includes(pr.name.toLowerCase(), prName.toLowerCase()) 
-          && _.includes(pr.name, 'Sphere') && _.includes(pr.name.toLowerCase(), value)) {
+      if (idProduct === 150 || idProduct === 151 || idProduct === 152) {
+        if (_.includes(pr.name.toLowerCase(), prName.toLowerCase()) && _.includes(pr.name.toLowerCase(), value.toLowerCase())) {
+          prCode = pr;
+          break;
+        }
+      } else {
+        if (_.includes(pr.name.toLowerCase(), prName.toLowerCase()) && _.includes(pr.name.toLowerCase(), value.toLowerCase())
+          && _.includes(pr.name.toLowerCase(), 'sphere')) {
             prCode = pr;
-        break;
+            break;
+        }
       }
     }
     this.productCode = prCode;

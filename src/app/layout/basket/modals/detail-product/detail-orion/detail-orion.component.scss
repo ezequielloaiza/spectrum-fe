@@ -79,3 +79,13 @@
     padding: 0 1.5em;
   }
 }
+
+.code-iris {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .items {
+    white-space: nowrap;
+  }
+}

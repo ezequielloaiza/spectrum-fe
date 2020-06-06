@@ -47,7 +47,7 @@
             </div>
             <!--PARAMS-->
             <div class="col-sm-3" *ngFor="let parameter of detail.parameters">
-              <dl class="align-item">
+              <dl *ngIf="parameter.name !== 'Iris Code'" class="align-item">
                 <dt>{{ parameter.name | translate }}
                 </dt>
                 <hr class="separators">
@@ -60,6 +60,20 @@
                   <dt *ngIf="parameter.selected === true">{{ 'Yes' | translate }}</dt>
                   <dt *ngIf="parameter.selected === false">{{ 'No' | translate }}</dt>
                 </dl>
+              </dl>
+            </div>
+            <div class="col-sm-12" *ngFor="let parameter of detail.parameters" >
+              <dl *ngIf="parameter.name === 'Iris Code'" class="align-item">
+                <dt>{{ parameter.name | translate }}</dt>
+                <hr class="separators" />
+                <div class="col-sm-12 code-iris">
+                  <div *ngFor="let param of parameter.selected" class="col-sm-3">
+                    <dl >
+                      <dt class="items">{{ param.name }}</dt>
+                      <dt class="items">{{ param.selected === null ? 'N/A' : param.selected}}</dt>
+                    </dl>
+                  </div>
+                </div>
               </dl>
             </div>
           </div>

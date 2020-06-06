@@ -108,3 +108,13 @@
     color: #f8ac59;
   }
 }
+
+.code-iris {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .items {
+    white-space: nowrap;
+  }
+}

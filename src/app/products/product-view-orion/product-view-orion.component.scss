@@ -272,7 +272,35 @@ img {
   );
 }
 
-
 .message-error {
   margin-top: 0;
+}
+
+.iris-code {
+  margin-top: 0.5rem;
+
+  .row {
+    label {
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+  }
+
+  .codes-value {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .select-values {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+
+      label { width: 40%;}
+      input { width: 30%;}
+    }
+  }
+
 }
