@@ -29,6 +29,13 @@
     justify-content: space-evenly;
   }
 
+  .message-power {
+    > span {
+      font-size: 12px;
+      color: #950f0f;
+    }
+  }
+
   .selected-power{
     height: 38px !important;
   }

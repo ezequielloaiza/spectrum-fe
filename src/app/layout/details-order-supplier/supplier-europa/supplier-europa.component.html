@@ -18,7 +18,8 @@
                   <dl class="align-item">
                     <dt>{{ param.name | translate }}</dt>
                     <dt>
-                      <span class="font-text"> {{ param.selected }}</span>
+                      <span class="font-text" *ngIf="param.selected !== null && param.selected !== '' && param.selected !== undefined"> {{ param.selected }}</span>
+                      <span class="font-text" *ngIf="param.selected === null || param.selected === '' || param.selected === undefined"> {{ 'Unassigned' | translate }}</span>
                       <hr />
                     </dt>
                   </dl>

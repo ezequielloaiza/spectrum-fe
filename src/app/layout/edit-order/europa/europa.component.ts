@@ -1202,13 +1202,11 @@ export class EuropaComponent implements OnInit {
     let powerDetail = _.find(this.detail.parameters, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
     switch (value) {
       case 'Please design my lens':
-        power.name = 'Over-Refaction';
-        powerDetail.name = 'Over-Refaction';
+        this.setPower(power, powerDetail, 'Over-Refaction')
         this.resetTrialLens();
         break;
       case 'Final Lens':
-        power.name = 'Final Power';
-        powerDetail.name = 'Final Power';
+        this.setPower(power, powerDetail, 'Final Power')
       break;
     }
   }
@@ -1217,5 +1215,16 @@ export class EuropaComponent implements OnInit {
     _.each(this.product.set, function (param) { param.selected = null });
     this.signPowerTrial = null;
     this.typeCurveTrial = null;
+  }
+
+  setPower(power, powerDetail, value) {
+    power.name = value;
+    power.sel = null;
+    power.selected = null;
+    this.signPower = null;
+
+    powerDetail.name = value;
+    powerDetail.sel = null;
+    powerDetail.selected = null;
   }
 }
