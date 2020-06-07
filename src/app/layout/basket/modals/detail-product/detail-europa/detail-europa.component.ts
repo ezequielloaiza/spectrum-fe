@@ -15,6 +15,7 @@ export class DetailEuropaComponent implements OnInit {
   product: any;
   detail: any;
   subtotal: any;
+  infoGlobal: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService) {
@@ -25,6 +26,7 @@ export class DetailEuropaComponent implements OnInit {
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
     this.subtotal = this.productRequested.price * this.productRequested.quantity;
+    this.infoGlobal = [{name: "Patient", value: this.productRequested.patient}, {name: "Type", value: this.detail.typeLens}, {name: "Total", value: this.subtotal}]
   }
 
   close() {

@@ -102,6 +102,7 @@
         <div class="col-md-12 title">
           <label> {{ 'Please specific your product' | translate }}</label>
           <div class="type-lens">
+            <span class="title">{{ 'Type' | translate }}:</span>
             <div *ngFor="let value of product.typeLens.values; let i = index">
               <div class="custom-control custom-radio">
                 <input type="radio" id="radio-lens-{{i}}" name="radioTypeLens" [value]="value" (change)="changeTypeLens(value)" class="custom-control-input" [checked]="product.typeLens.selected==value">

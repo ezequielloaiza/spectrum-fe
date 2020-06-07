@@ -1224,7 +1224,5 @@ export class EuropaComponent implements OnInit {
     this.signPower = null;
 
     powerDetail.name = value;
-    powerDetail.sel = null;
-    powerDetail.selected = null;
   }
 }

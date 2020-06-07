@@ -209,14 +209,22 @@
                             </dl>
                           </div>
                           <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier === 5">
-                              <dl class="align-item">
-                                <dt>{{'Subtotal'| translate}}</dt>
-                                <dt>
-                                  <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
-                                </dt>
-                              </dl>
-                            </div>
-  
+                            <dl class="align-item">
+                              <dt>{{'Subtotal'| translate}}</dt>
+                              <dt>
+                                <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
+                              </dt>
+                            </dl>
+                          </div>
+                          <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier === 2" >
+                            <dl class="align-item">
+                              <dt>{{'Type'| translate}}
+                              </dt>
+                              <dt>
+                                <span class="font-text">{{list.productRequested.detail[0].typeLens}}</span>
+                              </dt>
+                            </dl>
+                          </div>
                         </div>
                     </div>
                   </div>

@@ -18,11 +18,27 @@
         </div>
         <!-- Patient -->
         <div class="col-lg-12 title label-title patient-info">
-          <span>{{ "Patient" | translate }}</span>
-          <dl>
-            <dt>{{ namePatient }}</dt>
-            <dt>{{ listBasket[0].detail[0].typeLens }}</dt>
-          </dl>
+          <div class="col-sm-6">
+            <dl class="align-item">
+              <dt>{{ "Patient" | translate }}</dt>
+              <hr class="separatos" />
+              <dl>
+                <dt class="items">{{ namePatient }}</dt>
+              </dl>
+            </dl>
+          </div>
+
+          <div class="col-sm-6">
+            <dl class="align-item">
+              <dt>{{ "Type" | translate }}:</dt>
+              <hr class="separatos" />
+              <dl>
+                <dt class="items">{{ listBasket[0].detail[0].typeLens }}</dt>
+              </dl>
+            </dl>
+          </div>
+        </div>
+        <div class="col-lg-12">
           <dl>
             <dt>{{ price | currency: "USD $" }}</dt>
             <p class="eye-info" *ngIf="(totalInserts && existInserts) || totalHidrapeg || totalNotch || totalThickness">

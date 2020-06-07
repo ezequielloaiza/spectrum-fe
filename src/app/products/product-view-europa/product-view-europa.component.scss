@@ -146,7 +146,11 @@
   display: flex;
   margin: 15px 0;
 
-  > div:nth-child(1), > div:nth-child(2) {
+  > span:nth-child(1) {
+    margin-right: 20px;
+  }
+
+  > div:nth-child(2), > div:nth-child(3) {
     margin-right: 50px;
     font-size: 14px;
 
