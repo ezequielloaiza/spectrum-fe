@@ -93,7 +93,7 @@
               <div class="col-sm-12 codes-value">
                 <div *ngFor="let value of parameter.selected" class="select-values col-lg-3">
                   <label>{{ value.name | translate }}</label>
-                  <input type="number" class="form-control" [(ngModel)]="value.selected" (input)="changeSelect('right', value,  value.selected)" min="0" max="10" step="1">
+                  <input type="number" class="form-control" [(ngModel)]="value.selected" (input)="changeSelect(detail.eye, value,  value.selected)" min="0" max="10" step="1">
                 </div>
               </div>
             </dl>

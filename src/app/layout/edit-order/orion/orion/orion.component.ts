@@ -119,7 +119,6 @@ export class OrionComponent implements OnInit {
   }
 
   getProductView() {
-    console.log(this.product.types);
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
     this.quantity = this.productRequested.quantity;
@@ -282,6 +281,7 @@ export class OrionComponent implements OnInit {
   save() {
     this.spinner.show();
     let paramet = this.product.parameters;
+    let self = this;
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
@@ -294,15 +294,7 @@ export class OrionComponent implements OnInit {
 
           if (productSelected.name === 'Diameter' || productSelected.name === 'Base Curve'
           || productSelected.name === 'Axis' ) {
-            item.selected = this.format(item.selected);
-          }
-
-          if (productSelected.name === 'Iris Code') {
-            let values: any[] = [];
-            _.each(productSelected.values, function(param, index) {
-              values[index] = ({ name: param.name, selected: param.selected }) ;
-            });
-            item.selected = values;
+            item.selected = self.format(item.selected);
           }
         }
 
