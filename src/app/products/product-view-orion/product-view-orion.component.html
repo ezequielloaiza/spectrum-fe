@@ -132,20 +132,24 @@
               <div *ngIf="parameter.type === 'input' || parameter.type === 'selected'">
                 <!--param name-->
                 <div class="row">
-                  <label class="form-check-label">{{ parameter.name | translate }}</label>
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;
+                  <span *ngIf="parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil'" >
+                    (mm)</span>
+                  <span *ngIf="parameter.name === 'Sphere' || parameter.name === 'Cylinder' || parameter.name === 'Axis'" >
+                    ({{'Diopters'| translate }})</span>
                 </div>
                 <!--param values-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
-                  <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
+                  <ng-select (change)="changeSelect('right', parameter,  parameter.sel)"
                     [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
                     bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
-                    {{item}}
+                    <ng-option [value]="item"  *ngFor="let item of parameter.values">{{ item | translate }}</ng-option>
                   </ng-select>
                 </div>
                 <div *ngIf="parameter.type === 'input'" class="row select-values">
                   <input class="form-control" type="number" min="{{getMin(parameter)}}" max="{{getMax(parameter)}}" step="{{getStep(parameter)}}" placeholder="{{ parameter.placeholder | translate }}"
                     [required]="product.eyeRight" [(ngModel)]="parameter.selected" (input)="changeSelect('right', parameter,  parameter.selected)"
-                    [disabled]="!product.eyeRight" oninput="validity.valid||(value='');">
+                    [disabled]="!product.eyeRight"  [ngClass]="{'ng-invalid':selected.invalid}" #selected="ngModel" appModulo="{{getStep(parameter)}}">
                 </div>
               </div>
             </div>
@@ -163,7 +167,7 @@
                   <div *ngFor="let value of parameter.values" class="select-values col-lg-3">
                     <label>{{ value.name | translate }}</label>
                     <input type="number" id="value.id"  class="form-control" [disabled]="!product.eyeRight" [(ngModel)]="value.selected" 
-                      (input)="changeSelect('right', value,  value.selected)" >
+                      (input)="changeSelect('right', value,  value.selected)" min="0" max="10" step="1">
                   </div>
                 </div>
               </div>
@@ -259,23 +263,27 @@
               </div>
             </div>
             <div class="col-lg-2 margin-col padding-col" *ngFor="let parameter of product.parametersLeft">
-              <div>
+              <div *ngIf="parameter.type === 'input' || parameter.type === 'selected'">
                 <!--param name-->
                 <div class="row">
-                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;
+                  <span *ngIf="parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil'" >
+                    (mm)</span>
+                  <span *ngIf="parameter.name === 'Sphere' || parameter.name === 'Cylinder' || parameter.name === 'Axis'" >
+                    ({{ 'Diopters' | translate }})</span>
                 </div>
                 <!--param values-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
-                  <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
+                  <ng-select (change)="changeSelect('left', parameter,  parameter.sel)"
                     [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
                     bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
-                    {{item}}
+                    <ng-option [value]="item"  *ngFor="let item of parameter.values">{{ item | translate }}</ng-option>
                   </ng-select>
                 </div>
                 <div *ngIf="parameter.type === 'input'" class="row select-values">
                   <input class="form-control" type="number" min="{{getMin(parameter)}}" max="{{getMax(parameter)}}" step="{{getStep(parameter)}}" placeholder="{{ parameter.placeholder | translate }}"
                     [required]="product.eyeLeft" [(ngModel)]="parameter.selected" (input)="changeSelect('left', parameter,  parameter.selected)"
-                    [disabled]="!product.eyeLeft" oninput="validity.valid||(value='');">
+                    [disabled]="!product.eyeLeft" [ngClass]="{'ng-invalid':selected.invalid}" #selected="ngModel" appModulo="{{getStep(parameter)}}">
                 </div>
               </div>
             </div>
@@ -294,7 +302,7 @@
                   <div *ngFor="let value of parameter.values" class="select-values col-lg-3">
                     <label>{{ value.name | translate }}</label>
                     <input type="number" id="value.id"  class="form-control" [disabled]="!product.eyeLeft" [(ngModel)]="value.selected" 
-                      (input)="changeSelect('left', value,  value.selected)" >
+                      (input)="changeSelect('left', value,  value.selected)" min="0" max="10" step="1">
                   </div>
                 </div>
               </div>

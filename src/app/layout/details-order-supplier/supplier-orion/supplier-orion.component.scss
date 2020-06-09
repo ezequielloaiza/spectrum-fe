@@ -23,6 +23,19 @@
   margin-bottom: 225px;
 }
 
+.code-iris {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .items {
+    white-space: nowrap;
+  }
+
+  .value{
+    font-weight: 500 !important;
+  }
+}
 
 @media only screen and (max-width: 575px) {
   .edit {

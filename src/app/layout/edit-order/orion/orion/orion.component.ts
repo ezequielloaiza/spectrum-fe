@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { ProductRequested } from '../../../../shared/models/productrequested';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -46,7 +46,8 @@ export class OrionComponent implements OnInit {
     private productRequestedService: ProductsRequestedService,
     private userService: UserStorageService,
     private productService: ProductService,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private cdRef: ChangeDetectorRef) {
       this.user = JSON.parse(userService.getCurrentUser());
     }
 
@@ -66,6 +67,7 @@ export class OrionComponent implements OnInit {
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
+    this.cdRef.detectChanges();
   }
 
   getProductsCode() {
@@ -78,11 +80,9 @@ export class OrionComponent implements OnInit {
         this.setCodeProduct('');
       } else {
         console.log(res1.errors[0].detail);
-        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
-      this.spinner.hide();
     });
   }
 
@@ -119,6 +119,7 @@ export class OrionComponent implements OnInit {
   }
 
   getProductView() {
+    console.log(this.product.types);
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
     this.quantity = this.productRequested.quantity;
@@ -130,7 +131,8 @@ export class OrionComponent implements OnInit {
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
-           if (productSelected.name === 'Warranty' || productSelected.name === 'Profile') {
+           if (productSelected.name === 'Warranty'
+           || productSelected.name === 'Limbal Ring' || productSelected.name === 'Light Sensitivity') {
                productSelected.selected = item.selected ? 'Yes' : 'No';
            } else {
                productSelected.selected = item.selected;
@@ -160,13 +162,13 @@ export class OrionComponent implements OnInit {
         }
       }
     }
-    if (parameter.name === 'Type' && this.membership) {
-      this.setCodeProduct(parameter.selected);
+    if (this.membership) {
+      if (parameter.name === 'Type') {
+        this.setCodeProduct(parameter.selected);
+      } else {
+        this.setCodeProduct('');
+      }
       this.definePrice(this.membership);
-    }
-
-    if (parameter.type === 'input') {
-      parameter.selected = this.format(parameter.selected);
     }
   }
 
@@ -283,12 +285,27 @@ export class OrionComponent implements OnInit {
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
-           if (productSelected.name === 'Warranty') {
+           if (productSelected.name === 'Warranty'
+           || productSelected.name === 'Limbal Ring' || productSelected.name === 'Light Sensitivity' ) {
             item.selected = productSelected.selected === 'Yes' ? true : false;
           } else {
             item.selected = productSelected.selected;
           }
+
+          if (productSelected.name === 'Diameter' || productSelected.name === 'Base Curve'
+          || productSelected.name === 'Axis' ) {
+            item.selected = this.format(item.selected);
+          }
+
+          if (productSelected.name === 'Iris Code') {
+            let values: any[] = [];
+            _.each(productSelected.values, function(param, index) {
+              values[index] = ({ name: param.name, selected: param.selected }) ;
+            });
+            item.selected = values;
+          }
         }
+
      });
     });
     if (this.typeEdit === 1) { // Basket

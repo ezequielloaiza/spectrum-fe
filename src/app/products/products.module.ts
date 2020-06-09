@@ -43,6 +43,7 @@ import { ProductViewSynergeyesComponent } from './product-view-synergeyes/produc
 import { ConfirmationSynergeyesComponent } from './modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component';
 import { ProductViewOrionComponent } from './product-view-orion/product-view-orion.component';
 import { ConfirmationOrionComponent } from './modals/confirmation-buy/confirmation-orion/confirmation-orion.component';
+import { CommonsModule } from '../commons.module';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { ConfirmationOrionComponent } from './modals/confirmation-buy/confirmati
     NgSelectModule,
     FileUploadModule,
     NgxSpinnerModule,
-    CurrencyMaskModule
+    CurrencyMaskModule,
+    CommonsModule
   ],
   declarations: [
     ProductsComponent,

@@ -80,7 +80,7 @@
                   <div *ngIf="parameter.type === 'input' " class="separator">
                     <input class="form-control col-sm-12" type="number" min="{{getMin(parameter)}}" max="{{getMax(parameter)}}" step="{{getStep(parameter)}}" 
                       placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(detail.eye, parameter, parameter.selected)"
-                      oninput="validity.valid||(value='');" required>
+                      [ngClass]="{'ng-invalid':selected.invalid}" #selected="ngModel" appModulo="{{getStep(parameter)}}" required>
                   </div>
                 </dt>
               </dl>
@@ -93,7 +93,7 @@
               <div class="col-sm-12 codes-value">
                 <div *ngFor="let value of parameter.selected" class="select-values col-lg-3">
                   <label>{{ value.name | translate }}</label>
-                  <input type="number" class="form-control" [(ngModel)]="value.selected" (input)="changeSelect('right', value,  value.selected)" >
+                  <input type="number" class="form-control" [(ngModel)]="value.selected" (input)="changeSelect('right', value,  value.selected)" min="0" max="10" step="1">
                 </div>
               </div>
             </dl>

@@ -102,6 +102,7 @@ import { ModalUserStatusComponent } from './user/modals/modal-user-status/modal-
 import { DetailOrionComponent } from './basket/modals/detail-product/detail-orion/detail-orion.component';
 import { SupplierOrionComponent } from './details-order-supplier/supplier-orion/supplier-orion.component';
 import { OrionComponent } from './edit-order/orion/orion/orion.component';
+import { CommonsModule } from '../commons.module';
 
 @NgModule({
     imports: [
@@ -118,7 +119,8 @@ import { OrionComponent } from './edit-order/orion/orion/orion.component';
         NgSelectModule,
         FileUploadModule,
         NgxSpinnerModule,
-        CurrencyMaskModule
+        CurrencyMaskModule,
+        CommonsModule
     ],
     declarations: [
         LayoutComponent,

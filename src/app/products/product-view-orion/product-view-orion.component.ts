@@ -369,11 +369,12 @@ export class ProductViewOrionComponent implements OnInit {
         }
       }
     }
-    if (parameter.type === 'input') {
-      parameter.selected = this.format(parameter.selected);
-    }
-    if (this.client && parameter.name === 'Type') {
-      this.setCodeProduct(parameter.selected);
+    if (this.client ) {
+      if (parameter.name === 'Type') {
+        this.setCodeProduct(parameter.selected);
+      } else {
+        this.setCodeProduct('');
+      }
       this.definePrice(this.client.membership.idMembership);
       if (eye === 'right') {
         this.product.priceSaleRight = this.product.priceSale;
@@ -566,6 +567,7 @@ export class ProductViewOrionComponent implements OnInit {
     let productsSelected = this.productsSelected;
     let productCode = this.productCode;
     const membership = this.membership.idMembership;
+    const self = this;
     _.each(productsSelected, function(this, productSelected, index) {
 
       productSelected.patient = product.patient;
@@ -579,7 +581,7 @@ export class ProductViewOrionComponent implements OnInit {
 
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
-          if (parameter.name === 'Warranty' ) {
+          if (parameter.name === 'Warranty' || parameter.name === 'Limbal Ring' || parameter.name === 'Light Sensitivity' ) {
             parameter.selected = parameter.selected === 'Yes' ? true : false;
           }
           if (parameter.name === 'Iris Code') {
@@ -588,6 +590,11 @@ export class ProductViewOrionComponent implements OnInit {
               values[index] = ({ name: param.name, selected: param.selected }) ;
             });
             parameter.selected = values;
+          }
+
+          if (parameter.name === 'Diameter' || parameter.name === 'Base Curve'
+          || parameter.name === 'Axis' ) {
+            parameter.selected = self.format(parameter.selected);
           }
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
@@ -601,7 +608,7 @@ export class ProductViewOrionComponent implements OnInit {
 
         /*params*/
         _.each(product.parametersLeft, function(parameter, index) {
-          if (parameter.name === 'Warranty') {
+          if (parameter.name === 'Warranty' || parameter.name === 'Limbal Ring' || parameter.name === 'Light Sensitivity') {
             parameter.selected = parameter.selected === 'Yes' ? true : false;
           }
           if (parameter.name === 'Iris Code') {
@@ -610,6 +617,11 @@ export class ProductViewOrionComponent implements OnInit {
               values[index] = ({ name: param.name, selected: param.selected }) ;
             });
             parameter.selected = values;
+          }
+
+          if (parameter.name === 'Diameter' || parameter.name === 'Base Curve'
+          || parameter.name === 'Axis' ) {
+            parameter.selected = self.format(parameter.selected);
           }
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
@@ -653,7 +665,6 @@ export class ProductViewOrionComponent implements OnInit {
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     this.saveFiles();
-    console.log(productsSelected);
     _.each(productsSelected, function (product) {
       const productRequest: ProductRequested = new ProductRequested();
       const productoSelect: Product = new Product();

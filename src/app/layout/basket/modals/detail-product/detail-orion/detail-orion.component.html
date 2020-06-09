@@ -17,12 +17,13 @@
             <img class="img-product" src="{{ basket.urlImage }}">
           </div>
           <!--Patient-->
-          <div class="col-lg-12 title label-title patient-info">
-            <span>{{ 'Patient' | translate }}</span>
-            <dl>
-              <dt>{{ productRequested.patient }}</dt>
-            </dl>
-            <dl>
+          <div class="col-lg-12 title label-title patient-info display-row">
+            <span class="col-lg-6">{{ 'Patient' | translate }}
+              <dl>
+                <dt>{{ productRequested.patient }}</dt>
+              </dl>
+            </span>
+            <dl class="col-lg-6">
               <dt>{{ subtotal | currency : "USD $" }}</dt>
             </dl>
           </div>
