@@ -258,12 +258,15 @@ export class ProductViewOrionComponent implements OnInit {
     switch (membership) {
       case 1:
         this.product.priceSale = this.product.price1;
+        this.priceAcum = this.product.priceSale;
         break;
       case 2:
         this.product.priceSale = this.product.price2;
+        this.priceAcum = this.product.priceSale;
         break;
       case 3:
         this.product.priceSale = this.product.price3;
+        this.priceAcum = this.product.priceSale;
         break;
     }
   }
@@ -299,6 +302,7 @@ export class ProductViewOrionComponent implements OnInit {
       this.client = '';
       this.product.shippingAddress = '';
       this.product.priceSale = '';
+      this.priceAcum = 0;
     }
   }
 
@@ -494,7 +498,7 @@ export class ProductViewOrionComponent implements OnInit {
       });
   }
 
-  format(value): any {
+  format(value, parameter): any {
     let flat;
     let partInt;
     let partDec;
@@ -505,14 +509,14 @@ export class ProductViewOrionComponent implements OnInit {
       if (_.includes(toString, '.')) {
         pos = _.indexOf(toString, '.');
         partInt = toString.slice( 0, pos);
-        if (partInt <= 99) {
+        if (partInt <= this.getMax(parameter)) {
           partDec = toString.slice( pos + 1, toString.length);
           flat = this.completeStart(partInt, 2) + '.' + this.completeEnd(partDec, 2);
         } else {
             flat = null;
         }
       } else {
-          if (value <= 99) {
+          if (value <= this.getMax(parameter)) {
             flat = this.completeStart(value, 2) + '.00';
           } else {
             flat = null;
@@ -594,7 +598,7 @@ export class ProductViewOrionComponent implements OnInit {
 
           if (parameter.name === 'Diameter' || parameter.name === 'Base Curve'
           || parameter.name === 'Axis' ) {
-            parameter.selected = self.format(parameter.selected);
+            parameter.selected = self.format(parameter.selected, parameter);
           }
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });
@@ -621,7 +625,7 @@ export class ProductViewOrionComponent implements OnInit {
 
           if (parameter.name === 'Diameter' || parameter.name === 'Base Curve'
           || parameter.name === 'Axis' ) {
-            parameter.selected = self.format(parameter.selected);
+            parameter.selected = self.format(parameter.selected, parameter);
           }
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
         });

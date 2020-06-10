@@ -61,8 +61,8 @@
               <dt>{{ parameter.name | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items" *ngIf="parameter.name !== 'Profile' && parameter.name !== 'Warranty'">{{ parameter.selected }}</dt>
-                <dt class="items" *ngIf="parameter.name === 'Profile' || parameter.name === 'Warranty'">{{ (parameter.selected == true ? 'Yes' : 'No') | translate }}</dt>
+                <dt class="items" *ngIf="parameter.name !== 'Warranty' &&  parameter.name !== 'Limbal Ring' && parameter.name !== 'Light Sensitivity'">{{ parameter.selected }}</dt>
+                <dt class="items" *ngIf="parameter.name === 'Warranty' || parameter.name === 'Limbal Ring' || parameter.name === 'Light Sensitivity'">{{ (parameter.selected == true ? 'Yes' : 'No') | translate }}</dt>
               </dl>
             </dl>
           </div>
@@ -73,7 +73,7 @@
               <div class="col-sm-12 code-iris">
                 <div *ngFor="let param of parameter.selected" class="col-sm-3">
                   <dl >
-                    <dt class="items">{{ param.name }}</dt>
+                    <dt class="items">{{ param.name | translate }}</dt>
                     <dt class="items">{{ param.selected === null ? 'N/A' : param.selected}}</dt>
                   </dl>
                 </div>
