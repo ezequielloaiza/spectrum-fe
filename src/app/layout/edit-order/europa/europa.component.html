@@ -28,9 +28,9 @@
 
           <div class="type-lens">
             <span>{{ 'Type' | translate }}:</span>
-            <div *ngFor="let value of product.typeLens.values; let i = index">
+            <div *ngFor="let value of typeLens.values; let i = index">
               <div class="custom-control custom-radio">
-                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLens" [value]="value" (change)="changeTypeLens(value)" class="custom-control-input" [checked]="product.typeLens.selected === value">
+                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLens" [value]="value" (change)="changeTypeLens(value)" class="custom-control-input" [checked]="typeLens.selected === value">
                 <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
               </div>
             </div>
@@ -90,7 +90,7 @@
         </div>
 
         <div class="col-lg-12 label-title">
-          <div class="row padding-params" *ngIf="product.typeLens.selected === 'Final Lens'">
+          <div class="row padding-params" *ngIf="typeLens.selected === 'Final Lens'">
             <div class="col-sm-12">
               <div class="parameters">{{ 'Trial Lens Used' | translate }}</div>
             </div>
@@ -190,7 +190,7 @@
                         <input class="form-control col-sm-11" type="number" placeholder="{{ parameter.placeholder | translate }}"
                                [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"  min="0.00" step="0.01" required>
                       </div>
-                      <div class="message-power" *ngIf="parameter.type === 'input' && isPower(parameter) && product.typeLens.selected === 'Final Lens'">
+                      <div class="message-power" *ngIf="parameter.type === 'input' && isPower(parameter) && typeLens.selected === 'Final Lens'">
                         <span translate>If you want us to calculate it, refer to the consulting format</span>
                       </div>
 

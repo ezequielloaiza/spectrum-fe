@@ -101,15 +101,6 @@
       <div class="row product-info">
         <div class="col-md-12 title">
           <label> {{ 'Please specific your product' | translate }}</label>
-          <div class="type-lens">
-            <span class="title">{{ 'Type' | translate }}:</span>
-            <div *ngFor="let value of product.typeLens.values; let i = index">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLens" [value]="value" (change)="changeTypeLens(value)" class="custom-control-input" [checked]="product.typeLens.selected==value">
-                <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
-              </div>
-            </div>
-          </div>
           <div class="col-lg-3" *ngFor="let header of product.headerRight">
             <div class="row" *ngIf ="header.name === 'Inserts (DMV)'">
               <label class="form-check-label">{{ header.name | translate }}</label>&nbsp;&nbsp;
@@ -152,8 +143,18 @@
             class="custom-control-input">
           <label class="custom-control-label" for="right">{{ 'OD' }}</label>
 
-          <div class="row title" *ngIf="product.typeLens.selected === 'Final Lens'">{{ 'Trial Lens Used' | translate }}</div>
-          <div class="row" *ngIf="product.typeLens.selected === 'Final Lens'">
+          <div class="type-lens">
+            <span class="title">{{ 'Type' | translate }}:</span>
+            <div *ngFor="let value of typeLensRight.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLensRight" [value]="value" [disabled]="!product.eyeRight" (change)="changeTypeLens('right', value)" class="custom-control-input" [checked]="typeLensRight.selected === value">
+                <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row title" *ngIf="typeLensRight.selected === 'Final Lens'">{{ 'Trial Lens Used' | translate }}</div>
+          <div class="row" *ngIf="typeLensRight.selected === 'Final Lens'">
             <div class="col-lg-3" *ngFor="let itemSet of product.setRight">
               <div class="row">
                 <label class="form-check-label">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;
@@ -246,7 +247,7 @@
             <div class="col-lg-3" *ngFor="let parameter of product.parametersRight; let indexRight = index">
               <div>
                 <!--param name-->
-                <div class="row label" *ngIf="parameter.type !== 'selected-double'">
+                <div class="row label" *ngIf="parameter.type !== 'selected-double' && parameter.type !== 'radio'">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
                 </div>
 
@@ -277,7 +278,7 @@
                       [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
                       [disabled]="!product.eyeRight" min="0.00" step="0.01">
                   </div>
-                  <div class="message-power" *ngIf="!!product.eyeRight && parameter.type === 'input' && isPower(parameter) && product.typeLens.selected === 'Final Lens'">
+                  <div class="message-power" *ngIf="!!product.eyeRight && parameter.type === 'input' && isPower(parameter) && typeLensRight.selected === 'Final Lens'">
                     <span translate>If you want us to calculate it, refer to the consulting format</span>
                   </div>
 
@@ -455,9 +456,18 @@
             class="custom-control-input">
           <label class="custom-control-label" for="left">{{ 'OS' }}</label>
 
+          <div class="type-lens">
+            <span class="title">{{ 'Type' | translate }}:</span>
+            <div *ngFor="let value of typeLensLeft.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-lens-left-{{i}}" name="radioTypeLensLeft"  [disabled]="!product.eyeLeft" [value]="value" (change)="changeTypeLens('left', value)" class="custom-control-input" [checked]="typeLensLeft.selected === value">
+                <label class="custom-control-label" for="radio-lens-left-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
 
-          <div class="row title" *ngIf="product.typeLens.selected === 'Final Lens'">{{ 'Trial Lens Used' | translate }}</div>
-          <div class="row" *ngIf="product.typeLens.selected === 'Final Lens'">
+          <div class="row title" *ngIf="typeLensLeft.selected === 'Final Lens'">{{ 'Trial Lens Used' | translate }}</div>
+          <div class="row" *ngIf="typeLensLeft.selected === 'Final Lens'">
             <div class="col-lg-3" *ngFor="let itemSet of product.setLeft">
               <div class="row">
                 <label class="form-check-label">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;
@@ -554,7 +564,7 @@
               <div>
                 <!--param name-->
                 <div class="row label">
-                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                  <label class="form-check-label" *ngIf="parameter.type !== 'radio'">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
                 </div>
                 <!--param values-->
                 <div class="row">
@@ -576,7 +586,7 @@
                       [required]="product.eyeLeft" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
                       [disabled]="!product.eyeLeft" min="0.00" step="0.01">
                   </div>
-                  <div class="message-power" *ngIf="!!product.eyeLeft && parameter.type === 'input' && isPower(parameter) && product.typeLens.selected === 'Final Lens'">
+                  <div class="message-power" *ngIf="!!product.eyeLeft && parameter.type === 'input' && isPower(parameter) && typeLensLeft.selected === 'Final Lens'">
                     <span translate>If you want us to calculate it, refer to the consulting format</span>
                   </div>
 

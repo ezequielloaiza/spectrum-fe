@@ -62,6 +62,8 @@ export class ProductViewEuropaComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  typeLensLeft: any;
+  typeLensRight: any;
   signPowerRight: any;
   signPowerLeft: any;
   signPowerRightTrial: any;
@@ -264,17 +266,18 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product = _.find(this.products, { idProduct: this.id });
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
-    this.product.typeLens = JSON.parse(this.product.types)[0].typeLens;
     this.product.type = JSON.parse(this.product.types)[0].name;
     let orderCylinder;
     this.product.setRight = JSON.parse(this.product.types)[0].set;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+    this.typeLensRight = _.find(this.product.parametersRight, function (param){ return param.name === 'Type'});
     orderCylinder = _.find(this.product.parametersRight, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
     }
     this.product.setLeft = JSON.parse(this.product.types)[0].set;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+    this.typeLensLeft = _.find(this.product.parametersLeft, function (param){ return param.name === 'Type'});
     orderCylinder = _.find(this.product.parametersLeft, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
@@ -826,7 +829,6 @@ export class ProductViewEuropaComponent implements OnInit {
 
       productSelected.patient = product.patient;
       productSelected.name = product.name;
-      productSelected.typeLens = product.typeLens.selected;
 
       if (productSelected.eye === 'Right') {
         // add header spectrum code
@@ -1036,8 +1038,8 @@ export class ProductViewEuropaComponent implements OnInit {
           productsAditional.push(productN);
         }
       });
-      productSelected.detail = { name: product.type, typeLens: productSelected.typeLens, eye: productSelected.eye, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
-      productsSelected[index] = _.omit(productSelected, ['parameters', 'typeLens', 'eye', 'pasos', 'header', 'productsAditional', 'set'])
+      productSelected.detail = { name: product.type, eye: productSelected.eye, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
+      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional', 'set'])
     });
 
     // add products code
@@ -1538,6 +1540,8 @@ export class ProductViewEuropaComponent implements OnInit {
     if (eye === 'right') {
       this.product.headerRight = header;
       this.product.parametersRight = parameters;
+      this.typeLensRight = _.find(this.product.parametersRight, function (param){ return param.name === 'Type'});
+      this.typeLensRight.selected = 'Please design my lens';
       this.product.pasosRight = pasos;
       this.typeCurveRight = null;
       this.typeCurveRightTrial = null;
@@ -1547,6 +1551,8 @@ export class ProductViewEuropaComponent implements OnInit {
     } else {
       this.product.headerLeft = header;
       this.product.parametersLeft = parameters;
+      this.typeLensLeft = _.find(this.product.parametersLeft, function (param){ return param.name === 'Type'});
+      this.typeLensLeft.selected = 'Please design my lens';
       this.product.pasosLeft = pasos;
       this.typeCurveLeft = null;
       this.typeCurveLeftTrial = null;
@@ -1554,6 +1560,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.signPowerLeftTrial = null;
       this.typeNotchLeft = null;
     }
+    debugger
   }
 
   disabledOption(item) {
@@ -1657,42 +1664,54 @@ export class ProductViewEuropaComponent implements OnInit {
     return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power';
   }
 
-  changeTypeLens(value) {
-    this.product.typeLens.selected = value;
-    let powerRight = _.find(this.product.parametersRight, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
-    let powerLeft = _.find(this.product.parametersLeft, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
-    switch (value) {
-      case 'Please design my lens':
-        this.setPower(powerRight, powerLeft, 'Over-Refaction')
-        this.resetTrialLens();
+  changeTypeLens(eye, value) {
+    switch (eye) {
+      ///////////////EYE RIGHT////////////////////
+      case 'right':
+        this.typeLensRight.selected = value;
+
+        let powerRight = _.find(this.product.parametersRight, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
+
+        //initialize values power
+        powerRight.sel = null; powerRight.selected = null;
+        this.signPowerRight = null;
+
+        //rename params and reset trial lens
+        if (value === 'Please design my lens') {
+            powerRight.name = 'Over-Refaction';
+
+            //trial lens reset
+            _.each(this.product.setRight, function (param) { param.selected = null; param.sel = null });
+            this.signPowerRightTrial = null;
+            this.typeCurveRightTrial = null
+        } else if (value === 'Final Lens') {
+          powerRight.name = 'Final Power';
+        }
         break;
-      case 'Final Lens':
-        this.setPower(powerRight, powerLeft, 'Final Power')
-      break;
+
+      ///////////////EYE LEFT////////////////////
+      case 'left':
+        this.typeLensLeft.selected = value;
+
+        let powerLeft = _.find(this.product.parametersLeft, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
+
+        //rename params and initialize values
+        powerLeft.name = value
+        powerLeft.sel = null; powerLeft.selected = null;
+        this.signPowerLeft = null;
+
+        //rename params and reset trial lens
+        if (value === 'Please design my lens') {
+          powerLeft.name = 'Over-Refaction';
+
+          //trial lens reset
+          _.each(this.product.setLeft, function (param) { param.selected = null; param.sel = null });
+          this.signPowerLeftTrial = null;
+          this.typeCurveLeftTrial = null;
+        } else if (value === 'Final Lens') {
+          powerLeft.name = 'Final Power';
+        }
+        break;
     }
-  }
-
-  resetTrialLens() {
-    // OD
-    _.each(this.product.setRight, function (param) { param.selected = null; param.sel = null });
-    this.signPowerRightTrial = null;
-    this.typeCurveRightTrial = null;
-
-    //OS
-    _.each(this.product.setLeft, function (param) { param.selected = null; param.sel = null });
-    this.signPowerLeftTrial = null;
-    this.typeCurveLeftTrial = null;
-  }
-
-  setPower(powerRight, powerLeft, value) {
-    powerRight.name = value;
-    powerRight.sel = null;
-    powerRight.selected = null;
-    this.signPowerRight = null;
-
-    powerLeft.name = value;
-    powerLeft.sel = null;
-    powerLeft.selected = null;
-    this.signPowerLeft = null;
   }
 }
