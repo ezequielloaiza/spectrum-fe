@@ -140,10 +140,19 @@
                 </div>
                 <!--param values-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
-                  <ng-select (change)="changeSelect('right', parameter,  parameter.sel)"
+                  <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
                     [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
                     bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
-                    <ng-option [value]="item"  *ngFor="let item of parameter.values">{{ item | translate }}</ng-option>
+                    <ng-template ng-label-tmp let-item="item">
+                      <div class="supplier-body">
+                        <span>{{ item | translate }}</span>
+                      </div>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                      <div class="supplier-body">
+                        <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                      </div>
+                    </ng-template>
                   </ng-select>
                 </div>
                 <div *ngIf="parameter.type === 'input'" class="row select-values">
@@ -274,10 +283,19 @@
                 </div>
                 <!--param values-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
-                  <ng-select (change)="changeSelect('left', parameter,  parameter.sel)"
+                  <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
                     [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
                     bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
-                    <ng-option [value]="item"  *ngFor="let item of parameter.values">{{ item | translate }}</ng-option>
+                    <ng-template ng-label-tmp let-item="item">
+                      <div class="supplier-body">
+                        <span>{{ item | translate }}</span>
+                      </div>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                      <div class="supplier-body">
+                        <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                      </div>
+                    </ng-template>
                   </ng-select>
                 </div>
                 <div *ngIf="parameter.type === 'input'" class="row select-values">

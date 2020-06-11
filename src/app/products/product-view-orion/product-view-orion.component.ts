@@ -56,6 +56,7 @@ export class ProductViewOrionComponent implements OnInit {
   warrantyLeft = false;
   download = false;
   type: any;
+  parameterType: any;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
@@ -207,17 +208,18 @@ export class ProductViewOrionComponent implements OnInit {
   }
 
   setCodeProduct(value) {
-    const productCode = this.product.codeSpectrum;
     const productName = this.product.name;
     const idProduct = this.product.idProduct;
     const productCategory = this.product.category;
+    const parameterType = this.parameterType !== undefined ? this.parameterType : '';
     let prCode;
     this.productService.findBySupplierAndInViewAndCategory$(10, false, productCategory.idCategory).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.productsCode = res.data;
         _.each(this.productsCode, function (pr) {
           if (idProduct === 267) {
-            if (_.includes(pr.name.toLowerCase(), productName.toLowerCase()) && _.includes(pr.name.toLowerCase(), value.toLowerCase())) {
+            if (_.includes(pr.name.toLowerCase(), productName.toLowerCase()) && _.includes(pr.name.toLowerCase(), value.toLowerCase())
+            && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase())) {
               prCode = pr;
             }
           } else {
@@ -273,10 +275,10 @@ export class ProductViewOrionComponent implements OnInit {
 
   setClient() {
     if (this.user.role.idRole === 3) {
-      this.client = this.currentUser.idUser;
+      this.client = this.currentUser;
       let accSpct = !!this.currentUser.accSpct ?  this.currentUser.accSpct + ' - ' : '';
       this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
-      this.findShippingAddress(this.client);
+      this.findShippingAddress(this.client.idUser);
     } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -375,6 +377,7 @@ export class ProductViewOrionComponent implements OnInit {
     }
     if (this.client ) {
       if (parameter.name === 'Type') {
+        this.parameterType = parameter.selected;
         this.setCodeProduct(parameter.selected);
       } else {
         this.setCodeProduct('');
