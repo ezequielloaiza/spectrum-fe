@@ -94,8 +94,8 @@
           </div>
         </div>
         <div class="col-lg-1 col-price">
-          <h5 class="padding-price" [hidden]="priceAcum === 0">
-            <span>{{ priceAcum | currency : "USD $" }}</span>
+          <h5 class="padding-price" [hidden]="priceAcum === 0 && product.priceSale === 0">
+            <span>{{ (priceAcum === 0 ? product.priceSale : priceAcum) | currency : "USD $" }}</span>
           </h5>
         </div>
       </div>
@@ -125,7 +125,7 @@
               </div>
               <div class="row">
                 <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
-                  [required]="product.eyeRight"  [disabled]="!product.eyeRight" (change)="updatePriceSale()" min="1">
+                  [required]="product.eyeRight"  [disabled]="!product.eyeRight" (change)="updatePriceSale('right')" min="1">
               </div>
             </div>
             <div class="col-lg-2 margin-col padding-col" *ngFor="let parameter of product.parametersRight">
@@ -268,7 +268,7 @@
               </div>
               <div class="row">
                 <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityLeft" [required]="product.eyeLeft"
-                  oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" min="1">
+                  oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" (change)="updatePriceSale('left')" min="1">
               </div>
             </div>
             <div class="col-lg-2 margin-col padding-col" *ngFor="let parameter of product.parametersLeft">

@@ -244,7 +244,12 @@ export class ProductViewOrionComponent implements OnInit {
     });
   }
 
-  updatePriceSale() {
+  updatePriceSale(eye) {
+    if (eye === 'right') {
+      this.product.priceSaleRight = this.product.priceSale;
+    } else if (eye === 'left') {
+      this.product.priceSaleLeft = this.product.priceSale;
+    }
     this.priceAcum = ((this.product.quantityLeft ? (this.product.quantityLeft * this.product.priceSaleLeft) : 0)
         + (this.product.quantityRight ? (this.product.quantityRight * this.product.priceSaleRight) : 0));
   }
@@ -260,15 +265,12 @@ export class ProductViewOrionComponent implements OnInit {
     switch (membership) {
       case 1:
         this.product.priceSale = this.product.price1;
-        this.priceAcum = this.product.priceSale;
         break;
       case 2:
         this.product.priceSale = this.product.price2;
-        this.priceAcum = this.product.priceSale;
         break;
       case 3:
         this.product.priceSale = this.product.price3;
-        this.priceAcum = this.product.priceSale;
         break;
     }
   }
