@@ -281,14 +281,13 @@ export class EuropaComponent implements OnInit {
     this.product.header = JSON.parse(this.product.types)[0].header;
     this.product.set = JSON.parse(this.product.types)[0].set;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
-    this.typeLens = _.find(this.product.parameters, function (param){ return param.name === 'Type'});
+    this.typeLens = JSON.parse(this.product.types)[0].typeLens;
     this.product.steps = JSON.parse(this.product.types)[0].pasos;
     this.product.pricesAditionalHidrapeg = JSON.parse(this.product.infoAditional)[0].values[0];
     this.product.pricesAditionalInserts = JSON.parse(this.product.infoAditional)[0].values[1];
     this.product.pricesAditionalNotch = JSON.parse(this.product.infoAditional)[0].values[2];
     // this.product.pricesAditionalThickness = JSON.parse(this.product.infoAditional)[0].values[3];
-    //set type lens
-    this.changeTypeLens(this.typeLens.selected);
+
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
@@ -303,6 +302,10 @@ export class EuropaComponent implements OnInit {
     let set = this.product.set;
     let selectedNotch;
     let self = this;
+
+     //set type lens
+     this.changeTypeLens(this.detail.typeLens);
+
      // header
     _.each(this.detail.header, function(item) {
       _.each(header, function(itemHeader) {
@@ -615,7 +618,7 @@ export class EuropaComponent implements OnInit {
     const notchPrice = this.notch;
     const dMVPrice = this.inserts;
     const groupId = this.productRequested.groupId;
-    const detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
+    const detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye, typeLens: this.typeLens.selected,
       header: this.detail.header, parameters: this.detail.parameters,
       set: this.detail.set,
       pasos: this.detail.pasos}) + ']';
@@ -679,7 +682,7 @@ export class EuropaComponent implements OnInit {
 
           if (contraryEye != undefined) {
             this.productRequestedDMVContrary = contraryEye.productRequested;
-            this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+            this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye, typeLens: detailContrary[0].typeLens,
               set: detailContrary[0].set, header: detailContrary[0].header, parameters: detailContrary[0].parameters,
               pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
             this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
@@ -712,7 +715,7 @@ export class EuropaComponent implements OnInit {
         this.productRequestedDMV.delete = true;
 
         this.productRequestedDMVContrary = contraryEye.productRequested;
-        this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+        this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye, typeLens: detailContrary[0].typeLens,
           set: detailContrary[0].set, header: detailContrary[0].header, parameters: detailContrary[0].parameters,
           pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
 
@@ -801,7 +804,7 @@ export class EuropaComponent implements OnInit {
 
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-      this.productRequested.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
+      this.productRequested.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye, typeLens: this.typeLens.selected,
                                       set: this.detail.set, header: this.detail.header, parameters: this.detail.parameters,
                                       pasos: this.detail.pasos, productsAditional: productsAditional }) + ']';
       this.productRequested.observations = this.observations;
@@ -815,7 +818,7 @@ export class EuropaComponent implements OnInit {
       this.update(productsRequestedsAditional);
     } else { // Order Detail
       this.productRequestedAux.idProductRequested = this.productRequested.idProductRequested;
-      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye,
+      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye, typeLens: this.typeLens.selected,
                                         set: this.detail.set, header: this.detail.header, parameters: this.detail.parameters,
                                         pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
       this.productRequestedAux.observations = this.observations;

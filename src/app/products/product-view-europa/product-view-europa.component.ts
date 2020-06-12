@@ -270,14 +270,16 @@ export class ProductViewEuropaComponent implements OnInit {
     let orderCylinder;
     this.product.setRight = JSON.parse(this.product.types)[0].set;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
-    this.typeLensRight = _.find(this.product.parametersRight, function (param){ return param.name === 'Type'});
+    this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+    this.changeTypeLens('right', 'Please design my lens');
     orderCylinder = _.find(this.product.parametersRight, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
     }
     this.product.setLeft = JSON.parse(this.product.types)[0].set;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
-    this.typeLensLeft = _.find(this.product.parametersLeft, function (param){ return param.name === 'Type'});
+    this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+    this.changeTypeLens('left', 'Please design my lens');
     orderCylinder = _.find(this.product.parametersLeft, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
@@ -834,6 +836,7 @@ export class ProductViewEuropaComponent implements OnInit {
         // add header spectrum code
         productSelected.id = productDiameterR.idProduct;
         productSelected.codeSpectrum = productDiameterR.codeSpectrum;
+        productSelected.typeLens = self.typeLensRight.selected
 
         /*if (additionalInserts && product.eyeLeft) {
           productSelected.price = product.priceSaleRight + (inserts / 2);
@@ -926,6 +929,7 @@ export class ProductViewEuropaComponent implements OnInit {
         // add header spectrum code
         productSelected.id = productDiameterL.idProduct;
         productSelected.codeSpectrum = productDiameterL.codeSpectrum;
+        productSelected.typeLens = self.typeLensLeft.selected
 
         /*if (additionalInsertsL && product.eyeRight) {
           productSelected.price = product.priceSaleLeft + (inserts / 2);
@@ -1038,7 +1042,7 @@ export class ProductViewEuropaComponent implements OnInit {
           productsAditional.push(productN);
         }
       });
-      productSelected.detail = { name: product.type, eye: productSelected.eye, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
+      productSelected.detail = { name: product.type, eye: productSelected.eye, typeLens: productSelected.typeLens, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional', 'set'])
     });
 
@@ -1540,8 +1544,8 @@ export class ProductViewEuropaComponent implements OnInit {
     if (eye === 'right') {
       this.product.headerRight = header;
       this.product.parametersRight = parameters;
-      this.typeLensRight = _.find(this.product.parametersRight, function (param){ return param.name === 'Type'});
-      this.typeLensRight.selected = 'Please design my lens';
+      this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+      this.changeTypeLens('right', 'Please design my lens');
       this.product.pasosRight = pasos;
       this.typeCurveRight = null;
       this.typeCurveRightTrial = null;
@@ -1551,8 +1555,8 @@ export class ProductViewEuropaComponent implements OnInit {
     } else {
       this.product.headerLeft = header;
       this.product.parametersLeft = parameters;
-      this.typeLensLeft = _.find(this.product.parametersLeft, function (param){ return param.name === 'Type'});
-      this.typeLensLeft.selected = 'Please design my lens';
+      this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+      this.changeTypeLens('left', 'Please design my lens');
       this.product.pasosLeft = pasos;
       this.typeCurveLeft = null;
       this.typeCurveLeftTrial = null;
@@ -1560,7 +1564,6 @@ export class ProductViewEuropaComponent implements OnInit {
       this.signPowerLeftTrial = null;
       this.typeNotchLeft = null;
     }
-    debugger
   }
 
   disabledOption(item) {

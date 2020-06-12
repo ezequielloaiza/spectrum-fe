@@ -26,6 +26,10 @@
             </div>
           </div>
 
+          <div class="col-lg-12 title eye-info">
+            <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
+          </div>
+
           <div class="type-lens">
             <span>{{ 'Type' | translate }}:</span>
             <div *ngFor="let value of typeLens.values; let i = index">
@@ -36,9 +40,6 @@
             </div>
           </div>
 
-          <div class="col-lg-12 title eye-info">
-            <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
-          </div>
         </div>
         <!--PARAMETERS-->
         <div class="col-lg-12 label-title">
@@ -152,7 +153,7 @@
               <!--Parameters-->
               <div class="col-sm-4" *ngFor="let parameter of product.parameters">
                 <dl>
-                  <div *ngIf="parameter.type !== 'selected-double'">
+                  <div *ngIf="parameter.type !== 'selected-double' && parameter.name !== 'Type'">
                     <dt>{{ parameter.name| translate}}</dt>
                   </div>
 
