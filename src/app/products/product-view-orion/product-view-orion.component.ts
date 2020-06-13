@@ -567,7 +567,7 @@ export class ProductViewOrionComponent implements OnInit {
       this.product.parametersLeft = parameters;
     }
 
-    this.updatePriceSale();
+    this.updatePriceSale('');
   }
 
   buildProductsSelected() {
