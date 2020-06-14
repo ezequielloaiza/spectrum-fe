@@ -39,6 +39,7 @@ export class OrionComponent implements OnInit {
   warrantyRight = false;
   warrantyLeft = false;
   client: any;
+  parameterType: any;
 
   constructor(public modalReference: NgbActiveModal,
     private notification: ToastrService,
@@ -71,13 +72,21 @@ export class OrionComponent implements OnInit {
   }
 
   getProductsCode() {
+    let productName: any;
+    if (this.product.idProduct === 150 || this.product.idProduct === 151 || this.product.idProduct === 152) {
+      productName = 'BioColors';
+    } else if (this.product.idProduct === 153 || this.product.idProduct === 154) {
+      productName = 'BioMed';
+    } else if (this.product.idProduct === 271 || this.product.idProduct === 272) {
+      productName = 'BioSport';
+    }
     this.productService.findBySupplierAndInViewAndCategory$(10, false, 10).subscribe(res1 => {
       if (res1.code === CodeHttp.ok) {
         this.productsCode = res1.data;
         let pC = this.productsCode.filter((item) => {
-          return _.includes(item.name.toLowerCase(), this.product.name.toLowerCase()); });
+          return _.includes(item.name.toLowerCase(), productName.toLowerCase()); });
         this.productsCode = pC.sort((a, b) => (b.idProduct > a.idProduct) ? -1 : 1);
-        this.setCodeProduct('');
+        this.setCodeProduct();
       } else {
         console.log(res1.errors[0].detail);
       }
@@ -86,32 +95,50 @@ export class OrionComponent implements OnInit {
     });
   }
 
-  setCodeProduct(value) {
-    const prName = this.product.name;
+  setCodeProduct() {
+    let productName;
+    if (this.product.idProduct === 150 || this.product.idProduct === 151 || this.product.idProduct === 152) {
+      productName = 'BioColors';
+    } else if (this.product.idProduct === 153 || this.product.idProduct === 154) {
+      productName = 'BioMed';
+    } else if (this.product.idProduct === 271 || this.product.idProduct === 272) {
+      productName = 'BioSport';
+    }
     const idProduct = this.product.idProduct;
+    const parameterType = this.parameterType === 'Cosmetic' ||  this.parameterType === 'Prosthetic' ? this.parameterType : '';
     let prCode;
-
     for (let i = 0, len = this.productsCode.length; i < len; i++) {
       let pr = this.productsCode[i];
       if (idProduct === 150 || idProduct === 151 || idProduct === 152) {
-        if (_.includes(pr.name.toLowerCase(), prName.toLowerCase()) && _.includes(pr.name.toLowerCase(), value.toLowerCase())) {
-          prCode = pr;
-          break;
-        }
-      } else {
-        if (_.includes(pr.name.toLowerCase(), prName.toLowerCase()) && _.includes(pr.name.toLowerCase(), value.toLowerCase())
-          && _.includes(pr.name.toLowerCase(), 'sphere')) {
+        if (parameterType === 'Cosmetic') {
+          if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())
+              && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase()) && _.includes(pr.name.toLowerCase(), 'sphere')) {
+              prCode = pr;
+              break;
+           }
+        } else {
+          if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())
+          && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase())) {
             prCode = pr;
             break;
+          }
+        }
+      } else {
+        if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())
+        && _.includes(pr.name.toLowerCase(), 'sphere')) {
+          prCode = pr;
+          break;
         }
       }
     }
     this.productCode = prCode;
+
     if (this.productCode) {
       this.product.price1 = this.productCode.price1;
       this.product.price2 = this.productCode.price2;
       this.product.price3 = this.productCode.price3;
     }
+
   }
 
   close() {
@@ -125,6 +152,7 @@ export class OrionComponent implements OnInit {
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
     this.patient = this.productRequested.patient;
+    let typeParameter = '';
     let paramet = this.product.parameters;
 
     _.each(this.detail.parameters, function(item) {
@@ -136,10 +164,14 @@ export class OrionComponent implements OnInit {
            } else {
                productSelected.selected = item.selected;
            }
+           if (productSelected.name === 'Type') {
+            typeParameter = productSelected.selected;
+           }
         }
      });
     });
     this.product.parameters = paramet;
+    this.parameterType = typeParameter;
   }
 
   changeSelect(eye, parameter, value) {
@@ -163,10 +195,9 @@ export class OrionComponent implements OnInit {
     }
     if (this.membership) {
       if (parameter.name === 'Type') {
-        this.setCodeProduct(parameter.selected);
-      } else {
-        this.setCodeProduct('');
+        this.parameterType = parameter.selected;
       }
+      this.setCodeProduct();
       this.definePrice(this.membership);
     }
   }
@@ -302,7 +333,8 @@ export class OrionComponent implements OnInit {
     });
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-      this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
+      this.productRequested.detail = '[' + JSON.stringify({ name: this.product.name,
+        eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
       this.productRequested.observations = this.observations;
       this.productRequested.price = this.price;
       this.productRequested.quantity = this.quantity;
@@ -311,7 +343,8 @@ export class OrionComponent implements OnInit {
       this.update(this.productRequested);
     } else { // Order Detail
       this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-      this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
+      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.product.name,
+        eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
       this.productRequestedAux.observations = this.observations;
       this.productRequestedAux.price = this.price;
       this.productRequestedAux.quantity = this.quantity;

@@ -7,7 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../../../shared/services';
 import { OrionComponent } from '../../edit-order/orion/orion/orion.component';
 import { FileProductRequested } from '../../../shared/models/fileproductrequested';
+import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
+import { environment } from '../../../../environments/environment';
+import { saveAs } from 'file-saver';
 
+const URL = environment.apiUrl + 'fileProductRequested/downloadFile/';
 @Component({
   selector: 'app-supplier-orion',
   templateUrl: './supplier-orion.component.html',
@@ -19,7 +23,7 @@ export class SupplierOrionComponent implements OnInit {
   @Input() files: Array<FileProductRequested>;
   @Input() image: any;
   @Input() order: Order;
-  @Output() emitEventSynergeyes: EventEmitter<any> = new EventEmitter<any>();
+  @Output() emitEventOrion: EventEmitter<any> = new EventEmitter<any>();
 
   listAux: Array<ProductRequested> = new Array;
   urlImage: any;
@@ -29,6 +33,7 @@ export class SupplierOrionComponent implements OnInit {
 
   constructor(private modalService: NgbModal,
     private userStorageService: UserStorageService,
+    private fileProductRequestedService: FileProductRequestedService,
     private route: ActivatedRoute,
     private orderService: OrderService,
     private router: Router) {
@@ -48,14 +53,23 @@ export class SupplierOrionComponent implements OnInit {
     this.sendReply();
   }
 
+  downloadFile(item) {
+    this.fileProductRequestedService.downloadFile$(item.name).subscribe(res => {
+      saveAs(res, item.name);
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
   openEdit() {
-    const modalRefSynergeyes = this.modalService.open( OrionComponent,
+    const modalRefOrion = this.modalService.open( OrionComponent,
       { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false});
-      modalRefSynergeyes.componentInstance.detailEdit = this.lista;
-      modalRefSynergeyes.componentInstance.typeEdit = 2;
-      modalRefSynergeyes.componentInstance.userOrder = this.order.user;
-      modalRefSynergeyes.componentInstance.image = this.urlImage;
-      modalRefSynergeyes.result.then((result) => {
+      modalRefOrion.componentInstance.detailEdit = this.lista;
+      modalRefOrion.componentInstance.typeEdit = 2;
+      modalRefOrion.componentInstance.userOrder = this.order.user;
+      modalRefOrion.componentInstance.order = this.order;
+      modalRefOrion.componentInstance.image = this.urlImage;
+      modalRefOrion.result.then((result) => {
         /*this.listAux = result;
         this.sendReply();*/
         this.skipLocationAndRedirect(this.router.url);
@@ -66,7 +80,7 @@ export class SupplierOrionComponent implements OnInit {
   public sendReply(): any {
     const fResponse = [];
     fResponse.push(this.listAux);
-    this.emitEventSynergeyes.emit(fResponse);
+    this.emitEventOrion.emit(fResponse);
     return fResponse;
   }
 
