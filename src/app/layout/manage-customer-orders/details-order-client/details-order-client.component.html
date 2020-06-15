@@ -1,7 +1,7 @@
 <div class="row page-header-fixed" *ngIf="order">
   <div class="header-body">
     <h4 class="page-header">
-      {{ 'Orders List' | translate }}
+      {{ 'Orders List ADmin' | translate }}
     </h4>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
@@ -221,7 +221,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier === 2" >
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 2" >
                           <dl class="align-item">
                             <dt>{{'Type'| translate}}
                             </dt>

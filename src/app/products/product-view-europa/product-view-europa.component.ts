@@ -643,9 +643,6 @@ export class ProductViewEuropaComponent implements OnInit {
           this.valueDiameter(valueD, 'right');
         } else {
           this.product.priceSaleRight = 0;
-          /*if (this.additionalInserts) {
-              this.product.priceSaleRight = this.product.priceSaleRight + (this.inserts / 2);
-          }*/
           if (this.additionalHidrapeg) {
             this.product.priceSaleRight = this.product.priceSaleRight + this.hidrapeg;
           }
@@ -672,9 +669,6 @@ export class ProductViewEuropaComponent implements OnInit {
           this.valueDiameter(valueD, 'left');
         } else {
           this.product.priceSaleLeft = 0;
-          /* if (this.additionalInsertsL) {
-               this.product.priceSaleLeft = this.product.priceSaleLeft + (this.inserts / 2);
-           }*/
           if (this.additionalHidrapegL) {
             this.product.priceSaleLeft = this.product.priceSaleLeft + this.hidrapeg;
           }
@@ -837,23 +831,6 @@ export class ProductViewEuropaComponent implements OnInit {
         productSelected.id = productDiameterR.idProduct;
         productSelected.codeSpectrum = productDiameterR.codeSpectrum;
         productSelected.typeLens = self.typeLensRight.selected
-
-        /*if (additionalInserts && product.eyeLeft) {
-          productSelected.price = product.priceSaleRight + (inserts / 2);
-        } else if (additionalInserts && !product.eyeLeft) {
-          productSelected.price = product.priceSaleRight + inserts;
-        } else {
-          productSelected.price = product.priceSaleRight;
-        }*/
-
-        /*if (additionalH) {
-           productSelected.price = product.priceSaleRight - hidrapegPrice;
-         }
-         if (additionalN) {
-           productSelected.price = product.priceSaleRight - notchPrice;
-         }*/
-
-        // productSelected.price = product.priceSaleRight;
         productSelected.price = product.priceBaseRight;
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
@@ -930,21 +907,6 @@ export class ProductViewEuropaComponent implements OnInit {
         productSelected.id = productDiameterL.idProduct;
         productSelected.codeSpectrum = productDiameterL.codeSpectrum;
         productSelected.typeLens = self.typeLensLeft.selected
-
-        /*if (additionalInsertsL && product.eyeRight) {
-          productSelected.price = product.priceSaleLeft + (inserts / 2);
-        } else if (additionalInsertsL && !product.eyeRight) {
-          productSelected.price = product.priceSaleLeft + inserts;
-        } else {
-          productSelected.price = product.priceSaleLeft;
-        }
-        if (additionalHL) {
-          productSelected.price = product.priceSaleLeft - hidrapegPrice;
-        }
-        if (additionalNL) {
-          productSelected.price = product.priceSaleLeft - notchPrice;
-        }*/
-        //productSelected.price = product.priceSaleLeft;
         productSelected.price = product.priceBaseLeft;
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
@@ -1082,8 +1044,7 @@ export class ProductViewEuropaComponent implements OnInit {
         }
       });
 
-      if (productAux.detail.header[2].selected === true
-        && (index === (auxList.length - 1))) {
+      if (productAux.detail.header[2].selected === true) {
         const productD = JSON.parse(JSON.stringify(productAux));
         productD.id = productDMV.idProduct;
         productD.name = 'Inserts (DMV)';

@@ -106,7 +106,16 @@ export class ConfirmationEuropaComponent implements OnInit {
     let existInserts = false;
     let insertCodeSpectrum = '';
     _.each(this.listBasket, function (productRequested) {
-      priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+
+      if (productRequested.product.idProduct === 146) {
+        quantityInserts++;
+        if (quantityInserts < 2) {
+          priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+        }
+      } else {
+        priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+      }
+
       if (productRequested.name !== 'Inserts (DMV)'
          && productRequested.name !== 'Notch'
          && productRequested.name !== 'HydraPEG') {

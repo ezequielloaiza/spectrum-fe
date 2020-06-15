@@ -68,7 +68,6 @@ export class EuropaComponent implements OnInit {
   additionalInserts = false;
   userOrder: any;
   lenghtGroup: any;
-  valueInserts: any;
   changeInserts = false;
   order: any;
   axesSelected: any;
@@ -426,13 +425,6 @@ export class EuropaComponent implements OnInit {
     this.definePriceNotch(this.membership);
     // this.definePriceTickness(this.membership);
     this.definePriceInserts(this.membership);
-    let valueInserts = 0;
-    if (this.lenghtGroup === 2) {
-      valueInserts = this.inserts / 2;
-    } else {
-      valueInserts = this.inserts;
-    }
-    this.valueInserts = valueInserts;
     if (parameter.name === 'Diameter (mm)') {
       this.checkAdditional();
       if (value === '17.0' ||
@@ -445,12 +437,12 @@ export class EuropaComponent implements OnInit {
         const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 17.0-20.0)');
         this.productCode = prCode;
         this.priceBase = this.priceB;
-        this.price = this.inserts > 0 ? this.priceB + this.notch + this.hidrapeg + valueInserts : this.priceB + this.notch + this.hidrapeg;
+        this.price = this.inserts > 0 ? this.priceB + this.notch + this.hidrapeg + this.inserts : this.priceB + this.notch + this.hidrapeg;
       } else {
         const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 15.2-16.5)');
         this.productCode = prCode;
         this.priceBase = this.priceA;
-        this.price = this.inserts > 0 ? this.priceA + this.notch + this.hidrapeg + valueInserts : this.priceA + this.notch + this.hidrapeg;
+        this.price = this.inserts > 0 ? this.priceA + this.notch + this.hidrapeg + this.inserts : this.priceA + this.notch + this.hidrapeg;
       }
     }
     if (parameter.name === 'Hidrapeg') {
@@ -466,10 +458,10 @@ export class EuropaComponent implements OnInit {
       this.changeInserts = true;
       if (value === 'Yes') {
         this.additionalInserts = true;
-        this.price = this.price + valueInserts;
+        this.price = this.price + this.inserts;
       } else {
         this.additionalInserts = false;
-        this.price = this.price - valueInserts;
+        this.price = this.price - this.inserts;
       }
     }
     /*if (parameter.name === 'Thickness') {
@@ -1120,16 +1112,7 @@ export class EuropaComponent implements OnInit {
       });
     });
     productRequested1.detail = JSON.stringify(detail);
-    //Cambio de precio
-    /*if (oldInserts !== self.additionalInserts) {
-      if (self.additionalInserts === true) {
-        productRequested1.price = price + self.valueInserts;
-     } else {
-        productRequested1.price = price - self.valueInserts;
-     }
-    } else {*/
-       productRequested1.price = self.priceBase;
-    //}
+    productRequested1.price = self.priceBase;
     //Modificacion
     self.productRequestedService.updatePriceEuropa$(productRequested1).subscribe(res1 => {
       if (res1.code === CodeHttp.ok) {

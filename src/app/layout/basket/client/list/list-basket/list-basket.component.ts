@@ -54,6 +54,7 @@ export class ListBasketComponent implements OnInit {
   basket: any;
   checkedAll: any;
   productDMV: any;
+  inserts: any;
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -141,12 +142,10 @@ export class ListBasketComponent implements OnInit {
         // price insertors
         const insertor = basket.productRequested.detail[0].header[2].selected === true;
         priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
-        if (insertor && existContraryEye) {
-          priceAll = priceAll + (priceInsertor / 2);
-        } else if (insertor) {
+        if (insertor) {
           priceAll = priceAll + priceInsertor;
-        }
 
+        }
         basket.productRequested.price = priceAll;
       }
     });
@@ -284,9 +283,18 @@ export class ListBasketComponent implements OnInit {
       });
     });
 
+    let insertorsUniq = [];
+
     _.each(listPA, function(item) {
       const id = item.idBasketProductRequested;
-      arrayAux = _.concat(arrayAux, id);
+      const groupId = item.productRequested.groupId;
+
+      if (item.productRequested.product.idProduct === 146 && !_.includes(insertorsUniq, groupId)) {
+        insertorsUniq.push(groupId);
+        arrayAux = _.concat(arrayAux, id);
+      } else if (item.productRequested.product.idProduct !== 146) {
+        arrayAux = _.concat(arrayAux, id);
+      }
     });
 
     if (arrayAux.length > 0) {
@@ -403,20 +411,20 @@ export class ListBasketComponent implements OnInit {
     this.checkedAll = valueChecked;
     let arrayAux = this.productRequestedToBuy;
    _.each(this.listBasket, function(item) {
-       item.checked = !valueChecked;
-        let id = item.idBasketProductRequested;
-        let exist = _.includes(arrayAux, id);
-        if (exist) {
-            if (valueChecked === true) {
-            _.remove(arrayAux,  function (product)  {
-              return product === id;
-            });
-          }
-        } else {
-          arrayAux = _.concat(arrayAux, id);
+      item.checked = !valueChecked;
+      let id = item.idBasketProductRequested;
+      let exist = _.includes(arrayAux, id);
+      if (exist) {
+        if (valueChecked === true) {
+          _.remove(arrayAux,  function (product)  {
+            return product === id;
+          });
         }
-      });
-      this.productRequestedToBuy = arrayAux;
+      } else {
+        arrayAux = _.concat(arrayAux, id);
+      }
+    });
+    this.productRequestedToBuy = arrayAux;
   }
 
   openParams(basket) {
@@ -606,14 +614,55 @@ export class ListBasketComponent implements OnInit {
     let subtotal = 0;
     const listSelect = this.productRequestedToBuy;
     _.each(this.listBasket, function(item) {
-        _.each(listSelect, function(itemBasket) {
-          if (item.idBasketProductRequested === itemBasket) {
-            subtotal = subtotal + (item.productRequested.quantity  * item.productRequested.price);
-          }
-        });
+      _.each(listSelect, function(itemBasket) {
+        if (item.idBasketProductRequested === itemBasket) {
+          subtotal = subtotal + (item.productRequested.quantity  * item.productRequested.price);
+        }
       });
-      this.subtotal = subtotal;
-      this.total = subtotal;
+    });
+    let amountToExcluded = this.totalInsertsExcluded();
+    this.subtotal = subtotal - amountToExcluded;
+    this.total = this.subtotal;
+  }
+
+  totalInsertsExcluded() {
+    let self = this;
+    let amountToExcluded = 0;
+    let groupsIdsReady = [];
+    _.each(this.productRequestedToBuy, function (basketProductRequest) {
+      let basket = _.find(self.listBasket, function(o) {
+        return o.idBasketProductRequested === basketProductRequest;
+      });
+
+      if (!!basket) {
+        self.definePriceInserts(basket.basket.user.membership.idMembership, basket.productRequested);
+        let basketProduct = _.find(self.listBasket, function(o) {
+          return _.includes(self.productRequestedToBuy, o.idBasketProductRequested) && o.productRequested.idProductRequested !== basket.productRequested.idProductRequested
+          && basket.productRequested.groupId === o.productRequested.groupId;
+        });
+
+        if (basketProduct && !_.includes(groupsIdsReady, basketProduct.productRequested.groupId)) {
+          groupsIdsReady.push(basketProduct.productRequested.groupId);
+          amountToExcluded += self.inserts;
+        }
+      }
+    });
+    return amountToExcluded;
+  }
+
+  definePriceInserts(membership, productRequested) {
+    let pricesAditionalInserts = JSON.parse(productRequested.product.infoAditional)[0].values[1];
+    switch (membership) {
+      case 1:
+        this.inserts = pricesAditionalInserts.values[0].price;
+        break;
+      case 2:
+        this.inserts =  pricesAditionalInserts.values[1].price;
+        break;
+      case 3:
+        this.inserts = pricesAditionalInserts.values[2].price;
+        break;
+    }
   }
 
 }
