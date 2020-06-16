@@ -208,6 +208,19 @@ export class ConfirmationEuropaComponent implements OnInit {
         this.buyNow.idRole = this.role;
         this.buyNow.listFileRightEye = this.listFileRightEye;
         this.buyNow.listFileLeftEye = this.listFileLeftEye;
+
+        // removing duplicate inserts
+        let quantityInserts = 0;
+        let self = this;
+        _.each(this.buyNow.productRequestedList, function(productRequested, index){
+          if (productRequested.product.idProduct === 146) {
+            quantityInserts++;
+            if (quantityInserts > 1) {
+              self.buyNow.productRequestedList.splice(index, 1)
+            }
+          }
+        });
+
         // this.validateAvailableBalance();
         // if (this.available) {
             this.spinner.show();
