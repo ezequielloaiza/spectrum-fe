@@ -39,12 +39,38 @@
         </div>
       </div>
       <div class="row product-info" >
-        <div class="item-properties col-md-12" >
-          <p>{{'The Medmont E300 USB Corneal Topographer offers the practitioner extreme accuracy for the mapping of a patients cornea.Using a PC, the patients full corneal history can be stored and accessed quickly and efficiently.A huge range of display options is now available providing the user with information that they previously would only have dreamed about.'| translate }} </p>
+        <div class="col-md-3">
+          <dt>{{ 'Material' | translate }}</dt>
+          <dd>
+            <a>{{ product.material | translate }}</a>
+          </dd>
         </div>
+        <div class="col-md-3">
+          <dt>{{ 'Replacemente Period' | translate }}</dt>
+          <p>{{ product.replacementPeriod | translate }}</p>
+        </div>
+        <div class="col-md-2">
+          <dt>{{ 'Warranty' | translate }}</dt>
+          <p>{{ product.warranty }} {{ 'days' | translate }}</p>
+        </div>
+        <div class="col-md-2">
+          <dt>{{ 'Product Sheet' | translate }}</dt>
+          <dd>
+            <a href="{{ product.url }}" target="_blank">{{ 'Download' | translate }}</a>
+          </dd>
+        </div>
+
       </div>
       <!-- row (pacient, client, shipping address) -->
       <div class="row product-info">
+        <!-- patient -->
+        <div class="col-lg-3">
+          <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
+          <div class="row info-content">
+            <input class="form-control" type="text" maxlength="20" placeholder="{{ 'Enter name patient' | translate }}" [(ngModel)]="product.patient"
+              required>
+          </div>
+        </div>
         <!-- client -->
         <div class="col-lg-4">
           <dt class="title">{{ 'Account Name' | translate }}</dt>
@@ -60,26 +86,324 @@
         </div>
         <!--shipping address-->
          <!--shipping address-->
-        <div class="col-lg-5">
+        <div class="col-lg-4">
           <span class="title">{{ 'Shipping Address' | translate }}</span>
           <div class="row info-content ">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
               readonly>
           </div>
         </div>
-        <div class="col-lg-3">
-          <span class="title">{{ 'More Information' | translate }}</span>
-          <div class="row info-content ">
-            <a href="{{ product.url }}" target="_blank">{{ 'View' | translate }}</a>
-          </div>
+        <div class="col-lg-1 col-price">
+          <h5 class="padding-price" [hidden]="priceAcum === 0 && product.priceSale === 0">
+            <span>{{ (priceAcum === 0 ? product.priceSale : priceAcum) | currency : "USD $" }}</span>
+          </h5>
         </div>
       </div>
       <br>
+
+      <div class="row product-info">
+        <div class="col-md-12 title">
+          <label> {{ 'Please specific your product' | translate }}</label>
+        </div>
+      </div>
+
+      <!-- row (parameters) -->
+      <div class="row header-params">
+        <!-- row (parameters right) -->
+        <div class="col-lg-12 custom-control custom-checkbox">
+          <!--header-->
+          <input id="right" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('right')" [checked]="product.eyeRight"
+            class="custom-control-input">
+          <label class="custom-control-label" for="right">{{ 'OD' }}</label>
+          <div class="title">{{ 'Parameters' | translate }}</div>
+          <!--params right-->
+          <div class="row">
+            <!--quantity right-->
+            <div class="col-lg-2 margin-col padding-col">
+              <div class="row">
+                <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+              </div>
+              <div class="row">
+                <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
+                  [required]="product.eyeRight"  [disabled]="!product.eyeRight" (change)="updatePriceSale('right')" min="1">
+              </div>
+            </div>
+            <div class="col-lg-2 margin-col padding-col" *ngFor="let parameter of product.parametersRight">
+              <div *ngIf="parameter.type === 'input' || parameter.type === 'selected'">
+                <!--param name-->
+                <div class="row">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;
+                  <span *ngIf="parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil'" >
+                    (mm)</span>
+                  <span *ngIf="parameter.name === 'Sphere' || parameter.name === 'Cylinder' || parameter.name === 'Axis'" >
+                    ({{'Diopters'| translate }})</span>
+                </div>
+                <!--param values-->
+                <div *ngIf="parameter.type === 'selected'" class="row select-values">
+                  <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
+                    [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
+                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                    <ng-template ng-label-tmp let-item="item">
+                      <div class="supplier-body">
+                        <span>{{ item | translate }}</span>
+                      </div>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                      <div class="supplier-body">
+                        <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+                <div *ngIf="parameter.type === 'input'" class="row select-values">
+                  <input class="form-control" type="number" min="{{getMin(parameter)}}" max="{{getMax(parameter)}}" step="{{getStep(parameter)}}" placeholder="{{ parameter.placeholder | translate }}"
+                    [required]="product.eyeRight" [(ngModel)]="parameter.selected" (input)="changeSelect('right', parameter,  parameter.selected)"
+                    [disabled]="!product.eyeRight"  [ngClass]="{'ng-invalid':selected.invalid}" #selected="ngModel" appModulo="{{getStep(parameter)}}">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 margin-col padding-col" *ngFor="let parameter of product.parametersRight">
+              <div class="iris-code" *ngIf="parameter.name === 'Iris Code'">
+                <!--param name-->
+                <div class="row">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>
+                </div>
+                <div class="row">
+                  <label class="form-check-label">{{ 'Please indicate the order of the color layers. Fx: 1, 2 etc. from bottom to top' | translate }}</label>
+                </div>
+                <!--param values-->
+                <div class="col-md-12 codes-value">
+                  <div *ngFor="let value of parameter.values" class="select-values col-lg-3">
+                    <label>{{ value.name | translate }}</label>
+                    <input type="number" id="value.id"  class="form-control" [disabled]="!product.eyeRight" [(ngModel)]="value.selected" 
+                      (input)="changeSelect('right', value,  value.selected)" min="0" max="10" step="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+          <br>
+        </div>
+
+        <!--comments right-->
+        <br>
+        <div class="col-md-12">
+          <div class="comments">
+            <div class="row header">
+              <div class="col-md-12">
+                <div class="title">{{ 'OD Comments' | translate }}</div>
+                <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsRight"
+                  [disabled]="!product.eyeRight" placeholder="{{ 'Enter OD Observations' | translate }}"></textarea>
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+
+        <!--files right-->
+        <div class="documents col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="">
+                <dt class="title">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>
+                <div class="custom-file">
+                  <input #selectedFilesRightEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderRightEye"
+                    [disabled]="!product.eyeRight || uploaderRightEye.queue.length > 4" multiple />
+                  <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                  <div class="invalid-feedback">Example invalid custom file feedback</div>
+                  <div class="message-error">
+                    <span translate>{{'Max files size:' | translate}} 25MB</span>
+                    <span> / </span>
+                    <span translate>{{'Maximum files number:' | translate }} 5</span>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="" style="margin-bottom: 40px" *ngIf="uploaderRightEye.queue.length > 0">
+                <div class="row justify-content-end" *ngIf="uploaderRightEye.queue.length > 1">
+                  <button type="button" class="btn btn-danger btn-s" (click)="uploaderRightEye.clearQueue()" [disabled]="!uploaderRightEye.queue.length">
+                    <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                  </button>
+                </div>
+                <br>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th width="50%">{{ 'Name' | translate }}</th>
+                      <th>{{ 'Size' | translate }}</th>
+                      <th>{{ 'Actions' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of uploaderRightEye.queue">
+                      <td><strong>{{ item?.file?.name }}</strong></td>
+                      <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td nowrap>
+                        <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Right')">
+                          <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- row (parameters left) -->
+        <div class="col-lg-12 custom-control custom-checkbox">
+          <!--header-->
+          <input id="left" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('left')" [checked]="product.eyeLeft"
+            class="custom-control-input">
+          <label class="custom-control-label" for="left">{{ 'OS' }}</label>
+          <div class="title">{{ 'Parameters' | translate }}</div>
+          <!--params left-->
+          <div class="row">
+            <!--quantity left-->
+            <div class="col-lg-2 margin-col padding-col">
+              <div class="row ">
+                <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+              </div>
+              <div class="row">
+                <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityLeft" [required]="product.eyeLeft"
+                  oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" (change)="updatePriceSale('left')" min="1">
+              </div>
+            </div>
+            <div class="col-lg-2 margin-col padding-col" *ngFor="let parameter of product.parametersLeft">
+              <div *ngIf="parameter.type === 'input' || parameter.type === 'selected'">
+                <!--param name-->
+                <div class="row">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;
+                  <span *ngIf="parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil'" >
+                    (mm)</span>
+                  <span *ngIf="parameter.name === 'Sphere' || parameter.name === 'Cylinder' || parameter.name === 'Axis'" >
+                    ({{ 'Diopters' | translate }})</span>
+                </div>
+                <!--param values-->
+                <div *ngIf="parameter.type === 'selected'" class="row select-values">
+                  <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
+                    [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
+                    bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
+                    <ng-template ng-label-tmp let-item="item">
+                      <div class="supplier-body">
+                        <span>{{ item | translate }}</span>
+                      </div>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                      <div class="supplier-body">
+                        <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+                <div *ngIf="parameter.type === 'input'" class="row select-values">
+                  <input class="form-control" type="number" min="{{getMin(parameter)}}" max="{{getMax(parameter)}}" step="{{getStep(parameter)}}" placeholder="{{ parameter.placeholder | translate }}"
+                    [required]="product.eyeLeft" [(ngModel)]="parameter.selected" (input)="changeSelect('left', parameter,  parameter.selected)"
+                    [disabled]="!product.eyeLeft" [ngClass]="{'ng-invalid':selected.invalid}" #selected="ngModel" appModulo="{{getStep(parameter)}}">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 margin-col padding-col" *ngFor="let parameter of product.parametersLeft">
+              <div class="iris-code" *ngIf="parameter.name === 'Iris Code'">
+                <!--param name-->
+                <div class="row">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>
+                </div>
+                <div class="row">
+                  <label class="form-check-label">{{ "Please indicate the order of the color layers. Fx: 1, 2 etc. from bottom to top" | translate }}</label>
+                </div>
+                <!--param values-->
+                <div class="col-md-12 codes-value">
+                  <div *ngFor="let value of parameter.values" class="select-values col-lg-3">
+                    <label>{{ value.name | translate }}</label>
+                    <input type="number" id="value.id"  class="form-control" [disabled]="!product.eyeLeft" [(ngModel)]="value.selected" 
+                      (input)="changeSelect('left', value,  value.selected)" min="0" max="10" step="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+
+        <!--comments left-->
+        <br>
+        <div class="col-md-12">
+          <div class="comments">
+            <div class="row header">
+              <div class="col-md-12">
+                <div class="title">{{ 'OS Comments' | translate }}</div>
+                <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsLeft"
+                  [disabled]="!product.eyeLeft" placeholder="{{ 'Enter OS Observations' | translate }}"></textarea>
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+      <!--files left-->
+      <div class="documents col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="">
+              <dt class="title">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>
+              <div class="custom-file">
+                <input #selectedFilesLeftEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderLeftEye"
+                  [disabled]="!product.eyeLeft || uploaderLeftEye.queue.length > 4" multiple />
+                <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                <div class="invalid-feedback">Example invalid custom file feedback</div>
+                <div class="message-error">
+                  <span translate>{{'Max files size:' | translate}} 25MB</span>
+                  <span> / </span>
+                  <span translate>{{'Maximum files number:' | translate }} 5</span>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="" style="margin-bottom: 40px" *ngIf="uploaderLeftEye.queue.length > 0">
+              <div class="row justify-content-end" *ngIf="uploaderLeftEye.queue.length > 1">
+                <button type="button" class="btn btn-danger btn-s" (click)="uploaderLeftEye.clearQueue()" [disabled]="!uploaderLeftEye.queue.length">
+                  <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                </button>
+              </div>
+              <br>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th width="50%">{{ 'Name' | translate }}</th>
+                    <th>{{ 'Size' | translate }}</th>
+                    <th>{{ 'Actions' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of uploaderLeftEye.queue">
+                    <td><strong>{{ item?.file?.name }}</strong></td>
+                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td nowrap>
+                      <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Left')">
+                        <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-md-12 buy-btns">
-          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="getQuote()"
+          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
+            (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
+            {{ 'Buy Now' | translate }}
+          </button>
+          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
             [disabled]="!formIsValid()">
-           {{ 'Get a quote' | translate }}
+            <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
           </button>
         </div>
       </div>

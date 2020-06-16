@@ -258,6 +258,9 @@
           <!--Synergeyes-->
           <app-supplier-synergeyes [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventSynergeyes)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 9"></app-supplier-synergeyes>
           <!--Fin Synergeyes-->
+          <!--Orion-->
+          <app-supplier-orion [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 10"></app-supplier-orion>
+          <!--Fin Orion-->
         </div>
       </div>
     </div>

@@ -33,6 +33,8 @@ import { ProductRequested } from '../../../../../shared/models/productrequested'
 import { ProductService } from '../../../../../shared/services/products/product.service';
 import { DetailSynergeyesComponent } from '../../../modals/detail-product/detail-synergeyes/detail-synergeyes.component';
 import { SynergeyesComponent } from '../../../../edit-order/synergeyes/synergeyes.component';
+import { OrionComponent } from '../../../../edit-order/orion/orion/orion.component';
+import { DetailOrionComponent } from '../../../modals/detail-product/detail-orion/detail-orion.component';
 
 
 @Component({
@@ -545,6 +547,15 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
           break;
+      case 10: // Orion
+        const modalRefOrion = this.modalService.open(DetailOrionComponent,
+          { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false});
+          modalRefOrion.componentInstance.basket = basket;
+          modalRefOrion.result.then((result) => {
+          this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
      }
   }
 
@@ -631,6 +642,16 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
           break;
+    case 10: // Orion
+        const modalRefOrion = this.modalService.open( OrionComponent,
+        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+        modalRefOrion.componentInstance.basket = basket;
+        modalRefOrion.componentInstance.typeEdit = 1;
+        modalRefOrion.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
      }
    }
 
