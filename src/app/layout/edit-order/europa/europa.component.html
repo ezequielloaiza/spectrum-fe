@@ -154,7 +154,7 @@
               <div class="col-sm-4" *ngFor="let parameter of product.parameters">
                 <dl>
                   <div *ngIf="parameter.type !== 'selected-double' && parameter.name !== 'Type'">
-                    <dt>{{ parameter.name| translate}}</dt>
+                    <dt>{{ parameter.name | translate}}</dt>
                   </div>
 
                   <div class="notch-lbl" *ngIf="parameter.type === 'selected-double'">
@@ -225,7 +225,7 @@
 
                       <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex">
                         <ng-select #notchTime class="select-notch" [items]="['Upper Temporal']"
-                                  [(ngModel)]="selectedNotch" placeholder="{{ 'Select type' | translate }}" 
+                                  [(ngModel)]="selectedNotch" placeholder="{{ 'Select type' | translate }}"
                                   (clear)="validateSelectedNotch(parameter)" (change)="validateSelectedNotch(parameter)"
                                   [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
                           <ng-template ng-option-tmp>

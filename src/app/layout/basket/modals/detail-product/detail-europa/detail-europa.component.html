@@ -29,7 +29,7 @@
                 <dt>{{ item.name | translate }}</dt>
                 <hr class="separators" />
                 <dl>
-                  <dt class="items" *ngIf="item.name !== 'Total'">{{ item.value }}</dt>
+                  <dt class="items" *ngIf="item.name !== 'Total'">{{ item.value | translate }}</dt>
                   <dt class="items" *ngIf="item.name === 'Total'">{{ subtotal | currency: "USD $" }}</dt>
                 </dl>
               </dl>
@@ -76,18 +76,20 @@
             </div>
 
             <!-- TEST SET-->
-            <div class="col-sm-12">
-              <div class="parameters">{{ 'Test set' | translate }}</div>
-            </div>
-            <div class="col-sm-4" *ngFor="let parameter of detail.set">
-              <dl class="align-item">
-                <dt>{{ parameter.name | translate }}</dt>
-                <hr class="separators">
-                <dl>
-                  <dt class="items" *ngIf="!!parameter.selected && parameter.selected !== null && parameter.selected !== ''">{{ parameter.selected}}</dt>
-                  <dt class="items" *ngIf="parameter.selected === null || parameter.selected === '' || !parameter.selected">{{ 'Unassigned' | translate}}</dt>
+            <div class="row test-set" *ngIf="detail.typeLens === 'Final Lens'">
+              <div class="col-sm-12">
+                <div class="parameters">{{ 'Test set' | translate }}</div>
+              </div>
+              <div class="col-sm-4" *ngFor="let parameter of detail.set">
+                <dl class="align-item">
+                  <dt>{{ parameter.name | translate }}</dt>
+                  <hr class="separators">
+                  <dl>
+                    <dt class="items" *ngIf="!!parameter.selected && parameter.selected !== null && parameter.selected !== ''">{{ parameter.selected}}</dt>
+                    <dt class="items" *ngIf="parameter.selected === null || parameter.selected === '' || !parameter.selected">{{ 'Unassigned' | translate}}</dt>
+                  </dl>
                 </dl>
-              </dl>
+              </div>
             </div>
 
             <!-- PARAMS -->

@@ -49,6 +49,7 @@ export class DetailsOrderComponent implements OnInit {
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
     this.listDetails = this.listDetailsAux.slice(startItem, endItem);
+    this.updateTotal();
   }
 
   getOrder(idOrder): void {
@@ -109,9 +110,9 @@ export class DetailsOrderComponent implements OnInit {
     let existContraryEye = false;
 
     _.each(auxList, function(detailsOrder) {
-      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye);
+      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye, detailsOrder.productRequested.groupId);
       priceAll = 0;
-      existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye);
+      existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye, detailsOrder.productRequested.groupId);
       _.each(arrayProductAditionals, function(item) {
         const productId = item.productRequested.product.idProduct;
         if (productId !== 146) {
@@ -135,11 +136,11 @@ export class DetailsOrderComponent implements OnInit {
     this.updateTotal();
   }
 
-  getProductsAditionalEuropa(eye) {
+  getProductsAditionalEuropa(eye, groupId) {
     const auxList = [];
 
     _.each(this.listDetailsAll, function(item) {
-      if (item.productRequested.detail[0].eye === eye) {
+      if (item.productRequested.detail[0].eye === eye && item.productRequested.groupId === groupId) {
         auxList.push(item);
       }
     });
@@ -165,7 +166,7 @@ export class DetailsOrderComponent implements OnInit {
     return price;
   }
 
-  contraryEye(eye) {
+  contraryEye(eye, groupId) {
     let exist = false;
     let contraryEye = '';
 
@@ -176,7 +177,7 @@ export class DetailsOrderComponent implements OnInit {
     }
 
     _.each(this.listDetailsAll, function(item) {
-      if (item.productRequested.detail[0].eye === contraryEye) {
+      if (item.productRequested.detail[0].eye === contraryEye && item.productRequested.groupId === groupId) {
         exist = true;
       }
     });
@@ -221,7 +222,6 @@ export class DetailsOrderComponent implements OnInit {
       });
 
     });
-    this.listDetails = this.order.listProductRequested;
     this.listDetailsAux = this.order.listProductRequested;
     this.updateTotal();
   }
