@@ -62,6 +62,8 @@ export class ProductViewEuropaComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  typeLensLeft: any;
+  typeLensRight: any;
   signPowerRight: any;
   signPowerLeft: any;
   signPowerRightTrial: any;
@@ -132,6 +134,8 @@ export class ProductViewEuropaComponent implements OnInit {
     authToken: this.userStorageService.getToke(),
     autoUpload: false
   });
+  axesNotch: any;
+  axesSelected: any;
 
   constructor(private productService: ProductService,
     private route: ActivatedRoute,
@@ -266,12 +270,16 @@ export class ProductViewEuropaComponent implements OnInit {
     let orderCylinder;
     this.product.setRight = JSON.parse(this.product.types)[0].set;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+    this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+    this.changeTypeLens('right', 'Please design my lens');
     orderCylinder = _.find(this.product.parametersRight, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
     }
     this.product.setLeft = JSON.parse(this.product.types)[0].set;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+    this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+    this.changeTypeLens('left', 'Please design my lens');
     orderCylinder = _.find(this.product.parametersLeft, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
@@ -635,9 +643,6 @@ export class ProductViewEuropaComponent implements OnInit {
           this.valueDiameter(valueD, 'right');
         } else {
           this.product.priceSaleRight = 0;
-          /*if (this.additionalInserts) {
-              this.product.priceSaleRight = this.product.priceSaleRight + (this.inserts / 2);
-          }*/
           if (this.additionalHidrapeg) {
             this.product.priceSaleRight = this.product.priceSaleRight + this.hidrapeg;
           }
@@ -664,9 +669,6 @@ export class ProductViewEuropaComponent implements OnInit {
           this.valueDiameter(valueD, 'left');
         } else {
           this.product.priceSaleLeft = 0;
-          /* if (this.additionalInsertsL) {
-               this.product.priceSaleLeft = this.product.priceSaleLeft + (this.inserts / 2);
-           }*/
           if (this.additionalHidrapegL) {
             this.product.priceSaleLeft = this.product.priceSaleLeft + this.hidrapeg;
           }
@@ -789,6 +791,7 @@ export class ProductViewEuropaComponent implements OnInit {
   }*/
 
   buildProductsSelected() {
+    let self = this;
     this.setEyeSelected();
     let product = this.productCopy;
     let productDiameterL = this.productDiameterL;
@@ -827,23 +830,7 @@ export class ProductViewEuropaComponent implements OnInit {
         // add header spectrum code
         productSelected.id = productDiameterR.idProduct;
         productSelected.codeSpectrum = productDiameterR.codeSpectrum;
-
-        /*if (additionalInserts && product.eyeLeft) {
-          productSelected.price = product.priceSaleRight + (inserts / 2);
-        } else if (additionalInserts && !product.eyeLeft) {
-          productSelected.price = product.priceSaleRight + inserts;
-        } else {
-          productSelected.price = product.priceSaleRight;
-        }*/
-
-        /*if (additionalH) {
-           productSelected.price = product.priceSaleRight - hidrapegPrice;
-         }
-         if (additionalN) {
-           productSelected.price = product.priceSaleRight - notchPrice;
-         }*/
-
-        // productSelected.price = product.priceSaleRight;
+        productSelected.typeLens = self.typeLensRight.selected
         productSelected.price = product.priceBaseRight;
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
@@ -891,7 +878,7 @@ export class ProductViewEuropaComponent implements OnInit {
               product.parametersRight[index].selected = null;
             }
           }
-          if (parameter.name === 'Power') {
+          if (self.isPower(parameter)) {
             product.parametersRight[index].selected = signPowerRight + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
@@ -919,21 +906,7 @@ export class ProductViewEuropaComponent implements OnInit {
         // add header spectrum code
         productSelected.id = productDiameterL.idProduct;
         productSelected.codeSpectrum = productDiameterL.codeSpectrum;
-
-        /*if (additionalInsertsL && product.eyeRight) {
-          productSelected.price = product.priceSaleLeft + (inserts / 2);
-        } else if (additionalInsertsL && !product.eyeRight) {
-          productSelected.price = product.priceSaleLeft + inserts;
-        } else {
-          productSelected.price = product.priceSaleLeft;
-        }
-        if (additionalHL) {
-          productSelected.price = product.priceSaleLeft - hidrapegPrice;
-        }
-        if (additionalNL) {
-          productSelected.price = product.priceSaleLeft - notchPrice;
-        }*/
-        //productSelected.price = product.priceSaleLeft;
+        productSelected.typeLens = self.typeLensLeft.selected
         productSelected.price = product.priceBaseLeft;
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
@@ -981,7 +954,7 @@ export class ProductViewEuropaComponent implements OnInit {
               product.parametersLeft[index].selected = null;
             }
           }
-          if (parameter.name === "Power") {
+          if (self.isPower(parameter)) {
             product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
           }
           if (parameter.name === 'Notch (mm)') {
@@ -1031,8 +1004,7 @@ export class ProductViewEuropaComponent implements OnInit {
           productsAditional.push(productN);
         }
       });
-
-      productSelected.detail = { name: product.type, eye: productSelected.eye, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
+      productSelected.detail = { name: product.type, eye: productSelected.eye, typeLens: productSelected.typeLens, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional', 'set'])
     });
 
@@ -1072,8 +1044,7 @@ export class ProductViewEuropaComponent implements OnInit {
         }
       });
 
-      if (productAux.detail.header[2].selected === true
-        && (index === (auxList.length - 1))) {
+      if (productAux.detail.header[2].selected === true) {
         const productD = JSON.parse(JSON.stringify(productAux));
         productD.id = productDMV.idProduct;
         productD.name = 'Inserts (DMV)';
@@ -1146,6 +1117,7 @@ export class ProductViewEuropaComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
+    let self = this;
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
@@ -1169,6 +1141,9 @@ export class ProductViewEuropaComponent implements OnInit {
             isValid = false;
           }
 
+        } else if (param.name === "Axes (º)") {
+          self.axesNotch = _.find(self.product.parametersRight, { name: 'Notch (mm)' });
+          isValid = !((!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)));
         } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
@@ -1189,6 +1164,9 @@ export class ProductViewEuropaComponent implements OnInit {
             isValid = false;
           }
 
+        } else if (param.name === "Axes (º)") {
+          self.axesNotch = _.find(self.product.parametersLeft, { name: 'Notch (mm)' });
+          isValid = !((!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)));
         } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
@@ -1527,6 +1505,8 @@ export class ProductViewEuropaComponent implements OnInit {
     if (eye === 'right') {
       this.product.headerRight = header;
       this.product.parametersRight = parameters;
+      this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+      this.changeTypeLens('right', 'Please design my lens');
       this.product.pasosRight = pasos;
       this.typeCurveRight = null;
       this.typeCurveRightTrial = null;
@@ -1536,6 +1516,8 @@ export class ProductViewEuropaComponent implements OnInit {
     } else {
       this.product.headerLeft = header;
       this.product.parametersLeft = parameters;
+      this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+      this.changeTypeLens('left', 'Please design my lens');
       this.product.pasosLeft = pasos;
       this.typeCurveLeft = null;
       this.typeCurveLeftTrial = null;
@@ -1550,15 +1532,30 @@ export class ProductViewEuropaComponent implements OnInit {
   }
 
   changeNotchTime(eye, parameter, value) {
+    //validating change in notch time
+    var changedNotch = parameter.selectedNotchTime !== value;
+
     parameter.selectedNotchTime = value;
     switch (eye) {
       case 'right':
         this.notchRight.itemsList._items[0].label = value;
         this.notchRight.itemsList._items[0].value = value;
+
+        // restart axes after change
+        if (changedNotch) {
+          this.axesSelected = _.find(this.product.parametersRight, { name: 'Axes (º)' });
+          this.axesSelected.sel = null; this.axesSelected.selected = null
+        }
         break;
       case 'left':
         this.notchLeft.itemsList._items[0].label = value;
         this.notchLeft.itemsList._items[0].value = value;
+
+        // restart axes after change
+        if (changedNotch) {
+          this.axesSelected = _.find(this.product.parametersLeft, { name: 'Axes (º)' });
+          this.axesSelected.sel = null; this.axesSelected.selected = null
+        }
         break;
     }
 
@@ -1576,6 +1573,109 @@ export class ProductViewEuropaComponent implements OnInit {
     if (parameter.selectedNotchTime === null) {
       parameter.values[0].selected = 0;
       parameter.values[1].selected = 0;
+    }
+  }
+
+  axesValues(eye) {
+    switch (eye) {
+      case 'right':
+        this.axesNotch = _.find(this.product.parametersRight, { name: 'Notch (mm)' });
+        this.axesSelected = _.find(this.product.parametersRight, { name: 'Axes (º)' });
+        if (this.axesNotch.selectedNotchTime === null) { this.axesSelected.sel = null; this.axesSelected.selected = null };
+        switch (this.axesNotch.selectedNotchTime) {
+          case 'Upper Temporal':
+            return _.range(90, 181).toString().split(",")
+          case 'Lower Temporal':
+            return _.range(180, 271).toString().split(",");
+          case 'Upper Nasal':
+            return _.range(0, 91).toString().split(",");
+          case 'Lower Nasal':
+            return _.range(270, 361).toString().split(",");
+          default:
+            return [];
+        }
+      case 'left':
+        this.axesNotch = _.find(this.product.parametersLeft, { name: 'Notch (mm)' });
+        this.axesSelected = _.find(this.product.parametersLeft, { name: 'Axes (º)' });
+        if (this.axesNotch.selectedNotchTime === null) { this.axesSelected.sel = null; this.axesSelected.selected = null };
+        switch (this.axesNotch.selectedNotchTime) {
+          case 'Upper Temporal':
+            return _.range(90, 181).toString().split(",")
+          case 'Lower Temporal':
+            return _.range(180, 271).toString().split(",");
+          case 'Upper Nasal':
+            return _.range(0, 91).toString().split(",");
+          case 'Lower Nasal':
+            return _.range(270, 361).toString().split(",");
+          default:
+            return [];
+        }
+    }
+  }
+
+  axesRequired(eye) {
+    switch (eye) {
+      case 'right':
+        this.axesNotch = _.find(this.product.parametersRight, { name: 'Notch (mm)' });
+        return !!this.axesNotch.selectedNotchTime;
+      case 'left':
+        this.axesNotch = _.find(this.product.parametersLeft, { name: 'Notch (mm)' });
+        return !!this.axesNotch.selectedNotchTime;
+    }
+  }
+
+  isPower(param) {
+    return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power';
+  }
+
+  changeTypeLens(eye, value) {
+    switch (eye) {
+      ///////////////EYE RIGHT////////////////////
+      case 'right':
+        this.typeLensRight.selected = value;
+
+        let powerRight = _.find(this.product.parametersRight, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
+
+        //initialize values power
+        powerRight.sel = null; powerRight.selected = null;
+        this.signPowerRight = null;
+
+        //rename params and reset trial lens
+        if (value === 'Please design my lens') {
+            powerRight.name = 'Over-Refaction';
+
+            //trial lens reset
+            _.each(this.product.setRight, function (param) { param.selected = null; param.sel = null });
+            this.signPowerRightTrial = null;
+            this.typeCurveRightTrial = null
+        } else if (value === 'Final Lens') {
+          powerRight.name = 'Final Power';
+        }
+        break;
+
+      ///////////////EYE LEFT////////////////////
+      case 'left':
+        this.typeLensLeft.selected = value;
+
+        let powerLeft = _.find(this.product.parametersLeft, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
+
+        //rename params and initialize values
+        powerLeft.name = value
+        powerLeft.sel = null; powerLeft.selected = null;
+        this.signPowerLeft = null;
+
+        //rename params and reset trial lens
+        if (value === 'Please design my lens') {
+          powerLeft.name = 'Over-Refaction';
+
+          //trial lens reset
+          _.each(this.product.setLeft, function (param) { param.selected = null; param.sel = null });
+          this.signPowerLeftTrial = null;
+          this.typeCurveLeftTrial = null;
+        } else if (value === 'Final Lens') {
+          powerLeft.name = 'Final Power';
+        }
+        break;
     }
   }
 }
