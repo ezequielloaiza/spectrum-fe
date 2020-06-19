@@ -106,7 +106,16 @@ export class ConfirmationEuropaComponent implements OnInit {
     let existInserts = false;
     let insertCodeSpectrum = '';
     _.each(this.listBasket, function (productRequested) {
-      priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+
+      if (productRequested.product.idProduct === 146) {
+        quantityInserts++;
+        if (quantityInserts < 2) {
+          priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+        }
+      } else {
+        priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+      }
+
       if (productRequested.name !== 'Inserts (DMV)'
          && productRequested.name !== 'Notch'
          && productRequested.name !== 'HydraPEG') {
@@ -199,6 +208,19 @@ export class ConfirmationEuropaComponent implements OnInit {
         this.buyNow.idRole = this.role;
         this.buyNow.listFileRightEye = this.listFileRightEye;
         this.buyNow.listFileLeftEye = this.listFileLeftEye;
+
+        // removing duplicate inserts
+        let quantityInserts = 0;
+        let self = this;
+        _.each(this.buyNow.productRequestedList, function(productRequested, index){
+          if (productRequested.product.idProduct === 146) {
+            quantityInserts++;
+            if (quantityInserts > 1) {
+              self.buyNow.productRequestedList.splice(index, 1)
+            }
+          }
+        });
+
         // this.validateAvailableBalance();
         // if (this.available) {
             this.spinner.show();

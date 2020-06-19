@@ -143,8 +143,18 @@
             class="custom-control-input">
           <label class="custom-control-label" for="right">{{ 'OD' }}</label>
 
-          <div class="row title">{{ 'Trial Lens Used' | translate }}</div>
-          <div class="row">
+          <div class="row type-lens">
+            <span class="title">{{ 'Type' | translate }}:</span>
+            <div *ngFor="let value of typeLensRight.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLensRight" [value]="value" [disabled]="!product.eyeRight" (change)="changeTypeLens('right', value)" class="custom-control-input" [checked]="typeLensRight.selected === value">
+                <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row title" *ngIf="typeLensRight.selected === 'Final Lens'">{{ 'Trial Lens Used' | translate }}</div>
+          <div class="row" *ngIf="typeLensRight.selected === 'Final Lens'">
             <div class="col-lg-3" *ngFor="let itemSet of product.setRight">
               <div class="row">
                 <label class="form-check-label">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;
@@ -182,7 +192,6 @@
               </div>
             </div>
           </div>
-          <br>
 
           <div class="row title">{{ 'Parameters' | translate }}</div>
 
@@ -234,7 +243,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-3" *ngFor="let parameter of product.parametersRight; let indexRight = index">
+            <div class="col-lg-3 padding-params" *ngFor="let parameter of product.parametersRight; let indexRight = index">
               <div>
                 <!--param name-->
                 <div class="row label" *ngIf="parameter.type !== 'selected-double'">
@@ -249,7 +258,7 @@
 
                 <!--param values-->
                 <div class="row">
-                  <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('right', parameter, $event,0)"
                                [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
                                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
@@ -258,7 +267,7 @@
                   </div>
 
                   <!--Only Power-->
-                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values param-flex col-sm-12">
+                  <div *ngIf="parameter.type === 'input' && isPower(parameter)" class="select-values param-flex col-sm-12">
                     <ng-select [items]="['+', '-']" [disabled]="!product.eyeRight" [required]="product.eyeRight"
                       [(ngModel)]="signPowerRight" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
                       [clearable]="false">
@@ -267,6 +276,9 @@
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
                       [disabled]="!product.eyeRight" min="0.00" step="0.01">
+                  </div>
+                  <div class="message-power" *ngIf="!!product.eyeRight && parameter.type === 'input' && isPower(parameter) && typeLensRight.selected === 'Final Lens'">
+                    <span translate>If you want us to calculate it, refer to the consulting format</span>
                   </div>
 
                   <!--Only Base Curve-->
@@ -288,7 +300,16 @@
                       [disabled]="!product.eyeRight" step="0.01" (change)="changeSelect('right', parameter, parameter.selected,0)">
                   </div>
 
-                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve' && parameter.name !== 'Thickness'"
+                  <!--Only Axes-->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('right', parameter, $event,0)"
+                               [disabled]="!product.eyeRight || !axesRequired('right')" [required]="product.eyeRight && axesRequired('right')" [(ngModel)]="parameter.sel"
+                               bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                              <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of axesValues('right')">{{ item  | translate }}</ng-option>
+                    </ng-select>
+                  </div>
+
+                  <div *ngIf="parameter.type === 'input' && !isPower(parameter) && parameter.name !== 'Base Curve' && parameter.name !== 'Thickness'"
                     class="select-values col-sm-12">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeRight" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
@@ -434,9 +455,18 @@
             class="custom-control-input">
           <label class="custom-control-label" for="left">{{ 'OS' }}</label>
 
+          <div class="row type-lens">
+            <span class="title">{{ 'Type' | translate }}:</span>
+            <div *ngFor="let value of typeLensLeft.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-lens-left-{{i}}" name="radioTypeLensLeft"  [disabled]="!product.eyeLeft" [value]="value" (change)="changeTypeLens('left', value)" class="custom-control-input" [checked]="typeLensLeft.selected === value">
+                <label class="custom-control-label" for="radio-lens-left-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
 
-          <div class="row title">{{ 'Trial Lens Used' | translate }}</div>
-          <div class="row">
+          <div class="row title" *ngIf="typeLensLeft.selected === 'Final Lens'">{{ 'Trial Lens Used' | translate }}</div>
+          <div class="row" *ngIf="typeLensLeft.selected === 'Final Lens'">
             <div class="col-lg-3" *ngFor="let itemSet of product.setLeft">
               <div class="row">
                 <label class="form-check-label">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;
@@ -476,7 +506,6 @@
               </div>
             </div>
           </div>
-          <br>
 
           <div class="row title">{{ 'Parameters' | translate }}</div>
 
@@ -529,7 +558,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-3" *ngFor="let parameter of product.parametersLeft">
+            <div class="col-lg-3 padding-params" *ngFor="let parameter of product.parametersLeft">
               <div>
                 <!--param name-->
                 <div class="row label">
@@ -537,7 +566,7 @@
                 </div>
                 <!--param values-->
                 <div class="row">
-                  <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('left', parameter, $event,0)" [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel"
                                 bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
                       <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of parameter.values">{{ item  | translate }}</ng-option>
@@ -545,7 +574,7 @@
                   </div>
 
                   <!--Only Power-->
-                  <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-12 param-flex">
+                  <div *ngIf="parameter.type === 'input' && isPower(parameter)" class="select-values col-sm-12 param-flex">
                     <ng-select [items]="['+', '-']" [disabled]="!product.eyeLeft" [required]="product.eyeLeft"
                       [(ngModel)]="signPowerLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
                       [clearable]="false">
@@ -554,6 +583,9 @@
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeLeft" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"
                       [disabled]="!product.eyeLeft" min="0.00" step="0.01">
+                  </div>
+                  <div class="message-power" *ngIf="!!product.eyeLeft && parameter.type === 'input' && isPower(parameter) && typeLensLeft.selected === 'Final Lens'">
+                    <span translate>If you want us to calculate it, refer to the consulting format</span>
                   </div>
 
                   <!--Only Base Curve-->
@@ -575,7 +607,15 @@
                       [disabled]="!product.eyeLeft" step="0.01" (change)="changeSelect('left', parameter, parameter.selected,0)">
                   </div>
 
-                  <div *ngIf="parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve' && parameter.name !== 'Thickness'"
+                  <!--Only Axes-->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [disabled]="!product.eyeLeft || !axesRequired('left')" [required]="product.eyeLeft && axesRequired('left')" [(ngModel)]="parameter.sel"
+                                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of axesValues('left')">{{ item  | translate }}</ng-option>
+                    </ng-select>
+                  </div>
+
+                  <div *ngIf="parameter.type === 'input' && !isPower(parameter) && parameter.name !== 'Base Curve' && parameter.name !== 'Thickness'"
                     class="select-values col-sm-12">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="product.eyeLeft" [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"

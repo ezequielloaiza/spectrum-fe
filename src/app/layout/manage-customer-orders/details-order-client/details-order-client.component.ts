@@ -135,9 +135,9 @@ export class DetailsOrderClientComponent implements OnInit {
     let existContraryEye = false;
 
     _.each(order.auxList, function(detailsOrder) {
-      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye, order);
+      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye, order, detailsOrder.productRequested.groupId);
       priceAll = 0;
-      existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye, order);
+      existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye, order, detailsOrder.productRequested.groupId);
       _.each(arrayProductAditionals, function(item) {
         const productId = item.productRequested.product.idProduct;
         if (productId !== 146) {
@@ -161,11 +161,11 @@ export class DetailsOrderClientComponent implements OnInit {
     this.updateTotal(order);
   }
 
-  getProductsAditionalEuropa(eye, order) {
+  getProductsAditionalEuropa(eye, order, groupId) {
     const auxList = [];
 
     _.each(order.listDetailsAll, function(item) {
-      if (item.productRequested.detail[0].eye === eye) {
+      if (item.productRequested.detail[0].eye === eye && item.productRequested.groupId === groupId) {
         auxList.push(item);
       }
     });
@@ -191,7 +191,7 @@ export class DetailsOrderClientComponent implements OnInit {
     return price;
   }
 
-  contraryEye(eye, order) {
+  contraryEye(eye, order, groupId) {
     let exist = false;
     let contraryEye = '';
 
@@ -202,7 +202,7 @@ export class DetailsOrderClientComponent implements OnInit {
     }
 
     _.each(order.listDetailsAll, function(item) {
-      if (item.productRequested.detail[0].eye === contraryEye) {
+      if (item.productRequested.detail[0].eye === contraryEye && item.productRequested.groupId === groupId) {
         exist = true;
       }
     });
@@ -256,7 +256,6 @@ export class DetailsOrderClientComponent implements OnInit {
         }
       });
     });
-   // this.listDetails = this.order.listProductRequested;
     order.listDetailsAux = order.listProductRequested;
     this.updateTotal(order);
   }
@@ -276,13 +275,19 @@ export class DetailsOrderClientComponent implements OnInit {
     });
   }
 
+
   updateTotal(order) {
-     let total = 0.0;
+    let total = 0.0;
+    let subTotal = 0.0;
     _.each(order.listDetails, function (item) {
-       total = total + item.productRequested.subtotal;
+      subTotal = subTotal + item.productRequested.subtotal;
+    });
+    order.subtotal = subTotal;
+
+    _.each(order.listDetailsAux, function (item) {
+      total = total + item.productRequested.subtotal;
     });
     order.total = total;
-    order.subtotal = total;
   }
 }
 

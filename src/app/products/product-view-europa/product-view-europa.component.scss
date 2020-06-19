@@ -28,6 +28,10 @@
   }
 }
 
+.padding-params {
+  padding-bottom: 10px;
+}
+
 .padding-detail {
   padding: 10px 40px 10px 40px;
 
@@ -139,6 +143,25 @@
 
   .quantity {
     padding-left: 2em;
+  }
+}
+
+.type-lens {
+  display: flex;
+  margin-top: 20px;
+
+  > span:nth-child(1) {
+    margin-right: 20px;
+  }
+
+  > div:nth-child(2), > div:nth-child(3) {
+    margin-right: 50px;
+    font-size: 14px;
+
+    label {
+      font-weight: 300;
+      font-size: 14px;
+    }
   }
 }
 
@@ -258,7 +281,7 @@ img {
 }
 
 .info-content {
-  margin-left: 15px;
+  margin-left: 0;
   margin-bottom: 0px;
   line-height: 30px;
 
@@ -378,6 +401,13 @@ img {
   font-size: 0.85rem;
 }
 
+.message-power {
+  > span {
+    font-size: 12px;
+    color: #950f0f;
+  }
+}
+
 .notch {
   width: 40%;
 }
@@ -386,7 +416,7 @@ area {
   display: block !important;
 }
 
-.select-notch {  
+.select-notch {
   img {
     border-radius: 0;
     height: 130px;
