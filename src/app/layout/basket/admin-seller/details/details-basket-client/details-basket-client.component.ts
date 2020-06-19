@@ -702,7 +702,7 @@ export class DetailsBasketClientComponent implements OnInit {
     let groupsIdsReady = [];
     _.each(this.productRequestedToBuy, function (basketProductRequest) {
       let basket = _.find(self.listBasket, function(o) {
-        return o.idBasketProductRequested === basketProductRequest;
+        return o.supplier === 2 && o.idBasketProductRequested === basketProductRequest;
       });
 
       if (!!basket) {
