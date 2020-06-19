@@ -228,10 +228,15 @@ export class DetailsOrderComponent implements OnInit {
 
   updateTotal() {
     let total = 0.0;
+    let subTotal = 0.0;
     _.each(this.listDetails, function (item) {
-        total = total + item.productRequested.subtotal;
+      subTotal = subTotal + item.productRequested.subtotal;
+    });
+    this.order.subtotal = subTotal;
+
+    _.each(this.listDetailsAux, function (item) {
+      total = total + item.productRequested.subtotal;
     });
     this.order.total = total;
-    this.order.subtotal = total;
   }
 }

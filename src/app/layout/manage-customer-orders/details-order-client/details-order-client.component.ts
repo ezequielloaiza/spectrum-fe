@@ -275,13 +275,19 @@ export class DetailsOrderClientComponent implements OnInit {
     });
   }
 
+
   updateTotal(order) {
-     let total = 0.0;
+    let total = 0.0;
+    let subTotal = 0.0;
     _.each(order.listDetails, function (item) {
-       total = total + item.productRequested.subtotal;
+      subTotal = subTotal + item.productRequested.subtotal;
+    });
+    order.subtotal = subTotal;
+
+    _.each(order.listDetailsAux, function (item) {
+      total = total + item.productRequested.subtotal;
     });
     order.total = total;
-    order.subtotal = total;
   }
 }
 
