@@ -308,5 +308,19 @@ img {
       input { width: 30%;}
     }
   }
+}
 
+.radio-buttons {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 2%;
+
+  .custom-control{
+    margin-top: 4%;
+    margin-bottom: 0;
+    label {
+      white-space: nowrap;
+    }
+  }
 }

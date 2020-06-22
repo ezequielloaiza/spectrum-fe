@@ -128,8 +128,9 @@
                   [required]="product.eyeRight"  [disabled]="!product.eyeRight" (change)="updatePriceSale('right')" min="1">
               </div>
             </div>
-            <div class="col-lg-2 margin-col padding-col" *ngFor="let parameter of product.parametersRight">
-              <div *ngIf="parameter.type === 'input' || parameter.type === 'selected'">
+            <ng-container *ngFor="let parameter of product.parametersRight">
+              <div *ngIf="parameter.type === 'input' || parameter.type === 'selected' && (parameter.name !== 'Clear Pupil' && parameter.name !== 'Black Pupil')" 
+              class="col-lg-2 margin-col padding-col">
                 <!--param name-->
                 <div class="row">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;
@@ -161,7 +162,64 @@
                     [disabled]="!product.eyeRight"  [ngClass]="{'ng-invalid':selected.invalid}" #selected="ngModel" appModulo="{{getStep(parameter)}}">
                 </div>
               </div>
+          </ng-container>
+          <div *ngIf="product.idProduct === 267" class="row select-values col-lg-2 margin-col padding-col">
+            <div class="custom-control custom-radio radio-buttons">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadioR1" name="customRadio" value="0" class="custom-control-input" 
+                (change)="filterPupil('right', 0)" [disabled]="!product.eyeRight">
+                <label class="custom-control-label" for="customRadioR1">{{ 'Clear Pupil' | translate }}</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadioR2" name="customRadio" value="1" class="custom-control-input" 
+                (change)="filterPupil('right', 1)" [disabled]="!product.eyeRight">
+                <label class="custom-control-label" for="customRadioR2">{{ 'Black Pupil' | translate }}</label>
+              </div>
             </div>
+          </div>
+          <ng-container *ngFor="let parameter of product.parametersRight">
+            <div class="col-lg-2 margin-col padding-col" 
+            *ngIf="parameter.type === 'selected' && (parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil')">
+              <!--param name-->
+              <div class="row">
+                <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;
+              </div>
+              <!--param values-->
+              <div *ngIf="parameter.type === 'selected' && (parameter.name === 'Clear Pupil' )" class="row select-values">
+                <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
+                  [disabled]="!clearPupilRight" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
+                  bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
+                  <ng-template ng-label-tmp let-item="item">
+                    <div class="supplier-body">
+                      <span>{{ item | translate }}</span>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <div class="supplier-body">
+                      <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                    </div>
+                  </ng-template>
+                </ng-select>
+              </div>
+            <div *ngIf="parameter.type === 'selected' && parameter.name === 'Black Pupil'" class="row select-values">
+              <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
+                [disabled]="!blackPupilRight" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
+                bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
+                <ng-template ng-label-tmp let-item="item">
+                  <div class="supplier-body">
+                    <span>{{ item | translate }}</span>
+                  </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <div class="supplier-body">
+                    <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+          </ng-container>
+
             <div class="col-lg-12 margin-col padding-col" *ngFor="let parameter of product.parametersRight">
               <div class="iris-code" *ngIf="parameter.name === 'Iris Code'">
                 <!--param name-->
@@ -271,8 +329,8 @@
                   oninput="validity.valid||(value='');" [disabled]="!product.eyeLeft" (change)="updatePriceSale('left')" min="1">
               </div>
             </div>
-            <div class="col-lg-2 margin-col padding-col" *ngFor="let parameter of product.parametersLeft">
-              <div *ngIf="parameter.type === 'input' || parameter.type === 'selected'">
+            <ng-container *ngFor="let parameter of product.parametersLeft">
+              <div *ngIf="parameter.type === 'input' || parameter.type === 'selected' && (parameter.name !== 'Clear Pupil' && parameter.name !== 'Black Pupil')" class="col-lg-2 margin-col padding-col">
                 <!--param name-->
                 <div class="row">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;
@@ -282,7 +340,7 @@
                     ({{ 'Diopters' | translate }})</span>
                 </div>
                 <!--param values-->
-                <div *ngIf="parameter.type === 'selected'" class="row select-values">
+                <div *ngIf="parameter.type === 'selected' && (parameter.name !== 'Clear Pupil' && parameter.name !== 'Black Pupil')" class="row select-values">
                   <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
                     [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
                     bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
@@ -304,8 +362,64 @@
                     [disabled]="!product.eyeLeft" [ngClass]="{'ng-invalid':selected.invalid}" #selected="ngModel" appModulo="{{getStep(parameter)}}">
                 </div>
               </div>
-            </div>
+            </ng-container>
 
+            <div *ngIf="product.idProduct === 267" class="row select-values col-lg-2 margin-col padding-col">
+              <div class="custom-control custom-radio radio-buttons">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="customRadio1" name="customRadio" value="0" class="custom-control-input" 
+                  (change)="filterPupil('left', 0)" [disabled]="!product.eyeLeft">
+                  <label class="custom-control-label" for="customRadio1">{{ 'Clear Pupil' | translate }}</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="customRadio2" name="customRadio" value="1" class="custom-control-input" 
+                  (change)="filterPupil('left', 1)" [disabled]="!product.eyeLeft">
+                  <label class="custom-control-label" for="customRadio2">{{ 'Black Pupil' | translate }}</label>
+                </div>
+              </div>
+            </div>
+            <ng-container *ngFor="let parameter of product.parametersLeft">
+              <div class="col-lg-2 margin-col padding-col" 
+              *ngIf="parameter.type === 'selected' && (parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil')">
+                <!--param name-->
+                <div class="row">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;
+                </div>
+                <!--param values-->
+                <div *ngIf="parameter.type === 'selected' && parameter.name === 'Clear Pupil'" class="row select-values">
+                  <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
+                    [disabled]="!clearPupilLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
+                    bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
+                    <ng-template ng-label-tmp let-item="item">
+                      <div class="supplier-body">
+                        <span>{{ item | translate }}</span>
+                      </div>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                      <div class="supplier-body">
+                        <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+              <div *ngIf="parameter.type === 'selected' && parameter.name === 'Black Pupil'" class="row select-values">
+                <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
+                  [disabled]="!blackPupilLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
+                  bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
+                  <ng-template ng-label-tmp let-item="item">
+                    <div class="supplier-body">
+                      <span>{{ item | translate }}</span>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <div class="supplier-body">
+                      <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                    </div>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+            </ng-container>
             <div class="col-lg-12 margin-col padding-col" *ngFor="let parameter of product.parametersLeft">
               <div class="iris-code" *ngIf="parameter.name === 'Iris Code'">
                 <!--param name-->

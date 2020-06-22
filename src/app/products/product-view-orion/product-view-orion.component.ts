@@ -54,6 +54,10 @@ export class ProductViewOrionComponent implements OnInit {
   addLeft = false;
   warrantyRight = false;
   warrantyLeft = false;
+  clearPupilRight = false;
+  blackPupilRight = false;
+  clearPupilLeft = false;
+  blackPupilLeft = false;
   download = false;
   type: any;
   parameterType: any;
@@ -357,6 +361,17 @@ export class ProductViewOrionComponent implements OnInit {
     return step;
   }
 
+  filterPupil(eye, value) {
+    if (eye === 'right') {
+      this.clearPupilRight = value === 0 ? true : false;
+      this.blackPupilRight = value === 1 ? true : false;
+    }
+    if (eye === 'left') {
+      this.clearPupilLeft = value === 0 ? true : false;
+      this.blackPupilLeft = value === 1 ? true : false;
+    }
+  }
+
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
     if (parameter.name === 'Warranty') {
@@ -438,6 +453,7 @@ export class ProductViewOrionComponent implements OnInit {
 
   formIsValid() {
     let isValid = true;
+    const self = this;
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
@@ -447,9 +463,15 @@ export class ProductViewOrionComponent implements OnInit {
         return false;
       }
       _.each(this.product.parametersRight, function (param) {
-        if (param.name !== 'Iris Code') {
+        if (param.name !== 'Iris Code' ) {
           if (param.selected === null || param.selected === undefined) {
-            isValid = false;
+            if (param.name === 'Clear Pupil') {
+              isValid = !self.clearPupilRight;
+            } else if (param.name === 'Black Pupil') {
+              isValid = !self.blackPupilRight;
+            } else if (param.name !== 'Black Pupil' && param.name !== 'Clear Pupil') {
+              isValid = false;
+            }
           }
         }
       });
@@ -465,7 +487,13 @@ export class ProductViewOrionComponent implements OnInit {
       _.each(this.product.parametersLeft, function (param) {
         if (param.name !== 'Iris Code') {
           if (param.selected === null || param.selected === undefined) {
-            isValid = false;
+            if (param.name === 'Clear Pupil') {
+              isValid = !self.clearPupilLeft;
+            } else if (param.name === 'Black Pupil') {
+              isValid = !self.blackPupilLeft;
+            } else if (param.name !== 'Black Pupil' && param.name !== 'Clear Pupil') {
+              isValid = false;
+            }
           }
         }
       });
@@ -667,7 +695,6 @@ export class ProductViewOrionComponent implements OnInit {
           if (parameterType === 'Cosmetic') {
             if (_.includes(pr.name.toLowerCase(), namePr.toLowerCase())
                 && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase()) && _.includes(pr.name.toLowerCase(), 'sphere')) {
-               console.log('entre', pr.name);
                 prCode = pr;
                 break;
              }

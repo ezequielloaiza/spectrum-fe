@@ -38,6 +38,8 @@ export class OrionComponent implements OnInit {
   productCode: any;
   warrantyRight = false;
   warrantyLeft = false;
+  clearPupil = false;
+  blackPupil = false;
   client: any;
   parameterType: any;
 
@@ -153,6 +155,8 @@ export class OrionComponent implements OnInit {
     this.price = this.productRequested.price;
     this.patient = this.productRequested.patient;
     let typeParameter = '';
+    let bP;
+    let cP;
     let paramet = this.product.parameters;
 
     _.each(this.detail.parameters, function(item) {
@@ -164,6 +168,12 @@ export class OrionComponent implements OnInit {
            } else {
                productSelected.selected = item.selected;
            }
+           if (productSelected.name === 'Clear Pupil') {
+              cP = productSelected.selected !== null && productSelected.selected !== undefined ? true : false;
+           }
+           if (productSelected.name === 'Black Pupil') {
+              bP = productSelected.selected !== null && productSelected.selected !== undefined ? true : false;
+           }
            if (productSelected.name === 'Type') {
             typeParameter = productSelected.selected;
            }
@@ -172,6 +182,8 @@ export class OrionComponent implements OnInit {
     });
     this.product.parameters = paramet;
     this.parameterType = typeParameter;
+    this.clearPupil = cP;
+    this.blackPupil = bP;
   }
 
   changeSelect(eye, parameter, value) {
@@ -200,6 +212,19 @@ export class OrionComponent implements OnInit {
       this.setCodeProduct();
       this.definePrice(this.membership);
     }
+  }
+
+  filterPupil(value) {
+    this.clearPupil = value === 0 ? true : false;
+    this.blackPupil = value === 1 ? true : false;
+    _.each(this.product.parameters, function(item) {
+      if (item.name === 'Black Pupil' && value === 0) {
+        item.selected = null;
+      }
+      if (item.name === 'Clear Pupil' && value === 1) {
+        item.selected = null;
+      }
+    });
   }
 
   getMin(parameter) {
@@ -358,10 +383,20 @@ export class OrionComponent implements OnInit {
   formIsValid() {
     let valido = true;
     let paramet = this.product.parameters;
+    const bP = this.blackPupil;
+    const cP = this.clearPupil;
+    console.log('bp', bP);
+    console.log('cp', cP);
       _.each(paramet, function(productSelected) {
         if (productSelected.selected === null || productSelected.selected === undefined) {
-           valido = false;
+          if (productSelected.name === 'Clear Pupil') {
+            valido = !cP;
+          } else if (productSelected.name === 'Black Pupil') {
+            valido = !bP;
+          } else if (productSelected.name !== 'Black Pupil' && productSelected.name !== 'Clear Pupil') {
+            valido = false;
           }
+        }
      });
      if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '')) {
           valido = false;
