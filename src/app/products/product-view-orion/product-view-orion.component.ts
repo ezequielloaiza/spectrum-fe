@@ -391,8 +391,87 @@ export class ProductViewOrionComponent implements OnInit {
       this.priceAcum = ((this.product.quantityLeft ? (this.product.quantityLeft * this.product.priceSaleLeft) : 0)
       + (this.product.quantityRight ? (this.product.quantityRight * this.product.priceSaleRight) : 0));
     }
+    if (parameter.name === 'Black Pupil' || parameter.name === 'Clear Pupil') {
+      parameter.disabled = false;
+      switch (parameter.name) {
+        case 'Black Pupil':
+          if (eye === 'right') {
+            let clearPupilRight: any;
+            clearPupilRight = _.find(this.product.parametersRight, {name: 'Clear Pupil'});
+            clearPupilRight.sel = null;
+            clearPupilRight.selected = 'N/A';
+            clearPupilRight.disabled = true;
+          }
+          if (eye === 'left') {
+            let clearPupilLeft: any;
+            clearPupilLeft = _.find(this.product.parametersLeft, {name: 'Clear Pupil'});
+            clearPupilLeft.sel = null;
+            clearPupilLeft.selected = 'N/A';
+            clearPupilLeft.disabled = true;
+          }
+          break;
+        case 'Clear Pupil':
+          if (eye === 'right') {
+            let blackPupilRight: any;
+            blackPupilRight = _.find(this.product.parametersRight, {name: 'Black Pupil'});
+            blackPupilRight.sel = null;
+            blackPupilRight.selected = 'N/A';
+            blackPupilRight.disabled = true;
+          }
+          if (eye === 'left') {
+            let blackPupilLeft: any;
+            blackPupilLeft = _.find(this.product.parametersLeft, {name: 'Black Pupil'});
+            blackPupilLeft.sel = null;
+            blackPupilLeft.selected = 'N/A';
+            blackPupilLeft.disabled = true;
+          }
+          break;
+      }
+    }
   }
 
+  disabledPupil(parameter) {
+    if (parameter.name === 'Black Pupil' || parameter.name === 'Clear Pupil') {
+      return parameter.disabled;
+    }
+    return false;
+  }
+
+  isPupil(parameter) {
+    return parameter.name === 'Black Pupil' || parameter.name === 'Clear Pupil';
+  }
+
+  resetPupil(eye, parameter) {
+    parameter.sel = null;
+    parameter.selected = null;
+    parameter.value = null;
+    switch (parameter.name) {
+      case 'Black Pupil':
+        if (eye === 'right') {
+          let clearPupilRight: any;
+          clearPupilRight = _.find(this.product.parametersRight, {name: 'Clear Pupil'});
+          clearPupilRight.disabled = false;
+        }
+        if (eye === 'left') {
+          let clearPupilLeft: any;
+          clearPupilLeft = _.find(this.product.parametersLeft, {name: 'Clear Pupil'});
+          clearPupilLeft.disabled = false;
+        }
+        break;
+      case 'Clear Pupil':
+        if (eye === 'right') {
+          let blackPupilRight: any;
+          blackPupilRight = _.find(this.product.parametersRight, {name: 'Black Pupil'});
+          blackPupilRight.disabled = false;
+        }
+        if (eye === 'left') {
+          let blackPupilLeft: any;
+          blackPupilLeft = _.find(this.product.parametersLeft, {name: 'Black Pupil'});
+          blackPupilLeft.disabled = false;
+        }
+        break;
+    }
+  }
   findShippingAddress(idCliente) {
     this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -438,6 +517,7 @@ export class ProductViewOrionComponent implements OnInit {
 
   formIsValid() {
     let isValid = true;
+    let self = this;
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
@@ -449,7 +529,7 @@ export class ProductViewOrionComponent implements OnInit {
       _.each(this.product.parametersRight, function (param) {
         if (param.name !== 'Iris Code') {
           if (param.selected === null || param.selected === undefined) {
-            isValid = false;
+            isValid = param.disabled || false;
           }
         }
       });
@@ -465,7 +545,7 @@ export class ProductViewOrionComponent implements OnInit {
       _.each(this.product.parametersLeft, function (param) {
         if (param.name !== 'Iris Code') {
           if (param.selected === null || param.selected === undefined) {
-            isValid = false;
+            isValid = param.disabled || false;
           }
         }
       });
