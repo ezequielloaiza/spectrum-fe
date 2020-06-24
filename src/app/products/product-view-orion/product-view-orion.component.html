@@ -141,8 +141,10 @@
                 <!--param values-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
                   <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
-                    [disabled]="!product.eyeRight" [required]="product.eyeRight" [(ngModel)]="parameter.sel"
-                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                    [disabled]="!product.eyeRight || disabledPupil(parameter)" [required]="product.eyeRight && !disabledPupil(parameter)" 
+                    [(ngModel)]="parameter.sel"
+                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="isPupil(parameter)"
+                    (clear)="resetPupil('right', parameter)">
                     <ng-template ng-label-tmp let-item="item">
                       <div class="supplier-body">
                         <span>{{ item | translate }}</span>
@@ -284,8 +286,9 @@
                 <!--param values-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
                   <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
-                    [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" bindLabel="item"
-                    bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" >
+                    [disabled]="!product.eyeLeft || disabledPupil(parameter)" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" 
+                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="isPupil(parameter)"
+                    (clear)="resetPupil('left', parameter)" >
                     <ng-template ng-label-tmp let-item="item">
                       <div class="supplier-body">
                         <span>{{ item | translate }}</span>

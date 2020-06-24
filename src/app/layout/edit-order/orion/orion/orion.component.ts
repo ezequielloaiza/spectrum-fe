@@ -200,6 +200,54 @@ export class OrionComponent implements OnInit {
       this.setCodeProduct();
       this.definePrice(this.membership);
     }
+    if (parameter.name === 'Black Pupil' || parameter.name === 'Clear Pupil') {
+      parameter.disabled = false;
+      switch (parameter.name) {
+        case 'Black Pupil':
+          let clearPupil: any;
+          clearPupil = _.find(this.product.parameters, {name: 'Clear Pupil'});
+          clearPupil.selected = 'N/A';
+          clearPupil.disabled = true;
+          break;
+        case 'Clear Pupil':
+          let blackPupil: any;
+          blackPupil = _.find(this.product.parameters, {name: 'Black Pupil'});
+          blackPupil.selected = 'N/A';
+          blackPupil.disabled = true;
+          break;
+      }
+    }
+  }
+
+  disabledPupil(parameter) {
+    if (parameter.name === 'Black Pupil' || parameter.name === 'Clear Pupil') {
+      return parameter.disabled;
+    }
+    return false;
+  }
+
+  isPupil(parameter) {
+    return parameter.name === 'Black Pupil' || parameter.name === 'Clear Pupil';
+  }
+
+  resetPupil(parameter) {
+    parameter.sel = null;
+    parameter.selected = null;
+    parameter.value = null;
+    switch (parameter.name) {
+      case 'Black Pupil':
+        let clearPupil: any;
+        clearPupil = _.find(this.product.parameters, {name: 'Clear Pupil'});
+        clearPupil.disabled = false;
+        clearPupil.selected = null;
+        break;
+      case 'Clear Pupil':
+        let blackPupil: any;
+        blackPupil = _.find(this.product.parameters, {name: 'Black Pupil'});
+        blackPupil.disabled = false;
+        blackPupil.selected = null;
+        break;
+    }
   }
 
   getMin(parameter) {
