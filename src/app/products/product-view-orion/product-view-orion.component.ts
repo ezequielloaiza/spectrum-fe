@@ -670,8 +670,10 @@ export class ProductViewOrionComponent implements OnInit {
           }
           if (parameter.name === 'Iris Code') {
             let values: any[] = [];
-            _.each(parameter.values, function(param, index) {
-              values[index] = ({ name: param.name, selected: param.selected }) ;
+            parameter.values.forEach(function(param, index) {
+              if (param.selected !== undefined && param.selected !== null) {
+                values.push({ name: param.name, selected: param.selected }) ;
+              }
             });
             parameter.selected = values;
           }
@@ -701,8 +703,10 @@ export class ProductViewOrionComponent implements OnInit {
           }
           if (parameter.name === 'Iris Code') {
             let values: any[] = [];
-            _.each(parameter.values, function(param, index) {
-              values[index] = ({ name: param.name, selected: param.selected }) ;
+            parameter.values.forEach(function(param, index) {
+              if (param.selected !== undefined && param.selected !== null) {
+                values.push({ name: param.name, selected: param.selected }) ;
+              }
             });
             parameter.selected = values;
           }
@@ -747,7 +751,6 @@ export class ProductViewOrionComponent implements OnInit {
           if (parameterType === 'Cosmetic') {
             if (_.includes(pr.name.toLowerCase(), namePr.toLowerCase())
                 && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase()) && _.includes(pr.name.toLowerCase(), 'sphere')) {
-               console.log('entre', pr.name);
                 prCode = pr;
                 break;
              }

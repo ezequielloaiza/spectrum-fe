@@ -49,7 +49,7 @@
           </div>
           <div class="col-sm-3">
             <dl class="align-item">
-              <dt>{{ "Quantity" | translate }}</dt>
+              <dt class="title-param">{{ "Quantity" | translate }}</dt>
               <hr class="separators" />
               <dl>
                 <dt class="items">{{ list.quantity }}</dt>
@@ -58,7 +58,12 @@
           </div>
           <div class="col-sm-3" *ngFor="let parameter of list.detail[0].parameters" >
             <dl *ngIf="parameter.name !== 'Iris Code'" class="align-item">
-              <dt>{{ parameter.name | translate }}</dt>
+              <dt class="title-param">{{ parameter.name | translate }}
+                <span *ngIf="parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil' || parameter.name === 'Iris Design Diameters'" >
+                  (mm)</span>
+                <span *ngIf="parameter.name === 'Sphere' || parameter.name === 'Cylinder' || parameter.name === 'Axis'" >
+                  ({{'Diopters'| translate }})</span>
+              </dt>
               <hr class="separators" />
               <dl>
                 <dt class="items" *ngIf="parameter.name !== 'Warranty' &&  parameter.name !== 'Limbal Ring' && parameter.name !== 'Light Sensitivity'">{{ parameter.selected  | translate }}</dt>
@@ -67,7 +72,7 @@
             </dl>
           </div>
           <div class="col-sm-12" *ngFor="let parameter of list.detail[0].parameters" >
-            <dl *ngIf="parameter.name === 'Iris Code'" class="align-item">
+            <dl *ngIf="parameter.name === 'Iris Code' && parameter.selected.length > 0" class="align-item">
               <dt>{{ parameter.name | translate }}</dt>
               <hr class="separators" />
               <div class="col-sm-12 code-iris">
