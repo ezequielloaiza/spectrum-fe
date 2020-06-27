@@ -64,6 +64,8 @@ export class ProductViewEuropaComponent implements OnInit {
   CustomersSelected: any;
   typeLensLeft: any;
   typeLensRight: any;
+  typeStepsLeft: any;
+  typeStepsRight: any;
   signPowerRight: any;
   signPowerLeft: any;
   signPowerRightTrial: any;
@@ -271,6 +273,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.setRight = JSON.parse(this.product.types)[0].set;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+    this.typeStepsRight = JSON.parse(this.product.types)[0].typeSteps;
     this.changeTypeLens('right', 'Please design my lens');
     orderCylinder = _.find(this.product.parametersRight, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
@@ -279,6 +282,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.setLeft = JSON.parse(this.product.types)[0].set;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+    this.typeStepsLeft = JSON.parse(this.product.types)[0].typeSteps;
     this.changeTypeLens('left', 'Please design my lens');
     orderCylinder = _.find(this.product.parametersLeft, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
@@ -830,7 +834,8 @@ export class ProductViewEuropaComponent implements OnInit {
         // add header spectrum code
         productSelected.id = productDiameterR.idProduct;
         productSelected.codeSpectrum = productDiameterR.codeSpectrum;
-        productSelected.typeLens = self.typeLensRight.selected
+        productSelected.typeLens = self.typeLensRight.selected;
+        productSelected.typeSteps = self.typeStepsRight.selected;
         productSelected.price = product.priceBaseRight;
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
@@ -906,7 +911,8 @@ export class ProductViewEuropaComponent implements OnInit {
         // add header spectrum code
         productSelected.id = productDiameterL.idProduct;
         productSelected.codeSpectrum = productDiameterL.codeSpectrum;
-        productSelected.typeLens = self.typeLensLeft.selected
+        productSelected.typeLens = self.typeLensLeft.selected;
+        productSelected.typeSteps = self.typeStepsLeft.selected;
         productSelected.price = product.priceBaseLeft;
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
@@ -1004,7 +1010,7 @@ export class ProductViewEuropaComponent implements OnInit {
           productsAditional.push(productN);
         }
       });
-      productSelected.detail = { name: product.type, eye: productSelected.eye, typeLens: productSelected.typeLens, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
+      productSelected.detail = { name: product.type, eye: productSelected.eye, typeLens: productSelected.typeLens, typeSteps: productSelected.typeSteps, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional', 'set'])
     });
 
@@ -1506,6 +1512,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.product.headerRight = header;
       this.product.parametersRight = parameters;
       this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+      this.typeStepsRight = JSON.parse(this.product.types)[0].typeSteps;
       this.changeTypeLens('right', 'Please design my lens');
       this.product.pasosRight = pasos;
       this.typeCurveRight = null;
@@ -1517,6 +1524,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.product.headerLeft = header;
       this.product.parametersLeft = parameters;
       this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+      this.typeStepsLeft = JSON.parse(this.product.types)[0].typeSteps;
       this.changeTypeLens('left', 'Please design my lens');
       this.product.pasosLeft = pasos;
       this.typeCurveLeft = null;
@@ -1628,6 +1636,31 @@ export class ProductViewEuropaComponent implements OnInit {
     return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power';
   }
 
+  changeTypeSteps(eye, value) {
+    switch (eye) {
+      case 'right':
+        this.typeStepsRight.selected = value;
+        break;
+      case 'left':
+        this.typeStepsLeft.selected = value;
+        break;
+    }
+  }
+
+  resetTrialLens(eye) {
+    if (eye === 'right') {
+      //trial lens reset
+      _.each(this.product.setRight, function (param) { param.selected = null; param.sel = null });
+      this.signPowerRightTrial = null;
+      this.typeCurveRightTrial = null
+    } else {
+      //trial lens reset
+      _.each(this.product.setLeft, function (param) { param.selected = null; param.sel = null });
+      this.signPowerLeftTrial = null;
+      this.typeCurveLeftTrial = null;
+    }
+  }
+
   changeTypeLens(eye, value) {
     switch (eye) {
       ///////////////EYE RIGHT////////////////////
@@ -1643,13 +1676,9 @@ export class ProductViewEuropaComponent implements OnInit {
         //rename params and reset trial lens
         if (value === 'Please design my lens') {
             powerRight.name = 'Over-Refaction';
-
-            //trial lens reset
-            _.each(this.product.setRight, function (param) { param.selected = null; param.sel = null });
-            this.signPowerRightTrial = null;
-            this.typeCurveRightTrial = null
         } else if (value === 'Final Lens') {
           powerRight.name = 'Final Power';
+          this.resetTrialLens('right');
         }
         break;
 
@@ -1667,13 +1696,9 @@ export class ProductViewEuropaComponent implements OnInit {
         //rename params and reset trial lens
         if (value === 'Please design my lens') {
           powerLeft.name = 'Over-Refaction';
-
-          //trial lens reset
-          _.each(this.product.setLeft, function (param) { param.selected = null; param.sel = null });
-          this.signPowerLeftTrial = null;
-          this.typeCurveLeftTrial = null;
         } else if (value === 'Final Lens') {
           powerLeft.name = 'Final Power';
+          this.resetTrialLens('left');
         }
         break;
     }

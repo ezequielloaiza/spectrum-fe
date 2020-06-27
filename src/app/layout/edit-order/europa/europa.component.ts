@@ -72,6 +72,7 @@ export class EuropaComponent implements OnInit {
   order: any;
   axesSelected: any;
   typeLens: any;
+  typeSteps: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -281,6 +282,7 @@ export class EuropaComponent implements OnInit {
     this.product.set = JSON.parse(this.product.types)[0].set;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
     this.typeLens = JSON.parse(this.product.types)[0].typeLens;
+    this.typeSteps = JSON.parse(this.product.types)[0].typeSteps;
     this.product.steps = JSON.parse(this.product.types)[0].pasos;
     this.product.pricesAditionalHidrapeg = JSON.parse(this.product.infoAditional)[0].values[0];
     this.product.pricesAditionalInserts = JSON.parse(this.product.infoAditional)[0].values[1];
@@ -304,6 +306,9 @@ export class EuropaComponent implements OnInit {
 
      //set type lens
      this.changeTypeLens(this.detail.typeLens);
+
+    //set type steps
+    this.changeTypeSteps(this.detail.typeSteps);
 
      // header
     _.each(this.detail.header, function(item) {
@@ -612,7 +617,7 @@ export class EuropaComponent implements OnInit {
     const groupId = this.productRequested.groupId;
     const detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye, typeLens: this.typeLens.selected,
       header: this.detail.header, parameters: this.detail.parameters,
-      set: this.detail.set,
+      set: this.detail.set, typeSteps: this.typeSteps.selected,
       pasos: this.detail.pasos}) + ']';
 
     // add products aditionals
@@ -675,7 +680,7 @@ export class EuropaComponent implements OnInit {
           if (contraryEye != undefined) {
             this.productRequestedDMVContrary = contraryEye.productRequested;
             this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye, typeLens: detailContrary[0].typeLens,
-              set: detailContrary[0].set, header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+              typeSteps: detailContrary[0].typeSteps, set: detailContrary[0].set, header: detailContrary[0].header, parameters: detailContrary[0].parameters,
               pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
             this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
             this.productRequestedDMVContrary.price = contraryEye.productRequested.price;
@@ -708,7 +713,7 @@ export class EuropaComponent implements OnInit {
 
         this.productRequestedDMVContrary = contraryEye.productRequested;
         this.productRequestedDMVContrary.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye, typeLens: detailContrary[0].typeLens,
-          set: detailContrary[0].set, header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+          typeSteps: detailContrary[0].typeSteps, set: detailContrary[0].set, header: detailContrary[0].header, parameters: detailContrary[0].parameters,
           pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
 
         this.productRequestedDMVContrary.observations = contraryEye.productRequested.observations;
@@ -797,7 +802,7 @@ export class EuropaComponent implements OnInit {
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
       this.productRequested.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye, typeLens: this.typeLens.selected,
-                                      set: this.detail.set, header: this.detail.header, parameters: this.detail.parameters,
+                                      typeSteps: this.typeSteps.selected, set: this.detail.set, header: this.detail.header, parameters: this.detail.parameters,
                                       pasos: this.detail.pasos, productsAditional: productsAditional }) + ']';
       this.productRequested.observations = this.observations;
       this.productRequested.price = this.priceBase;
@@ -811,7 +816,7 @@ export class EuropaComponent implements OnInit {
     } else { // Order Detail
       this.productRequestedAux.idProductRequested = this.productRequested.idProductRequested;
       this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.detail.name, eye: this.detail.eye, typeLens: this.typeLens.selected,
-                                        set: this.detail.set, header: this.detail.header, parameters: this.detail.parameters,
+                                        typeSteps: this.typeSteps.selected, set: this.detail.set, header: this.detail.header, parameters: this.detail.parameters,
                                         pasos: this.detail.pasos, productsAditional: productsAditional}) + ']';
       this.productRequestedAux.observations = this.observations;
       this.productRequestedAux.price = this.priceBase;
@@ -1183,6 +1188,10 @@ export class EuropaComponent implements OnInit {
     return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power';
   }
 
+  changeTypeSteps(value) {
+    this.typeSteps.selected = value;
+  }
+
   changeTypeLens(value) {
     this.typeLens.selected = value;
     let power = _.find(this.product.parameters, function (param){ return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'});
@@ -1190,10 +1199,10 @@ export class EuropaComponent implements OnInit {
     switch (value) {
       case 'Please design my lens':
         this.setPower(power, powerDetail, 'Over-Refaction')
-        this.resetTrialLens();
         break;
       case 'Final Lens':
         this.setPower(power, powerDetail, 'Final Power')
+        this.resetTrialLens();
       break;
     }
   }

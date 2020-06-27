@@ -146,16 +146,16 @@
   }
 }
 
-.type-lens {
+.type-lens, .type-steps{
   display: flex;
   margin-top: 20px;
 
   > span:nth-child(1) {
-    margin-right: 20px;
+    margin-right: 10px;
   }
 
   > div:nth-child(2), > div:nth-child(3) {
-    margin-right: 50px;
+    margin-right: 40px;
     font-size: 14px;
 
     label {
@@ -310,7 +310,7 @@ img {
   }
 
   .steeps {
-    > div:nth-child(1), 
+    > div:nth-child(1),
       div:nth-child(2) {
         padding-right: 10px;
     }
