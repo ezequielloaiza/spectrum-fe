@@ -1295,6 +1295,7 @@
     "Left Eye": "Ojo Izquierdo",
     "Right Eye": "Ojo Derecho",
     "Spectrum code": "Código de Spectrum",
-    "Please indicate the order of the color layers. Fx: 1, 2 etc. from bottom to top": "Por favor indique en al orden en el que los colores deben estar en capas. Ej: 1, 2 etc. desde abajo hasta arriba.",
-    "Compensate": "Compensar"
+    "Compensate": "Compensar",
+    "Iris Diameter": "Diámetro del Iris",
+    "Please indicate the sequency of the color layers. Fx: 1, 2 etc. from bottom to top": "Por favor indique la secuencia en el que los colores deben estar en capas. Ej: 1, 2 etc. desde abajo hasta arriba."
 }
