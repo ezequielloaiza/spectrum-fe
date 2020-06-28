@@ -107,6 +107,13 @@
   .param{
     color: #f8ac59;
   }
+
+  .title-param {
+    height: 2.75rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
 }
 
 .code-iris {
