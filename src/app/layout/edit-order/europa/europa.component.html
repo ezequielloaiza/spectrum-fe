@@ -102,7 +102,7 @@
               <div class="row">
                 <div class="select-values col-sm-12" *ngIf="itemSet.type === 'selected'">
                   <ng-select (change)="changeSelect(itemSet, $event, 0)" [(ngModel)]="itemSet.selected"
-                            bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="true">
+                            bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" required>
                     <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of itemSet.values">{{ item | translate }}</ng-option>
                   </ng-select>
                 </div>
@@ -110,21 +110,21 @@
                 <!--Only Power-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Power'" class="select-values param-flex col-sm-12 param-power">
                   <ng-select [items]="['+', '-']" [(ngModel)]="signPowerTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
-                    [clearable]="true">
+                    [clearable]="false" required>
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}"
-                    [(ngModel)]="itemSet.selected" oninput="validity.valid||(value='');" min="0.00" step="0.01">
+                    [(ngModel)]="itemSet.selected" oninput="validity.valid||(value='');" min="0.00" step="0.01" required>
                 </div>
 
                 <!--Only Base Curve-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Base Curve'" class="select-values param-flex col-sm-12">
                   <ng-select [items]="['D', 'mm']" [(ngModel)]="typeCurveTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
-                    [clearable]="true">
+                    [clearable]="false" required>
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}" [(ngModel)]="itemSet.selected" oninput="validity.valid||(value='');"
-                    min="00.00" step="00.01" (change)="itemSet.selected = format(itemSet.selected)">
+                    min="00.00" step="00.01" (change)="itemSet.selected = format(itemSet.selected)" required>
                 </div>
               </div>
             </div>

@@ -859,32 +859,46 @@ export class EuropaComponent implements OnInit {
     let paramet = this.product.parameters;
     let header = this.product.header;
     let selectedNotch = this.selectedNotch;
-      _.each(paramet, function(productSelected) {
-        if (productSelected.name === 'Notch (mm)') {
-          if (productSelected.values[0].selected === null || productSelected.values[1].selected === null ) {
-            valido = false;
-          }
 
-          if ((productSelected.values[0].selected !== 0 || productSelected.values[1].selected !== 0) && !selectedNotch) {
-            valido = false;
-          }
-        } else if (productSelected.name === "Axes (º)") {
-          if (!!selectedNotch &&  (productSelected.selected === null || productSelected.selected === undefined)) {
-            valido = false;
-          }
-        } else if (productSelected.selected === null || productSelected.selected === undefined) {
-           valido = false;
-        }
-     });
-     _.each(header, function(productSelected) {
-        if (productSelected.selected === null || productSelected.selected === undefined) {
+    _.each(header, function(productSelected) {
+      if (productSelected.selected === null || productSelected.selected === undefined) {
+        valido = false;
+      }
+    });
+
+    if (this.typeLens.selected === 'Please design my lens') {
+      if (this.signPowerTrial === null || this.typeCurveTrial === null) {
+        valido = false;
+      }
+      _.each(this.product.set, function (param) {
+        if (param.selected === null || param.selected === undefined) {
           valido = false;
         }
-     });
-     if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '')) {
+      });
+    }
+
+    _.each(paramet, function(productSelected) {
+      if (productSelected.name === 'Notch (mm)') {
+        if (productSelected.values[0].selected === null || productSelected.values[1].selected === null ) {
           valido = false;
-     }
-     return valido;
+        }
+
+        if ((productSelected.values[0].selected !== 0 || productSelected.values[1].selected !== 0) && !selectedNotch) {
+          valido = false;
+        }
+      } else if (productSelected.name === "Axes (º)") {
+        if (!!selectedNotch &&  (productSelected.selected === null || productSelected.selected === undefined)) {
+          valido = false;
+        }
+      } else if (productSelected.selected === null || productSelected.selected === undefined) {
+          valido = false;
+      }
+    });
+
+    if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '' || this.signPower === null)) {
+        valido = false;
+    }
+    return valido;
   }
 
   format(value): any {

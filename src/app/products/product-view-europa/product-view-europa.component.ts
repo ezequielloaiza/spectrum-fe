@@ -1137,6 +1137,20 @@ export class ProductViewEuropaComponent implements OnInit {
     });
 
     if (this.product.eyeRight) {
+      // Trial Lens Right
+      if (this.typeLensRight.selected === 'Please design my lens') {
+        _.each(this.product.setRight, function (param) {
+          if (param.selected === null || param.selected === undefined) {
+            isValid = false;
+          }
+        });
+
+        if (!this.typeCurveRightTrial || !this.signPowerRightTrial) {
+          isValid = false;
+        }
+      }
+
+
       _.each(this.product.parametersRight, function (param) {
         if (param.name === 'Notch (mm)') {
           if (param.values[0].selected === null || param.values[1].selected === null) {
@@ -1149,7 +1163,9 @@ export class ProductViewEuropaComponent implements OnInit {
 
         } else if (param.name === "Axes (º)") {
           self.axesNotch = _.find(self.product.parametersRight, { name: 'Notch (mm)' });
-          isValid = !((!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)));
+          if (!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
+            isValid = false;
+          }
         } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
@@ -1160,6 +1176,19 @@ export class ProductViewEuropaComponent implements OnInit {
     }
 
     if (this.product.eyeLeft) {
+      if (this.typeLensLeft.selected === 'Please design my lens') {
+        // Trial Lens Left
+        _.each(this.product.setLeft, function (param) {
+          if (param.selected === null || param.selected === undefined) {
+            isValid = false;
+          }
+        });
+
+        if (!this.typeCurveLeftTrial || !this.signPowerLeftTrial) {
+          isValid = false;
+        }
+      }
+
       _.each(this.product.parametersLeft, function (param) {
         if (param.name === 'Notch (mm)') {
           if (param.values[0].selected === null || param.values[1].selected === null) {
@@ -1172,7 +1201,9 @@ export class ProductViewEuropaComponent implements OnInit {
 
         } else if (param.name === "Axes (º)") {
           self.axesNotch = _.find(self.product.parametersLeft, { name: 'Notch (mm)' });
-          isValid = !((!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)));
+          if (!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
+            isValid = false;
+          }
         } else if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
