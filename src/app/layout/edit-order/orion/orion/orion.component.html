@@ -59,8 +59,8 @@
           </div>
           <div class="col-sm-3" *ngFor="let parameter of product.parameters">
             <dl *ngIf="parameter.name !== 'Iris Code'">
-              <dt>{{ parameter.name| translate}}
-                <span *ngIf="parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil' || parameter.name === 'Iris Design Diameters'" >
+              <dt class="name-param">{{ parameter.name| translate}}
+                <span *ngIf="parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil' || parameter.name === 'Iris Diameters'" >
                   (mm)</span>
                 <span *ngIf="parameter.name === 'Sphere' || parameter.name === 'Cylinder' || parameter.name === 'Axis'" >
                   ({{'Diopters'| translate }})</span>

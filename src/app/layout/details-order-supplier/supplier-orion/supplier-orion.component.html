@@ -13,7 +13,7 @@
             <div class="col-sm-3" *ngFor="let param of specification.parameters">
               <dl *ngIf="param.name !== 'Iris Code'" class="align-item">
                 <dt>{{param.name | translate }}
-                  <span *ngIf="param.name === 'Base Curve' || param.name === 'Diameter' || param.name === 'Clear Pupil' || param.name === 'Black Pupil' || param.name === 'Iris Design Diameters'" >
+                  <span *ngIf="param.name === 'Base Curve' || param.name === 'Diameter' || param.name === 'Clear Pupil' || param.name === 'Black Pupil' || param.name === 'Iris Diameter'" >
                     (mm)</span>
                   <span *ngIf="param.name === 'Sphere' || param.name === 'Cylinder' || param.name === 'Axis'" >
                     ({{'Diopters'| translate }})</span>

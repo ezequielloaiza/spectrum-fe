@@ -18,6 +18,7 @@ import { ConfirmationOrionComponent } from '../modals/confirmation-buy/confirmat
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from '../../../environments/environment';
+import { runInThisContext } from 'vm';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -193,7 +194,7 @@ export class ProductViewOrionComponent implements OnInit {
     this.productService.findBySupplierAndInViewAndCategory$(10, false, 10).subscribe(res1 => {
       if (res1.code === CodeHttp.ok) {
         this.productsCode = res1.data;
-        let pC = this.productsCode.filter((item) => {
+        const pC = this.productsCode.filter((item) => {
           return _.includes(item.codeSpectrum, this.product.codeSpectrum); });
         this.productsCode = pC.sort((a, b) => (b.idProduct > a.idProduct) ? -1 : 1);
         this.setCodeProduct();
@@ -213,7 +214,7 @@ export class ProductViewOrionComponent implements OnInit {
     const parameterType = this.parameterType === 'Cosmetic' ||  this.parameterType === 'Prosthetic' ? this.parameterType : '';
     let prCode;
     for (let i = 0, len = this.productsCode.length; i < len; i++) {
-      let pr = this.productsCode[i];
+      const pr = this.productsCode[i];
       if (idProduct === 267) {
         if (parameterType === 'Cosmetic') {
           if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())
@@ -244,8 +245,8 @@ export class ProductViewOrionComponent implements OnInit {
       this.product.price3 = this.productCode.price3;
     }
     this.setPrice();
+    console.log(this.product);
     this.updatePriceSale();
-
   }
 
   updatePriceSale() {
@@ -256,20 +257,20 @@ export class ProductViewOrionComponent implements OnInit {
   setPrice() {
     if (this.user.role.idRole === 3) {
        this.membership = this.currentUser.membership.idMembership;
-       this.definePrice(this.membership);
+       this.definePrice(this.membership, this.product);
     }
   }
 
-  definePrice(membership) {
+  definePrice(membership, product) {
     switch (membership) {
       case 1:
-        this.product.priceSale = this.product.price1;
+        product.priceSale = product.price1;
         break;
       case 2:
-        this.product.priceSale = this.product.price2;
+        product.priceSale = product.price2;
         break;
       case 3:
-        this.product.priceSale = this.product.price3;
+        product.priceSale = product.price3;
         break;
     }
   }
@@ -300,7 +301,26 @@ export class ProductViewOrionComponent implements OnInit {
       this.client = clientSelect;
       this.membership = this.client.membership;
       this.findShippingAddress(this.client.idUser);
-      this.definePrice(this.membership.idMembership);
+      this.definePrice(this.membership.idMembership, this.product);
+      const self = this;
+      if (this.product.eyeRight) {
+        const parametersR = this.product.parametersRight;
+        console.log('paramRight', parametersR);
+        parametersR.forEach(function(param) {
+          if (param.name === 'Type') {
+            self.changeSelect('right', param, param.selected);
+          }
+        });
+      }
+      if (this.product.eyeLeft) {
+        const parametersL = this.product.parametersLeft;
+        console.log('paramLeft', parametersL);
+        parametersL.forEach(function(param) {
+          if (param.name === 'Type') {
+            self.changeSelect('left', param, param.selected);
+          }
+        });
+      }
     } else {
       this.client = '';
       this.product.shippingAddress = '';
@@ -378,18 +398,17 @@ export class ProductViewOrionComponent implements OnInit {
     }
     if (this.client ) {
       if (parameter.name === 'Type') {
+        parameter.selected = value;
         this.parameterType = parameter.selected;
       }
       this.setCodeProduct();
-      this.definePrice(this.client.membership.idMembership);
+      this.definePrice(this.client.membership.idMembership, this.product);
       if (eye === 'right') {
         this.product.priceSaleRight = this.product.priceSale;
       } else if (eye === 'left') {
         this.product.priceSaleLeft = this.product.priceSale;
       }
-
-      this.priceAcum = ((this.product.quantityLeft ? (this.product.quantityLeft * this.product.priceSaleLeft) : 0)
-      + (this.product.quantityRight ? (this.product.quantityRight * this.product.priceSaleRight) : 0));
+      this.updatePriceSale();
     }
     if (parameter.name === 'Black Pupil' || parameter.name === 'Clear Pupil') {
       parameter.disabled = false;
@@ -517,7 +536,6 @@ export class ProductViewOrionComponent implements OnInit {
 
   formIsValid() {
     let isValid = true;
-    let self = this;
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
@@ -670,7 +688,7 @@ export class ProductViewOrionComponent implements OnInit {
           }
           if (parameter.name === 'Iris Code') {
             let values: any[] = [];
-            parameter.values.forEach(function(param, index) {
+            parameter.values.forEach(function(param) {
               if (param.selected !== undefined && param.selected !== null) {
                 values.push({ name: param.name, selected: param.selected }) ;
               }
@@ -703,7 +721,7 @@ export class ProductViewOrionComponent implements OnInit {
           }
           if (parameter.name === 'Iris Code') {
             let values: any[] = [];
-            parameter.values.forEach(function(param, index) {
+            parameter.values.forEach(function(param) {
               if (param.selected !== undefined && param.selected !== null) {
                 values.push({ name: param.name, selected: param.selected }) ;
               }
@@ -829,7 +847,6 @@ export class ProductViewOrionComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client.idUser;
     this.basketRequestModal.productRequestedList = productsRequested;
-    //this.openModal(type);
   }
 
   maxFilesSize() {

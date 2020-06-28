@@ -59,7 +59,7 @@
           <div class="col-sm-3" *ngFor="let parameter of list.detail[0].parameters" >
             <dl *ngIf="parameter.name !== 'Iris Code'" class="align-item">
               <dt class="title-param">{{ parameter.name | translate }}
-                <span *ngIf="parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil' || parameter.name === 'Iris Design Diameters'" >
+                <span *ngIf="parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil' || parameter.name === 'Iris Diameter'" >
                   (mm)</span>
                 <span *ngIf="parameter.name === 'Sphere' || parameter.name === 'Cylinder' || parameter.name === 'Axis'" >
                   ({{'Diopters'| translate }})</span>
