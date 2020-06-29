@@ -49,6 +49,7 @@ export class DetailsOrderComponent implements OnInit {
     const startItem = (event - 1) * this.itemPerPage;
     const endItem = event * this.itemPerPage;
     this.listDetails = this.listDetailsAux.slice(startItem, endItem);
+    this.updateTotal();
   }
 
   getOrder(idOrder): void {
@@ -109,36 +110,37 @@ export class DetailsOrderComponent implements OnInit {
     let existContraryEye = false;
 
     _.each(auxList, function(detailsOrder) {
-      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye);
-        priceAll = 0;
-        existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye);
-        _.each(arrayProductAditionals, function(item) {
-          const productId = item.productRequested.product.idProduct;
-          if (productId !== 146) {
-            priceAll = priceAll + item.productRequested.price;
-          }
-        });
-        // price insertors
-        const insertor = detailsOrder.productRequested.detail[0].header[2].selected === true;
-
-        priceInsertor = self.getPriceInsertor(detailsOrder.order.user.membership.idMembership, productDMV);
-
-        if (insertor && existContraryEye) {
-          priceAll = priceAll + (priceInsertor / 2);
-        } else if (insertor) {
-          priceAll = priceAll + priceInsertor;
+      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye, detailsOrder.productRequested.groupId);
+      priceAll = 0;
+      existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye, detailsOrder.productRequested.groupId);
+      _.each(arrayProductAditionals, function(item) {
+        const productId = item.productRequested.product.idProduct;
+        if (productId !== 146) {
+          priceAll = priceAll + item.productRequested.price;
         }
+      });
+      // price insertors
+      const insertor = detailsOrder.productRequested.detail[0].header[2].selected === true;
 
-        detailsOrder.productRequested.price = priceAll;
-        detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
+      priceInsertor = self.getPriceInsertor(detailsOrder.order.user.membership.idMembership, productDMV);
+
+      if (insertor && existContraryEye) {
+        priceAll = priceAll + (priceInsertor / 2);
+      } else if (insertor) {
+        priceAll = priceAll + priceInsertor;
+      }
+
+      detailsOrder.productRequested.price = priceAll;
+      detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
     });
+    this.updateTotal();
   }
 
-  getProductsAditionalEuropa(eye) {
+  getProductsAditionalEuropa(eye, groupId) {
     const auxList = [];
 
     _.each(this.listDetailsAll, function(item) {
-      if (item.productRequested.detail[0].eye === eye) {
+      if (item.productRequested.detail[0].eye === eye && item.productRequested.groupId === groupId) {
         auxList.push(item);
       }
     });
@@ -164,7 +166,7 @@ export class DetailsOrderComponent implements OnInit {
     return price;
   }
 
-  contraryEye(eye) {
+  contraryEye(eye, groupId) {
     let exist = false;
     let contraryEye = '';
 
@@ -175,7 +177,7 @@ export class DetailsOrderComponent implements OnInit {
     }
 
     _.each(this.listDetailsAll, function(item) {
-      if (item.productRequested.detail[0].eye === contraryEye) {
+      if (item.productRequested.detail[0].eye === contraryEye && item.productRequested.groupId === groupId) {
         exist = true;
       }
     });
@@ -208,29 +210,33 @@ export class DetailsOrderComponent implements OnInit {
 
   refresh(productRequested: any): void {
     let list: Array<ProductRequested> = productRequested;
-     _.each(this.order.listProductRequested, function (detailsOrder) {
-       _.each(list, function (item) {
-         if (detailsOrder.productRequested.idProductRequested === item.idProductRequested) {
-           detailsOrder.productRequested.patient = item.patient;
-           detailsOrder.productRequested.price = item.price;
-           detailsOrder.productRequested.quantity = item.quantity;
-           detailsOrder.productRequested.observations = item.observations;
-           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
-         }
-       });
+    _.each(this.order.listProductRequested, function (detailsOrder) {
+      _.each(list, function (item) {
+        if (detailsOrder.productRequested.idProductRequested === item.idProductRequested) {
+          detailsOrder.productRequested.patient = item.patient;
+          detailsOrder.productRequested.price = item.price;
+          detailsOrder.productRequested.quantity = item.quantity;
+          detailsOrder.productRequested.observations = item.observations;
+          detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
+        }
+      });
 
-     });
-     this.listDetails = this.order.listProductRequested;
-     this.listDetailsAux = this.order.listProductRequested;
-     this.updateTotal();
-   }
+    });
+    this.listDetailsAux = this.order.listProductRequested;
+    this.updateTotal();
+  }
 
-   updateTotal() {
+  updateTotal() {
     let total = 0.0;
-   _.each(this.listDetails, function (item) {
+    let subTotal = 0.0;
+    _.each(this.listDetails, function (item) {
+      subTotal = subTotal + item.productRequested.subtotal;
+    });
+    this.order.subtotal = subTotal;
+
+    _.each(this.listDetailsAux, function (item) {
       total = total + item.productRequested.subtotal;
-   });
-   this.order.total = total;
-   this.order.subtotal = total;
- }
+    });
+    this.order.total = total;
+  }
 }

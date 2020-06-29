@@ -1,5 +1,5 @@
 <div class="col-lg-12">
-  <div class="row padding-params display-edit" *ngIf="valueStatus === 0 && user.role.idRole !== 2">
+  <div class="row padding-params display-edit" *ngIf="valueStatus === 0 && user.role.idRole !== 2 && valueClient !== 2">
     <button type="button" (click)="openEdit()" class="edit btn btn-outline-primary" translate>
       Edit
     </button>
@@ -18,7 +18,8 @@
                   <dl class="align-item">
                     <dt>{{ param.name | translate }}</dt>
                     <dt>
-                      <span class="font-text"> {{ param.selected }}</span>
+                      <span class="font-text" *ngIf="param.selected !== null && param.selected !== '' && param.selected !== undefined"> {{ param.selected }}</span>
+                      <span class="font-text" *ngIf="param.selected === null || param.selected === '' || param.selected === undefined"> {{ 'Unassigned' | translate }}</span>
                       <hr />
                     </dt>
                   </dl>
@@ -33,6 +34,12 @@
       <ng-template ngbTabTitle>{{ "Steps" | translate }}</ng-template>
       <ng-template ngbTabContent>
         <div class="card-body table-responsive">
+          <div class="row">
+            <dl class="steps">
+              <dt>{{ "Steps" | translate }}:</dt>
+              <dt class="item">{{ lista.detail[0].typeSteps | translate }}</dt>
+            </dl>
+          </div>
           <div *ngFor="let specification of lista.detail">
             <div class="row justify-content-md-center div-parametros">
               <div class="col-sm-4" *ngFor="let param of specification.pasos">
@@ -121,7 +128,7 @@
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="{{'Trial Lens Used'| translate}}">
+    <ngb-tab title="{{'Trial Lens Used'| translate}}" *ngIf="lista.detail[0].typeLens === 'Please design my lens'">
       <ng-template ngbTabContent>
         <div class="card-body table-responsive">
           <div *ngFor="let specification of lista.detail">

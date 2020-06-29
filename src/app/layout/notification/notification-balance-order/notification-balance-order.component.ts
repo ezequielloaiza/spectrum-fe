@@ -31,7 +31,6 @@ export class NotificationBalanceOrderComponent implements OnInit {
   message: any;
   visibleAdmin = false;
   newStatus: any;
-  listAux: Array<any>;
   validRecords = 0;
   constructor(public modalReference: NgbActiveModal,
               private basketService: BasketService,
@@ -68,16 +67,12 @@ export class NotificationBalanceOrderComponent implements OnInit {
     if (this.type === 1) { // Genera desde la cesta
       this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          if (this.listAux.length > 0) {
-            this.update();
-          } else {
-            this.close();
-            this.spinner.hide();
-            this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-              this.notification.success('', res);
-            });
-            this.redirectListOrder();
-          }
+          this.close();
+          this.spinner.hide();
+          this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+            this.notification.success('', res);
+          });
+          this.redirectListOrder();
         } else {
           this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
             this.notification.error('', res);
@@ -158,29 +153,4 @@ export class NotificationBalanceOrderComponent implements OnInit {
       this.close();
     });
   }
-
-
-  update() {
-    let self = this;
-    let records = this.validRecords;
-    _.each(this.listAux, function(item) {
-      self.productRequestedService.updatePriceEuropa$(item).subscribe(res1 => {
-        records++;
-        self.showMessage(records);
-     });
-   });
-  }
-
-  showMessage(records) {
-    this.validRecords = records;
-    if (this.validRecords === this.listAux.length) {
-      this.close();
-      this.spinner.hide();
-      this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-        this.notification.success('', res);
-      });
-      this.redirectListOrder();
-    }
- }
-
 }

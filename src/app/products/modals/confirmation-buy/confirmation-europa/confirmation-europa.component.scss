@@ -15,6 +15,11 @@
     text-align: center;
   }
 
+  .test-set {
+    width: 100%;
+    margin-left: 0;
+  }
+
   .img-product {
     width: 40%;
     border-radius: 12px;
@@ -31,7 +36,7 @@
   }
 
   .padding-params {
-    padding:  0 2em 1em;
+    padding:2em 2em 1em;
 
     .parameters{
       color: $secondary-info;
@@ -72,11 +77,22 @@
     font-weight: 600;
   }
 
+  .steps {
+    text-align: left;
+    margin: 3rem 0 0 3rem;
+    display: flex;
+
+    > dt:nth-child(1) {
+      margin-right: 15px;
+    }
+  }
+
   .label-title {
     padding-top: 1.5em;
   }
 
   .patient-info {
+    display: flex;
     padding-bottom: 1.5em;
   }
 

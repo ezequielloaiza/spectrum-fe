@@ -25,9 +25,21 @@
               <input class="form-control main-info" type="text" maxlength="20" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient" required>
             </div>
           </div>
+
           <div class="col-lg-12 title eye-info">
             <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
+
+          <div class="type-lens">
+            <span>{{ 'Type' | translate }}:</span>
+            <div *ngFor="let value of typeLens.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLens" [value]="value" (change)="changeTypeLens(value)" class="custom-control-input" [checked]="typeLens.selected === value">
+                <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
         </div>
         <!--PARAMETERS-->
         <div class="col-lg-12 label-title">
@@ -79,7 +91,7 @@
         </div>
 
         <div class="col-lg-12 label-title">
-          <div class="row padding-params">
+          <div class="row padding-params" *ngIf="typeLens.selected === 'Please design my lens'">
             <div class="col-sm-12">
               <div class="parameters">{{ 'Trial Lens Used' | translate }}</div>
             </div>
@@ -90,7 +102,7 @@
               <div class="row">
                 <div class="select-values col-sm-12" *ngIf="itemSet.type === 'selected'">
                   <ng-select (change)="changeSelect(itemSet, $event, 0)" [(ngModel)]="itemSet.selected"
-                            bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="true">
+                            bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false" required>
                     <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of itemSet.values">{{ item | translate }}</ng-option>
                   </ng-select>
                 </div>
@@ -98,21 +110,21 @@
                 <!--Only Power-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Power'" class="select-values param-flex col-sm-12 param-power">
                   <ng-select [items]="['+', '-']" [(ngModel)]="signPowerTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
-                    [clearable]="true">
+                    [clearable]="false" required>
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}"
-                    [(ngModel)]="itemSet.selected" oninput="validity.valid||(value='');" min="0.00" step="0.01">
+                    [(ngModel)]="itemSet.selected" oninput="validity.valid||(value='');" min="0.00" step="0.01" required>
                 </div>
 
                 <!--Only Base Curve-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Base Curve'" class="select-values param-flex col-sm-12">
                   <ng-select [items]="['D', 'mm']" [(ngModel)]="typeCurveTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
-                    [clearable]="true">
+                    [clearable]="false" required>
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}" [(ngModel)]="itemSet.selected" oninput="validity.valid||(value='');"
-                    min="00.00" step="00.01" (change)="itemSet.selected = format(itemSet.selected)">
+                    min="00.00" step="00.01" (change)="itemSet.selected = format(itemSet.selected)" required>
                 </div>
               </div>
             </div>
@@ -141,8 +153,8 @@
               <!--Parameters-->
               <div class="col-sm-4" *ngFor="let parameter of product.parameters">
                 <dl>
-                  <div *ngIf="parameter.type !== 'selected-double'">
-                    <dt>{{ parameter.name| translate}}</dt>
+                  <div *ngIf="parameter.type !== 'selected-double' && parameter.name !== 'Type'">
+                    <dt>{{ parameter.name | translate}}</dt>
                   </div>
 
                   <div class="notch-lbl" *ngIf="parameter.type === 'selected-double'">
@@ -152,7 +164,7 @@
                     </div>
                   <dl>
                     <dt>
-                      <div *ngIf="parameter.type === 'selected'">
+                      <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Axes (º)'">
                         <ng-select class="display-row" [items]="parameter.values" [(ngModel)]="parameter.selected"
                                     bindValue="item" placeholder="{{ 'Select value' | translate }}"
                                     (change)="changeSelect(parameter, parameter.selected,0)"
@@ -171,13 +183,16 @@
                       </div>
 
                       <!--Only Power-->
-                      <div *ngIf="parameter.type === 'input' && parameter.name === 'Power'" class="select-values col-sm-12 param-power">
+                      <div *ngIf="parameter.type === 'input' && isPower(parameter)" class="select-values col-sm-12 param-power">
                         <ng-select class="selected-power" [items]="['+', '-']" [(ngModel)]="signPower" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
                                   [clearable]="false" required>
                                   {{item}}
                         </ng-select>
                         <input class="form-control col-sm-11" type="number" placeholder="{{ parameter.placeholder | translate }}"
                                [(ngModel)]="parameter.selected" oninput="validity.valid||(value='');"  min="0.00" step="0.01" required>
+                      </div>
+                      <div class="message-power" *ngIf="parameter.type === 'input' && isPower(parameter) && typeLens.selected === 'Please design my lens'">
+                        <span translate>If you want us to calculate it, refer to the consulting format</span>
                       </div>
 
                       <!--Only Base Curve-->
@@ -189,19 +204,28 @@
                                (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');" required>
                       </div>
 
+                      <!--Only Axes-->
+                      <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values">
+                        <ng-select (change)="changeSelect(parameter, parameter.selected,0)" [disabled]="!selectedNotch"
+                                  [required]="selectedNotch" [(ngModel)]="parameter.selected"
+                                  bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                                  <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of axesValues()">{{ item  | translate }}</ng-option>
+                        </ng-select>
+                      </div>
+
                       <div *ngIf="parameter.type === 'input' && parameter.name === 'Thickness'" class="separator">
                         <input class="form-control col-sm-12" type="number" step="0.01" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
                               (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');" required>
                       </div>
 
-                      <div *ngIf="parameter.type === 'input' && parameter.name !== 'Base Curve' && parameter.name !== 'Power' && parameter.name !== 'Thickness'" class="separator">
+                      <div *ngIf="parameter.type === 'input' && parameter.name !== 'Base Curve' && !isPower(parameter) && parameter.name !== 'Thickness'" class="separator">
                         <input class="form-control col-sm-12" type="number" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
                               (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');" required>
                       </div>
 
                       <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex">
                         <ng-select #notchTime class="select-notch" [items]="['Upper Temporal']"
-                                  [(ngModel)]="selectedNotch" placeholder="{{ 'Select type' | translate }}" 
+                                  [(ngModel)]="selectedNotch" placeholder="{{ 'Select type' | translate }}"
                                   (clear)="validateSelectedNotch(parameter)" (change)="validateSelectedNotch(parameter)"
                                   [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
                           <ng-template ng-option-tmp>
@@ -245,34 +269,41 @@
               </div>
             </div>
         </div>
-         <!--Pasos-->
-         <div class="col-lg-12">
-            <div class="row padding-params">
-              <div class="col-sm-12">
-                  <div class="parameters">{{ "Steps" | translate }}:</div>
+        <!--Pasos-->
+
+        <div class="col-lg-12">
+          <div class="row padding-params">
+            <div class="type-steps">
+              <span>{{ 'Steps' | translate }}:</span>
+              <div *ngFor="let value of typeSteps.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-steps-{{i}}" name="radioTypeSteps" [value]="value" (change)="changeTypeSteps(value)" class="custom-control-input" [checked]="typeSteps.selected === value">
+                  <label class="custom-control-label" for="radio-steps-{{i}}">{{ value | translate }}</label>
+                </div>
               </div>
-              <div class="col-sm-12" *ngFor="let PC of product.steps">
+            </div>
+            <div class="col-sm-12" *ngFor="let PC of product.steps">
+                <dl>
+                  <dt>{{ PC.name| translate}}</dt>
                   <dl>
-                    <dt>{{ PC.name| translate}}</dt>
-                    <dl>
-                      <div class="row">
-                          <div class="col-md-6 content-title" *ngFor="let paso of PC.values">
-                            <label class="form-check-label title">{{ paso.name | translate }}</label>&nbsp;&nbsp;
-                            <div class="row justify-steps">
-                              <div *ngFor="let value of paso.values" class="col-md-6 custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="{{PC.name + paso.name + value.name }}"
-                                        [(ngModel)]="value.selected" (click)="setChecked(value, PC)">
-                                <label class="custom-control-label items" for="{{ PC.name + paso.name + value.name }}">{{ value.name | translate }}</label>
-                              </div>
+                    <div class="row">
+                        <div class="col-md-6 content-title" *ngFor="let paso of PC.values">
+                          <label class="form-check-label title">{{ paso.name | translate }}</label>&nbsp;&nbsp;
+                          <div class="row justify-steps">
+                            <div *ngFor="let value of paso.values" class="col-md-6 custom-control custom-checkbox">
+                              <input class="custom-control-input" type="checkbox" id="{{PC.name + paso.name + value.name }}"
+                                      [(ngModel)]="value.selected" (click)="setChecked(value, PC)">
+                              <label class="custom-control-label items" for="{{ PC.name + paso.name + value.name }}">{{ value.name | translate }}</label>
                             </div>
                           </div>
-                      </div>
-                    </dl>
+                        </div>
+                    </div>
                   </dl>
-                </div>
-            </div>
-            <!--Fin pasos-->
+                </dl>
+              </div>
           </div>
+          <!--Fin pasos-->
+        </div>
         <!--comments-->
         <div class="col-lg-12">
           <div class="row padding-params">

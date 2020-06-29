@@ -30,6 +30,10 @@ export class SupplierService {
     return this.http.get(environment.apiUrl + 'suppliers/findByUser/' + id);
   }
 
+  public findById$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'suppliers/findById/' + id);
+  }
+
   public saveSupplierUser$(supplier): Observable<any> {
     return this.http.post(environment.apiUrl + 'suppliers/saveSupplierUser', supplier);
   }
