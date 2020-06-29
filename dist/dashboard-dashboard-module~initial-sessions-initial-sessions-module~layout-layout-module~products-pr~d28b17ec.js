@@ -8140,6 +8140,9 @@ var SupplierService = /** @class */ (function () {
     SupplierService.prototype.findByUser$ = function (id) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/findByUser/' + id);
     };
+    SupplierService.prototype.findById$ = function (id) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/findById/' + id);
+    };
     SupplierService.prototype.saveSupplierUser$ = function (supplier) {
         return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/saveSupplierUser', supplier);
     };

@@ -50,6 +50,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -59,6 +60,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -168,13 +170,23 @@ var ConfirmationBlueLightComponent = /** @class */ (function () {
             });
         }
         else {
-            this.buyNow.idUser = this.datos.idUser;
-            this.buyNow.productRequestedList = this.lista;
-            this.buyNow.idRole = this.role;
-            this.buyNow.listFileRightEye = this.listFileRightEye;
-            this.buyNow.listFileLeftEye = this.listFileLeftEye;
-            this.validateAvailableBalance();
-            if (this.available) {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.idRole = this.role;
+                this.buyNow.listFileRightEye = this.listFileRightEye;
+                this.buyNow.listFileLeftEye = this.listFileLeftEye;
+                // this.validateAvailableBalance();
+                // if (this.available) {
                 this.spinner.show();
                 this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
                     if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_2__["CodeHttp"].ok) {
@@ -196,10 +208,10 @@ var ConfirmationBlueLightComponent = /** @class */ (function () {
                 }, function (error) {
                     console.log('error', error);
                 });
-            }
-            else {
-                this.openModal(); // No tiene disponible el balance de credito
-                this.close();
+                /*} else {
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
             }
         }
     };
@@ -248,6 +260,7 @@ var ConfirmationBlueLightComponent = /** @class */ (function () {
         var _this = this;
         this.userService.findById$(this.datos.idUser).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_2__["CodeHttp"].ok) {
+                _this.client = res.data;
                 _this.company = res.data.company;
                 _this.balace = _this.company.balance;
             }
@@ -351,6 +364,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
 /* harmony import */ var _shared_models_company__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../shared/models/company */ "./src/app/shared/models/company.ts");
 /* harmony import */ var _notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../notification-balance/notification-balance.component */ "./src/app/products/modals/notification-balance/notification-balance.component.ts");
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -360,6 +374,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -466,13 +481,23 @@ var ConfirmationBuyComponent = /** @class */ (function () {
             });
         }
         else {
-            this.buyNow.idUser = this.datos.idUser;
-            this.buyNow.productRequestedList = this.lista;
-            this.buyNow.idRole = this.role;
-            this.buyNow.listFileRightEye = this.listFileRightEye;
-            this.buyNow.listFileLeftEye = this.listFileLeftEye;
-            this.validateAvailableBalance();
-            if (this.available) {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.idRole = this.role;
+                this.buyNow.listFileRightEye = this.listFileRightEye;
+                this.buyNow.listFileLeftEye = this.listFileLeftEye;
+                // this.validateAvailableBalance();
+                // if (this.available) {
                 this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
                     if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_7__["CodeHttp"].ok) {
                         _this.save_success = true;
@@ -494,10 +519,10 @@ var ConfirmationBuyComponent = /** @class */ (function () {
                 }, function (error) {
                     console.log('error', error);
                 });
-            }
-            else {
-                this.openModal(); // No tiene disponible el balance de credito
-                this.close();
+                /*} else {
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
             }
         }
     };
@@ -546,6 +571,7 @@ var ConfirmationBuyComponent = /** @class */ (function () {
         var _this = this;
         this.userService.findById$(this.datos.idUser).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_7__["CodeHttp"].ok) {
+                _this.client = res.data;
                 _this.company = res.data.company;
                 _this.balace = _this.company.balance;
             }
@@ -649,6 +675,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -658,6 +685,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -781,13 +809,23 @@ var ConfirmationEuclidComponent = /** @class */ (function () {
             });
         }
         else {
-            this.buyNow.idUser = this.datos.idUser;
-            this.buyNow.productRequestedList = this.lista;
-            this.buyNow.idRole = this.role;
-            this.buyNow.listFileRightEye = this.listFileRightEye;
-            this.buyNow.listFileLeftEye = this.listFileLeftEye;
-            this.validateAvailableBalance();
-            if (this.available) {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.idRole = this.role;
+                this.buyNow.listFileRightEye = this.listFileRightEye;
+                this.buyNow.listFileLeftEye = this.listFileLeftEye;
+                // this.validateAvailableBalance();
+                // if (this.available) {
                 this.spinner.show();
                 this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
                     if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
@@ -810,11 +848,11 @@ var ConfirmationEuclidComponent = /** @class */ (function () {
                 }, function (error) {
                     console.log('error', error);
                 });
-            }
-            else {
-                this.balance_modal = true;
-                this.openModal(); // No tiene disponible el balance de credito
-                this.close();
+                /*} else {
+                  this.balance_modal = true;
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
             }
         }
     };
@@ -866,6 +904,7 @@ var ConfirmationEuclidComponent = /** @class */ (function () {
         var _this = this;
         this.userService.findById$(this.datos.idUser).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                _this.client = res.data;
                 _this.company = res.data.company;
                 _this.balace = _this.company.balance;
             }
@@ -929,7 +968,7 @@ var ConfirmationEuclidComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ \"Confirm purchase\" | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!-- Image -->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!-- Image -->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\" />\n        </div>\n        <!-- Patient -->\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <span>{{ \"Patient\" | translate }}</span>\n          <dl>\n            <dt>{{ namePatient }}</dt>\n          </dl>\n          <dl>\n            <dt>{{ price | currency: \"USD $\" }}</dt>\n            <p class=\"eye-info\" *ngIf=\"(totalInserts && existInserts) || totalHidrapeg || totalNotch || totalThickness\">\n              (\n              <span>{{ 'Includes' | translate }}</span>&nbsp;\n              <span *ngIf=\"totalHidrapeg\">{{'Hidrapeg' | translate}}:{{ totalHidrapeg | currency : \" USD $\" }}</span>\n              <span  *ngIf=\"totalHidrapeg && (totalInserts && existInserts )\">&nbsp;|&nbsp;</span>\n              <span *ngIf=\"totalInserts && existInserts\">{{'Inserts (DMV)' | translate}}:{{ totalInserts | currency : \" USD $\" }}</span>\n              <span  *ngIf=\"((totalInserts && existInserts) || totalHidrapeg) && totalNotch\">&nbsp;|&nbsp;</span>\n              <span *ngIf=\"totalNotch\">{{'Notch (mm)' | translate}}:{{ totalNotch | currency : \" USD $\" }}</span>\n              <!--<span  *ngIf=\"(totalHidrapeg || totalInserts || totalNotch) && totalThickness\">|</span>\n              <span *ngIf=\"totalThickness\">{{'Thickness' | translate}}:{{ totalThickness | currency : \" USD $\" }}</span>-->\n              )\n            </p>\n          </dl>\n        </div>\n      </div>\n      <!-- PARAMETERS -->\n      <div class=\"col-sm-12\" *ngFor=\"let parameter of listBasket[0].detail[0].header\">\n          <dl *ngIf=\"parameter.name === 'Inserts (DMV)'\" class=\"align-item\">\n            <dt>{{ parameter.name | translate }}</dt>\n            <hr class=\"separators\" />\n            <dl>\n              <dt *ngIf=\"parameter.selected === true || parameter.selected === false\" class=\"items\">\n                <span *ngIf=\"parameter.selected === true\">{{\n                  \"Yes\" + ' ' + insertCodeSpectrum | translate\n                }}</span>\n                <span *ngIf=\"parameter.selected === false\">{{\n                  \"No\" | translate\n                }}</span>\n              </dt>\n            </dl>\n          </dl>\n      </div>\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n\n          <div class=\"col-lg-4\">\n            <dl class=\"align-item\">\n              <dt>{{ 'Spectrum code' | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.product.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-4\" *ngFor=\"let parameter of list.detail[0].header\">\n            <dl *ngIf=\"parameter.name !== 'Inserts (DMV)'\" class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt *ngIf=\"parameter.selected !== true && parameter.selected !== false\" class=\"items\">{{ parameter.selected }}</dt>\n                <dt *ngIf=\"parameter.selected === true || parameter.selected === false\" class=\"items\">\n                  <span *ngIf=\"parameter.selected === true\">{{\n                    \"Yes\" | translate\n                  }}</span>\n                  <span *ngIf=\"parameter.selected === false\">{{\n                    \"No\" | translate\n                  }}</span>\n                </dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-lg-12 title title-info\">\n            <div class=\"parameters\">{{ 'Test set' | translate }}</div>&nbsp;&nbsp;\n          </div>\n          <div class=\"col-sm-4\" *ngFor=\"let parameter of list.detail[0].set\">\n            <dl class=\"align-item\">\n              <dt>{{ parameter.name | translate }}\n              </dt>\n              <hr class=\"separators\">\n              <dl>\n                <dt class=\"items\" *ngIf=\"!!parameter.selected && parameter.selected !== null && parameter.selected !== ''\">{{ parameter.selected}}</dt>\n                <dt class=\"items\" *ngIf=\"parameter.selected === null || parameter.selected === '' || !parameter.selected\">{{ 'Unassigned' | translate}}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"separator-set\"></div>\n          \n          <div *ngIf=\"list.detail[0].productsAditional.length > 0\" class=\"col-sm-12\">\n            <div class=\"parameters\">{{ 'Additional Products' | translate }}:</div>\n          </div>\n          <div class=\"col-sm-4\" *ngFor=\"let productA of list.detail[0].productsAditional\">\n            <dl class=\"align-item\">\n              <dt>{{ productA.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ productA.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-12\">\n            <div class=\"parameters\">{{ \"Parameters\" | translate }}:</div>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Quantity\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ listBasket[0].quantity }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div\n            class=\"col-sm-3\"\n            *ngFor=\"let parameter of list.detail[0].parameters\"\n          >\n            <dl class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ parameter.selected }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-12\">\n            <div class=\"parameters\">{{ \"Steps\" | translate }}:</div>\n          </div>\n          <div class=\"col-sm-12\" *ngFor=\"let parameter of list.detail[0].pasos\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-2\">\n                  <dl class=\"name-parameters\">\n                      <dt>{{ parameter.name | translate }}\n                          <hr class=\"separators\" />\n                      </dt>\n                  </dl>\n              </div>\n              <div class=\"col-sm-5\" *ngFor=\"let item of parameter.values\">\n                <dl>\n                  <dt>{{ item.name | translate }}</dt>\n                </dl>\n                <div class=\"row justify-steps\">\n                  <div class=\"col-sm-6\" *ngFor=\"let val of item.values\">\n                    <dl>\n                      <dt class=\"items\">\n                        {{ val.name | translate }}:\n                        <span *ngIf=\"val.selected === true\">{{\n                          \"Yes\" | translate\n                        }}</span>\n                        <span *ngIf=\"val.selected === false\">{{\n                          \"No\" | translate\n                        }}</span>\n                      </dt>\n                    </dl>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <br />\n          <!-- Comments -->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{ \"Comments\" | translate }}</dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations ==='' || list.observations === null\">\n                      <span translate>{{'No comments' | translate}}</span>\n                    </dl>\n                  <dl>\n                    <span style=\"overflow-x: hidden;\">\n                      {{ list.observations }}</span\n                    >\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!-- FIN PARAMETERS -->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">\n      {{ \"Cancel\" | translate }}&nbsp; <i class=\"fa fa-times\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 2\"\n    >\n      {{ \"Save\" | translate }}&nbsp; <i class=\"fa fa-save\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 1\"\n    >\n      {{ \"Buy\" | translate }}&nbsp; <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description }}\n  </ng-template>\n</div>\n"
+module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ \"Confirm purchase\" | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!-- Image -->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!-- Image -->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\" />\n        </div>\n        <!-- Patient -->\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <div class=\"col-sm-12\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Patient\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ namePatient }}</dt>\n              </dl>\n            </dl>\n          </div>\n        </div>\n        <div class=\"col-lg-12\">\n          <dl>\n            <dt>{{ price | currency: \"USD $\" }}</dt>\n            <p class=\"eye-info\" *ngIf=\"(totalInserts && existInserts) || totalHidrapeg || totalNotch || totalThickness\">\n              (\n              <span>{{ 'Includes' | translate }}</span>&nbsp;\n              <span *ngIf=\"totalHidrapeg\">{{'Hidrapeg' | translate}}:{{ totalHidrapeg | currency : \" USD $\" }}</span>\n              <span  *ngIf=\"totalHidrapeg && (totalInserts && existInserts )\">&nbsp;|&nbsp;</span>\n              <span *ngIf=\"totalInserts && existInserts\">{{'Inserts (DMV)' | translate}}:{{ totalInserts | currency : \" USD $\" }}</span>\n              <span  *ngIf=\"((totalInserts && existInserts) || totalHidrapeg) && totalNotch\">&nbsp;|&nbsp;</span>\n              <span *ngIf=\"totalNotch\">{{'Notch (mm)' | translate}}:{{ totalNotch | currency : \" USD $\" }}</span>\n              <!--<span  *ngIf=\"(totalHidrapeg || totalInserts || totalNotch) && totalThickness\">|</span>\n              <span *ngIf=\"totalThickness\">{{'Thickness' | translate}}:{{ totalThickness | currency : \" USD $\" }}</span>-->\n              )\n            </p>\n          </dl>\n        </div>\n      </div>\n      <!-- PARAMETERS -->\n      <div class=\"col-sm-12\" *ngFor=\"let parameter of listBasket[0].detail[0].header\">\n          <dl *ngIf=\"parameter.name === 'Inserts (DMV)'\" class=\"align-item\">\n            <dt>{{ parameter.name | translate }}</dt>\n            <hr class=\"separators\" />\n            <dl>\n              <dt *ngIf=\"parameter.selected === true || parameter.selected === false\" class=\"items\">\n                <span *ngIf=\"parameter.selected === true\">{{\n                  \"Yes\" + ' ' + insertCodeSpectrum | translate\n                }}</span>\n                <span *ngIf=\"parameter.selected === false\">{{\n                  \"No\" | translate\n                }}</span>\n              </dt>\n            </dl>\n          </dl>\n      </div>\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n\n          <div class=\"col-lg-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Type\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].typeLens | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-lg-3\">\n            <dl class=\"align-item\">\n              <dt>{{ 'Spectrum code' | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.product.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of list.detail[0].header\">\n            <dl *ngIf=\"parameter.name !== 'Inserts (DMV)'\" class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt *ngIf=\"parameter.selected !== true && parameter.selected !== false\" class=\"items\">{{ parameter.selected }}</dt>\n                <dt *ngIf=\"parameter.selected === true || parameter.selected === false\" class=\"items\">\n                  <span *ngIf=\"parameter.selected === true\">{{\n                    \"Yes\" | translate\n                  }}</span>\n                  <span *ngIf=\"parameter.selected === false\">{{\n                    \"No\" | translate\n                  }}</span>\n                </dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"row test-set\" *ngIf=\"list.detail[0].typeLens === 'Please design my lens'\">\n            <div class=\"col-lg-12 title title-info\">\n              <div class=\"parameters\">{{ 'Test set' | translate }}</div>&nbsp;&nbsp;\n            </div>\n            <div class=\"col-sm-4\" *ngFor=\"let parameter of list.detail[0].set\">\n              <dl class=\"align-item\">\n                <dt>{{ parameter.name | translate }}\n                </dt>\n                <hr class=\"separators\">\n                <dl>\n                  <dt class=\"items\" *ngIf=\"!!parameter.selected && parameter.selected !== null && parameter.selected !== ''\">{{ parameter.selected}}</dt>\n                  <dt class=\"items\" *ngIf=\"parameter.selected === null || parameter.selected === '' || !parameter.selected\">{{ 'Unassigned' | translate}}</dt>\n                </dl>\n              </dl>\n            </div>\n          </div>\n\n          <div class=\"separator-set\"></div>\n\n          <div *ngIf=\"list.detail[0].productsAditional.length > 0\" class=\"col-sm-12\">\n            <div class=\"parameters\">{{ 'Additional Products' | translate }}:</div>\n          </div>\n          <div class=\"col-sm-4\" *ngFor=\"let productA of list.detail[0].productsAditional\">\n            <dl class=\"align-item\">\n              <dt>{{ productA.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ productA.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-12\">\n            <div class=\"parameters\">{{ \"Parameters\" | translate }}:</div>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Quantity\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ listBasket[0].quantity }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div\n            class=\"col-sm-3\"\n            *ngFor=\"let parameter of list.detail[0].parameters\"\n          >\n            <dl class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\" *ngIf=\"parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined\">{{ parameter.selected }}</dt>\n                <dt class=\"items\" *ngIf=\"parameter.selected === null || parameter.selected === '' || parameter.selected === undefined\">{{ 'Unassigned' | translate}}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-12\">\n            <dl class=\"align-item steps\">\n              <dt>{{ \"Steps\" | translate }}:</dt>\n              <dt class=\"items\">{{ list.detail[0].typeSteps | translate }}</dt>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-12\" *ngFor=\"let parameter of list.detail[0].pasos\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-2\">\n                  <dl class=\"name-parameters\">\n                      <dt>{{ parameter.name | translate }}\n                          <hr class=\"separators\" />\n                      </dt>\n                  </dl>\n              </div>\n              <div class=\"col-sm-5\" *ngFor=\"let item of parameter.values\">\n                <dl>\n                  <dt>{{ item.name | translate }}</dt>\n                </dl>\n                <div class=\"row justify-steps\">\n                  <div class=\"col-sm-6\" *ngFor=\"let val of item.values\">\n                    <dl>\n                      <dt class=\"items\">\n                        {{ val.name | translate }}:\n                        <span *ngIf=\"val.selected === true\">{{\n                          \"Yes\" | translate\n                        }}</span>\n                        <span *ngIf=\"val.selected === false\">{{\n                          \"No\" | translate\n                        }}</span>\n                      </dt>\n                    </dl>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <br />\n          <!-- Comments -->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{ \"Comments\" | translate }}</dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations ==='' || list.observations === null\">\n                      <span translate>{{'No comments' | translate}}</span>\n                    </dl>\n                  <dl>\n                    <span style=\"overflow-x: hidden;\">\n                      {{ list.observations }}</span\n                    >\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!-- FIN PARAMETERS -->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">\n      {{ \"Cancel\" | translate }}&nbsp; <i class=\"fa fa-times\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 2\"\n    >\n      {{ \"Save\" | translate }}&nbsp; <i class=\"fa fa-save\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 1\"\n    >\n      {{ \"Buy\" | translate }}&nbsp; <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description }}\n  </ng-template>\n</div>\n"
 
 /***/ }),
 
@@ -940,7 +979,7 @@ module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.body {\n  overflow-y: auto; }\n.list-basket {\n  max-height: 630px;\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.list-basket .main-info {\n    text-align: center; }\n.list-basket .img-product {\n    width: 40%;\n    border-radius: 12px;\n    margin-top: 1em; }\n.list-basket .display-row {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between; }\n.list-basket .display-price {\n    -webkit-box-pack: center;\n            justify-content: center; }\n.list-basket .padding-params {\n    padding: 0 2em 1em; }\n.list-basket .padding-params .parameters {\n      color: #868e96;\n      margin-left: 1.8rem;\n      margin-bottom: 0.1rem;\n      font-weight: 600;\n      padding-top: 1rem; }\n.list-basket .padding-params .justify-steps {\n      -webkit-box-pack: center;\n              justify-content: center; }\n.list-basket .padding-params .justify-steps > div:nth-child(2) {\n        padding-left: 0; }\n.list-basket .padding-params .name-parameters {\n      padding-left: 1rem;\n      color: #868e96;\n      padding-top: 0.5rem; }\n.list-basket .padding-params .comment {\n      color: #868e96;\n      padding: 0 1.5em; }\n.list-basket .params {\n    padding-top: 1em; }\n.list-basket .params .separator {\n      margin-bottom: 1em; }\n.list-basket .title {\n    font-weight: 600; }\n.list-basket .label-title {\n    padding-top: 1.5em; }\n.list-basket .patient-info {\n    padding-bottom: 1.5em; }\n.list-basket .eye-info {\n    color: #868e96;\n    padding-bottom: 2em;\n    text-align: center; }\n.list-basket .align-item {\n    text-align: center; }\n.list-basket .items {\n    color: #868e96; }\n.list-basket .comments {\n    padding: 0 2.5em; }\n.list-basket .separators {\n    border-top: 1.5px solid rgba(0, 0, 0, 0.1);\n    margin-top: 0.5rem;\n    margin-bottom: 0.5rem; }\n.list-basket .param {\n    color: #f8ac59; }\n.list-basket .separator-set {\n    display: -webkit-box;\n    display: flex;\n    margin-top: 20px;\n    width: 100%; }\n"
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.body {\n  overflow-y: auto; }\n.list-basket {\n  max-height: 630px;\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.list-basket .main-info {\n    text-align: center; }\n.list-basket .test-set {\n    width: 100%;\n    margin-left: 0; }\n.list-basket .img-product {\n    width: 40%;\n    border-radius: 12px;\n    margin-top: 1em; }\n.list-basket .display-row {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between; }\n.list-basket .display-price {\n    -webkit-box-pack: center;\n            justify-content: center; }\n.list-basket .padding-params {\n    padding: 2em 2em 1em; }\n.list-basket .padding-params .parameters {\n      color: #868e96;\n      margin-left: 1.8rem;\n      margin-bottom: 0.1rem;\n      font-weight: 600;\n      padding-top: 1rem; }\n.list-basket .padding-params .justify-steps {\n      -webkit-box-pack: center;\n              justify-content: center; }\n.list-basket .padding-params .justify-steps > div:nth-child(2) {\n        padding-left: 0; }\n.list-basket .padding-params .name-parameters {\n      padding-left: 1rem;\n      color: #868e96;\n      padding-top: 0.5rem; }\n.list-basket .padding-params .comment {\n      color: #868e96;\n      padding: 0 1.5em; }\n.list-basket .params {\n    padding-top: 1em; }\n.list-basket .params .separator {\n      margin-bottom: 1em; }\n.list-basket .title {\n    font-weight: 600; }\n.list-basket .steps {\n    text-align: left;\n    margin: 3rem 0 0 3rem;\n    display: -webkit-box;\n    display: flex; }\n.list-basket .steps > dt:nth-child(1) {\n      margin-right: 15px; }\n.list-basket .label-title {\n    padding-top: 1.5em; }\n.list-basket .patient-info {\n    display: -webkit-box;\n    display: flex;\n    padding-bottom: 1.5em; }\n.list-basket .eye-info {\n    color: #868e96;\n    padding-bottom: 2em;\n    text-align: center; }\n.list-basket .align-item {\n    text-align: center; }\n.list-basket .items {\n    color: #868e96; }\n.list-basket .comments {\n    padding: 0 2.5em; }\n.list-basket .separators {\n    border-top: 1.5px solid rgba(0, 0, 0, 0.1);\n    margin-top: 0.5rem;\n    margin-bottom: 0.5rem; }\n.list-basket .param {\n    color: #f8ac59; }\n.list-basket .separator-set {\n    display: -webkit-box;\n    display: flex;\n    margin-top: 20px;\n    width: 100%; }\n"
 
 /***/ }),
 
@@ -972,6 +1011,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../notification-balance/notification-balance.component */ "./src/app/products/modals/notification-balance/notification-balance.component.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -981,6 +1021,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1055,7 +1096,15 @@ var ConfirmationEuropaComponent = /** @class */ (function () {
         var existInserts = false;
         var insertCodeSpectrum = '';
         lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listBasket, function (productRequested) {
-            priceAcum = priceAcum + (productRequested.price * productRequested.quantity);
+            if (productRequested.product.idProduct === 146) {
+                quantityInserts++;
+                if (quantityInserts < 2) {
+                    priceAcum = priceAcum + (productRequested.price * productRequested.quantity);
+                }
+            }
+            else {
+                priceAcum = priceAcum + (productRequested.price * productRequested.quantity);
+            }
             if (productRequested.name !== 'Inserts (DMV)'
                 && productRequested.name !== 'Notch'
                 && productRequested.name !== 'HydraPEG') {
@@ -1134,13 +1183,34 @@ var ConfirmationEuropaComponent = /** @class */ (function () {
             });
         }
         else {
-            this.buyNow.idUser = this.datos.idUser;
-            this.buyNow.productRequestedList = this.lista;
-            this.buyNow.idRole = this.role;
-            this.buyNow.listFileRightEye = this.listFileRightEye;
-            this.buyNow.listFileLeftEye = this.listFileLeftEye;
-            this.validateAvailableBalance();
-            if (this.available) {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.idRole = this.role;
+                this.buyNow.listFileRightEye = this.listFileRightEye;
+                this.buyNow.listFileLeftEye = this.listFileLeftEye;
+                // removing duplicate inserts
+                var quantityInserts_1 = 0;
+                var self_1 = this;
+                lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.buyNow.productRequestedList, function (productRequested, index) {
+                    if (productRequested.product.idProduct === 146) {
+                        quantityInserts_1++;
+                        if (quantityInserts_1 > 1) {
+                            self_1.buyNow.productRequestedList.splice(index, 1);
+                        }
+                    }
+                });
+                // this.validateAvailableBalance();
+                // if (this.available) {
                 this.spinner.show();
                 this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
                     if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
@@ -1162,11 +1232,11 @@ var ConfirmationEuropaComponent = /** @class */ (function () {
                 }, function (error) {
                     console.log('error', error);
                 });
-            }
-            else {
-                this.balance_modal = true;
-                this.openModal(); // No tiene disponible el balance de credito
-                this.close();
+                /*} else {
+                  this.balance_modal = true;
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
             }
         }
     };
@@ -1218,6 +1288,7 @@ var ConfirmationEuropaComponent = /** @class */ (function () {
         var _this = this;
         this.userService.findById$(this.datos.idUser).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
+                _this.client = res.data;
                 _this.company = res.data.company;
                 _this.balace = _this.company.balance;
             }
@@ -1323,6 +1394,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1332,6 +1404,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1434,13 +1507,23 @@ var ConfirmationLenticonComponent = /** @class */ (function () {
             });
         }
         else {
-            this.buyNow.idUser = this.datos.idUser;
-            this.buyNow.productRequestedList = this.lista;
-            this.buyNow.idRole = this.role;
-            this.buyNow.listFileRightEye = this.listFileRightEye;
-            this.buyNow.listFileLeftEye = this.listFileLeftEye;
-            this.validateAvailableBalance();
-            if (this.available) {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.idRole = this.role;
+                this.buyNow.listFileRightEye = this.listFileRightEye;
+                this.buyNow.listFileLeftEye = this.listFileLeftEye;
+                // this.validateAvailableBalance();
+                // if (this.available) {
                 this.spinner.show();
                 this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
                     if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_2__["CodeHttp"].ok) {
@@ -1463,11 +1546,11 @@ var ConfirmationLenticonComponent = /** @class */ (function () {
                 }, function (error) {
                     console.log('error', error);
                 });
-            }
-            else {
-                this.balance_modal = true;
-                this.openModal(); // No tiene disponible el balance de credito
-                this.close();
+                /*} else {
+                  this.balance_modal = true;
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
             }
         }
     };
@@ -1497,6 +1580,7 @@ var ConfirmationLenticonComponent = /** @class */ (function () {
         var _this = this;
         this.userService.findById$(this.datos.idUser).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_2__["CodeHttp"].ok) {
+                _this.client = res.data;
                 _this.company = res.data.company;
                 _this.balace = _this.company.balance;
             }
@@ -1603,6 +1687,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1612,6 +1697,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1717,13 +1803,23 @@ var ConfirmationMagicLookComponent = /** @class */ (function () {
             });
         }
         else {
-            this.buyNow.idUser = this.datos.idUser;
-            this.buyNow.productRequestedList = this.lista;
-            this.buyNow.idRole = this.role;
-            this.buyNow.listFileRightEye = this.listFileRightEye;
-            this.buyNow.listFileLeftEye = this.listFileLeftEye;
-            this.validateAvailableBalance();
-            if (this.available) {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.idRole = this.role;
+                this.buyNow.listFileRightEye = this.listFileRightEye;
+                this.buyNow.listFileLeftEye = this.listFileLeftEye;
+                // this.validateAvailableBalance();
+                // if (this.available) {
                 this.spinner.show();
                 this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
                     if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_2__["CodeHttp"].ok) {
@@ -1745,10 +1841,10 @@ var ConfirmationMagicLookComponent = /** @class */ (function () {
                 }, function (error) {
                     console.log('error', error);
                 });
-            }
-            else {
-                this.openModal(); // No tiene disponible el balance de credito
-                this.close();
+                /*} else {
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
             }
         }
     };
@@ -1778,6 +1874,7 @@ var ConfirmationMagicLookComponent = /** @class */ (function () {
         var _this = this;
         this.userService.findById$(this.datos.idUser).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_2__["CodeHttp"].ok) {
+                _this.client = res.data;
                 _this.company = res.data.company;
                 _this.balace = _this.company.balance;
             }
@@ -1881,6 +1978,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1890,6 +1988,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2002,13 +2101,23 @@ var ConfirmationMarkennovyComponent = /** @class */ (function () {
             });
         }
         else {
-            this.buyNow.idUser = this.datos.idUser;
-            this.buyNow.productRequestedList = this.lista;
-            this.buyNow.idRole = this.role;
-            this.buyNow.listFileRightEye = this.listFileRightEye;
-            this.buyNow.listFileLeftEye = this.listFileLeftEye;
-            this.validateAvailableBalance();
-            if (this.available) {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.idRole = this.role;
+                this.buyNow.listFileRightEye = this.listFileRightEye;
+                this.buyNow.listFileLeftEye = this.listFileLeftEye;
+                // this.validateAvailableBalance();
+                // if (this.available) {
                 this.spinner.show();
                 this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
                     if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
@@ -2030,10 +2139,10 @@ var ConfirmationMarkennovyComponent = /** @class */ (function () {
                 }, function (error) {
                     console.log('error', error);
                 });
-            }
-            else {
-                this.openModal(); // No tiene disponible el balance de credito
-                this.close();
+                /*} else {
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
             }
         }
     };
@@ -2082,6 +2191,7 @@ var ConfirmationMarkennovyComponent = /** @class */ (function () {
         var _this = this;
         this.userService.findById$(this.datos.idUser).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                _this.client = res.data;
                 _this.company = res.data.company;
                 _this.balace = _this.company.balance;
             }
@@ -2129,6 +2239,325 @@ var ConfirmationMarkennovyComponent = /** @class */ (function () {
             _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"]])
     ], ConfirmationMarkennovyComponent);
     return ConfirmationMarkennovyComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.html":
+/*!*******************************************************************************************************!*\
+  !*** ./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.html ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ \"Confirm purchase\" | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!-- Image -->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!--Image-->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\">\n        </div>\n        <div class=\"row\">\n          <!--Patient-->\n          <div class=\"col-lg-6 title label-title patient-info\">\n            <span>{{ 'Patient' | translate }}</span>\n            <dl>\n              <dt>{{ namePatient}}</dt>\n            </dl>\n          </div>\n          <div class=\"col-lg-6 title label-title patient-info\">\n            <span>{{ 'Price' | translate }}</span>\n            <dl>\n              <dt>{{ price | currency : \"USD $\" }}</dt>\n            </dl>\n          </div>\n        </div>\n      </div>\n      <!-- PARAMETERS -->\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-6 title label-title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n          <div class=\"col-lg-6 title label-title patient-info\">\n            <span>{{ 'Spectrum code' | translate }}</span>\n            <dl>\n              <dt>{{ list.product.codeSpectrum }}</dt>\n            </dl>\n          </div>\n          <div class=\"col-sm-12\">\n            <div class=\"parameters\">{{ \"Parameters\" | translate }}:</div>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt class=\"title-param\">{{ \"Quantity\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.quantity }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of list.detail[0].parameters\" >\n            <dl *ngIf=\"parameter.name !== 'Iris Code'\" class=\"align-item\">\n              <dt class=\"title-param\">{{ parameter.name | translate }}\n                <span *ngIf=\"parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil' || parameter.name === 'Iris Diameter'\" >\n                  (mm)</span>\n                <span *ngIf=\"parameter.name === 'Sphere' || parameter.name === 'Cylinder' || parameter.name === 'Axis'\" >\n                  ({{'Diopters'| translate }})</span>\n              </dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\" *ngIf=\"parameter.name !== 'Warranty' &&  parameter.name !== 'Limbal Ring' && parameter.name !== 'Light Sensitivity'\">{{ parameter.selected  | translate }}</dt>\n                <dt class=\"items\" *ngIf=\"parameter.name === 'Warranty' || parameter.name === 'Limbal Ring' || parameter.name === 'Light Sensitivity'\">{{ (parameter.selected == true ? 'Yes' : 'No') | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-12\" *ngFor=\"let parameter of list.detail[0].parameters\" >\n            <dl *ngIf=\"parameter.name === 'Iris Code' && parameter.selected.length > 0\" class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <div class=\"col-sm-12 code-iris\">\n                <div *ngFor=\"let param of parameter.selected\" class=\"col-sm-3\">\n                  <dl >\n                    <dt class=\"items\">{{ param.name | translate }}</dt>\n                    <dt class=\"items\">{{ param.selected === null ? 'N/A' : param.selected}}</dt>\n                  </dl>\n                </div>\n              </div>\n            </dl>\n          </div>\n          <br />\n          <!-- Comments -->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{ \"Comments\" | translate }}</dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations ==='' || list.observations === null\">\n                      <span translate>{{'No comments' | translate}}</span>\n                    </dl>\n                  <dl>\n                    <span style=\"overflow-x: hidden;\">\n                      {{ list.observations }}</span\n                    >\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!-- FIN PARAMETERS -->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">\n      {{ \"Cancel\" | translate }}&nbsp; <i class=\"fa fa-times\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 2\"\n    >\n      {{ \"Save\" | translate }}&nbsp; <i class=\"fa fa-save\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 1\"\n    >\n      {{ \"Buy\" | translate }}&nbsp; <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description }}\n  </ng-template>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.scss":
+/*!*******************************************************************************************************!*\
+  !*** ./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.scss ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.body {\n  overflow-y: auto; }\n.list-basket {\n  max-height: 630px;\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.list-basket .main-info {\n    text-align: center; }\n.list-basket .img-product {\n    width: 40%;\n    border-radius: 12px;\n    margin-top: 1em; }\n.list-basket .display-row {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between; }\n.list-basket .display-price {\n    -webkit-box-pack: center;\n            justify-content: center; }\n.list-basket .padding-params {\n    padding: 0 2em 1em; }\n.list-basket .padding-params .parameters {\n      color: #868e96;\n      margin-left: 1.8rem;\n      margin-bottom: 0.1rem;\n      font-weight: 600;\n      padding-top: 1rem; }\n.list-basket .padding-params .justify-steps {\n      -webkit-box-pack: center;\n              justify-content: center; }\n.list-basket .padding-params .justify-steps > div:nth-child(2) {\n        padding-left: 0; }\n.list-basket .padding-params .name-parameters {\n      padding-left: 1rem;\n      color: #868e96;\n      padding-top: 0.5rem; }\n.list-basket .padding-params .comment {\n      color: #868e96;\n      padding: 0 1.5em; }\n.list-basket .params {\n    padding-top: 1em; }\n.list-basket .params .separator {\n      margin-bottom: 1em; }\n.list-basket .title {\n    font-weight: 600; }\n.list-basket .label-title {\n    padding-top: 1.5em; }\n.list-basket .patient-info {\n    padding-bottom: 1.5em; }\n.list-basket .eye-info {\n    color: #868e96;\n    padding-bottom: 2em;\n    text-align: center; }\n.list-basket .align-item {\n    text-align: center; }\n.list-basket .items {\n    color: #868e96; }\n.list-basket .comments {\n    padding: 0 2.5em; }\n.list-basket .separators {\n    border-top: 1.5px solid rgba(0, 0, 0, 0.1);\n    margin-top: 0.5rem;\n    margin-bottom: 0.5rem; }\n.list-basket .param {\n    color: #f8ac59; }\n.list-basket .title-param {\n    height: 2.75rem;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-align: end;\n            align-items: flex-end;\n    -webkit-box-pack: center;\n            justify-content: center; }\n.code-iris {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n          flex-direction: row;\n  flex-wrap: wrap; }\n.code-iris .items {\n    white-space: nowrap; }\n"
+
+/***/ }),
+
+/***/ "./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.ts":
+/*!*****************************************************************************************************!*\
+  !*** ./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.ts ***!
+  \*****************************************************************************************************/
+/*! exports provided: ConfirmationOrionComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmationOrionComponent", function() { return ConfirmationOrionComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
+/* harmony import */ var _shared_models_buynow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../shared/models/buynow */ "./src/app/shared/models/buynow.ts");
+/* harmony import */ var _shared_models_company__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../shared/models/company */ "./src/app/shared/models/company.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../shared/services/alertify/alertify.service */ "./src/app/shared/services/alertify/alertify.service.ts");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _shared_services_basket_basket_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../shared/services/basket/basket.service */ "./src/app/shared/services/basket/basket.service.ts");
+/* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _http_user_storage_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../../http/user-storage.service */ "./src/app/http/user-storage.service.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
+/* harmony import */ var _notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../notification-balance/notification-balance.component */ "./src/app/products/modals/notification-balance/notification-balance.component.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../../shared/services/fileproductrequested/fileproductrequested.service */ "./src/app/shared/services/fileproductrequested/fileproductrequested.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var ConfirmationOrionComponent = /** @class */ (function () {
+    function ConfirmationOrionComponent(modalReference, alertify, notification, translate, basketService, orderService, fileProductRequestedService, router, userStorageService, spinner, userService, modalService) {
+        this.modalReference = modalReference;
+        this.alertify = alertify;
+        this.notification = notification;
+        this.translate = translate;
+        this.basketService = basketService;
+        this.orderService = orderService;
+        this.fileProductRequestedService = fileProductRequestedService;
+        this.router = router;
+        this.userStorageService = userStorageService;
+        this.spinner = spinner;
+        this.userService = userService;
+        this.modalService = modalService;
+        this.listBasket = new Array;
+        this.lista = new Array;
+        this.listNameParameters = new Array;
+        this.basketRequest = new _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_1__["BasketRequest"]();
+        this.buyNow = new _shared_models_buynow__WEBPACK_IMPORTED_MODULE_2__["BuyNow"]();
+        // list for File
+        this.listFileBasket = new Array;
+        this.listUrlFiles = new Array;
+        this.listFileLeftEye = new Array;
+        this.listFileRightEye = new Array;
+        // boolean for delete file
+        this.save_success = false;
+        this.balance_modal = false;
+        this.company = new _shared_models_company__WEBPACK_IMPORTED_MODULE_3__["Company"]();
+        this.user = JSON.parse(userStorageService.getCurrentUser());
+    }
+    ConfirmationOrionComponent.prototype.ngOnInit = function () {
+        this.getDatos();
+        this.getBalance();
+    };
+    ConfirmationOrionComponent.prototype.close = function () {
+        if (!this.save_success && !this.balance_modal) {
+            this.listUrlFiles = this.buildUrlFiles();
+            this.deleteAllFile();
+        }
+        this.modalReference.dismiss();
+        this.modalReference.close();
+    };
+    ConfirmationOrionComponent.prototype.getDatos = function () {
+        var patient;
+        var priceAcum = 0;
+        this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
+        this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
+        lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listBasket, function (productRequested) {
+            priceAcum = priceAcum + (productRequested.price * productRequested.quantity);
+            patient = productRequested.patient;
+            if (productRequested.observations === undefined) {
+                productRequested.observations = '';
+            }
+            productRequested.detail = JSON.parse(productRequested.detail);
+        });
+        this.namePatient = patient;
+        this.price = priceAcum;
+    };
+    ConfirmationOrionComponent.prototype.save = function () {
+        var _this = this;
+        if (this.typeBuy === 1) {
+            this.spinner.show();
+            this.basketRequest.idUser = this.datos.idUser;
+            this.basketRequest.productRequestedList = this.lista;
+            this.basketRequest.listFileRightEye = this.listFileRightEye;
+            this.basketRequest.listFileLeftEye = this.listFileLeftEye;
+            this.basketService.saveBasket$(this.basketRequest).subscribe(function (res) {
+                if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_13__["CodeHttp"].ok) {
+                    _this.save_success = true;
+                    _this.close();
+                    _this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe(function (res1) {
+                        _this.notification.success('', res1);
+                    });
+                    _this.spinner.hide();
+                    _this.redirectListProducts();
+                    // this.redirectListBasket();
+                }
+                else {
+                    console.log(res);
+                    _this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe(function (res1) {
+                        _this.notification.error('', res1);
+                    });
+                    _this.spinner.hide();
+                }
+            }, function (error) {
+                console.log('error', error);
+            });
+        }
+        else {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_14__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.listFileRightEye = this.listFileRightEye;
+                this.buyNow.listFileLeftEye = this.listFileLeftEye;
+                this.buyNow.idRole = this.role;
+                // this.validateAvailableBalance();
+                // if (this.available) {
+                this.spinner.show();
+                this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
+                    if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_13__["CodeHttp"].ok) {
+                        _this.save_success = true;
+                        _this.spinner.hide();
+                        _this.close();
+                        _this.translate.get('Order generated successfully', { value: 'Order generated successfully' }).subscribe(function (res1) {
+                            _this.notification.success('', res1);
+                        });
+                        _this.redirectListOrder();
+                    }
+                    else {
+                        console.log(res);
+                        _this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe(function (res1) {
+                            _this.notification.error('', res1);
+                        });
+                        _this.spinner.hide();
+                        _this.close();
+                    }
+                }, function (error) {
+                    console.log('error', error);
+                });
+                /*} else {
+                  this.balance_modal = true;
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
+            }
+        }
+    };
+    ConfirmationOrionComponent.prototype.buildUrlFiles = function () {
+        var listUrlFiles = new Array;
+        lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listFileLeftEye, function (file) {
+            listUrlFiles.push(file.url);
+        });
+        lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listFileRightEye, function (file) {
+            listUrlFiles.push(file.url);
+        });
+        return listUrlFiles;
+    };
+    ConfirmationOrionComponent.prototype.deleteAllFile = function () {
+        this.fileProductRequestedService.deleteAllFile$(this.buildUrlFiles()).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_13__["CodeHttp"].ok) {
+                console.log('Delete files');
+            }
+            else {
+                console.log(res.errors[0].detail);
+            }
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
+    ConfirmationOrionComponent.prototype.redirectListProducts = function () {
+        this.router.navigate(['/products/']);
+    };
+    ConfirmationOrionComponent.prototype.redirectListBasket = function () {
+        if (this.user.role.idRole === 3) {
+            this.router.navigate(['/list-basket-client']);
+        }
+        else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+            this.router.navigate(['/list-basket']);
+        }
+    };
+    ConfirmationOrionComponent.prototype.redirectListOrder = function () {
+        if (this.user.role.idRole === 3) {
+            this.router.navigate(['/order-list-client'], { queryParams: { status: 0 } });
+        }
+        else if (this.user.role.idRole === 1) {
+            this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 1 } });
+        }
+        else if (this.user.role.idRole === 2) {
+            this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
+        }
+    };
+    ConfirmationOrionComponent.prototype.getBalance = function () {
+        var _this = this;
+        this.userService.findById$(this.datos.idUser).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_13__["CodeHttp"].ok) {
+                _this.client = res.data;
+                _this.company = res.data.company;
+                _this.balace = _this.company.balance;
+            }
+            else {
+                console.log(res.errors[0].detail);
+            }
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
+    ConfirmationOrionComponent.prototype.validateAvailableBalance = function () {
+        var available = true;
+        if (this.company.paymentMethod === 1 && ((this.price) > this.balace)) {
+            available = false;
+        }
+        this.available = available;
+    };
+    ConfirmationOrionComponent.prototype.openModal = function () {
+        var _this = this;
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_15__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
+        modalRef.componentInstance.buyNowModal = this.buyNow;
+        modalRef.result.then(function (result) {
+            _this.save_success = true;
+            _this.ngOnInit();
+        }, function (reason) {
+            _this.save_success = true;
+            _this.balance_modal = false;
+            _this.close();
+        });
+    };
+    ConfirmationOrionComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-confirmation-orion',
+            template: __webpack_require__(/*! ./confirmation-orion.component.html */ "./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.html"),
+            styles: [__webpack_require__(/*! ./confirmation-orion.component.scss */ "./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbActiveModal"],
+            _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_5__["AlertifyService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__["TranslateService"],
+            _shared_services_basket_basket_service__WEBPACK_IMPORTED_MODULE_8__["BasketService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_9__["OrderService"],
+            _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_17__["FileProductRequestedService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_10__["Router"],
+            _http_user_storage_service__WEBPACK_IMPORTED_MODULE_11__["UserStorageService"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_12__["NgxSpinnerService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_9__["UserService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModal"]])
+    ], ConfirmationOrionComponent);
+    return ConfirmationOrionComponent;
 }());
 
 
@@ -2184,6 +2613,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../notification-balance/notification-balance.component */ "./src/app/products/modals/notification-balance/notification-balance.component.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2193,6 +2623,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2279,13 +2710,23 @@ var ConfirmationSpectrumSalineComponent = /** @class */ (function () {
             });
         }
         else {
-            this.buyNow.idUser = this.datos.idUser;
-            this.buyNow.productRequestedList = this.lista;
-            this.buyNow.idRole = this.role;
-            this.basketRequest.listFileRightEye = [];
-            this.basketRequest.listFileLeftEye = [];
-            this.validateAvailableBalance();
-            if (this.available) {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_16__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.idRole = this.role;
+                this.basketRequest.listFileRightEye = [];
+                this.basketRequest.listFileLeftEye = [];
+                // this.validateAvailableBalance();
+                // if (this.available) {
                 this.spinner.show();
                 this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
                     if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_13__["CodeHttp"].ok) {
@@ -2306,10 +2747,10 @@ var ConfirmationSpectrumSalineComponent = /** @class */ (function () {
                 }, function (error) {
                     console.log('error', error);
                 });
-            }
-            else {
-                this.openModal(); // No tiene disponible el balance de credito
-                this.close();
+                /*} else {
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
             }
         }
     };
@@ -2339,6 +2780,7 @@ var ConfirmationSpectrumSalineComponent = /** @class */ (function () {
         var _this = this;
         this.userService.findById$(this.datos.idUser).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_13__["CodeHttp"].ok) {
+                _this.client = res.data;
                 _this.company = res.data.company;
                 _this.balace = _this.company.balance;
             }
@@ -2441,6 +2883,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2450,6 +2893,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2556,13 +3000,23 @@ var ConfirmationSynergeyesComponent = /** @class */ (function () {
             });
         }
         else {
-            this.buyNow.idUser = this.datos.idUser;
-            this.buyNow.productRequestedList = this.lista;
-            this.buyNow.idRole = this.role;
-            this.buyNow.listFileRightEye = this.listFileRightEye;
-            this.buyNow.listFileLeftEye = this.listFileLeftEye;
-            this.validateAvailableBalance();
-            if (this.available) {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.idRole = this.role;
+                this.buyNow.listFileRightEye = this.listFileRightEye;
+                this.buyNow.listFileLeftEye = this.listFileLeftEye;
+                // this.validateAvailableBalance();
+                // if (this.available) {
                 this.spinner.show();
                 this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
                     if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_15__["CodeHttp"].ok) {
@@ -2585,11 +3039,11 @@ var ConfirmationSynergeyesComponent = /** @class */ (function () {
                 }, function (error) {
                     console.log('error', error);
                 });
-            }
-            else {
-                this.balance_modal = true;
-                this.openModal(); // No tiene disponible el balance de credito
-                this.close();
+                /*} else {
+                  this.balance_modal = true;
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
             }
         }
     };
@@ -2641,6 +3095,7 @@ var ConfirmationSynergeyesComponent = /** @class */ (function () {
         var _this = this;
         this.userService.findById$(this.datos.idUser).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_15__["CodeHttp"].ok) {
+                _this.client = res.data;
                 _this.company = res.data.company;
                 _this.balace = _this.company.balance;
             }
@@ -5456,7 +5911,7 @@ var ProductViewEuclidComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div> -->\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"col-md-3\">\n          <dt>{{ 'Material' | translate }}</dt>\n          <dd>\n            <a>{{ product.material }}</a>\n          </dd>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Replacemente Period' | translate }}</dt>\n          <p>{{ product.replacementPeriod | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Warranty' | translate }}</dt>\n          <p>{{ product.warranty }} {{ 'days' | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ product.url }}\" target=\"_blank\">{{ 'Download' | translate}}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"20\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" [(ngModel)]=\"product.client\"\n              disabled required>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\"\n              required>\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n        <div class=\"col-lg-5\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}:</span>\n          <div class=\"row info-content\">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specific your product' | translate }}</label>\n          <div class=\"col-lg-3\" *ngFor=\"let header of product.headerRight\">\n            <div class=\"row\" *ngIf =\"header.name === 'Inserts (DMV)'\">\n              <label class=\"form-check-label\">{{ header.name | translate }}</label>&nbsp;&nbsp;\n            </div>\n            <div class=\"row\">\n              <div class=\"select-values col-sm-12\" *ngIf=\"header.type === 'selected' && header.name === 'Inserts (DMV)'\">\n                <ng-select (change)=\"changeSelect('right', header, $event,0)\" [items]=\"header.values\"\n                  [(ngModel)]=\"header.sel\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [required]=\"true\"\n                  [clearable]=\"false\">\n                  <ng-template ng-label-tmp let-item=\"item\">\n                    <div class=\"supplier-body\">\n                      <span>{{ item | translate }}</span>\n                    </div>\n                  </ng-template>\n                  <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                    <div class=\"supplier-body\">\n                      <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                    </div>\n                  </ng-template>\n                </ng-select>\n              </div>\n\n            </div>\n          </div>\n          <div class=\"row additional col-lg-12\">\n            <p *ngIf=\"additionalInserts === true && membership !== 0\">\n              <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;\n              <span>{{'Inserts (DMV)' | translate}}:{{ inserts | currency : \" USD $\" }}</span>&nbsp;\n            </p>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header-params\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n\n          <div class=\"row title\">{{ 'Trial Lens Used' | translate }}</div>\n          <div class=\"row\">\n            <div class=\"col-lg-3\" *ngFor=\"let itemSet of product.setRight\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"itemSet.type === 'selected'\">\n                  <ng-select (change)=\"changeSelect('right', itemSet, $event,0)\" [disabled]=\"!product.eyeRight\" [(ngModel)]=\"itemSet.sel\"\n                             bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"true\">\n                    <ng-option [value]=\"item\" [disabled]=\"disabledOption(item)\" *ngFor=\"let item of itemSet.values\">{{ item | translate }}</ng-option>\n                  </ng-select>\n                </div>\n\n                <!--Only Power-->\n                <div *ngIf=\"itemSet.type === 'input' && itemSet.name === 'Power'\" class=\"select-values param-flex col-sm-12\">\n                  <ng-select [items]=\"['+', '-']\" [disabled]=\"!product.eyeRight\"\n                    [(ngModel)]=\"signPowerRightTrial\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Sign' | translate }}\"\n                    [clearable]=\"true\">\n                    {{item}}\n                  </ng-select>\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ itemSet.placeholder | translate }}\"\n                    [(ngModel)]=\"itemSet.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeRight\" min=\"0.00\" step=\"0.01\">\n                </div>\n\n                <!--Only Base Curve-->\n                <div *ngIf=\"itemSet.type === 'input' && itemSet.name === 'Base Curve'\" class=\"select-values param-flex col-sm-12\">\n                  <ng-select [items]=\"['D', 'mm']\" [disabled]=\"!product.eyeRight\"\n                    [(ngModel)]=\"typeCurveRightTrial\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Unit' | translate }}\"\n                    [clearable]=\"true\">\n                    {{item}}\n                  </ng-select>\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ itemSet.placeholder | translate }}\" [(ngModel)]=\"itemSet.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeRight\" min=\"00.00\" step=\"00.01\" (change)=\"itemSet.selected = format(itemSet.selected)\">\n                </div>\n              </div>\n            </div>\n          </div>\n          <br>\n\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n\n          <!--row header right (contamac / hydrapeg / insertors)-->\n          <div class=\"row header-europa\">\n            <div class=\"col-lg-3\" *ngFor=\"let header of product.headerRight\">\n              <div class=\"row\" *ngIf =\"header.name !== 'Inserts (DMV)'\">\n                <label class=\"form-check-label\">{{ header.name | translate }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"header.type === 'selected' && header.name !== 'Inserts (DMV)'\">\n                  <ng-select (change)=\"changeSelect('right', header, $event,0)\" [items]=\"header.values\" [disabled]=\"!product.eyeRight\"\n                    [(ngModel)]=\"header.sel\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [required]=\"product.eyeRight\"\n                    [clearable]=\"false\">\n                    <ng-template ng-label-tmp let-item=\"item\">\n                      <div class=\"supplier-body\">\n                        <span>{{ item | translate }}</span>\n                      </div>\n                    </ng-template>\n                    <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                      <div class=\"supplier-body\">\n                        <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                      </div>\n                    </ng-template>\n                  </ng-select>\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3 prices\">\n              <p>\n                <span [hidden]=\"product.priceSaleRight===0\">\n                  {{ product.priceSaleRight | currency : \"USD $\" }}\n                </span>\n              </p>\n            </div>\n          </div>\n\n          <!--params right-->\n          <div class=\"row\">\n            <!--quantity right-->\n            <div class=\"col-lg-3\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"true\" [required]=\"product.eyeRight\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3\" *ngFor=\"let parameter of product.parametersRight; let indexRight = index\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\" *ngIf=\"parameter.type !== 'selected-double'\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n\n                <div class=\"row label notch-lbl\" *ngIf=\"parameter.type === 'selected-double'\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>\n                  <label class=\"form-check-label\">{{ parameter.values[0].placeholder | translate }}</label>\n                  <label class=\"form-check-label\">{{ parameter.values[1].placeholder | translate }}</label>\n                </div>\n\n                <!--param values-->\n                <div class=\"row\">\n                  <div *ngIf=\"parameter.type === 'selected'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\"\n                               [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.sel\"\n                               bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                              <ng-option [value]=\"item\" [disabled]=\"disabledOption(item)\" *ngFor=\"let item of parameter.values\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <!--Only Power-->\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Power'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select [items]=\"['+', '-']\" [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\"\n                      [(ngModel)]=\"signPowerRight\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Sign' | translate }}\"\n                      [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeRight\" min=\"0.00\" step=\"0.01\">\n                  </div>\n\n                  <!--Only Base Curve-->\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Base Curve'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select [items]=\"['D', 'mm']\" [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\"\n                      [(ngModel)]=\"typeCurveRight\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Unit' | translate }}\"\n                      [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeRight\" min=\"00.00\" step=\"00.01\" (change)=\"parameter.selected = format(parameter.selected)\">\n                  </div>\n\n                  <!--Only Thickness-->\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Thickness'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeRight\" step=\"0.01\" (change)=\"changeSelect('right', parameter, parameter.selected,0)\">\n                  </div>\n\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve' && parameter.name !== 'Thickness'\"\n                    class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeRight\">\n                  </div>\n\n                  <div *ngIf=\"parameter.type === 'selected-double'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select #notchRight class=\"select-notch\" [items]=\"['Upper Temporal']\"\n                               [(ngModel)]=\"parameter.selectedNotchTime\" placeholder=\"{{ 'Select type' | translate }}\"\n                               [disabled]=\"!product.eyeRight\" [required]=\"parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0\"\n                               (click)=\"validateSelectedNotch(parameter)\" (clear)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\">\n                      <ng-template ng-option-tmp>\n                        <div class=\"main-info\">\n                          <div class=\"one-two\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-one.png'\" (click)=\"changeNotchTime('right', parameter, 'Upper Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-two.png'\" (click)=\"changeNotchTime('right', parameter, 'Upper Nasal')\">\n                          </div>\n                          <div clas=\"three-four\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-three.png'\" (click)=\"changeNotchTime('right', parameter, 'Lower Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-four.png'\" (click)=\"changeNotchTime('right', parameter, 'Lower Nasal')\">\n                          </div>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[0].placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.values[0].selected\" (change)=\"setNotch(parameter);changeSelect('right', parameter, parameter.values[0].selected,parameter.values[1].selected)\"  (keyup)=\"changeSelect('right', parameter, parameter.values[0].selected,parameter.values[1].selected)\"\n                      oninput=\"validity.valid||(value='');\" step=\"0.01\" [disabled]=\"!product.eyeRight\">\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[1].placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.values[1].selected\" (change)=\"setNotch(parameter);changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)\" (keyup)=\"changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)\"\n                      oninput=\"validity.valid||(value='');\" step=\"0.01\" [disabled]=\"!product.eyeRight\">\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <!--price right-->\n          <div class=\"row additional col-lg-12\">\n            <p *ngIf=\"(additionalHidrapeg || additionalNotch) && product.priceSaleRight!==0\">\n              <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;\n              <span *ngIf=\"additionalHidrapeg\">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : \" USD $\" }}</span>&nbsp;\n              <span *ngIf=\"additionalHidrapeg && additionalNotch\">| </span>\n              <span *ngIf=\"additionalNotch\">{{'Notch (mm)' | translate}}:{{ notch | currency : \" USD $\" }}</span>&nbsp;\n            </p>\n          </div>\n\n          <!--row steps right-->\n          <br>\n          <div class=\"row content-steps\">\n            <div class=\"col-lg-4 title\" *ngFor=\"let PC of product.pasosRight\">\n              <label class=\"form-check-label\">{{ PC.name }}</label>&nbsp;&nbsp;\n              <div class=\"row steeps\">\n                <div class=\"col-md-6 sub-label\" *ngFor=\"let paso of PC.values\">\n                  <label class=\"form-check-label\">{{ paso.name | translate }}</label>&nbsp;&nbsp;\n                  <div class=\"row\">\n                    <div *ngFor=\"let value of paso.values\" class=\"col-md-6 custom-control custom-checkbox\">\n                      <input class=\"custom-control-input\" type=\"checkbox\" id=\"{{ 'right' + PC.name + paso.name + value.name }}\"\n                        [(ngModel)]=\"value.selected\" (click)=\"setChecked(value, PC)\" [disabled]=\"!product.eyeRight\"\n                        [required]=\"product.eyeRight\">\n                      <label class=\"custom-control-label\" for=\"{{ 'right'  + PC.name + paso.name + value.name }}\">{{\n                        value.name | translate }}</label>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <br>\n        </div>\n\n        <!--comments-->\n        <br>\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row header\">\n              <div class=\"col-md-12\">\n                <div class=\"title\">{{ 'OD Comments' | translate }}</div>\n                <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\"\n                  [disabled]=\"!product.eyeRight\" placeholder=\"{{ 'Enter OD Observations' | translate }}\"></textarea>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n        <!--files-->\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row\">\n              <div class=\"col-md-12\">\n                <div class=\"\">\n                  <dt class=\"title\">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>\n                  <div class=\"custom-file\">\n                    <input #selectedFilesRightEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderRightEye\"\n                      [disabled]=\"!product.eyeRight || uploaderRightEye.queue.length > 4\" multiple />\n                    <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                    <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                    <div class=\"message-error-file\">\n                      <span translate>{{'Max files size:' | translate}} 25MB</span>\n                      <span> / </span>\n                      <span translate>{{'Maximum files number:' | translate }} 5</span>\n                    </div>\n                  </div>\n                </div>\n                <br>\n                <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderRightEye.queue.length > 0\">\n                  <div class=\"row justify-content-end\" *ngIf=\"uploaderRightEye.queue.length > 1\">\n                    <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderRightEye.clearQueue()\" [disabled]=\"!uploaderRightEye.queue.length\">\n                      <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                    </button>\n                  </div>\n                  <br>\n                  <table class=\"table\">\n                    <thead>\n                      <tr>\n                        <th width=\"50%\">{{ 'Name' | translate }}</th>\n                        <th>{{ 'Size' | translate }}</th>\n                        <th>{{ 'Actions' | translate }}</th>\n                      </tr>\n                    </thead>\n                    <tbody>\n                      <tr *ngFor=\"let item of uploaderRightEye.queue\">\n                        <td><strong>{{ item?.file?.name }}</strong></td>\n                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                        <td nowrap>\n                          <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Right')\">\n                            <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                          </button>\n                        </td>\n                      </tr>\n                    </tbody>\n                  </table>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n\n\n          <div class=\"row title\">{{ 'Trial Lens Used' | translate }}</div>\n          <div class=\"row\">\n            <div class=\"col-lg-3\" *ngFor=\"let itemSet of product.setLeft\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"itemSet.type === 'selected'\">\n                  <ng-select (change)=\"changeSelect('left', itemSet, $event,0)\" [disabled]=\"!product.eyeLeft\"\n                    [(ngModel)]=\"itemSet.sel\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n                    [clearable]=\"true\">\n                    <ng-option [value]=\"item\" [disabled]=\"disabledOption(item)\" *ngFor=\"let item of itemSet.values\">{{ item | translate }}</ng-option>\n                  </ng-select>\n                </div>\n\n                <!--Only Power-->\n                <div *ngIf=\"itemSet.type === 'input' && itemSet.name === 'Power'\" class=\"select-values param-flex col-sm-12\">\n                  <ng-select [items]=\"['+', '-']\" [disabled]=\"!product.eyeLeft\"\n                    [(ngModel)]=\"signPowerLeftTrial\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Sign' | translate }}\"\n                    [clearable]=\"true\">\n                    {{item}}\n                  </ng-select>\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ itemSet.placeholder | translate }}\"\n                    [(ngModel)]=\"itemSet.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeLeft\" min=\"0.00\" step=\"0.01\">\n                </div>\n\n\n                <!--Only Base Curve-->\n                <div *ngIf=\"itemSet.type === 'input' && itemSet.name === 'Base Curve'\" class=\"select-values param-flex col-sm-12\">\n                  <ng-select [items]=\"['D', 'mm']\" [disabled]=\"!product.eyeLeft\"\n                    [(ngModel)]=\"typeCurveLeftTrial\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Unit' | translate }}\"\n                    [clearable]=\"true\">\n                    {{item}}\n                  </ng-select>\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ itemSet.placeholder | translate }}\" [(ngModel)]=\"itemSet.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeLeft\" min=\"00.00\" step=\"00.01\" (change)=\"itemSet.selected = format(itemSet.selected)\">\n                </div>\n              </div>\n            </div>\n          </div>\n          <br>\n\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n\n          <!--row header left (contamac / hydrapeg / insertors)-->\n          <div class=\"row header-europa\">\n            <div class=\"col-lg-3\" *ngFor=\"let header of product.headerLeft\">\n              <div class=\"row\" *ngIf=\"header.name !== 'Inserts (DMV)'\">\n                <label class=\"form-check-label\">{{ header.name }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"header.type === 'selected' && header.name !== 'Inserts (DMV)'\">\n                  <ng-select (change)=\"changeSelect('left', header, $event,0)\" [items]=\"header.values\" [disabled]=\"!product.eyeLeft\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"header.sel\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n                    [clearable]=\"false\">\n                    <ng-template ng-label-tmp let-item=\"item\">\n                      <div class=\"supplier-body\">\n                        <span>{{ item | translate }}</span>\n                      </div>\n                    </ng-template>\n                    <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                      <div class=\"supplier-body\">\n                        <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                      </div>\n                    </ng-template>\n                  </ng-select>\n                </div>\n              </div>\n            </div>\n\n            <div class=\"col-lg-2 prices\">\n              <p>\n                <span [hidden]=\"product.priceSaleLeft===0\">\n                  {{ product.priceSaleLeft | currency : \"USD $\" }}\n                </span>\n              </p>\n            </div>\n          </div>\n\n          <!--params left-->\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-3\">\n              <div class=\"row \">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityLeft\" [required]=\"product.eyeLeft\"\n                    oninput=\"validity.valid||(value='');\" [disabled]=\"true\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <div *ngIf=\"parameter.type === 'selected'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.sel\"\n                                bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      <ng-option [value]=\"item\" [disabled]=\"disabledOption(item)\" *ngFor=\"let item of parameter.values\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <!--Only Power-->\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Power'\" class=\"select-values col-sm-12 param-flex\">\n                    <ng-select [items]=\"['+', '-']\" [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\"\n                      [(ngModel)]=\"signPowerLeft\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Sign' | translate }}\"\n                      [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeLeft\" min=\"0.00\" step=\"0.01\">\n                  </div>\n\n                  <!--Only Base Curve-->\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Base Curve'\" class=\"select-values param-flex col-sm-12\">\n                     <ng-select [items]=\"['D', 'mm']\" [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\"\n                      [(ngModel)]=\"typeCurveLeft\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Unit' | translate }}\"\n                      [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeLeft\" min=\"00.00\" step=\"00.01\" (change)=\"parameter.selected = format(parameter.selected)\">\n                  </div>\n\n                  <!--Only Thickness-->\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Thickness'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeLeft\" step=\"0.01\" (change)=\"changeSelect('left', parameter, parameter.selected,0)\">\n                  </div>\n\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name !== 'Power' && parameter.name !== 'Base Curve' && parameter.name !== 'Thickness'\"\n                    class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeLeft\">\n                  </div>\n\n                  <div *ngIf=\"parameter.type === 'selected-double'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select #notchLeft class=\"select-notch\" [items]=\"['Upper Temporal']\"\n                               [(ngModel)]=\"parameter.selectedNotchTime\" placeholder=\"{{ 'Select type' | translate }}\"\n                               [disabled]=\"!product.eyeLeft\" [required]=\"parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0\"\n                               (clear)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\">\n                      <ng-template ng-option-tmp>\n                        <div class=\"main-info\">\n                          <div class=\"one-two\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-one.png'\" (click)=\"changeNotchTime('left', parameter, 'Upper Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-two.png'\" (click)=\"changeNotchTime('left', parameter, 'Upper Nasal')\">\n                          </div>\n                          <div clas=\"three-four\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-three.png'\" (click)=\"changeNotchTime('left', parameter, 'Lower Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-four.png'\" (click)=\"changeNotchTime('left', parameter, 'Lower Nasal')\">\n                          </div>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[0].placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.values[0].selected\" step=\"0.01\" (change)=\"setNotch(parameter);changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)\" (keyup)=\"changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)\"\n                      oninput=\"validity.valid||(value='');\" [disabled]=\"!product.eyeLeft\">\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[1].placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.values[1].selected\" step=\"0.01\" (change)=\"setNotch(parameter);changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)\" (keyup)=\"changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)\"\n                      oninput=\"validity.valid||(value='');\" [disabled]=\"!product.eyeLeft\">\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <!--price left-->\n          <div class=\"row additional col-lg-12\">\n            <p *ngIf=\"(additionalHidrapegL || additionalNotchL) && product.priceSaleLeft!==0\">\n              <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;\n              <span *ngIf=\"additionalHidrapegL\">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : \" USD $\" }}</span>&nbsp;\n              <span *ngIf=\"additionalHidrapegL && additionalNotchL\">| </span>\n              <span *ngIf=\"additionalNotchL\">{{'Notch (mm)' | translate}}:{{ notch | currency : \" USD $\" }}</span>&nbsp;\n            </p>\n          </div>\n\n          <!--row steps left-->\n          <br>\n          <div class=\"row content-steps\">\n            <div class=\"col-lg-4 title\" *ngFor=\"let PC of product.pasosLeft\">\n              <label class=\"form-check-label\">{{ PC.name }}</label>&nbsp;&nbsp;\n              <div class=\"row steeps\">\n                <div class=\"col-md-6 sub-label\" *ngFor=\"let paso of PC.values\">\n                  <label class=\"form-check-label\">{{ paso.name | translate }}</label>&nbsp;&nbsp;\n                  <div class=\"row\">\n                    <div *ngFor=\"let value of paso.values\" class=\"col-md-6 custom-control custom-checkbox\">\n                      <input class=\"custom-control-input\" type=\"checkbox\" id=\"{{ 'left' + PC.name + paso.name + value.name }}\"\n                        [required]=\"product.eyeLeft\" [(ngModel)]=\"value.selected\" (click)=\"setChecked(value, PC)\"\n                        [disabled]=\"!product.eyeLeft\">\n                      <label class=\"custom-control-label\" for=\"{{ 'left'  + PC.name + paso.name + value.name }}\">{{\n                        value.name | translate }}</label>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n         <!--comments-->\n         <br>\n         <div class=\"col-md-12\">\n           <div class=\"comments\">\n             <div class=\"row header\">\n               <div class=\"col-md-12\">\n                 <div class=\"title\">{{ 'OS Comments' | translate }}</div>\n                 <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\"\n                   [disabled]=\"!product.eyeLeft\" placeholder=\"{{ 'Enter OS Observations' | translate }}\"></textarea>\n               </div>\n             </div>\n             <br>\n           </div>\n         </div>\n         <!--files-->\n         <div class=\"col-md-12\">\n           <div class=\"comments\">\n             <div class=\"row\">\n               <div class=\"col-md-12\">\n                 <div class=\"\">\n                   <dt class=\"title\">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>\n                   <div class=\"custom-file\">\n                     <input #selectedFilesLeftEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderLeftEye\"\n                       [disabled]=\"!product.eyeLeft || uploaderLeftEye.queue.length > 4\" multiple />\n                     <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                     <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                     <div class=\"message-error-file\">\n                       <span translate>{{'Max files size:' | translate}} 25MB</span>\n                       <span> / </span>\n                       <span translate>{{'Maximum files number:' | translate }} 5</span>\n                     </div>\n                   </div>\n                 </div>\n                 <br>\n                 <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderLeftEye.queue.length > 0\">\n                   <div class=\"row justify-content-end\" *ngIf=\"uploaderLeftEye.queue.length > 1\">\n                     <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderLeftEye.clearQueue()\" [disabled]=\"!uploaderLeftEye.queue.length\">\n                       <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                     </button>\n                   </div>\n                   <br>\n                   <table class=\"table\">\n                     <thead>\n                       <tr>\n                         <th width=\"50%\">{{ 'Name' | translate }}</th>\n                         <th>{{ 'Size' | translate }}</th>\n                         <th>{{ 'Actions' | translate }}</th>\n                       </tr>\n                     </thead>\n                     <tbody>\n                       <tr *ngFor=\"let item of uploaderLeftEye.queue\">\n                         <td><strong>{{ item?.file?.name }}</strong></td>\n                         <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                         <td nowrap>\n                           <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Left')\">\n                             <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                           </button>\n                         </td>\n                       </tr>\n                     </tbody>\n                   </table>\n                 </div>\n               </div>\n             </div>\n           </div>\n         </div>\n\n\n\n\n      </div>\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div> -->\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"col-md-3\">\n          <dt>{{ 'Material' | translate }}</dt>\n          <dd>\n            <a>{{ product.material }}</a>\n          </dd>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Replacemente Period' | translate }}</dt>\n          <p>{{ product.replacementPeriod | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Warranty' | translate }}</dt>\n          <p>{{ product.warranty }} {{ 'days' | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ product.url }}\" target=\"_blank\">{{ 'Download' | translate}}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"20\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" [(ngModel)]=\"product.client\"\n              disabled required>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\"\n              required>\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n        <div class=\"col-lg-5\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}:</span>\n          <div class=\"row info-content\">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specific your product' | translate }}</label>\n          <div class=\"col-lg-3\" *ngFor=\"let header of product.headerRight\">\n            <div class=\"row\" *ngIf =\"header.name === 'Inserts (DMV)'\">\n              <label class=\"form-check-label\">{{ header.name | translate }}</label>&nbsp;&nbsp;\n            </div>\n            <div class=\"row\">\n              <div class=\"select-values col-sm-12\" *ngIf=\"header.type === 'selected' && header.name === 'Inserts (DMV)'\">\n                <ng-select (change)=\"changeSelect('right', header, $event,0)\" [items]=\"header.values\"\n                  [(ngModel)]=\"header.sel\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [required]=\"true\"\n                  [clearable]=\"false\">\n                  <ng-template ng-label-tmp let-item=\"item\">\n                    <div class=\"supplier-body\">\n                      <span>{{ item | translate }}</span>\n                    </div>\n                  </ng-template>\n                  <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                    <div class=\"supplier-body\">\n                      <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                    </div>\n                  </ng-template>\n                </ng-select>\n              </div>\n\n            </div>\n          </div>\n          <div class=\"row additional col-lg-12\">\n            <p *ngIf=\"additionalInserts === true && membership !== 0\">\n              <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;\n              <span>{{'Inserts (DMV)' | translate}}:{{ inserts | currency : \" USD $\" }}</span>&nbsp;\n            </p>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header-params\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n\n          <div class=\"row type-lens\">\n            <span class=\"title\">{{ 'Type' | translate }}:</span>\n            <div *ngFor=\"let value of typeLensRight.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-{{i}}\" name=\"radioTypeLensRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" (change)=\"changeTypeLens('right', value)\" class=\"custom-control-input\" [checked]=\"typeLensRight.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row title\" *ngIf=\"typeLensRight.selected === 'Please design my lens'\">{{ 'Trial Lens Used' | translate }}</div>\n          <div class=\"row\" *ngIf=\"typeLensRight.selected === 'Please design my lens'\">\n            <div class=\"col-lg-3\" *ngFor=\"let itemSet of product.setRight\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"itemSet.type === 'selected'\">\n                  <ng-select (change)=\"changeSelect('right', itemSet, $event,0)\" [disabled]=\"!product.eyeRight\" [(ngModel)]=\"itemSet.sel\"\n                             bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\"\n                             [required]=\"product.eyeRight\">\n                    <ng-option [value]=\"item\" [disabled]=\"disabledOption(item)\" *ngFor=\"let item of itemSet.values\">{{ item | translate }}</ng-option>\n                  </ng-select>\n                </div>\n\n                <!--Only Power-->\n                <div *ngIf=\"itemSet.type === 'input' && itemSet.name === 'Power'\" class=\"select-values param-flex col-sm-12\">\n                  <ng-select [items]=\"['+', '-']\" [disabled]=\"!product.eyeRight\"\n                    [(ngModel)]=\"signPowerRightTrial\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Sign' | translate }}\"\n                    [clearable]=\"false\" [required]=\"product.eyeRight\">\n                    {{item}}\n                  </ng-select>\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ itemSet.placeholder | translate }}\"\n                    [(ngModel)]=\"itemSet.selected\" oninput=\"validity.valid||(value='');\" [required]=\"product.eyeRight\"\n                    [disabled]=\"!product.eyeRight\" min=\"0.00\" step=\"0.01\">\n                </div>\n\n                <!--Only Base Curve-->\n                <div *ngIf=\"itemSet.type === 'input' && itemSet.name === 'Base Curve'\" class=\"select-values param-flex col-sm-12\">\n                  <ng-select [items]=\"['D', 'mm']\" [disabled]=\"!product.eyeRight\"\n                    [(ngModel)]=\"typeCurveRightTrial\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Unit' | translate }}\"\n                    [clearable]=\"false\" [required]=\"product.eyeRight\">\n                    {{item}}\n                  </ng-select>\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ itemSet.placeholder | translate }}\" [(ngModel)]=\"itemSet.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeRight\" min=\"00.00\" step=\"00.01\" (change)=\"itemSet.selected = format(itemSet.selected)\" [required]=\"product.eyeRight\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n\n          <!--row header right (contamac / hydrapeg / insertors)-->\n          <div class=\"row header-europa\">\n            <div class=\"col-lg-3\" *ngFor=\"let header of product.headerRight\">\n              <div class=\"row\" *ngIf =\"header.name !== 'Inserts (DMV)'\">\n                <label class=\"form-check-label\">{{ header.name | translate }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"header.type === 'selected' && header.name !== 'Inserts (DMV)'\">\n                  <ng-select (change)=\"changeSelect('right', header, $event,0)\" [items]=\"header.values\" [disabled]=\"!product.eyeRight\"\n                    [(ngModel)]=\"header.sel\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [required]=\"product.eyeRight\"\n                    [clearable]=\"false\">\n                    <ng-template ng-label-tmp let-item=\"item\">\n                      <div class=\"supplier-body\">\n                        <span>{{ item | translate }}</span>\n                      </div>\n                    </ng-template>\n                    <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                      <div class=\"supplier-body\">\n                        <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                      </div>\n                    </ng-template>\n                  </ng-select>\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3 prices\">\n              <p>\n                <span [hidden]=\"product.priceSaleRight===0\">\n                  {{ product.priceSaleRight | currency : \"USD $\" }}\n                </span>\n              </p>\n            </div>\n          </div>\n\n          <!--params right-->\n          <div class=\"row\">\n            <!--quantity right-->\n            <div class=\"col-lg-3\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"true\" [required]=\"product.eyeRight\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3 padding-params\" *ngFor=\"let parameter of product.parametersRight; let indexRight = index\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\" *ngIf=\"parameter.type !== 'selected-double'\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n\n                <div class=\"row label notch-lbl\" *ngIf=\"parameter.type === 'selected-double'\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>\n                  <label class=\"form-check-label\">{{ parameter.values[0].placeholder | translate }}</label>\n                  <label class=\"form-check-label\">{{ parameter.values[1].placeholder | translate }}</label>\n                </div>\n\n                <!--param values-->\n                <div class=\"row\">\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Axes (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\"\n                               [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.sel\"\n                               bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                              <ng-option [value]=\"item\" [disabled]=\"disabledOption(item)\" *ngFor=\"let item of parameter.values\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <!--Only Power-->\n                  <div *ngIf=\"parameter.type === 'input' && isPower(parameter)\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select [items]=\"['+', '-']\" [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\"\n                      [(ngModel)]=\"signPowerRight\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Sign' | translate }}\"\n                      [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeRight\" min=\"0.00\" step=\"0.01\">\n                  </div>\n                  <div class=\"message-power\" *ngIf=\"!!product.eyeRight && parameter.type === 'input' && isPower(parameter) && typeLensRight.selected === 'Final Lens'\">\n                    <span translate>If you want us to calculate it, refer to the consulting format</span>\n                  </div>\n\n                  <!--Only Base Curve-->\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Base Curve'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select [items]=\"['D', 'mm']\" [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\"\n                      [(ngModel)]=\"typeCurveRight\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Unit' | translate }}\"\n                      [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeRight\" min=\"00.00\" step=\"00.01\" (change)=\"parameter.selected = format(parameter.selected)\">\n                  </div>\n\n                  <!--Only Thickness-->\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Thickness'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeRight\" step=\"0.01\" (change)=\"changeSelect('right', parameter, parameter.selected,0)\">\n                  </div>\n\n                  <!--Only Axes-->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Axes (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\"\n                               [disabled]=\"!product.eyeRight || !axesRequired('right')\" [required]=\"product.eyeRight && axesRequired('right')\" [(ngModel)]=\"parameter.sel\"\n                               bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                              <ng-option [value]=\"item\" [disabled]=\"disabledOption(item)\" *ngFor=\"let item of axesValues('right')\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <div *ngIf=\"parameter.type === 'input' && !isPower(parameter) && parameter.name !== 'Base Curve' && parameter.name !== 'Thickness'\"\n                    class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeRight\">\n                  </div>\n\n                  <div *ngIf=\"parameter.type === 'selected-double'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select #notchRight class=\"select-notch\" [items]=\"['Upper Temporal']\"\n                               [(ngModel)]=\"parameter.selectedNotchTime\" placeholder=\"{{ 'Select type' | translate }}\"\n                               [disabled]=\"!product.eyeRight\" [required]=\"parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0\"\n                               (click)=\"validateSelectedNotch(parameter)\" (clear)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\">\n                      <ng-template ng-option-tmp>\n                        <div class=\"main-info\">\n                          <div class=\"one-two\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-one.png'\" (click)=\"changeNotchTime('right', parameter, 'Upper Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-two.png'\" (click)=\"changeNotchTime('right', parameter, 'Upper Nasal')\">\n                          </div>\n                          <div clas=\"three-four\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-three.png'\" (click)=\"changeNotchTime('right', parameter, 'Lower Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-four.png'\" (click)=\"changeNotchTime('right', parameter, 'Lower Nasal')\">\n                          </div>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[0].placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.values[0].selected\" (change)=\"setNotch(parameter);changeSelect('right', parameter, parameter.values[0].selected,parameter.values[1].selected)\"  (keyup)=\"changeSelect('right', parameter, parameter.values[0].selected,parameter.values[1].selected)\"\n                      oninput=\"validity.valid||(value='');\" step=\"0.01\" [disabled]=\"!product.eyeRight\">\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[1].placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.values[1].selected\" (change)=\"setNotch(parameter);changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)\" (keyup)=\"changeSelect('right', parameter, parameter.values[1].selected,parameter.values[0].selected)\"\n                      oninput=\"validity.valid||(value='');\" step=\"0.01\" [disabled]=\"!product.eyeRight\">\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <!--price right-->\n          <div class=\"row additional col-lg-12\">\n            <p *ngIf=\"(additionalHidrapeg || additionalNotch) && product.priceSaleRight!==0\">\n              <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;\n              <span *ngIf=\"additionalHidrapeg\">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : \" USD $\" }}</span>&nbsp;\n              <span *ngIf=\"additionalHidrapeg && additionalNotch\">| </span>\n              <span *ngIf=\"additionalNotch\">{{'Notch (mm)' | translate}}:{{ notch | currency : \" USD $\" }}</span>&nbsp;\n            </p>\n          </div>\n\n          <!--row steps right-->\n          <br>\n          <div class=\"row type-steps\">\n            <span class=\"title\">{{ 'Steps' | translate }}:</span>\n            <div *ngFor=\"let value of typeStepsRight.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-steps-{{i}}\" name=\"radioTypeStepsRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" (change)=\"changeTypeSteps('right', value)\" class=\"custom-control-input\" [checked]=\"typeStepsRight.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-steps-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n          <div class=\"row content-steps\">\n            <div class=\"col-lg-4 title\" *ngFor=\"let PC of product.pasosRight\">\n              <label class=\"form-check-label\">{{ PC.name }}</label>&nbsp;&nbsp;\n              <div class=\"row steeps\">\n                <div class=\"col-md-6 sub-label\" *ngFor=\"let paso of PC.values\">\n                  <label class=\"form-check-label\">{{ paso.name | translate }}</label>&nbsp;&nbsp;\n                  <div class=\"row\">\n                    <div *ngFor=\"let value of paso.values\" class=\"col-md-6 custom-control custom-checkbox\">\n                      <input class=\"custom-control-input\" type=\"checkbox\" id=\"{{ 'right' + PC.name + paso.name + value.name }}\"\n                        [(ngModel)]=\"value.selected\" (click)=\"setChecked(value, PC)\" [disabled]=\"!product.eyeRight\"\n                        [required]=\"product.eyeRight\">\n                      <label class=\"custom-control-label\" for=\"{{ 'right'  + PC.name + paso.name + value.name }}\">{{\n                        value.name | translate }}</label>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <br>\n        </div>\n\n        <!--comments-->\n        <br>\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row header\">\n              <div class=\"col-md-12\">\n                <div class=\"title\">{{ 'OD Comments' | translate }}</div>\n                <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\"\n                  [disabled]=\"!product.eyeRight\" placeholder=\"{{ 'Enter OD Observations' | translate }}\"></textarea>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n        <!--files-->\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row\">\n              <div class=\"col-md-12\">\n                <div class=\"\">\n                  <dt class=\"title\">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>\n                  <div class=\"custom-file\">\n                    <input #selectedFilesRightEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderRightEye\"\n                      [disabled]=\"!product.eyeRight || uploaderRightEye.queue.length > 4\" multiple />\n                    <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                    <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                    <div class=\"message-error-file\">\n                      <span translate>{{'Max files size:' | translate}} 25MB</span>\n                      <span> / </span>\n                      <span translate>{{'Maximum files number:' | translate }} 5</span>\n                    </div>\n                  </div>\n                </div>\n                <br>\n                <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderRightEye.queue.length > 0\">\n                  <div class=\"row justify-content-end\" *ngIf=\"uploaderRightEye.queue.length > 1\">\n                    <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderRightEye.clearQueue()\" [disabled]=\"!uploaderRightEye.queue.length\">\n                      <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                    </button>\n                  </div>\n                  <br>\n                  <table class=\"table\">\n                    <thead>\n                      <tr>\n                        <th width=\"50%\">{{ 'Name' | translate }}</th>\n                        <th>{{ 'Size' | translate }}</th>\n                        <th>{{ 'Actions' | translate }}</th>\n                      </tr>\n                    </thead>\n                    <tbody>\n                      <tr *ngFor=\"let item of uploaderRightEye.queue\">\n                        <td><strong>{{ item?.file?.name }}</strong></td>\n                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                        <td nowrap>\n                          <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Right')\">\n                            <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                          </button>\n                        </td>\n                      </tr>\n                    </tbody>\n                  </table>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n\n          <div class=\"row type-lens\">\n            <span class=\"title\">{{ 'Type' | translate }}:</span>\n            <div *ngFor=\"let value of typeLensLeft.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-left-{{i}}\" name=\"radioTypeLensLeft\"  [disabled]=\"!product.eyeLeft\" [value]=\"value\" (change)=\"changeTypeLens('left', value)\" class=\"custom-control-input\" [checked]=\"typeLensLeft.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-left-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row title\" *ngIf=\"typeLensLeft.selected === 'Please design my lens'\">{{ 'Trial Lens Used' | translate }}</div>\n          <div class=\"row\" *ngIf=\"typeLensLeft.selected === 'Please design my lens'\">\n            <div class=\"col-lg-3\" *ngFor=\"let itemSet of product.setLeft\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"itemSet.type === 'selected'\">\n                  <ng-select (change)=\"changeSelect('left', itemSet, $event,0)\" [disabled]=\"!product.eyeLeft\"\n                    [(ngModel)]=\"itemSet.sel\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n                    [clearable]=\"false\" [required]=\"product.eyeLeft\">\n                    <ng-option [value]=\"item\" [disabled]=\"disabledOption(item)\" *ngFor=\"let item of itemSet.values\">{{ item | translate }}</ng-option>\n                  </ng-select>\n                </div>\n\n                <!--Only Power-->\n                <div *ngIf=\"itemSet.type === 'input' && itemSet.name === 'Power'\" class=\"select-values param-flex col-sm-12\">\n                  <ng-select [items]=\"['+', '-']\" [disabled]=\"!product.eyeLeft\"\n                    [(ngModel)]=\"signPowerLeftTrial\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Sign' | translate }}\"\n                    [clearable]=\"false\" [required]=\"product.eyeLeft\">\n                    {{item}}\n                  </ng-select>\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ itemSet.placeholder | translate }}\"\n                    [(ngModel)]=\"itemSet.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\" min=\"0.00\" step=\"0.01\">\n                </div>\n\n\n                <!--Only Base Curve-->\n                <div *ngIf=\"itemSet.type === 'input' && itemSet.name === 'Base Curve'\" class=\"select-values param-flex col-sm-12\">\n                  <ng-select [items]=\"['D', 'mm']\" [disabled]=\"!product.eyeLeft\"\n                    [(ngModel)]=\"typeCurveLeftTrial\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Unit' | translate }}\"\n                    [clearable]=\"false\" [required]=\"product.eyeLeft\">\n                    {{item}}\n                  </ng-select>\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ itemSet.placeholder | translate }}\" [(ngModel)]=\"itemSet.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeLeft\" min=\"00.00\" step=\"00.01\" (change)=\"itemSet.selected = format(itemSet.selected)\" [required]=\"product.eyeLeft\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n\n          <!--row header left (contamac / hydrapeg / insertors)-->\n          <div class=\"row header-europa\">\n            <div class=\"col-lg-3\" *ngFor=\"let header of product.headerLeft\">\n              <div class=\"row\" *ngIf=\"header.name !== 'Inserts (DMV)'\">\n                <label class=\"form-check-label\">{{ header.name }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"header.type === 'selected' && header.name !== 'Inserts (DMV)'\">\n                  <ng-select (change)=\"changeSelect('left', header, $event,0)\" [items]=\"header.values\" [disabled]=\"!product.eyeLeft\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"header.sel\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n                    [clearable]=\"false\">\n                    <ng-template ng-label-tmp let-item=\"item\">\n                      <div class=\"supplier-body\">\n                        <span>{{ item | translate }}</span>\n                      </div>\n                    </ng-template>\n                    <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                      <div class=\"supplier-body\">\n                        <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                      </div>\n                    </ng-template>\n                  </ng-select>\n                </div>\n              </div>\n            </div>\n\n            <div class=\"col-lg-2 prices\">\n              <p>\n                <span [hidden]=\"product.priceSaleLeft===0\">\n                  {{ product.priceSaleLeft | currency : \"USD $\" }}\n                </span>\n              </p>\n            </div>\n          </div>\n\n          <!--params left-->\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-3\">\n              <div class=\"row \">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityLeft\" [required]=\"product.eyeLeft\"\n                    oninput=\"validity.valid||(value='');\" [disabled]=\"true\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3 padding-params\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Axes (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.sel\"\n                                bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      <ng-option [value]=\"item\" [disabled]=\"disabledOption(item)\" *ngFor=\"let item of parameter.values\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <!--Only Power-->\n                  <div *ngIf=\"parameter.type === 'input' && isPower(parameter)\" class=\"select-values col-sm-12 param-flex\">\n                    <ng-select [items]=\"['+', '-']\" [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\"\n                      [(ngModel)]=\"signPowerLeft\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Sign' | translate }}\"\n                      [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeLeft\" min=\"0.00\" step=\"0.01\">\n                  </div>\n                  <div class=\"message-power\" *ngIf=\"!!product.eyeLeft && parameter.type === 'input' && isPower(parameter) && typeLensLeft.selected === 'Final Lens'\">\n                    <span translate>If you want us to calculate it, refer to the consulting format</span>\n                  </div>\n\n                  <!--Only Base Curve-->\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Base Curve'\" class=\"select-values param-flex col-sm-12\">\n                     <ng-select [items]=\"['D', 'mm']\" [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\"\n                      [(ngModel)]=\"typeCurveLeft\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Unit' | translate }}\"\n                      [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeLeft\" min=\"00.00\" step=\"00.01\" (change)=\"parameter.selected = format(parameter.selected)\">\n                  </div>\n\n                  <!--Only Thickness-->\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Thickness'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeLeft\" step=\"0.01\" (change)=\"changeSelect('left', parameter, parameter.selected,0)\">\n                  </div>\n\n                  <!--Only Axes-->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Axes (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [disabled]=\"!product.eyeLeft || !axesRequired('left')\" [required]=\"product.eyeLeft && axesRequired('left')\" [(ngModel)]=\"parameter.sel\"\n                                bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      <ng-option [value]=\"item\" [disabled]=\"disabledOption(item)\" *ngFor=\"let item of axesValues('left')\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <div *ngIf=\"parameter.type === 'input' && !isPower(parameter) && parameter.name !== 'Base Curve' && parameter.name !== 'Thickness'\"\n                    class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                      [disabled]=\"!product.eyeLeft\">\n                  </div>\n\n                  <div *ngIf=\"parameter.type === 'selected-double'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select #notchLeft class=\"select-notch\" [items]=\"['Upper Temporal']\"\n                               [(ngModel)]=\"parameter.selectedNotchTime\" placeholder=\"{{ 'Select type' | translate }}\"\n                               [disabled]=\"!product.eyeLeft\" [required]=\"parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0\"\n                               (clear)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\">\n                      <ng-template ng-option-tmp>\n                        <div class=\"main-info\">\n                          <div class=\"one-two\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-one.png'\" (click)=\"changeNotchTime('left', parameter, 'Upper Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-two.png'\" (click)=\"changeNotchTime('left', parameter, 'Upper Nasal')\">\n                          </div>\n                          <div clas=\"three-four\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-three.png'\" (click)=\"changeNotchTime('left', parameter, 'Lower Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-four.png'\" (click)=\"changeNotchTime('left', parameter, 'Lower Nasal')\">\n                          </div>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[0].placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.values[0].selected\" step=\"0.01\" (change)=\"setNotch(parameter);changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)\" (keyup)=\"changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)\"\n                      oninput=\"validity.valid||(value='');\" [disabled]=\"!product.eyeLeft\">\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[1].placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.values[1].selected\" step=\"0.01\" (change)=\"setNotch(parameter);changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)\" (keyup)=\"changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)\"\n                      oninput=\"validity.valid||(value='');\" [disabled]=\"!product.eyeLeft\">\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <!--price left-->\n          <div class=\"row additional col-lg-12\">\n            <p *ngIf=\"(additionalHidrapegL || additionalNotchL) && product.priceSaleLeft!==0\">\n              <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;\n              <span *ngIf=\"additionalHidrapegL\">{{'Hidrapeg' | translate}}:{{ hidrapeg | currency : \" USD $\" }}</span>&nbsp;\n              <span *ngIf=\"additionalHidrapegL && additionalNotchL\">| </span>\n              <span *ngIf=\"additionalNotchL\">{{'Notch (mm)' | translate}}:{{ notch | currency : \" USD $\" }}</span>&nbsp;\n            </p>\n          </div>\n\n          <!--row steps left-->\n          <br>\n          <div class=\"row type-steps\">\n            <span class=\"title\">{{ 'Steps' | translate }}:</span>\n            <div *ngFor=\"let value of typeStepsLeft.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-steps-left-{{i}}\" name=\"radioTypeStepsLeft\"  [disabled]=\"!product.eyeLeft\" [value]=\"value\" (change)=\"changeTypeSteps('left', value)\" class=\"custom-control-input\" [checked]=\"typeStepsLeft.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-steps-left-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n          <div class=\"row content-steps\">\n            <div class=\"col-lg-4 title\" *ngFor=\"let PC of product.pasosLeft\">\n              <label class=\"form-check-label\">{{ PC.name }}</label>&nbsp;&nbsp;\n              <div class=\"row steeps\">\n                <div class=\"col-md-6 sub-label\" *ngFor=\"let paso of PC.values\">\n                  <label class=\"form-check-label\">{{ paso.name | translate }}</label>&nbsp;&nbsp;\n                  <div class=\"row\">\n                    <div *ngFor=\"let value of paso.values\" class=\"col-md-6 custom-control custom-checkbox\">\n                      <input class=\"custom-control-input\" type=\"checkbox\" id=\"{{ 'left' + PC.name + paso.name + value.name }}\"\n                        [required]=\"product.eyeLeft\" [(ngModel)]=\"value.selected\" (click)=\"setChecked(value, PC)\"\n                        [disabled]=\"!product.eyeLeft\">\n                      <label class=\"custom-control-label\" for=\"{{ 'left'  + PC.name + paso.name + value.name }}\">{{\n                        value.name | translate }}</label>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n         <!--comments-->\n         <br>\n         <div class=\"col-md-12\">\n           <div class=\"comments\">\n             <div class=\"row header\">\n               <div class=\"col-md-12\">\n                 <div class=\"title\">{{ 'OS Comments' | translate }}</div>\n                 <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\"\n                   [disabled]=\"!product.eyeLeft\" placeholder=\"{{ 'Enter OS Observations' | translate }}\"></textarea>\n               </div>\n             </div>\n             <br>\n           </div>\n         </div>\n         <!--files-->\n         <div class=\"col-md-12\">\n           <div class=\"comments\">\n             <div class=\"row\">\n               <div class=\"col-md-12\">\n                 <div class=\"\">\n                   <dt class=\"title\">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>\n                   <div class=\"custom-file\">\n                     <input #selectedFilesLeftEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderLeftEye\"\n                       [disabled]=\"!product.eyeLeft || uploaderLeftEye.queue.length > 4\" multiple />\n                     <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                     <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                     <div class=\"message-error-file\">\n                       <span translate>{{'Max files size:' | translate}} 25MB</span>\n                       <span> / </span>\n                       <span translate>{{'Maximum files number:' | translate }} 5</span>\n                     </div>\n                   </div>\n                 </div>\n                 <br>\n                 <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderLeftEye.queue.length > 0\">\n                   <div class=\"row justify-content-end\" *ngIf=\"uploaderLeftEye.queue.length > 1\">\n                     <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderLeftEye.clearQueue()\" [disabled]=\"!uploaderLeftEye.queue.length\">\n                       <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                     </button>\n                   </div>\n                   <br>\n                   <table class=\"table\">\n                     <thead>\n                       <tr>\n                         <th width=\"50%\">{{ 'Name' | translate }}</th>\n                         <th>{{ 'Size' | translate }}</th>\n                         <th>{{ 'Actions' | translate }}</th>\n                       </tr>\n                     </thead>\n                     <tbody>\n                       <tr *ngFor=\"let item of uploaderLeftEye.queue\">\n                         <td><strong>{{ item?.file?.name }}</strong></td>\n                         <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                         <td nowrap>\n                           <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Left')\">\n                             <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                           </button>\n                         </td>\n                       </tr>\n                     </tbody>\n                   </table>\n                 </div>\n               </div>\n             </div>\n           </div>\n         </div>\n\n\n\n\n      </div>\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -5467,7 +5922,7 @@ module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div cla
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.info-breadcrumbs {\n  margin-top: 80px;\n  margin-left: 3%; }\n.info-breadcrumbs .header-body {\n    width: 100%;\n    background: #ffffff;\n    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.info-breadcrumbs .header-body .link {\n      color: #1756a6;\n      padding-left: 0px; }\n.info-breadcrumbs .header-body .breadcrumb {\n      background-color: transparent;\n      border-radius: 0px;\n      border-bottom: 0px;\n      padding-top: 0px;\n      padding-bottom: 0px; }\n.info-breadcrumbs .header-body h4 {\n      padding-left: 15px; }\n.padding-detail {\n  padding: 10px 40px 10px 40px; }\n.padding-detail .card {\n    background: #ffffff;\n    padding: 2em;\n    line-height: 1.5em; }\n.padding-detail .card .main-info {\n      text-align: center; }\n.padding-detail .card .main-info .img-color {\n        border-radius: 35px; }\n@media screen and (min-width: 997px) {\n  .wrapper {\n    display: -webkit-box;\n    display: flex;\n    margin-bottom: 10px; } }\n.tab-content {\n  overflow: hidden; }\n.tab-content img {\n  width: 100%;\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .3s; }\n.preview {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  flex-direction: column; }\n@media screen and (max-width: 996px) {\n  .preview {\n    margin-bottom: 20px; }\n  .margin-button {\n    margin-bottom: 3%; } }\n.margin-button {\n  margin-right: 2%; }\n.ng-select {\n  width: 100%; }\n.preview-pic {\n  -webkit-box-flex: 1;\n  flex-grow: 1; }\n.preview-pic #pic-1 img {\n    height: 15em;\n    width: 25em;\n    border-radius: 12px; }\n.preview-pic > div:nth-child(2) {\n    margin-top: 10px; }\n.product-title,\n.price,\n.sizes,\n.colors {\n  text-transform: UPPERCASE;\n  font-weight: bold; }\n.product-title {\n  margin-top: 0; }\n.header-params {\n  padding-left: 1em; }\n.header-params .custom-control {\n    margin-bottom: 1em; }\n.header-params .quantity {\n    padding-left: 2em; }\n.product-info {\n  padding-top: 2em; }\n.product-info .item-properties img {\n    width: 30px;\n    cursor: pointer; }\n.select-values {\n  padding-left: 0px; }\n.param-flex {\n  display: -webkit-box;\n  display: flex; }\n.card-body {\n  padding: 20px !important; }\nbody {\n  font-family: 'open sans';\n  overflow-x: hidden; }\nimg {\n  max-width: 100%; }\n.checked,\n.price span {\n  color: #ff9f1a; }\n.rating,\n.price,\n.vote {\n  margin-bottom: 15px; }\n.add-to-cart,\n.like {\n  background: #ff9f1a;\n  padding: 1.2em 1.5em;\n  border: none;\n  text-transform: UPPERCASE;\n  font-weight: bold;\n  color: #fff;\n  -webkit-transition: background .3s ease;\n  transition: background .3s ease; }\n.add-to-cart:hover,\n.like:hover {\n  background: #b36800;\n  color: #fff; }\n.not-available {\n  text-align: center;\n  line-height: 2em; }\n.buy-btns {\n  text-align: right; }\n.not-available:before {\n  font-family: fontawesome;\n  content: \"\\f00d\";\n  color: #fff; }\n.tooltip-inner {\n  padding: 1.3em; }\n@-webkit-keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n@keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n.fa-arrow-left {\n  margin-top: 10px; }\n.title {\n  font-weight: 600; }\n.info-content {\n  margin-left: 15px;\n  margin-bottom: 0px;\n  line-height: 30px; }\n.item-properties img {\n  width: 30px; }\n.check-steps {\n  display: -webkit-box;\n  display: flex; }\n.check-steps > input:nth-child(1) {\n    width: 20px;\n    height: 10px;\n    margin-left: 20px; }\n.content-steps .selection {\n  padding-right: 1.5rem;\n  padding-top: 30px; }\n.content-steps .steeps > div:nth-child(1),\n.content-steps .steeps div:nth-child(2) {\n  padding-right: 10px; }\n.content-steps .sub-label {\n  padding-left: 15px; }\n.content-steps .sub-label .row {\n    padding-top: 5px;\n    padding-left: 15px; }\n.content-steps > div:nth-child(1) {\n  padding-left: 0; }\n.content-steps > div:nth-child(2) {\n  border-left: 1px solid #ccc; }\n.content-steps > div:nth-child(3) {\n  border-left: 1px solid #ccc; }\n.custom-file-input {\n  cursor: pointer; }\n.custom-control-label::before {\n  border: solid 1px #c3c2c2; }\n.custom-control-label {\n  font-size: 0.9rem;\n  padding-left: -2%; }\n.page-header-fixed {\n  margin-left: 15px; }\n.padding-price {\n  padding-top: 1.1em; }\n.header-europa {\n  padding: 5px 0 20px 0; }\n.additional {\n  -webkit-box-pack: start;\n          justify-content: flex-start;\n  margin-top: 10px; }\n.additional > p:nth-child(1) {\n    font-size: 15px;\n    color: green; }\n.prices {\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .6s;\n  padding-top: 10px; }\n.prices > p:nth-child(1) {\n    font-size: 26px;\n    font-weight: bold; }\n.message-error-file {\n  color: #cc0000;\n  font-size: 0.85rem; }\n.notch {\n  width: 40%; }\narea {\n  display: block !important; }\n.select-notch img {\n  border-radius: 0;\n  height: 130px;\n  opacity: 0.7;\n  width: 130px; }\n.select-notch img:hover {\n  border: 3px #007afe solid;\n  border-radius: 15px;\n  opacity: 1; }\n.selected-image {\n  border: 3px #8faab4 solid;\n  border-radius: 15px !important;\n  opacity: 1 !important; }\n.notch-lbl > label:nth-child(1) {\n  width: 50%; }\n.notch-lbl > label:nth-child(2),\n.notch-lbl > label:nth-child(3) {\n  margin-left: 2px;\n  width: 23%; }\n"
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.info-breadcrumbs {\n  margin-top: 80px;\n  margin-left: 3%; }\n.info-breadcrumbs .header-body {\n    width: 100%;\n    background: #ffffff;\n    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.info-breadcrumbs .header-body .link {\n      color: #1756a6;\n      padding-left: 0px; }\n.info-breadcrumbs .header-body .breadcrumb {\n      background-color: transparent;\n      border-radius: 0px;\n      border-bottom: 0px;\n      padding-top: 0px;\n      padding-bottom: 0px; }\n.info-breadcrumbs .header-body h4 {\n      padding-left: 15px; }\n.padding-params {\n  padding-bottom: 10px; }\n.padding-detail {\n  padding: 10px 40px 10px 40px; }\n.padding-detail .card {\n    background: #ffffff;\n    padding: 2em;\n    line-height: 1.5em; }\n.padding-detail .card .main-info {\n      text-align: center; }\n.padding-detail .card .main-info .img-color {\n        border-radius: 35px; }\n@media screen and (min-width: 997px) {\n  .wrapper {\n    display: -webkit-box;\n    display: flex;\n    margin-bottom: 10px; } }\n.tab-content {\n  overflow: hidden; }\n.tab-content img {\n  width: 100%;\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .3s; }\n.preview {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  flex-direction: column; }\n@media screen and (max-width: 996px) {\n  .preview {\n    margin-bottom: 20px; }\n  .margin-button {\n    margin-bottom: 3%; } }\n.margin-button {\n  margin-right: 2%; }\n.ng-select {\n  width: 100%; }\n.preview-pic {\n  -webkit-box-flex: 1;\n  flex-grow: 1; }\n.preview-pic #pic-1 img {\n    height: 15em;\n    width: 25em;\n    border-radius: 12px; }\n.preview-pic > div:nth-child(2) {\n    margin-top: 10px; }\n.product-title,\n.price,\n.sizes,\n.colors {\n  text-transform: UPPERCASE;\n  font-weight: bold; }\n.product-title {\n  margin-top: 0; }\n.header-params {\n  padding-left: 1em; }\n.header-params .custom-control {\n    margin-bottom: 1em; }\n.header-params .quantity {\n    padding-left: 2em; }\n.type-lens, .type-steps {\n  display: -webkit-box;\n  display: flex;\n  margin-top: 20px; }\n.type-lens > span:nth-child(1), .type-steps > span:nth-child(1) {\n    margin-right: 10px; }\n.type-lens > div:nth-child(2), .type-lens > div:nth-child(3), .type-steps > div:nth-child(2), .type-steps > div:nth-child(3) {\n    margin-right: 40px;\n    font-size: 14px; }\n.type-lens > div:nth-child(2) label, .type-lens > div:nth-child(3) label, .type-steps > div:nth-child(2) label, .type-steps > div:nth-child(3) label {\n      font-weight: 300;\n      font-size: 14px; }\n.product-info {\n  padding-top: 2em; }\n.product-info .item-properties img {\n    width: 30px;\n    cursor: pointer; }\n.select-values {\n  padding-left: 0px; }\n.param-flex {\n  display: -webkit-box;\n  display: flex; }\n.card-body {\n  padding: 20px !important; }\nbody {\n  font-family: 'open sans';\n  overflow-x: hidden; }\nimg {\n  max-width: 100%; }\n.checked,\n.price span {\n  color: #ff9f1a; }\n.rating,\n.price,\n.vote {\n  margin-bottom: 15px; }\n.add-to-cart,\n.like {\n  background: #ff9f1a;\n  padding: 1.2em 1.5em;\n  border: none;\n  text-transform: UPPERCASE;\n  font-weight: bold;\n  color: #fff;\n  -webkit-transition: background .3s ease;\n  transition: background .3s ease; }\n.add-to-cart:hover,\n.like:hover {\n  background: #b36800;\n  color: #fff; }\n.not-available {\n  text-align: center;\n  line-height: 2em; }\n.buy-btns {\n  text-align: right; }\n.not-available:before {\n  font-family: fontawesome;\n  content: \"\\f00d\";\n  color: #fff; }\n.tooltip-inner {\n  padding: 1.3em; }\n@-webkit-keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n@keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n.fa-arrow-left {\n  margin-top: 10px; }\n.title {\n  font-weight: 600; }\n.info-content {\n  margin-left: 0;\n  margin-bottom: 0px;\n  line-height: 30px; }\n.item-properties img {\n  width: 30px; }\n.check-steps {\n  display: -webkit-box;\n  display: flex; }\n.check-steps > input:nth-child(1) {\n    width: 20px;\n    height: 10px;\n    margin-left: 20px; }\n.content-steps .selection {\n  padding-right: 1.5rem;\n  padding-top: 30px; }\n.content-steps .steeps > div:nth-child(1),\n.content-steps .steeps div:nth-child(2) {\n  padding-right: 10px; }\n.content-steps .sub-label {\n  padding-left: 15px; }\n.content-steps .sub-label .row {\n    padding-top: 5px;\n    padding-left: 15px; }\n.content-steps > div:nth-child(1) {\n  padding-left: 0; }\n.content-steps > div:nth-child(2) {\n  border-left: 1px solid #ccc; }\n.content-steps > div:nth-child(3) {\n  border-left: 1px solid #ccc; }\n.custom-file-input {\n  cursor: pointer; }\n.custom-control-label::before {\n  border: solid 1px #c3c2c2; }\n.custom-control-label {\n  font-size: 0.9rem;\n  padding-left: -2%; }\n.page-header-fixed {\n  margin-left: 15px; }\n.padding-price {\n  padding-top: 1.1em; }\n.header-europa {\n  padding: 5px 0 20px 0; }\n.additional {\n  -webkit-box-pack: start;\n          justify-content: flex-start;\n  margin-top: 10px; }\n.additional > p:nth-child(1) {\n    font-size: 15px;\n    color: green; }\n.prices {\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .6s;\n  padding-top: 10px; }\n.prices > p:nth-child(1) {\n    font-size: 26px;\n    font-weight: bold; }\n.message-error-file {\n  color: #cc0000;\n  font-size: 0.85rem; }\n.message-power > span {\n  font-size: 12px;\n  color: #950f0f; }\n.notch {\n  width: 40%; }\narea {\n  display: block !important; }\n.select-notch img {\n  border-radius: 0;\n  height: 130px;\n  opacity: 0.7;\n  width: 130px; }\n.select-notch img:hover {\n  border: 3px #007afe solid;\n  border-radius: 15px;\n  opacity: 1; }\n.selected-image {\n  border: 3px #8faab4 solid;\n  border-radius: 15px !important;\n  opacity: 1 !important; }\n.notch-lbl > label:nth-child(1) {\n  width: 50%; }\n.notch-lbl > label:nth-child(2),\n.notch-lbl > label:nth-child(3) {\n  margin-left: 2px;\n  width: 23%; }\n"
 
 /***/ }),
 
@@ -5727,12 +6182,18 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         var orderCylinder;
         this.product.setRight = JSON.parse(this.product.types)[0].set;
         this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+        this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+        this.typeStepsRight = JSON.parse(this.product.types)[0].typeSteps;
+        this.changeTypeLens('right', 'Please design my lens');
         orderCylinder = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Cylinder (D)' });
         if (orderCylinder != null) {
             orderCylinder.values.reverse();
         }
         this.product.setLeft = JSON.parse(this.product.types)[0].set;
         this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+        this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+        this.typeStepsLeft = JSON.parse(this.product.types)[0].typeSteps;
+        this.changeTypeLens('left', 'Please design my lens');
         orderCylinder = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Cylinder (D)' });
         if (orderCylinder != null) {
             orderCylinder.values.reverse();
@@ -6115,9 +6576,6 @@ var ProductViewEuropaComponent = /** @class */ (function () {
                 }
                 else {
                     this.product.priceSaleRight = 0;
-                    /*if (this.additionalInserts) {
-                        this.product.priceSaleRight = this.product.priceSaleRight + (this.inserts / 2);
-                    }*/
                     if (this.additionalHidrapeg) {
                         this.product.priceSaleRight = this.product.priceSaleRight + this.hidrapeg;
                     }
@@ -6145,9 +6603,6 @@ var ProductViewEuropaComponent = /** @class */ (function () {
                 }
                 else {
                     this.product.priceSaleLeft = 0;
-                    /* if (this.additionalInsertsL) {
-                         this.product.priceSaleLeft = this.product.priceSaleLeft + (this.inserts / 2);
-                     }*/
                     if (this.additionalHidrapegL) {
                         this.product.priceSaleLeft = this.product.priceSaleLeft + this.hidrapeg;
                     }
@@ -6265,6 +6720,7 @@ var ProductViewEuropaComponent = /** @class */ (function () {
       }
     }*/
     ProductViewEuropaComponent.prototype.buildProductsSelected = function () {
+        var self = this;
         this.setEyeSelected();
         var product = this.productCopy;
         var productDiameterL = this.productDiameterL;
@@ -6300,20 +6756,8 @@ var ProductViewEuropaComponent = /** @class */ (function () {
                 // add header spectrum code
                 productSelected.id = productDiameterR.idProduct;
                 productSelected.codeSpectrum = productDiameterR.codeSpectrum;
-                /*if (additionalInserts && product.eyeLeft) {
-                  productSelected.price = product.priceSaleRight + (inserts / 2);
-                } else if (additionalInserts && !product.eyeLeft) {
-                  productSelected.price = product.priceSaleRight + inserts;
-                } else {
-                  productSelected.price = product.priceSaleRight;
-                }*/
-                /*if (additionalH) {
-                   productSelected.price = product.priceSaleRight - hidrapegPrice;
-                 }
-                 if (additionalN) {
-                   productSelected.price = product.priceSaleRight - notchPrice;
-                 }*/
-                // productSelected.price = product.priceSaleRight;
+                productSelected.typeLens = self.typeLensRight.selected;
+                productSelected.typeSteps = self.typeStepsRight.selected;
                 productSelected.price = product.priceBaseRight;
                 productSelected.quantity = product.quantityRight;
                 productSelected.observations = product.observationsRight;
@@ -6360,7 +6804,7 @@ var ProductViewEuropaComponent = /** @class */ (function () {
                             product.parametersRight[index].selected = null;
                         }
                     }
-                    if (parameter.name === 'Power') {
+                    if (self.isPower(parameter)) {
                         product.parametersRight[index].selected = signPowerRight + parameter.selected;
                     }
                     if (parameter.name === 'Notch (mm)') {
@@ -6387,20 +6831,8 @@ var ProductViewEuropaComponent = /** @class */ (function () {
                 // add header spectrum code
                 productSelected.id = productDiameterL.idProduct;
                 productSelected.codeSpectrum = productDiameterL.codeSpectrum;
-                /*if (additionalInsertsL && product.eyeRight) {
-                  productSelected.price = product.priceSaleLeft + (inserts / 2);
-                } else if (additionalInsertsL && !product.eyeRight) {
-                  productSelected.price = product.priceSaleLeft + inserts;
-                } else {
-                  productSelected.price = product.priceSaleLeft;
-                }
-                if (additionalHL) {
-                  productSelected.price = product.priceSaleLeft - hidrapegPrice;
-                }
-                if (additionalNL) {
-                  productSelected.price = product.priceSaleLeft - notchPrice;
-                }*/
-                //productSelected.price = product.priceSaleLeft;
+                productSelected.typeLens = self.typeLensLeft.selected;
+                productSelected.typeSteps = self.typeStepsLeft.selected;
                 productSelected.price = product.priceBaseLeft;
                 productSelected.quantity = product.quantityLeft;
                 productSelected.observations = product.observationsLeft;
@@ -6447,7 +6879,7 @@ var ProductViewEuropaComponent = /** @class */ (function () {
                             product.parametersLeft[index].selected = null;
                         }
                     }
-                    if (parameter.name === "Power") {
+                    if (self.isPower(parameter)) {
                         product.parametersLeft[index].selected = signPowerLeft + parameter.selected;
                     }
                     if (parameter.name === 'Notch (mm)') {
@@ -6495,7 +6927,7 @@ var ProductViewEuropaComponent = /** @class */ (function () {
                     productsAditional.push(productN);
                 }
             });
-            productSelected.detail = { name: product.type, eye: productSelected.eye, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
+            productSelected.detail = { name: product.type, eye: productSelected.eye, typeLens: productSelected.typeLens, typeSteps: productSelected.typeSteps, set: productSelected.set, header: productSelected.header, parameters: productSelected.parameters, pasos: productSelected.pasos, productsAditional: productsAditional };
             productsSelected[index] = lodash__WEBPACK_IMPORTED_MODULE_1__["omit"](productSelected, ['parameters', 'eye', 'pasos', 'header', 'productsAditional', 'set']);
         });
         // add products code
@@ -6531,8 +6963,7 @@ var ProductViewEuropaComponent = /** @class */ (function () {
                     auxproductsSelected.push(productN);
                 }
             });
-            if (productAux.detail.header[2].selected === true
-                && (index === (auxList.length - 1))) {
+            if (productAux.detail.header[2].selected === true) {
                 var productD = JSON.parse(JSON.stringify(productAux));
                 productD.id = productDMV.idProduct;
                 productD.name = 'Inserts (DMV)';
@@ -6598,6 +7029,7 @@ var ProductViewEuropaComponent = /** @class */ (function () {
     };
     ProductViewEuropaComponent.prototype.formIsValid = function () {
         var isValid = true;
+        var self = this;
         if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
             return false;
         }
@@ -6609,12 +7041,29 @@ var ProductViewEuropaComponent = /** @class */ (function () {
             }
         });
         if (this.product.eyeRight) {
+            // Trial Lens Right
+            if (this.typeLensRight.selected === 'Please design my lens') {
+                lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.product.setRight, function (param) {
+                    if (param.selected === null || param.selected === undefined) {
+                        isValid = false;
+                    }
+                });
+                if (!this.typeCurveRightTrial || !this.signPowerRightTrial) {
+                    isValid = false;
+                }
+            }
             lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.product.parametersRight, function (param) {
                 if (param.name === 'Notch (mm)') {
                     if (param.values[0].selected === null || param.values[1].selected === null) {
                         isValid = false;
                     }
                     if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !param.selectedNotchTime) {
+                        isValid = false;
+                    }
+                }
+                else if (param.name === "Axes (º)") {
+                    self.axesNotch = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](self.product.parametersRight, { name: 'Notch (mm)' });
+                    if (!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
                         isValid = false;
                     }
                 }
@@ -6627,12 +7076,29 @@ var ProductViewEuropaComponent = /** @class */ (function () {
             }
         }
         if (this.product.eyeLeft) {
+            if (this.typeLensLeft.selected === 'Please design my lens') {
+                // Trial Lens Left
+                lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.product.setLeft, function (param) {
+                    if (param.selected === null || param.selected === undefined) {
+                        isValid = false;
+                    }
+                });
+                if (!this.typeCurveLeftTrial || !this.signPowerLeftTrial) {
+                    isValid = false;
+                }
+            }
             lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.product.parametersLeft, function (param) {
                 if (param.name === 'Notch (mm)') {
                     if (param.values[0].selected === null || param.values[1].selected === null) {
                         isValid = false;
                     }
                     if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !param.selectedNotchTime) {
+                        isValid = false;
+                    }
+                }
+                else if (param.name === "Axes (º)") {
+                    self.axesNotch = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](self.product.parametersLeft, { name: 'Notch (mm)' });
+                    if (!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
                         isValid = false;
                     }
                 }
@@ -6969,6 +7435,9 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         if (eye === 'right') {
             this.product.headerRight = header;
             this.product.parametersRight = parameters;
+            this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+            this.typeStepsRight = JSON.parse(this.product.types)[0].typeSteps;
+            this.changeTypeLens('right', 'Please design my lens');
             this.product.pasosRight = pasos;
             this.typeCurveRight = null;
             this.typeCurveRightTrial = null;
@@ -6979,6 +7448,9 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         else {
             this.product.headerLeft = header;
             this.product.parametersLeft = parameters;
+            this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+            this.typeStepsLeft = JSON.parse(this.product.types)[0].typeSteps;
+            this.changeTypeLens('left', 'Please design my lens');
             this.product.pasosLeft = pasos;
             this.typeCurveLeft = null;
             this.typeCurveLeftTrial = null;
@@ -6991,15 +7463,29 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         return item === "For other diameters, please contact us";
     };
     ProductViewEuropaComponent.prototype.changeNotchTime = function (eye, parameter, value) {
+        //validating change in notch time
+        var changedNotch = parameter.selectedNotchTime !== value;
         parameter.selectedNotchTime = value;
         switch (eye) {
             case 'right':
                 this.notchRight.itemsList._items[0].label = value;
                 this.notchRight.itemsList._items[0].value = value;
+                // restart axes after change
+                if (changedNotch) {
+                    this.axesSelected = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Axes (º)' });
+                    this.axesSelected.sel = null;
+                    this.axesSelected.selected = null;
+                }
                 break;
             case 'left':
                 this.notchLeft.itemsList._items[0].label = value;
                 this.notchLeft.itemsList._items[0].value = value;
+                // restart axes after change
+                if (changedNotch) {
+                    this.axesSelected = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Axes (º)' });
+                    this.axesSelected.sel = null;
+                    this.axesSelected.selected = null;
+                }
                 break;
         }
         //set null in values notch
@@ -7014,6 +7500,126 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         if (parameter.selectedNotchTime === null) {
             parameter.values[0].selected = 0;
             parameter.values[1].selected = 0;
+        }
+    };
+    ProductViewEuropaComponent.prototype.axesValues = function (eye) {
+        switch (eye) {
+            case 'right':
+                this.axesNotch = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Notch (mm)' });
+                this.axesSelected = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Axes (º)' });
+                if (this.axesNotch.selectedNotchTime === null) {
+                    this.axesSelected.sel = null;
+                    this.axesSelected.selected = null;
+                }
+                ;
+                switch (this.axesNotch.selectedNotchTime) {
+                    case 'Upper Temporal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_1__["range"](90, 181).toString().split(",");
+                    case 'Lower Temporal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_1__["range"](180, 271).toString().split(",");
+                    case 'Upper Nasal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_1__["range"](0, 91).toString().split(",");
+                    case 'Lower Nasal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_1__["range"](270, 361).toString().split(",");
+                    default:
+                        return [];
+                }
+            case 'left':
+                this.axesNotch = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Notch (mm)' });
+                this.axesSelected = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Axes (º)' });
+                if (this.axesNotch.selectedNotchTime === null) {
+                    this.axesSelected.sel = null;
+                    this.axesSelected.selected = null;
+                }
+                ;
+                switch (this.axesNotch.selectedNotchTime) {
+                    case 'Upper Temporal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_1__["range"](90, 181).toString().split(",");
+                    case 'Lower Temporal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_1__["range"](180, 271).toString().split(",");
+                    case 'Upper Nasal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_1__["range"](0, 91).toString().split(",");
+                    case 'Lower Nasal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_1__["range"](270, 361).toString().split(",");
+                    default:
+                        return [];
+                }
+        }
+    };
+    ProductViewEuropaComponent.prototype.axesRequired = function (eye) {
+        switch (eye) {
+            case 'right':
+                this.axesNotch = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Notch (mm)' });
+                return !!this.axesNotch.selectedNotchTime;
+            case 'left':
+                this.axesNotch = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Notch (mm)' });
+                return !!this.axesNotch.selectedNotchTime;
+        }
+    };
+    ProductViewEuropaComponent.prototype.isPower = function (param) {
+        return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power';
+    };
+    ProductViewEuropaComponent.prototype.changeTypeSteps = function (eye, value) {
+        switch (eye) {
+            case 'right':
+                this.typeStepsRight.selected = value;
+                break;
+            case 'left':
+                this.typeStepsLeft.selected = value;
+                break;
+        }
+    };
+    ProductViewEuropaComponent.prototype.resetTrialLens = function (eye) {
+        if (eye === 'right') {
+            //trial lens reset
+            lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.product.setRight, function (param) { param.selected = null; param.sel = null; });
+            this.signPowerRightTrial = null;
+            this.typeCurveRightTrial = null;
+        }
+        else {
+            //trial lens reset
+            lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.product.setLeft, function (param) { param.selected = null; param.sel = null; });
+            this.signPowerLeftTrial = null;
+            this.typeCurveLeftTrial = null;
+        }
+    };
+    ProductViewEuropaComponent.prototype.changeTypeLens = function (eye, value) {
+        switch (eye) {
+            ///////////////EYE RIGHT////////////////////
+            case 'right':
+                this.typeLensRight.selected = value;
+                var powerRight = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, function (param) { return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'; });
+                //initialize values power
+                powerRight.sel = null;
+                powerRight.selected = null;
+                this.signPowerRight = null;
+                //rename params and reset trial lens
+                if (value === 'Please design my lens') {
+                    powerRight.name = 'Over-Refaction';
+                }
+                else if (value === 'Final Lens') {
+                    powerRight.name = 'Final Power';
+                    this.resetTrialLens('right');
+                }
+                break;
+            ///////////////EYE LEFT////////////////////
+            case 'left':
+                this.typeLensLeft.selected = value;
+                var powerLeft = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, function (param) { return param.name === 'Power' || param.name === 'Over-Refaction' || param.name === 'Final Power'; });
+                //rename params and initialize values
+                powerLeft.name = value;
+                powerLeft.sel = null;
+                powerLeft.selected = null;
+                this.signPowerLeft = null;
+                //rename params and reset trial lens
+                if (value === 'Please design my lens') {
+                    powerLeft.name = 'Over-Refaction';
+                }
+                else if (value === 'Final Lens') {
+                    powerLeft.name = 'Final Power';
+                    this.resetTrialLens('left');
+                }
+                break;
         }
     };
     __decorate([
@@ -8988,7 +9594,7 @@ var ProductViewMedmontComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div>-->\n        </div>\n      </div>\n      <div class=\"row product-info\" >\n        <div class=\"item-properties col-md-12\" >\n          <p>{{'The Medmont E300 USB Corneal Topographer offers the practitioner extreme accuracy for the mapping of a patients cornea.Using a PC, the patients full corneal history can be stored and accessed quickly and efficiently.A huge range of display options is now available providing the user with information that they previously would only have dreamed about.'| translate }} </p>\n        </div>\n      </div>\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" required\n              [(ngModel)]=\"product.client\" disabled>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              required [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\">\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n         <!--shipping address-->\n        <div class=\"col-lg-5\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content \">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n        <div class=\"col-lg-3\">\n          <span class=\"title\">{{ 'More Information' | translate }}</span>\n          <div class=\"row info-content \">\n            <a href=\"{{ product.url }}\" target=\"_blank\">{{ 'View' | translate }}</a>\n          </div>\n        </div>\n      </div>\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"getQuote()\"\n            [disabled]=\"!formIsValid()\">\n           {{ 'Get a quote' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n"
+module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div>-->\n        </div>\n      </div>\n      <div class=\"row product-info\" >\n        <div class=\"col-md-3\">\n          <dt>{{ 'Material' | translate }}</dt>\n          <dd>\n            <a>{{ product.material | translate }}</a>\n          </dd>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Replacemente Period' | translate }}</dt>\n          <p>{{ product.replacementPeriod | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Warranty' | translate }}</dt>\n          <p>{{ product.warranty }} {{ 'days' | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ product.url }}\" target=\"_blank\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n\n      </div>\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"20\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" required\n              [(ngModel)]=\"product.client\" disabled>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              required [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\">\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n         <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content \">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n        <div class=\"col-lg-1 col-price\">\n          <h5 class=\"padding-price\" [hidden]=\"priceAcum === 0 && product.priceSale === 0\">\n            <span>{{ (priceAcum === 0 ? product.priceSale : priceAcum) | currency : \"USD $\" }}</span>\n          </h5>\n        </div>\n      </div>\n      <br>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specific your product' | translate }}</label>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header-params\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n          <div class=\"title\">{{ 'Parameters' | translate }}</div>\n          <!--params right-->\n          <div class=\"row\">\n            <!--quantity right-->\n            <div class=\"col-lg-2 margin-col padding-col\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                  [required]=\"product.eyeRight\"  [disabled]=\"!product.eyeRight\" (change)=\"updatePriceSale('right')\" min=\"1\">\n              </div>\n            </div>\n            <div class=\"col-lg-2 margin-col padding-col\" *ngFor=\"let parameter of product.parametersRight\">\n              <div *ngIf=\"parameter.type === 'input' || parameter.type === 'selected'\">\n                <!--param name-->\n                <div class=\"row\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;\n                  <span *ngIf=\"parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil' || parameter.name === 'Iris Diameter'\" >\n                    (mm)</span>\n                  <span *ngIf=\"parameter.name === 'Sphere' || parameter.name === 'Cylinder' || parameter.name === 'Axis'\" >\n                    ({{'Diopters'| translate }})</span>\n                </div>\n                <!--param values-->\n                <div *ngIf=\"parameter.type === 'selected'\" class=\"row select-values\">\n                  <ng-select (change)=\"changeSelect('right', parameter,  parameter.sel)\" [items]=\"parameter.values\"\n                    [disabled]=\"!product.eyeRight || disabledPupil(parameter)\" [required]=\"product.eyeRight && !disabledPupil(parameter)\" \n                    [(ngModel)]=\"parameter.sel\"\n                    bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"isPupil(parameter)\"\n                    (clear)=\"resetPupil('right', parameter)\">\n                    <ng-template ng-label-tmp let-item=\"item\">\n                      <div class=\"supplier-body\">\n                        <span>{{ item | translate }}</span>\n                      </div>\n                    </ng-template>\n                    <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                      <div class=\"supplier-body\">\n                        <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                      </div>\n                    </ng-template>\n                  </ng-select>\n                </div>\n                <div *ngIf=\"parameter.type === 'input'\" class=\"row select-values\">\n                  <input class=\"form-control\" type=\"number\" min=\"{{getMin(parameter)}}\" max=\"{{getMax(parameter)}}\" step=\"{{getStep(parameter)}}\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                    [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" (input)=\"changeSelect('right', parameter,  parameter.selected)\"\n                    [disabled]=\"!product.eyeRight\"  [ngClass]=\"{'ng-invalid':selected.invalid}\" #selected=\"ngModel\" appModulo=\"{{getStep(parameter)}}\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-12 margin-col padding-col\" *ngFor=\"let parameter of product.parametersRight\">\n              <div class=\"iris-code\" *ngIf=\"parameter.name === 'Iris Code'\">\n                <!--param name-->\n                <div class=\"row\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>\n                </div>\n                <div class=\"row\">\n                  <label class=\"form-check-label\">{{ 'Please indicate the sequency of the color layers. Fx: 1, 2 etc. from bottom to top' | translate }}</label>\n                </div>\n                <!--param values-->\n                <div class=\"col-md-12 codes-value\">\n                  <div *ngFor=\"let value of parameter.values\" class=\"select-values col-lg-3\">\n                    <label>{{ value.name | translate }}</label>\n                    <input type=\"number\" id=\"value.id\"  class=\"form-control\" [disabled]=\"!product.eyeRight\" [(ngModel)]=\"value.selected\" \n                      (input)=\"changeSelect('right', value,  value.selected)\" min=\"0\" max=\"4\" step=\"1\">\n                  </div>\n                </div>\n              </div>\n            </div>\n            <br>\n          </div>\n          <br>\n        </div>\n\n        <!--comments right-->\n        <br>\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row header\">\n              <div class=\"col-md-12\">\n                <div class=\"title\">{{ 'OD Comments' | translate }}</div>\n                <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\"\n                  [disabled]=\"!product.eyeRight\" placeholder=\"{{ 'Enter OD Observations' | translate }}\"></textarea>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n\n        <!--files right-->\n        <div class=\"documents col-md-12\">\n          <div class=\"row\">\n            <div class=\"col-md-12\">\n              <div class=\"\">\n                <dt class=\"title\">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>\n                <div class=\"custom-file\">\n                  <input #selectedFilesRightEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderRightEye\"\n                    [disabled]=\"!product.eyeRight || uploaderRightEye.queue.length > 4\" multiple />\n                  <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                  <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                  <div class=\"message-error\">\n                    <span translate>{{'Max files size:' | translate}} 25MB</span>\n                    <span> / </span>\n                    <span translate>{{'Maximum files number:' | translate }} 5</span>\n                  </div>\n                </div>\n              </div>\n              <br>\n              <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderRightEye.queue.length > 0\">\n                <div class=\"row justify-content-end\" *ngIf=\"uploaderRightEye.queue.length > 1\">\n                  <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderRightEye.clearQueue()\" [disabled]=\"!uploaderRightEye.queue.length\">\n                    <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                  </button>\n                </div>\n                <br>\n                <table class=\"table\">\n                  <thead>\n                    <tr>\n                      <th width=\"50%\">{{ 'Name' | translate }}</th>\n                      <th>{{ 'Size' | translate }}</th>\n                      <th>{{ 'Actions' | translate }}</th>\n                    </tr>\n                  </thead>\n                  <tbody>\n                    <tr *ngFor=\"let item of uploaderRightEye.queue\">\n                      <td><strong>{{ item?.file?.name }}</strong></td>\n                      <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                      <td nowrap>\n                        <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Right')\">\n                          <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                        </button>\n                      </td>\n                    </tr>\n                  </tbody>\n                </table>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n          <div class=\"title\">{{ 'Parameters' | translate }}</div>\n          <!--params left-->\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-2 margin-col padding-col\">\n              <div class=\"row \">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityLeft\" [required]=\"product.eyeLeft\"\n                  oninput=\"validity.valid||(value='');\" [disabled]=\"!product.eyeLeft\" (change)=\"updatePriceSale('left')\" min=\"1\">\n              </div>\n            </div>\n            <div class=\"col-lg-2 margin-col padding-col\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div *ngIf=\"parameter.type === 'input' || parameter.type === 'selected'\">\n                <!--param name-->\n                <div class=\"row\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;\n                  <span *ngIf=\"parameter.name === 'Base Curve' || parameter.name === 'Diameter' || parameter.name === 'Clear Pupil' || parameter.name === 'Black Pupil' || parameter.name === 'Iris Diameter'\" >\n                    (mm)</span>\n                  <span *ngIf=\"parameter.name === 'Sphere' || parameter.name === 'Cylinder' || parameter.name === 'Axis'\" >\n                    ({{ 'Diopters' | translate }})</span>\n                </div>\n                <!--param values-->\n                <div *ngIf=\"parameter.type === 'selected'\" class=\"row select-values\">\n                  <ng-select (change)=\"changeSelect('left', parameter,  parameter.sel)\" [items]=\"parameter.values\"\n                    [disabled]=\"!product.eyeLeft || disabledPupil(parameter)\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.sel\" \n                    bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"isPupil(parameter)\"\n                    (clear)=\"resetPupil('left', parameter)\" >\n                    <ng-template ng-label-tmp let-item=\"item\">\n                      <div class=\"supplier-body\">\n                        <span>{{ item | translate }}</span>\n                      </div>\n                    </ng-template>\n                    <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                      <div class=\"supplier-body\">\n                        <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                      </div>\n                    </ng-template>\n                  </ng-select>\n                </div>\n                <div *ngIf=\"parameter.type === 'input'\" class=\"row select-values\">\n                  <input class=\"form-control\" type=\"number\" min=\"{{getMin(parameter)}}\" max=\"{{getMax(parameter)}}\" step=\"{{getStep(parameter)}}\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" (input)=\"changeSelect('left', parameter,  parameter.selected)\"\n                    [disabled]=\"!product.eyeLeft\" [ngClass]=\"{'ng-invalid':selected.invalid}\" #selected=\"ngModel\" appModulo=\"{{getStep(parameter)}}\">\n                </div>\n              </div>\n            </div>\n\n            <div class=\"col-lg-12 margin-col padding-col\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div class=\"iris-code\" *ngIf=\"parameter.name === 'Iris Code'\">\n                <!--param name-->\n                <div class=\"row\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>\n                </div>\n                <div class=\"row\">\n                  <label class=\"form-check-label\">{{ \"Please indicate the sequency of the color layers. Fx: 1, 2 etc. from bottom to top\" | translate }}</label>\n                </div>\n                <!--param values-->\n                <div class=\"col-md-12 codes-value\">\n                  <div *ngFor=\"let value of parameter.values\" class=\"select-values col-lg-3\">\n                    <label>{{ value.name | translate }}</label>\n                    <input type=\"number\" id=\"value.id\"  class=\"form-control\" [disabled]=\"!product.eyeLeft\" [(ngModel)]=\"value.selected\" \n                      (input)=\"changeSelect('left', value,  value.selected)\" min=\"0\" max=\"4\" step=\"1\">\n                  </div>\n                </div>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n\n        <!--comments left-->\n        <br>\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row header\">\n              <div class=\"col-md-12\">\n                <div class=\"title\">{{ 'OS Comments' | translate }}</div>\n                <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\"\n                  [disabled]=\"!product.eyeLeft\" placeholder=\"{{ 'Enter OS Observations' | translate }}\"></textarea>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n      </div>\n      <!--files left-->\n      <div class=\"documents col-md-12\">\n        <div class=\"row\">\n          <div class=\"col-md-12\">\n            <div class=\"\">\n              <dt class=\"title\">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>\n              <div class=\"custom-file\">\n                <input #selectedFilesLeftEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderLeftEye\"\n                  [disabled]=\"!product.eyeLeft || uploaderLeftEye.queue.length > 4\" multiple />\n                <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                <div class=\"message-error\">\n                  <span translate>{{'Max files size:' | translate}} 25MB</span>\n                  <span> / </span>\n                  <span translate>{{'Maximum files number:' | translate }} 5</span>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderLeftEye.queue.length > 0\">\n              <div class=\"row justify-content-end\" *ngIf=\"uploaderLeftEye.queue.length > 1\">\n                <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderLeftEye.clearQueue()\" [disabled]=\"!uploaderLeftEye.queue.length\">\n                  <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                </button>\n              </div>\n              <br>\n              <table class=\"table\">\n                <thead>\n                  <tr>\n                    <th width=\"50%\">{{ 'Name' | translate }}</th>\n                    <th>{{ 'Size' | translate }}</th>\n                    <th>{{ 'Actions' | translate }}</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of uploaderLeftEye.queue\">\n                    <td><strong>{{ item?.file?.name }}</strong></td>\n                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                    <td nowrap>\n                      <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Left')\">\n                        <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                      </button>\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n"
 
 /***/ }),
 
@@ -8999,7 +9605,7 @@ module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div cla
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.info-breadcrumbs {\n  margin-top: 80px;\n  margin-left: 3%; }\n.info-breadcrumbs .header-body {\n    width: 100%;\n    background: #ffffff;\n    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.info-breadcrumbs .header-body .link {\n      color: #1756a6;\n      padding-left: 0px; }\n.info-breadcrumbs .header-body .breadcrumb {\n      background-color: transparent;\n      border-radius: 0px;\n      border-bottom: 0px;\n      padding-top: 0px;\n      padding-bottom: 0px; }\n.info-breadcrumbs .header-body h4 {\n      padding-left: 15px; }\n.padding-detail {\n  padding: 10px 40px 10px 40px; }\n.padding-detail .card {\n    background: #ffffff;\n    padding: 2em;\n    line-height: 1.5em; }\n.padding-detail .card .main-info {\n      text-align: center; }\n.padding-detail .card .main-info .img-color {\n        border-radius: 35px; }\n@media screen and (min-width: 997px) {\n  .wrapper {\n    display: -webkit-box;\n    display: flex;\n    margin-bottom: 10px; } }\n.tab-content {\n  overflow: hidden; }\n.tab-content img {\n  width: 100%;\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .3s; }\n.preview {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  flex-direction: column; }\n@media screen and (max-width: 996px) {\n  .preview {\n    margin-bottom: 20px; }\n  .padding-col {\n    padding-left: 3em; }\n  .margin-button {\n    margin-bottom: 3%; } }\n.margin-button {\n  margin-right: 2%; }\n.margin-col {\n  margin-left: 1%;\n  margin-right: 1%; }\n.preview-pic {\n  -webkit-box-flex: 1;\n  flex-grow: 1; }\n.preview-pic #pic-1 img {\n    height: 15em;\n    width: 25em;\n    border-radius: 12px; }\n.preview-pic > div:nth-child(2) {\n    margin-top: 10px; }\n.product-title,\n.price,\n.sizes,\n.colors {\n  text-transform: UPPERCASE;\n  font-weight: bold; }\n.product-title {\n  margin-top: 0; }\n.ng-select {\n  width: 100%; }\n.product-info {\n  padding-top: 2em; }\n.product-info .item-properties {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-align: center;\n            align-items: center;\n    padding-bottom: 1em; }\n.product-info .item-properties i {\n      font-size: 30px; }\n.product-info .item-properties p {\n      font-size: 0.9rem;\n      padding: 0px 0 0 10px;\n      margin-bottom: 0; }\n.select-values {\n  padding-left: 0px; }\n.card-body {\n  padding: 20px !important; }\nbody {\n  font-family: 'open sans';\n  overflow-x: hidden; }\nimg {\n  max-width: 100%; }\n.checked,\n.price span {\n  color: #ff9f1a; }\n.rating,\n.price,\n.vote,\n.sizes {\n  margin-bottom: 15px; }\n.buy-btns {\n  text-align: right; }\n.tooltip-inner {\n  padding: 1.3em; }\n@-webkit-keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n@keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n.fa-arrow-left {\n  margin-top: 10px; }\n.title {\n  font-weight: 600; }\n.custom-control-label::before {\n  border: solid 1px #c3c2c2; }\n.info-content {\n  margin-left: 15px;\n  margin-bottom: 0px; }\n"
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.info-breadcrumbs {\n  margin-top: 80px;\n  margin-left: 3%; }\n.info-breadcrumbs .header-body {\n    width: 100%;\n    background: #ffffff;\n    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.info-breadcrumbs .header-body .link {\n      color: #1756a6;\n      padding-left: 0px; }\n.info-breadcrumbs .header-body .breadcrumb {\n      background-color: transparent;\n      border-radius: 0px;\n      border-bottom: 0px;\n      padding-top: 0px;\n      padding-bottom: 0px; }\n.info-breadcrumbs .header-body h4 {\n      padding-left: 15px; }\n.padding-detail {\n  padding: 10px 40px 10px 40px; }\n.padding-detail .card {\n    background: #ffffff;\n    padding: 2em;\n    line-height: 1.5em; }\n.padding-detail .card .main-info {\n      text-align: center; }\n.padding-detail .card .main-info .img-color {\n        border-radius: 35px; }\n@media screen and (min-width: 997px) {\n  .wrapper {\n    display: -webkit-box;\n    display: flex;\n    margin-bottom: 10px; } }\n.tab-content {\n  overflow: hidden; }\n.tab-content img {\n  width: 100%;\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .3s; }\n.preview {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  flex-direction: column; }\n@media screen and (max-width: 996px) {\n  .preview {\n    margin-bottom: 20px; }\n  .padding-col {\n    padding-left: 3em; }\n  .margin-button {\n    margin-bottom: 3%; } }\n.col-price {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: reverse;\n          flex-direction: column-reverse; }\n.padding-price {\n  padding-top: 1.1em;\n  font-weight: bold; }\n.margin-button {\n  margin-right: 2%; }\n.margin-col {\n  margin-left: 1%;\n  margin-right: 1%; }\n.preview-pic {\n  -webkit-box-flex: 1;\n  flex-grow: 1; }\n.preview-pic #pic-1 img {\n    height: 15em;\n    width: 25em;\n    border-radius: 12px; }\n.preview-pic > div:nth-child(2) {\n    margin-top: 10px; }\n.product-title,\n.price,\n.sizes,\n.colors {\n  text-transform: UPPERCASE;\n  font-weight: bold; }\n.product-title {\n  margin-top: 0; }\n.header-params {\n  padding-left: 1em; }\n.header-params .custom-control {\n    margin-bottom: 1em; }\n.ng-select {\n  width: 100%; }\n.product-info {\n  padding-top: 2em; }\n.product-info .item-properties {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-align: center;\n            align-items: center;\n    padding-bottom: 1em; }\n.product-info .item-properties i {\n      font-size: 30px; }\n.product-info .item-properties p {\n      font-size: 0.9rem;\n      padding: 0px 0 0 10px;\n      margin-bottom: 0; }\n.select-values {\n  padding-left: 0px; }\n.card-body {\n  padding: 20px !important; }\nbody {\n  font-family: 'open sans';\n  overflow-x: hidden; }\nimg {\n  max-width: 100%; }\n.checked,\n.price span {\n  color: #ff9f1a; }\n.rating,\n.price,\n.vote,\n.sizes {\n  margin-bottom: 15px; }\n.buy-btns {\n  text-align: right; }\n.tooltip-inner {\n  padding: 1.3em; }\n@-webkit-keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n@keyframes opacity {\n  0% {\n    opacity: 0;\n    -webkit-transform: scale(3);\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    -webkit-transform: scale(1);\n    transform: scale(1); } }\n.fa-arrow-left {\n  margin-top: 10px; }\n.title {\n  font-weight: 600; }\n.custom-control-label::before {\n  border: solid 1px #c3c2c2; }\n.info-content {\n  margin-left: 15px;\n  margin-bottom: 0px; }\n.custom-file-input {\n  cursor: pointer; }\n.message-error {\n  margin-top: 0; }\n.iris-code {\n  margin-top: 0.5rem; }\n.iris-code .row label {\n    font-weight: 500;\n    margin-bottom: 0.2rem; }\n.iris-code .codes-value {\n    margin-top: 0.5rem;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n            flex-direction: row;\n    flex-wrap: wrap; }\n.iris-code .codes-value .select-values {\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: normal;\n              flex-direction: row;\n      flex-wrap: wrap;\n      margin-bottom: 0.5rem; }\n.iris-code .codes-value .select-values label {\n        width: 40%; }\n.iris-code .codes-value .select-values input {\n        width: 30%; }\n"
 
 /***/ }),
 
@@ -9027,6 +9633,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
+/* harmony import */ var _shared_models_productrequested__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../shared/models/productrequested */ "./src/app/shared/models/productrequested.ts");
+/* harmony import */ var _shared_models_product__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../shared/models/product */ "./src/app/shared/models/product.ts");
+/* harmony import */ var _modals_confirmation_buy_confirmation_orion_confirmation_orion_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../modals/confirmation-buy/confirmation-orion/confirmation-orion.component */ "./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.ts");
+/* harmony import */ var _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../shared/models/fileproductrequested */ "./src/app/shared/models/fileproductrequested.ts");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9049,8 +9663,17 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
+
+
+
+
+
+var URL = _environments_environment__WEBPACK_IMPORTED_MODULE_19__["environment"].apiUrl + 'fileProductRequested/uploader';
 var ProductViewOrionComponent = /** @class */ (function () {
     function ProductViewOrionComponent(productService, route, userStorageService, shippingAddressService, userService, modalService, alertify, notification, translate, spinner) {
+        var _this = this;
         this.productService = productService;
         this.route = route;
         this.userStorageService = userStorageService;
@@ -9063,10 +9686,86 @@ var ProductViewOrionComponent = /** @class */ (function () {
         this.spinner = spinner;
         this.products = new Array;
         this.productsCode = new Array;
+        this.quantity = 1;
+        this.priceAcum = 0;
+        this.priceLeft = 0;
+        this.priceRight = 0;
+        this.productsSelected = new Array;
+        this.basketRequestModal = new _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_13__["BasketRequest"]();
         this.listCustomers = new Array;
         this.listCustomersAux = new Array;
+        this.addRight = false;
+        this.addLeft = false;
+        this.warrantyRight = false;
+        this.warrantyLeft = false;
+        this.download = false;
+        this.queueLimit = 5;
+        this.maxFileSize = 25 * 1024 * 1024; // 25 MB
+        this.listFileBasket = new Array;
+        this.listFileLeftEye = new Array;
+        this.listFileRightEye = new Array;
+        this.uploadResult = null;
+        this.uploadResultLeftEye = null;
+        this.uploadResultRightEye = null;
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_18__["FileUploader"]({ url: URL,
+            itemAlias: 'files',
+            queueLimit: this.queueLimit,
+            maxFileSize: this.maxFileSize,
+            removeAfterUpload: false,
+            authToken: this.userStorageService.getToke(),
+            autoUpload: false });
+        this.uploaderLeftEye = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_18__["FileUploader"]({ url: URL,
+            itemAlias: 'files',
+            queueLimit: this.queueLimit,
+            maxFileSize: this.maxFileSize,
+            removeAfterUpload: false,
+            authToken: this.userStorageService.getToke(),
+            autoUpload: false });
+        this.uploaderRightEye = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_18__["FileUploader"]({ url: URL,
+            itemAlias: 'files',
+            queueLimit: this.queueLimit,
+            maxFileSize: this.maxFileSize,
+            removeAfterUpload: false,
+            authToken: this.userStorageService.getToke(),
+            autoUpload: false });
         this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
         this.user = JSON.parse(userStorageService.getCurrentUser());
+        this.uploaderLeftEye.onAfterAddingFile = function (item) {
+            var maxSize = _this.maxFilesSize();
+            if (maxSize > _this.maxFileSize) {
+                _this.removeFile(item, 'Left');
+                _this.translate.get('Exceeds the maximum size allowed', { value: 'Exceeds the maximum size allowed' }).subscribe(function (res) {
+                    _this.notification.error('', res);
+                });
+            }
+        };
+        this.uploaderLeftEye.onSuccessItem = function (item, response, status, headers) {
+            _this.uploadResultLeftEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+            if (_this.uploadResultLeftEye) {
+                _this.buildFileProductRequested('Left');
+            }
+        };
+        this.uploaderLeftEye.onErrorItem = function (item, response, status, headers) {
+            _this.uploadResultLeftEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+        };
+        this.uploaderRightEye.onAfterAddingFile = function (item) {
+            var maxSize = _this.maxFilesSize();
+            if (maxSize > _this.maxFileSize) {
+                _this.removeFile(item, 'Right');
+                _this.translate.get('Exceeds the maximum size allowed', { value: 'Exceeds the maximum size allowed' }).subscribe(function (res) {
+                    _this.notification.error('', res);
+                });
+            }
+        };
+        this.uploaderRightEye.onSuccessItem = function (item, response, status, headers) {
+            _this.uploadResultRightEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+            if (_this.uploadResultRightEye) {
+                _this.buildFileProductRequested('Right');
+            }
+        };
+        this.uploaderRightEye.onErrorItem = function (item, response, status, headers) {
+            _this.uploadResultRightEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+        };
     }
     ProductViewOrionComponent.prototype.ngOnInit = function () {
         this.getProducts();
@@ -9092,38 +9791,110 @@ var ProductViewOrionComponent = /** @class */ (function () {
     ProductViewOrionComponent.prototype.getProductView = function () {
         this.id = +this.route.snapshot.paramMap.get('id');
         this.product = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](this.products, { idProduct: this.id });
+        this.product.eyeRight = false;
+        this.product.eyeLeft = false;
+        this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+        this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+        this.product.priceSaleRight = 0;
+        this.product.priceSaleLeft = 0;
+        this.product.pupillaryRight = null;
+        this.product.pupillaryLeft = null;
         this.setClient();
+        this.setPrice();
+        this.getProductsCode();
         this.setCodeProduct();
     };
-    ProductViewOrionComponent.prototype.setCodeProduct = function () {
+    ProductViewOrionComponent.prototype.getProductsCode = function () {
         var _this = this;
-        var productCode = this.product.codeSpectrum;
-        var productCategory = this.product.category;
-        var prCode;
-        this.productService.findBySupplierAndInViewAndCategory$(10, false, productCategory.idCategory).subscribe(function (res) {
-            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
-                _this.productsCode = res.data;
-                lodash__WEBPACK_IMPORTED_MODULE_12__["each"](_this.productsCode, function (pr) {
-                    if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.codeSpectrum, productCode)) {
-                        prCode = pr;
-                    }
+        this.productService.findBySupplierAndInViewAndCategory$(10, false, 10).subscribe(function (res1) {
+            if (res1.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                _this.productsCode = res1.data;
+                var pC = _this.productsCode.filter(function (item) {
+                    return lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](item.codeSpectrum, _this.product.codeSpectrum);
                 });
-                _this.productCode = prCode;
+                _this.productsCode = pC.sort(function (a, b) { return (b.idProduct > a.idProduct) ? -1 : 1; });
+                _this.setCodeProduct();
             }
             else {
-                console.log(res.errors[0].detail);
+                console.log(res1.errors[0].detail);
+                _this.spinner.hide();
             }
         }, function (error) {
             console.log('error', error);
+            _this.spinner.hide();
         });
+    };
+    ProductViewOrionComponent.prototype.setCodeProduct = function () {
+        var productName = this.product.name;
+        var idProduct = this.product.idProduct;
+        var parameterType = this.parameterType === 'Cosmetic' || this.parameterType === 'Prosthetic' ? this.parameterType : '';
+        var prCode;
+        for (var i = 0, len = this.productsCode.length; i < len; i++) {
+            var pr = this.productsCode[i];
+            if (idProduct === 267) {
+                if (parameterType === 'Cosmetic') {
+                    if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), productName.toLowerCase())
+                        && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), parameterType.toLowerCase()) && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'sphere')) {
+                        prCode = pr;
+                        break;
+                    }
+                }
+                else {
+                    if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), productName.toLowerCase())
+                        && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), parameterType.toLowerCase())) {
+                        prCode = pr;
+                        break;
+                    }
+                }
+            }
+            else {
+                if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), productName.toLowerCase())
+                    && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'sphere')) {
+                    prCode = pr;
+                    break;
+                }
+            }
+        }
+        this.productCode = prCode;
+        if (this.productCode) {
+            this.product.price1 = this.productCode.price1;
+            this.product.price2 = this.productCode.price2;
+            this.product.price3 = this.productCode.price3;
+        }
+        this.setPrice();
+        console.log(this.product);
+        this.updatePriceSale();
+    };
+    ProductViewOrionComponent.prototype.updatePriceSale = function () {
+        this.priceAcum = ((this.product.quantityLeft ? (this.product.quantityLeft * this.product.priceSaleLeft) : 0)
+            + (this.product.quantityRight ? (this.product.quantityRight * this.product.priceSaleRight) : 0));
+    };
+    ProductViewOrionComponent.prototype.setPrice = function () {
+        if (this.user.role.idRole === 3) {
+            this.membership = this.currentUser.membership.idMembership;
+            this.definePrice(this.membership, this.product);
+        }
+    };
+    ProductViewOrionComponent.prototype.definePrice = function (membership, product) {
+        switch (membership) {
+            case 1:
+                product.priceSale = product.price1;
+                break;
+            case 2:
+                product.priceSale = product.price2;
+                break;
+            case 3:
+                product.priceSale = product.price3;
+                break;
+        }
     };
     ProductViewOrionComponent.prototype.setClient = function () {
         var _this = this;
         if (this.user.role.idRole === 3) {
-            this.client = this.currentUser.idUser;
+            this.client = this.currentUser;
             var accSpct = !!this.currentUser.accSpct ? this.currentUser.accSpct + ' - ' : '';
             this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
-            this.findShippingAddress(this.client);
+            this.findShippingAddress(this.client.idUser);
         }
         else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
             this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(function (res) {
@@ -9139,14 +9910,195 @@ var ProductViewOrionComponent = /** @class */ (function () {
             });
         }
     };
-    ProductViewOrionComponent.prototype.onSelectedClient = function (clienteSelect) {
-        if (clienteSelect !== undefined) {
-            this.client = clienteSelect.idUser;
-            this.findShippingAddress(this.client);
+    ProductViewOrionComponent.prototype.onSelectedClient = function (clientSelect) {
+        if (clientSelect !== undefined) {
+            this.client = clientSelect;
+            this.membership = this.client.membership;
+            this.findShippingAddress(this.client.idUser);
+            this.definePrice(this.membership.idMembership, this.product);
+            var self_1 = this;
+            if (this.product.eyeRight) {
+                var parametersR = this.product.parametersRight;
+                console.log('paramRight', parametersR);
+                parametersR.forEach(function (param) {
+                    if (param.name === 'Type') {
+                        self_1.changeSelect('right', param, param.selected);
+                    }
+                });
+            }
+            if (this.product.eyeLeft) {
+                var parametersL = this.product.parametersLeft;
+                console.log('paramLeft', parametersL);
+                parametersL.forEach(function (param) {
+                    if (param.name === 'Type') {
+                        self_1.changeSelect('left', param, param.selected);
+                    }
+                });
+            }
         }
         else {
             this.client = '';
             this.product.shippingAddress = '';
+            this.product.priceSale = '';
+            this.priceAcum = 0;
+        }
+    };
+    ProductViewOrionComponent.prototype.getMin = function (parameter) {
+        var min = 0;
+        switch (parameter.name) {
+            case 'Diameter':
+                min = 13.00;
+                break;
+            case 'Base Curve':
+                min = 7.70;
+                break;
+            case 'Axis':
+                min = 1.00;
+                break;
+        }
+        return min;
+    };
+    ProductViewOrionComponent.prototype.getMax = function (parameter) {
+        var max = 0;
+        switch (parameter.name) {
+            case 'Diameter':
+                max = 22.00;
+                break;
+            case 'Base Curve':
+                max = 9.50;
+                break;
+            case 'Axis':
+                max = 180.00;
+                break;
+        }
+        return max;
+    };
+    ProductViewOrionComponent.prototype.getStep = function (parameter) {
+        var step = 0;
+        switch (parameter.name) {
+            case 'Diameter':
+                step = 0.10;
+                break;
+            case 'Base Curve':
+                step = 0.10;
+                break;
+            case 'Axis':
+                step = 0.25;
+                break;
+        }
+        return step;
+    };
+    ProductViewOrionComponent.prototype.changeSelect = function (eye, parameter, value) {
+        parameter.selected = value;
+        if (parameter.name === 'Warranty') {
+            if (eye === 'right') {
+                if (parameter.selected === 'Yes') {
+                    this.warrantyRight = true;
+                }
+                else {
+                    this.warrantyRight = false;
+                }
+            }
+            if (eye === 'left') {
+                if (parameter.selected === 'Yes') {
+                    this.warrantyLeft = true;
+                }
+                else {
+                    this.warrantyLeft = false;
+                }
+            }
+        }
+        if (this.client) {
+            if (parameter.name === 'Type') {
+                parameter.selected = value;
+                this.parameterType = parameter.selected;
+            }
+            this.setCodeProduct();
+            this.definePrice(this.client.membership.idMembership, this.product);
+            if (eye === 'right') {
+                this.product.priceSaleRight = this.product.priceSale;
+            }
+            else if (eye === 'left') {
+                this.product.priceSaleLeft = this.product.priceSale;
+            }
+            this.updatePriceSale();
+        }
+        if (parameter.name === 'Black Pupil' || parameter.name === 'Clear Pupil') {
+            parameter.disabled = false;
+            switch (parameter.name) {
+                case 'Black Pupil':
+                    if (eye === 'right') {
+                        var clearPupilRight = void 0;
+                        clearPupilRight = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](this.product.parametersRight, { name: 'Clear Pupil' });
+                        clearPupilRight.sel = null;
+                        clearPupilRight.selected = 'N/A';
+                        clearPupilRight.disabled = true;
+                    }
+                    if (eye === 'left') {
+                        var clearPupilLeft = void 0;
+                        clearPupilLeft = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](this.product.parametersLeft, { name: 'Clear Pupil' });
+                        clearPupilLeft.sel = null;
+                        clearPupilLeft.selected = 'N/A';
+                        clearPupilLeft.disabled = true;
+                    }
+                    break;
+                case 'Clear Pupil':
+                    if (eye === 'right') {
+                        var blackPupilRight = void 0;
+                        blackPupilRight = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](this.product.parametersRight, { name: 'Black Pupil' });
+                        blackPupilRight.sel = null;
+                        blackPupilRight.selected = 'N/A';
+                        blackPupilRight.disabled = true;
+                    }
+                    if (eye === 'left') {
+                        var blackPupilLeft = void 0;
+                        blackPupilLeft = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](this.product.parametersLeft, { name: 'Black Pupil' });
+                        blackPupilLeft.sel = null;
+                        blackPupilLeft.selected = 'N/A';
+                        blackPupilLeft.disabled = true;
+                    }
+                    break;
+            }
+        }
+    };
+    ProductViewOrionComponent.prototype.disabledPupil = function (parameter) {
+        if (parameter.name === 'Black Pupil' || parameter.name === 'Clear Pupil') {
+            return parameter.disabled;
+        }
+        return false;
+    };
+    ProductViewOrionComponent.prototype.isPupil = function (parameter) {
+        return parameter.name === 'Black Pupil' || parameter.name === 'Clear Pupil';
+    };
+    ProductViewOrionComponent.prototype.resetPupil = function (eye, parameter) {
+        parameter.sel = null;
+        parameter.selected = null;
+        parameter.value = null;
+        switch (parameter.name) {
+            case 'Black Pupil':
+                if (eye === 'right') {
+                    var clearPupilRight = void 0;
+                    clearPupilRight = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](this.product.parametersRight, { name: 'Clear Pupil' });
+                    clearPupilRight.disabled = false;
+                }
+                if (eye === 'left') {
+                    var clearPupilLeft = void 0;
+                    clearPupilLeft = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](this.product.parametersLeft, { name: 'Clear Pupil' });
+                    clearPupilLeft.disabled = false;
+                }
+                break;
+            case 'Clear Pupil':
+                if (eye === 'right') {
+                    var blackPupilRight = void 0;
+                    blackPupilRight = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](this.product.parametersRight, { name: 'Black Pupil' });
+                    blackPupilRight.disabled = false;
+                }
+                if (eye === 'left') {
+                    var blackPupilLeft = void 0;
+                    blackPupilLeft = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](this.product.parametersLeft, { name: 'Black Pupil' });
+                    blackPupilLeft.disabled = false;
+                }
+                break;
         }
     };
     ProductViewOrionComponent.prototype.findShippingAddress = function (idCliente) {
@@ -9157,8 +10109,8 @@ var ProductViewOrionComponent = /** @class */ (function () {
             }
             else if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].notContent) {
                 _this.product.shippingAddress = '';
-                _this.translate.get('You must enter a main address in the shipping address module', { value: 'You must enter a main address in the shipping address module' }).subscribe(function (res) {
-                    _this.notification.warning('', res);
+                _this.translate.get('You must enter a main address in the shipping address module', { value: 'You must enter a main address in the shipping address module' }).subscribe(function (res1) {
+                    _this.notification.warning('', res1);
                 });
             }
             else {
@@ -9166,10 +10118,65 @@ var ProductViewOrionComponent = /** @class */ (function () {
             }
         });
     };
+    ProductViewOrionComponent.prototype.setValueEye = function (eye) {
+        if (eye === 'right') {
+            this.product.eyeRight = !this.product.eyeRight;
+            if (!this.product.eyeRight) {
+                this.clean('right');
+                this.addRight = false;
+            }
+        }
+        else {
+            this.product.eyeLeft = !this.product.eyeLeft;
+            if (!this.product.eyeLeft) {
+                this.clean('left');
+                this.addLeft = false;
+            }
+        }
+    };
+    ProductViewOrionComponent.prototype.setEyeSelected = function () {
+        this.productsSelected = [];
+        if (this.product.eyeRight) {
+            this.productsSelected.push({ eye: 'Right' });
+        }
+        if (this.product.eyeLeft) {
+            this.productsSelected.push({ eye: 'Left' });
+        }
+    };
     ProductViewOrionComponent.prototype.formIsValid = function () {
         var isValid = true;
-        if (this.client === '' || this.client === undefined) {
-            isValid = false;
+        if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+            return false;
+        }
+        if (this.product.eyeRight) {
+            if (this.product.quantityRight === undefined) {
+                return false;
+            }
+            lodash__WEBPACK_IMPORTED_MODULE_12__["each"](this.product.parametersRight, function (param) {
+                if (param.name !== 'Iris Code') {
+                    if (param.selected === null || param.selected === undefined) {
+                        isValid = param.disabled || false;
+                    }
+                }
+            });
+            if (!this.product.quantityRight) {
+                isValid = false;
+            }
+        }
+        if (this.product.eyeLeft) {
+            if (this.product.quantityLeft === undefined) {
+                return false;
+            }
+            lodash__WEBPACK_IMPORTED_MODULE_12__["each"](this.product.parametersLeft, function (param) {
+                if (param.name !== 'Iris Code') {
+                    if (param.selected === null || param.selected === undefined) {
+                        isValid = param.disabled || false;
+                    }
+                }
+            });
+            if (!this.product.quantityLeft) {
+                isValid = false;
+            }
         }
         return isValid;
     };
@@ -9196,6 +10203,325 @@ var ProductViewOrionComponent = /** @class */ (function () {
             });
         });
     };
+    ProductViewOrionComponent.prototype.format = function (value, parameter) {
+        var flat;
+        var partInt;
+        var partDec;
+        var pos;
+        var toString;
+        if (value !== null) {
+            toString = value.toString();
+            if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](toString, '.')) {
+                pos = lodash__WEBPACK_IMPORTED_MODULE_12__["indexOf"](toString, '.');
+                partInt = toString.slice(0, pos);
+                if (partInt <= this.getMax(parameter)) {
+                    partDec = toString.slice(pos + 1, toString.length);
+                    flat = this.completeStart(partInt, 2) + '.' + this.completeEnd(partDec, 2);
+                }
+                else {
+                    flat = null;
+                }
+            }
+            else {
+                if (value <= this.getMax(parameter)) {
+                    flat = this.completeStart(value, 2) + '.00';
+                }
+                else {
+                    flat = null;
+                }
+            }
+            return flat;
+        }
+    };
+    ProductViewOrionComponent.prototype.completeStart = function (value, tamano) {
+        var filteredId = value.toString();
+        filteredId = lodash__WEBPACK_IMPORTED_MODULE_12__["padStart"](filteredId, tamano, '0');
+        return filteredId;
+    };
+    ProductViewOrionComponent.prototype.completeEnd = function (value, tamano) {
+        var filteredId = value.toString();
+        filteredId = lodash__WEBPACK_IMPORTED_MODULE_12__["padEnd"](filteredId, tamano, '0');
+        return filteredId;
+    };
+    ProductViewOrionComponent.prototype.clean = function (eye) {
+        var parameters;
+        if (eye === 'right') {
+            parameters = this.product.parametersRight;
+            this.product.quantityRight = '';
+            this.product.observationsRight = '';
+        }
+        else {
+            parameters = this.product.parametersLeft;
+            this.product.quantityLeft = '';
+            this.product.observationsLeft = '';
+        }
+        // parameter
+        lodash__WEBPACK_IMPORTED_MODULE_12__["each"](parameters, function (param) {
+            param.selected = null;
+            param.sel = null;
+        });
+        if (eye === 'right') {
+            this.product.parametersRight = parameters;
+        }
+        else {
+            this.product.parametersLeft = parameters;
+        }
+        this.updatePriceSale();
+    };
+    ProductViewOrionComponent.prototype.buildProductsSelected = function () {
+        this.setEyeSelected();
+        var product = this.productCopy;
+        var productsSelected = this.productsSelected;
+        var self = this;
+        var typeLeft;
+        var typeRight;
+        lodash__WEBPACK_IMPORTED_MODULE_12__["each"](productsSelected, function (productSelected, index) {
+            productSelected.patient = product.patient;
+            if (productSelected.eye === 'Right') {
+                productSelected.quantity = product.quantityRight;
+                productSelected.observations = product.observationsRight;
+                productSelected.price = product.priceSaleRight;
+                /*params*/
+                lodash__WEBPACK_IMPORTED_MODULE_12__["each"](product.parametersRight, function (parameter, index) {
+                    if (parameter.name === 'Warranty' || parameter.name === 'Limbal Ring' || parameter.name === 'Light Sensitivity') {
+                        parameter.selected = parameter.selected === 'Yes' ? true : false;
+                    }
+                    if (parameter.name === 'Iris Code') {
+                        var values_1 = [];
+                        parameter.values.forEach(function (param) {
+                            if (param.selected !== undefined && param.selected !== null) {
+                                values_1.push({ name: param.name, selected: param.selected });
+                            }
+                        });
+                        parameter.selected = values_1;
+                    }
+                    if (parameter.name === 'Diameter' || parameter.name === 'Base Curve'
+                        || parameter.name === 'Axis') {
+                        parameter.selected = self.format(parameter.selected, parameter);
+                    }
+                    if (parameter.name === 'Type') {
+                        typeRight = parameter.selected;
+                    }
+                    product.parametersRight[index] = lodash__WEBPACK_IMPORTED_MODULE_12__["omit"](parameter, ['type', 'values', 'sel', 'placeholder']);
+                });
+                productSelected.parameters = product.parametersRight;
+            }
+            if (productSelected.eye === 'Left') {
+                productSelected.quantity = product.quantityLeft;
+                productSelected.price = product.priceSaleLeft;
+                productSelected.observations = product.observationsLeft;
+                /*params*/
+                lodash__WEBPACK_IMPORTED_MODULE_12__["each"](product.parametersLeft, function (parameter, index) {
+                    if (parameter.name === 'Warranty' || parameter.name === 'Limbal Ring' || parameter.name === 'Light Sensitivity') {
+                        parameter.selected = parameter.selected === 'Yes' ? true : false;
+                    }
+                    if (parameter.name === 'Iris Code') {
+                        var values_2 = [];
+                        parameter.values.forEach(function (param) {
+                            if (param.selected !== undefined && param.selected !== null) {
+                                values_2.push({ name: param.name, selected: param.selected });
+                            }
+                        });
+                        parameter.selected = values_2;
+                    }
+                    if (parameter.name === 'Diameter' || parameter.name === 'Base Curve'
+                        || parameter.name === 'Axis') {
+                        parameter.selected = self.format(parameter.selected, parameter);
+                    }
+                    if (parameter.name === 'Type') {
+                        typeLeft = parameter.selected;
+                    }
+                    product.parametersLeft[index] = lodash__WEBPACK_IMPORTED_MODULE_12__["omit"](parameter, ['type', 'values', 'sel', 'placeholder']);
+                });
+                productSelected.parameters = product.parametersLeft;
+            }
+            productSelected.detail = { name: product.name, eye: productSelected.eye, parameters: productSelected.parameters };
+            productsSelected[index] = lodash__WEBPACK_IMPORTED_MODULE_12__["omit"](productSelected, ['parameters', 'eye', 'set']);
+        });
+        // add products code
+        var auxList = JSON.parse(JSON.stringify(productsSelected));
+        var auxproductsSelected = [];
+        var productsCode = this.productsCode;
+        var idProduct = this.product.idProduct;
+        var namePr = this.product.name;
+        lodash__WEBPACK_IMPORTED_MODULE_12__["each"](auxList, function (productAux, index) {
+            var productH = JSON.parse(JSON.stringify(productAux));
+            var prCode;
+            var parameterType;
+            if (idProduct === 267) {
+                if (productH.detail.eye === 'Left') {
+                    parameterType = typeLeft;
+                }
+                else if (productH.detail.eye === 'Right') {
+                    parameterType = typeRight;
+                }
+                for (var i = 0, len = productsCode.length; i < len; i++) {
+                    var pr = productsCode[i];
+                    if (parameterType === 'Cosmetic') {
+                        if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), namePr.toLowerCase())
+                            && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), parameterType.toLowerCase()) && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'sphere')) {
+                            prCode = pr;
+                            break;
+                        }
+                    }
+                    else {
+                        if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), namePr.toLowerCase())
+                            && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), parameterType.toLowerCase())) {
+                            prCode = pr;
+                            break;
+                        }
+                    }
+                }
+            }
+            else {
+                for (var i = 0, len = productsCode.length; i < len; i++) {
+                    var pr = productsCode[i];
+                    if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), namePr.toLowerCase())
+                        && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'sphere')) {
+                        prCode = pr;
+                        break;
+                    }
+                }
+            }
+            productH.id = prCode.idProduct;
+            productH.name = prCode.name;
+            productH.codeSpectrum = prCode.codeSpectrum;
+            auxproductsSelected.push(productH);
+        });
+        productsSelected = auxproductsSelected;
+        return productsSelected;
+    };
+    ProductViewOrionComponent.prototype.verifyOpenModal = function () {
+        if (this.uploaderRightEye.queue.length === this.listFileRightEye.length
+            && this.uploaderLeftEye.queue.length === this.listFileLeftEye.length) {
+            this.openModal(this.type);
+        }
+    };
+    ProductViewOrionComponent.prototype.openModal = function (type) {
+        var _this = this;
+        this.spinner.hide();
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_orion_confirmation_orion_component__WEBPACK_IMPORTED_MODULE_16__["ConfirmationOrionComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
+        modalRef.componentInstance.datos = this.basketRequestModal;
+        modalRef.componentInstance.product = this.product;
+        modalRef.componentInstance.typeBuy = type;
+        modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
+        modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
+        modalRef.componentInstance.role = this.user.role.idRole;
+        modalRef.result.then(function (result) {
+            _this.ngOnInit();
+        }, function (reason) {
+        });
+    };
+    ProductViewOrionComponent.prototype.addToCart = function (type) {
+        this.type = type;
+        this.spinner.show();
+        this.productCopy = JSON.parse(JSON.stringify(this.product));
+        var productsRequested = [];
+        var productsSelected = this.buildProductsSelected();
+        this.saveFiles();
+        lodash__WEBPACK_IMPORTED_MODULE_12__["each"](productsSelected, function (product) {
+            var productRequest = new _shared_models_productrequested__WEBPACK_IMPORTED_MODULE_14__["ProductRequested"]();
+            var productoSelect = new _shared_models_product__WEBPACK_IMPORTED_MODULE_15__["Product"]();
+            productoSelect.idProduct = product.id;
+            productoSelect.codeSpectrum = product.codeSpectrum;
+            productRequest.product = productoSelect;
+            productRequest.quantity = product.quantity;
+            productRequest.price = product.price;
+            productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
+            productRequest.patient = product.patient;
+            productRequest.observations = product.observations;
+            productsRequested.push(productRequest);
+        });
+        this.basketRequestModal.idUser = this.client.idUser;
+        this.basketRequestModal.productRequestedList = productsRequested;
+    };
+    ProductViewOrionComponent.prototype.maxFilesSize = function () {
+        var maxFileSize = 0;
+        if (this.uploader.queue) {
+            lodash__WEBPACK_IMPORTED_MODULE_12__["each"](this.uploader.queue, function (item) {
+                maxFileSize = maxFileSize + item.file.size;
+            });
+        }
+        return maxFileSize;
+    };
+    ProductViewOrionComponent.prototype.removeFile = function (item, eye) {
+        if (eye === 'Right') {
+            this.uploaderRightEye.removeFromQueue(item);
+        }
+        else if (eye === 'Left') {
+            this.uploaderLeftEye.removeFromQueue(item);
+        }
+        this.clearSelectedFile(eye);
+    };
+    ProductViewOrionComponent.prototype.clearSelectedFile = function (eye) {
+        if (eye === 'Right') {
+            this.selectedFilesRightEye.nativeElement.value = '';
+        }
+        else if (eye === 'Left') {
+            this.selectedFilesLeftEye.nativeElement.value = '';
+        }
+    };
+    ProductViewOrionComponent.prototype.clearFiles = function () {
+        if (this.uploaderLeftEye.queue.length) {
+            this.uploaderLeftEye.clearQueue();
+            this.clearSelectedFile('Left');
+        }
+        if (this.uploaderRightEye.queue.length) {
+            this.uploaderRightEye.clearQueue();
+            this.clearSelectedFile('Right');
+        }
+    };
+    ProductViewOrionComponent.prototype.saveFiles = function () {
+        this.listFileLeftEye = new Array;
+        this.listFileRightEye = new Array;
+        if (this.uploaderLeftEye.queue) {
+            lodash__WEBPACK_IMPORTED_MODULE_12__["each"](this.uploaderLeftEye.queue, function (item) {
+                item.upload();
+            });
+        }
+        if (this.uploaderRightEye.queue) {
+            lodash__WEBPACK_IMPORTED_MODULE_12__["each"](this.uploaderRightEye.queue, function (item) {
+                item.upload();
+            });
+        }
+        if (!this.uploaderLeftEye.queue.length && !this.uploaderRightEye.queue.length) {
+            this.openModal(this.type);
+        }
+    };
+    ProductViewOrionComponent.prototype.buildFileProductRequested = function (eye) {
+        if (eye === 'Right' && this.uploadResultRightEye.success) {
+            var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__["FileProductRequested"]();
+            fileProductRequest.url = JSON.parse(this.uploadResultRightEye.response).data;
+            fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+            fileProductRequest.type = this.uploadResultRightEye.item.file.type;
+            fileProductRequest.size = this.uploadResultRightEye.item.file.size;
+            fileProductRequest.createdAt = new Date();
+            this.listFileRightEye.push(fileProductRequest);
+            this.verifyOpenModal();
+        }
+        if (eye === 'Left' && this.uploadResultLeftEye.success) {
+            var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__["FileProductRequested"]();
+            fileProductRequest.url = JSON.parse(this.uploadResultLeftEye.response).data;
+            fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+            fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
+            fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
+            fileProductRequest.createdAt = new Date();
+            this.listFileLeftEye.push(fileProductRequest);
+            this.verifyOpenModal();
+        }
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('selectedFiles'),
+        __metadata("design:type", Object)
+    ], ProductViewOrionComponent.prototype, "selectedFiles", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('selectedFilesLeftEye'),
+        __metadata("design:type", Object)
+    ], ProductViewOrionComponent.prototype, "selectedFilesLeftEye", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('selectedFilesRightEye'),
+        __metadata("design:type", Object)
+    ], ProductViewOrionComponent.prototype, "selectedFilesRightEye", void 0);
     ProductViewOrionComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-product-view-orion',
@@ -11989,6 +13315,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _product_view_synergeyes_product_view_synergeyes_component__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./product-view-synergeyes/product-view-synergeyes.component */ "./src/app/products/product-view-synergeyes/product-view-synergeyes.component.ts");
 /* harmony import */ var _modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component */ "./src/app/products/modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component.ts");
 /* harmony import */ var _product_view_orion_product_view_orion_component__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./product-view-orion/product-view-orion.component */ "./src/app/products/product-view-orion/product-view-orion.component.ts");
+/* harmony import */ var _modals_confirmation_buy_confirmation_orion_confirmation_orion_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./modals/confirmation-buy/confirmation-orion/confirmation-orion.component */ "./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.ts");
+/* harmony import */ var _commons_module__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ../commons.module */ "./src/app/commons.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -12039,6 +13367,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
 var ProductsModule = /** @class */ (function () {
     function ProductsModule() {
     }
@@ -12056,7 +13386,8 @@ var ProductsModule = /** @class */ (function () {
                 _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__["NgSelectModule"],
                 ng2_file_upload__WEBPACK_IMPORTED_MODULE_17__["FileUploadModule"],
                 ngx_spinner__WEBPACK_IMPORTED_MODULE_21__["NgxSpinnerModule"],
-                ng2_currency_mask__WEBPACK_IMPORTED_MODULE_39__["CurrencyMaskModule"]
+                ng2_currency_mask__WEBPACK_IMPORTED_MODULE_39__["CurrencyMaskModule"],
+                _commons_module__WEBPACK_IMPORTED_MODULE_44__["CommonsModule"]
             ],
             declarations: [
                 _products_component__WEBPACK_IMPORTED_MODULE_3__["ProductsComponent"],
@@ -12088,7 +13419,8 @@ var ProductsModule = /** @class */ (function () {
                 _modals_edit_product_edit_product_medmont_edit_product_medmont_component__WEBPACK_IMPORTED_MODULE_38__["EditProductMedmontComponent"],
                 _product_view_synergeyes_product_view_synergeyes_component__WEBPACK_IMPORTED_MODULE_40__["ProductViewSynergeyesComponent"],
                 _modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_41__["ConfirmationSynergeyesComponent"],
-                _product_view_orion_product_view_orion_component__WEBPACK_IMPORTED_MODULE_42__["ProductViewOrionComponent"]
+                _product_view_orion_product_view_orion_component__WEBPACK_IMPORTED_MODULE_42__["ProductViewOrionComponent"],
+                _modals_confirmation_buy_confirmation_orion_confirmation_orion_component__WEBPACK_IMPORTED_MODULE_43__["ConfirmationOrionComponent"]
             ],
             entryComponents: [_modals_confirmation_buy_confirmation_buy_component__WEBPACK_IMPORTED_MODULE_14__["ConfirmationBuyComponent"],
                 _modals_edit_product_edit_product_component__WEBPACK_IMPORTED_MODULE_16__["EditProductComponent"],
@@ -12105,7 +13437,8 @@ var ProductsModule = /** @class */ (function () {
                 _modals_confirmation_buy_confirmation_lenticon_confirmation_lenticon_component__WEBPACK_IMPORTED_MODULE_35__["ConfirmationLenticonComponent"],
                 _modals_edit_product_edit_product_spectrum_saline_edit_product_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_36__["EditProductSpectrumSalineComponent"],
                 _modals_edit_product_edit_product_medmont_edit_product_medmont_component__WEBPACK_IMPORTED_MODULE_38__["EditProductMedmontComponent"],
-                _modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_41__["ConfirmationSynergeyesComponent"]
+                _modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_41__["ConfirmationSynergeyesComponent"],
+                _modals_confirmation_buy_confirmation_orion_confirmation_orion_component__WEBPACK_IMPORTED_MODULE_43__["ConfirmationOrionComponent"]
             ],
             providers: [_shared__WEBPACK_IMPORTED_MODULE_11__["RoleGuard"], _shared_services__WEBPACK_IMPORTED_MODULE_13__["AuthorizationService"]]
         })

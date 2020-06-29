@@ -1734,6 +1734,26 @@ __export(__webpack_require__(/*! ./index */ "./node_modules/ng2-file-upload/inde
 
 /***/ }),
 
+/***/ "./src/app/shared/enum/status-user.enum.ts":
+/*!*************************************************!*\
+  !*** ./src/app/shared/enum/status-user.enum.ts ***!
+  \*************************************************/
+/*! exports provided: StatusUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StatusUser", function() { return StatusUser; });
+var StatusUser;
+(function (StatusUser) {
+    StatusUser[StatusUser["Active"] = 0] = "Active";
+    StatusUser[StatusUser["Inactive"] = 1] = "Inactive";
+    StatusUser[StatusUser["InDefault"] = 2] = "InDefault";
+})(StatusUser || (StatusUser = {}));
+
+
+/***/ }),
+
 /***/ "./src/app/shared/models/business-type.ts":
 /*!************************************************!*\
   !*** ./src/app/shared/models/business-type.ts ***!

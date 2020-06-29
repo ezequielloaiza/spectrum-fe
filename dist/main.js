@@ -243,12 +243,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var angularfire2_database__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! angularfire2/database */ "./node_modules/angularfire2/database/index.js");
 /* harmony import */ var angularfire2_database__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(angularfire2_database__WEBPACK_IMPORTED_MODULE_17__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _commons_module__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./commons.module */ "./src/app/commons.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -302,7 +304,8 @@ var AppModule = /** @class */ (function () {
                 ngx_toastr__WEBPACK_IMPORTED_MODULE_13__["ToastrModule"].forRoot(),
                 _shared__WEBPACK_IMPORTED_MODULE_9__["PageHeaderModule"],
                 angularfire2__WEBPACK_IMPORTED_MODULE_16__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_18__["environment"].firebase),
-                angularfire2_database__WEBPACK_IMPORTED_MODULE_17__["AngularFireDatabaseModule"]
+                angularfire2_database__WEBPACK_IMPORTED_MODULE_17__["AngularFireDatabaseModule"],
+                _commons_module__WEBPACK_IMPORTED_MODULE_19__["CommonsModule"]
             ],
             declarations: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"], _login_recovery_password_recovery_password_component__WEBPACK_IMPORTED_MODULE_11__["RecoveryPasswordComponent"]],
             providers: [_shared__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"], _http_user_storage_service__WEBPACK_IMPORTED_MODULE_10__["UserStorageService"]],
@@ -310,6 +313,46 @@ var AppModule = /** @class */ (function () {
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/commons.module.ts":
+/*!***********************************!*\
+  !*** ./src/app/commons.module.ts ***!
+  \***********************************/
+/*! exports provided: CommonsModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CommonsModule", function() { return CommonsModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_directives_min_directive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shared/directives/min.directive */ "./src/app/shared/directives/min.directive.ts");
+/* harmony import */ var _shared_directives_max_directive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shared/directives/max.directive */ "./src/app/shared/directives/max.directive.ts");
+/* harmony import */ var _shared_directives_modulo_directive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shared/directives/modulo.directive */ "./src/app/shared/directives/modulo.directive.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var CommonsModule = /** @class */ (function () {
+    function CommonsModule() {
+    }
+    CommonsModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_shared_directives_min_directive__WEBPACK_IMPORTED_MODULE_1__["MinDirective"], _shared_directives_max_directive__WEBPACK_IMPORTED_MODULE_2__["MaxDirective"], _shared_directives_modulo_directive__WEBPACK_IMPORTED_MODULE_3__["ModuloDirective"]],
+            exports: [_shared_directives_min_directive__WEBPACK_IMPORTED_MODULE_1__["MinDirective"], _shared_directives_max_directive__WEBPACK_IMPORTED_MODULE_2__["MaxDirective"], _shared_directives_modulo_directive__WEBPACK_IMPORTED_MODULE_3__["ModuloDirective"]]
+        })
+    ], CommonsModule);
+    return CommonsModule;
 }());
 
 
@@ -692,6 +735,152 @@ var RecoveryPasswordComponent = /** @class */ (function () {
             _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__["TranslateService"]])
     ], RecoveryPasswordComponent);
     return RecoveryPasswordComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/directives/max.directive.ts":
+/*!****************************************************!*\
+  !*** ./src/app/shared/directives/max.directive.ts ***!
+  \****************************************************/
+/*! exports provided: MaxDirective */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MaxDirective", function() { return MaxDirective; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var MaxDirective = /** @class */ (function () {
+    function MaxDirective() {
+    }
+    MaxDirective_1 = MaxDirective;
+    MaxDirective.prototype.validate = function (control) {
+        return _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].max(this.max)(control);
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('max'),
+        __metadata("design:type", Number)
+    ], MaxDirective.prototype, "max", void 0);
+    MaxDirective = MaxDirective_1 = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"])({
+            selector: '[max]',
+            providers: [{ provide: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NG_VALIDATORS"], useExisting: MaxDirective_1, multi: true }]
+        })
+    ], MaxDirective);
+    return MaxDirective;
+    var MaxDirective_1;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/directives/min.directive.ts":
+/*!****************************************************!*\
+  !*** ./src/app/shared/directives/min.directive.ts ***!
+  \****************************************************/
+/*! exports provided: MinDirective */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MinDirective", function() { return MinDirective; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var MinDirective = /** @class */ (function () {
+    function MinDirective() {
+    }
+    MinDirective_1 = MinDirective;
+    MinDirective.prototype.validate = function (control) {
+        return _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].min(this.min)(control);
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('min'),
+        __metadata("design:type", Number)
+    ], MinDirective.prototype, "min", void 0);
+    MinDirective = MinDirective_1 = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"])({
+            selector: '[min]',
+            providers: [{ provide: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NG_VALIDATORS"], useExisting: MinDirective_1, multi: true }]
+        })
+    ], MinDirective);
+    return MinDirective;
+    var MinDirective_1;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/directives/modulo.directive.ts":
+/*!*******************************************************!*\
+  !*** ./src/app/shared/directives/modulo.directive.ts ***!
+  \*******************************************************/
+/*! exports provided: ModuloDirective */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModuloDirective", function() { return ModuloDirective; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ModuloDirective = /** @class */ (function () {
+    function ModuloDirective() {
+    }
+    ModuloDirective_1 = ModuloDirective;
+    /** This directive is for floating numbers.
+     * For more info: https://stackoverflow.com/questions/21915067/determine-if-x-is-divisible-evenly-by-y-in-php* */
+    ModuloDirective.prototype.validate = function (control) {
+        return (Math.abs((control.value / this.appModulo) - Math.round(control.value / this.appModulo)) < 0.0001) ? null : { 'appModulo': true };
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], ModuloDirective.prototype, "appModulo", void 0);
+    ModuloDirective = ModuloDirective_1 = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"])({
+            selector: '[appModulo][ngModel]',
+            providers: [{ provide: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NG_VALIDATORS"], useExisting: ModuloDirective_1, multi: true }]
+        })
+    ], ModuloDirective);
+    return ModuloDirective;
+    var ModuloDirective_1;
 }());
 
 
@@ -2250,8 +2439,8 @@ var InvoiceSupplierService = /** @class */ (function () {
     InvoiceSupplierService.prototype.findCopyByNumberOriginal$ = function (number) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesSupplier/findCopyByNumberOriginal/' + number);
     };
-    InvoiceSupplierService.prototype.sendInvoice$ = function (id) {
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesSupplier/sendInvoice/' + id);
+    InvoiceSupplierService.prototype.sendInvoice$ = function (id, email) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesSupplier/sendInvoice/' + id + '/' + email);
     };
     InvoiceSupplierService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -2567,6 +2756,9 @@ var UserService = /** @class */ (function () {
     };
     UserService.prototype.changeStatus$ = function (id) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'user/changeStatus/' + id);
+    };
+    UserService.prototype.changeStatusUser$ = function (id, status) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'user/changeStatusUser/' + id + '/' + status);
     };
     UserService.prototype.findById$ = function (id) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'user/findById/' + id);
