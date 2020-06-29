@@ -17,6 +17,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { NotificationBalanceComponent } from '../../notification-balance/notification-balance.component';
 import * as _ from 'lodash';
+import { StatusUser } from '../../../../shared/enum/status-user.enum';
 
 @Component({
   selector: 'app-confirmation-europa',
@@ -39,6 +40,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   typeBuy: any;
   price: any;
   user: any;
+  client: any;
   balace: any;
   additionalHidrapeg: any;
   additionalInserts: any;
@@ -104,7 +106,16 @@ export class ConfirmationEuropaComponent implements OnInit {
     let existInserts = false;
     let insertCodeSpectrum = '';
     _.each(this.listBasket, function (productRequested) {
-      priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+
+      if (productRequested.product.idProduct === 146) {
+        quantityInserts++;
+        if (quantityInserts < 2) {
+          priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+        }
+      } else {
+        priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+      }
+
       if (productRequested.name !== 'Inserts (DMV)'
          && productRequested.name !== 'Notch'
          && productRequested.name !== 'HydraPEG') {
@@ -182,37 +193,61 @@ export class ConfirmationEuropaComponent implements OnInit {
         console.log('error', error);
       });
     } else {
-      this.buyNow.idUser = this.datos.idUser;
-      this.buyNow.productRequestedList = this.lista;
-      this.buyNow.idRole = this.role;
-      this.buyNow.listFileRightEye = this.listFileRightEye;
-      this.buyNow.listFileLeftEye = this.listFileLeftEye;
-      this.validateAvailableBalance();
-      if (this.available) {
-          this.spinner.show();
-          this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
-          if (res.code === CodeHttp.ok) {
-            this.save_success = true;
-            this.spinner.hide();
+      if (this.client.status === StatusUser.InDefault) {
+        this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
+          this.translate.get('Your account was deactivated. Please contact with the administrator',
+          { value: 'Your account was deactivated. Please contact with the administrator' })
+          .subscribe((msg: string) => {
+            this.alertify.warning(msg);
             this.close();
-            this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-              this.notification.success('', res);
-            });
-            this.redirectListOrder();
-          } else {
-            this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
-              this.notification.error('', res);
-              this.spinner.hide();
-              console.log(res);
-            });
-          }
-        }, error => {
-          console.log('error', error);
+          });
         });
       } else {
-        this.balance_modal = true;
-        this.openModal(); // No tiene disponible el balance de credito
-        this.close();
+        this.buyNow.idUser = this.datos.idUser;
+        this.buyNow.productRequestedList = this.lista;
+        this.buyNow.idRole = this.role;
+        this.buyNow.listFileRightEye = this.listFileRightEye;
+        this.buyNow.listFileLeftEye = this.listFileLeftEye;
+
+        // removing duplicate inserts
+        let quantityInserts = 0;
+        let self = this;
+        _.each(this.buyNow.productRequestedList, function(productRequested, index){
+          if (productRequested.product.idProduct === 146) {
+            quantityInserts++;
+            if (quantityInserts > 1) {
+              self.buyNow.productRequestedList.splice(index, 1)
+            }
+          }
+        });
+
+        // this.validateAvailableBalance();
+        // if (this.available) {
+            this.spinner.show();
+            this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
+            if (res.code === CodeHttp.ok) {
+              this.save_success = true;
+              this.spinner.hide();
+              this.close();
+              this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+                this.notification.success('', res);
+              });
+              this.redirectListOrder();
+            } else {
+              this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+                this.notification.error('', res);
+                this.spinner.hide();
+                console.log(res);
+              });
+            }
+          }, error => {
+            console.log('error', error);
+          });
+        /*} else {
+          this.balance_modal = true;
+          this.openModal(); // No tiene disponible el balance de credito
+          this.close();
+        }*/
       }
     }
   }
@@ -266,8 +301,9 @@ export class ConfirmationEuropaComponent implements OnInit {
   getBalance() {
     this.userService.findById$(this.datos.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-         this.company = res.data.company;
-         this.balace = this.company.balance;
+        this.client = res.data;
+        this.company = res.data.company;
+        this.balace = this.company.balance;
       } else {
         console.log(res.errors[0].detail);
       }

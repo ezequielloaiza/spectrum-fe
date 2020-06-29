@@ -33,6 +33,8 @@ import { ProductRequested } from '../../../../../shared/models/productrequested'
 import { ProductService } from '../../../../../shared/services/products/product.service';
 import { DetailSynergeyesComponent } from '../../../modals/detail-product/detail-synergeyes/detail-synergeyes.component';
 import { SynergeyesComponent } from '../../../../edit-order/synergeyes/synergeyes.component';
+import { OrionComponent } from '../../../../edit-order/orion/orion/orion.component';
+import { DetailOrionComponent } from '../../../modals/detail-product/detail-orion/detail-orion.component';
 
 
 @Component({
@@ -163,10 +165,7 @@ export class DetailsBasketClientComponent implements OnInit {
         // price insertors
         const insertor = basket.productRequested.detail[0].header[2].selected === true;
         priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
-
-        if (insertor && existContraryEye) {
-          priceAll = priceAll + (priceInsertor / 2);
-        } else if (insertor) {
+        if (insertor) {
           priceAll = priceAll + priceInsertor;
         }
         basket.productRequested.priceBase = basket.productRequested.price;
@@ -217,7 +216,6 @@ export class DetailsBasketClientComponent implements OnInit {
       return o.idBasketProductRequested === id;
     });
      if (basket.productRequested.product.supplier.idSupplier === 2) {
-       //this.updateBasketGroupId(id, basket);
      } else {
       this.basketProductRequestedService.removeById$(id).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -244,7 +242,6 @@ export class DetailsBasketClientComponent implements OnInit {
           const idSupplier = basket.productRequested.product.supplier.idSupplier;
 
           if (idSupplier === 2) {
-            //this.updateBasketGroupId(id, basket);
             this.deleteProductsAditionalEuropa(basket);
           } else {
             this.borrar(id);
@@ -309,17 +306,25 @@ export class DetailsBasketClientComponent implements OnInit {
         _.each(listSelect, function(itemBasket) {
           if (item.productRequested.product.supplier.idSupplier === 2) {
             if (item.idBasketProductRequested === itemBasket) {
-              arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
-                item.productRequested.detail[0].eye);
+              arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId, item.productRequested.detail[0].eye);
               listPA = _.concat(listPA, arrayAuxPA);
             }
           }
       });
     });
 
+    let insertorsUniq = [];
+
     _.each(listPA, function(item) {
       const id = item.idBasketProductRequested;
-      arrayAux = _.concat(arrayAux, id);
+      const groupId = item.productRequested.groupId;
+
+      if (item.productRequested.product.idProduct === 146 && !_.includes(insertorsUniq, groupId)) {
+        insertorsUniq.push(groupId);
+        arrayAux = _.concat(arrayAux, id);
+      } else if (item.productRequested.product.idProduct !== 146) {
+        arrayAux = _.concat(arrayAux, id);
+      }
     });
 
     if (arrayAux.length > 0) {
@@ -450,22 +455,21 @@ export class DetailsBasketClientComponent implements OnInit {
   onSelectionAll(valueChecked) {
     this.checkedAll = valueChecked;
     let arrayAux = this.productRequestedToBuy;
-  _.each(this.listBasket, function(item) {
+    _.each(this.listBasket, function(item) {
       item.checked = !valueChecked;
-        let id = item.idBasketProductRequested;
-        let exist = _.includes(arrayAux, id);
-        if (exist) {
-            if (valueChecked === true) {
-            _.remove(arrayAux,  function (product)  {
-              return product === id;
-            });
-          }
-        } else {
-          arrayAux = _.concat(arrayAux, id);
+      let id = item.idBasketProductRequested;
+      let exist = _.includes(arrayAux, id);
+      if (exist) {
+        if (valueChecked === true) {
+          _.remove(arrayAux,  function (product)  {
+            return product === id;
+          });
         }
-      });
-      this.productRequestedToBuy = arrayAux;
-
+      } else {
+        arrayAux = _.concat(arrayAux, id);
+      }
+    });
+    this.productRequestedToBuy = arrayAux;
   }
 
   openParams(basket) {
@@ -539,6 +543,15 @@ export class DetailsBasketClientComponent implements OnInit {
           { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false});
           modalRefSynergeyes.componentInstance.basket = basket;
           modalRefSynergeyes.result.then((result) => {
+          this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
+      case 10: // Orion
+        const modalRefOrion = this.modalService.open(DetailOrionComponent,
+          { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false});
+          modalRefOrion.componentInstance.basket = basket;
+          modalRefOrion.result.then((result) => {
           this.ngOnInit();
           } , (reason) => {
           });
@@ -629,6 +642,16 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
           break;
+    case 10: // Orion
+        const modalRefOrion = this.modalService.open( OrionComponent,
+        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+        modalRefOrion.componentInstance.basket = basket;
+        modalRefOrion.componentInstance.typeEdit = 1;
+        modalRefOrion.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
      }
    }
 
@@ -644,6 +667,7 @@ export class DetailsBasketClientComponent implements OnInit {
     modalRef.componentInstance.buyBasket = this.buyBasket;
     modalRef.componentInstance.quantity = this.productRequestedToBuy.length;
     modalRef.componentInstance.list = this.listBasket;
+    modalRef.componentInstance.client = this.user;
     modalRef.result.then((result) => {
       this.getCustomer();
       this.getListBasket();
@@ -655,66 +679,50 @@ export class DetailsBasketClientComponent implements OnInit {
   }
 
   calculationsSummary() {
+    let self = this;
     let subtotal = 0;
     const listSelect = this.productRequestedToBuy;
     _.each(this.listBasket, function(item) {
-        _.each(listSelect, function(itemBasket) {
-          if (item.idBasketProductRequested === itemBasket) {
-            subtotal = subtotal + (item.productRequested.quantity  * item.productRequested.price);
-          }
-        });
+      _.each(listSelect, function(itemBasket) {
+        if (item.idBasketProductRequested === itemBasket) {
+          subtotal = subtotal + (item.productRequested.quantity  * item.productRequested.price);
+        }
       });
-      this.subtotal = subtotal;
-      this.total = subtotal;
+    });
+    let amountToExcluded = this.totalInsertsExcluded();
+    this.subtotal = subtotal - amountToExcluded;
+    this.total = this.subtotal;
   }
 
-  updateBasketGroupId(id, basket) {
-    this.verifyInserts(basket);
+
+
+  totalInsertsExcluded() {
     let self = this;
-    let priceNew;
-    this.productRequested1 = new ProductRequested();
-      if (this.basketUpdate !== undefined) {
-        this.definePriceInserts(this.basketUpdate.basket.user.membership.idMembership, this.basketUpdate);
-        this.productRequested1.idProductRequested = this.basketUpdate.productRequested.idProductRequested;
-        this.productRequested1.detail = JSON.stringify(this.basketUpdate.productRequested.detail);
-        priceNew = this.basketUpdate.productRequested.price - (this.inserts / 2);
-        this.productRequested1.price = priceNew + this.inserts;
-        this.basketProductRequestedService.removeById$(id).subscribe(res => {
-          if (res.code === CodeHttp.ok) {
-              self.productRequestedService.updatePriceEuropa$(self.productRequested1).subscribe(res1 => {
-                if (res1.code === CodeHttp.ok) {
-                  this.getListBasket();
-                  // tslint:disable-next-line:no-shadowed-variable
-                  this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res1: string) => {
-                  this.notification.success('', res1);
-                  });
-                }
-              });
-          } else {
-            console.log(res.errors[0].detail);
-          }
-        }, error => {
-          console.log('error', error);
+    let amountToExcluded = 0;
+    let groupsIdsReady = [];
+    _.each(this.productRequestedToBuy, function (basketProductRequest) {
+      let basket = _.find(self.listBasket, function(o) {
+        return o.supplier === 2 && o.idBasketProductRequested === basketProductRequest;
+      });
+
+      if (!!basket) {
+        self.definePriceInserts(basket.basket.user.membership.idMembership, basket.productRequested);
+        let basketProduct = _.find(self.listBasket, function(o) {
+          return _.includes(self.productRequestedToBuy, o.idBasketProductRequested) && o.productRequested.idProductRequested !== basket.productRequested.idProductRequested
+          && basket.productRequested.groupId === o.productRequested.groupId;
         });
-     } else {
-        this.basketProductRequestedService.removeById$(id).subscribe(res => {
-          if (res.code === CodeHttp.ok) {
-            this.getListBasket();
-            // tslint:disable-next-line:no-shadowed-variable
-            this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res: string) => {
-              this.notification.success('', res);
-            });
-          } else {
-            console.log(res.errors[0].detail);
-          }
-        }, error => {
-          console.log('error', error);
-        });
-     }
+
+        if (basketProduct && !_.includes(groupsIdsReady, basketProduct.productRequested.groupId)) {
+          groupsIdsReady.push(basketProduct.productRequested.groupId);
+          amountToExcluded += self.inserts;
+        }
+      }
+    });
+    return amountToExcluded;
   }
 
-  definePriceInserts(membership, basket) {
-    let pricesAditionalInserts = JSON.parse(basket.productRequested.product.infoAditional)[0].values[1];
+  definePriceInserts(membership, productRequested) {
+    let pricesAditionalInserts = JSON.parse(productRequested.product.infoAditional)[0].values[1];
     switch (membership) {
       case 1:
         this.inserts = pricesAditionalInserts.values[0].price;
@@ -725,26 +733,6 @@ export class DetailsBasketClientComponent implements OnInit {
       case 3:
         this.inserts = pricesAditionalInserts.values[2].price;
         break;
-    }
-  }
-
-  verifyInserts(basket) {
-    let idProductRequested = basket.productRequested.idProductRequested;
-    let detail = basket.productRequested.detail;
-    let oldInserts;
-    let self = this;
-    _.each( detail, function(item) {
-      _.each(item.header, function(itemH, index) {
-        if (itemH.name === 'Inserts (DMV)') {
-          oldInserts = item.header[index].selected;
-        }
-      });
-    });
-    if (oldInserts) { //si tenia DMV
-      this.basketUpdate = _.find(this.listBasket, function(o) {
-        return o.productRequested.idProductRequested !== idProductRequested
-        && basket.productRequested.groupId === o.productRequested.groupId;
-      });
     }
   }
 }

@@ -22,15 +22,18 @@
           <div class="label-title">
             <img class="img-product" src="{{ basket.urlImage }}" />
           </div>
-          <!-- Patient -->
-          <div class="col-lg-12 title label-title patient-info">
-            <span>{{ "Patient" | translate }}</span>
-            <dl>
-              <dt>{{ productRequested.patient }}</dt>
-            </dl>
-            <dl>
-              <dt>{{ subtotal | currency: "USD $" }}</dt>
-            </dl>
+          <!-- Patient , Type, Price-->
+          <div class="col-sm-12 header-global">
+            <div class="col-sm-4" *ngFor="let item of infoGlobal">
+              <dl class="align-item">
+                <dt>{{ item.name | translate }}</dt>
+                <hr class="separators" />
+                <dl>
+                  <dt class="items" *ngIf="item.name !== 'Total'">{{ item.value | translate }}</dt>
+                  <dt class="items" *ngIf="item.name === 'Total'">{{ subtotal | currency: "USD $" }}</dt>
+                </dl>
+              </dl>
+            </div>
           </div>
           <div class="col-lg-12 title eye-info">
               <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
@@ -73,18 +76,20 @@
             </div>
 
             <!-- TEST SET-->
-            <div class="col-sm-12">
-              <div class="parameters">{{ 'Test set' | translate }}</div>
-            </div>
-            <div class="col-sm-4" *ngFor="let parameter of detail.set">
-              <dl class="align-item">
-                <dt>{{ parameter.name | translate }}</dt>
-                <hr class="separators">
-                <dl>
-                  <dt class="items" *ngIf="!!parameter.selected && parameter.selected !== null && parameter.selected !== ''">{{ parameter.selected}}</dt>
-                  <dt class="items" *ngIf="parameter.selected === null || parameter.selected === '' || !parameter.selected">{{ 'Unassigned' | translate}}</dt>
+            <div class="row test-set" *ngIf="detail.typeLens === 'Please design my lens'">
+              <div class="col-sm-12">
+                <div class="parameters">{{ 'Test set' | translate }}</div>
+              </div>
+              <div class="col-sm-4" *ngFor="let parameter of detail.set">
+                <dl class="align-item">
+                  <dt>{{ parameter.name | translate }}</dt>
+                  <hr class="separators">
+                  <dl>
+                    <dt class="items" *ngIf="!!parameter.selected && parameter.selected !== null && parameter.selected !== ''">{{ parameter.selected}}</dt>
+                    <dt class="items" *ngIf="parameter.selected === null || parameter.selected === '' || !parameter.selected">{{ 'Unassigned' | translate}}</dt>
+                  </dl>
                 </dl>
-              </dl>
+              </div>
             </div>
 
             <!-- PARAMS -->
@@ -105,12 +110,16 @@
                 <dt>{{ parameter.name | translate }}</dt>
                 <hr class="separators" />
                 <dl>
-                  <dt class="items">{{ parameter.selected }}</dt>
+                  <dt class="items" *ngIf="parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined">{{ parameter.selected }}</dt>
+                  <dt class="items" *ngIf="parameter.selected === null || parameter.selected === '' || parameter.selected === undefined">{{ 'Unassigned' | translate}}</dt>
                 </dl>
               </dl>
             </div>
             <div class="col-sm-12">
-              <div class="parameters">{{ "Steps" | translate }}:</div>
+              <dl class="align-item steps">
+                <dt>{{ "Steps" | translate }}:</dt>
+                <dt class="items">{{ detail.typeSteps | translate }}</dt>
+              </dl>
             </div>
             <div class="col-sm-12" *ngFor="let parameter of detail.pasos">
               <div class="row padding-params">

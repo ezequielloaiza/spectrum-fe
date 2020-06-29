@@ -8,6 +8,16 @@
   max-height: 630px;
   padding: 2em;
 
+  .header-global {
+    display: flex;
+    padding-bottom: 40px;
+  }
+
+  .test-set {
+    width: 100%;
+    margin-left: 0;
+  }
+
   .main-info {
     text-align: center;
   }
@@ -104,5 +114,16 @@
   .param{
     color: #f8ac59;
   }
+
+  .steps {
+    text-align: left;
+    margin: 2rem 0 0.5rem 2rem;
+    display: flex;
+
+    > dt:nth-child(1) {
+      margin-right: 15px;
+    }
+  }
+
 
 }

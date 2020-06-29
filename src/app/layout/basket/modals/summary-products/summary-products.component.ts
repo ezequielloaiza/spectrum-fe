@@ -12,6 +12,8 @@ import { NotificationBalanceOrderComponent } from '../../../notification/notific
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { ProductRequested } from '../../../../shared/models/productrequested';
+import { StatusUser } from '../../../../shared/enum/status-user.enum';
+import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
 
 @Component({
   selector: 'app-summary-products',
@@ -25,6 +27,7 @@ export class SummaryProductsComponent implements OnInit {
   buyBasket: Buy;
   quantity: any;
   user: any;
+  client: any;
   balace: any;
   company: Company = new Company();
   available: any;
@@ -34,6 +37,7 @@ export class SummaryProductsComponent implements OnInit {
   validRecords = 0;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
+              private alertify: AlertifyService,
               private translate: TranslateService,
               private orderService: OrderService,
               private spinner: NgxSpinnerService,
@@ -47,7 +51,6 @@ export class SummaryProductsComponent implements OnInit {
 
   ngOnInit() {
     this.getBalance();
-    this.updatePriceEuropa();
   }
 
   close() {
@@ -55,21 +58,26 @@ export class SummaryProductsComponent implements OnInit {
   }
 
   generateOrder() {
-    this.validateAvailableBalance();
-    if (this.available) {
+    // this.validateAvailableBalance();
+    if (this.client.status === StatusUser.InDefault) {
+      this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
+        this.translate.get('Your account was deactivated. Please contact with the administrator',
+        { value: 'Your account was deactivated. Please contact with the administrator' })
+        .subscribe((msg: string) => {
+          this.alertify.warning(msg);
+          this.close();
+        });
+      });
+    } else {
       this.spinner.show();
       this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          if (this.listAux.length > 0) {
-             this.update();//caso europa
-          } else {
-            this.close();
-            this.spinner.hide();
-            this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-              this.notification.success('', res);
-            });
-            this.redirectListOrder();
-          }
+          this.close();
+          this.spinner.hide();
+          this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+            this.notification.success('', res);
+          });
+          this.redirectListOrder();
         } else {
           console.log(res.errors[0].detail);
           this.spinner.hide();
@@ -77,18 +85,16 @@ export class SummaryProductsComponent implements OnInit {
       }, error => {
         console.log('error', error);
       });
-   } else {
-     this.openModal();
-     this.close();
-   }
+    }
   }
 
 
   getBalance() {
     this.userService.findById$(this.buyBasket.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-         this.company = res.data.company;
-         this.balace = this.company.balance;
+        this.client = res.data;
+        this.company = res.data.company;
+        this.balace = this.company.balance;
       } else {
         console.log(res.errors[0].detail);
       }
@@ -110,7 +116,6 @@ export class SummaryProductsComponent implements OnInit {
     { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
     modalRef.componentInstance.buyBasketModal = this.buyBasket;
     modalRef.componentInstance.type = 1;
-    modalRef.componentInstance.listAux = this.listAux;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
@@ -128,56 +133,6 @@ export class SummaryProductsComponent implements OnInit {
     }
   }
 
-  updatePriceEuropa() {
-    let self = this;
-    let basketUpdate;
-    let oldInserts;
-    let listAux = [];
-    _.each(this.buyBasket.listBasket, function (basket) {
-      _.each(self.list, function (item) {
-         if (item.idBasketProductRequested === basket) {
-           if (item.productRequested.product.supplier.idSupplier === 2) {
-            let detail = item.productRequested.detail;
-            _.each( detail, function(item1) {
-              _.each(item1.header, function(itemH, index) {
-                if (itemH.name === 'Inserts (DMV)') {
-                  oldInserts = item1.header[index].selected;
-                }
-              });
-            });
-            if (oldInserts) { //si tenia DMV
-              let groupId = item.productRequested.groupId;
-              basketUpdate = _.find(self.list, function(o) {
-                return o.productRequested.idProductRequested !== item.productRequested.idProductRequested
-                && item.productRequested.groupId === o.productRequested.groupId;
-              });
-              if (basketUpdate !== undefined) {
-                self.definePriceInserts(basketUpdate.basket.user.membership.idMembership, basketUpdate);
-                let exist = _.includes(self.buyBasket.listBasket, basketUpdate.idBasketProductRequested);
-                if (!exist) {
-                    //EL que se compra
-                    let productRequested = new ProductRequested();
-                    productRequested.idProductRequested = item.productRequested.idProductRequested;
-                    productRequested.detail = JSON.stringify(item.productRequested.detail);
-                    const priceNew = item.productRequested.price - (self.inserts / 2);
-                    productRequested.price = priceNew + self.inserts;
-                    listAux = _.concat(listAux, productRequested);
-                    //El que queda en la cesta
-                    let productRequested1 = new ProductRequested();
-                    productRequested1.idProductRequested = basketUpdate.productRequested.idProductRequested;
-                    productRequested1.detail = JSON.stringify(basketUpdate.productRequested.detail);
-                    const priceNew1 = basketUpdate.productRequested.price - (self.inserts / 2);
-                    productRequested1.price = priceNew1 + self.inserts;
-                    listAux = _.concat(listAux, productRequested1);
-                }
-              }
-            }
-           }
-         }
-      });
-    });
-    this.listAux = listAux;
-  }
 
 
   definePriceInserts(membership, basket) {
@@ -194,28 +149,4 @@ export class SummaryProductsComponent implements OnInit {
         break;
     }
   }
-
-  update() {
-    let self = this;
-    let records = this.validRecords;
-    _.each(this.listAux, function(item) {
-      self.productRequestedService.updatePriceEuropa$(item).subscribe(res1 => {
-        records++;
-        self.showMessage(records);
-     });
-   });
-  }
-
-  showMessage(records) {
-    this.validRecords = records;
-    if (this.validRecords === this.listAux.length) {
-      this.close();
-      this.spinner.hide();
-      this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-        this.notification.success('', res);
-      });
-      this.redirectListOrder();
-    }
- }
-
 }

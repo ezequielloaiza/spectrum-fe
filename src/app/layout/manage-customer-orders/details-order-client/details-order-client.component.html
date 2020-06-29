@@ -99,7 +99,7 @@
                             <h3>-({{list.productRequested.detail[0].name}})</h3>
                           </span>
                         </div>
-                        <div class="padding-params" *ngIf="order.status === 0 && user.role.idRole === 1 && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 7">
+                        <div class="padding-params" *ngIf="order.status === 0 && user.role.idRole === 1 && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 7 && order.user.status !== 2">
                             <button type="button" (click)="openEdit(list.productRequested, list.urlImage, order)" class="btn btn-outline-primary" translate>
                               Edit
                             </button>
@@ -214,14 +214,22 @@
                           </dl>
                         </div>
                         <div class="col-sm-2" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">
-                            <dl class="align-item">
-                              <dt>{{'Subtotal'| translate}}</dt>
-                              <dt>
-                                <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
-                              </dt>
-                            </dl>
-                          </div>
-
+                          <dl class="align-item">
+                            <dt>{{'Subtotal'| translate}}</dt>
+                            <dt>
+                              <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 2" >
+                          <dl class="align-item">
+                            <dt>{{'Type'| translate}}
+                            </dt>
+                            <dt>
+                              <span class="font-text" translate>{{list.productRequested.detail[0].typeLens}}</span>
+                            </dt>
+                          </dl>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -250,6 +258,9 @@
           <!--Synergeyes-->
           <app-supplier-synergeyes [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventSynergeyes)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 9"></app-supplier-synergeyes>
           <!--Fin Synergeyes-->
+          <!--Orion-->
+          <app-supplier-orion [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 10"></app-supplier-orion>
+          <!--Fin Orion-->
         </div>
       </div>
     </div>

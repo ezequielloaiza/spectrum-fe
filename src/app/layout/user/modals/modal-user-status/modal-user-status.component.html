@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'Change Status' | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-xl-12" *ngFor="let status of filterStatus; let i = index">
+        <div class="custom-control custom-radio">
+          <input type="radio" id="radioGroup{{i}}" name="radioGroup" [value]="status.id" (change)="onSelectionChange(status)" class="custom-control-input" [disabled]="status.id==user.status" [checked]="status.id==user.status">
+          <label class="custom-control-label" for="radioGroup{{i}}">{{ status.name | translate }}</label>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" class="btn btn-main" [disabled]="!valid" (click)="changeStatus()">{{ 'Save' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>
+
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.description}}
+</ng-template>
