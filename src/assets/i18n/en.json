@@ -1118,6 +1118,6 @@
     "Left Eye": "Left Eye",
     "Right Eye": "Right Eye",
     "Spectrum code": "Spectrum code",
-    "Iris Diameter": "Iris Diameter",
-    "Please indicate the sequency of the color layers. Fx: 1, 2 etc. from bottom to top": "Please indicate the sequency of the color layers. Fx: 1, 2 etc. from bottom to top"
+    "Compensate": "Compensate",
+    "Iris Diameter": "Iris Diameter"
 }
