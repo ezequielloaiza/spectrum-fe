@@ -19,6 +19,15 @@
   margin-top: 0.5rem;
 }
 
+.steps {
+  margin-left: 1rem;
+  display: flex;
+
+  > dt:nth-child(1) {
+    margin-right: 15px;
+  }
+}
+
 .step-values {
   >div:nth-child(2) {
     padding-right: 0;
@@ -50,4 +59,3 @@
   }
 
 }
-

@@ -34,6 +34,12 @@
       <ng-template ngbTabTitle>{{ "Steps" | translate }}</ng-template>
       <ng-template ngbTabContent>
         <div class="card-body table-responsive">
+          <div class="row">
+            <dl class="steps">
+              <dt>{{ "Steps" | translate }}:</dt>
+              <dt class="item">{{ lista.detail[0].typeSteps | translate }}</dt>
+            </dl>
+          </div>
           <div *ngFor="let specification of lista.detail">
             <div class="row justify-content-md-center div-parametros">
               <div class="col-sm-4" *ngFor="let param of specification.pasos">
@@ -122,7 +128,7 @@
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="{{'Trial Lens Used'| translate}}" *ngIf="lista.detail[0].typeLens === 'Final Lens'">
+    <ngb-tab title="{{'Trial Lens Used'| translate}}" *ngIf="lista.detail[0].typeLens === 'Please design my lens'">
       <ng-template ngbTabContent>
         <div class="card-body table-responsive">
           <div *ngFor="let specification of lista.detail">

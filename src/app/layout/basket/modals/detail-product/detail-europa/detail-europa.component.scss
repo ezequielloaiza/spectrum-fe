@@ -115,4 +115,15 @@
     color: #f8ac59;
   }
 
+  .steps {
+    text-align: left;
+    margin: 2rem 0 0.5rem 2rem;
+    display: flex;
+
+    > dt:nth-child(1) {
+      margin-right: 15px;
+    }
+  }
+
+
 }
