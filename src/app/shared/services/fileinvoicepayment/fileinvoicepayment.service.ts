@@ -38,6 +38,7 @@ export class FileinvoicepaymentService {
   }
 
   public saveAllFile$(listFiles: Array<FileInvoicePayment>, id): Observable<any> {
+    console.log('service', listFiles);
     return this.http.post(environment.apiUrl + 'fileInvoicePayment/saveAllFiles/' + id, listFiles);
   }
 
