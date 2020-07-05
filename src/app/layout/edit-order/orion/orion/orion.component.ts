@@ -158,7 +158,7 @@ export class OrionComponent implements OnInit {
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
-           if (productSelected.name === 'Warranty'
+           if (productSelected.name === 'Warranty' || productSelected.name === 'Starburst'
            || productSelected.name === 'Limbal Ring' || productSelected.name === 'Light Sensitivity') {
                productSelected.selected = item.selected ? 'Yes' : 'No';
            } else {
