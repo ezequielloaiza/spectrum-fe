@@ -390,6 +390,23 @@ export class ProductViewSynergeyesComponent implements OnInit {
       this.membership = this.client.membership;
       this.findShippingAddress(this.client.idUser);
       this.definePrice(clientSelect.membership.idMembership);
+      const self = this;
+      if (this.product.eyeRight) {
+        const parametersR = this.product.parametersRight;
+        parametersR.forEach(function(param) {
+          if (param.name === 'Warranty') {
+            self.changeSelect('right', param, param.selected);
+          }
+        });
+      }
+      if (this.product.eyeLeft) {
+        const parametersL = this.product.parametersLeft;
+        parametersL.forEach(function(param) {
+          if (param.name === 'Warranty') {
+            self.changeSelect('left', param, param.selected);
+          }
+        });
+      }
     } else {
       this.client = '';
       this.product.shippingAddress = '';
@@ -535,7 +552,9 @@ export class ProductViewSynergeyesComponent implements OnInit {
       }
       _.each(this.product.parametersRight, function (param){
         if (param.selected === null || param.selected === undefined) {
-          isValid = false;
+          if (param.name !== 'Add') {
+            isValid = false;
+          }
         }
       });
       if (!this.product.quantityRight) {
@@ -549,7 +568,9 @@ export class ProductViewSynergeyesComponent implements OnInit {
       }
       _.each(this.product.parametersLeft, function (param){
         if (param.selected === null || param.selected === undefined) {
-          isValid = false;
+          if (param.name !== 'Add') {
+            isValid = false;
+          }
         }
       });
       if (!this.product.quantityLeft) {

@@ -263,8 +263,10 @@ export class SynergeyesComponent implements OnInit {
     let paramet = this.product.parameters;
       _.each(paramet, function(productSelected) {
         if (productSelected.selected === null || productSelected.selected === undefined) {
-           valido = false;
+          if (productSelected.name !== 'Add') {
+            valido = false;
           }
+        }
      });
      if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '')) {
           valido = false;
