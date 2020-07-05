@@ -20,7 +20,7 @@
                 <span *ngIf="param.name === 'Profile' || param.name === 'Warranty'" ></span>
                 </dt>
                 <dt *ngIf="param.selected!==true && param.selected!==false">
-                  <span class="font-text"> {{param.selected}}</span>
+                  <span class="font-text"> {{param.selected | translate}}</span>
                   <hr>
                 </dt>
                 <dt *ngIf="param.selected===true || param.selected===false">

@@ -504,10 +504,10 @@ export class ProductViewSynergeyesComponent implements OnInit {
       let prCode: any;
       let warrant = '';
 
-      if (productH.detail.eye === 'Left') {
-        warrant = warrantyLeft ? '(W)' : '(NW)';
-      } else if (productH.detail.eye === 'Right') {
+      if (productH.detail.eye === 'Right') {
         warrant = warrantyRight ? '(W)' : '(NW)';
+      } else if (productH.detail.eye === 'Left') {
+        warrant = warrantyLeft ? '(W)' : '(NW)';
       }
 
       for (let i = 0, len = productsCode.length; i < len; i++) {
