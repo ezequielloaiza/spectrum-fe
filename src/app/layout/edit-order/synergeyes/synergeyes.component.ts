@@ -159,6 +159,20 @@ export class SynergeyesComponent implements OnInit {
         this.definePrice(this.membership);
       }
     }
+    if (parameter.name === 'Base Curve' && (this.product.idProduct === 265 || this.product.idProduct === 192
+      || this.product.idProduct === 193 || this.product.idProduct === 194)) {
+        let values: any;
+        let skirtCurve: any;
+        parameter.selected = value;
+        if (parameter.selected >= 50 && parameter.selected <= 250 ) {
+          values = ['7.9', '8.1', '8.4', '8.7'];
+        } else {
+          values = ['7.9', '8.1', '8.4'];
+        }
+        skirtCurve = _.find(this.product.parameters, {name: 'Skirt Curve'});
+        skirtCurve.values = values;
+        skirtCurve.selected = null;
+    }
 
   }
 
