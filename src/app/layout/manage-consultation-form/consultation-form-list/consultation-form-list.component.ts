@@ -23,7 +23,11 @@ export class ConsultationFormListComponent implements OnInit {
   typeSort = 0;
   advancedPagination: number;
   itemPerPage = 8;
-  filterStatus = [{ id: 0, name: 'Pending' }, { id: 1, name: 'Paid' }];
+  filterStatus = [{ id: 0, name: 'Pending' },
+  { id: 1, name: 'Processed' },
+  { id: 2, name: 'Ready to Ship' },
+  { id: 3, name: 'Shipped' }
+  ];
   selectedStatus: any;
   searchName: any;
   status: any;
@@ -111,6 +115,24 @@ export class ConsultationFormListComponent implements OnInit {
   moveFirstPage() {
     this.advancedPagination = 1;
     this.pageChange(this.advancedPagination);
+  }
+
+  getStatus(value) {
+    switch (value) {
+      case 0:
+        status = 'Pending';
+        break;
+      case 1:
+        status = 'Processed';
+        break;
+      case 2:
+        status = 'Ready to Ship';
+        break;
+      case 3:
+        status = 'Shipped';
+        break;
+    }
+    return status;
   }
 
   getItems(ev: any) {

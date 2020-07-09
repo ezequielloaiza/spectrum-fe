@@ -108,11 +108,9 @@
 								<td *ngIf="user.role.idRole === 1" class="table-tr td-table">{{consultation.nameUser}}</td>
 								<td class="table-tr td-table">{{consultation.patientName  }}</td>
 								<td class="table-tr td-table">{{consultation.date  | date:'yyyy-MM-dd'}}</td>
-								<td *ngIf="consultation.status === 0" class="table-tr" class="pending">
-									<div>{{'Pending' | translate}}</div>
-								</td>
-								<td *ngIf="consultation.status === 1" class="table-tr" class="sent">
-									<div>{{'Sent' | translate }}</div>
+								<td [ngClass]="{'pending': consultation.status === 0,'processed': consultation.status === 1, 'ready': consultation.status === 2, 'shipped': consultation.status === 3 }" 
+								class="table-tr" class="pending">
+									<div>{{getStatus(consultation.status) | translate}}</div>
 								</td>
 								<td class="table-tr">
 									<div class="d-flex flex-row justify-content-around">

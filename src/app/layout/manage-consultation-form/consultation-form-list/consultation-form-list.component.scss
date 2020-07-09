@@ -54,3 +54,39 @@
     padding-left: 15px;
   }
 }
+
+.pending {
+  color: $bg-white;
+  > div {
+    background: $pending-status;
+    border-radius: 12px;
+    text-align: center;
+  }
+}
+
+.processed {
+  color: $bg-white;
+  > div {
+    background: $processed-status;
+    border-radius: 12px;
+    text-align: center;
+  }
+}
+
+.ready {
+  color: $bg-white;
+  > div {
+    background: $sent-status;
+    border-radius: 12px;
+    text-align: center;
+  }
+}
+
+.shipped {
+  color: $bg-white;
+  > div {
+    background: $paid-status;
+    border-radius: 12px;
+    text-align: center;
+  }
+}

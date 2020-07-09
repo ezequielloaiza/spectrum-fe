@@ -17,7 +17,10 @@ export class ModalChangeStatusComponent implements OnInit {
   form: FormGroup;
   consultation: any;
   filterStatus = [{ id: 0, name: 'Pending' },
-  { id: 1, name: 'Verified' }];
+  { id: 1, name: 'Processed' },
+  { id: 2, name: 'Ready to Ship' },
+  { id: 3, name: 'Shipped' }
+  ];
   valid = false;
   idStatus: any;
 
@@ -49,11 +52,11 @@ export class ModalChangeStatusComponent implements OnInit {
   }
 
   changeStatus(): void {
-    this.translate.get('Commission\'s status', { value: 'Commission\'s status' }).subscribe((title: string) => {
+    this.translate.get('Consultation Form\'s status', { value: 'Consultation Form\'s status' }).subscribe((title: string) => {
       this.translate.get('Are you sure you want to change the status?',
         { value: 'Are you sure you want to change the status?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
-            this.consultationFormService.changeStatus$(this.consultation.idConsultation, this.idStatus).subscribe(res => {
+            this.consultationFormService.changeStatus$(this.consultation.idConsultationForm, this.idStatus).subscribe(res => {
               if (res.code === CodeHttp.ok) {
                 this.close();
                 this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res1: string) => {

@@ -20,7 +20,7 @@ export class ConsultationFormService {
   }
 
   public changeStatus$(id, idStatus): Observable<any> {
-    return this.http.get(environment.apiUrl + 'consultationForm/changeStatus' + id + '/' + idStatus );
+    return this.http.get(environment.apiUrl + 'consultationForm/changeStatus/' + id + '/' + idStatus );
   }
 
   public removeById$(id): Observable<any> {
