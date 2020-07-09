@@ -108,7 +108,7 @@
                         <br>
                       </div>
                       <div class="row" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 4">
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                           <dl class="align-item">
                             <dt>{{'Customer'| translate}}
                             </dt>
@@ -117,7 +117,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" [hidden]="order.user.certificationCode===''">
+                        <div class="col-sm-3" [hidden]="order.user.certificationCode===''">
                           <dl class="align-item">
                             <dt>{{'Certification Code' | translate}}</dt>
                             <dt>
@@ -125,7 +125,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" [hidden]="list.productRequested.detail.length > 0 && list.productRequested.detail[0].eye===''">
+                        <div class="col-sm-3" [hidden]="list.productRequested.detail.length > 0 && list.productRequested.detail[0].eye===''">
                           <dl class="align-item">
                             <dt>{{'Eye'| translate}}</dt>
                             <dt>
@@ -135,7 +135,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 5">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 5">
                           <dl class="align-item">
                             <dt>{{'Supplier'| translate}}
                             </dt>
@@ -144,7 +144,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" [hidden]="list.productRequested.patient === '' || list.productRequested.patient === null">
+                        <div class="col-sm-3" [hidden]="list.productRequested.patient === '' || list.productRequested.patient === null">
                           <dl class="align-item">
                             <dt>{{'Patient'| translate}}</dt>
                             <dt>
@@ -152,7 +152,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 4 || list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier == 7 || list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier == 6">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 4 || list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier == 7 || list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier == 6">
                           <dl class="align-item">
                             <dt>{{ 'Spectrum code' | translate }}</dt>
                             <dt>
@@ -160,7 +160,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                           <dl class="align-item" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 4">
                             <dt *ngIf="list.productRequested.detail.length > 0 && list.productRequested.detail[0].eye !== ''">{{'Eye'| translate}}</dt>
                             <dt>
@@ -169,7 +169,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">
                           <dl class="align-item">
                             <dt>{{'Supplier'| translate}}
                             </dt>
@@ -178,7 +178,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                           <dl class="align-item">
                             <dt [hidden]="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">{{'Quantity'| translate}} </dt>
                             <dt *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">{{'Total Quantity'| translate}} </dt>
@@ -187,7 +187,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2 ">
+                        <div class="col-sm-3 ">
                           <dl class="align-item">
                             <dt>{{'Price'| translate}}</dt>
                             <dt>
@@ -195,7 +195,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 5">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 5">
                           <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
@@ -205,7 +205,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier && list.productRequested.product.supplier && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 7 && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 6">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier && list.productRequested.product.supplier && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 7 && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 6">
                           <dl class="align-item">
                             <dt>{{ 'Spectrum code' | translate }}</dt>
                             <dt>
@@ -213,7 +213,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">
                           <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
@@ -221,7 +221,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 2" >
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 2" >
                           <dl class="align-item">
                             <dt>{{'Type'| translate}}
                             </dt>
