@@ -43,5 +43,6 @@ export enum RoleAdmin {
   ChangePassword,
   ClientInvoice,
   ProductViewSynergeyesComponent,
-  ProductViewOrionComponent
+  ProductViewOrionComponent,
+  ConsultationForm
 }

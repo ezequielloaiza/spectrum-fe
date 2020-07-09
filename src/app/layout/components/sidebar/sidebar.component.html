@@ -133,6 +133,12 @@
 					</li>
 			</div>
 			<div class="nested-menu">
+				<a [routerLink]="['/consultation-form']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+					<span>
+						<i class="fa fa-file"></i>&nbsp; {{ 'Manage Consultation Forms' | translate }}</span>
+				</a>
+			</div>
+			<div class="nested-menu">
 				<a  routerLink="/warranty" [routerLinkActive]="['router-link-active']" class="list-group-item">
 					<span>
 						<i class="fa fa-check-square"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>
@@ -289,6 +295,12 @@
 				<a [routerLink]="['/invoice']" [routerLinkActive]="['router-link-active']" class="list-group-item">
 					<span>
 						<i class="fa fa-file"></i>&nbsp; {{ 'Manage Pro Forma Invoices' | translate }}</span>
+				</a>
+			</div>
+			<div class="nested-menu">
+				<a [routerLink]="['/consultation-form']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+					<span>
+						<i class="fa fa-file"></i>&nbsp; {{ 'Manage Consultation Forms' | translate }}</span>
 				</a>
 			</div>
 			<div class="nested-menu">
