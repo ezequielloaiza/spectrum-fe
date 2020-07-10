@@ -17,6 +17,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { environment } from '../../../environments/environment';
 import { ConfirmationSynergeyesComponent } from '../modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ValueTransformer } from '@angular/compiler/src/util';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -309,6 +310,25 @@ export class ProductViewSynergeyesComponent implements OnInit {
         + (this.product.quantityRight ? (this.product.quantityRight * this.product.priceSaleRight) : 0));
       }
     }
+
+    if (parameter.name === 'Base Curve' && this.product.idProduct === 265) {
+      let values: any;
+      let skirtCurve: any;
+      parameter.selected = value;
+      if (parameter.selected >= 50 && parameter.selected <= 250 ){
+        values = ['7.9', '8.1', '8.4', '8.7'];
+      } else {
+        values = ['7.9', '8.1', '8.4'];
+      }
+      if (eye === 'right') {
+        skirtCurve = _.find(this.product.parametersRight, {name: 'Skirt Curve'});
+        skirtCurve.values = values;
+      }
+      if (eye === 'left') {
+        skirtCurve = _.find(this.product.parametersLeft, {name: 'Skirt Curve'});
+        skirtCurve.values = values;
+      }
+    }
   }
 
   updatePriceSale() {
@@ -390,6 +410,23 @@ export class ProductViewSynergeyesComponent implements OnInit {
       this.membership = this.client.membership;
       this.findShippingAddress(this.client.idUser);
       this.definePrice(clientSelect.membership.idMembership);
+      const self = this;
+      if (this.product.eyeRight) {
+        const parametersR = this.product.parametersRight;
+        parametersR.forEach(function(param) {
+          if (param.name === 'Warranty') {
+            self.changeSelect('right', param, param.selected);
+          }
+        });
+      }
+      if (this.product.eyeLeft) {
+        const parametersL = this.product.parametersLeft;
+        parametersL.forEach(function(param) {
+          if (param.name === 'Warranty') {
+            self.changeSelect('left', param, param.selected);
+          }
+        });
+      }
     } else {
       this.client = '';
       this.product.shippingAddress = '';
@@ -444,7 +481,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
     _.each(productsSelected, function(this, productSelected, index) {
 
       productSelected.patient = product.patient;
-      if (productSelected.eye === "Right") {
+      if (productSelected.eye === 'Right') {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
         productSelected.price = product.priceSaleRight;
@@ -459,7 +496,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
         productSelected.parameters = product.parametersRight;
 
       }
-      if (productSelected.eye === "Left") {
+      if (productSelected.eye === 'Left') {
         productSelected.quantity = product.quantityLeft;
         productSelected.price = product.priceSaleLeft;
         productSelected.observations = product.observationsLeft;
@@ -487,10 +524,10 @@ export class ProductViewSynergeyesComponent implements OnInit {
       let prCode: any;
       let warrant = '';
 
-      if (productH.detail.eye === 'Left') {
-        warrant = warrantyLeft ? '(W)' : '(NW)';
-      } else if (productH.detail.eye === 'Right') {
+      if (productH.detail.eye === 'Right') {
         warrant = warrantyRight ? '(W)' : '(NW)';
+      } else if (productH.detail.eye === 'Left') {
+        warrant = warrantyLeft ? '(W)' : '(NW)';
       }
 
       for (let i = 0, len = productsCode.length; i < len; i++) {
@@ -535,7 +572,9 @@ export class ProductViewSynergeyesComponent implements OnInit {
       }
       _.each(this.product.parametersRight, function (param){
         if (param.selected === null || param.selected === undefined) {
-          isValid = false;
+          if (param.name !== 'Add') {
+            isValid = false;
+          }
         }
       });
       if (!this.product.quantityRight) {
@@ -549,7 +588,9 @@ export class ProductViewSynergeyesComponent implements OnInit {
       }
       _.each(this.product.parametersLeft, function (param){
         if (param.selected === null || param.selected === undefined) {
-          isValid = false;
+          if (param.name !== 'Add') {
+            isValid = false;
+          }
         }
       });
       if (!this.product.quantityLeft) {
