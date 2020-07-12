@@ -45,11 +45,15 @@
 
           <div class="owm">
             <div *ngFor="let param of filtersParams('second-row', 'all')">
-              <div class="flex">
-                <label class="bold">{{ param.name }}</label>
+              <div  *ngIf="param.type === 'checkbox'"  class="flex custom-control custom-checkbox">
                 <input *ngIf="param.type === 'checkbox'" id="{{ param.name + 'checkbox' }}" type="checkbox" (click)="setCheckbox(param)" [checked]="param.selected"
                     class="custom-control-input">
 
+                <label class="bold custom-control-label" for="{{ param.name + 'checkbox' }}">{{ param.name }}</label>
+              </div>
+
+              <div  *ngIf="param.type === 'input'" class="flex">
+                <label class="bold" for="{{ param.name + 'checkbox' }}">{{ param.name }}</label>
                 <input *ngIf="param.type === 'input'" type="text" class="form-control" required [(ngModel)]="param.selected">
               </div>
             </div>
@@ -58,14 +62,14 @@
           <div *ngFor="let eyeView of eyesView">
 
             <div class="eyes">
-              <div *ngIf="eyeView.eye === 'right'">
-                <input id="OD" type="checkbox" (click)="setEyeSelected()" [checked]="product.eyeRight"
+              <div *ngIf="eyeView.eye === 'right'" class="col-lg-12 custom-control custom-checkbox">
+                <input id="OD" type="checkbox" name="checkboxOD" (click)="setEyeSelected()" [checked]="product.eyeRight"
                     class="custom-control-input">
                 <label class="bold custom-control-label" for="OD">{{ 'OD' }}</label>
               </div>
 
-              <div *ngIf="eyeView.eye === 'left'">
-                <input id="OS" type="checkbox" (click)="setEyeSelected()" [checked]="product.eyeLeft"
+              <div *ngIf="eyeView.eye === 'left'" class="col-lg-12 custom-control custom-checkbox">
+                <input id="OS" type="checkbox" name="checkboxOS" (click)="setEyeSelected()" [checked]="product.eyeLeft"
                     class="custom-control-input">
                 <label class="bold custom-control-label" for="OS">{{ 'OS' }}</label>
               </div>
