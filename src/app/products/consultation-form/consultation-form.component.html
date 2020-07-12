@@ -1,0 +1,163 @@
+<div class="info-breadcrumbs" *ngIf="product">
+  <div class="header-body">
+    <h4 class="page-header">
+      {{ 'Product Details' | translate }}
+    </h4>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/products/' + product.supplier.idSupplier + '/internal']">
+          <i class="fa fa-edit"></i> {{ 'Products List' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-eye"></i> {{ 'Product Details' | translate}}</li>
+    </ol>
+  </div>
+</div>
+
+<div class="padding-detail" *ngIf="product">
+  <div class="card">
+    <div class="">
+      <!-- row (name-price-image) -->
+      <div class="row wrapper">
+        <div class="preview col-md-12">
+          <!-- name-price -->
+          <div class="main-info">
+            <h3 class="product-title">{{'Consultation Form' | translate }}:
+              <br>
+              <i>{{ product.name }}</i>
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div id="consultation-form">
+        <div>
+          <h1>Consultation Form</h1>
+          <div class="form-group">
+            <label class="bold">Patient Name (Nombre del Paciente)</label>
+            <input type="text" class="form-control" required
+              [(ngModel)]="product.patient">
+          </div>
+
+          <div class="owm">
+            <div *ngFor="let param of filtersParams('second-row', 'all')">
+              <div class="flex">
+                <label class="bold">{{ param.name }}</label>
+                <input *ngIf="param.type === 'checkbox'" id="{{ param.name + 'checkbox' }}" type="checkbox" (click)="setCheckbox(param)" [checked]="param.selected"
+                    class="custom-control-input">
+
+                <input *ngIf="param.type === 'input'" type="text" class="form-control" required [(ngModel)]="param.selected">
+              </div>
+            </div>
+          </div>
+
+          <div *ngFor="let eyeView of eyesView">
+
+            <div class="eyes">
+              <div *ngIf="eyeView.eye === 'right'">
+                <input id="OD" type="checkbox" (click)="setEyeSelected()" [checked]="product.eyeRight"
+                    class="custom-control-input">
+                <label class="bold custom-control-label" for="OD">{{ 'OD' }}</label>
+              </div>
+
+              <div *ngIf="eyeView.eye === 'left'">
+                <input id="OS" type="checkbox" (click)="setEyeSelected()" [checked]="product.eyeLeft"
+                    class="custom-control-input">
+                <label class="bold custom-control-label" for="OS">{{ 'OS' }}</label>
+              </div>
+            </div>
+            <div class="form-group " *ngFor="let param of filtersParams('others-row', eyeView); let i = index">
+              <!--Multiples INPUTS-->
+              <div *ngIf="param.type === 'multiple'" class="multiples-params">
+                <div class="param-titles">
+                  <span>{{ param.name }}</span>
+                  <span>{{ param.subname }}</span>
+                </div>
+                <div class="content-params">
+                  <div class="sub-params" *ngFor="let subParam of param.values">
+                    <span *ngIf="subParam.type !== 'select'">{{ subParam.name }}</span>
+                    <!--Input TEXT-->
+                    <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [(ngModel)]="subParam.selected">
+
+                    <!--Input SELECT-->
+                    <select *ngIf="subParam.type === 'select'" class="form-control" required [(ngModel)]="subParam.selected"
+                        name="options" #options="ngModel" >
+                      <option *ngFor="let value of subParam.values" [value]="value">{{value}}</option>
+                    </select>
+
+                    <!--Input CHECKBOX-->
+                    <div *ngIf="subParam.type === 'checkbox'" class="params-checkbox">
+                      <label for="checkbox-yes-single-{{i}}">Yes</label>
+                      <input id="checkbox-yes-single-{{i}}" type="checkbox" (click)="subParam.selected = 'Yes'" [checked]="subParam.selected === 'Yes'"
+                    class="custom-control-input">
+                      <label for="checkbox-no-single-{{i}}">No</label>
+                      <input id="checkbox-no-single-{{i}}" type="checkbox" (click)="subParam.selected = 'No'" [checked]="subParam.selected === 'No'"
+                    class="custom-control-input">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!--Input CHECKBOX-->
+              <div *ngIf="param.type === 'checkbox'" class="multiples-params">
+                <div class="param-titles">
+                  <span>{{ param.name }}</span>
+                </div>
+                <div class="single-checkbox">
+                  <label for="checkbox-yes-multiple-{{i}}">Yes</label>
+                  <input id="checkbox-yes-multiple-{{i}}" type="checkbox" name="checkboxGroupAll" (click)="param.selected = 'Yes'" [checked]="param.selected === 'Yes'"
+                        class="custom-control-input">
+                  <label for="checkbox-yes-multiple-{{i}}">No</label>
+                  <input id="checkbox-yes-multiple-{{i}}" type="checkbox" (click)="param.selected = 'No'" [checked]="param.selected === 'No'"
+                        class="custom-control-input">
+                </div>
+              </div>
+
+              <!--Input TEXT DOUBLES-->
+              <div *ngIf="param.type === 'input-double'" class="half-display">
+                <div class="sub-params" *ngFor="let subParam of param.values">
+                  <span *ngIf="subParam.type !== 'select'">{{ subParam.name }}</span>
+                  <!--Input TEXT-->
+                  <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [(ngModel)]="subParam.selected">
+                </div>
+              </div>
+
+              <!--Input TEXT-->
+              <div *ngIf="param.type === 'input'" class="w-47">
+                <label class="bold">{{ param.name }}</label>
+                <input type="text" class="form-control" required [(ngModel)]="param.selected">
+              </div>
+
+              <!--Input TEXTAREA-->
+              <div *ngIf="param.type === 'text-area'">
+                <label class="bold">{{ param.name }}</label>
+                <textarea type="text" class="form-control" [(ngModel)]="param.selected"></textarea>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+
+      <br>
+      <!--<div class="row">
+        <div class="col-md-12 buy-btns">
+          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
+            (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
+            {{ 'Buy Now' | translate }}
+          </button>
+          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
+            [disabled]="!formIsValid()">
+            <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
+          </button>
+        </div>
+      </div>-->
+    </div>
+  </div>
+</div>
