@@ -82,7 +82,7 @@
                   <span>{{ param.subname }}</span>
                 </div>
                 <div class="content-params">
-                  <div class="sub-params" *ngFor="let subParam of param.values">
+                  <div class="sub-params" *ngFor="let subParam of param.values; let isub = index">
                     <span *ngIf="subParam.type !== 'select'">{{ subParam.name }}</span>
                     <!--Input TEXT-->
                     <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [(ngModel)]="subParam.selected">
@@ -93,21 +93,34 @@
                       <option *ngFor="let value of subParam.values" [value]="value">{{value}}</option>
                     </select>
 
-                    <!--Input CHECKBOX-->
+                    <!--Input CHECKBOX
                     <div *ngIf="subParam.type === 'checkbox'" class="params-checkbox">
-                      <label for="checkbox-yes-single-{{i}}">Yes</label>
+                      <label for="checkbox-yes-single-{{isub}}">Yes</label>
                       <input id="checkbox-yes-single-{{i}}" type="checkbox" (click)="subParam.selected = 'Yes'" [checked]="subParam.selected === 'Yes'"
                     class="custom-control-input">
                       <label for="checkbox-no-single-{{i}}">No</label>
                       <input id="checkbox-no-single-{{i}}" type="checkbox" (click)="subParam.selected = 'No'" [checked]="subParam.selected === 'No'"
                     class="custom-control-input">
+                    </div>-->
+
+                    <!-- Input RADIO -->
+                    <div *ngIf="subParam.type === 'radio'" class="radio-buttons">
+                      <div class="button-space custom-control custom-radio">
+                        <input type="radio" id="radio-yes-{{ i + '-' + isub }}" name="customRadio-yes-{{ i + '-' + isub }}" value="Yes" class="custom-control-input" [(ngModel)]="subParam.selected">
+                        <label class="custom-control-label" for="radio-yes-{{ i + '-' + isub }}">{{ 'Yes' | translate }}</label>
+                      </div>
+
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="radio-no-{{ i + '-' + isub }}" name="customRadio-no-{{ i + '-' + isub }}" value="No" class="custom-control-input" [(ngModel)]="subParam.selected">
+                        <label class="custom-control-label" for="radio-no-{{ i + '-' + isub }}">{{ 'No' | translate }}</label>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!--Input CHECKBOX-->
-              <div *ngIf="param.type === 'checkbox'" class="multiples-params">
+              <!--Input CHECKBOX
+              <div *ngIf="param.type === 'radio'" class="multiples-params">
                 <div class="param-titles">
                   <span>{{ param.name }}</span>
                 </div>
@@ -118,6 +131,23 @@
                   <label for="checkbox-yes-multiple-{{i}}">No</label>
                   <input id="checkbox-yes-multiple-{{i}}" type="checkbox" (click)="param.selected = 'No'" [checked]="param.selected === 'No'"
                         class="custom-control-input">
+                </div>
+              </div>-->
+
+              <!-- Input RADIO -->
+              <div *ngIf="param.type === 'radio'" class="multiples-params radio-buttons">
+                <div class="name">
+                  <span>{{ param.name }}</span>
+                </div>
+
+                <div class="button-space custom-control custom-radio">
+                  <input type="radio" id="radio-yes-{{ i }}" name="customRadio-yes-{{ i }}" value="Yes" class="custom-control-input" [(ngModel)]="param.selected">
+                  <label class="custom-control-label" for="radio-yes-{{ i }}">{{ 'Yes' | translate }}</label>
+                </div>
+
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-no-{{ i }}" name="customRadio-no-{{ i }}" value="No" class="custom-control-input" [(ngModel)]="param.selected">
+                  <label class="custom-control-label" for="radio-no-{{ i }}">{{ 'No' | translate }}</label>
                 </div>
               </div>
 
@@ -131,7 +161,7 @@
               </div>
 
               <!--Input TEXT-->
-              <div *ngIf="param.type === 'input'" class="w-47">
+              <div *ngIf="param.type === 'input'" class="w-46">
                 <label class="bold">{{ param.name }}</label>
                 <input type="text" class="form-control" required [(ngModel)]="param.selected">
               </div>
