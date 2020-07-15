@@ -34,14 +34,47 @@
         </div>
       </div>
 
+      <!-- row (pacient, client, shipping address) -->
+      <div class="row product-info">
+        <!-- patient -->
+        <div class="col-lg-4">
+          <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
+          <div class="row info-content">
+            <input class="form-control" type="text" maxlength="20" placeholder="{{ 'Enter name patient' | translate }}" [(ngModel)]="product.patient"
+              required>
+          </div>
+        </div>
+        <!-- client -->
+        <div class="col-lg-4">
+          <dt class="title">{{ 'Account Name' | translate }}</dt>
+          <div class="row info-content" [hidden]="user.role.idRole !== 3">
+            <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}" required
+              [(ngModel)]="product.client" disabled>
+          </div>
+          <div class="row info-content" [hidden]="user.role.idRole === 3">
+            <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
+              required [virtualScroll]="true" bindLabel="fullName" bindValue="idUser" placeholder="{{ 'Select value' | translate }}">
+            </ng-select>
+          </div>
+        </div>
+        <!--shipping address-->
+         <!--shipping address-->
+        <div class="col-lg-4">
+          <span class="title">{{ 'Shipping Address' | translate }}</span>
+          <div class="row info-content ">
+            <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
+              readonly>
+          </div>
+        </div>
+      </div>
+
       <div id="consultation-form">
         <div>
-          <h1>Consultation Form</h1>
-          <div class="form-group">
-            <label class="bold">Patient Name (Nombre del Paciente)</label>
+          <!--div class="form-group">
+            <label class="bold">{{ 'Patient Name' | translate}}</label>
             <input type="text" class="form-control" required
               [(ngModel)]="product.patient">
-          </div>
+          </div-->
 
           <div class="owm">
             <div *ngFor="let param of filtersParams('second-row', 'all')">
@@ -49,27 +82,27 @@
                 <input *ngIf="param.type === 'checkbox'" id="{{ param.name + 'checkbox' }}" type="checkbox" (click)="setCheckbox(param)" [checked]="param.selected"
                     class="custom-control-input">
 
-                <label class="bold custom-control-label" for="{{ param.name + 'checkbox' }}">{{ param.name }}</label>
+                <label class="bold custom-control-label" for="{{ param.name + 'checkbox' }}">{{ param.name | translate }}</label>
               </div>
 
               <div  *ngIf="param.type === 'input'" class="flex">
-                <label class="bold" for="{{ param.name + 'checkbox' }}">{{ param.name }}</label>
+                <label class="bold" for="{{ param.name + 'checkbox' }}">{{ param.name | translate }}</label>
                 <input *ngIf="param.type === 'input'" type="text" class="form-control" required [(ngModel)]="param.selected">
               </div>
             </div>
           </div>
 
-          <div *ngFor="let eyeView of eyesView">
+          <div *ngFor="let eyeView of eyesView; let eye = index">
 
             <div class="eyes">
               <div *ngIf="eyeView.eye === 'right'" class="col-lg-12 custom-control custom-checkbox">
-                <input id="OD" type="checkbox" name="checkboxOD" (click)="setEyeSelected()" [checked]="product.eyeRight"
+                <input id="OD" type="checkbox" name="checkboxOD" (click)="setValueEye('right')" [checked]="product.eyeRight"
                     class="custom-control-input">
                 <label class="bold custom-control-label" for="OD">{{ 'OD' }}</label>
               </div>
 
               <div *ngIf="eyeView.eye === 'left'" class="col-lg-12 custom-control custom-checkbox">
-                <input id="OS" type="checkbox" name="checkboxOS" (click)="setEyeSelected()" [checked]="product.eyeLeft"
+                <input id="OS" type="checkbox" name="checkboxOS" (click)="setValueEye('left')" [checked]="product.eyeLeft"
                     class="custom-control-input">
                 <label class="bold custom-control-label" for="OS">{{ 'OS' }}</label>
               </div>
@@ -78,19 +111,19 @@
               <!--Multiples INPUTS-->
               <div *ngIf="param.type === 'multiple'" class="multiples-params">
                 <div class="param-titles">
-                  <span>{{ param.name }}</span>
-                  <span>{{ param.subname }}</span>
+                  <span>{{ param.name | translate }}</span>
+                  <span>{{ param.subname | translate }}</span>
                 </div>
                 <div class="content-params">
                   <div class="sub-params" *ngFor="let subParam of param.values; let isub = index">
-                    <span *ngIf="subParam.type !== 'select'">{{ subParam.name }}</span>
+                    <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate}}</span>
                     <!--Input TEXT-->
                     <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [(ngModel)]="subParam.selected">
 
                     <!--Input SELECT-->
                     <select *ngIf="subParam.type === 'select'" class="form-control" required [(ngModel)]="subParam.selected"
                         name="options" #options="ngModel" >
-                      <option *ngFor="let value of subParam.values" [value]="value">{{value}}</option>
+                      <option *ngFor="let value of subParam.values" [value]="value">{{value | translate}}</option>
                     </select>
 
                     <!--Input CHECKBOX
@@ -106,13 +139,13 @@
                     <!-- Input RADIO -->
                     <div *ngIf="subParam.type === 'radio'" class="radio-buttons">
                       <div class="button-space custom-control custom-radio">
-                        <input type="radio" id="radio-yes-{{ i + '-' + isub }}" name="customRadio-yes-{{ i + '-' + isub }}" value="Yes" class="custom-control-input" [(ngModel)]="subParam.selected">
-                        <label class="custom-control-label" for="radio-yes-{{ i + '-' + isub }}">{{ 'Yes' | translate }}</label>
+                        <input type="radio" id="radio-yes-{{ eye + '-'+ i + '-' + isub }}" name="customRadio-yes-{{ eye + '-'+ i + '-' + isub }}" value="Yes" class="custom-control-input" [(ngModel)]="subParam.selected">
+                        <label class="custom-control-label" for="radio-yes-{{ eye + '-'+ i + '-' + isub }}">{{ 'Yes' | translate }}</label>
                       </div>
 
                       <div class="custom-control custom-radio">
-                        <input type="radio" id="radio-no-{{ i + '-' + isub }}" name="customRadio-no-{{ i + '-' + isub }}" value="No" class="custom-control-input" [(ngModel)]="subParam.selected">
-                        <label class="custom-control-label" for="radio-no-{{ i + '-' + isub }}">{{ 'No' | translate }}</label>
+                        <input type="radio" id="radio-no-{{ eye + '-'+ i + '-' + isub }}" name="customRadio-no-{{ eye + '-'+ i + '-' + isub }}" value="No" class="custom-control-input" [(ngModel)]="subParam.selected">
+                        <label class="custom-control-label" for="radio-no-{{ eye + '-'+ i + '-' + isub }}">{{ 'No' | translate }}</label>
                       </div>
                     </div>
                   </div>
@@ -137,24 +170,24 @@
               <!-- Input RADIO -->
               <div *ngIf="param.type === 'radio'" class="multiples-params radio-buttons">
                 <div class="name">
-                  <span>{{ param.name }}</span>
+                  <span>{{ param.name | translate}}</span>
                 </div>
 
                 <div class="button-space custom-control custom-radio">
-                  <input type="radio" id="radio-yes-{{ i }}" name="customRadio-yes-{{ i }}" value="Yes" class="custom-control-input" [(ngModel)]="param.selected">
-                  <label class="custom-control-label" for="radio-yes-{{ i }}">{{ 'Yes' | translate }}</label>
+                  <input type="radio" id="radio-yes-{{ eye + '-'+ i }}" name="customRadio-yes-{{ eye + '-'+ i }}" value="Yes" class="custom-control-input" [(ngModel)]="param.selected">
+                  <label class="custom-control-label" for="radio-yes-{{ eye + '-'+ i }}">{{ 'Yes' | translate }}</label>
                 </div>
 
                 <div class="custom-control custom-radio">
-                  <input type="radio" id="radio-no-{{ i }}" name="customRadio-no-{{ i }}" value="No" class="custom-control-input" [(ngModel)]="param.selected">
-                  <label class="custom-control-label" for="radio-no-{{ i }}">{{ 'No' | translate }}</label>
+                  <input type="radio" id="radio-no-{{ eye + '-'+ i }}" name="customRadio-no-{{ eye + '-'+ i }}" value="No" class="custom-control-input" [(ngModel)]="param.selected">
+                  <label class="custom-control-label" for="radio-no-{{ eye + '-'+ i }}">{{ 'No' | translate }}</label>
                 </div>
               </div>
 
               <!--Input TEXT DOUBLES-->
               <div *ngIf="param.type === 'input-double'" class="half-display">
                 <div class="sub-params" *ngFor="let subParam of param.values">
-                  <span *ngIf="subParam.type !== 'select'">{{ subParam.name }}</span>
+                  <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate }}</span>
                   <!--Input TEXT-->
                   <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [(ngModel)]="subParam.selected">
                 </div>
@@ -162,13 +195,13 @@
 
               <!--Input TEXT-->
               <div *ngIf="param.type === 'input'" class="w-46">
-                <label class="bold">{{ param.name }}</label>
+                <label class="bold">{{ param.name| translate }}</label>
                 <input type="text" class="form-control" required [(ngModel)]="param.selected">
               </div>
 
               <!--Input TEXTAREA-->
               <div *ngIf="param.type === 'text-area'">
-                <label class="bold">{{ param.name }}</label>
+                <label class="bold">{{ param.name| translate }}</label>
                 <textarea type="text" class="form-control" [(ngModel)]="param.selected"></textarea>
               </div>
             </div>
@@ -180,18 +213,13 @@
 
 
       <br>
-      <!--<div class="row">
-        <div class="col-md-12 buy-btns">
+      <div class="row">
+        <div class="col-md-12 save-btns">
           <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
-            (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
-            {{ 'Buy Now' | translate }}
+            (click)="formIsValid() && saveConsultationForm()" [disabled]="!formIsValid()">
+            {{ 'Save' | translate }}
           </button>
-          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
-            [disabled]="!formIsValid()">
-            <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
-          </button>
-        </div>
-      </div>-->
+      </div>
     </div>
   </div>
 </div>

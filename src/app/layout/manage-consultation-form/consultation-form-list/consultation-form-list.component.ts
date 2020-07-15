@@ -64,7 +64,7 @@ export class ConsultationFormListComponent implements OnInit {
 
   getListConsultationForms() {
     this.spinner.show();
-    this.consultationFormService.allConsultationsForm$().subscribe(
+    this.consultationFormService.allConsultationsFormByUser$().subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           console.log(res);
@@ -149,6 +149,7 @@ export class ConsultationFormListComponent implements OnInit {
         this.consultationList = this.consultationList.filter(item => {
           return (
             item.nameUser.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+            item.patientName.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
             item.trackingNumber.toLowerCase().indexOf(val.toLowerCase()) > -1
           );
         });
@@ -260,6 +261,7 @@ export class ConsultationFormListComponent implements OnInit {
     _.filter(this.consultationListAux, function(consultation) {
       if (
         (_.includes( consultation.nameUser.toLowerCase(), nombre.toLowerCase()) ||
+          consultation.patientName.toLowerCase().indexOf(nombre.toLowerCase()) > -1 ||
           consultation.trackingNumber.toLowerCase().indexOf(nombre.toLowerCase()) > -1) &&
         // tslint:disable-next-line:radix
         _.isEqual(parseInt(status), consultation.status)
@@ -279,6 +281,7 @@ export class ConsultationFormListComponent implements OnInit {
       // Fecha Listado
       const fechaList = _.toString(consultation.date.slice(0, 10));
       if ((_.includes(consultation.nameUser.toLowerCase(), nombre.toLowerCase()) ||
+          consultation.patientName.toLowerCase().indexOf(nombre.toLowerCase()) > -1 ||
           consultation.trackingNumber.toLowerCase().indexOf(nombre.toLowerCase()) > -1) &&
         _.isEqual(fecha, fechaList)
       ) {
@@ -334,6 +337,7 @@ export class ConsultationFormListComponent implements OnInit {
       // Fecha Listado
       const fechaList = _.toString(consultation.date.slice(0, 10));
       if ((_.includes(consultation.nameUser.toLowerCase(), nombre.toLowerCase()) ||
+          consultation.patientName.toLowerCase().indexOf(nombre.toLowerCase()) > -1 ||
           consultation.trackingNumber.toLowerCase().indexOf(nombre.toLowerCase()) > -1) &&
         // tslint:disable-next-line:radix
         _.isEqual(fecha, fechaList) && _.isEqual(parseInt(status), consultation.status)) {
@@ -370,31 +374,8 @@ export class ConsultationFormListComponent implements OnInit {
     });
   }
 
-  delete(consultation): void {
-    this.translate
-      .get('Delete Invoice', { value: 'Delete Invoice' })
-      .subscribe((title: string) => {this.translate.get('Are you sure you want to delete the consultation form?',
-        {value: 'Are you sure you want to delete the consultation form?' }).subscribe((msg: string) => {
-        this.alertify.confirm(title, msg, () => {
-          this.consultationFormService.removeById$(consultation.idConsultation)
-            .subscribe(res => {
-              if (res.code === CodeHttp.ok) {
-                this.getListConsultationForms();
-                this.translate.get('Successfully Deleted', { value: 'Successfully Deleted'})
-                  .subscribe((res1: string) => { this.notification.success('', res1); });
-              } else {
-                console.log(res.errors[0].detail);
-              }
-            },
-            error => {
-              console.log('error', error);
-            }
-        );
-      },
-      () => {}
-    );
-    });
-  });
+  open(consultation, action) {
+
   }
 
 }

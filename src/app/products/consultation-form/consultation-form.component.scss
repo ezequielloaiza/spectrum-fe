@@ -83,6 +83,39 @@
   margin-right: 2%;
 }
 
+.product-info {
+  padding: 2em;
+
+  .item-properties {
+    display: flex;
+    align-items: center;
+    padding-bottom: 1em;
+
+    i {
+      font-size: 30px;
+    }
+
+    p {
+      font-size: 0.9rem;
+      padding: 0px 0 0 10px;
+      margin-bottom: 0;
+    }
+  }
+
+}
+
+.info-content {
+  margin-left: 15px;
+  margin-bottom: 0px;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.ng-select{
+  width: 100%;
+}
 
 .product-title {
   text-transform: UPPERCASE;
@@ -96,6 +129,7 @@
 #consultation-form {
   display: flex;
   flex-direction: column;
+  padding: 2em;
 
   .bold {
     font-weight: 600;
@@ -199,4 +233,8 @@
   .button-space {
     margin-right: 20px;
   }
+}
+
+.save-btns {
+  text-align: right;
 }

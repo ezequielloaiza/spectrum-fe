@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
@@ -20,6 +20,10 @@ import { FileProductRequestedService } from '../../shared/services/fileproductre
 import { environment } from '../../../environments/environment';
 import { ConfirmationEuclidComponent } from '../modals/confirmation-buy/confirmation-euclid/confirmation-euclid.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConsultationForm } from '../../shared/models/consultation-form';
+import { ConsultationFormRequest } from '../../shared/models/consultation-form-request';
+import { FileConsultationForm } from '../../shared/models/fileconsultationform';
+import { ConsultationFormService } from '../../shared/services/consultation-form/consultation-form.service';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -42,14 +46,15 @@ export class ConsultationFormComponent implements OnInit {
   client: any;
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
+  consultationFormRequest: ConsultationFormRequest = new ConsultationFormRequest;
   // Upload files
-  @ViewChild('selectedFiles') selectedFiles: any;
   @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
   @ViewChild('selectedFilesRightEye') selectedFilesRightEye: any;
   queueLimit = 5;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
-  listFileLeftEye: Array<FileProductRequested> = new Array;
-  listFileRightEye: Array<FileProductRequested> = new Array;
+  listFileLeftEye: Array<FileConsultationForm> = new Array;
+  listFileRightEye: Array<FileConsultationForm> = new Array;
+  private uploadResult: any = null;
   private uploadResultLeftEye: any = null;
   private uploadResultRightEye: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
@@ -78,7 +83,9 @@ export class ConsultationFormComponent implements OnInit {
               private route: ActivatedRoute,
               private userStorageService: UserStorageService,
               private shippingAddressService: ShippingAddressService,
+              private consultationFormService: ConsultationFormService,
               private userService: UserService,
+              public router: Router,
               private notification: ToastrService,
               private translate: TranslateService,
               private spinner: NgxSpinnerService) {
@@ -170,7 +177,7 @@ export class ConsultationFormComponent implements OnInit {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
-    this.eyesView = [{ 'eye': 'right', params: this.product.parametersRight }, { 'eye': 'left', params: this.product.parametersLeft },];
+    this.eyesView = [{ 'eye': 'right', params: this.product.parametersRight }, { 'eye': 'left', params: this.product.parametersLeft }];
     this.setClient();
   }
 
@@ -200,7 +207,6 @@ export class ConsultationFormComponent implements OnInit {
     param.selected = !param.selected;
   }
 
-
   setValueEye(eye) {
     if (eye === 'right') {
       this.product.eyeRight = !this.product.eyeRight;
@@ -214,7 +220,6 @@ export class ConsultationFormComponent implements OnInit {
       }
     }
   }
-
 
   clean(eye) {
     let parameters;
@@ -263,7 +268,6 @@ export class ConsultationFormComponent implements OnInit {
           this.listCustomers = _.filter(this.listCustomersAux, function(u) {
             return !(u.certificationCode === null || u.certificationCode === '');
           });
-          //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.certificationCode + ' ' + i.country.name + ' ' + i.name; return i; });
           this.listCustomers.map((i) => {
             let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
             i.fullName = accSpct + i.name + ' | ' +  i.certificationCode + ' | ' + i.country.name;
@@ -347,14 +351,8 @@ export class ConsultationFormComponent implements OnInit {
   }
 
   saveFiles(): void {
-    // this.listFileBasket = new Array;
     this.listFileLeftEye = new Array;
     this.listFileRightEye = new Array;
-    /*if (this.uploader.queue) {
-      _.each(this.uploader.queue, function (item) {
-        item.upload();
-      });
-    }*/
     if (this.uploaderLeftEye.queue) {
       _.each(this.uploaderLeftEye.queue, function (item) {
         item.upload();
@@ -373,23 +371,91 @@ export class ConsultationFormComponent implements OnInit {
 
   private buildFileProductRequested(eye) {
     if (eye === 'Right' && this.uploadResultRightEye.success) {
-      const fileProductRequest: FileProductRequested = new FileProductRequested();
-      fileProductRequest.url  = JSON.parse(this.uploadResultRightEye.response).data;
-      fileProductRequest.name = this.uploadResultRightEye.item.file.name;
-      fileProductRequest.type = this.uploadResultRightEye.item.file.type;
-      fileProductRequest.size = this.uploadResultRightEye.item.file.size;
-      fileProductRequest.createdAt = new Date();
-      this.listFileRightEye.push(fileProductRequest);
+      const fileconsultationform: FileConsultationForm = new FileConsultationForm();
+      fileconsultationform.url  = JSON.parse(this.uploadResultRightEye.response).data;
+      fileconsultationform.name = this.uploadResultRightEye.item.file.name;
+      fileconsultationform.type = this.uploadResultRightEye.item.file.type;
+      fileconsultationform.size = this.uploadResultRightEye.item.file.size;
+      fileconsultationform.createdAt = new Date();
+      this.listFileRightEye.push(fileconsultationform);
       //this.verifyOpenModal();
     } if (eye === 'Left' && this.uploadResultLeftEye.success) {
-      const fileProductRequest: FileProductRequested = new FileProductRequested();
-      fileProductRequest.url  = JSON.parse(this.uploadResultLeftEye.response).data;
-      fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
-      fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
-      fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
-      fileProductRequest.createdAt = new Date();
-      this.listFileLeftEye.push(fileProductRequest);
+      const fileconsultationform: FileConsultationForm = new FileConsultationForm();
+      fileconsultationform.url  = JSON.parse(this.uploadResultLeftEye.response).data;
+      fileconsultationform.name = this.uploadResultLeftEye.item.file.name;
+      fileconsultationform.type = this.uploadResultLeftEye.item.file.type;
+      fileconsultationform.size = this.uploadResultLeftEye.item.file.size;
+      fileconsultationform.createdAt = new Date();
+      this.listFileLeftEye.push(fileconsultationform);
       //this.verifyOpenModal();
     }
+  }
+
+  buildProductSelected() {
+    this.setEyeSelected();
+    let productsSelected = this.productsSelected;
+    const producto = this.product;
+    const eyesView = this.eyesView;
+    productsSelected.forEach(function(product) {
+      product.patient = producto.patient;
+      let element: any;
+      if (product.eye === 'Right') {
+        element = _.find(eyesView, {eye: 'right'});
+      } else {
+        element = _.find(eyesView, {eye: 'left'});
+      }
+      product.details = element.params;
+    });
+    return productsSelected;
+  }
+
+  saveConsultationForm(type) {
+    this.spinner.show();
+    const productsRequested = [];
+    const productsSelected = this.buildProductSelected();
+    this.saveFiles();
+    const self = this;
+    _.each(productsSelected, function (pr) {
+      const consultation: ConsultationForm = new ConsultationForm();
+      consultation.idUser = self.client.idUser;
+      consultation.details = '[' + JSON.stringify(pr) + ']';
+      consultation.patientName = pr.patient;
+      consultation.idSupplier = 2;
+      productsRequested.push(consultation);
+    });
+    this.consultationFormRequest.consultationList = productsRequested;
+    this.consultationFormRequest.listFileLeftEye = this.listFileLeftEye;
+    this.consultationFormRequest.listFileRightEye = this.listFileRightEye;
+    console.log(this.consultationFormRequest);
+    this.consultationFormService.save$(this.consultationFormRequest).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        console.log(res.data);
+        this.spinner.hide();
+        this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe(( res1: string) => {
+          this.notification.success('', res1);
+        });
+        this.spinner.hide();
+        this.redirectList();
+      } else {
+        console.log(res);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log(error);
+      this.spinner.hide();
+    });
+  }
+
+  redirectList(): void {
+    if (this.user.role.idRole === 3) {
+      this.router.navigate(['/list-consultation-form']);
+    } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+      this.router.navigate(['/list-consultation-form']);
+    }
+  }
+
+  formIsValid() {
+    let isValid = true;
+    return isValid;
   }
 }

@@ -117,16 +117,14 @@
 										<div ngbDropdown class="d-inline-block dropdown">
 											<button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
 											<div ngbDropdownMenu>
-												<!--button *ngIf="consultation.status === 0" class="dropdown-item" (click)="open(consultation,'edit')">
+												<button *ngIf="consultation.status === 0" class="dropdown-item" (click)="open(consultation,'edit')">
 													<i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
 												<button class="dropdown-item" (click)="open(consultation,'view')">
-													<i class="fa fa-eye"></i> {{ 'View' | translate }}</button-->
-												<button class="dropdown-item" (click)="changeStatus(consultation)">
+													<i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
+												<button *ngIf="user.role.idRole === 1" class="dropdown-item" (click)="changeStatus(consultation)">
                           <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}</button>
 												<!--button class="dropdown-item" (click)="download(consultation)">
 													<i class="fa fa-download"></i> {{ 'Download' | translate }}</button-->
-												<button class="dropdown-item" (click)="delete(consultation)">
-													<i class="fa fa-trash"></i> {{ 'Delete' | translate }}</button>
 											</div>
 										</div>
 									</div>

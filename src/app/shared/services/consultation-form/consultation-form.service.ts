@@ -26,4 +26,8 @@ export class ConsultationFormService {
   public removeById$(id): Observable<any> {
     return this.http.delete(environment.apiUrl + 'consultationForm/removeById/' + id);
   }
+
+  public save$(consultationRequest): Observable<any> {
+    return this.http.put(environment.apiUrl + 'consultationForm/save', consultationRequest);
+  }
 }
