@@ -28,5 +28,6 @@ export enum RoleUser {
   ChangePassword,
   ProductViewSynergeyesComponent,
   ProductViewOrionComponent,
-  ConsultationFormComponent
+  ConsultationFormComponent,
+  ConsultationFormList
 }

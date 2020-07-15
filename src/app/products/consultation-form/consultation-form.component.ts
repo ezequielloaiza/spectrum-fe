@@ -34,7 +34,7 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 })
 export class ConsultationFormComponent implements OnInit {
 
-  eyesView: any;
+  eyes: any;
   products: Array<any> = new Array;
   productsCode: Array<any> = new Array;
   product: any;
@@ -43,6 +43,7 @@ export class ConsultationFormComponent implements OnInit {
   productsSelected: Array<any> = new Array;
   currentUser: any;
   user: any;
+  generalParams: any;
   client: any;
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
@@ -175,32 +176,9 @@ export class ConsultationFormComponent implements OnInit {
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
     this.product.type = JSON.parse(this.product.types)[0].name;
-    this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
-    this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
-    this.eyesView = [{ 'eye': 'right', params: this.product.parametersRight }, { 'eye': 'left', params: this.product.parametersLeft }];
+    this.generalParams = JSON.parse(this.product.types)[0].generals;
+    this.eyes = JSON.parse(this.product.types)[0].eyes;
     this.setClient();
-  }
-
-
-  filtersParams(row, eyeView) {
-    switch (row) {
-      case 'second-row':
-        return _.filter(this.product.parametersRight, function(param) {
-          return param.name === 'New Order' || param.name === 'Warranty' || param.name === 'Material';
-        });
-      case 'others-row':
-        switch (eyeView.eye) {
-          case 'right':
-            return _.filter(eyeView.params, function(param) {
-              return param.name !== 'New Order' && param.name !== 'Warranty' && param.name !== 'Material';
-            });
-
-          case 'left':
-            return _.filter(eyeView.params, function (param) {
-              return param.name !== 'New Order' && param.name !== 'Warranty' && param.name !== 'Material';
-            });
-        }
-    }
   }
 
   setCheckbox(param) {
@@ -233,7 +211,6 @@ export class ConsultationFormComponent implements OnInit {
     // parameter
     _.each(parameters, function(param) {
           param.selected = null;
-          param.sel = null;
     });
     if (eye === 'right') {
       this.product.parametersRight = parameters;
@@ -250,6 +227,24 @@ export class ConsultationFormComponent implements OnInit {
     }
     if (this.product.eyeLeft) {
       this.productsSelected.push({eye: 'Left'});
+    }
+  }
+
+  isDisabled(eye) {
+    switch (eye) {
+      case 'right':
+        return !this.product.eyeRight;
+      case 'left':
+        return !this.product.eyeLeft;
+    }
+  }
+
+  getUploader(eye) {
+    switch (eye) {
+      case 'right':
+        return this.uploaderRightEye;
+      case 'left':
+        return this.uploaderLeftEye;
     }
   }
 
@@ -317,17 +312,15 @@ export class ConsultationFormComponent implements OnInit {
   }
 
   removeFile(item, eye) {
-    // this.uploader.removeFromQueue(item);
-    if (eye === 'Right') {
+    if (eye === 'right') {
       this.uploaderRightEye.removeFromQueue(item);
-    } else if (eye === 'Left') {
+    } else if (eye === 'left') {
       this.uploaderLeftEye.removeFromQueue(item);
     }
     this.clearSelectedFile(eye);
   }
 
   clearSelectedFile(eye) {
-    // this.selectedFiles.nativeElement.value = '';
     if (eye === 'Right') {
       this.selectedFilesRightEye.nativeElement.value = '';
     } else if (eye === 'Left') {
@@ -391,38 +384,25 @@ export class ConsultationFormComponent implements OnInit {
     }
   }
 
-  buildProductSelected() {
-    this.setEyeSelected();
-    let productsSelected = this.productsSelected;
-    const producto = this.product;
-    const eyesView = this.eyesView;
-    productsSelected.forEach(function(product) {
-      product.patient = producto.patient;
-      let element: any;
-      if (product.eye === 'Right') {
-        element = _.find(eyesView, {eye: 'right'});
-      } else {
-        element = _.find(eyesView, {eye: 'left'});
-      }
-      product.details = element.params;
-    });
-    return productsSelected;
+  buildConsultation() {
+    // Buil detail
+    console.log(this.product);
+    const patient = this.product.patient;
+    const detail = {'patient': patient, 'generals': this.generalParams, 'eyes': this.eyes };
+    // Buidl Consultation Form
+    const consultation: ConsultationForm = new ConsultationForm();
+    consultation.idUser = this.client.idUser;
+    consultation.details = '[' + JSON.stringify(detail) + ']';
+    consultation.patientName = patient;
+    consultation.idSupplier = 2;
+    return consultation;
   }
 
   saveConsultationForm(type) {
     this.spinner.show();
     const productsRequested = [];
-    const productsSelected = this.buildProductSelected();
+    productsRequested[0] = this.buildConsultation();
     this.saveFiles();
-    const self = this;
-    _.each(productsSelected, function (pr) {
-      const consultation: ConsultationForm = new ConsultationForm();
-      consultation.idUser = self.client.idUser;
-      consultation.details = '[' + JSON.stringify(pr) + ']';
-      consultation.patientName = pr.patient;
-      consultation.idSupplier = 2;
-      productsRequested.push(consultation);
-    });
     this.consultationFormRequest.consultationList = productsRequested;
     this.consultationFormRequest.listFileLeftEye = this.listFileLeftEye;
     this.consultationFormRequest.listFileRightEye = this.listFileRightEye;

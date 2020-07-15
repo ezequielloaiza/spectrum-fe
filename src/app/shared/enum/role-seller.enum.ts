@@ -34,6 +34,6 @@ export enum RoleSeller {
   ChangePassword,
   ProductViewSynergeyesComponent,
   ProductViewOrionComponent,
-  ConsultationForm,
+  ConsultationFormList,
   ConsultationFormComponent
 }
