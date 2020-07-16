@@ -388,6 +388,8 @@ export class ConsultationFormComponent implements OnInit {
     // Buil detail
     console.log(this.product);
     const patient = this.product.patient;
+    this.eyes[0].selected = this.product.eyeRight;
+    this.eyes[1].selected = this.product.eyeLeft;
     const detail = {'patient': patient, 'generals': this.generalParams, 'eyes': this.eyes };
     // Buidl Consultation Form
     const consultation: ConsultationForm = new ConsultationForm();

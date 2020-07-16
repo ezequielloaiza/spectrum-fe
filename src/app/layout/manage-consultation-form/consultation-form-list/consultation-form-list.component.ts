@@ -9,6 +9,8 @@ import { ModalChangeStatusComponent } from '../modal-change-status/modal-change-
 import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
+import { DetailConsultationFormComponent } from '../detail-consultation-form/detail-consultation-form.component';
+import { EditConsultationFormComponent } from '../edit-consultation-form/edit-consultation-form.component';
 
 @Component({
   selector: 'app-consultation-form-list',
@@ -375,6 +377,28 @@ export class ConsultationFormListComponent implements OnInit {
   }
 
   open(consultation, action) {
+    switch (action) {
+      case 'view':
+        const modalRef = this.modalService.open(DetailConsultationFormComponent ,
+          {size: 'lg', windowClass: 'modal-content-border modal-edit-europa', backdrop  : 'static', keyboard  : false});
+          modalRef.componentInstance.consultation = consultation;
+          modalRef.componentInstance.read = true;
+          modalRef.result.then((result) => {
+            this.ngOnInit();
+            }, (reason) => {
+          });
+        break;
+      case 'edit':
+        const modalRefEdit = this.modalService.open(EditConsultationFormComponent ,
+          {size: 'lg', windowClass: 'modal-content-border modal-edit-europa', backdrop  : 'static', keyboard  : false });
+          modalRefEdit.componentInstance.consultation = consultation;
+          modalRefEdit.componentInstance.read = false;
+          modalRefEdit.result.then((result) => {
+            this.ngOnInit();
+            }, (reason) => {
+          });
+        break;
+    }
 
   }
 

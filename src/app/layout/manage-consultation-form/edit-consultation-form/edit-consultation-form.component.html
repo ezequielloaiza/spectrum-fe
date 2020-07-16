@@ -5,27 +5,21 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="list-basket">
+  <div class="content">
     <div class="row">
         <!--Image-->
-        <div class="col-lg-12 main-info">
-          <div>
-            <span class="title">{{ 'Consultation Form' | translate }}</span>
+        <div class="col-lg-12">
+          <div class="title">
+            <span >{{ 'Consultation Form' | translate }}</span>
           </div>
-          <!--Image-->
-          <!--div class="label-title">
-            <img class="img-product" src="{{ }}">
-          </div-->
           <!--Patient-->
-          <div class="col-lg-12 title label-title patient-info display-row">
+          <div class="col-lg-12 patient-info">
             <span>{{ 'Patient' | translate }}
-              <dl>
-                <dt>{{ consultation.patientName }}</dt>
-              </dl>
+              <!--Input TEXT-->
+              <input  type="text" class="form-control " required [(ngModel)]="consultation.patientName" >
             </span>
         </div>
         <!--PARAMETERS-->
-
         <div id="consultation-form">
           <div>
             <div class="owm">
@@ -46,12 +40,12 @@
 
               <div class="eyes">
                 <div *ngIf="eyeView.eye === 'right'" class="col-lg-12 custom-control custom-checkbox">
-                  <input id="OD" type="checkbox" name="checkboxOD" (click)="setValueEye('right')" [checked]="eyeView.eye.selected" [disabled]="read"
+                  <input id="OD" type="checkbox" name="checkboxOD" (click)="setCheckbox(eyeView)" [checked]="eyeView.selected" 
                       class="custom-control-input">
                   <label class="bold custom-control-label" for="OD">{{ 'OD' }}</label>
                 </div>
                 <div *ngIf="eyeView.eye === 'left'" class="col-lg-12 custom-control custom-checkbox">
-                  <input id="OS" type="checkbox" name="checkboxOS" (click)="setValueEye('left')" [checked]="eyeView.eye.selected" [disabled]="read"
+                  <input id="OS" type="checkbox" name="checkboxOS" (click)="setCheckbox(eyeView)" [checked]="eyeView.selected" 
                       class="custom-control-input">
                   <label class="bold custom-control-label" for="OS">{{ 'OS' }}</label>
                 </div>
@@ -68,9 +62,9 @@
                       <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate}}</span>
                       <!--Input TEXT-->
                       <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [(ngModel)]="subParam.selected" 
-                      [disabled]="read">
+                      [disabled]="isDisabled(eyeView.eye)">
                       <!--Input SELECT-->
-                      <select *ngIf="subParam.type === 'select'" class="form-control" required [(ngModel)]="subParam.selected" [disabled]="read"
+                      <select *ngIf="subParam.type === 'select'" class="form-control" required [(ngModel)]="subParam.selected" [disabled]="isDisabled(eyeView.eye)"
                           name="options" #options="ngModel" >
                         <option *ngFor="let value of subParam.values" [value]="value" >{{value | translate}}</option>
                       </select>
@@ -79,13 +73,13 @@
                       <div *ngIf="subParam.type === 'radio'" class="radio-buttons">
                         <div class="button-space custom-control custom-radio">
                           <input type="radio" id="radio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}" name="customRadio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}" 
-                          [disabled]="read" value="Yes" class="custom-control-input" [(ngModel)]="subParam.selected">
+                          [disabled]="isDisabled(eyeView.eye)" value="Yes" class="custom-control-input" [(ngModel)]="subParam.selected">
                           <label class="custom-control-label" for="radio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}">{{ 'Yes' | translate }}</label>
                         </div>
 
                         <div class="custom-control custom-radio">
                           <input type="radio" id="radio-no-{{ eyeView.eye + '-'+ i + '-' + isub }}" name="customRadio-no-{{ eyeView.eye + '-'+ i + '-' + isub }}" 
-                          [disabled]="read" value="No" class="custom-control-input" [(ngModel)]="subParam.selected">
+                          [disabled]="isDisabled(eyeView.eye)" value="No" class="custom-control-input" [(ngModel)]="subParam.selected">
                           <label class="custom-control-label" for="radio-no-{{ eyeView.eye + '-'+ i + '-' + isub }}">{{ 'No' | translate }}</label>
                         </div>
                       </div>
@@ -101,13 +95,13 @@
 
                   <div class="button-space custom-control custom-radio">
                     <input type="radio" id="radio-yes-{{ eyeView.eye + '-'+ i }}" name="customRadio-yes-{{ eyeView.eye + '-'+ i }}" value="Yes" 
-                    [disabled]="read" class="custom-control-input" [(ngModel)]="param.selected">
+                    [disabled]="isDisabled(eyeView.eye)" class="custom-control-input" [(ngModel)]="param.selected">
                     <label class="custom-control-label" for="radio-yes-{{ eyeView.eye + '-'+ i }}">{{ 'Yes' | translate }}</label>
                   </div>
 
                   <div class="custom-control custom-radio">
                     <input type="radio" id="radio-no-{{ eyeView.eye + '-'+ i }}" name="customRadio-no-{{ eyeView.eye + '-'+ i }}" value="No" 
-                    [disabled]="read" class="custom-control-input" [(ngModel)]="param.selected">
+                    [disabled]="isDisabled(eyeView.eye)" class="custom-control-input" [(ngModel)]="param.selected">
                     <label class="custom-control-label" for="radio-no-{{ eyeView.eye + '-'+ i }}">{{ 'No' | translate }}</label>
                   </div>
                 </div>
@@ -117,20 +111,20 @@
                   <div class="sub-params" *ngFor="let subParam of param.values">
                     <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate }}</span>
                     <!--Input TEXT-->
-                    <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [disabled]="read" [(ngModel)]="subParam.selected">
+                    <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [disabled]="isDisabled(eyeView.eye)" [(ngModel)]="subParam.selected">
                   </div>
                 </div>
 
                 <!--Input TEXT-->
                 <div *ngIf="param.type === 'input'" class="w-46">
                   <label class="bold">{{ param.name| translate }}</label>
-                  <input type="text" class="form-control" required [(ngModel)]="param.selected" [disabled]="read">
+                  <input type="text" class="form-control" required [(ngModel)]="param.selected" [disabled]="isDisabled(eyeView.eye)">
                 </div>
 
                 <!--Input TEXTAREA-->
-                <div *ngIf="param.type === 'text-area'">
+                <div *ngIf="param.type === 'text-area'" class="left">
                   <label class="bold">{{ param.name| translate }}</label>
-                  <textarea type="text" class="form-control" [(ngModel)]="param.selected" [disabled]="read"></textarea>
+                  <textarea type="text" class="form-control" [(ngModel)]="param.selected" [disabled]="isDisabled(eyeView.eye)"></textarea>
                 </div>
               </div>
 
@@ -138,53 +132,13 @@
 
           </div>
         </div>
-  
-        <div class="col-lg-12 label-title">
-          <div class="row padding-params">
-            <!--PARAMS-->
-            <div class="col-sm-3" *ngFor="let parameter of detail.generals">
-              <dl class="align-item">
-                <dt>{{ parameter.name | translate }}
-                </dt>
-                <hr class="separators">
-                <dl *ngIf="parameter.selected !==true && parameter.selected !==false">
-                  <dt class="items">
-                    {{ parameter.selected | translate}}
-                  </dt>
-                </dl>
-                <dl *ngIf="parameter.selected ===true || parameter.selected ===false">
-                  <dt *ngIf="parameter.selected === true">{{ 'Yes' | translate }}</dt>
-                  <dt *ngIf="parameter.selected === false">{{ 'No' | translate }}</dt>
-                </dl>
-              </dl>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-12 label-title" *ngFor="let parameter of detail.eyes">
-          <div class="row padding-params">
-            <!--PARAMS-->
-            <div class="col-sm-3" *ngFor="let param of parameter.params">
-              <dl class="align-item">
-                <dt>{{ param.name | translate }}
-                </dt>
-                <hr class="separators">
-                <dl *ngIf="param.selected !==true && param.selected !==false">
-                  <dt class="items">
-                    {{ param.selected | translate}}
-                  </dt>
-                </dl>
-                <dl *ngIf="param.selected ===true || param.selected ===false">
-                  <dt *ngIf="param.selected === true">{{ 'Yes' | translate }}</dt>
-                  <dt *ngIf="param.selected === false">{{ 'No' | translate }}</dt>
-                </dl>
-              </dl>
-            </div>
-          </div>
-        </div>
-        <!--Fin parameters-->
     </div>
   </div>
   <div class="modal-footer">
+    <button class="btn btn-primary btn-outline-primary text-uppercase margin-button"
+            (click)="formIsValid() && saveConsultationForm()" [disabled]="!formIsValid()">
+            {{ 'Save' | translate }}
+    </button>
     <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
       <i class="fa fa-times"></i>
     </button>

@@ -1,61 +1,32 @@
 @import '../../../../styles/spectrum/spectrum';
 
-.list-basket {
+.content {
   padding: 2em;
   overflow-y: auto;
   overflow-x: hidden;
 
-  .main-info {
-    text-align: center;
-  }
-
-  .img-product {
-    width: 45%;
-    height: 9.5em;
-  }
-
-  .display-row {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .display-price {
-    justify-content: center;
-  }
-
-  .padding-params {
-    padding:  0 2em;
-  }
-
-  .params {
-    padding-top: 1em;
-
-    .separator {
-      margin-bottom: 1em;
+  .patient-info {
+    padding: 0 2em;
+    span {
+      width: 100%;
     }
   }
 
   .title {
-    font-weight: 600;
-  }
-
-  .label-title {
-    padding-top: 1.5em;
-  }
-
-  .patient-info {
-    padding-bottom: 1.5em;
+    text-align: center;
+    padding: 2em;
     span {
-      text-align: center;
+      font-weight: 600;
+      font-size: 1.6em;
     }
   }
-
 }
+
 
 #consultation-form {
   display: flex;
   flex-direction: column;
-  padding: 2em;
+  padding: 1em 2em;
 
   .bold {
     font-weight: 600;
@@ -67,6 +38,7 @@
 
   .owm {
     display: flex;
+    padding: 1.2em 0;
 
     > div:nth-child(1), > div:nth-child(2) {
       width: 25%;
@@ -94,6 +66,7 @@
     flex-direction: row;
     padding-top: 20px;
     width: 100%;
+    text-align: left;
 
     .param-titles {
       display: flex;
@@ -131,13 +104,19 @@
   }
 
   .w-46 {
+    text-align: left;
     width: 46%;
+  }
+
+  .left {
+    text-align: left;
   }
 
   .half-display {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+    text-align: left;
 
     > div {
       width: 46%;

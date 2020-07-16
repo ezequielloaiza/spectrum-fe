@@ -30,4 +30,8 @@ export class ConsultationFormService {
   public save$(consultationRequest): Observable<any> {
     return this.http.put(environment.apiUrl + 'consultationForm/save', consultationRequest);
   }
+
+  public update$(consultationRequest): Observable<any> {
+    return this.http.put(environment.apiUrl + 'consultationForm/update', consultationRequest);
+  }
 }

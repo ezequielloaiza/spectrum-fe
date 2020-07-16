@@ -20,7 +20,7 @@
 
 <div class="padding-detail" *ngIf="product">
   <div class="card">
-    <div class="">
+    <div>
       <!-- row (name-price-image) -->
       <div class="row wrapper">
         <div class="preview col-md-12">
@@ -37,7 +37,7 @@
       <!-- row (pacient, client, shipping address) -->
       <div class="row product-info">
         <!-- patient -->
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
           <div class="row info-content">
             <input class="form-control" type="text" maxlength="20" placeholder="{{ 'Enter name patient' | translate }}" [(ngModel)]="product.patient"
@@ -59,7 +59,7 @@
         </div>
         <!--shipping address-->
          <!--shipping address-->
-        <div class="col-lg-4">
+        <div class="col-lg-5">
           <span class="title">{{ 'Shipping Address' | translate }}</span>
           <div class="row info-content ">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
@@ -240,7 +240,7 @@
       <br>
       <div class="row">
         <div class="col-md-12 save-btns">
-          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
+          <button class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
             (click)="formIsValid() && saveConsultationForm()" [disabled]="!formIsValid()">
             {{ 'Save' | translate }}
           </button>
