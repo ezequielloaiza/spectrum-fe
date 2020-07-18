@@ -49,30 +49,12 @@ export class ConsultationFormComponent implements OnInit {
   listCustomersAux: Array<any> = new Array;
   consultationFormRequest: ConsultationFormRequest = new ConsultationFormRequest;
   // Upload files
-  @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
-  @ViewChild('selectedFilesRightEye') selectedFilesRightEye: any;
+  @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
-  listFileLeftEye: Array<FileConsultationForm> = new Array;
-  listFileRightEye: Array<FileConsultationForm> = new Array;
+  listFile: Array<FileConsultationForm> = new Array;
   private uploadResult: any = null;
-  private uploadResultLeftEye: any = null;
-  private uploadResultRightEye: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
-                                                    itemAlias: 'files',
-                                                    queueLimit: this.queueLimit,
-                                                    maxFileSize: this.maxFileSize,
-                                                    removeAfterUpload: false,
-                                                    authToken: this.userStorageService.getToke(),
-                                                    autoUpload: false});
-  public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
-                                                    itemAlias: 'files',
-                                                    queueLimit: this.queueLimit,
-                                                    maxFileSize: this.maxFileSize,
-                                                    removeAfterUpload: false,
-                                                    authToken: this.userStorageService.getToke(),
-                                                    autoUpload: false});
-  public uploaderRightEye: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
                                                     maxFileSize: this.maxFileSize,
@@ -93,48 +75,28 @@ export class ConsultationFormComponent implements OnInit {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
-    this.uploaderLeftEye.onAfterAddingFile = (item) => {
+    this.uploader.onAfterAddingFile = (item) => {
       const maxSize = this.maxFilesSize();
 
       if (maxSize > this.maxFileSize) {
-        this.removeFile(item, 'Left');
+        this.removeFile(item);
         this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
           this.notification.error('', res);
         });
       }
     };
-    this.uploaderLeftEye.onSuccessItem = (item, response, status, headers) => {
-      this.uploadResultLeftEye = {'success': true, 'item': item, 'response':
+    this.uploader.onSuccessItem = (item, response, status, headers) => {
+      this.uploadResult = {'success': true, 'item': item, 'response':
                            response, 'status': status, 'headers': headers};
-      if (this.uploadResultLeftEye) {
-        this.buildFileProductRequested('Left');
+      if (this.uploadResult) {
+        this.buildFileProductRequested();
       }
     };
-    this.uploaderLeftEye.onErrorItem = (item, response, status, headers) => {
-        this.uploadResultLeftEye = {'success': true, 'item': item, 'response':
+    this.uploader.onErrorItem = (item, response, status, headers) => {
+        this.uploadResult = {'success': true, 'item': item, 'response':
                              response, 'status': status, 'headers': headers};
     };
-    this.uploaderRightEye.onAfterAddingFile = (item) => {
-      const maxSize = this.maxFilesSize();
 
-      if (maxSize > this.maxFileSize) {
-        this.removeFile(item, 'Right');
-        this.translate.get('Exceeds the maximum size allowed', {value: 'Exceeds the maximum size allowed'}).subscribe(( res: string) => {
-          this.notification.error('', res);
-        });
-      }
-    };
-    this.uploaderRightEye.onSuccessItem = (item, response, status, headers) => {
-      this.uploadResultRightEye = {'success': true, 'item': item, 'response':
-                           response, 'status': status, 'headers': headers};
-      if (this.uploadResultRightEye) {
-        this.buildFileProductRequested('Right');
-      }
-    };
-    this.uploaderRightEye.onErrorItem = (item, response, status, headers) => {
-        this.uploadResultRightEye = {'success': true, 'item': item, 'response':
-                             response, 'status': status, 'headers': headers};
-    };
   }
 
   ngOnInit() {
@@ -239,15 +201,6 @@ export class ConsultationFormComponent implements OnInit {
     }
   }
 
-  getUploader(eye) {
-    switch (eye) {
-      case 'right':
-        return this.uploaderRightEye;
-      case 'left':
-        return this.uploaderLeftEye;
-    }
-  }
-
   setClient() {
     if (this.user.role.idRole === 3) {
       this.client = this.currentUser;
@@ -311,75 +264,43 @@ export class ConsultationFormComponent implements OnInit {
     return maxFileSize;
   }
 
-  removeFile(item, eye) {
-    if (eye === 'right') {
-      this.uploaderRightEye.removeFromQueue(item);
-    } else if (eye === 'left') {
-      this.uploaderLeftEye.removeFromQueue(item);
-    }
-    this.clearSelectedFile(eye);
+  removeFile(item) {
+    this.uploader.removeFromQueue(item);
+    this.clearSelectedFile();
   }
 
-  clearSelectedFile(eye) {
-    if (eye === 'Right') {
-      this.selectedFilesRightEye.nativeElement.value = '';
-    } else if (eye === 'Left') {
-      this.selectedFilesLeftEye.nativeElement.value = '';
-    }
+  clearSelectedFile() {
+    this.selectedFiles.nativeElement.value = '';
   }
 
   clearFiles() {
-    /*if (this.uploader.queue.length) {
+    if (this.uploader.queue.length) {
       this.uploader.clearQueue();
-      // this.clearSelectedFile();
-    }*/
-    if (this.uploaderLeftEye.queue.length) {
-      this.uploaderLeftEye.clearQueue();
-      this.clearSelectedFile('Left');
-    }
-    if (this.uploaderRightEye.queue.length) {
-      this.uploaderRightEye.clearQueue();
-      this.clearSelectedFile('Right');
+      this.clearSelectedFile();
     }
   }
 
   saveFiles(): void {
-    this.listFileLeftEye = new Array;
-    this.listFileRightEye = new Array;
-    if (this.uploaderLeftEye.queue) {
-      _.each(this.uploaderLeftEye.queue, function (item) {
+    this.listFile = new Array;
+    if (this.uploader.queue) {
+      _.each(this.uploader.queue, function (item) {
         item.upload();
       });
     }
-    if (this.uploaderRightEye.queue) {
-      _.each(this.uploaderRightEye.queue, function (item) {
-        item.upload();
-      });
-    }
-
-    if (!this.uploaderLeftEye.queue.length && !this.uploaderRightEye.queue.length) {
+    if (!this.uploader.queue.length) {
       //this.openModal(this.type);
     }
   }
 
-  private buildFileProductRequested(eye) {
-    if (eye === 'Right' && this.uploadResultRightEye.success) {
+  private buildFileProductRequested() {
+    if (this.uploadResult.success) {
       const fileconsultationform: FileConsultationForm = new FileConsultationForm();
-      fileconsultationform.url  = JSON.parse(this.uploadResultRightEye.response).data;
-      fileconsultationform.name = this.uploadResultRightEye.item.file.name;
-      fileconsultationform.type = this.uploadResultRightEye.item.file.type;
-      fileconsultationform.size = this.uploadResultRightEye.item.file.size;
+      fileconsultationform.url  = JSON.parse(this.uploadResult.response).data;
+      fileconsultationform.name = this.uploadResult.item.file.name;
+      fileconsultationform.type = this.uploadResult.item.file.type;
+      fileconsultationform.size = this.uploadResult.item.file.size;
       fileconsultationform.createdAt = new Date();
-      this.listFileRightEye.push(fileconsultationform);
-      //this.verifyOpenModal();
-    } if (eye === 'Left' && this.uploadResultLeftEye.success) {
-      const fileconsultationform: FileConsultationForm = new FileConsultationForm();
-      fileconsultationform.url  = JSON.parse(this.uploadResultLeftEye.response).data;
-      fileconsultationform.name = this.uploadResultLeftEye.item.file.name;
-      fileconsultationform.type = this.uploadResultLeftEye.item.file.type;
-      fileconsultationform.size = this.uploadResultLeftEye.item.file.size;
-      fileconsultationform.createdAt = new Date();
-      this.listFileLeftEye.push(fileconsultationform);
+      this.listFile.push(fileconsultationform);
       //this.verifyOpenModal();
     }
   }
@@ -406,8 +327,7 @@ export class ConsultationFormComponent implements OnInit {
     productsRequested[0] = this.buildConsultation();
     this.saveFiles();
     this.consultationFormRequest.consultationList = productsRequested;
-    this.consultationFormRequest.listFileLeftEye = this.listFileLeftEye;
-    this.consultationFormRequest.listFileRightEye = this.listFileRightEye;
+    this.consultationFormRequest.listFiles = this.listFile;
     console.log(this.consultationFormRequest);
     this.consultationFormService.save$(this.consultationFormRequest).subscribe(res => {
       if (res.code === CodeHttp.ok) {

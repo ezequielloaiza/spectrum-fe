@@ -11,6 +11,7 @@ import { AlertifyService } from '../../../shared/services/alertify/alertify.serv
 import { ToastrService } from 'ngx-toastr';
 import { DetailConsultationFormComponent } from '../detail-consultation-form/detail-consultation-form.component';
 import { EditConsultationFormComponent } from '../edit-consultation-form/edit-consultation-form.component';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-consultation-form-list',
@@ -400,6 +401,29 @@ export class ConsultationFormListComponent implements OnInit {
         break;
     }
 
+  }
+
+  download(consultation) {
+    this.spinner.show();
+    const self = this;
+    self.consultationFormService.downloadConsultationForm$(consultation.idConsultationForm).subscribe(res => {
+      const filename = consultation.trackingNumber + '.pdf';
+      if (res.size > 0) {
+        self.spinner.hide();
+        saveAs(res, filename);
+      } else {
+        self.spinner.hide();
+        self.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res1: string) => {
+          self.notification.error('', res1);
+        });
+      }
+    }, error => {
+      self.spinner.hide();
+      self.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
+        self.notification.error('', res);
+      });
+      console.log('error', error);
+    });
   }
 
 }

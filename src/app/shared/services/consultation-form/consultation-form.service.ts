@@ -34,4 +34,10 @@ export class ConsultationFormService {
   public update$(consultationRequest): Observable<any> {
     return this.http.put(environment.apiUrl + 'consultationForm/update', consultationRequest);
   }
+
+  public downloadConsultationForm$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'consultationForm/downloadConsultation/' + id, {
+      responseType: 'blob'
+    });
+  }
 }

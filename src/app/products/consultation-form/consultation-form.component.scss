@@ -216,6 +216,27 @@
   }
 }
 
+.documents {
+  padding: 0;
+  margin: 3em 0;
+
+  .title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .files {
+    margin-top: 2rem;
+  }
+
+  .message-error {
+    color: #cc0000;
+    font-size: 0.85rem;
+    margin-top: 0;
+  }
+}
+
 .radio-buttons {
   display: flex;
 
