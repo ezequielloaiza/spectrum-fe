@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { ConsultationFormService } from '../../../shared/services/consultation-form/consultation-form.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-modal-change-status',
@@ -30,7 +31,8 @@ export class ModalChangeStatusComponent implements OnInit {
     private notification: ToastrService,
     private translate: TranslateService,
     private alertify: AlertifyService,
-    private consultationFormService: ConsultationFormService
+    private consultationFormService: ConsultationFormService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -56,8 +58,10 @@ export class ModalChangeStatusComponent implements OnInit {
       this.translate.get('Are you sure you want to change the status?',
         { value: 'Are you sure you want to change the status?' }).subscribe((msg: string) => {
           this.alertify.confirm(title, msg, () => {
+            this.spinner.show();
             this.consultationFormService.changeStatus$(this.consultation.idConsultationForm, this.idStatus).subscribe(res => {
               if (res.code === CodeHttp.ok) {
+                this.spinner.hide();
                 this.close();
                 this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res1: string) => {
                   this.notification.success('', res1);

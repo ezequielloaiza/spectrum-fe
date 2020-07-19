@@ -113,7 +113,7 @@
                     <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate}}</span>
                     <!--Input TEXT-->
                     <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [(ngModel)]="subParam.selected" 
-                    [disabled]="isDisabled(eyeView.eye)">
+                    [disabled]="isDisabled(eyeView.eye)" maxlength="250">
 
                     <!--Input SELECT-->
                     <select *ngIf="subParam.type === 'select'" class="form-control" required [(ngModel)]="subParam.selected" [disabled]="isDisabled(eyeView.eye)"
@@ -176,7 +176,7 @@
               <!--Input TEXTAREA-->
               <div *ngIf="param.type === 'text-area'">
                 <label class="bold">{{ param.name| translate }}</label>
-                <textarea type="text" class="form-control" [(ngModel)]="param.selected" [disabled]="isDisabled(eyeView.eye)"></textarea>
+                <textarea type="text" class="form-control" [(ngModel)]="param.selected" [disabled]="isDisabled(eyeView.eye)" maxlength="250"></textarea>
               </div>
             </div>
 

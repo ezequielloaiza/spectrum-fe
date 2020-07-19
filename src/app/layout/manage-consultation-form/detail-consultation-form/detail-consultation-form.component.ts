@@ -45,5 +45,10 @@ export class DetailConsultationFormComponent implements OnInit {
     }
   }
 
+  isSelected(param) {
+    let selected = param.selected ? 'X' : '';
+    return selected;
+  }
+
 
 }
