@@ -134,6 +134,9 @@ export class ConsultationFormListComponent implements OnInit {
       case 3:
         status = 'Shipped';
         break;
+      case 4:
+        status = 'Canceled';
+        break;
     }
     return status;
   }
@@ -423,6 +426,30 @@ export class ConsultationFormListComponent implements OnInit {
         self.notification.error('', res);
       });
       console.log('error', error);
+    });
+  }
+
+  cancel(consultation) {
+    this.translate.get('Cancel Consultation Form', { value: 'Cancel Consultation Form' }).subscribe((title: string) => {
+      this.translate.get('Are you sure you want to cancel the consultation form?',
+        { value: 'Are you sure you want to cancel the consultation form?' }).subscribe((msg: string) => {
+          this.alertify.confirm(title, msg, () => {
+            this.spinner.show();
+            this.consultationFormService.changeStatus$(consultation.idConsultationForm, 4).subscribe(res => {
+              if (res.code === CodeHttp.ok) {
+                this.spinner.hide();
+                this.translate.get('Successfully Canceled', { value: 'Successfully Canceled' }).subscribe((res1: string) => {
+                  this.notification.success('', res1);
+                });
+              } else {
+                console.log(res.errors[0].detail);
+              }
+            }, error => {
+              console.log('error', error);
+            });
+          }, () => {
+          });
+        });
     });
   }
 

@@ -90,3 +90,12 @@
     text-align: center;
   }
 }
+
+.canceled {
+  color: $bg-white;
+  > div {
+    background: $cancel-status;
+    border-radius: 12px;
+    text-align: center;
+  }
+}

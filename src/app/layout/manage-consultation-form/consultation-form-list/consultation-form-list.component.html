@@ -108,7 +108,7 @@
 								<td *ngIf="user.role.idRole === 1" class="table-tr td-table">{{consultation.nameUser}}</td>
 								<td class="table-tr td-table">{{consultation.patientName  }}</td>
 								<td class="table-tr td-table">{{consultation.date  | date:'yyyy-MM-dd'}}</td>
-								<td [ngClass]="{'pending': consultation.status === 0,'processed': consultation.status === 1, 'ready': consultation.status === 2, 'shipped': consultation.status === 3 }" 
+								<td [ngClass]="{'pending': consultation.status === 0,'processed': consultation.status === 1, 'ready': consultation.status === 2, 'shipped': consultation.status === 3, 'canceled': consultation.status === 4 }" 
 								class="table-tr" class="pending">
 									<div>{{getStatus(consultation.status) | translate}}</div>
 								</td>
@@ -125,6 +125,8 @@
                           <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}</button>
 												<button *ngIf="consultation.status !== 0" class="dropdown-item" (click)="download(consultation)">
 													<i class="fa fa-download"></i> {{ 'Download' | translate }}</button>
+												<button *ngIf="user.role.idRole === 1" class="dropdown-item" (click)="cancel(consultation)">
+													<i class="fa fa-ban"></i> {{ 'Cancel' | translate }}</button>
 											</div>
 										</div>
 									</div>
