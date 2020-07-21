@@ -13,7 +13,7 @@
       flex-wrap: nowrap;
       font-weight: 600;
       align-self: flex-end;
-      width: 15%;
+      width: 25%;
     }
   }
 }
@@ -38,7 +38,11 @@
 
     > div:nth-child(1), > div:nth-child(2) {
       width: 25%;
-      input { width: 12%; }
+
+      .label-check {
+        width: 8vh;
+        height: 8vh;
+      }
     }
 
     > div:nth-child(3) {
@@ -87,11 +91,19 @@
       width: 70%;
 
       .sub-params {
-        width: 40%;
-        margin: 0.2% 5%;
+        width: 50%;
+        margin: 0.2% 0;
+        padding: 2% 0 0 3%;
         display: inline-flex;
 
-        span { width: 60%; }
+        span {
+          width: 75%;
+          white-space: nowrap;
+        }
+
+        .text {
+          width: 55%;
+        }
 
         .params-checkbox {
           width: 100%;
@@ -115,10 +127,11 @@
 
   .w-46 {
     display: inline-flex;
-    width: 46%;
+    width: 49%;
     > label {
       font-weight: 600;
-      width: 45%;
+      width: 70%;
+      align-self: center;
     }
   }
 
@@ -134,15 +147,16 @@
 
     > div {
       display: inline-flex;
-      width: 46%;
+      width: 49%;
       > span {
         font-weight: 600;
-        width: 45%;
+        width: 70%;
+        align-self: center;
       }
     }
 
     > div:nth-child(1) {
-      margin-right: 5%;
+      margin-right: 2%;
     }
   }
 }
@@ -164,7 +178,7 @@
 
 .radio-buttons {
   display: inline-flex;
-  width: 100%;
+  width: 70%;
 
   .name {
     width: 43%;
@@ -177,9 +191,7 @@
 
       label {
         width: 50%;
-        //margin-right: 1rem;
       }
-    // margin-right: 20px;
   }
 }
 

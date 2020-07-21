@@ -7,13 +7,13 @@
   </div>
   <div class="content">
     <div class="row">
-        <div class="col-lg-12">
-          <!--Patient-->
-          <div class="col-lg-12 title label-title patient-info display-row">
-            <label>{{ 'Patient Name' | translate }}</label>
-            <!--Input TEXT-->
-            <input  type="text" class="form-control " [disabled]="true" [(ngModel)]="consultation.patientName" >
-          </div>
+      <div class="col-lg-12">
+        <!--Patient-->
+        <div class="col-lg-12 title label-title patient-info display-row">
+          <label>{{ 'Patient Name' | translate }}</label>
+          <!--Input TEXT-->
+          <input  type="text" class="form-control " [disabled]="true" [(ngModel)]="consultation.patientName" >
+        </div>
         <!--PARAMETERS-->
 
         <div id="consultation-form">
@@ -22,8 +22,8 @@
               <div *ngFor="let param of generalParams">
                 <div  *ngIf="param.type === 'checkbox'"  class="flex">
                   <label class="bold " >{{ param.name | translate }}</label>
-                  <input *ngIf="param.selected" type="text" class="form-control" [disabled]="true" value="X">
-                  <input *ngIf="!param.selected" type="text" class="form-control" [disabled]="true" value="">
+                  <label *ngIf="param.selected" class="field-disabled label-check" >{{ 'X'}}</label>
+                  <label *ngIf="!param.selected" class="field-disabled label-check" >{{ '  '}}</label>
                 </div>
                 <div  *ngIf="param.type === 'input'" class="flex">
                   <label class="bold" for="{{ param.name + 'checkbox' }}">{{ param.name | translate }}</label>
@@ -54,9 +54,11 @@
                   <div class="content-params">
                     <div class="sub-params" *ngFor="let subParam of param.values; let isub = index">
                       <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate}}</span>
-                      <!--Input TEXT-->
-                      <input *ngIf="subParam.type === 'input'" type="text" class="form-control" [(ngModel)]="subParam.selected" 
-                      [disabled]="true">
+                      <div *ngIf="subParam.type === 'input'" class="text">
+                        <!--Input TEXT-->
+                        <input *ngIf="subParam.type === 'input'" type="text" class="form-control" [(ngModel)]="subParam.selected" 
+                        [disabled]="true">
+                      </div>
                       <!--Input SELECT-->
                       <input *ngIf="subParam.type === 'select'" type="text" class="form-control" [(ngModel)]="subParam.selected" 
                       [disabled]="true">
@@ -132,8 +134,31 @@
         </div>
 
         <!--Fin parameters-->
+        <div *ngIf="listFiles.length" class="col-lg-12">
+          <dt class="bold">{{ 'Documents | Attach of Consultation Form' | translate }}</dt>
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="50%">{{ 'Name' | translate }}</th>
+                <th>{{ 'Size' | translate }}</th>
+                <th>{{ 'Actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listFiles">
+                <td><strong>{{ item?.name }}</strong></td>
+                <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
+                <td nowrap>
+                  <button type="button" class="btn btn-sucess btn-xs" (click)="downloadFile(item)">
+                    <span class="fa fa-download"></span> {{ 'Download' | translate }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
       <i class="fa fa-times"></i>

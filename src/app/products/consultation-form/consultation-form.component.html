@@ -37,7 +37,7 @@
       <!-- row (pacient, client, shipping address) -->
       <div class="row product-info">
         <!-- patient -->
-        <div class="col-lg-3">
+        <div class="col-lg-4">
           <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
           <div class="row info-content">
             <input class="form-control" type="text" maxlength="20" placeholder="{{ 'Enter name patient' | translate }}" [(ngModel)]="product.patient"
@@ -59,7 +59,7 @@
         </div>
         <!--shipping address-->
          <!--shipping address-->
-        <div class="col-lg-5">
+        <div class="col-lg-4">
           <span class="title">{{ 'Shipping Address' | translate }}</span>
           <div class="row info-content ">
             <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
@@ -86,7 +86,7 @@
             </div>
           </div>
 
-          <div *ngFor="let eyeView of eyes">
+          <div *ngFor="let eyeView of eyes" class="eye-container">
 
             <div class="eyes">
               <div *ngIf="eyeView.eye === 'right'" class="col-lg-12 custom-control custom-checkbox">
@@ -105,7 +105,7 @@
               <!--Multiples INPUTS-->
               <div *ngIf="param.type === 'multiple'" class="multiples-params">
                 <div class="param-titles">
-                  <span>{{ param.name | translate }}</span>
+                  <span class="title">{{ param.name | translate }}</span>
                   <span>{{ param.subname | translate }}</span>
                 </div>
                 <div class="content-params">
@@ -122,7 +122,7 @@
                     </select>
 
                     <!-- Input RADIO -->
-                    <div *ngIf="subParam.type === 'radio'" class="radio-buttons">
+                    <div *ngIf="subParam.type === 'radio'" class="params-checkbox">
                       <div class="button-space custom-control custom-radio">
                         <input type="radio" id="radio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}" name="customRadio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}" 
                         [disabled]="isDisabled(eyeView.eye)" value="Yes" class="custom-control-input" [(ngModel)]="subParam.selected">
@@ -142,19 +142,21 @@
               <!-- Input RADIO -->
               <div *ngIf="param.type === 'radio'" class="multiples-params radio-buttons">
                 <div class="name">
-                  <span>{{ param.name | translate}}</span>
+                  <span class="title">{{ param.name | translate}}</span>
                 </div>
 
-                <div class="button-space custom-control custom-radio">
-                  <input type="radio" id="radio-yes-{{ eyeView.eye + '-'+ i }}" name="customRadio-yes-{{ eyeView.eye + '-'+ i }}" value="Yes" 
-                  [disabled]="isDisabled(eyeView.eye)" class="custom-control-input" [(ngModel)]="param.selected">
-                  <label class="custom-control-label" for="radio-yes-{{ eyeView.eye + '-'+ i }}">{{ 'Yes' | translate }}</label>
-                </div>
+                <div>
+                  <div class="button-space custom-control custom-radio">
+                    <input type="radio" id="radio-yes-{{ eyeView.eye + '-'+ i }}" name="customRadio-yes-{{ eyeView.eye + '-'+ i }}" value="Yes" 
+                    [disabled]="isDisabled(eyeView.eye)" class="custom-control-input" [(ngModel)]="param.selected">
+                    <label class="custom-control-label" for="radio-yes-{{ eyeView.eye + '-'+ i }}">{{ 'Yes' | translate }}</label>
+                  </div>
 
-                <div class="custom-control custom-radio">
-                  <input type="radio" id="radio-no-{{ eyeView.eye + '-'+ i }}" name="customRadio-no-{{ eyeView.eye + '-'+ i }}" value="No" 
-                  [disabled]="isDisabled(eyeView.eye)" class="custom-control-input" [(ngModel)]="param.selected">
-                  <label class="custom-control-label" for="radio-no-{{ eyeView.eye + '-'+ i }}">{{ 'No' | translate }}</label>
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="radio-no-{{ eyeView.eye + '-'+ i }}" name="customRadio-no-{{ eyeView.eye + '-'+ i }}" value="No" 
+                    [disabled]="isDisabled(eyeView.eye)" class="custom-control-input" [(ngModel)]="param.selected">
+                    <label class="custom-control-label" for="radio-no-{{ eyeView.eye + '-'+ i }}">{{ 'No' | translate }}</label>
+                  </div>
                 </div>
               </div>
 
@@ -189,7 +191,7 @@
                 <span class="title">{{ 'Attach pictures, fluograms, videos, or any other tool you might think will help us understand the fitting challenges.' | translate}}</span>
                 <br>
                 <div class="files">
-                  <dt class="title">{{ 'Documents | Attach Consultation Form' | translate }}</dt>
+                  <dt class="title">{{ 'Documents | Attach of Consultation Form' | translate }}</dt>
                   <div class="custom-file">
                     <input id="selectedFiles" type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader" multiple />
                     <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
@@ -241,7 +243,7 @@
       <div class="row">
         <div class="col-md-12 save-btns">
           <button class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
-            (click)="formIsValid() && saveConsultationForm()" [disabled]="!formIsValid()">
+            (click)="saveConsultationForm()" [disabled]="!formIsValid()">
             {{ 'Save' | translate }}
           </button>
       </div>

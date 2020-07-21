@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
@@ -25,7 +25,7 @@ import { ConsultationFormRequest } from '../../shared/models/consultation-form-r
 import { FileConsultationForm } from '../../shared/models/fileconsultationform';
 import { ConsultationFormService } from '../../shared/services/consultation-form/consultation-form.service';
 
-const URL = environment.apiUrl + 'fileProductRequested/uploader';
+const URL = environment.apiUrl + 'fileConsultationForm/uploader';
 
 @Component({
   selector: 'app-consultation-form',
@@ -71,6 +71,7 @@ export class ConsultationFormComponent implements OnInit {
               public router: Router,
               private notification: ToastrService,
               private translate: TranslateService,
+              private changeDetector: ChangeDetectorRef,
               private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
@@ -92,6 +93,8 @@ export class ConsultationFormComponent implements OnInit {
         this.buildFileProductRequested();
       }
     };
+    this.uploader.onProgressItem = (progress: any) => this.changeDetector.detectChanges();
+    // this.changeDetector.detectChanges();
     this.uploader.onErrorItem = (item, response, status, headers) => {
         this.uploadResult = {'success': true, 'item': item, 'response':
                              response, 'status': status, 'headers': headers};
@@ -266,7 +269,6 @@ export class ConsultationFormComponent implements OnInit {
 
   removeFile(item) {
     this.uploader.removeFromQueue(item);
-    this.clearSelectedFile();
   }
 
   clearSelectedFile() {
@@ -281,6 +283,7 @@ export class ConsultationFormComponent implements OnInit {
   }
 
   saveFiles(): void {
+    this.spinner.show();
     this.listFile = new Array;
     if (this.uploader.queue) {
       _.each(this.uploader.queue, function (item) {
@@ -288,10 +291,29 @@ export class ConsultationFormComponent implements OnInit {
       });
     }
     if (!this.uploader.queue.length) {
-      //this.openModal(this.type);
+      this.save();
     }
   }
 
+  save () {
+    this.consultationFormRequest.listFiles = this.listFile;
+    console.log(this.consultationFormRequest);
+    this.consultationFormService.save$(this.consultationFormRequest).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.spinner.hide();
+        this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe(( res1: string) => {
+          this.notification.success('', res1);
+        });
+        this.redirectList();
+      } else {
+        console.log(res);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log(error);
+      this.spinner.hide();
+    });
+  }
   private buildFileProductRequested() {
     if (this.uploadResult.success) {
       const fileconsultationform: FileConsultationForm = new FileConsultationForm();
@@ -301,13 +323,12 @@ export class ConsultationFormComponent implements OnInit {
       fileconsultationform.size = this.uploadResult.item.file.size;
       fileconsultationform.createdAt = new Date();
       this.listFile.push(fileconsultationform);
-      //this.verifyOpenModal();
+      this.verifyOpenModal();
     }
   }
 
   buildConsultation() {
     // Buil detail
-    console.log(this.product);
     const patient = this.product.patient;
     this.eyes[0].selected = this.product.eyeRight;
     this.eyes[1].selected = this.product.eyeLeft;
@@ -321,22 +342,20 @@ export class ConsultationFormComponent implements OnInit {
     return consultation;
   }
 
-  saveConsultationForm(type) {
+  saveConsultationForm() {
     this.spinner.show();
     const productsRequested = [];
     productsRequested[0] = this.buildConsultation();
     this.saveFiles();
     this.consultationFormRequest.consultationList = productsRequested;
-    this.consultationFormRequest.listFiles = this.listFile;
-    console.log(this.consultationFormRequest);
+    // this.consultationFormRequest.listFiles = this.listFile;
+    /*console.log(this.consultationFormRequest);
     this.consultationFormService.save$(this.consultationFormRequest).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        console.log(res.data);
         this.spinner.hide();
         this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe(( res1: string) => {
           this.notification.success('', res1);
         });
-        this.spinner.hide();
         this.redirectList();
       } else {
         console.log(res);
@@ -345,19 +364,22 @@ export class ConsultationFormComponent implements OnInit {
     }, error => {
       console.log(error);
       this.spinner.hide();
-    });
+    });*/
+  }
+
+  verifyOpenModal() {
+    if (this.uploader.queue.length === this.listFile.length) {
+      this.save();
+    }
   }
 
   redirectList(): void {
-    if (this.user.role.idRole === 3) {
-      this.router.navigate(['/list-consultation-form']);
-    } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
-      this.router.navigate(['/list-consultation-form']);
-    }
+    this.router.navigate(['/list-consultation-form']);
   }
 
   formIsValid() {
     let isValid = true;
+
     return isValid;
   }
 }
