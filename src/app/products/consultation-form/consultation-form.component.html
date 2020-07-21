@@ -81,7 +81,7 @@
 
               <div  *ngIf="param.type === 'input'" class="flex">
                 <label class="bold" for="{{ param.name + 'checkbox' }}">{{ param.name | translate }}</label>
-                <input *ngIf="param.type === 'input'" type="text" class="form-control" required [(ngModel)]="param.selected">
+                <input *ngIf="param.type === 'input'" type="text" class="form-control" maxlength="50" required [(ngModel)]="param.selected">
               </div>
             </div>
           </div>
@@ -165,14 +165,14 @@
                 <div class="sub-params" *ngFor="let subParam of param.values">
                   <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate }}</span>
                   <!--Input TEXT-->
-                  <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [disabled]="isDisabled(eyeView.eye)" [(ngModel)]="subParam.selected">
+                  <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required maxlength="40" [disabled]="isDisabled(eyeView.eye)" [(ngModel)]="subParam.selected">
                 </div>
               </div>
 
               <!--Input TEXT-->
               <div *ngIf="param.type === 'input'" class="w-46">
                 <label class="bold">{{ param.name| translate }}</label>
-                <input type="text" class="form-control" required [(ngModel)]="param.selected" [disabled]="isDisabled(eyeView.eye)">
+                <input type="text" class="form-control" required [(ngModel)]="param.selected" maxlength="50" [disabled]="isDisabled(eyeView.eye)">
               </div>
 
               <!--Input TEXTAREA-->

@@ -5,6 +5,15 @@
   overflow-y: auto;
   overflow-x: hidden;
 
+  .title {
+    text-align: center;
+    padding: 2em;
+    span {
+      font-weight: 600;
+      font-size: 1.6em;
+    }
+  }
+
   .patient-info {
     padding: 1em 2em;
     display: inline-flex;
@@ -35,13 +44,15 @@
   .owm {
     display: flex;
     padding: 0 0 1em 0;
+    align-items: center;
 
     > div:nth-child(1), > div:nth-child(2) {
       width: 25%;
+      align-self: center;
 
       .label-check {
         width: 8vh;
-        height: 8vh;
+        height: 7vh;
       }
     }
 
@@ -51,7 +62,7 @@
 
     label {
       margin-right: 10px;
-      align-self: flex-end;
+      align-self: center;
     }
 
   }

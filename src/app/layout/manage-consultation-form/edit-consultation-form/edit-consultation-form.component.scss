@@ -6,7 +6,6 @@
   overflow-x: hidden;
 
   .patient-info {
-    padding: 0 2em;
     span {
       width: 100%;
     }
@@ -27,6 +26,7 @@
   display: flex;
   flex-direction: column;
   padding: 1em 2em;
+  margin: 0 -15px;
 
   .bold {
     font-weight: 600;
@@ -38,27 +38,45 @@
 
   .owm {
     display: flex;
-    padding: 1.2em 0;
+    padding: 1em 0;
+    align-items: center;
 
-    > div:nth-child(1), > div:nth-child(2) {
-      width: 25%;
+    > div {
+      flex: 0 0 33.33333333%;
+      max-width: 33.33333333%;
+    }
+
+    > div:nth-child(1), div:nth-child(2){
+      padding-right: 15px;
+      padding-left: 5px;
     }
 
     > div:nth-child(3) {
-      width: 50%
-    }
-
-    label {
-      margin-right: 10px;
+      padding-left: 5px;
+      div {
+        flex-direction: column;
+        label { margin-bottom: 0;}
+      }
     }
   }
 
   .eyes {
     display: flex;
     text-align: left;
+    padding-left: 5px;
+    padding-bottom: 15px;
+
     > div:nth-child(1) {
       padding-right: 20px;
     }
+  }
+
+  .eye-container {
+    margin: 3% 0;
+  }
+
+  .form-group {
+    padding-left: 20px;
   }
 
   .multiples-params {
@@ -71,22 +89,28 @@
     .param-titles {
       display: flex;
       flex-direction: column;
-      width: 40%;
+      flex: 0 0 32%;
+      max-width: 32%;
     }
 
     .content-params {
       display: flex;
       flex-wrap: wrap;
-      width: 60%;
+      width: 68%;
 
       .sub-params {
-        width: 40%;
-        margin: 0.8% 5%;
+        width: 49%;
+        margin: 0.8% 0 0.8% 1%;
 
         .params-checkbox {
           width: 100%;
+          display: flex;
 
           > input {
+            margin-right: 20px;
+          }
+
+          .button-space {
             margin-right: 20px;
           }
         }
@@ -105,7 +129,7 @@
 
   .w-46 {
     text-align: left;
-    width: 46%;
+    width: 49%;
   }
 
   .left {
@@ -119,11 +143,12 @@
     text-align: left;
 
     > div {
-      width: 46%;
+      width: 49%;
     }
 
     > div:nth-child(1) {
-      margin-right: 5%;
+      margin-right: 2%;
+      span { font-weight: 600;}
     }
   }
 }
@@ -132,11 +157,17 @@
   display: flex;
 
   .name {
-    width: 43%;
+    flex: 0 0 32%;
+    max-width: 32%;
   }
 
   .button-space {
     margin-right: 20px;
+  }
+
+  > div:nth-child(2) {
+    margin: 0.8% 0 0.8% 0.7%;
+    display: flex;
   }
 }
 
