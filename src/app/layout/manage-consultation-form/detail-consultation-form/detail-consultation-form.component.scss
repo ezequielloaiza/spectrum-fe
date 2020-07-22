@@ -51,8 +51,9 @@
       align-self: center;
 
       .label-check {
-        width: 8vh;
-        height: 7vh;
+        height: 2.1vw;
+        width: 2.2vw;
+        padding-right: 10px;
       }
     }
 
@@ -77,6 +78,8 @@
       margin: 1.2em 0;
 
       label {
+        height: 2.1vw;
+        width: 2.2vw;
         padding-right: 10px;
       }
     }
@@ -122,6 +125,11 @@
           > input {
             margin-right: 20px;
           }
+        }
+
+        .selects {
+          padding-left: 5%;
+          margin-left: 11%;
         }
       }
     }
@@ -176,9 +184,8 @@
 .field-disabled {
   background-color: #e9ecef;
   opacity: 1;
-
   display: block;
-  padding: 0.1rem 0.75rem;
+  padding: 0.1rem 0.5rem;
   font-size: 1rem;
   line-height: 1.5;
   color: #495057;

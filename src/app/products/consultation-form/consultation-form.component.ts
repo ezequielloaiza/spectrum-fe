@@ -47,6 +47,7 @@ export class ConsultationFormComponent implements OnInit {
   client: any;
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
+  productsRequested: ConsultationForm[];
   consultationFormRequest: ConsultationFormRequest = new ConsultationFormRequest;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
@@ -155,11 +156,17 @@ export class ConsultationFormComponent implements OnInit {
       this.product.eyeRight = !this.product.eyeRight;
       if (!this.product.eyeRight) {
         this.clean('right');
+        this.eyes[0].selected = null;
+      } else {
+        this.eyes[0].selected = true;
       }
     } else {
       this.product.eyeLeft = !this.product.eyeLeft;
       if (!this.product.eyeLeft) {
         this.clean('left');
+        this.eyes[1].selected = null;
+      } else {
+        this.eyes[1].selected = true;
       }
     }
   }
@@ -167,20 +174,25 @@ export class ConsultationFormComponent implements OnInit {
   clean(eye) {
     let parameters;
     if (eye === 'right') {
-      parameters = this.product.parametersRight;
-      this.product.observationsRight = '';
+      parameters = this.eyes[0].params;
     } else {
-      parameters = this.product.parametersLeft;
-      this.product.observationsLeft = '';
+      parameters = this.eyes[1].params;
     }
     // parameter
     _.each(parameters, function(param) {
-          param.selected = null;
+      if ((param.type === 'text-area' || param.type === 'input' || param.type === 'radio')) {
+        param.selected = null;
+      }
+      if (param.type === 'multiple') {
+        _.each(param.values, function (item) {
+          item.selected = null;
+        });
+      }
     });
     if (eye === 'right') {
-      this.product.parametersRight = parameters;
+      this.eyes[0].params = parameters;
     } else {
-      this.product.parametersLeft = parameters;
+      this.eyes[1].params = parameters;
     }
   }
 
@@ -296,6 +308,7 @@ export class ConsultationFormComponent implements OnInit {
   }
 
   save () {
+    this.consultationFormRequest.consultationList = this.productsRequested;
     this.consultationFormRequest.listFiles = this.listFile;
     console.log(this.consultationFormRequest);
     this.consultationFormService.save$(this.consultationFormRequest).subscribe(res => {
@@ -339,32 +352,14 @@ export class ConsultationFormComponent implements OnInit {
     consultation.details = '[' + JSON.stringify(detail) + ']';
     consultation.patientName = patient;
     consultation.idSupplier = 2;
-    return consultation;
+    this.productsRequested[0] = consultation;
   }
 
   saveConsultationForm() {
     this.spinner.show();
-    const productsRequested = [];
-    productsRequested[0] = this.buildConsultation();
+    this.productsRequested = [];
+    this.buildConsultation();
     this.saveFiles();
-    this.consultationFormRequest.consultationList = productsRequested;
-    // this.consultationFormRequest.listFiles = this.listFile;
-    /*console.log(this.consultationFormRequest);
-    this.consultationFormService.save$(this.consultationFormRequest).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.spinner.hide();
-        this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe(( res1: string) => {
-          this.notification.success('', res1);
-        });
-        this.redirectList();
-      } else {
-        console.log(res);
-        this.spinner.hide();
-      }
-    }, error => {
-      console.log(error);
-      this.spinner.hide();
-    });*/
   }
 
   verifyOpenModal() {
@@ -379,6 +374,36 @@ export class ConsultationFormComponent implements OnInit {
 
   formIsValid() {
     let isValid = true;
+    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+      return false;
+    }
+
+    if ((this.generalParams[0].selected === null || this.generalParams[0].selected === undefined) && 
+    (this.generalParams[1].selected === null || this.generalParams[1].selected === undefined) ) {
+      isValid = false;
+    }
+    if (this.generalParams[2].selected === null || this.generalParams[2].selected === undefined) {
+      isValid = false;
+    }
+    /*_.each(this.eyes, function (eye) {
+      if (eye.selected !== null || eye.selected !== undefined) {
+        console.log('pase eye');
+        _.each(eye.params, function (param, index) {
+          if ((param.type === 'text-area' || param.type === 'input' || param.type === 'radio')
+          && (param.selected === null || param.selected === undefined)) {
+            isValid = false;
+          }
+          if (param.type === 'multiple') {
+            _.each(param.values, function (item) {
+              if ((item.selected === null || item.selected === undefined) && (param.name !== null) ) {
+                isValid = false;
+              }
+            });
+          }
+        });
+        console.log(isValid);
+      }
+    });*/
 
     return isValid;
   }

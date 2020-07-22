@@ -70,7 +70,6 @@ export class ConsultationFormListComponent implements OnInit {
     this.consultationFormService.allConsultationsFormByUser$().subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
-          console.log(res);
           this.consultationList = res.data;
           this.consultationListAux = res.data;
           this.spinner.hide();
@@ -372,7 +371,7 @@ export class ConsultationFormListComponent implements OnInit {
 
   changeStatus(consultation) {
     const modalRef = this.modalService.open(ModalChangeStatusComponent ,
-    {backdrop  : 'static', keyboard  : false});
+    {backdrop  : 'static', keyboard  : false, windowClass: 'modal-content-border modal-dialog-status'});
     modalRef.componentInstance.consultation = consultation;
     modalRef.result.then((result) => {
       this.ngOnInit();
@@ -438,6 +437,7 @@ export class ConsultationFormListComponent implements OnInit {
             this.consultationFormService.changeStatus$(consultation.idConsultationForm, 4).subscribe(res => {
               if (res.code === CodeHttp.ok) {
                 this.spinner.hide();
+                this.getListConsultationForms();
                 this.translate.get('Successfully Canceled', { value: 'Successfully Canceled' }).subscribe((res1: string) => {
                   this.notification.success('', res1);
                 });

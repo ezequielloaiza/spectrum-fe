@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConsultationForm } from '../../../shared/models/consultation-form';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-edit-consultation-form',
@@ -32,11 +33,9 @@ export class EditConsultationFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.consultation);
     this.detail = JSON.parse(this.consultation.details)[0];
     this.generalParams = this.detail.generals;
     this.eyes = this.detail.eyes;
-    console.log(this.eyes);
   }
 
   close() {
@@ -56,8 +55,65 @@ export class EditConsultationFormComponent implements OnInit {
     }
   }
 
+
+  setValueEye(eye) {
+    if (eye === 'right') {
+      this.eyes[0].selected = !this.eyes[0].selected;
+      if (!this.eyes[0].selected) {
+        this.clean('right');
+        this.eyes[0].selected = null;
+      } else {
+        this.eyes[0].selected = true;
+      }
+    } else {
+      this.eyes[1].selected = !this.eyes[1].selected;
+      if (!this.eyes[1].selected) {
+        this.clean('left');
+        this.eyes[1].selected = null;
+      } else {
+        this.eyes[1].selected = true;
+      }
+    }
+  }
+
+  clean(eye) {
+    let parameters;
+    if (eye === 'right') {
+      parameters = this.eyes[0].params;
+    } else {
+      parameters = this.eyes[1].params;
+    }
+    // parameter
+    _.each(parameters, function(param) {
+      if ((param.type === 'text-area' || param.type === 'input' || param.type === 'radio')) {
+        param.selected = null;
+      }
+      if (param.type === 'multiple') {
+        _.each(param.values, function (item) {
+          item.selected = null;
+        });
+      }
+    });
+    if (eye === 'right') {
+      this.eyes[0].params = parameters;
+    } else {
+      this.eyes[1].params = parameters;
+    }
+  }
+
   formIsValid() {
     let isValid = true;
+    if ((!this.eyes[0].selected && !this.eyes[1].selected) || !this.consultation.patientName ) {
+      return false;
+    }
+
+    if ((this.generalParams[0].selected === null || this.generalParams[0].selected === undefined) && 
+    (this.generalParams[1].selected === null || this.generalParams[1].selected === undefined) ) {
+      isValid = false;
+    }
+    if (this.generalParams[2].selected === null || this.generalParams[2].selected === undefined) {
+      isValid = false;
+    }
     return isValid;
   }
 

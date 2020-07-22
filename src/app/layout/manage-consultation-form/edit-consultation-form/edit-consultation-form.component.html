@@ -1,6 +1,6 @@
 <div>
   <div class="modal-header">
-    <h4 class="modal-title">{{ 'Consultation Form Detail' | translate }}</h4>
+    <h4 class="modal-title">{{ 'Consultation Form' | translate }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -40,12 +40,12 @@
 
               <div class="eyes">
                 <div *ngIf="eyeView.eye === 'right'" class="col-lg-12 custom-control custom-checkbox">
-                  <input id="OD" type="checkbox" name="checkboxOD" (click)="setCheckbox(eyeView)" [checked]="eyeView.selected" 
+                  <input id="OD" type="checkbox" name="checkboxOD" (click)="setValueEye('right')" [checked]="eyeView.selected" 
                       class="custom-control-input">
                   <label class="bold custom-control-label" for="OD">{{ 'OD' }}</label>
                 </div>
                 <div *ngIf="eyeView.eye === 'left'" class="col-lg-12 custom-control custom-checkbox">
-                  <input id="OS" type="checkbox" name="checkboxOS" (click)="setCheckbox(eyeView)" [checked]="eyeView.selected" 
+                  <input id="OS" type="checkbox" name="checkboxOS" (click)="setValueEye('left')" [checked]="eyeView.selected" 
                       class="custom-control-input">
                   <label class="bold custom-control-label" for="OS">{{ 'OS' }}</label>
                 </div>
