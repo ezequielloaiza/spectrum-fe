@@ -141,14 +141,109 @@ export class ConsultationFormComponent implements OnInit {
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
+    this.product.typeForm = null;
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.generalParams = JSON.parse(this.product.types)[0].generals;
     this.eyes = JSON.parse(this.product.types)[0].eyes;
+    this.eyes[0].params.forEach(param => {
+      if (param.type === 'multiple') {
+        param.values.forEach(val => {
+          val.disabled = null;
+        });
+      }
+    });
+    this.eyes[1].params.forEach(param => {
+      if (param.type === 'multiple') {
+        param.values.forEach(val => {
+          val.disabled = null;
+        });
+      }
+    });
     this.setClient();
   }
 
   setCheckbox(param) {
     param.selected = !param.selected;
+  }
+
+  changeTypeForm(param) {
+    switch (param.name) {
+      case 'New Order':
+        this.product.typeForm = 'New Order';
+        this.generalParams[0].selected = true;
+        this.generalParams[1].selected = false;
+        console.log(this.generalParams);
+        break;
+      case 'Warranty':
+        this.product.typeForm = 'Warranty';
+        this.generalParams[1].selected = true;
+        this.generalParams[0].selected = false;
+        console.log(this.generalParams);
+        break;
+    }
+  }
+
+  setDisabledMultiple(param, subparam, eye, value) {
+    let parameters;
+    if (eye === 'right') {
+      parameters = this.eyes[0].params;
+    } else {
+      parameters = this.eyes[1].params;
+    }
+    if (subparam.name === 'Ideal') {
+      switch (param.name) {
+        case '1. Corneal Clearence':
+          let addMicrons1: any;
+          let subsMicrons1: any;
+          let parameter1: any;
+          parameter1 = _.find(parameters, {name: '1. Corneal Clearence'});
+          addMicrons1 = _.find(parameter1.values, {name: 'Add Microns'});
+          addMicrons1.disabled = value;
+          addMicrons1.selected = addMicrons1.disabled ? null : addMicrons1.selected;
+          subsMicrons1 = _.find(parameter1.values, {name: 'Substract Microns'});
+          subsMicrons1.disabled = value;
+          subsMicrons1.selected = subsMicrons1.disabled ? null : subsMicrons1.selected;
+          break;
+        case '2. Limbal Clearence':
+          let addMicrons2: any;
+          let subsMicrons2: any;
+          let parameter2: any;
+          parameter2 = _.find(parameters, {name: '2. Limbal Clearence'});
+          addMicrons2 = _.find(parameter2.values, {name: 'Add Microns'});
+          addMicrons2.disabled = value;
+          addMicrons2.selected = addMicrons2.disabled ? null : addMicrons2.selected;
+          subsMicrons2 = _.find(parameter2.values, {name: 'Substract Microns'});
+          subsMicrons2.disabled = value;
+          subsMicrons2.selected = subsMicrons2.disabled ? null : subsMicrons2.selected;
+          break;
+        case '3. Lens Landing':
+          let blanching: any;
+          let impingement: any;
+          let blanchingSelect: any;
+          let impingementSelect: any;
+          let parameter3: any;
+          parameter3 = _.find(parameters, {name: '3. Lens Landing'});
+          blanching = _.find(parameter3.values, {name: 'Blanching'});
+          blanching.disabled = value;
+          blanching.selected = blanching.disabled ? null : blanching.selected;
+          blanchingSelect = _.find(parameter3.values, {name: 'Blanching-Select'});
+          blanchingSelect.disabled = value;
+          blanchingSelect.selected = blanchingSelect.disabled ? null : blanchingSelect.selected;
+          impingement = _.find(parameter3.values, {name: 'Impingement'});
+          impingement.disabled = value;
+          impingement.selected = impingement.disabled ? null : impingement.selected;
+          impingementSelect = _.find(parameter3.values, {name: 'Impingement-Select'});
+          impingementSelect.disabled = value;
+          impingementSelect.selected = impingementSelect.disabled ? null : impingementSelect.selected;
+          break;
+      }
+    }
+
+    if (eye === 'right') {
+      this.eyes[0].params = parameters;
+    } else {
+      this.eyes[1].params = parameters;
+    }
   }
 
   setValueEye(eye) {
@@ -186,6 +281,7 @@ export class ConsultationFormComponent implements OnInit {
       if (param.type === 'multiple') {
         _.each(param.values, function (item) {
           item.selected = null;
+          item.disabled = null;
         });
       }
     });
@@ -382,28 +478,6 @@ export class ConsultationFormComponent implements OnInit {
     (this.generalParams[1].selected === null || this.generalParams[1].selected === undefined) ) {
       isValid = false;
     }
-    if (this.generalParams[2].selected === null || this.generalParams[2].selected === undefined) {
-      isValid = false;
-    }
-    /*_.each(this.eyes, function (eye) {
-      if (eye.selected !== null || eye.selected !== undefined) {
-        console.log('pase eye');
-        _.each(eye.params, function (param, index) {
-          if ((param.type === 'text-area' || param.type === 'input' || param.type === 'radio')
-          && (param.selected === null || param.selected === undefined)) {
-            isValid = false;
-          }
-          if (param.type === 'multiple') {
-            _.each(param.values, function (item) {
-              if ((item.selected === null || item.selected === undefined) && (param.name !== null) ) {
-                isValid = false;
-              }
-            });
-          }
-        });
-        console.log(isValid);
-      }
-    });*/
 
     return isValid;
   }

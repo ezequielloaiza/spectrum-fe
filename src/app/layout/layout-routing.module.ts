@@ -67,16 +67,16 @@ const routes: Routes = [
         data: { option: 'OrdersDetail' },
       },
       {
+        path: 'list-consultation-form', component: ConsultationFormListComponent,
+        data: { option: 'ConsultationFormList' }
+      },
+      {
         path: 'warranty', component: WarrantyComponent,
         data: { option: 'Warranty' }
       },
       {
         path: 'invoice', component: ManageInvoiceComponent,
         data: { option: 'Invoice' }
-      },
-      {
-        path: 'list-consultation-form', component: ConsultationFormListComponent,
-        data: { option: 'ConsultationFormList' }
       },
       {
         path: 'client-invoice', component: InvoiceClientQBOComponent,

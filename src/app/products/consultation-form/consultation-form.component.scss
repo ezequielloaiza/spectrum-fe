@@ -135,6 +135,7 @@
   .owm {
     display: flex;
     padding: 1em 0;
+    align-items: center;
 
     > div {
       flex: 0 0 33.33333333%;
@@ -148,6 +149,7 @@
 
     > div:nth-child(3) {
       padding-left: 15px;
+      align-self: center;
     }
 
     label {
