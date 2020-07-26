@@ -212,6 +212,9 @@ export class ProductsListInternalComponent implements OnInit {
 
         if (this.idSupplier === 2) {
           this.products = _.orderBy( this.products, ['idProduct'], ['desc']);
+          const consultation = this.products[0];
+          this.products.splice(0, 1);
+          this.products.push(consultation);
         } else {
           this.products = _.orderBy( this.products, ['idProduct'], ['asc']);
         }

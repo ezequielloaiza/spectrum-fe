@@ -172,13 +172,11 @@ export class ConsultationFormComponent implements OnInit {
         this.product.typeForm = 'New Order';
         this.generalParams[0].selected = true;
         this.generalParams[1].selected = false;
-        console.log(this.generalParams);
         break;
       case 'Warranty':
         this.product.typeForm = 'Warranty';
         this.generalParams[1].selected = true;
         this.generalParams[0].selected = false;
-        console.log(this.generalParams);
         break;
     }
   }

@@ -63,7 +63,7 @@
 										<i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortConsultationForm('number')"></i>
 									</span>
 								</th>
-								<th *ngIf="user.role.idRole === 1" class="table-tr header-column">
+								<th *ngIf="user.role.idRole !== 3" class="table-tr header-column">
 									<span title="{{ 'Customer' | translate }}">{{ 'Customer' | translate }}
 										<i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortConsultationForm('client')"></i>
 									</span>
@@ -105,7 +105,7 @@
 						<tbody>
 							<tr *ngFor="let consultation of consultationList">
 								<td class="table-tr td-table">{{consultation.trackingNumber}}</td>
-								<td *ngIf="user.role.idRole === 1" class="table-tr td-table">{{consultation.nameUser}}</td>
+								<td *ngIf="user.role.idRole !== 3" class="table-tr td-table">{{consultation.nameUser}}</td>
 								<td class="table-tr td-table">{{consultation.patientName  }}</td>
 								<td class="table-tr td-table">{{consultation.date  | date:'yyyy-MM-dd'}}</td>
 								<td [ngClass]="{'pending': consultation.status === 0,'processed': consultation.status === 1, 'ready': consultation.status === 2, 'shipped': consultation.status === 3, 'canceled': consultation.status === 4 }" 
@@ -117,7 +117,7 @@
 										<div ngbDropdown class="d-inline-block dropdown">
 											<button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
 											<div ngbDropdownMenu>
-												<button *ngIf="consultation.status === 0" class="dropdown-item" (click)="open(consultation,'edit')">
+												<button *ngIf="consultation.status === 0 && user.role.idRole === 1" class="dropdown-item" (click)="open(consultation,'edit')">
 													<i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
 												<button class="dropdown-item" (click)="open(consultation,'view')">
 													<i class="fa fa-eye"></i> {{ 'View' | translate }}</button>

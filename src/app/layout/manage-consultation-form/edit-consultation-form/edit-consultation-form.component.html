@@ -139,9 +139,9 @@
     <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
       <i class="fa fa-times"></i>
     </button>
-    <button class="btn btn-main text-uppercase margin-button"
-            (click)="formIsValid() && saveConsultationForm()" [disabled]="!formIsValid()">
-            {{ 'Save' | translate }}
+    <button class="btn btn-main text-uppercase margin-button" (click)="formIsValid() && saveConsultationForm()" [disabled]="!formIsValid()">
+      {{ 'Save' | translate }}&nbsp;
+      <i class="fa fa-save"></i>
     </button>
   </div>
 </div>
