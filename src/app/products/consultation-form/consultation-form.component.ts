@@ -190,11 +190,11 @@ export class ConsultationFormComponent implements OnInit {
     }
     if (subparam.name === 'Ideal') {
       switch (param.name) {
-        case '1. Corneal Clearence':
+        case '1. Corneal Clearance':
           let addMicrons1: any;
           let subsMicrons1: any;
           let parameter1: any;
-          parameter1 = _.find(parameters, {name: '1. Corneal Clearence'});
+          parameter1 = _.find(parameters, {name: '1. Corneal Clearance'});
           addMicrons1 = _.find(parameter1.values, {name: 'Add Microns'});
           addMicrons1.disabled = value;
           addMicrons1.selected = addMicrons1.disabled ? null : addMicrons1.selected;
@@ -202,11 +202,11 @@ export class ConsultationFormComponent implements OnInit {
           subsMicrons1.disabled = value;
           subsMicrons1.selected = subsMicrons1.disabled ? null : subsMicrons1.selected;
           break;
-        case '2. Limbal Clearence':
+        case '2. Limbal Clearance':
           let addMicrons2: any;
           let subsMicrons2: any;
           let parameter2: any;
-          parameter2 = _.find(parameters, {name: '2. Limbal Clearence'});
+          parameter2 = _.find(parameters, {name: '2. Limbal Clearance'});
           addMicrons2 = _.find(parameter2.values, {name: 'Add Microns'});
           addMicrons2.disabled = value;
           addMicrons2.selected = addMicrons2.disabled ? null : addMicrons2.selected;

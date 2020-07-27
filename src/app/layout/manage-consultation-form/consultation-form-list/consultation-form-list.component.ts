@@ -150,7 +150,7 @@ export class ConsultationFormListComponent implements OnInit {
     if (val && val.trim() !== '') {
       const name = val;
       if (_.toString(valorStatus) === '' && this.tamano.length === 9) {
-        // Si no ha seleccionado status y fecha
+        // If it hasn't select status and date
         this.consultationList = this.consultationList.filter(item => {
           return (
             item.nameUser.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
@@ -159,28 +159,26 @@ export class ConsultationFormListComponent implements OnInit {
           );
         });
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {
-        // si selecciono status y no fecha
+        // If it select status and not date
         this.filterStatusNombre(name, valorStatus);
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 15) {
-        // si no selecciono status y fecha si
+        // If it select date and not status
         this.filterDateNombre(name);
       } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15) {
-        // si escribio nombre y selecciono fecha
+        // If it write name and select date
         this.fullFilter(name, valorStatus);
       }
     } else if (_.toString(valorStatus) !== '') {
-      // si borro el nombre y selecciono status
+      // If it erase name and select status
       this.filter();
     } else if (_.toString(valorStatus) === '') {
-      // si borro el nombre y no selecciono status pero fecha si
+      // If it select status and erase name y don't select status
       if (this.tamano.length === 15) {
         this.valid1 = true;
         let fecha: String;
-        // FechaFiltro
         fecha = this.getFecha();
         _.filter(this.consultationListAux, function(consultation) {
           let fechaList: String;
-          // Fecha Listado
           fechaList = _.toString(consultation.date.slice(0, 10));
           if (_.isEqual(fecha, fechaList)) {
             lista.push(consultation);
@@ -229,12 +227,10 @@ export class ConsultationFormListComponent implements OnInit {
         (_.toString(this.searchName).length === 0 ||
           this.searchName.trim() === '')
       ) {
-        // FechaFiltro
         let fecha: String;
         fecha = this.getFecha();
         _.filter(this.consultationListAux, function(consultation) {
           let fechaList: String;
-          // Fecha Listado
           fechaList = _.toString(consultation.date.slice(0, 10));
           if (_.isEqual(fecha, fechaList)) {
             lista.push(consultation);
@@ -280,10 +276,8 @@ export class ConsultationFormListComponent implements OnInit {
   filterDateNombre(nombre): void {
     const lista = [];
     let fecha: String;
-    // FechaFiltro
     fecha = this.getFecha();
     _.filter(this.consultationListAux, function(consultation) {
-      // Fecha Listado
       const fechaList = _.toString(consultation.date.slice(0, 10));
       if ((_.includes(consultation.nameUser.toLowerCase(), nombre.toLowerCase()) ||
           consultation.patientName.toLowerCase().indexOf(nombre.toLowerCase()) > -1 ||
@@ -299,11 +293,9 @@ export class ConsultationFormListComponent implements OnInit {
   filterStatusDate(status): void {
     const lista = [];
     let fecha: String;
-    // FechaFiltro
     fecha = this.getFecha();
     _.filter(this.consultationListAux, function(consultation) {
       let fechaList: String;
-      // Fecha Listado
       fechaList = _.toString(consultation.date.slice(0, 10));
       // tslint:disable-next-line:radix
       if ( _.isEqual(fecha, fechaList) && _.isEqual(parseInt(status), consultation.status)) {
@@ -319,13 +311,13 @@ export class ConsultationFormListComponent implements OnInit {
     let mes;
     let dia;
     let fecha: String;
-    // Ano
+    // Year
     ano = this.model.year;
-    // Mes
+    // Month
     this.model.month < 10
       ? (mes = '0' + this.model.month)
       : (mes = this.model.month);
-    // Dia
+    // Day
     this.model.day < 10 ? (dia = '0' + this.model.day) : (dia = this.model.day);
     // FechaFiltro
     fecha = ano + '-' + mes + '-' + dia;
@@ -337,9 +329,8 @@ export class ConsultationFormListComponent implements OnInit {
     let fecha: String;
     fecha = this.getFecha();
     const lista = [];
-    // Lista actual
+    // actual list
     _.filter(this.consultationListAux, function(consultation) {
-      // Fecha Listado
       const fechaList = _.toString(consultation.date.slice(0, 10));
       if ((_.includes(consultation.nameUser.toLowerCase(), nombre.toLowerCase()) ||
           consultation.patientName.toLowerCase().indexOf(nombre.toLowerCase()) > -1 ||
