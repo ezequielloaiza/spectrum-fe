@@ -108,20 +108,16 @@
         width: 50%;
         margin: 0.2% 0;
         padding: 2% 0 0 3%;
-        display: inline-flex;
+        display: flex;
+        flex-direction: column;
 
         span {
-          width: 45%;
           white-space: nowrap;
         }
 
         .text {
-          width: 55%;
-          font-size: 0.75rem;
-          padding: 0.25rem 0.25rem;
           > input {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.25rem;
+            padding: 0.25rem;
           }
         }
 
@@ -135,8 +131,12 @@
 
         .selects {
           padding-left: 5%;
-          margin-left: 11%;
         }
+      }
+
+      .sub-params2 {
+        width: 32%;
+        margin-left: 17%;
       }
     }
 
@@ -151,7 +151,6 @@
   }
 
   .w-46 {
-    display: inline-flex;
     width: 49%;
     > label {
       font-weight: 600;
@@ -171,7 +170,6 @@
     text-align: left;
 
     > div {
-      display: inline-flex;
       width: 49%;
       > span {
         font-weight: 600;
@@ -202,16 +200,16 @@
 
 .radio-buttons {
   display: inline-flex;
-  width: 70%;
+  width: 100%;
 
   .name {
-    width: 43%;
+    width: 55%;
   }
 
   .button-space {
     display: inline-flex;
     margin-left: 1rem;
-    width: 50%;
+    width: 60%;
 
       label {
         width: 50%;

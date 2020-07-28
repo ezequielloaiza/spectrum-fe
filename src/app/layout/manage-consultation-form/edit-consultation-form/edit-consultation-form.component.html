@@ -31,7 +31,7 @@
                 </div>
                 <div  *ngIf="param.type === 'input'" class="flex">
                   <label class="bold" for="{{ param.name + 'checkbox' }}">{{ param.name | translate }}</label>
-                  <input *ngIf="param.type === 'input'" type="text" class="form-control" maxlength="30" [(ngModel)]="param.selected" [disabled]="read">
+                  <input *ngIf="param.type === 'input'" type="text" class="form-control" maxlength="40" [(ngModel)]="param.selected" [disabled]="read">
                 </div>
               </div>
             </div>
@@ -61,7 +61,7 @@
                     <div class="sub-params" *ngFor="let subParam of param.values; let isub = index">
                       <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate}}</span>
                       <!--Input TEXT-->
-                      <input *ngIf="subParam.type === 'input'" type="text" class="form-control" maxlength="25" [(ngModel)]="subParam.selected" 
+                      <input *ngIf="subParam.type === 'input'" type="text" class="form-control" maxlength="45" [(ngModel)]="subParam.selected" 
                       [disabled]="isDisabled(eyeView.eye) ?  true : subParam.disabled">
                       <!--Input SELECT-->
                       <select *ngIf="subParam.type === 'select'" class="form-control" [(ngModel)]="subParam.selected" 
@@ -112,14 +112,14 @@
                   <div class="sub-params" *ngFor="let subParam of param.values">
                     <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate }}</span>
                     <!--Input TEXT-->
-                    <input *ngIf="subParam.type === 'input'" type="text" class="form-control" maxlength="30" [disabled]="isDisabled(eyeView.eye)" [(ngModel)]="subParam.selected">
+                    <input *ngIf="subParam.type === 'input'" type="text" class="form-control" maxlength="60" [disabled]="isDisabled(eyeView.eye)" [(ngModel)]="subParam.selected">
                   </div>
                 </div>
 
                 <!--Input TEXT-->
                 <div *ngIf="param.type === 'input'" class="w-46">
                   <label class="bold">{{ param.name| translate }}</label>
-                  <input type="text" class="form-control" [(ngModel)]="param.selected" maxlength="30" [disabled]="isDisabled(eyeView.eye)">
+                  <input type="text" class="form-control" [(ngModel)]="param.selected" maxlength="60" [disabled]="isDisabled(eyeView.eye)">
                 </div>
 
                 <!--Input TEXTAREA-->
@@ -136,7 +136,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
+    <button type="button" class="btn btn-secondary" (click)="close()">{{ 'Close' | translate }}&nbsp;
       <i class="fa fa-times"></i>
     </button>
     <button class="btn btn-main text-uppercase margin-button" (click)="formIsValid() && saveConsultationForm()" [disabled]="!formIsValid()">

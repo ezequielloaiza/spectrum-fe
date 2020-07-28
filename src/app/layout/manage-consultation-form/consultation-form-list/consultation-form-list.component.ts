@@ -374,7 +374,7 @@ export class ConsultationFormListComponent implements OnInit {
     switch (action) {
       case 'view':
         const modalRef = this.modalService.open(DetailConsultationFormComponent ,
-          {size: 'lg', windowClass: 'modal-content-border modal-edit-europa', backdrop  : 'static', keyboard  : false});
+          {size: 'lg', windowClass: 'modal-content-border modal-dialog-consultation', backdrop  : 'static', keyboard  : false});
           modalRef.componentInstance.consultation = consultation;
           modalRef.componentInstance.read = true;
           modalRef.result.then((result) => {
@@ -384,7 +384,7 @@ export class ConsultationFormListComponent implements OnInit {
         break;
       case 'edit':
         const modalRefEdit = this.modalService.open(EditConsultationFormComponent ,
-          {size: 'lg', windowClass: 'modal-content-border modal-edit-europa', backdrop  : 'static', keyboard  : false });
+          {size: 'lg', windowClass: 'modal-content-border modal-dialog-consultation', backdrop  : 'static', keyboard  : false });
           modalRefEdit.componentInstance.consultation = consultation;
           modalRefEdit.componentInstance.read = false;
           modalRefEdit.result.then((result) => {

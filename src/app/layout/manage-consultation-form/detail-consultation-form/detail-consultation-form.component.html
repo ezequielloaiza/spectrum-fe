@@ -56,7 +56,7 @@
                   </div>
                   <div class="content-params">
                     <div class="sub-params" *ngFor="let subParam of param.values; let isub = index">
-                      <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate}}</span>
+                      <span *ngIf="subParam.type !== 'select' && subParam.type !== 'radio'">{{ subParam.name | translate}}</span>
                       <div *ngIf="subParam.type === 'input'" class="text">
                         <!--Input TEXT-->
                         <input *ngIf="subParam.type === 'input'" type="text" class="form-control" [(ngModel)]="subParam.selected" 
@@ -68,6 +68,7 @@
 
                       <!-- Input RADIO -->
                       <div *ngIf="subParam.type === 'radio'" class="radio-buttons">
+                        <span *ngIf="subParam.type === 'radio'" class="name">{{ subParam.name | translate}}</span>
                         <div class="button-space">
                           <label class="">{{ 'Yes' | translate }}</label>
                           <label *ngIf="subParam.selected === 'Yes'" class="field-disabled" >{{ 'X'}}</label>
@@ -91,8 +92,7 @@
                   </div>
 
                   <div class="content-params">
-                    <div class="sub-params">
-                      <span></span>
+                    <div class="sub-params2">
                       <div class="radio-buttons">
                         <div class="button-space ">
                           <label class="">{{ 'Yes' | translate }}</label>
