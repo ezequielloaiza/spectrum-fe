@@ -212,6 +212,9 @@ export class ProductsListInternalComponent implements OnInit {
 
         if (this.idSupplier === 2) {
           this.products = _.orderBy( this.products, ['idProduct'], ['desc']);
+          const consultation = this.products[0];
+          this.products.splice(0, 1);
+          this.products.push(consultation);
         } else {
           this.products = _.orderBy( this.products, ['idProduct'], ['asc']);
         }
@@ -273,7 +276,11 @@ export class ProductsListInternalComponent implements OnInit {
         this.router.navigate(['/products/' + product.idProduct + '/product-view']);
         break;
       case 2: // europa
-        this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
+        if (product.name === 'Consultation Form') {
+          this.router.navigate(['/products/' + product.idProduct + '/consultation-form']);
+        } else {
+          this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
+        }
         break;
       case 3: // Lenticon
         this.router.navigate(['/products/' + product.idProduct + '/product-view-lenticon']);

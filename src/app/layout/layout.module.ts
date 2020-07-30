@@ -103,6 +103,10 @@ import { DetailOrionComponent } from './basket/modals/detail-product/detail-orio
 import { SupplierOrionComponent } from './details-order-supplier/supplier-orion/supplier-orion.component';
 import { OrionComponent } from './edit-order/orion/orion/orion.component';
 import { CommonsModule } from '../commons.module';
+import { ConsultationFormListComponent } from './manage-consultation-form/consultation-form-list/consultation-form-list.component';
+import { ModalChangeStatusComponent } from './manage-consultation-form/modal-change-status/modal-change-status.component';
+import { DetailConsultationFormComponent } from './manage-consultation-form/detail-consultation-form/detail-consultation-form.component';
+import { EditConsultationFormComponent } from './manage-consultation-form/edit-consultation-form/edit-consultation-form.component';
 
 @NgModule({
     imports: [
@@ -213,7 +217,11 @@ import { CommonsModule } from '../commons.module';
         ModalUserStatusComponent,
         DetailOrionComponent,
         SupplierOrionComponent,
-        OrionComponent
+        OrionComponent,
+        ConsultationFormListComponent,
+        ModalChangeStatusComponent,
+        DetailConsultationFormComponent,
+        EditConsultationFormComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -260,7 +268,10 @@ import { CommonsModule } from '../commons.module';
       ModalSendInvoiceComponent,
       ModalUserStatusComponent,
       DetailOrionComponent,
-      OrionComponent
+      OrionComponent,
+      ModalChangeStatusComponent,
+      DetailConsultationFormComponent,
+      EditConsultationFormComponent
     ],
     providers: [
       BusinessTypeService,

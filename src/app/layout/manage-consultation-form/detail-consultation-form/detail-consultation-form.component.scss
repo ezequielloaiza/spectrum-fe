@@ -1,0 +1,221 @@
+@import '../../../../styles/spectrum/spectrum';
+
+.content {
+  padding: 2em;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .title {
+    text-align: center;
+    padding: 2em;
+    span {
+      font-weight: 600;
+      font-size: 1.6em;
+    }
+  }
+
+  .patient-info {
+    padding: 1em 2em;
+    display: inline-flex;
+
+    label {
+      flex-wrap: nowrap;
+      font-weight: 600;
+      align-self: flex-end;
+      width: 25%;
+    }
+  }
+}
+
+
+#consultation-form {
+  display: flex;
+  flex-direction: column;
+  padding: 1em 2em;
+
+  .bold {
+    font-weight: 600;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .owm {
+    display: flex;
+    padding: 0 0 1em 0;
+    align-items: center;
+
+    > div:nth-child(1), > div:nth-child(2) {
+      width: 25%;
+      align-self: center;
+
+      .label-check {
+        height: 2.1vw;
+        width: 2.2vw;
+        padding-right: 10px;
+      }
+    }
+
+    > div:nth-child(3) {
+      width: 50%
+    }
+
+    label {
+      margin-right: 10px;
+      align-self: center;
+    }
+
+  }
+
+  .eyes {
+    display: flex;
+    text-align: left;
+    > div:nth-child(1) {
+      display: inline-flex;
+      padding-right: 20px;
+      padding-left: 0;
+      margin: 1.2em 0;
+
+      label {
+        height: 2.1vw;
+        width: 2.2vw;
+        padding-right: 10px;
+      }
+    }
+  }
+
+  .multiples-params {
+    display: flex;
+    flex-direction: row;
+    padding-top: 20px;
+    width: 100%;
+    text-align: left;
+
+    .param-titles {
+      display: flex;
+      flex-direction: column;
+      width: 20%;
+      font-weight: 600;
+    }
+
+    .content-params {
+      display: flex;
+      flex-wrap: wrap;
+      width: 80%;
+
+      .sub-params {
+        width: 50%;
+        margin: 0.2% 0;
+        padding: 2% 0 0 3%;
+        display: flex;
+        flex-direction: column;
+
+        span {
+          white-space: nowrap;
+        }
+
+        .text {
+          > input {
+            padding: 0.25rem;
+          }
+        }
+
+        .params-checkbox {
+          width: 100%;
+
+          > input {
+            margin-right: 20px;
+          }
+        }
+
+        .selects {
+          padding-left: 5%;
+        }
+      }
+
+      .sub-params2 {
+        width: 32%;
+        margin-left: 17%;
+      }
+    }
+
+    .single-checkbox {
+      width: 60%;
+      margin-left: 10%;
+
+      > input {
+        margin-right: 20px;
+      }
+    }
+  }
+
+  .w-46 {
+    width: 49%;
+    > label {
+      font-weight: 600;
+      width: 60%;
+      align-self: center;
+    }
+  }
+
+  .left {
+    text-align: left;
+  }
+
+  .half-display {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    text-align: left;
+
+    > div {
+      width: 49%;
+      > span {
+        font-weight: 600;
+        width: 60%;
+        align-self: center;
+      }
+    }
+
+    > div:nth-child(1) {
+      margin-right: 2%;
+    }
+  }
+}
+
+
+.field-disabled {
+  background-color: #e9ecef;
+  opacity: 1;
+  display: block;
+  padding: 0.1rem 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.radio-buttons {
+  display: inline-flex;
+  width: 100%;
+
+  .name {
+    width: 55%;
+  }
+
+  .button-space {
+    display: inline-flex;
+    margin-left: 1rem;
+    width: 60%;
+
+      label {
+        width: 50%;
+      }
+  }
+}
+
+
+
