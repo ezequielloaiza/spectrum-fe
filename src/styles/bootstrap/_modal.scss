@@ -56,9 +56,21 @@
   min-height: calc(100% - (#{$modal-dialog-margin} * 2));
 }
 
+.modal-dialog-status {
+  .modal-dialog {
+    max-width: 40% !important;
+  }
+}
+
 .modal-dialog-invoice {
   .modal-dialog {
     max-width: 95% !important;
+  }
+}
+
+.modal-dialog-consultation {
+  .modal-dialog {
+    max-width: 75% !important;
   }
 }
 
