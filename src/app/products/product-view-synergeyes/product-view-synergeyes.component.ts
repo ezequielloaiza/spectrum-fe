@@ -328,6 +328,69 @@ export class ProductViewSynergeyesComponent implements OnInit {
         skirtCurve = _.find(this.product.parametersLeft, {name: 'Skirt Curve'});
         skirtCurve.values = values;
       }
+
+      if (parameter.name === 'Dominance' && this.product.idProduct === 268) {
+        console.log(parameter);
+        let values: any;
+        let centralDistanceZone: any;
+        let centralNearZone: any;
+        let addPower: any;
+
+        switch (eye) {
+          case 'right':
+            switch (parameter.value) {
+              case 'CN':
+                centralDistanceZone = _.find(this.product.parametersRight, {name: 'Central Distance Zone'});
+                centralDistanceZone.hidden = false;
+                addPower = _.find(this.product.parametersRight, {name: 'Add'});
+                values = ['+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75',
+                '+3.00', '+3.25', '+3.50', '+3.75', '+4.00', '+4.25', '+4.50', '+4.75', '+5.00'];
+                addPower.values = values;
+                addPower.hidden = false;
+                centralNearZone = _.find(this.product.parametersRight, {name: 'Central Near Zone'});
+                centralNearZone.hidden = true;
+                break;
+              case 'CD':
+                centralNearZone = _.find(this.product.parametersRight, {name: 'Central Near Zone'});
+                centralNearZone.hidden = false;
+                addPower = _.find(this.product.parametersRight, {name: 'Add'});
+                values = ['+1.00', '+1.75', '+2.50'];
+                addPower.values = values;
+                addPower.hidden = false;
+                centralDistanceZone = _.find(this.product.parametersRight, {name: 'Central Near Zone'});
+                centralDistanceZone.hidden = true;
+                break;
+            }
+            break;
+          case 'left':
+            switch (parameter.value) {
+              case 'CN':
+                centralDistanceZone = _.find(this.product.parametersLeft, {name: 'Central Distance Zone'});
+                centralDistanceZone.hidden = false;
+                addPower = _.find(this.product.parametersLeft, {name: 'Add Powers'});
+                values = ['+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75',
+                '+3.00', '+3.25', '+3.50', '+3.75', '+4.00', '+4.25', '+4.50', '+4.75', '+5.00'];
+                addPower.values = values;
+                addPower.hidden = false;
+                centralNearZone = _.find(this.product.parametersLeft, {name: 'Central Near Zone'});
+                centralNearZone.hidden = true;
+                break;
+              case 'CD':
+                centralNearZone = _.find(this.product.parametersLeft, {name: 'Central Near Zone'});
+                centralNearZone.hidden = false;
+                addPower = _.find(this.product.parametersLeft, {name: 'Add Powers'});
+                values = ['+1.00', '+1.75', '+2.50'];
+                addPower.values = values;
+                addPower.hidden = false;
+                centralDistanceZone = _.find(this.product.parametersLeft, {name: 'Central Near Zone'});
+                centralDistanceZone.hidden = true;
+                break;
+            }
+            break;
+        }
+
+        parameter.selected = value;
+      }
     }
   }
 
@@ -402,6 +465,13 @@ export class ProductViewSynergeyesComponent implements OnInit {
     }
 
     this.updatePriceSale();
+  }
+
+  hiddenParameters(parameter) {
+    if (parameter.name === 'Central Distance Zone' || parameter.name === 'Add Powers' || parameter.name === 'Central Near Zone'  ) {
+      return parameter.hidden;
+    }
+    return false;
   }
 
   onSelectedClient(clientSelect) {
