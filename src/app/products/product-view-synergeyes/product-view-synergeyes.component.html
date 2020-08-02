@@ -147,18 +147,21 @@
                 <!--param name-->
                 <div class="row label">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>
-                  <span *ngIf="parameter.name === 'Power'">(D)</span>
-                  <span *ngIf="parameter.name === 'Skirt Curve'">(mm)</span>
-                  <span *ngIf="parameter.name === 'Dominance'">(Multifocal)</span>
-                  <span *ngIf="parameter.name === 'Base Curve' && product.idProduct !=265 && product.idProduct !=266" >(mm)</span>
-                  <span *ngIf="parameter.name === 'Base Curve' && (product.idProduct ==265 || product.idProduct ==266)" >(μ)</span>
+                  <span *ngIf="parameter.name === 'Power'">&nbsp;(D)</span>
+                  <span *ngIf="parameter.name === 'Skirt Curve'">&nbsp;(mm)</span>
+                  <span *ngIf="parameter.name === 'Dominance'">&nbsp;(Multifocal)</span>
+                  <span *ngIf="parameter.name === 'Base Curve' && product.idProduct !=265 && product.idProduct !=266">&nbsp;(mm)</span>
+                  <span *ngIf="parameter.name === 'Base Curve' && (product.idProduct ==265 || product.idProduct ==266)">&nbsp;(μ)</span>
+                  <span *ngIf="parameter.name === 'Add'">&nbsp;Power (D)</span>
+                  <span *ngIf="parameter.name === 'Central Distance Zone'">&nbsp;(mm)</span>
+                  <span *ngIf="parameter.name === 'Central Near Zone'">&nbsp;(mm)</span>
                   &nbsp;&nbsp;
                 </div>
                 <!--param values-->
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected' " class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
-                      [disabled]="!product.eyeRight || hiddenParameters(parameter)" [required]="product.eyeRight && (parameter.name !== 'Add')" [(ngModel)]="parameter.sel" 
+                      [disabled]="!product.eyeRight || hiddenParameters(parameter)" [required]="product.eyeRight && (parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')" [(ngModel)]="parameter.sel"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
                       <ng-template ng-label-tmp let-item="item">
                         <div class="supplier-body">
@@ -275,14 +278,20 @@
                 <div class="row label">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
                   <span *ngIf="parameter.name === 'Power'">(D)</span>
-                  <span *ngIf="parameter.name === 'Base Curve' && product.idProduct !=265 && product.idProduct !=266" >(mm)</span>
-                  <span *ngIf="parameter.name === 'Base Curve' && (product.idProduct ==265 || product.idProduct ==266)" >(μ)</span>
+                  <span *ngIf="parameter.name === 'Skirt Curve'">(mm)</span>
+                  <span *ngIf="parameter.name === 'Dominance'">(Multifocal)</span>
+                  <span *ngIf="parameter.name === 'Base Curve' && product.idProduct !== 265 && product.idProduct !== 266">(mm)</span>
+                  <span *ngIf="parameter.name === 'Base Curve' && (product.idProduct === 265 || product.idProduct === 266)">(μ)</span>
+                  <span *ngIf="parameter.name === 'Add'">&nbsp;Power (D)</span>
+                  <span *ngIf="parameter.name === 'Central Near Zone'">&nbsp;(mm)</span>
+                  <span *ngIf="parameter.name === 'Central Distance Zone'">(mm)</span>
+                  &nbsp;&nbsp;
                 </div>
                 <!--param values-->
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
-                      [disabled]="!product.eyeLeft" [required]="product.eyeLeft && (parameter.name !== 'Add')" [(ngModel)]="parameter.sel" 
+                      [disabled]="!product.eyeLeft || hiddenParameters(parameter)" [required]="product.eyeLeft && (parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')" [(ngModel)]="parameter.sel"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
                       <ng-template ng-label-tmp let-item="item">
                         <div class="supplier-body">
@@ -329,7 +338,7 @@
             <br>
           </div>
         </div>
-      </div>     
+      </div>
       <br>
       <!--files left-->
       <div class="documents col-md-12">
