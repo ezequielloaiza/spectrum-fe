@@ -347,10 +347,14 @@ export class ProductViewSynergeyesComponent implements OnInit {
               addPower = _.find(this.product.parametersRight, {name: 'Add'});
               values = ['+1.00', '+1.75', '+2.50'];
               addPower.values = values;
+              addPower.sel = null;
+              addPower.selected = null;
               addPower.hidden = false;
               centralNearZone = _.find(this.product.parametersRight, {name: 'Central Near Zone'});
               centralNearZone.hidden = false;
               centralDistanceZone = _.find(this.product.parametersRight, {name: 'Central Distance Zone'});
+              centralDistanceZone.sel = null;
+              centralDistanceZone.selected = null;
               centralDistanceZone.hidden = true;
               break;
             case 'CD':
@@ -358,11 +362,15 @@ export class ProductViewSynergeyesComponent implements OnInit {
               values = ['+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75',
               '+3.00', '+3.25', '+3.50', '+3.75', '+4.00', '+4.25', '+4.50', '+4.75', '+5.00'];
               addPower.values = values;
+              addPower.sel = null;
+              addPower.selected = null;
               addPower.hidden = false;
               centralDistanceZone = _.find(this.product.parametersRight, {name: 'Central Distance Zone'});
               centralDistanceZone.hidden = false;
               centralNearZone = _.find(this.product.parametersRight, {name: 'Central Near Zone'});
               centralNearZone.hidden = true;
+              centralNearZone.sel = null;
+              centralNearZone.selected = null;
               break;
           }
           break;
@@ -372,10 +380,14 @@ export class ProductViewSynergeyesComponent implements OnInit {
               addPower = _.find(this.product.parametersLeft, {name: 'Add'});
               values = ['+1.00', '+1.75', '+2.50'];
               addPower.values = values;
+              addPower.sel = null;
+              addPower.selected = null;
               addPower.hidden = false;
               centralNearZone = _.find(this.product.parametersLeft, {name: 'Central Near Zone'});
               centralNearZone.hidden = false;
               centralDistanceZone = _.find(this.product.parametersLeft, {name: 'Central Distance Zone'});
+              centralDistanceZone.selected = null;
+              centralDistanceZone.sel = null;
               centralDistanceZone.hidden = true;
               break;
             case 'CD':
@@ -383,10 +395,14 @@ export class ProductViewSynergeyesComponent implements OnInit {
               values = ['+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75',
               '+3.00', '+3.25', '+3.50', '+3.75', '+4.00', '+4.25', '+4.50', '+4.75', '+5.00'];
               addPower.values = values;
+              addPower.selected = null;
+              addPower.sel = null;
               addPower.hidden = false;
               centralDistanceZone = _.find(this.product.parametersLeft, {name: 'Central Distance Zone'});
               centralDistanceZone.hidden = false;
               centralNearZone = _.find(this.product.parametersLeft, {name: 'Central Near Zone'});
+              centralNearZone.selected = null;
+              centralNearZone.sel = null;
               centralNearZone.hidden = true;
               break;
           }
@@ -401,7 +417,6 @@ export class ProductViewSynergeyesComponent implements OnInit {
     this.priceAcum = ((this.product.quantityLeft ? (this.product.quantityLeft * this.product.priceSaleLeft) : 0)
         + (this.product.quantityRight ? (this.product.quantityRight * this.product.priceSaleRight) : 0));
   }
-
 
   format(value): any {
     let flat;
@@ -470,9 +485,21 @@ export class ProductViewSynergeyesComponent implements OnInit {
     this.updatePriceSale();
   }
 
-  hiddenParameters(parameter) {
+  hiddenParameters(parameter, eye) {
     if (parameter.name === 'Central Distance Zone' || parameter.name === 'Add Powers' || parameter.name === 'Central Near Zone'  ) {
-      return parameter.hidden;
+      let dominance: any;
+      let value: any;
+      switch (eye) {
+        case 'right':
+          dominance =  _.find(this.product.parametersRight, {name: 'Dominance'});
+          value = (dominance.selected !== null && dominance.selected !== undefined);
+          break;
+        case 'left':
+          dominance =  _.find(this.product.parametersLeft, {name: 'Dominance'});
+          value = (dominance.selected !== null || dominance.selected !== undefined);
+          break;
+      }
+      return value ? parameter.hidden : true;
     }
     return false;
   }

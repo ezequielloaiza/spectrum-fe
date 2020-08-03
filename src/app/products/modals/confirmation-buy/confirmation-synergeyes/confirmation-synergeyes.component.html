@@ -61,7 +61,7 @@
             *ngFor="let parameter of list.detail[0].parameters"
           >
             <dl class="align-item">
-              <dt>{{ parameter.name | translate }}</dt>
+              <dt class="white-space">{{ parameter.name | translate }}</dt>
               <hr class="separators" />
               <dl>
                 <dt class="items" *ngIf="parameter.name !== 'Profile' && parameter.name !== 'Warranty'">{{ parameter.selected !== null ? parameter.selected : ('Unassigned' | translate)  }}</dt>

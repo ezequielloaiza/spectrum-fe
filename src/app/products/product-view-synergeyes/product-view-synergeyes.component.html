@@ -161,7 +161,7 @@
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected' " class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
-                      [disabled]="!product.eyeRight || hiddenParameters(parameter)" [required]="product.eyeRight && (parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')" [(ngModel)]="parameter.sel"
+                      [disabled]="!product.eyeRight || hiddenParameters(parameter, 'right')" [required]="product.eyeRight && (parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')" [(ngModel)]="parameter.sel"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
                       <ng-template ng-label-tmp let-item="item">
                         <div class="supplier-body">
@@ -291,7 +291,7 @@
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
-                      [disabled]="!product.eyeLeft || hiddenParameters(parameter)" [required]="product.eyeLeft && (parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')" [(ngModel)]="parameter.sel"
+                      [disabled]="!product.eyeLeft || hiddenParameters(parameter, 'left')" [required]="product.eyeLeft && (parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')" [(ngModel)]="parameter.sel"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
                       <ng-template ng-label-tmp let-item="item">
                         <div class="supplier-body">

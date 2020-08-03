@@ -176,79 +176,54 @@ export class SynergeyesComponent implements OnInit {
         skirtCurve.selected = null;
     }
 
-    if (parameter.name === 'Dominance' && (this.product.idProduct === 176 || this.product.idProduct === 177 || this.product.idProduct === 268)) {
+    if (parameter.name === 'Dominance' && (this.product.idProduct === 176 ||
+       this.product.idProduct === 177 || this.product.idProduct === 268)) {
       let values: any;
       let centralDistanceZone: any;
       let centralNearZone: any;
       let addPower: any;
 
-      switch (eye) {
-        case 'Right':
-          switch (parameter.selected) {
-            case 'CN':
-              debugger
-              addPower = _.find(this.product.parameters, { name: 'Add' });
-              values = ['+1.00', '+1.75', '+2.50'];
-              addPower.values = values;
-              addPower.hidden = false;
-              centralNearZone = _.find(this.product.parametersRight, {name: 'Central Near Zone'});
-              centralNearZone.hidden = false;
-              centralDistanceZone = _.find(this.product.parametersRight, {name: 'Central Distance Zone'});
-              centralDistanceZone.hidden = true;
-              debugger
-              break;
-            case 'CD':
-              debugger
-              addPower = _.find(this.product.parameters, {name: 'Add'});
-              values = ['+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75',
-              '+3.00', '+3.25', '+3.50', '+3.75', '+4.00', '+4.25', '+4.50', '+4.75', '+5.00'];
-              addPower.values = values;
-              addPower.hidden = false;
-              centralDistanceZone = _.find(this.product.parametersRight, {name: 'Central Distance Zone'});
-              centralDistanceZone.hidden = false;
-              centralNearZone = _.find(this.product.parametersRight, {name: 'Central Near Zone'});
-              centralNearZone.hidden = true;
-              debugger
-              break;
-          }
+      switch (parameter.selected) {
+        case 'CN':
+          addPower = _.find(this.product.parameters, { name: 'Add' });
+          values = ['+1.00', '+1.75', '+2.50'];
+          addPower.values = values;
+          addPower.hidden = false;
+          centralNearZone = _.find(this.product.parameters, {name: 'Central Near Zone'});
+          centralNearZone.hidden = false;
+          centralDistanceZone = _.find(this.product.parameters, {name: 'Central Distance Zone'});
+          centralDistanceZone.hidden = true;
+          centralDistanceZone.selected = null;
           break;
-        case 'Left':
-          switch (parameter.selected) {
-            case 'CN':
-              debugger
-              addPower = _.find(this.product.parameters, {name: 'Add'});
-              values = ['+1.00', '+1.75', '+2.50'];
-              addPower.values = values;
-              addPower.hidden = false;
-              centralNearZone = _.find(this.product.parametersLeft, {name: 'Central Near Zone'});
-              centralNearZone.hidden = false;
-              centralDistanceZone = _.find(this.product.parametersLeft, {name: 'Central Distance Zone'});
-              centralDistanceZone.hidden = true;
-              debugger
-              break;
-            case 'CD':
-              debugger
-              addPower = _.find(this.product.parameters, {name: 'Add'});
-              values = ['+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75',
+        case 'CD':
+          addPower = _.find(this.product.parameters, {name: 'Add'});
+          values = ['+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75',
               '+3.00', '+3.25', '+3.50', '+3.75', '+4.00', '+4.25', '+4.50', '+4.75', '+5.00'];
-              addPower.values = values;
-              addPower.hidden = false;
-              centralDistanceZone = _.find(this.product.parametersLeft, {name: 'Central Distance Zone'});
-              centralDistanceZone.hidden = false;
-              centralNearZone = _.find(this.product.parametersLeft, {name: 'Central Near Zone'});
-              centralNearZone.hidden = true;
-              debugger
-              break;
-          }
+          addPower.values = values;
+          addPower.hidden = false;
+          centralDistanceZone = _.find(this.product.parameters, {name: 'Central Distance Zone'});
+          centralDistanceZone.hidden = false;
+          centralNearZone = _.find(this.product.parameters, {name: 'Central Near Zone'});
+          centralNearZone.hidden = true;
+          centralNearZone.selected = null;
           break;
       }
 
       parameter.selected = value;
     }
 
-
   }
 
+  hiddenParameters(parameter) {
+    if (parameter.name === 'Central Distance Zone' || parameter.name === 'Add Powers' || parameter.name === 'Central Near Zone'  ) {
+      let dominance: any;
+      let value: any;
+      dominance =  _.find(this.product.parameters, {name: 'Dominance'});
+      value = (dominance.selected !== null && dominance.selected !== undefined);
+      return value ? parameter.hidden : true;
+    }
+    return false;
+  }
 
   format(value): any {
     let flat;
@@ -315,7 +290,7 @@ export class SynergeyesComponent implements OnInit {
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
-           if (productSelected.name === 'Warranty') {
+           if (productSelected.name === 'Warranty' || productSelected.name === 'Profile') {
             item.selected = productSelected.selected === 'Yes' ? true : false;
           } else {
             item.selected = productSelected.selected;
@@ -325,7 +300,8 @@ export class SynergeyesComponent implements OnInit {
     });
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-      this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
+      this.productRequested.detail = '[' + JSON.stringify({ name: this.productCode.name,
+        eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
       this.productRequested.observations = this.observations;
       this.productRequested.price = this.price;
       this.productRequested.quantity = this.quantity;
@@ -334,7 +310,8 @@ export class SynergeyesComponent implements OnInit {
       this.update(this.productRequested);
     } else { // Order Detail
       this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-      this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
+      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.productCode.name,
+        eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
       this.productRequestedAux.observations = this.observations;
       this.productRequestedAux.price = this.price;
       this.productRequestedAux.quantity = this.quantity;

@@ -59,11 +59,11 @@
           </div>
           <div class="col-sm-3" *ngFor="let parameter of product.parameters">
             <dl>
-              <dt>{{ parameter.name | translate}}</dt>
+              <dt class="white-space">{{ parameter.name | translate}}</dt>
               <dl>
                 <dt>
                   <div *ngIf="parameter.type === 'selected'">
-                    <ng-select class="display-row" (change)="changeSelect(detail.eye, parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected"
+                    <ng-select class="display-row" (change)="changeSelect(detail.eye, parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected" [disabled]="hiddenParameters(parameter)"
                                 bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="(parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')">
                       <ng-template ng-label-tmp let-item="item">
                         <div class="supplier-body">
