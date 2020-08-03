@@ -135,6 +135,7 @@ export class SynergeyesComponent implements OnInit {
 
   changeSelect(eye, parameter, value) {
     parameter.selected = value;
+
     if (parameter.name === 'Warranty') {
       if (eye === 'Right') {
         if (parameter.selected === 'Yes') {
@@ -159,6 +160,7 @@ export class SynergeyesComponent implements OnInit {
         this.definePrice(this.membership);
       }
     }
+
     if (parameter.name === 'Base Curve' && (this.product.idProduct === 265 || this.product.idProduct === 192
       || this.product.idProduct === 193 || this.product.idProduct === 194)) {
         let values: any;
@@ -173,6 +175,77 @@ export class SynergeyesComponent implements OnInit {
         skirtCurve.values = values;
         skirtCurve.selected = null;
     }
+
+    if (parameter.name === 'Dominance' && (this.product.idProduct === 176 || this.product.idProduct === 177 || this.product.idProduct === 268)) {
+      let values: any;
+      let centralDistanceZone: any;
+      let centralNearZone: any;
+      let addPower: any;
+
+      switch (eye) {
+        case 'Right':
+          switch (parameter.selected) {
+            case 'CN':
+              debugger
+              addPower = _.find(this.product.parameters, { name: 'Add' });
+              values = ['+1.00', '+1.75', '+2.50'];
+              addPower.values = values;
+              addPower.hidden = false;
+              centralNearZone = _.find(this.product.parametersRight, {name: 'Central Near Zone'});
+              centralNearZone.hidden = false;
+              centralDistanceZone = _.find(this.product.parametersRight, {name: 'Central Distance Zone'});
+              centralDistanceZone.hidden = true;
+              debugger
+              break;
+            case 'CD':
+              debugger
+              addPower = _.find(this.product.parameters, {name: 'Add'});
+              values = ['+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75',
+              '+3.00', '+3.25', '+3.50', '+3.75', '+4.00', '+4.25', '+4.50', '+4.75', '+5.00'];
+              addPower.values = values;
+              addPower.hidden = false;
+              centralDistanceZone = _.find(this.product.parametersRight, {name: 'Central Distance Zone'});
+              centralDistanceZone.hidden = false;
+              centralNearZone = _.find(this.product.parametersRight, {name: 'Central Near Zone'});
+              centralNearZone.hidden = true;
+              debugger
+              break;
+          }
+          break;
+        case 'Left':
+          switch (parameter.selected) {
+            case 'CN':
+              debugger
+              addPower = _.find(this.product.parameters, {name: 'Add'});
+              values = ['+1.00', '+1.75', '+2.50'];
+              addPower.values = values;
+              addPower.hidden = false;
+              centralNearZone = _.find(this.product.parametersLeft, {name: 'Central Near Zone'});
+              centralNearZone.hidden = false;
+              centralDistanceZone = _.find(this.product.parametersLeft, {name: 'Central Distance Zone'});
+              centralDistanceZone.hidden = true;
+              debugger
+              break;
+            case 'CD':
+              debugger
+              addPower = _.find(this.product.parameters, {name: 'Add'});
+              values = ['+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75',
+              '+3.00', '+3.25', '+3.50', '+3.75', '+4.00', '+4.25', '+4.50', '+4.75', '+5.00'];
+              addPower.values = values;
+              addPower.hidden = false;
+              centralDistanceZone = _.find(this.product.parametersLeft, {name: 'Central Distance Zone'});
+              centralDistanceZone.hidden = false;
+              centralNearZone = _.find(this.product.parametersLeft, {name: 'Central Near Zone'});
+              centralNearZone.hidden = true;
+              debugger
+              break;
+          }
+          break;
+      }
+
+      parameter.selected = value;
+    }
+
 
   }
 
@@ -277,7 +350,7 @@ export class SynergeyesComponent implements OnInit {
     let paramet = this.product.parameters;
       _.each(paramet, function(productSelected) {
         if (productSelected.selected === null || productSelected.selected === undefined) {
-          if (productSelected.name !== 'Add') {
+          if (productSelected.name !== 'Add' && productSelected.name !== 'Dominance' && productSelected.name !== 'Central Near Zone' && productSelected.name !== 'Central Distance Zone') {
             valido = false;
           }
         }

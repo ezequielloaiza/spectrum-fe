@@ -147,12 +147,12 @@
                 <!--param name-->
                 <div class="row label">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>
-                  <span *ngIf="parameter.name === 'Power'">&nbsp;(D)</span>
+                  <span *ngIf="parameter.name === 'Power'">(D)</span>
                   <span *ngIf="parameter.name === 'Skirt Curve'">&nbsp;(mm)</span>
                   <span *ngIf="parameter.name === 'Dominance'">&nbsp;(Multifocal)</span>
                   <span *ngIf="parameter.name === 'Base Curve' && product.idProduct !=265 && product.idProduct !=266">&nbsp;(mm)</span>
                   <span *ngIf="parameter.name === 'Base Curve' && (product.idProduct ==265 || product.idProduct ==266)">&nbsp;(μ)</span>
-                  <span *ngIf="parameter.name === 'Add'">&nbsp;Power (D)</span>
+                  <span *ngIf="parameter.name === 'Add'">&nbsp;{{ 'Power' | translate }} (D)</span>
                   <span *ngIf="parameter.name === 'Central Distance Zone'">&nbsp;(mm)</span>
                   <span *ngIf="parameter.name === 'Central Near Zone'">&nbsp;(mm)</span>
                   &nbsp;&nbsp;
@@ -276,14 +276,14 @@
               <div>
                 <!--param name-->
                 <div class="row label">
-                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;
                   <span *ngIf="parameter.name === 'Power'">(D)</span>
                   <span *ngIf="parameter.name === 'Skirt Curve'">(mm)</span>
                   <span *ngIf="parameter.name === 'Dominance'">(Multifocal)</span>
                   <span *ngIf="parameter.name === 'Base Curve' && product.idProduct !== 265 && product.idProduct !== 266">(mm)</span>
                   <span *ngIf="parameter.name === 'Base Curve' && (product.idProduct === 265 || product.idProduct === 266)">(μ)</span>
-                  <span *ngIf="parameter.name === 'Add'">&nbsp;Power (D)</span>
-                  <span *ngIf="parameter.name === 'Central Near Zone'">&nbsp;(mm)</span>
+                  <span *ngIf="parameter.name === 'Add'">{{ 'Power' | translate }} (D)</span>
+                  <span *ngIf="parameter.name === 'Central Near Zone'">(mm)</span>
                   <span *ngIf="parameter.name === 'Central Distance Zone'">(mm)</span>
                   &nbsp;&nbsp;
                 </div>
