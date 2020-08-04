@@ -48,12 +48,12 @@
             <!--PARAMS-->
             <div class="col-sm-3" *ngFor="let parameter of detail.parameters">
               <dl class="align-item">
-                <dt>{{ parameter.name | translate }}
+                <dt class="white-space">{{ parameter.name | translate }}
                 </dt>
                 <hr class="separators">
                 <dl *ngIf="parameter.selected !==true && parameter.selected !==false">
                   <dt class="items">
-                    {{ parameter.selected}}
+                    {{ (parameter.selected !== null && parameter.selected !== undefined) ? parameter.selected : 'Unassigned' | translate}}
                   </dt>
                 </dl>
                 <dl *ngIf="parameter.selected ===true || parameter.selected ===false">

@@ -6,6 +6,10 @@
 
 .align-item{
   text-align: center !important;
+
+  .white-space {
+    white-space: nowrap;
+  }
 }
 
 .display-edit {
@@ -23,7 +27,6 @@
   margin-bottom: 225px;
   margin-right: -30px;
 }
-
 
 @media only screen and (max-width: 575px) {
   .edit {

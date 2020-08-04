@@ -89,6 +89,7 @@ export class ConfirmationSynergeyesComponent implements OnInit {
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     _.each(this.listBasket, function (productRequested) {
+      debugger
       priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
       patient = productRequested.patient;
       if (productRequested.observations === undefined) {
