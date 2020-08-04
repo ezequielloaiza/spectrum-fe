@@ -36,8 +36,6 @@ export class SynergeyesComponent implements OnInit {
   userOrder: any;
   productsCode: Array<any> = new Array;
   productCode: any;
-  warrantyRight = false;
-  warrantyLeft = false;
   client: any;
 
   constructor(public modalReference: NgbActiveModal,
@@ -122,39 +120,34 @@ export class SynergeyesComponent implements OnInit {
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
-           if (productSelected.name === 'Warranty' || productSelected.name === 'Profile') {
-               productSelected.selected = item.selected ? 'Yes' : 'No';
-           } else {
-               productSelected.selected = item.selected;
-           }
+          if (productSelected.name === 'Warranty' || productSelected.name === 'Profile') {
+            productSelected.selected = item.selected ? 'Yes' : 'No';
+          } else {
+            productSelected.selected = item.selected;
+          }
+          if (productSelected.name === 'Central Distance Zone' || productSelected.name === 'Add Powers'
+          || productSelected.name === 'Central Near Zone'  ) {
+            productSelected.hidden = (productSelected.selected === null || productSelected.selected === undefined);
+          }
         }
      });
     });
     this.product.parameters = paramet;
+    let dominance: any;
+    dominance = _.find(this.product.parameters, { name: 'Dominance' });
+    this.changeSelect(dominance, dominance.selected);
   }
 
-  changeSelect(eye, parameter, value) {
+  changeSelect(parameter, value) {
     parameter.selected = value;
 
     if (parameter.name === 'Warranty') {
-      if (eye === 'Right') {
-        if (parameter.selected === 'Yes') {
-          this.warrantyRight = true;
-          this.setCodeProduct('(W)' );
-        } else {
-          this.warrantyRight = false;
-          this.setCodeProduct('(NW)');
-        }
-      }
-
-      if (eye === 'Left') {
-        if (parameter.selected === 'Yes') {
-          this.warrantyLeft = true;
-          this.setCodeProduct('(W)');
-        } else {
-          this.warrantyLeft = false;
-          this.setCodeProduct('(NW)');
-        }
+      if (parameter.selected === 'Yes') {
+        this.warranty = true;
+        this.setCodeProduct('(W)');
+      } else {
+        this.warranty = false;
+        this.setCodeProduct('(NW)');
       }
       if (this.membership) {
         this.definePrice(this.membership);
@@ -212,6 +205,22 @@ export class SynergeyesComponent implements OnInit {
       parameter.selected = value;
     }
 
+  }
+
+  resetDominance(parameter) {
+    let centralDistanceZone: any;
+    let centralNearZone: any;
+    let addPower: any;
+    if (parameter.name === 'Dominance') {
+      addPower = _.find(this.product.parameters, {name: 'Add'});
+      addPower.selected = null;
+      centralDistanceZone = _.find(this.product.parameters, {name: 'Central Distance Zone'});
+      centralDistanceZone.hidden = true;
+      centralDistanceZone.selected = null;
+      centralNearZone = _.find(this.product.parameters, {name: 'Central Near Zone'});
+      centralNearZone.selected = null;
+      centralNearZone.hidden = true;
+    }
   }
 
   hiddenParameters(parameter) {
