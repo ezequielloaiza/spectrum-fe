@@ -315,18 +315,15 @@ export class ProductViewSynergeyesComponent implements OnInit {
       let values: any;
       let skirtCurve: any;
       parameter.selected = value;
-
       if (parameter.selected >= 50 && parameter.selected <= 250 ){
         values = ['7.9', '8.1', '8.4', '8.7'];
       } else {
         values = ['7.9', '8.1', '8.4'];
       }
-
       if (eye === 'right') {
         skirtCurve = _.find(this.product.parametersRight, {name: 'Skirt Curve'});
         skirtCurve.values = values;
       }
-
       if (eye === 'left') {
         skirtCurve = _.find(this.product.parametersLeft, {name: 'Skirt Curve'});
         skirtCurve.values = values;

@@ -21,5 +21,5 @@ export class QuickbooksService {
   public checkConnectToQuickbooks$(): Observable<any> {
     return this.http.get(environment.apiUrl + 'checkConnectToQuickbooks');
   }
-  
+
 }
