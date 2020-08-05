@@ -1,0 +1,174 @@
+@import '../../../../styles/spectrum/spectrum';
+
+.content {
+  padding: 2em;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .patient-info {
+    span {
+      width: 100%;
+    }
+  }
+
+  .title {
+    text-align: center;
+    padding: 2em;
+    span {
+      font-weight: 600;
+      font-size: 1.6em;
+    }
+  }
+}
+
+
+#consultation-form {
+  display: flex;
+  flex-direction: column;
+  padding: 1em 2em;
+  margin: 0 -15px;
+
+  .bold {
+    font-weight: 600;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .owm {
+    display: flex;
+    padding: 1em 0;
+    align-items: center;
+
+    > div {
+      flex: 0 0 33.33333333%;
+      max-width: 33.33333333%;
+    }
+
+    > div:nth-child(1), div:nth-child(2){
+      padding-right: 15px;
+      padding-left: 5px;
+    }
+
+    > div:nth-child(3) {
+      padding-left: 5px;
+      div {
+        flex-direction: column;
+        label { margin-bottom: 0;}
+      }
+    }
+  }
+
+  .eyes {
+    display: flex;
+    text-align: left;
+    padding-left: 5px;
+    padding-bottom: 15px;
+
+    > div:nth-child(1) {
+      padding-right: 20px;
+    }
+  }
+
+  .eye-container {
+    margin: 3% 0;
+  }
+
+  .form-group {
+    padding-left: 20px;
+  }
+
+  .multiples-params {
+    display: flex;
+    flex-direction: row;
+    padding-top: 20px;
+    width: 100%;
+    text-align: left;
+
+    .param-titles {
+      display: flex;
+      flex-direction: column;
+      flex: 0 0 32%;
+      max-width: 32%;
+    }
+
+    .content-params {
+      display: flex;
+      flex-wrap: wrap;
+      width: 68%;
+
+      .sub-params {
+        width: 49%;
+        margin: 0.8% 0 0.8% 1%;
+
+        .params-checkbox {
+          width: 100%;
+          display: flex;
+
+          > input {
+            margin-right: 20px;
+          }
+
+          .button-space {
+            margin-right: 20px;
+          }
+        }
+      }
+    }
+
+    .single-checkbox {
+      width: 60%;
+      margin-left: 10%;
+
+      > input {
+        margin-right: 20px;
+      }
+    }
+  }
+
+  .w-46 {
+    text-align: left;
+    width: 49%;
+  }
+
+  .left {
+    text-align: left;
+  }
+
+  .half-display {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    text-align: left;
+
+    > div {
+      width: 49%;
+    }
+
+    > div:nth-child(1) {
+      margin-right: 2%;
+      span { font-weight: 600;}
+    }
+  }
+}
+
+.radio-buttons {
+  display: flex;
+
+  .name {
+    flex: 0 0 32%;
+    max-width: 32%;
+  }
+
+  .button-space {
+    margin-right: 20px;
+  }
+
+  > div:nth-child(2) {
+    margin: 0.8% 0 0.8% 0.7%;
+    display: flex;
+  }
+}
+
+

@@ -15,6 +15,7 @@ import { ProductViewLenticonComponent } from './product-view-lenticon/product-vi
 import { ProductViewMedmontComponent } from './product-view-medmont/product-view-medmont.component';
 import { ProductViewSynergeyesComponent } from './product-view-synergeyes/product-view-synergeyes.component';
 import { ProductViewOrionComponent } from './product-view-orion/product-view-orion.component';
+import { ConsultationFormComponent } from './consultation-form/consultation-form.component';
 
 const routes: Routes = [
   {
@@ -34,7 +35,9 @@ const routes: Routes = [
         { path: ':id/product-view-lenticon', component: ProductViewLenticonComponent, data: { option: 'ProductsViewLenticon' }},
         { path: ':id/product-view-medmont', component: ProductViewMedmontComponent, data: { option: 'ProductViewMedmontComponent' }},
         { path: ':id/product-view-synergeyes', component: ProductViewSynergeyesComponent, data: { option: 'ProductViewSynergeyesComponent' }},
-        { path: ':id/product-view-orion', component: ProductViewOrionComponent, data: { option: 'ProductViewOrionComponent' }}
+        { path: ':id/product-view-orion', component: ProductViewOrionComponent, data: { option: 'ProductViewOrionComponent' } },
+        { path: ':id/consultation-form', component: ConsultationFormComponent, data: { option: 'ConsultationFormComponent' }}
+
     ] , data: { option: 'ProductsList' }
 }
 

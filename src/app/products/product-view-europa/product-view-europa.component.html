@@ -279,7 +279,7 @@
                       [disabled]="!product.eyeRight" min="0.00" step="0.01">
                   </div>
                   <div class="message-power" *ngIf="!!product.eyeRight && parameter.type === 'input' && isPower(parameter) && typeLensRight.selected === 'Final Lens'">
-                    <span translate>If you want us to calculate it, refer to the consulting format</span>
+                    <span translate>If you want us to calculate it, refer to the <a routerLink="/products/273/consultation-form">consulting format</a></span>
                   </div>
 
                   <!--Only Base Curve-->
