@@ -44,6 +44,7 @@ import { ConfirmationSynergeyesComponent } from './modals/confirmation-buy/confi
 import { ProductViewOrionComponent } from './product-view-orion/product-view-orion.component';
 import { ConfirmationOrionComponent } from './modals/confirmation-buy/confirmation-orion/confirmation-orion.component';
 import { CommonsModule } from '../commons.module';
+import { ConsultationFormComponent } from './consultation-form/consultation-form.component';
 
 @NgModule({
   imports: [
@@ -92,7 +93,8 @@ import { CommonsModule } from '../commons.module';
     ProductViewSynergeyesComponent,
     ConfirmationSynergeyesComponent,
     ProductViewOrionComponent,
-    ConfirmationOrionComponent
+    ConfirmationOrionComponent,
+    ConsultationFormComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,

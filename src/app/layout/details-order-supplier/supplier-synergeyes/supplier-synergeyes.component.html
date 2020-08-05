@@ -12,7 +12,7 @@
           <div class="d-flex flex-lg-wrap">
             <div class="col-sm-3" *ngFor="let param of specification.parameters">
               <dl class="align-item">
-                <dt>{{param.name | translate }}
+                <dt class="white-space">{{param.name | translate }}
                 <span *ngIf="param.name === 'Power'">(D)</span>
                 <span *ngIf="param.name === 'Skirt Curve'">(mm)</span>
                 <span *ngIf="param.name === 'Base Curve' && lista.product.idProduct !=265 && lista.product.idProduct !=266" >(mm)</span>
@@ -20,7 +20,7 @@
                 <span *ngIf="param.name === 'Profile' || param.name === 'Warranty'" ></span>
                 </dt>
                 <dt *ngIf="param.selected!==true && param.selected!==false">
-                  <span class="font-text"> {{param.selected | translate}}</span>
+                  <span class="font-text"> {{(param.selected !== null && param.selected !== undefined) ? param.selected : 'Unassigned' | translate}}</span>
                   <hr>
                 </dt>
                 <dt *ngIf="param.selected===true || param.selected===false">

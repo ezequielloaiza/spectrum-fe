@@ -1,0 +1,156 @@
+<div class="row page-header-fixed">
+	<div class="header-body">
+		<h4 class="page-header">
+			{{ 'Consultation Form List' | translate }}
+		</h4>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<i class="fa fa-folder-open"></i> {{ 'Consultation Form List' | translate}}</li>
+		</ol>
+	</div>
+</div>
+<div class="sp-container">
+  <div class="row ">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All Consultation Forms' | translate }}
+          </div>
+				</div>
+				<div class="row filters">
+					<div class="col-xl-3 filter">
+						<div class="row search margin">
+							<div class="col col-xl-12 col-lg-12">
+								<input [(ngModel)]="searchName" class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter search' | translate }}">
+								<i class="fa fa-search"></i>
+							</div>
+						</div>
+					</div>
+					 <div class="col-xl-3 filter search">
+						<select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
+							<option value="" disabled [selected]="true" translate>Select status</option>
+							<option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
+						</select>
+					</div>
+					<div class="col-xl-3 filter">
+							<div class="input-group filter-date">
+								<input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="fechaSelec" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelec)">
+								<div class="input-group-append">
+									<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+										<i class="fa fa-calendar"></i>
+									</button>
+								</div>
+							</div>
+					</div>
+					<div class="col-xl-2 btn-clean filter-date">
+						<button class="btn btn-outline-secondary" translate [hidden]="!valid1" (click)="clean()">Clean Filters</button>
+					</div>
+				</div>
+				<div class="card-body table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="table-tr header-column">
+									<span title="{{ 'Number' | translate }}">{{ 'Number' | translate }}
+										<i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortConsultationForm('number')"></i>
+									</span>
+									<span [hidden]="orderByField != 'number' || typeSort === 0">
+										<i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortConsultationForm('number')"></i>
+										<i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortConsultationForm('number')"></i>
+									</span>
+								</th>
+								<th *ngIf="user.role.idRole !== 3" class="table-tr header-column">
+									<span title="{{ 'Customer' | translate }}">{{ 'Customer' | translate }}
+										<i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortConsultationForm('client')"></i>
+									</span>
+									<span [hidden]="orderByField != 'client' || typeSort === 0">
+										<i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortConsultationForm('client')"></i>
+										<i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortConsultationForm('client')"></i>
+									</span>
+								</th>
+								<th class="table-tr header-column">
+									<span title="{{ 'Customer' | translate }}">{{ 'Patient' | translate }}
+										<i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortConsultationForm('client')"></i>
+									</span>
+									<span [hidden]="orderByField != 'client' || typeSort === 0">
+										<i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortConsultationForm('client')"></i>
+										<i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortConsultationForm('client')"></i>
+									</span>
+								</th>
+								<th class="table-tr header-column">
+									<span title="{{ 'Invoice Date' | translate }}">{{ 'Date' | translate }}
+										<i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortConsultationForm('date')"></i>
+									</span>
+									<span [hidden]="orderByField != 'date' || typeSort === 0">
+										<i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortConsultationForm('date')"></i>
+										<i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortConsultationForm('date')"></i>
+									</span>
+								</th>
+								<th class="table-tr header-column">
+									<span title="{{ 'Status' | translate }}">{{ 'Status' | translate }}
+										<i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortConsultationForm('status')"></i>
+									</span>
+									<span [hidden]="orderByField != 'status' || typeSort === 0">
+										<i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortConsultationForm('status')"></i>
+										<i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortConsultationForm('status')"></i>
+									</span>
+								</th>
+								<th class="table-tr"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let consultation of consultationList">
+								<td class="table-tr td-table">{{consultation.trackingNumber}}</td>
+								<td *ngIf="user.role.idRole !== 3" class="table-tr td-table">{{consultation.nameUser}}</td>
+								<td class="table-tr td-table">{{consultation.patientName  }}</td>
+								<td class="table-tr td-table">{{consultation.date  | date:'yyyy-MM-dd'}}</td>
+								<td [ngClass]="{'pending': consultation.status === 0,'processed': consultation.status === 1, 'ready': consultation.status === 2, 'shipped': consultation.status === 3, 'canceled': consultation.status === 4 }" 
+								class="table-tr" class="pending">
+									<div>{{getStatus(consultation.status) | translate}}</div>
+								</td>
+								<td class="table-tr">
+									<div class="d-flex flex-row justify-content-around">
+										<div ngbDropdown class="d-inline-block dropdown">
+											<button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+											<div ngbDropdownMenu>
+												<button *ngIf="consultation.status === 0 && user.role.idRole === 1" class="dropdown-item" (click)="open(consultation,'edit')">
+													<i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
+												<button class="dropdown-item" (click)="open(consultation,'view')">
+													<i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
+												<button *ngIf="user.role.idRole === 1" class="dropdown-item" (click)="changeStatus(consultation)">
+                          <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}</button>
+												<button *ngIf="consultation.status !== 0" class="dropdown-item" (click)="download(consultation)">
+													<i class="fa fa-download"></i> {{ 'Download' | translate }}</button>
+												<button *ngIf="user.role.idRole === 1" class="dropdown-item" (click)="cancel(consultation)">
+													<i class="fa fa-ban"></i> {{ 'Cancel' | translate }}</button>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="table-empty" [hidden]="consultationList.length !== 0" translate>
+						<p class="no-records">
+							{{ 'No records have been added yet' | translate }}
+						</p>
+					</div>
+					<div class="pagination-list" [hidden]="consultationList.length === 0">
+						<ngb-pagination class="d-flex justify-content-end"  [collectionSize]="consultationList.length"
+							[(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+						</ngb-pagination>
+						<span class="count-elements">{{ consultationList.length + ' ' + ('of' | translate) + ' ' + consultationList.length + ' ' + ('register(s)' | translate)
+							}}
+						</span>
+					</div>
+			</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
