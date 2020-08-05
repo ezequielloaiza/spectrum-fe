@@ -968,6 +968,8 @@ var RoleAdmin;
     RoleAdmin[RoleAdmin["ClientInvoice"] = 42] = "ClientInvoice";
     RoleAdmin[RoleAdmin["ProductViewSynergeyesComponent"] = 43] = "ProductViewSynergeyesComponent";
     RoleAdmin[RoleAdmin["ProductViewOrionComponent"] = 44] = "ProductViewOrionComponent";
+    RoleAdmin[RoleAdmin["ConsultationFormList"] = 45] = "ConsultationFormList";
+    RoleAdmin[RoleAdmin["ConsultationFormComponent"] = 46] = "ConsultationFormComponent";
 })(RoleAdmin || (RoleAdmin = {}));
 
 
@@ -1020,6 +1022,8 @@ var RoleSeller;
     RoleSeller[RoleSeller["ChangePassword"] = 32] = "ChangePassword";
     RoleSeller[RoleSeller["ProductViewSynergeyesComponent"] = 33] = "ProductViewSynergeyesComponent";
     RoleSeller[RoleSeller["ProductViewOrionComponent"] = 34] = "ProductViewOrionComponent";
+    RoleSeller[RoleSeller["ConsultationFormList"] = 35] = "ConsultationFormList";
+    RoleSeller[RoleSeller["ConsultationFormComponent"] = 36] = "ConsultationFormComponent";
 })(RoleSeller || (RoleSeller = {}));
 
 
@@ -1066,6 +1070,8 @@ var RoleUser;
     RoleUser[RoleUser["ChangePassword"] = 26] = "ChangePassword";
     RoleUser[RoleUser["ProductViewSynergeyesComponent"] = 27] = "ProductViewSynergeyesComponent";
     RoleUser[RoleUser["ProductViewOrionComponent"] = 28] = "ProductViewOrionComponent";
+    RoleUser[RoleUser["ConsultationFormComponent"] = 29] = "ConsultationFormComponent";
+    RoleUser[RoleUser["ConsultationFormList"] = 30] = "ConsultationFormList";
 })(RoleUser || (RoleUser = {}));
 
 

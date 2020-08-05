@@ -4403,7 +4403,7 @@ var DetailSalineFluoComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"product\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Product Detail' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modalReference.dismiss()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket\">\n    <div class=\"row\">\n        <!--Image-->\n        <div class=\"col-lg-12 main-info\">\n          <div>\n            <span class=\"title\">{{ product.name }}</span>\n          </div>\n          <!--Image-->\n          <div class=\"label-title\">\n            <img class=\"img-product\" src=\"{{ basket.urlImage }}\">\n          </div>\n          <!--Patient-->\n          <div class=\"col-lg-12 title label-title patient-info\">\n            <span>{{ 'Patient' | translate }}</span>\n            <dl>\n              <dt>{{ productRequested.patient }}</dt>\n            </dl>\n            <dl>\n              <dt>{{ subtotal | currency : \"USD $\" }}</dt>\n            </dl>\n          </div>\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n        </div>\n        <!--PARAMETERS-->\n        <div class=\"col-lg-12 label-title\">\n          <div class=\"row padding-params\">\n            <div class=\"col-sm-3\">\n              <dl class=\"align-item\">\n                <dt>{{'Quantity'| translate}}\n                </dt>\n                <hr class=\"separators\">\n                <dl>\n                  <dt class=\"items\">\n                    {{ productRequested.quantity}}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n            <!--PARAMS-->\n            <div class=\"col-sm-3\" *ngFor=\"let parameter of detail.parameters\">\n              <dl class=\"align-item\">\n                <dt>{{ parameter.name | translate }}\n                </dt>\n                <hr class=\"separators\">\n                <dl *ngIf=\"parameter.selected !==true && parameter.selected !==false\">\n                  <dt class=\"items\">\n                    {{ parameter.selected}}\n                  </dt>\n                </dl>\n                <dl *ngIf=\"parameter.selected ===true || parameter.selected ===false\">\n                  <dt *ngIf=\"parameter.selected === true\">{{ 'Yes' | translate }}</dt>\n                  <dt *ngIf=\"parameter.selected === false\">{{ 'No' | translate }}</dt>\n                </dl>\n              </dl>\n            </div>\n          </div>\n        </div>\n        <!--Fin parameters-->\n        <div class=\"col-lg-12 comments\">\n          <div class=\"row padding-params\">\n            <div class=\"col-sm-12\">\n              <dl>\n                <dt>{{'Comments'| translate}}\n                </dt>\n                <dl class=\"comment\" *ngIf=\"productRequested.observations ==='' || productRequested.observations ===null\">\n                  <span translate>{{'No comments' | translate}}</span>\n                </dl>\n                <dl *ngIf=\"productRequested.observations !==''\">\n                  <span style=\"overflow-x: hidden;\"> {{ productRequested.observations }}</span>\n                </dl>\n              </dl>\n            </div>\n          </div>\n        </div>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modalReference.dismiss()\">{{ 'Close' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n  </div>\n</div>\n\n"
+module.exports = "<div *ngIf=\"product\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Product Detail' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modalReference.dismiss()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket\">\n    <div class=\"row\">\n        <!--Image-->\n        <div class=\"col-lg-12 main-info\">\n          <div>\n            <span class=\"title\">{{ product.name }}</span>\n          </div>\n          <!--Image-->\n          <div class=\"label-title\">\n            <img class=\"img-product\" src=\"{{ basket.urlImage }}\">\n          </div>\n          <!--Patient-->\n          <div class=\"col-lg-12 title label-title patient-info\">\n            <span>{{ 'Patient' | translate }}</span>\n            <dl>\n              <dt>{{ productRequested.patient }}</dt>\n            </dl>\n            <dl>\n              <dt>{{ subtotal | currency : \"USD $\" }}</dt>\n            </dl>\n          </div>\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n        </div>\n        <!--PARAMETERS-->\n        <div class=\"col-lg-12 label-title\">\n          <div class=\"row padding-params\">\n            <div class=\"col-sm-3\">\n              <dl class=\"align-item\">\n                <dt>{{'Quantity'| translate}}\n                </dt>\n                <hr class=\"separators\">\n                <dl>\n                  <dt class=\"items\">\n                    {{ productRequested.quantity}}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n            <!--PARAMS-->\n            <div class=\"col-sm-3\" *ngFor=\"let parameter of detail.parameters\">\n              <dl class=\"align-item\">\n                <dt class=\"white-space\">{{ parameter.name | translate }}\n                </dt>\n                <hr class=\"separators\">\n                <dl *ngIf=\"parameter.selected !==true && parameter.selected !==false\">\n                  <dt class=\"items\">\n                    {{ (parameter.selected !== null && parameter.selected !== undefined) ? parameter.selected : 'Unassigned' | translate}}\n                  </dt>\n                </dl>\n                <dl *ngIf=\"parameter.selected ===true || parameter.selected ===false\">\n                  <dt *ngIf=\"parameter.selected === true\">{{ 'Yes' | translate }}</dt>\n                  <dt *ngIf=\"parameter.selected === false\">{{ 'No' | translate }}</dt>\n                </dl>\n              </dl>\n            </div>\n          </div>\n        </div>\n        <!--Fin parameters-->\n        <div class=\"col-lg-12 comments\">\n          <div class=\"row padding-params\">\n            <div class=\"col-sm-12\">\n              <dl>\n                <dt>{{'Comments'| translate}}\n                </dt>\n                <dl class=\"comment\" *ngIf=\"productRequested.observations ==='' || productRequested.observations ===null\">\n                  <span translate>{{'No comments' | translate}}</span>\n                </dl>\n                <dl *ngIf=\"productRequested.observations !==''\">\n                  <span style=\"overflow-x: hidden;\"> {{ productRequested.observations }}</span>\n                </dl>\n              </dl>\n            </div>\n          </div>\n        </div>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modalReference.dismiss()\">{{ 'Close' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n  </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -4414,7 +4414,7 @@ module.exports = "<div *ngIf=\"product\">\n  <div class=\"modal-header\">\n    <
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.list-basket {\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.list-basket .main-info {\n    text-align: center; }\n.list-basket .img-product {\n    width: 45%;\n    height: 9.5em; }\n.list-basket .display-row {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between; }\n.list-basket .display-price {\n    -webkit-box-pack: center;\n            justify-content: center; }\n.list-basket .padding-params {\n    padding: 0 2em; }\n.list-basket .params {\n    padding-top: 1em; }\n.list-basket .params .separator {\n      margin-bottom: 1em; }\n.list-basket .title {\n    font-weight: 600; }\n.list-basket .label-title {\n    padding-top: 1.5em; }\n.list-basket .patient-info {\n    padding-bottom: 1.5em; }\n.list-basket .eye-info {\n    color: #868e96;\n    padding: 0 2em; }\n.list-basket .align-item {\n    text-align: center; }\n.list-basket .items {\n    color: #868e96; }\n.list-basket .comments {\n    padding: 0 2.5em; }\n.list-basket .separators {\n    border-top: 1.5px solid rgba(0, 0, 0, 0.1);\n    margin-bottom: 0.5rem;\n    margin-top: 0.5rem; }\n.list-basket .param {\n    color: #f8ac59; }\n.list-basket .comment {\n    color: #868e96;\n    padding: 0 1.5em; }\n"
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.list-basket {\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.list-basket .main-info {\n    text-align: center; }\n.list-basket .img-product {\n    width: 45%;\n    height: 9.5em; }\n.list-basket .display-row {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between; }\n.list-basket .display-price {\n    -webkit-box-pack: center;\n            justify-content: center; }\n.list-basket .padding-params {\n    padding: 0 2em; }\n.list-basket .params {\n    padding-top: 1em; }\n.list-basket .params .separator {\n      margin-bottom: 1em; }\n.list-basket .title {\n    font-weight: 600; }\n.list-basket .label-title {\n    padding-top: 1.5em; }\n.list-basket .patient-info {\n    padding-bottom: 1.5em; }\n.list-basket .eye-info {\n    color: #868e96;\n    padding: 0 2em; }\n.list-basket .align-item {\n    text-align: center; }\n.list-basket .items {\n    color: #868e96; }\n.list-basket .comments {\n    padding: 0 2.5em; }\n.list-basket .separators {\n    border-top: 1.5px solid rgba(0, 0, 0, 0.1);\n    margin-bottom: 0.5rem;\n    margin-top: 0.5rem; }\n.list-basket .param {\n    color: #f8ac59; }\n.list-basket .comment {\n    color: #868e96;\n    padding: 0 1.5em; }\n.list-basket .white-space {\n    white-space: nowrap; }\n"
 
 /***/ }),
 
@@ -6042,7 +6042,7 @@ var ListOrderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"sidebar\" [ngClass]=\"{sidebarPushRight: isActive}\">\n\t<div class=\"list-group\">\n\t\t<a routerLink=\"/dashboard\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-dashboard\"></i>&nbsp;{{ 'Dashboard' | translate }}\n\t\t</a>\n\t\t<a routerLink=\"/products\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\" *ngIf=\"listSupplierUser.length > 0 && user.role.idRole === 3 || user.role.idRole !== 3\">\n\t\t\t<i class=\"fa fa-shopping-cart\"></i>&nbsp;{{ 'New Order' | translate }}\n\t\t</a>\n\t\t<!--USER MENU-->\n\t\t<div *ngIf=\"user.role.idRole === 3\">\n\t\t\t<!--<div>-->\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('account')\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-user\"></i>&nbsp; {{ 'Your Account' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'account'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a routerLink=\"/profile\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-user-circle\"></i>&nbsp; {{ 'Your Profile' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a routerLink=\"/shipping-address\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-truck\"></i>&nbsp; {{ 'Your Shipping Addresses' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a routerLink=\"/protocol\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-address-card\"></i>&nbsp; {{ 'Protocols' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<!--<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Your Payments' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-tasks\"></i>&nbsp; {{ 'Activity' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n            -->\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('order')\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-folder-open\"></i>&nbsp; {{ 'Your Orders' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'order'\">\n\t\t\t\t\t<ul class=\"submenu\">\n           <!-- <li>\n              <a routerLink=\"/products\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                <i class=\"fa fa-file\"></i>&nbsp; {{ 'New Order' | translate }}</span>\n              </a>\n            </li> -->\n            <li>\n              <a [routerLink]=\"['/order-list-client']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                <i class=\"fa fa-file\"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>\n              </a>\n            </li>\n            <li>\n              <a [routerLink]=\"['/order-list-client']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                <i class=\"fa fa-file\"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>\n              </a>\n            </li>\n            <li>\n              <a [routerLink]=\"['/order-list-client']\" [queryParams]=\"{status: 2}\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                <i class=\"fa fa-file\"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>\n              </a>\n            </li>\n            <li>\n              <a [routerLink]=\"['/order-list-client']\" [queryParams]=\"{status: 3}\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                  <i class=\"fa fa-file\"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>\n              </a>\n            </li>\n            <!--li>\n              <a href=\"javascript:void(0)\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                  <i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>\n              </a>\n            </li>\n            <li>\n              <a href=\"javascript:void(0)\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                  <i class=\"fa fa-money\"></i>&nbsp; {{ 'Add Payment' | translate }}</span>\n              </a>\n            </li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-exclamation-triangle\"></i>&nbsp; {{ 'Report a Problem' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n            -->\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a  class=\"list-group-item\" (click)=\"addExpandClass('payments')\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'My Payments' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'payments'\">\n\t\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Payments Awaiting Confirmation' | translate }}</span>\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Payments Made' | translate }}</span>\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a  routerLink=\"/warranty\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-check-square\"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!--ADMIN MENU-->\n\t\t<div *ngIf=\"user.role.idRole === 1\">\n\t\t\t<!--<div>-->\n\t\t\t<!--<a [routerLink]=\"['/category']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t<i class=\"fa fa-tags\"></i>&nbsp;{{ 'Product categories' | translate }}\n\t\t\t</a>-->\n\t\t\t<a routerLink=\"/profile\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t<i class=\"fa fa-user\"></i>&nbsp; {{ 'Profile' | translate }}\n\t\t\t</a>\n\t\t\t<a [routerLink]=\"['/business-type']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t<span>\n\t\t\t\t\t<i class=\"fa fa-building\"></i>&nbsp; {{ 'Business Type' | translate }}</span>\n      </a>\n      <div class=\"nested-menu\">\n\t\t\t\t<a  routerLink=\"/entrusting-company\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-bus\"></i>&nbsp; {{ 'Manage Shipping Companies' | translate }}</span>\n        </a>\n      </div>\n\t\t\t<a routerLink=\"/suppliers\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t<i class=\"fa fa-archive\"></i>&nbsp;{{ 'Manage Suppliers' | translate }}\n\t\t\t</a>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" [routerLink]=\"['/user']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-users\"></i>&nbsp; {{ 'Manage Customers' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<!--<li class=\"nested\" [class.expand]=\"showMenu === 'users'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/user']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-user-plus\"></i>&nbsp; {{ 'New Account' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/consult-account']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-eye\"></i>&nbsp; {{ 'Consult Account' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'Consult Payments' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>-->\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" [routerLink]=\"['/seller']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-shopping-bag\"></i>&nbsp; {{ 'Manage Sellers' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<!--<li class=\"nested\" [class.expand]=\"showMenu === 'sellers'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/seller']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-user-plus\"></i>&nbsp; {{ 'New Seller' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-random\"></i>&nbsp; {{ 'Assign Seller' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-eye\"></i>&nbsp; {{ 'Consult Seller' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>-->\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\" (click)=\"addExpandClass('orders')\">\n          <span>\n            <i class=\"fa fa-folder-open\"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'orders'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t<!--\t<li>\n\t\t\t\t\t\t\t<a routerLink=\"/products\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'New Order' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li> -->\n            <li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n            <li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n            <li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 2}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n            <li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 3}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n            <li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 4}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-times\"></i>&nbsp; {{ 'Canceled Orders' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n\t\t\t\t\t\t<!--<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-check\"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n\n\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'Add Payment' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>-->\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a [routerLink]=\"['/invoice']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Manage Pro Forma Invoices' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a [routerLink]=\"['/client-invoice']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Client Invoices' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t</div>\n      <div class=\"nested-menu\">\n\t\t\t\t<a  class=\"list-group-item\" (click)=\"addExpandClass('payments')\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'Accounts Receivable' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'payments'\">\n\t\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Pending Payments to Check' | translate }}</span>\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Payments Made' | translate }}</span>\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a [routerLink]=\"['/commission']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Manage Commissions' | translate }}</span>\n\t\t\t\t</a>\n      </div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a  routerLink=\"/warranty\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-check-square\"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>\n        </a>\n      </div>\n      <div class=\"nested-menu\">\n        <a routerLink=\"/reports\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n          <i class=\"fa fa-cubes\"></i>&nbsp;{{ 'Reports' | translate }}\n        </a>\n      </div>\n\t\t</div>\n\n\t\t<!--SELLER MENU-->\n\t\t<div *ngIf=\"user.role.idRole === 2\">\n\t\t\t<div>\n\t\t\t\t<a routerLink=\"/profile\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<i class=\"fa fa-user\"></i>&nbsp; {{ 'Profile' | translate }}\n\t\t\t\t</a>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a class=\"list-group-item\" [routerLink]=\"['/user']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t<i class=\"fa fa-users\"></i>&nbsp; {{ 'Manage Customers' | translate }}</span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<!--<li class=\"nested\" [class.expand]=\"showMenu === 'users'\">\n\t\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a [routerLink]=\"['/user']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-user-plus\"></i>&nbsp; {{ 'New Account' | translate }}</span>\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-eye\"></i>&nbsp; {{ 'Consult Account' | translate }}</span>\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'Consult Payments' | translate }}</span>\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>-->\n        </div>\n        <div class=\"nested-menu\">\n          <a  routerLink=\"/entrusting-company\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n            <span>\n              <i class=\"fa fa-bus\"></i>&nbsp; {{ 'Manage Shipping Companies' | translate }}</span>\n          </a>\n        </div>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('orders')\">\n\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t<i class=\"fa fa-folder-open\"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>\n\t\t\t\t\t</a>\n          <li class=\"nested\" [class.expand]=\"showMenu === 'orders'\">\n            <ul class=\"submenu\">\n              <!--<li>\n                <a routerLink=\"/products\" [routerLinkActive]=\"['router-link-active']\">\n                  <span>\n                    <i class=\"fa fa-file\"></i>&nbsp; {{ 'New Order' | translate }}</span>\n                </a>\n              </li>-->\n              <li>\n                <a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-file\"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>\n                </a>\n              </li>\n              <li>\n                <a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-file\"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>\n                </a>\n              </li>\n              <li>\n                <a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 2}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-file\"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>\n                </a>\n              </li>\n              <li>\n                <a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 3}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-file\"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>\n                </a>\n              </li>\n              <!--<li>\n                <a href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>\n                </a>\n              </li>\n\n              <li>\n                <a href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-check\"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>\n                </a>\n              </li>\n              <li>\n                <a href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-money\"></i>&nbsp; {{ 'Add Payment' | translate }}</span>\n                </a>\n              </li>-->\n            </ul>\n          </li>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a  class=\"list-group-item\" (click)=\"addExpandClass('payments')\">\n\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'Accounts Receivable' | translate }}</span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'payments'\">\n\t\t\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Pending Payments to Check' | translate }}</span>\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Payments Made' | translate }}</span>\n\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</li>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a [routerLink]=\"['/commission']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t<i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Manage Commissions' | translate }}</span>\n\t\t\t\t\t</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a  routerLink=\"/warranty\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n            <span>\n              <i class=\"fa fa-check-square\"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>\n          </a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!--\n\t\t<a [routerLink]=\"['/charts']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-bar-chart-o\"></i>&nbsp;{{ 'Charts' | translate }}\n    </a>\n\t\t<a [routerLink]=\"['/tables']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-table\"></i>&nbsp;{{ 'Tables' | translate }}\n\t\t</a>\n\t\t<a [routerLink]=\"['/forms']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-edit\"></i>&nbsp;{{ 'Forms' | translate }}\n\t\t</a>\n\t\t<a [routerLink]=\"['/bs-element']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-desktop\"></i>&nbsp;{{ 'Bootstrap Element' | translate }}\n\t\t</a>\n\t\t<a [routerLink]=\"['/grid']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-wrench\"></i>&nbsp;{{ 'Bootstrap Grid' | translate }}\n\t\t</a>\n\t\t<a [routerLink]=\"['/components']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-th-list\"></i>&nbsp;{{ 'Component' | translate }}\n\t\t</a>\n\t\t<div class=\"nested-menu\">\n\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('pages')\">\n\t\t\t\t<span>\n\t\t\t\t\t<i class=\"fa fa-plus\"></i>&nbsp; {{ 'Menu' | translate }}</span>\n\t\t\t</a>\n\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'pages'\">\n\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t<li>\n\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t<span>{{ 'Submenu' | translate }}</span>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</li>\n\t\t\t\t\t<li>\n\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t<span>{{ 'Submenu' | translate }}</span>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</li>\n\t\t\t\t\t<li>\n\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t<span>{{ 'Submenu' | translate }}</span>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</li>\n\t\t</div>\n\t\t<a [routerLink]=\"['/blank-page']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-file-o\"></i>&nbsp;{{ 'Blank Page' | translate }}\n\t\t</a>\n\t\t<a class=\"list-group-item more-themes\" href=\"http://www.strapui.com/\">\n\t\t\t{{ 'More Theme' | translate }}\n\t\t</a>\n\t\t<div class=\"header-fields\">\n\t\t\t<a (click)=\"rltAndLtr()\" class=\"list-group-item\">\n\t\t\t\t<span>\n\t\t\t\t\t<i class=\"fa fa-arrows-h\"></i>&nbsp; RTL/LTR</span>\n\t\t\t</a>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('languages')\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-language\"></i>&nbsp; {{ 'Language' | translate }}\n\t\t\t\t\t\t<b class=\"caret\"></b>\n\t\t\t\t\t</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'languages'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('en')\">\n\t\t\t\t\t\t\t\t{{ 'English' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('fr')\">\n\t\t\t\t\t\t\t\t{{ 'French' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('ur')\">\n\t\t\t\t\t\t\t\t{{ 'Urdu' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('es')\">\n\t\t\t\t\t\t\t\t{{ 'Spanish' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('it')\">\n\t\t\t\t\t\t\t\t{{ 'Italian' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('fa')\">\n\t\t\t\t\t\t\t\t{{ 'Farsi' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('de')\">\n\t\t\t\t\t\t\t\t{{ 'German' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('profile')\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-user\"></i>&nbsp; John Smith</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'profile'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a routerLink=\"/profile\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-fw fa-user\"></i> {{ 'Profile' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-fw fa-envelope\"></i> {{ 'Inbox' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-fw fa-gear\"></i> {{ 'Settings' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/login']\" (click)=\"onLoggedout()\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-fw fa-power-off\"></i> {{ 'Log Out' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</div>\n    </div>\n    -->\n\t</div>\n</nav>\n"
+module.exports = "<nav class=\"sidebar\" [ngClass]=\"{sidebarPushRight: isActive}\">\n\t<div class=\"list-group\">\n\t\t<a routerLink=\"/dashboard\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-dashboard\"></i>&nbsp;{{ 'Dashboard' | translate }}\n\t\t</a>\n\t\t<a routerLink=\"/products\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\" *ngIf=\"listSupplierUser.length > 0 && user.role.idRole === 3 || user.role.idRole !== 3\">\n\t\t\t<i class=\"fa fa-shopping-cart\"></i>&nbsp;{{ 'New Order' | translate }}\n\t\t</a>\n\t\t<!--USER MENU-->\n\t\t<div *ngIf=\"user.role.idRole === 3\">\n\t\t\t<!--<div>-->\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('account')\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-user\"></i>&nbsp; {{ 'Your Account' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'account'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a routerLink=\"/profile\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-user-circle\"></i>&nbsp; {{ 'Your Profile' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a routerLink=\"/shipping-address\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-truck\"></i>&nbsp; {{ 'Your Shipping Addresses' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a routerLink=\"/protocol\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-address-card\"></i>&nbsp; {{ 'Protocols' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<!--<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Your Payments' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-tasks\"></i>&nbsp; {{ 'Activity' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n            -->\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a [routerLink]=\"['/list-consultation-form']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Manage Consultation Forms' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('order')\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-folder-open\"></i>&nbsp; {{ 'Your Orders' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'order'\">\n\t\t\t\t\t<ul class=\"submenu\">\n           <!-- <li>\n              <a routerLink=\"/products\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                <i class=\"fa fa-file\"></i>&nbsp; {{ 'New Order' | translate }}</span>\n              </a>\n            </li> -->\n            <li>\n              <a [routerLink]=\"['/order-list-client']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                <i class=\"fa fa-file\"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>\n              </a>\n            </li>\n            <li>\n              <a [routerLink]=\"['/order-list-client']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                <i class=\"fa fa-file\"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>\n              </a>\n            </li>\n            <li>\n              <a [routerLink]=\"['/order-list-client']\" [queryParams]=\"{status: 2}\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                <i class=\"fa fa-file\"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>\n              </a>\n            </li>\n            <li>\n              <a [routerLink]=\"['/order-list-client']\" [queryParams]=\"{status: 3}\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                  <i class=\"fa fa-file\"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>\n              </a>\n            </li>\n            <!--li>\n              <a href=\"javascript:void(0)\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                  <i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>\n              </a>\n            </li>\n            <li>\n              <a href=\"javascript:void(0)\" [routerLinkActive]=\"['router-link-active']\">\n                <span>\n                  <i class=\"fa fa-money\"></i>&nbsp; {{ 'Add Payment' | translate }}</span>\n              </a>\n            </li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-exclamation-triangle\"></i>&nbsp; {{ 'Report a Problem' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n            -->\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a  class=\"list-group-item\" (click)=\"addExpandClass('payments')\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'My Payments' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'payments'\">\n\t\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Payments Awaiting Confirmation' | translate }}</span>\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Payments Made' | translate }}</span>\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a  routerLink=\"/warranty\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-check-square\"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!--ADMIN MENU-->\n\t\t<div *ngIf=\"user.role.idRole === 1\">\n\t\t\t<!--<div>-->\n\t\t\t<!--<a [routerLink]=\"['/category']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t<i class=\"fa fa-tags\"></i>&nbsp;{{ 'Product categories' | translate }}\n\t\t\t</a>-->\n\t\t\t<a routerLink=\"/profile\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t<i class=\"fa fa-user\"></i>&nbsp; {{ 'Profile' | translate }}\n\t\t\t</a>\n\t\t\t<a [routerLink]=\"['/business-type']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t<span>\n\t\t\t\t\t<i class=\"fa fa-building\"></i>&nbsp; {{ 'Business Type' | translate }}</span>\n      </a>\n      <div class=\"nested-menu\">\n\t\t\t\t<a  routerLink=\"/entrusting-company\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-bus\"></i>&nbsp; {{ 'Manage Shipping Companies' | translate }}</span>\n        </a>\n      </div>\n\t\t\t<a routerLink=\"/suppliers\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t<i class=\"fa fa-archive\"></i>&nbsp;{{ 'Manage Suppliers' | translate }}\n\t\t\t</a>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" [routerLink]=\"['/user']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-users\"></i>&nbsp; {{ 'Manage Customers' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<!--<li class=\"nested\" [class.expand]=\"showMenu === 'users'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/user']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-user-plus\"></i>&nbsp; {{ 'New Account' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/consult-account']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-eye\"></i>&nbsp; {{ 'Consult Account' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'Consult Payments' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>-->\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" [routerLink]=\"['/seller']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-shopping-bag\"></i>&nbsp; {{ 'Manage Sellers' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<!--<li class=\"nested\" [class.expand]=\"showMenu === 'sellers'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/seller']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-user-plus\"></i>&nbsp; {{ 'New Seller' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-random\"></i>&nbsp; {{ 'Assign Seller' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-eye\"></i>&nbsp; {{ 'Consult Seller' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>-->\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a [routerLink]=\"['/list-consultation-form']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Manage Consultation Forms' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\" (click)=\"addExpandClass('orders')\">\n          <span>\n            <i class=\"fa fa-folder-open\"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'orders'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t<!--\t<li>\n\t\t\t\t\t\t\t<a routerLink=\"/products\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'New Order' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li> -->\n            <li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n            <li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n            <li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 2}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n            <li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 3}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n            <li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 4}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-times\"></i>&nbsp; {{ 'Canceled Orders' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n\t\t\t\t\t\t<!--<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-check\"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n            </li>\n\n\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'Add Payment' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>-->\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a [routerLink]=\"['/invoice']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Manage Pro Forma Invoices' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a [routerLink]=\"['/client-invoice']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Client Invoices' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t</div>\n      <div class=\"nested-menu\">\n\t\t\t\t<a  class=\"list-group-item\" (click)=\"addExpandClass('payments')\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'Accounts Receivable' | translate }}</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'payments'\">\n\t\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Pending Payments to Check' | translate }}</span>\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Payments Made' | translate }}</span>\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a [routerLink]=\"['/commission']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Manage Commissions' | translate }}</span>\n\t\t\t\t</a>\n      </div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a  routerLink=\"/warranty\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-check-square\"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>\n        </a>\n      </div>\n      <div class=\"nested-menu\">\n        <a routerLink=\"/reports\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n          <i class=\"fa fa-cubes\"></i>&nbsp;{{ 'Reports' | translate }}\n        </a>\n      </div>\n\t\t</div>\n\n\t\t<!--SELLER MENU-->\n\t\t<div *ngIf=\"user.role.idRole === 2\">\n\t\t\t<div>\n\t\t\t\t<a routerLink=\"/profile\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t<i class=\"fa fa-user\"></i>&nbsp; {{ 'Profile' | translate }}\n\t\t\t\t</a>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a class=\"list-group-item\" [routerLink]=\"['/user']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t<i class=\"fa fa-users\"></i>&nbsp; {{ 'Manage Customers' | translate }}</span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<!--<li class=\"nested\" [class.expand]=\"showMenu === 'users'\">\n\t\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a [routerLink]=\"['/user']\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-user-plus\"></i>&nbsp; {{ 'New Account' | translate }}</span>\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-eye\"></i>&nbsp; {{ 'Consult Account' | translate }}</span>\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'Consult Payments' | translate }}</span>\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</li>-->\n        </div>\n        <div class=\"nested-menu\">\n          <a  routerLink=\"/entrusting-company\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n            <span>\n              <i class=\"fa fa-bus\"></i>&nbsp; {{ 'Manage Shipping Companies' | translate }}</span>\n          </a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a [routerLink]=\"['/list-consultation-form']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Manage Consultation Forms' | translate }}</span>\n\t\t\t\t\t</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('orders')\">\n\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t<i class=\"fa fa-folder-open\"></i>&nbsp; {{ 'Manage Orders' | translate }}</span>\n\t\t\t\t\t</a>\n          <li class=\"nested\" [class.expand]=\"showMenu === 'orders'\">\n            <ul class=\"submenu\">\n              <!--<li>\n                <a routerLink=\"/products\" [routerLinkActive]=\"['router-link-active']\">\n                  <span>\n                    <i class=\"fa fa-file\"></i>&nbsp; {{ 'New Order' | translate }}</span>\n                </a>\n              </li>-->\n              <li>\n                <a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-file\"></i>&nbsp; {{ 'Pending Orders' | translate }}</span>\n                </a>\n              </li>\n              <li>\n                <a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-file\"></i>&nbsp; {{ 'Processed Orders' | translate }}</span>\n                </a>\n              </li>\n              <li>\n                <a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 2}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-file\"></i>&nbsp; {{ 'Ready to Ship Orders' | translate }}</span>\n                </a>\n              </li>\n              <li>\n                <a [routerLink]=\"['/order-list-client-byseller']\" [queryParams]=\"{status: 3}\" [routerLinkActive]=\"['router-link-active']\" href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-file\"></i>&nbsp; {{ 'Shipped Orders' | translate }}</span>\n                </a>\n              </li>\n              <!--<li>\n                <a href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Verify Payment' | translate }}</span>\n                </a>\n              </li>\n\n              <li>\n                <a href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-check\"></i>&nbsp; {{ 'Resolve Problem' | translate }}</span>\n                </a>\n              </li>\n              <li>\n                <a href=\"javascript:void(0)\">\n                  <span>\n                    <i class=\"fa fa-money\"></i>&nbsp; {{ 'Add Payment' | translate }}</span>\n                </a>\n              </li>-->\n            </ul>\n          </li>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a [routerLink]=\"['/invoice']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Manage Pro Forma Invoices' | translate }}</span>\n\t\t\t\t\t</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a  class=\"list-group-item\" (click)=\"addExpandClass('payments')\">\n\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t<i class=\"fa fa-money\"></i>&nbsp; {{ 'Accounts Receivable' | translate }}</span>\n\t\t\t\t\t</a>\n\t\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'payments'\">\n\t\t\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 0}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Pending Payments to Check' | translate }}</span>\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t\t\t\t<a [routerLink]=\"['/payments']\" [queryParams]=\"{status: 1}\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-file\"></i>&nbsp; {{ 'Payments Made' | translate }}</span>\n\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t</li>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a [routerLink]=\"['/commission']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t<i class=\"fa fa-credit-card\"></i>&nbsp; {{ 'Manage Commissions' | translate }}</span>\n\t\t\t\t\t</a>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"nested-menu\">\n\t\t\t\t\t<a  routerLink=\"/warranty\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n            <span>\n              <i class=\"fa fa-check-square\"></i>&nbsp; {{ 'Manage Warranties' | translate }}</span>\n          </a>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!--\n\t\t<a [routerLink]=\"['/charts']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-bar-chart-o\"></i>&nbsp;{{ 'Charts' | translate }}\n    </a>\n\t\t<a [routerLink]=\"['/tables']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-table\"></i>&nbsp;{{ 'Tables' | translate }}\n\t\t</a>\n\t\t<a [routerLink]=\"['/forms']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-edit\"></i>&nbsp;{{ 'Forms' | translate }}\n\t\t</a>\n\t\t<a [routerLink]=\"['/bs-element']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-desktop\"></i>&nbsp;{{ 'Bootstrap Element' | translate }}\n\t\t</a>\n\t\t<a [routerLink]=\"['/grid']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-fw fa-wrench\"></i>&nbsp;{{ 'Bootstrap Grid' | translate }}\n\t\t</a>\n\t\t<a [routerLink]=\"['/components']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-th-list\"></i>&nbsp;{{ 'Component' | translate }}\n\t\t</a>\n\t\t<div class=\"nested-menu\">\n\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('pages')\">\n\t\t\t\t<span>\n\t\t\t\t\t<i class=\"fa fa-plus\"></i>&nbsp; {{ 'Menu' | translate }}</span>\n\t\t\t</a>\n\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'pages'\">\n\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t<li>\n\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t<span>{{ 'Submenu' | translate }}</span>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</li>\n\t\t\t\t\t<li>\n\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t<span>{{ 'Submenu' | translate }}</span>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</li>\n\t\t\t\t\t<li>\n\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t<span>{{ 'Submenu' | translate }}</span>\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</li>\n\t\t\t\t</ul>\n\t\t\t</li>\n\t\t</div>\n\t\t<a [routerLink]=\"['/blank-page']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n\t\t\t<i class=\"fa fa-file-o\"></i>&nbsp;{{ 'Blank Page' | translate }}\n\t\t</a>\n\t\t<a class=\"list-group-item more-themes\" href=\"http://www.strapui.com/\">\n\t\t\t{{ 'More Theme' | translate }}\n\t\t</a>\n\t\t<div class=\"header-fields\">\n\t\t\t<a (click)=\"rltAndLtr()\" class=\"list-group-item\">\n\t\t\t\t<span>\n\t\t\t\t\t<i class=\"fa fa-arrows-h\"></i>&nbsp; RTL/LTR</span>\n\t\t\t</a>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('languages')\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-language\"></i>&nbsp; {{ 'Language' | translate }}\n\t\t\t\t\t\t<b class=\"caret\"></b>\n\t\t\t\t\t</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'languages'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('en')\">\n\t\t\t\t\t\t\t\t{{ 'English' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('fr')\">\n\t\t\t\t\t\t\t\t{{ 'French' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('ur')\">\n\t\t\t\t\t\t\t\t{{ 'Urdu' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('es')\">\n\t\t\t\t\t\t\t\t{{ 'Spanish' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('it')\">\n\t\t\t\t\t\t\t\t{{ 'Italian' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('fa')\">\n\t\t\t\t\t\t\t\t{{ 'Farsi' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\" (click)=\"changeLang('de')\">\n\t\t\t\t\t\t\t\t{{ 'German' | translate }}\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</div>\n\t\t\t<div class=\"nested-menu\">\n\t\t\t\t<a class=\"list-group-item\" (click)=\"addExpandClass('profile')\">\n\t\t\t\t\t<span>\n\t\t\t\t\t\t<i class=\"fa fa-user\"></i>&nbsp; John Smith</span>\n\t\t\t\t</a>\n\t\t\t\t<li class=\"nested\" [class.expand]=\"showMenu === 'profile'\">\n\t\t\t\t\t<ul class=\"submenu\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a routerLink=\"/profile\" [routerLinkActive]=\"['router-link-active']\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-fw fa-user\"></i> {{ 'Profile' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-fw fa-envelope\"></i> {{ 'Inbox' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a href=\"javascript:void(0)\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-fw fa-gear\"></i> {{ 'Settings' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a [routerLink]=\"['/login']\" (click)=\"onLoggedout()\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-fw fa-power-off\"></i> {{ 'Log Out' | translate }}</span>\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</li>\n\t\t\t</div>\n    </div>\n    -->\n\t</div>\n</nav>\n"
 
 /***/ }),
 
@@ -7108,12 +7108,18 @@ var SupplierOrionComponent = /** @class */ (function () {
         this.router = router;
         this.emitEventOrion = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.listAux = new Array;
+        this.paramStatus = '';
         this.user = JSON.parse(userStorageService.getCurrentUser());
     }
     SupplierOrionComponent.prototype.skipLocationAndRedirect = function (uri) {
         var _this = this;
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(function () {
-            return _this.router.navigate([uri]);
+            if (_this.paramStatus) {
+                _this.router.navigate(['/details-order-client/' + _this.order.idOrder + '/view'], { queryParams: { status: _this.paramStatus } });
+            }
+            else {
+                _this.router.navigate([uri]);
+            }
         });
     };
     SupplierOrionComponent.prototype.ngOnInit = function () {
@@ -7121,6 +7127,7 @@ var SupplierOrionComponent = /** @class */ (function () {
         this.urlImage = this.image;
         this.valueStatus = this.order.status;
         this.valueClient = this.order.user.status;
+        this.paramStatus = this.route.snapshot.queryParams.status;
         this.sendReply();
     };
     SupplierOrionComponent.prototype.downloadFile = function (item) {
@@ -7198,7 +7205,7 @@ var SupplierOrionComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-lg-12\">\n  <div class=\"row padding-params display-edit\" *ngIf=\"valueStatus === 0 && user.role.idRole !== 2 && valueClient !== 2\">\n    <button type=\"button\" (click)=\"openEdit()\" class=\"edit btn btn-outline-primary\" translate>\n      Edit\n    </button>\n  </div>\n  <ngb-tabset>\n  <ngb-tab title=\"{{'Technical specifications'| translate}}\">\n    <ng-template ngbTabContent>\n      <div class=\"card-body table-responsive\">\n        <div *ngFor=\"let specification of lista.detail\">\n          <div class=\"d-flex flex-lg-wrap\">\n            <div class=\"col-sm-3\" *ngFor=\"let param of specification.parameters\">\n              <dl class=\"align-item\">\n                <dt>{{param.name | translate }}\n                <span *ngIf=\"param.name === 'Power'\">(D)</span>\n                <span *ngIf=\"param.name === 'Skirt Curve'\">(mm)</span>\n                <span *ngIf=\"param.name === 'Base Curve' && lista.product.idProduct !=265 && lista.product.idProduct !=266\" >(mm)</span>\n                <span *ngIf=\"param.name === 'Base Curve' && (lista.product.idProduct ==265 || lista.product.idProduct ==266)\" >(μ)</span>\n                <span *ngIf=\"param.name === 'Profile' || param.name === 'Warranty'\" ></span>\n                </dt>\n                <dt *ngIf=\"param.selected!==true && param.selected!==false\">\n                  <span class=\"font-text\"> {{param.selected | translate}}</span>\n                  <hr>\n                </dt>\n                <dt *ngIf=\"param.selected===true || param.selected===false\">\n                  <span class=\"font-text\" *ngIf=\"param.selected===true\">{{ 'Yes' | translate }}</span>\n                  <span class=\"font-text\" *ngIf=\"param.selected===false\">{{ 'No' | translate }}</span>\n                  <hr>\n                </dt>\n              </dl>\n            </div>\n          </div>\n        </div>\n      </div>\n    </ng-template>\n  </ngb-tab>\n  <ngb-tab title=\"{{'Comments'| translate}}\">\n    <ng-template ngbTabContent>\n      <div class=\"card-body table-responsive\">\n        <div class=\"row justify-content-md-center div-parametros\">\n          <div class=\"col-sm-12\">\n            <dl class=\"font-text\" *ngIf=\"lista.observations ==='' || lista.observations ===null\">\n              <span translate>{{'No comments' | translate}}</span>\n            </dl>\n            <dl>\n              <dt *ngIf=\"lista.observations !==''\">\n                <span class=\"font-text\">{{lista.observations}}</span>\n              </dt>\n            </dl>\n          </div>\n        </div>\n      </div>\n    </ng-template>\n  </ngb-tab>\n  <ngb-tab *ngIf=\"files.length > 0\" title=\"{{'Documents'| translate}}\">\n    <ng-template ngbTabContent>\n      <!-- Documents -->\n      <div class=\"card-body table-responsive\">\n        <br>\n        <div class=\"row justify-content-md-center div-parametros\">\n          <table class=\"table\">\n            <thead>\n              <tr>\n                <th width=\"50%\">{{ 'Name' | translate }}</th>\n                <th>{{ 'Size' | translate }}</th>\n                <th>{{ 'Actions' | translate }}</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr *ngFor=\"let item of files\">\n                <td>\n                  <strong>{{ item?.name }}</strong>\n                </td>\n                <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>\n                <td nowrap>\n                  <button type=\"button\" class=\"btn btn-success btn-xs\" (click)=\"downloadFile(item)\">\n                    <span class=\"fa fa-download\"></span> {{ 'Download' | translate }}\n                  </button>\n                </td>\n              </tr>\n            </tbody>\n          </table>\n          <br>\n        </div>\n      </div>\n    </ng-template>\n  </ngb-tab>\n  </ngb-tabset>\n</div>\n"
+module.exports = "<div class=\"col-lg-12\">\n  <div class=\"row padding-params display-edit\" *ngIf=\"valueStatus === 0 && user.role.idRole !== 2 && valueClient !== 2\">\n    <button type=\"button\" (click)=\"openEdit()\" class=\"edit btn btn-outline-primary\" translate>\n      Edit\n    </button>\n  </div>\n  <ngb-tabset>\n  <ngb-tab title=\"{{'Technical specifications'| translate}}\">\n    <ng-template ngbTabContent>\n      <div class=\"card-body table-responsive\">\n        <div *ngFor=\"let specification of lista.detail\">\n          <div class=\"d-flex flex-lg-wrap\">\n            <div class=\"col-sm-3\" *ngFor=\"let param of specification.parameters\">\n              <dl class=\"align-item\">\n                <dt class=\"white-space\">{{param.name | translate }}\n                <span *ngIf=\"param.name === 'Power'\">(D)</span>\n                <span *ngIf=\"param.name === 'Skirt Curve'\">(mm)</span>\n                <span *ngIf=\"param.name === 'Base Curve' && lista.product.idProduct !=265 && lista.product.idProduct !=266\" >(mm)</span>\n                <span *ngIf=\"param.name === 'Base Curve' && (lista.product.idProduct ==265 || lista.product.idProduct ==266)\" >(μ)</span>\n                <span *ngIf=\"param.name === 'Profile' || param.name === 'Warranty'\" ></span>\n                </dt>\n                <dt *ngIf=\"param.selected!==true && param.selected!==false\">\n                  <span class=\"font-text\"> {{(param.selected !== null && param.selected !== undefined) ? param.selected : 'Unassigned' | translate}}</span>\n                  <hr>\n                </dt>\n                <dt *ngIf=\"param.selected===true || param.selected===false\">\n                  <span class=\"font-text\" *ngIf=\"param.selected===true\">{{ 'Yes' | translate }}</span>\n                  <span class=\"font-text\" *ngIf=\"param.selected===false\">{{ 'No' | translate }}</span>\n                  <hr>\n                </dt>\n              </dl>\n            </div>\n          </div>\n        </div>\n      </div>\n    </ng-template>\n  </ngb-tab>\n  <ngb-tab title=\"{{'Comments'| translate}}\">\n    <ng-template ngbTabContent>\n      <div class=\"card-body table-responsive\">\n        <div class=\"row justify-content-md-center div-parametros\">\n          <div class=\"col-sm-12\">\n            <dl class=\"font-text\" *ngIf=\"lista.observations ==='' || lista.observations ===null\">\n              <span translate>{{'No comments' | translate}}</span>\n            </dl>\n            <dl>\n              <dt *ngIf=\"lista.observations !==''\">\n                <span class=\"font-text\">{{lista.observations}}</span>\n              </dt>\n            </dl>\n          </div>\n        </div>\n      </div>\n    </ng-template>\n  </ngb-tab>\n  <ngb-tab *ngIf=\"files.length > 0\" title=\"{{'Documents'| translate}}\">\n    <ng-template ngbTabContent>\n      <!-- Documents -->\n      <div class=\"card-body table-responsive\">\n        <br>\n        <div class=\"row justify-content-md-center div-parametros\">\n          <table class=\"table\">\n            <thead>\n              <tr>\n                <th width=\"50%\">{{ 'Name' | translate }}</th>\n                <th>{{ 'Size' | translate }}</th>\n                <th>{{ 'Actions' | translate }}</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr *ngFor=\"let item of files\">\n                <td>\n                  <strong>{{ item?.name }}</strong>\n                </td>\n                <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>\n                <td nowrap>\n                  <button type=\"button\" class=\"btn btn-success btn-xs\" (click)=\"downloadFile(item)\">\n                    <span class=\"fa fa-download\"></span> {{ 'Download' | translate }}\n                  </button>\n                </td>\n              </tr>\n            </tbody>\n          </table>\n          <br>\n        </div>\n      </div>\n    </ng-template>\n  </ngb-tab>\n  </ngb-tabset>\n</div>\n"
 
 /***/ }),
 
@@ -7209,7 +7216,7 @@ module.exports = "<div class=\"col-lg-12\">\n  <div class=\"row padding-params d
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.font-text {\n  font-weight: normal !important;\n  align-content: center !important; }\n.align-item {\n  text-align: center !important; }\n.display-edit {\n  -webkit-box-pack: end;\n          justify-content: flex-end;\n  font-size: 20px;\n  color: #1756a6; }\n.padding-params {\n  padding: 0 2em; }\n.edit {\n  margin-top: -240px;\n  margin-bottom: 225px;\n  margin-right: -30px; }\n@media only screen and (max-width: 575px) {\n  .edit {\n    margin: -585px -52px 555px 0px; } }\n"
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.font-text {\n  font-weight: normal !important;\n  align-content: center !important; }\n.align-item {\n  text-align: center !important; }\n.align-item .white-space {\n    white-space: nowrap; }\n.display-edit {\n  -webkit-box-pack: end;\n          justify-content: flex-end;\n  font-size: 20px;\n  color: #1756a6; }\n.padding-params {\n  padding: 0 2em; }\n.edit {\n  margin-top: -240px;\n  margin-bottom: 225px;\n  margin-right: -30px; }\n@media only screen and (max-width: 575px) {\n  .edit {\n    margin: -585px -52px 555px 0px; } }\n"
 
 /***/ }),
 
@@ -7261,12 +7268,18 @@ var SupplierSynergeyesComponent = /** @class */ (function () {
         this.router = router;
         this.emitEventSynergeyes = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.listAux = new Array;
+        this.paramStatus = '';
         this.user = JSON.parse(userStorageService.getCurrentUser());
     }
     SupplierSynergeyesComponent.prototype.skipLocationAndRedirect = function (uri) {
         var _this = this;
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(function () {
-            return _this.router.navigate([uri]);
+            if (_this.paramStatus) {
+                _this.router.navigate(['/details-order-client/' + _this.order.idOrder + '/view'], { queryParams: { status: _this.paramStatus } });
+            }
+            else {
+                _this.router.navigate([uri]);
+            }
         });
     };
     SupplierSynergeyesComponent.prototype.ngOnInit = function () {
@@ -7274,6 +7287,7 @@ var SupplierSynergeyesComponent = /** @class */ (function () {
         this.urlImage = this.image;
         this.valueStatus = this.order.status;
         this.valueClient = this.order.user.status;
+        this.paramStatus = this.route.snapshot.queryParams.status;
         this.sendReply();
     };
     SupplierSynergeyesComponent.prototype.downloadFile = function (item) {
@@ -10801,7 +10815,7 @@ var SalineFluoComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"product\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Edit Product' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modalReference.dismiss()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket\">\n    <div class=\"row\">\n      <!--Image-->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <div *ngIf=\"typeEdit === 1\">\n          <img class=\"img-product\" src=\"{{ basket.urlImage }}\">\n        </div>\n        <div *ngIf=\"typeEdit === 2\">\n            <img class=\"img-product\" src=\"{{ image }}\">\n        </div>\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <span>{{ 'Patient' | translate }}</span>\n          <div class=\"col-lg-12 main-info\">\n            <input class=\"form-control main-info\" type=\"text\" maxlength=\"20\" placeholder=\"{{ 'Introduce name patient' | translate }}\" [(ngModel)]=\"patient\" required>\n          </div>\n        </div>\n        <div class=\"col-lg-12 title eye-info\">\n          <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n        </div>\n      </div>\n      <!--PARAMETERS-->\n      <div class=\"col-lg-12 label-title\">\n        <div class=\"row padding-params\">\n          <div class=\"col-sm-3\" [hidden]=\"!editPrice\">\n            <dl>\n              <dt>{{'Price'| translate}}\n              </dt>\n              <dl>\n                <div class=\"form-group input-group\">\n                  <div class=\"input-group-append\">\n                    <span class=\"input-group-text\">$</span>\n                  </div>\n                  <input class=\"form-control\" type=\"text\" currencyMask  [options] = \" {prefix: '', miles: ',', decimal: '.'}\" [(ngModel)]=\"price\" oninput=\"validity.valid||(value='');\" placeholder=\"{{ 'Enter price' | translate }}\"\n                    name=\"price1\" required>\n                </div>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl>\n              <dt>{{'Quantity'| translate}}\n              </dt>\n              <dl>\n                <div>\n                  <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"quantity\" oninput=\"validity.valid||(value='');\" required>\n                </div>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of product.parameters\">\n            <dl>\n              <dt>{{ parameter.name| translate}}</dt>\n              <dl>\n                <dt>\n                  <div *ngIf=\"parameter.type === 'selected'\">\n                    <ng-select class=\"display-row\" (change)=\"changeSelect(detail.eye, parameter, $event)\" [items]=\"parameter.values\" [(ngModel)]=\"parameter.selected\"\n                                bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [required]=\"(parameter.name !== 'Add')\">\n                      <ng-template ng-label-tmp let-item=\"item\">\n                        <div class=\"supplier-body\">\n                          <span>{{ item | translate }}</span>\n                        </div>\n                      </ng-template>\n                      <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                        <div class=\"supplier-body\">\n                          <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n                  </div>\n                </dt>\n              </dl>\n            </dl>\n          </div>\n        </div>\n      </div>\n      <!--Fin parameters-->\n      <!--comments-->\n      <div class=\"col-lg-12\">\n        <div class=\"row padding-params\">\n          <div class=\"col-sm-12\">\n            <dl>\n              <dt>{{'Comments'| translate}}\n              </dt>\n              <dl>\n                <div>\n                  <textarea style=\"overflow-x: hidden;\" class=\"form-control col-md-12 comment\" type=\"text\" [(ngModel)]=\"observations\" placeholder=\"{{ 'Introduces observations' | translate }}\"></textarea>\n                </div>\n              </dl>\n            </dl>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modalReference.dismiss()\">{{ 'Cancel' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [disabled]=\"!formIsValid()\">{{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n  </div>\n</div>\n"
+module.exports = "<div *ngIf=\"product\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Edit Product' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modalReference.dismiss()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket\">\n    <div class=\"row\">\n      <!--Image-->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <div *ngIf=\"typeEdit === 1\">\n          <img class=\"img-product\" src=\"{{ basket.urlImage }}\">\n        </div>\n        <div *ngIf=\"typeEdit === 2\">\n            <img class=\"img-product\" src=\"{{ image }}\">\n        </div>\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <span>{{ 'Patient' | translate }}</span>\n          <div class=\"col-lg-12 main-info\">\n            <input class=\"form-control main-info\" type=\"text\" maxlength=\"20\" placeholder=\"{{ 'Introduce name patient' | translate }}\" [(ngModel)]=\"patient\" required>\n          </div>\n        </div>\n        <div class=\"col-lg-12 title eye-info\">\n          <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n        </div>\n      </div>\n      <!--PARAMETERS-->\n      <div class=\"col-lg-12 label-title\">\n        <div class=\"row padding-params\">\n          <div class=\"col-sm-3\" [hidden]=\"!editPrice\">\n            <dl>\n              <dt>{{'Price'| translate}}\n              </dt>\n              <dl>\n                <div class=\"form-group input-group\">\n                  <div class=\"input-group-append\">\n                    <span class=\"input-group-text\">$</span>\n                  </div>\n                  <input class=\"form-control\" type=\"text\" currencyMask  [options] = \" {prefix: '', miles: ',', decimal: '.'}\" [(ngModel)]=\"price\" oninput=\"validity.valid||(value='');\" placeholder=\"{{ 'Enter price' | translate }}\"\n                    name=\"price1\" required>\n                </div>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl>\n              <dt>{{'Quantity'| translate}}\n              </dt>\n              <dl>\n                <div>\n                  <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"quantity\" oninput=\"validity.valid||(value='');\" required>\n                </div>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of product.parameters\">\n            <dl>\n              <dt class=\"white-space\">{{ parameter.name | translate}}</dt>\n              <dl>\n                <dt>\n                  <div *ngIf=\"parameter.type === 'selected'\">\n                    <ng-select class=\"display-row\" (change)=\"changeSelect(parameter, $event)\" [items]=\"parameter.values\" [(ngModel)]=\"parameter.selected\"\n                    [disabled]=\"hiddenParameters(parameter)\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" (clear)=\"resetDominance(parameter)\"\n                    [required]=\"(parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')\">\n                      <ng-template ng-label-tmp let-item=\"item\">\n                        <div class=\"supplier-body\">\n                          <span>{{ item | translate }}</span>\n                        </div>\n                      </ng-template>\n                      <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                        <div class=\"supplier-body\">\n                          <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n                  </div>\n                </dt>\n              </dl>\n            </dl>\n          </div>\n        </div>\n      </div>\n      <!--Fin parameters-->\n      <!--comments-->\n      <div class=\"col-lg-12\">\n        <div class=\"row padding-params\">\n          <div class=\"col-sm-12\">\n            <dl>\n              <dt>{{'Comments'| translate}}\n              </dt>\n              <dl>\n                <div>\n                  <textarea style=\"overflow-x: hidden;\" class=\"form-control col-md-12 comment\" type=\"text\" [(ngModel)]=\"observations\" placeholder=\"{{ 'Introduces observations' | translate }}\"></textarea>\n                </div>\n              </dl>\n            </dl>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modalReference.dismiss()\">{{ 'Cancel' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [disabled]=\"!formIsValid()\">{{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -10812,7 +10826,7 @@ module.exports = "<div *ngIf=\"product\">\n  <div class=\"modal-header\">\n    <
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.list-basket {\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.list-basket .main-info {\n    text-align: center; }\n.list-basket .img-product {\n    width: 45%;\n    height: 9.5em; }\n.list-basket .display-row {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between; }\n.list-basket .display-price {\n    -webkit-box-pack: center;\n            justify-content: center; }\n.list-basket .padding-params {\n    padding: 0 2em; }\n.list-basket .params {\n    padding-top: 1em; }\n.list-basket .params .separator {\n      margin-bottom: 1em; }\n.list-basket .title {\n    font-weight: 600; }\n.list-basket .label-title {\n    padding-top: 1.5em; }\n.list-basket .patient-info {\n    padding-bottom: 1.5em; }\n.list-basket .eye-info {\n    color: #868e96;\n    padding: 0 2em; }\n.list-basket .align-item {\n    text-align: center; }\n"
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.list-basket {\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.list-basket .main-info {\n    text-align: center; }\n.list-basket .img-product {\n    width: 45%;\n    height: 9.5em; }\n.list-basket .display-row {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between; }\n.list-basket .display-price {\n    -webkit-box-pack: center;\n            justify-content: center; }\n.list-basket .padding-params {\n    padding: 0 2em; }\n.list-basket .params {\n    padding-top: 1em; }\n.list-basket .params .separator {\n      margin-bottom: 1em; }\n.list-basket .title {\n    font-weight: 600; }\n.list-basket .label-title {\n    padding-top: 1.5em; }\n.list-basket .patient-info {\n    padding-bottom: 1.5em; }\n.list-basket .eye-info {\n    color: #868e96;\n    padding: 0 2em; }\n.list-basket .align-item {\n    text-align: center; }\n.list-basket .white-space {\n    white-space: nowrap; }\n"
 
 /***/ }),
 
@@ -10873,8 +10887,6 @@ var SynergeyesComponent = /** @class */ (function () {
         this.warranty = false;
         this.additional = 0;
         this.productsCode = new Array;
-        this.warrantyRight = false;
-        this.warrantyLeft = false;
         this.user = JSON.parse(userService.getCurrentUser());
     }
     SynergeyesComponent.prototype.ngOnInit = function () {
@@ -10952,33 +10964,28 @@ var SynergeyesComponent = /** @class */ (function () {
                     else {
                         productSelected.selected = item.selected;
                     }
+                    if (productSelected.name === 'Central Distance Zone' || productSelected.name === 'Add Powers'
+                        || productSelected.name === 'Central Near Zone') {
+                        productSelected.hidden = (productSelected.selected === null || productSelected.selected === undefined);
+                    }
                 }
             });
         });
         this.product.parameters = paramet;
+        var dominance;
+        dominance = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Dominance' });
+        this.changeSelect(dominance, dominance.selected);
     };
-    SynergeyesComponent.prototype.changeSelect = function (eye, parameter, value) {
+    SynergeyesComponent.prototype.changeSelect = function (parameter, value) {
         parameter.selected = value;
         if (parameter.name === 'Warranty') {
-            if (eye === 'Right') {
-                if (parameter.selected === 'Yes') {
-                    this.warrantyRight = true;
-                    this.setCodeProduct('(W)');
-                }
-                else {
-                    this.warrantyRight = false;
-                    this.setCodeProduct('(NW)');
-                }
+            if (parameter.selected === 'Yes') {
+                this.warranty = true;
+                this.setCodeProduct('(W)');
             }
-            if (eye === 'Left') {
-                if (parameter.selected === 'Yes') {
-                    this.warrantyLeft = true;
-                    this.setCodeProduct('(W)');
-                }
-                else {
-                    this.warrantyLeft = false;
-                    this.setCodeProduct('(NW)');
-                }
+            else {
+                this.warranty = false;
+                this.setCodeProduct('(NW)');
             }
             if (this.membership) {
                 this.definePrice(this.membership);
@@ -10999,6 +11006,64 @@ var SynergeyesComponent = /** @class */ (function () {
             skirtCurve.values = values;
             skirtCurve.selected = null;
         }
+        if (parameter.name === 'Dominance' && (this.product.idProduct === 176 ||
+            this.product.idProduct === 177 || this.product.idProduct === 268)) {
+            var values = void 0;
+            var centralDistanceZone = void 0;
+            var centralNearZone = void 0;
+            var addPower = void 0;
+            switch (parameter.selected) {
+                case 'CN':
+                    addPower = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Add' });
+                    values = ['+1.00', '+1.75', '+2.50'];
+                    addPower.values = values;
+                    addPower.hidden = false;
+                    centralNearZone = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Central Near Zone' });
+                    centralNearZone.hidden = false;
+                    centralDistanceZone = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Central Distance Zone' });
+                    centralDistanceZone.hidden = true;
+                    centralDistanceZone.selected = null;
+                    break;
+                case 'CD':
+                    addPower = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Add' });
+                    values = ['+0.75', '+1.00', '+1.25', '+1.50', '+1.75', '+2.00', '+2.25', '+2.50', '+2.75',
+                        '+3.00', '+3.25', '+3.50', '+3.75', '+4.00', '+4.25', '+4.50', '+4.75', '+5.00'];
+                    addPower.values = values;
+                    addPower.hidden = false;
+                    centralDistanceZone = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Central Distance Zone' });
+                    centralDistanceZone.hidden = false;
+                    centralNearZone = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Central Near Zone' });
+                    centralNearZone.hidden = true;
+                    centralNearZone.selected = null;
+                    break;
+            }
+            parameter.selected = value;
+        }
+    };
+    SynergeyesComponent.prototype.resetDominance = function (parameter) {
+        var centralDistanceZone;
+        var centralNearZone;
+        var addPower;
+        if (parameter.name === 'Dominance') {
+            addPower = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Add' });
+            addPower.selected = null;
+            centralDistanceZone = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Central Distance Zone' });
+            centralDistanceZone.hidden = true;
+            centralDistanceZone.selected = null;
+            centralNearZone = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Central Near Zone' });
+            centralNearZone.selected = null;
+            centralNearZone.hidden = true;
+        }
+    };
+    SynergeyesComponent.prototype.hiddenParameters = function (parameter) {
+        if (parameter.name === 'Central Distance Zone' || parameter.name === 'Add Powers' || parameter.name === 'Central Near Zone') {
+            var dominance = void 0;
+            var value = void 0;
+            dominance = lodash__WEBPACK_IMPORTED_MODULE_9__["find"](this.product.parameters, { name: 'Dominance' });
+            value = (dominance.selected !== null && dominance.selected !== undefined);
+            return value ? parameter.hidden : true;
+        }
+        return false;
     };
     SynergeyesComponent.prototype.format = function (value) {
         var flat;
@@ -11062,7 +11127,7 @@ var SynergeyesComponent = /** @class */ (function () {
         lodash__WEBPACK_IMPORTED_MODULE_9__["each"](this.detail.parameters, function (item) {
             lodash__WEBPACK_IMPORTED_MODULE_9__["each"](paramet, function (productSelected) {
                 if (productSelected.name === item.name) {
-                    if (productSelected.name === 'Warranty') {
+                    if (productSelected.name === 'Warranty' || productSelected.name === 'Profile') {
                         item.selected = productSelected.selected === 'Yes' ? true : false;
                     }
                     else {
@@ -11073,7 +11138,8 @@ var SynergeyesComponent = /** @class */ (function () {
         });
         if (this.typeEdit === 1) {
             this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-            this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters }) + ']';
+            this.productRequested.detail = '[' + JSON.stringify({ name: this.productCode.name,
+                eye: this.detail.eye, parameters: this.detail.parameters }) + ']';
             this.productRequested.observations = this.observations;
             this.productRequested.price = this.price;
             this.productRequested.quantity = this.quantity;
@@ -11083,7 +11149,8 @@ var SynergeyesComponent = /** @class */ (function () {
         }
         else {
             this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-            this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters }) + ']';
+            this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.productCode.name,
+                eye: this.detail.eye, parameters: this.detail.parameters }) + ']';
             this.productRequestedAux.observations = this.observations;
             this.productRequestedAux.price = this.price;
             this.productRequestedAux.quantity = this.quantity;
@@ -11097,7 +11164,7 @@ var SynergeyesComponent = /** @class */ (function () {
         var paramet = this.product.parameters;
         lodash__WEBPACK_IMPORTED_MODULE_9__["each"](paramet, function (productSelected) {
             if (productSelected.selected === null || productSelected.selected === undefined) {
-                if (productSelected.name !== 'Add') {
+                if (productSelected.name !== 'Add' && productSelected.name !== 'Dominance' && productSelected.name !== 'Central Near Zone' && productSelected.name !== 'Central Distance Zone') {
                     valido = false;
                 }
             }
@@ -11818,12 +11885,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _protocol_client_protocol_client_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./protocol-client/protocol-client.component */ "./src/app/layout/protocol-client/protocol-client.component.ts");
 /* harmony import */ var _user_detail_user_shipping_protocol_shipping_protocol_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./user/detail-user/shipping-protocol/shipping-protocol.component */ "./src/app/layout/user/detail-user/shipping-protocol/shipping-protocol.component.ts");
 /* harmony import */ var _invoice_client_qbo_invoice_client_qbo_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./invoice-client-qbo/invoice-client-qbo.component */ "./src/app/layout/invoice-client-qbo/invoice-client-qbo.component.ts");
+/* harmony import */ var _manage_consultation_form_consultation_form_list_consultation_form_list_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./manage-consultation-form/consultation-form-list/consultation-form-list.component */ "./src/app/layout/manage-consultation-form/consultation-form-list/consultation-form-list.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -11887,6 +11956,10 @@ var routes = [
             {
                 path: 'details-order/:id/view', component: _client_details_order_details_order_component__WEBPACK_IMPORTED_MODULE_9__["DetailsOrderComponent"],
                 data: { option: 'OrdersDetail' },
+            },
+            {
+                path: 'list-consultation-form', component: _manage_consultation_form_consultation_form_list_consultation_form_list_component__WEBPACK_IMPORTED_MODULE_33__["ConsultationFormListComponent"],
+                data: { option: 'ConsultationFormList' }
             },
             {
                 path: 'warranty', component: _warranty_warranty_component__WEBPACK_IMPORTED_MODULE_18__["WarrantyComponent"],
@@ -12209,6 +12282,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _details_order_supplier_supplier_orion_supplier_orion_component__WEBPACK_IMPORTED_MODULE_98__ = __webpack_require__(/*! ./details-order-supplier/supplier-orion/supplier-orion.component */ "./src/app/layout/details-order-supplier/supplier-orion/supplier-orion.component.ts");
 /* harmony import */ var _edit_order_orion_orion_orion_component__WEBPACK_IMPORTED_MODULE_99__ = __webpack_require__(/*! ./edit-order/orion/orion/orion.component */ "./src/app/layout/edit-order/orion/orion/orion.component.ts");
 /* harmony import */ var _commons_module__WEBPACK_IMPORTED_MODULE_100__ = __webpack_require__(/*! ../commons.module */ "./src/app/commons.module.ts");
+/* harmony import */ var _manage_consultation_form_consultation_form_list_consultation_form_list_component__WEBPACK_IMPORTED_MODULE_101__ = __webpack_require__(/*! ./manage-consultation-form/consultation-form-list/consultation-form-list.component */ "./src/app/layout/manage-consultation-form/consultation-form-list/consultation-form-list.component.ts");
+/* harmony import */ var _manage_consultation_form_modal_change_status_modal_change_status_component__WEBPACK_IMPORTED_MODULE_102__ = __webpack_require__(/*! ./manage-consultation-form/modal-change-status/modal-change-status.component */ "./src/app/layout/manage-consultation-form/modal-change-status/modal-change-status.component.ts");
+/* harmony import */ var _manage_consultation_form_detail_consultation_form_detail_consultation_form_component__WEBPACK_IMPORTED_MODULE_103__ = __webpack_require__(/*! ./manage-consultation-form/detail-consultation-form/detail-consultation-form.component */ "./src/app/layout/manage-consultation-form/detail-consultation-form/detail-consultation-form.component.ts");
+/* harmony import */ var _manage_consultation_form_edit_consultation_form_edit_consultation_form_component__WEBPACK_IMPORTED_MODULE_104__ = __webpack_require__(/*! ./manage-consultation-form/edit-consultation-form/edit-consultation-form.component */ "./src/app/layout/manage-consultation-form/edit-consultation-form/edit-consultation-form.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -12271,6 +12348,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 // import { DetailProductModalComponent } from './basket/client/modals/detail-product/detail-product';
+
+
+
+
 
 
 
@@ -12430,7 +12511,11 @@ var LayoutModule = /** @class */ (function () {
                 _user_modals_modal_user_status_modal_user_status_component__WEBPACK_IMPORTED_MODULE_96__["ModalUserStatusComponent"],
                 _basket_modals_detail_product_detail_orion_detail_orion_component__WEBPACK_IMPORTED_MODULE_97__["DetailOrionComponent"],
                 _details_order_supplier_supplier_orion_supplier_orion_component__WEBPACK_IMPORTED_MODULE_98__["SupplierOrionComponent"],
-                _edit_order_orion_orion_orion_component__WEBPACK_IMPORTED_MODULE_99__["OrionComponent"]
+                _edit_order_orion_orion_orion_component__WEBPACK_IMPORTED_MODULE_99__["OrionComponent"],
+                _manage_consultation_form_consultation_form_list_consultation_form_list_component__WEBPACK_IMPORTED_MODULE_101__["ConsultationFormListComponent"],
+                _manage_consultation_form_modal_change_status_modal_change_status_component__WEBPACK_IMPORTED_MODULE_102__["ModalChangeStatusComponent"],
+                _manage_consultation_form_detail_consultation_form_detail_consultation_form_component__WEBPACK_IMPORTED_MODULE_103__["DetailConsultationFormComponent"],
+                _manage_consultation_form_edit_consultation_form_edit_consultation_form_component__WEBPACK_IMPORTED_MODULE_104__["EditConsultationFormComponent"]
             ],
             entryComponents: [
                 _shipping_address_modals_shipping_address_modal_shipping_address_modal_component__WEBPACK_IMPORTED_MODULE_9__["ShippingAddressModalComponent"],
@@ -12477,7 +12562,10 @@ var LayoutModule = /** @class */ (function () {
                 _manage_customer_orders_modal_send_invoice_modal_send_invoice_component__WEBPACK_IMPORTED_MODULE_95__["ModalSendInvoiceComponent"],
                 _user_modals_modal_user_status_modal_user_status_component__WEBPACK_IMPORTED_MODULE_96__["ModalUserStatusComponent"],
                 _basket_modals_detail_product_detail_orion_detail_orion_component__WEBPACK_IMPORTED_MODULE_97__["DetailOrionComponent"],
-                _edit_order_orion_orion_orion_component__WEBPACK_IMPORTED_MODULE_99__["OrionComponent"]
+                _edit_order_orion_orion_orion_component__WEBPACK_IMPORTED_MODULE_99__["OrionComponent"],
+                _manage_consultation_form_modal_change_status_modal_change_status_component__WEBPACK_IMPORTED_MODULE_102__["ModalChangeStatusComponent"],
+                _manage_consultation_form_detail_consultation_form_detail_consultation_form_component__WEBPACK_IMPORTED_MODULE_103__["DetailConsultationFormComponent"],
+                _manage_consultation_form_edit_consultation_form_edit_consultation_form_component__WEBPACK_IMPORTED_MODULE_104__["EditConsultationFormComponent"]
             ],
             providers: [
                 _shared_services__WEBPACK_IMPORTED_MODULE_10__["BusinessTypeService"],
@@ -13056,6 +13144,1015 @@ var ManageCommissionComponent = /** @class */ (function () {
             ngx_spinner__WEBPACK_IMPORTED_MODULE_7__["NgxSpinnerService"]])
     ], ManageCommissionComponent);
     return ManageCommissionComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/consultation-form-list/consultation-form-list.component.html":
+/*!**************************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/consultation-form-list/consultation-form-list.component.html ***!
+  \**************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row page-header-fixed\">\n\t<div class=\"header-body\">\n\t\t<h4 class=\"page-header\">\n\t\t\t{{ 'Consultation Form List' | translate }}\n\t\t</h4>\n\t\t<ol class=\"breadcrumb\">\n\t\t\t<li class=\"breadcrumb-item\">\n\t\t\t\t<a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\"><i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n\t\t\t</li>\n\t\t\t<li class=\"breadcrumb-item active\">\n\t\t\t\t<i class=\"fa fa-folder-open\"></i> {{ 'Consultation Form List' | translate}}</li>\n\t\t</ol>\n\t</div>\n</div>\n<div class=\"sp-container\">\n  <div class=\"row \">\n    <div class=\"col col-xl-12 col-lg-12\">\n      <div class=\"card mb-3\">\n        <div class=\"card-header d-flex\">\n          <div class=\"align-self-center\">\n            {{ 'All Consultation Forms' | translate }}\n          </div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"row filters\">\n\t\t\t\t\t<div class=\"col-xl-3 filter\">\n\t\t\t\t\t\t<div class=\"row search margin\">\n\t\t\t\t\t\t\t<div class=\"col col-xl-12 col-lg-12\">\n\t\t\t\t\t\t\t\t<input [(ngModel)]=\"searchName\" class=\"form-control\" (keyup)=\"getItems($event)\" placeholder=\"{{'Enter search' | translate }}\">\n\t\t\t\t\t\t\t\t<i class=\"fa fa-search\"></i>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t <div class=\"col-xl-3 filter search\">\n\t\t\t\t\t\t<select class=\"form-control\" name=\"selectedStatus\" id=\"selectedStatus\" [(ngModel)]=\"selectedStatus\" (change)=\"filter()\">\n\t\t\t\t\t\t\t<option value=\"\" disabled [selected]=\"true\" translate>Select status</option>\n\t\t\t\t\t\t\t<option *ngFor=\"let status of filterStatus\" value=\"{{status.id}}\">{{ status.name | translate }}</option>\n\t\t\t\t\t\t</select>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-xl-3 filter\">\n\t\t\t\t\t\t\t<div class=\"input-group filter-date\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" placeholder=\"yyyy-mm-dd\" name=\"fechaSelec\" [(ngModel)]=\"fechaSelec\" ngbDatepicker #d=\"ngbDatepicker\" (ngModelChange)=\"filter1(fechaSelec)\">\n\t\t\t\t\t\t\t\t<div class=\"input-group-append\">\n\t\t\t\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" (click)=\"d.toggle()\" type=\"button\">\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-calendar\"></i>\n\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-xl-2 btn-clean filter-date\">\n\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" translate [hidden]=\"!valid1\" (click)=\"clean()\">Clean Filters</button>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"card-body table-responsive\">\n\t\t\t\t\t<table class=\"table\">\n\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<th class=\"table-tr header-column\">\n\t\t\t\t\t\t\t\t\t<span title=\"{{ 'Number' | translate }}\">{{ 'Number' | translate }}\n\t\t\t\t\t\t\t\t\t\t<i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('number')\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span [hidden]=\"orderByField != 'number' || typeSort === 0\">\n\t\t\t\t\t\t\t\t\t\t<i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('number')\"></i>\n\t\t\t\t\t\t\t\t\t\t<i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('number')\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th *ngIf=\"user.role.idRole !== 3\" class=\"table-tr header-column\">\n\t\t\t\t\t\t\t\t\t<span title=\"{{ 'Customer' | translate }}\">{{ 'Customer' | translate }}\n\t\t\t\t\t\t\t\t\t\t<i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('client')\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span [hidden]=\"orderByField != 'client' || typeSort === 0\">\n\t\t\t\t\t\t\t\t\t\t<i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('client')\"></i>\n\t\t\t\t\t\t\t\t\t\t<i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('client')\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th class=\"table-tr header-column\">\n\t\t\t\t\t\t\t\t\t<span title=\"{{ 'Customer' | translate }}\">{{ 'Patient' | translate }}\n\t\t\t\t\t\t\t\t\t\t<i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('client')\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span [hidden]=\"orderByField != 'client' || typeSort === 0\">\n\t\t\t\t\t\t\t\t\t\t<i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('client')\"></i>\n\t\t\t\t\t\t\t\t\t\t<i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('client')\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th class=\"table-tr header-column\">\n\t\t\t\t\t\t\t\t\t<span title=\"{{ 'Invoice Date' | translate }}\">{{ 'Date' | translate }}\n\t\t\t\t\t\t\t\t\t\t<i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('date')\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span [hidden]=\"orderByField != 'date' || typeSort === 0\">\n\t\t\t\t\t\t\t\t\t\t<i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('date')\"></i>\n\t\t\t\t\t\t\t\t\t\t<i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('date')\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th class=\"table-tr header-column\">\n\t\t\t\t\t\t\t\t\t<span title=\"{{ 'Status' | translate }}\">{{ 'Status' | translate }}\n\t\t\t\t\t\t\t\t\t\t<i title=\"Sort\" [hidden]=\"typeSort !== 0\" class=\"fa fa-sort\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('status')\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<span [hidden]=\"orderByField != 'status' || typeSort === 0\">\n\t\t\t\t\t\t\t\t\t\t<i title=\"Ascendente\" [hidden]=\"typeSort !== 1\" class=\"fa fa-sort-down\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('status')\"></i>\n\t\t\t\t\t\t\t\t\t\t<i title=\"Descendente\" [hidden]=\"typeSort !== 2\" class=\"fa fa-sort-up\" (click)=\"reverseSort = !reverseSort; sortConsultationForm('status')\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t\t\t<th class=\"table-tr\"></th>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t<tbody>\n\t\t\t\t\t\t\t<tr *ngFor=\"let consultation of consultationList\">\n\t\t\t\t\t\t\t\t<td class=\"table-tr td-table\">{{consultation.trackingNumber}}</td>\n\t\t\t\t\t\t\t\t<td *ngIf=\"user.role.idRole !== 3\" class=\"table-tr td-table\">{{consultation.nameUser}}</td>\n\t\t\t\t\t\t\t\t<td class=\"table-tr td-table\">{{consultation.patientName  }}</td>\n\t\t\t\t\t\t\t\t<td class=\"table-tr td-table\">{{consultation.date  | date:'yyyy-MM-dd'}}</td>\n\t\t\t\t\t\t\t\t<td [ngClass]=\"{'pending': consultation.status === 0,'processed': consultation.status === 1, 'ready': consultation.status === 2, 'shipped': consultation.status === 3, 'canceled': consultation.status === 4 }\" \n\t\t\t\t\t\t\t\tclass=\"table-tr\" class=\"pending\">\n\t\t\t\t\t\t\t\t\t<div>{{getStatus(consultation.status) | translate}}</div>\n\t\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t\t<td class=\"table-tr\">\n\t\t\t\t\t\t\t\t\t<div class=\"d-flex flex-row justify-content-around\">\n\t\t\t\t\t\t\t\t\t\t<div ngbDropdown class=\"d-inline-block dropdown\">\n\t\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-dropdown-main\" ngbDropdownToggle>{{ 'Actions' | translate }}</button>\n\t\t\t\t\t\t\t\t\t\t\t<div ngbDropdownMenu>\n\t\t\t\t\t\t\t\t\t\t\t\t<button *ngIf=\"consultation.status === 0 && user.role.idRole === 1\" class=\"dropdown-item\" (click)=\"open(consultation,'edit')\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-edit\"></i> {{ 'Edit' | translate }}</button>\n\t\t\t\t\t\t\t\t\t\t\t\t<button class=\"dropdown-item\" (click)=\"open(consultation,'view')\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-eye\"></i> {{ 'View' | translate }}</button>\n\t\t\t\t\t\t\t\t\t\t\t\t<button *ngIf=\"user.role.idRole === 1\" class=\"dropdown-item\" (click)=\"changeStatus(consultation)\">\n                          <i class=\"fa fa-cog\"></i> {{ 'Change Status' | translate }}</button>\n\t\t\t\t\t\t\t\t\t\t\t\t<button *ngIf=\"consultation.status !== 0\" class=\"dropdown-item\" (click)=\"download(consultation)\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-download\"></i> {{ 'Download' | translate }}</button>\n\t\t\t\t\t\t\t\t\t\t\t\t<button *ngIf=\"user.role.idRole === 1\" class=\"dropdown-item\" (click)=\"cancel(consultation)\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-ban\"></i> {{ 'Cancel' | translate }}</button>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t</tbody>\n\t\t\t\t\t</table>\n\t\t\t\t\t<div class=\"table-empty\" [hidden]=\"consultationList.length !== 0\" translate>\n\t\t\t\t\t\t<p class=\"no-records\">\n\t\t\t\t\t\t\t{{ 'No records have been added yet' | translate }}\n\t\t\t\t\t\t</p>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"pagination-list\" [hidden]=\"consultationList.length === 0\">\n\t\t\t\t\t\t<ngb-pagination class=\"d-flex justify-content-end\"  [collectionSize]=\"consultationList.length\"\n\t\t\t\t\t\t\t[(page)]=\"advancedPagination\" [maxSize]=\"5\" [pageSize]=\"itemPerPage\" [boundaryLinks]=\"true\">\n\t\t\t\t\t\t</ngb-pagination>\n\t\t\t\t\t\t<span class=\"count-elements\">{{ consultationList.length + ' ' + ('of' | translate) + ' ' + consultationList.length + ' ' + ('register(s)' | translate)\n\t\t\t\t\t\t\t}}\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t</div>\n\n      </div>\n    </div>\n  </div>\n</div>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/consultation-form-list/consultation-form-list.component.scss":
+/*!**************************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/consultation-form-list/consultation-form-list.component.scss ***!
+  \**************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.table-tr:nth-child(1) {\n  width: 15%; }\n.table-tr:nth-child(2) {\n  width: 18%; }\n.table-tr:nth-child(3) {\n  width: 18%; }\n.table-tr:nth-child(4) {\n  width: 15%; }\n.table-tr:nth-child(5) {\n  width: 12%; }\n.search {\n  padding-bottom: 1.0rem;\n  padding-top: 1.0rem; }\n.search i {\n    position: absolute;\n    top: 10px;\n    right: 25px;\n    color: #ced4da; }\n.page-header-fixed {\n  margin-left: 15px; }\n.filters {\n  padding-left: 2%;\n  padding-right: 2%;\n  display: -webkit-box;\n  display: flex;\n  flex-wrap: wrap;\n  -webkit-box-pack: start;\n          justify-content: flex-start;\n  padding-top: 2.0rem; }\n.filters .filter-date {\n    margin-top: 14px !important; }\n.header-body {\n  width: 100%;\n  background: #ffffff;\n  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.header-body .link {\n    color: #1756a6;\n    padding-left: 0px; }\n.header-body .breadcrumb {\n    background-color: transparent;\n    border-radius: 0px;\n    border-bottom: 0px;\n    padding-top: 0px;\n    padding-bottom: 0px; }\n.header-body h4 {\n    padding-left: 15px; }\n.pending {\n  color: #ffffff; }\n.pending > div {\n    background: #B71C1C;\n    border-radius: 12px;\n    text-align: center; }\n.processed {\n  color: #ffffff; }\n.processed > div {\n    background: #FF6F00;\n    border-radius: 12px;\n    text-align: center; }\n.ready {\n  color: #ffffff; }\n.ready > div {\n    background: #01579B;\n    border-radius: 12px;\n    text-align: center; }\n.shipped {\n  color: #ffffff; }\n.shipped > div {\n    background: #1B5E20;\n    border-radius: 12px;\n    text-align: center; }\n.canceled {\n  color: #ffffff; }\n.canceled > div {\n    background: #333335;\n    border-radius: 12px;\n    text-align: center; }\n.dropdown-item {\n  padding: 0.25rem 1.15rem; }\n"
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/consultation-form-list/consultation-form-list.component.ts":
+/*!************************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/consultation-form-list/consultation-form-list.component.ts ***!
+  \************************************************************************************************************/
+/*! exports provided: ConsultationFormListComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConsultationFormListComponent", function() { return ConsultationFormListComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_services_consultation_form_consultation_form_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../shared/services/consultation-form/consultation-form.service */ "./src/app/shared/services/consultation-form/consultation-form.service.ts");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _http_user_storage_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../http/user-storage.service */ "./src/app/http/user-storage.service.ts");
+/* harmony import */ var _modal_change_status_modal_change_status_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modal-change-status/modal-change-status.component */ "./src/app/layout/manage-consultation-form/modal-change-status/modal-change-status.component.ts");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../shared/services/alertify/alertify.service */ "./src/app/shared/services/alertify/alertify.service.ts");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _detail_consultation_form_detail_consultation_form_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../detail-consultation-form/detail-consultation-form.component */ "./src/app/layout/manage-consultation-form/detail-consultation-form/detail-consultation-form.component.ts");
+/* harmony import */ var _edit_consultation_form_edit_consultation_form_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../edit-consultation-form/edit-consultation-form.component */ "./src/app/layout/manage-consultation-form/edit-consultation-form/edit-consultation-form.component.ts");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/FileSaver.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_13__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var ConsultationFormListComponent = /** @class */ (function () {
+    function ConsultationFormListComponent(consultationFormService, userStorageService, modalService, translate, alertify, notification, spinner) {
+        this.consultationFormService = consultationFormService;
+        this.userStorageService = userStorageService;
+        this.modalService = modalService;
+        this.translate = translate;
+        this.alertify = alertify;
+        this.notification = notification;
+        this.spinner = spinner;
+        this.consultationList = new Array;
+        this.consultationListAux = new Array;
+        this.orderByField = 'number';
+        this.reverseSort = true;
+        this.typeSort = 0;
+        this.itemPerPage = 8;
+        this.filterStatus = [{ id: 0, name: 'Pending' },
+            { id: 1, name: 'Processed' },
+            { id: 2, name: 'Ready to Ship' },
+            { id: 3, name: 'Shipped' }
+        ];
+        this.valid1 = false;
+        this.user = JSON.parse(userStorageService.getCurrentUser());
+    }
+    ConsultationFormListComponent.prototype.ngOnInit = function () {
+        this.getListConsultationForms();
+        this.advancedPagination = 1;
+        this.selectedStatus = '';
+        this.tamano = 'undefined';
+        this.model = { year: 0, month: 0, day: 0 };
+    };
+    ConsultationFormListComponent.prototype.pageChange = function (event) {
+        var startItem = (event - 1) * this.itemPerPage;
+        var endItem = event * this.itemPerPage;
+        this.consultationList = this.consultationListAux.slice(startItem, endItem);
+    };
+    ConsultationFormListComponent.prototype.getListConsultationForms = function () {
+        var _this = this;
+        this.spinner.show();
+        this.consultationFormService.allConsultationsFormByUser$().subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_2__["CodeHttp"].ok) {
+                _this.consultationList = res.data;
+                _this.consultationListAux = res.data;
+                _this.spinner.hide();
+            }
+            else {
+                console.log(res.code);
+                _this.spinner.hide();
+            }
+        }, function (error) {
+            console.log('error', error);
+            _this.spinner.hide();
+        });
+    };
+    ConsultationFormListComponent.prototype.sortConsultationForm = function (key) {
+        if (this.orderByField !== key) {
+            this.typeSort = 0;
+            this.reverseSort = false;
+        }
+        this.orderByField = key;
+        if (this.orderByField !== 'number') {
+            this.typeSort++;
+            if (this.typeSort > 2) {
+                this.typeSort = 0;
+                this.orderByField = 'number';
+                key = 'number';
+                this.reverseSort = true;
+                this.getListConsultationForms();
+            }
+        }
+        var consultationSort = this.consultationListAux.sort(function (a, b) {
+            var x = a[key].toString().toLowerCase();
+            var y = b[key].toString().toLowerCase();
+            return x < y ? -1 : x > y ? 1 : 0;
+        });
+        this.consultationListAux = consultationSort;
+        if (this.reverseSort) {
+            this.consultationListAux = consultationSort.reverse();
+        }
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+    };
+    ConsultationFormListComponent.prototype.moveFirstPage = function () {
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+    };
+    ConsultationFormListComponent.prototype.getStatus = function (value) {
+        switch (value) {
+            case 0:
+                status = 'Pending';
+                break;
+            case 1:
+                status = 'Processed';
+                break;
+            case 2:
+                status = 'Ready to Ship';
+                break;
+            case 3:
+                status = 'Shipped';
+                break;
+            case 4:
+                status = 'Canceled';
+                break;
+        }
+        return status;
+    };
+    ConsultationFormListComponent.prototype.getItems = function (ev) {
+        this.consultationList = this.consultationListAux;
+        var val = ev.target.value;
+        this.searchName = val;
+        var valorStatus = this.selectedStatus;
+        var lista = [];
+        this.valid1 = true;
+        if (val && val.trim() !== '') {
+            var name_1 = val;
+            if (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](valorStatus) === '' && this.tamano.length === 9) {
+                // If it hasn't select status and date
+                this.consultationList = this.consultationList.filter(function (item) {
+                    return (item.nameUser.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+                        item.patientName.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+                        item.trackingNumber.toLowerCase().indexOf(val.toLowerCase()) > -1);
+                });
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](valorStatus) !== '' && this.tamano.length === 9) {
+                // If it select status and not date
+                this.filterStatusNombre(name_1, valorStatus);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](valorStatus) === '' && this.tamano.length === 15) {
+                // If it select date and not status
+                this.filterDateNombre(name_1);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](valorStatus) !== '' && this.tamano.length === 15) {
+                // If it write name and select date
+                this.fullFilter(name_1, valorStatus);
+            }
+        }
+        else if (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](valorStatus) !== '') {
+            // If it erase name and select status
+            this.filter();
+        }
+        else if (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](valorStatus) === '') {
+            // If it select status and erase name y don't select status
+            if (this.tamano.length === 15) {
+                this.valid1 = true;
+                var fecha_1;
+                fecha_1 = this.getFecha();
+                lodash__WEBPACK_IMPORTED_MODULE_4__["filter"](this.consultationListAux, function (consultation) {
+                    var fechaList;
+                    fechaList = lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](consultation.date.slice(0, 10));
+                    if (lodash__WEBPACK_IMPORTED_MODULE_4__["isEqual"](fecha_1, fechaList)) {
+                        lista.push(consultation);
+                    }
+                });
+                this.consultationList = lista;
+            }
+        }
+    };
+    ConsultationFormListComponent.prototype.filter = function () {
+        if (this.selectedStatus !== '') {
+            this.valid1 = true;
+            if (this.tamano.length === 9 &&
+                (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](this.searchName).length === 0 ||
+                    this.searchName.trim() === '')) {
+                // tslint:disable-next-line:radix
+                this.consultationList = lodash__WEBPACK_IMPORTED_MODULE_4__["filter"](this.consultationListAux, { 'status': parseInt(this.selectedStatus) });
+            }
+            else if (this.tamano.length === 15 &&
+                (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](this.searchName).length === 0 ||
+                    this.searchName.trim() === '')) {
+                this.filterStatusDate(this.selectedStatus);
+            }
+            else if (this.tamano.length === 9 && this.searchName.trim() !== '') {
+                var nombre = this.searchName;
+                this.filterStatusNombre(nombre, this.selectedStatus);
+            }
+            else if (this.tamano.length === 15 && this.searchName.trim() !== '') {
+                var nombre = this.searchName;
+                this.fullFilter(nombre, this.selectedStatus);
+            }
+        }
+    };
+    ConsultationFormListComponent.prototype.filter1 = function (value) {
+        this.model = value;
+        var valorStatus = this.selectedStatus;
+        this.tamano = this.valueDate(this.model);
+        var lista = [];
+        if (this.tamano.length === 15) {
+            this.valid1 = true;
+            if (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](valorStatus) === '' &&
+                (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](this.searchName).length === 0 ||
+                    this.searchName.trim() === '')) {
+                var fecha_2;
+                fecha_2 = this.getFecha();
+                lodash__WEBPACK_IMPORTED_MODULE_4__["filter"](this.consultationListAux, function (consultation) {
+                    var fechaList;
+                    fechaList = lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](consultation.date.slice(0, 10));
+                    if (lodash__WEBPACK_IMPORTED_MODULE_4__["isEqual"](fecha_2, fechaList)) {
+                        lista.push(consultation);
+                    }
+                });
+                this.consultationList = lista;
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](valorStatus) !== '' &&
+                (lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](this.searchName).length === 0 ||
+                    this.searchName.trim() === '')) {
+                this.filterStatusDate(valorStatus);
+            }
+            else if (this.searchName.trim() !== '' &&
+                lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](valorStatus) === '') {
+                this.filterDateNombre(this.searchName);
+            }
+            else if (this.searchName.trim() !== '' &&
+                lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](valorStatus) !== '') {
+                this.fullFilter(this.searchName, valorStatus);
+            }
+        }
+    };
+    ConsultationFormListComponent.prototype.filterStatusNombre = function (nombre, status) {
+        var lista = [];
+        lodash__WEBPACK_IMPORTED_MODULE_4__["filter"](this.consultationListAux, function (consultation) {
+            if ((lodash__WEBPACK_IMPORTED_MODULE_4__["includes"](consultation.nameUser.toLowerCase(), nombre.toLowerCase()) ||
+                consultation.patientName.toLowerCase().indexOf(nombre.toLowerCase()) > -1 ||
+                consultation.trackingNumber.toLowerCase().indexOf(nombre.toLowerCase()) > -1) &&
+                // tslint:disable-next-line:radix
+                lodash__WEBPACK_IMPORTED_MODULE_4__["isEqual"](parseInt(status), consultation.status)) {
+                lista.push(consultation);
+            }
+        });
+        this.consultationList = lista;
+    };
+    ConsultationFormListComponent.prototype.filterDateNombre = function (nombre) {
+        var lista = [];
+        var fecha;
+        fecha = this.getFecha();
+        lodash__WEBPACK_IMPORTED_MODULE_4__["filter"](this.consultationListAux, function (consultation) {
+            var fechaList = lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](consultation.date.slice(0, 10));
+            if ((lodash__WEBPACK_IMPORTED_MODULE_4__["includes"](consultation.nameUser.toLowerCase(), nombre.toLowerCase()) ||
+                consultation.patientName.toLowerCase().indexOf(nombre.toLowerCase()) > -1 ||
+                consultation.trackingNumber.toLowerCase().indexOf(nombre.toLowerCase()) > -1) &&
+                lodash__WEBPACK_IMPORTED_MODULE_4__["isEqual"](fecha, fechaList)) {
+                lista.push(consultation);
+            }
+        });
+        this.consultationList = lista;
+    };
+    ConsultationFormListComponent.prototype.filterStatusDate = function (status) {
+        var lista = [];
+        var fecha;
+        fecha = this.getFecha();
+        lodash__WEBPACK_IMPORTED_MODULE_4__["filter"](this.consultationListAux, function (consultation) {
+            var fechaList;
+            fechaList = lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](consultation.date.slice(0, 10));
+            // tslint:disable-next-line:radix
+            if (lodash__WEBPACK_IMPORTED_MODULE_4__["isEqual"](fecha, fechaList) && lodash__WEBPACK_IMPORTED_MODULE_4__["isEqual"](parseInt(status), consultation.status)) {
+                lista.push(consultation);
+            }
+        });
+        this.consultationList = lista;
+    };
+    ConsultationFormListComponent.prototype.getFecha = function () {
+        var ano;
+        var mes;
+        var dia;
+        var fecha;
+        // Year
+        ano = this.model.year;
+        // Month
+        this.model.month < 10
+            ? (mes = '0' + this.model.month)
+            : (mes = this.model.month);
+        // Day
+        this.model.day < 10 ? (dia = '0' + this.model.day) : (dia = this.model.day);
+        // FechaFiltro
+        fecha = ano + '-' + mes + '-' + dia;
+        return fecha;
+    };
+    ConsultationFormListComponent.prototype.fullFilter = function (nombre, status) {
+        // FechaFiltro
+        var fecha;
+        fecha = this.getFecha();
+        var lista = [];
+        // actual list
+        lodash__WEBPACK_IMPORTED_MODULE_4__["filter"](this.consultationListAux, function (consultation) {
+            var fechaList = lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](consultation.date.slice(0, 10));
+            if ((lodash__WEBPACK_IMPORTED_MODULE_4__["includes"](consultation.nameUser.toLowerCase(), nombre.toLowerCase()) ||
+                consultation.patientName.toLowerCase().indexOf(nombre.toLowerCase()) > -1 ||
+                consultation.trackingNumber.toLowerCase().indexOf(nombre.toLowerCase()) > -1) &&
+                // tslint:disable-next-line:radix
+                lodash__WEBPACK_IMPORTED_MODULE_4__["isEqual"](fecha, fechaList) && lodash__WEBPACK_IMPORTED_MODULE_4__["isEqual"](parseInt(status), consultation.status)) {
+                lista.push(consultation);
+            }
+        });
+        this.consultationList = lista;
+    };
+    ConsultationFormListComponent.prototype.valueDate = function (valor) {
+        var str;
+        var o = [];
+        o.push(valor);
+        str = lodash__WEBPACK_IMPORTED_MODULE_4__["toString"](o);
+        return str;
+    };
+    ConsultationFormListComponent.prototype.clean = function () {
+        this.getListConsultationForms();
+        this.valid1 = false;
+        this.selectedStatus = '';
+        this.tamano = 'undefined';
+        this.fechaSelec = null;
+        this.searchName = '';
+    };
+    ConsultationFormListComponent.prototype.changeStatus = function (consultation) {
+        var _this = this;
+        var modalRef = this.modalService.open(_modal_change_status_modal_change_status_component__WEBPACK_IMPORTED_MODULE_7__["ModalChangeStatusComponent"], { backdrop: 'static', keyboard: false, windowClass: 'modal-content-border modal-dialog-status' });
+        modalRef.componentInstance.consultation = consultation;
+        modalRef.result.then(function (result) {
+            _this.ngOnInit();
+        }, function (reason) {
+        });
+    };
+    ConsultationFormListComponent.prototype.open = function (consultation, action) {
+        var _this = this;
+        switch (action) {
+            case 'view':
+                var modalRef = this.modalService.open(_detail_consultation_form_detail_consultation_form_component__WEBPACK_IMPORTED_MODULE_11__["DetailConsultationFormComponent"], { size: 'lg', windowClass: 'modal-content-border modal-dialog-consultation', backdrop: 'static', keyboard: false });
+                modalRef.componentInstance.consultation = consultation;
+                modalRef.componentInstance.read = true;
+                modalRef.result.then(function (result) {
+                    _this.ngOnInit();
+                }, function (reason) {
+                });
+                break;
+            case 'edit':
+                var modalRefEdit = this.modalService.open(_edit_consultation_form_edit_consultation_form_component__WEBPACK_IMPORTED_MODULE_12__["EditConsultationFormComponent"], { size: 'lg', windowClass: 'modal-content-border modal-dialog-consultation', backdrop: 'static', keyboard: false });
+                modalRefEdit.componentInstance.consultation = consultation;
+                modalRefEdit.componentInstance.read = false;
+                modalRefEdit.result.then(function (result) {
+                    _this.ngOnInit();
+                }, function (reason) {
+                });
+                break;
+        }
+    };
+    ConsultationFormListComponent.prototype.download = function (consultation) {
+        this.spinner.show();
+        var self = this;
+        self.consultationFormService.downloadConsultationForm$(consultation.idConsultationForm).subscribe(function (res) {
+            var filename = consultation.trackingNumber + '.pdf';
+            if (res.size > 0) {
+                self.spinner.hide();
+                Object(file_saver__WEBPACK_IMPORTED_MODULE_13__["saveAs"])(res, filename);
+            }
+            else {
+                self.spinner.hide();
+                self.translate.get('File Not Found', { value: 'File Not Found' }).subscribe(function (res1) {
+                    self.notification.error('', res1);
+                });
+            }
+        }, function (error) {
+            self.spinner.hide();
+            self.translate.get('File Not Found', { value: 'File Not Found' }).subscribe(function (res) {
+                self.notification.error('', res);
+            });
+            console.log('error', error);
+        });
+    };
+    ConsultationFormListComponent.prototype.cancel = function (consultation) {
+        var _this = this;
+        this.translate.get('Cancel Consultation Form', { value: 'Cancel Consultation Form' }).subscribe(function (title) {
+            _this.translate.get('Are you sure you want to cancel the consultation form?', { value: 'Are you sure you want to cancel the consultation form?' }).subscribe(function (msg) {
+                _this.alertify.confirm(title, msg, function () {
+                    _this.spinner.show();
+                    _this.consultationFormService.changeStatus$(consultation.idConsultationForm, 4).subscribe(function (res) {
+                        if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_2__["CodeHttp"].ok) {
+                            _this.spinner.hide();
+                            _this.getListConsultationForms();
+                            _this.translate.get('Successfully Canceled', { value: 'Successfully Canceled' }).subscribe(function (res1) {
+                                _this.notification.success('', res1);
+                            });
+                        }
+                        else {
+                            console.log(res.errors[0].detail);
+                        }
+                    }, function (error) {
+                        console.log('error', error);
+                    });
+                }, function () {
+                });
+            });
+        });
+    };
+    ConsultationFormListComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-consultation-form-list',
+            template: __webpack_require__(/*! ./consultation-form-list.component.html */ "./src/app/layout/manage-consultation-form/consultation-form-list/consultation-form-list.component.html"),
+            styles: [__webpack_require__(/*! ./consultation-form-list.component.scss */ "./src/app/layout/manage-consultation-form/consultation-form-list/consultation-form-list.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_shared_services_consultation_form_consultation_form_service__WEBPACK_IMPORTED_MODULE_1__["ConsultationFormService"],
+            _http_user_storage_service__WEBPACK_IMPORTED_MODULE_6__["UserStorageService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_8__["TranslateService"],
+            _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_9__["AlertifyService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_10__["ToastrService"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_5__["NgxSpinnerService"]])
+    ], ConsultationFormListComponent);
+    return ConsultationFormListComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/detail-consultation-form/detail-consultation-form.component.html":
+/*!******************************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/detail-consultation-form/detail-consultation-form.component.html ***!
+  \******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Consultation Form Detail' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modalReference.dismiss()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"content\">\n    <div class=\"row\">\n      <div class=\"col-lg-12\">\n        <div class=\"title\">\n          <span >{{ 'Consultation Form' | translate }}</span>\n        </div>\n        <!--Patient-->\n        <div class=\"col-lg-12 label-title patient-info display-row\">\n          <label>{{ 'Patient Name' | translate }}</label>\n          <!--Input TEXT-->\n          <input  type=\"text\" class=\"form-control \" [disabled]=\"true\" [(ngModel)]=\"consultation.patientName\" >\n        </div>\n        <!--PARAMETERS-->\n\n        <div id=\"consultation-form\">\n          <div>\n            <div class=\"owm\">\n              <div *ngFor=\"let param of generalParams\">\n                <div  *ngIf=\"param.type === 'checkbox'\"  class=\"flex\">\n                  <label class=\"bold \" >{{ param.name | translate }}</label>\n                  <label *ngIf=\"param.selected\" class=\"field-disabled label-check\" >{{ 'X'}}</label>\n                  <label *ngIf=\"!param.selected\" class=\"field-disabled label-check\" >{{ '  '}}</label>\n                </div>\n                <div  *ngIf=\"param.type === 'input'\" class=\"flex\">\n                  <label class=\"bold\" for=\"{{ param.name + 'checkbox' }}\">{{ param.name | translate }}</label>\n                  <input type=\"text\" class=\"form-control\" [(ngModel)]=\"param.selected\" [disabled]=\"true\">\n                </div>\n              </div>\n            </div>\n            <div *ngFor=\"let eyeView of eyes\">\n              <div class=\"eyes\">\n                <div *ngIf=\"eyeView.eye === 'right'\" class=\"col-lg-12\">\n                  <label class=\"bold\" for=\"OD\">{{ 'OD' }}</label>\n                  <label *ngIf=\"eyeView.selected\" class=\"field-disabled\" >{{ 'X'}}</label>\n                  <label *ngIf=\"!eyeView.selected\" class=\"field-disabled\" >{{ '  '}}</label>\n                </div>\n                <div *ngIf=\"eyeView.eye === 'left'\" class=\"col-lg-12\">\n                  <label class=\"bold\" for=\"OS\">{{ 'OS' }}</label>\n                  <label *ngIf=\"eyeView.selected\" class=\"field-disabled\" >{{ 'X'}}</label>\n                  <label *ngIf=\"!eyeView.selected\" class=\"field-disabled\" >{{ '  '}}</label>\n                </div>\n              </div>\n              <div class=\"form-group \" *ngFor=\"let param of eyeView.params; let i = index\">\n                <!--Multiples INPUTS-->\n                <div *ngIf=\"param.type === 'multiple'\" class=\"multiples-params\">\n                  <div class=\"param-titles\">\n                    <span>{{ param.name | translate }}</span>\n                    <span>{{ param.subname | translate }}</span>\n                  </div>\n                  <div class=\"content-params\">\n                    <div class=\"sub-params\" *ngFor=\"let subParam of param.values; let isub = index\">\n                      <span *ngIf=\"subParam.type !== 'select' && subParam.type !== 'radio'\">{{ subParam.name | translate}}</span>\n                      <div *ngIf=\"subParam.type === 'input'\" class=\"text\">\n                        <!--Input TEXT-->\n                        <input *ngIf=\"subParam.type === 'input'\" type=\"text\" class=\"form-control\" [(ngModel)]=\"subParam.selected\" \n                        [disabled]=\"true\">\n                      </div>\n                      <!--Input SELECT-->\n                      <input *ngIf=\"subParam.type === 'select'\" type=\"text\" class=\"form-control selects\" [(ngModel)]=\"subParam.selected\" \n                      [disabled]=\"true\">\n\n                      <!-- Input RADIO -->\n                      <div *ngIf=\"subParam.type === 'radio'\" class=\"radio-buttons\">\n                        <span *ngIf=\"subParam.type === 'radio'\" class=\"name\">{{ subParam.name | translate}}</span>\n                        <div class=\"button-space\">\n                          <label class=\"\">{{ 'Yes' | translate }}</label>\n                          <label *ngIf=\"subParam.selected === 'Yes'\" class=\"field-disabled\" >{{ 'X'}}</label>\n                          <label *ngIf=\"subParam.selected !== 'Yes'\" class=\"field-disabled\" >{{ '  '}}</label>\n                        </div>\n\n                        <div class=\"button-space\">\n                          <label class=\"\">{{ 'No' | translate }}</label>\n                          <label *ngIf=\"subParam.selected === 'No'\" class=\"field-disabled\" >{{ 'X'}}</label>\n                          <label *ngIf=\"subParam.selected !== 'No'\" class=\"field-disabled\" >{{ '  '}}</label>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n\n                <!-- Input RADIO -->\n                <div *ngIf=\"param.type === 'radio'\" class=\"multiples-params\">\n                  <div class=\"param-titles\">\n                    <span>{{ param.name | translate}}</span>\n                  </div>\n\n                  <div class=\"content-params\">\n                    <div class=\"sub-params2\">\n                      <div class=\"radio-buttons\">\n                        <div class=\"button-space \">\n                          <label class=\"\">{{ 'Yes' | translate }}</label>\n                          <label *ngIf=\"param.selected === 'Yes'\" class=\"field-disabled\" >{{ 'X'}}</label>\n                          <label *ngIf=\"param.selected !== 'Yes'\" class=\"field-disabled\" >{{ '  '}}</label>\n                        </div>\n                        <div class=\"button-space\">\n                          <label class=\"\">{{ 'No' | translate }}</label>\n                          <label *ngIf=\"param.selected === 'No'\" class=\"field-disabled\" >{{ 'X'}}</label>\n                          <label *ngIf=\"param.selected !== 'No'\" class=\"field-disabled\" >{{ '  '}}</label>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n\n                <!--Input TEXT DOUBLES-->\n                <div *ngIf=\"param.type === 'input-double'\" class=\"half-display\">\n                  <div class=\"sub-params\" *ngFor=\"let subParam of param.values\">\n                    <span *ngIf=\"subParam.type !== 'select'\">{{ subParam.name | translate }}</span>\n                    <!--Input TEXT-->\n                    <input *ngIf=\"subParam.type === 'input'\" type=\"text\" class=\"form-control\" required [disabled]=\"read\" [(ngModel)]=\"subParam.selected\">\n                  </div>\n                </div>\n\n                <!--Input TEXT-->\n                <div *ngIf=\"param.type === 'input'\" class=\"w-46\">\n                  <label class=\"bold\">{{ param.name| translate }}</label>\n                  <input type=\"text\" class=\"form-control\" required [(ngModel)]=\"param.selected\" [disabled]=\"read\">\n                </div>\n\n                <!--Input TEXTAREA-->\n                <div *ngIf=\"param.type === 'text-area'\">\n                  <label class=\"bold\">{{ param.name| translate }}</label>\n                  <textarea type=\"text\" class=\"form-control\" [(ngModel)]=\"param.selected\" [disabled]=\"read\"></textarea>\n                </div>\n              </div>\n\n            </div>\n\n          </div>\n        </div>\n\n        <!--Fin parameters-->\n        <div *ngIf=\"listFiles.length\" class=\"col-lg-12\">\n          <dt class=\"bold\">{{ 'Documents | Attach of Consultation Form' | translate }}</dt>\n          <table class=\"table\">\n            <thead>\n              <tr>\n                <th width=\"50%\">{{ 'Name' | translate }}</th>\n                <th>{{ 'Size' | translate }}</th>\n                <th>{{ 'Actions' | translate }}</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr *ngFor=\"let item of listFiles\">\n                <td><strong>{{ item?.name }}</strong></td>\n                <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>\n                <td nowrap>\n                  <button type=\"button\" class=\"btn btn-sucess btn-xs\" (click)=\"downloadFile(item)\">\n                    <span class=\"fa fa-download\"></span> {{ 'Download' | translate }}\n                  </button>\n                </td>\n              </tr>\n            </tbody>\n          </table>\n        </div>\n      </div>\n    </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modalReference.dismiss()\">{{ 'Close' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n  </div>\n</div>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/detail-consultation-form/detail-consultation-form.component.scss":
+/*!******************************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/detail-consultation-form/detail-consultation-form.component.scss ***!
+  \******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.content {\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.content .title {\n    text-align: center;\n    padding: 2em; }\n.content .title span {\n      font-weight: 600;\n      font-size: 1.6em; }\n.content .patient-info {\n    padding: 1em 2em;\n    display: -webkit-inline-box;\n    display: inline-flex; }\n.content .patient-info label {\n      flex-wrap: nowrap;\n      font-weight: 600;\n      align-self: flex-end;\n      width: 25%; }\n#consultation-form {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-direction: column;\n  padding: 1em 2em; }\n#consultation-form .bold {\n    font-weight: 600; }\n#consultation-form .flex {\n    display: -webkit-box;\n    display: flex; }\n#consultation-form .owm {\n    display: -webkit-box;\n    display: flex;\n    padding: 0 0 1em 0;\n    -webkit-box-align: center;\n            align-items: center; }\n#consultation-form .owm > div:nth-child(1), #consultation-form .owm > div:nth-child(2) {\n      width: 25%;\n      -ms-grid-row-align: center;\n          align-self: center; }\n#consultation-form .owm > div:nth-child(1) .label-check, #consultation-form .owm > div:nth-child(2) .label-check {\n        height: 2.1vw;\n        width: 2.2vw;\n        padding-right: 10px; }\n#consultation-form .owm > div:nth-child(3) {\n      width: 50%; }\n#consultation-form .owm label {\n      margin-right: 10px;\n      -ms-grid-row-align: center;\n          align-self: center; }\n#consultation-form .eyes {\n    display: -webkit-box;\n    display: flex;\n    text-align: left; }\n#consultation-form .eyes > div:nth-child(1) {\n      display: -webkit-inline-box;\n      display: inline-flex;\n      padding-right: 20px;\n      padding-left: 0;\n      margin: 1.2em 0; }\n#consultation-form .eyes > div:nth-child(1) label {\n        height: 2.1vw;\n        width: 2.2vw;\n        padding-right: 10px; }\n#consultation-form .multiples-params {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n            flex-direction: row;\n    padding-top: 20px;\n    width: 100%;\n    text-align: left; }\n#consultation-form .multiples-params .param-titles {\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      width: 20%;\n      font-weight: 600; }\n#consultation-form .multiples-params .content-params {\n      display: -webkit-box;\n      display: flex;\n      flex-wrap: wrap;\n      width: 80%; }\n#consultation-form .multiples-params .content-params .sub-params {\n        width: 50%;\n        margin: 0.2% 0;\n        padding: 2% 0 0 3%;\n        display: -webkit-box;\n        display: flex;\n        -webkit-box-orient: vertical;\n        -webkit-box-direction: normal;\n                flex-direction: column; }\n#consultation-form .multiples-params .content-params .sub-params span {\n          white-space: nowrap; }\n#consultation-form .multiples-params .content-params .sub-params .text > input {\n          padding: 0.25rem; }\n#consultation-form .multiples-params .content-params .sub-params .params-checkbox {\n          width: 100%; }\n#consultation-form .multiples-params .content-params .sub-params .params-checkbox > input {\n            margin-right: 20px; }\n#consultation-form .multiples-params .content-params .sub-params .selects {\n          padding-left: 5%; }\n#consultation-form .multiples-params .content-params .sub-params2 {\n        width: 32%;\n        margin-left: 17%; }\n#consultation-form .multiples-params .single-checkbox {\n      width: 60%;\n      margin-left: 10%; }\n#consultation-form .multiples-params .single-checkbox > input {\n        margin-right: 20px; }\n#consultation-form .w-46 {\n    width: 49%; }\n#consultation-form .w-46 > label {\n      font-weight: 600;\n      width: 60%;\n      -ms-grid-row-align: center;\n          align-self: center; }\n#consultation-form .left {\n    text-align: left; }\n#consultation-form .half-display {\n    display: -webkit-box;\n    display: flex;\n    width: 100%;\n    flex-wrap: wrap;\n    text-align: left; }\n#consultation-form .half-display > div {\n      width: 49%; }\n#consultation-form .half-display > div > span {\n        font-weight: 600;\n        width: 60%;\n        -ms-grid-row-align: center;\n            align-self: center; }\n#consultation-form .half-display > div:nth-child(1) {\n      margin-right: 2%; }\n.field-disabled {\n  background-color: #e9ecef;\n  opacity: 1;\n  display: block;\n  padding: 0.1rem 0.5rem;\n  font-size: 1rem;\n  line-height: 1.5;\n  color: #495057;\n  background-clip: padding-box;\n  border: 1px solid #ced4da;\n  border-radius: 0.25rem; }\n.radio-buttons {\n  display: -webkit-inline-box;\n  display: inline-flex;\n  width: 100%; }\n.radio-buttons .name {\n    width: 55%; }\n.radio-buttons .button-space {\n    display: -webkit-inline-box;\n    display: inline-flex;\n    margin-left: 1rem;\n    width: 60%; }\n.radio-buttons .button-space label {\n      width: 50%; }\n"
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/detail-consultation-form/detail-consultation-form.component.ts":
+/*!****************************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/detail-consultation-form/detail-consultation-form.component.ts ***!
+  \****************************************************************************************************************/
+/*! exports provided: DetailConsultationFormComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DetailConsultationFormComponent", function() { return DetailConsultationFormComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/FileSaver.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _shared_services_fileConsultationForm_file_consultation_form_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../shared/services/fileConsultationForm/file-consultation-form.service */ "./src/app/shared/services/fileConsultationForm/file-consultation-form.service.ts");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var DetailConsultationFormComponent = /** @class */ (function () {
+    function DetailConsultationFormComponent(modalReference, fileConsultationFormService, spinner) {
+        this.modalReference = modalReference;
+        this.fileConsultationFormService = fileConsultationFormService;
+        this.spinner = spinner;
+        this.listFiles = new Array;
+    }
+    DetailConsultationFormComponent.prototype.ngOnInit = function () {
+        this.detail = JSON.parse(this.consultation.details)[0];
+        this.generalParams = this.detail.generals;
+        this.eyes = this.detail.eyes;
+        this.loadFiles();
+    };
+    DetailConsultationFormComponent.prototype.close = function () {
+        this.modalReference.close();
+    };
+    DetailConsultationFormComponent.prototype.loadFiles = function () {
+        var _this = this;
+        this.fileConsultationFormService.allFileByConsultationForm$(this.consultation.idConsultationForm).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
+                _this.listFiles = res.data;
+            }
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
+    DetailConsultationFormComponent.prototype.downloadFile = function (item) {
+        var _this = this;
+        this.spinner.show();
+        this.fileConsultationFormService.downloadFile$(item.name).subscribe(function (res) {
+            Object(file_saver__WEBPACK_IMPORTED_MODULE_2__["saveAs"])(res, item.name);
+            _this.spinner.hide();
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
+    DetailConsultationFormComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-detail-consultation-form',
+            template: __webpack_require__(/*! ./detail-consultation-form.component.html */ "./src/app/layout/manage-consultation-form/detail-consultation-form/detail-consultation-form.component.html"),
+            styles: [__webpack_require__(/*! ./detail-consultation-form.component.scss */ "./src/app/layout/manage-consultation-form/detail-consultation-form/detail-consultation-form.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbActiveModal"],
+            _shared_services_fileConsultationForm_file_consultation_form_service__WEBPACK_IMPORTED_MODULE_3__["FileConsultationFormService"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_5__["NgxSpinnerService"]])
+    ], DetailConsultationFormComponent);
+    return DetailConsultationFormComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/edit-consultation-form/edit-consultation-form.component.html":
+/*!**************************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/edit-consultation-form/edit-consultation-form.component.html ***!
+  \**************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Consultation Form' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modalReference.dismiss()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"content\">\n    <div class=\"row\">\n        <!--Image-->\n        <div class=\"col-lg-12\">\n          <div class=\"title\">\n            <span >{{ 'Consultation Form' | translate }}</span>\n          </div>\n          <!--Patient-->\n          <div class=\"col-lg-12 patient-info\">\n            <span>{{ 'Patient' | translate }}\n              <!--Input TEXT-->\n              <input  type=\"text\" class=\"form-control \" maxlength=\"20\" required [(ngModel)]=\"consultation.patientName\" >\n            </span>\n        </div>\n        <!--PARAMETERS-->\n        <div id=\"consultation-form\">\n          <div>\n            <div class=\"owm\">\n              <div *ngFor=\"let param of generalParams; let i = index\">\n                <div *ngIf=\"param.type === 'checkbox'\" class=\"button-space custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-n-{{ i }}\" name=\"customRadio-{{ i }}\" [value]=\"param.name\" (change)=\"changeTypeForm(param)\" \n                  class=\"custom-control-input\" [checked]=\"param.name === typeForm\" >\n                  <label class=\"custom-control-label\" for=\"radio-n-{{ i }}\">{{ param.name | translate }}</label>\n                </div>\n                <div  *ngIf=\"param.type === 'input'\" class=\"flex\">\n                  <label class=\"bold\" for=\"{{ param.name + 'checkbox' }}\">{{ param.name | translate }}</label>\n                  <input *ngIf=\"param.type === 'input'\" type=\"text\" class=\"form-control\" maxlength=\"40\" [(ngModel)]=\"param.selected\" [disabled]=\"read\">\n                </div>\n              </div>\n            </div>\n\n            <div *ngFor=\"let eyeView of eyes\" class=\"eye-container\">\n\n              <div class=\"eyes\">\n                <div *ngIf=\"eyeView.eye === 'right'\" class=\"col-lg-12 custom-control custom-checkbox\">\n                  <input id=\"OD\" type=\"checkbox\" name=\"checkboxOD\" (click)=\"setValueEye('right')\" [checked]=\"eyeView.selected\" \n                      class=\"custom-control-input\">\n                  <label class=\"bold custom-control-label\" for=\"OD\">{{ 'OD' }}</label>\n                </div>\n                <div *ngIf=\"eyeView.eye === 'left'\" class=\"col-lg-12 custom-control custom-checkbox\">\n                  <input id=\"OS\" type=\"checkbox\" name=\"checkboxOS\" (click)=\"setValueEye('left')\" [checked]=\"eyeView.selected\" \n                      class=\"custom-control-input\">\n                  <label class=\"bold custom-control-label\" for=\"OS\">{{ 'OS' }}</label>\n                </div>\n              </div>\n              <div class=\"form-group \" *ngFor=\"let param of eyeView.params; let i = index\">\n                <!--Multiples INPUTS-->\n                <div *ngIf=\"param.type === 'multiple'\" class=\"multiples-params\">\n                  <div class=\"param-titles\">\n                    <span>{{ param.name | translate }}</span>\n                    <span>{{ param.subname | translate }}</span>\n                  </div>\n                  <div class=\"content-params\">\n                    <div class=\"sub-params\" *ngFor=\"let subParam of param.values; let isub = index\">\n                      <span *ngIf=\"subParam.type !== 'select'\">{{ subParam.name | translate}}</span>\n                      <!--Input TEXT-->\n                      <input *ngIf=\"subParam.type === 'input'\" type=\"text\" class=\"form-control\" maxlength=\"45\" [(ngModel)]=\"subParam.selected\" \n                      [disabled]=\"isDisabled(eyeView.eye) ?  true : subParam.disabled\">\n                      <!--Input SELECT-->\n                      <select *ngIf=\"subParam.type === 'select'\" class=\"form-control\" [(ngModel)]=\"subParam.selected\" \n                      [disabled]=\"isDisabled(eyeView.eye) ?  true : subParam.disabled\" name=\"options\" #options=\"ngModel\" >\n                        <option *ngFor=\"let value of subParam.values\" [value]=\"value\" >{{value | translate}}</option>\n                      </select>\n\n                      <!-- Input RADIO -->\n                      <div *ngIf=\"subParam.type === 'radio'\" class=\"params-checkbox\">\n                        <div class=\"button-space custom-control custom-radio\">\n                          <input type=\"radio\" id=\"radio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}\" name=\"customRadio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}\" \n                          [disabled]=\"isDisabled(eyeView.eye) ?  true : subParam.disabled\" value=\"Yes\" class=\"custom-control-input\" [(ngModel)]=\"subParam.selected\" (change)=\"setDisabledMultiple(param, subParam, eyeView.eye,true)\">\n                          <label class=\"custom-control-label\" for=\"radio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}\">{{ 'Yes' | translate }}</label>\n                        </div>\n\n                        <div class=\"custom-control custom-radio\">\n                          <input type=\"radio\" id=\"radio-no-{{ eyeView.eye + '-'+ i + '-' + isub }}\" name=\"customRadio-no-{{ eyeView.eye + '-'+ i + '-' + isub }}\" \n                          [disabled]=\"isDisabled(eyeView.eye) ?  true : subParam.disabled\" value=\"No\" class=\"custom-control-input\" [(ngModel)]=\"subParam.selected\" (change)=\"setDisabledMultiple(param, subParam, eyeView.eye,false)\">\n                          <label class=\"custom-control-label\" for=\"radio-no-{{ eyeView.eye + '-'+ i + '-' + isub }}\">{{ 'No' | translate }}</label>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n\n                <!-- Input RADIO -->\n                <div *ngIf=\"param.type === 'radio'\" class=\"multiples-params radio-buttons\">\n                  <div class=\"name\">\n                    <span>{{ param.name | translate}}</span>\n                  </div>\n                  <div>\n                    <div class=\"button-space custom-control custom-radio\">\n                      <input type=\"radio\" id=\"radio-yes-{{ eyeView.eye + '-'+ i }}\" name=\"customRadio-yes-{{ eyeView.eye + '-'+ i }}\" value=\"Yes\" \n                      [disabled]=\"isDisabled(eyeView.eye)\" class=\"custom-control-input\" [(ngModel)]=\"param.selected\">\n                      <label class=\"custom-control-label\" for=\"radio-yes-{{ eyeView.eye + '-'+ i }}\">{{ 'Yes' | translate }}</label>\n                    </div>\n\n                    <div class=\"custom-control custom-radio\">\n                      <input type=\"radio\" id=\"radio-no-{{ eyeView.eye + '-'+ i }}\" name=\"customRadio-no-{{ eyeView.eye + '-'+ i }}\" value=\"No\" \n                      [disabled]=\"isDisabled(eyeView.eye)\" class=\"custom-control-input\" [(ngModel)]=\"param.selected\" >\n                      <label class=\"custom-control-label\" for=\"radio-no-{{ eyeView.eye + '-'+ i }}\">{{ 'No' | translate }}</label>\n                    </div>\n                  </div>\n                </div>\n\n                <!--Input TEXT DOUBLES-->\n                <div *ngIf=\"param.type === 'input-double'\" class=\"half-display\">\n                  <div class=\"sub-params\" *ngFor=\"let subParam of param.values\">\n                    <span *ngIf=\"subParam.type !== 'select'\">{{ subParam.name | translate }}</span>\n                    <!--Input TEXT-->\n                    <input *ngIf=\"subParam.type === 'input'\" type=\"text\" class=\"form-control\" maxlength=\"60\" [disabled]=\"isDisabled(eyeView.eye)\" [(ngModel)]=\"subParam.selected\">\n                  </div>\n                </div>\n\n                <!--Input TEXT-->\n                <div *ngIf=\"param.type === 'input'\" class=\"w-46\">\n                  <label class=\"bold\">{{ param.name| translate }}</label>\n                  <input type=\"text\" class=\"form-control\" [(ngModel)]=\"param.selected\" maxlength=\"60\" [disabled]=\"isDisabled(eyeView.eye)\">\n                </div>\n\n                <!--Input TEXTAREA-->\n                <div *ngIf=\"param.type === 'text-area'\" class=\"left\">\n                  <label class=\"bold\">{{ param.name| translate }}</label>\n                  <textarea type=\"text\" class=\"form-control\" [(ngModel)]=\"param.selected\" maxlength=\"250\" [disabled]=\"isDisabled(eyeView.eye)\"></textarea>\n                </div>\n              </div>\n\n            </div>\n\n          </div>\n        </div>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">{{ 'Close' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button class=\"btn btn-main text-uppercase margin-button\" (click)=\"formIsValid() && saveConsultationForm()\" [disabled]=\"!formIsValid()\">\n      {{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n  </div>\n</div>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/edit-consultation-form/edit-consultation-form.component.scss":
+/*!**************************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/edit-consultation-form/edit-consultation-form.component.scss ***!
+  \**************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.content {\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.content .patient-info span {\n    width: 100%; }\n.content .title {\n    text-align: center;\n    padding: 2em; }\n.content .title span {\n      font-weight: 600;\n      font-size: 1.6em; }\n#consultation-form {\n  display: -webkit-box;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n          flex-direction: column;\n  padding: 1em 2em;\n  margin: 0 -15px; }\n#consultation-form .bold {\n    font-weight: 600; }\n#consultation-form .flex {\n    display: -webkit-box;\n    display: flex; }\n#consultation-form .owm {\n    display: -webkit-box;\n    display: flex;\n    padding: 1em 0;\n    -webkit-box-align: center;\n            align-items: center; }\n#consultation-form .owm > div {\n      -webkit-box-flex: 0;\n              flex: 0 0 33.33333333%;\n      max-width: 33.33333333%; }\n#consultation-form .owm > div:nth-child(1), #consultation-form .owm div:nth-child(2) {\n      padding-right: 15px;\n      padding-left: 5px; }\n#consultation-form .owm > div:nth-child(3) {\n      padding-left: 5px; }\n#consultation-form .owm > div:nth-child(3) div {\n        -webkit-box-orient: vertical;\n        -webkit-box-direction: normal;\n                flex-direction: column; }\n#consultation-form .owm > div:nth-child(3) div label {\n          margin-bottom: 0; }\n#consultation-form .eyes {\n    display: -webkit-box;\n    display: flex;\n    text-align: left;\n    padding-left: 5px;\n    padding-bottom: 15px; }\n#consultation-form .eyes > div:nth-child(1) {\n      padding-right: 20px; }\n#consultation-form .eye-container {\n    margin: 3% 0; }\n#consultation-form .form-group {\n    padding-left: 20px; }\n#consultation-form .multiples-params {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n            flex-direction: row;\n    padding-top: 20px;\n    width: 100%;\n    text-align: left; }\n#consultation-form .multiples-params .param-titles {\n      display: -webkit-box;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n              flex-direction: column;\n      -webkit-box-flex: 0;\n              flex: 0 0 32%;\n      max-width: 32%; }\n#consultation-form .multiples-params .content-params {\n      display: -webkit-box;\n      display: flex;\n      flex-wrap: wrap;\n      width: 68%; }\n#consultation-form .multiples-params .content-params .sub-params {\n        width: 49%;\n        margin: 0.8% 0 0.8% 1%; }\n#consultation-form .multiples-params .content-params .sub-params .params-checkbox {\n          width: 100%;\n          display: -webkit-box;\n          display: flex; }\n#consultation-form .multiples-params .content-params .sub-params .params-checkbox > input {\n            margin-right: 20px; }\n#consultation-form .multiples-params .content-params .sub-params .params-checkbox .button-space {\n            margin-right: 20px; }\n#consultation-form .multiples-params .single-checkbox {\n      width: 60%;\n      margin-left: 10%; }\n#consultation-form .multiples-params .single-checkbox > input {\n        margin-right: 20px; }\n#consultation-form .w-46 {\n    text-align: left;\n    width: 49%; }\n#consultation-form .left {\n    text-align: left; }\n#consultation-form .half-display {\n    display: -webkit-box;\n    display: flex;\n    width: 100%;\n    flex-wrap: wrap;\n    text-align: left; }\n#consultation-form .half-display > div {\n      width: 49%; }\n#consultation-form .half-display > div:nth-child(1) {\n      margin-right: 2%; }\n#consultation-form .half-display > div:nth-child(1) span {\n        font-weight: 600; }\n.radio-buttons {\n  display: -webkit-box;\n  display: flex; }\n.radio-buttons .name {\n    -webkit-box-flex: 0;\n            flex: 0 0 32%;\n    max-width: 32%; }\n.radio-buttons .button-space {\n    margin-right: 20px; }\n.radio-buttons > div:nth-child(2) {\n    margin: 0.8% 0 0.8% 0.7%;\n    display: -webkit-box;\n    display: flex; }\n"
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/edit-consultation-form/edit-consultation-form.component.ts":
+/*!************************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/edit-consultation-form/edit-consultation-form.component.ts ***!
+  \************************************************************************************************************/
+/*! exports provided: EditConsultationFormComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditConsultationFormComponent", function() { return EditConsultationFormComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _shared_services_consultation_form_consultation_form_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../shared/services/consultation-form/consultation-form.service */ "./src/app/shared/services/consultation-form/consultation-form.service.ts");
+/* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _shared_models_consultation_form__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../shared/models/consultation-form */ "./src/app/shared/models/consultation-form.ts");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_10__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+var EditConsultationFormComponent = /** @class */ (function () {
+    function EditConsultationFormComponent(modalReference, notification, translate, consultationFormService, userService, router, spinner) {
+        this.modalReference = modalReference;
+        this.notification = notification;
+        this.translate = translate;
+        this.consultationFormService = consultationFormService;
+        this.userService = userService;
+        this.router = router;
+        this.spinner = spinner;
+    }
+    EditConsultationFormComponent.prototype.ngOnInit = function () {
+        this.detail = JSON.parse(this.consultation.details)[0];
+        this.generalParams = this.detail.generals;
+        this.typeForm = this.generalParams[0].selected ? 'New Order' : 'Warranty';
+        this.eyes = this.detail.eyes;
+    };
+    EditConsultationFormComponent.prototype.close = function () {
+        this.modalReference.close();
+    };
+    EditConsultationFormComponent.prototype.setCheckbox = function (param) {
+        param.selected = !param.selected;
+    };
+    EditConsultationFormComponent.prototype.isDisabled = function (eye) {
+        switch (eye) {
+            case 'right':
+                return !this.eyes[0].selected;
+            case 'left':
+                return !this.eyes[1].selected;
+        }
+    };
+    EditConsultationFormComponent.prototype.changeTypeForm = function (param) {
+        switch (param.name) {
+            case 'New Order':
+                this.typeForm = 'New Order';
+                this.generalParams[0].selected = true;
+                this.generalParams[1].selected = false;
+                break;
+            case 'Warranty':
+                this.typeForm = 'Warranty';
+                this.generalParams[1].selected = true;
+                this.generalParams[0].selected = false;
+                break;
+        }
+    };
+    EditConsultationFormComponent.prototype.setDisabledMultiple = function (param, subparam, eye, value) {
+        var parameters;
+        if (eye === 'right') {
+            parameters = this.eyes[0].params;
+        }
+        else {
+            parameters = this.eyes[1].params;
+        }
+        if (subparam.name === 'Ideal') {
+            switch (param.name) {
+                case '1. Corneal Clearance':
+                    var addMicrons1 = void 0;
+                    var subsMicrons1 = void 0;
+                    var parameter1 = void 0;
+                    parameter1 = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameters, { name: '1. Corneal Clearance' });
+                    addMicrons1 = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameter1.values, { name: 'Add Microns' });
+                    addMicrons1.disabled = value;
+                    addMicrons1.selected = addMicrons1.disabled ? null : addMicrons1.selected;
+                    subsMicrons1 = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameter1.values, { name: 'Substract Microns' });
+                    subsMicrons1.disabled = value;
+                    subsMicrons1.selected = subsMicrons1.disabled ? null : subsMicrons1.selected;
+                    break;
+                case '2. Limbal Clearance':
+                    var addMicrons2 = void 0;
+                    var subsMicrons2 = void 0;
+                    var parameter2 = void 0;
+                    parameter2 = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameters, { name: '2. Limbal Clearance' });
+                    addMicrons2 = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameter2.values, { name: 'Add Microns' });
+                    addMicrons2.disabled = value;
+                    addMicrons2.selected = addMicrons2.disabled ? null : addMicrons2.selected;
+                    subsMicrons2 = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameter2.values, { name: 'Substract Microns' });
+                    subsMicrons2.disabled = value;
+                    subsMicrons2.selected = subsMicrons2.disabled ? null : subsMicrons2.selected;
+                    break;
+                case '3. Lens Landing':
+                    var blanching = void 0;
+                    var impingement = void 0;
+                    var blanchingSelect = void 0;
+                    var impingementSelect = void 0;
+                    var parameter3 = void 0;
+                    parameter3 = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameters, { name: '3. Lens Landing' });
+                    blanching = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameter3.values, { name: 'Blanching' });
+                    blanching.disabled = value;
+                    blanching.selected = blanching.disabled ? null : blanching.selected;
+                    blanchingSelect = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameter3.values, { name: 'Blanching-Select' });
+                    blanchingSelect.disabled = value;
+                    blanchingSelect.selected = blanchingSelect.disabled ? null : blanchingSelect.selected;
+                    impingement = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameter3.values, { name: 'Impingement' });
+                    impingement.disabled = value;
+                    impingement.selected = impingement.disabled ? null : impingement.selected;
+                    impingementSelect = lodash__WEBPACK_IMPORTED_MODULE_10__["find"](parameter3.values, { name: 'Impingement-Select' });
+                    impingementSelect.disabled = value;
+                    impingementSelect.selected = impingementSelect.disabled ? null : impingementSelect.selected;
+                    break;
+            }
+        }
+        if (eye === 'right') {
+            this.eyes[0].params = parameters;
+        }
+        else {
+            this.eyes[1].params = parameters;
+        }
+    };
+    EditConsultationFormComponent.prototype.setValueEye = function (eye) {
+        if (eye === 'right') {
+            this.eyes[0].selected = !this.eyes[0].selected;
+            if (!this.eyes[0].selected) {
+                this.clean('right');
+                this.eyes[0].selected = null;
+            }
+            else {
+                this.eyes[0].selected = true;
+            }
+        }
+        else {
+            this.eyes[1].selected = !this.eyes[1].selected;
+            if (!this.eyes[1].selected) {
+                this.clean('left');
+                this.eyes[1].selected = null;
+            }
+            else {
+                this.eyes[1].selected = true;
+            }
+        }
+    };
+    EditConsultationFormComponent.prototype.clean = function (eye) {
+        var parameters;
+        if (eye === 'right') {
+            parameters = this.eyes[0].params;
+        }
+        else {
+            parameters = this.eyes[1].params;
+        }
+        // parameter
+        lodash__WEBPACK_IMPORTED_MODULE_10__["each"](parameters, function (param) {
+            if ((param.type === 'text-area' || param.type === 'input' || param.type === 'radio')) {
+                param.selected = null;
+            }
+            if (param.type === 'multiple') {
+                lodash__WEBPACK_IMPORTED_MODULE_10__["each"](param.values, function (item) {
+                    item.selected = null;
+                    item.disabled = null;
+                });
+            }
+        });
+        if (eye === 'right') {
+            this.eyes[0].params = parameters;
+        }
+        else {
+            this.eyes[1].params = parameters;
+        }
+    };
+    EditConsultationFormComponent.prototype.formIsValid = function () {
+        var isValid = true;
+        if ((!this.eyes[0].selected && !this.eyes[1].selected) || !this.consultation.patientName) {
+            return false;
+        }
+        if ((this.generalParams[0].selected === null || this.generalParams[0].selected === undefined) &&
+            (this.generalParams[1].selected === null || this.generalParams[1].selected === undefined)) {
+            isValid = false;
+        }
+        return isValid;
+    };
+    EditConsultationFormComponent.prototype.buildConsultation = function () {
+        // Buil detail
+        var patient = this.consultation.patientName;
+        var detail = { 'patient': patient, 'generals': this.generalParams, 'eyes': this.eyes };
+        // Buidl Consultation Form
+        var consultation = new _shared_models_consultation_form__WEBPACK_IMPORTED_MODULE_8__["ConsultationForm"]();
+        consultation.idConsultationForm = this.consultation.idConsultationForm;
+        consultation.idUser = this.consultation.idUser;
+        consultation.details = '[' + JSON.stringify(detail) + ']';
+        consultation.patientName = patient;
+        consultation.idSupplier = 2;
+        return consultation;
+    };
+    EditConsultationFormComponent.prototype.saveConsultationForm = function (type) {
+        var _this = this;
+        this.spinner.show();
+        var consultationRequest = this.buildConsultation();
+        console.log(consultationRequest);
+        this.consultationFormService.update$(consultationRequest).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_9__["CodeHttp"].ok) {
+                _this.spinner.hide();
+                _this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe(function (res1) {
+                    _this.notification.success('', res1);
+                });
+                _this.spinner.hide();
+                _this.close();
+            }
+            else {
+                console.log(res);
+                _this.spinner.hide();
+            }
+        }, function (error) {
+            console.log(error);
+            _this.spinner.hide();
+        });
+    };
+    EditConsultationFormComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-edit-consultation-form',
+            template: __webpack_require__(/*! ./edit-consultation-form.component.html */ "./src/app/layout/manage-consultation-form/edit-consultation-form/edit-consultation-form.component.html"),
+            styles: [__webpack_require__(/*! ./edit-consultation-form.component.scss */ "./src/app/layout/manage-consultation-form/edit-consultation-form/edit-consultation-form.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbActiveModal"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_2__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"],
+            _shared_services_consultation_form_consultation_form_service__WEBPACK_IMPORTED_MODULE_4__["ConsultationFormService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_5__["UserService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_7__["NgxSpinnerService"]])
+    ], EditConsultationFormComponent);
+    return EditConsultationFormComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/modal-change-status/modal-change-status.component.html":
+/*!********************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/modal-change-status/modal-change-status.component.html ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal-header\">\n  <h4 class=\"modal-title\">{{ 'Change Status' | translate }}</h4>\n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modalReference.dismiss()\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n  <form [formGroup]=\"form\">\n    <div class=\"row\">\n      <div class=\"col-xl-12\" *ngFor=\"let status of filterStatus; let i = index\">\n        <div class=\"custom-control custom-radio\">\n          <input type=\"radio\" id=\"radioGroup{{i}}\" name=\"radioGroup\" [value]=\"status.id\" (change)=\"onSelectionChange(status)\" class=\"custom-control-input\" [checked]=\"status.id==consultation.status\">\n          <label class=\"custom-control-label\" for=\"radioGroup{{i}}\">{{ status.name | translate }}</label>\n        </div>\n      </div>\n    </div>\n  </form>\n</div>\n<div class=\"modal-footer\">\n  <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modalReference.dismiss()\">{{ 'Cancel' | translate }}&nbsp;\n    <i class=\"fa fa-times\"></i>\n  </button>\n  <button type=\"button\" class=\"btn btn-main\" [disabled]=\"!valid\" (click)=\"changeStatus()\">{{ 'Save' | translate }}&nbsp;\n    <i class=\"fa fa-save\"></i>\n  </button>\n</div>\n\n<ng-template #rt let-r=\"result\" let-t=\"term\">\n  {{ r.description}}\n</ng-template>"
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/modal-change-status/modal-change-status.component.scss":
+/*!********************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/modal-change-status/modal-change-status.component.scss ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: justify;\n            justify-content: space-between;\n    -webkit-box-align: center;\n            align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  -webkit-box-align: center;\n          align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n"
+
+/***/ }),
+
+/***/ "./src/app/layout/manage-consultation-form/modal-change-status/modal-change-status.component.ts":
+/*!******************************************************************************************************!*\
+  !*** ./src/app/layout/manage-consultation-form/modal-change-status/modal-change-status.component.ts ***!
+  \******************************************************************************************************/
+/*! exports provided: ModalChangeStatusComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalChangeStatusComponent", function() { return ModalChangeStatusComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../shared/services/alertify/alertify.service */ "./src/app/shared/services/alertify/alertify.service.ts");
+/* harmony import */ var _shared_services_consultation_form_consultation_form_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../shared/services/consultation-form/consultation-form.service */ "./src/app/shared/services/consultation-form/consultation-form.service.ts");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+var ModalChangeStatusComponent = /** @class */ (function () {
+    function ModalChangeStatusComponent(modalReference, formBuilder, notification, translate, alertify, consultationFormService, spinner) {
+        this.modalReference = modalReference;
+        this.formBuilder = formBuilder;
+        this.notification = notification;
+        this.translate = translate;
+        this.alertify = alertify;
+        this.consultationFormService = consultationFormService;
+        this.spinner = spinner;
+        this.filterStatus = [{ id: 0, name: 'Pending' },
+            { id: 1, name: 'Processed' },
+            { id: 2, name: 'Ready to Ship' },
+            { id: 3, name: 'Shipped' }
+        ];
+        this.valid = false;
+    }
+    ModalChangeStatusComponent.prototype.ngOnInit = function () {
+        this.initializeForm();
+    };
+    ModalChangeStatusComponent.prototype.initializeForm = function () {
+        this.form = this.formBuilder.group({});
+    };
+    ModalChangeStatusComponent.prototype.close = function () {
+        this.modalReference.close();
+    };
+    ModalChangeStatusComponent.prototype.onSelectionChange = function (status) {
+        this.valid = true;
+        this.idStatus = status.id;
+    };
+    ModalChangeStatusComponent.prototype.changeStatus = function () {
+        var _this = this;
+        this.translate.get('Consultation Form\'s status', { value: 'Consultation Form\'s status' }).subscribe(function (title) {
+            _this.translate.get('Are you sure you want to change the status?', { value: 'Are you sure you want to change the status?' }).subscribe(function (msg) {
+                _this.alertify.confirm(title, msg, function () {
+                    _this.spinner.show();
+                    _this.consultationFormService.changeStatus$(_this.consultation.idConsultationForm, _this.idStatus).subscribe(function (res) {
+                        if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_7__["CodeHttp"].ok) {
+                            _this.spinner.hide();
+                            _this.close();
+                            _this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe(function (res1) {
+                                _this.notification.success('', res1);
+                            });
+                        }
+                        else {
+                            console.log(res.errors[0].detail);
+                        }
+                    }, function (error) {
+                        console.log('error', error);
+                    });
+                }, function () {
+                });
+            });
+        });
+    };
+    ModalChangeStatusComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-modal-change-status',
+            template: __webpack_require__(/*! ./modal-change-status.component.html */ "./src/app/layout/manage-consultation-form/modal-change-status/modal-change-status.component.html"),
+            styles: [__webpack_require__(/*! ./modal-change-status.component.scss */ "./src/app/layout/manage-consultation-form/modal-change-status/modal-change-status.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbActiveModal"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_3__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateService"],
+            _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_5__["AlertifyService"],
+            _shared_services_consultation_form_consultation_form_service__WEBPACK_IMPORTED_MODULE_6__["ConsultationFormService"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_8__["NgxSpinnerService"]])
+    ], ModalChangeStatusComponent);
+    return ModalChangeStatusComponent;
 }());
 
 
@@ -27832,6 +28929,56 @@ var CommissionService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], CommissionService);
     return CommissionService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/fileConsultationForm/file-consultation-form.service.ts":
+/*!****************************************************************************************!*\
+  !*** ./src/app/shared/services/fileConsultationForm/file-consultation-form.service.ts ***!
+  \****************************************************************************************/
+/*! exports provided: FileConsultationFormService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileConsultationFormService", function() { return FileConsultationFormService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../environments/environment */ "./src/environments/environment.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var FileConsultationFormService = /** @class */ (function () {
+    function FileConsultationFormService(http) {
+        this.http = http;
+    }
+    FileConsultationFormService.prototype.downloadFile$ = function (name) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'fileConsultationForm/downloadFile/' + name, {
+            responseType: 'blob'
+        });
+    };
+    FileConsultationFormService.prototype.allFileByConsultationForm$ = function (id) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'fileConsultationForm/allFileByConsultationForm/' + id);
+    };
+    FileConsultationFormService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], FileConsultationFormService);
+    return FileConsultationFormService;
 }());
 
 
