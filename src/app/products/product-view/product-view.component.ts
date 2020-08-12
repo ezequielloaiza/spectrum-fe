@@ -1,25 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ProductRequested } from '../../shared/models/productrequested';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 import { BasketService } from '../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { environment } from '../../../../src/environments/environment';
-import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { ConfirmationMarkennovyComponent } from '../modals/confirmation-buy/confirmation-markennovy/confirmation-markennovy.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -46,7 +40,7 @@ export class ProductViewComponent implements OnInit {
   // configuration XTENSA product
   paramAxesRight: any;
   paramAxesLeft: any;
-  axesXtensa: Array<any> = new Array;
+  // axesXtensa: Array<any> = new Array;
   basketRequestModal: BasketRequest = new BasketRequest();
   client: any;
   listCustomers: Array<any> = new Array;
@@ -70,13 +64,6 @@ export class ProductViewComponent implements OnInit {
 
   ngOnInit() {
     this.getProducts();
-    /* var product xtensa */
-    this.setAxesXtensa();
-  }
-
-  setAxesXtensa() {
-    this.axesXtensa = [{ "values": ["5º", "10º", "15º", "20º", "25º", "30º", "35º", "40º", "45º", "50º", "55º", "60º", "65º", "70º", "75º", "80º", "85º", "90º", "95º", "100º", "105º", "110º", "115º", "120º", "125º", "130º", "135º", "140º", "145º", "150º", "155º", "160º", "165º", "170º", "175º", "180º"] },
-    { "values": ["10º", "20º", "30º", "40º", "50º", "60º", "70º", "80º", "90º", "100º", "110º", "120º", "130º", "140º", "150º", "160º", "170º", "180º"] }];
   }
 
   getProducts() {
@@ -122,6 +109,135 @@ export class ProductViewComponent implements OnInit {
     this.addSign();
   }
 
+  changeSelect(eye, parameter, value) {
+    if (parameter.selected === value) {
+      return;
+    }
+
+    parameter.selected = value;
+
+    if (parameter.name === "Diameter (mm)") {
+      let baseCurve = null;
+      if (eye === "right") {
+        baseCurve = _.find(this.product.parametersRight, { name: 'Base Curve (mm)' });
+      } else {
+        baseCurve = _.find(this.product.parametersLeft, { name: 'Base Curve (mm)' });
+      }
+
+      // Reset selection base curve
+      baseCurve.selected = null;
+      baseCurve.sel = null;
+
+      switch (this.product.father) {
+        case "Gentle 80":
+        case "Gentle 59":
+          switch (value) {
+            case "13.0":
+              baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+              break;
+            case "13.5":
+              baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+              break;
+            case "14.0":
+              baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+              break;
+            case "14.5":
+              baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.0":
+              baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.5":
+              baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "16.0":
+              baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+          }
+          break;
+
+        case "Blu:gen":
+          switch (value) {
+            case "11.5":
+            case "12.0":
+              baseCurve.values = ["6.5", "6.8","7.1", "7.4", "7.7", "8.0", "8.3"];
+              break;
+            case "12.5":
+            case "13.0":
+              baseCurve.values = ["6.5", "6.8","7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+              break;
+            case "13.5":
+              baseCurve.values = ["6.8","7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+              break;
+            case "14.0":
+              baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+              break;
+            case "14.5":
+              baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.0":
+              baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.5":
+              baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "16.0":
+              baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "16.5":
+              baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+          }
+          break;
+
+        case "Saphir Rx":
+        case "Saphir":
+          switch (value) {
+            case "13.0":
+              baseCurve.values = ["6.8","7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+              break;
+            case "13.5":
+              baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+              break;
+            case "14.0":
+              baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+              break;
+            case "14.5":
+              baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.0":
+              baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.5":
+              baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "16.0":
+              baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+          }
+          break;
+
+        //TODO: Add in BD
+        case "Quattro S 3 UV":
+        case "Quattro T 3 UV":
+        case "Quattro S UV":
+        case "Quattro T UV":
+          switch (value) {
+            case "13.0":
+              baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+              break;
+            case "14.5":
+              baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+          }
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+
   /*setCodeProduct() {
     const productCode = this.product.codeSpectrum;
     const productCategory = this.product.category;
@@ -141,31 +257,6 @@ export class ProductViewComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
-  }*/
-
-  changeSelect(eye, parameter, value) {
-    parameter.selected = value;
-    /*if (this.product.father === "Xtensa" && parameter.name === 'Cylinder (D)'){
-      this.setValuesAxesXtensa(eye, value);
-    }*/
-  }
-
-  /*setValuesAxesXtensa(eye, value) {
-    if (eye === 'right') {
-      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesRight.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesRight.values = this.axesXtensa[1].values;
-      }
-    } else {
-      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesLeft.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesLeft.values = this.axesXtensa[1].values;
-      }
-    }
   }*/
 
   setValueEye(eye) {
@@ -208,7 +299,6 @@ export class ProductViewComponent implements OnInit {
           this.listCustomers = _.filter(this.listCustomersAux, function (u) {
             return !(u.cardCode === null || u.cardCode === '');
           });
-          //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.cardCode + ' ' + i.country.name + ' ' + i.name; return i; });
           this.listCustomers.map((i) => {
             let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
             i.fullName = accSpct + i.name + ' | ' + i.cardCode + ' | ' + i.country.name;
