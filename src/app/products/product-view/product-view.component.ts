@@ -124,6 +124,10 @@ export class ProductViewComponent implements OnInit {
         baseCurve = _.find(this.product.parametersLeft, { name: 'Base Curve (mm)' });
       }
 
+      if (!baseCurve) {
+        return;
+      }
+
       // Reset selection base curve
       baseCurve.selected = null;
       baseCurve.sel = null;
@@ -217,21 +221,55 @@ export class ProductViewComponent implements OnInit {
           }
           break;
 
-        //TODO: Add in BD
-        case "Quattro S 3 UV":
-        case "Quattro T 3 UV":
-        case "Quattro S UV":
-        case "Quattro T UV":
+        //TODO: revisar luego de correr los sql en BD
+        case "Quattro 3-Monthly":
+        case "Quattro Conventional":
           switch (value) {
             case "13.0":
               baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
               break;
             case "14.5":
-              baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              if (this.product.name === "Quattro Sph UV x1 Conv") {
+                baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              } else {
+                baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              }
               break;
           }
           break;
 
+        default:
+          break;
+      }
+    }
+
+    if (parameter.name === "Dominance") {
+      let addition = null;
+      if (eye === "right") {
+        addition = _.find(this.product.parametersRight, { name: 'Addition' });
+      } else {
+        addition = _.find(this.product.parametersLeft, { name: 'Addition' });
+      }
+
+      if (!addition) {
+        return;
+      }
+
+      // Reset selection base curve
+      addition.selected = null;
+      addition.sel = null;
+
+      switch (this.product.father) {
+        case "Quattro 3-Monthly":
+        case "Quattro Conventional":
+          switch (value) {
+            case "CN":
+              addition.values = ["1.0", "1.75", "2.50"];
+              break;
+            case "CD":
+              addition.values = ["1.0", "2.0", "3.0"];
+              break;
+          }
         default:
           break;
       }
