@@ -54,7 +54,7 @@ export class ProductViewMedmontComponent implements OnInit {
 
   getProducts() {
     this.spinner.show();
-    this.productService.findBySupplierInView$(7 , true).subscribe(res => {
+    this.productService.findBySupplierInView$(8 , true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();

@@ -71,6 +71,8 @@ export class ProductsListsComponent implements OnInit {
                 return u;
               case 7: // Fluo Strips y Spectrum Saline
                 return u;
+              case 8:
+                return u;
               case 9: // Synergeyes
                 return u;
               case 10: // Orion
@@ -87,7 +89,7 @@ export class ProductsListsComponent implements OnInit {
     this.spinner.show();
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        const suppliersId = [1, 2, 3, 4, 5, 6, 7, 9, 10];
+        const suppliersId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         this.listSupplierFilter = res.data;
         if (this.user.role.idRole === 3) {
           if (this.user.userResponse.membership.idMembership !== 2) {
@@ -148,6 +150,9 @@ export class ProductsListsComponent implements OnInit {
         case 7: // Fluo Strips y spectrum saline
           supplier.image = 'assets/images/suppliers/spectrum_products.jpg';
           break
+        case 8: // Fluo Strips y spectrum saline
+          supplier.image = 'assets/images/suppliers/medmont.png';
+          break
         case 9: // Synergeyes
           supplier.image = 'assets/images/suppliers/synergeyes.png';
           break
@@ -180,7 +185,7 @@ export class ProductsListsComponent implements OnInit {
         case 2: //europa
         case 3: //Lenticon
         case 4:  //euclid
-        case 7: //fluo strips y saline spectrum 
+        case 7: //fluo strips y saline spectrum
         case 9:  //synergeyes
         case 10:  //orion
           this.router.navigate(['/products/' + idSupplier + '/internal']);
@@ -203,6 +208,19 @@ export class ProductsListsComponent implements OnInit {
             if (res.code === CodeHttp.ok) {
               this.products = res.data;
               this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-blue']);
+            } else {
+              console.log(res.errors[0].detail);
+            }
+          }, error => {
+            console.log('error', error);
+            this.spinner.hide();
+          });
+          break;
+        case 8:  // Medmont
+          this.productService.findBySupplierInView$(idSupplier, true).subscribe(res => {
+            if (res.code === CodeHttp.ok) {
+              this.products = res.data;
+              this.router.navigate(['/products/' + this.products[0].idProduct + '/product-view-medmont']);
             } else {
               console.log(res.errors[0].detail);
             }
