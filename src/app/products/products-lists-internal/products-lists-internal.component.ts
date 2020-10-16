@@ -294,6 +294,9 @@ export class ProductsListInternalComponent implements OnInit {
       case 6:  // magic blue
         this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
         break;
+      case 8: // medmont
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-medmont']);
+        break;
       case 9:
         this.router.navigate(['/products/' + product.idProduct + '/product-view-synergeyes']);
         break;
@@ -306,9 +309,6 @@ export class ProductsListInternalComponent implements OnInit {
         }
         if (product.father === 'Spectrum Saline') {
           this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
-        }
-        if (product.father === 'Medmont') {
-          this.router.navigate(['/products/' + product.idProduct + '/product-view-medmont']);
         }
         break;
     }
@@ -423,7 +423,23 @@ export class ProductsListInternalComponent implements OnInit {
                 (reason) => {}
               );
             }
-            break;
+        break;
+      case 8: // Medmont
+        debugger
+        const modalRefMedmont = this.modalService.open(EditProductMedmontComponent, {
+          size: 'lg',
+          windowClass: 'modal-content-border',
+          backdrop: 'static', keyboard: false
+        });
+        modalRefMedmont.componentInstance.product = product;
+        modalRefMedmont.componentInstance.action = action;
+        modalRefMedmont.result.then(
+          (result) => {
+            this.getProducts();
+          },
+          (reason) => {}
+        );
+        break;
     }
   }
 
