@@ -110,7 +110,7 @@
                 <!--Only Power-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Power'" class="select-values param-flex col-sm-12 param-power">
                   <ng-select [items]="['+', '-']" [(ngModel)]="signPowerTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
-                    [clearable]="false" required>
+                    [clearable]="false" [searchable]="false" required>
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}"
@@ -120,7 +120,7 @@
                 <!--Only Base Curve-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Base Curve'" class="select-values param-flex col-sm-12">
                   <ng-select [items]="['D', 'mm']" [(ngModel)]="typeCurveTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
-                    [clearable]="false" required>
+                    [clearable]="false"  [searchable]="false" required>
                     {{item}}
                   </ng-select>
                   <input class="form-control" type="number" placeholder="{{ itemSet.placeholder | translate }}" [(ngModel)]="itemSet.selected" oninput="validity.valid||(value='');"
@@ -185,7 +185,7 @@
                       <!--Only Power-->
                       <div *ngIf="parameter.type === 'input' && isPower(parameter)" class="select-values col-sm-12 param-power">
                         <ng-select class="selected-power" [items]="['+', '-']" [(ngModel)]="signPower" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
-                                  [clearable]="false" required>
+                                  [clearable]="false" [searchable]="false" required>
                                   {{item}}
                         </ng-select>
                         <input class="form-control col-sm-11" type="number" placeholder="{{ parameter.placeholder | translate }}"
@@ -197,8 +197,9 @@
 
                       <!--Only Base Curve-->
                       <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve'" class="separator param-flex">
-                        <ng-select [items]="['D', 'mm']" [(ngModel)]="typeCurve" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}" [clearable]="false" required>
-                          {{item}}
+                        <ng-select [items]="['D', 'mm']" [(ngModel)]="typeCurve" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
+                                   [clearable]="false" [searchable]="false" required>
+                                   {{item}}
                         </ng-select>
                         <input class="form-control" type="number" min="00.00" step="00.01" placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected"
                                (change)="changeSelect(parameter, parameter.selected,0)" oninput="validity.valid||(value='');" required>
