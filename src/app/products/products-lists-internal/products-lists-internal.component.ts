@@ -425,7 +425,6 @@ export class ProductsListInternalComponent implements OnInit {
             }
         break;
       case 8: // Medmont
-        debugger
         const modalRefMedmont = this.modalService.open(EditProductMedmontComponent, {
           size: 'lg',
           windowClass: 'modal-content-border',
