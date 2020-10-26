@@ -170,7 +170,7 @@
 
                 <!--Only Power-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Power'" class="select-values param-flex col-sm-12">
-                  <ng-select [items]="['+', '-']" [disabled]="!product.eyeRight"
+                  <ng-select [items]="['+', '-']" [disabled]="!product.eyeRight" [searchable]="false"
                     [(ngModel)]="signPowerRightTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
                     [clearable]="false" [required]="product.eyeRight">
                     {{item}}
@@ -182,7 +182,7 @@
 
                 <!--Only Base Curve-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Base Curve'" class="select-values param-flex col-sm-12">
-                  <ng-select [items]="['D', 'mm']" [disabled]="!product.eyeRight"
+                  <ng-select [items]="['D', 'mm']" [disabled]="!product.eyeRight" [searchable]="false"
                     [(ngModel)]="typeCurveRightTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
                     [clearable]="false" [required]="product.eyeRight">
                     {{item}}
@@ -269,7 +269,7 @@
 
                   <!--Only Power-->
                   <div *ngIf="parameter.type === 'input' && isPower(parameter)" class="select-values param-flex col-sm-12">
-                    <ng-select [items]="['+', '-']" [disabled]="!product.eyeRight" [required]="product.eyeRight"
+                    <ng-select [items]="['+', '-']" [disabled]="!product.eyeRight" [required]="product.eyeRight" [searchable]="false"
                       [(ngModel)]="signPowerRight" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
                       [clearable]="false">
                       {{item}}
@@ -284,7 +284,7 @@
 
                   <!--Only Base Curve-->
                   <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve'" class="select-values param-flex col-sm-12">
-                    <ng-select [items]="['D', 'mm']" [disabled]="!product.eyeRight" [required]="product.eyeRight"
+                    <ng-select [items]="['D', 'mm']" [disabled]="!product.eyeRight" [required]="product.eyeRight" [searchable]="false"
                       [(ngModel)]="typeCurveRight" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
                       [clearable]="false">
                       {{item}}
@@ -492,7 +492,7 @@
 
                 <!--Only Power-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Power'" class="select-values param-flex col-sm-12">
-                  <ng-select [items]="['+', '-']" [disabled]="!product.eyeLeft"
+                  <ng-select [items]="['+', '-']" [disabled]="!product.eyeLeft" [searchable]="false"
                     [(ngModel)]="signPowerLeftTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
                     [clearable]="false" [required]="product.eyeLeft">
                     {{item}}
@@ -505,7 +505,7 @@
 
                 <!--Only Base Curve-->
                 <div *ngIf="itemSet.type === 'input' && itemSet.name === 'Base Curve'" class="select-values param-flex col-sm-12">
-                  <ng-select [items]="['D', 'mm']" [disabled]="!product.eyeLeft"
+                  <ng-select [items]="['D', 'mm']" [disabled]="!product.eyeLeft" [searchable]="false"
                     [(ngModel)]="typeCurveLeftTrial" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
                     [clearable]="false" [required]="product.eyeLeft">
                     {{item}}
@@ -585,7 +585,7 @@
 
                   <!--Only Power-->
                   <div *ngIf="parameter.type === 'input' && isPower(parameter)" class="select-values col-sm-12 param-flex">
-                    <ng-select [items]="['+', '-']" [disabled]="!product.eyeLeft" [required]="product.eyeLeft"
+                    <ng-select [items]="['+', '-']" [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [searchable]="false"
                       [(ngModel)]="signPowerLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Sign' | translate }}"
                       [clearable]="false">
                       {{item}}
@@ -600,7 +600,7 @@
 
                   <!--Only Base Curve-->
                   <div *ngIf="parameter.type === 'input' && parameter.name === 'Base Curve'" class="select-values param-flex col-sm-12">
-                     <ng-select [items]="['D', 'mm']" [disabled]="!product.eyeLeft" [required]="product.eyeLeft"
+                     <ng-select [items]="['D', 'mm']" [disabled]="!product.eyeLeft" [required]="product.eyeLeft" [searchable]="false"
                       [(ngModel)]="typeCurveLeft" bindLabel="item" bindValue="item" placeholder="{{ 'Unit' | translate }}"
                       [clearable]="false">
                       {{item}}
