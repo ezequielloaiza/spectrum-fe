@@ -102,7 +102,7 @@ export class ProductViewComponent implements OnInit {
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
     }
-    this.product.properties = JSON.parse(this.product.infoAditional)[0];
+    this.product.properties = this.product.infoAditional ? JSON.parse(this.product.infoAditional)[0] : null;
     this.product.priceSale = '';
     this.setClient();
     this.setPrice();
