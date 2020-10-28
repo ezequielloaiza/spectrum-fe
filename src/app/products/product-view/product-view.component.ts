@@ -109,12 +109,78 @@ export class ProductViewComponent implements OnInit {
     this.addSign();
   }
 
+  resetParams(eye, parameter) {
+
+    if (parameter.name === "Diameter (mm)") {
+      let baseCurve = null;
+      if (eye === "right") {
+        baseCurve = _.find(this.product.parametersRight, { name: 'Base Curve (mm)' });
+      } else {
+        baseCurve = _.find(this.product.parametersLeft, { name: 'Base Curve (mm)' });
+      }
+
+      if (!baseCurve) {
+        return;
+      }
+
+      // Reset selection base curve
+      baseCurve.selected = null;
+      baseCurve.sel = null;
+    }
+
+    if (parameter.name === "Dominance") {
+      // ADDITION
+      let addition = null;
+      if (eye === "right") {
+        addition = _.find(this.product.parametersRight, { name: 'Addition' });
+      } else {
+        addition = _.find(this.product.parametersLeft, { name: 'Addition' });
+      }
+
+      if (addition) {
+        // Reset selection addition
+        addition.selected = null;
+        addition.sel = null;
+      }
+
+      //SPHERE
+      let sphere = null;
+      if (eye === "right") {
+        sphere = _.find(this.product.parametersRight, { name: 'Sphere (D)' });
+      } else {
+        sphere = _.find(this.product.parametersLeft, { name: 'Sphere (D)' });
+      }
+
+      if (sphere) {
+        // Reset selection sphere
+        sphere.selected = null;
+        sphere.sel = null;
+      }
+    }
+
+    if (parameter.name === "Cylinder (D)") {
+      let axes = null;
+      if (eye === "right") {
+        axes = _.find(this.product.parametersRight, { name: 'Axes (º)' });
+      } else {
+        axes = _.find(this.product.parametersLeft, { name: 'Axes (º)' });
+      }
+
+      if (axes) {
+        // Reset selection base curve
+        axes.selected = null;
+        axes.sel = null;
+      }
+    }
+  }
+
   changeSelect(eye, parameter, value) {
     if (parameter.selected === value) {
       return;
     }
 
     parameter.selected = value;
+    parameter.sel = value;
 
     if (parameter.name === "Diameter (mm)") {
       let baseCurve = null;
@@ -221,7 +287,6 @@ export class ProductViewComponent implements OnInit {
           }
           break;
 
-        //TODO: revisar luego de correr los sql en BD
         case "Quattro 3-Monthly":
         case "Quattro Conventional":
           switch (value) {
@@ -244,6 +309,7 @@ export class ProductViewComponent implements OnInit {
     }
 
     if (parameter.name === "Dominance") {
+      // ADDITION
       let addition = null;
       if (eye === "right") {
         addition = _.find(this.product.parametersRight, { name: 'Addition' });
@@ -251,26 +317,84 @@ export class ProductViewComponent implements OnInit {
         addition = _.find(this.product.parametersLeft, { name: 'Addition' });
       }
 
-      if (!addition) {
+      if (addition) {
+        // Reset selection addition
+        addition.selected = null;
+        addition.sel = null;
+
+        switch (this.product.father) {
+          case "Quattro 3-Monthly":
+          case "Quattro Conventional":
+            switch (value) {
+              case "CN":
+                addition.values = ["1.0", "1.75", "2.50"];
+                break;
+              case "CD":
+                addition.values = ["1.0", "2.0", "3.0"];
+                break;
+            }
+          default:
+            break;
+        }
+      }
+
+      //SPHERE
+      let sphere = null;
+      if (eye === "right") {
+        sphere = _.find(this.product.parametersRight, { name: 'Sphere (D)' });
+      } else {
+        sphere = _.find(this.product.parametersLeft, { name: 'Sphere (D)' });
+      }
+
+      if (sphere) {
+        // Reset selection sphere
+        sphere.selected = null;
+        sphere.sel = null;
+
+        switch (this.product.father) {
+          case "Quattro 3-Monthly":
+          case "Quattro Conventional":
+            switch (value) {
+              case "CN":
+                sphere.values = ["1.00", "1.25", "1.50", "1.75", "2.00", "2.25", "2.50", "2.75", "3.00", "3.25", "3.50", "3.75", "4.00", "4.25", "4.50", "4.75", "5.00", "5.25", "5.50", "5.75", "6.00", "6.25", "6.50", "6.75", "7.00", "7.25", "7.50", "7.75", "8.00"];
+                break;
+              case "CD":
+                sphere.values = ["-12.00", "-11.75", "-11.50", "-11.25", "-11.00", "-10.75", "-10.50", "-10.25", "-10.00", "-9.75", "-9.50", "-9.25", "-9.00", "-8.75", "-8.50", "-8.25", "-8.00", "-7.75", "-7.50", "-7.25", "-7.00", "-6.75", "-6.50", "-6.25", "-6.00", "-5.75", "-5.50", "-5.25", "-5.00", "-4.75", "-4.50", "-4.25", "-4.00", "-3.75", "-3.50", "-3.25", "-3.00", "-2.75", "-2.50", "-2.25", "-2.00", "-1.75", "-1.50", "-1.25", "-1.00"];
+                break;
+            }
+          default:
+            break;
+        }
+      }
+    }
+
+    if (parameter.name === "Cylinder (D)") {
+      let axes = null;
+      if (eye === "right") {
+        axes = _.find(this.product.parametersRight, { name: 'Axes (º)' });
+      } else {
+        axes = _.find(this.product.parametersLeft, { name: 'Axes (º)' });
+      }
+
+      if (!axes) {
         return;
       }
 
       // Reset selection base curve
-      addition.selected = null;
-      addition.sel = null;
+      axes.selected = null;
+      axes.sel = null;
 
       switch (this.product.father) {
-        case "Quattro 3-Monthly":
-        case "Quattro Conventional":
-          switch (value) {
-            case "CN":
-              addition.values = ["1.0", "1.75", "2.50"];
-              break;
-            case "CD":
-              addition.values = ["1.0", "2.0", "3.0"];
-              break;
+        case "Xtensa Rx":
+          if (_.includes(["-5.75", "-5.25", "-4.75", "-4.25", "-3.75", "-3.25", "-2.75"], value)) {
+            axes.values = ["10"];
+            axes.selected = "10";
+            axes.sel = "10";
+          } else {
+            axes.values = ["5"];
+            axes.selected = "5";
+            axes.sel = "5";
           }
-        default:
           break;
       }
     }
