@@ -46,6 +46,8 @@ export class ProductViewComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  codeMarkennovyL: any;
+  codeMarkennovyR: any;
 
   constructor(private productService: ProductService,
     private route: ActivatedRoute,
@@ -90,6 +92,8 @@ export class ProductViewComponent implements OnInit {
     this.product = _.find(this.products, { idProduct: this.id });
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
+    this.codeMarkennovyL = this.product.code;
+    this.codeMarkennovyR = this.product.code;
     this.product.type = JSON.parse(this.product.types)[0].name;
     let orderCylinder;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
@@ -155,6 +159,12 @@ export class ProductViewComponent implements OnInit {
         // Reset selection sphere
         sphere.selected = null;
         sphere.sel = null;
+      }
+
+      if (eye === 'right') {
+        this.codeMarkennovyR = this.product.code;
+      } else {
+        this.codeMarkennovyL = this.product.code;
       }
     }
 
@@ -366,6 +376,94 @@ export class ProductViewComponent implements OnInit {
             break;
         }
       }
+
+      // CODE
+      if (eye === 'right') {
+        switch (this.product.name) {
+          case 'Saphir Rx MF Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'Y1D' : 'Y2N'
+            break;
+          case 'Saphir Rx MFT Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'Y3D' : 'Y4N'
+            break;
+          case 'Gentle 80 MF Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'G81' : 'G82'
+            break;
+          case 'Gentle 80 MFT Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'G83' : 'G84'
+            break;
+          case 'Gentle 59 MF Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'MDS' : 'MNS'
+            break;
+          case 'Gentle 59 MFT Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'TDS' : 'TNS'
+            break;
+          case 'Blu:gen MF Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'BMD' : 'BMN'
+            break;
+          case 'Blu:gen MFT Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'BFD' : 'BFN'
+            break;
+          case 'Blu:kidz MF Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'BB3' : 'BB5'
+            break;
+          case 'Blu:kidz MFT Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'BB6' : 'BB7'
+            break;
+          case 'Blu:kidz MF 3pk':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'BZ3' : 'BZ5'
+            break;
+          case 'Blu:kidz MFT 3pk':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'BZ6' : 'BZ7'
+            break;
+          case 'Xtensa MF Blister':
+            this.codeMarkennovyR = parameter.name === 'CD' ? 'V53' : 'V63'
+            break;
+        }
+      } else {
+        switch (this.product.name) {
+          case 'Saphir Rx MF Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'Y1D' : 'Y2N'
+            break;
+          case 'Saphir Rx MFT Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'Y3D' : 'Y4N'
+            break;
+          case 'Gentle 80 MF Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'G81' : 'G82'
+            break;
+          case 'Gentle 80 MFT Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'G83' : 'G84'
+            break;
+          case 'Gentle 59 MF Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'MDS' : 'MNS'
+            break;
+          case 'Gentle 59 MFT Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'TDS' : 'TNS'
+            break;
+          case 'Blu:gen MF Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'BMD' : 'BMN'
+            break;
+          case 'Blu:gen MFT Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'BFD' : 'BFN'
+            break;
+          case 'Blu:kidz MF Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'BB3' : 'BB5'
+            break;
+          case 'Blu:kidz MFT Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'BB6' : 'BB7'
+            break;
+          case 'Blu:kidz MF 3pk':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'BZ3' : 'BZ5'
+            break;
+          case 'Blu:kidz MFT 3pk':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'BZ6' : 'BZ7'
+            break;
+          case 'Xtensa MF Blister':
+            this.codeMarkennovyL = parameter.name === 'CD' ? 'V53' : 'V63'
+            break;
+        }
+      }
+
     }
 
     if (parameter.name === "Cylinder (D)") {
@@ -525,12 +623,15 @@ export class ProductViewComponent implements OnInit {
     let product = this.productCopy;
     //let productCode = this.productCode;
     let productsSelected = this.productsSelected;
+    let codeL = this.codeMarkennovyL;
+    let codeR = this.codeMarkennovyR;
 
     _.each(productsSelected, function (productSelected, index) {
 
       productSelected.id = product.idProduct;
       productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
+      let code: any;
 
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
@@ -539,6 +640,7 @@ export class ProductViewComponent implements OnInit {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersRight;
+        code = codeR;
       }
 
       if (productSelected.eye === "Left") {
@@ -548,9 +650,10 @@ export class ProductViewComponent implements OnInit {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersLeft;
+        code = codeL;
       }
 
-      productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
+      productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters, code:  code};
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye']);
     });
 
