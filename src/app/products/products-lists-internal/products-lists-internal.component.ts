@@ -212,38 +212,38 @@ export class ProductsListInternalComponent implements OnInit {
     }
     if (productsBluSsentials.length) {
       this.productsMarkennovy.push({name:"Blu:ssentials",
-                                    mainImg:"assets/images/products/markennovy/blussentials.png",
-                                    replacementPeriod:"Monthly", //TODO: check
+                                    mainImg:"assets/images/products/markennovy/blussentials.jpg",
+                                    replacementPeriod:"Monthly",
                                     father: "Blu:ssentials"});
     }
     if (productsEquilibria.length) {
       this.productsMarkennovy.push({name:"Equilibria",
-                                    mainImg:"assets/images/products/markennovy/equilibria.png",
-                                    replacementPeriod:"Monthly", //TODO: check
+                                    mainImg:"assets/images/products/markennovy/equilibria.jpg",
+                                    replacementPeriod:"3-Monthly",
                                     father: "Equilibria"});
     }
     if (productsMylo.length) {
       this.productsMarkennovy.push({name:"Mylo",
-                                    mainImg:"assets/images/products/markennovy/mylo.png",
-                                    replacementPeriod:"Monthly", //TODO: check
+                                    mainImg:"assets/images/products/markennovy/mylo.jpg",
+                                    replacementPeriod:"Monthly",
                                     father: "Mylo"});
     }
     if (productsTechnical5T.length) {
       this.productsMarkennovy.push({name:"Technical 5T",
-                                    mainImg:"assets/images/products/markennovy/technical5t.png",
-                                    replacementPeriod:"Monthly", //TODO: check
+                                    mainImg:"assets/images/products/markennovy/technical5t.jpg",
+                                    replacementPeriod:"Yearly",
                                     father: "Technical 5T"});
     }
     if (productsEquilibria.length) {
       this.productsMarkennovy.push({name:"ET 43",
-                                    mainImg:"assets/images/products/markennovy/et43.png",
-                                    replacementPeriod:"Monthly", //TODO: check
+                                    mainImg:"assets/images/products/markennovy/et43.jpg",
+                                    replacementPeriod:"Yearly",
                                     father: "ET 43"});
     }
     if (productsMylo.length) {
       this.productsMarkennovy.push({name:"Technical Quattro",
-                                    mainImg:"assets/images/products/markennovy/technical_quattro.png",
-                                    replacementPeriod:"Monthly", //TODO: check
+                                    mainImg:"assets/images/products/markennovy/technical_quattro.jpg",
+                                    replacementPeriod:"3-Monthly",
                                     father: "Technical Quattro"});
     }
 
@@ -335,7 +335,8 @@ export class ProductsListInternalComponent implements OnInit {
   redirectView(product) {
     switch (product.supplier.idSupplier) {
       case 1: // markennovy
-        this.router.navigate(['/products/' + product.idProduct + '/product-view']);
+        window.open('/products/' + product.idProduct + '/product-view', "_blank");
+        //this.router.navigate(['/products/' + product.idProduct + '/product-view']);
         break;
       case 2: // europa
         if (product.name === 'Consultation Form') {
