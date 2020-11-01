@@ -335,8 +335,7 @@ export class ProductsListInternalComponent implements OnInit {
   redirectView(product) {
     switch (product.supplier.idSupplier) {
       case 1: // markennovy
-        window.open('/products/' + product.idProduct + '/product-view', "_blank");
-        //this.router.navigate(['/products/' + product.idProduct + '/product-view']);
+        this.router.navigate(['/products/' + product.idProduct + '/product-view']);
         break;
       case 2: // europa
         if (product.name === 'Consultation Form') {

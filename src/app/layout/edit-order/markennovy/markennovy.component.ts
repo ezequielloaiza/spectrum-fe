@@ -175,7 +175,6 @@ export class MarkennovyComponent implements OnInit {
       if (baseCurve) {
         // Reset selection base curve
         baseCurve.selected = null;
-        baseCurve.sel = null;
       }
     }
 
@@ -187,7 +186,6 @@ export class MarkennovyComponent implements OnInit {
       if (addition) {
         // Reset selection addition
         addition.selected = null;
-        addition.sel = null;
       }
 
       //SPHERE
@@ -197,7 +195,6 @@ export class MarkennovyComponent implements OnInit {
       if (sphere) {
         // Reset selection sphere
         sphere.selected = null;
-        sphere.sel = null;
       }
 
       this.codeMarkennovy = this.product.code;
@@ -210,18 +207,11 @@ export class MarkennovyComponent implements OnInit {
       if (axes) {
         // Reset selection base curve
         axes.selected = null;
-        axes.sel = null;
       }
     }
   }
 
   changeSelect(parameter, value) {
-    if (parameter.selected === value) {
-      return;
-    }
-
-    parameter.selected = value;
-    parameter.sel = value;
 
     if (parameter.name === "Diameter (mm)") {
       let baseCurve = null;
@@ -233,7 +223,6 @@ export class MarkennovyComponent implements OnInit {
 
       // Reset selection base curve
       baseCurve.selected = null;
-      baseCurve.sel = null;
 
       switch (this.product.father) {
         case "Gentle 80":
@@ -353,7 +342,6 @@ export class MarkennovyComponent implements OnInit {
       if (addition) {
         // Reset selection addition
         addition.selected = null;
-        addition.sel = null;
 
         switch (this.product.father) {
           case "Quattro 3-Monthly":
@@ -378,7 +366,6 @@ export class MarkennovyComponent implements OnInit {
       if (sphere) {
         // Reset selection sphere
         sphere.selected = null;
-        sphere.sel = null;
 
         switch (this.product.father) {
           case "Quattro 3-Monthly":
@@ -397,46 +384,45 @@ export class MarkennovyComponent implements OnInit {
       }
 
       // CODE
-
       switch (this.product.name) {
         case 'Saphir Rx MF Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'Y1D' : 'Y2N';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'Y1D' : 'Y2N'
           break;
         case 'Saphir Rx MFT Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'Y3D' : 'Y4N';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'Y3D' : 'Y4N'
           break;
         case 'Gentle 80 MF Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'G81' : 'G82';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'G81' : 'G82'
           break;
         case 'Gentle 80 MFT Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'G83' : 'G84';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'G83' : 'G84'
           break;
         case 'Gentle 59 MF Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'MDS' : 'MNS';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'MDS' : 'MNS'
           break;
         case 'Gentle 59 MFT Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'TDS' : 'TNS';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'TDS' : 'TNS'
           break;
         case 'Blu:gen MF Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'BMD' : 'BMN';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'BMD' : 'BMN'
           break;
         case 'Blu:gen MFT Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'BFD' : 'BFN';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'BFD' : 'BFN'
           break;
         case 'Blu:kidz MF Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'BB3' : 'BB5';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'BB3' : 'BB5'
           break;
         case 'Blu:kidz MFT Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'BB6' : 'BB7';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'BB6' : 'BB7'
           break;
         case 'Blu:kidz MF 3pk':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'BZ3' : 'BZ5';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'BZ3' : 'BZ5'
           break;
         case 'Blu:kidz MFT 3pk':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'BZ6' : 'BZ7';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'BZ6' : 'BZ7'
           break;
         case 'Xtensa MF Blister':
-          this.codeMarkennovy = parameter.name === 'CD' ? 'V53' : 'V63';
+          this.codeMarkennovy = parameter.selected === 'CD' ? 'V53' : 'V63'
           break;
       }
     }
@@ -451,18 +437,15 @@ export class MarkennovyComponent implements OnInit {
 
       // Reset selection base curve
       axes.selected = null;
-      axes.sel = null;
 
       switch (this.product.father) {
         case "Xtensa Rx":
           if (_.includes(["-5.75", "-5.25", "-4.75", "-4.25", "-3.75", "-3.25", "-2.75"], value)) {
             axes.values = ["10"];
             axes.selected = "10";
-            axes.sel = "10";
           } else {
             axes.values = ["5"];
             axes.selected = "5";
-            axes.sel = "5";
           }
           break;
       }

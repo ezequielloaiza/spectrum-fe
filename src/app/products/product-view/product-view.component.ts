@@ -381,89 +381,88 @@ export class ProductViewComponent implements OnInit {
       if (eye === 'right') {
         switch (this.product.name) {
           case 'Saphir Rx MF Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'Y1D' : 'Y2N'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'Y1D' : 'Y2N'
             break;
           case 'Saphir Rx MFT Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'Y3D' : 'Y4N'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'Y3D' : 'Y4N'
             break;
           case 'Gentle 80 MF Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'G81' : 'G82'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'G81' : 'G82'
             break;
           case 'Gentle 80 MFT Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'G83' : 'G84'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'G83' : 'G84'
             break;
           case 'Gentle 59 MF Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'MDS' : 'MNS'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'MDS' : 'MNS'
             break;
           case 'Gentle 59 MFT Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'TDS' : 'TNS'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'TDS' : 'TNS'
             break;
           case 'Blu:gen MF Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'BMD' : 'BMN'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BMD' : 'BMN'
             break;
           case 'Blu:gen MFT Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'BFD' : 'BFN'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BFD' : 'BFN'
             break;
           case 'Blu:kidz MF Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'BB3' : 'BB5'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BB3' : 'BB5'
             break;
           case 'Blu:kidz MFT Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'BB6' : 'BB7'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BB6' : 'BB7'
             break;
           case 'Blu:kidz MF 3pk':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'BZ3' : 'BZ5'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BZ3' : 'BZ5'
             break;
           case 'Blu:kidz MFT 3pk':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'BZ6' : 'BZ7'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BZ6' : 'BZ7'
             break;
           case 'Xtensa MF Blister':
-            this.codeMarkennovyR = parameter.name === 'CD' ? 'V53' : 'V63'
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'V53' : 'V63'
             break;
         }
-      } else {
+      } else { //Eye left
         switch (this.product.name) {
           case 'Saphir Rx MF Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'Y1D' : 'Y2N'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'Y1D' : 'Y2N'
             break;
           case 'Saphir Rx MFT Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'Y3D' : 'Y4N'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'Y3D' : 'Y4N'
             break;
           case 'Gentle 80 MF Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'G81' : 'G82'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'G81' : 'G82'
             break;
           case 'Gentle 80 MFT Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'G83' : 'G84'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'G83' : 'G84'
             break;
           case 'Gentle 59 MF Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'MDS' : 'MNS'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'MDS' : 'MNS'
             break;
           case 'Gentle 59 MFT Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'TDS' : 'TNS'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'TDS' : 'TNS'
             break;
           case 'Blu:gen MF Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'BMD' : 'BMN'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BMD' : 'BMN'
             break;
           case 'Blu:gen MFT Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'BFD' : 'BFN'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BFD' : 'BFN'
             break;
           case 'Blu:kidz MF Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'BB3' : 'BB5'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BB3' : 'BB5'
             break;
           case 'Blu:kidz MFT Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'BB6' : 'BB7'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BB6' : 'BB7'
             break;
           case 'Blu:kidz MF 3pk':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'BZ3' : 'BZ5'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BZ3' : 'BZ5'
             break;
           case 'Blu:kidz MFT 3pk':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'BZ6' : 'BZ7'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BZ6' : 'BZ7'
             break;
           case 'Xtensa MF Blister':
-            this.codeMarkennovyL = parameter.name === 'CD' ? 'V53' : 'V63'
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'V53' : 'V63'
             break;
         }
       }
-
     }
 
     if (parameter.name === "Cylinder (D)") {
