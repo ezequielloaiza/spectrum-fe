@@ -212,37 +212,37 @@ export class ProductsListInternalComponent implements OnInit {
     }
     if (productsBluSsentials.length) {
       this.productsMarkennovy.push({name:"Blu:ssentials",
-                                    mainImg:"assets/images/products/markennovy/blussentials.jpg",
+                                    mainImg:"assets/images/products/markennovy/blussentials.png",
                                     replacementPeriod:"Monthly",
                                     father: "Blu:ssentials"});
     }
     if (productsEquilibria.length) {
       this.productsMarkennovy.push({name:"Equilibria",
-                                    mainImg:"assets/images/products/markennovy/equilibria.jpg",
+                                    mainImg:"assets/images/products/markennovy/equilibria.png",
                                     replacementPeriod:"3-Monthly",
                                     father: "Equilibria"});
     }
     if (productsMylo.length) {
       this.productsMarkennovy.push({name:"Mylo",
-                                    mainImg:"assets/images/products/markennovy/mylo.jpg",
+                                    mainImg:"assets/images/products/markennovy/mylo.png",
                                     replacementPeriod:"Monthly",
                                     father: "Mylo"});
     }
     if (productsTechnical5T.length) {
       this.productsMarkennovy.push({name:"Technical 5T",
-                                    mainImg:"assets/images/products/markennovy/technical5t.jpg",
+                                    mainImg:"assets/images/products/markennovy/technical5t.png",
                                     replacementPeriod:"Yearly",
                                     father: "Technical 5T"});
     }
     if (productsEquilibria.length) {
       this.productsMarkennovy.push({name:"ET 43",
-                                    mainImg:"assets/images/products/markennovy/et43.jpg",
+                                    mainImg:"assets/images/products/markennovy/et43.png",
                                     replacementPeriod:"Yearly",
                                     father: "ET 43"});
     }
     if (productsMylo.length) {
       this.productsMarkennovy.push({name:"Technical Quattro",
-                                    mainImg:"assets/images/products/markennovy/technical_quattro.jpg",
+                                    mainImg:"assets/images/products/markennovy/technical_quattro.png",
                                     replacementPeriod:"3-Monthly",
                                     father: "Technical Quattro"});
     }
