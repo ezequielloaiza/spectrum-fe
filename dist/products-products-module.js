@@ -12378,7 +12378,7 @@ var ProductViewSynergeyesComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n         <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div>-->\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"item-properties col-md-2\">\n          <dt>{{ product.properties.name | translate }}</dt>\n          <p>\n            <!--<img *ngFor=\"let property of product.properties.values\" placement=\"top\" ngbTooltip=\"{{ property.title }}\"\n              class=\"\" src=\"{{ property.image }}\" width=\"30\" height=\"30\">&nbsp;-->\n          </p>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Material' | translate}}</dt>\n          <dd>\n            <a>{{ product.material }}</a>\n          </dd>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Replacemente Period' | translate }}</dt>\n          <p>{{ product.replacementPeriod | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Warranty' | translate }}</dt>\n          <p>{{ product.warranty }} {{ 'days' | translate }}</p>\n        </div>\n        <div class=\"col-md-2\" [hidden]=\"product.url === null\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ product.url }}\" target=\"_blank\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content \">\n            <input class=\"form-control\" type=\"text\" maxlength=\"20\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content \" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\"\n              [(ngModel)]=\"product.client\" disabled required>\n          </div>\n          <div class=\"row info-content \" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\"\n              required>\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content \">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n        <div class=\"col-lg-1\">\n          <h5 class=\"padding-price\" [hidden]=\"product.priceSale===''\">\n            <span>{{ product.priceSale | currency : \"USD $\" }}</span>\n          </h5>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specific your product' | translate }}</label>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header-params\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n          <div class=\"title\">{{ 'Parameters' | translate }}</div>\n          <div class=\"row\">\n            <!--quantity right-->\n            <div class=\"col-lg-2 margin-col padding-col\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                  [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\">\n              </div>\n            </div>\n            <!--params right-->\n            <div *ngFor=\"let parameter of product.parametersRight\" class=\"col-lg-2 padding-col margin-col\">\n              <div *ngIf=\"parameter.values && parameter.values.length > 0\">\n                <!--param name-->\n                <div class=\"row \">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row select-values\" *ngIf=\"parameter.type === 'selected'\">\n                  <ng-select (change)=\"changeSelect('right', parameter, $event)\" [items]=\"parameter.values\" [disabled]=\"!product.eyeRight\"\n                    [(ngModel)]=\"parameter.sel\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n                    [required]=\"product.eyeRight\">\n                    {{item}}\n                  </ng-select>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n          <div class=\"title\">{{ 'Parameters' | translate }}</div>\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-2  margin-col padding-col\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"product.quantityLeft\" oninput=\"validity.valid||(value='');\"\n                  [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\">\n              </div>\n            </div>\n            <!--params left-->\n            <div class=\"col-lg-2 padding-col margin-col\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div *ngIf=\"parameter.values && parameter.values.length > 0\">\n                <!--param name-->\n                <div class=\"row\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row select-values\">\n                  <ng-select (change)=\"changeSelect('left', parameter, $event)\" [items]=\"parameter.values\" [disabled]=\"!product.eyeLeft\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.sel\" bindLabel=\"item\" bindValue=\"item\"\n                    placeholder=\"{{ 'Select value' | translate }}\">\n                    {{item}}\n                  </ng-select>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <!--row (comments)\n      <div class=\"row comments\">\n        <div class=\"col-md-12\">\n          <div class=\"row header\">\n            <div class=\"col-md-6\">\n              <div class=\"title\">{{ 'Comments Right Eye' | translate }}</div>\n              <textarea class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\" [disabled]=\"!product.eyeRight\"\n                placeholder=\"{{ 'Enter right eye observations' | translate }}\"></textarea>\n            </div>\n            <div class=\"col-md-6\">\n              <div class=\"title\">{{ 'Comments Left Eye' | translate }}</div>\n              <textarea class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\" [disabled]=\"!product.eyeLeft\"\n                placeholder=\"{{ 'Enter left eye observations' | translate }}\"></textarea>\n            </div>\n          </div>\n        </div>\n      </div> -->\n\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n         <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div>-->\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\">\n        <div *ngIf=\"product.properties\" class=\"item-properties col-md-2\">\n          <dt>{{ product.properties.name | translate }}</dt>\n          <p>\n            <!--<img *ngFor=\"let property of product.properties.values\" placement=\"top\" ngbTooltip=\"{{ property.title }}\"\n              class=\"\" src=\"{{ property.image }}\" width=\"30\" height=\"30\">&nbsp;-->\n          </p>\n        </div>\n        <div *ngIf=\"product.material\" class=\"col-md-3\">\n          <dt>{{ 'Material' | translate}}</dt>\n          <dd>\n            <a>{{ product.material }}</a>\n          </dd>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Replacemente Period' | translate }}</dt>\n          <p>{{ product.replacementPeriod | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Warranty' | translate }}</dt>\n          <p>{{ product.warranty }} {{ 'days' | translate }}</p>\n        </div>\n        <div class=\"col-md-2\" [hidden]=\"product.url === null || product.url === undefined || product.url === ''\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ product.url }}\" target=\"_blank\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content \">\n            <input class=\"form-control\" type=\"text\" maxlength=\"20\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content \" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\"\n              [(ngModel)]=\"product.client\" disabled required>\n          </div>\n          <div class=\"row info-content \" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\"\n              required>\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content \">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n        <div class=\"col-lg-1\">\n          <h5 class=\"padding-price\" [hidden]=\"product.priceSale===''\">\n            <span>{{ product.priceSale | currency : \"USD $\" }}</span>\n          </h5>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specific your product' | translate }}</label>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header-params\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n          <div class=\"title\">{{ 'Parameters' | translate }}</div>\n          <div class=\"row\">\n            <!--quantity right-->\n            <div class=\"col-lg-2 margin-col padding-col\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                  [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\">\n              </div>\n            </div>\n            <!--params right-->\n            <div *ngFor=\"let parameter of product.parametersRight\" class=\"col-lg-2 padding-col margin-col\">\n              <div *ngIf=\"parameter.values && parameter.values.length > 0\">\n                <!--param name-->\n                <div class=\"row \">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row select-values\" *ngIf=\"parameter.type === 'selected'\">\n                  <ng-select (change)=\"changeSelect('right', parameter, $event)\" [items]=\"parameter.values\" [disabled]=\"!product.eyeRight\"\n                    [(ngModel)]=\"parameter.sel\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n                    [required]=\"product.eyeRight\" (clear)=\"resetParams('right', parameter)\">\n                    {{item}}\n                  </ng-select>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n          <div class=\"title\">{{ 'Parameters' | translate }}</div>\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-2  margin-col padding-col\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"product.quantityLeft\" oninput=\"validity.valid||(value='');\"\n                  [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\">\n              </div>\n            </div>\n            <!--params left-->\n            <div class=\"col-lg-2 padding-col margin-col\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div *ngIf=\"parameter.values && parameter.values.length > 0\">\n                <!--param name-->\n                <div class=\"row\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row select-values\">\n                  <ng-select (change)=\"changeSelect('left', parameter, $event)\" [items]=\"parameter.values\" [disabled]=\"!product.eyeLeft\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.sel\" bindLabel=\"item\" bindValue=\"item\"\n                    placeholder=\"{{ 'Select value' | translate }}\">\n                    {{item}}\n                  </ng-select>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <!--row (comments)\n      <div class=\"row comments\">\n        <div class=\"col-md-12\">\n          <div class=\"row header\">\n            <div class=\"col-md-6\">\n              <div class=\"title\">{{ 'Comments Right Eye' | translate }}</div>\n              <textarea class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\" [disabled]=\"!product.eyeRight\"\n                placeholder=\"{{ 'Enter right eye observations' | translate }}\"></textarea>\n            </div>\n            <div class=\"col-md-6\">\n              <div class=\"title\">{{ 'Comments Left Eye' | translate }}</div>\n              <textarea class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\" [disabled]=\"!product.eyeLeft\"\n                placeholder=\"{{ 'Enter left eye observations' | translate }}\"></textarea>\n            </div>\n          </div>\n        </div>\n      </div> -->\n\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -12465,7 +12465,7 @@ var ProductViewComponent = /** @class */ (function () {
         this.products = new Array;
         this.quantity = 1;
         this.productsSelected = new Array;
-        this.axesXtensa = new Array;
+        // axesXtensa: Array<any> = new Array;
         this.basketRequestModal = new _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_13__["BasketRequest"]();
         this.listCustomers = new Array;
         this.listCustomersAux = new Array;
@@ -12474,12 +12474,6 @@ var ProductViewComponent = /** @class */ (function () {
     }
     ProductViewComponent.prototype.ngOnInit = function () {
         this.getProducts();
-        /* var product xtensa */
-        this.setAxesXtensa();
-    };
-    ProductViewComponent.prototype.setAxesXtensa = function () {
-        this.axesXtensa = [{ "values": ["5º", "10º", "15º", "20º", "25º", "30º", "35º", "40º", "45º", "50º", "55º", "60º", "65º", "70º", "75º", "80º", "85º", "90º", "95º", "100º", "105º", "110º", "115º", "120º", "125º", "130º", "135º", "140º", "145º", "150º", "155º", "160º", "165º", "170º", "175º", "180º"] },
-            { "values": ["10º", "20º", "30º", "40º", "50º", "60º", "70º", "80º", "90º", "100º", "110º", "120º", "130º", "140º", "150º", "160º", "170º", "180º"] }];
     };
     ProductViewComponent.prototype.getProducts = function () {
         var _this = this;
@@ -12506,6 +12500,8 @@ var ProductViewComponent = /** @class */ (function () {
         this.product = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.products, { idProduct: this.id });
         this.product.eyeRight = false;
         this.product.eyeLeft = false;
+        this.codeMarkennovyL = this.product.code;
+        this.codeMarkennovyR = this.product.code;
         this.product.type = JSON.parse(this.product.types)[0].name;
         var orderCylinder;
         this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
@@ -12518,11 +12514,375 @@ var ProductViewComponent = /** @class */ (function () {
         if (orderCylinder != null) {
             orderCylinder.values.reverse();
         }
-        this.product.properties = JSON.parse(this.product.infoAditional)[0];
+        this.product.properties = this.product.infoAditional ? JSON.parse(this.product.infoAditional)[0] : null;
         this.product.priceSale = '';
         this.setClient();
         this.setPrice();
         this.addSign();
+    };
+    ProductViewComponent.prototype.resetParams = function (eye, parameter) {
+        if (parameter.name === "Diameter (mm)") {
+            var baseCurve = null;
+            if (eye === "right") {
+                baseCurve = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Base Curve (mm)' });
+            }
+            else {
+                baseCurve = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Base Curve (mm)' });
+            }
+            if (!baseCurve) {
+                return;
+            }
+            // Reset selection base curve
+            baseCurve.selected = null;
+            baseCurve.sel = null;
+        }
+        if (parameter.name === "Dominance") {
+            // ADDITION
+            var addition = null;
+            if (eye === "right") {
+                addition = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Addition' });
+            }
+            else {
+                addition = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Addition' });
+            }
+            if (addition) {
+                // Reset selection addition
+                addition.selected = null;
+                addition.sel = null;
+            }
+            //SPHERE
+            var sphere = null;
+            if (eye === "right") {
+                sphere = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Sphere (D)' });
+            }
+            else {
+                sphere = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Sphere (D)' });
+            }
+            if (sphere) {
+                // Reset selection sphere
+                sphere.selected = null;
+                sphere.sel = null;
+            }
+            if (eye === 'right') {
+                this.codeMarkennovyR = this.product.code;
+            }
+            else {
+                this.codeMarkennovyL = this.product.code;
+            }
+        }
+        if (parameter.name === "Cylinder (D)") {
+            var axes = null;
+            if (eye === "right") {
+                axes = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Axes (º)' });
+            }
+            else {
+                axes = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Axes (º)' });
+            }
+            if (axes) {
+                // Reset selection base curve
+                axes.selected = null;
+                axes.sel = null;
+            }
+        }
+    };
+    ProductViewComponent.prototype.changeSelect = function (eye, parameter, value) {
+        if (parameter.selected === value) {
+            return;
+        }
+        parameter.selected = value;
+        parameter.sel = value;
+        if (parameter.name === "Diameter (mm)") {
+            var baseCurve = null;
+            if (eye === "right") {
+                baseCurve = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Base Curve (mm)' });
+            }
+            else {
+                baseCurve = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Base Curve (mm)' });
+            }
+            if (!baseCurve) {
+                return;
+            }
+            // Reset selection base curve
+            baseCurve.selected = null;
+            baseCurve.sel = null;
+            switch (this.product.father) {
+                case "Gentle 80":
+                case "Gentle 59":
+                    switch (value) {
+                        case "13.0":
+                            baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+                            break;
+                        case "13.5":
+                            baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+                            break;
+                        case "14.0":
+                            baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+                            break;
+                        case "14.5":
+                            baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.0":
+                            baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.5":
+                            baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "16.0":
+                            baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                    }
+                    break;
+                case "Blu:gen":
+                    switch (value) {
+                        case "11.5":
+                        case "12.0":
+                            baseCurve.values = ["6.5", "6.8", "7.1", "7.4", "7.7", "8.0", "8.3"];
+                            break;
+                        case "12.5":
+                        case "13.0":
+                            baseCurve.values = ["6.5", "6.8", "7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+                            break;
+                        case "13.5":
+                            baseCurve.values = ["6.8", "7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+                            break;
+                        case "14.0":
+                            baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+                            break;
+                        case "14.5":
+                            baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.0":
+                            baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.5":
+                            baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "16.0":
+                            baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "16.5":
+                            baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                    }
+                    break;
+                case "Saphir Rx":
+                case "Saphir":
+                    switch (value) {
+                        case "13.0":
+                            baseCurve.values = ["6.8", "7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+                            break;
+                        case "13.5":
+                            baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+                            break;
+                        case "14.0":
+                            baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+                            break;
+                        case "14.5":
+                            baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.0":
+                            baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.5":
+                            baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "16.0":
+                            baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                    }
+                    break;
+                case "Quattro 3-Monthly":
+                case "Quattro Conventional":
+                    switch (value) {
+                        case "13.0":
+                            baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+                            break;
+                        case "14.5":
+                            if (this.product.name === "Quattro Sph UV x1 Conv") {
+                                baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            }
+                            else {
+                                baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            }
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (parameter.name === "Dominance") {
+            // ADDITION
+            var addition = null;
+            if (eye === "right") {
+                addition = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Addition' });
+            }
+            else {
+                addition = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Addition' });
+            }
+            if (addition) {
+                // Reset selection addition
+                addition.selected = null;
+                addition.sel = null;
+                switch (this.product.father) {
+                    case "Quattro 3-Monthly":
+                    case "Quattro Conventional":
+                        switch (value) {
+                            case "CN":
+                                addition.values = ["1.0", "1.75", "2.50"];
+                                break;
+                            case "CD":
+                                addition.values = ["1.0", "2.0", "3.0"];
+                                break;
+                        }
+                    default:
+                        break;
+                }
+            }
+            //SPHERE
+            var sphere = null;
+            if (eye === "right") {
+                sphere = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Sphere (D)' });
+            }
+            else {
+                sphere = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Sphere (D)' });
+            }
+            if (sphere) {
+                // Reset selection sphere
+                sphere.selected = null;
+                sphere.sel = null;
+                switch (this.product.father) {
+                    case "Quattro 3-Monthly":
+                    case "Quattro Conventional":
+                        switch (value) {
+                            case "CN":
+                                sphere.values = ["1.00", "1.25", "1.50", "1.75", "2.00", "2.25", "2.50", "2.75", "3.00", "3.25", "3.50", "3.75", "4.00", "4.25", "4.50", "4.75", "5.00", "5.25", "5.50", "5.75", "6.00", "6.25", "6.50", "6.75", "7.00", "7.25", "7.50", "7.75", "8.00"];
+                                break;
+                            case "CD":
+                                sphere.values = ["-12.00", "-11.75", "-11.50", "-11.25", "-11.00", "-10.75", "-10.50", "-10.25", "-10.00", "-9.75", "-9.50", "-9.25", "-9.00", "-8.75", "-8.50", "-8.25", "-8.00", "-7.75", "-7.50", "-7.25", "-7.00", "-6.75", "-6.50", "-6.25", "-6.00", "-5.75", "-5.50", "-5.25", "-5.00", "-4.75", "-4.50", "-4.25", "-4.00", "-3.75", "-3.50", "-3.25", "-3.00", "-2.75", "-2.50", "-2.25", "-2.00", "-1.75", "-1.50", "-1.25", "-1.00"];
+                                break;
+                        }
+                    default:
+                        break;
+                }
+            }
+            // CODE
+            if (eye === 'right') {
+                switch (this.product.name) {
+                    case 'Saphir Rx MF Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'Y1D' : 'Y2N';
+                        break;
+                    case 'Saphir Rx MFT Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'Y3D' : 'Y4N';
+                        break;
+                    case 'Gentle 80 MF Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'G81' : 'G82';
+                        break;
+                    case 'Gentle 80 MFT Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'G83' : 'G84';
+                        break;
+                    case 'Gentle 59 MF Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'MDS' : 'MNS';
+                        break;
+                    case 'Gentle 59 MFT Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'TDS' : 'TNS';
+                        break;
+                    case 'Blu:gen MF Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'BMD' : 'BMN';
+                        break;
+                    case 'Blu:gen MFT Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'BFD' : 'BFN';
+                        break;
+                    case 'Blu:kidz MF Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'BB3' : 'BB5';
+                        break;
+                    case 'Blu:kidz MFT Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'BB6' : 'BB7';
+                        break;
+                    case 'Blu:kidz MF 3pk':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'BZ3' : 'BZ5';
+                        break;
+                    case 'Blu:kidz MFT 3pk':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'BZ6' : 'BZ7';
+                        break;
+                    case 'Xtensa MF Blister':
+                        this.codeMarkennovyR = parameter.selected === 'CD' ? 'V53' : 'V63';
+                        break;
+                }
+            }
+            else {
+                switch (this.product.name) {
+                    case 'Saphir Rx MF Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'Y1D' : 'Y2N';
+                        break;
+                    case 'Saphir Rx MFT Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'Y3D' : 'Y4N';
+                        break;
+                    case 'Gentle 80 MF Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'G81' : 'G82';
+                        break;
+                    case 'Gentle 80 MFT Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'G83' : 'G84';
+                        break;
+                    case 'Gentle 59 MF Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'MDS' : 'MNS';
+                        break;
+                    case 'Gentle 59 MFT Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'TDS' : 'TNS';
+                        break;
+                    case 'Blu:gen MF Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'BMD' : 'BMN';
+                        break;
+                    case 'Blu:gen MFT Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'BFD' : 'BFN';
+                        break;
+                    case 'Blu:kidz MF Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'BB3' : 'BB5';
+                        break;
+                    case 'Blu:kidz MFT Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'BB6' : 'BB7';
+                        break;
+                    case 'Blu:kidz MF 3pk':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'BZ3' : 'BZ5';
+                        break;
+                    case 'Blu:kidz MFT 3pk':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'BZ6' : 'BZ7';
+                        break;
+                    case 'Xtensa MF Blister':
+                        this.codeMarkennovyL = parameter.selected === 'CD' ? 'V53' : 'V63';
+                        break;
+                }
+            }
+        }
+        if (parameter.name === "Cylinder (D)") {
+            var axes = null;
+            if (eye === "right") {
+                axes = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersRight, { name: 'Axes (º)' });
+            }
+            else {
+                axes = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.product.parametersLeft, { name: 'Axes (º)' });
+            }
+            if (!axes) {
+                return;
+            }
+            // Reset selection base curve
+            axes.selected = null;
+            axes.sel = null;
+            switch (this.product.father) {
+                case "Xtensa Rx":
+                    if (lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](["-5.75", "-5.25", "-4.75", "-4.25", "-3.75", "-3.25", "-2.75"], value)) {
+                        axes.values = ["10"];
+                        axes.selected = "10";
+                        axes.sel = "10";
+                    }
+                    else {
+                        axes.values = ["5"];
+                        axes.selected = "5";
+                        axes.sel = "5";
+                    }
+                    break;
+            }
+        }
     };
     /*setCodeProduct() {
       const productCode = this.product.codeSpectrum;
@@ -12543,29 +12903,6 @@ var ProductViewComponent = /** @class */ (function () {
       }, error => {
         console.log('error', error);
       });
-    }*/
-    ProductViewComponent.prototype.changeSelect = function (eye, parameter, value) {
-        parameter.selected = value;
-        /*if (this.product.father === "Xtensa" && parameter.name === 'Cylinder (D)'){
-          this.setValuesAxesXtensa(eye, value);
-        }*/
-    };
-    /*setValuesAxesXtensa(eye, value) {
-      if (eye === 'right') {
-        this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
-        if (parseFloat(value) <= -3.25) {
-          this.paramAxesRight.values = this.axesXtensa[0].values;
-        } else {
-          this.paramAxesRight.values = this.axesXtensa[1].values;
-        }
-      } else {
-        this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
-        if (parseFloat(value) <= -3.25) {
-          this.paramAxesLeft.values = this.axesXtensa[0].values;
-        } else {
-          this.paramAxesLeft.values = this.axesXtensa[1].values;
-        }
-      }
     }*/
     ProductViewComponent.prototype.setValueEye = function (eye) {
         if (eye === 'right') {
@@ -12607,7 +12944,6 @@ var ProductViewComponent = /** @class */ (function () {
                     _this.listCustomers = lodash__WEBPACK_IMPORTED_MODULE_1__["filter"](_this.listCustomersAux, function (u) {
                         return !(u.cardCode === null || u.cardCode === '');
                     });
-                    //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.cardCode + ' ' + i.country.name + ' ' + i.name; return i; });
                     _this.listCustomers.map(function (i) {
                         var accSpct = !!i.accSpct ? i.accSpct + ' - ' : '';
                         i.fullName = accSpct + i.name + ' | ' + i.cardCode + ' | ' + i.country.name;
@@ -12670,10 +13006,13 @@ var ProductViewComponent = /** @class */ (function () {
         var product = this.productCopy;
         //let productCode = this.productCode;
         var productsSelected = this.productsSelected;
+        var codeL = this.codeMarkennovyL;
+        var codeR = this.codeMarkennovyR;
         lodash__WEBPACK_IMPORTED_MODULE_1__["each"](productsSelected, function (productSelected, index) {
             productSelected.id = product.idProduct;
             productSelected.patient = product.patient;
             productSelected.price = product.priceSale;
+            var code;
             if (productSelected.eye === "Right") {
                 productSelected.quantity = product.quantityRight;
                 productSelected.observations = product.observationsRight;
@@ -12681,6 +13020,7 @@ var ProductViewComponent = /** @class */ (function () {
                     product.parametersRight[index] = lodash__WEBPACK_IMPORTED_MODULE_1__["omit"](parameter, ['type', 'values', 'sel']);
                 });
                 productSelected.parameters = product.parametersRight;
+                code = codeR;
             }
             if (productSelected.eye === "Left") {
                 productSelected.quantity = product.quantityLeft;
@@ -12689,8 +13029,9 @@ var ProductViewComponent = /** @class */ (function () {
                     product.parametersLeft[index] = lodash__WEBPACK_IMPORTED_MODULE_1__["omit"](parameter, ['type', 'values', 'sel']);
                 });
                 productSelected.parameters = product.parametersLeft;
+                code = codeL;
             }
-            productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
+            productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters, code: code };
             productsSelected[index] = lodash__WEBPACK_IMPORTED_MODULE_1__["omit"](productSelected, ['parameters', 'eye']);
         });
         return productsSelected;
@@ -12965,6 +13306,12 @@ var ProductsListInternalComponent = /** @class */ (function () {
         var productsQuattroX3 = [];
         var productsQuattroX1 = [];
         var productsJade = [];
+        var productsBluSsentials = [];
+        var productsEquilibria = [];
+        var productsMylo = [];
+        var productsTechnical5T = [];
+        var productsET43 = [];
+        var productsTechnicalQuattro = [];
         var userIsAdmin = this.userIsAdmin();
         lodash__WEBPACK_IMPORTED_MODULE_4__["each"](this.products, function (product) {
             if (userIsAdmin || product.status) {
@@ -13001,6 +13348,24 @@ var ProductsListInternalComponent = /** @class */ (function () {
                         break;
                     case 'Jade':
                         productsJade.push(product);
+                        break;
+                    case 'Blu:ssentials':
+                        productsBluSsentials.push(product);
+                        break;
+                    case 'Equilibria':
+                        productsEquilibria.push(product);
+                        break;
+                    case 'Mylo':
+                        productsMylo.push(product);
+                        break;
+                    case 'Technical 5T':
+                        productsTechnical5T.push(product);
+                        break;
+                    case 'ET43':
+                        productsET43.push(product);
+                        break;
+                    case 'Technical Quattro':
+                        productsTechnicalQuattro.push(product);
                         break;
                 }
             }
@@ -13070,6 +13435,42 @@ var ProductsListInternalComponent = /** @class */ (function () {
                 mainImg: "assets/images/products/markennovy/quattro-conventional.png",
                 replacementPeriod: "Conventional",
                 father: "Quattro Conventional" });
+        }
+        if (productsBluSsentials.length) {
+            this.productsMarkennovy.push({ name: "Blu:ssentials",
+                mainImg: "assets/images/products/markennovy/blussentials.png",
+                replacementPeriod: "Monthly",
+                father: "Blu:ssentials" });
+        }
+        if (productsEquilibria.length) {
+            this.productsMarkennovy.push({ name: "Equilibria",
+                mainImg: "assets/images/products/markennovy/equilibria.png",
+                replacementPeriod: "3-Monthly",
+                father: "Equilibria" });
+        }
+        if (productsMylo.length) {
+            this.productsMarkennovy.push({ name: "Mylo",
+                mainImg: "assets/images/products/markennovy/mylo.png",
+                replacementPeriod: "Monthly",
+                father: "Mylo" });
+        }
+        if (productsTechnical5T.length) {
+            this.productsMarkennovy.push({ name: "Technical 5T",
+                mainImg: "assets/images/products/markennovy/technical5t.png",
+                replacementPeriod: "Yearly",
+                father: "Technical 5T" });
+        }
+        if (productsEquilibria.length) {
+            this.productsMarkennovy.push({ name: "ET 43",
+                mainImg: "assets/images/products/markennovy/et43.png",
+                replacementPeriod: "Yearly",
+                father: "ET 43" });
+        }
+        if (productsMylo.length) {
+            this.productsMarkennovy.push({ name: "Technical Quattro",
+                mainImg: "assets/images/products/markennovy/technical_quattro.png",
+                replacementPeriod: "3-Monthly",
+                father: "Technical Quattro" });
         }
         this.productsAuxMarkennovy = this.productsMarkennovy;
     };
@@ -13423,17 +13824,20 @@ var ProductsListInternalComponent = /** @class */ (function () {
         if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
             product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa Rx' ||
             product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Jade'
-            || product.father === 'Xtensa') {
+            || product.father === 'Xtensa' || product.father === 'Mylo') {
             this.packings.push({ 'product': product, 'type': 'Blister' });
         }
-        if (product.father === 'Xtensa' || product.father === 'Jade') {
+        if (product.father === 'Equilibria') {
+            this.packings.push({ 'product': product, 'type': 'Vial' });
+        }
+        if (product.father === 'Xtensa' || product.father === 'Jade' || product.father === 'Mylo') {
             this.packings.push({ 'product': product, 'type': '6pk' });
         }
         if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
             product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa Rx') {
             this.packings.push({ 'product': product, 'type': '3pk' });
         }
-        if (product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
+        if (product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Equilibria') {
             this.packings.push({ 'product': product, 'type': '2pk' });
         }
         this.currentFather = product.father;

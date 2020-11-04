@@ -9889,7 +9889,7 @@ var MagicLookComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"product\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Edit Product' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modalReference.dismiss()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket\">\n    <div class=\"row\">\n      <!--Image-->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <div *ngIf=\"typeEdit === 1\">\n          <img class=\"img-product\" src=\"{{ basket.urlImage }}\">\n        </div>\n        <div *ngIf=\"typeEdit === 2\">\n            <img class=\"img-product\" src=\"{{ image }}\">\n        </div>\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <span>{{ 'Patient' | translate }}</span>\n          <div class=\"col-lg-12 main-info\">\n            <input class=\"form-control main-info\" type=\"text\" maxlength=\"20\" placeholder=\"{{ 'Introduce name patient' | translate }}\" [(ngModel)]=\"patient\" required>\n          </div>\n        </div>\n        <div class=\"col-lg-12 title eye-info\">\n          <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n        </div>\n      </div>\n      <!--PARAMETERS-->\n      <div class=\"col-lg-12 label-title\">\n        <div class=\"row padding-params\">\n          <div class=\"col-sm-3\" [hidden]=\"!editPrice\">\n            <dl>\n              <dt>{{'Price'| translate}}\n              </dt>\n              <dl>\n                <div class=\"form-group input-group\">\n                    <div class=\"input-group-append\">\n                      <span class=\"input-group-text\">$</span>\n                    </div>\n                    <input class=\"form-control\" type=\"text\" currencyMask  [options] = \" {prefix: '', miles: ',', decimal: '.'}\" [(ngModel)]=\"price\" oninput=\"validity.valid||(value='');\" placeholder=\"{{ 'Enter price' | translate }}\"\n                        name=\"price1\">\n                </div>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl>\n              <dt>{{'Quantity'| translate}}\n              </dt>\n              <dl>\n                <div class=\"row\">\n                  <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"quantity\" oninput=\"validity.valid||(value='');\" required>\n                </div>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of product.parameters\">\n            <dl>\n              <dt *ngIf=\"parameter.name !=='Dominancia'\">{{ parameter.name| translate}}</dt>\n              <dl>\n                <dt>\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !=='Dominancia'\">\n                    <ng-select class=\"display-row\" [items]=\"parameter.values\" [(ngModel)]=\"parameter.selected\" bindLabel=\"item\" bindValue=\"item\"\n                      placeholder=\"{{ 'Select value' | translate }}\" required>\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input'\" class=\"separator\">\n                    <input class=\"form-control col-sm-12\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\" [(ngModel)]=\"parameter.selected\"\n                      oninput=\"validity.valid||(value='');\" required>\n                  </div>\n                </dt>\n              </dl>\n            </dl>\n          </div>\n        </div>\n      </div>\n      <!--Fin parameters-->\n      <div class=\"col-lg-12\">\n        <div class=\"row padding-params\">\n          <div class=\"col-sm-12\">\n            <dl>\n              <dt>{{'Comments'| translate}}\n              </dt>\n              <dl>\n                <div>\n                  <textarea style=\"overflow-x: hidden;\" class=\"form-control col-md-12 comment\" type=\"text\" [(ngModel)]=\"observations\" placeholder=\"{{ 'Introduces observations' | translate }}\"></textarea>\n                </div>\n              </dl>\n            </dl>\n          </div>\n        </div>\n      </div>\n    </div>\n\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modalReference.dismiss()\">{{ 'Cancel' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [disabled]=\"!formIsValid()\">{{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n  </div>\n</div>\n"
+module.exports = "<div *ngIf=\"product\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Edit Product' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"modalReference.dismiss()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket\">\n    <div class=\"row\">\n      <!--Image-->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <div *ngIf=\"typeEdit === 1\">\n          <img class=\"img-product\" src=\"{{ basket.urlImage }}\">\n        </div>\n        <div *ngIf=\"typeEdit === 2\">\n            <img class=\"img-product\" src=\"{{ image }}\">\n        </div>\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <span>{{ 'Patient' | translate }}</span>\n          <div class=\"col-lg-12 main-info\">\n            <input class=\"form-control main-info\" type=\"text\" maxlength=\"20\" placeholder=\"{{ 'Introduce name patient' | translate }}\" [(ngModel)]=\"patient\" required>\n          </div>\n        </div>\n        <div class=\"col-lg-12 title eye-info\">\n          <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n        </div>\n      </div>\n      <!--PARAMETERS-->\n      <div class=\"col-lg-12 label-title\">\n        <div class=\"row padding-params\">\n          <div class=\"col-sm-3\" [hidden]=\"!editPrice\">\n            <dl>\n              <dt>{{'Price'| translate}}\n              </dt>\n              <dl>\n                <div class=\"form-group input-group\">\n                    <div class=\"input-group-append\">\n                      <span class=\"input-group-text\">$</span>\n                    </div>\n                    <input class=\"form-control\" type=\"text\" currencyMask  [options] = \" {prefix: '', miles: ',', decimal: '.'}\" [(ngModel)]=\"price\" oninput=\"validity.valid||(value='');\" placeholder=\"{{ 'Enter price' | translate }}\"\n                        name=\"price1\">\n                </div>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl>\n              <dt>{{'Quantity'| translate}}\n              </dt>\n              <dl>\n                <div class=\"row\">\n                  <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"quantity\" oninput=\"validity.valid||(value='');\" required>\n                </div>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of product.parameters\">\n            <dl>\n              <dt>{{ parameter.name| translate}}</dt>\n              <dl>\n                <dt>\n                  <div *ngIf=\"parameter.type === 'selected' \">\n                    <ng-select class=\"display-row\" [items]=\"parameter.values\" [(ngModel)]=\"parameter.selected\" bindLabel=\"item\" bindValue=\"item\"\n                      placeholder=\"{{ 'Select value' | translate }}\"  (change)=\"changeSelect(parameter, $event)\" (clear)=\"resetParams(parameter)\" required>\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input'\" class=\"separator\">\n                    <input class=\"form-control col-sm-12\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\" [(ngModel)]=\"parameter.selected\"\n                      oninput=\"validity.valid||(value='');\" required>\n                  </div>\n                </dt>\n              </dl>\n            </dl>\n          </div>\n        </div>\n      </div>\n      <!--Fin parameters-->\n      <div class=\"col-lg-12\">\n        <div class=\"row padding-params\">\n          <div class=\"col-sm-12\">\n            <dl>\n              <dt>{{'Comments'| translate}}\n              </dt>\n              <dl>\n                <div>\n                  <textarea style=\"overflow-x: hidden;\" class=\"form-control col-md-12 comment\" type=\"text\" [(ngModel)]=\"observations\" placeholder=\"{{ 'Introduces observations' | translate }}\"></textarea>\n                </div>\n              </dl>\n            </dl>\n          </div>\n        </div>\n      </div>\n    </div>\n\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"modalReference.dismiss()\">{{ 'Cancel' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [disabled]=\"!formIsValid()\">{{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -9982,6 +9982,7 @@ var MarkennovyComponent = /** @class */ (function () {
         this.observations = this.productRequested.observations;
         this.price = this.productRequested.price;
         this.patient = this.productRequested.patient;
+        this.codeMarkennovy = this.product.code;
         var paramet = this.addSign();
         lodash__WEBPACK_IMPORTED_MODULE_2__["each"](this.detail.parameters, function (item) {
             lodash__WEBPACK_IMPORTED_MODULE_2__["each"](paramet, function (productSelected) {
@@ -9991,9 +9992,6 @@ var MarkennovyComponent = /** @class */ (function () {
             });
         });
         this.product.parameters = paramet;
-    };
-    MarkennovyComponent.prototype.changeSelect = function (parameter, value) {
-        parameter.selected = value;
     };
     MarkennovyComponent.prototype.save = function () {
         this.spinner.show();
@@ -10007,7 +10005,8 @@ var MarkennovyComponent = /** @class */ (function () {
         });
         if (this.typeEdit === 1) {
             this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-            this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters }) + ']';
+            this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+                parameters: this.detail.parameters, code: this.codeMarkennovy }) + ']';
             this.productRequested.observations = this.observations;
             this.productRequested.price = this.price;
             this.productRequested.quantity = this.quantity;
@@ -10017,7 +10016,8 @@ var MarkennovyComponent = /** @class */ (function () {
         }
         else {
             this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-            this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye, parameters: this.detail.parameters }) + ']';
+            this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+                parameters: this.detail.parameters, code: this.codeMarkennovy }) + ']';
             this.productRequestedAux.observations = this.observations;
             this.productRequestedAux.price = this.price;
             this.productRequestedAux.quantity = this.quantity;
@@ -10044,8 +10044,8 @@ var MarkennovyComponent = /** @class */ (function () {
         this.productRequestedService.update$(productRequested).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
                 _this.spinner.hide();
-                _this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe(function (res) {
-                    _this.notification.success('', res);
+                _this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe(function (res1) {
+                    _this.notification.success('', res1);
                 });
                 productRequested = res.data;
                 productRequested.detail = JSON.parse(productRequested.detail);
@@ -10080,6 +10080,264 @@ var MarkennovyComponent = /** @class */ (function () {
             }
         });
         return parameters;
+    };
+    MarkennovyComponent.prototype.resetParams = function (eye, parameter) {
+        if (parameter.name === "Diameter (mm)") {
+            var baseCurve = null;
+            baseCurve = lodash__WEBPACK_IMPORTED_MODULE_2__["find"](this.product.parameters, { name: 'Base Curve (mm)' });
+            if (baseCurve) {
+                // Reset selection base curve
+                baseCurve.selected = null;
+            }
+        }
+        if (parameter.name === "Dominance") {
+            // ADDITION
+            var addition = null;
+            addition = lodash__WEBPACK_IMPORTED_MODULE_2__["find"](this.product.parameters, { name: 'Addition' });
+            if (addition) {
+                // Reset selection addition
+                addition.selected = null;
+            }
+            //SPHERE
+            var sphere = null;
+            sphere = lodash__WEBPACK_IMPORTED_MODULE_2__["find"](this.product.parameters, { name: 'Sphere (D)' });
+            if (sphere) {
+                // Reset selection sphere
+                sphere.selected = null;
+            }
+            this.codeMarkennovy = this.product.code;
+        }
+        if (parameter.name === 'Cylinder (D)') {
+            var axes = null;
+            axes = lodash__WEBPACK_IMPORTED_MODULE_2__["find"](this.product.parameters, { name: 'Axes (º)' });
+            if (axes) {
+                // Reset selection base curve
+                axes.selected = null;
+            }
+        }
+    };
+    MarkennovyComponent.prototype.changeSelect = function (parameter, value) {
+        if (parameter.name === "Diameter (mm)") {
+            var baseCurve = null;
+            baseCurve = lodash__WEBPACK_IMPORTED_MODULE_2__["find"](this.product.parameters, { name: 'Base Curve (mm)' });
+            if (!baseCurve) {
+                return;
+            }
+            // Reset selection base curve
+            baseCurve.selected = null;
+            switch (this.product.father) {
+                case "Gentle 80":
+                case "Gentle 59":
+                    switch (value) {
+                        case "13.0":
+                            baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+                            break;
+                        case "13.5":
+                            baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+                            break;
+                        case "14.0":
+                            baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+                            break;
+                        case "14.5":
+                            baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.0":
+                            baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.5":
+                            baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "16.0":
+                            baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                    }
+                    break;
+                case "Blu:gen":
+                    switch (value) {
+                        case "11.5":
+                        case "12.0":
+                            baseCurve.values = ["6.5", "6.8", "7.1", "7.4", "7.7", "8.0", "8.3"];
+                            break;
+                        case "12.5":
+                        case "13.0":
+                            baseCurve.values = ["6.5", "6.8", "7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+                            break;
+                        case "13.5":
+                            baseCurve.values = ["6.8", "7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+                            break;
+                        case "14.0":
+                            baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+                            break;
+                        case "14.5":
+                            baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.0":
+                            baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.5":
+                            baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "16.0":
+                            baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "16.5":
+                            baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                    }
+                    break;
+                case "Saphir Rx":
+                case "Saphir":
+                    switch (value) {
+                        case "13.0":
+                            baseCurve.values = ["6.8", "7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+                            break;
+                        case "13.5":
+                            baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+                            break;
+                        case "14.0":
+                            baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+                            break;
+                        case "14.5":
+                            baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.0":
+                            baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "15.5":
+                            baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                        case "16.0":
+                            baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+                            break;
+                    }
+                    break;
+                case "Quattro 3-Monthly":
+                case "Quattro Conventional":
+                    switch (value) {
+                        case "13.0":
+                            baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+                            break;
+                        case "14.5":
+                            if (this.product.name === "Quattro Sph UV x1 Conv") {
+                                baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            }
+                            else {
+                                baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+                            }
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (parameter.name === "Dominance") {
+            // ADDITION
+            var addition = null;
+            addition = lodash__WEBPACK_IMPORTED_MODULE_2__["find"](this.product.parameters, { name: 'Addition' });
+            if (addition) {
+                // Reset selection addition
+                addition.selected = null;
+                switch (this.product.father) {
+                    case "Quattro 3-Monthly":
+                    case "Quattro Conventional":
+                        switch (value) {
+                            case "CN":
+                                addition.values = ["1.0", "1.75", "2.50"];
+                                break;
+                            case "CD":
+                                addition.values = ["1.0", "2.0", "3.0"];
+                                break;
+                        }
+                    default:
+                        break;
+                }
+            }
+            //SPHERE
+            var sphere = null;
+            sphere = lodash__WEBPACK_IMPORTED_MODULE_2__["find"](this.product.parameters, { name: 'Sphere (D)' });
+            if (sphere) {
+                // Reset selection sphere
+                sphere.selected = null;
+                switch (this.product.father) {
+                    case "Quattro 3-Monthly":
+                    case "Quattro Conventional":
+                        switch (value) {
+                            case "CN":
+                                sphere.values = ["1.00", "1.25", "1.50", "1.75", "2.00", "2.25", "2.50", "2.75", "3.00", "3.25", "3.50", "3.75", "4.00", "4.25", "4.50", "4.75", "5.00", "5.25", "5.50", "5.75", "6.00", "6.25", "6.50", "6.75", "7.00", "7.25", "7.50", "7.75", "8.00"];
+                                break;
+                            case "CD":
+                                sphere.values = ["-12.00", "-11.75", "-11.50", "-11.25", "-11.00", "-10.75", "-10.50", "-10.25", "-10.00", "-9.75", "-9.50", "-9.25", "-9.00", "-8.75", "-8.50", "-8.25", "-8.00", "-7.75", "-7.50", "-7.25", "-7.00", "-6.75", "-6.50", "-6.25", "-6.00", "-5.75", "-5.50", "-5.25", "-5.00", "-4.75", "-4.50", "-4.25", "-4.00", "-3.75", "-3.50", "-3.25", "-3.00", "-2.75", "-2.50", "-2.25", "-2.00", "-1.75", "-1.50", "-1.25", "-1.00"];
+                                break;
+                        }
+                    default:
+                        break;
+                }
+            }
+            // CODE
+            switch (this.product.name) {
+                case 'Saphir Rx MF Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'Y1D' : 'Y2N';
+                    break;
+                case 'Saphir Rx MFT Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'Y3D' : 'Y4N';
+                    break;
+                case 'Gentle 80 MF Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'G81' : 'G82';
+                    break;
+                case 'Gentle 80 MFT Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'G83' : 'G84';
+                    break;
+                case 'Gentle 59 MF Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'MDS' : 'MNS';
+                    break;
+                case 'Gentle 59 MFT Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'TDS' : 'TNS';
+                    break;
+                case 'Blu:gen MF Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'BMD' : 'BMN';
+                    break;
+                case 'Blu:gen MFT Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'BFD' : 'BFN';
+                    break;
+                case 'Blu:kidz MF Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'BB3' : 'BB5';
+                    break;
+                case 'Blu:kidz MFT Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'BB6' : 'BB7';
+                    break;
+                case 'Blu:kidz MF 3pk':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'BZ3' : 'BZ5';
+                    break;
+                case 'Blu:kidz MFT 3pk':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'BZ6' : 'BZ7';
+                    break;
+                case 'Xtensa MF Blister':
+                    this.codeMarkennovy = parameter.selected === 'CD' ? 'V53' : 'V63';
+                    break;
+            }
+        }
+        if (parameter.name === "Cylinder (D)") {
+            var axes = null;
+            axes = lodash__WEBPACK_IMPORTED_MODULE_2__["find"](this.product.parameters, { name: 'Axes (º)' });
+            if (!axes) {
+                return;
+            }
+            // Reset selection base curve
+            axes.selected = null;
+            switch (this.product.father) {
+                case "Xtensa Rx":
+                    if (lodash__WEBPACK_IMPORTED_MODULE_2__["includes"](["-5.75", "-5.25", "-4.75", "-4.25", "-3.75", "-3.25", "-2.75"], value)) {
+                        axes.values = ["10"];
+                        axes.selected = "10";
+                    }
+                    else {
+                        axes.values = ["5"];
+                        axes.selected = "5";
+                    }
+                    break;
+            }
+        }
     };
     MarkennovyComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
