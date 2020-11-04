@@ -1,25 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ProductRequested } from '../../shared/models/productrequested';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 import { BasketService } from '../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { environment } from '../../../../src/environments/environment';
-import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { ConfirmationMarkennovyComponent } from '../modals/confirmation-buy/confirmation-markennovy/confirmation-markennovy.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -46,12 +40,14 @@ export class ProductViewComponent implements OnInit {
   // configuration XTENSA product
   paramAxesRight: any;
   paramAxesLeft: any;
-  axesXtensa: Array<any> = new Array;
+  // axesXtensa: Array<any> = new Array;
   basketRequestModal: BasketRequest = new BasketRequest();
   client: any;
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  codeMarkennovyL: any;
+  codeMarkennovyR: any;
 
   constructor(private productService: ProductService,
     private route: ActivatedRoute,
@@ -70,13 +66,6 @@ export class ProductViewComponent implements OnInit {
 
   ngOnInit() {
     this.getProducts();
-    /* var product xtensa */
-    this.setAxesXtensa();
-  }
-
-  setAxesXtensa() {
-    this.axesXtensa = [{ "values": ["5º", "10º", "15º", "20º", "25º", "30º", "35º", "40º", "45º", "50º", "55º", "60º", "65º", "70º", "75º", "80º", "85º", "90º", "95º", "100º", "105º", "110º", "115º", "120º", "125º", "130º", "135º", "140º", "145º", "150º", "155º", "160º", "165º", "170º", "175º", "180º"] },
-    { "values": ["10º", "20º", "30º", "40º", "50º", "60º", "70º", "80º", "90º", "100º", "110º", "120º", "130º", "140º", "150º", "160º", "170º", "180º"] }];
   }
 
   getProducts() {
@@ -103,6 +92,8 @@ export class ProductViewComponent implements OnInit {
     this.product = _.find(this.products, { idProduct: this.id });
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
+    this.codeMarkennovyL = this.product.code;
+    this.codeMarkennovyR = this.product.code;
     this.product.type = JSON.parse(this.product.types)[0].name;
     let orderCylinder;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
@@ -115,11 +106,395 @@ export class ProductViewComponent implements OnInit {
     if (orderCylinder != null) {
       orderCylinder.values.reverse();
     }
-    this.product.properties = JSON.parse(this.product.infoAditional)[0];
+    this.product.properties = this.product.infoAditional ? JSON.parse(this.product.infoAditional)[0] : null;
     this.product.priceSale = '';
     this.setClient();
     this.setPrice();
     this.addSign();
+  }
+
+  resetParams(eye, parameter) {
+
+    if (parameter.name === "Diameter (mm)") {
+      let baseCurve = null;
+      if (eye === "right") {
+        baseCurve = _.find(this.product.parametersRight, { name: 'Base Curve (mm)' });
+      } else {
+        baseCurve = _.find(this.product.parametersLeft, { name: 'Base Curve (mm)' });
+      }
+
+      if (!baseCurve) {
+        return;
+      }
+
+      // Reset selection base curve
+      baseCurve.selected = null;
+      baseCurve.sel = null;
+    }
+
+    if (parameter.name === "Dominance") {
+      // ADDITION
+      let addition = null;
+      if (eye === "right") {
+        addition = _.find(this.product.parametersRight, { name: 'Addition' });
+      } else {
+        addition = _.find(this.product.parametersLeft, { name: 'Addition' });
+      }
+
+      if (addition) {
+        // Reset selection addition
+        addition.selected = null;
+        addition.sel = null;
+      }
+
+      //SPHERE
+      let sphere = null;
+      if (eye === "right") {
+        sphere = _.find(this.product.parametersRight, { name: 'Sphere (D)' });
+      } else {
+        sphere = _.find(this.product.parametersLeft, { name: 'Sphere (D)' });
+      }
+
+      if (sphere) {
+        // Reset selection sphere
+        sphere.selected = null;
+        sphere.sel = null;
+      }
+
+      if (eye === 'right') {
+        this.codeMarkennovyR = this.product.code;
+      } else {
+        this.codeMarkennovyL = this.product.code;
+      }
+    }
+
+    if (parameter.name === "Cylinder (D)") {
+      let axes = null;
+      if (eye === "right") {
+        axes = _.find(this.product.parametersRight, { name: 'Axes (º)' });
+      } else {
+        axes = _.find(this.product.parametersLeft, { name: 'Axes (º)' });
+      }
+
+      if (axes) {
+        // Reset selection base curve
+        axes.selected = null;
+        axes.sel = null;
+      }
+    }
+  }
+
+  changeSelect(eye, parameter, value) {
+    if (parameter.selected === value) {
+      return;
+    }
+
+    parameter.selected = value;
+    parameter.sel = value;
+
+    if (parameter.name === "Diameter (mm)") {
+      let baseCurve = null;
+      if (eye === "right") {
+        baseCurve = _.find(this.product.parametersRight, { name: 'Base Curve (mm)' });
+      } else {
+        baseCurve = _.find(this.product.parametersLeft, { name: 'Base Curve (mm)' });
+      }
+
+      if (!baseCurve) {
+        return;
+      }
+
+      // Reset selection base curve
+      baseCurve.selected = null;
+      baseCurve.sel = null;
+
+      switch (this.product.father) {
+        case "Gentle 80":
+        case "Gentle 59":
+          switch (value) {
+            case "13.0":
+              baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+              break;
+            case "13.5":
+              baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+              break;
+            case "14.0":
+              baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+              break;
+            case "14.5":
+              baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.0":
+              baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.5":
+              baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "16.0":
+              baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+          }
+          break;
+
+        case "Blu:gen":
+          switch (value) {
+            case "11.5":
+            case "12.0":
+              baseCurve.values = ["6.5", "6.8","7.1", "7.4", "7.7", "8.0", "8.3"];
+              break;
+            case "12.5":
+            case "13.0":
+              baseCurve.values = ["6.5", "6.8","7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+              break;
+            case "13.5":
+              baseCurve.values = ["6.8","7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+              break;
+            case "14.0":
+              baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+              break;
+            case "14.5":
+              baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.0":
+              baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.5":
+              baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "16.0":
+              baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "16.5":
+              baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+          }
+          break;
+
+        case "Saphir Rx":
+        case "Saphir":
+          switch (value) {
+            case "13.0":
+              baseCurve.values = ["6.8","7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+              break;
+            case "13.5":
+              baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2"];
+              break;
+            case "14.0":
+              baseCurve.values = ["7.4", "7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5"];
+              break;
+            case "14.5":
+              baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.0":
+              baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "15.5":
+              baseCurve.values = ["8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+            case "16.0":
+              baseCurve.values = ["8.6", "8.9", "9.2", "9.5", "9.8"];
+              break;
+          }
+          break;
+
+        case "Quattro 3-Monthly":
+        case "Quattro Conventional":
+          switch (value) {
+            case "13.0":
+              baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
+              break;
+            case "14.5":
+              if (this.product.name === "Quattro Sph UV x1 Conv") {
+                baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              } else {
+                baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
+              }
+              break;
+          }
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    if (parameter.name === "Dominance") {
+      // ADDITION
+      let addition = null;
+      if (eye === "right") {
+        addition = _.find(this.product.parametersRight, { name: 'Addition' });
+      } else {
+        addition = _.find(this.product.parametersLeft, { name: 'Addition' });
+      }
+
+      if (addition) {
+        // Reset selection addition
+        addition.selected = null;
+        addition.sel = null;
+
+        switch (this.product.father) {
+          case "Quattro 3-Monthly":
+          case "Quattro Conventional":
+            switch (value) {
+              case "CN":
+                addition.values = ["1.0", "1.75", "2.50"];
+                break;
+              case "CD":
+                addition.values = ["1.0", "2.0", "3.0"];
+                break;
+            }
+          default:
+            break;
+        }
+      }
+
+      //SPHERE
+      let sphere = null;
+      if (eye === "right") {
+        sphere = _.find(this.product.parametersRight, { name: 'Sphere (D)' });
+      } else {
+        sphere = _.find(this.product.parametersLeft, { name: 'Sphere (D)' });
+      }
+
+      if (sphere) {
+        // Reset selection sphere
+        sphere.selected = null;
+        sphere.sel = null;
+
+        switch (this.product.father) {
+          case "Quattro 3-Monthly":
+          case "Quattro Conventional":
+            switch (value) {
+              case "CN":
+                sphere.values = ["1.00", "1.25", "1.50", "1.75", "2.00", "2.25", "2.50", "2.75", "3.00", "3.25", "3.50", "3.75", "4.00", "4.25", "4.50", "4.75", "5.00", "5.25", "5.50", "5.75", "6.00", "6.25", "6.50", "6.75", "7.00", "7.25", "7.50", "7.75", "8.00"];
+                break;
+              case "CD":
+                sphere.values = ["-12.00", "-11.75", "-11.50", "-11.25", "-11.00", "-10.75", "-10.50", "-10.25", "-10.00", "-9.75", "-9.50", "-9.25", "-9.00", "-8.75", "-8.50", "-8.25", "-8.00", "-7.75", "-7.50", "-7.25", "-7.00", "-6.75", "-6.50", "-6.25", "-6.00", "-5.75", "-5.50", "-5.25", "-5.00", "-4.75", "-4.50", "-4.25", "-4.00", "-3.75", "-3.50", "-3.25", "-3.00", "-2.75", "-2.50", "-2.25", "-2.00", "-1.75", "-1.50", "-1.25", "-1.00"];
+                break;
+            }
+          default:
+            break;
+        }
+      }
+
+      // CODE
+      if (eye === 'right') {
+        switch (this.product.name) {
+          case 'Saphir Rx MF Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'Y1D' : 'Y2N'
+            break;
+          case 'Saphir Rx MFT Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'Y3D' : 'Y4N'
+            break;
+          case 'Gentle 80 MF Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'G81' : 'G82'
+            break;
+          case 'Gentle 80 MFT Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'G83' : 'G84'
+            break;
+          case 'Gentle 59 MF Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'MDS' : 'MNS'
+            break;
+          case 'Gentle 59 MFT Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'TDS' : 'TNS'
+            break;
+          case 'Blu:gen MF Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BMD' : 'BMN'
+            break;
+          case 'Blu:gen MFT Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BFD' : 'BFN'
+            break;
+          case 'Blu:kidz MF Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BB3' : 'BB5'
+            break;
+          case 'Blu:kidz MFT Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BB6' : 'BB7'
+            break;
+          case 'Blu:kidz MF 3pk':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BZ3' : 'BZ5'
+            break;
+          case 'Blu:kidz MFT 3pk':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'BZ6' : 'BZ7'
+            break;
+          case 'Xtensa MF Blister':
+            this.codeMarkennovyR = parameter.selected === 'CD' ? 'V53' : 'V63'
+            break;
+        }
+      } else { //Eye left
+        switch (this.product.name) {
+          case 'Saphir Rx MF Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'Y1D' : 'Y2N'
+            break;
+          case 'Saphir Rx MFT Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'Y3D' : 'Y4N'
+            break;
+          case 'Gentle 80 MF Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'G81' : 'G82'
+            break;
+          case 'Gentle 80 MFT Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'G83' : 'G84'
+            break;
+          case 'Gentle 59 MF Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'MDS' : 'MNS'
+            break;
+          case 'Gentle 59 MFT Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'TDS' : 'TNS'
+            break;
+          case 'Blu:gen MF Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BMD' : 'BMN'
+            break;
+          case 'Blu:gen MFT Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BFD' : 'BFN'
+            break;
+          case 'Blu:kidz MF Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BB3' : 'BB5'
+            break;
+          case 'Blu:kidz MFT Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BB6' : 'BB7'
+            break;
+          case 'Blu:kidz MF 3pk':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BZ3' : 'BZ5'
+            break;
+          case 'Blu:kidz MFT 3pk':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'BZ6' : 'BZ7'
+            break;
+          case 'Xtensa MF Blister':
+            this.codeMarkennovyL = parameter.selected === 'CD' ? 'V53' : 'V63'
+            break;
+        }
+      }
+    }
+
+    if (parameter.name === "Cylinder (D)") {
+      let axes = null;
+      if (eye === "right") {
+        axes = _.find(this.product.parametersRight, { name: 'Axes (º)' });
+      } else {
+        axes = _.find(this.product.parametersLeft, { name: 'Axes (º)' });
+      }
+
+      if (!axes) {
+        return;
+      }
+
+      // Reset selection base curve
+      axes.selected = null;
+      axes.sel = null;
+
+      switch (this.product.father) {
+        case "Xtensa Rx":
+          if (_.includes(["-5.75", "-5.25", "-4.75", "-4.25", "-3.75", "-3.25", "-2.75"], value)) {
+            axes.values = ["10"];
+            axes.selected = "10";
+            axes.sel = "10";
+          } else {
+            axes.values = ["5"];
+            axes.selected = "5";
+            axes.sel = "5";
+          }
+          break;
+      }
+    }
   }
 
   /*setCodeProduct() {
@@ -141,31 +516,6 @@ export class ProductViewComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
-  }*/
-
-  changeSelect(eye, parameter, value) {
-    parameter.selected = value;
-    /*if (this.product.father === "Xtensa" && parameter.name === 'Cylinder (D)'){
-      this.setValuesAxesXtensa(eye, value);
-    }*/
-  }
-
-  /*setValuesAxesXtensa(eye, value) {
-    if (eye === 'right') {
-      this.paramAxesRight = _.find(this.product.parametersRight, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesRight.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesRight.values = this.axesXtensa[1].values;
-      }
-    } else {
-      this.paramAxesLeft = _.find(this.product.parametersLeft, { 'name': 'Axes (º)' });
-      if (parseFloat(value) <= -3.25) {
-        this.paramAxesLeft.values = this.axesXtensa[0].values;
-      } else {
-        this.paramAxesLeft.values = this.axesXtensa[1].values;
-      }
-    }
   }*/
 
   setValueEye(eye) {
@@ -208,7 +558,6 @@ export class ProductViewComponent implements OnInit {
           this.listCustomers = _.filter(this.listCustomersAux, function (u) {
             return !(u.cardCode === null || u.cardCode === '');
           });
-          //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.cardCode + ' ' + i.country.name + ' ' + i.name; return i; });
           this.listCustomers.map((i) => {
             let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
             i.fullName = accSpct + i.name + ' | ' + i.cardCode + ' | ' + i.country.name;
@@ -273,12 +622,15 @@ export class ProductViewComponent implements OnInit {
     let product = this.productCopy;
     //let productCode = this.productCode;
     let productsSelected = this.productsSelected;
+    let codeL = this.codeMarkennovyL;
+    let codeR = this.codeMarkennovyR;
 
     _.each(productsSelected, function (productSelected, index) {
 
       productSelected.id = product.idProduct;
       productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
+      let code: any;
 
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
@@ -287,6 +639,7 @@ export class ProductViewComponent implements OnInit {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersRight;
+        code = codeR;
       }
 
       if (productSelected.eye === "Left") {
@@ -296,9 +649,10 @@ export class ProductViewComponent implements OnInit {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersLeft;
+        code = codeL;
       }
 
-      productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters };
+      productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters, code:  code};
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye']);
     });
 

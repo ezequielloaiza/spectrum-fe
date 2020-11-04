@@ -78,6 +78,12 @@ export class ProductsListInternalComponent implements OnInit {
     var productsQuattroX3 = [];
     var productsQuattroX1 = [];
     var productsJade = [];
+    var productsBluSsentials = [];
+    var productsEquilibria = [];
+    var productsMylo = [];
+    var productsTechnical5T = [];
+    var productsET43 = [];
+    var productsTechnicalQuattro = [];
     var userIsAdmin = this.userIsAdmin();
     _.each(this.products, function(product) {
       if (userIsAdmin || product.status) {
@@ -115,6 +121,24 @@ export class ProductsListInternalComponent implements OnInit {
           case 'Jade':
             productsJade.push(product);
             break;
+          case 'Blu:ssentials':
+            productsBluSsentials.push(product);
+            break;
+          case 'Equilibria':
+            productsEquilibria.push(product);
+            break;
+          case 'Mylo':
+            productsMylo.push(product);
+            break;
+          case 'Technical 5T':
+              productsTechnical5T.push(product);
+              break;
+          case 'ET43':
+              productsET43.push(product);
+              break;
+          case 'Technical Quattro':
+              productsTechnicalQuattro.push(product);
+              break;
         }
       }
     });
@@ -186,6 +210,44 @@ export class ProductsListInternalComponent implements OnInit {
                                     replacementPeriod:"Conventional",
                                     father: "Quattro Conventional"});
     }
+    if (productsBluSsentials.length) {
+      this.productsMarkennovy.push({name:"Blu:ssentials",
+                                    mainImg:"assets/images/products/markennovy/blussentials.png",
+                                    replacementPeriod:"Monthly",
+                                    father: "Blu:ssentials"});
+    }
+    if (productsEquilibria.length) {
+      this.productsMarkennovy.push({name:"Equilibria",
+                                    mainImg:"assets/images/products/markennovy/equilibria.png",
+                                    replacementPeriod:"3-Monthly",
+                                    father: "Equilibria"});
+    }
+    if (productsMylo.length) {
+      this.productsMarkennovy.push({name:"Mylo",
+                                    mainImg:"assets/images/products/markennovy/mylo.png",
+                                    replacementPeriod:"Monthly",
+                                    father: "Mylo"});
+    }
+    if (productsTechnical5T.length) {
+      this.productsMarkennovy.push({name:"Technical 5T",
+                                    mainImg:"assets/images/products/markennovy/technical5t.png",
+                                    replacementPeriod:"Yearly",
+                                    father: "Technical 5T"});
+    }
+    if (productsEquilibria.length) {
+      this.productsMarkennovy.push({name:"ET 43",
+                                    mainImg:"assets/images/products/markennovy/et43.png",
+                                    replacementPeriod:"Yearly",
+                                    father: "ET 43"});
+    }
+    if (productsMylo.length) {
+      this.productsMarkennovy.push({name:"Technical Quattro",
+                                    mainImg:"assets/images/products/markennovy/technical_quattro.png",
+                                    replacementPeriod:"3-Monthly",
+                                    father: "Technical Quattro"});
+    }
+
+
 
     this.productsAuxMarkennovy = this.productsMarkennovy;
   }
@@ -579,12 +641,15 @@ export class ProductsListInternalComponent implements OnInit {
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
         product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa Rx' ||
         product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Jade'
-        || product.father === 'Xtensa') {
-
+        || product.father === 'Xtensa' || product.father === 'Mylo') {
           this.packings.push({ 'product': product, 'type': 'Blister'});
     }
 
-    if (product.father === 'Xtensa' || product.father === 'Jade') {
+    if (product.father === 'Equilibria') {
+      this.packings.push({ 'product': product, 'type': 'Vial' });
+    }
+
+    if (product.father === 'Xtensa' || product.father === 'Jade' || product.father === 'Mylo') {
       this.packings.push({ 'product': product, 'type': '6pk'});
     }
 
@@ -593,7 +658,7 @@ export class ProductsListInternalComponent implements OnInit {
       this.packings.push({ 'product': product, 'type': '3pk'});
     }
 
-    if (product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
+    if (product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Equilibria') {
       this.packings.push({ 'product': product, 'type': '2pk'});
     }
 
