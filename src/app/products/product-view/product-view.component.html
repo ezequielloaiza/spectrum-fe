@@ -154,6 +154,14 @@
               </div>
             </div>
           </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="title">{{ 'Comments Right Eye' | translate }}</div>
+              <textarea class="form-control" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight" maxlength="50"
+                placeholder="{{ 'Enter right eye observations' | translate }}"></textarea>
+            </div>
+          </div>
         </div>
 
         <!-- row (parameters left) -->
@@ -192,26 +200,17 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!--row (comments)
-      <div class="row comments">
-        <div class="col-md-12">
-          <div class="row header">
-            <div class="col-md-6">
-              <div class="title">{{ 'Comments Right Eye' | translate }}</div>
-              <textarea class="form-control" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight"
-                placeholder="{{ 'Enter right eye observations' | translate }}"></textarea>
-            </div>
-            <div class="col-md-6">
+          <br>
+          <div class="row">
+            <div class="col-lg-12">
               <div class="title">{{ 'Comments Left Eye' | translate }}</div>
-              <textarea class="form-control" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft"
+              <textarea class="form-control" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft" maxlength="50"
                 placeholder="{{ 'Enter left eye observations' | translate }}"></textarea>
             </div>
+
           </div>
         </div>
-      </div> -->
+      </div>
 
       <br>
       <div class="row">
