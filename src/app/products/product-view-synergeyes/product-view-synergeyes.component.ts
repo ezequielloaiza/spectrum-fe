@@ -201,6 +201,17 @@ export class ProductViewSynergeyesComponent implements OnInit {
     this.product.priceSaleLeft = 0;
     this.product.pupillaryRight = null;
     this.product.pupillaryLeft = null;
+
+    //default Diameter
+    let diameterRight = null;
+    diameterRight = _.find(this.product.parametersRight, { name: 'Diameter' });
+    diameterRight.sel = diameterRight.selected = "14.50";
+
+    let diameterLeft = null;
+    diameterLeft =  _.find(this.product.parametersLeft, { name: 'Diameter' });
+    diameterLeft.sel = diameterLeft.selected = "14.50";
+
+
     this.setClient();
     this.setPrice();
     this.getProductsCode();
