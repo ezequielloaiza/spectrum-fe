@@ -683,7 +683,7 @@ export class ProductViewOrionComponent implements OnInit {
 
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
-          if (parameter.name === 'Warranty' || parameter.name === 'Limbal Ring' || parameter.name === 'Light Sensitivity' 
+          if (parameter.name === 'Warranty' || parameter.name === 'Limbal Ring' || parameter.name === 'Light Sensitivity'
           || parameter.name === 'Starburst') {
             parameter.selected = parameter.selected === 'Yes' ? true : false;
           }

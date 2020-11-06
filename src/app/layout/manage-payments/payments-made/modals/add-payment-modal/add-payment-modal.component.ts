@@ -356,7 +356,10 @@ export class AddPaymentModalComponent implements OnInit {
   }
 
   private buildFileInvoicePayment() {
+    console.log('buildFileInvoicePayment');
+    console.log('this.uploadResult.success', this.uploadResult.success);
     if (this.uploadResult.success) {
+      console.log('this.uploadResult.response', JSON.parse(this.uploadResult.response));
       const fileInvoicePayment: FileInvoicePayment = new FileInvoicePayment();
       fileInvoicePayment.url = JSON.parse(this.uploadResult.response).data;
       fileInvoicePayment.name = this.uploadResult.item.file.name;

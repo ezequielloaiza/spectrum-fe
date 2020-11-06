@@ -44,16 +44,15 @@ export class InvoiceClientService {
     });
   }
 
+  public findByIds$(listIds: Array<String>): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesClient/allInvoiceByIds', listIds);
+  }
+
   public generateReportInvoices$(status, idClient): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesClient/downloadReportInvoice/' + status + '/' + idClient, {
       responseType: 'blob'
     });
   }
-
-  public findByIds$(listIds: Array<String>): Observable<any> {
-    return this.http.post(environment.apiUrl + 'invoicesClient/allInvoiceByIds', listIds);
-  }
-
 
   public usersWithInvoicesOverdue$(idUser): Observable<any> {
     return this.http.get(environment.apiUrl + 'invoicesClient/usersWithInvoicesOverdue/' + idUser);
