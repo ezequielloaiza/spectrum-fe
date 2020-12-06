@@ -2,7 +2,7 @@
 
 Simple Dashboard Admin App built using Angular 6 and Bootstrap 4
 
-Powered by Softguaro
+Powered by Smart Process Solutions
 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.

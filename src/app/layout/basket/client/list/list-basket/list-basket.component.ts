@@ -272,16 +272,20 @@ export class ListBasketComponent implements OnInit {
     let arrayAuxPA = [];
     let self = this;
 
+    let productsDistinctEuropa = _.filter(this.productRequestedToBuy, function (itemBasket) {
+      return _.find(self.listBasket, function (item) {
+        return item.productRequested.product.supplier.idSupplier !== 2 && item.idBasketProductRequested === itemBasket;
+      });
+    });
+
     const listSelect = this.productRequestedToBuy;
     _.each(this.listBasket, function(item) {
-        _.each(listSelect, function(itemBasket) {
-          if (item.productRequested.product.supplier.idSupplier === 2) {
-            if (item.idBasketProductRequested === itemBasket) {
-              arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
-                item.productRequested.detail[0].eye);
-              listPA = _.concat(listPA, arrayAuxPA);
-            }
-          }
+      _.each(listSelect, function(itemBasket) {
+        if (item.productRequested.product.supplier.idSupplier === 2 && item.idBasketProductRequested === itemBasket) {
+          arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
+            item.productRequested.detail[0].eye);
+          listPA = _.concat(listPA, arrayAuxPA);
+        }
       });
     });
 
@@ -300,7 +304,7 @@ export class ListBasketComponent implements OnInit {
     });
 
     if (arrayAux.length > 0) {
-      this.productRequestedToBuy = arrayAux;
+      this.productRequestedToBuy = _.concat(arrayAux, productsDistinctEuropa);
     }
   }
 

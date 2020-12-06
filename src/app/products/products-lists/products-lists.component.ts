@@ -145,7 +145,7 @@ export class ProductsListsComponent implements OnInit {
           supplier.image = 'assets/images/suppliers/magiclook.png';
           break
         case 6: // Blue Light
-          supplier.image = 'assets/images/suppliers/bluelight.png';
+          supplier.image = 'assets/images/suppliers/lentes-blandos-vendaje.png';
           break
         case 7: // Fluo Strips y spectrum saline
           supplier.image = 'assets/images/suppliers/spectrum_products.jpg';

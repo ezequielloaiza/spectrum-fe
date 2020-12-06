@@ -69,7 +69,7 @@
                 <dt>
                   <div *ngIf="parameter.type === 'selected'">
                     <ng-select class="display-row" (change)="changeSelect(detail.eye, parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected"
-                                bindValue="item" placeholder="{{ 'Select value' | translate }}" [disabled]="disabledPupil(parameter)" 
+                                bindValue="item" placeholder="{{ 'Select value' | translate }}" [disabled]="disabledPupil(parameter)"
                                 [required]="!disabledPupil(parameter)" (clear)="resetPupil(parameter)" >
                       <ng-template ng-label-tmp let-item="item">
                         <div class="supplier-body">
@@ -84,7 +84,7 @@
                     </ng-select>
                   </div>
                   <div *ngIf="parameter.type === 'input' " class="separator">
-                    <input class="form-control col-sm-12" type="number" min="{{getMin(parameter)}}" max="{{getMax(parameter)}}" step="{{getStep(parameter)}}" 
+                    <input class="form-control col-sm-12" type="number" min="{{getMin(parameter)}}" max="{{getMax(parameter)}}" step="{{getStep(parameter)}}"
                       placeholder="{{ parameter.placeholder | translate }}" [(ngModel)]="parameter.selected" (change)="changeSelect(detail.eye, parameter, parameter.selected)"
                       [ngClass]="{'ng-invalid':selected.invalid}" #selected="ngModel" appModulo="{{getStep(parameter)}}" required>
                   </div>
