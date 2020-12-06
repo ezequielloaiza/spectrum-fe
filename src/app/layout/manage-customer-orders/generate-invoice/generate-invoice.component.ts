@@ -419,7 +419,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.shipping = this.order.shippingPrice;
     this.invoice.due = this.order.total;
     this.invoice.listProductRequested = this.loadProductRequestedFromOrder(this.order);
-    this.original.termsAndConditions = 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference';
+    this.original.termsAndConditions = 'Net 30, 3% Fee for CC Payments, Thank you for your trust and preference';
     this.loadOriginalFromOrder(this.order);
   }
 
@@ -449,7 +449,7 @@ export class GenerateInvoiceComponent implements OnInit {
     this.original.due = order.total;
     this.original.listProductRequested = this.loadProductRequestedFromOrder(order);
     this.invoice.numberOriginal = this.original.number;
-    this.original.termsAndConditions = 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference';
+    this.original.termsAndConditions = 'Net 30, 3% Fee for CC Payments, Thank you for your trust and preference';
   }
 
   loadInvoiceShippingProtocol(invoice) {

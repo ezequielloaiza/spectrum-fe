@@ -582,40 +582,14 @@ export class ProductsListInternalComponent implements OnInit {
       return item.father === this.currentFather;
     });
 
-    if (this.currentFather === 'Saphir Rx' && type === 'All') {
-      var productsBlister = [];
-      var products3pk = [];
-      var productsAll = [];
-      const typeB = 'Blister';
-      const type3pk = '3pk';
-
-      // Filtro de listas por tipo de producto
-      productsBlister = products.filter((item) => {
-        return ((item.name.toLowerCase().indexOf(typeB.toLowerCase()) > -1));
-      });
-      products3pk = products.filter((item) => {
-        return ((item.name.toLowerCase().indexOf(type3pk.toLowerCase()) > -1));
-      });
-
-      // Ordenar cada lista por tipo de producto
-      productsBlister = _.orderBy(productsBlister, ['idProduct'], ['asc']);
-      products3pk = _.orderBy(products3pk, ['idProduct'], ['asc']);
-
-      for (let i = 0; i < productsBlister.length; i++) {
-        const productBlister = productsBlister[i];
-        const product3pk = products3pk[i];
-        productsAll.push(productBlister);
-        productsAll.push(product3pk);
-      }
-      this.products = productsAll;
-      return;
-    } else if (type === 'All') {
+    if (type === 'All') {
       this.products = products;
       if (val && val.trim() !== '') {
         this.products = products.filter((item) => {
           return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
         });
       }
+      this.orderByPacking();
       return;
     }
 
@@ -628,10 +602,56 @@ export class ProductsListInternalComponent implements OnInit {
         return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
+    this.orderByPacking();
+  }
 
-    if (this.currentFather === 'Saphir Rx' && (type === 'Blister' || type === '3pk')) {
-      this.products = _.orderBy(this.products, ['idProduct'], ['asc']);
-    }
+  orderByPacking() {
+    var productsBlister = [];
+    var productsVial = [];
+    var products6pk = [];
+    var products3pk = [];
+    var products2pk = []
+    var others = [];
+
+    var products = this.products;
+    products = products.filter((item) => {
+      return item.father === this.currentFather;
+    });
+
+    _.each(products, function (product) {
+      if ((product.name.toLowerCase().indexOf('Blister'.toLowerCase()) > -1)) {
+        productsBlister.push(product);
+      } else if ((product.name.toLowerCase().indexOf('Vial'.toLowerCase()) > -1)) {
+        productsVial.push(product);
+      } else if ((product.name.toLowerCase().indexOf('6pk'.toLowerCase()) > -1)) {
+        products6pk.push(product);
+      } else if ((product.name.toLowerCase().indexOf('3pk'.toLowerCase()) > -1)) {
+        products3pk.push(product);
+      } else if ((product.name.toLowerCase().indexOf('2pk'.toLowerCase()) > -1)) {
+        products2pk.push(product);
+      } else {
+        others.unshift(product);
+      }
+    });
+
+    // Ordenar cada lista por tipo de producto
+    productsBlister = _.orderBy(productsBlister, ['idProduct'], ['asc']);
+    productsVial = _.orderBy(productsVial, ['idProduct'], ['asc']);
+    products6pk = _.orderBy(products6pk, ['idProduct'], ['asc']);
+    products3pk = _.orderBy(products3pk, ['idProduct'], ['asc']);
+    products2pk = _.orderBy(products2pk, ['idProduct'], ['asc']);
+
+    var productsAll = [];
+
+    // Spheric, Toric, Multifocal, MultifocalToric
+    _.times(10, function (i) {
+      productsAll.push(productsBlister[i]);
+      productsAll.push(productsVial[i]);
+      productsAll.push(products6pk[i]);
+      productsAll.push(products3pk[i]);
+      productsAll.push(products2pk[i]);
+    });
+    this.products = _.concat(_.compact(productsAll), others);
   }
 
   redirectPacking(product) {
