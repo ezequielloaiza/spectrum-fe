@@ -13779,38 +13779,14 @@ var ProductsListInternalComponent = /** @class */ (function () {
         products = products.filter(function (item) {
             return item.father === _this.currentFather;
         });
-        if (this.currentFather === 'Saphir Rx' && type === 'All') {
-            var productsBlister = [];
-            var products3pk = [];
-            var productsAll = [];
-            var typeB_1 = 'Blister';
-            var type3pk_1 = '3pk';
-            // Filtro de listas por tipo de producto
-            productsBlister = products.filter(function (item) {
-                return ((item.name.toLowerCase().indexOf(typeB_1.toLowerCase()) > -1));
-            });
-            products3pk = products.filter(function (item) {
-                return ((item.name.toLowerCase().indexOf(type3pk_1.toLowerCase()) > -1));
-            });
-            // Ordenar cada lista por tipo de producto
-            productsBlister = lodash__WEBPACK_IMPORTED_MODULE_4__["orderBy"](productsBlister, ['idProduct'], ['asc']);
-            products3pk = lodash__WEBPACK_IMPORTED_MODULE_4__["orderBy"](products3pk, ['idProduct'], ['asc']);
-            for (var i = 0; i < productsBlister.length; i++) {
-                var productBlister = productsBlister[i];
-                var product3pk = products3pk[i];
-                productsAll.push(productBlister);
-                productsAll.push(product3pk);
-            }
-            this.products = productsAll;
-            return;
-        }
-        else if (type === 'All') {
+        if (type === 'All') {
             this.products = products;
             if (val && val.trim() !== '') {
                 this.products = products.filter(function (item) {
                     return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
                 });
             }
+            this.orderByPacking();
             return;
         }
         this.products = products.filter(function (item) {
@@ -13821,9 +13797,56 @@ var ProductsListInternalComponent = /** @class */ (function () {
                 return ((item.name.toLowerCase().indexOf(val.toLowerCase()) > -1));
             });
         }
-        if (this.currentFather === 'Saphir Rx' && (type === 'Blister' || type === '3pk')) {
-            this.products = lodash__WEBPACK_IMPORTED_MODULE_4__["orderBy"](this.products, ['idProduct'], ['asc']);
-        }
+        this.orderByPacking();
+    };
+    ProductsListInternalComponent.prototype.orderByPacking = function () {
+        var _this = this;
+        var productsBlister = [];
+        var productsVial = [];
+        var products6pk = [];
+        var products3pk = [];
+        var products2pk = [];
+        var others = [];
+        var products = this.products;
+        products = products.filter(function (item) {
+            return item.father === _this.currentFather;
+        });
+        lodash__WEBPACK_IMPORTED_MODULE_4__["each"](products, function (product) {
+            if ((product.name.toLowerCase().indexOf('Blister'.toLowerCase()) > -1)) {
+                productsBlister.push(product);
+            }
+            else if ((product.name.toLowerCase().indexOf('Vial'.toLowerCase()) > -1)) {
+                productsVial.push(product);
+            }
+            else if ((product.name.toLowerCase().indexOf('6pk'.toLowerCase()) > -1)) {
+                products6pk.push(product);
+            }
+            else if ((product.name.toLowerCase().indexOf('3pk'.toLowerCase()) > -1)) {
+                products3pk.push(product);
+            }
+            else if ((product.name.toLowerCase().indexOf('2pk'.toLowerCase()) > -1)) {
+                products2pk.push(product);
+            }
+            else {
+                others.unshift(product);
+            }
+        });
+        // Ordenar cada lista por tipo de producto
+        productsBlister = lodash__WEBPACK_IMPORTED_MODULE_4__["orderBy"](productsBlister, ['idProduct'], ['asc']);
+        productsVial = lodash__WEBPACK_IMPORTED_MODULE_4__["orderBy"](productsVial, ['idProduct'], ['asc']);
+        products6pk = lodash__WEBPACK_IMPORTED_MODULE_4__["orderBy"](products6pk, ['idProduct'], ['asc']);
+        products3pk = lodash__WEBPACK_IMPORTED_MODULE_4__["orderBy"](products3pk, ['idProduct'], ['asc']);
+        products2pk = lodash__WEBPACK_IMPORTED_MODULE_4__["orderBy"](products2pk, ['idProduct'], ['asc']);
+        var productsAll = [];
+        // Spheric, Toric, Multifocal, MultifocalToric
+        lodash__WEBPACK_IMPORTED_MODULE_4__["times"](10, function (i) {
+            productsAll.push(productsBlister[i]);
+            productsAll.push(productsVial[i]);
+            productsAll.push(products6pk[i]);
+            productsAll.push(products3pk[i]);
+            productsAll.push(products2pk[i]);
+        });
+        this.products = lodash__WEBPACK_IMPORTED_MODULE_4__["concat"](lodash__WEBPACK_IMPORTED_MODULE_4__["compact"](productsAll), others);
     };
     ProductsListInternalComponent.prototype.redirectPacking = function (product) {
         this.packings = [];
@@ -14100,7 +14123,7 @@ var ProductsListsComponent = /** @class */ (function () {
                     supplier.image = 'assets/images/suppliers/magiclook.png';
                     break;
                 case 6:// Blue Light
-                    supplier.image = 'assets/images/suppliers/bluelight.png';
+                    supplier.image = 'assets/images/suppliers/lentes-blandos-vendaje.png';
                     break;
                 case 7:// Fluo Strips y spectrum saline
                     supplier.image = 'assets/images/suppliers/spectrum_products.jpg';
