@@ -256,13 +256,13 @@
                 <div  *ngIf="!pilot" class="col-xl-7">
                   <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
                   <br>
-                  <input type="text" class="form-control" value="{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}"
+                  <input type="text" class="form-control" value="{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3% Fee for CC Payments, Thank you for your trust and preference') | translate }}"
                   (change)="updateTerms($event)" maxlength="130" required>
                 </div>
                 <div  *ngIf="pilot" class="col-xl-7">
                   <label class="bold">{{ 'Terms and Conditions' | translate }}</label>
                   <br>
-                  <label class="">{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3.5% Fee for CC Payments, Thank you for your trust and preference') | translate }}</label>
+                  <label class="">{{ (invoice.termsAndConditions != null ? invoice.termsAndConditions : 'Net 30, 3% Fee for CC Payments, Thank you for your trust and preference') | translate }}</label>
                 </div>
                 <div class="col-xl-5">
                   <label [ngClass]="{'label-amount-view': pilot, 'label-amount bold': !pilot }">{{ 'Subtotal' | translate }}</label>
