@@ -2916,8 +2916,8 @@ __webpack_require__.r(__webpack_exports__);
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
     production: false,
-    //apiUrl: 'https://www.myspectrumorders.com:8443/api/v1/',
-    apiUrl: 'http://localhost:8080/api/v1/',
+    apiUrl: 'https://www.myspectrumorders.com:8443/api/v1/',
+    //apiUrl: 'http://localhost:8080/api/v1/',
     firebase: {
         apiKey: 'AIzaSyDueIh6nxo-wxTG2moQbq_iNDKFFtNDARI',
         authDomain: 'spectrum-app.firebaseapp.com',
