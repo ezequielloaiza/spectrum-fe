@@ -344,7 +344,7 @@
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
                     </div>
                     <div [hidden]="order.supplier.companyName === null">
-                      <span>{{'Supplier'| translate}}{{': '}}{{order.supplier.companyName}}</span>
+                      <span>{{'Supplier'| translate}}{{': '}}{{listDetails.productRequested.product.supplier.companyName}}</span>
                     </div>
                     <div>
                       <span>{{listDetails.productRequested.price | currency : "USD $" }}</span>
