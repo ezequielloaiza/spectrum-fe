@@ -151,12 +151,12 @@
                     <div *ngIf="order.listProductRequested.length > 0">
                       <div *ngIf="order.listProductRequested.length > 0" class="title-status">
                         <span
-                          *ngIf="order.listProductRequested[0].productRequested.patient !== '' && order.listProductRequested[0].productRequested.patient !== null">{{'Patient'| translate }}</span>
+                          *ngIf="order.listProductRequested[0].productRequested.patient !== '' && order.listProductRequested[0].productRequested.patient !== null && order.supplier.idSupplier !== 12">{{'Patient'| translate }}</span>
                       </div>
                       <div  *ngFor="let patient of order.patients; let i = index">
                         <span>{{ patient }}</span>
                       </div>
-                      <div *ngIf="!order.patients">
+                      <div *ngIf="!order.patients && order.supplier.idSupplier !== 12">
                         <span>{{order.listProductRequested[0].productRequested.patient ? order.listProductRequested[0].productRequested.patient:''}}</span>
                       </div>
                     </div>

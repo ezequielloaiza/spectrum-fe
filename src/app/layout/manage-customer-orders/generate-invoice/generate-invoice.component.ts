@@ -329,7 +329,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.urlImage;
       productR.price = pRequested.price == null ? pRequested.productRequested.price : pRequested.price;
-      productR.tax = pRequested.tax == null ? 0.00 : pRequested.tax;
+      productR.discount = pRequested.discount == null ? 0.00 : pRequested.discount;
       productR.quantity = pRequested.quantity == null ? pRequested.productRequested.quantity : pRequested.quantity;
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
@@ -356,7 +356,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.urlImage;
       productR.price = pRequested.price == null ? pRequested.productRequested.price : pRequested.price;
-      productR.tax = pRequested.tax == null ? 0.00 : pRequested.tax;
+      productR.discount = pRequested.discount == null ? 0.00 : pRequested.discount;
       productR.quantity = pRequested.quantity == null ? pRequested.productRequested.quantity : pRequested.quantity;
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
@@ -376,7 +376,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.productRequested = pRequested.productRequested;
       productR.urlImage = pRequested.productRequested.urlImage;
       productR.price = pRequested.productRequested.price;
-      productR.tax = pRequested.tax == null ? 0.00 : pRequested.tax;
+      productR.discount = pRequested.discount == null ? 0.00 : pRequested.discount;
       productR.netAmount =
         pRequested.productRequested.price *
         pRequested.productRequested.quantity;
@@ -621,9 +621,8 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   updateAmountProduct(index) {
-    this.invoice.listProductRequested[index].netAmount =
-                    Number(this.invoice.listProductRequested[index].quantity * this.invoice.listProductRequested[index].price)
-                    + Number(this.invoice.listProductRequested[index].tax);
+    const total = Number(this.invoice.listProductRequested[index].quantity * this.invoice.listProductRequested[index].price);
+    this.invoice.listProductRequested[index].netAmount = total * ((100 - Number(this.invoice.listProductRequested[index].discount)) / 100);
   }
 
   updateDescription($event, index) {
@@ -638,8 +637,8 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoice.listProductRequested[index].codeSpectrum = $event.target.value;
   }
 
-  updateTax($event, index) {
-    this.invoice.listProductRequested[index].tax = $event.target.value;
+  updateDiscount($event, index) {
+    this.invoice.listProductRequested[index].discount = $event.target.value;
     this.updateAmountProduct(index);
     this.sumNetAmount();
   }
@@ -710,7 +709,7 @@ export class GenerateInvoiceComponent implements OnInit {
     const invSupplier = new InvoiceSupplierProductRequested();
     invSupplier.netAmount = 0.00;
     invSupplier.price = 0.00;
-    invSupplier.tax = 0.00;
+    invSupplier.discount = 0.00;
     invSupplier.quantity = 0;
     invSupplier.delete = false;
     invSupplier.patient = '';
