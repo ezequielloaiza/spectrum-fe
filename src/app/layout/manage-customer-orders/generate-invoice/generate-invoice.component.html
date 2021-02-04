@@ -179,7 +179,7 @@
                     <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
                     <th [ngClass]="{'table-tr bold padding-tax': pilot, 'table-tr bold': !pilot }">{{ 'Discount' | translate }}</th>
                     <th class="table-tr bold">{{ 'Amount' | translate}}</th>
-                    <th class="table-tr bold">
+                    <th class="table-tr bold" *ngIf="!pilot">
                       <span *ngIf="allDelete" class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
                     </th>
                   </tr>
@@ -222,7 +222,7 @@
                           placeholder="{{ 'Enter unit price' | translate }}" required>
                       </div>
                       </td>
-                      <td class="table-tr td-table td-align-price" *ngIf="pilot" colspan="1">{{(productR.discount | currency )}}</td>
+                      <td class="table-tr td-table td-align-price" *ngIf="pilot" colspan="1">{{(productR.discount )}}%</td>
                       <td class="table-tr td-table less-pad" *ngIf="!pilot">
                         <div class="amount-div">
                           <div class="input-group-append">
@@ -238,7 +238,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">$</span>
                           </div>
-                          <input type="number" min="0" id="netAmount{{i}}" [value]="productR.netAmount" class="form-control" (change)="updateNetAmount($event, i)"
+                          <input type="number" min="0" id="netAmount{{i}}" disabled="true" [value]="productR.netAmount" class="form-control" (change)="updateNetAmount($event, i)"
                             placeholder="{{ 'Enter Net Amount' | translate }}" required>
                         </div>
                       </td>
