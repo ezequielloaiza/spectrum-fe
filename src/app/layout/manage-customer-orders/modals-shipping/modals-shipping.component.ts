@@ -45,7 +45,8 @@ export class ModalsShippingComponent implements OnInit {
     this.form = this.formBuilder.group({
       trackingNumber: [''],
       shippingPrice: [''],
-      entrustingId : ['', [ Validators.required]]
+      entrustingId : ['', [ Validators.required]],
+      discount: ['']
     });
   }
 
@@ -77,6 +78,7 @@ export class ModalsShippingComponent implements OnInit {
       order.shippingPrice = self.shippingPrice.value;
       order.trackingNumber = self.trackingNumber.value;
       order.idEntrustingCompany = self.entrustingId.value
+      order.discount = self.discount.value
       self.orders.push(order);
     });
     this.orderService.saveShippingOrder$(this.orders).subscribe(
@@ -114,5 +116,6 @@ export class ModalsShippingComponent implements OnInit {
   get trackingNumber() { return this.form.get('trackingNumber'); }
   get shippingPrice() { return this.form.get('shippingPrice'); }
   get entrustingId() { return this.form.get('entrustingId'); }
+  get discount() { return this.form.get('discount'); }
 
 }

@@ -16,6 +16,7 @@ export class InvoiceSupplierProductRequested {
   public  quantity: number;
   public  delete: boolean;
   public  patient: string;
+  public  discount: number;
 
     public constructor() { }
 
