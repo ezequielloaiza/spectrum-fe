@@ -84,6 +84,12 @@ export class OrderService {
     });
   }
 
+  public downloadMergeOrder$(name): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/downloadMergeOrder/' + name, {
+      responseType: 'blob'
+    });
+  }
+
   public findOrderProcessedByUser$(idUser): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/findOrderProcessedByUser/' + idUser);
   }

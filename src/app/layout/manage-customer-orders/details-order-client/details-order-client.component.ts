@@ -241,6 +241,28 @@ export class DetailsOrderClientComponent implements OnInit {
     });
   }
 
+  downloadMergeOrder(order) {
+    const self = this;
+    self.orderService.downloadMergeOrder$(order.idOrder).subscribe(res => {
+      const filename = order.number + '.pdf';
+      if (res.size > 0) {
+        self.spinner.hide();
+        saveAs(res, filename);
+      } else {
+        self.spinner.hide();
+        self.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res1: string) => {
+          self.notification.error('', res1);
+        });
+      }
+    }, error => {
+      self.spinner.hide();
+      self.translate.get('File Not Found', { value: 'File Not Found' }).subscribe((res: string) => {
+        self.notification.error('', res);
+      });
+      console.log('error', error);
+    });
+  }
+
   refresh(productRequested: any, order): void {
    const list: Array<ProductRequested> = productRequested;
     _.each(order.listProductRequested, function (detailsOrder) {
