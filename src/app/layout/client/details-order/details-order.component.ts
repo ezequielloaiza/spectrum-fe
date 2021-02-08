@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SalineFluoComponent } from '../../edit-order/saline-fluo/saline-fluo.component';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { ProductService } from '../../../shared/services/products/product.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-details-order',
@@ -35,6 +36,7 @@ export class DetailsOrderComponent implements OnInit {
     private orderService: OrderService,
     public productImageService: ProductoimageService,
     private productService: ProductService,
+    private translate: TranslateService,
     private fileProductRequestedService: FileProductRequestedService,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService) { }
@@ -82,7 +84,7 @@ export class DetailsOrderComponent implements OnInit {
         this.listDetails = this.listDetailsAux.slice(0, this.itemPerPage);
 
         // search product insertor
-        if (res.data.supplier.idSupplier === 2) {
+        if (res.data.supplier.idSupplier === 2 && res.data.type !== 'warranty') {
           this.productService.findById$(146).subscribe(res1 => {
             if (res1.code === CodeHttp.ok) {
               this.assignPriceAllEuropa(auxList, res1.data[0]);
@@ -238,5 +240,14 @@ export class DetailsOrderComponent implements OnInit {
       total = total + item.productRequested.subtotal;
     });
     this.order.total = total;
+  }
+
+  getReferenceCopy(order) {
+    let reference = '';
+    if (order.type) {
+      const type = this.translate.instant(order.type);
+      reference = ' (' + type + ': ' + '#' + order.parentId + ') '
+    }
+    return reference;
   }
 }

@@ -37,7 +37,7 @@
         </div>
         <div class="div-order">{{'Ordered on'| translate}} {{order.date | date:'mediumDate'}}
           <span>|</span>
-          {{'Order#'| translate}} {{order? order.number:''}}
+          {{ 'Order#'| translate }} {{ order? order.number:'' }} {{ getReferenceCopy(order) }}
         </div>
         <br>
         <div class="container pp rounded">

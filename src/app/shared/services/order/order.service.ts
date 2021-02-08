@@ -136,4 +136,7 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/findOrderGroup/' + id + '?status=' + status);
   }
 
+  public generateCopyOrder$(id, type): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/generateCopyOrder/' + id + '?type=' + type, {});
+  }
 }

@@ -93,7 +93,7 @@
                   </div>
                 </div>
                 <div class="margin" *ngIf="status === '1'">
-                  <div class="col-xl-12 btn-clean">                   
+                  <div class="col-xl-12 btn-clean">
                     <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billProviders()">Generate Proforma</button>
                   </div>
                 </div>
@@ -138,6 +138,9 @@
                     </div>
                     <div *ngIf="!order.listOrderGroups">
                       <span>{{ '#'+order.number}}</span>
+                    </div>
+                    <div *ngIf="!!getReferenceCopy(order)">
+                      <span class="font-weight-bold">{{ getReferenceCopy(order) }}</span>
                     </div>
                   </div>
                   <div class="col-lg-2">
@@ -259,14 +262,19 @@
                             (click)="cancel(order)"  *ngIf="order.status === 1 || order.status === 0">
                             {{ 'Cancel Order' | translate }}</button>
 
-                            <button class="dropdown-item" (click)="generateInvoice(order)" *ngIf="order.status === 2 && order.invoiceSupplier">
-                             {{  order.invoiceSupplier.status === 0 ? ('Sent Preforma' | translate) : ('Resend Proforma' | translate) }}</button>
-                            
+                          <button class="dropdown-item" (click)="generateInvoice(order)" *ngIf="order.status === 2 && order.invoiceSupplier">
+                            {{ order.invoiceSupplier.status === 0 ? ('Sent Preforma' | translate) : ('Resend Proforma' | translate) }}</button>
+
+                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'duplicate')" *ngIf="order.type !== 'warranty' && order.supplier.idSupplier === 2">
+                            {{ 'Generate Duplicate' | translate }}</button>
+
+                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'warranty')" *ngIf="order.supplier.idSupplier === 2">
+                            {{ 'Generate Warranty' | translate }}</button>
                          <!-- <button [hidden]="!order.generate" class="dropdown-item" (click)="generateOrder(order)">
                             {{ 'Generate Order' | translate }}</button>
                             -->
                         </div>
-                      
+
                       </div>
                     </div>
                     <div class="text-right" *ngIf="order.status === 0">

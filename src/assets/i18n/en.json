@@ -1178,5 +1178,11 @@
     "Lavender": "Lavender",
     "Migraine 55": "Migraine 55",
     "Red": "Red",
-    "Teal": "Teal"
+    "Teal": "Teal",
+    "duplicate": "duplicate",
+    "warranty": "warranty",
+    "Order duplicate successfully": "Orden duplicada con éxito",
+    "Order warranty generated successfully": "Garantía de orden generada con éxito",
+    "Generate Duplicate": "Generate Duplicate",
+    "Generate Warranty": "Generate Warranty"
 }

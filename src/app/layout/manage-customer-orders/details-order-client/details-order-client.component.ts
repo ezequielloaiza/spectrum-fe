@@ -79,7 +79,7 @@ export class DetailsOrderClientComponent implements OnInit {
           if (order.status !== 1 && order.dateSend === null && self.user.role.idRole === 1) {
             self.generar = true;
          }
- 
+
          if (order.dateSend !== null && order.supplier.idSupplier !== 1) {
            self.download = true;
          }
@@ -90,7 +90,7 @@ export class DetailsOrderClientComponent implements OnInit {
            if (detailsOrder.productRequested.detail.length > 0) {
              detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
            }
- 
+
            const productId = detailsOrder.productRequested.product.idProduct;
             if (productId !== 145 && productId !== 146 && productId !== 147) {
               order.auxList.push(detailsOrder);
@@ -103,9 +103,9 @@ export class DetailsOrderClientComponent implements OnInit {
          order.listProductRequested = order.auxList;
          order.listDetailsAux = order.listProductRequested;
          order.listDetails = order.listDetailsAux.slice(0, self.itemPerPage);
- 
+
          // search product insertor
-         if (order.supplier.idSupplier === 2) {
+         if (order.supplier.idSupplier === 2 && order.type !== 'warranty') {
           self.productService.findById$(146).subscribe(res1 => {
              if (res1.code === CodeHttp.ok) {
               self.assignPriceAllEuropa(order, res1.data);
@@ -119,7 +119,7 @@ export class DetailsOrderClientComponent implements OnInit {
            });
          }
         });
-        
+
 
         this.spinner.hide();
       }
@@ -289,5 +289,13 @@ export class DetailsOrderClientComponent implements OnInit {
     });
     order.total = total;
   }
-}
 
+  getReferenceCopy(order) {
+    let reference = '';
+    if (order.type) {
+      const type = this.translate.instant(order.type);
+      reference = ' (' + type + ': ' + '#' + order.parentId + ') '
+    }
+    return reference;
+  }
+}

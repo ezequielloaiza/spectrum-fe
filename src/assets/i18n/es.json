@@ -1356,5 +1356,11 @@
     "Lavender": "Lavanda",
     "Migraine 55": "Migraña 55",
     "Red": "Rojo",
-    "Teal": "Verde azulado"
+    "Teal": "Verde azulado",
+    "duplicate": "duplicado",
+    "warranty": "garantía",
+    "Order duplicate successfully": "Orden duplicada con éxito",
+    "Order warranty generated successfully": "Garantía de orden generada con éxito",
+    "Generate Duplicate": "Generar Duplicado",
+    "Generate Warranty": "Generar Garantía"
 }

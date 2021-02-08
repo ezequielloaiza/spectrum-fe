@@ -126,11 +126,11 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
                     }
                   });
                   res.data[index].patients = patients;
-                }           
-              })         
+                }
+              })
             }
           }
-          
+
 
           this.listOrders = res.data;
           this.listOrdersAux = res.data;
@@ -145,7 +145,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
           this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
           this.list = this.listOrdersAux;
-          this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);      
+          this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
         }
         this.spinner.hide();
       });
@@ -171,8 +171,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
                     }
                   });
                   res.data[index].patients = patients;
-                }           
-              })         
+                }
+              })
             }
           }
           this.mostrarStatus = true;
@@ -819,7 +819,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       this.spinner.show();
       this.individualInvoice(orders);
-    } , (reason) => {    
+    } , (reason) => {
     });
   }
 
@@ -950,7 +950,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
                const order = _.find(self.listOrdersAux, { 'idOrder': item});
                if (order) {
                 order.listOrderGroups ? orders = _.concat(orders, order.listOrderGroups) : orders.push(order);
-               }               
+               }
             });
             this.openModalShipping(orders);
             }, () => {});
@@ -979,12 +979,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
             .subscribe((res1: string) => {
               this.notification.success('', res1);
             });
-          this.valid = false;
-          this.listAux = [];
-          this.selectedAll = false;
-          this.initialize();
-          this.getListOrders();
-          this.spinner.hide();
+          this.reloadingAll();
         } else {
           this.spinner.hide();
           console.log(res.code);
@@ -1084,7 +1079,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     _.each(orders, function(order) {
       list.push(order.idOrder);
     });
-    
+
     this.invoice.listOrders = list;
     this.orderService.generateInvoiceClient$(this.invoice).subscribe(
       res => {
@@ -1094,12 +1089,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
             .subscribe((res1: string) => {
               this.notification.success('', res1);
             });
-          this.valid = false;
-          this.listAux = [];
-          this.selectedAll = false;
-          this.initialize();
-          this.getListOrders();
-          this.spinner.hide();
+          this.reloadingAll();
           this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 3 } });
         } else {
           this.spinner.hide();
@@ -1110,6 +1100,15 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         console.log('error', error);
       }
     );
+  }
+
+  reloadingAll() {
+    this.valid = false;
+    this.listAux = [];
+    this.selectedAll = false;
+    this.initialize();
+    this.getListOrders();
+    this.spinner.hide();
   }
 
   verifyInvoice() {
@@ -1181,55 +1180,88 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.ngOnInit();
           this.selectedAll = false;
           this.initialize();
-      });
-    }
+    });
+  }
 
-    processMultipleOrders() {
-      let self = this;
-    _.each(this.listAux, function(item, index) {
-       let  order = _.find(self.listOrders, { 'idOrder': item});
-         self.generateOrder(order);
-      });
-    }
+  processMultipleOrders() {
+    let self = this;
+  _.each(this.listAux, function(item, index) {
+      let  order = _.find(self.listOrders, { 'idOrder': item});
+        self.generateOrder(order);
+    });
+  }
 
-    onSelectionPending(id, checked) {
+  onSelectionPending(id, checked) {
+    let existe: boolean;
+    existe = _.includes(this.listAux,  id);
+    if (existe) {
+      if (!checked) {
+        _.remove(this.listAux,  function (n)  {
+          return  n  ===  id;
+        });
+      }
+    } else {
+      this.listAux = _.concat(this.listAux, id);
+    }
+    this.selectedAll = false;
+    this.listAux.length === this.listOrdersPending.length ? this.selectedAll = true : this.selectedAll = false;
+  }
+
+  onSelectionAllPending(event) {
+    let arrayAux = this.listAux;
+    const check = event.target.checked;
+    _.each(this.listOrdersPending, function(item) {
+      item.checked = check;
       let existe: boolean;
-      existe = _.includes(this.listAux,  id);
+      const id = item.idOrder;
+      existe = _.includes(arrayAux, id);
       if (existe) {
-        if (!checked) {
-          _.remove(this.listAux,  function (n)  {
-            return  n  ===  id;
+        if (!check) {
+          _.remove(arrayAux,  function (n)  {
+            return n === id;
           });
         }
       } else {
-        this.listAux = _.concat(this.listAux, id);
+        arrayAux = _.concat(arrayAux, id);
       }
-      this.selectedAll = false;
-      this.listAux.length === this.listOrdersPending.length ? this.selectedAll = true : this.selectedAll = false;
-    }
+    });
+    this.selectedAll = check;
+    this.listAux = arrayAux;
+  }
 
-    onSelectionAllPending(event) {
-      let arrayAux = this.listAux;
-      const check = event.target.checked;
-      _.each(this.listOrdersPending, function(item) {
-        item.checked = check;
-        let existe: boolean;
-        const id = item.idOrder;
-        existe = _.includes(arrayAux, id);
-        if (existe) {
-          if (!check) {
-            _.remove(arrayAux,  function (n)  {
-              return n === id;
-            });
-          }
-        } else {
-          arrayAux = _.concat(arrayAux, id);
-        }
-      });
-      this.selectedAll = check;
-      this.listAux = arrayAux;
+  pendingOrdersGenerate() {
+    this.listOrdersPending =_.filter(this.listOrders, {'generate': true});
+  }
+
+  getReferenceCopy(order) {
+    let reference = null;
+    if (order.type) {
+      const type = this.translate.instant(order.type);
+      reference = ' (' + type + ': ' + '#' + order.parentId + ') '
     }
-    pendingOrdersGenerate() {
-      this.listOrdersPending =_.filter(this.listOrders, {'generate': true});
-    }
+    return reference;
+  }
+
+  generateCopyOrder(order, type) {
+    this.spinner.show();
+    this.orderService.generateCopyOrder$(order.idOrder, type).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        var message = type === 'duplicate' ? "Order duplicate successfully" : "Order warranty generated successfully"
+        this.translate.get(message, {value: message}).subscribe(( res: string) => {
+          this.notification.success('', res);
+        });
+
+        this.reloadingAll();
+        this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
+      } else {
+        this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+          this.notification.error('', res);
+          this.spinner.hide();
+          console.log(res);
+        });
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
 }
