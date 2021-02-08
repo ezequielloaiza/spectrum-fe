@@ -30,7 +30,7 @@
               Generate Order
             </button>
             <span> </span>
-            <button [hidden]="!download" type="button" class="btn btn-success btn-xs" (click)="downloadOrder(order)" translate>
+            <button [hidden]="!download" type="button" class="btn btn-success btn-xs" (click)="order.supplier.idSupplier === 12 ? downloadMergeOrder(order) : downloadOrder(order)" translate>
               <span class="fa fa-download"></span> Download Order
             </button>
           </div>
