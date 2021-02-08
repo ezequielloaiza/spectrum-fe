@@ -1362,5 +1362,7 @@
     "Order duplicate successfully": "Orden duplicada con éxito",
     "Order warranty generated successfully": "Garantía de orden generada con éxito",
     "Generate Duplicate": "Generar Duplicado",
-    "Generate Warranty": "Generar Garantía"
+    "Generate Warranty": "Generar Garantía",
+    "discount": "descuento",
+    "Discount": "Descuento"
 }

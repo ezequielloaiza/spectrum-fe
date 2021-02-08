@@ -65,6 +65,7 @@ export class ProtocolsshippingComponent implements OnInit {
       } else {
         console.log(res.errors[0].detail);
       }
+      this.spinner.hide();
     }, error => {
       console.log('error', error);
     });

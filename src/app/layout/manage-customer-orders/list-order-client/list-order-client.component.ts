@@ -1162,7 +1162,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
        order = _.find(orders, { 'idOrder': item});
        orderAux = _.find(orders, { 'idOrder': listAux[aux]});
        if (aux < listAux.length) {
-        if (order.supplier.idSupplier !== orderAux.supplier.idSupplier) {
+        if (order.supplier.idSupplier !== orderAux.supplier.idSupplier && (!order.supplier.spectrum || !orderAux.supplier.spectrum)) {
           validoProvider = false;
           return validoProvider;
         }
