@@ -122,7 +122,7 @@
                             <div ngbDropdown class="d-inline-block dropdown">
                               <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                               <div ngbDropdownMenu>
-                                <button *ngIf="invoice.status === 0" class="dropdown-item" (click)="open(invoice,'edit')">
+                                <button class="dropdown-item" (click)="open(invoice,'edit')">
                                   <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
                                 <button class="dropdown-item" (click)="open(invoice,'view')">
                                   <i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
@@ -254,7 +254,7 @@
                             <div ngbDropdown class="d-inline-block dropdown">
                               <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
                               <div ngbDropdownMenu>
-                                <button *ngIf="invoice.status === 0" class="dropdown-item" (click)="open(invoice,'edit')">
+                                <button class="dropdown-item" (click)="open(invoice,'edit')">
                                   <i class="fa fa-edit"></i> {{ 'Edit' | translate }}</button>
                                 <button class="dropdown-item" (click)="open(invoice,'view')">
                                   <i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
