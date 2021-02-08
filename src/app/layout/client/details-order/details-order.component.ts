@@ -246,7 +246,7 @@ export class DetailsOrderComponent implements OnInit {
     let reference = '';
     if (order.type) {
       const type = this.translate.instant(order.type);
-      reference = ' (' + type + ': ' + '#' + order.parentId + ') '
+      reference = ' (' + type + ': ' + '#' + order.originReference + ') '
     }
     return reference;
   }

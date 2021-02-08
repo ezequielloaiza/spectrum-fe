@@ -226,7 +226,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     let reference = null;
     if (order.type) {
       const type = this.translate.instant(order.type);
-      reference = ' (' + type + ': ' + '#' + order.parentId + ') '
+      reference = ' (' + type + ': ' + '#' + order.originReference + ') '
     }
     return reference;
   }
