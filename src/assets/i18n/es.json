@@ -911,8 +911,8 @@
     "Power": "Poder",
     "Notch (mm)": "Muesca (mm)",
     "Thickness": "Espesor",
-    "1 Step (100 microns)": "Paso 1 (100 micras)",
-    "2 Step (200 microns)": "Paso 2 (200 micras)",
+    "1 Step (50 microns)": "Paso 1 (50 micras)",
+    "2 Step (100 microns)": "Paso 2 (100 micras)",
     "Pending Payments to Check": "Pagos Pendientes por Verificar",
     "Overdue Customers": "Clientes Atrasados",
     "Orders": "Órdenes",
@@ -1357,6 +1357,12 @@
     "Migraine 55": "Migraña 55",
     "Red": "Rojo",
     "Teal": "Verde azulado",
+    "duplicate": "duplicado",
+    "warranty": "garantía",
+    "Order duplicate successfully": "Orden duplicada con éxito",
+    "Order warranty generated successfully": "Garantía de orden generada con éxito",
+    "Generate Duplicate": "Generar Duplicado",
+    "Generate Warranty": "Generar Garantía",
     "discount": "descuento",
     "Discount": "Descuento"
 }
