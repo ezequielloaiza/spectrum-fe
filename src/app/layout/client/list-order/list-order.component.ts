@@ -221,4 +221,35 @@ export class ListOrderComponent implements OnInit, OnDestroy {
       });
     });
   }
+
+  getReferenceCopy(order) {
+    let reference = null;
+    if (order.type) {
+      const type = this.translate.instant(order.type);
+      reference = ' (' + type + ': ' + '#' + order.originReference + ') '
+    }
+    return reference;
+  }
+
+  generateCopyOrder(order, type) {
+    this.spinner.show();
+    this.orderService.generateCopyOrder$(order.idOrder, type).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        var message = type === 'duplicate' ? "Order duplicate successfully" : "Order warranty generated successfully"
+        this.translate.get(message, {value: message}).subscribe(( res: string) => {
+          this.notification.success('', res);
+        });
+        this.status = 0;
+        this.clean();
+      } else {
+        this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+          this.notification.error('', res);
+          this.spinner.hide();
+          console.log(res);
+        });
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
 }
