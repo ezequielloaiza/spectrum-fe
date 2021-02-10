@@ -222,3 +222,10 @@
 .less-pad {
   padding: 0.75rem 0.35rem;
 }
+
+.truncate {
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
