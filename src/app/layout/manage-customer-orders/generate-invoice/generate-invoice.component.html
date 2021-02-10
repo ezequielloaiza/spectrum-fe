@@ -33,7 +33,7 @@
                   <input *ngIf="!pilot" class="form-control input-form" [value]="invoice.number" (change)="updateNumber($event)" required>
                 </div>
                 <div class="col-xl-4">
-                  <label class="label align-row">{{ 'Deliver To2' | translate }}</label>
+                  <label class="label align-row">{{ 'Deliver To' | translate }}</label>
                 </div>
                 <div class="col-xl-3">
                 </div>
@@ -75,10 +75,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-4">
-                  <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? invoice.invoiceProtocolClientResponse.shippingAddress: invoice.address?.name}}</label>
-                  <label *ngIf="pilot && viewOriginal" class="address">{{invoice.address?.name}}</label>
-                  <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
+                <div class="col-xl-6">
+                  <label *ngIf="pilot && viewCopy" class="address truncate">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? invoice.invoiceProtocolClientResponse.shippingAddress: invoice.address?.name}}</label>
+                  <label *ngIf="pilot && viewOriginal" class="address truncate">{{invoice.address?.name}}</label>
+                  <label *ngIf="!pilot" class="address truncate">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
                 </div>
                 <div class="col-xl-2">
                 </div>
@@ -128,7 +128,7 @@
               </div>
               <div class="row row-height">
                 <div class="col-xl-6 address-middle">
-                  <label class="address-client">{{invoice.address?.name}}</label>
+                  <label class="address-client truncate">{{invoice.address?.name}}</label>
                 </div>
                 <div class="col-xl-6 address-spectrum">
                   <label class="address-spectrum">Unit# C-2</label>
