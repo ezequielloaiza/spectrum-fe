@@ -231,6 +231,56 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     return reference;
   }
 
+  dateDiffInDays(a, b) {
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    // Discard the time and time-zone information.
+    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  }
+
+  isValidDate(order) {
+    let currentDate = new Date();
+    let sendDate = new Date(order.dateSend);
+
+    switch (order.supplierId) {
+      case 1: //Markennovy
+        return this.dateDiffInDays(currentDate, sendDate) <= 70; // TODO: 20, 40, 70
+
+      case 2: //Europa
+        return this.dateDiffInDays(currentDate, sendDate) <= 100;
+
+      case 3: //Elipsys
+        return this.dateDiffInDays(currentDate, sendDate) <= 70;
+
+      case 4: //Euclid
+        return this.dateDiffInDays(currentDate, sendDate) <= 100;
+
+      case 5: //Magic Look
+        return true; // TODO: preguntar
+
+      case 6: //Lentes blancos de vendaje
+        return this.dateDiffInDays(currentDate, sendDate) <= 70;
+
+      case 7: //Spectrum
+        return true; // TODO: preguntar
+
+      case 8: //Medmont
+        return true; // TODO: preguntar
+
+      case 9: //SynergEyes
+        return this.dateDiffInDays(currentDate, sendDate) <= 100;
+
+      case 10: //Orion Vision Group
+        return this.dateDiffInDays(currentDate, sendDate) <= 70;
+
+      default:
+        return false;
+    }
+  }
+
   generateCopyOrder(order, type) {
     this.spinner.show();
     this.orderService.generateCopyOrder$(order.idOrder, type).subscribe(res => {
