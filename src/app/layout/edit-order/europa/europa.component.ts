@@ -441,11 +441,13 @@ export class EuropaComponent implements OnInit {
           value === '20.0' ) {
         const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 17.0-20.0)');
         this.productCode = prCode;
+        this.definePrice(this.membership);
         this.priceBase = this.priceB;
         this.price = this.inserts > 0 ? this.priceB + this.notch + this.hidrapeg + this.inserts : this.priceB + this.notch + this.hidrapeg;
       } else {
         const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 15.2-16.5)');
         this.productCode = prCode;
+        this.definePrice(this.membership);
         this.priceBase = this.priceA;
         this.price = this.inserts > 0 ? this.priceA + this.notch + this.hidrapeg + this.inserts : this.priceA + this.notch + this.hidrapeg;
       }
@@ -955,16 +957,16 @@ export class EuropaComponent implements OnInit {
   definePrice(membership) {
     switch (membership) {
       case 1:
-        this.priceA = this.product.price1;
-        this.priceB = this.product.priced1;
+        this.priceA = this.productCode.price1;
+        this.priceB = this.productCode.priced1;
         break;
       case 2:
-        this.priceA = this.product.price2;
-         this.priceB = this.product.priced2;
+        this.priceA = this.productCode.price2;
+        this.priceB = this.productCode.priced2;
         break;
       case 3:
-        this.priceA = this.product.price3;
-        this.priceB = this.product.priced3;
+        this.priceA = this.productCode.price3;
+        this.priceB = this.productCode.priced3;
         break;
     }
   }

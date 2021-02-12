@@ -1252,28 +1252,29 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
   }
 
+  /* Only has active EUROPA */
   isValidDate(order) {
     let currentDate = new Date();
     let sendDate = new Date(order.dateSend);
 
-    switch (order.supplierId) {
+    switch (order.supplier.idSupplier) {
       case 1: //Markennovy
-        return this.dateDiffInDays(currentDate, sendDate) <= 70; // TODO: 20, 40, 70
+        return this.dateDiffInDays(currentDate, sendDate) >= -70; // TODO: 20, 40, 70
 
       case 2: //Europa
-        return this.dateDiffInDays(currentDate, sendDate) <= 100;
+        return this.dateDiffInDays(currentDate, sendDate) >= -100;
 
       case 3: //Elipsys
-        return this.dateDiffInDays(currentDate, sendDate) <= 70;
+        return this.dateDiffInDays(currentDate, sendDate) >= -70;
 
       case 4: //Euclid
-        return this.dateDiffInDays(currentDate, sendDate) <= 100;
+        return this.dateDiffInDays(currentDate, sendDate) >= -100;
 
       case 5: //Magic Look
         return true; // TODO: preguntar
 
       case 6: //Lentes blancos de vendaje
-        return this.dateDiffInDays(currentDate, sendDate) <= 70;
+        return this.dateDiffInDays(currentDate, sendDate) >= -70;
 
       case 7: //Spectrum
         return true; // TODO: preguntar
@@ -1282,10 +1283,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         return true; // TODO: preguntar
 
       case 9: //SynergEyes
-        return this.dateDiffInDays(currentDate, sendDate) <= 100;
+        return this.dateDiffInDays(currentDate, sendDate) >= -100;
 
       case 10: //Orion Vision Group
-        return this.dateDiffInDays(currentDate, sendDate) <= 70;
+        return this.dateDiffInDays(currentDate, sendDate) >= -70;
 
       default:
         return false;
@@ -1307,7 +1308,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
           this.spinner.hide();
         }, 1000);
-
       } else {
         this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
           this.notification.error('', res);
