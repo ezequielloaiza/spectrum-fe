@@ -121,7 +121,7 @@
                             {{ 'View Details' | translate }}</button>
                           <button class="dropdown-item" (click)="generateCopyOrder(order, 'duplicate')" *ngIf="order.type !== 'warranty' && order.supplier.idSupplier === 2">
                             {{ 'Generate Duplicate' | translate }}</button>
-                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'warranty')" *ngIf="order.supplier.idSupplier === 2">
+                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'warranty')" *ngIf="order.supplier.idSupplier === 2 && isValidDate(order)">
                             {{ 'Generate Warranty' | translate }}</button>
                         </div>
                       </div>
