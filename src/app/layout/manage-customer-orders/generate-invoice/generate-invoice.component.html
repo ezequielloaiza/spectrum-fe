@@ -75,10 +75,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-xl-4">
-                  <label *ngIf="pilot && viewCopy" class="address">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? invoice.invoiceProtocolClientResponse.shippingAddress: invoice.address?.name}}</label>
-                  <label *ngIf="pilot && viewOriginal" class="address">{{invoice.address?.name}}</label>
-                  <label *ngIf="!pilot" class="address">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
+                <div class="col-xl-6">
+                  <label *ngIf="pilot && viewCopy" class="address truncate">{{ invoice.invoiceProtocolClientResponse.shippingAddress !== null ? invoice.invoiceProtocolClientResponse.shippingAddress: invoice.address?.name}}</label>
+                  <label *ngIf="pilot && viewOriginal" class="address truncate">{{invoice.address?.name}}</label>
+                  <label *ngIf="!pilot" class="address truncate">{{ (invShippingProtocol?.shippingAddress && editShippingAddress) ? invShippingProtocol.shippingAddress : invoice.address?.name}}</label>
                 </div>
                 <div class="col-xl-2">
                 </div>
@@ -128,7 +128,7 @@
               </div>
               <div class="row row-height">
                 <div class="col-xl-6 address-middle">
-                  <label class="address-client">{{invoice.address?.name}}</label>
+                  <label class="address-client truncate">{{invoice.address?.name}}</label>
                 </div>
                 <div class="col-xl-6 address-spectrum">
                   <label class="address-spectrum">Unit# C-2</label>
@@ -177,9 +177,9 @@
                     <th class="table-tr bold">{{ 'Code' | translate }}</th>
                     <th class="table-tr bold">{{ 'Qty' | translate }}</th>
                     <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
-                    <th [ngClass]="{'table-tr bold padding-tax': pilot, 'table-tr bold': !pilot }">{{ 'Tax Rate' | translate }}</th>
+                    <th [ngClass]="{'table-tr bold padding-tax': pilot, 'table-tr bold': !pilot }">{{ 'Discount' | translate }}</th>
                     <th class="table-tr bold">{{ 'Amount' | translate}}</th>
-                    <th class="table-tr bold">
+                    <th class="table-tr bold" *ngIf="!pilot">
                       <span *ngIf="allDelete" class="fa fa-plus-circle margin-span" placement="top" ngbTooltip="{{'Add' | translate}}" (click)="addItem()"></span>
                     </th>
                   </tr>
@@ -222,14 +222,14 @@
                           placeholder="{{ 'Enter unit price' | translate }}" required>
                       </div>
                       </td>
-                      <td class="table-tr td-table td-align-price" *ngIf="pilot" colspan="1">{{(productR.tax | currency )}}</td>
+                      <td class="table-tr td-table td-align-price" *ngIf="pilot" colspan="1">{{(productR.discount )}}%</td>
                       <td class="table-tr td-table less-pad" *ngIf="!pilot">
                         <div class="amount-div">
                           <div class="input-group-append">
-                            <span class="input-group-text">$</span>
+                            <span class="input-group-text">%</span>
                           </div>
-                          <input type="number" min="0" id="tax{{i}}" [value]="productR.tax" class="form-control" (change)="updateTax($event, i)"
-                            placeholder="{{ 'Enter tax' | translate }}" required>
+                          <input type="number" min="0" id="discount{{i}}" [value]="productR.discount" class="form-control" (change)="updateDiscount($event, i)"
+                            placeholder="{{ 'Enter discount' | translate }}" required>
                         </div>
                         </td>
                       <td class="table-tr td-table td-align" *ngIf="pilot" colspan="2">{{(productR.netAmount | currency )}}</td>
@@ -238,7 +238,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">$</span>
                           </div>
-                          <input type="number" min="0" id="netAmount{{i}}" [value]="productR.netAmount" class="form-control" (change)="updateNetAmount($event, i)"
+                          <input type="number" min="0" id="netAmount{{i}}" disabled="true" [value]="productR.netAmount" class="form-control" (change)="updateNetAmount($event, i)"
                             placeholder="{{ 'Enter Net Amount' | translate }}" required>
                         </div>
                       </td>

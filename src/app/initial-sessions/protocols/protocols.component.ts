@@ -79,8 +79,8 @@ export class ProtocolsComponent implements OnInit {
 
   showMessage(records) {
     this.validRecordsProforma = records;
+    this.spinner.hide();
     if (this.validRecordsProforma === this.protocolsProformaSave.length ) {
-    this.spinner.show();
     this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe((res: string) => {
     this.notification.success('', res);
     this.router.navigate(['/dashboard']);
