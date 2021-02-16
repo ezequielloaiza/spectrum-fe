@@ -59,6 +59,7 @@
                     </div>
                     <div>
                       <span>{{'#'}}{{order.number}}</span>
+                      <p class="font-weight-bold" *ngIf="!!getReferenceCopy(order)">{{ getReferenceCopy(order) }}</p>
                     </div>
                     <div class="title" *ngIf="order.listProductRequested.length == 1">
                       <span *ngIf="order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null">{{'Patient'| translate }}</span>
@@ -111,8 +112,19 @@
                     <div class="div-date">
                       <span>{{order.date | date:'yyyy-MM-dd'}}</span>
                     </div>
-                    <div class="div-date">
-                      <a class="ng-tns-c4-0" routerLink="/details-order/{{order.idOrder}}/view" translate>View Details</a>
+                    <div class="div-dropdown">
+                      <div ngbDropdown class="d-inline-block dropdown">
+                        <button class="btn btn-dropdown-main btn-dd"
+                          ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                        <div ngbDropdownMenu class="dropdown-menu-actions">
+                          <button class="dropdown-item" routerLink="/details-order/{{order.idOrder}}/view">
+                            {{ 'View Details' | translate }}</button>
+                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'duplicate')" *ngIf="order.type !== 'warranty' && order.supplier.idSupplier === 2">
+                            {{ 'Generate Duplicate' | translate }}</button>
+                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'warranty')" *ngIf="order.supplier.idSupplier === 2 && isValidDate(order)">
+                            {{ 'Generate Warranty' | translate }}</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="more-details col-lg-12">

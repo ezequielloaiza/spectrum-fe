@@ -5,26 +5,20 @@ import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ProductRequested } from '../../shared/models/productrequested';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 import { BasketService } from '../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
+import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
-import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationEuropaComponent } from '../modals/confirmation-buy/confirmation-europa/confirmation-europa.component';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DEFAULT_ARIA_LIVE_DELAY } from '@ng-bootstrap/ng-bootstrap/util/accessibility/live';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -342,7 +336,7 @@ export class ProductViewEuropaComponent implements OnInit {
     if (parameter.name === 'Hidrapeg' || parameter.name === 'Inserts (DMV)') {
       parameter.selected = parameter.selected === 'Yes' ? true : false;
     }
-    this.definePrice(this.membership);
+    this.definePrice(this.membership, null);
     this.definePriceHidrapeg(this.membership);
     this.definePriceNotch(this.membership);
     // this.definePriceTickness(this.membership);
@@ -627,7 +621,7 @@ export class ProductViewEuropaComponent implements OnInit {
       this.client = clienteSelect.idUser;
       this.membership = clienteSelect.membership.idMembership;
       this.findShippingAddress(this.client);
-      this.definePrice(clienteSelect.membership.idMembership);
+      this.definePrice(clienteSelect.membership.idMembership, null);
       this.definePriceHidrapeg(this.membership);
       this.definePriceNotch(this.membership);
       // this.definePriceTickness(this.membership);
@@ -712,7 +706,7 @@ export class ProductViewEuropaComponent implements OnInit {
   setPrice() {
     if (this.user.role.idRole === 3) {
       this.membership = this.currentUser.membership.idMembership;
-      this.definePrice(this.membership);
+      this.definePrice(this.membership, null);
       this.definePriceHidrapeg(this.membership);
       this.definePriceNotch(this.membership);
       // this.definePriceTickness(this.membership);
@@ -720,19 +714,19 @@ export class ProductViewEuropaComponent implements OnInit {
     }
   }
 
-  definePrice(membership) {
+  definePrice(membership, productNew) {
     switch (membership) {
       case 1:
-        this.priceA = this.product.price1;
-        this.priceB = this.product.priced1;
+        this.priceA = productNew ? productNew.price1 : this.product.price1;
+        this.priceB = productNew ? productNew.price1 : this.product.priced1;
         break;
       case 2:
-        this.priceA = this.product.price2;
-        this.priceB = this.product.priced2;
+        this.priceA = productNew ? productNew.price2 : this.product.price2;
+        this.priceB = productNew ? productNew.priced2 : this.product.priced2;
         break;
       case 3:
-        this.priceA = this.product.price3;
-        this.priceB = this.product.priced3;
+        this.priceA = productNew ? productNew.price3 : this.product.price3;
+        this.priceB = productNew ? productNew.priced3 : this.product.priced3;
         break;
     }
   }
@@ -1459,6 +1453,7 @@ export class ProductViewEuropaComponent implements OnInit {
       value === '20.0') {
       // assing product code
       const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 17.0-20.0)');
+      this.definePrice(this.membership, prCode);
       if (eye === 'right') {
         this.checkAdditional('right');
         this.product.priceBaseRight = this.priceB;
@@ -1473,6 +1468,7 @@ export class ProductViewEuropaComponent implements OnInit {
     } else {
       // assing product code
       const prCode = this.setCodeProductByDiameter(this.productName, '(Dia. 15.2-16.5)');
+      this.definePrice(this.membership, prCode);
       if (eye === 'right') {
         this.checkAdditional('right');
         this.product.priceBaseRight = this.priceA;

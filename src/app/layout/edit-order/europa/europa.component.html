@@ -243,10 +243,10 @@
                           </ng-template>
                         </ng-select>
                         <input class="form-control notch" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
-                                [(ngModel)]="parameter.values[0].selected" step="0.01" oninput="validity.valid||(value='');"
+                                [(ngModel)]="parameter.values[0].selected" step="0.01"
                                 (change)="changeSelect(parameter, parameter.values[0].selected,parameter.values[1].selected)" required>
                         <input class="form-control notch" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
-                                [(ngModel)]="parameter.values[1].selected" step="0.01" oninput="validity.valid||(value='');"
+                                [(ngModel)]="parameter.values[1].selected" step="0.01"
                                 (change)="changeSelect(parameter, parameter.values[1].selected,parameter.values[0].selected)" required>
                       </div>
                     </dt>
