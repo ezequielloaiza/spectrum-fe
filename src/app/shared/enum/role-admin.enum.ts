@@ -45,5 +45,6 @@ export enum RoleAdmin {
   ProductViewSynergeyesComponent,
   ProductViewOrionComponent,
   ConsultationFormList,
-  ConsultationFormComponent
+  ConsultationFormComponent,
+  ProductViewXsbComponent
 }
