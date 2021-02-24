@@ -42,6 +42,8 @@ export class ProductViewXsbComponent implements OnInit {
     listFile: null
   }
 
+  shippingAddress = ''
+
   @ViewChild('selectedFiles') selectedFiles: any;
 
   supplierName = '';
@@ -236,12 +238,12 @@ export class ProductViewXsbComponent implements OnInit {
   findShippingAddress(idCliente) {
     this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
+        this.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
       } else if (res.code === CodeHttp.notContent) {
-        this.product.shippingAddress = '';
+        this.shippingAddress = '';
         this.notification.warning('', this.translate.instant('You must enter a main address in the shipping address module'));
       } else {
-        this.product.shippingAddress = '';
+        this.shippingAddress = '';
       }
     });
   }
