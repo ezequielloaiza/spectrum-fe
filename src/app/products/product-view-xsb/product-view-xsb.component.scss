@@ -1,0 +1,89 @@
+@import '../../../styles/spectrum/spectrum';
+
+.info-breadcrumbs {
+  margin-top: 80px;
+  margin-left: 3%;
+
+  .header-body {
+    width: 100%;
+    background: $bg-white;
+    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5);
+
+    .link {
+      color: $bg-blue;
+      padding-left: 0px;
+    }
+
+    .breadcrumb {
+      background-color: transparent;
+      border-radius: 0px;
+      //padding-left: 15px;
+      border-bottom: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    h4 {
+      padding-left: 15px;
+    }
+  }
+}
+
+.padding-detail {
+  padding: 10px 40px 10px 40px;
+
+  .card {
+    background: $bg-product-detail;
+    padding: 2em;
+    line-height: 1.5em;
+
+    .main-info {
+      text-align: center;
+
+      .img-color {
+        border-radius: 35px;
+      }
+    }
+  }
+}
+
+.product-info {
+  padding-top: 2em;
+
+  .item-properties {
+    display: flex;
+    align-items: center;
+    padding-bottom: 1em;
+
+    i {
+      font-size: 30px;
+    }
+
+    p {
+      font-size: 0.9rem;
+      padding: 0px 0 0 10px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.ng-select{
+  width: 100%;
+}
+
+.info-content {
+  margin-left: 0px;
+  margin-bottom: 0px;
+}
+
+.fw-bold {
+  font-weight: 600;
+}
+
+.product-title,
+.price,
+.sizes,
+.colors {
+  text-transform: UPPERCASE;
+  font-weight: bold;
+}

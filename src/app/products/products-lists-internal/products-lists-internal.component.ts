@@ -373,6 +373,15 @@ export class ProductsListInternalComponent implements OnInit {
           this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
         }
         break;
+      case 13: // xcel
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 13]);
+        break;
+      case 14: // SMARTLENS
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 14]);
+        break;
+      case 15: // BOSTONSIGHT
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 15]);
+        break;
     }
   }
 
