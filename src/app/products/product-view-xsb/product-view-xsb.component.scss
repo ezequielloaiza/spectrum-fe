@@ -79,3 +79,11 @@
 .fw-bold {
   font-weight: 600;
 }
+
+.product-title,
+.price,
+.sizes,
+.colors {
+  text-transform: UPPERCASE;
+  font-weight: bold;
+}

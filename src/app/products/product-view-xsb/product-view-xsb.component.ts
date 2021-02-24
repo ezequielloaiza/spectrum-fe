@@ -11,6 +11,7 @@ import { environment } from '../../../environments/environment';
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 const URL = environment.apiUrl + 'products/uploaderXSB';
 
 @Component({
@@ -58,6 +59,7 @@ export class ProductViewXsbComponent implements OnInit {
   constructor(private productService: ProductService,
               private userService: UserService,
               private userStorageService: UserStorageService,
+              private shippingAddressService: ShippingAddressService,
               public router: Router,
               private route: ActivatedRoute,
               private spinner: NgxSpinnerService,
@@ -155,6 +157,7 @@ export class ProductViewXsbComponent implements OnInit {
   send() {
     this.productService.sendXSB$(this.sentXSB.client, this.id, this.sentXSB).subscribe(res => {
       this.spinner.hide();
+      this.notification.success('', this.translate.instant('Your order has been successfully generated'));
       this.router.navigate(['/products']);
     }, error => {
       this.spinner.hide();
@@ -217,24 +220,30 @@ export class ProductViewXsbComponent implements OnInit {
 
   verifyOpenModal() {
     if (this.uploader.queue.length === this.listFile.length) {
-      //this.openModal(this.type);
     }
   }
 
-  /*openModal(type): void {
-    this.spinner.hide();
-    const modalRef = this.modalService.open(ConfirmationOrionComponent,
-      { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
-    modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.product;
-    modalRef.componentInstance.typeBuy = type;
-    modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
-    modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
-    modalRef.componentInstance.role = this.user.role.idRole;
-    modalRef.result.then((result) => {
-      this.ngOnInit();
-    }, (reason) => {
+  onSelectedClient(clienteSelect) {
+    if (clienteSelect !== undefined) {
+      this.client = clienteSelect.idUser;
+      this.findShippingAddress(this.client);
+    } else {
+      this.client = '';
+      this.product.shippingAddress = '';
+    }
+  }
+
+  findShippingAddress(idCliente) {
+    this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
+      } else if (res.code === CodeHttp.notContent) {
+        this.product.shippingAddress = '';
+        this.notification.warning('', this.translate.instant('You must enter a main address in the shipping address module'));
+      } else {
+        this.product.shippingAddress = '';
+      }
     });
-  }*/
+  }
 
 }

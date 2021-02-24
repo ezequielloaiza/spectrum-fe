@@ -20,8 +20,12 @@
 
 <div class="padding-detail">
   <div class="card">
-    <div class="p-5 d-flex justify-content-center">
-      <h1 class="fw-bold text-primary">{{supplierName}}</h1>
+    <!-- name-price -->
+    <div class="main-info">
+      <h3 class="product-title">{{'Order Form For' | translate }}:
+        <br>
+        <i>{{ supplierName }}</i>
+      </h3>
     </div>
 
     <div class="row product-info">
@@ -40,13 +44,22 @@
              disabled>
         </div>
         <div class="row info-content" [hidden]="user.role.idRole === 3">
-          <ng-select [items]="listCustomers" [(ngModel)]="sentXSB.client"
+          <ng-select [items]="listCustomers" [(ngModel)]="sentXSB.client" (change)="onSelectedClient($event)"
             required [virtualScroll]="true" bindLabel="fullName" bindValue="idUser" placeholder="{{ 'Select value' | translate }}">
           </ng-select>
         </div>
       </div>
 
-      <div class="col-lg-4">
+       <!--shipping address-->
+       <div class="col-lg-5">
+        <dt class="title">{{ 'Shipping Address' | translate }}</dt>
+        <div class="row info-content ">
+          <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
+            readonly>
+        </div>
+      </div>
+
+      <div class="col-lg-5 mt-4">
         <dt class="title">{{ 'Lens Type' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="text" maxlength="100" [(ngModel)]="sentXSB.lentType" placeholder="{{ 'Enter lens type' | translate }}"
@@ -121,7 +134,7 @@
     <div class="row">
       <div class="col-md-12 buy-btns d-flex flex-row-reverse">
         <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" [disabled]="!formIsValid()" (click)="saveFiles()">
-         {{ 'Buy Now' | translate }}
+         {{ 'Make Order' | translate }}
         </button>
       </div>
     </div>
