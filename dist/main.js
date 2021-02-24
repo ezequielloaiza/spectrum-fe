@@ -970,6 +970,7 @@ var RoleAdmin;
     RoleAdmin[RoleAdmin["ProductViewOrionComponent"] = 44] = "ProductViewOrionComponent";
     RoleAdmin[RoleAdmin["ConsultationFormList"] = 45] = "ConsultationFormList";
     RoleAdmin[RoleAdmin["ConsultationFormComponent"] = 46] = "ConsultationFormComponent";
+    RoleAdmin[RoleAdmin["ProductViewXsbComponent"] = 47] = "ProductViewXsbComponent";
 })(RoleAdmin || (RoleAdmin = {}));
 
 
@@ -1024,6 +1025,7 @@ var RoleSeller;
     RoleSeller[RoleSeller["ProductViewOrionComponent"] = 34] = "ProductViewOrionComponent";
     RoleSeller[RoleSeller["ConsultationFormList"] = 35] = "ConsultationFormList";
     RoleSeller[RoleSeller["ConsultationFormComponent"] = 36] = "ConsultationFormComponent";
+    RoleSeller[RoleSeller["ProductViewXsbComponent"] = 37] = "ProductViewXsbComponent";
 })(RoleSeller || (RoleSeller = {}));
 
 
@@ -1072,6 +1074,7 @@ var RoleUser;
     RoleUser[RoleUser["ProductViewOrionComponent"] = 28] = "ProductViewOrionComponent";
     RoleUser[RoleUser["ConsultationFormComponent"] = 29] = "ConsultationFormComponent";
     RoleUser[RoleUser["ConsultationFormList"] = 30] = "ConsultationFormList";
+    RoleUser[RoleUser["ProductViewXsbComponent"] = 31] = "ProductViewXsbComponent";
 })(RoleUser || (RoleUser = {}));
 
 

@@ -363,6 +363,9 @@ var ProductService = /** @class */ (function () {
             responseType: 'blob'
         });
     };
+    ProductService.prototype.sendXSB$ = function (idUser, idProduct, obj) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'products/sendXSB/' + idUser + '/' + idProduct, obj);
+    };
     ProductService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'

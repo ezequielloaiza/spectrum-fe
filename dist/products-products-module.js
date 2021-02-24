@@ -12380,6 +12380,307 @@ var ProductViewSynergeyesComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/products/product-view-xsb/product-view-xsb.component.html":
+/*!***************************************************************************!*\
+  !*** ./src/app/products/product-view-xsb/product-view-xsb.component.html ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"info-breadcrumbs\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n\n<div class=\"padding-detail\">\n  <div class=\"card\">\n    <!-- name-price -->\n    <div class=\"main-info\">\n      <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n        <br>\n        <i>{{ supplierName }}</i>\n      </h3>\n    </div>\n\n    <div class=\"row product-info\">\n      <div class=\"col-lg-3\">\n        <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n        <div class=\"row info-content\">\n          <input class=\"form-control\" type=\"text\" maxlength=\"50\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"sentXSB.patient\"\n            required>\n        </div>\n      </div>\n      <!-- client -->\n      <div class=\"col-lg-4\">\n        <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n        <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n          <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" required\n             disabled>\n        </div>\n        <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n          <ng-select [items]=\"listCustomers\" [(ngModel)]=\"sentXSB.client\" (change)=\"onSelectedClient($event)\"\n            required [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\">\n          </ng-select>\n        </div>\n      </div>\n\n       <!--shipping address-->\n       <div class=\"col-lg-5\">\n        <dt class=\"title\">{{ 'Shipping Address' | translate }}</dt>\n        <div class=\"row info-content \">\n          <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n            readonly>\n        </div>\n      </div>\n\n      <div class=\"col-lg-5 mt-4\">\n        <dt class=\"title\">{{ 'Lens Type' | translate }}</dt>\n        <div class=\"row info-content\">\n          <input class=\"form-control\" type=\"text\" maxlength=\"100\" [(ngModel)]=\"sentXSB.lentType\" placeholder=\"{{ 'Enter lens type' | translate }}\"\n            required>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"row product-info\">\n      <div class=\"col-md-12\">\n        <dt class=\"title\">{{ 'Comments' | translate }}</dt>\n        <textarea style=\"overflow-x: hidden;\" rows=\"6\" maxlength=\"600\" [(ngModel)]=\"sentXSB.comments\" class=\"form-control\" type=\"text\"\n           placeholder=\"{{ 'Enter Observations' | translate }}\"></textarea>\n      </div>\n    </div>\n\n    <div class=\"row product-info\">\n       <!--files-->\n       <div class=\"col-md-12\">\n        <div class=\"comments\">\n          <div class=\"row\">\n            <div class=\"col-md-12\">\n              <div class=\"\">\n                <dt class=\"title\">{{ 'Documents | Attach Consultation Form' | translate }}</dt>\n                <div class=\"custom-file\">\n                  <input #selectedFiles type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploader\"\n                  [disabled]=\"uploader.queue.length > 4\" multiple />\n                  <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                  <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                  <div class=\"message-error-file\">\n                    <span translate>{{'Max files size:' | translate}} 25MB</span>\n                    <span> / </span>\n                    <span translate>{{'Maximum files number:' | translate }} 5</span>\n                  </div>\n                </div>\n              </div>\n              <br>\n              <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploader.queue.length > 0\">\n                <div class=\"row justify-content-end\" *ngIf=\"uploader.queue.length > 1\">\n                  <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploader.clearQueue()\" [disabled]=\"!uploader.queue.length\">\n                    <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                  </button>\n                </div>\n                <br>\n                <table class=\"table\">\n                  <thead>\n                    <tr>\n                      <th width=\"50%\">{{ 'Name' | translate }}</th>\n                      <th>{{ 'Size' | translate }}</th>\n                      <th>{{ 'Actions' | translate }}</th>\n                    </tr>\n                  </thead>\n                  <tbody>\n                    <tr *ngFor=\"let item of uploader.queue\">\n                      <td><strong>{{ item?.file?.name }}</strong></td>\n                      <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                      <td nowrap>\n                        <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item)\">\n                          <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                        </button>\n                      </td>\n                    </tr>\n                  </tbody>\n                </table>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"row\">\n      <div class=\"col-md-12 buy-btns d-flex flex-row-reverse\">\n        <button class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" [disabled]=\"!formIsValid()\" (click)=\"saveFiles()\">\n         {{ 'Make Order' | translate }}\n        </button>\n      </div>\n    </div>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/products/product-view-xsb/product-view-xsb.component.scss":
+/*!***************************************************************************!*\
+  !*** ./src/app/products/product-view-xsb/product-view-xsb.component.scss ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.info-breadcrumbs {\n  margin-top: 80px;\n  margin-left: 3%; }\n.info-breadcrumbs .header-body {\n    width: 100%;\n    background: #ffffff;\n    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.info-breadcrumbs .header-body .link {\n      color: #1756a6;\n      padding-left: 0px; }\n.info-breadcrumbs .header-body .breadcrumb {\n      background-color: transparent;\n      border-radius: 0px;\n      border-bottom: 0px;\n      padding-top: 0px;\n      padding-bottom: 0px; }\n.info-breadcrumbs .header-body h4 {\n      padding-left: 15px; }\n.padding-detail {\n  padding: 10px 40px 10px 40px; }\n.padding-detail .card {\n    background: #ffffff;\n    padding: 2em;\n    line-height: 1.5em; }\n.padding-detail .card .main-info {\n      text-align: center; }\n.padding-detail .card .main-info .img-color {\n        border-radius: 35px; }\n.product-info {\n  padding-top: 2em; }\n.product-info .item-properties {\n    display: flex;\n    align-items: center;\n    padding-bottom: 1em; }\n.product-info .item-properties i {\n      font-size: 30px; }\n.product-info .item-properties p {\n      font-size: 0.9rem;\n      padding: 0px 0 0 10px;\n      margin-bottom: 0; }\n.ng-select {\n  width: 100%; }\n.info-content {\n  margin-left: 0px;\n  margin-bottom: 0px; }\n.fw-bold {\n  font-weight: 600; }\n.product-title,\n.price,\n.sizes,\n.colors {\n  text-transform: UPPERCASE;\n  font-weight: bold; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2NsZXRlY2kvU29mdGd1YXJvL3NwZWN0cnVtLWZlL3NyYy9zdHlsZXMvc3BlY3RydW0vbW9kdWxlcy9fdGFibGVzLnNjc3MiLCIvaG9tZS9jbGV0ZWNpL1NvZnRndWFyby9zcGVjdHJ1bS1mZS9zcmMvc3R5bGVzL3NwZWN0cnVtL21vZHVsZXMvX2NvbG9ycy5zY3NzIiwiL2hvbWUvY2xldGVjaS9Tb2Z0Z3Vhcm8vc3BlY3RydW0tZmUvc3JjL3N0eWxlcy9zcGVjdHJ1bS9tb2R1bGVzL19idXR0b25zLnNjc3MiLCIvaG9tZS9jbGV0ZWNpL1NvZnRndWFyby9zcGVjdHJ1bS1mZS9zcmMvc3R5bGVzL3NwZWN0cnVtL21vZHVsZXMvX21vZGFscy5zY3NzIiwiL2hvbWUvY2xldGVjaS9Tb2Z0Z3Vhcm8vc3BlY3RydW0tZmUvc3JjL3N0eWxlcy9zcGVjdHJ1bS9tb2R1bGVzL19mb3Jtcy5zY3NzIiwiL2hvbWUvY2xldGVjaS9Tb2Z0Z3Vhcm8vc3BlY3RydW0tZmUvc3JjL2FwcC9wcm9kdWN0cy9wcm9kdWN0LXZpZXcteHNiL3Byb2R1Y3Qtdmlldy14c2IuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsb0JBQUE7QUFTQTtFQUNFLG1EQUFtRDtFQUNuRCxpRkFBeUUsRUFBQTtBQUYzRTtJQUtJLGFBQWE7SUFDYiw4QkFBOEI7SUFDOUIsbUJBQW1CO0lBQ25CLHlCQ2RjO0lEZWQsY0NoQmE7SURpQmIsZ0JBQWdCO0lBQ2hCLG1CQUFtQjtJQUNuQixpQkFBaUIsRUFBQTtBQVpyQjtNQWVNLDJCQUEyQixFQUFBO0FBS2pDO0VBR0ksZ0JBQWdCO0VBQ2hCLHVCQUF1QixFQUFBO0FBSjNCO0VBUUksYUFBYSxFQUFBO0FBSWpCO0VBRUksZUFBZSxFQUFBO0FBSW5CO0VBQ0UsZUFBZSxFQUFBO0FBR2pCO0VBQ0Usa0JBQWtCO0VBQ2xCLGFBQWE7RUFDYixnQkFBZ0I7RUFDaEIsY0FBYyxFQUFBO0FBR2hCO0VBQ0UsaUJBQWlCO0VB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b25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi8qIERlZmluZSB0ciB3aWR0aCAqL1xuQG1peGluIHRyLXNpemVzKCRjZWxsLXNpemVzKSB7XG4gIEBmb3IgJGkgZnJvbSAxIHRocm91Z2ggbGVuZ3RoKCRjZWxsLXNpemVzKSB7XG4gICAgLnRhYmxlLXRyOm50aC1jaGlsZCgjeyRpfSkge1xuICAgICAgd2lkdGg6IG50aCgkY2VsbC1zaXplcywgJGkpO1xuICAgIH1cbiAgfVxufVxuXG4uY2FyZCB7XG4gIGJvcmRlcjogMC41cHggc29saWQgcmdiYSgwLCAwLCAwLCAwLjEyNSkgIWltcG9ydGFudDs7XG4gIGJveC1zaGFkb3c6IDAgMnB4IDJweCByZ2JhKDAsMCwwLC4yNCksIDAgMCAycHggcmdiYSgwLDAsMCwuMTIpICFpbXBvcnRhbnQ7XG5cbiAgLmNhcmQtaGVhZGVyIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICRiZy13aGl0ZTtcbiAgICBjb2xvcjogJGJnLWJsdWU7XG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgICBib3JkZXItYm90dG9tOiBub25lO1xuICAgIGZvbnQtc2l6ZTogMS4zcmVtO1xuXG4gICAgLmNhcmQtYm9keSB7XG4gICAgICBvdmVyZmxvdy15OiAtd2Via2l0LXBhZ2VkLXk7XG4gICAgfVxuICB9XG59XG5cbi50YWJsZSB7XG5cbiAgPnRoZWFkID50ciA+dGggPnRkIHtcbiAgICBib3JkZXItdG9wOiBub25lO1xuICAgIHRleHQtb3ZlcmZsb3c6IGVsbGlwc2lzO1xuICB9XG5cbiAgPnRib2R5ID50cjpudGgtbGFzdC1jaGlsZCgxKSB7XG4gICAgaGVpZ2h0OiAxMDBweDtcbiAgfVxufVxuXG4uaGVhZGVyLWNvbHVtbiB7XG4gIDpob3ZlciB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICB9XG59XG5cbi5kcm9wZG93bi1pdGVtIHtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4udGFibGUtZW1wdHkge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIHBhZGRpbmc6IDI1cHg7XG4gIGZvbnQtd2VpZ2h0OiA2MDA7XG4gIGNvbG9yOiAjOGE4YThhO1xufVxuXG4ucGFnaW5hdGlvbi1saXN0IHtcbiAgdGV4dC1hbGlnbjogcmlnaHQ7XG4gIGxpbmUtaGVpZ2h0OiAwICFpbXBvcnRhbnQ7XG4gIGZvbnQtd2VpZ2h0OiAzMDA7XG59XG5cbi5jb3VudC1lbGVtZW50cyB7XG4gIG1hcmdpbi1yaWdodDogMHB4O1xufVxuXG4uZmEtc29ydC11cCB7XG4gIG1hcmdpbi1sZWZ0OiA1cHg7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLmZhLXNvcnQtZG93biB7XG4gIG1hcmdpbi1sZWZ0OiA1cHg7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLmZhLXNvcnQge1xuICBtYXJnaW4tbGVmdDogNXB4O1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi5uby1yZWNvcmRzIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4udGQtdGFibGV7XG4gIG1heC13aWR0aDogMTAwcHg7XG4gIG92ZXJmbG93OiBoaWRkZW47XG4gIHRleHQtb3ZlcmZsb3c6IGVsbGlwc2lzO1xuICB3aGl0ZS1zcGFjZTogbm93cmFwO1xufVxuIiwiJGJnLXNpZGViYXI6ICM0OTQ5NDk7XG4kYmctbmF2YmFyOiAjMjIyO1xuJGJnLWJsdWU6ICMxNzU2YTY7XG4kYmctd2hpdGU6ICNmZmZmZmY7XG4kYmctdGV4dC1zZWxlY3Q6ICNmOTA7XG4kYmctaXRlbS1zZWxlY3Q6ICMzYzNjM2M7XG4kYmctYmx1ZS1ob3ZlcjogIzE4NWViOTtcbiRiZy1pbXB1dDogI2NlZDRkYTtcbiRiZy1yZWQ6ICNjYzAwMDA7XG4kYmctZ3JlZW46ICM0MkE5NDg7XG4kYm9yZGVyOnJnYmEoMCwgMCwgMCwgMC4xMjUpO1xuJGJveC1zaGFkb3cgOiAycHggcmdiYSgwLDAsMCwuMjQpO1xuJGJveC1zaGFkb3cxOnJnYmEoMCwwLDAsLjEyKTtcbiRjb2xvci10ZXh0LW1lbnU6Izg2OGU5NjtcbiRiZy1ncmVlbjogIzQyQTk0ODtcbiRiZy10aXRsZS1jYXJkOiAjZjdmN2Y3O1xuJGJvcmRlci1ncmV5OiAjZGVlMmU2O1xuXG4vL1NUQVRVU0VTXG4kcGVuZGluZy1zdGF0dXM6ICNCNzFDMUM7XG4kYXV0aG9yaXplZC1zdGF0dXM6ICM0QTE0OEM7XG4kcHJvY2Vzc2VkLXN0YXR1czogI0ZGNkYwMDtcbiRwYWlkLXN0YXR1czogIzFCNUUyMDtcbiRzZW50LXN0YXR1czogIzAxNTc5QjtcbiRjYW5jZWwtc3RhdHVzOiAjMzMzMzM1O1xuXG5cbiRzZWNvbmRhcnktaW5mbzojODY4ZTk2O1xuJGJnLXByb2R1Y3QtZGV0YWlsOiNmZmZmZmY7XG4kaW5mby1zZXBhcmF0b3I6cmdiYSgwLCAwLCAwLCAwLjEpO1xuJGljb24tZWRpdC1kZXRhaWw6IzE3NTZhNjtcbiRlcnJvci1xdWFudGl0eTpyZWQ7XG4kbWVzc2FnZS1xdWFudGl0eTojMDA4MDAwO1xuIiwiLmJ0bi1tYWluIHtcbiAgYmFja2dyb3VuZDogJGJnLWJsdWU7XG4gIGNvbG9yOiAkYmctd2hpdGU7XG5cbiAgJjpmb2N1cyB7XG4gICAgYm94LXNoYWRvdzogbm9uZTtcbiAgfVxuXG4gICY6aG92ZXIge1xuICAgIGJhY2tncm91bmQ6ICRiZy1ibHVlLWhvdmVyO1xuICB9XG59XG5cbi5idG4tZHJvcGRvd24tbWFpbiB7XG4gIGNvbG9yOiAkYmctYmx1ZTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7XG4gIGJhY2tncm91bmQtaW1hZ2U6IG5vbmU7XG4gIGJvcmRlci1jb2xvcjogbm9uZTtcbiAgYm9yZGVyLXJhZGl1czogMnB4O1xuXG4gICY6Zm9jdXMge1xuICAgIGJveC1zaGFkb3c6IG5vbmU7XG4gIH1cblxufVxuXG4uZHJvcGRvd24tbWVudSB7XG4gIG1pbi13aWR0aDogN3JlbTtcbiAgdG9wOiAyOHB4ICFpbXBvcnRhbnQ7XG4gIGxlZnQ6IDEwcHggIWltcG9ydGFudDtcbn1cblxuLmRyb3Bkb3duLW1lbnU6OmJlZm9yZSB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAtN3B4O1xuICBsZWZ0OiA1OXB4O1xuICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIGJvcmRlci1yaWdodDogN3B4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBib3JkZXItYm90dG9tOiA3cHggc29saWQgI0NDQztcbiAgYm9yZGVyLWxlZnQ6IDdweCBzb2xpZCB0cmFuc3BhcmVudDtcbiAgYm9yZGVyLWJvdHRvbS1jb2xvcjogcmdiYSgwLCAwLCAwLCAwLjIpO1xuICBjb250ZW50OiAnJztcbiAgfVxuICAuZHJvcGRvd24tbWVudTo6YWZ0ZXIge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogLTZweDtcbiAgbGVmdDogNjBweDtcbiAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICBib3JkZXItcmlnaHQ6IDZweCBzb2xpZCB0cmFuc3BhcmVudDtcbiAgYm9yZGVyLWJvdHRvbTogNnB4IHNvbGlkICRiZy13aGl0ZTtcbiAgYm9yZGVyLWxlZnQ6IDZweCBzb2xpZCB0cmFuc3BhcmVudDtcbiAgY29udGVudDogJyc7XG4gIH1cblxuICAuYnRuLmRpc2FibGVkLCAuYnRuOmRpc2FibGVkIHtcbiAgICBjdXJzb3I6IG5vdC1hbGxvd2VkO1xufVxuIiwiLm1vZGFsLWhlYWRlciB7XG4gIGJhY2tncm91bmQtY29sb3I6ICRiZy1ibHVlO1xuICBjb2xvcjogI2ZmZmY7XG4gIGJvcmRlci10b3AtcmlnaHQtcmFkaXVzOiAycHg7XG4gIGJvcmRlci10b3AtbGVmdC1yYWRpdXM6IDJweDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgaGVpZ2h0OiA1MHB4O1xuXG4gID5idXR0b24ge1xuICAgIGNvbG9yOiAkYmctd2hpdGU7XG4gICAgb3BhY2l0eTogMTtcbiAgfVxufSIsIi5uZy12YWxpZFtyZXF1aXJlZF0sIC5uZy12YWxpZC5yZXF1aXJlZCAge1xuICBib3JkZXItbGVmdDogNXB4IHNvbGlkICRiZy1ncmVlbjsgLyogZ3JlZW4gKi9cbn1cblxuLm5nLWludmFsaWQ6bm90KGZvcm0pICB7XG4gIGJvcmRlci1sZWZ0OiA1cHggc29saWQgJGJnLXJlZDsgLyogcmVkICovXG59XG5cbi5jb250ZW50IHtcbiAgcGFkZGluZzogMS43cmVtO1xufVxuXG4uZm9ybS1jb250cm9sOmZvY3VzIHtcbiAgYm94LXNoYWRvdzogMCAwIDAgMC4wOHJlbSByZ2JhKDAsIDEyMywgMjU1LCAwLjIwKTtcbn1cblxuLm1lc3NhZ2UtZXJyb3Ige1xuICBtYXJnaW4tdG9wOiAtMXJlbTtcbiAgY29sb3I6ICRiZy1yZWQ7XG4gIGZvbnQtc2l6ZTogMC44NXJlbTtcbn1cblxuLnBhZ2UtaGVhZGVyLWZpeGVkIHtcbiAgcG9zaXRpb246IGZpeGVkO1xuICB3aWR0aDogMTAwJTtcbiAgei1pbmRleDogMTAwMDtcbiAgYmFja2dyb3VuZDogd2hpdGU7XG4gIG1hcmdpbi10b3A6IC0yMnB4O1xuICBwYWRkaW5nLXRvcDogMjVweDtcbiAgbWFyZ2luLWxlZnQ6IDMwcHg7XG59XG5cbi5zcC1jb250YWluZXIge1xuICBwYWRkaW5nLXRvcDogMTAwcHg7XG4gIHBhZGRpbmctbGVmdDogMzBweDtcbn1cblxuLnNwLXRpdGxlIHtcbiAgY29sb3I6ICRiZy1ibHVlO1xuICBmb250LXdlaWdodDogYm9sZDtcbiAgZm9udC1zaXplOiAxLjRyZW07XG59XG5cbiIsIkBpbXBvcnQgJy4uLy4uLy4uL3N0eWxlcy9zcGVjdHJ1bS9zcGVjdHJ1bSc7XG5cbi5pbmZvLWJyZWFkY3J1bWJzIHtcbiAgbWFyZ2luLXRvcDogODBweDtcbiAgbWFyZ2luLWxlZnQ6IDMlO1xuXG4gIC5oZWFkZXItYm9keSB7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgYmFja2dyb3VuZDogJGJnLXdoaXRlO1xuICAgIGJveC1zaGFkb3c6IC0ycHggNXB4IDVweCAtNXB4IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAgIC5saW5rIHtcbiAgICAgIGNvbG9yOiAkYmctYmx1ZTtcbiAgICAgIHBhZGRpbmctbGVmdDogMHB4O1xuICAgIH1cblxuICAgIC5icmVhZGNydW1iIHtcbiAgICAgIGJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50O1xuICAgICAgYm9yZGVyLXJhZGl1czogMHB4O1xuICAgICAgLy9wYWRkaW5nLWxlZnQ6IDE1cHg7XG4gICAgICBib3JkZXItYm90dG9tOiAwcHg7XG4gICAgICBwYWRkaW5nLXRvcDogMHB4O1xuICAgICAgcGFkZGluZy1ib3R0b206IDBweDtcbiAgICB9XG5cbiAgICBoNCB7XG4gICAgICBwYWRkaW5nLWxlZnQ6IDE1cHg7XG4gICAgfVxuICB9XG59XG5cbi5wYWRkaW5nLWRldGFpbCB7XG4gIHBhZGRpbmc6IDEwcHggNDBweCAxMHB4IDQwcHg7XG5cbiAgLmNhcmQge1xuICAgIGJhY2tncm91bmQ6ICRiZy1wcm9kdWN0LWRldGFpbDtcbiAgICBwYWRkaW5nOiAyZW07XG4gICAgbGluZS1oZWlnaHQ6IDEuNWVtO1xuXG4gICAgLm1haW4taW5mbyB7XG4gICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG5cbiAgICAgIC5pbWctY29sb3Ige1xuICAgICAgICBib3JkZXItcmFkaXVzOiAzNXB4O1xuICAgICAgfVxuICAgIH1cbiAgfVxufVxuXG4ucHJvZHVjdC1pbmZvIHtcbiAgcGFkZGluZy10b3A6IDJlbTtcblxuICAuaXRlbS1wcm9wZXJ0aWVzIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgcGFkZGluZy1ib3R0b206IDFlbTtcblxuICAgIGkge1xuICAgICAgZm9udC1zaXplOiAzMHB4O1xuICAgIH1cblxuICAgIHAge1xuICAgICAgZm9udC1zaXplOiAwLjlyZW07XG4gICAgICBwYWRkaW5nOiAwcHggMCAwIDEwcHg7XG4gICAgICBtYXJnaW4tYm90dG9tOiAwO1xuICAgIH1cbiAgfVxufVxuXG4ubmctc2VsZWN0e1xuICB3aWR0aDogMTAwJTtcbn1cblxuLmluZm8tY29udGVudCB7XG4gIG1hcmdpbi1sZWZ0OiAwcHg7XG4gIG1hcmdpbi1ib3R0b206IDBweDtcbn1cblxuLmZ3LWJvbGQge1xuICBmb250LXdlaWdodDogNjAwO1xufVxuXG4ucHJvZHVjdC10aXRsZSxcbi5wcmljZSxcbi5zaXplcyxcbi5jb2xvcnMge1xuICB0ZXh0LXRyYW5zZm9ybTogVVBQRVJDQVNFO1xuICBmb250LXdlaWdodDogYm9sZDtcbn0iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/products/product-view-xsb/product-view-xsb.component.ts":
+/*!*************************************************************************!*\
+  !*** ./src/app/products/product-view-xsb/product-view-xsb.component.ts ***!
+  \*************************************************************************/
+/*! exports provided: ProductViewXsbComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductViewXsbComponent", function() { return ProductViewXsbComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var _shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/services/products/product.service */ "./src/app/shared/services/products/product.service.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var _http_user_storage_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../http/user-storage.service */ "./src/app/http/user-storage.service.ts");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+var URL = _environments_environment__WEBPACK_IMPORTED_MODULE_9__["environment"].apiUrl + 'products/uploaderXSB';
+var ProductViewXsbComponent = /** @class */ (function () {
+    function ProductViewXsbComponent(productService, userService, userStorageService, shippingAddressService, router, route, spinner, notification, translate) {
+        var _this = this;
+        this.productService = productService;
+        this.userService = userService;
+        this.userStorageService = userStorageService;
+        this.shippingAddressService = shippingAddressService;
+        this.router = router;
+        this.route = route;
+        this.spinner = spinner;
+        this.notification = notification;
+        this.translate = translate;
+        this.products = new Array;
+        this.listCustomers = new Array;
+        this.listCustomersAux = new Array;
+        this.queueLimit = 5;
+        this.maxFileSize = 25 * 1024 * 1024; // 25 MB
+        this.listFile = new Array;
+        this.uploadResult = null;
+        this.sentXSB = {
+            comments: null,
+            lentType: null,
+            patient: null,
+            client: null,
+            listFile: null
+        };
+        this.shippingAddress = '';
+        this.supplierName = '';
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_8__["FileUploader"]({
+            url: URL,
+            itemAlias: 'files',
+            queueLimit: this.queueLimit,
+            maxFileSize: this.maxFileSize,
+            removeAfterUpload: false,
+            authToken: this.userStorageService.getToke(),
+            autoUpload: false
+        });
+        this.uploader.onAfterAddingFile = function (item) {
+            var maxSize = _this.maxFilesSize();
+            if (maxSize > _this.maxFileSize) {
+                _this.removeFile(item);
+                _this.notification.error('', _this.translate.instant('Exceeds the maximum size allowed'));
+            }
+        };
+        this.uploader.onSuccessItem = function (item, response, status, headers) {
+            _this.uploadResult = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+            if (_this.uploadResult) {
+                _this.buildFileProductRequested();
+            }
+        };
+        this.uploader.onErrorItem = function (item, response, status, headers) {
+            _this.uploadResult = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+        };
+    }
+    ProductViewXsbComponent.prototype.ngOnInit = function () {
+        this.currentUser = JSON.parse(this.userStorageService.getCurrentUser()).userResponse;
+        this.user = JSON.parse(this.userStorageService.getCurrentUser());
+        var id = this.route.snapshot.paramMap.get('supplierId');
+        this.getNameSupplier(id);
+        this.getProducts(id);
+    };
+    ProductViewXsbComponent.prototype.getNameSupplier = function (id) {
+        switch (Number(id)) {
+            case 13:
+                this.supplierName = 'X-Cel';
+                break;
+            case 14:
+                this.supplierName = 'Smartlens';
+                break;
+            case 15:
+                this.supplierName = 'BostonSight';
+                break;
+        }
+    };
+    ProductViewXsbComponent.prototype.getProducts = function (id) {
+        var _this = this;
+        this.spinner.show();
+        this.productService.findBySupplierInView$(id, true).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                _this.products = res.data;
+                _this.getProductView();
+                _this.spinner.hide();
+            }
+            else {
+                console.log(res.errors[0].detail);
+                _this.spinner.hide();
+            }
+        }, function (error) {
+            console.log('error', error);
+            _this.spinner.hide();
+        });
+    };
+    ProductViewXsbComponent.prototype.getProductView = function () {
+        this.id = this.route.snapshot.paramMap.get('id');
+        this.product = this.products[0];
+        this.setClient();
+        //this.setCodeProduct();
+    };
+    ProductViewXsbComponent.prototype.setClient = function () {
+        var _this = this;
+        if (this.user.role.idRole === 3) {
+            this.client = this.currentUser.idUser;
+            var accSpct = !!this.currentUser.accSpct ? this.currentUser.accSpct + ' - ' : '';
+            this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
+        }
+        else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+            this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(function (res) {
+                if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                    _this.listCustomersAux = res.data;
+                    _this.listCustomers = _this.listCustomersAux;
+                    _this.listCustomers.map(function (i) {
+                        var accSpct = !!i.accSpct ? i.accSpct + ' - ' : '';
+                        i.fullName = accSpct + i.name + ' | ' + i.country.name;
+                        return i;
+                    });
+                }
+            });
+        }
+    };
+    ProductViewXsbComponent.prototype.send = function () {
+        var _this = this;
+        this.productService.sendXSB$(this.sentXSB.client, this.id, this.sentXSB).subscribe(function (res) {
+            _this.spinner.hide();
+            _this.notification.success('', _this.translate.instant('Your order has been successfully generated'));
+            _this.router.navigate(['/products']);
+        }, function (error) {
+            _this.spinner.hide();
+            console.log(error);
+        });
+    };
+    ProductViewXsbComponent.prototype.formIsValid = function () {
+        var isValid = true;
+        if (this.sentXSB.client === null || this.sentXSB.lentType === null || this.sentXSB.patient === null) {
+            isValid = false;
+        }
+        return isValid;
+    };
+    ProductViewXsbComponent.prototype.removeFile = function (item) {
+        this.uploader.removeFromQueue(item);
+        this.clearSelectedFile();
+    };
+    ProductViewXsbComponent.prototype.clearSelectedFile = function () {
+        this.selectedFiles.nativeElement.value = '';
+    };
+    ProductViewXsbComponent.prototype.saveFiles = function () {
+        this.spinner.show();
+        this.listFile = new Array;
+        if (this.uploader.queue.length) {
+            lodash__WEBPACK_IMPORTED_MODULE_5__["each"](this.uploader.queue, function (item) {
+                item.upload();
+            });
+        }
+        else {
+            this.send();
+        }
+    };
+    ProductViewXsbComponent.prototype.maxFilesSize = function () {
+        var maxFileSize = 0;
+        if (this.uploader.queue) {
+            lodash__WEBPACK_IMPORTED_MODULE_5__["each"](this.uploader.queue, function (item) {
+                maxFileSize = maxFileSize + item.file.size;
+            });
+        }
+        return maxFileSize;
+    };
+    ProductViewXsbComponent.prototype.buildFileProductRequested = function () {
+        if (this.uploadResult.success) {
+            var name_1 = JSON.parse(this.uploadResult.response).data;
+            this.listFile.push(name_1);
+        }
+        if (this.listFile.length === this.uploader.queue.length) {
+            this.sentXSB.listFile = this.listFile;
+            this.send();
+        }
+    };
+    ProductViewXsbComponent.prototype.verifyOpenModal = function () {
+        if (this.uploader.queue.length === this.listFile.length) {
+        }
+    };
+    ProductViewXsbComponent.prototype.onSelectedClient = function (clienteSelect) {
+        if (clienteSelect !== undefined) {
+            this.client = clienteSelect.idUser;
+            this.findShippingAddress(this.client);
+        }
+        else {
+            this.client = '';
+            this.product.shippingAddress = '';
+        }
+    };
+    ProductViewXsbComponent.prototype.findShippingAddress = function (idCliente) {
+        var _this = this;
+        this.shippingAddressService.findIdUser$(idCliente).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
+                _this.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
+            }
+            else if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].notContent) {
+                _this.shippingAddress = '';
+                _this.notification.warning('', _this.translate.instant('You must enter a main address in the shipping address module'));
+            }
+            else {
+                _this.shippingAddress = '';
+            }
+        });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('selectedFiles'),
+        __metadata("design:type", Object)
+    ], ProductViewXsbComponent.prototype, "selectedFiles", void 0);
+    ProductViewXsbComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-product-view-xsb',
+            template: __webpack_require__(/*! ./product-view-xsb.component.html */ "./src/app/products/product-view-xsb/product-view-xsb.component.html"),
+            styles: [__webpack_require__(/*! ./product-view-xsb.component.scss */ "./src/app/products/product-view-xsb/product-view-xsb.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_2__["ProductService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_6__["UserService"],
+            _http_user_storage_service__WEBPACK_IMPORTED_MODULE_7__["UserStorageService"],
+            _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_12__["ShippingAddressService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_3__["NgxSpinnerService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_10__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_11__["TranslateService"]])
+    ], ProductViewXsbComponent);
+    return ProductViewXsbComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/products/product-view/product-view.component.html":
 /*!*******************************************************************!*\
   !*** ./src/app/products/product-view/product-view.component.html ***!
@@ -13604,6 +13905,15 @@ var ProductsListInternalComponent = /** @class */ (function () {
                     this.router.navigate(['/products/' + product.idProduct + '/product-view-spectrum-saline']);
                 }
                 break;
+            case 13:// xcel
+                this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 13]);
+                break;
+            case 14:// SMARTLENS
+                this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 14]);
+                break;
+            case 15:// BOSTONSIGHT
+                this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 15]);
+                break;
         }
     };
     ProductsListInternalComponent.prototype.open = function (product, action) {
@@ -14068,7 +14378,7 @@ var ProductsListsComponent = /** @class */ (function () {
         this.spinner.show();
         this.supplierService.findAll$().subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
-                var suppliersId_1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                var suppliersId_1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15];
                 _this.listSupplierFilter = res.data;
                 if (_this.user.role.idRole === 3) {
                     if (_this.user.userResponse.membership.idMembership !== 2) {
@@ -14138,6 +14448,15 @@ var ProductsListsComponent = /** @class */ (function () {
                     break;
                 case 10:// Orion
                     supplier.image = 'assets/images/suppliers/orion.png';
+                    break;
+                case 13:// XCEL
+                    supplier.image = 'assets/images/suppliers/X-Cel.png';
+                    break;
+                case 14:// XCEL
+                    supplier.image = 'assets/images/suppliers/SmartLens.png';
+                    break;
+                case 15:// XCEL
+                    supplier.image = 'assets/images/suppliers/BostonSight.png';
                     break;
             }
         });
@@ -14274,12 +14593,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _product_view_synergeyes_product_view_synergeyes_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./product-view-synergeyes/product-view-synergeyes.component */ "./src/app/products/product-view-synergeyes/product-view-synergeyes.component.ts");
 /* harmony import */ var _product_view_orion_product_view_orion_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./product-view-orion/product-view-orion.component */ "./src/app/products/product-view-orion/product-view-orion.component.ts");
 /* harmony import */ var _consultation_form_consultation_form_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./consultation-form/consultation-form.component */ "./src/app/products/consultation-form/consultation-form.component.ts");
+/* harmony import */ var _product_view_xsb_product_view_xsb_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./product-view-xsb/product-view-xsb.component */ "./src/app/products/product-view-xsb/product-view-xsb.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -14317,6 +14638,7 @@ var routes = [
             { path: ':id/product-view-medmont', component: _product_view_medmont_product_view_medmont_component__WEBPACK_IMPORTED_MODULE_14__["ProductViewMedmontComponent"], data: { option: 'ProductViewMedmontComponent' } },
             { path: ':id/product-view-synergeyes', component: _product_view_synergeyes_product_view_synergeyes_component__WEBPACK_IMPORTED_MODULE_15__["ProductViewSynergeyesComponent"], data: { option: 'ProductViewSynergeyesComponent' } },
             { path: ':id/product-view-orion', component: _product_view_orion_product_view_orion_component__WEBPACK_IMPORTED_MODULE_16__["ProductViewOrionComponent"], data: { option: 'ProductViewOrionComponent' } },
+            { path: ':id/product-view-xsb/:supplierId', component: _product_view_xsb_product_view_xsb_component__WEBPACK_IMPORTED_MODULE_18__["ProductViewXsbComponent"], data: { option: 'ProductViewXsbComponent' } },
             { path: ':id/consultation-form', component: _consultation_form_consultation_form_component__WEBPACK_IMPORTED_MODULE_17__["ConsultationFormComponent"], data: { option: 'ConsultationFormComponent' } }
         ], data: { option: 'ProductsList' }
     }
@@ -14457,6 +14779,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_confirmation_buy_confirmation_orion_confirmation_orion_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./modals/confirmation-buy/confirmation-orion/confirmation-orion.component */ "./src/app/products/modals/confirmation-buy/confirmation-orion/confirmation-orion.component.ts");
 /* harmony import */ var _commons_module__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ../commons.module */ "./src/app/commons.module.ts");
 /* harmony import */ var _consultation_form_consultation_form_component__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./consultation-form/consultation-form.component */ "./src/app/products/consultation-form/consultation-form.component.ts");
+/* harmony import */ var _product_view_xsb_product_view_xsb_component__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./product-view-xsb/product-view-xsb.component */ "./src/app/products/product-view-xsb/product-view-xsb.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -14497,6 +14820,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 // tslint:disable-next-line:max-line-length
+
 
 
 
@@ -14562,7 +14886,8 @@ var ProductsModule = /** @class */ (function () {
                 _modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_41__["ConfirmationSynergeyesComponent"],
                 _product_view_orion_product_view_orion_component__WEBPACK_IMPORTED_MODULE_42__["ProductViewOrionComponent"],
                 _modals_confirmation_buy_confirmation_orion_confirmation_orion_component__WEBPACK_IMPORTED_MODULE_43__["ConfirmationOrionComponent"],
-                _consultation_form_consultation_form_component__WEBPACK_IMPORTED_MODULE_45__["ConsultationFormComponent"]
+                _consultation_form_consultation_form_component__WEBPACK_IMPORTED_MODULE_45__["ConsultationFormComponent"],
+                _product_view_xsb_product_view_xsb_component__WEBPACK_IMPORTED_MODULE_46__["ProductViewXsbComponent"]
             ],
             entryComponents: [_modals_confirmation_buy_confirmation_buy_component__WEBPACK_IMPORTED_MODULE_14__["ConfirmationBuyComponent"],
                 _modals_edit_product_edit_product_component__WEBPACK_IMPORTED_MODULE_16__["EditProductComponent"],
