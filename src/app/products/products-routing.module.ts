@@ -16,6 +16,7 @@ import { ProductViewMedmontComponent } from './product-view-medmont/product-view
 import { ProductViewSynergeyesComponent } from './product-view-synergeyes/product-view-synergeyes.component';
 import { ProductViewOrionComponent } from './product-view-orion/product-view-orion.component';
 import { ConsultationFormComponent } from './consultation-form/consultation-form.component';
+import { ProductViewXsbComponent } from './product-view-xsb/product-view-xsb.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
         { path: ':id/product-view-medmont', component: ProductViewMedmontComponent, data: { option: 'ProductViewMedmontComponent' }},
         { path: ':id/product-view-synergeyes', component: ProductViewSynergeyesComponent, data: { option: 'ProductViewSynergeyesComponent' }},
         { path: ':id/product-view-orion', component: ProductViewOrionComponent, data: { option: 'ProductViewOrionComponent' } },
+        { path: ':id/product-view-xsb/:supplierId', component: ProductViewXsbComponent, data: { option: 'ProductViewXsbComponent' }},
         { path: ':id/consultation-form', component: ConsultationFormComponent, data: { option: 'ConsultationFormComponent' }}
 
     ] , data: { option: 'ProductsList' }

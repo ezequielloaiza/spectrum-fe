@@ -89,7 +89,7 @@ export class ProductsListsComponent implements OnInit {
     this.spinner.show();
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        const suppliersId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const suppliersId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15];
         this.listSupplierFilter = res.data;
         if (this.user.role.idRole === 3) {
           if (this.user.userResponse.membership.idMembership !== 2) {
@@ -158,6 +158,15 @@ export class ProductsListsComponent implements OnInit {
           break
         case 10: // Orion
           supplier.image = 'assets/images/suppliers/orion.png';
+          break
+        case 13: // XCEL
+          supplier.image = 'assets/images/suppliers/X-Cel.png';
+          break
+        case 14: // XCEL
+          supplier.image = 'assets/images/suppliers/SmartLens.png';
+          break
+        case 15: // XCEL
+          supplier.image = 'assets/images/suppliers/BostonSight.png';
           break
       }
     });
