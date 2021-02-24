@@ -53,4 +53,8 @@ export class ProductService {
       responseType: 'blob'
     });
   }
+
+  public sendXSB$(idUser, idProduct, obj): Observable<any> {
+    return this.http.post(environment.apiUrl + 'products/sendXSB/' + idUser + '/' + idProduct, obj);
+  }
 }
