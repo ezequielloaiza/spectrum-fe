@@ -1,0 +1,142 @@
+<div class="info-breadcrumbs">
+  <div class="header-body">
+    <h4 class="page-header">
+      {{ 'Product Details' | translate }}
+    </h4>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/products']">
+          <i class="fa fa-edit"></i> {{ 'Products List' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-eye"></i> {{ 'Product Details' | translate}}</li>
+    </ol>
+  </div>
+</div>
+
+<div class="padding-detail">
+  <div class="card">
+    <!-- name-price -->
+    <div class="main-info">
+      <h3 class="product-title">{{'Order Form For' | translate }}:
+        <br>
+        <i>{{ supplierName }}</i>
+      </h3>
+    </div>
+
+    <div class="row product-info">
+      <div class="col-lg-3">
+        <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
+        <div class="row info-content">
+          <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter name patient' | translate }}" [(ngModel)]="sentXSB.patient"
+            required>
+        </div>
+      </div>
+      <!-- client -->
+      <div class="col-lg-4">
+        <dt class="title">{{ 'Account Name' | translate }}</dt>
+        <div class="row info-content" [hidden]="user.role.idRole !== 3">
+          <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}" required
+             disabled>
+        </div>
+        <div class="row info-content" [hidden]="user.role.idRole === 3">
+          <ng-select [items]="listCustomers" [(ngModel)]="sentXSB.client" (change)="onSelectedClient($event)"
+            required [virtualScroll]="true" bindLabel="fullName" bindValue="idUser" placeholder="{{ 'Select value' | translate }}">
+          </ng-select>
+        </div>
+      </div>
+
+       <!--shipping address-->
+       <div class="col-lg-5">
+        <dt class="title">{{ 'Shipping Address' | translate }}</dt>
+        <div class="row info-content ">
+          <input class="form-control readonly-input" type="text" [(ngModel)]="shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
+            readonly>
+        </div>
+      </div>
+
+      <div class="col-lg-5 mt-4">
+        <dt class="title">{{ 'Lens Type' | translate }}</dt>
+        <div class="row info-content">
+          <input class="form-control" type="text" maxlength="100" [(ngModel)]="sentXSB.lentType" placeholder="{{ 'Enter lens type' | translate }}"
+            required>
+        </div>
+      </div>
+    </div>
+
+    <div class="row product-info">
+      <div class="col-md-12">
+        <dt class="title">{{ 'Comments' | translate }}</dt>
+        <textarea style="overflow-x: hidden;" rows="6" maxlength="600" [(ngModel)]="sentXSB.comments" class="form-control" type="text"
+           placeholder="{{ 'Enter Observations' | translate }}"></textarea>
+      </div>
+    </div>
+
+    <div class="row product-info">
+       <!--files-->
+       <div class="col-md-12">
+        <div class="comments">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="">
+                <dt class="title">{{ 'Documents | Attach Consultation Form' | translate }}</dt>
+                <div class="custom-file">
+                  <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader"
+                  [disabled]="uploader.queue.length > 4" multiple />
+                  <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                  <div class="invalid-feedback">Example invalid custom file feedback</div>
+                  <div class="message-error-file">
+                    <span translate>{{'Max files size:' | translate}} 25MB</span>
+                    <span> / </span>
+                    <span translate>{{'Maximum files number:' | translate }} 5</span>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="" style="margin-bottom: 40px" *ngIf="uploader.queue.length > 0">
+                <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
+                  <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                    <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                  </button>
+                </div>
+                <br>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th width="50%">{{ 'Name' | translate }}</th>
+                      <th>{{ 'Size' | translate }}</th>
+                      <th>{{ 'Actions' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of uploader.queue">
+                      <td><strong>{{ item?.file?.name }}</strong></td>
+                      <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td nowrap>
+                        <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item)">
+                          <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 buy-btns d-flex flex-row-reverse">
+        <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" [disabled]="!formIsValid()" (click)="saveFiles()">
+         {{ 'Make Order' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
