@@ -1259,7 +1259,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
     switch (order.supplier.idSupplier) {
       case 1: //Markennovy
-        return this.dateDiffInDays(currentDate, sendDate) >= -70; // TODO: 20, 40, 70
+        return true; // free for client conversation.
 
       case 2: //Europa
         return this.dateDiffInDays(currentDate, sendDate) >= -100;
