@@ -39,7 +39,8 @@ export class ProductViewXsbComponent implements OnInit {
     lentType: null,
     patient: null,
     client: null,
-    listFile: null
+    listFile: null,
+    name: null
   }
 
   shippingAddress = ''
@@ -133,14 +134,15 @@ export class ProductViewXsbComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.product = this.products[0];
     this.setClient();
-    //this.setCodeProduct();
   }
 
   setClient() {
     if (this.user.role.idRole === 3) {
       this.client = this.currentUser.idUser;
       let accSpct = !!this.currentUser.accSpct ?  this.currentUser.accSpct + ' - ' : '';
-      this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
+      this.sentXSB.client = this.client;
+      this.sentXSB.name = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
+      this.findShippingAddress(this.client);
     } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
