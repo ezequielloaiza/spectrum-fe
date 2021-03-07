@@ -77,6 +77,12 @@ export class ProductsListsComponent implements OnInit {
                 return u;
               case 10: // Orion
                 return u;
+              case 13: // X-Cel
+                return u;
+              case 14: // Smartlens
+                return u;
+              case 15: // BostonSigtht
+                return u;
             }
           });
           this.getSuppliers();
@@ -159,13 +165,13 @@ export class ProductsListsComponent implements OnInit {
         case 10: // Orion
           supplier.image = 'assets/images/suppliers/orion.png';
           break
-        case 13: // XCEL
+        case 13: // X-Cel
           supplier.image = 'assets/images/suppliers/X-Cel.png';
           break
-        case 14: // XCEL
+        case 14: // Smartlens
           supplier.image = 'assets/images/suppliers/SmartLens.png';
           break
-        case 15: // XCEL
+        case 15: // BostonSigtht
           supplier.image = 'assets/images/suppliers/BostonSight.png';
           break
       }
@@ -197,6 +203,9 @@ export class ProductsListsComponent implements OnInit {
         case 7: //fluo strips y saline spectrum
         case 9:  //synergeyes
         case 10:  //orion
+        case 13: // X-Cel
+        case 14: // Smartlens
+        case 15: // BostonSigtht
           this.router.navigate(['/products/' + idSupplier + '/internal']);
           break;
         case 5: //magic look

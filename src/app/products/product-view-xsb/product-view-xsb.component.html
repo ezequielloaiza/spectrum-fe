@@ -40,7 +40,7 @@
       <div class="col-lg-4">
         <dt class="title">{{ 'Account Name' | translate }}</dt>
         <div class="row info-content" [hidden]="user.role.idRole !== 3">
-          <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}" required
+          <input class="form-control" [(ngModel)]="sentXSB.name" type="text" placeholder="{{ 'Enter name customer' | translate }}" required
              disabled>
         </div>
         <div class="row info-content" [hidden]="user.role.idRole === 3">
