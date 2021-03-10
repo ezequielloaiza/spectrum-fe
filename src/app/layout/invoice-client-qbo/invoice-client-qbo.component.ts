@@ -17,13 +17,21 @@ export class InvoiceClientQBOComponent implements OnInit {
   listInvoices: Array<any> = new Array;
   listInvoicesAux: Array<any> = new Array;
   model: NgbDateStruct;
-  fechaSelecOrd: NgbDatepicker;
+  filterDateRange: Array<any> = new Array;
+  selectedRange: any;
 
   constructor(private invoiceClientService: InvoiceClientService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getInvoiceClientQBO();
     this.model = { year: 0, month: 0, day: 0 };
+    this.filterDateRange = [
+      { key: "30,0", label: "Hasta 30 días" },
+      { key: "60,31", label: "31-60 días" },
+      { key: "90,61", label: "61-90 días" },
+      { key: "90,>", label: "Más de 90 días" }
+    ];
+    this.selectedRange = '';
   }
 
   getInvoiceClientQBO() {
@@ -58,10 +66,12 @@ export class InvoiceClientQBOComponent implements OnInit {
     });
   }
 
-  clean() {
+  clean(type) {
     this.listInvoices = this.listInvoicesAux;
-    this.fechaSelecOrd = null;
 
+    if (type === 'allFilters') {
+      this.selectedRange = '';
+    }
   }
 
   getItems(ev: any) {
@@ -110,4 +120,51 @@ export class InvoiceClientQBOComponent implements OnInit {
     });
   }
 
+  filterByRangeDate(): void {
+    let finishDate = null;
+    this.clean('forRange');
+
+    let currentDate = new Date();
+    const selected = this.selectedRange.split(",");
+    const beginning = selected[0];
+    const finish = selected[1];
+
+    const beginningDate = new Date(currentDate.setDate(currentDate.getDate() - beginning));
+
+    if (finish !== ">") {
+      currentDate = new Date();
+      finishDate = new Date(currentDate.setDate(currentDate.getDate() - finish));
+    }
+
+    this.listInvoices = this.listInvoices.filter((item) => {
+      const dueDate = new Date(item.dueDate);
+
+      if (finishDate) {
+        return beginningDate <= dueDate && dueDate <= finishDate;
+      }
+
+      // > 90 días.
+      return dueDate < beginningDate;
+    });
+  }
+
+  getRangeLabel() {
+    return this.selectedRange ? _.find(this.filterDateRange, { 'key': this.selectedRange }).label : null;
+  }
+
+  getBalance() {
+    return _.round(_.sumBy(this.listInvoicesAux, 'qboTotalAmt'),2);
+  }
+
+  getDue() {
+    const currentDate = new Date();
+
+    return _.round(_.sumBy(this.listInvoicesAux, function(item) {
+      return new Date(item.dueDate) < currentDate ? item.qboTotalAmt : 0;
+    }),2);
+  }
+
+  getDueByRange() {
+    return _.round(_.sumBy(this.listInvoices, 'qboTotalAmt'),2);
+  }
 }

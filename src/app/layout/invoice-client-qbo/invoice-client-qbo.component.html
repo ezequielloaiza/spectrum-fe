@@ -23,11 +23,11 @@
         </div>
 
         <div class="row search-filter">
-          <div class="col col-xl-4 col-lg-4">
+          <div class="col col-xl-3 col-lg-3">
             <input class="form-control" (keyup)="getItems($event)" placeholder="{{ 'Enter Invoice No, Invoice No QBO or Total' | translate }}">
             <i class="fa fa-search"></i>
           </div>
-          <div class="col-xl-4 input-group">
+          <div class="col-xl-3 input-group">
             <input class="form-control" placeholder="{{ 'Enter Date or Due Date' | translate }}" name="fechaFilter" [(ngModel)]="fechaFilter"
               ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filterDate(fechaFilter)">
             <div class="input-group-append">
@@ -36,43 +36,34 @@
               </button>
             </div>
           </div>
-          <div class="col-xl-2">
-            <button class="btn btn-outline-secondary" (click)="clean()" translate>Clean Filters</button>
-          </div>
-        </div>
-        <!--
-        <div class="row filters">
-          <div class="col-xl-3 filter">
-            <div class="row search">
-              <div class="col col-xl-12 col-lg-12">
-                <input [(ngModel)]="search" class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter search' | translate }}">
-                <i class="fa fa-search"></i>
-              </div>
-            </div>
-          </div>
-           <div class="col-xl-3 filter search">
-            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
-              <option value="" disabled [selected]="true" translate>Select status</option>
-              <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
+          <div class="col-xl-3 col-lg-3">
+            <select class="form-control" name="selectedRange" id="selectedRange"
+                    [(ngModel)]="selectedRange" (change)="filterByRangeDate()">
+              <option value="" disabled [selected]="true" translate>Select date range for balance</option>
+              <option *ngFor="let range of filterDateRange" value="{{range.key}}">{{ range.label | translate }}</option>
             </select>
           </div>
-          <div class="col-xl-3 filter">
-              <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="fechaSelec" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelec)">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                    <i class="fa fa-calendar"></i>
-                  </button>
-                </div>
-              </div>
-          </div>
-
-          <div class="col-xl-2 btn-clean">
-            <button class="btn btn-outline-secondary" translate [hidden]="!valid1" (click)="clean()">Clean Filters</button>
+          <div class="col-xl-2">
+            <button class="btn btn-outline-secondary" (click)="clean('allFilters')" translate>Clean Filters</button>
           </div>
         </div>
 
--->
+        <div class="row totals-due" *ngIf="selectedRange !== ''">
+          <div>
+            <span>Balance</span>
+            <span>{{ getBalance() | currency : "USD $"}}</span>
+          </div>
+
+          <div>
+            <span>Due</span>
+            <span>{{ getDue() | currency : "USD $"}}</span>
+          </div>
+
+          <div>
+            <span>{{ getRangeLabel() }}</span>
+            <span>{{ getDueByRange() | currency : "USD $"}}</span>
+          </div>
+        </div>
 
         <div class="row margin">
           <div class="col-xl-2 btn-clean">
