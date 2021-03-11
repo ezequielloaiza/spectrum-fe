@@ -17,9 +17,13 @@
   <div class="row body-fixed">
     <div class="col col-xl-12 col-lg-12">
       <div class="card mb-3">
-        <div class="card-header d-flex">
+        <div class="card-header d-flex custom-header">
           <div class="align-self-center">
             {{ 'All Invoices' | translate }}
+          </div>
+          <div class="col-xl-1 btn-clean">
+            <button class="btn btn-outline-secondary" translate [hidden]="!valid1" (click)="clean('allFilters')">Clean
+              Filters</button>
           </div>
         </div>
         <div class="row filters">
@@ -51,11 +55,34 @@
             </div>
           </div>
 
-          <div class="col-xl-2 btn-clean">
-            <button class="btn btn-outline-secondary" translate [hidden]="!valid1" (click)="clean()">Clean
-              Filters</button>
+          <div class="col-xl-3 col-lg-3" *ngIf="statusRoute === '0'">
+            <select class="form-control" name="selectedRange" id="selectedRange"
+                    [(ngModel)]="selectedRange" (change)="filterByRangeDate()">
+              <option value="" disabled [selected]="true" translate>Select date range due</option>
+              <option *ngFor="let range of filterDateRange" value="{{range.key}}">{{ range.label | translate }}</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="row totals-due" *ngIf="selectedRange !== ''">
+          <div>
+            <span>Balance</span>
+            <span>{{ getBalance() | currency : "USD $"}}</span>
+          </div>
+
+          <div>
+            <span>Due</span>
+            <span>{{ getDue() | currency : "USD $"}}</span>
+          </div>
+
+          <div>
+            <span>{{ ('Due' | translate) + ' ' + (getRangeLabel() | translate)}}</span>
+            <span>{{ getDueByRange() | currency : "USD $"}}</span>
           </div>
         </div>
+
+
         <div class="row margin">
           <div class="col-xl-12 btn-clean">
             <button class="btn btn-outline-secondary" translate [hidden]="!valid"
@@ -64,6 +91,7 @@
           <span class="denied-message"
               *ngIf="!checkSameClient() && valid">{{'All invoices must belong to the same customer to make bulk payments' | translate}}</span>
         </div>
+
         <div class="card-body table-responsive">
           <table class="table">
             <thead>

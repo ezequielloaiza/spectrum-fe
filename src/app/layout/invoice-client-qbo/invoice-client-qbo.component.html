@@ -39,7 +39,7 @@
           <div class="col-xl-3 col-lg-3">
             <select class="form-control" name="selectedRange" id="selectedRange"
                     [(ngModel)]="selectedRange" (change)="filterByRangeDate()">
-              <option value="" disabled [selected]="true" translate>Select date range for balance</option>
+              <option value="" disabled [selected]="true" translate>Select date range due</option>
               <option *ngFor="let range of filterDateRange" value="{{range.key}}">{{ range.label | translate }}</option>
             </select>
           </div>
@@ -60,7 +60,7 @@
           </div>
 
           <div>
-            <span>{{ getRangeLabel() }}</span>
+            <span>{{ ('Due' | translate) + ' ' + (getRangeLabel() | translate)}}</span>
             <span>{{ getDueByRange() | currency : "USD $"}}</span>
           </div>
         </div>

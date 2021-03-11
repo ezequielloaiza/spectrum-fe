@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { InvoiceClientService } from '../../shared/services';
 import { saveAs } from 'file-saver';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { error } from 'protractor';
 import * as _ from 'lodash';
-import { NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -26,10 +25,10 @@ export class InvoiceClientQBOComponent implements OnInit {
     this.getInvoiceClientQBO();
     this.model = { year: 0, month: 0, day: 0 };
     this.filterDateRange = [
-      { key: "30,0", label: "Hasta 30 días" },
-      { key: "60,31", label: "31-60 días" },
-      { key: "90,61", label: "61-90 días" },
-      { key: "90,>", label: "Más de 90 días" }
+      { key: "30,0", label: "Up to 30 days" },
+      { key: "60,31", label: "31-60 days" },
+      { key: "90,61", label: "61-90 days" },
+      { key: "90,>", label: "More than 90 days" }
     ];
     this.selectedRange = '';
   }
@@ -153,18 +152,18 @@ export class InvoiceClientQBOComponent implements OnInit {
   }
 
   getBalance() {
-    return _.round(_.sumBy(this.listInvoicesAux, 'qboTotalAmt'),2);
+    return _.round(_.sumBy(this.listInvoicesAux, 'due'),2);
   }
 
   getDue() {
     const currentDate = new Date();
 
-    return _.round(_.sumBy(this.listInvoicesAux, function(item) {
-      return new Date(item.dueDate) < currentDate ? item.qboTotalAmt : 0;
+    return _.round(_.sumBy(this.listInvoicesAux, function (item) {
+      return new Date(item.dueDate) < currentDate ? item.due : 0;
     }),2);
   }
 
   getDueByRange() {
-    return _.round(_.sumBy(this.listInvoices, 'qboTotalAmt'),2);
+    return _.round(_.sumBy(this.listInvoices, 'due'),2);
   }
 }

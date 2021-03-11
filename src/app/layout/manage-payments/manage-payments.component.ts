@@ -53,6 +53,8 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   listPayments: Array<any> = new Array;
   invoicesSameClient = [];
   connected: boolean;
+  filterDateRange: Array<any> = new Array;
+  selectedRange: any;
 
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
@@ -86,6 +88,14 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     this.valid = false;
     this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
+
+    this.filterDateRange = [
+      { key: "30,0", label: "Up to 30 days" },
+      { key: "60,31", label: "31-60 days" },
+      { key: "90,61", label: "61-90 days" },
+      { key: "90,>", label: "More than 90 days" }
+    ];
+    this.selectedRange = '';
   }
 
   ngOnDestroy() {
@@ -403,8 +413,14 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     return str;
   }
 
-  clean() {
-    this.getListInvoices();
+  clean(type) {
+    if (type === 'allFilters') {
+      this.getListInvoices();
+      this.selectedRange = '';
+    } else {
+      this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
+    }
+
     this.valid1 = false;
     this.selectedStatus = '';
     this.tamano = 'undefined';
@@ -520,6 +536,55 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
       this.ngOnInit();
     }, (reason) => {
     });
+  }
+
+  filterByRangeDate(): void {
+    let finishDate = null;
+    this.clean('forRange');
+    this.valid1 = true;
+
+    let currentDate = new Date();
+    const selected = this.selectedRange.split(",");
+    const beginning = selected[0];
+    const finish = selected[1];
+
+    const beginningDate = new Date(currentDate.setDate(currentDate.getDate() - beginning));
+
+    if (finish !== ">") {
+      currentDate = new Date();
+      finishDate = new Date(currentDate.setDate(currentDate.getDate() - finish));
+    }
+
+    this.listInvoices = this.listInvoices.filter((item) => {
+      const dueDate = new Date(item.dueDate);
+
+      if (finishDate) {
+        return beginningDate <= dueDate && dueDate <= finishDate;
+      }
+
+      // > 90 días.
+      return dueDate < beginningDate;
+    });
+  }
+
+  getRangeLabel() {
+    return this.selectedRange ? _.find(this.filterDateRange, { 'key': this.selectedRange }).label : null;
+  }
+
+  getBalance() {
+    return _.round(_.sumBy(this.listInvoicesAux, 'due'),2);
+  }
+
+  getDue() {
+    const currentDate = new Date();
+
+    return _.round(_.sumBy(this.listInvoicesAux, function(item) {
+      return new Date(item.dueDate) < currentDate ? item.due : 0;
+    }),2);
+  }
+
+  getDueByRange() {
+    return _.round(_.sumBy(this.listInvoices, 'due'),2);
   }
 
 }
