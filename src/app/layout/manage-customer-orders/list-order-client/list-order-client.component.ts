@@ -1252,7 +1252,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
   }
 
-  /* Only has active EUROPA */
   isValidDate(order) {
     let currentDate = new Date();
     let sendDate = new Date(order.dateSend);
@@ -1270,17 +1269,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       case 4: //Euclid
         return this.dateDiffInDays(currentDate, sendDate) >= -100;
 
-      case 5: //Magic Look
-        return true; // TODO: preguntar
-
       case 6: //Lentes blancos de vendaje
         return this.dateDiffInDays(currentDate, sendDate) >= -70;
-
-      case 7: //Spectrum
-        return true; // TODO: preguntar
-
-      case 8: //Medmont
-        return true; // TODO: preguntar
 
       case 9: //SynergEyes
         return this.dateDiffInDays(currentDate, sendDate) >= -100;
@@ -1289,7 +1279,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         return this.dateDiffInDays(currentDate, sendDate) >= -70;
 
       default:
-        return false;
+        return true;
     }
   }
 
