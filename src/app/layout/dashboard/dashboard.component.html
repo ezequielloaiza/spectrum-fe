@@ -501,9 +501,10 @@
                       <td *ngIf="invoice.status === 0" class="table-tr" class="active">
                         <div>{{'Unpaid' | translate}}</div>
                       </td>
-                      <td *ngIf="invoice.status === 1" class="table-tr" class="inactive">
+                      <!-- Commented because all payments are made in full -->
+                      <!-- <td *ngIf="invoice.status === 1" class="table-tr" class="inactive">
                         <div>{{'Part Paid' | translate }}</div>
-                      </td>
+                      </td> -->
                       <td *ngIf="invoice.status === 2" class="table-tr" class="inactive">
                         <div>{{'Paid' | translate }}</div>
                       </td>

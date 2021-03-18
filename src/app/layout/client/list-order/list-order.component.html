@@ -119,7 +119,7 @@
                         <div ngbDropdownMenu class="dropdown-menu-actions">
                           <button class="dropdown-item" routerLink="/details-order/{{order.idOrder}}/view">
                             {{ 'View Details' | translate }}</button>
-                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'duplicate')" *ngIf="order.type !== 'warranty' && isValidDate(order)">
+                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'duplicate')" *ngIf="order.type !== 'warranty'">
                             {{ 'Generate Duplicate' | translate }}</button>
                           <button class="dropdown-item" (click)="generateCopyOrder(order, 'warranty')" *ngIf="isValidDate(order)">
                             {{ 'Generate Warranty' | translate }}</button>

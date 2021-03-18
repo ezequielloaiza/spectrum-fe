@@ -50,17 +50,17 @@
 
         <div class="row totals-due" *ngIf="selectedRange !== ''">
           <div>
-            <span>Balance</span>
+            <span translate>Total Due</span>
             <span>{{ getBalance() | currency : "USD $"}}</span>
           </div>
 
           <div>
-            <span>Due</span>
+            <span translate>Total Overdue</span>
             <span>{{ getDue() | currency : "USD $"}}</span>
           </div>
 
           <div>
-            <span>{{ ('Due' | translate) + ' ' + (getRangeLabel() | translate)}}</span>
+            <span>{{ ('Amount Due' | translate) + ' (' + (getRangeLabel() | translate) + ')'}}</span>
             <span>{{ getDueByRange() | currency : "USD $"}}</span>
           </div>
         </div>

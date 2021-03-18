@@ -1197,5 +1197,9 @@
     "31-60 days": "31-60 days",
     "61-90 days": "61-90 days",
     "More than 90 days": "More than 90 days",
-    "Select date range due": "Select date range due"
+    "Select date range due": "Select date range due",
+    "Enter reference number": "Enter reference number",
+    "Total Due": "Total adeudado",
+    "Total Overdue": "Total vencido",
+    "All Invoices": "All Invoices"
 }

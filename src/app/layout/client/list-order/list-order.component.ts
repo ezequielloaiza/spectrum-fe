@@ -250,22 +250,22 @@ export class ListOrderComponent implements OnInit, OnDestroy {
         return true; // free for client conversation.
 
       case 2: //Europa
-        return this.dateDiffInDays(currentDate, sendDate) >= -100;
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 100;
 
       case 3: //Elipsys
-        return this.dateDiffInDays(currentDate, sendDate) >= -70;
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 70;
 
       case 4: //Euclid
-        return this.dateDiffInDays(currentDate, sendDate) >= -100;
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 100;
 
       case 6: //Lentes blancos de vendaje
-        return this.dateDiffInDays(currentDate, sendDate) >= -70;
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 70;
 
       case 9: //SynergEyes
-        return this.dateDiffInDays(currentDate, sendDate) >= -100;
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 100;
 
       case 10: //Orion Vision Group
-        return this.dateDiffInDays(currentDate, sendDate) >= -70;
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 70;
 
       default:
         return true;
