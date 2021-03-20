@@ -125,14 +125,46 @@ export class InvoiceClientQBOComponent implements OnInit {
 
     let currentDate = new Date();
     const selected = this.selectedRange.split(",");
-    const beginning = selected[0];
-    const finish = selected[1];
+    let finish = selected[1];
+
+    // Set beginningDate
+    let beginning = selected[0];
+    switch (beginning) {
+      case "30":
+        beginning = 30;
+        break;
+      case "60":
+        beginning = 61;
+        break;
+      case "90":
+        beginning = 91;
+        break;
+    }
 
     const beginningDate = new Date(currentDate.setDate(currentDate.getDate() - beginning));
+    beginningDate.setHours(0);
+    beginningDate.setMinutes(0);
+    beginningDate.setSeconds(0);
 
+    // Set finishDate
     if (finish !== ">") {
+      switch (finish) {
+        case "31":
+          finish = 31;
+          break;
+        case "61":
+          finish = 62;
+          break;
+        default:
+          finish = null;
+          break;
+      }
+
       currentDate = new Date();
       finishDate = new Date(currentDate.setDate(currentDate.getDate() - finish));
+      finishDate.setHours(0);
+      finishDate.setMinutes(0);
+      finishDate.setSeconds(0);
     }
 
     this.listInvoices = this.listInvoices.filter((item) => {

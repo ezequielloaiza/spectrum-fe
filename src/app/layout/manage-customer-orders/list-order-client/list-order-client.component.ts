@@ -1269,7 +1269,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       case 4: //Euclid
         return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 100;
 
-      case 6: //Lentes blancos de vendaje
+      case 6: //Lentes blandos de vendaje
         return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 70;
 
       case 9: //SynergEyes
