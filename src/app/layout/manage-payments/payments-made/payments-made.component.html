@@ -64,14 +64,17 @@
               <span class="font-weight-bold">{{'Amount Due' | translate }}:</span>&nbsp;
               <span>{{ (invoice ? invoice.due : '') | currency : "USD $" }}</span>
               <br>
+              <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? invoice.subtotal : '') | currency : "USD $" }}</span>
+              <br>
               <span class="font-weight-bold">{{'Amount Shipping' | translate }}:</span>&nbsp;
               <span>{{ (invoice ? invoice.shipping : '') | currency : "USD $" }}</span>
               <br>
               <span class="font-weight-bold">{{'Amount Without Shipping' | translate }}:</span>&nbsp;
               <span>{{ (invoice ? invoice.totalWShipping : '') | currency : "USD $" }}</span>
               <br>
-              <span class="font-weight-bold">{{'Sub-total' | translate }}:</span>&nbsp;
-              <span>{{ (invoice ? invoice.subtotal : '') | currency : "USD $" }}</span>
+              <span class="font-weight-bold">{{'Discount' | translate }}:</span>&nbsp;
+              <span>{{ (invoice ? getDiscount(invoice) : '') | currency : "USD $" }}</span>
               <br>
               <span class="font-weight-bold">{{'Total' | translate }}:</span>&nbsp;
               <span>{{ (invoice ? invoice.total : '') | currency : "USD $" }}</span>

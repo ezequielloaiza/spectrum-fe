@@ -248,7 +248,8 @@
               <div>
                 <!--param name-->
                 <div class="row label" *ngIf="parameter.type !== 'selected-double'">
-                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                  <label *ngIf="parameter.name !== 'Axes Cylinder'" class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                  <label *ngIf="parameter.name === 'Axes Cylinder'" class="form-check-label">{{ "Axes (º)" | translate }}</label>&nbsp;&nbsp;
                 </div>
 
                 <div class="row label notch-lbl" *ngIf="parameter.type === 'selected-double'">
