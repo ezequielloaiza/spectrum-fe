@@ -283,4 +283,8 @@ export class PaymentsMadeComponent implements OnInit {
       console.log('error', error);
     });
   }
+
+  getDiscount(invoice) {
+    return invoice.subtotal + invoice.shipping - invoice.total;
+  }
 }

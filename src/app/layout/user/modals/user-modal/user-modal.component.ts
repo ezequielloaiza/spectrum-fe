@@ -38,7 +38,7 @@ export class UserModalComponent implements OnInit {
   listSuppliers: Array<any> = new Array;
   listPaymentMethod = [{ id: 0, name: 'Prepaid' },
                        { id: 1, name: 'Postpaid' }];
-  listCreditDays = [ '15', '30', '60' ];
+  listCreditDays = [ '30', '60' ];
   postpaid = false;
   listCountries: Array<any> = new Array;
   listCountriesCompany: Array<any> = new Array;
