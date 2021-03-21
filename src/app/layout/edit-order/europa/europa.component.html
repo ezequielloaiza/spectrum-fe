@@ -154,7 +154,8 @@
               <div class="col-sm-4" *ngFor="let parameter of product.parameters">
                 <dl>
                   <div *ngIf="parameter.type !== 'selected-double' && parameter.name !== 'Type'">
-                    <dt>{{ parameter.name | translate}}</dt>
+                    <dt *ngIf="parameter.name !== 'Axes Cylinder'">{{ parameter.name | translate }}</dt>
+                    <dt *ngIf="parameter.name === 'Axes Cylinder'">{{ "Axes (º)" | translate }}</dt>
                   </div>
 
                   <div class="notch-lbl" *ngIf="parameter.type === 'selected-double'">

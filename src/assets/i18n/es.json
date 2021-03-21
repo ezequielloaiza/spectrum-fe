@@ -402,7 +402,7 @@
     "Tax Rate": "Tasa de Impuesto",
     "Subtotal": "Subtotal",
     "Shipping": "Envío",
-    "Amount Due": "Monto Deuda",
+    "Amount Due": "Monto adeudado",
     "Amount": "Monto",
     "To Provider": "Al Proveedor",
     "To Customer": "Al Cliente",
@@ -1370,5 +1370,14 @@
     "Enter Observations": "Ingresar observaciones",
     "Enter lens type": "Ingrese el tipo de lente",
     "Make Order": "Realizar Pedido",
-    "Your order has been successfully generated": "Su pedido ha sido generado satisfactoriamente"
+    "Your order has been successfully generated": "Su pedido ha sido generado satisfactoriamente",
+    "Up to 30 days": "Hasta 30 días",
+    "31-60 days": "31-60 días",
+    "61-90 days": "61-90 días",
+    "More than 90 days": "Más de 90 días",
+    "Select date range due": "Seleccione el rango de fechas de vencimiento",
+    "Enter reference number": "Introduzca el número de referencia",
+    "Total Due": "Total adeudado",
+    "Total Overdue": "Total vencido",
+    "All Invoices": "Todas las facturas"
 }

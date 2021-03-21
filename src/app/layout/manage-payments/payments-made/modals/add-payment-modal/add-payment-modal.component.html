@@ -108,11 +108,8 @@
                 <div class="input-group-append">
                   <span class="input-group-text">$</span>
                 </div>
-                <!--<input type="number" min="0.0" step="0.1" class="form-control" placeholder="{{ 'Enter price' | translate }}"
-                  name="amount" formControlName="amount" (keyup)="filterMaxAmount($event)" (input)="filterMaxAmount($event)"
-                  ng-disabled="action == 'bulk'" max="action == bulk ? maxAmountInvoice : invoice.due" required>-->
                 <input type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" class="form-control" placeholder="{{ 'Enter price' | translate }}"
-                  name="amount" formControlName="amount" ng-disabled="action == 'bulk'" required>
+                  name="amount" formControlName="amount" disabled required>
               </div>
             </div>
           </fieldset>
@@ -166,7 +163,7 @@
               </button>
               <br>
             </div>
-            <table class="table"> 
+            <table class="table">
               <thead>
                 <tr>
                   <th>{{ 'Name' | translate }}</th>

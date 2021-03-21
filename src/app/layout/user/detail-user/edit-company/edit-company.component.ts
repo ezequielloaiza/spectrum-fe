@@ -30,7 +30,7 @@ export class EditCompanyComponent implements OnInit {
   saving = false;
   listPaymentMethod = [{ id: 0, name: 'Prepaid' },
                        { id: 1, name: 'Postpaid' }];
-  listCreditDays = [ '15', '30', '60' ];
+  listCreditDays = [ '30', '60' ];
   postpaid = false;
   method: any;
   listCountries: Array<any> = new Array;

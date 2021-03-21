@@ -18,7 +18,6 @@ import { ConfirmationOrionComponent } from '../modals/confirmation-buy/confirmat
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from '../../../environments/environment';
-import { runInThisContext } from 'vm';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
