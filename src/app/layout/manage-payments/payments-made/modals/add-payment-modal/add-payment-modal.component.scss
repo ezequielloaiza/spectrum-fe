@@ -60,7 +60,8 @@
       }
       > th:last-child {
         width: 30%;
-        text-align: center;
+        text-align: left;
+        padding-left: 40px;
       }
     }
 
@@ -69,6 +70,7 @@
 
       > td:last-child {
         text-align: left;
+        padding-left: 40px;
       }
     }
 

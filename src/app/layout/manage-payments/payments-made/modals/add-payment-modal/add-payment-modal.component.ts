@@ -154,35 +154,15 @@ export class AddPaymentModalComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.listAux = res.data;
         let maxAmount = 0.00;
-        _.each(this.listAux, function(invoice) {
+        _.each(this.listAux, function (invoice) {
           maxAmount += invoice.due;
         });
         this.maxAmountInvoice = maxAmount;
-        if (this.action === 'bulk') {
-          this.form.get('amount').setValue(this.maxAmountInvoice);
-          this.form.get('amount').disable();
-        }
+        this.form.get('amount').setValue(this.maxAmountInvoice);
       }
     }, error => {
       console.log('error', error);
     });
-  }
-
-  filterMaxAmount(ev: any) {
-    const val = ev.target.value;
-    if (this.action === 'bulk') {
-      if (val != this.maxAmountInvoice) {
-        this.amountValid = false;
-      } else {
-        this.amountValid = true;
-      }
-    } else {
-      if (val > this.invoice.due) {
-        this.amountValid = false;
-      } else {
-        this.amountValid = true;
-      }
-    }
   }
 
   save(): void {

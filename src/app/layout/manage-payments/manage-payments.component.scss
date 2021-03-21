@@ -188,3 +188,26 @@
   }
 
 }
+
+.custom-header {
+  padding: 0.75rem 2.25rem 0.75rem 1.25rem;
+}
+
+.totals-due {
+  padding: 1rem 2.5rem;
+
+  > div {
+    display: flex;
+    width: 26%;
+    flex-direction: column;
+
+    > span:nth-child(1) {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+
+  > div:last-child {
+    width: 45%;
+  }
+}

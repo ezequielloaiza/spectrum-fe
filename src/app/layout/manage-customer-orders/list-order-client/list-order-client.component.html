@@ -265,10 +265,10 @@
                           <button class="dropdown-item" (click)="generateInvoice(order)" *ngIf="order.status === 2 && order.invoiceSupplier">
                             {{ order.invoiceSupplier.status === 0 ? ('Sent Preforma' | translate) : ('Resend Proforma' | translate) }}</button>
 
-                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'duplicate')" *ngIf="order.type !== 'warranty' && order.supplier.idSupplier === 2">
+                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'duplicate')" *ngIf="order.type !== 'warranty'">
                             {{ 'Generate Duplicate' | translate }}</button>
 
-                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'warranty')" *ngIf="order.supplier.idSupplier === 2 && isValidDate(order)">
+                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'warranty')" *ngIf="isValidDate(order)">
                             {{ 'Generate Warranty' | translate }}</button>
                          <!-- <button [hidden]="!order.generate" class="dropdown-item" (click)="generateOrder(order)">
                             {{ 'Generate Order' | translate }}</button>
