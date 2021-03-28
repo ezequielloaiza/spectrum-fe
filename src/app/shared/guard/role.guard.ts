@@ -8,22 +8,30 @@ import * as _ from 'lodash';
 @Injectable()
 export class RoleGuard implements CanActivateChild {
 
-  constructor(protected router: Router, 
-              protected authorizationService: AuthorizationService, 
+  constructor(protected router: Router,
+              protected authorizationService: AuthorizationService,
               private userService: UserStorageService) { }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> | Observable<boolean> {
+    let user = JSON.parse(this.userService.getCurrentUser());
     if (this.verifyPermission(childRoute.data['option'])) {
-      return true;
+      if (childRoute.data['option'] === 'ChangePassword' && !user.userResponse.pwsTemporal) {
+        this.router.navigate(['/dashboard']);
+      }
+      if (childRoute.data['option'] === 'InitialsProtocols' && !this.router.navigated) {
+        this.router.navigate(['/dashboard']);
+      } else {
+        return true;
+      }
     } else {
       this.router.navigate(['/dashboard']);
     }
   }
- 
+
   verifyPermission(action: string): boolean {
     return _.includes(this.userService.getRoles(), action);
   }
-  
+
   protected hasRequiredPermission(authGroup: string): Promise<boolean> | boolean {
   //If user’s permissions already retrieved from the API
     if (this.authorizationService.permissions) {

@@ -7,4 +7,9 @@ export * from './order/order.service';
 export * from './warranty/warranty.service';
 export * from './productsRequested/products-requested.service';
 export * from './country/country.service';
+export * from './invoicePayment/invoice-payment.service';
+export * from './invoiceSupplier/invoiceSupplier.service';
+export * from './invoiceClient/invoiceclient.service';
+export * from './entrustingCompany/entrusting-company.service';
+export * from './OrderProductRequested/order-product-requested.service';
 

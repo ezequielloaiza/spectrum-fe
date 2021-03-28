@@ -8,7 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { SupplierModalComponent } from './modals/supplier-modal/supplier-modal.component';
 import * as _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
-
+import { NgxSpinnerService } from 'ngx-spinner';
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-suppliers',
   templateUrl: './suppliers.component.html',
@@ -24,13 +25,15 @@ export class SuppliersComponent implements OnInit {
 	/*initial order*/
 	orderByField = 'idSupplier';
 	reverseSort = true;
-	typeSort = 0;
+  typeSort = 0;
+  today: Date = new Date();
 
 	constructor(private modalService: NgbModal,
 							private supplierService: SupplierService,
 							private alertify: AlertifyService,
 							private notification: ToastrService,
-							private translate: TranslateService
+              private translate: TranslateService,
+              private spinner: NgxSpinnerService
 	){}
 
   ngOnInit() {
@@ -38,18 +41,24 @@ export class SuppliersComponent implements OnInit {
 		this.getSuppliers();
 	}
 
-	getSuppliers() {
+  getSuppliers() {
+    this.spinner.show();
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-				this.auxSuppliers = res.data;
-				this.sortSupplier(this.orderByField);
+        this.suppliers = res.data;
+        this.auxSuppliers = res.data;
+        this.suppliers = _.orderBy(this.suppliers, ['name'], ['desc']);
+        this.auxSuppliers = _.orderBy(this.auxSuppliers, ['name'], ['desc']);
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
-	}
+  }
 
 	sortSupplier(key) {
 		if (this.orderByField !== key) {
@@ -85,7 +94,8 @@ export class SuppliersComponent implements OnInit {
 	}
 
   open(supplier,action) {
-		const modalRef = this.modalService.open(SupplierModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(SupplierModalComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
 		modalRef.componentInstance.supplier = supplier;
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {
@@ -144,6 +154,23 @@ export class SuppliersComponent implements OnInit {
         }, () => {
         });
       });
+    });
+  }
+
+  download() {
+    this.spinner.show();
+    this.supplierService.download$().subscribe(res => {
+      const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
+        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes(), seconds: this.today.getSeconds};
+      const filename = 'Providers-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+      saveAs(res, filename);
+      this.spinner.hide();
+    }, error => {
+      this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
+      console.log('error', error);
+      this.spinner.hide();
     });
   }
 

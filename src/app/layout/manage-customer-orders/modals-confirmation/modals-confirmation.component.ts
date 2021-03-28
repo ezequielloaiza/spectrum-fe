@@ -11,6 +11,7 @@ import { UserService } from '../../../shared/services';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { NotificationBalanceOrderComponent } from '../../notification/notification-balance-order/notification-balance-order.component';
 import { Router } from '@angular/router';
+import { StatusUser } from '../../../shared/enum/status-user.enum';
 
 @Component({
   selector: 'app-modals-confirmation',
@@ -20,6 +21,7 @@ import { Router } from '@angular/router';
 export class ModalsConfirmationComponent implements OnInit {
 
   user: any;
+  client: any;
   balace: any;
   company: Company = new Company();
   available: any;
@@ -45,8 +47,18 @@ export class ModalsConfirmationComponent implements OnInit {
   }
 
   generateOrder(order) {
-    this.validateAvailableBalance();
-    if (this.available) {
+    // this.validateAvailableBalance();
+    // if (this.available) {
+    if (this.client.status === StatusUser.InDefault) {
+      this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
+        this.translate.get('Your account was deactivated. Please contact with the administrator',
+          { value: 'Your account was deactivated. Please contact with the administrator' })
+          .subscribe((msg: string) => {
+            this.alertify.warning(msg);
+            this.close();
+          });
+      });
+    } else {
       this.spinner.show();
       this.orderService.generateOrder$(order.idOrder).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -57,22 +69,27 @@ export class ModalsConfirmationComponent implements OnInit {
             this.redirectListOrder();
           });
         } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+            this.spinner.hide();
+            console.log(res);
+          });
         }
       }, error => {
         console.log('error', error);
       });
-    } else {
+    /*} else {
        this.openModal();
        this.close();
+    }*/
     }
   }
   getBalance() {
     this.userService.findById$(this.order.user.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-         this.company = res.data.company;
-         this.balace = this.company.balance;
+        this.client = res.data;
+        this.company = res.data.company;
+        this.balace = this.company.balance;
       } else {
         console.log(res.errors[0].detail);
       }
@@ -90,7 +107,8 @@ export class ModalsConfirmationComponent implements OnInit {
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open( NotificationBalanceOrderComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( NotificationBalanceOrderComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.orderModal = this.order;
     modalRef.componentInstance.type = 2;
     modalRef.result.then((result) => {

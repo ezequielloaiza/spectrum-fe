@@ -1,0 +1,165 @@
+<div class="row page-header-fixed">
+	<div class="header-body">
+		<h4 class="page-header">
+			{{ 'Customer\'s Invoices List' | translate }}
+		</h4>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<i class="fa fa-folder-open"></i> {{ 'Customer\'s Invoices List' | translate}}</li>
+		</ol>
+	</div>
+</div>
+<div class="sp-container">
+  <div class="row body-fixed">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All client Invoices' | translate }}
+          </div>
+        </div>
+
+        <div class="row search-filter">
+          <div class="col col-xl-3 col-lg-3">
+            <input class="form-control" (keyup)="getItems($event)" placeholder="{{ 'Enter Invoice No, Invoice No QBO or Total' | translate }}">
+            <i class="fa fa-search"></i>
+          </div>
+          <div class="col-xl-3 input-group">
+            <input class="form-control" placeholder="{{ 'Enter Date or Due Date' | translate }}" name="fechaFilter" [(ngModel)]="fechaFilter"
+              ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filterDate(fechaFilter)">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                <i class="fa fa-calendar"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3">
+            <select class="form-control" name="selectedRange" id="selectedRange"
+                    [(ngModel)]="selectedRange" (change)="filterByRangeDate()">
+              <option value="" disabled [selected]="true" translate>Select date range due</option>
+              <option *ngFor="let range of filterDateRange" value="{{range.key}}">{{ range.label | translate }}</option>
+            </select>
+          </div>
+          <div class="col-xl-2">
+            <button class="btn btn-outline-secondary" (click)="clean('allFilters')" translate>Clean Filters</button>
+          </div>
+        </div>
+
+        <div class="row totals-due" *ngIf="selectedRange !== ''">
+          <div>
+            <span translate>Total Due</span>
+            <span>{{ getBalance() | currency : "USD $"}}</span>
+          </div>
+
+          <div>
+            <span translate>Total Overdue</span>
+            <span>{{ getDue() | currency : "USD $"}}</span>
+          </div>
+
+          <div>
+            <span>{{ ('Amount Due' | translate) + ' (' + (getRangeLabel() | translate) + ')'}}</span>
+            <span>{{ getDueByRange() | currency : "USD $"}}</span>
+          </div>
+        </div>
+
+        <div class="row margin">
+          <div class="col-xl-2 btn-clean">
+            <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="openModal(null, 'bulk', null)">Bulk Payments</button>
+          </div>
+        </div>
+          <div class="card-body table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Invoice No' | translate }}">{{ 'Invoice No' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'number' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Invoice No' | translate }}">{{ 'Invoice No QBO' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'number' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Invoice Date' | translate }}">{{ 'Date' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'date' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Due Date' | translate }}">{{ 'Due Date' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('dueDate')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'date' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('dueDate')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('dueDdate')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Customer' | translate }}">{{ 'Total' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'client' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let invoice of listInvoices; let i = index">
+                  <td class="table-tr td-table">{{invoice.number}}</td>
+                  <td class="table-tr td-table">{{invoice.docNumber}}</td>
+                  <td class="table-tr td-table">{{invoice.date  | date:'yyyy-MM-dd'}}</td>
+                  <td class="table-tr td-table">{{invoice.dueDate  | date:'yyyy-MM-dd'}}</td>
+                  <td class="table-tr">{{invoice.qboTotalAmt | currency : "USD $"}}</td>
+                  <td class="table-tr">
+                    <div class="d-flex flex-row justify-content-around">
+                      <div ngbDropdown class="d-inline-block dropdown">
+                        <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                        <div ngbDropdownMenu>
+                          <button class="dropdown-item" (click)="sentToEmail(invoice.qboInvoiceId)">
+                            <i class="fa fa-credit-card"></i> {{ 'Sent by email' | translate }}</button>
+                          <button class="dropdown-item" (click)="downloadInvoiceQBO(invoice)">
+                            <i class="fa fa-download"></i> {{ 'Download' | translate }}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="table-empty" [hidden]="listInvoices.length !== 0" translate>
+              <p class="no-records">
+                {{ 'No records have been added yet' | translate }}
+              </p>
+            </div>
+            <div class="pagination-list" [hidden]="listInvoices.length === 0">
+              <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listInvoicesAux.length"
+                [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+              </ngb-pagination>
+              <span class="count-elements">{{ listInvoices.length + ' ' + ('of' | translate) + ' ' + listInvoicesAux.length + ' ' + ('register(s)' | translate)
+                }}
+              </span>
+            </div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>

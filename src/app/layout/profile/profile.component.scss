@@ -60,3 +60,14 @@
 
 }
 
+.success {
+  padding: 2em;
+
+  > span {
+    font-size: 2em;
+    color: darkgreen;
+    font-weight: bold;
+    font-style: oblique
+  }
+}
+

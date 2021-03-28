@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { SageService } from '../../shared/services/sage/sage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { Role } from '../../shared/enum/role.enum';
@@ -7,6 +8,13 @@ import { UserStorageService } from '../../http/user-storage.service';
 import { WarrantyService } from '../../shared/services/warranty/warranty.service';
 import { OrderService } from '../../shared/services/order/order.service';
 import * as _ from 'lodash';
+import { formatDate } from '@angular/common';
+import { InvoiceClientService, InvoicePaymentService } from '../../shared/services';
+import { Router } from '@angular/router';
+import { StatusInvoiceClient } from '../../shared/enum/status-invoice-client.enum';
+import { SupplierService } from '../../shared/services/suppliers/supplier.service';
+import SweetScroll from 'sweet-scroll';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,12 +27,30 @@ export class DashboardComponent implements OnInit {
   public alerts: Array<any> = [];
   public sliders: Array<any> = [];
   warrantiesList: Array<any> = new Array;
+  invoicesList: Array<any> = new Array;
+  invoicesListAux: Array<any> = new Array;
+  customersList: Array<any> = new Array;
+  listPayments: Array<any> = new Array;
   user: any;
   orders = 0;
+  ordersToBill = 0;
+  total = 0;
   warranties = 0;
-  warrantiesS: any;
-  ordersS: any;
-
+  pendingPayment = 0;
+  overdueCustomers = 0;
+  overdueInvoices = 0;
+  orderPend = 0;
+  orderProc = 0;
+  orderReady = 0;
+  orderShipped = 0;
+  porcPend = 0;
+  porcProc = 0;
+  porcReady = 0;
+  porcShipped = 0;
+  months = 6;
+  locale: any;
+  listSupplierUser: Array<any> = new Array;
+  disabledNew = false;
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -95,49 +121,52 @@ export class DashboardComponent implements OnInit {
 
   // lineChart
   public lineChartData: Array<any> = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Pending Orders' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Paid Orders' },
-    { data: [18, 48, 77, 9, 100, 27, 40], label: 'Canceled Orders' }
+    { data: [], label: 'Pending Orders' },
+    { data: [], label: 'Processed Orders' },
+    { data: [], label: 'Ready to Ship Orders' },
+    { data: [], label: 'Shipped Orders' }
   ];
-  public lineChartLabels: Array<any> = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July'
-  ];
+
+  public lineChartLabels: Array<any> = [];
   public lineChartOptions: any = {
     responsive: true
   };
   public lineChartColors: Array<any> = [
     {
-      // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
+      // pending-status
+      backgroundColor: 'rgba(183, 28, 28, 0.2)',
+      borderColor: 'rgba(183, 28, 28, 1)',
+      pointBackgroundColor: 'rgba(183, 28, 28, 1)',
       pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      pointHoverBackgroundColor: 'rgba(183, 28, 28, 0.8)',
+      pointHoverBorderColor: 'rgba(183, 28, 28, 0.8)'
     },
     {
-      // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
+      // processed-status
+      backgroundColor: 'rgba(255, 111, 0, 0.2)',
+      borderColor: 'rgba(255, 111, 0, 1)',
+      pointBackgroundColor: 'rgba(255, 111, 0, 1)',
       pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
+      pointHoverBackgroundColor: 'rgba(255, 111, 0, 0.8)',
+      pointHoverBorderColor: 'rgba(255, 111, 0, 0.8)'
     },
     {
-      // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
+      // ready-to-ship
+      backgroundColor: 'rgba(1, 87, 155, 0.2)',
+      borderColor: 'rgba(1, 87, 155, 1)',
+      pointBackgroundColor: 'rgba(1, 87, 155, 1)',
       pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      pointHoverBackgroundColor: 'rgba(1, 87, 155, 0.8)',
+      pointHoverBorderColor: 'rgba(1, 87, 155, 0.8)'
+    },
+    {
+      // shipped
+      backgroundColor: 'rgba(27, 94, 32, 0.2)',
+      borderColor: 'rgba(27, 94, 32, 1)',
+      pointBackgroundColor: 'rgba(27, 94, 32, 1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: 'rgba(27, 94, 32, 0.8)',
+      pointHoverBorderColor: 'rgba(27, 94, 32, 0.8)'
     }
   ];
   public lineChartLegend: Boolean = true;
@@ -177,7 +206,13 @@ export class DashboardComponent implements OnInit {
   constructor(private translate: TranslateService,
               private userService: UserStorageService,
               private orderService: OrderService,
-              private warrantyService: WarrantyService) {
+              private invoiceService: InvoiceClientService,
+              private warrantyService: WarrantyService,
+              private invoicePaymentService: InvoicePaymentService,
+              public router: Router,
+              private sage: SageService,
+              private supplierService: SupplierService,
+              private spinner: NgxSpinnerService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.sliders.push(
       {
@@ -233,8 +268,29 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getOrdersPendings();
+    this.spinner.show();
+    this.getOrdersPending();
     this.getWarrantiesPendings();
+    this.getCountOrders();
+    this.getCountOrdersTotal();
+    this.getPendingPayments();
+    this.getOrdersToBill();
+    if (this.user.role.idRole === 3) {
+      this.getSupplierByUser(this.user.userResponse.idUser);
+    }
+    this.spinner.hide();
+  }
+
+  getSupplierByUser(id: any) {
+    this.supplierService.findByUser$(id).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.listSupplierUser = res.data;
+        if (this.listSupplierUser.length === 0){
+          this.disabledNew = true;
+        }
+      }
+    });
+    this.getFocus();
   }
 
   public closeAlert(alert: any) {
@@ -242,26 +298,58 @@ export class DashboardComponent implements OnInit {
     this.alerts.splice(index, 1);
   }
 
-  getOrdersPendings(): void {
+  public loginSage() {
+    this.sage.findAll$().subscribe((res) => {
+      window.open(res.data,"Sage","menubar=1,resizable=1,width=650,height=680,left=350");
+    })
+  }
+
+  redirectProduts(): void {
+    this.router.navigate(['/products/']);
+  }
+
+  getOrdersPending() {
     if (this.user.role.idRole === 3) {
       this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 0).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.orders = res.data.length;
-          this.ordersS = this.orders < 10 ? '0' + this.orders.toString() : this.orders.toString();
         }
       });
     } else if (this.user.role.idRole === 2) {
       this.orderService.findOrdersClientBySeller$(0).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.orders = res.data.length;
-          this.ordersS = this.orders < 10 ? '0' + this.orders.toString() : this.orders.toString();
         }
       });
     } else if (this.user.role.idRole === 1) {
       this.orderService.allOrderWithStatus$(0).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.orders = res.data.length;
-          this.ordersS = this.orders < 10 ? '0' + this.orders.toString() : this.orders.toString();
+        }
+      });
+    }
+  }
+
+  getOrdersToBill() {
+    //Admin Role
+    if (this.user.role.idRole === 1) {
+      this.orderService.allOrderWithStatus$(2).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.ordersToBill = res.data.length;
+        }
+      });
+    //Seller Role
+    } else if (this.user.role.idRole === 2) {
+      this.orderService.findOrdersClientBySeller$(2).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.ordersToBill = res.data.length;
+        }
+      });
+    // Client Role
+    } else if (this.user.role.idRole === 3) {
+      this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 2).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.ordersToBill = res.data.length;
         }
       });
     }
@@ -286,7 +374,6 @@ export class DashboardComponent implements OnInit {
           this.warrantiesList = _.filter(this.warrantiesList, { status: 0 } );
         }
         this.warranties = this.warrantiesList.length;
-        this.warrantiesS = this.warranties < 10 ? '0' + this.warranties.toString() : this.warranties.toString();
       } else {
         console.log(res.errors[0].detail);
       }
@@ -295,4 +382,110 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  getCountOrders(): void {
+    let ordersCount;
+    let clone = JSON.parse(JSON.stringify(this.lineChartData));
+    this.orderService.countOrdersByMonth$(this.user.userResponse.idUser).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        ordersCount = res.data;
+        clone[0].data = ordersCount.pending;
+        clone[1].data = ordersCount.processed;
+        clone[2].data = ordersCount.readyToShip;
+        clone[3].data = ordersCount.shipped;
+        this.lineChartData = clone;
+        this.lineChartData = this.lineChartData.slice();
+      }
+    });
+    this.getMonths();
+
+  }
+
+  getCountOrdersTotal(): void {
+    let ordersCount;
+    this.orderService.countOrders$(this.user.userResponse.idUser).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        ordersCount = res.data;
+        this.orderPend = ordersCount.pending;
+        this.orderProc = ordersCount.processed;
+        this.orderReady = ordersCount.readyToShip;
+        this.orderShipped = ordersCount.shipped;
+        this.total = ordersCount.total;
+
+        this.porcPend = (this.orderPend * 100) / this.total;
+        this.porcProc = (this.orderProc * 100) / this.total;
+        this.porcReady = (this.orderReady * 100) / this.total;
+        this.porcShipped = (this.orderShipped * 100) / this.total;
+      }
+    });
+  }
+
+  getMonths(): void {
+    for (let index = 0; index < 6; index++) {
+      const today = new Date();
+      const dt = new Date();
+      dt.setMonth(today.getMonth() - (5 - index));
+      let month = formatDate(dt, 'MMMM', 'en-US');
+      this.translate
+            .get(month, { value: month })
+            .subscribe((res1: string) => {
+              month = res1;
+            });
+      const labelMonth =  month + "'" + formatDate(dt, 'yyyy', 'en-US');
+      this.lineChartLabels.push(labelMonth);
+    }
+  }
+
+  getPendingPayments(): void {
+    const status = [StatusInvoiceClient.Pending, StatusInvoiceClient.Part_Paid, StatusInvoiceClient.Overdue];
+    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          const today = new Date().toISOString();
+          this.invoicesList = res.data;
+          for (let i = 0, len = this.invoicesList.length; i < len; i++) {
+            this.getListPayments(this.invoicesList[i].idInvoice);
+          }
+          this.invoicesListAux = _.filter(this.invoicesList, function(o) { return o.dueDate < today;  });
+          this.customersList = _.uniqBy(this.invoicesListAux, function(o) { return o.idUser; });
+          this.overdueCustomers = this.customersList.length;
+          this.overdueInvoices = this.customersList.length;
+        } else {
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    )
+  }
+
+  getFocus(): void {
+    const scroller = new SweetScroll({
+      duration: 1200,
+      easing: 'easeOutExpo',
+    },);
+    //scroller.toTop(0);
+    scroller.toElement(document.getElementById('main'));
+  }
+
+  getListPayments(invoice): void {
+    this.invoicePaymentService.allPaymentsByInvoice$(invoice).subscribe(
+      res => {
+        if (res.code === CodeHttp.ok) {
+          this.listPayments = res.data;
+          this.listPayments = _.filter(res.data, function(o) { return o.status === 0;  });
+          this.pendingPayment = this.pendingPayment + _.sumBy(this.listPayments, function(o) { return o.amount; });
+        } else {
+          console.log(res.code);
+        }
+      },
+      error => {
+        console.log('error', error);
+      }
+    );
+  }
+
+  viewPayments() {
+    this.router.navigate(['/payments'], { queryParams: { status: 0 } });
+  }
 }

@@ -1,5 +1,6 @@
 import { Membership } from './membership';
 import { Country } from './country';
+import { Company } from './company';
 
 export class User {
   public idUser: number;
@@ -20,9 +21,11 @@ export class User {
   public nameSeller: string;
   public cardCode: string;
   public certificationCode: string;
+  public accSpct: string;
   public avatar: string;
   public pwsTemporal: boolean;
   public membership: Membership = new Membership();
+  public company: Company = new Company();
 
   public constructor() { }
 

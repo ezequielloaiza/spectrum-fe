@@ -17,8 +17,12 @@ export class Product {
   public url: string;
   public stock: number;
   public infoAditional: string;
+  public codeSpectrum: string;
   public types: string;
   public status: number;
+  public priced1: number;
+  public priced2: number;
+  public priced3: number;
     public constructor() { }
 
   }

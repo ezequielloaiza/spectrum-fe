@@ -11,8 +11,6 @@ import {
 } from './components';
 import { StatModule, PageHeaderModule } from '../../shared';
 import { ChartsModule as Ng2Charts } from 'ng2-charts';
-import { ChartsRoutingModule } from '../charts/charts-routing.module';
-import { ChartsComponent } from '../charts/charts.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -23,7 +21,6 @@ import { TranslateModule } from '@ngx-translate/core';
         DashboardRoutingModule,
         StatModule,
         Ng2Charts,
-        ChartsRoutingModule,
         PageHeaderModule,
         TranslateModule
     ],
@@ -31,8 +28,7 @@ import { TranslateModule } from '@ngx-translate/core';
         DashboardComponent,
         TimelineComponent,
         NotificationComponent,
-        ChatComponent,
-        ChartsComponent
+        ChatComponent
     ]
 })
 export class DashboardModule {}

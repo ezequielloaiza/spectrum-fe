@@ -1,151 +1,214 @@
-<ngb-tabset>
-  <ngb-tab title="{{'Technical specifications'| translate}}">
-    <ng-template ngbTabContent>
-      <div class="card-body table-responsive">
-        <div *ngFor="let specification of lista.detail">
-          <div class="row justify-content-md-center div-parametros">
-            <div class="col-sm-3" *ngFor="let param of specification.parameters">
-              <div *ngIf="param.name!=='Diopters' && param.name!=='Meridian'" class="container-supplier">
-                <dl class="align-item">
-                  <dt>{{param.name}}</dt>
-                  <dt>
-                    <span class="font-text"> {{param.selected}}</span>
-                    <hr>
-                  </dt>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab>
-    <ng-template ngbTabTitle>{{'Toric Haptics'| translate}}</ng-template>
-    <ng-template ngbTabContent>
-      <div class="card-body table-responsive">
-        <div *ngFor="let specification of lista.detail">
-          <div class="row  div-parametros">
-            <div class="col-sm-2" *ngFor="let param of specification.parameters">
-              <div *ngIf="param.name==='Diopters' || param.name==='Meridian'" class="container-supplier">
-                <dl class="align-item">
-                  <dt>{{param.name  | translate }}</dt>
-                  <dt>
-                    <span class="font-text"> {{param.selected}}</span>
-                    <hr>
-                  </dt>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab>
-    <ng-template ngbTabTitle>{{'Steps'| translate}}</ng-template>
-    <ng-template ngbTabContent>
-      <div class="card-body table-responsive">
-        <div *ngFor="let specification of lista.detail">
-          <div class="row justify-content-md-center div-parametros">
-            <div class="col-sm-4" *ngFor="let param of specification.pasos">
-              <div class="container-supplier">
-                <dl>
-                  <dt>{{param.name  | translate }}</dt>
-                  <br>
-                  <dl *ngFor="let item of  param.values">
+<div class="col-lg-12">
+  <div class="row padding-params display-edit" *ngIf="valueStatus === 0 && user.role.idRole !== 2 && valueClient !== 2">
+    <button type="button" (click)="openEdit()" class="edit btn btn-outline-primary" translate>
+      Edit
+    </button>
+  </div>
+  <ngb-tabset>
+    <ngb-tab title="{{'Technical specifications'| translate}}">
+      <ng-template ngbTabContent>
+        <div class="card-body table-responsive">
+          <div *ngFor="let specification of lista.detail">
+            <div class="d-flex flex-lg-wrap">
+              <div
+                class="col-sm-3"
+                *ngFor="let param of specification.parameters"
+              >
+                <div class="container-supplier">
+                  <dl class="align-item">
+                    <dt *ngIf="param.name !== 'Axes Cylinder'">{{ param.name | translate }}</dt>
+                    <dt *ngIf="param.name === 'Axes Cylinder'">{{ "Axes (º)" | translate }}</dt>
                     <dt>
-                      <span class="text-warning"> {{ item.name}}</span>
-                      <span>
-                        <dt *ngFor="let val of  item.values" class="font-text">
-                          <span>{{val.name}}:</span>&nbsp;
-                          <span *ngIf="val.selected==='true'">{{'Yes'| translate}}</span>
-                          <span *ngIf="val.selected==='false'">{{'No'| translate}}</span>
-                        </dt>
-                      </span>
-                      <hr>
+                      <span class="font-text" *ngIf="param.selected !== null && param.selected !== '' && param.selected !== undefined"> {{ param.selected }}</span>
+                      <span class="font-text" *ngIf="param.selected === null || param.selected === '' || param.selected === undefined"> {{ 'Unassigned' | translate }}</span>
+                      <hr />
                     </dt>
                   </dl>
-                </dl>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab>
-    <ng-template ngbTabTitle>{{'More info'| translate}}</ng-template>
-    <ng-template ngbTabContent>
-      <div class="card-body table-responsive">
-        <div *ngFor="let specification of lista.detail">
-          <div class="row  div-parametros">
-            <div class="col-sm-2" *ngFor="let param of specification.header">
-              <div class="container-supplier">
-                <dl class="align-item">
-                  <dt>{{param.name  | translate }}</dt>
-                  <dt *ngIf="param.name!=='hidrapeg'&& param.name!=='Inserts'">
-                    <span class="font-text"> {{param.selected}}</span>
-                    <hr>
-                  </dt>
-                  <dt *ngIf="param.name==='hidrapeg'|| param.name==='Inserts'">
-                    <span *ngIf="param.selected==='true'" class="font-text">{{'Yes'| translate}}</span>
-                    <span *ngIf="param.selected==='false'" class="font-text">{{'No'| translate}}</span>
-                    <hr>
-                  </dt>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab title="{{'Comments'| translate}}">
-    <ng-template ngbTabContent>
-      <div class="card-body table-responsive">
-        <div class="row justify-content-md-center div-parametros">
-          <div class="col-sm-12">
-            <dl>
-              <dt>
-                <span class="font-text">{{lista.observations}}</span>
-              </dt>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle>{{ "Steps" | translate }}</ng-template>
+      <ng-template ngbTabContent>
+        <div class="card-body table-responsive">
+          <div class="row">
+            <dl class="steps">
+              <dt>{{ "Steps" | translate }}:</dt>
+              <dt class="item">{{ lista.detail[0].typeSteps | translate }}</dt>
             </dl>
           </div>
+          <div *ngFor="let specification of lista.detail">
+            <div class="row justify-content-md-center div-parametros">
+              <div class="col-sm-4" *ngFor="let param of specification.pasos">
+                  <dl>
+                    <dt>{{ param.name | translate }}</dt>
+                    <hr class="separators" />
+                  </dl>
+                  <div class="col-sm-12" *ngFor="let item of param.values">
+                    <dl></dl>
+                    <div class="row step-values">
+                      <div class="col-sm-12">
+                        <dt>{{ item.name | translate }}:</dt>
+                      </div>
+                      <div class="col-sm-6" *ngFor="let val of item.values">
+                        <dl>
+                          <dt class="item">
+                            {{ val.name | translate }}:
+                            <span *ngIf="val.selected === true">{{
+                              "Yes" | translate
+                            }}</span>
+                            <span *ngIf="val.selected === false">{{
+                              "No" | translate
+                            }}</span>
+                          </dt>
+                        </dl>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </ng-template>
-  </ngb-tab>
-  <ngb-tab *ngIf="files.length > 0" title="{{'Documents'| translate}}">
-    <ng-template ngbTabContent>
-      <!-- Documents -->
-      <div class="card-body table-responsive" >
-        <br>
-        <div class="row justify-content-md-center div-parametros">
-          <table class="table" >
-            <thead>
-              <tr>
-                <th width="50%">{{ 'Name' | translate }}</th>
-                <th>{{ 'Size' | translate }}</th>
-                <th>{{ 'Actions' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of files">
-                <td><strong>{{ item?.name }}</strong></td>
-                <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
-                <td nowrap>
-                  <button type="button" class="btn btn-success btn-xs"
-                    (click)="downloadFile(item)">
-                    <span class="fa fa-download"></span> Download
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <br>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle>{{ "More info" | translate }}</ng-template>
+      <ng-template ngbTabContent>
+        <div class="card-body table-responsive">
+          <div *ngFor="let specification of lista.detail">
+            <div class="row  div-parametros">
+              <div class="col-sm-2" *ngFor="let param of specification.header">
+                <div class="container-supplier">
+                  <dl class="align-item">
+                    <dt>{{ param.name | translate }}</dt>
+                    <dt
+                      *ngIf="
+                        param.name !== 'Hidrapeg' &&
+                        param.name !== 'Inserts (DMV)'
+                      "
+                    >
+                      <span class="font-text"> {{ param.selected }}</span>
+                      <hr />
+                    </dt>
+                    <dt
+                      *ngIf="
+                        param.name === 'Hidrapeg' ||
+                        param.name === 'Inserts (DMV)'
+                      "
+                    >
+                      <span *ngIf="param.selected === true" class="font-text">{{
+                        "Yes" | translate
+                      }}</span>
+                      <span *ngIf="param.selected === false" class="font-text">{{
+                        "No" | translate
+                      }}</span>
+                      <hr />
+                    </dt>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="row  div-parametros">
+              <div class="col-sm-2" *ngFor="let product of specification.productsAditional">
+                <div class="container-supplier">
+                  <dl class="align-item">
+                    <dt>{{ product.name | translate }}</dt>
+                    <dt>
+                      <span class="font-text"> {{ product.codeSpectrum }}</span>
+                      <hr />
+                    </dt>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </ng-template>
-  </ngb-tab>
-</ngb-tabset>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'Trial Lens Used'| translate}}" *ngIf="lista.detail[0].typeLens === 'Please design my lens'">
+      <ng-template ngbTabContent>
+        <div class="card-body table-responsive">
+          <div *ngFor="let specification of lista.detail">
+            <div class="d-flex flex-lg-wrap">
+              <div
+                class="col-sm-3"
+                *ngFor="let param of specification.set"
+              >
+                <div class="container-supplier">
+                  <dl class="align-item">
+                    <dt>{{ param.name | translate }}</dt>
+                    <dt>
+                      <span class="font-text" *ngIf="!!param.selected"> {{ param.selected }}</span>
+                      <span class="font-text" *ngIf="!param.selected"> {{ 'Unassigned' | translate }}</span>
+                      <hr />
+                    </dt>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'Comments'| translate}}">
+      <ng-template ngbTabContent>
+        <div class="card-body table-responsive">
+          <div class="row justify-content-md-center div-parametros">
+            <div class="col-sm-12">
+              <dl class="font-text" *ngIf="lista.observations ==='' || lista.observations ===null">
+                <span translate>{{'No comments' | translate}}</span>
+              </dl>
+              <dl>
+                <dt *ngIf="lista.observations !==''">
+                  <span class="font-text">{{lista.observations}}</span>
+                </dt>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab *ngIf="files.length > 0" title="{{'Documents'| translate}}">
+      <ng-template ngbTabContent>
+        <!-- Documents -->
+        <div class="card-body table-responsive">
+          <br />
+          <div class="row justify-content-md-center div-parametros">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th width="50%">{{ "Name" | translate }}</th>
+                  <th>{{ "Size" | translate }}</th>
+                  <th>{{ "Actions" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of files">
+                  <td>
+                    <strong>{{ item?.name }}</strong>
+                  </td>
+                  <td nowrap>{{ item?.size / 1024 / 1024 | number: ".2" }} MB</td>
+                  <td nowrap>
+                    <button
+                      type="button"
+                      class="btn btn-success btn-xs"
+                      (click)="downloadFile(item)"
+                    >
+                      <span class="fa fa-download"></span
+                      >{{ "Download" | translate }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br />
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>

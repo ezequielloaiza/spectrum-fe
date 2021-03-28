@@ -24,6 +24,16 @@ import { ListBasketClientComponent } from './basket/admin-seller/list/list-baske
 import { DetailsBasketClientComponent } from './basket/admin-seller/details/details-basket-client/details-basket-client.component';
 import { EditSupplierComponent } from './user/detail-user/edit-supplier/edit-supplier.component';
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
+import { ManagePaymentsComponent } from './manage-payments/manage-payments.component';
+import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-made.component';
+import { ManageCommissionComponent } from './manage-commission/manage-commission.component';
+import { EntrustingCompanyComponent } from './entrusting-company/entrusting-company.component';
+import { ProtocolComponent } from './protocol/protocol.component';
+import { ProtocolProformaComponent } from './protocol/protocol-proforma/protocol-proforma.component';
+import { ProtocolClientComponent } from './protocol-client/protocol-client.component';
+import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/shipping-protocol.component';
+import { InvoiceClientQBOComponent } from './invoice-client-qbo/invoice-client-qbo.component';
+import { ConsultationFormListComponent } from './manage-consultation-form/consultation-form-list/consultation-form-list.component';
 
 const routes: Routes = [
   {
@@ -33,13 +43,6 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard' },
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { option: 'Dashboard' } },
-      { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
-      { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
-      { path: 'forms', loadChildren: './form/form.module#FormModule' },
-      { path: 'bs-element', loadChildren: './bs-element/bs-element.module#BsElementModule' },
-      { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
-      { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
-      { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
       { path: 'shipping-address', component: ShippingAddressComponent, data: { option: 'ShippingAddress' } },
       // { path: 'consult-account', component: CheckAccountComponent },
       { path: 'suppliers', component: SuppliersComponent, runGuardsAndResolvers: 'always', data: { option: 'Suppliers' } },
@@ -64,12 +67,36 @@ const routes: Routes = [
         data: { option: 'OrdersDetail' },
       },
       {
+        path: 'list-consultation-form', component: ConsultationFormListComponent,
+        data: { option: 'ConsultationFormList' }
+      },
+      {
         path: 'warranty', component: WarrantyComponent,
         data: { option: 'Warranty' }
       },
       {
         path: 'invoice', component: ManageInvoiceComponent,
         data: { option: 'Invoice' }
+      },
+      {
+        path: 'client-invoice', component: InvoiceClientQBOComponent,
+        data: { option: 'ClientInvoice' }
+      },
+      {
+        path: 'commission', component: ManageCommissionComponent,
+        data: { option: 'Commission' }
+      },
+      {
+        path: 'entrusting-company', component: EntrustingCompanyComponent,
+        data: { option: 'EntrustingCompany' }
+      },
+      {
+        path: 'payments', component: ManagePaymentsComponent,
+        data: { option: 'Payments' },
+      },
+      {
+        path: 'payments/:idInvoice/paymentsMade', component: PaymentsMadeComponent,
+        data: { option: 'PaymentsMade' }
       },
       {
         path: 'user', component: UserComponent,
@@ -97,6 +124,12 @@ const routes: Routes = [
               },
               { path: 'edit-supplier', component: EditSupplierComponent,
               data: { option: 'EditSupplier' }
+              },
+              { path: 'edit-shipping', component: ShippingProtocolComponent,
+              data: { option: 'EditShippingProtocol' }
+              },
+              { path: 'edit-shipping-proforma', component: ProtocolProformaComponent,
+              data: { option: 'ProtocolProforma' }
               }
             ]
           }
@@ -144,6 +177,20 @@ const routes: Routes = [
       },
       { path: 'list-basket-detail/:id/view', component: DetailsBasketClientComponent,
       data: { option: 'ListBasketDetail' }
+      },
+      {
+        path: 'protocol', component: ProtocolComponent,
+        runGuardsAndResolvers: 'always',
+        children: [
+          { path: '', redirectTo: 'protocol-client', pathMatch: 'full' },
+          { path: 'protocol-client', component: ProtocolClientComponent,
+            data: { option: 'ProtocolClient' }
+          },
+          { path: 'protocol-proforma', component: ProtocolProformaComponent,
+            data: { option: 'ProtocolProforma' }
+          }
+        ],
+        data: { option: 'Protocols' }
       }
     ]
   },

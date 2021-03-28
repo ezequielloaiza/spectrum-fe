@@ -18,7 +18,7 @@ import { CountryService } from '../../../../shared/services/country/country.serv
 import { ListSupplierModalComponent } from '../list-supplier-modal/list-supplier-modal.component';
 import { UserStorageService } from '../../../../http/user-storage.service';
 import * as _ from 'lodash';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-user-modal',
   templateUrl: './user-modal.component.html',
@@ -38,7 +38,7 @@ export class UserModalComponent implements OnInit {
   listSuppliers: Array<any> = new Array;
   listPaymentMethod = [{ id: 0, name: 'Prepaid' },
                        { id: 1, name: 'Postpaid' }];
-  listCreditDays = [ '15', '30', '60' ];
+  listCreditDays = [ '30', '60' ];
   postpaid = false;
   listCountries: Array<any> = new Array;
   listCountriesCompany: Array<any> = new Array;
@@ -46,6 +46,9 @@ export class UserModalComponent implements OnInit {
   selectedCountryCompany: any = null;
   locale: any;
   msjPayment = true;
+  saving = false;
+  marked = false;
+  theCheckbox = false;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -58,7 +61,8 @@ export class UserModalComponent implements OnInit {
     private membershipService: MembershipService,
     private notification: ToastrService,
     private modalService: NgbModal,
-    private countryService: CountryService) { }
+    private countryService: CountryService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -96,7 +100,7 @@ export class UserModalComponent implements OnInit {
       companyName: ['', [Validators.required]],
       companyContactName: ['', [Validators.required]],
       companyAddress: ['', [Validators.required]],
-      shippingInstructions: ['', [Validators.required]],
+      shippingInstructions: [''],
       companyPhone: [''],
       companyEmail: ['', [Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       creditLimit: ['', [Validators.required]],
@@ -115,7 +119,8 @@ export class UserModalComponent implements OnInit {
       suppliers: [''],
       paymentMethod: ['', [Validators.required]],
       creditDays: [''],
-      balance: ['']
+      balance: [''],
+      theCheckbox: []
     });
   }
 
@@ -145,10 +150,28 @@ export class UserModalComponent implements OnInit {
   }
 
   save(): void {
-    this.form.get('city').setValue(this.valorCity.description);
-    this.form.get('companyCity').setValue(this.valorCompanyCity.description);
+
+    this.spinner.show();
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.valorCity.description) {
+      this.form.get('city').setValue(this.valorCity.description);
+    } else {
+      this.form.get('city').setValue(this.valorCity);
+    }
+
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('companyCity').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.valorCompanyCity.description) {
+      this.form.get('companyCity').setValue(this.valorCompanyCity.description);
+    } else {
+      this.form.get('companyCity').setValue(this.valorCompanyCity);
+    }
+
     this.form.get('suppliers').setValue(this.listSuppliers);
+    this.saving = true;
     this.userSerice.signUp$(this.form.value).subscribe(res => {
+      this.spinner.hide();
       if (res.code === CodeHttp.ok) {
         this.modal.close();
         this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
@@ -160,10 +183,22 @@ export class UserModalComponent implements OnInit {
         this.translate.get('The user already exists', { value: 'The user already exists' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
+      } else if (res.code === CodeHttp.conflict) {
+        this.form.get('city').setValue(this.valorCity);
+        this.form.get('companyCity').setValue(this.valorCompanyCity);
+        this.translate.get('The user already exists in QuickBooks', { value: 'The user already exists in QuickBooks' }).subscribe((res: string) => {
+          this.notification.warning('', res);
+        });
       } else {
-        console.log(res.errors[0].detail);
+        this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+          this.notification.error('', res);
+          console.log(res);
+        });
       }
+      this.saving = false;
     }, error => {
+      this.saving = false;
+      this.spinner.hide();
       console.log('error', error);
     });
   }
@@ -176,11 +211,17 @@ export class UserModalComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
-      this.valorCity = { description: this.googleService.getCity() };
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
+      this.valorCity = { description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name };
+      this.asigCity();
+      this.asigCountry();
+      this.asigState();
+      this.asigPostal();
     });
   }
 
@@ -191,11 +232,13 @@ export class UserModalComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountryCompany = _.filter(countries, { 'name': country } );
-      this.form.get('idCompanyCountry').setValue(this.selectedCountryCompany[0].idCountry);
+      if (this.selectedCountryCompany.length > 0) {
+        this.form.get('idCompanyCountry').setValue(this.selectedCountryCompany[0].idCountry);
+      }
       this.form.get('companyState').setValue(this.googleService.getState());
       this.form.get('companyPostal').setValue(this.googleService.getPostalCode());
-      this.form.get('companyCity').setValue({ description: this.googleService.getCity() });
-      this.valorCompanyCity = { description: this.googleService.getCity() };
+      this.form.get('companyCity').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
+      this.valorCompanyCity = { description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name };
     });
   }
 
@@ -241,12 +284,14 @@ export class UserModalComponent implements OnInit {
     this.membershipService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.memberships = res.data;
+        this.memberships = _.orderBy(this.memberships, ['idMembership'], ['desc']);
       }
     });
   }
 
   openModalSupplier(): void {
-    const modalRef = this.modalService.open(ListSupplierModalComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(ListSupplierModalComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.listSuppliers = this.listSuppliers;
     modalRef.result.then((result) => {
       this.listSuppliers = result;
@@ -268,5 +313,68 @@ export class UserModalComponent implements OnInit {
     }
     this.msjPayment = false;
     this.form.get('paymentMethod').setValue(method.id);
+  }
+
+  assignAddress(value){
+
+  }
+
+  copyaddress(e) {
+    this.marked = e.target.checked;
+    if (this.marked) {
+      if (this.form.get('address').value !== null) {
+        this.form.get('companyAddress').setValue(this.form.get('address').value);
+      }
+      if (this.form.get('city') !== null) {
+        this.form.get('companyCity').setValue(this.form.get('city').value);
+        this.valorCompanyCity = this.valorCity;
+      }
+      if (this.form.get('idCountry') !== null) {
+        this.form.get('idCompanyCountry').setValue(this.form.get('idCountry').value);
+      }
+      if (this.form.get('state') !== null) {
+        this.form.get('companyState').setValue(this.form.get('state').value);
+      }
+      if (this.form.get('postal') !== null) {
+        this.form.get('companyPostal').setValue(this.form.get('postal').value);
+      }
+    } else {
+      this.form.get('companyAddress').setValue(null);
+      this.form.get('companyCity').setValue(null);
+      this.form.get('idCompanyCountry').setValue(null);
+      this.form.get('companyState').setValue(null);
+      this.form.get('companyPostal').setValue(null);
+    }
+  }
+
+  asigAddress() {
+    if (this.marked) {
+        this.form.get('companyAddress').setValue(this.form.get('address').value);
+    }
+  }
+
+  asigCity() {
+    if (this.marked) {
+      this.form.get('companyCity').setValue(this.form.get('city').value);
+      this.valorCompanyCity = this.valorCity;
+    }
+  }
+
+  asigCountry() {
+    if (this.marked) {
+      this.form.get('idCompanyCountry').setValue(this.form.get('idCountry').value);
+    }
+  }
+
+  asigState() {
+    if (this.marked) {
+      this.form.get('companyState').setValue(this.form.get('state').value);
+    }
+  }
+
+  asigPostal() {
+    if (this.marked) {
+      this.form.get('companyPostal').setValue(this.form.get('postal').value);
+    }
   }
 }

@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import { Buy } from '../../../shared/models/buy';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BasketService } from '../../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { OrderService } from '../../../shared/services';
+import { OrderService, ProductsRequestedService } from '../../../shared/services';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { Router } from '@angular/router';
 import { Order } from '../../../shared/models/order';
+import { ModalsShippingComponent } from '../../manage-customer-orders/modals-shipping/modals-shipping.component';
+import * as _ from 'lodash';
+
 
 @Component({
   selector: 'app-notification-balance-order',
@@ -28,6 +31,7 @@ export class NotificationBalanceOrderComponent implements OnInit {
   message: any;
   visibleAdmin = false;
   newStatus: any;
+  validRecords = 0;
   constructor(public modalReference: NgbActiveModal,
               private basketService: BasketService,
               private alertify: AlertifyService,
@@ -36,7 +40,9 @@ export class NotificationBalanceOrderComponent implements OnInit {
               private orderService: OrderService,
               private spinner: NgxSpinnerService,
               private userStorageService: UserStorageService,
-              public router: Router) {
+              public router: Router,
+              private modalService: NgbModal,
+              private productRequestedService: ProductsRequestedService) {
           this.user = JSON.parse(userStorageService.getCurrentUser());
                }
 
@@ -49,9 +55,9 @@ export class NotificationBalanceOrderComponent implements OnInit {
     if (this.user.role.idRole === 3) {
          this.message = 'It does not have the credit balance available, the order will remain pending until authorized.';
     } else if (this.user.role.idRole === 2) {
-        this.message = 'The Client does not have the available credit balance, the order will remain in pending status until authorized.';
+        this.message = 'The Customer does not have the available credit balance, the order will remain in pending status until authorized.';
     } else {
-        this.message = 'The client has no available balance.';
+        this.message = 'The Customer has no available balance.';
         this.visibleAdmin = true;
     }
   }
@@ -68,8 +74,11 @@ export class NotificationBalanceOrderComponent implements OnInit {
           });
           this.redirectListOrder();
         } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+            this.spinner.hide();
+            console.log(res);
+          });
         }
       }, error => {
         console.log('error', error);
@@ -84,13 +93,21 @@ export class NotificationBalanceOrderComponent implements OnInit {
             this.redirectListOrder();
           });
         } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+            this.spinner.hide();
+            console.log(res);
+          });
         }
       }, error => {
         console.log('error', error);
       });
     } else { // Cambiar status
+      if (this.newStatus === 2) {
+        this.openModalShipping();
+        this.spinner.hide();
+        this.close();
+      } else {
         this.orderService.changeStatus$(this.order.idOrder, this.newStatus).subscribe(res => {
           if (res.code === CodeHttp.ok) {
             this.spinner.hide();
@@ -106,6 +123,7 @@ export class NotificationBalanceOrderComponent implements OnInit {
           }, error => {
             console.log('error', error);
           });
+        }
       }
   }
 
@@ -124,4 +142,15 @@ export class NotificationBalanceOrderComponent implements OnInit {
     }
   }
 
+  openModalShipping(): void {
+    const modalRef = this.modalService.open( ModalsShippingComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
+    modalRef.componentInstance.orderModal = this.order;
+    modalRef.componentInstance.idStatus = this.newStatus;
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    } , (reason) => {
+      this.close();
+    });
+  }
 }

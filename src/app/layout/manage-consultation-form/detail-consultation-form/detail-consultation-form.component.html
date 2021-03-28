@@ -1,0 +1,171 @@
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ 'Consultation Form Detail' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="title">
+          <span >{{ 'Consultation Form' | translate }}</span>
+        </div>
+        <!--Patient-->
+        <div class="col-lg-12 label-title patient-info display-row">
+          <label>{{ 'Patient Name' | translate }}</label>
+          <!--Input TEXT-->
+          <input  type="text" class="form-control " [disabled]="true" [(ngModel)]="consultation.patientName" >
+        </div>
+        <!--PARAMETERS-->
+
+        <div id="consultation-form">
+          <div>
+            <div class="owm">
+              <div *ngFor="let param of generalParams">
+                <div  *ngIf="param.type === 'checkbox'"  class="flex">
+                  <label class="bold " >{{ param.name | translate }}</label>
+                  <label *ngIf="param.selected" class="field-disabled label-check" >{{ 'X'}}</label>
+                  <label *ngIf="!param.selected" class="field-disabled label-check" >{{ '  '}}</label>
+                </div>
+                <div  *ngIf="param.type === 'input'" class="flex">
+                  <label class="bold" for="{{ param.name + 'checkbox' }}">{{ param.name | translate }}</label>
+                  <input type="text" class="form-control" [(ngModel)]="param.selected" [disabled]="true">
+                </div>
+              </div>
+            </div>
+            <div *ngFor="let eyeView of eyes">
+              <div class="eyes">
+                <div *ngIf="eyeView.eye === 'right'" class="col-lg-12">
+                  <label class="bold" for="OD">{{ 'OD' }}</label>
+                  <label *ngIf="eyeView.selected" class="field-disabled" >{{ 'X'}}</label>
+                  <label *ngIf="!eyeView.selected" class="field-disabled" >{{ '  '}}</label>
+                </div>
+                <div *ngIf="eyeView.eye === 'left'" class="col-lg-12">
+                  <label class="bold" for="OS">{{ 'OS' }}</label>
+                  <label *ngIf="eyeView.selected" class="field-disabled" >{{ 'X'}}</label>
+                  <label *ngIf="!eyeView.selected" class="field-disabled" >{{ '  '}}</label>
+                </div>
+              </div>
+              <div class="form-group " *ngFor="let param of eyeView.params; let i = index">
+                <!--Multiples INPUTS-->
+                <div *ngIf="param.type === 'multiple'" class="multiples-params">
+                  <div class="param-titles">
+                    <span>{{ param.name | translate }}</span>
+                    <span>{{ param.subname | translate }}</span>
+                  </div>
+                  <div class="content-params">
+                    <div class="sub-params" *ngFor="let subParam of param.values; let isub = index">
+                      <span *ngIf="subParam.type !== 'select' && subParam.type !== 'radio'">{{ subParam.name | translate}}</span>
+                      <div *ngIf="subParam.type === 'input'" class="text">
+                        <!--Input TEXT-->
+                        <input *ngIf="subParam.type === 'input'" type="text" class="form-control" [(ngModel)]="subParam.selected" 
+                        [disabled]="true">
+                      </div>
+                      <!--Input SELECT-->
+                      <input *ngIf="subParam.type === 'select'" type="text" class="form-control selects" [(ngModel)]="subParam.selected" 
+                      [disabled]="true">
+
+                      <!-- Input RADIO -->
+                      <div *ngIf="subParam.type === 'radio'" class="radio-buttons">
+                        <span *ngIf="subParam.type === 'radio'" class="name">{{ subParam.name | translate}}</span>
+                        <div class="button-space">
+                          <label class="">{{ 'Yes' | translate }}</label>
+                          <label *ngIf="subParam.selected === 'Yes'" class="field-disabled" >{{ 'X'}}</label>
+                          <label *ngIf="subParam.selected !== 'Yes'" class="field-disabled" >{{ '  '}}</label>
+                        </div>
+
+                        <div class="button-space">
+                          <label class="">{{ 'No' | translate }}</label>
+                          <label *ngIf="subParam.selected === 'No'" class="field-disabled" >{{ 'X'}}</label>
+                          <label *ngIf="subParam.selected !== 'No'" class="field-disabled" >{{ '  '}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Input RADIO -->
+                <div *ngIf="param.type === 'radio'" class="multiples-params">
+                  <div class="param-titles">
+                    <span>{{ param.name | translate}}</span>
+                  </div>
+
+                  <div class="content-params">
+                    <div class="sub-params2">
+                      <div class="radio-buttons">
+                        <div class="button-space ">
+                          <label class="">{{ 'Yes' | translate }}</label>
+                          <label *ngIf="param.selected === 'Yes'" class="field-disabled" >{{ 'X'}}</label>
+                          <label *ngIf="param.selected !== 'Yes'" class="field-disabled" >{{ '  '}}</label>
+                        </div>
+                        <div class="button-space">
+                          <label class="">{{ 'No' | translate }}</label>
+                          <label *ngIf="param.selected === 'No'" class="field-disabled" >{{ 'X'}}</label>
+                          <label *ngIf="param.selected !== 'No'" class="field-disabled" >{{ '  '}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--Input TEXT DOUBLES-->
+                <div *ngIf="param.type === 'input-double'" class="half-display">
+                  <div class="sub-params" *ngFor="let subParam of param.values">
+                    <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate }}</span>
+                    <!--Input TEXT-->
+                    <input *ngIf="subParam.type === 'input'" type="text" class="form-control" required [disabled]="read" [(ngModel)]="subParam.selected">
+                  </div>
+                </div>
+
+                <!--Input TEXT-->
+                <div *ngIf="param.type === 'input'" class="w-46">
+                  <label class="bold">{{ param.name| translate }}</label>
+                  <input type="text" class="form-control" required [(ngModel)]="param.selected" [disabled]="read">
+                </div>
+
+                <!--Input TEXTAREA-->
+                <div *ngIf="param.type === 'text-area'">
+                  <label class="bold">{{ param.name| translate }}</label>
+                  <textarea type="text" class="form-control" [(ngModel)]="param.selected" [disabled]="read"></textarea>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!--Fin parameters-->
+        <div *ngIf="listFiles.length" class="col-lg-12">
+          <dt class="bold">{{ 'Documents | Attach of Consultation Form' | translate }}</dt>
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="50%">{{ 'Name' | translate }}</th>
+                <th>{{ 'Size' | translate }}</th>
+                <th>{{ 'Actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listFiles">
+                <td><strong>{{ item?.name }}</strong></td>
+                <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
+                <td nowrap>
+                  <button type="button" class="btn btn-sucess btn-xs" (click)="downloadFile(item)">
+                    <span class="fa fa-download"></span> {{ 'Download' | translate }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+</div>
+

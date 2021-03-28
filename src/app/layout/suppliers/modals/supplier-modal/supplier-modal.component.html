@@ -117,7 +117,7 @@
                               title="{{'Select a country by clicking on the map' | translate }}">
             </int-phone-prefix>
           </fieldset>
-          <div class="message-error" [hidden]="phone2.value ? (phone2.value.length === 0 || phone2.value.length > 7) : false">
+          <div class="message-error" [hidden]="phone2.value ? (phone2.value.length === 0 || phone2.value.length > 7) : true">
             <span>{{ 'Phone Number is not valid' | translate }}</span>
           </div>
         </div>
@@ -133,8 +133,11 @@
         <div class="col-xl-12">
           <fieldset class="form-group">
             <label>{{ 'Website' | translate }}</label>
-            <input class="form-control" placeholder="{{ 'Enter website' | translate }}" name="website" formControlName="website">
+            <input type="url" class="form-control" placeholder="{{ 'Enter website' | translate }}" name="website" formControlName="website">
           </fieldset>
+          <div class="message-error" [hidden]="website.valid || website.pristine">
+            <span>{{ 'Must be a valid site URL' | translate }}</span>
+          </div>
         </div>
         <div class="col-xl-6">
           <fieldset class="form-group">

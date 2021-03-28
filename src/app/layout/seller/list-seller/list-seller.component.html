@@ -35,6 +35,11 @@
               <i class="fa fa-plus"></i>
             </button>
           </div>
+          <div class="align-btn-detail">
+            <button type="button" class="btn btn-success btn-xs" (click)="downloadSeller()">{{ 'Download PDF' | translate }}
+              <i class="fa fa-download"></i>
+            </button>
+          </div>
         </div>
         <div class="card-body table-responsive">
           <table class="table">
@@ -98,8 +103,8 @@
                 </td>
                 <td class="table-tr td-table">{{seller.name}}</td>
                 <td class="table-tr td-table">{{seller.email}}</td>
-                <td class="table-tr">{{seller.country? (seller.country.name | translate): '' }}</td>
-                <td class="table-tr">{{seller.city}}</td>
+                <td class="table-tr td-table">{{seller.country? (seller.country.name | translate): '' }}</td>
+                <td class="table-tr td-table">{{seller.city}}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">

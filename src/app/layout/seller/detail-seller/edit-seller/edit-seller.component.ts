@@ -32,6 +32,10 @@ export class EditSellerComponent implements OnInit {
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
   locale: any;
+  filter = [{ id: 0, name: 'No' },
+  { id: 1, name: 'Yes' }];
+  valid = false;
+  idValue: any;
 
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -60,7 +64,8 @@ export class EditSellerComponent implements OnInit {
       idCountry: ['', [Validators.required]],
       city: ['', [Validators.required]],
       postal: ['', []],
-      phone: ['', []]
+      phone: ['', []],
+      commission : ['', []]
     });
   }
 
@@ -115,10 +120,12 @@ export class EditSellerComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
     });
   }
 
@@ -132,10 +139,17 @@ export class EditSellerComponent implements OnInit {
     this.form.get('city').setValue({ description: this.seller.city });
     this.form.get('postal').setValue(seller.postalCode);
     this.form.get('phone').setValue(seller.phone);
+    this.form.get('commission').setValue(seller.commission);
   }
 
   save(): void {
-    this.form.get('city').setValue(this.form.value.city.description);
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.form.value.city.description) {
+      this.form.get('city').setValue(this.form.value.city.description);
+    } else {
+      this.form.get('city').setValue(this.form.value.city);
+    }
     this.userService.updateSeller$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.form.get('city').setValue(this.form.value.city);
@@ -175,7 +189,8 @@ export class EditSellerComponent implements OnInit {
         this.alertify.confirm(title, msg, () => {
           this.userService.recoveryPassword$(seller).subscribe(res => {
             if (res.code === CodeHttp.ok) {
-              this.translate.get('Key successfully restored', { value: 'Key successfully restored' }).subscribe((res: string) => {
+              this.translate.get('The user will receive an email with their password',
+              { value: 'The user will receive an email with their password' }).subscribe((res: string) => {
                 this.notification.success('', res);
               });
             } else {
@@ -193,6 +208,12 @@ export class EditSellerComponent implements OnInit {
   cancel(): void {
     this.canEdit === false ? this.canEdit = true : this.canEdit = false;
     this.setSeller(this.seller);
+  }
+
+  onSelectionChange(value) {
+    this.valid = true;
+    this.idValue = value.id;
+    this.form.get('commission').setValue(this.idValue);
   }
 }
 

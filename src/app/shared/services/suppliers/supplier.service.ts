@@ -30,11 +30,25 @@ export class SupplierService {
     return this.http.get(environment.apiUrl + 'suppliers/findByUser/' + id);
   }
 
+  public findById$(id): Observable<any> {
+    return this.http.get(environment.apiUrl + 'suppliers/findById/' + id);
+  }
+
   public saveSupplierUser$(supplier): Observable<any> {
     return this.http.post(environment.apiUrl + 'suppliers/saveSupplierUser', supplier);
   }
 
   public removeSupplierUser$(supplier): Observable<any> {
     return this.http.post(environment.apiUrl + 'suppliers/removeSupplierUser', supplier);
+  }
+
+  public download$(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'suppliers/download', {
+      responseType: 'blob'
+    });
+  }
+
+  public checkSupplierUser$(supplier): Observable<any> {
+    return this.http.post(environment.apiUrl + 'suppliers/checkSupplierUser', supplier);
   }
 }

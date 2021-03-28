@@ -4,22 +4,22 @@
       <input class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter customer search ...' | translate}}">
       <i class="fa fa-search"></i>
     </div>
-    <div class="col col-xl-1 col-lg-1">
+    <div class="col col-xl-4 col-lg-5 radio-buttons">
       <div class="custom-control custom-radio">
         <input type="radio" id="customRadio1" name="customRadio" value="3" class="custom-control-input" (change)="filter(-1)" checked>
         <label class="custom-control-label" for="customRadio1">{{ 'All' | translate }}</label>
       </div>
-    </div>
-    <div class="col col-xl-1 col-lg-1">
       <div class="custom-control custom-radio">
         <input type="radio" id="customRadio2" name="customRadio" value="0" class="custom-control-input" (change)="filter(0)">
         <label class="custom-control-label" for="customRadio2">{{ 'Actives' | translate }}</label>
       </div>
-    </div>
-    <div class="col col-xl-1 col-lg-1">
       <div class="custom-control custom-radio">
         <input type="radio" id="customRadio3" name="customRadio" value="1" class="custom-control-input" (change)="filter(1)">
         <label class="custom-control-label" for="customRadio3">{{ 'Inactives' | translate }}</label>
+      </div>
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadio4" name="customRadio" value="2" class="custom-control-input" (change)="filter(2)">
+        <label class="custom-control-label" for="customRadio4">{{ 'In Default' | translate }}</label>
       </div>
     </div>
   </div>
@@ -30,9 +30,19 @@
           <div class="align-self-center">
             {{ 'All Customers' | translate }}
           </div>
-          <div class="ml-auto p-2">
-            <button type="button" class="btn btn-main" (click)="openModal()">{{ 'Add' | translate }}
+          <div class="ml-auto p-2" *ngIf="connected">
+            <button type="button" class="btn btn-main" [disabled]="!connected" placement="top" (click)="openModal()">{{ 'Add' | translate }}
               <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class="ml-auto p-2" *ngIf="!connected">
+            <button type="button" class="btn btn-main disabled" placement="top" ngbTooltip="{{'To create a customer you must authorize to Quickbooks to complete the integration' | translate }}">{{ 'Add' | translate }}
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class="align-btn-detail">
+            <button type="button" class="btn btn-success btn-xs" (click)="downloadCustomer()">{{ 'Download PDF' | translate }}
+              <i class="fa fa-download"></i>
             </button>
           </div>
         </div>
@@ -105,11 +115,14 @@
                 <td class="table-tr" class="inactive" *ngIf="user.status === 1">
                   <div>{{'Inactive' | translate}}</div>
                 </td>
+                <td class="table-tr" class="in-default" *ngIf="user.status === 2">
+                  <div>{{'In Default' | translate}}</div>
+                </td>
                 <td class="table-tr td-table">{{user.name}}</td>
                 <td class="table-tr td-table">{{user.email}}</td>
                 <td class="table-tr td-table">{{user.company.companyName}}</td>
-                <td class="table-tr">{{user.username}}</td>
-                <td class="table-tr">{{user.company.country? (user.company.country.name | translate) : '' }}</td>
+                <td class="table-tr td-table">{{user.username}}</td>
+                <td class="table-tr td-table">{{user.company.country? (user.company.country.name | translate) : '' }}</td>
                 <td class="table-tr">
                   <div class="d-flex flex-row justify-content-around">
                     <div ngbDropdown class="d-inline-block dropdown">
@@ -117,10 +130,8 @@
                       <div ngbDropdownMenu>
                         <button class="dropdown-item" routerLink="/user/{{user.idUser}}">
                           <i class="fa fa-eye"></i> {{ 'View' | translate }}</button>
-                        <button *ngIf="user.status === 0" class="dropdown-item" (click)="changeStatus(user.idUser)">
-                          <i class="fa fa-times"></i> {{ 'Deactivate' | translate }}</button>
-                        <button *ngIf="user.status === 1" class="dropdown-item" (click)="changeStatus(user.idUser)">
-                          <i class="fa fa-check"></i> {{ 'Activate' | translate }}</button>
+                        <button class="dropdown-item" (click)="changeStatus(user)">
+                          <i class="fa fa-check"></i> {{ 'Change Status' | translate }}</button>
                       </div>
                     </div>
                   </div>

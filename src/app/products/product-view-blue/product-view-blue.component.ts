@@ -23,6 +23,7 @@ import { FileProductRequestedService } from '../../shared/services/fileproductre
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationBlueLightComponent } from '../modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -34,7 +35,9 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 export class ProductViewBlueComponent implements OnInit {
 
   products: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
   product: any;
+  productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -73,7 +76,8 @@ export class ProductViewBlueComponent implements OnInit {
               private modalService: NgbModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
@@ -106,20 +110,36 @@ export class ProductViewBlueComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService.findAll$().subscribe(res => {
+    this.spinner.show();
+    this.productService.findBySupplierInView$(6, true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
+        this.productService.findBySupplierAndInViewAndCategory$(6, false, 10).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.productsCode = res1.data;
+            this.setCodeProduct();
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
         this.getProductView();
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
+
   }
 
   getProductView() {
-    console.log(JSON.stringify(_.range(-15, -0.25, 0.25)));
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;
@@ -159,11 +179,28 @@ export class ProductViewBlueComponent implements OnInit {
   }*/
 
   setValueEye(eye) {
-    if (eye === "right") {
+    if (eye === 'right') {
       this.product.eyeRight = !this.product.eyeRight;
+      if (!this.product.eyeRight) {
+        this.clean('right');
+      }
     } else {
       this.product.eyeLeft = !this.product.eyeLeft;
+      if (!this.product.eyeLeft) {
+        this.clean('left');
+      }
     }
+  }
+
+  setCodeProduct() {
+    const productName = this.product.name;
+    let prCode;
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, productName)) {
+        prCode = pr;
+      }
+    });
+    this.productCode = prCode;
   }
 
   setEyeSelected() {
@@ -180,26 +217,20 @@ export class ProductViewBlueComponent implements OnInit {
   setClient() {
     if (this.user.role.idRole === 3) {
       this.client = this.currentUser.idUser;
-      this.product.client = this.currentUser.name;
+      let accSpct = !!this.currentUser.accSpct ?  this.currentUser.accSpct + ' - ' : '';
+      this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
       this.findShippingAddress(this.client);
-
     } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
-          // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
-          if (this.product.supplier.idSupplier === 1) {
-            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-              return !(u.cardCode === null || u.cardCode === '');
-            });
-          } else if ( this.product.supplier.idSupplier === 4) {
-            // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
-            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-              return !(u.certificationCode === null || u.certificationCode === '');
-            });
-          } else {
-            this.listCustomers = this.listCustomersAux;
-          }
+          this.listCustomers = this.listCustomersAux;
+          //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.country.name + ' ' + i.name; return i; });
+          this.listCustomers.map((i) => {
+            let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
+            i.fullName = accSpct + i.name + ' | ' + i.country.name;
+            return i;
+          });
         }
       });
     }
@@ -257,11 +288,12 @@ export class ProductViewBlueComponent implements OnInit {
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.productCopy;
+    let productCode = this.productCode;
     let productsSelected = this.productsSelected;
 
     _.each(productsSelected, function(productSelected, index) {
 
-      productSelected.id = product.idProduct;
+      productSelected.id = productCode.idProduct;
       productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
 
@@ -309,14 +341,14 @@ export class ProductViewBlueComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-    this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationBlueLightComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationBlueLightComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.product = this.productCode;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
@@ -328,7 +360,7 @@ export class ProductViewBlueComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient){
+    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }
 
@@ -338,6 +370,9 @@ export class ProductViewBlueComponent implements OnInit {
           isValid = false;
         }
       });
+      if (!this.product.quantityRight) {
+        isValid = false;
+      }
     }
 
     if (this.product.eyeLeft) {
@@ -346,6 +381,9 @@ export class ProductViewBlueComponent implements OnInit {
           isValid = false;
         }
       });
+      if (!this.product.quantityLeft) {
+        isValid = false;
+      }
     }
     return isValid;
   }
@@ -397,6 +435,28 @@ export class ProductViewBlueComponent implements OnInit {
       this.listFileBasket.push(fileProductRequest);
     } else {
       console.log('error file');
+    }
+  }
+
+  clean(eye) {
+    let parameters;
+    if (eye === 'right') {
+      parameters = this.product.parametersRight;
+      this.product.quantityRight = '';
+
+    } else {
+      parameters = this.product.parametersLeft;
+      this.product.quantityLeft = '';
+    }
+    // parameter
+    _.each(parameters, function(param) {
+          param.selected = null;
+          param.sel = null;
+    });
+    if (eye === 'right') {
+      this.product.parametersRight = parameters;
+    } else {
+      this.product.parametersLeft = parameters;
     }
   }
 }

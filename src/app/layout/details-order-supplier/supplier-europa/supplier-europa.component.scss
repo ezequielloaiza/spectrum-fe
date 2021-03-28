@@ -1,3 +1,5 @@
+@import "../../../../styles/spectrum/spectrum";
+
 .font-text{
   font-weight:normal !important;
   align-content: center !important;
@@ -5,4 +7,55 @@
 
 .align-item{
   text-align: center !important;
+}
+
+.item{
+  color: #868e96;
+}
+
+.separators {
+  border-top: 1.5px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.steps {
+  margin-left: 1rem;
+  display: flex;
+
+  > dt:nth-child(1) {
+    margin-right: 15px;
+  }
+}
+
+.step-values {
+  >div:nth-child(2) {
+    padding-right: 0;
+  }
+  >div:nth-child(3) {
+   padding-left: 0;
+  }
+}
+
+.display-edit {
+  justify-content: flex-end;
+  font-size: 20px;
+  color: $icon-edit-detail;
+}
+
+.padding-params {
+  padding: 15px 0 2em;
+}
+
+.edit{
+  margin-top: -200px;
+  margin-bottom: 160px;
+}
+
+
+@media only screen and (max-width: 575px) {
+  .edit {
+    margin: -450px -52px 412px 0px;
+  }
+
 }

@@ -52,7 +52,7 @@ export class EditSupplierComponent implements OnInit {
             suppliers = _.concat(suppliers, _supplier);
           }
         });
-        this.listSupplier = suppliers;  
+        this.listSupplier = suppliers;
       }
     });
   }
@@ -85,23 +85,36 @@ export class EditSupplierComponent implements OnInit {
   }
 
   remove(id: any) {
-    this.translate.get('Supplier', { value: 'Supplier' }).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to delete this supplier?', { value: 'Are you sure you want to delete this supplier?' })
-      .subscribe((msg: string) => {
-        this.alertify.confirm(title, msg, () => {
-          const obj = {
-            userId: this.id,
-            supplierId: id
-          }
-          this.supplierService.removeSupplierUser$(obj).subscribe(res => {
-            this.translate.get('Supplier deleted', { value: 'Supplier changed' }).subscribe((res: string) => {
-              this.notification.success('', res);
-              this.getSupplierByUser(this.id);
+    const obj = {
+      userId: this.id,
+      supplierId: id
+    };
+
+    this.supplierService.checkSupplierUser$(obj).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+         if (res.data.length > 0) {
+          this.translate.get('The client has orders associated with the provider',
+           { value: 'The client has orders associated with the provider' }).subscribe((res: string) => {
+            this.notification.warning('', res);
+          });
+         } else {
+          this.translate.get('Supplier', { value: 'Supplier' }).subscribe((title: string) => {
+            this.translate.get('Are you sure you want to delete this supplier?',
+            { value: 'Are you sure you want to delete this supplier?' })
+            .subscribe((msg: string) => {
+              this.alertify.confirm(title, msg, () => {
+                this.supplierService.removeSupplierUser$(obj).subscribe(res => {
+                  this.translate.get('Supplier deleted', { value: 'Supplier changed' }).subscribe((res: string) => {
+                    this.notification.success('', res);
+                    this.getSupplierByUser(this.id);
+                  });
+                });
+              }, () => {
+              });
             });
           });
-        }, () => {
-        });
-      });
+         }
+      }
     });
   }
 

@@ -22,7 +22,7 @@ import * as _ from 'lodash';
 export class ShippingAddressModalComponent implements OnInit {
 
   form: FormGroup;
-  companies: Array<any>;
+  companies: any;
   address: any;
   action: string;
   searching = false;
@@ -32,6 +32,7 @@ export class ShippingAddressModalComponent implements OnInit {
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
   locale: any;
+  companyName: any;
 
   constructor(
     public modalReference: NgbActiveModal,
@@ -48,7 +49,7 @@ export class ShippingAddressModalComponent implements OnInit {
   initializeForm() {
     this.form = this.formBuilder.group({
       id        : [this.action === 'edit' ? this.address.idAddress : ''],
-      companyId : [this.action === 'edit' ? this.address.company.idCompany : '', [ Validators.required]],
+      companyId : [this.action === 'edit' ? this.address.company.idCompany : '', []],
       name      : [this.action === 'edit' ? this.address.name : '', [ Validators.required]],
       state     : [this.action === 'edit' ? this.address.state : ''],
       countryId   : [this.action === 'edit' && this.address.country ? this.address.country.idCountry : '', [ Validators.required]],
@@ -84,11 +85,19 @@ export class ShippingAddressModalComponent implements OnInit {
     )
 
   save(): void {
-    if (this.form.get('city').value.description) {
-      this.form.get('city').setValue(this.googleService.getCity() ? this.googleService.getCity() : this.address.city);
+    this.form.get('companyId').setValue(this.companies.idCompany);
+
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.address.city.description) {
+      this.form.get('city').setValue(this.address.city.city.description);
+    } else {
+      this.form.get('city').setValue(this.address.city);
     }
+
     if (this.action !== 'edit') {
       this.shippingAddressService.save$(this.form.value).subscribe(res => {
+        this.form.get('city').setValue({description: this.form.value.city});
         if (res.code === CodeHttp.ok) {
           this.close();
           this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
@@ -106,6 +115,7 @@ export class ShippingAddressModalComponent implements OnInit {
       });
     } else {
       this.shippingAddressService.update$(this.form.value).subscribe(res => {
+        this.form.get('city').setValue({description: this.form.value.city});
         if (res.code === CodeHttp.ok) {
           this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
             this.notification.success('', res);
@@ -127,7 +137,8 @@ export class ShippingAddressModalComponent implements OnInit {
   getCompanies() {
     this.companyService.findAllByCompany$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.companies = res.data;
+        this.companies = res.data[0];
+        this.companyName = this.companies.companyName;
       } else {
         console.log(res.errors[0].detail);
       }
@@ -160,10 +171,12 @@ export class ShippingAddressModalComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('countryId').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('countryId').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
     });
   }
 

@@ -4,12 +4,16 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Buy } from '../../../../shared/models/buy';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
-import { OrderService, UserService } from '../../../../shared/services';
+import { OrderService, UserService, ProductsRequestedService } from '../../../../shared/services';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Company } from '../../../../shared/models/company';
 import { UserStorageService } from '../../../../http/user-storage.service';
 import { NotificationBalanceOrderComponent } from '../../../notification/notification-balance-order/notification-balance-order.component';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
+import { ProductRequested } from '../../../../shared/models/productrequested';
+import { StatusUser } from '../../../../shared/enum/status-user.enum';
+import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
 
 @Component({
   selector: 'app-summary-products',
@@ -23,18 +27,25 @@ export class SummaryProductsComponent implements OnInit {
   buyBasket: Buy;
   quantity: any;
   user: any;
+  client: any;
   balace: any;
   company: Company = new Company();
   available: any;
+  list: Array<any>;
+  listAux: Array<any>;
+  inserts = 0;
+  validRecords = 0;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
+              private alertify: AlertifyService,
               private translate: TranslateService,
               private orderService: OrderService,
               private spinner: NgxSpinnerService,
               private userService: UserService,
               private userStorageService: UserStorageService,
               private modalService: NgbModal,
-              public router: Router) {
+              public router: Router,
+              private productRequestedService: ProductsRequestedService) {
       this.user = JSON.parse(userStorageService.getCurrentUser());
               }
 
@@ -47,8 +58,17 @@ export class SummaryProductsComponent implements OnInit {
   }
 
   generateOrder() {
-    this.validateAvailableBalance();
-    if (this.available) {
+    // this.validateAvailableBalance();
+    if (this.client.status === StatusUser.InDefault) {
+      this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
+        this.translate.get('Your account was deactivated. Please contact with the administrator',
+        { value: 'Your account was deactivated. Please contact with the administrator' })
+        .subscribe((msg: string) => {
+          this.alertify.warning(msg);
+          this.close();
+        });
+      });
+    } else {
       this.spinner.show();
       this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
         if (res.code === CodeHttp.ok) {
@@ -65,18 +85,16 @@ export class SummaryProductsComponent implements OnInit {
       }, error => {
         console.log('error', error);
       });
-   } else {
-     this.openModal();
-     this.close();
-   }
+    }
   }
 
 
   getBalance() {
     this.userService.findById$(this.buyBasket.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-         this.company = res.data.company;
-         this.balace = this.company.balance;
+        this.client = res.data;
+        this.company = res.data.company;
+        this.balace = this.company.balance;
       } else {
         console.log(res.errors[0].detail);
       }
@@ -94,7 +112,8 @@ export class SummaryProductsComponent implements OnInit {
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open( NotificationBalanceOrderComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( NotificationBalanceOrderComponent,
+    { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
     modalRef.componentInstance.buyBasketModal = this.buyBasket;
     modalRef.componentInstance.type = 1;
     modalRef.result.then((result) => {
@@ -111,6 +130,23 @@ export class SummaryProductsComponent implements OnInit {
       this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 1 } });
     } else if ( this.user.role.idRole === 2) {
       this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
+    }
+  }
+
+
+
+  definePriceInserts(membership, basket) {
+    let pricesAditionalInserts = JSON.parse(basket.productRequested.product.infoAditional)[0].values[1];
+    switch (membership) {
+      case 1:
+        this.inserts = pricesAditionalInserts.values[0].price;
+        break;
+      case 2:
+        this.inserts =  pricesAditionalInserts.values[1].price;
+        break;
+      case 3:
+        this.inserts = pricesAditionalInserts.values[2].price;
+        break;
     }
   }
 }

@@ -24,6 +24,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationMagicLookComponent } from '../modals/confirmation-buy/confirmation-magic-look/confirmation-magic-look.component';
 import { debug } from 'util';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -35,10 +36,12 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 export class ProductViewMagicComponent implements OnInit {
 
   products: Array<any> = new Array;
+  productsCode: Array<any> = new Array;
   boxes: Array<any> = new Array;
   boxesCopy: any;
   tones: Array<any> = new Array;
   product: any;
+  productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -79,7 +82,8 @@ export class ProductViewMagicComponent implements OnInit {
               private modalService: NgbModal,
               private alertify: AlertifyService,
               private notification: ToastrService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private spinner: NgxSpinnerService) {
     this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
     this.user = JSON.parse(userStorageService.getCurrentUser());
 
@@ -112,15 +116,31 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService.findAll$().subscribe(res => {
+    this.spinner.show();
+    this.productService.findBySupplierInView$(5, true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
+        this.productService.findBySupplierAndInViewAndCategory$(5, false, 10).subscribe(res1 => {
+          if (res1.code === CodeHttp.ok) {
+            this.productsCode = res1.data;
+            this.setCodeProduct();
+          } else {
+            console.log(res1.errors[0].detail);
+            this.spinner.hide();
+          }
+        }, error => {
+          console.log('error', error);
+          this.spinner.hide();
+        });
         this.getProductView();
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
@@ -138,6 +158,17 @@ export class ProductViewMagicComponent implements OnInit {
     this.boxes.push(parametersBox);
     this.setClient();
     this.setPrice();
+  }
+
+  setCodeProduct() {
+    const productName = this.product.name;
+    let prCode;
+    _.each(this.productsCode, function (pr) {
+      if (_.includes(pr.name, productName)) {
+        prCode = pr;
+      }
+    });
+    this.productCode = prCode;
   }
 
   addBox() {
@@ -181,26 +212,20 @@ export class ProductViewMagicComponent implements OnInit {
   setClient() {
     if (this.user.role.idRole === 3) {
       this.client = this.currentUser.idUser;
-      this.product.client = this.currentUser.name;
+      let accSpct = !!this.currentUser.accSpct ?  this.currentUser.accSpct + ' - ' : '';
+      this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
       this.findShippingAddress(this.client);
-
     } else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
-          // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
-          if (this.product.supplier.idSupplier === 1) {
-            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-              return !(u.cardCode === null || u.cardCode === '');
-            });
-          } else if ( this.product.supplier.idSupplier === 4) {
-            // Si el proveedor del producto es Euclid se debe preguntar por el numero de certificacion
-            this.listCustomers = _.filter(this.listCustomersAux, function(u) {
-              return !(u.certificationCode === null || u.certificationCode === '');
-            });
-          } else {
-            this.listCustomers = this.listCustomersAux;
-          }
+          this.listCustomers = this.listCustomersAux;
+          //this.listCustomers.map((i) => { i.fullName = i.accSpct + ' ' + i.country.name + ' ' + i.name; return i; });
+          this.listCustomers.map((i) => {
+            let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
+            i.fullName = accSpct + i.name + ' | ' + i.country.name;
+            return i;
+          });
         }
       });
     }
@@ -280,11 +305,12 @@ export class ProductViewMagicComponent implements OnInit {
   buildProductsSelected() {
     let productsSelected = [];
     let product = this.productCopy;
+    let productCode = this.productCode;
     let boxes = this.boxesCopy;
     let boxesProduct = [];
 
     let productSelected = {
-      id      : product.idProduct,
+      id      : productCode.idProduct,
       quantity: 0,
       price   : product.priceSale,
       detail  : {},
@@ -331,14 +357,15 @@ export class ProductViewMagicComponent implements OnInit {
     });
     this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
-    this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
+    // this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     this.openModal(type);
   }
 
   openModal(type): void {
-    const modalRef = this.modalService.open( ConfirmationMagicLookComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( ConfirmationMagicLookComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.product = this.productCode;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
@@ -350,7 +377,7 @@ export class ProductViewMagicComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    var totalQuantity =_.sumBy(this.boxes, 'quantity');
+    var totalQuantity = _.sumBy(this.boxes, 'quantity');
     if ( totalQuantity < 250 ) {
       return false;
     }
@@ -360,6 +387,9 @@ export class ProductViewMagicComponent implements OnInit {
     _.each(this.boxes, function(product) {
       _.each(product.parameters, function(param){
         if (param.selected === null || param.selected === undefined) {
+          isValid = false;
+        }
+        if (!product.quantity) {
           isValid = false;
         }
       });
@@ -418,7 +448,7 @@ export class ProductViewMagicComponent implements OnInit {
   }
 
   setPriceBoxes(quantity) {
-    if (quantity%50 === 0) {
+    if (quantity%10 === 0) {
       var totalQuantity = _.sumBy(this.boxes, 'quantity');
       let info = JSON.parse(this.product.infoAditional);
       let  membership = 0;
@@ -426,7 +456,7 @@ export class ProductViewMagicComponent implements OnInit {
       if (this.user.role.idRole === 3) {
         membership = this.currentUser.membership.idMembership;
       } else {
-        if (this.clientSelected !== undefined) {
+        if (this.clientSelected !== undefined && this.clientSelected !== '') {
           membership = this.clientSelected.membership.idMembership;
         }
       }

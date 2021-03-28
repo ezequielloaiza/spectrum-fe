@@ -1,0 +1,47 @@
+@import "../../../../styles/spectrum/spectrum";
+.font-text{
+  font-weight:normal !important;
+  align-content: center !important;
+}
+
+.align-item{
+  text-align: center !important;
+}
+
+.display-edit {
+  justify-content: flex-end;
+  font-size: 20px;
+  color: $icon-edit-detail;
+}
+
+.padding-params {
+  padding:  0 2em;
+}
+
+.edit{
+  margin-top: -240px;
+  margin-bottom: 225px;
+}
+
+.code-iris {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .items {
+    white-space: nowrap;
+  }
+
+  .value{
+    font-weight: 500 !important;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .edit {
+    margin: -585px -52px 555px 0px;
+  }
+
+}
+
+

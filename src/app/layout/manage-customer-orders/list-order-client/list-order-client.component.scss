@@ -12,6 +12,13 @@
   }
 }
 
+.filters {
+  padding-left: 2%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
 .sp-card {
   position: relative;
   display: flex;
@@ -106,8 +113,6 @@
 
 .filter {
   padding-top: 10px;
-  padding-left: 25px;
-  padding-right: 25px;
 }
 
 .active {
@@ -121,6 +126,10 @@
   text-align: center;
   padding-left: 15%;
   font-size: 14px;
+
+  .center-span {
+    margin-right: 20px;
+  }
 }
 
 .div-date{
@@ -141,6 +150,16 @@
   font-size: 14px;
   font-weight: 600;
   text-align: center;
+
+  &.left-span {
+    text-align: left;
+  }
+
+  &.right-span {
+    text-align: rigth;
+  }
+
+
 }
 
 .title-payment{
@@ -165,7 +184,6 @@
 
   > div {
     &:first-child {
-      border-bottom: 1px solid #bfbfbf;
       font-size: .9em;
       color: gray;
       padding: .4em 0;
@@ -178,11 +196,13 @@
         }
       }
 
+      /*
       div:nth-child(3) {
         font-size: .8em;
         color: grey;
         font-weight: bold;
       }
+      */
     }
 
     &.product {
@@ -203,7 +223,7 @@
         color: gray;
 
         div:last-child {
-          color: #ffc107; font-weight: 600;
+          font-weight: 600;
         }
       }
 
@@ -212,17 +232,36 @@
       }
 
       div:nth-child(4) > div {
-        color: #ffc107; font-weight: 600;
+        font-weight: 600;
         padding-left: 90px;
       }
     }
+
+    &:nth-child(2) {
+      border-top: 1px solid #bfbfbf;
+    }
   }
+
   .link {
     color: $bg-blue;
     cursor: pointer;
 
     &:hover {
       text-decoration: underline;
+    }
+  }
+
+  .more-details {
+    display: flex;
+    justify-content: flex-end;
+
+    .more-link {
+      color: $bg-blue;
+    }
+
+    label:hover {
+      color: $bg-blue;
+      cursor: pointer;
     }
   }
 }
@@ -258,7 +297,7 @@
 .dropdown-menu-actions{
   left: -70% !important;
   font-size: 0.8rem;
-  width: 8rem;
+  width: 9.1rem;
   &::before {
     position: absolute;
     top: -7px;
@@ -343,7 +382,7 @@
         }
 
         div:nth-child(4) > div {
-          color: #ffc107; font-weight: 600;
+          font-weight: 600;
           padding-left: 0px;
         }
       }
@@ -458,7 +497,7 @@
         }
 
         div:nth-child(4) > div {
-          color: #ffc107; font-weight: 600;
+          font-weight: 600;
         }
       }
     }
@@ -545,6 +584,25 @@
       content: '';
     }
   }
+
 }
 
+.selection-all{
+  margin-left: 1rem;
+}
 
+.margin {
+  margin-left: 0.3rem;
+  margin-top: -2rem;
+}
+
+::ng-deep .modal-dialog {
+  max-width: 1000px;
+  width: 120%;
+}
+
+.btn-disabled {
+  cursor: not-allowed !important;
+  border-color: gray;
+  opacity: .5;
+}

@@ -9,6 +9,14 @@ import { ProductViewMagicComponent } from './product-view-magicLook/product-view
 import { ProductViewBlueComponent } from './product-view-blue/product-view-blue.component';
 import { RoleGuard } from '../shared';
 import { ProductsListInternalComponent } from './products-lists-internal/products-lists-internal.component';
+import { ProductViewFluoStripsComponent } from './product-view-fluo-strips/product-view-fluo-strips.component';
+import { ProductViewSpectrumSalineComponent } from './product-view-spectrum-saline/product-view-spectrum-saline.component';
+import { ProductViewLenticonComponent } from './product-view-lenticon/product-view-lenticon.component';
+import { ProductViewMedmontComponent } from './product-view-medmont/product-view-medmont.component';
+import { ProductViewSynergeyesComponent } from './product-view-synergeyes/product-view-synergeyes.component';
+import { ProductViewOrionComponent } from './product-view-orion/product-view-orion.component';
+import { ConsultationFormComponent } from './consultation-form/consultation-form.component';
+import { ProductViewXsbComponent } from './product-view-xsb/product-view-xsb.component';
 
 const routes: Routes = [
   {
@@ -23,6 +31,15 @@ const routes: Routes = [
         { path: ':id/product-view-euclid', component: ProductViewEuclidComponent, data: { option: 'ProductsViewEuclid' }},
         { path: ':id/product-view-magic', component: ProductViewMagicComponent, data: { option: 'ProductsViewMagic' }},
         { path: ':id/product-view-blue', component: ProductViewBlueComponent, data: { option: 'ProductsViewBlue' }},
+        { path: ':id/product-view-fluo-strips', component: ProductViewFluoStripsComponent, data: { option: 'ProductsViewFluoStrips' }},
+        { path: ':id/product-view-spectrum-saline', component: ProductViewSpectrumSalineComponent, data: { option: 'ProductsViewSpectrumSaline' }},
+        { path: ':id/product-view-lenticon', component: ProductViewLenticonComponent, data: { option: 'ProductsViewLenticon' }},
+        { path: ':id/product-view-medmont', component: ProductViewMedmontComponent, data: { option: 'ProductViewMedmontComponent' }},
+        { path: ':id/product-view-synergeyes', component: ProductViewSynergeyesComponent, data: { option: 'ProductViewSynergeyesComponent' }},
+        { path: ':id/product-view-orion', component: ProductViewOrionComponent, data: { option: 'ProductViewOrionComponent' } },
+        { path: ':id/product-view-xsb/:supplierId', component: ProductViewXsbComponent, data: { option: 'ProductViewXsbComponent' }},
+        { path: ':id/consultation-form', component: ConsultationFormComponent, data: { option: 'ConsultationFormComponent' }}
+
     ] , data: { option: 'ProductsList' }
 }
 

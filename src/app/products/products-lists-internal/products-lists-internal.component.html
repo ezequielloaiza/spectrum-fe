@@ -1,4 +1,3 @@
-<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
 <br>
 <br>
 <br>
@@ -11,10 +10,29 @@
       <li class="breadcrumb-item">
 				<a class="link" href="Javascript:void(0)" [routerLink]="['/products']"><i class="fa fa-dashboard"></i> {{ 'Products List' | translate }}</a>
 			</li>
-			<li class="breadcrumb-item active">
-				<i class="fa fa-edit"></i> {{ nameSupplier }}</li>
+			<li class="breadcrumb-item active" [hidden]="idSupplier === 1">
+        <i class="fa fa-edit"></i> {{ nameSupplier }}
+      </li>
+
+      <!--Aditionales Markennovy-->
+      <li class="breadcrumb-item active" [hidden]="idSupplier !== 1 || currentFather !== ''">
+          <i class="fa fa-edit"></i> {{ nameSupplier }}
+        </li>
+      <li class="breadcrumb-item active" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
+        <a class="link"  href="Javascript:void(0)" (click)="backToFathersHeader()"><i class="fa fa-edit"></i> {{ nameSupplier }}</a>
+      </li>
+      <li class="breadcrumb-item active" [hidden]="idSupplier !== 1 || showFathersMarkennovy">
+        <a class="link"  href="Javascript:void(0)" (click)="showPackingsMarkennovy = true"><i class="fa fa-edit"></i> {{ currentFather }}</a>
+      </li>
+      <li class="breadcrumb-item active" [hidden]="idSupplier !== 1 || showFathersMarkennovy || !currentPacking || showPackingsMarkennovy">
+        <i class="fa fa-edit"></i> {{ currentPacking }}
+      </li>
 		</ol>
-	</div>
+  </div>
+
+  <div class="breadcrumb-item back">
+    <a class="link" href="Javascript:void(0)" [routerLink]="['/products']"><i class="fa fa-arrow-left"></i> {{ 'Back to Product List' | translate }}</a>
+  </div>
 </div>
 <div class="middleBar" [hidden]="showSuppliers">
   <div class="row display-table">
@@ -24,40 +42,45 @@
     <div class="col-sm-6 vertical-align text-center">
       <form>
         <div class="row grid-space-1">
-          <div class="col col-xl-12 col-lg-12 search">
-            <input type="text" class="form-control" (keyup)="filter('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
+          <div class="col col-xl-12 col-lg-12 search" [hidden]="showPackingsMarkennovy">
+            <input type="text" class="form-control" [hidden]="idSupplier === 1" (keyup)="filter('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
+            <input type="text" class="form-control" [hidden]="idSupplier !== 1 || !showFathersMarkennovy" (keyup)="filterByFather('byName')" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
+            <input type="text" class="form-control" [hidden]="idSupplier !== 1 || showFathersMarkennovy" (keyup)="filterByPacking(currentPacking)" placeholder=" {{ 'Enter product name...' | translate }}" name="filterName" [(ngModel)]="filterName">
             <i class="fa fa-search"></i>
           </div>
         </div>
         <!-- end row -->
       </form>
     </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio1" name="customRadio" value="3" class="custom-control-input" (change)="filter('All')" checked>
-        <label class="custom-control-label" for="customRadio1">{{ 'All' | translate }}</label>
-      </div>
-    </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio2" name="customRadio" value="0" class="custom-control-input" (change)="filter('Monthly')">
-        <label class="custom-control-label" for="customRadio2">{{ 'Monthly' | translate }}</label>
-      </div>
-    </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio3" name="customRadio" value="1" class="custom-control-input" (change)="filter('3-Monthly')">
-        <label class="custom-control-label" for="customRadio3">{{ '3-Monthly' | translate }}</label>
-      </div>
-    </div>
-    <div class="col col-xl-1 col-lg-1 filter" [hidden]="idSupplier !== 1">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="customRadio4" name="customRadio" value="2" class="custom-control-input" (change)="filter('Conventional')">
-        <label class="custom-control-label" for="customRadio4">{{ 'Conventional' | translate }}</label>
-      </div>
-    </div>
     <!-- end col -->
   </div>
+  <!--<div class="row display-table" [hidden]="idSupplier !== 1 || !showFathersMarkennovy">
+
+     <div class="filter">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadioMarkennovy1" name="customRadio" value="3" class="custom-control-input" (change)="filterByFather('All')" checked>
+        <label class="custom-control-label" for="customRadioMarkennovy1">{{ 'All' | translate }}</label>
+      </div>
+    </div>
+    <div class="filter">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadioMarkennovy2" name="customRadio" value="0" class="custom-control-input" (change)="filterByFather('Monthly')">
+        <label class="custom-control-label" for="customRadioMarkennovy2">{{ 'Monthly' | translate }}</label>
+      </div>
+    </div>
+    <div class="filter">
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadioMarkennovy3" name="customRadio" value="1" class="custom-control-input" (change)="filterByFather('3-Monthly')">
+        <label class="custom-control-label" for="customRadioMarkennovy3">{{ '3-Monthly' | translate }}</label>
+      </div>
+    </div>
+    <div class="filter" >
+      <div class="custom-control custom-radio">
+        <input type="radio" id="customRadioMarkennovy4" name="customRadio" value="2" class="custom-control-input" (change)="filterByFather('Conventional')">
+        <label class="custom-control-label" for="customRadioMarkennovy4">{{ 'Conventional' | translate }}</label>
+      </div>
+    </div>
+  </div>-->
   <!-- end  row -->
 </div>
 
@@ -65,27 +88,98 @@
   <div class="row">
     <!--THUMBNAILS PRODUCTS-->
     <div class="col-sm-1 col-md-1 col-lg-1"></div>
-
     <div class="col-sm-10 col-md-10 col-lg-10">
       <div class="row">
-        <div class="col-md-4 box-shadow" *ngFor="let product of products">
-          <div class="mb-4 box-shadow">
-            <img class="card-img-top" src="{{ product.mainImg }}" (click)="redirectView(product)">
-            <h4 class="product-name" (click)="redirectView(product)">
-              <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
-              {{ product.name }}
-            </h4>
+
+        <!-- NEW FILTER-->
+        <div class="col-md-4" [hidden]="!showFathersMarkennovy || !showFilterMarkennovy" *ngFor="let filter of listFilterMarkennovy">
+          <div class="mb-4">
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="filterByFather(filter.replacementPeriod)">
+                <i class="prodTeaser-more">{{ 'View' | translate }}</i>
+              </div>
+              <div class="prodTeaser-inner">
+                <img
+                  class="card-img-top-teaser"
+                  src="{{ filter.mainImg }}"
+                />
+              </div>
+              <h4 class="product-name">
+                {{ filter.replacementPeriod | translate }}
+              </h4>
+            </a>
+          </div>
+        </div>
+
+        <!--Only products father of Markennovy-->
+        <div [hidden]="!showFathersMarkennovy || showFilterMarkennovy" class="col-md-4" *ngFor="let product of productsMarkennovy">
+          <div class="mb-4">
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="redirectPacking(product)">
+                <i class="prodTeaser-more">{{ 'View' | translate }}</i>
+              </div>
+              <div class="prodTeaser-inner">
+                <img
+                  class="card-img-top-teaser"
+                  src="{{ product.mainImg }}"
+                />
+              </div>
+              <h4 class="product-name">
+                {{ product.name }}
+              </h4>
+            </a>
+          </div>
+        </div>
+
+        <!--Only packing markennovy-->
+        <div [hidden]="!showPackingsMarkennovy" class="col-md-4" *ngFor="let packing of packings">
+          <div class="mb-4">
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="redirectFather(packing.product, packing.type)">
+                <i class="prodTeaser-more">{{ 'View' | translate }}</i>
+              </div>
+              <div class="prodTeaser-inner">
+                <img
+                  class="card-img-top-teaser"
+                  src="{{ packing.product.mainImg }}"
+                />
+              </div>
+              <h4 class="product-name">
+                {{ packing.type }}
+              </h4>
+            </a>
+          </div>
+        </div>
+
+        <!--Products without Markennovy-->
+        <div [hidden]="showFathersMarkennovy || showPackingsMarkennovy || (product.status !== 1 && user.role.idRole !== 1)" class="col-md-4" *ngFor="let product of products">
+          <div class="mb-4" >
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="redirectView(product)">
+                <i class="prodTeaser-more">{{ 'View' | translate }}</i>
+              </div>
+              <div class="prodTeaser-inner">
+                <img
+                  class="card-img-top-teaser"
+                  src="{{ product.mainImg }}"
+                />
+              </div>
+                <h4 class="product-name">
+                  <i class="fa fa-exclamation-triangle" placement="top" ngbTooltip="{{'Inactive' | translate}}" [hidden]="product.status === 1"></i>
+                  {{ product.name }}
+                </h4>
+            </a>
             <div class="card-body">
               <p class="card-text"> {{ product.descriptionShort }}</p>
               <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
-                <!--<del class="price-base">${{ product.priceBase }}</del>&nbsp;-->
-                <span [hidden]="product.supplier.idSupplier === 5" class="price-new">{{ product.priceSale | currency : "USD $" }}</span>
-                <span [hidden]="product.supplier.idSupplier !== 5" class="price-new">{{ priceFrom | currency : "USD $"}}{{priceFrom ? ' - ':''}}{{ priceUp | currency : "$"}}</span>
+                <span [hidden]="product.supplier.idSupplier === 2" class="price-new">{{ product.priceSale | currency : "USD $" }}</span>
               </div>
               <div class="product-btns">
                 <div class="btn-group">
                   <button (click)="redirectView(product)" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-primary">{{ 'View' | translate}}</button>
-                  <button (click)="open(product,'edit')" [hidden]="user.role.idRole === 3 || user.role.idRole === 2" type="button" class="btn btn-sm btn-outline-secondary">{{ 'Edit' | translate }}</button>
+                  <!--
+                  <button (click)="open(product,'edit')" [hidden]="user.role.idRole === 3 || user.role.idRole === 2"  type="button" class="btn btn-sm btn-outline-secondary">{{ 'Edit' | translate }}</button>
+                  -->
                 </div>
               </div>
             </div>

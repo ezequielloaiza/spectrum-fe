@@ -17,32 +17,58 @@
     </div>
   </div>
   -->
+  <!--<button (click)="loginSage()">sage</button>-->
   <div class="">
-    <div class="row">
-      <div class="col-lg-3">
+    <div class="row" id="main">
+      <div class="col-lg-4" *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
                 <span class="label label-success pull-right">Monthly</span>
                 -->
-            <h5>Pending Payments</h5>
+            <h5>{{ 'Pending Payments to Check' | translate }}</h5>
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">$5.000,00</h1>
+              <h1 class="no-margins card-text">{{ pendingPayment | currency : "USD $" }}</h1>
               <i class="fa fa-credit-card"></i>
             </div>
             <br>
-            <div class="stat-percent font-bold text-success">98%
-              <i class="fa fa-bolt"></i>
+            <div class="stat-percent text-info">
+              <small>
+                <a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
             </div>
-            <small>
-              <a href="">View Details</a>
-            </small>
           </div>
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-4" *ngIf="user.role.idRole === 3">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <!--
+                <span class="label label-success pull-right">Monthly</span>
+                -->
+            <h5>{{ 'Payments Awaiting Confirmation' | translate }}</h5>
+          </div>
+          <div class="ibox-content">
+            <div class="info-card icon-card">
+              <h1 class="no-margins card-text">{{ pendingPayment | currency : "USD $" }}</h1>
+              <i class="fa fa-credit-card"></i>
+            </div>
+            <br>
+            <div class="stat-percent text-info">
+              <small>
+                <a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
@@ -52,8 +78,8 @@
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">{{ordersS}}</h1>
-              <i class="fa fa-file"></i>
+              <h1 class="no-margins card-text">{{orders | number:'2.0-0'}}</h1>
+              <i class="fa fa-truck"></i>
             </div>
             <br>
             <div *ngIf="user.role.idRole === 3">
@@ -77,30 +103,55 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-2" *ngIf="user.role.idRole === 3">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
                 <span class="label label-primary pull-right">Today</span>
                 -->
-            <h5>Overdue Customers</h5>
+            <h5>{{ 'Overdue Invoices' | translate }}</h5>
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">08</h1>
-              <i class="fa fa-users"></i>
+              <h1 class="no-margins card-text">{{ overdueInvoices | number:'2.0-0' }}</h1>
+              <i class="fa fa-file"></i>
             </div>
             <br>
-            <div class="stat-percent font-bold text-navy">44%
-              <i class="fa fa-level-up"></i>
+            <div class="stat-percent text-info">
+              <small>
+                <a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
             </div>
-            <small>
-              <a href="">{{ 'View Details' | translate }}</a>
-            </small>
           </div>
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-2" *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <!--
+                <span class="label label-primary pull-right">Today</span>
+                -->
+            <h5>{{ 'Overdue Customers' | translate }}</h5>
+          </div>
+          <div class="ibox-content">
+            <div class="info-card icon-card">
+              <h1 class="no-margins card-text">{{ overdueCustomers | number:'2.0-0' }}</h1>
+              <i class="fa fa-users"></i>
+            </div>
+            <br>
+            <div class="stat-percent text-info">
+              <small>
+                <a [routerLink]="['/payments']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <!--
@@ -110,8 +161,8 @@
           </div>
           <div class="ibox-content">
             <div class="info-card icon-card">
-              <h1 class="no-margins card-text">{{warrantiesS}}</h1>
-              <i class="fa fa-certificate"></i>
+              <h1 class="no-margins card-text">{{warranties | number:'2.0-0'}}</h1>
+              <i class="fa fa-check-square"></i>
             </div>
             <br>
             <div class="stat-percent text-info">
@@ -124,21 +175,45 @@
           </div>
         </div>
       </div>
+      <div class="col-lg-2">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <!--
+                <span class="label label-danger pull-right">Low value</span>
+                -->
+            <h5>{{ 'Orders To Bill' | translate }}</h5>
+          </div>
+          <div class="ibox-content">
+            <div class="info-card icon-card">
+              <h1 class="no-margins card-text">{{ ordersToBill | number:'2.0-0'}}</h1>
+              <i class="fa fa-list-alt "></i>
+            </div>
+            <br>
+            <div class="stat-percent text-info">
+              <small>
+                <a [routerLink]="user.role.idRole === 3 ? ['/order-list-client'] : ['/order-list-client-byseller']" [queryParams]="{status: 2}" [routerLinkActive]="['router-link-active']">
+                  {{ 'View Details' | translate }}
+                </a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-lg-12">
         <div class="ibox float-e-margins">
-          <div class="ibox-title">
-            <h5>Orders</h5>
-            <!--
-            <div class="pull-right">
-              <div class="btn-group">
-                <button type="button" class="btn btn-xs btn-white active">Today</button>
-                <button type="button" class="btn btn-xs btn-white">Monthly</button>
-                <button type="button" class="btn btn-xs btn-white">Annual</button>
+          <div class="ibox-title flex-btn">
+            <h5>{{ 'Orders' | translate }}</h5>
+            <div>
+              <div>
+                <div class="ml-auto p-2">
+                  <button class="btn btn-main" (click)="redirectProduts()" [disabled]="disabledNew">
+                    <span><i class="fa fa-file"></i>&nbsp; {{ 'New Order' | translate }}</span>
+                  </button>
+                </div>
               </div>
             </div>
-            -->
           </div>
           <div class="ibox-content">
             <div class="row">
@@ -151,7 +226,7 @@
                     </div>
                     -->
                     <div class="card-body">
-                      <canvas baseChart height="130" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
+                      <canvas baseChart  height="130" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
                         [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
                       </canvas>
                     </div>
@@ -161,33 +236,100 @@
               <div class="col-lg-3">
                 <ul class="stat-list">
                   <li>
-                    <h2 class="no-margins">2,346</h2>
-                    <small>Total orders in period</small>
-                    <div class="stat-percent">48%
-                      <i class="fa fa-level-up text-navy"></i>
+                    <div *ngIf="user.role.idRole === 3">
+                      <a [routerLink]="['/order-list-client']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                        <h2 class="no-margins">{{ orderPend | number:'2.0-0' }}</h2>
+                        <small>{{ 'Pending Orders' | translate }}</small>
+                        <div class="stat-percent">{{porcPend | number:'2.0-0' }}%
+                          <i class="fa fa-level-up text-navy"></i>
+                        </div>
+                        <div class="progress progress-mini">
+                          <div [ngStyle]="{'width': porcPend + '%' }"  class="progress-bar"></div>
+                        </div>
+                      </a>
                     </div>
-                    <div class="progress progress-mini">
-                      <div style="width: 48%;" class="progress-bar"></div>
+                    <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
+                      <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 0}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                        <h2 class="no-margins">{{ orderPend | number:'2.0-0' }}</h2>
+                        <small>{{ 'Pending Orders' | translate }}</small>
+                        <div class="stat-percent">{{porcPend | number:'2.0-0' }}%
+                        </div>
+                        <div class="progress progress-mini">
+                          <div [ngStyle]="{'width': porcPend + '%' }"  class="progress-bar"></div>
+                        </div>
+                      </a>
                     </div>
                   </li>
                   <li>
-                    <h2 class="no-margins ">4,422</h2>
-                    <small>Orders in last month</small>
-                    <div class="stat-percent">60%
-                      <i class="fa fa-level-down text-navy"></i>
+                    <div *ngIf="user.role.idRole === 3">
+                      <a [routerLink]="['/order-list-client']" [queryParams]="{status: 1}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                        <h2 class="no-margins ">{{orderProc | number:'2.0-0'}}</h2>
+                        <small>{{ 'Processed Orders' | translate }}</small>
+                        <div class="stat-percent">{{porcProc | number : '2.0-0' }}%
+                        </div>
+                        <div class="progress progress-mini">
+                          <div  [ngStyle]="{'width': porcProc + '%' }" class="progress-bar"></div>
+                        </div>
+                      </a>
                     </div>
-                    <div class="progress progress-mini">
-                      <div style="width: 60%;" class="progress-bar"></div>
+                    <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
+                      <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 1}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                        <h2 class="no-margins ">{{orderProc | number:'2.0-0'}}</h2>
+                        <small>{{ 'Processed Orders' | translate }}</small>
+                        <div class="stat-percent">{{porcProc | number : '2.0-0' }}%
+                        </div>
+                        <div class="progress progress-mini">
+                          <div  [ngStyle]="{'width': porcProc + '%' }" class="progress-bar"></div>
+                        </div>
+                      </a>
                     </div>
                   </li>
                   <li>
-                    <h2 class="no-margins ">9,180</h2>
-                    <small>Monthly income from orders</small>
-                    <div class="stat-percent">22%
-                      <i class="fa fa-bolt text-navy"></i>
+                    <div *ngIf="user.role.idRole === 3">
+                      <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 2}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                        <h2 class="no-margins ">{{orderReady | number:'2.0-0'}}</h2>
+                        <small>{{ 'Ready to Ship Orders' | translate }}</small>
+                        <div class="stat-percent">{{porcReady | number : '2.0-0' }}%
+                        </div>
+                        <div class="progress progress-mini">
+                          <div [ngStyle]="{'width': porcReady + '%' }" class="progress-bar"></div>
+                        </div>
+                      </a>
                     </div>
-                    <div class="progress progress-mini">
-                      <div style="width: 22%;" class="progress-bar"></div>
+                    <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
+                      <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 2}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                        <h2 class="no-margins ">{{orderReady | number:'2.0-0'}}</h2>
+                        <small>{{ 'Ready to Ship Orders' | translate }}</small>
+                        <div class="stat-percent">{{porcReady | number : '2.0-0' }}%
+                        </div>
+                        <div class="progress progress-mini">
+                          <div [ngStyle]="{'width': porcReady + '%' }" class="progress-bar"></div>
+                        </div>
+                      </a>
+                    </div>
+                  </li>
+                  <li>
+                    <div *ngIf="user.role.idRole === 3">
+                      <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 3}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                        <h2 class="no-margins ">{{orderShipped | number:'2.0-0'}}</h2>
+                        <small>{{ 'Shipped Orders' | translate }}</small>
+                        <div class="stat-percent">{{porcShipped | number : '2.0-0' }}%
+                        </div>
+                        <div class="progress progress-mini">
+                          <div [ngStyle]="{'width': porcShipped + '%' }" class="progress-bar"></div>
+                        </div>
+                      </a>
+                    </div>
+                    <div *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
+                      <a [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: 3}" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+                        <h2 class="no-margins ">{{orderShipped | number:'2.0-0'}}</h2>
+                        <small>{{ 'Shipped Orders' | translate }}</small>
+                        <div class="stat-percent">{{porcShipped | number : '2.0-0' }}%
+                        </div>
+                        <div class="progress progress-mini">
+                          <div [ngStyle]="{'width': porcShipped + '%' }" class="progress-bar"></div>
+                        </div>
+                      </a>
                     </div>
                   </li>
                 </ul>
@@ -292,10 +434,10 @@
 
       <div class="col-lg-12">
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-12" *ngIf="user.role.idRole === 1 || user.role.idRole === 2">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
-                <h5>Customers with pending payments</h5>
+                <h5>{{ 'Customers with pending payments' | translate }}</h5>
                 <!--
                 <div class="ibox-tools">
                   <a class="collapse-link">
@@ -311,92 +453,84 @@
                 <table class="table table-hover no-margins">
                   <thead>
                     <tr>
-                      <th>Status</th>
-                      <th>Date</th>
-                      <th>User</th>
-                      <th>Value</th>
+                      <th>{{ 'Full Name' | translate }}</th>
+                      <th>{{ 'Phone' | translate }}</th>
+                      <th>{{ 'Email' | translate }}</th>
+                      <th>{{ 'Address' | translate }}</th>
+                      <th>{{ 'Credit limit' | translate }}</th>
+                      <th>{{ 'Credit balance' | translate }}</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <small>Pending...</small>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 11:20pm</td>
-                      <td>Samantha</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 24% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span class="label label-warning">Canceled</span>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 10:40am</td>
-                      <td>Monica</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 66% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <small>Pending...</small>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 01:30pm</td>
-                      <td>John</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 54% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <small>Pending...</small>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 02:20pm</td>
-                      <td>Agnes</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 12% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <small>Pending...</small>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 09:40pm</td>
-                      <td>Janet</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 22% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span class="label label-primary">Completed</span>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 04:10am</td>
-                      <td>Amelia</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 66% </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <small>Pending...</small>
-                      </td>
-                      <td>
-                        <i class="fa fa-clock-o"></i> 12:08am</td>
-                      <td>Damian</td>
-                      <td class="text-navy">
-                        <i class="fa fa-level-up"></i> 23% </td>
+                    <tr *ngFor="let customer of customersList" class="list-customer" (click)="viewPayments()">
+                      <td>{{ customer.user.name }}</td>
+                      <td>{{ customer.user.phone }}</td>
+                      <td>{{ customer.user.email }}</td>
+                      <td>{{ customer.user.address }}</td>
+                      <td>{{ customer.user.company.creditLimit | currency : "USD $" }}</td>
+                      <td>{{ customer.user.company.balance | currency : "USD $" }}</td>
                     </tr>
                   </tbody>
                 </table>
+                <div class="table-empty" [hidden]="customersList.length !== 0" translate>
+                  <p class="no-records">
+                    {{ 'No records have been added yet' | translate }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+          <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+              <div class="ibox-title">
+                <h5>{{ 'Invoices with Pending Payments' | translate }}</h5>
+              </div>
+              <div class="ibox-content">
+                <table class="table table-hover no-margins">
+                  <thead>
+                    <tr>
+                      <th>{{ 'Status' | translate }}</th>
+                      <th>{{ 'Invoice No' | translate }}</th>
+                      <th>{{ 'Due Date' | translate }}</th>
+                      <th>{{ 'Customer' | translate }}</th>
+                      <th>{{ 'Amount Due' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let invoice of invoicesList" class="list-customer" (click)="viewPayments()">
+                      <td *ngIf="invoice.status === 0" class="table-tr" class="active">
+                        <div>{{'Unpaid' | translate}}</div>
+                      </td>
+                      <!-- Commented because all payments are made in full -->
+                      <!-- <td *ngIf="invoice.status === 1" class="table-tr" class="inactive">
+                        <div>{{'Part Paid' | translate }}</div>
+                      </td> -->
+                      <td *ngIf="invoice.status === 2" class="table-tr" class="inactive">
+                        <div>{{'Paid' | translate }}</div>
+                      </td>
+                      <td *ngIf="invoice.status === 3" class="table-tr" class="inactive">
+                        <div>{{'Overdue' | translate }}</div>
+                      </td>
+                      <td>{{ invoice.number }}</td>
+                      <td class="table-tr td-table">{{invoice.dueDate  | date:'yyyy-MM-dd'}}</td>
+                      <td>{{ invoice.user.name }}</td>
+                      <td class="table-tr">{{invoice.due | currency : "USD $"}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="table-empty" [hidden]="invoicesList.length !== 0" translate>
+                  <p class="no-records">
+                    {{ 'No records have been added yet' | translate }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--
           <div class="col-lg-6">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
-                <h5>Small todo list</h5>
+                <h5>{{ 'Small todo list' | translate }}</h5>
                 <div class="ibox-tools">
                   <a class="collapse-link">
                     <i class="fa fa-chevron-up"></i>
@@ -458,6 +592,7 @@
               </div>
             </div>
           </div>
+          -->
         </div>
         <!--
         <div class="row">
@@ -556,10 +691,9 @@
         -->
 
       </div>
-
-
     </div>
   </div>
+  <!--
   <div class="row">
     <div class="col col-sm-6">
       <div class="card mb-3">
@@ -648,6 +782,7 @@
     </div>
 
   </div>
+  -->
   <!--
 	<div class="row">
 		<div class="col-md-12">

@@ -1,0 +1,142 @@
+<br />
+<div class="form-options">
+  <span class="sp-title">{{ "Shipping Protocols" | translate }}</span>
+</div>
+<br />
+<div class="row border-protocol-shipping" *ngFor="let formProtocol of protocolForms, let indexForm = index">
+  <div class="w-100 btn-remove" *ngIf="protocolForms.length > 0">
+    <button type="button" class="btn btn-secondary" (click)="removeForm(indexForm)"
+      *ngIf="!hiddenRemove()">
+      <i class="fa fa-times"  placement="top" ngbTooltip="{{'Remove Form' | translate}}"></i>
+      <!--SELECT SUPPLIERS-->
+    </button>
+  </div>
+  <div class="w-96">
+    <div class="w-100 m-4 bottom-label">
+      <span class="font-weight-bold">{{ 'Suppliers' | translate }}:</span>
+    </div>
+    <div class="w-96 m-4 form-options">
+      <div class="select-required" *ngIf="!formProtocol.supplier.selectedSuppliers.length"></div>
+      <div>
+        <div class="d-inline-block w-100" ngbDropdown autoClose="outside">
+          <button class="btn border-type w-100 text-left" ngbDropdownToggle required>
+            <div class="text-overflow">{{ getSuppliersName(formProtocol) }}</div>
+            <span class="tcs-text-overflow" *ngIf="false">
+              {{ "Select at Least a Supplier" | translate }}
+            </span>
+          </button>
+          <ul ngbDropdownMenu class="w-100 p-3 dropdown-list" aria-labelledby="dropdownManual">
+            <div class="select-type">
+              <div class="custom-control custom-checkbox">
+                <input id="checkAll-{{indexForm}}" type="checkbox" name="checkboxAll" class="custom-control-input"
+                  [checked]="checkedAllSupplierByForm(indexForm)" (click)="selectionAll(indexForm)">
+                <label class="custom-control-label" for="checkAll-{{indexForm}}">{{ 'Select All' | translate }}</label>
+              </div>
+              <li *ngFor="let supplier of formProtocol.supplier.values; index as i">
+                <div>
+                  <div class="custom-control custom-checkbox">
+                    <input id="{{ indexForm + '-' + i }}" type="checkbox" name="checkboxSupplier" class="custom-control-input"
+                      [checked]="checkedSupplier(supplier)" (click)="!disabledCheck(supplier, indexForm) && selectSupplier(formProtocol, supplier)" [disabled]="disabledCheck(supplier, indexForm)" />
+                    <label class="custom-control-label" for="{{ indexForm + '-' + i }}"></label>
+                    <span class="tcs-text-overflow">
+                      {{ supplier.companyName | titlecase }}
+                    </span>
+                  </div>
+                </div>
+              </li>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-46 m-4" *ngFor="let protocol of formProtocol.protocols, let pos = index">
+    <!--<div class="w-100 border-protocol p-3 mb-3">-->
+    <!--INPUTS-->
+    <div *ngFor="let value of protocol.values; let pos = index" class="form-inputs">
+
+      <!--PROTOCOL NAME-->
+      <div class="margin-title">
+        <span class="font-weight-bold">{{ value.label | translate }}</span>
+      </div>
+      <!--INPUTS PROTOCOLS-->
+      <div class="input-value">
+        <input *ngIf="
+              value.label === 'Recipient' ||
+              value.label === 'Account Number for Shipping Carrier'
+            " type="text" [hidden]="!modeEdit" class="form-control"
+          placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content" />
+        <textarea *ngIf="
+              value.label === 'Shipping Address' ||
+              value.label === 'Comments' ||
+              value.label === 'Shipping Details'
+            " style="overflow-x: hidden;" type="text" class="form-control"
+          placeholder="{{ protocol.placeHolder | translate }}" [(ngModel)]="value.content"></textarea>
+        <div *ngIf="value.label === 'Shipping Method'">
+          <div>
+            <select class="form-control" name="shippingMethod" [(ngModel)]="value.content">
+              <option *ngFor="let shippingMethod of listShippingMethod" value="{{shippingMethod}}">
+                {{ shippingMethod | translate }}</option>
+            </select>
+          </div>
+        </div>
+        <!--Shipping Frecuency-->
+        <div *ngIf="value.label === 'Shipping Frecuency'" class="mb-2 mr-sm-2 mb-sm-0 d-flex align-items-center">
+          <div class="custom-control-inline">
+            <div class="custom-control custom-radio">
+              <input type="radio" id="{{ 'customRadioM' + indexForm + '-' + pos }}" name="{{ 'shippingFrecuency' + indexForm + '-' + pos }}"
+                class="custom-control-input" (change)="assignShippingFrecuency(protocol, 1, pos)"
+                [checked]="value.content === 'Monthly'" />
+              <label class="custom-control-label" for="{{ 'customRadioM' + indexForm + '-' + pos }}">{{ "Monthly" | translate }}</label>
+            </div>
+            <div style="margin-left: 10px;" class="custom-control custom-radio">
+              <input type="radio" id="{{ 'customRadioB' + indexForm + '-' + pos }}" name="{{ 'shippingFrecuency' + indexForm + '-' + pos }}"
+                class="custom-control-input" (change)="assignShippingFrecuency(protocol, 2, pos)"
+                [checked]="value.content === '15' || value.content === '30'" />
+              <label class="custom-control-label" for="{{ 'customRadioB' + indexForm + '-' + pos }}">{{ "Biweekly" | translate }}</label>
+            </div>
+            <div style="margin-left: 10px;" class="custom-control custom-radio">
+              <input type="radio" id="{{ 'customRadioW' + indexForm + '-' + pos }}" name="{{ 'shippingFrecuency' + indexForm + '-' + pos }}"
+                class="custom-control-input" (change)="assignShippingFrecuency(protocol, 3, pos)"
+                [checked]="value.content !== 'Monthly' && value.content !== '15' && value.content !== '30' && value.content !== '' " />
+              <label class="custom-control-label" for="{{ 'customRadioW' + indexForm + '-' + pos }}">{{ "Weekly" | translate }}</label>
+            </div>
+          </div>
+          <!--<span>{{ shippingFrecuency.value }}</span>-->
+          <select *ngIf="value.showB === 'true'" [(ngModel)]="value.content" class="form-control"
+            name="{{ 'shippingFrecuencyB' + indexForm + '-' + pos }}">
+            <option value="" [selected]="true" translate>Select value</option>
+            <option *ngFor="let biweekly of listBiweekly" value="{{ biweekly }}">{{ biweekly | translate }}</option>
+          </select>
+          <select *ngIf="value.showW === 'true'" [(ngModel)]="value.content" class="form-control"
+            name="{{ 'shippingFrecuencyW' + indexForm + '-' + pos }}">
+            <option value="" [selected]="true" translate>Select value</option>
+            <option *ngFor="let weekly of listWeekly" value="{{ weekly }}">{{
+                weekly | translate
+              }}</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--ADD BUTTON-->
+<div class="btn-form">
+  <button type="button" class="btn btn-main" (click)="addForm()"
+    *ngIf="!hiddenNewForm()">{{ 'Add New Form' | translate }}
+    <i class="fa fa-plus-circle ml-2"></i>
+  </button>
+</div>
+<br />
+<div class="footer-form">
+  <button class="btn btn-secondary" (click)="skip()">
+    {{ "Skip" | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  &nbsp;&nbsp;
+  <button class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">
+    {{ "Save & Next" | translate }}&nbsp;
+    <i class="fa fa-arrow-right"></i>
+  </button>
+</div>

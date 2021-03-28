@@ -30,6 +30,10 @@ export class UserService {
     return this.http.get(environment.apiUrl + 'user/changeStatus/' + id);
   }
 
+  public changeStatusUser$(id, status): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/changeStatusUser/' + id + '/' + status);
+  }
+
   public findById$(id): Observable<any> {
     return this.http.get(environment.apiUrl + 'user/findById/' + id);
   }
@@ -100,6 +104,12 @@ export class UserService {
       responseType: 'text'
     });
     return this.http.request(req);
+  }
+
+  public reportByRole$(roleId): Observable<any> {
+    return this.http.get(environment.apiUrl + 'user/reportByRole/' + roleId, {
+      responseType: 'blob'
+    });
   }
 
 }

@@ -1,25 +1,39 @@
 import { Address } from './address';
 import { InvoiceSupplierProductRequested} from './invoicesupplierproductrequested';
 import { User } from './user';
+import { InvoiceSupplierProtocolClient } from './invoicesupplierprotocolclient';
+import { InvoiceSupplierProtocolProforma } from './invoicesupplierprotocolproforma';
 export class InvoiceSupplier {
 
-    public idOrder: number;
     public idInvoice: number;
     public nameUser: string;
     public address: Address;
     public idAddress: number;
     public date: Date;
+    public dueDate: Date;
+    public dateSend: Date;
     public number: number;
     public subtotal: number;
     public shipping: number;
     public due: number;
     public total: number;
     public status: number;
-    public user: User;
+    public user: User = new User();
     public idUser: number;
     public client: User;
     public idClient: number;
+    public original: boolean;
+    public numberOriginal: number;
+    public comments: string;
     public listProductRequested: Array<InvoiceSupplierProductRequested>;
+    public listOrders: Array<Number>;
+    public shippingInstructions: string;
+    public termsAndConditions: string;
+    public deliverTo: string;
+    public customer: string;
+    public invoiceProtocolClientRequest: InvoiceSupplierProtocolClient;
+    public invoiceProtocolProformaRequest: InvoiceSupplierProtocolProforma;
+
 
     public constructor() { }
 

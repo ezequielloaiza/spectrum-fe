@@ -2,13 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { OrderService } from '../../../shared/services/order/order.service';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
-import { StatusOrder } from '../../../shared/enum/status-order.enum';
 import * as _ from 'lodash';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 import { FtpService } from '../../../shared/services/ftp/ftp.service';
 import { UserStorageService } from '../../../http/user-storage.service';
-import { NgbDateAdapter, NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { saveAs } from 'file-saver';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-order',
@@ -19,6 +20,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
 
   listOrders: Array<any> = new Array;
   listOrdersAux: Array<any> = new Array;
+  list: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage = 5;
   filterStatus = [{ id: 0, name: "Pending" },
@@ -32,13 +34,16 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   user: any;
   status: any;
   navigationSubscription;
+  today: Date = new Date();
 
   constructor(private orderService: OrderService,
               private userService: UserStorageService,
               private route: ActivatedRoute,
               private router: Router,
-              private ftpService: FtpService,
-              private formBuilder: FormBuilder) {
+              private notification: ToastrService,
+              private translate: TranslateService,
+              private spinner: NgxSpinnerService,
+              private ftpService: FtpService,) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
@@ -72,15 +77,22 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   }
 
   getListOrders(): void {
+    this.spinner.show();
     this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, this.status).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listOrders = res.data;
         this.listOrdersAux = res.data;
         _.each(this.listOrders, function (order) {
            _.each(order.listProductRequested, function(listDetails) {
-            listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
+            if (listDetails.productRequested.detail.length > 0) {
+              listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
+            }
           });
         });
+        this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
+        this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
+        this.list = this.listOrdersAux;
+        this.spinner.hide();
       }
       this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
     });
@@ -104,16 +116,23 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   filter(): void {
    const status = this.selectedStatus;
    const lista = [];
+    //*
+    this.listOrders = this.list;
+    //*
   if (this.selectedStatus !== '') {
       this.valid = true;
       if (this.tamano.length === 9) {
         // tslint:disable-next-line:radix
         this.listOrders = _.filter(this.listOrdersAux, { 'paymentStatus': parseInt(this.selectedStatus) });
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
       } else {
          let fecha: String;
         // FechaFiltro
          fecha = this.getFecha();
-        _.filter(this.listOrdersAux, function (orders) {
+        _.each(this.listOrdersAux, (orders: any) => {
           let fechaList: String;
           // Fecha Listado
           fechaList = _.toString(orders.date.slice(0, 10));
@@ -122,7 +141,12 @@ export class ListOrderComponent implements OnInit, OnDestroy {
             lista.push(orders);
           }
         });
+        //*
         this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
       }
     }
   }
@@ -132,12 +156,15 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     const valorStatus = this.selectedStatus;
     this.tamano = this.valueDate(this.model);
     const lista = [];
+     //*
+     this.listOrders = this.list;
+     //*
     if (this.tamano.length === 15) {
       this.valid = true;
       let fecha: String;
       // FechaFiltro
       fecha = this.getFecha();
-      _.filter(this.listOrdersAux, function (orders) {
+      _.each(this.listOrdersAux, function (orders) {
           let fechaList: String;
           // Fecha Listado
           fechaList = _.toString(orders.date.slice(0, 10));
@@ -150,7 +177,12 @@ export class ListOrderComponent implements OnInit, OnDestroy {
               lista.push(orders);
           }
       });
+      //*
       this.listOrders = lista;
+      this.listOrdersAux = this.listOrders;
+      this.advancedPagination = 1;
+      this.pageChange(this.advancedPagination);
+      //*
     }
   }
 
@@ -172,6 +204,9 @@ export class ListOrderComponent implements OnInit, OnDestroy {
 
   clean() {
     this.getListOrders();
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    this.router.navigate(['/order-list-client'], { queryParams: { status: this.status } });
     this.valid = false;
     this.tamano = 'undefined';
     this.selectedStatus = '';
@@ -184,5 +219,94 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     o.push(valor);
     str = _.toString(o);
     return str;
+  }
+
+  downloadOrder() {
+    this.spinner.show();
+    this.orderService.reportByRoleAndStatus$(this.user.userResponse.idUser, this.user.role.idRole, this.status).subscribe(res => {
+      const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
+        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes()};
+      const filename = 'Orders-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+      saveAs(res, filename);
+      this.spinner.hide();
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+      this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
+    });
+  }
+
+  getReferenceCopy(order) {
+    let reference = null;
+    if (order.type) {
+      const type = this.translate.instant(order.type);
+      reference = ' (' + type + ': ' + '#' + order.originReference + ') '
+    }
+    return reference;
+  }
+
+  dateDiffInDays(a, b) {
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    // Discard the time and time-zone information.
+    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  }
+
+  isValidDate(order) {
+    let currentDate = new Date();
+    let sendDate = new Date(order.dateSend);
+
+    switch (order.supplier.idSupplier) {
+      case 1: //Markennovy
+        return true; // free for client conversation.
+
+      case 2: //Europa
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 100;
+
+      case 3: //Elipsys
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 70;
+
+      case 4: //Euclid
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 100;
+
+      case 6: //Lentes blandos de vendaje
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 70;
+
+      case 9: //SynergEyes
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 100;
+
+      case 10: //Orion Vision Group
+        return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 70;
+
+      default:
+        return true;
+    }
+  }
+
+  generateCopyOrder(order, type) {
+    this.spinner.show();
+    this.orderService.generateCopyOrder$(order.idOrder, type).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        var message = type === 'duplicate' ? "Order duplicate successfully" : "Order warranty generated successfully"
+        this.translate.get(message, {value: message}).subscribe(( res: string) => {
+          this.notification.success('', res);
+        });
+        this.status = 0;
+        this.clean();
+      } else {
+        this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+          this.notification.error('', res);
+          this.spinner.hide();
+          console.log(res);
+        });
+      }
+    }, error => {
+      console.log('error', error);
+    });
   }
 }

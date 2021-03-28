@@ -1,4 +1,4 @@
-<div class="row page-header-fixed">
+<div class="row page-header-fixed" *ngIf="order">
   <div class="header-body">
     <h4 class="page-header">
       {{ 'Orders List' | translate }}
@@ -9,7 +9,7 @@
           <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
       </li>
       <li class="breadcrumb-item">
-        <a class="link" href="Javascript:void(0)" [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: order.status}">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/order-list-client-byseller']" [queryParams]="{status: orders[0].status}">
           <i class="fa fa-folder-open"></i> {{ 'Orders List' | translate }}</a>
       </li>
       <li class="breadcrumb-item active">
@@ -17,7 +17,7 @@
     </ol>
   </div>
 </div>
-<div class="sp-container">
+<div class="sp-container" *ngFor="let order of orders; let i = index">
   <div class="row">
     <div class="col col-xl-12 col-lg-12">
       <div class="card mb-3">
@@ -29,14 +29,15 @@
             <button [hidden]="!generar" type="button" (click)="generateOrder(order)" class="btn btn-outline-primary" translate>
               Generate Order
             </button>
-            <button [hidden]="!download" type="button" class="btn btn-success btn-xs" (click)="downloadOrder(order)" translate>
+            <span> </span>
+            <button [hidden]="!download" type="button" class="btn btn-success btn-xs" (click)="order.supplier.idSupplier === 12 ? downloadMergeOrder(order) : downloadOrder(order)" translate>
               <span class="fa fa-download"></span> Download Order
             </button>
           </div>
         </div>
         <div class="div-order">{{'Ordered on'| translate}} {{order.date | date:'mediumDate'}}
           <span>|</span>
-          {{'Order#'| translate}} {{order? order.number:''}}
+          {{ 'Order#'| translate }} {{ order? order.number:'' }} {{ getReferenceCopy(order) }}
         </div>
         <br>
         <div class="container pp rounded">
@@ -59,7 +60,7 @@
               <span>{{order.address? (order.address.country? (order.address.country.name | translate) : '') :'' }}</span>
               <br>
               <span class="font-weight-bold">{{'Shipping Instructions' | translate }}:</span>&nbsp;
-              <span>{{order.user? order.user.company.shippingInstructions :'' }}</span>
+              <span>{{order.user? (order.user.company.shippingInstructions? order.user.company.shippingInstructions : ('No Instructions Shipping' | translate) ) :'' }}</span>
               <br>
               <br>
             </div>
@@ -71,38 +72,70 @@
             <div class="col-md-2">
               <p class="font-weight-bold text-left" translate>{{'Totals'}}</p>
               <p class="font-weight-normal" translate>
-                <span>{{ (order? order.subtotal:'') | currency : "USD $" }}</span>
+                <span>{{ (order ? order.subtotal : '') | currency : "USD $" }}</span>
               </p>
-              <p class="font-weight-bold text-left">{{ (order? order.total:'') | currency : "USD $" }}</p>
+              <p class="font-weight-bold text-left">{{ (order ? order.total :'') | currency : "USD $" }}</p>
             </div>
           </div>
         </div>
-        <div class="card-header products-label" *ngIf="listDetails.length > 0">{{ 'Your Products' | translate }}</div>
-        <div class="container product-list" *ngFor="let list of listDetails">
+        <div class="card-header products-label" *ngIf="order.listDetails.length > 0">{{ 'Your Products' | translate }}</div>
+        <div class="container product-list" *ngFor="let list of order.listDetails">
           <hr>
           <div class="row">
-            <div class="col-sm-3 container-img">
-              <div class="imag-product" [style.backgroundImage]="'url('+ list.urlImage +')'"></div>
+            <div class="container-img" [ngClass]="{'col-sm-4': list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 4, 'col-sm-3': list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 4}">
+              <div class="imag-product" [ngClass]="{'size-image-euclid': list.productRequested.product.father === 'Sapphire Toric','size-image': list.productRequested.product.father !== 'Sapphire Toric' }" [style.backgroundImage]="'url('+ list.urlImage +')'"></div>
             </div>
-            <aside class="col-sm-9">
+            <aside  [ngClass]="{'col-sm-8': list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 4, 'col-sm-9': list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 4}">
               <article class="card-body p-5">
                 <div>
-                  <div *ngFor="let specification of list.productRequested.detail">
+                  <div>
                     <div class="container-list">
                       <div class="div-name">
                         <div>
                           <h3>{{list.productRequested.product.name}} </h3>
                         </div>
-                        <div *ngIf="specification.name!==''">
+                        <div *ngIf="list.productRequested.detail.length > 0 && list.productRequested.detail[0].name !== ''">
                           <span class="price h5 text-warning">
-                            <h3>-({{specification.name}})</h3>
+                            <h3>-({{list.productRequested.detail[0].name}})</h3>
                           </span>
+                        </div>
+                        <div class="padding-params" *ngIf="order.status === 0 && user.role.idRole === 1 && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 7 && order.user.status !== 2">
+                            <button type="button" (click)="openEdit(list.productRequested, list.urlImage, order)" class="btn btn-outline-primary" translate>
+                              Edit
+                            </button>
                         </div>
                         <br>
                         <br>
                       </div>
+                      <div class="row" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 4">
+                        <div class="col-sm-3">
+                          <dl class="align-item">
+                            <dt>{{'Customer'| translate}}
+                            </dt>
+                            <dt>
+                              <span class="font-text">{{order.nameUser}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-3" [hidden]="order.user.certificationCode===''">
+                          <dl class="align-item">
+                            <dt>{{'Certification Code' | translate}}</dt>
+                            <dt>
+                              <span class="font-text">{{order.user.certificationCode}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-3" [hidden]="list.productRequested.detail.length > 0 && list.productRequested.detail[0].eye===''">
+                          <dl class="align-item">
+                            <dt>{{'Eye'| translate}}</dt>
+                            <dt>
+                              <span class="font-text">{{list.productRequested.detail[0].eye | translate}}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                      </div>
                       <div class="row">
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier !==5">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 5">
                           <dl class="align-item">
                             <dt>{{'Supplier'| translate}}
                             </dt>
@@ -111,7 +144,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" [hidden]="list.productRequested.patient===''">
+                        <div class="col-sm-3" [hidden]="list.productRequested.patient === '' || list.productRequested.patient === null">
                           <dl class="align-item">
                             <dt>{{'Patient'| translate}}</dt>
                             <dt>
@@ -119,18 +152,24 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2" [hidden]="specification.eye===''">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 4 || list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier == 7 || list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier == 6">
                           <dl class="align-item">
-                            <dt>{{'Eye'| translate}}</dt>
+                            <dt>{{ 'Spectrum code' | translate }}</dt>
                             <dt>
-                              <span class="font-text">{{specification.eye}}</span>
+                              <span class="font-text">{{ list.productRequested.product.codeSpectrum }}</span>
                             </dt>
                           </dl>
                         </div>
+                        <div class="col-sm-3">
+                          <dl class="align-item" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 4">
+                            <dt *ngIf="list.productRequested.detail.length > 0 && list.productRequested.detail[0].eye !== ''">{{'Eye'| translate}}</dt>
+                            <dt>
+                              <span *ngIf="list.productRequested.detail.length > 0" class="font-text">{{ list.productRequested.detail[0].eye | translate }}</span>                           </dt>
+                          </dl>
+                        </div>
                       </div>
-                      <br>
                       <div class="row">
-                        <div class="col-sm-2" *ngIf="list.productRequested.product.supplier.idSupplier ===5">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">
                           <dl class="align-item">
                             <dt>{{'Supplier'| translate}}
                             </dt>
@@ -139,16 +178,16 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                           <dl class="align-item">
-                            <dt [hidden]="list.productRequested.product.supplier.idSupplier===5">{{'Quantity'| translate}} </dt>
-                            <dt *ngIf="list.productRequested.product.supplier.idSupplier===5">{{'Total Quantity'| translate}} </dt>
+                            <dt [hidden]="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">{{'Quantity'| translate}} </dt>
+                            <dt *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">{{'Total Quantity'| translate}} </dt>
                             <dt>
                               <span class="font-text">{{list.productRequested.quantity}}</span>
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2 ">
+                        <div class="col-sm-3 ">
                           <dl class="align-item">
                             <dt>{{'Price'| translate}}</dt>
                             <dt>
@@ -156,11 +195,38 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 5">
                           <dl class="align-item">
                             <dt>{{'Subtotal'| translate}}</dt>
                             <dt>
                               <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier && list.productRequested.product.supplier && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 7 && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 6">
+                          <dl class="align-item">
+                            <dt>{{ 'Spectrum code' | translate }}</dt>
+                            <dt>
+                              <span class="font-text">{{ list.productRequested.product.codeSpectrum }}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5">
+                          <dl class="align-item">
+                            <dt>{{'Subtotal'| translate}}</dt>
+                            <dt>
+                              <span>{{ list.productRequested.subtotal | currency : "USD $" }}</span>
+                            </dt>
+                          </dl>
+                        </div>
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 2" >
+                          <dl class="align-item">
+                            <dt>{{'Type'| translate}}
+                            </dt>
+                            <dt>
+                              <span class="font-text" translate>{{list.productRequested.detail[0].typeLens}}</span>
                             </dt>
                           </dl>
                         </div>
@@ -172,32 +238,38 @@
             </aside>
           </div>
           <!--Markennovy-->
-          <app-supplier-markennovy [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
+          <app-supplier-markennovy [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventMarkennovy)="refresh($event, order)" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 1"></app-supplier-markennovy>
           <!--Find Markennovy-->
           <!--Europa-->
-          <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
+          <app-supplier-europa [lista]="list.productRequested" [files]="list.fileProductRequestedList" [image]="list.urlImage" [order]="order" (emitEventEuropa)="refresh($event, order)" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 2"></app-supplier-europa>
           <!--Fin Europa-->
           <!--Lenticon-->
-          <app-supplier-lenticon [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
+          <app-supplier-lenticon [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventLenticon)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
           <!--Fin Lenticon-->
           <!--Euclid-->
-          <app-supplier-euclid [lista]="list.productRequested" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
+          <app-supplier-euclid [lista]="list.productRequested" (emitEventEuclid)="refresh($event, order)" [files]="list.fileProductRequestedList" [image]="list.urlImage" [order]="order" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 4"></app-supplier-euclid>
           <!--Fin Euclid-->
           <!--Magic Look-->
-          <app-supplier-magic-look [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
+          <app-supplier-magic-look [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventMagic)="refresh($event, order)" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
           <!--Blue Light-->
-          <app-supplier-blue-light [lista]="list.productRequested" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
+          <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventBlue)="refresh($event, order)" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
+          <!--Synergeyes-->
+          <app-supplier-synergeyes [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventSynergeyes)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 9"></app-supplier-synergeyes>
+          <!--Fin Synergeyes-->
+          <!--Orion-->
+          <app-supplier-orion [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 10"></app-supplier-orion>
+          <!--Fin Orion-->
         </div>
       </div>
     </div>
     <div class="card-body table-responsive">
-      <div class="pagination-list" [hidden]="listDetails.length === 0">
-        <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listDetailsAux.length"
+      <div class="pagination-list" [hidden]="order.listDetails.length === 0">
+        <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event, order)" [collectionSize]="order.listDetailsAux.length"
           [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
         </ngb-pagination>
-        <span class="count-elements">{{ listDetails.length + ' ' + ('of' | translate) + ' ' + listDetailsAux.length + ' ' + ('register(s)' | translate)
+        <span class="count-elements">{{ order.listDetails.length + ' ' + ('of' | translate) + ' ' + order.listDetailsAux.length + ' ' + ('register(s)' | translate)
           }}
         </span>
       </div>

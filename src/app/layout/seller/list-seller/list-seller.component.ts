@@ -8,6 +8,8 @@ import { Role } from '../../../shared/enum/role.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { SellerModalComponent } from '../modals/seller-modal/seller-modal.component';
 import * as _ from 'lodash';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-list-seller',
@@ -20,16 +22,18 @@ export class ListSellerComponent implements OnInit {
   listSellersAux: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage: number = 5;
-  	/*initial order*/
-	orderByField = 'idUser';
-	reverseSort = true;
-	typeSort = 0;
+  /*initial order*/
+  orderByField = 'idUser';
+  reverseSort = true;
+  typeSort = 0;
+  today: Date = new Date();
 
   constructor(private userService: UserService,
     private alertify: AlertifyService,
     private notification: ToastrService,
     private modalService: NgbModal,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getListSellers(-1);
@@ -37,17 +41,22 @@ export class ListSellerComponent implements OnInit {
   }
 
   getListSellers(filter): void {
-
+    this.spinner.show();
     this.userService.findByRole$(Role.Seller, filter).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.listSellers = res.data;
         this.listSellersAux = res.data;
+        this.listSellers = _.orderBy(this.listSellers, ['date'], ['desc']);
+        this.listSellersAux = _.orderBy(this.listSellersAux, ['date'], ['desc']);
         this.listSellers = this.listSellersAux.slice(0, this.itemPerPage);
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 
@@ -112,7 +121,8 @@ export class ListSellerComponent implements OnInit {
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open(SellerModalComponent, { size: 'lg', windowClass: 'modal-content-seller' });
+    const modalRef = this.modalService.open(SellerModalComponent,
+    { size: 'lg', windowClass: 'modal-content-seller', backdrop  : 'static', keyboard  : false });
     modalRef.result.then((result) => {
       this.getListSellers(-1);
       this.moveFirstPage();
@@ -167,6 +177,24 @@ export class ListSellerComponent implements OnInit {
   filter(value: number): void {
     this.getListSellers(value);
   }
+
+  downloadSeller() {
+    this.spinner.show();
+    this.userService.reportByRole$(Role.Seller).subscribe(res => {
+      const aux = {year: this.today.getUTCFullYear(), month: this.today.getMonth() + 1,
+        day: this.today.getDate(), hour: this.today.getHours(), minutes: this.today.getMinutes()};
+      const filename = 'Sellers-' + aux.year + aux.month + aux.day + aux.hour + aux.minutes + '.pdf';
+      saveAs(res, filename);
+      this.spinner.hide();
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+      this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe((res: string) => {
+        this.notification.error('', res);
+      });
+    });
+  }
+
 }
 
 

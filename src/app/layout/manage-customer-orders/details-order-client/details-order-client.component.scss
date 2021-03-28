@@ -25,7 +25,8 @@
 
 .pp{
   border: 1px solid $border;
-  width: 105%
+  width: 100%;
+  align-self: center;
 }
 
 .info-breadcrumbs {
@@ -53,20 +54,47 @@
     padding: 2em;
 
     .imag-product{
-      background-size: 100%;
       width: 100%;
       background-repeat: no-repeat;
       height: 100%;
     }
   }
 
+  .size-image-euclid{
+    background-size: 83%;
+  }
+
+  .size-image{
+    background-size: 100%;
+  }
+
+
   .container-list{
-    width: 1250px;
+    width: 100%;
   }
 
   .div-name {
     display: flex;
     padding-left: 50px;
+
+    div {
+      > h3 {
+        white-space: nowrap;
+      }
+    }
+
+    div:nth-child(2) {
+      min-width: 0;
+
+      span {
+        max-width: 0;
+        > h3 {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
   }
 
   .div-parametros{
@@ -118,4 +146,7 @@
   h4 {
     padding-left: 15px;
   }
+}
+.padding-params {
+  padding:  0 2em;
 }

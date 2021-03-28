@@ -7,8 +7,7 @@ import { UserService, GoogleService, CountryService } from '../../../../shared/s
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, tap, catchError, merge } from 'rxjs/operators';
-import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { debounceTime, distinctUntilChanged, tap, catchError, merge, switchMap } from 'rxjs/operators';
 import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../../../http/user-storage.service';
 import * as _ from 'lodash';
@@ -29,6 +28,10 @@ export class SellerModalComponent implements OnInit {
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
   locale: any;
+  filter = [{ id: 0, name: 'No' },
+  { id: 1, name: 'Yes' }];
+  valid = false;
+  idValue: any;
 
   constructor(private modal: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -74,7 +77,8 @@ export class SellerModalComponent implements OnInit {
       idCountry  : ['', [Validators.required]],
       city     : ['', [Validators.required]],
       postal   : ['', []],
-      phone    : ['', []]
+      phone    : ['', []],
+      commission : ['', []]
     });
   }
 
@@ -95,15 +99,21 @@ export class SellerModalComponent implements OnInit {
   }
 
   save(): void {
-    this.form.get('city').setValue(this.googleService.getCity());
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.form.value.city.description) {
+      this.form.get('city').setValue(this.form.value.city.description);
+    } else {
+      this.form.get('city').setValue(this.form.value.city);
+    }
     this.userSerice.registerSeller$(this.form.value).subscribe(res => {
+      this.form.get('city').setValue({description: this.form.value.city});
       if (res.code === CodeHttp.ok) {
         this.modal.close();
         this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe((res: string) => {
           this.notification.success('', res);
         });
       } else if (res.code === CodeHttp.notAcceptable) {
-        this.form.get('city').setValue({description: this.form.value.city});
         this.translate.get('The seller already exists', { value: 'The seller already exists' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
@@ -122,10 +132,12 @@ export class SellerModalComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
     });
   }
 
@@ -137,6 +149,7 @@ export class SellerModalComponent implements OnInit {
   get idCountry() { return this.form.get('idCountry'); }
   get postal() { return this.form.get('postal'); }
   get phone() { return this.form.get('phone'); }
+  get commission() {return this.form.get('commission'); }
 
 
   validatePhone(event) {
@@ -149,6 +162,12 @@ export class SellerModalComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  onSelectionChange(value) {
+    this.valid = true;
+    this.idValue = value.id;
+    this.form.get('commission').setValue(this.idValue);
   }
 
 }

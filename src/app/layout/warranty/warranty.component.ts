@@ -18,6 +18,7 @@ import { WarrantyModalComponent } from './modals/warranty-modal/warranty-modal.c
 import { Warranty } from '../../shared/models/warranty';
 import * as _ from 'lodash';
 import { ModalsChangeStatusComponent } from './modals/modals-change-status/modals-change-status.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-warranty',
@@ -52,7 +53,8 @@ export class WarrantyComponent implements OnInit {
               private translate: TranslateService,
               private formBuilder: FormBuilder,
               private userStorageService: UserStorageService,
-              private warrantyService: WarrantyService) { }
+              private warrantyService: WarrantyService,
+              private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.getUser();
@@ -73,7 +75,8 @@ export class WarrantyComponent implements OnInit {
   }
 
   open(warranty, action) {
-    const modalRef = this.modalService.open(WarrantyModalComponent , { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open(WarrantyModalComponent ,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.warranty = warranty;
     modalRef.componentInstance.action = action;
     modalRef.result.then((result) => {
@@ -83,7 +86,8 @@ export class WarrantyComponent implements OnInit {
   }
 
   changeStatus(warranty) {
-    const modalRef = this.modalService.open(ModalsChangeStatusComponent);
+    const modalRef = this.modalService.open(ModalsChangeStatusComponent,
+    {backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.warranty = warranty;
     modalRef.result.then((result) => {
       this.getListWarranties();
@@ -111,6 +115,7 @@ export class WarrantyComponent implements OnInit {
   }
 
   getListWarranties(): void {
+    this.spinner.show();
     this.warrantyService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.warranties = res.data;
@@ -132,13 +137,16 @@ export class WarrantyComponent implements OnInit {
           this.warranties = _.filter(this.warranties, { 'clientId': this.user.userResponse.idUser } );
           this.auxWarranties = this.warranties.slice(0, this.warranties.length);
         }
-
-        this.sortWarranty(this.orderByField);
+        this.warranties = _.orderBy(this.warranties, ['createdAt'], ['desc']);
+        this.auxWarranties = _.orderBy(this.warranties, ['createdAt'], ['desc']);
+        this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
+        this.spinner.hide();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
     });
   }
 

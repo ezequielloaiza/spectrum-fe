@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { environment } from '../../../../src/environments/environment';
 import * as _ from 'lodash';
+import { QuickbooksService } from '../../shared/services/quickbooks/quickbooks.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const URL = environment.apiUrl + 'user/uploaderAvatar';
 
@@ -37,6 +39,8 @@ export class ProfileComponent implements OnInit {
   queueLimit = 1;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   private uploadResult: any = null;
+  connected = false;
+  isAdmin = false;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
@@ -52,7 +56,9 @@ export class ProfileComponent implements OnInit {
     private userStorageService: UserStorageService,
     private notification: ToastrService,
     private translate: TranslateService,
-    private countryService: CountryService) {
+    private countryService: CountryService,
+    private quickbooksService: QuickbooksService,
+    private spinner: NgxSpinnerService) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
     this.initializeAvatar();
 
@@ -76,6 +82,8 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isAdmin = this.userStorageService.getIsAdmin();
+    this.connected = this.userStorageService.getIsIntegratedQBO();
     this.initializeForm();
     this.initializeAvatar();
     this.getCountries();
@@ -173,8 +181,15 @@ export class ProfileComponent implements OnInit {
   }
 
   savePersonal(): void {
-    this.form.get('city').setValue(this.form.value.city.description);
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.form.value.city.description) {
+      this.form.get('city').setValue(this.form.value.city.description);
+    } else {
+      this.form.get('city').setValue(this.form.value.city);
+    }
     this.userService.updateProfile$(this.form.value).subscribe(res => {
+      this.form.get('city').setValue({ description: this.user.userResponse.city });
       if (res.code === CodeHttp.ok) {
         this.user.userResponse = res.data;
         this.translate.get('User save', { value: 'User save' }).subscribe((res: string) => {
@@ -195,7 +210,13 @@ export class ProfileComponent implements OnInit {
   }
 
   saveAccount(): void {
-    this.form.get('city').setValue(this.form.value.city.description);
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.form.value.city.description) {
+      this.form.get('city').setValue(this.form.value.city.description);
+    } else {
+      this.form.get('city').setValue(this.form.value.city);
+    }
     this.userService.changePassword$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.user.userResponse = res.data;
@@ -228,10 +249,12 @@ export class ProfileComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postal').setValue(this.googleService.getPostalCode());
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
     });
   }
 
@@ -251,6 +274,46 @@ export class ProfileComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  public connectToQuickBooks() {
+    const self = this;
+    this.quickbooksService.connectToQuickbooks$().subscribe((res) => {
+      const windowOauth =  window.open(res.data,"Quickbooks","menubar=1,resizable=1,width=650,height=680,left=350");
+      const timer = setInterval(function() {
+        if (windowOauth.closed) {
+          self.spinner.show();
+          self.quickbooksService.checkConnectToQuickbooks$().subscribe(resp => {
+            clearInterval(timer);
+            if (resp.data) {
+              self.updateConnection(true);
+            } else {
+              self.updateConnection(false);
+            }
+            self.spinner.hide();
+          }, errorr => {
+            self.spinner.hide();
+          });
+        }
+      }, 1000);
+    }, error => {
+      self.updateConnection(false);
+    });
+  }
+
+  public revokeToken() {
+    this.spinner.show();
+    this.quickbooksService.revokeToken$().subscribe((res) => {
+      this.updateConnection(false);
+      this.spinner.hide();
+    }, error => {
+      this.spinner.hide();
+    });
+  }
+
+  public updateConnection(tryConnect) {
+    this.connected = tryConnect;
+    this.userStorageService.setIsIntegratedQBO(this.connected);
   }
 
   /*

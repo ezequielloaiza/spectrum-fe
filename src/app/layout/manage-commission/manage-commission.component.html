@@ -1,0 +1,151 @@
+<div class="row page-header-fixed">
+	<div class="header-body">
+		<h4 class="page-header">
+			{{ 'Commissions List' | translate }}
+		</h4>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<i class="fa fa-folder-open"></i> {{ 'Commissions List' | translate}}</li>
+		</ol>
+	</div>
+</div>
+<div class="sp-container">
+  <div class="row body-fixed">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header d-flex">
+          <div class="align-self-center">
+            {{ 'All commissions' | translate }}
+          </div>
+        </div>
+        <div class="row filters" [hidden]="user.role.idRole != 1">
+          <div class="col-xl-3 filter">
+            <div class="row search">
+              <div class="col col-xl-12 col-lg-12">
+                <input [(ngModel)]="search" class="form-control" (keyup)="getItems($event)" placeholder="{{'Enter search' | translate }}">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+          </div>
+           <div class="col-xl-3 filter search">
+            <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
+              <option value="" disabled [selected]="true" translate>Select status</option>
+              <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
+            </select>
+          </div>
+          <div class="col-xl-3 filter">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="fechaSelec" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelec)">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-xl-2 btn-clean">
+            <button class="btn btn-outline-secondary" translate [hidden]="!valid1" (click)="clean()">Clean Filters</button>
+          </div>
+        </div>
+          <div class="card-body table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Status' | translate }}">{{ 'Status' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortCommission('status')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'status' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortCommission('status')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortCommission('status')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Invoice No' | translate }}">{{ 'Invoice No' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortCommission('number')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'number' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortCommission('number')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortCommission('number')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Invoice Date' | translate }}">{{ 'Commission Date' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortCommission('date')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'date' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortCommission('date')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortCommission('date')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Customer' | translate }}">{{ 'Seller' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortCommission('client')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'client' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortCommission('client')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortCommission('client')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr header-column">
+                    <span title="{{ 'Total' | translate }}">{{ 'Total' | translate }}
+                      <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortCommission('total')"></i>
+                    </span>
+                    <span [hidden]="orderByField != 'total' || typeSort === 0">
+                      <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortCommission('total')"></i>
+                      <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortCommission('total')"></i>
+                    </span>
+                  </th>
+                  <th class="table-tr"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let commission of listCommissions">
+                  <td *ngIf="commission.status === 0" class="table-tr" class="pending">
+                    <div>{{'Pending' | translate}}</div>
+                  </td>
+                  <td *ngIf="commission.status === 1" class="table-tr" class="paid">
+                    <div>{{'Paid' | translate }}</div>
+                  </td>
+                  <td class="table-tr td-table">{{commission.invoiceClient?.number}}</td>
+                  <td class="table-tr td-table">{{commission.date  | date:'yyyy-MM-dd'}}</td>
+                  <td class="table-tr">{{commission.seller?.name}}</td>
+                  <td class="table-tr">{{commission.total | currency : "USD $"}}</td>
+                  <td [hidden]="user.role.idRole != 1" class="table-tr">
+                    <div class="d-flex flex-row justify-content-around">
+                      <div ngbDropdown class="d-inline-block dropdown">
+                        <button class="btn btn-dropdown-main" ngbDropdownToggle>{{ 'Actions' | translate }}</button>
+                        <div ngbDropdownMenu>
+                          <button class="dropdown-item" (click)="changeStatus(commission)">
+                            <i class="fa fa-cog"></i> {{ 'Change Status' | translate }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="table-empty" [hidden]="listCommissions.length !== 0" translate>
+              <p class="no-records">
+                {{ 'No records have been added yet' | translate }}
+              </p>
+            </div>
+            <div class="pagination-list" [hidden]="listCommissions.length === 0">
+              <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listCommissionsAux.length"
+                [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
+              </ngb-pagination>
+              <span class="count-elements">{{ listCommissions.length + ' ' + ('of' | translate) + ' ' + listCommissionsAux.length + ' ' + ('register(s)' | translate)
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

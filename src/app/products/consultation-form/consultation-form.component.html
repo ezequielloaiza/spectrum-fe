@@ -1,0 +1,248 @@
+<div class="info-breadcrumbs" *ngIf="product">
+  <div class="header-body">
+    <h4 class="page-header">
+      {{ 'Product Details' | translate }}
+    </h4>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/products/' + product.supplier.idSupplier + '/internal']">
+          <i class="fa fa-edit"></i> {{ 'Products List' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-eye"></i> {{ 'Product Details' | translate}}</li>
+    </ol>
+  </div>
+</div>
+
+<div class="padding-detail" *ngIf="product">
+  <div class="card">
+    <div>
+      <!-- row (name-price-image) -->
+      <div class="row wrapper">
+        <div class="preview col-md-12">
+          <!-- name-price -->
+          <div class="main-info">
+            <h3 class="product-title">{{'Consultation Form' | translate }}
+              <br>
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- row (pacient, client, shipping address) -->
+      <div class="row product-info">
+        <!-- patient -->
+        <div class="col-lg-4">
+          <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
+          <div class="row info-content">
+            <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter name patient' | translate }}" [(ngModel)]="product.patient"
+              required>
+          </div>
+        </div>
+        <!-- client -->
+        <div class="col-lg-4">
+          <dt class="title">{{ 'Account Name' | translate }}</dt>
+          <div class="row info-content" [hidden]="user.role.idRole !== 3">
+            <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}" required
+              [(ngModel)]="product.client" disabled>
+          </div>
+          <div class="row info-content" [hidden]="user.role.idRole === 3">
+            <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
+              required [virtualScroll]="true" bindLabel="fullName" bindValue="idUser" placeholder="{{ 'Select value' | translate }}">
+            </ng-select>
+          </div>
+        </div>
+        <!--shipping address-->
+        <div class="col-lg-4">
+          <span class="title">{{ 'Shipping Address' | translate }}</span>
+          <div class="row info-content ">
+            <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
+              readonly>
+          </div>
+        </div>
+      </div>
+
+      <div id="consultation-form">
+        <div>
+          <div class="owm">
+            <div *ngFor="let param of generalParams; let i = index">
+              <div *ngIf="param.type === 'checkbox'" class="button-space custom-control custom-radio">
+                <input type="radio" id="radio-n-{{ i }}" name="customRadio-{{ i }}" [value]="param.name" (change)="changeTypeForm(param)" 
+                class="custom-control-input" [checked]="param.name === product.typeForm" >
+                <label class="custom-control-label" for="radio-n-{{ i }}">{{ param.name | translate }}</label>
+              </div>
+              <div *ngIf="param.type === 'input'" class="flex">
+                <label class="bold" for="{{ param.name + 'checkbox' }}">{{ param.name | translate }}</label>
+                <input type="text" class="form-control" maxlength="40" [(ngModel)]="param.selected">
+              </div>
+            </div>
+          </div>
+
+          <div *ngFor="let eyeView of eyes" class="eye-container">
+
+            <div class="eyes">
+              <div *ngIf="eyeView.eye === 'right'" class="col-lg-12 custom-control custom-checkbox">
+                <input id="OD" type="checkbox" name="checkboxOD" (click)="setValueEye('right')" [checked]="product.eyeRight"
+                    class="custom-control-input">
+                <label class="bold custom-control-label" for="OD">{{ 'OD' }}</label>
+              </div>
+
+              <div *ngIf="eyeView.eye === 'left'" class="col-lg-12 custom-control custom-checkbox">
+                <input id="OS" type="checkbox" name="checkboxOS" (click)="setValueEye('left')" [checked]="product.eyeLeft"
+                    class="custom-control-input">
+                <label class="bold custom-control-label" for="OS">{{ 'OS' }}</label>
+              </div>
+            </div>
+            <div class="form-group " *ngFor="let param of eyeView.params; let i = index">
+              <!--Multiples INPUTS-->
+              <div *ngIf="param.type === 'multiple'" class="multiples-params">
+                <div class="param-titles">
+                  <span class="title">{{ param.name | translate }}</span>
+                  <span>{{ param.subname | translate }}</span>
+                </div>
+                <div class="content-params">
+                  <div class="sub-params" *ngFor="let subParam of param.values; let isub = index">
+                    <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate}}</span>
+                    <!--Input TEXT-->
+                    <input *ngIf="subParam.type === 'input'" type="text" class="form-control" [(ngModel)]="subParam.selected" 
+                    [disabled]="isDisabled(eyeView.eye) ?  true : subParam.disabled" maxlength="45">
+
+                    <!--Input SELECT-->
+                    <select *ngIf="subParam.type === 'select'" class="form-control" [(ngModel)]="subParam.selected" 
+                    [disabled]="isDisabled(eyeView.eye) ?  true : subParam.disabled" name="options" #options="ngModel" >
+                      <option *ngFor="let value of subParam.values" [value]="value" >{{value | translate}}</option>
+                    </select>
+
+                    <!-- Input RADIO -->
+                    <div *ngIf="subParam.type === 'radio'" class="params-checkbox">
+                      <div class="button-space custom-control custom-radio">
+                        <input type="radio" id="radio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}" name="customRadio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}" 
+                        [disabled]="isDisabled(eyeView.eye) ?  true : subParam.disabled" value="Yes" class="custom-control-input" [(ngModel)]="subParam.selected" (change)="setDisabledMultiple(param, subParam, eyeView.eye,true)">
+                        <label class="custom-control-label" for="radio-yes-{{ eyeView.eye + '-'+ i + '-' + isub }}">{{ 'Yes' | translate }}</label>
+                      </div>
+
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="radio-no-{{ eyeView.eye + '-'+ i + '-' + isub }}" name="customRadio-no-{{ eyeView.eye + '-'+ i + '-' + isub }}" 
+                        [disabled]="isDisabled(eyeView.eye) ?  true : subParam.disabled" value="No" class="custom-control-input" [(ngModel)]="subParam.selected" (change)="setDisabledMultiple(param, subParam, eyeView.eye,false)">
+                        <label class="custom-control-label" for="radio-no-{{ eyeView.eye + '-'+ i + '-' + isub }}">{{ 'No' | translate }}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Input RADIO -->
+              <div *ngIf="param.type === 'radio'" class="multiples-params radio-buttons">
+                <div class="name">
+                  <span class="title">{{ param.name | translate}}</span>
+                </div>
+
+                <div>
+                  <div class="button-space custom-control custom-radio">
+                    <input type="radio" id="radio-yes-{{ eyeView.eye + '-'+ i }}" name="customRadio-yes-{{ eyeView.eye + '-'+ i }}" value="Yes" 
+                    [disabled]="isDisabled(eyeView.eye)" class="custom-control-input" [(ngModel)]="param.selected">
+                    <label class="custom-control-label" for="radio-yes-{{ eyeView.eye + '-'+ i }}">{{ 'Yes' | translate }}</label>
+                  </div>
+
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="radio-no-{{ eyeView.eye + '-'+ i }}" name="customRadio-no-{{ eyeView.eye + '-'+ i }}" value="No" 
+                    [disabled]="isDisabled(eyeView.eye)" class="custom-control-input" [(ngModel)]="param.selected">
+                    <label class="custom-control-label" for="radio-no-{{ eyeView.eye + '-'+ i }}">{{ 'No' | translate }}</label>
+                  </div>
+                </div>
+              </div>
+
+              <!--Input TEXT DOUBLES-->
+              <div *ngIf="param.type === 'input-double'" class="half-display">
+                <div class="sub-params" *ngFor="let subParam of param.values">
+                  <span *ngIf="subParam.type !== 'select'">{{ subParam.name | translate }}</span>
+                  <!--Input TEXT-->
+                  <input *ngIf="subParam.type === 'input'" type="text" class="form-control" maxlength="60" [disabled]="isDisabled(eyeView.eye)" [(ngModel)]="subParam.selected">
+                </div>
+              </div>
+
+              <!--Input TEXT-->
+              <div *ngIf="param.type === 'input'" class="w-46">
+                <label class="bold">{{ param.name| translate }}</label>
+                <input type="text" class="form-control" [(ngModel)]="param.selected" maxlength="60" [disabled]="isDisabled(eyeView.eye)">
+              </div>
+
+              <!--Input TEXTAREA-->
+              <div *ngIf="param.type === 'text-area'">
+                <label class="bold">{{ param.name| translate }}</label>
+                <textarea type="text" class="form-control" [(ngModel)]="param.selected" [disabled]="isDisabled(eyeView.eye)" maxlength="250"></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <!--Input File-->
+          <div class="documents col-lg-12">
+            <div class="row">
+              <div class="col-md-12">
+                <span class="title">{{ 'Attach pictures, fluograms, videos, or any other tool you might think will help us understand the fitting challenges.' | translate}}</span>
+                <br>
+                <div class="files">
+                  <dt class="title">{{ 'Documents | Attach of Consultation Form' | translate }}</dt>
+                  <div class="custom-file">
+                    <input id="selectedFiles" type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader" multiple />
+                    <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                    <div class="invalid-feedback">Example invalid custom file feedback</div>
+                    <div class="message-error">
+                      <span translate>{{'Max files size:' | translate}} 25MB</span>
+                      <span> / </span>
+                      <span translate>{{'Maximum files number:' | translate }} 5</span>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="" style="margin-bottom: 40px" *ngIf="uploader.queue.length > 0">
+                  <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
+                    <button type="button" class="btn btn-danger btn-s remove" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                      <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                    </button>
+                  </div>
+                  <br>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th width="50%">{{ 'Name' | translate }}</th>
+                        <th>{{ 'Size' | translate }}</th>
+                        <th>{{ 'Actions' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of uploader.queue">
+                        <td><strong>{{ item?.file?.name }}</strong></td>
+                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                        <td nowrap>
+                          <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item)">
+                            <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <br>
+      <div class="row">
+        <div class="col-md-12 save-btns">
+          <button class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
+            (click)="saveConsultationForm()" [disabled]="!formIsValid()">
+            {{ 'Save' | translate }}
+          </button>
+      </div>
+    </div>
+  </div>
+</div>

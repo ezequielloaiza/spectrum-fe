@@ -42,8 +42,9 @@ export class CategoryComponent implements OnInit {
     });
 	}
 
-	open(category,action) {
-		const modalRef = this.modalService.open(CategoryModalComponent);
+	open(category, action) {
+    const modalRef = this.modalService.open(CategoryModalComponent ,
+    { backdrop : 'static', keyboard : false });
 		modalRef.componentInstance.category = category;
 		modalRef.componentInstance.action = action;
 		modalRef.result.then((result) => {

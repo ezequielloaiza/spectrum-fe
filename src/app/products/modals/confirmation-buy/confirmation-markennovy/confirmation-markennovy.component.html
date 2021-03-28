@@ -1,4 +1,3 @@
-<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#fff" type="ball-beat"></ngx-spinner>
 <div *ngIf="namePatient">
   <div class="modal-header">
     <h4 class="modal-title">{{ 'Confirm purchase' | translate }}</h4>
@@ -17,23 +16,33 @@
         <div class="label-title">
           <img class="img-product" src="{{ product.mainImg }}">
         </div>
-        <!--Patient-->
-        <div class="col-lg-12 title label-title patient-info">
-          <span>{{ 'Patient' | translate }}</span>
-          <dl>
-            <dt>{{ namePatient}}</dt>
-          </dl>
-          <dl class="param">
-            <dt>{{ price | currency : "USD $" }}</dt>
-          </dl>
-        </div>
+        <div class="row">
+            <div class="col-lg-4 title label-title patient-info">
+              <span>{{ 'Spectrum code' | translate }}</span>
+              <dl>
+                <dt>{{ product.codeSpectrum }}</dt>
+              </dl>
+            </div>
+            <!--Patient-->
+            <div class="col-lg-4 title label-title patient-info">
+              <span>{{ 'Patient' | translate }}</span>
+              <dl>
+                <dt>{{ namePatient}}</dt>
+              </dl>
+            </div>
+          <div class="col-lg-4 title label-title patient-info">
+              <span>{{ 'Price' | translate }}</span>
+            <dl>
+              <dt>{{ price | currency : "USD $" }}</dt>
+            </dl>
+          </div>
+          </div>
       </div>
       <!--PARAMETERS-->
       <div class="col-lg-12" *ngFor="let list of listBasket">
         <div class="row padding-params">
           <div class="col-lg-12 title eye-info">
-            <span>{{ 'Eye' | translate }}</span>&nbsp;&nbsp;
-            <span>{{ list.detail[0].eye | translate }}</span>
+            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
           <div class="col-sm-3">
             <dl class="align-item">
@@ -66,7 +75,10 @@
                 <dl>
                   <dt>{{'Comments'| translate}}
                   </dt>
-                  <dl>
+                  <dl class="comment" *ngIf="list.observations === '' || list.observations === null">
+                    <span translate>{{'No comments' | translate}}</span>
+                  </dl>
+                  <dl *ngIf="list.observations !== ''">
                     <span style="overflow-x: hidden;"> {{ list.observations }}</span>
                   </dl>
                 </dl>

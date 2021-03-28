@@ -17,6 +17,7 @@ import { BuyNow } from '../../../../shared/models/buynow';
 import { BasketRequest } from '../../../../shared/models/basketrequest';
 import { ProductRequested } from '../../../../shared/models/productrequested';
 import * as _ from 'lodash';
+import { StatusUser } from '../../../../shared/enum/status-user.enum';
 
 @Component({
   selector: 'app-confirmation-markennovy',
@@ -39,10 +40,13 @@ export class ConfirmationMarkennovyComponent implements OnInit {
   typeBuy: any;
   price: any;
   user: any;
+  client: any;
   balace: any;
   // list for File
   listFileBasket: Array<FileProductRequested> = new Array;
   listUrlFiles: Array<String> = new Array;
+  listFileLeftEye: Array<FileProductRequested> = new Array;
+  listFileRightEye: Array<FileProductRequested> = new Array;
   // boolean for delete file
   save_success: Boolean = false;
   company: Company = new Company();
@@ -86,6 +90,9 @@ export class ConfirmationMarkennovyComponent implements OnInit {
     _.each(this.listBasket, function (productRequested) {
       priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
       patient = productRequested.patient;
+      if (productRequested.observations === undefined) {
+        productRequested.observations = '';
+      }
       let details = JSON.parse(productRequested.detail);
       _.each(details, function (detail) {
         eyesSelected.push(detail.eye);
@@ -103,49 +110,70 @@ export class ConfirmationMarkennovyComponent implements OnInit {
       this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;
-      this.basketRequest.fileProductRequestedList = this.listFileBasket;
+      this.basketRequest.listFileRightEye = this.listFileRightEye;
+      this.basketRequest.listFileLeftEye = this.listFileLeftEye;
       this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
         if (res.code === CodeHttp.ok) {
             this.save_success = true;
             this.close();
-            this.translate.get('Successfully save', {value: 'Successfully save'}).subscribe(( res: string) => {
+            this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe(( res: string) => {
               this.notification.success('', res);
             });
             this.spinner.hide();
-            this.redirectListBasket();
+            this.redirectListProducts();
+            // this.redirectListBasket();
         } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+            this.spinner.hide();
+            console.log(res);
+          });
         }
       }, error => {
         console.log('error', error);
       });
     } else {
-      this.buyNow.idUser = this.datos.idUser;
-      this.buyNow.productRequestedList = this.lista;
-      this.buyNow.idRole = this.role;
-      this.buyNow.fileProductRequestedList = this.listFileBasket;
-      this.validateAvailableBalance();
-      if (this.available) {
-        this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.save_success = true;
-          this.spinner.hide();
-          this.close();
-          this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-            this.notification.success('', res);
+      if (this.client.status === StatusUser.InDefault) {
+        this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
+          this.translate.get('Your account was deactivated. Please contact with the administrator',
+          { value: 'Your account was deactivated. Please contact with the administrator' })
+          .subscribe((msg: string) => {
+            this.alertify.warning(msg);
+            this.close();
           });
-          this.redirectListOrder();
-        } else {
-          console.log(res.errors[0].detail);
-          this.spinner.hide();
-        }
-      }, error => {
-        console.log('error', error);
-      });
+        });
       } else {
-        this.openModal(); // No tiene disponible el balance de credito
-        this.close();
+        this.buyNow.idUser = this.datos.idUser;
+        this.buyNow.productRequestedList = this.lista;
+        this.buyNow.idRole = this.role;
+        this.buyNow.listFileRightEye = this.listFileRightEye;
+        this.buyNow.listFileLeftEye = this.listFileLeftEye;
+        // this.validateAvailableBalance();
+        // if (this.available) {
+          this.spinner.show();
+          this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            this.save_success = true;
+            this.spinner.hide();
+            this.close();
+            this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+              this.notification.success('', res);
+            });
+            this.redirectListOrder();
+          } else {
+            this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+              this.notification.error('', res);
+              this.spinner.hide();
+              console.log(res);
+            });
+          }
+        }, error => {
+          console.log('error', error);
+        });
+        /*} else {
+          this.openModal(); // No tiene disponible el balance de credito
+          this.close();
+        }*/
       }
     }
   }
@@ -170,6 +198,10 @@ export class ConfirmationMarkennovyComponent implements OnInit {
     });
   }
 
+  redirectListProducts(): void {
+    this.router.navigate(['/products/']);
+  }
+
   redirectListBasket(): void {
     if (this.user.role.idRole === 3) {
       this.router.navigate(['/list-basket-client']);
@@ -191,8 +223,9 @@ export class ConfirmationMarkennovyComponent implements OnInit {
   getBalance() {
     this.userService.findById$(this.datos.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-         this.company = res.data.company;
-         this.balace = this.company.balance;
+        this.client = res.data;
+        this.company = res.data.company;
+        this.balace = this.company.balance;
       } else {
         console.log(res.errors[0].detail);
       }
@@ -210,7 +243,8 @@ export class ConfirmationMarkennovyComponent implements OnInit {
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open( NotificationBalanceComponent, { size: 'lg', windowClass: 'modal-content-border' });
+    const modalRef = this.modalService.open( NotificationBalanceComponent,
+    { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.buyNowModal = this.buyNow;
     modalRef.result.then((result) => {
       this.ngOnInit();

@@ -60,16 +60,53 @@ import { SummaryProductsComponent } from './basket/modals/summary-products/summa
 import { ModalsChangeStatusComponent } from './warranty/modals/modals-change-status/modals-change-status.component';
 import { GenerateInvoiceComponent } from './manage-customer-orders/generate-invoice/generate-invoice.component';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MagicLookComponent } from './basket/edit-order/magic-look/magic-look.component';
-import { BlueLightComponent } from './basket/edit-order/blue-light/blue-light.component';
-import { EuclidComponent } from './basket/edit-order/euclid/euclid.component';
-import { MarkennovyComponent } from './basket/edit-order/markennovy/markennovy.component';
+import { MagicLookComponent } from './edit-order/magic-look/magic-look.component';
+import { BlueLightComponent } from './edit-order/blue-light/blue-light.component';
+import { EuclidComponent } from './edit-order/euclid/euclid.component';
+import { MarkennovyComponent } from './edit-order/markennovy/markennovy.component';
 import { ManageInvoiceComponent } from './manage-invoice/manage-invoice.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NotificationBalanceOrderComponent } from './notification/notification-balance-order/notification-balance-order.component';
+import { InvoiceClientService } from '../shared/services/invoiceClient/invoice-client.service';
 import { DetailMagicLookComponent } from './basket/modals/detail-product/detail-magic-look/detail-magic-look.component';
 import { DetailMarkennovyComponent } from './basket/modals/detail-product/detail-markennovy/detail-markennovy.component';
 import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
+import { ManagePaymentsComponent } from './manage-payments/manage-payments.component';
+import { PaymentsMadeComponent } from './manage-payments/payments-made/payments-made.component';
+import { AddPaymentModalComponent } from './manage-payments/payments-made/modals/add-payment-modal/add-payment-modal.component';
+import { DetailEuclidComponent } from './basket/modals/detail-product/detail-euclid/detail-euclid.component';
+import { DetailEuropaComponent } from './basket/modals/detail-product/detail-europa/detail-europa.component';
+import { ChangeStatusComponent } from './manage-payments/payments-made/modals/change-status/change-status.component';
+import { EuropaComponent } from './edit-order/europa/europa.component';
+import { DetailSalineFluoComponent } from './basket/modals/detail-product/detail-saline-fluo/detail-saline-fluo.component';
+import { SalineFluoComponent } from './edit-order/saline-fluo/saline-fluo.component';
+import { DetailLenticonComponent } from './basket/modals/detail-product/detail-lenticon/detail-lenticon.component';
+import { LenticonComponent } from './edit-order/lenticon/lenticon.component';
+import { ModalsInvoiceComponent } from './manage-customer-orders/modals-invoice/modals-invoice.component';
+import { ManageCommissionComponent } from './manage-commission/manage-commission.component';
+import { ChangeStatusCommissionComponent } from './manage-commission/change-status-commission/change-status-commission.component';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { ModalsShippingComponent } from './manage-customer-orders/modals-shipping/modals-shipping.component';
+import { EntrustingCompanyComponent } from './entrusting-company/entrusting-company.component';
+import { EntrustingCompanyModalComponent } from './entrusting-company/modals/entrusting-company-modal/entrusting-company-modal.component';
+import { ProtocolClientComponent } from './protocol-client/protocol-client.component';
+import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/shipping-protocol.component';
+import { ProtocolComponent } from './protocol/protocol.component';
+import { ProtocolProformaComponent } from './protocol/protocol-proforma/protocol-proforma.component';
+import { InvoiceClientQBOComponent } from './invoice-client-qbo/invoice-client-qbo.component';
+import { DetailSynergeyesComponent } from './basket/modals/detail-product/detail-synergeyes/detail-synergeyes.component';
+import { SynergeyesComponent } from './edit-order/synergeyes/synergeyes.component';
+import { SupplierSynergeyesComponent } from './details-order-supplier/supplier-synergeyes/supplier-synergeyes.component';
+import { ModalSendInvoiceComponent } from './manage-customer-orders/modal-send-invoice/modal-send-invoice.component';
+import { ModalUserStatusComponent } from './user/modals/modal-user-status/modal-user-status.component';
+import { DetailOrionComponent } from './basket/modals/detail-product/detail-orion/detail-orion.component';
+import { SupplierOrionComponent } from './details-order-supplier/supplier-orion/supplier-orion.component';
+import { OrionComponent } from './edit-order/orion/orion/orion.component';
+import { CommonsModule } from '../commons.module';
+import { ConsultationFormListComponent } from './manage-consultation-form/consultation-form-list/consultation-form-list.component';
+import { ModalChangeStatusComponent } from './manage-consultation-form/modal-change-status/modal-change-status.component';
+import { DetailConsultationFormComponent } from './manage-consultation-form/detail-consultation-form/detail-consultation-form.component';
+import { EditConsultationFormComponent } from './manage-consultation-form/edit-consultation-form/edit-consultation-form.component';
 
 @NgModule({
     imports: [
@@ -85,7 +122,9 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
         BreadcrumbModule,
         NgSelectModule,
         FileUploadModule,
-        NgxSpinnerModule
+        NgxSpinnerModule,
+        CurrencyMaskModule,
+        CommonsModule
     ],
     declarations: [
         LayoutComponent,
@@ -148,7 +187,41 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
         NotificationBalanceOrderComponent,
         DetailMagicLookComponent,
         DetailMarkennovyComponent,
-        DetailBlueLightComponent
+        DetailBlueLightComponent,
+        ManagePaymentsComponent,
+        PaymentsMadeComponent,
+        AddPaymentModalComponent,
+        DetailEuclidComponent,
+        DetailEuropaComponent,
+        EuropaComponent,
+        ChangeStatusComponent,
+        DetailSalineFluoComponent,
+        SalineFluoComponent,
+        DetailLenticonComponent,
+        LenticonComponent,
+        ModalsInvoiceComponent,
+        ManageCommissionComponent,
+        ChangeStatusCommissionComponent,
+        ModalsShippingComponent,
+        EntrustingCompanyComponent,
+        EntrustingCompanyModalComponent,
+        ProtocolClientComponent,
+        ShippingProtocolComponent,
+        ProtocolComponent,
+        ProtocolProformaComponent,
+        InvoiceClientQBOComponent,
+        DetailSynergeyesComponent,
+        SynergeyesComponent,
+        SupplierSynergeyesComponent,
+        ModalSendInvoiceComponent,
+        ModalUserStatusComponent,
+        DetailOrionComponent,
+        SupplierOrionComponent,
+        OrionComponent,
+        ConsultationFormListComponent,
+        ModalChangeStatusComponent,
+        DetailConsultationFormComponent,
+        EditConsultationFormComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -172,11 +245,33 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
       BlueLightComponent,
       EuclidComponent,
       MarkennovyComponent,
-      GenerateInvoiceComponent,
       NotificationBalanceOrderComponent,
       DetailMagicLookComponent,
       DetailMarkennovyComponent,
-      DetailBlueLightComponent
+      DetailBlueLightComponent,
+      AddPaymentModalComponent,
+      DetailEuclidComponent,
+      DetailEuropaComponent,
+      EuropaComponent,
+      ChangeStatusComponent,
+      DetailSalineFluoComponent,
+      SalineFluoComponent,
+      DetailLenticonComponent,
+      LenticonComponent,
+      ModalsInvoiceComponent,
+      ChangeStatusCommissionComponent,
+      ModalsShippingComponent,
+      EntrustingCompanyModalComponent,
+      EntrustingCompanyComponent,
+      DetailSynergeyesComponent,
+      SynergeyesComponent,
+      ModalSendInvoiceComponent,
+      ModalUserStatusComponent,
+      DetailOrionComponent,
+      OrionComponent,
+      ModalChangeStatusComponent,
+      DetailConsultationFormComponent,
+      EditConsultationFormComponent
     ],
     providers: [
       BusinessTypeService,
@@ -186,7 +281,8 @@ import { DetailBlueLightComponent } from './basket/modals/detail-product/detail-
       UserResolver,
       SellerResolver,
       RoleGuard,
-      AuthorizationService
+      AuthorizationService,
+      InvoiceClientService
     ]
 })
 export class LayoutModule {}

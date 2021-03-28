@@ -1,0 +1,210 @@
+
+@import "../../../../styles/spectrum/spectrum";
+
+.body{
+  overflow-y: auto;
+}
+
+.list-basket {
+  max-height: 630px;
+  padding: 2em;
+
+
+  .main-info {
+    text-align: center;
+  }
+
+  .img-product {
+    width: 280px;
+    height: 9.5em;
+  }
+
+  .display-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .display-header {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .message-power {
+    > span {
+      font-size: 12px;
+      color: #950f0f;
+    }
+  }
+
+  .selected-power{
+    height: 38px !important;
+  }
+  .display-price {
+    justify-content: center;
+  }
+
+  .padding-params {
+    padding:  0 2em;
+
+    .parameters{
+      color: $secondary-info;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      padding-top: 1rem;
+    }
+
+    .justify-steps{
+      justify-content: center;
+      padding-left: 2rem;
+      padding-right: 8rem;
+    }
+
+    .content-title{
+      padding-left: 2rem;
+    }
+  }
+
+  .params {
+    padding-top: 1em;
+
+    .separator {
+      margin-bottom: 1em;
+    }
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .label-title {
+    padding-top: 1.5em;
+  }
+
+  .patient-info {
+    padding-bottom: 1.5em;
+  }
+
+  .type-lens {
+    display: flex;
+    margin: 15px 30px;
+
+    > span:nth-child(1) {
+      margin-right: 20px;
+      font-weight: 600;
+    }
+
+    > div:nth-child(2), > div:nth-child(3) {
+      margin-right: 50px;
+      font-size: 14px;
+
+      label {
+        font-weight: 300;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .type-steps {
+    display: flex;
+    margin: 15px;
+
+    > span:nth-child(1) {
+      margin: 0 0.5rem 0 0;
+      font-weight: 600;
+    }
+
+    > div:nth-child(2), > div:nth-child(3) {
+      margin-right: 40px;
+      font-size: 14px;
+
+      label {
+        font-weight: 300;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .eye-info {
+    color: $secondary-info;
+    padding: 0 2em;
+  }
+
+  .align-item{
+    text-align: center;
+  }
+
+  .param-power {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .content-steps {
+    .selection {
+      padding-right: 1.5rem;
+      padding-top: 30px;
+    }
+    .sub-label {
+      padding-left: 25px;
+
+      .row {
+        padding-top: 5px;
+        padding-left: 15px;
+      }
+
+      .items{
+        color: $secondary-info;
+      }
+    }
+
+  }
+
+  .param-flex {
+    display: flex;
+
+    .notch {
+      width: 25%;
+    }
+
+    .select-notch {
+      width: 50%;
+
+      img {
+        border-radius: 0;
+        height: 110px;
+        opacity: 0.7;
+        width: 110px;
+      }
+
+      img:hover {
+        border: 3px #007afe solid;
+        border-radius: 15px;
+        opacity: 1;
+      }
+    }
+  }
+
+  .selected-image {
+    border: 3px #8faab4 solid;
+    border-radius: 15px !important;
+    opacity: 1 !important;
+  }
+
+  .notch-lbl {
+    display: flex;
+
+    > dt:nth-child(1) {
+      width: 50%;
+    }
+
+    > dt:nth-child(2),
+    > dt:nth-child(3) {
+      margin-left: 5px;
+      width: 23%
+    }
+  }
+
+  .warnings {
+    color: green;
+  }
+
+}

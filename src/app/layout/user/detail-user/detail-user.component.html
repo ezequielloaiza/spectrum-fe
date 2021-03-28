@@ -4,7 +4,7 @@
       <li routerLink="/user/{{id}}/edit" [routerLinkActive]="['router-link-active']">
         <a>
           <span>
-            {{ 'Personal info' | translate }}
+            {{ 'Personal Info' | translate }}
           </span>
         </a>
       </li>
@@ -19,6 +19,20 @@
         <a>
           <span>
             {{ 'Supplier Info' | translate }}
+          </span>
+        </a>
+      </li>
+      <li routerLink="/user/{{id}}/edit-shipping" [routerLinkActive]="['router-link-active']">
+        <a>
+          <span>
+            {{ "Shipping Protocols" | translate }}
+          </span>
+        </a>
+      </li>
+      <li routerLink="/user/{{id}}/edit-shipping-proforma" [routerLinkActive]="['router-link-active']">
+        <a>
+          <span>
+            {{ "Proforma Protocols" | translate }}
           </span>
         </a>
       </li>

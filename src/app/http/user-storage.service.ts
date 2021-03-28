@@ -9,7 +9,7 @@ const LANGUAGE     = 'language';
 @Injectable()
 export class UserStorageService {
 
-  currentUser = {token: '', role: {idRole: null, name: ''}, roles: []};
+  currentUser = {token: '', role: {idRole: null, name: ''}, roles: [], isIntegratedQBO: null};
 
   constructor() { }
 
@@ -56,6 +56,23 @@ export class UserStorageService {
     }
     roles = roles.slice(roles.length / 2);
     return roles;
+  }
+
+  public getIsIntegratedQBO(): boolean {
+    this.currentUser = JSON.parse(sessionStorage.getItem(CURRENT_USER));
+    return this.currentUser.isIntegratedQBO;
+  }
+
+  public setIsIntegratedQBO(value: boolean): void {
+    this.currentUser = JSON.parse(sessionStorage.getItem(CURRENT_USER));
+    this.currentUser.isIntegratedQBO = value;
+    window.sessionStorage.removeItem(CURRENT_USER);
+    window.sessionStorage.setItem(CURRENT_USER,  JSON.stringify(this.currentUser));
+  }
+
+  public getIsAdmin(): boolean {
+    this.currentUser = JSON.parse(sessionStorage.getItem(CURRENT_USER));
+    return this.currentUser.role.idRole === 1;
   }
 
 }

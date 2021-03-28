@@ -30,13 +30,15 @@ export class EditCompanyComponent implements OnInit {
   saving = false;
   listPaymentMethod = [{ id: 0, name: 'Prepaid' },
                        { id: 1, name: 'Postpaid' }];
-  listCreditDays = [ '15', '30', '60' ];
+  listCreditDays = [ '30', '60' ];
   postpaid = false;
   method: any;
   listCountries: Array<any> = new Array;
   selectedCountry: any = null;
   locale: any;
   quantityProcessed: any;
+  valorCompanyCity: any;
+  connected: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -50,6 +52,7 @@ export class EditCompanyComponent implements OnInit {
               private orderService: OrderService) { }
 
   ngOnInit() {
+    this.connected = this.userStorageService.getIsIntegratedQBO();
     this.id = this.route.parent.snapshot.paramMap.get('id');
     this.getBussinesAll();
     this.getCompany(this.id);
@@ -67,7 +70,7 @@ export class EditCompanyComponent implements OnInit {
       creditLimit   : ['', [Validators.required]],
       idBusinessType: ['', [Validators.required]],
       address       : [''],
-      shippingInstructions : ['', [Validators.required]],
+      shippingInstructions : [''],
       state         : [''],
       idCountry       : ['', [ Validators.required]],
       cityPlace          : ['', [ Validators.required]],
@@ -146,11 +149,14 @@ export class EditCompanyComponent implements OnInit {
       this.googleService.setPlace(res.data.result);
       const country = this.translate.instant(this.googleService.getCountry());
       this.selectedCountry = _.filter(countries, { 'name': country } );
-      this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      if (this.selectedCountry.length > 0) {
+        this.form.get('idCountry').setValue(this.selectedCountry[0].idCountry);
+      }
       this.form.get('state').setValue(this.googleService.getState());
       this.form.get('postalCode').setValue(this.googleService.getPostalCode());
-      this.form.get('cityPlace').setValue({description: this.googleService.getCity()});
-      this.form.get('city').setValue({ description: this.googleService.getCity() });
+      this.form.get('cityPlace').setValue({description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name});
+      this.form.get('city').setValue({ description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name });
+      this.valorCompanyCity = { description: this.googleService.getCity() ? this.googleService.getCity() : this.googleService.place.address_components[0].long_name };
     });
   }
 
@@ -178,6 +184,13 @@ export class EditCompanyComponent implements OnInit {
 
   save(): void {
     this.saving = true;
+    if (this.googleService.place && !!this.googleService.place.address_components.length && this.googleService.place.address_components[0].long_name) {
+      this.form.get('city').setValue(this.googleService.place.address_components[0].long_name);
+    } else if (this.valorCompanyCity && this.valorCompanyCity.description) {
+      this.form.get('city').setValue(this.valorCompanyCity.description);
+    } else {
+      this.form.get('city').setValue(this.valorCompanyCity);
+    }
     this.companyService.update$(this.form.value).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.canEdit = false;
@@ -186,6 +199,11 @@ export class EditCompanyComponent implements OnInit {
         this.postpaid = this.company.paymentMethod === 1 ? true : false;
         this.translate.get('Successfully Updated', {value: 'Successfully Updated'}).subscribe((resTra: string) => {
           this.notification.success('', resTra);
+        });
+      } else {
+        console.log(res);
+        this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+          this.notification.error('', res);
         });
       }
       this.saving = false;

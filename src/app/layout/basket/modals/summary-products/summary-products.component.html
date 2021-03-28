@@ -1,4 +1,3 @@
-<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "medium" color = "#fff" type = "ball-beat"></ngx-spinner>
 <div>
   <div class="modal-header">
     <h4 class="modal-title">{{ 'Summary products' | translate }}</h4>
@@ -6,28 +5,39 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="card-body table-responsive row">
-    <div class="confirm">
-      <span>{{ 'Please confirm the selected products' | translate }} {{ '(' + quantity + ') ?' }}</span>
-    </div>
-    <br>
-    <div class="container pp rounded">
-      <div class="row justify-content-md-center order-summary">
-        <div class="col-md-4 pull-right">
-          <p class="font-weight-bold" translate>{{'Order Summary'}}</p>
-          <p class="font-weight-normal" translate>{{'Item(s) Subtotal'}}</p>
-          <p class="font-weight-normal" translate>{{'Shipping & handling'}}</p>
-          <p class="font-weight-bold" translate>{{'Order Total'}}</p>
+  <div class="content">
+    <div class="row">
+      <div class="col-lg-12 label-title">
+        <div class="col-lg-12 main-info">
+          <div class="confirm">
+            <span>{{ 'Please confirm the selected products' | translate }} {{ '(' + quantity + ') ?' }}</span>
+          </div>
         </div>
-        <div class="col-md-4">
-          <p class="font-weight-bold text-left" translate>{{'Totals'}}</p>
-          <p class="font-weight-normal" translate>
-            <span>{{subtotal | currency : "USD $" }}</span>
-          </p>
-          <p class="font-weight-normal" translate>
-            <span>{{'0' | currency : "USD $" }}</span>
-          </p>
-          <p class="font-weight-bold text-left">{{total | currency : "USD $" }}</p>
+        <div class="row padding-params display-params">
+          <div class="col-sm-4">
+            <dl>
+              <dt>
+                <p class="font-weight-bold" translate>{{'Order Summary'}}</p>
+                <p class="font-weight-normal" translate>{{'Item(s) Subtotal'}}</p>
+                <p class="font-weight-normal" translate>{{'Shipping & handling'}}</p>
+                <p class="font-weight-bold" translate>{{'Order Total'}}</p>
+              </dt>
+            </dl>
+          </div>
+          <div class="col-sm-3">
+            <dl class="align-item">
+              <dt>
+                <p class="font-weight-bold" translate>{{'Totals'}}</p>
+                <p class="font-weight-normal" translate>
+                  <span>{{subtotal | currency : "USD $" }}</span>
+                </p>
+                <p class="font-weight-normal" translate>
+                  <span>{{'0' | currency : "USD $" }}</span>
+                </p>
+                <p class="font-weight-bold">{{total | currency : "USD $" }}</p>
+              </dt>
+            </dl>
+          </div>
         </div>
       </div>
     </div>

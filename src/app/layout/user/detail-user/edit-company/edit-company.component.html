@@ -5,9 +5,12 @@
       <form [formGroup]="form">
         <div class="form-options">
           <span class="sp-title">{{ 'Company Info' | translate }}</span>
-          <button class="btn btn-main" (click)="edit()" [hidden]="canEdit">{{ 'Edit' | translate }}&nbsp;
+          <button class="btn btn-main" (click)="edit()" [hidden]="canEdit" *ngIf="connected">{{ 'Edit' | translate }}&nbsp;
             <i class="fa fa-edit"></i>
           </button>
+          <button class="btn btn-main disabled" placement="top" ngbTooltip="{{'To update a company you must authorize to Quickbooks to complete the integration' | translate }}" (click)="edit()" [hidden]="canEdit" *ngIf="!connected">{{ 'Edit' | translate }}&nbsp;           
+            <i class="fa fa-edit"></i>
+          </button>        
         </div>
         <br>
         <div class="row">
@@ -39,10 +42,13 @@
           </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
-              <label>{{ 'Business types' | translate }}</label>
-              <select class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
-                <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name | translate }}</option>
-              </select>
+              <label>{{ 'Business Type' | translate }}</label>
+              <div class="mb-2 mr-sm-2 mb-sm-0">
+                <span [hidden]="canEdit">{{ company.businessType.name }}</span>
+                <select [hidden]="!canEdit" class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
+                  <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name | translate }}</option>
+                </select>
+              </div>
             </fieldset>
             <div class="message-error" [hidden]="idBusinessType.valid || idBusinessType.pristine">
               <span>{{ 'Business type is required' | translate }}</span>
@@ -99,8 +105,8 @@
               <label>{{ 'Country' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
                 <span [hidden]="canEdit">{{ company.country? (company.country.name | translate) : '' }}</span>
-                <ng-select [hidden]="!canEdit" [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}" [searchable]="false"
-                  [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}">
+                <ng-select [hidden]="!canEdit" [items]="listCountries" formControlName="idCountry" notFoundText="{{ 'No country found' | translate }}"
+                  [searchable]="false" [(ngModel)]="selectedCountry" bindValue="idCountry" placeholder="{{ 'Select country' | translate }}">
                   <ng-template ng-label-tmp let-item="item">
                     <div class="supplier-body">
                       <span>{{ item.name | translate }}</span>
@@ -152,23 +158,24 @@
             <div class="message-error" [hidden]="!canEdit || phone.value.length === 0 || phone.value.length > 7">
               <span>{{ 'Phone not valid' | translate }}</span>
             </div>
+            <!--
             <div class="message-error" [hidden]="!canEdit || phone.value!=''">
               <span>{{ 'Phone is required' | translate }}</span>
             </div>
+            -->
           </div>
           <div class="col-xl-12">
             <fieldset class="form-group">
               <label>{{ 'Shipping Instructions' | translate }}
               </label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company.shippingInstructions }}</span>
-                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions" formControlName="shippingInstructions" maxlength="255"
-                required>
+                <span [hidden]="canEdit">{{ company.shippingInstructions? company.shippingInstructions : ('No Instructions Shipping' | translate) }}</span>
+                <input [hidden]="!canEdit" class="form-control" placeholder="{{ 'Enter shipping instructions' | translate }}" name="shippingInstructions" formControlName="shippingInstructions" maxlength="255">
               </div>
             </fieldset>
-            <div class="message-error" [hidden]="shippingInstructions.valid || shippingInstructions.pristine">
+            <!--<div class="message-error" [hidden]="!canEdit || shippingInstructions.value!=''">
               <span>{{ 'Shipping instructions are required' | translate }}</span>
-            </div>
+            </div>-->
           </div>
           <div class="col-xl-6">
             <fieldset class="form-group">
@@ -204,8 +211,8 @@
                   <div [hidden]="!canEdit" class="input-group-append">
                     <span class="input-group-text">$</span>
                   </div>
-                  <input [hidden]="!canEdit" class="form-control" min="1" type="number" placeholder="{{ 'Enter credit limit' | translate }}" name="creditLimit"
-                    formControlName="creditLimit" (change)="newBalance($event)" required>
+                  <input [hidden]="!canEdit" class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" placeholder="{{ 'Enter credit limit' | translate }}"
+                    name="creditLimit" formControlName="creditLimit" (change)="newBalance($event)" required>
                 </div>
               </div>
               <div class="message-error" [hidden]="creditLimit.valid || creditLimit.pristine">
@@ -222,7 +229,7 @@
                   <div [hidden]="!canEdit" class="input-group-append">
                     <span class="input-group-text">$</span>
                   </div>
-                  <input [hidden]="!canEdit" class="form-control" type="number" placeholder="{{ 'Enter credit balance' | translate }}" name="balance"
+                  <input [hidden]="!canEdit" class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" placeholder="{{ 'Enter credit balance' | translate }}" name="balance"
                     formControlName="balance" required>
                 </div>
               </div>
@@ -252,7 +259,8 @@
             <i class="fa fa-times"></i>
           </button>
           &nbsp;&nbsp;
-          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || phone.value =='' || (phone.value.length < 8 && !!phone.value.length) || saving"
+          <!--<button class="btn btn-main" (click)="save()" [disabled]="form.invalid || phone.value =='' || (phone.value.length < 8 && !!phone.value.length) || saving"-->
+          <button class="btn btn-main" (click)="save()" [disabled]="form.invalid || saving"
             [hidden]="!canEdit">{{ 'Save' | translate }}&nbsp;
             <i class="fa fa-save"></i>
           </button>
