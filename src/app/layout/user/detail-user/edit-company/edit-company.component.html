@@ -44,7 +44,7 @@
             <fieldset class="form-group">
               <label>{{ 'Business Type' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span [hidden]="canEdit">{{ company.businessType.name }}</span>
+                <span [hidden]="canEdit">{{ company.businessType ? company.businessType.name : ( 'Unassigned' | translate)}}</span>
                 <select [hidden]="!canEdit" class="form-control" name="idBusinessType" formControlName="idBusinessType" required>
                   <option *ngFor="let bussinesType of businessTypes" [ngValue]="bussinesType.idBusinessType">{{ bussinesType.name | translate }}</option>
                 </select>

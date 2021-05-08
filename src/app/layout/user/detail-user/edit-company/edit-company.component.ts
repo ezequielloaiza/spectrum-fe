@@ -170,7 +170,7 @@ export class EditCompanyComponent implements OnInit {
     this.form.get('cityPlace').setValue({description: company.city});
     this.form.get('postalCode').setValue(company.postalCode);
     this.form.get('phone').setValue(this.company.phone == null ? '' : this.company.phone);
-    this.form.get('idBusinessType').setValue(company.businessType.idBusinessType);
+    this.form.get('idBusinessType').setValue(company.businessType ? company.businessType.idBusinessType : null);
     this.form.get('creditLimit').setValue(company.creditLimit);
     this.form.get('paymentMethod').setValue(company.paymentMethod);
     this.method = company.paymentMethod === 1 ? 'Postpaid' : 'Prepaid';
