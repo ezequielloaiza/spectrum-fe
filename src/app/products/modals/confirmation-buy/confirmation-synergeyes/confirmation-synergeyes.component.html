@@ -64,8 +64,8 @@
               <dt class="white-space">{{ parameter.name | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items" *ngIf="parameter.name !== 'Profile' && parameter.name !== 'Warranty'">{{ parameter.selected !== null ? parameter.selected : ('Unassigned' | translate)  }}</dt>
-                <dt class="items" *ngIf="parameter.name === 'Profile' || parameter.name === 'Warranty'">{{ (parameter.selected == true ? 'Yes' : 'No') | translate }}</dt>
+                <dt class="items" *ngIf="parameter.name !== 'Enhanced Profile' && parameter.name !== 'Warranty'">{{ parameter.selected !== null ? parameter.selected : ('Unassigned' | translate)  }}</dt>
+                <dt class="items" *ngIf="parameter.name === 'Enhanced Profile' || parameter.name === 'Warranty'">{{ (parameter.selected == true ? 'Yes' : 'No') | translate }}</dt>
               </dl>
             </dl>
           </div>
