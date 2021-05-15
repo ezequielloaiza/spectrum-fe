@@ -46,7 +46,7 @@
           </dd>
         </div>
         <div class="col-md-3">
-          <dt>{{ 'Replacemente Period' | translate }}</dt>
+          <dt>{{ 'Replacement Period' | translate }}</dt>
           <p>{{ product.replacementPeriod | translate }}</p>
         </div>
         <div class="col-md-2">
@@ -141,7 +141,7 @@
                 <!--param values-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
                   <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
-                    [disabled]="!product.eyeRight || disabledPupil(parameter)" [required]="product.eyeRight && !disabledPupil(parameter)" 
+                    [disabled]="!product.eyeRight || disabledPupil(parameter)" [required]="product.eyeRight && !disabledPupil(parameter)"
                     [(ngModel)]="parameter.sel"
                     bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="isPupil(parameter)"
                     (clear)="resetPupil('right', parameter)">
@@ -177,7 +177,7 @@
                 <div class="col-md-12 codes-value">
                   <div *ngFor="let value of parameter.values" class="select-values col-lg-3">
                     <label>{{ value.name | translate }}</label>
-                    <input type="number" id="value.id"  class="form-control" [disabled]="!product.eyeRight" [(ngModel)]="value.selected" 
+                    <input type="number" id="value.id"  class="form-control" [disabled]="!product.eyeRight" [(ngModel)]="value.selected"
                       (input)="changeSelect('right', value,  value.selected)" min="0" max="4" step="1">
                   </div>
                 </div>
@@ -286,7 +286,7 @@
                 <!--param values-->
                 <div *ngIf="parameter.type === 'selected'" class="row select-values">
                   <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
-                    [disabled]="!product.eyeLeft || disabledPupil(parameter)" [required]="product.eyeLeft" [(ngModel)]="parameter.sel" 
+                    [disabled]="!product.eyeLeft || disabledPupil(parameter)" [required]="product.eyeLeft" [(ngModel)]="parameter.sel"
                     bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="isPupil(parameter)"
                     (clear)="resetPupil('left', parameter)" >
                     <ng-template ng-label-tmp let-item="item">
@@ -322,7 +322,7 @@
                 <div class="col-md-12 codes-value">
                   <div *ngFor="let value of parameter.values" class="select-values col-lg-3">
                     <label>{{ value.name | translate }}</label>
-                    <input type="number" id="value.id"  class="form-control" [disabled]="!product.eyeLeft" [(ngModel)]="value.selected" 
+                    <input type="number" id="value.id"  class="form-control" [disabled]="!product.eyeLeft" [(ngModel)]="value.selected"
                       (input)="changeSelect('left', value,  value.selected)" min="0" max="4" step="1">
                   </div>
                 </div>
