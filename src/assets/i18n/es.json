@@ -216,7 +216,7 @@
     "Quantity":"Cantidad",
     "Price":"Precio",
     "Material":"Material",
-    "Replacement period":"Periodo de reemplazo",
+    "Replacement Period":"Período de reemplazo",
     "Warranty":"Garantía",
     "Warranty Information": "Información de garantía",
     "Warranties List": "Lista de Garantías",
@@ -879,7 +879,6 @@
     "Product Sheet": "Hoja del Producto",
     "Add to cart": "Añadir a la Cesta",
     "Properties": "Propiedades",
-    "Replacemente Period": "Período de Sustitución",
     "Account Name": "Nombre cliente",
     "General Parameters": "Parámetros Generales",
     "Please specific your product": "Por favor especifica tu producto",
@@ -1379,5 +1378,9 @@
     "Enter reference number": "Introduzca el número de referencia",
     "Total Due": "Total adeudado",
     "Total Overdue": "Total vencido",
-    "All Invoices": "Todas las facturas"
+    "All Invoices": "Todas las facturas",
+    "Recommended replacement 6 to 12 months": "Reemplazo recomendado de 6 a 12 meses",
+    "Enhanced Profile": "Perfil mejorado",
+    "84 Dk SiHy skirt / 130 Dk GP centre / Class II UVA / UVB Blocker": "84 Dk SiHy falda / 130 Dk GP centro / Clase II UVA / UVB Bloqueador",
+    "Hema skirt / 100 Dk / GP centre": "Falda Hema / 100 Dk / GP centro"
 }

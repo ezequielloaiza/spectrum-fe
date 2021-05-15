@@ -596,7 +596,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
 
         /*params*/
         _.each(product.parametersRight, function(parameter, index) {
-          if (parameter.name === 'Warranty' || parameter.name === 'Profile') {
+          if (parameter.name === 'Warranty' || parameter.name === 'Enhanced Profile') {
             parameter.selected = parameter.selected === 'Yes' ? true : false;
          }
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
@@ -611,7 +611,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
 
         /*params*/
         _.each(product.parametersLeft, function(parameter, index) {
-          if (parameter.name === 'Warranty' || parameter.name === 'Profile') {
+          if (parameter.name === 'Warranty' || parameter.name === 'Enhanced Profile') {
             parameter.selected = parameter.selected === 'Yes' ? true : false;
           }
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel', 'placeholder']);
