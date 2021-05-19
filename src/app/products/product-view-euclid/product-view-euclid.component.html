@@ -66,7 +66,7 @@
       <!-- row (pacient, client, shipping address) -->
       <div class="row product-info">
         <!-- patient -->
-        <div class="col-lg-3">
+        <div class="col-lg-4">
           <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
           <div class="row info-content">
             <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter name patient' | translate }}" [(ngModel)]="product.patient"
@@ -96,9 +96,14 @@
               readonly>
           </div>
         </div>
-        <div class="col-lg-1">
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
           <h5 class="padding-price" [hidden]="product.priceSale===''">
             <span>{{ product.priceSale | currency : "USD $" }}</span>
+            <span>{{ 'THE PRICE IS SUBJECT TO VARIATIONS ACCORDING TO THE DESIGN RECOMMENDED BY THE LABORATORY' | translate }}</span>
           </h5>
         </div>
       </div>
