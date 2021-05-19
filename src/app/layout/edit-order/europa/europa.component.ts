@@ -892,7 +892,7 @@ export class EuropaComponent implements OnInit {
         if (!!selectedNotch &&  (productSelected.selected === null || productSelected.selected === undefined)) {
           valido = false;
         }
-      } else if (productSelected.selected === null || productSelected.selected === undefined) {
+      } else if (!productSelected.noRequired && (productSelected.selected === null || productSelected.selected === undefined)) {
           valido = false;
       }
     });
