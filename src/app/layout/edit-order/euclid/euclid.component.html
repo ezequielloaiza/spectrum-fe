@@ -99,11 +99,14 @@
       <!--comments-->
       <div class="col-lg-12">
         <div class="row padding-params">
-          <div class="col-md-6">
+          <div class="col-md-12">
+            <span class="price" translate>{{ 'THE PRICE IS SUBJECT TO VARIATIONS ACCORDING TO THE DESIGN RECOMMENDED BY THE LABORATORY' | translate }}</span>
+          </div>
+          <div class="col-md-12">
             <!-- Warning Warranty -->
             <div *ngIf="warranty" class="message-error">
               <br>
-              <span translate>{{'Warning: Additional by Warranty' | translate}}{{ additional | currency : " USD $" }}</span>
+              <span class="warranty" translate>{{'Warning: Additional by Warranty' | translate}}{{ additional | currency : " USD $" }}</span>
             </div>
           </div>
           <div class="col-sm-12">

@@ -169,7 +169,7 @@
                         <ng-select class="display-row" [items]="parameter.values" [(ngModel)]="parameter.selected"
                                     bindValue="item" placeholder="{{ 'Select value' | translate }}"
                                     (change)="changeSelect(parameter, parameter.selected,0)"
-                                    [clearable]="false" required>
+                                    [clearable]="parameter.noRequired" [required]="!parameter.noRequired">
                           <ng-template ng-label-tmp let-item="item">
                             <div class="supplier-body">
                               <span>{{ item | translate }}</span>
