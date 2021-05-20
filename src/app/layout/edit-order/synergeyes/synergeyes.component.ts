@@ -120,7 +120,7 @@ export class SynergeyesComponent implements OnInit {
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
-          if (productSelected.name === 'Warranty' || productSelected.name === 'Profile') {
+          if (productSelected.name === 'Warranty' || productSelected.name === 'Enhanced Profile') {
             productSelected.selected = item.selected ? 'Yes' : 'No';
           } else {
             productSelected.selected = item.selected;
@@ -299,7 +299,7 @@ export class SynergeyesComponent implements OnInit {
     _.each(this.detail.parameters, function(item) {
       _.each(paramet, function(productSelected) {
         if (productSelected.name === item.name) {
-           if (productSelected.name === 'Warranty' || productSelected.name === 'Profile') {
+           if (productSelected.name === 'Warranty' || productSelected.name === 'Enhanced Profile') {
             item.selected = productSelected.selected === 'Yes' ? true : false;
           } else {
             item.selected = productSelected.selected;

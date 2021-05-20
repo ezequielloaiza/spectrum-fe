@@ -203,7 +203,7 @@
     "Quantity":"Quantity",
     "Price":"Price",
     "Material":"Material",
-    "Replacement period":"Replacement period",
+    "Replacement Period":"Replacement Period",
     "Warranty":"Warranty",
     "Warranties List": "Warranties List",
     "Enter warranty search..": "Enter warranty search..",
@@ -703,7 +703,6 @@
     "Product Sheet": "Product Sheet",
     "Add to cart": "Add to cart",
     "Properties": "Properties",
-    "Replacemente Period": "Replacemente Period",
     "Account Name": "Account Name",
     "General Parameters": "General Parameters",
     "Please specific your product": "Please specific your product",
@@ -1201,5 +1200,9 @@
     "Enter reference number": "Enter reference number",
     "Total Due": "Total Due",
     "Total Overdue": "Total Overdue",
-    "All Invoices": "All Invoices"
+    "All Invoices": "All Invoices",
+    "Recommended replacement 6 to 12 months": "Recommended replacement 6 to 12 months",
+    "Enhanced Profile": "Enhanced Profile",
+    "84 Dk SiHy skirt / 130 Dk GP centre / Class II UVA / UVB Blocker": "84 Dk SiHy skirt / 130 Dk GP centre / Class II UVA / UVB Blocker",
+    "Hema skirt / 100 Dk / GP centre": "Falda Hema / 100 Dk / GP centro"
 }
