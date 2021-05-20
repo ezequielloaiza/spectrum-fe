@@ -1160,7 +1160,7 @@ export class ProductViewEuropaComponent implements OnInit {
           if (!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
             isValid = false;
           }
-        } else if (param.selected === null || param.selected === undefined) {
+        } else if (!param.noRequired && (param.selected === null || param.selected === undefined)) {
           isValid = false;
         }
       });
@@ -1198,7 +1198,7 @@ export class ProductViewEuropaComponent implements OnInit {
           if (!!self.axesNotch.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
             isValid = false;
           }
-        } else if (param.selected === null || param.selected === undefined) {
+        } else if (!param.noRequired && (param.selected === null || param.selected === undefined)) {
           isValid = false;
         }
       });
