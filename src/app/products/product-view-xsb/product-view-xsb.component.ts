@@ -48,6 +48,8 @@ export class ProductViewXsbComponent implements OnInit {
   @ViewChild('selectedFiles') selectedFiles: any;
 
   supplierName = '';
+  routeFormats: any;
+  formats: any;
 
   public uploader: FileUploader = new FileUploader({
     url: URL,
@@ -67,13 +69,13 @@ export class ProductViewXsbComponent implements OnInit {
               private route: ActivatedRoute,
               private spinner: NgxSpinnerService,
               private notification: ToastrService,
-              private translate: TranslateService) { 
+              private translate: TranslateService) {
 
                 this.uploader.onAfterAddingFile = (item) => {
                   const maxSize = this.maxFilesSize();
                   if (maxSize > this.maxFileSize) {
-                    this.removeFile(item);                  
-                    this.notification.error('', this.translate.instant('Exceeds the maximum size allowed'));                 
+                    this.removeFile(item);
+                    this.notification.error('', this.translate.instant('Exceeds the maximum size allowed'));
                   }
                 };
                 this.uploader.onSuccessItem = (item, response, status, headers) => {
@@ -94,8 +96,9 @@ export class ProductViewXsbComponent implements OnInit {
     this.user = JSON.parse(this.userStorageService.getCurrentUser());
     const id = this.route.snapshot.paramMap.get('supplierId');
     this.getNameSupplier(id);
+    this.getFormatsSupplier(id);
     this.getProducts(id);
-    
+
   }
 
   getNameSupplier(id) {
@@ -112,9 +115,24 @@ export class ProductViewXsbComponent implements OnInit {
     }
   }
 
+  getFormatsSupplier(id) {
+    this.routeFormats = "hereRoute";
+    switch (Number(id)) {
+      case 13:
+        this.formats = ["RGP_ORDER", "FLEXLENS", "CONSULTATION_FORM_ATLANTIS", "ATLANTIS_FORMATO_FINAL"];
+        break;
+      case 14:
+        this.formats = ["ORDER_FORM_SL"];
+        break;
+      case 15:
+        this.formats = ["SCLERAL_ORDER_FORM"]
+        break;
+    }
+  }
+
   getProducts(id) {
     this.spinner.show();
-    
+
     this.productService.findBySupplierInView$(id , true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
