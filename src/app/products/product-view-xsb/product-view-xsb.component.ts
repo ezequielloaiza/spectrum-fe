@@ -116,7 +116,7 @@ export class ProductViewXsbComponent implements OnInit {
   }
 
   getFormatsSupplier(id) {
-    this.routeFormats = "hereRoute";
+    this.routeFormats = "https://storage.googleapis.com/spectrum-storage/order-formats/";
     switch (Number(id)) {
       case 13:
         this.formats = ["RGP_ORDER", "FLEXLENS", "CONSULTATION_FORM_ATLANTIS", "ATLANTIS_FORMATO_FINAL"];
