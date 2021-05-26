@@ -70,6 +70,16 @@
 
     <div class="row product-info">
       <div class="col-md-12">
+        <dt class="title">{{ 'Order Form' | translate }}</dt>
+
+        <label class="format" *ngFor="let format of formats">
+          <a href="{{ routeFormats + format + '.pdf' }}" target="_blank">{{ format }}</a>
+        </label>
+      </div>
+    </div>
+
+    <div class="row product-info">
+      <div class="col-md-12">
         <dt class="title">{{ 'Comments' | translate }}</dt>
         <textarea style="overflow-x: hidden;" rows="6" maxlength="600" [(ngModel)]="sentXSB.comments" class="form-control" type="text"
            placeholder="{{ 'Enter Observations' | translate }}"></textarea>
