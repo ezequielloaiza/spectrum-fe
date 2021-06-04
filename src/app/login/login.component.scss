@@ -5,6 +5,9 @@ $button-background-color: #1756a6;
 }
 
 .webinar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 100px;
 
   > label {
