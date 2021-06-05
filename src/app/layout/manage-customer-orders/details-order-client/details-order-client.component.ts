@@ -73,6 +73,7 @@ export class DetailsOrderClientComponent implements OnInit {
     this.spinner.show();
     this.orderService.findOrderGroup$(idOrder, this.status).subscribe(res => {
       if (res.code === CodeHttp.ok) {
+        debugger
         //this.order = res.data[0];
         this.orders = res.data;
         _.each(this.orders, function(order) {
@@ -87,12 +88,12 @@ export class DetailsOrderClientComponent implements OnInit {
          _.each(order.listProductRequested, function (detailsOrder) {
            detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
            detailsOrder.productRequested.priceBase = detailsOrder.productRequested.price;
-           if (detailsOrder.productRequested.detail.length > 0) {
+           if (detailsOrder.productRequested.detail && detailsOrder.productRequested.detail.length > 0) {
              detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
            }
 
-           const productId = detailsOrder.productRequested.product.idProduct;
-            if (productId !== 145 && productId !== 146 && productId !== 147) {
+           const productId = detailsOrder.productRequested.product ? detailsOrder.productRequested.product.idProduct : null;
+            if (productId && productId !== 145 && productId !== 146 && productId !== 147) {
               order.auxList.push(detailsOrder);
             }
          });

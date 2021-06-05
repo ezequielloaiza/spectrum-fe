@@ -46,5 +46,6 @@ export enum RoleAdmin {
   ProductViewOrionComponent,
   ConsultationFormList,
   ConsultationFormComponent,
-  ProductViewXsbComponent
+  ProductViewXsbComponent,
+  CreateOrder
 }

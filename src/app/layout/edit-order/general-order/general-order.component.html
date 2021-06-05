@@ -1,0 +1,183 @@
+<div class="padding-detail">
+  <div class="p-3">
+    <!-- name-price -->
+    <div class="main-info">
+      <h3 class="product-title">{{'Order Form For' | translate }}:
+        <br>
+        <i>{{ supplierName }}</i>
+      </h3>
+    </div>
+
+    <!-- supplier -->
+    <div class="row product-info">
+      <div class="col-lg-4">
+        <dt class="title">{{ 'Suppliers' | translate }}</dt>
+        <div class="row info-content">
+          <ng-select [items]="suppliers" [(ngModel)]="order.supplierId" (change)="onSelectedSupplier($event)" required
+            [virtualScroll]="true" bindLabel="companyName" bindValue="idSupplier"
+            placeholder="{{ 'Select supplier' | translate }}" disabled>
+          </ng-select>
+        </div>
+      </div>
+
+      <!-- client -->
+      <div class="col-lg-4">
+        <dt class="title">{{ 'Account Name' | translate }}</dt>
+        <div class="row info-content">
+          <ng-select [items]="listCustomers" [(ngModel)]="order.idUser" (change)="onSelectedClient($event)" required
+            [virtualScroll]="true" bindLabel="fullName" bindValue="idUser"
+            placeholder="{{ 'Select value' | translate }}" disabled>
+          </ng-select>
+        </div>
+      </div>
+
+      <!-- shipping address -->
+      <div class="col-lg-4">
+        <dt class="title">{{ 'Shipping Address' | translate }}</dt>
+        <div class="row info-content ">
+          <input class="form-control readonly-input" type="text" [(ngModel)]="shippingAddress"
+            placeholder="{{ 'This field is filled when the client is selected.' | translate }}" readonly>
+        </div>
+      </div>
+
+      <!-- patient -->
+      <div class="col-lg-4 mt-4">
+        <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
+        <div class="row info-content">
+          <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter name patient' | translate }}"
+            [(ngModel)]="productRequested.patient" required>
+        </div>
+      </div>
+
+      <!-- description -->
+      <div class="col-lg-4 mt-4">
+        <dt class="title">{{ 'Name product' | translate }}</dt>
+        <div class="row info-content">
+          <input class="form-control" type="text" maxlength="100" 
+          [(ngModel)]="order.additionalInformation.description" placeholder="{{ 'Enter name product' | translate }}" required>
+        </div>
+      </div>
+
+      <!-- lens type -->
+      <div class="col-lg-4 mt-4">
+        <dt class="title">{{ 'Lens Type' | translate }}</dt>
+        <div class="row info-content">
+          <input class="form-control" type="text" maxlength="100" [(ngModel)]="order.additionalInformation.lentsTypes"
+            placeholder="{{ 'Enter lens type' | translate }}" required>
+        </div>
+      </div>
+
+      <!-- spectrum code -->
+      <div class="col-lg-4 mt-4">
+        <dt class="title">{{ 'Spectrum Code Product' | translate }}</dt>
+        <div class="row info-content">
+          <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter name patient' | translate }}"
+            [(ngModel)]="order.additionalInformation.codeSpectrum" required>
+        </div>
+      </div>
+
+      <!-- warranty days -->
+      <div class="col-lg-4 mt-4">
+        <dt class="title">{{ 'Warranty days' | translate }}</dt>
+        <div class="row info-content">
+          <input class="form-control" type="number" step=1 min="1" oninput="validity.valid||(value='');"
+            placeholder="{{ 'Enter warranty days' | translate }}" [(ngModel)]="order.additionalInformation.warranty"
+            required>
+        </div>
+      </div>
+
+      <!-- quantity -->
+      <div class="col-lg-4 mt-4">
+        <dt class="title">{{ 'Quantity' | translate }}</dt>
+        <div class="row info-content">
+          <input class="form-control" type="number" step=1 min="1" oninput="validity.valid||(value='');"
+            placeholder="{{ 'Enter quantity' | translate }}" [(ngModel)]="productRequested.quantity" required>
+        </div>
+      </div>
+
+      <!-- price -->
+      <div class="col-lg-4 mt-4">
+        <dt class="title">{{ 'Price' | translate }}</dt>
+        <div class="row info-content">
+          <input class="form-control" type="number" placeholder="{{ 'Enter price' | translate }}"
+            [(ngModel)]="productRequested.price" required>
+        </div>
+      </div>
+    </div>
+
+    <!-- comments -->
+    <div class="row product-info">
+      <div class="col-md-12">
+        <dt class="title">{{ 'Comments' | translate }}</dt>
+        <textarea style="overflow-x: hidden;" rows="6" maxlength="600" [(ngModel)]="productRequested.observations"
+          class="form-control" type="text" placeholder="{{ 'Enter Observations' | translate }}"></textarea>
+      </div>
+    </div>
+
+    <div class="row product-info">
+      <!--files-->
+      <div class="col-md-12">
+        <div class="comments">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="">
+                <dt class="title">{{ 'Documents | Attach Consultation Form' | translate }}</dt>
+                <div class="custom-file">
+                  <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploader"
+                    [disabled]="uploader.queue.length > 4" multiple />
+                  <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                  <div class="invalid-feedback">Example invalid custom file feedback</div>
+                  <div class="message-error-file">
+                    <span translate>{{'Max files size:' | translate}} 25MB</span>
+                    <span> / </span>
+                    <span translate>{{'Maximum files number:' | translate }} 5</span>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="" style="margin-bottom: 40px" *ngIf="uploader.queue.length > 0">
+                <div class="row justify-content-end" *ngIf="uploader.queue.length > 1">
+                  <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
+                    [disabled]="!uploader.queue.length">
+                    <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                  </button>
+                </div>
+                <br>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th width="50%">{{ 'Name' | translate }}</th>
+                      <th>{{ 'Size' | translate }}</th>
+                      <th>{{ 'Actions' | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of uploader.queue">
+                      <td><strong>{{ item?.file?.name }}</strong></td>
+                      <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td nowrap>
+                        <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item)">
+                          <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate
+        }}&nbsp;
+        <i class="fa fa-times"></i>
+      </button>
+      <button type="button" class="btn btn-main" (click)="updateOrder()">{{ 'Save' | translate }}&nbsp;
+        <i class="fa fa-save"></i>
+      </button>
+    </div>
+  </div>
+</div>

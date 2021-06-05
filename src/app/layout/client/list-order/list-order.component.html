@@ -136,14 +136,14 @@
                 <div class="row product" [hidden]="!order.showMore" *ngFor="let listDetails of order.listProductRequested">
                   <div class="col-lg-3">
                     <div>
-                      <span *ngIf="listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147">
+                      <span *ngIf="listDetails.productRequested.product && (listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147)">
                             - </span>
-                      <span>{{listDetails.productRequested.product.name}}</span>
+                      <span>{{listDetails.productRequested.product ? listDetails.productRequested.product.name : ''}}</span>
                     </div>
-                    <div *ngIf="listDetails.productRequested.detail.length > 0">
+                    <div *ngIf="listDetails.productRequested.detail && listDetails.productRequested.detail.length > 0">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
                     </div>
-                    <div  *ngIf="listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
+                    <div  *ngIf="listDetails.productRequested.detail && listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>
                     </div>
                   </div>
@@ -156,10 +156,10 @@
                     <div [hidden]="listDetails.productRequested.patient === null || listDetails.productRequested.patient == ''">
                         <span>{{'Patient'| translate}}{{': '}}{{ listDetails.productRequested.patient }}</span>
                       </div>
-                    <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
+                    <div *ngIf="listDetails.productRequested.product && listDetails.productRequested.product.replacementPeriod">
                       <span>{{'Replacement Period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>
-                    <div [hidden]="listDetails.productRequested.product.warranty === null">
+                    <div *ngIf="listDetails.productRequested.product && listDetails.productRequested.product.warranty">
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
                     </div>
                     <div>

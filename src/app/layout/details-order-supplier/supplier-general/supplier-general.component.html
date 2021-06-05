@@ -1,0 +1,151 @@
+<div class="col-lg-12">
+  <div class="card-header products-label">{{ 'Your Products' | translate }}</div>
+
+  <div class="row padding-params display-edit">
+    <div class="container product-list">
+      <div class="row">
+        <article class="card-body p-5">
+          <aside class="col-sm-12">
+          <div>
+            <div>
+              <div class="container-list">
+                <div class="div-name">
+                  <div>
+                    <h3>{{ productRequested.additionalInformation.description }} </h3>
+                  </div>
+                  <div class="padding-params">
+                    <button type="button" (click)="openEdit()"
+                      class="btn btn-outline-primary" translate>
+                      Edit
+                    </button>
+                  </div>
+                  <br>
+                  <br>
+                </div>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <dl class="align-item">
+                      <dt>{{'Supplier'| translate}}</dt>
+                      <dt>
+                        <span class="font-text">{{ order.supplier.companyName }}</span>
+                      </dt>
+                    </dl>
+                  </div>
+                  <div class="col-sm-3">
+                    <dl class="align-item">
+                      <dt>{{'Patient'| translate}}</dt>
+                      <dt>
+                        <span class="font-text">{{ productRequested.patient }}</span>
+                      </dt>
+                    </dl>
+                  </div>
+                  <div class="col-sm-3">
+                    <dl class="align-item">
+                      <dt>{{'Spectrum code'| translate}}</dt>
+                      <dt>
+                        <span class="font-text">{{ productRequested.additionalInformation.codeSpectrum }}</span>
+                      </dt>
+                    </dl>
+                  </div>
+                  <div class="col-sm-3">
+                    <dl class="align-item">
+                      <dt>{{'Lens Type'| translate}}</dt>
+                      <dt>
+                        <span class="font-text">{{ productRequested.additionalInformation.lensType }}</span>
+                      </dt>
+                    </dl>
+                  </div>
+                  <div class="col-sm-3">
+                    <dl class="align-item">
+                      <dt>{{'Warranty days'| translate}}</dt>
+                      <dt>
+                        <span class="font-text">{{ productRequested.additionalInformation.warranty }}</span>
+                      </dt>
+                    </dl>
+                  </div>
+                  <div class="col-sm-3">
+                    <dl class="align-item">
+                      <dt>{{'Quantity'| translate}}</dt>
+                      <dt>
+                        <span class="font-text">{{ productRequested.quantity }}</span>
+                      </dt>
+                    </dl>
+                  </div>
+                  <div class="col-sm-3">
+                    <dl class="align-item">
+                      <dt>{{'Price'| translate}}</dt>
+                      <dt>
+                        <span class="font-text"> {{ productRequested.price }}</span>
+                      </dt>
+                    </dl>
+                  </div>
+                  <div class="col-sm-3">
+                    <dl class="align-item">
+                      <dt>{{'Subtotal'| translate}}</dt>
+                      <dt>
+                        <span class="font-text">{{ order.subtotal}}</span>
+                      </dt>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="mr-5 p-5 ml-5">
+  <ngb-tabset>
+    <ngb-tab title="{{'Comments'| translate}}">
+      <ng-template ngbTabContent>
+        <div class="card-body table-responsive">
+          <div class="row justify-content-md-center div-parametros">
+            <div class="col-sm-12">
+              <dl>
+                <dt>
+                  <span class="font-text">{{productRequested.observations}}</span>
+                </dt>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab *ngIf="files.length > 0" title="{{'Documents'| translate}}">
+      <ng-template ngbTabContent>
+        <!-- Documents -->
+        <div class="card-body table-responsive">
+          <br>
+          <div class="row justify-content-md-center div-parametros">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th width="50%">{{ 'Name' | translate }}</th>
+                  <th>{{ 'Size' | translate }}</th>
+                  <th>{{ 'Actions' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of files">
+                  <td>
+                    <strong>{{ item?.name }}</strong>
+                  </td>
+                  <td nowrap>{{ item?.size/1024/1024 | number:'.2' }} MB</td>
+                  <td nowrap>
+                    <button type="button" class="btn btn-success btn-xs" (click)="downloadFile(item)">
+                      <span class="fa fa-download"></span> {{ 'Download' | translate }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>
+</div>

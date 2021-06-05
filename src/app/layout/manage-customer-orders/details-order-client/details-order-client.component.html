@@ -78,7 +78,7 @@
             </div>
           </div>
         </div>
-        <div class="card-header products-label" *ngIf="order.listDetails.length > 0">{{ 'Your Products' | translate }}</div>
+        <div class="card-header products-label" *ngIf="order.listDetails && order.listDetails.length > 0">{{ 'Your Products' | translate }}</div>
         <div class="container product-list" *ngFor="let list of order.listDetails">
           <hr>
           <div class="row">
@@ -262,11 +262,12 @@
           <app-supplier-orion [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 10"></app-supplier-orion>
           <!--Fin Orion-->
         </div>
+        <app-supplier-general  [order]="order" [files]="order.listDetailsAll[0].fileProductRequestedList" (emitEventOrion)="refresh($event, order)"></app-supplier-general>
       </div>
     </div>
     <div class="card-body table-responsive">
-      <div class="pagination-list" [hidden]="order.listDetails.length === 0">
-        <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event, order)" [collectionSize]="order.listDetailsAux.length"
+      <div class="pagination-list" *ngIf="order.listDetails && order.listDetails.length">
+        <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event, order)" [collectionSize]="order.listDetailsAux && order.listDetailsAux.length"
           [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
         </ngb-pagination>
         <span class="count-elements">{{ order.listDetails.length + ' ' + ('of' | translate) + ' ' + order.listDetailsAux.length + ' ' + ('register(s)' | translate)
