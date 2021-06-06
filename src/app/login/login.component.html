@@ -4,9 +4,10 @@
   <div class="row justify-content-md-center">
     <div class="col-md-4">
       <img src="assets/images/spectrumLogo.png"
-           width="300px"
+           width="500px"
            class="" />
-      <form [formGroup]="form">
+
+      <form *ngIf="testing" [formGroup]="form">
         <div class="form-content">
           <div class="form-group">
             <input name="username"
@@ -39,6 +40,20 @@
 				<a class="btn rounded-btn" [routerLink]="['/signup']">Register</a>
         -->
       </form>
+    </div>
+
+    <div class="webinar col-md-12" *ngIf="!testing">
+      <label>
+        Nos encontramos realizando actualizaciones para mejorar la operatividad de la plataforma.
+      </label>
+      <br>
+      <label>
+        Te invitamos a que conozcas más detalles en nuestro próximo webinar.
+      </label>
+
+      <img src="assets/images/login/mantenimiento.png"
+           width="400px"
+           class="" />
     </div>
 
   </div>
