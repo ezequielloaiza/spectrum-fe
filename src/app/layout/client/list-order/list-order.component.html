@@ -28,12 +28,30 @@
         </div>
         <div class="row">
           <div class="col-xl-3 filter">
+            <div class="row search">
+              <div class="col col-xl-12 col-lg-12">
+                <input class="form-control" (keyup)="getItems($event)" [(ngModel)]="valorClient"
+                  placeholder="{{'Enter order, patient o supplier' | translate }}">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 filter">
+            <div class="row search">
+              <div class="col col-xl-12 col-lg-12">
+                <input class="form-control" (keyup)="getItemsProduct($event)" [(ngModel)]="valorProduct"
+                  placeholder="{{'Enter product name' | translate }}">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 filter">
             <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filter()">
               <option value="" disabled [selected]="true" translate>Select payment status</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
           </div>
-          <div class="col-xl-4 filter">
+          <div class="col-xl-3 filter">
             <div>
               <div class="input-group">
                 <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="fechaSelec" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelec)">
@@ -106,6 +124,13 @@
                     </div>
                     <div>
                       <span>{{order.total | currency : "USD $" }}</span>
+                    </div>
+                    <br>
+                    <div class="title-status">
+                      <span>{{'Supplier'| translate }}</span>
+                    </div>
+                    <div>
+                      <span class="center-span">{{order.supplier.companyName}}</span>
                     </div>
                   </div>
                   <div class="col-lg-2">
