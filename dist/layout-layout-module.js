@@ -5785,7 +5785,7 @@ var DetailsOrderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row page-header-fixed\">\n\t<div class=\"header-body\">\n\t\t<h4 class=\"page-header\">\n\t\t\t{{ 'Orders List' | translate }}\n\t\t</h4>\n\t\t<ol class=\"breadcrumb\">\n\t\t\t<li class=\"breadcrumb-item\">\n\t\t\t\t<a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\"><i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n\t\t\t</li>\n\t\t\t<li class=\"breadcrumb-item active\">\n\t\t\t\t<i class=\"fa fa-folder-open\"></i> {{ 'Orders List' | translate}}</li>\n\t\t</ol>\n\t</div>\n</div>\n<div class=\"sp-container\">\n  <div class=\"row\">\n    <div class=\"col col-xl-12 col-lg-12\">\n      <div class=\"card mb-3\">\n        <div class=\"card-header\">\n          <div class=\"align-self-center\">\n            {{ 'All orders' | translate }}\n          </div>\n          <!--<div class=\"align-btn-detail\">\n            <button type=\"button\" class=\"btn btn-success btn-xs\" (click)=\"downloadOrder()\">{{ 'Download PDF' | translate}}\n              <i class=\"fa fa-download\"></i>\n            </button>\n          </div>-->\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xl-3 filter\">\n            <select class=\"form-control\" name=\"selectedStatus\" id=\"selectedStatus\" [(ngModel)]=\"selectedStatus\" (change)=\"filter()\">\n              <option value=\"\" disabled [selected]=\"true\" translate>Select payment status</option>\n              <option *ngFor=\"let status of filterStatus\" value=\"{{status.id}}\">{{ status.name | translate }}</option>\n            </select>\n          </div>\n          <div class=\"col-xl-4 filter\">\n            <div>\n              <div class=\"input-group\">\n                <input placeholder=\"yyyy-mm-dd\" name=\"fechaSelec\" [(ngModel)]=\"fechaSelec\" ngbDatepicker #d=\"ngbDatepicker\" (ngModelChange)=\"filter1(fechaSelec)\">\n                <div class=\"input-group-append\">\n                  <button class=\"btn btn-outline-secondary\" (click)=\"d.toggle()\" type=\"button\">\n                    <i class=\"fa fa-calendar\"></i>\n                  </button>\n                </div>\n              </div>\n              <!--<pre>Model: {{fechaSelec | json  }}</pre>-->\n            </div>\n          </div>\n          <div class=\"col-xl-1 btn-clean\">\n            <button class=\"btn btn-outline-secondary\" [routerLink]=\"['/order-list-client']\" translate [hidden]=\"!valid\" (click)=\"clean()\">Clean Filters</button>\n          </div>\n          <div class=\"card-body table-responsive\">\n            <div>\n              <div class=\"list-orden\" *ngFor=\"let order of listOrders\">\n                <div class=\"row\">\n                  <div class=\"col-lg-2\">\n                    <div class=\"title\">\n                      <span>{{'ORDER'| translate }}</span>\n                    </div>\n                    <div>\n                      <span>{{'#'}}{{order.number}}</span>\n                      <p class=\"font-weight-bold\" *ngIf=\"!!getReferenceCopy(order)\">{{ getReferenceCopy(order) }}</p>\n                    </div>\n                    <div class=\"title\" *ngIf=\"order.listProductRequested.length == 1\">\n                      <span *ngIf=\"order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null\">{{'Patient'| translate }}</span>\n                    </div>\n                    <div *ngIf=\"order.listProductRequested.length == 1\">\n                      <span>{{order.listProductRequested[0].productRequested.patient ? order.listProductRequested[0].productRequested.patient:''}}</span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-3 title-status\">\n                    <div>\n                      <span>{{ 'Order Status' | translate }}</span>\n                    </div>\n                    <div class=\"div-status\">\n                      <span *ngIf='order.status === 0' class=\"div-pending\">\n                        <div translate>Pending</div>\n                      </span>\n                      <span *ngIf='order.status === 1' class=\"div-processed\">\n                        <div translate>Processed</div>\n                      </span>\n                      <span *ngIf='order.status === 2' class=\"div-ready\">\n                        <div translate>Ready to Ship</div>\n                      </span>\n                      <span *ngIf='order.status === 3' class=\"div-shipped\">\n                        <div translate>Shipped</div>\n                      </span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-3\">\n                    <div class=\"title-status\">\n                      <span>{{ 'Payment Status' | translate }}</span>\n                    </div>\n                    <div class=\"div-status\">\n                      <span *ngIf='order.paymentStatus === 0' class=\"div-pending\">\n                        <div translate>Pending</div>\n                      </span>\n                      <span *ngIf='order.paymentStatus === 1' class=\"div-shipped\">\n                        <div translate>Paid</div>\n                      </span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-2 span-total\">\n                    <div>\n                      <span>Total</span>\n                    </div>\n                    <div>\n                      <span>{{order.total | currency : \"USD $\" }}</span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-2\">\n                    <div class=\"div-date\">\n                      <span>{{order.date | date:'yyyy-MM-dd'}}</span>\n                    </div>\n                    <div class=\"div-dropdown\">\n                      <div ngbDropdown class=\"d-inline-block dropdown\">\n                        <button class=\"btn btn-dropdown-main btn-dd\"\n                          ngbDropdownToggle>{{ 'Actions' | translate }}</button>\n                        <div ngbDropdownMenu class=\"dropdown-menu-actions\">\n                          <button class=\"dropdown-item\" routerLink=\"/details-order/{{order.idOrder}}/view\">\n                            {{ 'View Details' | translate }}</button>\n                          <button class=\"dropdown-item\" (click)=\"generateCopyOrder(order, 'duplicate')\" *ngIf=\"order.type !== 'warranty'\">\n                            {{ 'Generate Duplicate' | translate }}</button>\n                          <button class=\"dropdown-item\" (click)=\"generateCopyOrder(order, 'warranty')\" *ngIf=\"isValidDate(order)\">\n                            {{ 'Generate Warranty' | translate }}</button>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"more-details col-lg-12\">\n                    <label (click)=\"order.showMore = !order.showMore\" [ngClass]=\"{'more-link': order.showMore}\">\n                      {{ 'More Details' | translate }} <i [hidden]=\"order.showMore\" class=\"fa fa-caret-right\"></i> <i [hidden]=\"!order.showMore\" class=\"fa fa-caret-down\"></i>\n                    </label>\n                  </div>\n                </div>\n                <div class=\"row product\" [hidden]=\"!order.showMore\" *ngFor=\"let listDetails of order.listProductRequested\">\n                  <div class=\"col-lg-3\">\n                    <div>\n                      <span *ngIf=\"listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147\">\n                            - </span>\n                      <span>{{listDetails.productRequested.product.name}}</span>\n                    </div>\n                    <div *ngIf=\"listDetails.productRequested.detail.length > 0\">\n                      <span>{{listDetails.productRequested.detail[0].name}}</span>\n                    </div>\n                    <div  *ngIf=\"listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146\">\n                      <span>{{listDetails.productRequested.detail[0].eye}}</span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-3\">\n                    <!--\n                    <div [hidden]=\"listDetails.productRequested.product.material === null\">\n                      <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>\n                    </div>\n                    -->\n                    <div [hidden]=\"listDetails.productRequested.patient === null || listDetails.productRequested.patient == ''\">\n                        <span>{{'Patient'| translate}}{{': '}}{{ listDetails.productRequested.patient }}</span>\n                      </div>\n                    <div [hidden]=\"listDetails.productRequested.product.replacementPeriod === null\">\n                      <span>{{'Replacement Period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>\n                    </div>\n                    <div [hidden]=\"listDetails.productRequested.product.warranty === null\">\n                      <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>\n                    </div>\n                    <div>\n                      <span>{{listDetails.productRequested.price | currency : \"USD $\" }}</span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-2\">\n                    <div>\n                      <span>{{'Quantity'| translate}}</span>\n                    </div>\n                    <div>\n                      <span>{{listDetails.productRequested.quantity}}</span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-2\">\n                    <div>\n                      <span>{{listDetails.productRequested.price * listDetails.productRequested.quantity | currency : \"USD $\" }}</span>\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <br>\n            </div>\n            <div class=\"table-empty\" [hidden]=\"listOrders.length !== 0\" translate>\n              <p class=\"no-records\">\n                {{ 'No records have been added yet' | translate }}\n              </p>\n            </div>\n            <div class=\"pagination-list\" [hidden]=\"listOrders.length === 0\">\n              <ngb-pagination class=\"d-flex justify-content-end\" (pageChange)=\"pageChange($event)\" [collectionSize]=\"listOrdersAux.length\"\n                [(page)]=\"advancedPagination\" [maxSize]=\"5\" [pageSize]=\"itemPerPage\" [boundaryLinks]=\"true\">\n              </ngb-pagination>\n              <span class=\"count-elements\">{{ listOrders.length + ' ' + ('of' | translate) + ' ' + listOrdersAux.length + ' ' + ('register(s)' | translate)\n                }}\n              </span>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n"
+module.exports = "<div class=\"row page-header-fixed\">\n\t<div class=\"header-body\">\n\t\t<h4 class=\"page-header\">\n\t\t\t{{ 'Orders List' | translate }}\n\t\t</h4>\n\t\t<ol class=\"breadcrumb\">\n\t\t\t<li class=\"breadcrumb-item\">\n\t\t\t\t<a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\"><i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n\t\t\t</li>\n\t\t\t<li class=\"breadcrumb-item active\">\n\t\t\t\t<i class=\"fa fa-folder-open\"></i> {{ 'Orders List' | translate}}</li>\n\t\t</ol>\n\t</div>\n</div>\n<div class=\"sp-container\">\n  <div class=\"row\">\n    <div class=\"col col-xl-12 col-lg-12\">\n      <div class=\"card mb-3\">\n        <div class=\"card-header\">\n          <div class=\"align-self-center\">\n            {{ 'All orders' | translate }}\n          </div>\n          <!--<div class=\"align-btn-detail\">\n            <button type=\"button\" class=\"btn btn-success btn-xs\" (click)=\"downloadOrder()\">{{ 'Download PDF' | translate}}\n              <i class=\"fa fa-download\"></i>\n            </button>\n          </div>-->\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xl-3 filter\">\n            <div class=\"row search\">\n              <div class=\"col col-xl-12 col-lg-12\">\n                <input class=\"form-control\" (keyup)=\"getItems($event)\" [(ngModel)]=\"valorClient\"\n                  placeholder=\"{{'Enter order, patient o supplier' | translate }}\">\n                <i class=\"fa fa-search\"></i>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-xl-3 filter\">\n            <div class=\"row search\">\n              <div class=\"col col-xl-12 col-lg-12\">\n                <input class=\"form-control\" (keyup)=\"getItemsProduct($event)\" [(ngModel)]=\"valorProduct\"\n                  placeholder=\"{{'Enter product name' | translate }}\">\n                <i class=\"fa fa-search\"></i>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-xl-3 filter\">\n            <select class=\"form-control\" name=\"selectedStatus\" id=\"selectedStatus\" [(ngModel)]=\"selectedStatus\" (change)=\"filter()\">\n              <option value=\"\" disabled [selected]=\"true\" translate>Select payment status</option>\n              <option *ngFor=\"let status of filterStatus\" value=\"{{status.id}}\">{{ status.name | translate }}</option>\n            </select>\n          </div>\n          <div class=\"col-xl-3 filter\">\n            <div>\n              <div class=\"input-group\">\n                <input placeholder=\"yyyy-mm-dd\" name=\"fechaSelec\" [(ngModel)]=\"fechaSelec\" ngbDatepicker #d=\"ngbDatepicker\" (ngModelChange)=\"filter1(fechaSelec)\">\n                <div class=\"input-group-append\">\n                  <button class=\"btn btn-outline-secondary\" (click)=\"d.toggle()\" type=\"button\">\n                    <i class=\"fa fa-calendar\"></i>\n                  </button>\n                </div>\n              </div>\n              <!--<pre>Model: {{fechaSelec | json  }}</pre>-->\n            </div>\n          </div>\n          <div class=\"col-xl-1 btn-clean\">\n            <button class=\"btn btn-outline-secondary\" [routerLink]=\"['/order-list-client']\" translate [hidden]=\"!valid\" (click)=\"clean()\">Clean Filters</button>\n          </div>\n          <div class=\"card-body table-responsive\">\n            <div>\n              <div class=\"list-orden\" *ngFor=\"let order of listOrders\">\n                <div class=\"row\">\n                  <div class=\"col-lg-2\">\n                    <div class=\"title\">\n                      <span>{{'ORDER'| translate }}</span>\n                    </div>\n                    <div>\n                      <span>{{'#'}}{{order.number}}</span>\n                      <p class=\"font-weight-bold\" *ngIf=\"!!getReferenceCopy(order)\">{{ getReferenceCopy(order) }}</p>\n                    </div>\n                    <div class=\"title\" *ngIf=\"order.listProductRequested.length == 1\">\n                      <span *ngIf=\"order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null\">{{'Patient'| translate }}</span>\n                    </div>\n                    <div *ngIf=\"order.listProductRequested.length == 1\">\n                      <span>{{order.listProductRequested[0].productRequested.patient ? order.listProductRequested[0].productRequested.patient:''}}</span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-3 title-status\">\n                    <div>\n                      <span>{{ 'Order Status' | translate }}</span>\n                    </div>\n                    <div class=\"div-status\">\n                      <span *ngIf='order.status === 0' class=\"div-pending\">\n                        <div translate>Pending</div>\n                      </span>\n                      <span *ngIf='order.status === 1' class=\"div-processed\">\n                        <div translate>Processed</div>\n                      </span>\n                      <span *ngIf='order.status === 2' class=\"div-ready\">\n                        <div translate>Ready to Ship</div>\n                      </span>\n                      <span *ngIf='order.status === 3' class=\"div-shipped\">\n                        <div translate>Shipped</div>\n                      </span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-3\">\n                    <div class=\"title-status\">\n                      <span>{{ 'Payment Status' | translate }}</span>\n                    </div>\n                    <div class=\"div-status\">\n                      <span *ngIf='order.paymentStatus === 0' class=\"div-pending\">\n                        <div translate>Pending</div>\n                      </span>\n                      <span *ngIf='order.paymentStatus === 1' class=\"div-shipped\">\n                        <div translate>Paid</div>\n                      </span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-2 span-total\">\n                    <div>\n                      <span>Total</span>\n                    </div>\n                    <div>\n                      <span>{{order.total | currency : \"USD $\" }}</span>\n                    </div>\n                    <br>\n                    <div class=\"title-status\">\n                      <span>{{'Supplier'| translate }}</span>\n                    </div>\n                    <div>\n                      <span class=\"center-span\">{{order.supplier.companyName}}</span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-2\">\n                    <div class=\"div-date\">\n                      <span>{{order.date | date:'yyyy-MM-dd'}}</span>\n                    </div>\n                    <div class=\"div-dropdown\">\n                      <div ngbDropdown class=\"d-inline-block dropdown\">\n                        <button class=\"btn btn-dropdown-main btn-dd\"\n                          ngbDropdownToggle>{{ 'Actions' | translate }}</button>\n                        <div ngbDropdownMenu class=\"dropdown-menu-actions\">\n                          <button class=\"dropdown-item\" routerLink=\"/details-order/{{order.idOrder}}/view\">\n                            {{ 'View Details' | translate }}</button>\n                          <button class=\"dropdown-item\" (click)=\"generateCopyOrder(order, 'duplicate')\" *ngIf=\"order.type !== 'warranty'\">\n                            {{ 'Generate Duplicate' | translate }}</button>\n                          <button class=\"dropdown-item\" (click)=\"generateCopyOrder(order, 'warranty')\" *ngIf=\"isValidDate(order)\">\n                            {{ 'Generate Warranty' | translate }}</button>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"more-details col-lg-12\">\n                    <label (click)=\"order.showMore = !order.showMore\" [ngClass]=\"{'more-link': order.showMore}\">\n                      {{ 'More Details' | translate }} <i [hidden]=\"order.showMore\" class=\"fa fa-caret-right\"></i> <i [hidden]=\"!order.showMore\" class=\"fa fa-caret-down\"></i>\n                    </label>\n                  </div>\n                </div>\n                <div class=\"row product\" [hidden]=\"!order.showMore\" *ngFor=\"let listDetails of order.listProductRequested\">\n                  <div class=\"col-lg-3\">\n                    <div>\n                      <span *ngIf=\"listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147\">\n                            - </span>\n                      <span>{{listDetails.productRequested.product.name}}</span>\n                    </div>\n                    <div *ngIf=\"listDetails.productRequested.detail.length > 0\">\n                      <span>{{listDetails.productRequested.detail[0].name}}</span>\n                    </div>\n                    <div  *ngIf=\"listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146\">\n                      <span>{{listDetails.productRequested.detail[0].eye}}</span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-3\">\n                    <!--\n                    <div [hidden]=\"listDetails.productRequested.product.material === null\">\n                      <span>{{'Material'| translate}}{{': '}}{{listDetails.productRequested.product.material}}</span>\n                    </div>\n                    -->\n                    <div [hidden]=\"listDetails.productRequested.patient === null || listDetails.productRequested.patient == ''\">\n                        <span>{{'Patient'| translate}}{{': '}}{{ listDetails.productRequested.patient }}</span>\n                      </div>\n                    <div [hidden]=\"listDetails.productRequested.product.replacementPeriod === null\">\n                      <span>{{'Replacement Period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>\n                    </div>\n                    <div [hidden]=\"listDetails.productRequested.product.warranty === null\">\n                      <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>\n                    </div>\n                    <div>\n                      <span>{{listDetails.productRequested.price | currency : \"USD $\" }}</span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-2\">\n                    <div>\n                      <span>{{'Quantity'| translate}}</span>\n                    </div>\n                    <div>\n                      <span>{{listDetails.productRequested.quantity}}</span>\n                    </div>\n                  </div>\n                  <div class=\"col-lg-2\">\n                    <div>\n                      <span>{{listDetails.productRequested.price * listDetails.productRequested.quantity | currency : \"USD $\" }}</span>\n                    </div>\n                  </div>\n                </div>\n              </div>\n              <br>\n            </div>\n            <div class=\"table-empty\" [hidden]=\"listOrders.length !== 0\" translate>\n              <p class=\"no-records\">\n                {{ 'No records have been added yet' | translate }}\n              </p>\n            </div>\n            <div class=\"pagination-list\" [hidden]=\"listOrders.length === 0\">\n              <ngb-pagination class=\"d-flex justify-content-end\" (pageChange)=\"pageChange($event)\" [collectionSize]=\"listOrdersAux.length\"\n                [(page)]=\"advancedPagination\" [maxSize]=\"5\" [pageSize]=\"itemPerPage\" [boundaryLinks]=\"true\">\n              </ngb-pagination>\n              <span class=\"count-elements\">{{ listOrders.length + ' ' + ('of' | translate) + ' ' + listOrdersAux.length + ' ' + ('register(s)' | translate)\n                }}\n              </span>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n"
 
 /***/ }),
 
@@ -5796,7 +5796,7 @@ module.exports = "<div class=\"row page-header-fixed\">\n\t<div class=\"header-b
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.table-tr:nth-child(1) {\n  width: 25%; }\n.table-tr:nth-child(2) {\n  width: 25%; }\n.table-tr:nth-child(3) {\n  width: 25%; }\n.table-tr:nth-child(4) {\n  width: 25%; }\n.sp-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  min-width: 0;\n  background-color: #ffffff; }\n.sp-card > div {\n    background-color: #ffffff;\n    border-bottom: 0; }\n.sp-card-header {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 0; }\n.div-pending > div {\n  text-align: center;\n  background: #B71C1C;\n  color: #ffffff;\n  border-radius: 12px;\n  width: 65%;\n  font-size: 13px; }\n.div-shipped > div {\n  text-align: center;\n  background: #1B5E20;\n  color: #ffffff;\n  border-radius: 12px;\n  width: 65%;\n  font-size: 13px; }\n.div-authorized > div {\n  text-align: center;\n  background: #4A148C;\n  color: #ffffff;\n  border-radius: 12px;\n  width: 65%;\n  font-size: 13px; }\n.div-processed > div {\n  text-align: center;\n  background: #FF6F00;\n  color: #ffffff;\n  border-radius: 12px;\n  width: 65%;\n  font-size: 13px; }\n.div-ready > div {\n  text-align: center;\n  background: #01579B;\n  color: #ffffff;\n  border-radius: 12px;\n  width: 65%;\n  font-size: 13px; }\n.h5-filter {\n  padding-top: 20px; }\n.btn-clean {\n  padding-top: 10px; }\n.filter {\n  padding-top: 10px;\n  padding-left: 25px; }\n.active {\n  cursor: pointer; }\n.active span:hover {\n    color: #1756a6; }\na:link {\n  color: #007bff; }\n.span-total {\n  text-align: center;\n  padding-right: 25px;\n  font-size: 14px; }\n.div-status {\n  text-align: center;\n  padding-left: 25%;\n  font-size: 14px; }\n.title-status {\n  text-align: center;\n  font-size: 14px;\n  font-weight: 600; }\n.title-payment {\n  text-align: center;\n  font-size: 14px;\n  font-weight: 600; }\n.title {\n  text-align: center !important;\n  font-size: 14px;\n  font-weight: 600 !important; }\n.list-orden {\n  border: solid 1px #bfbfbf;\n  padding-left: 15px;\n  padding-right: 15px;\n  border-radius: 3px;\n  padding-bottom: 10px;\n  margin-top: .5em; }\n.list-orden > div:first-child {\n    font-size: .9em;\n    color: gray;\n    padding: .4em 0; }\n.list-orden > div:first-child div:nth-child(2) {\n      color: grey; }\n.list-orden > div:first-child div:nth-child(2) > div {\n        text-align: center; }\n.list-orden > div:first-child div:nth-child(3) {\n      font-size: .8em;\n      color: grey;\n      font-weight: bold;\n      text-align: right; }\n.list-orden > div.product {\n    padding-top: 1em; }\n.list-orden > div.product div:nth-child(1) div:first-child {\n      font-weight: bold; }\n.list-orden > div.product div:nth-child(1) div:last-child {\n      font-weight: bold; }\n.list-orden > div.product div:nth-child(2) {\n      font-size: 0.8em;\n      color: gray; }\n.list-orden > div.product div:nth-child(2) div:last-child {\n        font-weight: 600; }\n.list-orden > div.product div:nth-child(3) > div {\n      text-align: center; }\n.list-orden > div.product div:nth-child(4) > div {\n      font-weight: 600; }\n.list-orden > div:nth-child(2) {\n    border-top: 1px solid #bfbfbf; }\n.list-orden .more-details {\n    display: flex;\n    justify-content: flex-end; }\n.list-orden .more-details .more-link {\n      color: #1756a6; }\n.list-orden .more-details label:hover {\n      color: #1756a6;\n      cursor: pointer; }\n.page-header-fixed {\n  margin-left: 15px; }\n.header-body {\n  width: 100%;\n  background: #ffffff;\n  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.header-body .link {\n    color: #1756a6;\n    padding-left: 0px; }\n.header-body .breadcrumb {\n    background-color: transparent;\n    border-radius: 0px;\n    border-bottom: 0px;\n    padding-top: 0px;\n    padding-bottom: 0px; }\n.header-body h4 {\n    padding-left: 15px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9lbGllemVyL1NQUy9TcGVjdHJ1bS9zcGVjdHJ1bS1mZS9zcmMvc3R5bGVzL3NwZWN0cnVtL21vZHVsZXMvX3RhYmxlcy5zY3NzIiwiL1VzZXJzL2VsaWV6ZXIvU1BTL1NwZWN0cnVtL3NwZWN0cnVtLWZlL3NyYy9zdHlsZXMvc3BlY3RydW0vbW9kdWxlcy9fY29sb3JzLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL3N0eWxlcy9zcGVjdHJ1bS9tb2R1bGVzL19idXR0b25zLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL3N0eWxlcy9zcGVjdHJ1bS9tb2R1bGVzL19tb2RhbHMuc2NzcyIsIi9Vc2Vycy9lbGllemVyL1NQUy9TcGVjdHJ1bS9zcGVjdHJ1bS1mZS9zcmMvc3R5bGVzL3NwZWN0cnVtL21vZHVsZXMvX2Zvcm1zLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL2FwcC9sYXlvdXQvY2xpZW50L2xpc3Qtb3JkZXIvbGlzdC1vcmRlci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxvQkFBQTtBQVNBO0VBQ0UsbURBQW1EO0VBQ25ELGlGQUF5RSxFQUFBO0FBRjNFO0lBS0ksYUFBYTtJQUNiLDhCQUE4QjtJQUM5QixtQkFBbUI7SUFDbkIseUJDZGM7SURlZCxjQ2hCYTtJRGlCYixnQkFBZ0I7SUFDaEIsbUJBQW1CO0lBQ25CLGlCQUFpQixFQUFBO0FBWnJCO01BZU0sMkJBQTJCLEVBQUE7QUFLakM7RUFHSSxnQkFBZ0I7RUFDaEIsdUJBQXVCLEVBQUE7QUFKM0I7RUFRSSxhQUFhLEVBQUE7QUFJakI7RUFFSSxlQUFlLEVBQUE7QUFJbkI7RUFDRSxlQUFlLEVBQUE7QUFHakI7RUFDRSxrQkFBa0I7RUFDbEIsYUFBYTtFQUNiLGdCQUFnQjtFQUNoQixjQUFjLEVBQUE7QUFHaEI7RUFDRSxpQkFBaUI7RUFDakIseUJBQXlCO0VBQ3pCLGdCQUFnQixFQUFBO0FBR2xCO0VBQ0UsaUJBQWlCLEVBQUE7QUFHbkI7RUFDRSxnQkFBZ0I7RUFDaEIsZUFBZSxFQUFBO0FBR2pCO0VBQ0UsZ0JBQWdCO0VBQ2hCLGVBQWUsRUFBQTtBQUdqQjtFQUNFLGdCQUFnQjtFQUNoQixlQUFlLEVBQUE7QUFHakI7RUFDRSxrQkFBa0IsRUFBQTtBQUdwQjtFQUNFLGdCQUFnQjtFQUNoQixnQkFBZ0I7RUFDaEIsdUJBQXVCO0VBQ3ZCLG1CQUFtQixFQUFBO0FFM0ZyQjtFQUNFLG1CRENlO0VDQWYsY0RDZ0IsRUFBQTtBQ0hsQjtJQUtJLGdCQUFnQixFQUFBO0FBTHBCO0lBU0ksbUJESG1CLEVBQUE7QUNPdkI7RUFDRSxjRFplO0VDYWYsNkJBQTZCO0VBQzdCLHNCQUFzQjtFQUN0QixrQkFBa0I7RUFDbEIsa0JBQWtCLEVBQUE7QUFMcEI7SUFRSSxnQkFBZ0IsRUFBQTtBQUtwQjtFQUNFLGVBQWU7RUFDZixvQkFBb0I7RUFDcEIscUJBQXFCLEVBQUE7QUFHdkI7RUFDRSxrQkFBa0I7RUFDbEIsU0FBUztFQUNULFVBQVU7RUFDVixxQkFBcUI7RUFDckIsbUNBQW1DO0VBQ25DLDZCQUE2QjtFQUM3QixrQ0FBa0M7RUFDbEMsdUNBQXVDO0VBQ3ZDLFdBQVcsRUFBQTtBQUVYO0VBQ0Esa0JBQWtCO0VBQ2xCLFNBQVM7RUFDVCxVQUFVO0VBQ1YscUJBQXFCO0VBQ3JCLG1DQUFtQztFQUNuQyxnQ0Q5Q2dCO0VDK0NoQixrQ0FBa0M7RUFDbEMsV0FBVyxFQUFBO0FBR1g7RUFDRSxtQkFBbUIsRUFBQTtBQ3ZEdkI7RUFDRSx5QkZDZTtFRUFmLFlBQVk7RUFDWiw0QkFBNEI7RUFDNUIsMkJBQTJCO0VBQzNCLG1CQUFtQjtFQUNuQixZQUFZLEVBQUE7QUFOZDtJQVNJLGNGTmM7SUVPZCxVQUFVLEVBQUE7QUNWZDtFQUNFLDhCSGFnQjtFR2JrQixVQUFBLEVBQVc7QUFHL0M7RUFDRSw4QkhHYztFR0hrQixRQUFBLEVBQVM7QUFHM0M7RUFDRSxlQUFlLEVBQUE7QUFHakI7RUFDRSxnREFBaUQsRUFBQTtBQUduRDtFQUNFLGlCQUFpQjtFQUNqQixjSFZjO0VHV2Qsa0JBQWtCLEVBQUE7QUFHcEI7RUFDRSxlQUFlO0VBQ2YsV0FBVztFQUNYLGFBQWE7RUFDYixpQkFBaUI7RUFDakIsaUJBQWlCO0VBQ2pCLGlCQUFpQjtFQUNqQixpQkFBaUIsRUFBQTtBQUduQjtFQUNFLGtCQUFrQjtFQUNsQixrQkFBa0IsRUFBQTtBQUdwQjtFQUNFLGNIcENlO0VHcUNmLGlCQUFpQjtFQUNqQixpQkFBaUIsRUFBQTtBSnJDZjtFQUNFLFVLSGdCLEVBQUE7QUxFbEI7RUFDRSxVS0hxQixFQUFBO0FMRXZCO0VBQ0UsVUtIMEIsRUFBQTtBTEU1QjtFQUNFLFVLSCtCLEVBQUE7QUFFckM7RUFDRSxrQkFBa0I7RUFDbEIsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QixZQUFZO0VBQ1oseUJKTGdCLEVBQUE7QUlBbEI7SUFRSSx5QkpSYztJSVNkLGdCQUFnQixFQUFBO0FBSXBCO0VBQ0Usd0JBQXdCO0VBQ3hCLGdCQUFnQixFQUFBO0FBR2xCO0VBRUksa0JBQWtCO0VBQ2xCLG1CSkxvQjtFSU1wQixjSnRCYztFSXVCZCxtQkFBbUI7RUFDbkIsVUFBVTtFQUNWLGVBQWUsRUFBQTtBQUtuQjtFQUVJLGtCQUFrQjtFQUNsQixtQkpkaUI7RUllakIsY0psQ2M7RUltQ2QsbUJBQW1CO0VBQ25CLFVBQVU7RUFDVixlQUFlLEVBQUE7QUFLbkI7RUFFSSxrQkFBa0I7RUFDbEIsbUJKNUJ1QjtFSTZCdkIsY0o5Q2M7RUkrQ2QsbUJBQW1CO0VBQ25CLFVBQVU7RUFDVixlQUFlLEVBQUE7QUFLbkI7RUFFSSxrQkFBa0I7RUFDbEIsbUJKdkNzQjtFSXdDdEIsY0oxRGM7RUkyRGQsbUJBQW1CO0VBQ25CLFVBQVU7RUFDVixlQUFlLEVBQUE7QUFLbkI7RUFFSSxrQkFBa0I7RUFDbEIsbUJKakRpQjtFSWtEakIsY0p0RWM7RUl1RWQsbUJBQW1CO0VBQ25CLFVBQVU7RUFDVixlQUFlLEVBQUE7QUFLbkI7RUFDRSxpQkFBaUIsRUFBQTtBQUduQjtFQUNFLGlCQUFpQixFQUFBO0FBR25CO0VBQ0UsaUJBQWlCO0VBQ2pCLGtCQUFrQixFQUFBO0FBR3BCO0VBQ0UsZUFBZSxFQUFBO0FBRGpCO0lBR0ksY0ovRmEsRUFBQTtBSW1HakI7RUFDRSxjQUFjLEVBQUE7QUFHaEI7RUFDRSxrQkFBa0I7RUFDbEIsbUJBQW1CO0VBQ25CLGVBQWUsRUFBQTtBQUlqQjtFQUNFLGtCQUFrQjtFQUNsQixpQkFBaUI7RUFDakIsZUFBZSxFQUFBO0FBT2pCO0VBQ0Usa0JBQWtCO0VBRWxCLGVBQWU7RUFDZixnQkFBZ0IsRUFBQTtBQUdsQjtFQUNFLGtCQUFrQjtFQUNsQixlQUFlO0VBQ2YsZ0JBQWdCLEVBQUE7QUFHbEI7RUFDRSw2QkFBNkI7RUFDN0IsZUFBZTtFQUNmLDJCQUEyQixFQUFBO0FBRzdCO0VBQ0UseUJBQXlCO0VBQ3pCLGtCQUFrQjtFQUNsQixtQkFBbUI7RUFDbkIsa0JBQWtCO0VBQ2xCLG9CQUFvQjtFQUNwQixnQkFBZ0IsRUFBQTtBQU5sQjtJQVVNLGVBQWU7SUFDZixXQUFXO0lBQ1gsZUFBZSxFQUFBO0FBWnJCO01BZVEsV0FBVyxFQUFBO0FBZm5CO1FBa0JVLGtCQUFrQixFQUFBO0FBbEI1QjtNQXVCUSxlQUFlO01BQ2YsV0FBVztNQUNYLGlCQUFpQjtNQUNqQixpQkFBaUIsRUFBQTtBQTFCekI7SUErQk0sZ0JBQWdCLEVBQUE7QUEvQnRCO01BbUNVLGlCQUFpQixFQUFBO0FBbkMzQjtNQXVDVSxpQkFBaUIsRUFBQTtBQXZDM0I7TUE0Q1EsZ0JBQWdCO01BQ2hCLFdBQVcsRUFBQTtBQTdDbkI7UUFnRFUsZ0JBQWdCLEVBQUE7QUFoRDFCO01BcURRLGtCQUFrQixFQUFBO0FBckQxQjtNQXlEUSxnQkFBZ0IsRUFBQTtBQXpEeEI7SUE4RE0sNkJBQTZCLEVBQUE7QUE5RG5DO0lBbUVJLGFBQWE7SUFDYix5QkFBeUIsRUFBQTtBQXBFN0I7TUF1RU0sY0psTlcsRUFBQTtBSTJJakI7TUEyRU0sY0p0Tlc7TUl1TlgsZUFBZSxFQUFBO0FBS3JCO0VBQ0UsaUJBQWlCLEVBQUE7QUFHbkI7RUFDRSxXQUFXO0VBQ1gsbUJKak9nQjtFSWtPaEIsZ0RBQWdELEVBQUE7QUFIbEQ7SUFNSSxjSnRPYTtJSXVPYixpQkFBaUIsRUFBQTtBQVByQjtJQVdJLDZCQUE2QjtJQUM3QixrQkFBa0I7SUFFbEIsa0JBQWtCO0lBQ2xCLGdCQUFnQjtJQUNoQixtQkFBbUIsRUFBQTtBQWhCdkI7SUFvQkksa0JBQWtCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9sYXlvdXQvY2xpZW50L2xpc3Qtb3JkZXIvbGlzdC1vcmRlci5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi8qIERlZmluZSB0ciB3aWR0aCAqL1xuQG1peGluIHRyLXNpemVzKCRjZWxsLXNpemVzKSB7XG4gIEBmb3IgJGkgZnJvbSAxIHRocm91Z2ggbGVuZ3RoKCRjZWxsLXNpemVzKSB7XG4gICAgLnRhYmxlLXRyOm50aC1jaGlsZCgjeyRpfSkge1xuICAgICAgd2lkdGg6IG50aCgkY2VsbC1zaXplcywgJGkpO1xuICAgIH1cbiAgfVxufVxuXG4uY2FyZCB7XG4gIGJvcmRlcjogMC41cHggc29saWQgcmdiYSgwLCAwLCAwLCAwLjEyNSkgIWltcG9ydGFudDs7XG4gIGJveC1zaGFkb3c6IDAgMnB4IDJweCByZ2JhKDAsMCwwLC4yNCksIDAgMCAycHggcmdiYSgwLDAsMCwuMTIpICFpbXBvcnRhbnQ7XG5cbiAgLmNhcmQtaGVhZGVyIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICRiZy13aGl0ZTtcbiAgICBjb2xvcjogJGJnLWJsdWU7XG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgICBib3JkZXItYm90dG9tOiBub25lO1xuICAgIGZvbnQtc2l6ZTogMS4zcmVtO1xuXG4gICAgLmNhcmQtYm9keSB7XG4gICAgICBvdmVyZmxvdy15OiAtd2Via2l0LXBhZ2VkLXk7XG4gICAgfVxuICB9XG59XG5cbi50YWJsZSB7XG5cbiAgPnRoZWFkID50ciA+dGggPnRkIHtcbiAgICBib3JkZXItdG9wOiBub25lO1xuICAgIHRleHQtb3ZlcmZsb3c6IGVsbGlwc2lzO1xuICB9XG5cbiAgPnRib2R5ID50cjpudGgtbGFzdC1jaGlsZCgxKSB7XG4gICAgaGVpZ2h0OiAxMDBweDtcbiAgfVxufVxuXG4uaGVhZGVyLWNvbHVtbiB7XG4gIDpob3ZlciB7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICB9XG59XG5cbi5kcm9wZG93bi1pdGVtIHtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4udGFibGUtZW1wdHkge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIHBhZGRpbmc6IDI1cHg7XG4gIGZvbnQtd2VpZ2h0OiA2MDA7XG4gIGNvbG9yOiAjOGE4YThhO1xufVxuXG4ucGFnaW5hdGlvbi1saXN0IHtcbiAgdGV4dC1hbGlnbjogcmlnaHQ7XG4gIGxpbmUtaGVpZ2h0OiAwICFpbXBvcnRhbnQ7XG4gIGZvbnQtd2VpZ2h0OiAzMDA7XG59XG5cbi5jb3VudC1lbGVtZW50cyB7XG4gIG1hcmdpbi1yaWdodDogMHB4O1xufVxuXG4uZmEtc29ydC11cCB7XG4gIG1hcmdpbi1sZWZ0OiA1cHg7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLmZhLXNvcnQtZG93biB7XG4gIG1hcmdpbi1sZWZ0OiA1cHg7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLmZhLXNvcnQge1xuICBtYXJnaW4tbGVmdDogNXB4O1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi5uby1yZWNvcmRzIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4udGQtdGFibGV7XG4gIG1heC13aWR0aDogMTAwcHg7XG4gIG92ZXJmbG93OiBoaWRkZW47XG4gIHRleHQtb3ZlcmZsb3c6IGVsbGlwc2lzO1xuICB3aGl0ZS1zcGFjZTogbm93cmFwO1xufVxuIiwiJGJnLXNpZGViYXI6ICM0OTQ5NDk7XG4kYmctbmF2YmFyOiAjMjIyO1xuJGJnLWJsdWU6ICMxNzU2YTY7XG4kYmctd2hpdGU6ICNmZmZmZmY7XG4kYmctdGV4dC1zZWxlY3Q6ICNmOTA7XG4kYmctaXRlbS1zZWxlY3Q6ICMzYzNjM2M7XG4kYmctYmx1ZS1ob3ZlcjogIzE4NWViOTtcbiRiZy1pbXB1dDogI2NlZDRkYTtcbiRiZy1yZWQ6ICNjYzAwMDA7XG4kYmctZ3JlZW46ICM0MkE5NDg7XG4kYm9yZGVyOnJnYmEoMCwgMCwgMCwgMC4xMjUpO1xuJGJveC1zaGFkb3cgOiAycHggcmdiYSgwLDAsMCwuMjQpO1xuJGJveC1zaGFkb3cxOnJnYmEoMCwwLDAsLjEyKTtcbiRjb2xvci10ZXh0LW1lbnU6Izg2OGU5NjtcbiRiZy1ncmVlbjogIzQyQTk0ODtcbiRiZy10aXRsZS1jYXJkOiAjZjdmN2Y3O1xuJGJvcmRlci1ncmV5OiAjZGVlMmU2O1xuXG4vL1NUQVRVU0VTXG4kcGVuZGluZy1zdGF0dXM6ICNCNzFDMUM7XG4kYXV0aG9yaXplZC1zdGF0dXM6ICM0QTE0OEM7XG4kcHJvY2Vzc2VkLXN0YXR1czogI0ZGNkYwMDtcbiRwYWlkLXN0YXR1czogIzFCNUUyMDtcbiRzZW50LXN0YXR1czogIzAxNTc5QjtcbiRjYW5jZWwtc3RhdHVzOiAjMzMzMzM1O1xuXG5cbiRzZWNvbmRhcnktaW5mbzojODY4ZTk2O1xuJGJnLXByb2R1Y3QtZGV0YWlsOiNmZmZmZmY7XG4kaW5mby1zZXBhcmF0b3I6cmdiYSgwLCAwLCAwLCAwLjEpO1xuJGljb24tZWRpdC1kZXRhaWw6IzE3NTZhNjtcbiRlcnJvci1xdWFudGl0eTpyZWQ7XG4kbWVzc2FnZS1xdWFudGl0eTojMDA4MDAwO1xuIiwiLmJ0bi1tYWluIHtcbiAgYmFja2dyb3VuZDogJGJnLWJsdWU7XG4gIGNvbG9yOiAkYmctd2hpdGU7XG5cbiAgJjpmb2N1cyB7XG4gICAgYm94LXNoYWRvdzogbm9uZTtcbiAgfVxuXG4gICY6aG92ZXIge1xuICAgIGJhY2tncm91bmQ6ICRiZy1ibHVlLWhvdmVyO1xuICB9XG59XG5cbi5idG4tZHJvcGRvd24tbWFpbiB7XG4gIGNvbG9yOiAkYmctYmx1ZTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7XG4gIGJhY2tncm91bmQtaW1hZ2U6IG5vbmU7XG4gIGJvcmRlci1jb2xvcjogbm9uZTtcbiAgYm9yZGVyLXJhZGl1czogMnB4O1xuXG4gICY6Zm9jdXMge1xuICAgIGJveC1zaGFkb3c6IG5vbmU7XG4gIH1cblxufVxuXG4uZHJvcGRvd24tbWVudSB7XG4gIG1pbi13aWR0aDogN3JlbTtcbiAgdG9wOiAyOHB4ICFpbXBvcnRhbnQ7XG4gIGxlZnQ6IDEwcHggIWltcG9ydGFudDtcbn1cblxuLmRyb3Bkb3duLW1lbnU6OmJlZm9yZSB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAtN3B4O1xuICBsZWZ0OiA1OXB4O1xuICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIGJvcmRlci1yaWdodDogN3B4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBib3JkZXItYm90dG9tOiA3cHggc29saWQgI0NDQztcbiAgYm9yZGVyLWxlZnQ6IDdweCBzb2xpZCB0cmFuc3BhcmVudDtcbiAgYm9yZGVyLWJvdHRvbS1jb2xvcjogcmdiYSgwLCAwLCAwLCAwLjIpO1xuICBjb250ZW50OiAnJztcbiAgfVxuICAuZHJvcGRvd24tbWVudTo6YWZ0ZXIge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogLTZweDtcbiAgbGVmdDogNjBweDtcbiAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICBib3JkZXItcmlnaHQ6IDZweCBzb2xpZCB0cmFuc3BhcmVudDtcbiAgYm9yZGVyLWJvdHRvbTogNnB4IHNvbGlkICRiZy13aGl0ZTtcbiAgYm9yZGVyLWxlZnQ6IDZweCBzb2xpZCB0cmFuc3BhcmVudDtcbiAgY29udGVudDogJyc7XG4gIH1cblxuICAuYnRuLmRpc2FibGVkLCAuYnRuOmRpc2FibGVkIHtcbiAgICBjdXJzb3I6IG5vdC1hbGxvd2VkO1xufVxuIiwiLm1vZGFsLWhlYWRlciB7XG4gIGJhY2tncm91bmQtY29sb3I6ICRiZy1ibHVlO1xuICBjb2xvcjogI2ZmZmY7XG4gIGJvcmRlci10b3AtcmlnaHQtcmFkaXVzOiAycHg7XG4gIGJvcmRlci10b3AtbGVmdC1yYWRpdXM6IDJweDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgaGVpZ2h0OiA1MHB4O1xuXG4gID5idXR0b24ge1xuICAgIGNvbG9yOiAkYmctd2hpdGU7XG4gICAgb3BhY2l0eTogMTtcbiAgfVxufSIsIi5uZy12YWxpZFtyZXF1aXJlZF0sIC5uZy12YWxpZC5yZXF1aXJlZCAge1xuICBib3JkZXItbGVmdDogNXB4IHNvbGlkICRiZy1ncmVlbjsgLyogZ3JlZW4gKi9cbn1cblxuLm5nLWludmFsaWQ6bm90KGZvcm0pICB7XG4gIGJvcmRlci1sZWZ0OiA1cHggc29saWQgJGJnLXJlZDsgLyogcmVkICovXG59XG5cbi5jb250ZW50IHtcbiAgcGFkZGluZzogMS43cmVtO1xufVxuXG4uZm9ybS1jb250cm9sOmZvY3VzIHtcbiAgYm94LXNoYWRvdzogMCAwIDAgMC4wOHJlbSByZ2JhKDAsIDEyMywgMjU1LCAwLjIwKTtcbn1cblxuLm1lc3NhZ2UtZXJyb3Ige1xuICBtYXJnaW4tdG9wOiAtMXJlbTtcbiAgY29sb3I6ICRiZy1yZWQ7XG4gIGZvbnQtc2l6ZTogMC44NXJlbTtcbn1cblxuLnBhZ2UtaGVhZGVyLWZpeGVkIHtcbiAgcG9zaXRpb246IGZpeGVkO1xuICB3aWR0aDogMTAwJTtcbiAgei1pbmRleDogMTAwMDtcbiAgYmFja2dyb3VuZDogd2hpdGU7XG4gIG1hcmdpbi10b3A6IC0yMnB4O1xuICBwYWRkaW5nLXRvcDogMjVweDtcbiAgbWFyZ2luLWxlZnQ6IDMwcHg7XG59XG5cbi5zcC1jb250YWluZXIge1xuICBwYWRkaW5nLXRvcDogMTAwcHg7XG4gIHBhZGRpbmctbGVmdDogMzBweDtcbn1cblxuLnNwLXRpdGxlIHtcbiAgY29sb3I6ICRiZy1ibHVlO1xuICBmb250LXdlaWdodDogYm9sZDtcbiAgZm9udC1zaXplOiAxLjRyZW07XG59XG5cbiIsIkBpbXBvcnQgJy4uLy4uLy4uLy4uL3N0eWxlcy9zcGVjdHJ1bS9zcGVjdHJ1bSc7XG5AaW5jbHVkZSB0ci1zaXplcygoMjUlLCAyNSUsIDI1JSwgMjUlKSk7XG5cbi5zcC1jYXJkIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICBtaW4td2lkdGg6IDA7XG4gIGJhY2tncm91bmQtY29sb3I6ICRiZy13aGl0ZTtcblxuICA+IGRpdiB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogJGJnLXdoaXRlO1xuICAgIGJvcmRlci1ib3R0b206IDA7XG4gIH1cbn1cblxuLnNwLWNhcmQtaGVhZGVyIHtcbiAgcGFkZGluZzogMC43NXJlbSAxLjI1cmVtO1xuICBtYXJnaW4tYm90dG9tOiAwO1xufVxuXG4uZGl2LXBlbmRpbmcge1xuICA+IGRpdiB7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGJhY2tncm91bmQ6ICRwZW5kaW5nLXN0YXR1cztcbiAgICBjb2xvcjogJGJnLXdoaXRlO1xuICAgIGJvcmRlci1yYWRpdXM6IDEycHg7XG4gICAgd2lkdGg6IDY1JTtcbiAgICBmb250LXNpemU6IDEzcHg7XG4gICAgLy9tYXJnaW4tbGVmdDogMTVweDtcbiAgfVxufVxuXG4uZGl2LXNoaXBwZWQge1xuICA+ZGl2IHtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgYmFja2dyb3VuZDokcGFpZC1zdGF0dXM7XG4gICAgY29sb3I6ICRiZy13aGl0ZTtcbiAgICBib3JkZXItcmFkaXVzOiAxMnB4O1xuICAgIHdpZHRoOiA2NSU7XG4gICAgZm9udC1zaXplOiAxM3B4O1xuICAgIC8vbWFyZ2luLWxlZnQ6IDE1cHg7XG4gIH1cbn1cblxuLmRpdi1hdXRob3JpemVkIHtcbiAgPmRpdiB7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGJhY2tncm91bmQ6ICRhdXRob3JpemVkLXN0YXR1cztcbiAgICBjb2xvcjogJGJnLXdoaXRlO1xuICAgIGJvcmRlci1yYWRpdXM6IDEycHg7XG4gICAgd2lkdGg6IDY1JTtcbiAgICBmb250LXNpemU6IDEzcHg7XG4gICAgLy9tYXJnaW4tbGVmdDogMTVweDtcbiAgfVxufVxuXG4uZGl2LXByb2Nlc3NlZCB7XG4gID5kaXYge1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBiYWNrZ3JvdW5kOiAkcHJvY2Vzc2VkLXN0YXR1cztcbiAgICBjb2xvcjogJGJnLXdoaXRlO1xuICAgIGJvcmRlci1yYWRpdXM6IDEycHg7XG4gICAgd2lkdGg6IDY1JTtcbiAgICBmb250LXNpemU6IDEzcHg7XG4gICAgLy9tYXJnaW4tbGVmdDogMTVweDtcbiAgfVxufVxuXG4uZGl2LXJlYWR5IHtcbiAgPmRpdiB7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGJhY2tncm91bmQ6ICRzZW50LXN0YXR1cztcbiAgICBjb2xvcjogJGJnLXdoaXRlO1xuICAgIGJvcmRlci1yYWRpdXM6IDEycHg7XG4gICAgd2lkdGg6IDY1JTtcbiAgICBmb250LXNpemU6IDEzcHg7XG4gICAgLy9tYXJnaW4tbGVmdDogMTVweDtcbiAgfVxufVxuXG4uaDUtZmlsdGVyIHtcbiAgcGFkZGluZy10b3A6IDIwcHg7XG59XG5cbi5idG4tY2xlYW4ge1xuICBwYWRkaW5nLXRvcDogMTBweDtcbn1cblxuLmZpbHRlciB7XG4gIHBhZGRpbmctdG9wOiAxMHB4O1xuICBwYWRkaW5nLWxlZnQ6IDI1cHg7XG59XG5cbi5hY3RpdmUge1xuICBjdXJzb3I6IHBvaW50ZXI7XG4gICYgc3Bhbjpob3ZlciB7XG4gICAgY29sb3I6ICRiZy1ibHVlO1xuICB9XG59XG5cbmE6bGluayB7XG4gIGNvbG9yOiAjMDA3YmZmO1xufVxuXG4uc3Bhbi10b3RhbHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xuICBwYWRkaW5nLXJpZ2h0OiAyNXB4O1xuICBmb250LXNpemU6IDE0cHg7XG5cbn1cblxuLmRpdi1zdGF0dXN7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgcGFkZGluZy1sZWZ0OiAyNSU7XG4gIGZvbnQtc2l6ZTogMTRweDtcbn1cblxuLmRpdi1kYXRle1xuICAvL3BhZGRpbmctbGVmdDogMjAwcHg7XG59XG5cbi50aXRsZS1zdGF0dXN7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgLy9wYWRkaW5nLXJpZ2h0OiAyMHB4O1xuICBmb250LXNpemU6IDE0cHg7XG4gIGZvbnQtd2VpZ2h0OiA2MDA7XG59XG5cbi50aXRsZS1wYXltZW50e1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIGZvbnQtc2l6ZTogMTRweDtcbiAgZm9udC13ZWlnaHQ6IDYwMDtcbn1cblxuLnRpdGxlIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyICFpbXBvcnRhbnQ7XG4gIGZvbnQtc2l6ZTogMTRweDtcbiAgZm9udC13ZWlnaHQ6IDYwMCAhaW1wb3J0YW50O1xufVxuXG4ubGlzdC1vcmRlbiB7XG4gIGJvcmRlcjogc29saWQgMXB4ICNiZmJmYmY7XG4gIHBhZGRpbmctbGVmdDogMTVweDtcbiAgcGFkZGluZy1yaWdodDogMTVweDtcbiAgYm9yZGVyLXJhZGl1czogM3B4O1xuICBwYWRkaW5nLWJvdHRvbTogMTBweDtcbiAgbWFyZ2luLXRvcDogLjVlbTtcblxuICA+IGRpdiB7XG4gICAgJjpmaXJzdC1jaGlsZCB7XG4gICAgICBmb250LXNpemU6IC45ZW07XG4gICAgICBjb2xvcjogZ3JheTtcbiAgICAgIHBhZGRpbmc6IC40ZW0gMDtcblxuICAgICAgZGl2Om50aC1jaGlsZCgyKSB7XG4gICAgICAgIGNvbG9yOiBncmV5O1xuXG4gICAgICAgID4gZGl2IHtcbiAgICAgICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgZGl2Om50aC1jaGlsZCgzKSB7XG4gICAgICAgIGZvbnQtc2l6ZTogLjhlbTtcbiAgICAgICAgY29sb3I6IGdyZXk7XG4gICAgICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xuICAgICAgICB0ZXh0LWFsaWduOiByaWdodDtcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmLnByb2R1Y3Qge1xuICAgICAgcGFkZGluZy10b3A6IDFlbTtcblxuICAgICAgZGl2Om50aC1jaGlsZCgxKSB7XG4gICAgICAgIGRpdjpmaXJzdC1jaGlsZCB7XG4gICAgICAgICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gICAgICAgIH1cblxuICAgICAgICBkaXY6bGFzdC1jaGlsZCB7XG4gICAgICAgICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgZGl2Om50aC1jaGlsZCgyKSB7XG4gICAgICAgIGZvbnQtc2l6ZTogMC44ZW07XG4gICAgICAgIGNvbG9yOiBncmF5O1xuXG4gICAgICAgIGRpdjpsYXN0LWNoaWxkIHtcbiAgICAgICAgICBmb250LXdlaWdodDogNjAwO1xuICAgICAgICB9XG4gICAgICB9XG5cbiAgICAgIGRpdjpudGgtY2hpbGQoMykgPiBkaXYge1xuICAgICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgICB9XG5cbiAgICAgIGRpdjpudGgtY2hpbGQoNCkgPiBkaXYge1xuICAgICAgICBmb250LXdlaWdodDogNjAwO1xuICAgICAgfVxuICAgIH1cblxuICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgIGJvcmRlci10b3A6IDFweCBzb2xpZCAjYmZiZmJmO1xuICAgIH1cbiAgfVxuXG4gIC5tb3JlLWRldGFpbHMge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBmbGV4LWVuZDtcblxuICAgIC5tb3JlLWxpbmsge1xuICAgICAgY29sb3I6ICRiZy1ibHVlO1xuICAgIH1cblxuICAgIGxhYmVsOmhvdmVyIHtcbiAgICAgIGNvbG9yOiAkYmctYmx1ZTtcbiAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICB9XG4gIH1cbn1cblxuLnBhZ2UtaGVhZGVyLWZpeGVkIHtcbiAgbWFyZ2luLWxlZnQ6IDE1cHg7XG59XG5cbi5oZWFkZXItYm9keSB7XG4gIHdpZHRoOiAxMDAlO1xuICBiYWNrZ3JvdW5kOiAkYmctd2hpdGU7XG4gIGJveC1zaGFkb3c6IC0ycHggNXB4IDVweCAtNXB4IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAubGluayB7XG4gICAgY29sb3I6ICRiZy1ibHVlO1xuICAgIHBhZGRpbmctbGVmdDogMHB4O1xuICB9XG5cbiAgLmJyZWFkY3J1bWIge1xuICAgIGJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50O1xuICAgIGJvcmRlci1yYWRpdXM6IDBweDtcbiAgICAvL3BhZGRpbmctbGVmdDogMTVweDtcbiAgICBib3JkZXItYm90dG9tOiAwcHg7XG4gICAgcGFkZGluZy10b3A6IDBweDtcbiAgICBwYWRkaW5nLWJvdHRvbTogMHB4O1xuICB9XG5cbiAgaDQge1xuICAgIHBhZGRpbmctbGVmdDogMTVweDtcbiAgfVxufVxuIl19 */"
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.table-tr:nth-child(1) {\n  width: 25%; }\n.table-tr:nth-child(2) {\n  width: 25%; }\n.table-tr:nth-child(3) {\n  width: 25%; }\n.table-tr:nth-child(4) {\n  width: 25%; }\n.sp-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  min-width: 0;\n  background-color: #ffffff; }\n.sp-card > div {\n    background-color: #ffffff;\n    border-bottom: 0; }\n.search {\n  padding-bottom: 1.4rem; }\n.search i {\n    position: absolute;\n    top: 10px;\n    right: 25px;\n    color: #ced4da; }\n.sp-card-header {\n  padding: 0.75rem 1.25rem;\n  margin-bottom: 0; }\n.div-pending > div {\n  text-align: center;\n  background: #B71C1C;\n  color: #ffffff;\n  border-radius: 12px;\n  width: 65%;\n  font-size: 13px; }\n.div-shipped > div {\n  text-align: center;\n  background: #1B5E20;\n  color: #ffffff;\n  border-radius: 12px;\n  width: 65%;\n  font-size: 13px; }\n.div-authorized > div {\n  text-align: center;\n  background: #4A148C;\n  color: #ffffff;\n  border-radius: 12px;\n  width: 65%;\n  font-size: 13px; }\n.div-processed > div {\n  text-align: center;\n  background: #FF6F00;\n  color: #ffffff;\n  border-radius: 12px;\n  width: 65%;\n  font-size: 13px; }\n.div-ready > div {\n  text-align: center;\n  background: #01579B;\n  color: #ffffff;\n  border-radius: 12px;\n  width: 65%;\n  font-size: 13px; }\n.h5-filter {\n  padding-top: 20px; }\n.btn-clean {\n  padding: 10px 25px; }\n.filter {\n  padding-top: 10px;\n  padding-left: 25px; }\n.active {\n  cursor: pointer; }\n.active span:hover {\n    color: #1756a6; }\na:link {\n  color: #007bff; }\n.span-total {\n  text-align: center;\n  padding-right: 25px;\n  font-size: 14px; }\n.div-status {\n  text-align: center;\n  padding-left: 25%;\n  font-size: 14px; }\n.title-status {\n  text-align: center;\n  font-size: 14px;\n  font-weight: 600; }\n.title-payment {\n  text-align: center;\n  font-size: 14px;\n  font-weight: 600; }\n.title {\n  text-align: center !important;\n  font-size: 14px;\n  font-weight: 600 !important; }\n.list-orden {\n  border: solid 1px #bfbfbf;\n  padding-left: 15px;\n  padding-right: 15px;\n  border-radius: 3px;\n  padding-bottom: 10px;\n  margin-top: .5em; }\n.list-orden > div:first-child {\n    font-size: .9em;\n    color: gray;\n    padding: .4em 0; }\n.list-orden > div:first-child div:nth-child(2) {\n      color: grey; }\n.list-orden > div:first-child div:nth-child(2) > div {\n        text-align: center; }\n.list-orden > div:first-child div:nth-child(3) {\n      font-size: .8em;\n      color: grey;\n      font-weight: bold;\n      text-align: right; }\n.list-orden > div.product {\n    padding-top: 1em; }\n.list-orden > div.product div:nth-child(1) div:first-child {\n      font-weight: bold; }\n.list-orden > div.product div:nth-child(1) div:last-child {\n      font-weight: bold; }\n.list-orden > div.product div:nth-child(2) {\n      font-size: 0.8em;\n      color: gray; }\n.list-orden > div.product div:nth-child(2) div:last-child {\n        font-weight: 600; }\n.list-orden > div.product div:nth-child(3) > div {\n      text-align: center; }\n.list-orden > div.product div:nth-child(4) > div {\n      font-weight: 600; }\n.list-orden > div:nth-child(2) {\n    border-top: 1px solid #bfbfbf; }\n.list-orden .more-details {\n    display: flex;\n    justify-content: flex-end; }\n.list-orden .more-details .more-link {\n      color: #1756a6; }\n.list-orden .more-details label:hover {\n      color: #1756a6;\n      cursor: pointer; }\n.page-header-fixed {\n  margin-left: 15px; }\n.header-body {\n  width: 100%;\n  background: #ffffff;\n  box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.header-body .link {\n    color: #1756a6;\n    padding-left: 0px; }\n.header-body .breadcrumb {\n    background-color: transparent;\n    border-radius: 0px;\n    border-bottom: 0px;\n    padding-top: 0px;\n    padding-bottom: 0px; }\n.header-body h4 {\n    padding-left: 15px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9lbGllemVyL1NQUy9TcGVjdHJ1bS9zcGVjdHJ1bS1mZS9zcmMvc3R5bGVzL3NwZWN0cnVtL21vZHVsZXMvX3RhYmxlcy5zY3NzIiwiL1VzZXJzL2VsaWV6ZXIvU1BTL1NwZWN0cnVtL3NwZWN0cnVtLWZlL3NyYy9zdHlsZXMvc3BlY3RydW0vbW9kdWxlcy9fY29sb3JzLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL3N0eWxlcy9zcGVjdHJ1bS9tb2R1bGVzL19idXR0b25zLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL3N0eWxlcy9zcGVjdHJ1bS9tb2R1bGVzL19tb2RhbHMuc2NzcyIsIi9Vc2Vycy9lbGllemVyL1NQUy9TcGVjdHJ1bS9zcGVjdHJ1bS1mZS9zcmMvc3R5bGVzL3NwZWN0cnVtL21vZHVsZXMvX2Zvcm1zLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL2FwcC9sYXlvdXQvY2xpZW50L2xpc3Qtb3JkZXIvbGlzdC1vcmRlci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxvQkFBQTtBQVNBO0VBQ0UsbURBQW1EO0VBQ25ELGlGQUF5RSxFQUFBO0FBRjNFO0lBS0ksYUFBYTtJQUNiLDhCQUE4QjtJQUM5QixtQkFBbUI7SUFDbkIseUJDZGM7SURlZCxjQ2hCYTtJRGlCYixnQkFBZ0I7SUFDaEIsbUJBQW1CO0lBQ25CLGlCQUFpQixFQUFBO0FBWnJCO01BZU0sMkJBQTJCLEVBQUE7QUFLakM7RUFHSSxnQkFBZ0I7RUFDaEIsdUJBQXVCLEVBQUE7QUFKM0I7RUFRSSxhQUFhLEVBQUE7QUFJakI7RUFFSSxlQUFlLEVBQUE7QUFJbkI7RUFDRSxlQUFlLEVBQUE7QUFHakI7RUFDRSxrQkFBa0I7RUFDbEIsYUFBYTtFQUNiLGdCQUFnQjtFQUNoQixjQUFjLEVBQUE7QUFH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QThETSw2QkFBNkIsRUFBQTtBQTlEbkM7SUFtRUksYUFBYTtJQUNiLHlCQUF5QixFQUFBO0FBcEU3QjtNQXVFTSxjSjdOVyxFQUFBO0FJc0pqQjtNQTJFTSxjSmpPVztNSWtPWCxlQUFlLEVBQUE7QUFLckI7RUFDRSxpQkFBaUIsRUFBQTtBQUduQjtFQUNFLFdBQVc7RUFDWCxtQko1T2dCO0VJNk9oQixnREFBZ0QsRUFBQTtBQUhsRDtJQU1JLGNKalBhO0lJa1BiLGlCQUFpQixFQUFBO0FBUHJCO0lBV0ksNkJBQTZCO0lBQzdCLGtCQUFrQjtJQUVsQixrQkFBa0I7SUFDbEIsZ0JBQWdCO0lBQ2hCLG1CQUFtQixFQUFBO0FBaEJ2QjtJQW9CSSxrQkFBa0IsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2xheW91dC9jbGllbnQvbGlzdC1vcmRlci9saXN0LW9yZGVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogRGVmaW5lIHRyIHdpZHRoICovXG5AbWl4aW4gdHItc2l6ZXMoJGNlbGwtc2l6ZXMpIHtcbiAgQGZvciAkaSBmcm9tIDEgdGhyb3VnaCBsZW5ndGgoJGNlbGwtc2l6ZXMpIHtcbiAgICAudGFibGUtdHI6bnRoLWNoaWxkKCN7JGl9KSB7XG4gICAgICB3aWR0aDogbnRoKCRjZWxsLXNpemVzLCAkaSk7XG4gICAgfVxuICB9XG59XG5cbi5jYXJkIHtcbiAgYm9yZGVyOiAwLjVweCBzb2xpZCByZ2JhKDAsIDAsIDAsIDAuMTI1KSAhaW1wb3J0YW50OztcbiAgYm94LXNoYWRvdzogMCAycHggMnB4IHJnYmEoMCwwLDAsLjI0KSwgMCAwIDJweCByZ2JhKDAsMCwwLC4xMikgIWltcG9ydGFudDtcblxuICAuY2FyZC1oZWFkZXIge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogJGJnLXdoaXRlO1xuICAgIGNvbG9yOiAkYmctYmx1ZTtcbiAgICBmb250LXdlaWdodDogNjAwO1xuICAgIGJvcmRlci1ib3R0b206IG5vbmU7XG4gICAgZm9udC1zaXplOiAxLjNyZW07XG5cbiAgICAuY2FyZC1ib2R5IHtcbiAgICAgIG92ZXJmbG93LXk6IC13ZWJraXQtcGFnZWQteTtcbiAgICB9XG4gIH1cbn1cblxuLnRhYmxlIHtcblxuICA+dGhlYWQgPnRyID50aCA+dGQge1xuICAgIGJvcmRlci10b3A6IG5vbmU7XG4gICAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7XG4gIH1cblxuICA+dGJvZHkgPnRyOm50aC1sYXN0LWNoaWxkKDEpIHtcbiAgICBoZWlnaHQ6IDEwMHB4O1xuICB9XG59XG5cbi5oZWFkZXItY29sdW1uIHtcbiAgOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gIH1cbn1cblxuLmRyb3Bkb3duLWl0ZW0ge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi50YWJsZS1lbXB0eSB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgcGFkZGluZzogMjVweDtcbiAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgY29sb3I6ICM4YThhOGE7XG59XG5cbi5wYWdpbmF0aW9uLWxpc3Qge1xuICB0ZXh0LWFsaWduOiByaWdodDtcbiAgbGluZS1oZWlnaHQ6IDAgIWltcG9ydGFudDtcbiAgZm9udC13ZWlnaHQ6IDMwMDtcbn1cblxuLmNvdW50LWVsZW1lbnRzIHtcbiAgbWFyZ2luLXJpZ2h0OiAwcHg7XG59XG5cbi5mYS1zb3J0LXVwIHtcbiAgbWFyZ2luLWxlZnQ6IDVweDtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4uZmEtc29ydC1kb3duIHtcbiAgbWFyZ2luLWxlZnQ6IDVweDtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4uZmEtc29ydCB7XG4gIG1hcmdpbi1sZWZ0OiA1cHg7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLm5vLXJlY29yZHMge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi50ZC10YWJsZXtcbiAgbWF4LXdpZHRoOiAxMDBweDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7XG4gIHdoaXRlLXNwYWNlOiBub3dyYXA7XG59XG4iLCIkYmctc2lkZWJhcjogIzQ5NDk0OTtcbiRiZy1uYXZiYXI6ICMyMjI7XG4kYmctYmx1ZTogIzE3NTZhNjtcbiRiZy13aGl0ZTogI2ZmZmZmZjtcbiRiZy10ZXh0LXNlbGVjdDogI2Y5MDtcbiRiZy1pdGVtLXNlbGVjdDogIzNjM2MzYztcbiRiZy1ibHVlLWhvdmVyOiAjMTg1ZWI5O1xuJGJnLWltcHV0OiAjY2VkNGRhO1xuJGJnLXJlZDogI2NjMDAwMDtcbiRiZy1ncmVlbjogIzQyQTk0ODtcbiRib3JkZXI6cmdiYSgwLCAwLCAwLCAwLjEyNSk7XG4kYm94LXNoYWRvdyA6IDJweCByZ2JhKDAsMCwwLC4yNCk7XG4kYm94LXNoYWRvdzE6cmdiYSgwLDAsMCwuMTIpO1xuJGNvbG9yLXRleHQtbWVudTojODY4ZTk2O1xuJGJnLWdyZWVuOiAjNDJBOTQ4O1xuJGJnLXRpdGxlLWNhcmQ6ICNmN2Y3Zjc7XG4kYm9yZGVyLWdyZXk6ICNkZWUyZTY7XG5cbi8vU1RBVFVTRVNcbiRwZW5kaW5nLXN0YXR1czogI0I3MUMxQztcbiRhdXRob3JpemVkLXN0YXR1czogIzRBMTQ4QztcbiRwcm9jZXNzZWQtc3RhdHVzOiAjRkY2RjAwO1xuJHBhaWQtc3RhdHVzOiAjMUI1RTIwO1xuJHNlbnQtc3RhdHVzOiAjMDE1NzlCO1xuJGNhbmNlbC1zdGF0dXM6ICMzMzMzMzU7XG5cblxuJHNlY29uZGFyeS1pbmZvOiM4NjhlOTY7XG4kYmctcHJvZHVjdC1kZXRhaWw6I2ZmZmZmZjtcbiRpbmZvLXNlcGFyYXRvcjpyZ2JhKDAsIDAsIDAsIDAuMSk7XG4kaWNvbi1lZGl0LWRldGFpbDojMTc1NmE2O1xuJGVycm9yLXF1YW50aXR5OnJlZDtcbiRtZXNzYWdlLXF1YW50aXR5OiMwMDgwMDA7XG4iLCIuYnRuLW1haW4ge1xuICBiYWNrZ3JvdW5kOiAkYmctYmx1ZTtcbiAgY29sb3I6ICRiZy13aGl0ZTtcblxuICAmOmZvY3VzIHtcbiAgICBib3gtc2hhZG93OiBub25lO1xuICB9XG5cbiAgJjpob3ZlciB7XG4gICAgYmFja2dyb3VuZDogJGJnLWJsdWUtaG92ZXI7XG4gIH1cbn1cblxuLmJ0bi1kcm9wZG93bi1tYWluIHtcbiAgY29sb3I6ICRiZy1ibHVlO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgYmFja2dyb3VuZC1pbWFnZTogbm9uZTtcbiAgYm9yZGVyLWNvbG9yOiBub25lO1xuICBib3JkZXItcmFkaXVzOiAycHg7XG5cbiAgJjpmb2N1cyB7XG4gICAgYm94LXNoYWRvdzogbm9uZTtcbiAgfVxuXG59XG5cbi5kcm9wZG93bi1tZW51IHtcbiAgbWluLXdpZHRoOiA3cmVtO1xuICB0b3A6IDI4cHggIWltcG9ydGFudDtcbiAgbGVmdDogMTBweCAhaW1wb3J0YW50O1xufVxuXG4uZHJvcGRvd24tbWVudTo6YmVmb3JlIHtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IC03cHg7XG4gIGxlZnQ6IDU5cHg7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgYm9yZGVyLXJpZ2h0OiA3cHggc29saWQgdHJhbnNwYXJlbnQ7XG4gIGJvcmRlci1ib3R0b206IDdweCBzb2xpZCAjQ0NDO1xuICBib3JkZXItbGVmdDogN3B4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBib3JkZXItYm90dG9tLWNvbG9yOiByZ2JhKDAsIDAsIDAsIDAuMik7XG4gIGNvbnRlbnQ6ICcnO1xuICB9XG4gIC5kcm9wZG93bi1tZW51OjphZnRlciB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAtNnB4O1xuICBsZWZ0OiA2MHB4O1xuICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIGJvcmRlci1yaWdodDogNnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBib3JkZXItYm90dG9tOiA2cHggc29saWQgJGJnLXdoaXRlO1xuICBib3JkZXItbGVmdDogNnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBjb250ZW50OiAnJztcbiAgfVxuXG4gIC5idG4uZGlzYWJsZWQsIC5idG46ZGlzYWJsZWQge1xuICAgIGN1cnNvcjogbm90LWFsbG93ZWQ7XG59XG4iLCIubW9kYWwtaGVhZGVyIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogJGJnLWJsdWU7XG4gIGNvbG9yOiAjZmZmZjtcbiAgYm9yZGVyLXRvcC1yaWdodC1yYWRpdXM6IDJweDtcbiAgYm9yZGVyLXRvcC1sZWZ0LXJhZGl1czogMnB4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBoZWlnaHQ6IDUwcHg7XG5cbiAgPmJ1dHRvbiB7XG4gICAgY29sb3I6ICRiZy13aGl0ZTtcbiAgICBvcGFjaXR5OiAxO1xuICB9XG59IiwiLm5nLXZhbGlkW3JlcXVpcmVkXSwgLm5nLXZhbGlkLnJlcXVpcmVkICB7XG4gIGJvcmRlci1sZWZ0OiA1cHggc29saWQgJGJnLWdyZWVuOyAvKiBncmVlbiAqL1xufVxuXG4ubmctaW52YWxpZDpub3QoZm9ybSkgIHtcbiAgYm9yZGVyLWxlZnQ6IDVweCBzb2xpZCAkYmctcmVkOyAvKiByZWQgKi9cbn1cblxuLmNvbnRlbnQge1xuICBwYWRkaW5nOiAxLjdyZW07XG59XG5cbi5mb3JtLWNvbnRyb2w6Zm9jdXMge1xuICBib3gtc2hhZG93OiAwIDAgMCAwLjA4cmVtIHJnYmEoMCwgMTIzLCAyNTUsIDAuMjApO1xufVxuXG4ubWVzc2FnZS1lcnJvciB7XG4gIG1hcmdpbi10b3A6IC0xcmVtO1xuICBjb2xvcjogJGJnLXJlZDtcbiAgZm9udC1zaXplOiAwLjg1cmVtO1xufVxuXG4ucGFnZS1oZWFkZXItZml4ZWQge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIHdpZHRoOiAxMDAlO1xuICB6LWluZGV4OiAxMDAwO1xuICBiYWNrZ3JvdW5kOiB3aGl0ZTtcbiAgbWFyZ2luLXRvcDogLTIycHg7XG4gIHBhZGRpbmctdG9wOiAyNXB4O1xuICBtYXJnaW4tbGVmdDogMzBweDtcbn1cblxuLnNwLWNvbnRhaW5lciB7XG4gIHBhZGRpbmctdG9wOiAxMDBweDtcbiAgcGFkZGluZy1sZWZ0OiAzMHB4O1xufVxuXG4uc3AtdGl0bGUge1xuICBjb2xvcjogJGJnLWJsdWU7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBmb250LXNpemU6IDEuNHJlbTtcbn1cblxuIiwiQGltcG9ydCAnLi4vLi4vLi4vLi4vc3R5bGVzL3NwZWN0cnVtL3NwZWN0cnVtJztcbkBpbmNsdWRlIHRyLXNpemVzKCgyNSUsIDI1JSwgMjUlLCAyNSUpKTtcblxuLnNwLWNhcmQge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIG1pbi13aWR0aDogMDtcbiAgYmFja2dyb3VuZC1jb2xvcjogJGJnLXdoaXRlO1xuXG4gID4gZGl2IHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAkYmctd2hpdGU7XG4gICAgYm9yZGVyLWJvdHRvbTogMDtcbiAgfVxufVxuXG4uc2VhcmNoIHtcbiAgcGFkZGluZy1ib3R0b206IDEuNHJlbTtcblxuICBpIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAxMHB4O1xuICAgIHJpZ2h0OiAyNXB4O1xuICAgIGNvbG9yOiAkYmctaW1wdXQ7XG4gIH1cbn1cblxuLnNwLWNhcmQtaGVhZGVyIHtcbiAgcGFkZGluZzogMC43NXJlbSAxLjI1cmVtO1xuICBtYXJnaW4tYm90dG9tOiAwO1xufVxuXG4uZGl2LXBlbmRpbmcge1xuICA+IGRpdiB7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGJhY2tncm91bmQ6ICRwZW5kaW5nLXN0YXR1cztcbiAgICBjb2xvcjogJGJnLXdoaXRlO1xuICAgIGJvcmRlci1yYWRpdXM6IDEycHg7XG4gICAgd2lkdGg6IDY1JTtcbiAgICBmb250LXNpemU6IDEzcHg7XG4gICAgLy9tYXJnaW4tbGVmdDogMTVweDtcbiAgfVxufVxuXG4uZGl2LXNoaXBwZWQge1xuICA+ZGl2IHtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgYmFja2dyb3VuZDokcGFpZC1zdGF0dXM7XG4gICAgY29sb3I6ICRiZy13aGl0ZTtcbiAgICBib3JkZXItcmFkaXVzOiAxMnB4O1xuICAgIHdpZHRoOiA2NSU7XG4gICAgZm9udC1zaXplOiAxM3B4O1xuICAgIC8vbWFyZ2luLWxlZnQ6IDE1cHg7XG4gIH1cbn1cblxuLmRpdi1hdXRob3JpemVkIHtcbiAgPmRpdiB7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGJhY2tncm91bmQ6ICRhdXRob3JpemVkLXN0YXR1cztcbiAgICBjb2xvcjogJGJnLXdoaXRlO1xuICAgIGJvcmRlci1yYWRpdXM6IDEycHg7XG4gICAgd2lkdGg6IDY1JTtcbiAgICBmb250LXNpemU6IDEzcHg7XG4gICAgLy9tYXJnaW4tbGVmdDogMTVweDtcbiAgfVxufVxuXG4uZGl2LXByb2Nlc3NlZCB7XG4gID5kaXYge1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBiYWNrZ3JvdW5kOiAkcHJvY2Vzc2VkLXN0YXR1cztcbiAgICBjb2xvcjogJGJnLXdoaXRlO1xuICAgIGJvcmRlci1yYWRpdXM6IDEycHg7XG4gICAgd2lkdGg6IDY1JTtcbiAgICBmb250LXNpemU6IDEzcHg7XG4gICAgLy9tYXJnaW4tbGVmdDogMTVweDtcbiAgfVxufVxuXG4uZGl2LXJlYWR5IHtcbiAgPmRpdiB7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGJhY2tncm91bmQ6ICRzZW50LXN0YXR1cztcbiAgICBjb2xvcjogJGJnLXdoaXRlO1xuICAgIGJvcmRlci1yYWRpdXM6IDEycHg7XG4gICAgd2lkdGg6IDY1JTtcbiAgICBmb250LXNpemU6IDEzcHg7XG4gICAgLy9tYXJnaW4tbGVmdDogMTVweDtcbiAgfVxufVxuXG4uaDUtZmlsdGVyIHtcbiAgcGFkZGluZy10b3A6IDIwcHg7XG59XG5cbi5idG4tY2xlYW4ge1xuICBwYWRkaW5nOiAxMHB4IDI1cHg7XG59XG5cbi5maWx0ZXIge1xuICBwYWRkaW5nLXRvcDogMTBweDtcbiAgcGFkZGluZy1sZWZ0OiAyNXB4O1xufVxuXG4uYWN0aXZlIHtcbiAgY3Vyc29yOiBwb2ludGVyO1xuICAmIHNwYW46aG92ZXIge1xuICAgIGNvbG9yOiAkYmctYmx1ZTtcbiAgfVxufVxuXG5hOmxpbmsge1xuICBjb2xvcjogIzAwN2JmZjtcbn1cblxuLnNwYW4tdG90YWx7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgcGFkZGluZy1yaWdodDogMjVweDtcbiAgZm9udC1zaXplOiAxNHB4O1xuXG59XG5cbi5kaXYtc3RhdHVze1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIHBhZGRpbmctbGVmdDogMjUlO1xuICBmb250LXNpemU6IDE0cHg7XG59XG5cbi5kaXYtZGF0ZXtcbiAgLy9wYWRkaW5nLWxlZnQ6IDIwMHB4O1xufVxuXG4udGl0bGUtc3RhdHVze1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIC8vcGFkZGluZy1yaWdodDogMjBweDtcbiAgZm9udC1zaXplOiAxNHB4O1xuICBmb250LXdlaWdodDogNjAwO1xufVxuXG4udGl0bGUtcGF5bWVudHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xuICBmb250LXNpemU6IDE0cHg7XG4gIGZvbnQtd2VpZ2h0OiA2MDA7XG59XG5cbi50aXRsZSB7XG4gIHRleHQtYWxpZ246IGNlbnRlciAhaW1wb3J0YW50O1xuICBmb250LXNpemU6IDE0cHg7XG4gIGZvbnQtd2VpZ2h0OiA2MDAgIWltcG9ydGFudDtcbn1cblxuLmxpc3Qtb3JkZW4ge1xuICBib3JkZXI6IHNvbGlkIDFweCAjYmZiZmJmO1xuICBwYWRkaW5nLWxlZnQ6IDE1cHg7XG4gIHBhZGRpbmctcmlnaHQ6IDE1cHg7XG4gIGJvcmRlci1yYWRpdXM6IDNweDtcbiAgcGFkZGluZy1ib3R0b206IDEwcHg7XG4gIG1hcmdpbi10b3A6IC41ZW07XG5cbiAgPiBkaXYge1xuICAgICY6Zmlyc3QtY2hpbGQge1xuICAgICAgZm9udC1zaXplOiAuOWVtO1xuICAgICAgY29sb3I6IGdyYXk7XG4gICAgICBwYWRkaW5nOiAuNGVtIDA7XG5cbiAgICAgIGRpdjpudGgtY2hpbGQoMikge1xuICAgICAgICBjb2xvcjogZ3JleTtcblxuICAgICAgICA+IGRpdiB7XG4gICAgICAgICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgICAgICB9XG4gICAgICB9XG5cbiAgICAgIGRpdjpudGgtY2hpbGQoMykge1xuICAgICAgICBmb250LXNpemU6IC44ZW07XG4gICAgICAgIGNvbG9yOiBncmV5O1xuICAgICAgICBmb250LXdlaWdodDogYm9sZDtcbiAgICAgICAgdGV4dC1hbGlnbjogcmlnaHQ7XG4gICAgICB9XG4gICAgfVxuXG4gICAgJi5wcm9kdWN0IHtcbiAgICAgIHBhZGRpbmctdG9wOiAxZW07XG5cbiAgICAgIGRpdjpudGgtY2hpbGQoMSkge1xuICAgICAgICBkaXY6Zmlyc3QtY2hpbGQge1xuICAgICAgICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xuICAgICAgICB9XG5cbiAgICAgICAgZGl2Omxhc3QtY2hpbGQge1xuICAgICAgICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xuICAgICAgICB9XG4gICAgICB9XG5cbiAgICAgIGRpdjpudGgtY2hpbGQoMikge1xuICAgICAgICBmb250LXNpemU6IDAuOGVtO1xuICAgICAgICBjb2xvcjogZ3JheTtcblxuICAgICAgICBkaXY6bGFzdC1jaGlsZCB7XG4gICAgICAgICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgICAgICAgfVxuICAgICAgfVxuXG4gICAgICBkaXY6bnRoLWNoaWxkKDMpID4gZGl2IHtcbiAgICAgICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgICAgfVxuXG4gICAgICBkaXY6bnRoLWNoaWxkKDQpID4gZGl2IHtcbiAgICAgICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmOm50aC1jaGlsZCgyKSB7XG4gICAgICBib3JkZXItdG9wOiAxcHggc29saWQgI2JmYmZiZjtcbiAgICB9XG4gIH1cblxuICAubW9yZS1kZXRhaWxzIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGp1c3RpZnktY29udGVudDogZmxleC1lbmQ7XG5cbiAgICAubW9yZS1saW5rIHtcbiAgICAgIGNvbG9yOiAkYmctYmx1ZTtcbiAgICB9XG5cbiAgICBsYWJlbDpob3ZlciB7XG4gICAgICBjb2xvcjogJGJnLWJsdWU7XG4gICAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgfVxuICB9XG59XG5cbi5wYWdlLWhlYWRlci1maXhlZCB7XG4gIG1hcmdpbi1sZWZ0OiAxNXB4O1xufVxuXG4uaGVhZGVyLWJvZHkge1xuICB3aWR0aDogMTAwJTtcbiAgYmFja2dyb3VuZDogJGJnLXdoaXRlO1xuICBib3gtc2hhZG93OiAtMnB4IDVweCA1cHggLTVweCByZ2JhKDAsIDAsIDAsIDAuNSk7XG5cbiAgLmxpbmsge1xuICAgIGNvbG9yOiAkYmctYmx1ZTtcbiAgICBwYWRkaW5nLWxlZnQ6IDBweDtcbiAgfVxuXG4gIC5icmVhZGNydW1iIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgICBib3JkZXItcmFkaXVzOiAwcHg7XG4gICAgLy9wYWRkaW5nLWxlZnQ6IDE1cHg7XG4gICAgYm9yZGVyLWJvdHRvbTogMHB4O1xuICAgIHBhZGRpbmctdG9wOiAwcHg7XG4gICAgcGFkZGluZy1ib3R0b206IDBweDtcbiAgfVxuXG4gIGg0IHtcbiAgICBwYWRkaW5nLWxlZnQ6IDE1cHg7XG4gIH1cbn1cbiJdfQ== */"
 
 /***/ }),
 
@@ -5875,6 +5875,7 @@ var ListOrderComponent = /** @class */ (function () {
         });
         this.advancedPagination = 1;
         this.model = { year: 0, month: 0, day: 0 };
+        this.valorClient = '';
         this.selectedStatus = '';
         this.tamano = 'undefined';
     };
@@ -5910,23 +5911,89 @@ var ListOrderComponent = /** @class */ (function () {
         var endItem = event * this.itemPerPage;
         this.listOrders = this.listOrdersAux.slice(startItem, endItem);
     };
-    ListOrderComponent.prototype.filter = function () {
-        var status = this.selectedStatus;
+    ListOrderComponent.prototype.getItems = function (ev) {
+        var _this = this;
+        this.listOrders = this.listOrdersAux;
+        var val = ev.target.value;
+        this.valorClient = val;
+        var valorStatus = this.selectedStatus;
         var lista = [];
         //*
         this.listOrders = this.list;
+        this.listOrdersAux = this.list;
         //*
-        if (this.selectedStatus !== '') {
-            this.valid = true;
-            if (this.tamano.length === 9) {
-                // tslint:disable-next-line:radix
-                this.listOrders = lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, { 'paymentStatus': parseInt(this.selectedStatus) });
+        if (val && val.trim() !== '') {
+            var client_1 = val;
+            if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '' && this.tamano.length === 9
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorProduct) === '') {
+                this.listOrders = this.listOrders.filter(function (item) {
+                    return ((item.nameUser.toLowerCase().indexOf(client_1.toLowerCase()) > -1) ||
+                        (item.number && item.number.toLowerCase().indexOf(client_1.toLowerCase()) > -1) ||
+                        (item.supplier.companyName.toLowerCase().indexOf(client_1.toLowerCase()) > -1) ||
+                        (item.listProductRequested.find(function (pR) {
+                            if (pR.productRequested.patient !== null) {
+                                return (pR.productRequested.patient.toLowerCase().indexOf(client_1.toLowerCase()) > -1);
+                            }
+                        })));
+                });
+                //*
                 this.listOrdersAux = this.listOrders;
                 this.advancedPagination = 1;
                 this.pageChange(this.advancedPagination);
                 //*
             }
-            else {
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '' && this.tamano.length === 9
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorProduct) !== '') {
+                this.listOrders = this.listOrders.filter(function (item) {
+                    return (((item.nameUser.toLowerCase().indexOf(client_1.toLowerCase()) > -1) ||
+                        (item.number && item.number.toLowerCase().indexOf(client_1.toLowerCase()) > -1) ||
+                        (item.supplier.companyName.toLowerCase().indexOf(client_1.toLowerCase()) > -1) ||
+                        (item.listProductRequested.find(function (pR) {
+                            if (pR.productRequested.patient !== null) {
+                                return (pR.productRequested.patient.toLowerCase().indexOf(client_1.toLowerCase()) > -1);
+                            }
+                        })))
+                        && (item.listProductRequested.find(function (pR) {
+                            return (pR.productRequested.product.name.toLowerCase().indexOf(_this.valorProduct.toLowerCase()) > -1);
+                        })));
+                });
+                //*
+                this.listOrdersAux = this.listOrders;
+                this.advancedPagination = 1;
+                this.pageChange(this.advancedPagination);
+                //*
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '' && this.tamano.length === 9
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorProduct) === '') {
+                this.filterStatusNombre(client_1, valorStatus);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '' && this.tamano.length === 9
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorProduct) !== '') {
+                this.filterStatusClienteProducto(client_1, this.valorProduct, valorStatus);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '' && this.tamano.length === 15
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorProduct) === '') {
+                this.filterDateNombre(client_1);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '' && this.tamano.length === 15
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorProduct) !== '') {
+                this.filterDateClienteProducto(client_1, this.valorProduct);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '' && this.tamano.length === 15
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorProduct) === '') {
+                this.filterDateStatusCliente(valorStatus, client_1);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '' && this.tamano.length === 15
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorProduct) !== '') {
+                this.fullFilter(client_1, this.valorProduct, valorStatus);
+            }
+        }
+        else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '') {
+            this.filter();
+        }
+        else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '') {
+            if (this.tamano.length === 15) {
+                this.valid = true;
                 var fecha_1;
                 // FechaFiltro
                 fecha_1 = this.getFecha();
@@ -5934,8 +6001,431 @@ var ListOrderComponent = /** @class */ (function () {
                     var fechaList;
                     // Fecha Listado
                     fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
-                    // tslint:disable-next-line:radix
-                    if ((lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha_1, fechaList)) && (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](parseInt(status), orders.paymentStatus))) {
+                    if (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha_1, fechaList)) {
+                        lista.push(orders);
+                    }
+                });
+                this.listOrders = lista;
+                this.listOrdersAux = this.listOrders;
+                this.advancedPagination = 1;
+                this.pageChange(this.advancedPagination);
+            }
+        }
+        //*
+        if (val === '' && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '' && this.tamano.length === 9 && this.valorProduct === '') {
+            this.listOrdersAux = this.listOrders;
+            this.advancedPagination = 1;
+            this.pageChange(this.advancedPagination);
+        }
+        //*
+    };
+    ListOrderComponent.prototype.getItemsProduct = function (ev) {
+        var _this = this;
+        this.listOrders = this.listOrdersAux;
+        var val = ev.target.value;
+        this.valorProduct = val;
+        var valorStatus = this.selectedStatus;
+        var lista = [];
+        //*
+        this.listOrders = this.list;
+        this.listOrdersAux = this.list;
+        //*
+        if (val && val.trim() !== '') {
+            var product_1 = val;
+            if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '' && this.tamano.length === 9 &&
+                lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient) === '') {
+                this.listOrders = this.listOrders.filter(function (item) {
+                    return item.listProductRequested.find(function (pR) {
+                        return (pR.productRequested.product.name.toLowerCase().indexOf(product_1.toLowerCase()) > -1);
+                    });
+                });
+                //*
+                this.listOrdersAux = this.listOrders;
+                this.advancedPagination = 1;
+                this.pageChange(this.advancedPagination);
+                //*
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '' && this.tamano.length === 9
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient) !== '') {
+                this.listOrders = this.listOrders.filter(function (item) {
+                    return item.listProductRequested.find(function (pR) {
+                        return (((item.nameUser.toLowerCase().indexOf(_this.valorClient.toLowerCase()) > -1) ||
+                            (item.number.toLowerCase().indexOf(_this.valorClient.toLowerCase()) > -1) ||
+                            (item.supplier.companyName.toLowerCase().indexOf(_this.valorClient.toLowerCase()) > -1) ||
+                            (pR.productRequested.patient ? pR.productRequested.patient.toLowerCase().indexOf(_this.valorClient.toLowerCase()) > -1 : false))
+                            && (pR.productRequested.product.name.toLowerCase().indexOf(product_1.toLowerCase()) > -1));
+                    });
+                });
+                //*
+                this.listOrdersAux = this.listOrders;
+                this.advancedPagination = 1;
+                this.pageChange(this.advancedPagination);
+                //*
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '' && this.tamano.length === 9
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient) === '') {
+                this.filterStatusProducto(product_1, valorStatus);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '' && this.tamano.length === 9
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient) !== '') {
+                this.filterStatusClienteProducto(this.valorClient, product_1, valorStatus);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '' && this.tamano.length === 15
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient) === '') {
+                this.filterDateProducto(product_1);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '' && this.tamano.length === 15
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient) !== '') {
+                this.filterDateClienteProducto(this.valorClient, product_1);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '' && this.tamano.length === 15
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient) === '') {
+                this.filterDateStatusProducto(valorStatus, product_1);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '' && this.tamano.length === 15
+                && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient) !== '') {
+                this.fullFilter(this.valorClient, product_1, valorStatus);
+            }
+        }
+        else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '') {
+            this.filter();
+        }
+        else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '') {
+            if (this.tamano.length === 15) {
+                this.valid = true;
+                var fecha_2;
+                // FechaFiltro
+                fecha_2 = this.getFecha();
+                lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+                    var fechaList;
+                    // Fecha Listado
+                    fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
+                    if (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha_2, fechaList)) {
+                        lista.push(orders);
+                    }
+                });
+                //*
+                this.listOrders = lista;
+                this.listOrdersAux = this.listOrders;
+                this.advancedPagination = 1;
+                this.pageChange(this.advancedPagination);
+            }
+        }
+        //*
+        if (val === '' && lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '' && this.tamano.length === 9 && this.valorProduct === '') {
+            this.listOrdersAux = this.listOrders;
+            this.advancedPagination = 1;
+            this.pageChange(this.advancedPagination);
+        }
+        //*
+    };
+    ListOrderComponent.prototype.fullFilter = function (nombreCliente, producto, status) {
+        // FechaFiltro
+        var fecha;
+        fecha = this.getFecha();
+        var lista = [];
+        // Lista actual
+        this.listOrdersAux = this.list;
+        lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+            // Fecha Listado
+            var fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
+            if ((((lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find(function (pR) {
+                if (pR.productRequested.patient !== null) {
+                    return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+                }
+            }))) &&
+                (orders.listProductRequested.find(function (pR) {
+                    return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
+                }))) &&
+                // tslint:disable-next-line:radix
+                ((lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha, fechaList))) && (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](parseInt(status), orders.paymentStatus))) {
+                lista.push(orders);
+            }
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+    };
+    ListOrderComponent.prototype.filterDateStatusProducto = function (status, producto) {
+        // FechaFiltro
+        var fecha;
+        fecha = this.getFecha();
+        var lista = [];
+        // Lista actual
+        this.listOrdersAux = this.list;
+        lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+            // Fecha Listado
+            var fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
+            if ((orders.listProductRequested.find(function (pR) {
+                return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
+            })) &&
+                // tslint:disable-next-line:radix
+                ((lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha, fechaList))) && (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](parseInt(status), orders.paymentStatus))) {
+                lista.push(orders);
+            }
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+    };
+    ListOrderComponent.prototype.filterDateClienteProducto = function (nombreCliente, producto) {
+        var lista = [];
+        var fecha;
+        this.listOrdersAux = this.list;
+        // FechaFiltro
+        fecha = this.getFecha();
+        lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+            // Fecha Listado
+            var fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
+            if (((lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (orders.listProductRequested.find(function (pR) {
+                    if (pR.productRequested.patient !== null) {
+                        return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+                    }
+                }))) &&
+                (orders.listProductRequested.find(function (pR) {
+                    return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
+                })) &&
+                ((lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha, fechaList)))) {
+                lista.push(orders);
+            }
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+    };
+    ListOrderComponent.prototype.filterDateProducto = function (producto) {
+        var lista = [];
+        var fecha;
+        this.listOrdersAux = this.list;
+        // FechaFiltro
+        fecha = this.getFecha();
+        lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+            // Fecha Listado
+            var fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
+            if ((orders.listProductRequested.find(function (pR) {
+                return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
+            })) &&
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha, fechaList))) {
+                lista.push(orders);
+            }
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+    };
+    ListOrderComponent.prototype.filterStatusProducto = function (producto, status) {
+        var lista = [];
+        this.listOrdersAux = this.list;
+        lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+            if (((orders.listProductRequested.find(function (pR) {
+                return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
+            }))) &&
+                // tslint:disable-next-line:radix
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](parseInt(status), orders.paymentStatus))) {
+                lista.push(orders);
+            }
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+    };
+    ListOrderComponent.prototype.filterStatusClienteProducto = function (nombreCliente, producto, status) {
+        var lista = [];
+        this.listOrdersAux = this.list;
+        lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+            if (((lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (orders.listProductRequested.find(function (pR) {
+                    if (pR.productRequested.patient !== null) {
+                        return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+                    }
+                }))) &&
+                (orders.listProductRequested.find(function (pR) {
+                    return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
+                })) &&
+                // tslint:disable-next-line:radix
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](parseInt(status), orders.paymentStatus))) {
+                lista.push(orders);
+            }
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+    };
+    ListOrderComponent.prototype.filterStatusNombre = function (nombreCliente, status) {
+        var lista = [];
+        this.listOrdersAux = this.list;
+        lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+            if (((lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (orders.listProductRequested.find(function (pR) {
+                    if (pR.productRequested.patient !== null) {
+                        return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+                    }
+                }))) &&
+                // tslint:disable-next-line:radix
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](parseInt(status), orders.paymentStatus))) {
+                lista.push(orders);
+            }
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+    };
+    ListOrderComponent.prototype.filterDateNombre = function (nombreCliente) {
+        var lista = [];
+        var fecha;
+        this.listOrdersAux = this.list;
+        // FechaFiltro
+        fecha = this.getFecha();
+        lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+            // Fecha Listado
+            var fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
+            if (((lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (orders.listProductRequested.find(function (pR) {
+                    if (pR.productRequested.patient !== null) {
+                        return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+                    }
+                }))) &&
+                ((lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha, fechaList)))) {
+                lista.push(orders);
+            }
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+    };
+    ListOrderComponent.prototype.filterDateStatusCliente = function (status, nombreCliente) {
+        // FechaFiltro
+        var fecha;
+        fecha = this.getFecha();
+        var lista = [];
+        // Lista actual
+        this.listOrdersAux = this.list;
+        lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+            // Fecha Listado
+            var fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
+            if ((((lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+                (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) ||
+                (orders.listProductRequested.find(function (pR) {
+                    if (pR.productRequested.patient !== null) {
+                        return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+                    }
+                }))) &&
+                // tslint:disable-next-line:radix
+                ((lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha, fechaList))) && (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](parseInt(status), orders.paymentStatus))) {
+                lista.push(orders);
+            }
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+    };
+    ListOrderComponent.prototype.filterStatusDate = function (status) {
+        var lista = [];
+        var fecha;
+        this.listOrdersAux = this.list;
+        // FechaFiltro
+        fecha = this.getFecha();
+        lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+            var fechaList;
+            // Fecha Listado
+            fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
+            // tslint:disable-next-line:radix
+            if ((lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha, fechaList)) && (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](parseInt(status), orders.paymentStatus))) {
+                lista.push(orders);
+            }
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+    };
+    ListOrderComponent.prototype.filter = function () {
+        //*
+        this.listOrdersAux = this.list;
+        //*
+        if (this.selectedStatus !== '') {
+            this.valid = true;
+            if (this.tamano.length === 9 && (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+                // tslint:disable-next-line:radix
+                this.listOrders = lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, { 'paymentStatus': parseInt(this.selectedStatus) });
+                this.listOrdersAux = this.listOrders;
+                this.advancedPagination = 1;
+                this.pageChange(this.advancedPagination);
+                //*
+            }
+            else if (this.tamano.length === 15 && (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+                this.filterStatusDate(this.selectedStatus);
+            }
+            else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
+                var nombre = this.valorClient;
+                this.filterStatusNombre(nombre, this.selectedStatus);
+            }
+            else if (this.tamano.length === 15 && (this.valorClient.trim() !== '')) {
+                var client = this.valorClient;
+                this.filterDateStatusCliente(this.selectedStatus, client);
+            }
+        }
+    };
+    ListOrderComponent.prototype.filter1 = function (value) {
+        this.model = value;
+        var valorStatus = this.selectedStatus;
+        this.tamano = this.valueDate(this.model);
+        var lista = [];
+        //*
+        this.listOrdersAux = this.list;
+        //*
+        if (this.tamano.length === 15) {
+            this.valid = true;
+            if ((lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '') && (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+                // FechaFiltro
+                var fecha_3;
+                fecha_3 = this.getFecha();
+                lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
+                    var fechaList;
+                    // Fecha Listado
+                    fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
+                    if (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha_3, fechaList)) {
                         lista.push(orders);
                     }
                 });
@@ -5946,41 +6436,15 @@ var ListOrderComponent = /** @class */ (function () {
                 this.pageChange(this.advancedPagination);
                 //*
             }
-        }
-    };
-    ListOrderComponent.prototype.filter1 = function (value) {
-        this.model = value;
-        var valorStatus = this.selectedStatus;
-        this.tamano = this.valueDate(this.model);
-        var lista = [];
-        //*
-        this.listOrders = this.list;
-        //*
-        if (this.tamano.length === 15) {
-            this.valid = true;
-            var fecha_2;
-            // FechaFiltro
-            fecha_2 = this.getFecha();
-            lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.listOrdersAux, function (orders) {
-                var fechaList;
-                // Fecha Listado
-                fechaList = lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](orders.date.slice(0, 10));
-                if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '') {
-                    if (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha_2, fechaList)) {
-                        lista.push(orders);
-                    }
-                    // tslint:disable-next-line:radix
-                }
-                else if ((lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](fecha_2, fechaList)) && (lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"](parseInt(valorStatus), orders.paymentStatus))) {
-                    lista.push(orders);
-                }
-            });
-            //*
-            this.listOrders = lista;
-            this.listOrdersAux = this.listOrders;
-            this.advancedPagination = 1;
-            this.pageChange(this.advancedPagination);
-            //*
+            else if ((lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '') && (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+                this.filterStatusDate(valorStatus);
+            }
+            else if ((this.valorClient.trim() !== '') && (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) === '')) {
+                this.filterDateNombre(this.valorClient);
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_5__["toString"](valorStatus) !== '' && (this.valorClient.trim() !== '')) {
+                this.filterDateStatusCliente(valorStatus, this.valorClient);
+            }
         }
     };
     ListOrderComponent.prototype.getFecha = function () {
@@ -6007,6 +6471,8 @@ var ListOrderComponent = /** @class */ (function () {
         this.tamano = 'undefined';
         this.selectedStatus = '';
         this.fechaSelec = null;
+        this.valorClient = '';
+        this.valorProduct = '';
     };
     ListOrderComponent.prototype.valueDate = function (valor) {
         var str;
