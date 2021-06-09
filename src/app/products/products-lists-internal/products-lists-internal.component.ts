@@ -39,7 +39,6 @@ export class ProductsListInternalComponent implements OnInit {
   showFilterMarkennovy: any;
   listFilterMarkennovy = [ {replacementPeriod: 'All', mainImg: 'assets/images/suppliers/markennovy.png'},
                            {replacementPeriod: 'Monthly', mainImg: 'assets/images/suppliers/markennovy.png'},
-                           {replacementPeriod: 'Monthly Disposable', mainImg: 'assets/images/suppliers/markennovy.png'},
                            {replacementPeriod: '3-Monthly', mainImg: 'assets/images/suppliers/markennovy.png'},
                            {replacementPeriod: 'Conventional', mainImg: 'assets/images/suppliers/markennovy.png'} ];
 
@@ -72,12 +71,9 @@ export class ProductsListInternalComponent implements OnInit {
     var productsGentle59 = [];
     var productsBluGen = [];
     var productsBluKidz = [];
-    var productsXtensa = [];
-    var productsXtensaRx = [];
     var productsSaphir = [];
     var productsQuattroX3 = [];
     var productsQuattroX1 = [];
-    var productsJade = [];
     var productsBluSsentials = [];
     var productsEquilibria = [];
     var productsMylo = [];
@@ -103,12 +99,6 @@ export class ProductsListInternalComponent implements OnInit {
           case 'Blu:kidz':
             productsBluKidz.push(product);
             break;
-          case 'Xtensa':
-            productsXtensa.push(product);
-            break;
-          case 'Xtensa Rx':
-            productsXtensaRx.push(product);
-            break;
           case 'Saphir':
             productsSaphir.push(product);
             break;
@@ -117,9 +107,6 @@ export class ProductsListInternalComponent implements OnInit {
             break;
           case 'Quattro Conventional':
             productsQuattroX1.push(product);
-            break;
-          case 'Jade':
-            productsJade.push(product);
             break;
           case 'Blu:ssentials':
             productsBluSsentials.push(product);
@@ -172,25 +159,6 @@ export class ProductsListInternalComponent implements OnInit {
                                     mainImg:"assets/images/products/markennovy/blu-kidz.png",
                                     replacementPeriod:"Monthly",
                                     father: "Blu:kidz"});
-    }
-    if (productsXtensa.length) {
-      this.productsMarkennovy.push({name:"Xtensa",
-                                    mainImg:"assets/images/products/markennovy/xtensa.png",
-                                    replacementPeriod:"Monthly Disposable",
-                                    father: "Xtensa"});
-    }
-
-    if (productsXtensaRx.length) {
-      this.productsMarkennovy.push({name:"Xtensa Rx",
-                                    mainImg:"assets/images/products/markennovy/xtensa.png",
-                                    replacementPeriod:"Monthly",
-                                    father: "Xtensa Rx"});
-    }
-    if (productsJade.length) {
-      this.productsMarkennovy.push({name:"Jade",
-                                    mainImg:"assets/images/products/markennovy/jade.png",
-                                    replacementPeriod:"Monthly Disposable",
-                                    father: "Jade"});
     }
     if (productsSaphir.length) {
       this.productsMarkennovy.push({name:"Saphir",
@@ -668,9 +636,8 @@ export class ProductsListInternalComponent implements OnInit {
     this.packings.push({ 'product': product, 'type': 'All'});
 
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
-        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa Rx' ||
-        product.father === 'Saphir' || product.father === 'Quattro 3-Monthly' || product.father === 'Jade'
-        || product.father === 'Xtensa' || product.father === 'Mylo') {
+        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Mylo' ||
+        product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
           this.packings.push({ 'product': product, 'type': 'Blister'});
     }
 
@@ -678,12 +645,12 @@ export class ProductsListInternalComponent implements OnInit {
       this.packings.push({ 'product': product, 'type': 'Vial' });
     }
 
-    if (product.father === 'Xtensa' || product.father === 'Jade' || product.father === 'Mylo') {
+    if (product.father === 'Mylo') {
       this.packings.push({ 'product': product, 'type': '6pk'});
     }
 
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
-        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Xtensa Rx') {
+        product.father === 'Blu:gen' || product.father === 'Blu:kidz') {
       this.packings.push({ 'product': product, 'type': '3pk'});
     }
 

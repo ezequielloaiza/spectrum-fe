@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
 import { UserService } from '../shared/services/user/user.service';
 import { UserStorageService } from '../http/user-storage.service';
@@ -22,13 +22,15 @@ import { TranslateService } from '@ngx-translate/core';
 export class LoginComponent implements OnInit {
 
   public form: FormGroup;
+  testing: any;
 
   constructor(public router: Router, private userService: UserService,
               private userStorageService: UserStorageService,
               private formBuilder: FormBuilder,
               private spinner: NgxSpinnerService,
               private notification: ToastrService,
-              private translate: TranslateService) {}
+              private translate: TranslateService,
+              private route: ActivatedRoute) { }
 
   user: any = {
     username: '',
@@ -38,6 +40,9 @@ export class LoginComponent implements OnInit {
   message: String = '';
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.testing = params.testing;
+    });
     this.initializeForm();
   }
 

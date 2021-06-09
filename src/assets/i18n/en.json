@@ -394,7 +394,7 @@
     "Diameter (mm)":"Diameter (mm)",
     "Sphere (D)":"Sphere (D)",
     "Cylinder (D)":"Cylinder (D)",
-    "Axes (º)":"Axes (º)",
+    "Axes (º)":"Axis (º)",
     "Addition":"Addition",
     "To Customer": "To Customer",
     "Are you sure you want to place the order?":"Are you sure you want to place the order?",
@@ -1212,5 +1212,7 @@
     "Spectrum code product": "Spectrum code product",
     "Enter spectrum code": "Enter spectrum code",
     "Enter warranty days": "Enter warranty days",
-    "Enter quantity": "Enter quantity"
+    "Enter quantity": "Enter quantity",
+    "Order Form (Download the form to specify your order and attach it after filling it)": "Order Form (Download the form to specify your order and attach it after filling it)",
+    "Enter order, patient o supplier" : "Enter order, patient o supplier"
 }

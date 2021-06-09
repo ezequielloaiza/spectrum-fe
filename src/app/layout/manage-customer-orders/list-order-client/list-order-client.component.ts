@@ -762,6 +762,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.pageChange(this.advancedPagination);
     //*
   }
+
   getFecha(): String {
     let ano;
     let mes;

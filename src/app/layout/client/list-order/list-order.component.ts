@@ -35,6 +35,8 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   status: any;
   navigationSubscription;
   today: Date = new Date();
+  valorClient: String;
+  valorProduct: String
 
   constructor(private orderService: OrderService,
               private userService: UserStorageService,
@@ -58,7 +60,8 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     });
 
     this.advancedPagination = 1;
-    this.model = {year: 0, month: 0, day: 0};
+    this.model = { year: 0, month: 0, day: 0 };
+    this.valorClient = '';
     this.selectedStatus = '';
     this.tamano = 'undefined';
   }
@@ -97,31 +100,177 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.listOrders = this.listOrdersAux.slice(startItem, endItem);
   }
 
-  filter(): void {
-   const status = this.selectedStatus;
-   const lista = [];
+  getItems(ev: any) {
+    this.listOrders = this.listOrdersAux;
+    const val = ev.target.value;
+    this.valorClient = val;
+    const valorStatus = this.selectedStatus;
+    const lista = [];
     //*
     this.listOrders = this.list;
+    this.listOrdersAux  = this.list;
     //*
-  if (this.selectedStatus !== '') {
-      this.valid = true;
-      if (this.tamano.length === 9) {
-        // tslint:disable-next-line:radix
-        this.listOrders = _.filter(this.listOrdersAux, { 'paymentStatus': parseInt(this.selectedStatus) });
-        this.listOrdersAux = this.listOrders;
-        this.advancedPagination = 1;
-        this.pageChange(this.advancedPagination);
-        //*
-      } else {
-         let fecha: String;
+    if (val && val.trim() !== '') {
+      const client = val;
+      if (_.toString(valorStatus) === '' && this.tamano.length === 9
+        && _.toString(this.valorProduct) === '') { // Si no ha seleccionado status y fecha
+        this.listOrders = this.listOrders.filter((item) => {
+          return ((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.number && item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.supplier.companyName.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.listProductRequested.find((pR) => {
+              if (pR.productRequested.patient !== null) {
+                return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
+              }
+            }))) ;
+        });
+         //*
+         this.listOrdersAux = this.listOrders;
+         this.advancedPagination = 1;
+         this.pageChange(this.advancedPagination);
+         //*
+      } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
+        && _.toString(this.valorProduct) !== '') {// si selecciono status y no fecha ni cliente
+        this.listOrders = this.listOrders.filter((item) => {
+          return (((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.number && item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.supplier.companyName.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            (item.listProductRequested.find((pR) => {
+                if (pR.productRequested.patient !== null) {
+                  return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
+                }
+              })))
+            && (item.listProductRequested.find((pR) => {
+              return (pR.productRequested.product.name.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1);
+            })));
+        });
+         //*
+         this.listOrdersAux = this.listOrders;
+         this.advancedPagination = 1;
+         this.pageChange(this.advancedPagination);
+         //*
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
+        && _.toString(this.valorProduct) === '') {// si selecciono status y no fecha ni producto
+        this.filterStatusNombre(client, valorStatus);
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
+        && _.toString(this.valorProduct) !== '') {// si selecciono status y producto y no fecha
+        this.filterStatusClienteProducto(client, this.valorProduct, valorStatus);
+      } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
+        && _.toString(this.valorProduct) === '') { // si no selecciono status ni producto y fecha si
+        this.filterDateNombre(client);
+      } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
+        && _.toString(this.valorProduct) !== '') { // si no selecciono status y producto y fecha si
+        this.filterDateClienteProducto(client, this.valorProduct);
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15
+        && _.toString(this.valorProduct) === '') { // si selecciono status y fecha y producto no
+        this.filterDateStatusCliente(valorStatus, client);
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15
+        && _.toString(this.valorProduct) !== '') { // si escibio nombre y selecciono fecha
+        this.fullFilter(client, this.valorProduct, valorStatus);
+      }
+    } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
+      this.filter();
+    } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
+      if (this.tamano.length === 15) {
+        this.valid = true;
+        let fecha: String;
         // FechaFiltro
-         fecha = this.getFecha();
+        fecha = this.getFecha();
         _.filter(this.listOrdersAux, function (orders) {
           let fechaList: String;
           // Fecha Listado
           fechaList = _.toString(orders.date.slice(0, 10));
-          // tslint:disable-next-line:radix
-          if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
+          if (_.isEqual(fecha, fechaList)) {
+            lista.push(orders);
+          }
+        });
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+      }
+    }
+     //*
+     if (val === '' && _.toString(valorStatus) === '' &&  this.tamano.length === 9 && this.valorProduct === '') {
+      this.listOrdersAux = this.listOrders;
+      this.advancedPagination = 1;
+      this.pageChange(this.advancedPagination);
+    }
+    //*
+  }
+
+  getItemsProduct(ev: any) {
+    this.listOrders = this.listOrdersAux;
+    const val = ev.target.value;
+    this.valorProduct = val;
+    const valorStatus = this.selectedStatus;
+    const lista = [];
+     //*
+     this.listOrders = this.list;
+     this.listOrdersAux  = this.list;
+     //*
+    if (val && val.trim() !== '') {
+      const product = val;
+      if (_.toString(valorStatus) === '' && this.tamano.length === 9 &&
+        _.toString(this.valorClient) === '') { // Si no ha seleccionado cliente, status y fecha
+        this.listOrders = this.listOrders.filter((item) => {
+          return item.listProductRequested.find((pR) => {
+            return (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1);
+          });
+        });
+        //*
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+      } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
+        && _.toString(this.valorClient) !== '') {// si selecciono status y no fecha ni cliente
+        this.listOrders = this.listOrders.filter((item) => {
+          return item.listProductRequested.find((pR) => {
+            return (((item.nameUser.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
+            (item.number.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
+            (item.supplier.companyName.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
+            (pR.productRequested.patient ? pR.productRequested.patient.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1 : false))
+            && (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1));
+          });
+        });
+        //*
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
+        && _.toString(this.valorClient) === '') {// si selecciono status y no fecha ni cliente
+        this.filterStatusProducto(product, valorStatus);
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
+        && _.toString(this.valorClient) !== '') {// si selecciono status y cliente y no fecha
+        this.filterStatusClienteProducto(this.valorClient, product, valorStatus);
+      } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
+        && _.toString(this.valorClient) === '') { // si no selecciono status ni cliente y fecha si
+        this.filterDateProducto(product);
+      } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
+        && _.toString(this.valorClient) !== '') { // si no selecciono status y cliente y fecha si
+        this.filterDateClienteProducto(this.valorClient, product);
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15
+        && _.toString(this.valorClient) === '') { // si selecciono status y fecha y cliente no
+        this.filterDateStatusProducto(valorStatus, product);
+      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15
+        && _.toString(this.valorClient) !== '') { // si escribio nombre, producto y selecciono fecha
+        this.fullFilter(this.valorClient, product, valorStatus);
+      }
+    } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
+      this.filter();
+    } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
+      if (this.tamano.length === 15) {
+        this.valid = true;
+        let fecha: String;
+        // FechaFiltro
+        fecha = this.getFecha();
+        _.filter(this.listOrdersAux, function (orders) {
+          let fechaList: String;
+          // Fecha Listado
+          fechaList = _.toString(orders.date.slice(0, 10));
+          if (_.isEqual(fecha, fechaList)) {
             lista.push(orders);
           }
         });
@@ -130,7 +279,305 @@ export class ListOrderComponent implements OnInit, OnDestroy {
         this.listOrdersAux = this.listOrders;
         this.advancedPagination = 1;
         this.pageChange(this.advancedPagination);
+      }
+    }
+     //*
+     if (val === '' && _.toString(valorStatus) === '' &&  this.tamano.length === 9 && this.valorProduct === '') {
+      this.listOrdersAux = this.listOrders;
+      this.advancedPagination = 1;
+      this.pageChange(this.advancedPagination);
+    }
+    //*
+  }
+
+
+  fullFilter(nombreCliente, producto, status): void {
+    // FechaFiltro
+    let fecha: String;
+    fecha = this.getFecha();
+    const lista = [];
+    // Lista actual
+    this.listOrdersAux = this.list;
+    _.filter(this.listOrdersAux, function (orders) {
+      // Fecha Listado
+      const fechaList = _.toString(orders.date.slice(0, 10));
+      if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))  ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find((pR) => {
+          if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          }
+        }))) &&
+        (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
+        }))) &&
+        // tslint:disable-next-line:radix
+        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
+        lista.push(orders);
+      }
+    });
+    //*
+    this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
+  }
+
+  filterDateStatusProducto(status, producto): void {
+    // FechaFiltro
+    let fecha: String;
+    fecha = this.getFecha();
+    const lista = [];
+    // Lista actual
+      this.listOrdersAux = this.list;
+    _.filter(this.listOrdersAux, function (orders) {
+      // Fecha Listado
+      const fechaList = _.toString(orders.date.slice(0, 10));
+      if ((orders.listProductRequested.find((pR) => {
+        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+        // tslint:disable-next-line:radix
+        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
+        lista.push(orders);
+      }
+    });
+    //*
+    this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
+  }
+
+  filterDateClienteProducto(nombreCliente, producto): void {
+    const lista = [];
+    let fecha: String;
+    this.listOrdersAux = this.list;
+    // FechaFiltro
+    fecha = this.getFecha();
+    _.filter(this.listOrdersAux, function (orders) {
+      // Fecha Listado
+      const fechaList = _.toString(orders.date.slice(0, 10));
+      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (orders.listProductRequested.find((pR) => {
+          if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          }
+        }))) &&
+        (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+        ((_.isEqual(fecha, fechaList)))) {
+        lista.push(orders);
+      }
+    });
+    //*
+    this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
+  }
+
+  filterDateProducto(producto): void {
+    const lista = [];
+    let fecha: String;
+    this.listOrdersAux = this.list;
+    // FechaFiltro
+    fecha = this.getFecha();
+    _.filter(this.listOrdersAux, function (orders) {
+      // Fecha Listado
+      const fechaList = _.toString(orders.date.slice(0, 10));
+      if ((orders.listProductRequested.find((pR) => {
+        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+        (_.isEqual(fecha, fechaList))) {
+        lista.push(orders);
+      }
+    });
+    //*
+    this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
+  }
+
+  filterStatusProducto(producto, status): void {
+    const lista = [];
+    this.listOrdersAux = this.list;
+    _.filter(this.listOrdersAux, function (orders) {
+      if (((orders.listProductRequested.find((pR) => {
+        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); }))) &&
+        // tslint:disable-next-line:radix
+        (_.isEqual(parseInt(status), orders.paymentStatus))) {
+        lista.push(orders);
+      }
+    });
+    //*
+    this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
+  }
+
+  filterStatusClienteProducto(nombreCliente, producto, status): void {
+    const lista = [];
+    this.listOrdersAux = this.list;
+    _.filter(this.listOrdersAux, function (orders) {
+      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+         (orders.listProductRequested.find((pR) => {
+          if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          }
+        }))) &&
+        (orders.listProductRequested.find((pR) => {
+          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+        // tslint:disable-next-line:radix
+        (_.isEqual(parseInt(status), orders.paymentStatus))) {
+        lista.push(orders);
+      }
+    });
+    //*
+    this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
+  }
+
+  filterStatusNombre(nombreCliente, status): void {
+    const lista = [];
+    this.listOrdersAux = this.list;
+    _.filter(this.listOrdersAux, function (orders) {
+      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (orders.listProductRequested.find((pR) => {
+          if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          }
+        }))) &&
+        // tslint:disable-next-line:radix
+        (_.isEqual(parseInt(status), orders.paymentStatus))) {
+        lista.push(orders);
+      }
+    });
+    //*
+    this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
+  }
+
+  filterDateNombre(nombreCliente): void {
+    const lista = [];
+    let fecha: String;
+    this.listOrdersAux = this.list;
+    // FechaFiltro
+    fecha = this.getFecha();
+    _.filter(this.listOrdersAux, function (orders) {
+      // Fecha Listado
+      const fechaList = _.toString(orders.date.slice(0, 10));
+      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+         (orders.listProductRequested.find((pR) => {
+           if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+           }
+        }))) &&
+        ((_.isEqual(fecha, fechaList)))) {
+        lista.push(orders);
+      }
+    });
+    //*
+    this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
+  }
+
+  filterDateStatusCliente(status, nombreCliente): void {
+    // FechaFiltro
+    let fecha: String;
+    fecha = this.getFecha();
+    const lista = [];
+    // Lista actual
+     this.listOrdersAux = this.list;
+    _.filter(this.listOrdersAux, function (orders) {
+      // Fecha Listado
+      const fechaList = _.toString(orders.date.slice(0, 10));
+      if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) ||
+        (orders.listProductRequested.find((pR) => {
+          if (pR.productRequested.patient !== null) {
+            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
+          }
+        })) ) &&
+        // tslint:disable-next-line:radix
+        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
+        lista.push(orders);
+      }
+    });
+    //*
+    this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
+  }
+
+  filterStatusDate(status): void {
+    const lista = [];
+    let fecha: String;
+    this.listOrdersAux = this.list;
+    // FechaFiltro
+    fecha = this.getFecha();
+    _.filter(this.listOrdersAux, function (orders) {
+      let fechaList: String;
+      // Fecha Listado
+      fechaList = _.toString(orders.date.slice(0, 10));
+      // tslint:disable-next-line:radix
+      if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
+        lista.push(orders);
+      }
+    });
+    //*
+    this.listOrders = lista;
+    this.listOrdersAux = this.listOrders;
+    this.advancedPagination = 1;
+    this.pageChange(this.advancedPagination);
+    //*
+  }
+
+  filter(): void {
+    //*
+    this.listOrdersAux = this.list;
+    //*
+    if (this.selectedStatus !== '') {
+      this.valid = true;
+      if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+        // tslint:disable-next-line:radix
+        this.listOrders = _.filter(this.listOrdersAux, { 'paymentStatus': parseInt(this.selectedStatus) });
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
         //*
+      } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+        this.filterStatusDate(this.selectedStatus);
+      } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
+        const nombre = this.valorClient;
+        this.filterStatusNombre(nombre, this.selectedStatus);
+      } else if (this.tamano.length === 15 && (this.valorClient.trim() !== '')) {
+        const client = this.valorClient;
+        this.filterDateStatusCliente(this.selectedStatus, client);
       }
     }
   }
@@ -140,33 +587,36 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     const valorStatus = this.selectedStatus;
     this.tamano = this.valueDate(this.model);
     const lista = [];
-     //*
-     this.listOrders = this.list;
-     //*
+    //*
+    this.listOrdersAux = this.list;
+    //*
     if (this.tamano.length === 15) {
       this.valid = true;
-      let fecha: String;
-      // FechaFiltro
-      fecha = this.getFecha();
-      _.filter(this.listOrdersAux, function (orders) {
+      if ((_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+        // FechaFiltro
+        let fecha: String;
+        fecha = this.getFecha();
+        _.filter(this.listOrdersAux, function (orders) {
           let fechaList: String;
           // Fecha Listado
           fechaList = _.toString(orders.date.slice(0, 10));
-          if (_.toString(valorStatus) === '') { // Si no ha seleccionado status
-            if (_.isEqual(fecha, fechaList)) {
-              lista.push(orders);
-            }
-          // tslint:disable-next-line:radix
-          } else if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(valorStatus), orders.paymentStatus))) {
-              lista.push(orders);
+          if (_.isEqual(fecha, fechaList)) {
+            lista.push(orders);
           }
-      });
-      //*
-      this.listOrders = lista;
-      this.listOrdersAux = this.listOrders;
-      this.advancedPagination = 1;
-      this.pageChange(this.advancedPagination);
-      //*
+        });
+        //*
+        this.listOrders = lista;
+        this.listOrdersAux = this.listOrders;
+        this.advancedPagination = 1;
+        this.pageChange(this.advancedPagination);
+        //*
+      } else if ((_.toString(valorStatus) !== '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
+        this.filterStatusDate(valorStatus);
+      } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) === '')) {
+        this.filterDateNombre(this.valorClient);
+      } else if (_.toString(valorStatus) !== ''  && (this.valorClient.trim() !== '')) {
+        this.filterDateStatusCliente(valorStatus, this.valorClient);
+      }
     }
   }
 
@@ -195,6 +645,8 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.tamano = 'undefined';
     this.selectedStatus = '';
     this.fechaSelec = null;
+    this.valorClient = '';
+    this.valorProduct = '';
   }
 
   valueDate(valor): String {
