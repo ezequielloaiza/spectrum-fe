@@ -18,6 +18,8 @@ export class InvoiceClientQBOComponent implements OnInit {
   model: NgbDateStruct;
   filterDateRange: Array<any> = new Array;
   selectedRange: any;
+  itemPerPage = 5;
+  advancedPagination: number;
 
   constructor(private invoiceClientService: InvoiceClientService, private spinner: NgxSpinnerService) { }
 
@@ -25,10 +27,10 @@ export class InvoiceClientQBOComponent implements OnInit {
     this.getInvoiceClientQBO();
     this.model = { year: 0, month: 0, day: 0 };
     this.filterDateRange = [
-      { key: "30,0", label: "Up to 30 days" },
-      { key: "60,31", label: "31-60 days" },
-      { key: "90,61", label: "61-90 days" },
-      { key: "90,>", label: "More than 90 days" }
+      { key: '30,0', label: 'Up to 30 days' },
+      { key: '60,31', label: '31-60 days' },
+      { key: '90,61', label: '61-90 days' },
+      { key: '90,>', label: 'More than 90 days' }
     ];
     this.selectedRange = '';
   }
@@ -124,19 +126,19 @@ export class InvoiceClientQBOComponent implements OnInit {
     this.clean('forRange');
 
     let currentDate = new Date();
-    const selected = this.selectedRange.split(",");
+    const selected = this.selectedRange.split(',');
     let finish = selected[1];
 
     // Set beginningDate
     let beginning = selected[0];
     switch (beginning) {
-      case "30":
+      case '30':
         beginning = 30;
         break;
-      case "60":
+      case '60':
         beginning = 61;
         break;
-      case "90":
+      case '90':
         beginning = 91;
         break;
     }
@@ -147,12 +149,12 @@ export class InvoiceClientQBOComponent implements OnInit {
     beginningDate.setSeconds(0);
 
     // Set finishDate
-    if (finish !== ">") {
+    if (finish !== '>') {
       switch (finish) {
-        case "31":
+        case '31':
           finish = 31;
           break;
-        case "61":
+        case '61':
           finish = 62;
           break;
         default:
@@ -184,7 +186,7 @@ export class InvoiceClientQBOComponent implements OnInit {
   }
 
   getBalance() {
-    return _.round(_.sumBy(this.listInvoicesAux, 'due'),2);
+    return _.round(_.sumBy(this.listInvoicesAux, 'due'), 2);
   }
 
   getDue() {
@@ -192,10 +194,16 @@ export class InvoiceClientQBOComponent implements OnInit {
 
     return _.round(_.sumBy(this.listInvoicesAux, function (item) {
       return new Date(item.dueDate) < currentDate ? item.due : 0;
-    }),2);
+    }), 2);
   }
 
   getDueByRange() {
-    return _.round(_.sumBy(this.listInvoices, 'due'),2);
+    return _.round(_.sumBy(this.listInvoices, 'due'), 2);
+  }
+
+  pageChange(event) {
+    const startItem = (event - 1) * this.itemPerPage;
+    const endItem = event * this.itemPerPage;
+    this.listInvoicesAux = this.listInvoicesAux.slice(startItem, endItem);
   }
 }

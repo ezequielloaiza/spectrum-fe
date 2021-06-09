@@ -27,11 +27,11 @@
     <!-- supplier -->
     <div class="row product-info">
       <div class="col-lg-4">
-        <dt class="title">{{ 'Suppliers' | translate }}</dt>
+        <dt class="title">{{ 'Select Supplier' | translate }}</dt>
         <div class="row info-content">
           <ng-select [items]="suppliers" [(ngModel)]="order.supplierId" (change)="onSelectedSupplier($event)" required
             [virtualScroll]="true" bindLabel="companyName" bindValue="idSupplier"
-            placeholder="{{ 'Select supplier' | translate }}">
+            placeholder="{{ 'Select Supplier' | translate }}">
           </ng-select>
         </div>
       </div>
@@ -79,16 +79,16 @@
         <dt class="title">{{ 'Lens Type' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="text" maxlength="100" 
-          [(ngModel)]="order.additionalInformation.lentsTypes" placeholder="{{ 'Enter lens type' | translate }}" required>
+          [(ngModel)]="order.additionalInformation.lentsTypes" placeholder="{{ 'Enter lens type' | translate }}" >
         </div>
       </div>
 
       <!-- spectrum code -->
       <div class="col-lg-4 mt-4">
-        <dt class="title">{{ 'Spectrum Code Product' | translate }}</dt>
+        <dt class="title">{{ 'Spectrum code product' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter spectrum code' | translate }}"
-          [(ngModel)]="order.additionalInformation.codeSpectrum" required>
+          [(ngModel)]="order.additionalInformation.codeSpectrum" >
         </div>
       </div>
 
@@ -187,7 +187,7 @@
 
     <div class="row" *ngIf="!modoEdit">
       <div class="col-md-12 buy-btns d-flex flex-row-reverse">
-        <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="save()">
+        <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" [disabled]="!formIsValid()" (click)="save()">
           {{ 'Make Order' | translate }}
         </button>
       </div>

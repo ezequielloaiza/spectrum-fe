@@ -10,8 +10,8 @@
 
     <!-- supplier -->
     <div class="row product-info">
-      <div class="col-lg-4">
-        <dt class="title">{{ 'Suppliers' | translate }}</dt>
+      <div class="col-lg-6">
+        <dt class="title">{{ 'Select Supplier' | translate }}</dt>
         <div class="row info-content">
           <ng-select [items]="suppliers" [(ngModel)]="order.supplierId" (change)="onSelectedSupplier($event)" required
             [virtualScroll]="true" bindLabel="companyName" bindValue="idSupplier"
@@ -21,7 +21,7 @@
       </div>
 
       <!-- client -->
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <dt class="title">{{ 'Account Name' | translate }}</dt>
         <div class="row info-content">
           <ng-select [items]="listCustomers" [(ngModel)]="order.idUser" (change)="onSelectedClient($event)" required
@@ -32,7 +32,7 @@
       </div>
 
       <!-- shipping address -->
-      <div class="col-lg-4">
+      <div class="col-lg-6 mt-4">
         <dt class="title">{{ 'Shipping Address' | translate }}</dt>
         <div class="row info-content ">
           <input class="form-control readonly-input" type="text" [(ngModel)]="shippingAddress"
@@ -41,7 +41,7 @@
       </div>
 
       <!-- patient -->
-      <div class="col-lg-4 mt-4">
+      <div class="col-lg-6 mt-4">
         <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter name patient' | translate }}"
@@ -50,34 +50,34 @@
       </div>
 
       <!-- description -->
-      <div class="col-lg-4 mt-4">
+      <div class="col-lg-6 mt-4">
         <dt class="title">{{ 'Name product' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="text" maxlength="100" 
-          [(ngModel)]="order.additionalInformation.description" placeholder="{{ 'Enter name product' | translate }}" required>
+          [(ngModel)]="order.additionalInformation.description" maxlength="100" placeholder="{{ 'Enter name product' | translate }}" required>
         </div>
       </div>
 
       <!-- lens type -->
-      <div class="col-lg-4 mt-4">
+      <div class="col-lg-6 mt-4">
         <dt class="title">{{ 'Lens Type' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="text" maxlength="100" [(ngModel)]="order.additionalInformation.lentsTypes"
-            placeholder="{{ 'Enter lens type' | translate }}" required>
+            placeholder="{{ 'Enter lens type' | translate }}">
         </div>
       </div>
 
       <!-- spectrum code -->
-      <div class="col-lg-4 mt-4">
-        <dt class="title">{{ 'Spectrum Code Product' | translate }}</dt>
+      <div class="col-lg-6 mt-4">
+        <dt class="title">{{ 'Spectrum code product' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter name patient' | translate }}"
-            [(ngModel)]="order.additionalInformation.codeSpectrum" required>
+            [(ngModel)]="order.additionalInformation.codeSpectrum">
         </div>
       </div>
 
       <!-- warranty days -->
-      <div class="col-lg-4 mt-4">
+      <div class="col-lg-6 mt-4">
         <dt class="title">{{ 'Warranty days' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="number" step=1 min="1" oninput="validity.valid||(value='');"
@@ -87,7 +87,7 @@
       </div>
 
       <!-- quantity -->
-      <div class="col-lg-4 mt-4">
+      <div class="col-lg-6 mt-4">
         <dt class="title">{{ 'Quantity' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="number" step=1 min="1" oninput="validity.valid||(value='');"
@@ -96,7 +96,7 @@
       </div>
 
       <!-- price -->
-      <div class="col-lg-4 mt-4">
+      <div class="col-lg-6 mt-4">
         <dt class="title">{{ 'Price' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="number" placeholder="{{ 'Enter price' | translate }}"
@@ -175,7 +175,7 @@
         }}&nbsp;
         <i class="fa fa-times"></i>
       </button>
-      <button type="button" class="btn btn-main" (click)="updateOrder()">{{ 'Save' | translate }}&nbsp;
+      <button type="button" class="btn btn-main" (click)="updateOrder()" [disabled]="!formIsValid()">{{ 'Save' | translate }}&nbsp;
         <i class="fa fa-save"></i>
       </button>
     </div>

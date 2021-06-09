@@ -69,7 +69,6 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
                  private supplierService: SupplierService,
                  private userService: UserService,
                  private ordeService: OrderService,
-                 private productRequestedService: ProductsRequestedService,
                  private shippingAddressService: ShippingAddressService,
                  private spinner: NgxSpinnerService,
                  public router: Router,
@@ -113,6 +112,7 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
     }
 
     getClient() {
+      this.spinner.show();
       this.userService.allCustomersAvailableBuy$(this.order.supplierId).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listCustomers = res.data;
@@ -122,11 +122,15 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
             return i;
           });
         }
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
       });
     }
 
     onSelectedSupplier() {
       if (this.order.supplierId) {
+        this.order.idUser = null;
         this.getClient();
       } else {
         this.listCustomers = [];
@@ -212,6 +216,21 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
         this.spinner.hide();
         console.log(error);
       });
+    }
+
+    formIsValid() {
+      let isValid = true;
+      if (this.validValue(this.order.idUser) || this.validValue(this.order.supplierId) ||
+          this.validValue(this.order.additionalInformation.description) || this.validValue(this.order.additionalInformation.warranty) ||
+          this.validValue(this.productRequested.patient) || this.validValue(this.productRequested.price) ||
+          this.validValue(this.productRequested.quantity)) {
+        isValid = false;
+      }
+      return isValid;
+    }
+
+    validValue(value) {
+      return (value === null || value === '' || value === undefined);
     }
 
   }

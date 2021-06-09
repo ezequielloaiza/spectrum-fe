@@ -229,4 +229,19 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
       });
     }
 
+    formIsValid() {
+      let isValid = true;
+      if (this.validValue(this.order.idUser) || this.validValue(this.order.supplierId) ||
+          this.validValue(this.order.additionalInformation.description) || this.validValue(this.order.additionalInformation.warranty) ||
+          this.validValue(this.productRequested.patient) || this.validValue(this.productRequested.price) ||
+          this.validValue(this.productRequested.quantity)) {
+        isValid = false;
+      }
+      return isValid;
+    }
+
+    validValue(value) {
+      return (value === null || value === '' || value === undefined);
+    }
+
   }
