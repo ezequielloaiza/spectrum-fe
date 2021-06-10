@@ -27,18 +27,18 @@
     <!-- supplier -->
     <div class="row product-info">
       <div class="col-lg-4">
-        <dt class="title">{{ 'Select Supplier' | translate }}</dt>
+        <dt class="title">{{ 'Select Provider' | translate }}</dt>
         <div class="row info-content">
           <ng-select [items]="suppliers" [(ngModel)]="order.supplierId" (change)="onSelectedSupplier($event)" required
             [virtualScroll]="true" bindLabel="companyName" bindValue="idSupplier"
-            placeholder="{{ 'Select Supplier' | translate }}">
+            placeholder="{{ 'Select Provider' | translate }}">
           </ng-select>
         </div>
       </div>
 
       <!-- client -->
       <div class="col-lg-4">
-        <dt class="title">{{ 'Account Name' | translate }}</dt>
+        <dt class="title">{{ 'Customer Name' | translate }}</dt>
         <div class="row info-content">
           <ng-select [items]="listCustomers" [(ngModel)]="order.idUser" (change)="onSelectedClient($event)" required
             [virtualScroll]="true" bindLabel="fullName" bindValue="idUser"
@@ -58,7 +58,7 @@
 
       <!-- patient -->
       <div class="col-lg-4 mt-4">
-        <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
+        <dt class="title">{{ 'Patient Name' | translate }}</dt>
         <div class="row info-content">
           <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter name patient' | translate }}"
             [(ngModel)]="productRequested.patient" required>

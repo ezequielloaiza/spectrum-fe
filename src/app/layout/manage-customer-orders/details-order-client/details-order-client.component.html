@@ -26,11 +26,11 @@
             <div class="card-header">{{ 'Order Details' | translate }}</div>
           </div>
           <div class="align-btn-detail">
-            <button [hidden]="!generar" type="button" (click)="generateOrder(order)" class="btn btn-outline-primary" translate>
-              Generate Order
+            <button [hidden]="!generar" type="button" (click)="generateOrder(order)" class="btn btn-outline-primary">
+              {{ 'Generate Order' | translate }}
             </button>
             <span> </span>
-            <button [hidden]="!download" type="button" class="btn btn-success btn-xs" (click)="order.supplier.idSupplier === 12 ? downloadMergeOrder(order) : downloadOrder(order)" translate>
+            <button *ngIf="order.orderType && order.orderType !== 'GENERIC'" [hidden]="!download" type="button" class="btn btn-success btn-xs" (click)="order.supplier.idSupplier === 12 ? downloadMergeOrder(order) : downloadOrder(order)" translate>
               <span class="fa fa-download"></span> Download Order
             </button>
           </div>

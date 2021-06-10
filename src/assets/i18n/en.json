@@ -1214,5 +1214,8 @@
     "Enter warranty days": "Enter warranty days",
     "Enter quantity": "Enter quantity",
     "Order Form (Download the form to specify your order and attach it after filling it)": "Order Form (Download the form to specify your order and attach it after filling it)",
-    "Enter order, patient o supplier" : "Enter order, patient o supplier"
+    "Enter order, patient o supplier" : "Enter order, patient o supplier",
+    "New Manually Order": "New Manually Order",
+    "Select Provider": "Select Supplier",
+    "Customer Name": "Customer Name"
 }

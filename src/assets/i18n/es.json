@@ -1387,10 +1387,13 @@
     "Warranty days": "Días de garantía",
     "Name product": "Nombre del producto",
     "Enter name product": "Ingrese el nombre del producto",
-    "Spectrum code product": "Spectrum codigo producto",
-    "Enter spectrum code": "Ingrese el codigo de spectrum",
+    "Spectrum code product": "Spectrum código producto",
+    "Enter spectrum code": "Ingrese el código de spectrum",
     "Enter warranty days": "Ingrese los días de garantía",
     "Enter quantity": "Ingrese la cantidad",
     "Order Form (Download the form to specify your order and attach it after filling it)": "Formulario de pedido (Descargue el formulario para especificar su pedido y adjúntelo después de llenarlo)",
-    "Enter order, patient o supplier" : "Ingrese orden, paciente o proveedor"
+    "Enter order, patient o supplier" : "Ingrese orden, paciente o proveedor",
+    "New Manually Order": "Nueva orden manual",
+    "Select Provider": "Seleccionar Proveedor",
+    "Customer Name": "Nombre del cliente"
 }

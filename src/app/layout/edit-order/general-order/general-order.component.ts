@@ -120,7 +120,7 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
     getSuppliers() {
       this.supplierService.findAll$().subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          this.suppliers = res.data;
+          this.suppliers = _.orderBy(res.data, 'companyName');
         } else {
           console.log(res.errors[0].detail);
         }
