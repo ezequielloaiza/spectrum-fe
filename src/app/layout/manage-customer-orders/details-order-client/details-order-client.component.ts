@@ -73,7 +73,6 @@ export class DetailsOrderClientComponent implements OnInit {
     this.spinner.show();
     this.orderService.findOrderGroup$(idOrder, this.status).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        debugger
         //this.order = res.data[0];
         this.orders = res.data;
         _.each(this.orders, function(order) {
