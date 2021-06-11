@@ -219,10 +219,12 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
 
     updateOrder() {
+      this.spinner.show();
       this.order.productRequested = this.productRequested;
       this.productRequestedService.updateOrderGeneral$(this.order).subscribe(res => {
         this.spinner.hide();
-        this.modalReference.dismiss();
+        this.notification.success('', this.translate.instant('Successfully Updated'));
+        this.modalReference.close(res.data);
       }, error => {
         this.spinner.hide();
         console.log(error);

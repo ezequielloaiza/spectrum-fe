@@ -1,8 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { FileProductRequested } from '../../../shared/models/fileproductrequested';
 import { ProductRequested } from '../../../shared/models/productrequested';
+import { OrderService } from '../../../shared/services';
+import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
 import { GeneralOrderComponent } from '../../edit-order/general-order/general-order.component';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'app-supplier-general',
@@ -17,10 +21,23 @@ import { GeneralOrderComponent } from '../../edit-order/general-order/general-or
 
     productRequested: ProductRequested;
 
-    constructor(private modalService: NgbModal) {}
+    constructor(private modalService: NgbModal,
+                private spinner: NgxSpinnerService,
+                private orderService: OrderService,
+                private fileProductRequestedService: FileProductRequestedService) {}
 
     ngOnInit(): void {
         this.productRequested = this.order.listDetailsAll[0].productRequested;
+    }
+
+    getOrder() {
+      this.spinner.show();
+      this.orderService.findByIds$([this.order.idOrder]).subscribe(res => {
+        this.order = res.data[0];
+        this.order.listDetailsAll = res.data[0].listProductRequested;
+        this.productRequested = this.order.listProductRequested[0].productRequested;
+        this.spinner.hide();
+      });
     }
 
     openEdit() {
@@ -34,7 +51,16 @@ import { GeneralOrderComponent } from '../../edit-order/general-order/general-or
       createOrder.componentInstance.orderEdit = this.order;
       createOrder.componentInstance.files = this.files;
       createOrder.result.then((result) => {
+        this.getOrder();
       } , (reason) => {
+      });
+    }
+
+    downloadFile(item) {
+      this.fileProductRequestedService.downloadFile$(item.name).subscribe(res => {
+        saveAs(res, item.name);
+      }, error => {
+        console.log('error', error);
       });
     }
   }
