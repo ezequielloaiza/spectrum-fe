@@ -7,6 +7,7 @@ import { OrderService } from '../../../shared/services';
 import { FileProductRequestedService } from '../../../shared/services/fileproductrequested/fileproductrequested.service';
 import { GeneralOrderComponent } from '../../edit-order/general-order/general-order.component';
 import { saveAs } from 'file-saver';
+import { UserStorageService } from '../../../http/user-storage.service';
 
 @Component({
     selector: 'app-supplier-general',
@@ -18,16 +19,19 @@ import { saveAs } from 'file-saver';
     @Input() order: any;
     @Input() files: Array<FileProductRequested>;
     @Output() emitEventMarkennovy: EventEmitter<any> = new EventEmitter<any>();
+    user: any;
 
     productRequested: ProductRequested;
 
     constructor(private modalService: NgbModal,
                 private spinner: NgxSpinnerService,
                 private orderService: OrderService,
+                private userStorageService: UserStorageService,
                 private fileProductRequestedService: FileProductRequestedService) {}
 
     ngOnInit(): void {
-        this.productRequested = this.order.listDetailsAll[0].productRequested;
+      this.user = JSON.parse(this.userStorageService.getCurrentUser());
+      this.productRequested = this.order.listDetailsAll[0].productRequested;
     }
 
     getOrder() {
