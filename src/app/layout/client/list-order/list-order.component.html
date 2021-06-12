@@ -72,14 +72,14 @@
               <div class="list-orden" *ngFor="let order of listOrders">
                 <div class="row">
                   <div class="col-lg-2">
-                    <div class="title">
+                    <div class="title text-start">
                       <span>{{'ORDER'| translate }}</span>
                     </div>
                     <div>
                       <span>{{'#'}}{{order.number}}</span>
                       <p class="font-weight-bold" *ngIf="!!getReferenceCopy(order)">{{ getReferenceCopy(order) }}</p>
                     </div>
-                    <div class="title" *ngIf="order.listProductRequested.length == 1">
+                    <div class="title text-start mt-2" *ngIf="order.listProductRequested.length == 1">
                       <span *ngIf="order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null">{{'Patient'| translate }}</span>
                     </div>
                     <div *ngIf="order.listProductRequested.length == 1">
@@ -161,15 +161,18 @@
                 <div class="row product" [hidden]="!order.showMore" *ngFor="let listDetails of order.listProductRequested">
                   <div class="col-lg-3">
                     <div>
-                      <span *ngIf="listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147">
+                      <span *ngIf="listDetails.productRequested.product && (listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147)">
                             - </span>
-                      <span>{{listDetails.productRequested.product.name}}</span>
+                      <span>{{listDetails.productRequested.product ? listDetails.productRequested.product.name : ''}}</span>
                     </div>
-                    <div *ngIf="listDetails.productRequested.detail.length > 0">
+                    <div *ngIf="listDetails.productRequested.detail && listDetails.productRequested.detail.length > 0">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
                     </div>
-                    <div  *ngIf="listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
+                    <div  *ngIf="listDetails.productRequested.detail && listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>
+                    </div>
+                    <div *ngIf="listDetails.productRequested.additionalInformation">
+                      <span class="text-dark">{{listDetails.productRequested.additionalInformation.description}}</span>
                     </div>
                   </div>
                   <div class="col-lg-3">
@@ -181,11 +184,17 @@
                     <div [hidden]="listDetails.productRequested.patient === null || listDetails.productRequested.patient == ''">
                         <span>{{'Patient'| translate}}{{': '}}{{ listDetails.productRequested.patient }}</span>
                       </div>
-                    <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
+                    <div *ngIf="listDetails.productRequested.product && listDetails.productRequested.product.replacementPeriod">
                       <span>{{'Replacement Period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>
-                    <div [hidden]="listDetails.productRequested.product.warranty === null">
+                    <div *ngIf="listDetails.productRequested.product && listDetails.productRequested.product.warranty">
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
+                    </div>
+                    <div *ngIf="listDetails.productRequested.additionalInformation && listDetails.productRequested.additionalInformation.warranty">
+                      <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.additionalInformation.warranty}}</span>
+                    </div>
+                    <div *ngIf="listDetails.productRequested.additionalInformation && listDetails.productRequested.additionalInformation.lentsTypes">
+                      <span>{{'Lens Type'| translate}}{{': '}}{{listDetails.productRequested.additionalInformation.lentsTypes}}</span>
                     </div>
                     <div>
                       <span>{{listDetails.productRequested.price | currency : "USD $" }}</span>

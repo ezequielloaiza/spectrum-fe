@@ -34,6 +34,7 @@ import { ProtocolClientComponent } from './protocol-client/protocol-client.compo
 import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/shipping-protocol.component';
 import { InvoiceClientQBOComponent } from './invoice-client-qbo/invoice-client-qbo.component';
 import { ConsultationFormListComponent } from './manage-consultation-form/consultation-form-list/consultation-form-list.component';
+import { CreateOrderComponent } from './create-order/create-order.component';
 
 const routes: Routes = [
   {
@@ -97,6 +98,10 @@ const routes: Routes = [
       {
         path: 'payments/:idInvoice/paymentsMade', component: PaymentsMadeComponent,
         data: { option: 'PaymentsMade' }
+      },
+      {
+        path: 'create/order', component: CreateOrderComponent,
+        data: { option: 'CreateOrder' }
       },
       {
         path: 'user', component: UserComponent,

@@ -60,30 +60,56 @@ export class ModalsConfirmationComponent implements OnInit {
       });
     } else {
       this.spinner.show();
-      this.orderService.generateOrder$(order.idOrder).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.translate.get('Order generated successfully', { value: 'Order generated successfully' }).subscribe((res: string) => {
-            this.notification.success('', res);
-            this.spinner.hide();
-            this.close();
-            this.redirectListOrder();
-          });
-        } else {
-          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
-            this.notification.error('', res);
-            this.spinner.hide();
-            console.log(res);
-          });
-        }
-      }, error => {
-        console.log('error', error);
-      });
+      if (order.orderType !== null && order.orderType === 'GENERIC') {
+        this.generarOrderGeneral(order);
+      } else {
+        this.orderService.generateOrder$(order.idOrder).subscribe(res => {
+          if (res.code === CodeHttp.ok) {
+            this.translate.get('Order generated successfully', { value: 'Order generated successfully' }).subscribe((res: string) => {
+              this.notification.success('', res);
+              this.spinner.hide();
+              this.close();
+              this.redirectListOrder();
+            });
+          } else {
+            this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+              this.notification.error('', res);
+              this.spinner.hide();
+              console.log(res);
+            });
+          }
+        }, error => {
+          console.log('error', error);
+        });
+    }
     /*} else {
        this.openModal();
        this.close();
     }*/
     }
   }
+
+  generarOrderGeneral(order) {
+    this.orderService.generateOrderGeneral$(order.idOrder).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.translate.get('Order generated successfully', { value: 'Order generated successfully' }).subscribe((res: string) => {
+          this.notification.success('', res);
+          this.spinner.hide();
+          this.close();
+          this.redirectListOrder();
+        });
+      } else {
+        this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+          this.notification.error('', res);
+          this.spinner.hide();
+          console.log(res);
+        });
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
   getBalance() {
     this.userService.findById$(this.order.user.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
