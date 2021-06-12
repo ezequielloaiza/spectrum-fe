@@ -7,7 +7,7 @@ import { UserStorageService } from '../../http/user-storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { environment } from '../../../../src/environments/environment';
 import * as _ from 'lodash';
 import { QuickbooksService } from '../../shared/services/quickbooks/quickbooks.service';
