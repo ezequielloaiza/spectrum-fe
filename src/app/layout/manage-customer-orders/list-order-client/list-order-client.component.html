@@ -323,16 +323,19 @@
                   <div class="col-lg-2">
                     <div>
                       <span
-                        *ngIf="listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147">
+                        *ngIf="listDetails.productRequested.Product && (listDetails.productRequested.product.idProduct === 145 || listDetails.productRequested.product.idProduct === 146 || listDetails.productRequested.product.idProduct === 147)">
                         - </span>
-                      <span>{{listDetails.productRequested.product.name}}</span>
+                      <span>{{listDetails.productRequested.product ? listDetails.productRequested.product.name : ''}}</span>
                     </div>
-                    <div *ngIf="listDetails.productRequested.detail.length > 0 ">
+                    <div *ngIf="listDetails.productRequested.detail && listDetails.productRequested.detail.length > 0 ">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
-                    </div>
+                    </div>                 
                     <div
-                      *ngIf="listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
+                      *ngIf="listDetails.productRequested.Product && listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>
+                    </div>
+                    <div *ngIf="listDetails.productRequested.additionalInformation">
+                      <span class="text-dark">{{listDetails.productRequested.additionalInformation.description}}</span>
                     </div>
                   </div>
                   <div class="col-lg-3">
@@ -345,14 +348,23 @@
                       [hidden]="listDetails.productRequested.patient === null || listDetails.productRequested.patient == ''">
                       <span>{{'Patient'| translate}}{{': '}}{{ listDetails.productRequested.patient }}</span>
                     </div>
-                    <div [hidden]="listDetails.productRequested.product.replacementPeriod === null">
+                    <div *ngIf="listDetails.productRequested.product && listDetails.productRequested.product.replacementPeriod">
                       <span>{{'Replacement Period'| translate}}{{': '}}{{listDetails.productRequested.product.replacementPeriod}}</span>
                     </div>
-                    <div [hidden]="listDetails.productRequested.product.warranty === null">
+                    <div *ngIf="listDetails.productRequested.product && listDetails.productRequested.product.warranty">
                       <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.product.warranty}}</span>
                     </div>
+                    <div *ngIf="listDetails.productRequested.additionalInformation && listDetails.productRequested.additionalInformation.warranty">
+                      <span>{{'Warranty'| translate}}{{': '}}{{listDetails.productRequested.additionalInformation.warranty}}</span>
+                    </div>
+                    <div *ngIf="listDetails.productRequested.additionalInformation && listDetails.productRequested.additionalInformation.lentsTypes">
+                      <span>{{'Lens Type'| translate}}{{': '}}{{listDetails.productRequested.additionalInformation.lentsTypes}}</span>
+                    </div>
+                    <div *ngIf="listDetails.productRequested.additionalInformation && listDetails.productRequested.additionalInformation.codeSpectrum">
+                      <span>{{'Spectrum code'| translate}}{{': '}}{{listDetails.productRequested.additionalInformation.codeSpectrum}}</span>
+                    </div>
                     <div [hidden]="order.supplier.companyName === null">
-                      <span>{{'Supplier'| translate}}{{': '}}{{listDetails.productRequested.product.supplier.companyName}}</span>
+                      <span>{{'Supplier'| translate}}{{': '}}{{listDetails.productRequested.product ? listDetails.productRequested.product.supplier.companyName : order.supplier.companyName}}</span>
                     </div>
                     <div>
                       <span>{{listDetails.productRequested.price | currency : "USD $" }}</span>

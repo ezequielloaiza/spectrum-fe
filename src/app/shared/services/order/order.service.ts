@@ -58,6 +58,10 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/generateOrder/' + idOrder);
   }
 
+  public generateOrderGeneral$(idOrder): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/generateOrderGeneral/' + idOrder);
+  }
+
   public saveOrder$(buy): Observable<any> {
     return this.http.put(environment.apiUrl + 'order/saveOrder', buy);
   }
@@ -144,5 +148,9 @@ export class OrderService {
 
   public generateCopyOrder$(id, type): Observable<any> {
     return this.http.put(environment.apiUrl + 'order/generateCopyOrder/' + id + '?type=' + type, {});
+  }
+
+  public saveOrderGeneral$(buyNow): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/saveOrderGeneral', buyNow);
   }
 }

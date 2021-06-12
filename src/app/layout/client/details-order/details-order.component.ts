@@ -66,18 +66,19 @@ export class DetailsOrderComponent implements OnInit {
 
         const auxList = [];
         _.each(this.order.listProductRequested, function (detailsOrder) {
-          const productId = detailsOrder.productRequested.product.idProduct;
+          const productId = detailsOrder.productRequested.product ? detailsOrder.productRequested.product.idProduct : null;
           detailsOrder.productRequested.show = false;
           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
-          if (detailsOrder.productRequested.detail.length) {
+          if (detailsOrder.productRequested.detail && detailsOrder.productRequested.detail.length) {
             detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
           }
-          if (productId !== 145
+          if (productId && productId !== 145
               && productId !== 146
               && productId !== 147) {
             auxList.push(detailsOrder);
           }
         });
+        this.order.listDetailsAll = this.order.listProductRequested;
         this.listDetailsAll = this.order.listProductRequested;
         this.order.listProductRequested = auxList;
         this.listDetailsAux = this.order.listProductRequested;
