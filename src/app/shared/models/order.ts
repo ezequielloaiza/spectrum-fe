@@ -18,6 +18,7 @@ export class Order {
     public trackingNumber: string;
     public shippingPrice: number;
     public idEntrustingCompany: number;
+    public listDetailsAll: Array<OrderProductRequested>;
 
     public constructor() { }
 

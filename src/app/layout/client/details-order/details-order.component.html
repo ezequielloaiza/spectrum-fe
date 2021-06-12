@@ -251,6 +251,9 @@
           <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventBlue)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
         </div>
+          <div *ngIf="order.orderType === 'GENERIC'">
+            <app-supplier-general  [order]="order" [files]="listDetailsAll[0].fileProductRequestedList" (emitEventOrion)="refresh($event, order)"></app-supplier-general>
+          </div>
       </div>
     </div>
     <div class="card-body table-responsive">
