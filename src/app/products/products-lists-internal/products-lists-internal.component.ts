@@ -636,12 +636,11 @@ export class ProductsListInternalComponent implements OnInit {
     this.packings.push({ 'product': product, 'type': 'All'});
 
     if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
-        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Mylo' ||
-        product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
+        product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Mylo') {
           this.packings.push({ 'product': product, 'type': 'Blister'});
     }
 
-    if (product.father === 'Equilibria') {
+    if (product.father === 'Equilibria' || product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
       this.packings.push({ 'product': product, 'type': 'Vial' });
     }
 
