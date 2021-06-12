@@ -302,11 +302,7 @@ export class ProductViewComponent implements OnInit {
               baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
               break;
             case "14.5":
-              if (this.product.name === "Quattro Sph UV x1 Conv") {
-                baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
-              } else {
-                baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
-              }
+              baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
               break;
           }
           break;
