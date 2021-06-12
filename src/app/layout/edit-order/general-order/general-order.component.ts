@@ -37,6 +37,7 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
       idUser: null,
       listFile: [],
       productRequested: null,
+      listFileRemove: [],
       additionalInformation: {
         idAdditionalInformation: null,
         description: null,
@@ -55,6 +56,8 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
     queueLimit = 5;
     maxFileSize = 25 * 1024 * 1024; // 25 MB
     private uploadResult: any = null;
+    filesAux: Array<any>;
+    listFileRemove: Array<any> = new Array;
 
     public uploader: FileUploader = new FileUploader(
       {
@@ -87,6 +90,7 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
       };
 
       this.uploader.onSuccessItem = (item, response, status, headers) => {
+        console.log('dddd');
         this.uploadResult = {'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers};
         if (this.uploadResult) {
           this.buildFileProductRequested();
@@ -108,7 +112,7 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
       this.getClient();
       this.order.idUser = this.orderEdit.user.idUser;
       this.onSelectedClient();
-      this.order.listFile = this.files;
+      this.filesAux = this.files;
       this.order.additionalInformation = this.orderEdit.listDetailsAll[0].productRequested.additionalInformation;
       this.productRequested.patient = this.orderEdit.listDetailsAll[0].productRequested.patient;
       this.productRequested.quantity = this.orderEdit.listDetailsAll[0].productRequested.quantity;
@@ -176,6 +180,15 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
       this.clearSelectedFile();
     }
 
+    removeFileSave(item) {
+      this.filesAux.forEach( (obj, index) => {
+        if (item.idFileProductRequested === obj.idFileProductRequested) {
+          this.filesAux.splice(index, 1);
+          this.listFileRemove.push(item.idFileProductRequested);
+        }
+      });
+    }
+
     clearSelectedFile() {
       this.selectedFiles.nativeElement.value = '';
     }
@@ -203,6 +216,7 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
       if (this.listFile.length === this.uploader.queue.length) {
         this.order.listFile = this.listFile;
+        this.updateOrder();
       }
     }
 
@@ -214,13 +228,14 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
           item.upload();
         });
       } else {
+        this.updateOrder();
       }
     }
 
 
     updateOrder() {
-      this.spinner.show();
       this.order.productRequested = this.productRequested;
+      this.order.listFileRemove = this.listFileRemove;
       this.productRequestedService.updateOrderGeneral$(this.order).subscribe(res => {
         this.spinner.hide();
         this.notification.success('', this.translate.instant('Successfully Updated'));

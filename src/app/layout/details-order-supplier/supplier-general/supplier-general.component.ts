@@ -36,10 +36,11 @@ import { UserStorageService } from '../../../http/user-storage.service';
 
     getOrder() {
       this.spinner.show();
-      this.orderService.findByIds$([this.order.idOrder]).subscribe(res => {
-        this.order = res.data[0];
-        this.order.listDetailsAll = res.data[0].listProductRequested;
+      this.orderService.findId$(this.order.idOrder).subscribe(res => {
+        this.order = res.data;
+        this.order.listDetailsAll = res.data.listProductRequested;
         this.productRequested = this.order.listProductRequested[0].productRequested;
+        this.files = res.data.listProductRequested[0].fileProductRequestedList;
         this.spinner.hide();
       });
     }
