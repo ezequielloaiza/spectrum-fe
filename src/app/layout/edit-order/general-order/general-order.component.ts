@@ -206,8 +206,9 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
     private buildFileProductRequested() {
       if (this.uploadResult.success) {
         const fileProductRequest: FileProductRequested = new FileProductRequested();
-        fileProductRequest.url  = JSON.parse(this.uploadResult.response).data;
-        fileProductRequest.name = this.uploadResult.item.file.name;
+        const fileResponse = JSON.parse(this.uploadResult.response).data;
+        fileProductRequest.url  = fileResponse.url;
+        fileProductRequest.name = fileResponse.name;
         fileProductRequest.type = this.uploadResult.item.file.type;
         fileProductRequest.size = this.uploadResult.item.file.size;
         fileProductRequest.createdAt = new Date();

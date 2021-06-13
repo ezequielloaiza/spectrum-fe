@@ -1395,5 +1395,6 @@
     "Enter order, patient o supplier" : "Ingrese orden, paciente o proveedor",
     "New Manually Order": "Nueva orden manual",
     "Select Provider": "Seleccionar Proveedor",
-    "Customer Name": "Nombre del cliente"
+    "Customer Name": "Nombre del cliente",
+    "Grouped Orders": "Ordenes agrupadas"
 }
