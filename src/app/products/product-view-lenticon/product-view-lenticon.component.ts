@@ -654,8 +654,9 @@ export class ProductViewLenticonComponent implements OnInit {
   private buildFileProductRequested(eye) {
     if (eye === 'Right' && this.uploadResultRightEye.success) {
       const fileProductRequest: FileProductRequested = new FileProductRequested();
-      fileProductRequest.url  = JSON.parse(this.uploadResultRightEye.response).data;
-      fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+      const fileResponse = JSON.parse(this.uploadResultRightEye.response).data;
+      fileProductRequest.url  = fileResponse.url;
+      fileProductRequest.name = fileResponse.name;
       fileProductRequest.type = this.uploadResultRightEye.item.file.type;
       fileProductRequest.size = this.uploadResultRightEye.item.file.size;
       fileProductRequest.createdAt = new Date();
@@ -663,8 +664,9 @@ export class ProductViewLenticonComponent implements OnInit {
       this.verifyOpenModal();
     } if (eye === 'Left' && this.uploadResultLeftEye.success) {
       const fileProductRequest: FileProductRequested = new FileProductRequested();
-      fileProductRequest.url  = JSON.parse(this.uploadResultLeftEye.response).data;
-      fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+      const fileResponse = JSON.parse(this.uploadResultLeftEye.response).data;
+      fileProductRequest.url  = fileResponse.url;
+      fileProductRequest.name = fileResponse.name;
       fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
       fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
       fileProductRequest.createdAt = new Date();
