@@ -139,6 +139,14 @@
                     <div *ngIf="!order.listOrderGroups">
                       <span>{{ '#'+order.number}}</span>
                     </div>
+                    <div class="mt-2" *ngIf="order.numberOrder.length > 0">
+                      <div>
+                        <span>{{'Grouped Orders' | translate }}{{':'}}</span>
+                      </div>
+                      <div class="text-left" *ngFor="let numberOrder of order.numberOrder; let k = index">
+                        <span>{{ '#' + numberOrder }}</span>
+                      </div>
+                    </div>
                     <div *ngIf="!!getReferenceCopy(order)">
                       <span class="font-weight-bold">{{ getReferenceCopy(order) }}</span>
                     </div>
