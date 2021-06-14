@@ -971,6 +971,7 @@ var RoleAdmin;
     RoleAdmin[RoleAdmin["ConsultationFormList"] = 45] = "ConsultationFormList";
     RoleAdmin[RoleAdmin["ConsultationFormComponent"] = 46] = "ConsultationFormComponent";
     RoleAdmin[RoleAdmin["ProductViewXsbComponent"] = 47] = "ProductViewXsbComponent";
+    RoleAdmin[RoleAdmin["CreateOrder"] = 48] = "CreateOrder";
 })(RoleAdmin || (RoleAdmin = {}));
 
 
@@ -1026,6 +1027,7 @@ var RoleSeller;
     RoleSeller[RoleSeller["ConsultationFormList"] = 35] = "ConsultationFormList";
     RoleSeller[RoleSeller["ConsultationFormComponent"] = 36] = "ConsultationFormComponent";
     RoleSeller[RoleSeller["ProductViewXsbComponent"] = 37] = "ProductViewXsbComponent";
+    RoleSeller[RoleSeller["CreateOrder"] = 38] = "CreateOrder";
 })(RoleSeller || (RoleSeller = {}));
 
 
@@ -2529,6 +2531,9 @@ var OrderService = /** @class */ (function () {
     OrderService.prototype.generateOrder$ = function (idOrder) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/generateOrder/' + idOrder);
     };
+    OrderService.prototype.generateOrderGeneral$ = function (idOrder) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/generateOrderGeneral/' + idOrder);
+    };
     OrderService.prototype.saveOrder$ = function (buy) {
         return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/saveOrder', buy);
     };
@@ -2597,6 +2602,9 @@ var OrderService = /** @class */ (function () {
     OrderService.prototype.generateCopyOrder$ = function (id, type) {
         return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/generateCopyOrder/' + id + '?type=' + type, {});
     };
+    OrderService.prototype.saveOrderGeneral$ = function (buyNow) {
+        return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/saveOrderGeneral', buyNow);
+    };
     OrderService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
@@ -2653,6 +2661,9 @@ var ProductsRequestedService = /** @class */ (function () {
     };
     ProductsRequestedService.prototype.updatePriceEuropa$ = function (productsRequested) {
         return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'productsRequested/updatePriceEuropa', productsRequested);
+    };
+    ProductsRequestedService.prototype.updateOrderGeneral$ = function (orderGeneral) {
+        return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'productsRequested/update-order-general', orderGeneral);
     };
     ProductsRequestedService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

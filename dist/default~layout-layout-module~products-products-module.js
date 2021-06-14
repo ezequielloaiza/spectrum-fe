@@ -1717,23 +1717,6 @@ exports.FileUploadModule = file_upload_module_1.FileUploadModule;
 
 /***/ }),
 
-/***/ "./node_modules/ng2-file-upload/ng2-file-upload.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/ng2-file-upload/ng2-file-upload.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-__export(__webpack_require__(/*! ./index */ "./node_modules/ng2-file-upload/index.js"));
-
-
-/***/ }),
-
 /***/ "./src/app/shared/enum/status-user.enum.ts":
 /*!*************************************************!*\
   !*** ./src/app/shared/enum/status-user.enum.ts ***!
@@ -1834,6 +1817,26 @@ var Country = /** @class */ (function () {
     function Country() {
     }
     return Country;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/models/fileproductrequested.ts":
+/*!*******************************************************!*\
+  !*** ./src/app/shared/models/fileproductrequested.ts ***!
+  \*******************************************************/
+/*! exports provided: FileProductRequested */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileProductRequested", function() { return FileProductRequested; });
+var FileProductRequested = /** @class */ (function () {
+    function FileProductRequested() {
+    }
+    return FileProductRequested;
 }());
 
 

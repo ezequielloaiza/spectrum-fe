@@ -43,8 +43,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
 /* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ng2-file-upload/ng2-file-upload */ "./node_modules/ng2-file-upload/ng2-file-upload.js");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
 /* harmony import */ var _shared_models_consultation_form__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../shared/models/consultation-form */ "./src/app/shared/models/consultation-form.ts");
@@ -102,7 +102,7 @@ var ConsultationFormComponent = /** @class */ (function () {
         this.maxFileSize = 25 * 1024 * 1024; // 25 MB
         this.listFile = new Array;
         this.uploadResult = null;
-        this.uploader = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_10__["FileUploader"]({ url: URL,
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_10__["FileUploader"]({ url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
             maxFileSize: this.maxFileSize,
@@ -5204,8 +5204,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload/ng2-file-upload */ "./node_modules/ng2-file-upload/ng2-file-upload.js");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../shared/models/fileproductrequested */ "./src/app/shared/models/fileproductrequested.ts");
 /* harmony import */ var _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../shared/services/fileproductrequested/fileproductrequested.service */ "./src/app/shared/services/fileproductrequested/fileproductrequested.service.ts");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
@@ -5269,7 +5269,7 @@ var ProductViewBlueComponent = /** @class */ (function () {
         this.maxFileSize = 25 * 1024 * 1024; // 25 MB
         this.listFileBasket = new Array;
         this.uploadResult = null;
-        this.uploader = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
             maxFileSize: this.maxFileSize,
@@ -5579,7 +5579,9 @@ var ProductViewBlueComponent = /** @class */ (function () {
     ProductViewBlueComponent.prototype.buildFileProductRequested = function () {
         if (this.uploadResult.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResult.response).data;
+            var fileResponse = JSON.parse(this.uploadResult.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.name = this.uploadResult.item.file.name;
             fileProductRequest.type = this.uploadResult.item.file.type;
             fileProductRequest.size = this.uploadResult.item.file.size;
@@ -5691,8 +5693,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload/ng2-file-upload */ "./node_modules/ng2-file-upload/ng2-file-upload.js");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../shared/models/fileproductrequested */ "./src/app/shared/models/fileproductrequested.ts");
 /* harmony import */ var _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../shared/services/fileproductrequested/fileproductrequested.service */ "./src/app/shared/services/fileproductrequested/fileproductrequested.service.ts");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
@@ -5763,21 +5765,21 @@ var ProductViewEuclidComponent = /** @class */ (function () {
         this.uploadResult = null;
         this.uploadResultLeftEye = null;
         this.uploadResultRightEye = null;
-        this.uploader = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
             maxFileSize: this.maxFileSize,
             removeAfterUpload: false,
             authToken: this.userStorageService.getToke(),
             autoUpload: false });
-        this.uploaderLeftEye = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
+        this.uploaderLeftEye = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
             maxFileSize: this.maxFileSize,
             removeAfterUpload: false,
             authToken: this.userStorageService.getToke(),
             autoUpload: false });
-        this.uploaderRightEye = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
+        this.uploaderRightEye = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
             maxFileSize: this.maxFileSize,
@@ -6332,8 +6334,9 @@ var ProductViewEuclidComponent = /** @class */ (function () {
     ProductViewEuclidComponent.prototype.buildFileProductRequested = function (eye) {
         if (eye === 'Right' && this.uploadResultRightEye.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResultRightEye.response).data;
-            fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResultRightEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResultRightEye.item.file.type;
             fileProductRequest.size = this.uploadResultRightEye.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -6342,8 +6345,9 @@ var ProductViewEuclidComponent = /** @class */ (function () {
         }
         if (eye === 'Left' && this.uploadResultLeftEye.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResultLeftEye.response).data;
-            fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResultLeftEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
             fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -6462,8 +6466,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload/ng2-file-upload */ "./node_modules/ng2-file-upload/ng2-file-upload.js");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../shared/models/fileproductrequested */ "./src/app/shared/models/fileproductrequested.ts");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var _modals_confirmation_buy_confirmation_europa_confirmation_europa_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../modals/confirmation-buy/confirmation-europa/confirmation-europa.component */ "./src/app/products/modals/confirmation-buy/confirmation-europa/confirmation-europa.component.ts");
@@ -6550,7 +6554,7 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         this.uploadResult = null;
         this.uploadResultLeftEye = null;
         this.uploadResultRightEye = null;
-        this.uploader = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({
             url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
@@ -6559,7 +6563,7 @@ var ProductViewEuropaComponent = /** @class */ (function () {
             authToken: this.userStorageService.getToke(),
             autoUpload: false
         });
-        this.uploaderLeftEye = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({
+        this.uploaderLeftEye = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({
             url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
@@ -6568,7 +6572,7 @@ var ProductViewEuropaComponent = /** @class */ (function () {
             authToken: this.userStorageService.getToke(),
             autoUpload: false
         });
-        this.uploaderRightEye = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({
+        this.uploaderRightEye = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({
             url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
@@ -7705,8 +7709,9 @@ var ProductViewEuropaComponent = /** @class */ (function () {
     ProductViewEuropaComponent.prototype.buildFileProductRequested = function (eye) {
         if (eye === 'Right' && this.uploadResultRightEye.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResultRightEye.response).data;
-            fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResultRightEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResultRightEye.item.file.type;
             fileProductRequest.size = this.uploadResultRightEye.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -7715,8 +7720,9 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         }
         if (eye === 'Left' && this.uploadResultLeftEye.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResultLeftEye.response).data;
-            fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResultLeftEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
             fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -8224,8 +8230,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload/ng2-file-upload */ "./node_modules/ng2-file-upload/ng2-file-upload.js");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../shared/services/fileproductrequested/fileproductrequested.service */ "./src/app/shared/services/fileproductrequested/fileproductrequested.service.ts");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
@@ -8289,7 +8295,7 @@ var ProductViewFluoStripsComponent = /** @class */ (function () {
         this.maxFileSize = 25 * 1024 * 1024; // 25 MB
         this.listFileBasket = new Array;
         this.uploadResult = null;
-        this.uploader = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
             maxFileSize: this.maxFileSize,
@@ -9202,8 +9208,9 @@ var ProductViewLenticonComponent = /** @class */ (function () {
     ProductViewLenticonComponent.prototype.buildFileProductRequested = function (eye) {
         if (eye === 'Right' && this.uploadResultRightEye.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_1__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResultRightEye.response).data;
-            fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResultRightEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResultRightEye.item.file.type;
             fileProductRequest.size = this.uploadResultRightEye.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -9212,8 +9219,9 @@ var ProductViewLenticonComponent = /** @class */ (function () {
         }
         if (eye === 'Left' && this.uploadResultLeftEye.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_1__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResultLeftEye.response).data;
-            fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResultLeftEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
             fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -9355,8 +9363,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload/ng2-file-upload */ "./node_modules/ng2-file-upload/ng2-file-upload.js");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../shared/models/fileproductrequested */ "./src/app/shared/models/fileproductrequested.ts");
 /* harmony import */ var _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../shared/services/fileproductrequested/fileproductrequested.service */ "./src/app/shared/services/fileproductrequested/fileproductrequested.service.ts");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
@@ -9421,7 +9429,7 @@ var ProductViewMagicComponent = /** @class */ (function () {
         this.maxFileSize = 25 * 1024 * 1024; // 25 MB
         this.listFileBasket = new Array;
         this.uploadResult = null;
-        this.uploader = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
             maxFileSize: this.maxFileSize,
@@ -9757,8 +9765,9 @@ var ProductViewMagicComponent = /** @class */ (function () {
     ProductViewMagicComponent.prototype.buildFileProductRequested = function () {
         if (this.uploadResult.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResult.response).data;
-            fileProductRequest.name = this.uploadResult.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResult.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResult.item.file.type;
             fileProductRequest.size = this.uploadResult.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -11004,8 +11013,9 @@ var ProductViewOrionComponent = /** @class */ (function () {
     ProductViewOrionComponent.prototype.buildFileProductRequested = function (eye) {
         if (eye === 'Right' && this.uploadResultRightEye.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResultRightEye.response).data;
-            fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResultRightEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResultRightEye.item.file.type;
             fileProductRequest.size = this.uploadResultRightEye.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -11014,8 +11024,9 @@ var ProductViewOrionComponent = /** @class */ (function () {
         }
         if (eye === 'Left' && this.uploadResultLeftEye.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_17__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResultLeftEye.response).data;
-            fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResultLeftEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
             fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -11108,8 +11119,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
 /* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload/ng2-file-upload */ "./node_modules/ng2-file-upload/ng2-file-upload.js");
-/* harmony import */ var ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../shared/services/fileproductrequested/fileproductrequested.service */ "./src/app/shared/services/fileproductrequested/fileproductrequested.service.ts");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
@@ -11170,7 +11181,7 @@ var ProductViewSpectrumSalineComponent = /** @class */ (function () {
         this.maxFileSize = 25 * 1024 * 1024; // 25 MB
         this.listFileBasket = new Array;
         this.uploadResult = null;
-        this.uploader = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
+        this.uploader = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_16__["FileUploader"]({ url: URL,
             itemAlias: 'files',
             queueLimit: this.queueLimit,
             maxFileSize: this.maxFileSize,
@@ -12284,8 +12295,9 @@ var ProductViewSynergeyesComponent = /** @class */ (function () {
     ProductViewSynergeyesComponent.prototype.buildFileProductRequested = function (eye) {
         if (eye === 'Right' && this.uploadResultRightEye.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_14__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResultRightEye.response).data;
-            fileProductRequest.name = this.uploadResultRightEye.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResultRightEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResultRightEye.item.file.type;
             fileProductRequest.size = this.uploadResultRightEye.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -12294,8 +12306,9 @@ var ProductViewSynergeyesComponent = /** @class */ (function () {
         }
         if (eye === 'Left' && this.uploadResultLeftEye.success) {
             var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_14__["FileProductRequested"]();
-            fileProductRequest.url = JSON.parse(this.uploadResultLeftEye.response).data;
-            fileProductRequest.name = this.uploadResultLeftEye.item.file.name;
+            var fileResponse = JSON.parse(this.uploadResultLeftEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
             fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
             fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
             fileProductRequest.createdAt = new Date();
@@ -13007,12 +13020,7 @@ var ProductViewComponent = /** @class */ (function () {
                             baseCurve.values = ["7.1", "7.4", "7.7", "8.0", "8.3", "8.6", "8.9"];
                             break;
                         case "14.5":
-                            if (this.product.name === "Quattro Sph UV x1 Conv") {
-                                baseCurve.values = ["8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
-                            }
-                            else {
-                                baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
-                            }
+                            baseCurve.values = ["7.7", "8.0", "8.3", "8.6", "8.9", "9.2", "9.5", "9.8"];
                             break;
                     }
                     break;
@@ -14031,11 +14039,10 @@ var ProductsListInternalComponent = /** @class */ (function () {
         this.packings = [];
         this.packings.push({ 'product': product, 'type': 'All' });
         if (product.father === 'Saphir Rx' || product.father === 'Gentle 80' || product.father === 'Gentle 59' ||
-            product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Mylo' ||
-            product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
+            product.father === 'Blu:gen' || product.father === 'Blu:kidz' || product.father === 'Mylo') {
             this.packings.push({ 'product': product, 'type': 'Blister' });
         }
-        if (product.father === 'Equilibria') {
+        if (product.father === 'Equilibria' || product.father === 'Saphir' || product.father === 'Quattro 3-Monthly') {
             this.packings.push({ 'product': product, 'type': 'Vial' });
         }
         if (product.father === 'Mylo') {
@@ -14866,26 +14873,6 @@ var FileConsultationForm = /** @class */ (function () {
     function FileConsultationForm() {
     }
     return FileConsultationForm;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/models/fileproductrequested.ts":
-/*!*******************************************************!*\
-  !*** ./src/app/shared/models/fileproductrequested.ts ***!
-  \*******************************************************/
-/*! exports provided: FileProductRequested */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileProductRequested", function() { return FileProductRequested; });
-var FileProductRequested = /** @class */ (function () {
-    function FileProductRequested() {
-    }
-    return FileProductRequested;
 }());
 
 
