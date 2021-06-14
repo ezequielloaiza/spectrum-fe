@@ -369,7 +369,7 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   loadProductRequestedFromOrder(order) {
-    let productReq = [];
+    const productReq = [];
     _.each(order.listProductRequested, function(pRequested) {
       const productR = new InvoiceSupplierProductRequested();
       productR.idProductRequested = pRequested.productRequested.idProductRequested;
@@ -381,13 +381,20 @@ export class GenerateInvoiceComponent implements OnInit {
         pRequested.productRequested.price *
         pRequested.productRequested.quantity;
       productR.quantity = pRequested.productRequested.quantity;
-      // tslint:disable-next-line:max-line-length
-      const code = (pRequested.productRequested.product.code != null ? pRequested.productRequested.product.code : pRequested.productRequested.product.name);
-      const name = (pRequested.productRequested.product.code !== null ?
+      let code = '';
+      let name = '';
+      if (order.orderType !== null && order.orderType === 'GENERIC') {
+        name = pRequested.productRequested.additionalInformation.description;
+      } else {
+        // tslint:disable-next-line:max-line-length
+        code = (pRequested.productRequested.product.code != null ? pRequested.productRequested.product.code : pRequested.productRequested.product.name);
+        name = (pRequested.productRequested.product.code !== null ?
         pRequested.productRequested.product.name : '') + ' ' + (pRequested.productRequested.product.material !== null ?
-          pRequested.productRequested.product.material : '');
+        pRequested.productRequested.product.material : '');
+      }
       productR.description = code + name;
-      productR.codeSpectrum = pRequested.productRequested.product.codeSpectrum;
+      productR.codeSpectrum = order.orderType === 'GENERIC' ? pRequested.productRequested.additionalInformation.codeSpectrum
+      : pRequested.productRequested.product.codeSpectrum;
       productR.patient = pRequested.productRequested.patient === '' ? 'Not apply' : pRequested.productRequested.patient;
       productR.delete = false;
       productReq.push(productR);

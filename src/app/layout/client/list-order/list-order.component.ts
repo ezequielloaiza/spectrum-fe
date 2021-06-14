@@ -80,7 +80,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
         this.listOrdersAux = res.data;
         _.each(this.listOrders, function (order) {
            _.each(order.listProductRequested, function(listDetails) {
-            if (listDetails.productRequested.detail.length > 0) {
+            if (listDetails.productRequested.detail && listDetails.productRequested.detail.length > 0) {
               listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
             }
           });

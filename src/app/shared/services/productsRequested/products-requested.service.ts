@@ -30,4 +30,8 @@ export class ProductsRequestedService {
   public updatePriceEuropa$(productsRequested): Observable<any> {
     return this.http.put(environment.apiUrl + 'productsRequested/updatePriceEuropa', productsRequested);
   }
+
+  public updateOrderGeneral$(orderGeneral): Observable<any> {
+    return this.http.put(environment.apiUrl + 'productsRequested/update-order-general', orderGeneral);
+  }
 }
