@@ -17,6 +17,7 @@ import { ProductViewSynergeyesComponent } from './product-view-synergeyes/produc
 import { ProductViewOrionComponent } from './product-view-orion/product-view-orion.component';
 import { ConsultationFormComponent } from './consultation-form/consultation-form.component';
 import { ProductViewXsbComponent } from './product-view-xsb/product-view-xsb.component';
+import { ProductViewMoldedLensesComponent } from './product-view-molded-lenses/product-view-molded-lenses.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,9 @@ const routes: Routes = [
         { path: ':id/product-view-synergeyes', component: ProductViewSynergeyesComponent, data: { option: 'ProductViewSynergeyesComponent' }},
         { path: ':id/product-view-orion', component: ProductViewOrionComponent, data: { option: 'ProductViewOrionComponent' } },
         { path: ':id/product-view-xsb/:supplierId', component: ProductViewXsbComponent, data: { option: 'ProductViewXsbComponent' }},
-        { path: ':id/consultation-form', component: ConsultationFormComponent, data: { option: 'ConsultationFormComponent' }}
+        { path: ':id/consultation-form', component: ConsultationFormComponent, data: { option: 'ConsultationFormComponent' } },
+        { path: ':id/product-view-molded-lenses', component: ProductViewMoldedLensesComponent, data: { option: 'ProductViewMoldedLenses' }},
+
 
     ] , data: { option: 'ProductsList' }
 }
