@@ -48,6 +48,20 @@
             </div>
           </fieldset>
         </div>
+        <!-- Handling -->
+        <div class="col-xl-6">
+          <fieldset class="form-group">
+            <label>{{ 'Handling' | translate }}</label>
+            <div class="mb-2 mr-sm-2 mb-sm-0">
+              <div class="form-group input-group">
+                <div class="input-group-append">
+                  <span class="input-group-text">%</span>
+                </div>
+                <input type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" class="form-control" placeholder="{{ 'Enter handling' | translate }}" name="handling" formControlName="handling">
+              </div>
+            </div>
+          </fieldset>
+        </div>
       </div>
     </form>
   </div>
