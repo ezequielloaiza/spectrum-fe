@@ -1397,5 +1397,6 @@
     "Select Provider": "Seleccionar Proveedor",
     "Customer Name": "Nombre del cliente",
     "Grouped Orders": "Ordenes agrupadas",
-    "Handling Cost": "Costo de manipulación"
+    "Handling Cost": "Costo de manipulación",
+    "Enter handling cost": "Introduzca el costo de manipulación"
 }
