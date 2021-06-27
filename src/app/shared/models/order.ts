@@ -19,6 +19,7 @@ export class Order {
     public shippingPrice: number;
     public idEntrustingCompany: number;
     public listDetailsAll: Array<OrderProductRequested>;
+    public totalOrder: number;
 
     public constructor() { }
 
