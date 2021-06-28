@@ -64,7 +64,7 @@
                 <dt>
                   <div *ngIf="parameter.type === 'selected' ">
                     <ng-select class="display-row" [items]="parameter.values" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-                      placeholder="{{ 'Select value' | translate }}"  (change)="changeSelect(parameter, $event)" (clear)="resetParams(parameter)" required>
+                      placeholder="{{ 'Select value' | translate }}" required>
                       {{item}}
                     </ng-select>
                   </div>

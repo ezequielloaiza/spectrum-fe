@@ -145,9 +145,9 @@
                 </div>
                 <!--param values-->
                 <div class="row select-values" *ngIf="parameter.type === 'selected'">
-                  <ng-select (change)="changeSelect('right', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeRight"
+                  <ng-select [items]="parameter.values" [disabled]="!product.eyeRight"
                     [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}"
-                    [required]="product.eyeRight" (clear)="resetParams('right', parameter)">
+                    [required]="product.eyeRight">
                     {{item}}
                   </ng-select>
                 </div>
@@ -191,7 +191,7 @@
                 </div>
                 <!--param values-->
                 <div class="row select-values">
-                  <ng-select (change)="changeSelect('left', parameter, $event)" [items]="parameter.values" [disabled]="!product.eyeLeft"
+                  <ng-select [items]="parameter.values" [disabled]="!product.eyeLeft"
                     [required]="product.eyeLeft" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
                     placeholder="{{ 'Select value' | translate }}">
                     {{item}}

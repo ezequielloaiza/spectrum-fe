@@ -29,7 +29,6 @@ export class MoldedLensesComponent implements OnInit {
   editPrice = false;
   user: any;
   patient: any;
-  codeMarkennovy: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -65,16 +64,15 @@ export class MoldedLensesComponent implements OnInit {
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
     this.patient = this.productRequested.patient;
-    this.codeMarkennovy = this.product.code;
-    let paramet = this.addSign();
+    let parameters = this.product.parameters;
     _.each(this.detail.parameters, function(item) {
-      _.each(paramet, function(productSelected) {
+      _.each(parameters, function(productSelected) {
         if (productSelected.name === item.name) {
           productSelected.selected = item.selected;
         }
      });
     });
-    this.product.parameters = paramet;
+    this.product.parameters = parameters;
   }
 
   save() {
@@ -90,7 +88,7 @@ export class MoldedLensesComponent implements OnInit {
     if (this.typeEdit === 1) { // Basket
         this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
         this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-                                      parameters: this.detail.parameters, code: this.codeMarkennovy}) + ']';
+                                      parameters: this.detail.parameters}) + ']';
         this.productRequested.observations = this.observations;
         this.productRequested.price = this.price;
         this.productRequested.quantity = this.quantity;
@@ -100,7 +98,7 @@ export class MoldedLensesComponent implements OnInit {
    } else { // Order Detail
         this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
         this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-                                         parameters: this.detail.parameters, code: this.codeMarkennovy}) + ']';
+                                         parameters: this.detail.parameters}) + ']';
         this.productRequestedAux.observations = this.observations;
         this.productRequestedAux.price = this.price;
         this.productRequestedAux.quantity = this.quantity;
@@ -140,34 +138,5 @@ export class MoldedLensesComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
-  }
-
-  addSign(): any {
-    let parameters = this.product.parameters;;
-    let auxNeg = [];
-    let auxPos = [];
-    _.each(parameters, function(param, index) {
-      if (param.name === 'Sphere (D)') {
-        _.each(param.values, function(item) {
-            if (_.includes(item, '-') || item === '0.00' ) {
-              auxNeg.push(item);
-            } else {
-              item = '+' + item;
-              auxPos.push(item);
-            }
-        });
-        _.reverse(auxNeg);
-        auxPos = _.concat(auxPos, auxNeg);
-        parameters[index].values = auxPos;
-      }
-    });
-    return parameters;
-  }
-
-
-  resetParams(eye, parameter) {
-  }
-
-  changeSelect(parameter, value) {
   }
 }

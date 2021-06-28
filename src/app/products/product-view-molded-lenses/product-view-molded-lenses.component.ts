@@ -23,9 +23,7 @@ import { ConfirmationMoldedLensesComponent } from '../modals/confirmation-buy/co
 export class ProductViewMoldedLensesComponent implements OnInit {
 
   products: Array<any> = new Array;
-  // productsCode: Array<any> = new Array;
   product: any;
-  // productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -42,8 +40,6 @@ export class ProductViewMoldedLensesComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
-  codeMarkennovyL: any;
-  codeMarkennovyR: any;
 
   constructor(private productService: ProductService,
     private route: ActivatedRoute,
@@ -86,8 +82,6 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     this.product = _.find(this.products, { idProduct: this.id });
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
-    this.codeMarkennovyL = this.product.code;
-    this.codeMarkennovyR = this.product.code;
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
@@ -95,18 +89,6 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     this.product.priceSale = '';
     this.setClient();
     this.setPrice();
-    this.addSign();
-  }
-
-  resetParams(eye, parameter) {
-  }
-
-  changeSelect(eye, parameter, value) {
-    if (parameter.selected === value) {
-      return;
-    }
-
-    parameter.selected = value;
   }
 
   /*setCodeProduct() {
@@ -158,21 +140,17 @@ export class ProductViewMoldedLensesComponent implements OnInit {
   setClient() {
     if (this.user.role.idRole === 3) {
       this.client = this.currentUser.idUser;
-      let accSpct = !!this.currentUser.accSpct ?  this.currentUser.accSpct + ' - ' : '';
-      let cardCode = !!this.currentUser.cardCode ? ' | ' + this.currentUser.cardCode : '';
-      this.product.client = accSpct + this.currentUser.name + cardCode + ' | ' + this.currentUser.country.name;
+      let accSpct = !!this.currentUser.accSpct ? this.currentUser.accSpct + ' - ' : '';
+      this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
       this.findShippingAddress(this.client);
     } else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listCustomersAux = res.data;
-          // Si el proveedor del producto es Markennovy(id:1) se debe preguntar por el cardCode
-          this.listCustomers = _.filter(this.listCustomersAux, function (u) {
-            return !(u.cardCode === null || u.cardCode === '');
-          });
+          this.listCustomers = this.listCustomersAux;
           this.listCustomers.map((i) => {
-            let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
-            i.fullName = accSpct + i.name + ' | ' + i.cardCode + ' | ' + i.country.name;
+            let accSpct = !!i.accSpct ? i.accSpct + ' - ' : '';
+            i.fullName = accSpct + i.name + ' | ' + i.country.name;
             return i;
           });
         }
@@ -232,17 +210,13 @@ export class ProductViewMoldedLensesComponent implements OnInit {
   buildProductsSelected() {
     this.setEyeSelected();
     let product = this.productCopy;
-    //let productCode = this.productCode;
     let productsSelected = this.productsSelected;
-    let codeL = this.codeMarkennovyL;
-    let codeR = this.codeMarkennovyR;
 
     _.each(productsSelected, function (productSelected, index) {
 
       productSelected.id = product.idProduct;
       productSelected.patient = product.patient;
       productSelected.price = product.priceSale;
-      let code: any;
 
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
@@ -251,7 +225,6 @@ export class ProductViewMoldedLensesComponent implements OnInit {
           product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersRight;
-        code = codeR;
       }
 
       if (productSelected.eye === "Left") {
@@ -261,10 +234,9 @@ export class ProductViewMoldedLensesComponent implements OnInit {
           product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
         productSelected.parameters = product.parametersLeft;
-        code = codeL;
       }
 
-      productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters, code:  code};
+      productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters};
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye']);
     });
 
@@ -361,49 +333,4 @@ export class ProductViewMoldedLensesComponent implements OnInit {
       this.product.parametersLeft = parameters;
     }
   }
-
-  addSign() {
-    let parametersR = this.product.parametersRight;
-    let auxNeg = [];
-    let auxPos = [];
-    _.each(parametersR, function (param, index) {
-      if (param.name === 'Sphere (D)') {
-        _.each(param.values, function (item) {
-          if (_.includes(item, '-') || item === '0.00') {
-            auxNeg.push(item);
-          } else {
-            item = '+' + item;
-            auxPos.push(item);
-          }
-        });
-        _.reverse(auxNeg);
-        auxPos = _.concat(auxPos, auxNeg);
-        parametersR[index].values = auxPos;
-      }
-    });
-    this.product.parametersRight = parametersR;
-    // Left
-    let parametersL = this.product.parametersLeft;
-    let auxNegL = [];
-    let auxPosL = [];
-    _.each(parametersL, function (param, index) {
-      if (param.name === 'Sphere (D)') {
-        _.each(param.values, function (item) {
-          if (_.includes(item, '-') || item === '0.00') {
-            auxNegL.push(item);
-          } else {
-            item = '+' + item;
-            auxPosL.push(item);
-          }
-        });
-        _.reverse(auxNegL);
-        auxPosL = _.concat(auxPosL, auxNegL);
-        parametersL[index].values = auxPosL;
-      }
-    });
-    this.product.parametersLeft = parametersL;
-  }
-
-
-
 }
