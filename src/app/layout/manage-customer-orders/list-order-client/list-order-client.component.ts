@@ -307,6 +307,24 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     }
   }
 
+  findByOrdersGrouped(order:any, value:any) {
+    return _.some(order.listOrderGroups, function(order: any) {
+      return ((order.number && order.number.toLowerCase().indexOf(value.toLowerCase()) > -1) ||
+        (order.supplier.companyName.toLowerCase().indexOf(value.toLowerCase()) > -1)) ||
+        (order.listProductRequested.find((pR) => {
+          return (pR.productRequested.patient !== null && pR.productRequested.patient.toLowerCase().indexOf(value.toLowerCase()) > -1);
+        }));
+    });
+  }
+
+  findByOrdersGroupedByProduct(order: any, value: any) {
+    return _.some(order.listOrderGroups, function(order: any) {
+      return (order.listProductRequested.find((pR) => {
+          return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(value.toLowerCase()) > -1);
+        }));
+    });
+  }
+
   getItems(ev: any) {
     this.listOrders = this.listOrdersAux;
     const val = ev.target.value;
@@ -323,13 +341,14 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         && _.toString(this.valorProduct) === '') { // Si no ha seleccionado status y fecha
         this.listOrders = this.listOrders.filter((item) => {
           return ((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            this.findByOrdersGrouped(item, client) ||
             (item.number && item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.supplier.companyName.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.listProductRequested.find((pR) => {
               if (pR.productRequested.patient !== null) {
                 return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
               }
-            }))) ;
+            })));
         });
          //*
          this.listOrdersAux = this.listOrders;
@@ -340,6 +359,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         && _.toString(this.valorProduct) !== '') {// si selecciono status y no fecha ni cliente
         this.listOrders = this.listOrders.filter((item) => {
           return (((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
+            this.findByOrdersGrouped(item, client) ||
             (item.number && item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.supplier.companyName.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
             (item.listProductRequested.find((pR) => {
@@ -347,8 +367,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
                   return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
                 }
               })))
-            && (item.listProductRequested.find((pR) => {
-              return (pR.productRequested.product.name.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1);
+            && (this.findByOrdersGroupedByProduct(item, this.valorProduct) || item.listProductRequested.find((pR) => {
+              return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1);
             })));
         });
          //*
@@ -421,9 +441,9 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       if (_.toString(valorStatus) === '' && this.tamano.length === 9 &&
         _.toString(this.valorClient) === '') { // Si no ha seleccionado cliente, status y fecha
         this.listOrders = this.listOrders.filter((item) => {
-          return item.listProductRequested.find((pR) => {
-            return (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1);
-          });
+          return (this.findByOrdersGroupedByProduct(item, product) || item.listProductRequested.find((pR) => {
+            return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1);
+          }));
         });
         //*
         this.listOrdersAux = this.listOrders;
@@ -433,13 +453,14 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
         && _.toString(this.valorClient) !== '') {// si selecciono status y no fecha ni cliente
         this.listOrders = this.listOrders.filter((item) => {
-          return item.listProductRequested.find((pR) => {
+          return (this.findByOrdersGroupedByProduct(item, product) || item.listProductRequested.find((pR) => {
             return (((item.nameUser.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
+            this.findByOrdersGrouped(item, this.valorClient) ||
             (item.number.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
             (item.supplier.companyName.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
             (pR.productRequested.patient ? pR.productRequested.patient.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1 : false))
-            && (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1));
-          });
+            && (this.findByOrdersGroupedByProduct(item, product) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1)));
+          }));
         });
         //*
         this.listOrdersAux = this.listOrders;
@@ -504,22 +525,22 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const lista = [];
     // Lista actual
     this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
+    _.filter(this.listOrdersAux, function (order) {
       // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))  ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find((pR) => {
+      const fechaList = _.toString(order.date.slice(0, 10));
+      if ((((_.includes(order.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(order.number.toLowerCase(), nombreCliente.toLowerCase()))  ||
+        (_.includes(order.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) || (order.listProductRequested.find((pR) => {
           if (pR.productRequested.patient !== null) {
             return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
           }
         }))) &&
-        (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
+        (this.findByOrdersGroupedByProduct(order, producto) || order.listProductRequested.find((pR) => {
+          return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
         }))) &&
         // tslint:disable-next-line:radix
-        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
+        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), order.paymentStatus))) {
+        lista.push(order);
       }
     });
     //*
@@ -537,14 +558,14 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     const lista = [];
     // Lista actual
       this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
+    _.filter(this.listOrdersAux, function (order) {
       // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if ((orders.listProductRequested.find((pR) => {
-        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+      const fechaList = _.toString(order.date.slice(0, 10));
+      if ((this.findByOrdersGroupedByProduct(order, producto) || order.listProductRequested.find((pR) => {
+        return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); }) &&
         // tslint:disable-next-line:radix
-        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
+        ((_.isEqual(fecha, fechaList)))) && (_.isEqual(parseInt(status), order.paymentStatus))) {
+        lista.push(order);
       }
     });
     //*
@@ -589,20 +610,19 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   filterStatusClienteProducto(nombreCliente, producto, status): void {
     const lista = [];
     this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
-      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-         (orders.listProductRequested.find((pR) => {
+    _.filter(this.listOrdersAux, function (order) {
+      if (((_.includes(order.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(order.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(order.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+         (order.listProductRequested.find((pR) => {
           if (pR.productRequested.patient !== null) {
             return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
           }
-        }))) &&
-        (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+        }))) && (this.findByOrdersGroupedByProduct(order, producto) || order.listProductRequested.find((pR) => {
+          return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
         // tslint:disable-next-line:radix
-        (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
+        (_.isEqual(parseInt(status), order.paymentStatus))) {
+        lista.push(order);
       }
     });
     //*
@@ -616,18 +636,18 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   filterStatusNombre(nombreCliente, status): void {
     const lista = [];
     this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
-      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (orders.listProductRequested.find((pR) => {
+    _.filter(this.listOrdersAux, function (order) {
+      if (((_.includes(order.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(order.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(order.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (order.listProductRequested.find((pR) => {
           if (pR.productRequested.patient !== null) {
             return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
           }
         }))) &&
         // tslint:disable-next-line:radix
-        (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
+        (_.isEqual(parseInt(status), order.paymentStatus))) {
+        lista.push(order);
       }
     });
     //*
@@ -641,12 +661,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   filterStatusProducto(producto, status): void {
     const lista = [];
     this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
-      if (((orders.listProductRequested.find((pR) => {
-        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); }))) &&
+    _.filter(this.listOrdersAux, function (order) {
+      if ((this.findByOrdersGroupedByProduct(order, producto) || order.listProductRequested.find((pR) => {
+        return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
         // tslint:disable-next-line:radix
-        (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
+        (_.isEqual(parseInt(status), order.paymentStatus))) {
+        lista.push(order);
       }
     });
     //*
@@ -663,21 +683,21 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.listOrdersAux = this.list;
     // FechaFiltro
     fecha = this.getFecha();
-    _.filter(this.listOrdersAux, function (orders) {
+    _.filter(this.listOrdersAux, function (order) {
       // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (orders.listProductRequested.find((pR) => {
+      const fechaList = _.toString(order.date.slice(0, 10));
+      if (((_.includes(order.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(order.number.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (_.includes(order.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
+        (order.listProductRequested.find((pR) => {
           if (pR.productRequested.patient !== null) {
             return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
           }
         }))) &&
-        (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+        (this.findByOrdersGroupedByProduct(order, producto) || order.listProductRequested.find((pR) => {
+          return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
         ((_.isEqual(fecha, fechaList)))) {
-        lista.push(orders);
+        lista.push(order);
       }
     });
     //*
@@ -723,13 +743,13 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.listOrdersAux = this.list;
     // FechaFiltro
     fecha = this.getFecha();
-    _.filter(this.listOrdersAux, function (orders) {
+    _.filter(this.listOrdersAux, function (order) {
       // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if ((orders.listProductRequested.find((pR) => {
-        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+      const fechaList = _.toString(order.date.slice(0, 10));
+      if ((this.findByOrdersGroupedByProduct(order, producto) || order.listProductRequested.find((pR) => {
+        return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
         (_.isEqual(fecha, fechaList))) {
-        lista.push(orders);
+        lista.push(order);
       }
     });
     //*
