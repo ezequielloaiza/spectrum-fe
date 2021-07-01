@@ -67,12 +67,24 @@
             <div class="col-md-4 pull-right">
               <p class="font-weight-bold" translate>{{'Order Summary'}}</p>
               <p class="font-weight-normal" translate>{{'Item(s) Subtotal'}}</p>
+              <p *ngIf="order && order.discount" class="font-weight-normal">{{ 'Discount' | translate }} {{order ? order.discount : ''}}%</p>
+              <p *ngIf="order && order.handling" class="font-weight-normal">{{'Handling Cost' | translate }}</p>
+              <p *ngIf="order && order.shippingPrice" class="font-weight-normal" translate>{{'Shipping' | translate}}</p>
               <p class="font-weight-bold" translate>{{'Total'}}</p>
             </div>
             <div class="col-md-2">
               <p class="font-weight-bold text-left" translate>{{'Totals'}}</p>
               <p class="font-weight-normal" translate>
                 <span>{{ (order ? order.subtotal : '') | currency : "USD $" }}</span>
+              </p>
+              <p *ngIf="order && order.discount" class="font-weight-normal" translate>
+                <span>{{ (order ? order.discountAmount : '') | currency : "USD $" }}</span>
+              </p>
+              <p *ngIf="order && order.handling" class="font-weight-normal" translate>
+                <span>{{ (order ? order.handlingPortion : '') | currency : "USD $" }}</span>
+              </p>
+              <p *ngIf="order && order.shippingPrice" class="font-weight-normal" translate>
+                <span>{{ (order && order.shippingPortion ? order.shippingPortion : (order && order.shippingPrice ? order.shippingPrice : '')) | currency : "USD $" }}</span>
               </p>
               <p class="font-weight-bold text-left">{{ (order ? order.total :'') | currency : "USD $" }}</p>
             </div>
