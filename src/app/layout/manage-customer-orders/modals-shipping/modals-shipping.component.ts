@@ -46,7 +46,8 @@ export class ModalsShippingComponent implements OnInit {
       trackingNumber: [''],
       shippingPrice: [''],
       entrustingId : ['', [ Validators.required]],
-      discount: ['']
+      discount: [''],
+      handling: [19.0]
     });
   }
 
@@ -77,8 +78,9 @@ export class ModalsShippingComponent implements OnInit {
       order.idOrder = _order.idOrder;
       order.shippingPrice = self.shippingPrice.value;
       order.trackingNumber = self.trackingNumber.value;
-      order.idEntrustingCompany = self.entrustingId.value
-      order.discount = self.discount.value
+      order.idEntrustingCompany = self.entrustingId.value;
+      order.discount = self.discount.value;
+      order.handling = self.handling.value;
       self.orders.push(order);
     });
     this.orderService.saveShippingOrder$(this.orders).subscribe(
@@ -117,5 +119,5 @@ export class ModalsShippingComponent implements OnInit {
   get shippingPrice() { return this.form.get('shippingPrice'); }
   get entrustingId() { return this.form.get('entrustingId'); }
   get discount() { return this.form.get('discount'); }
-
+  get handling() { return this.form.get('handling'); }
 }
