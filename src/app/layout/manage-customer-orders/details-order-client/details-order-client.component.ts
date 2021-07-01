@@ -309,7 +309,7 @@ export class DetailsOrderClientComponent implements OnInit {
     _.each(order.listDetailsAux, function (item) {
       total = total + item.productRequested.subtotal;
     });
-    order.total = total;
+    order.totalOrder = total;
   }
 
   getReferenceCopy(order) {
