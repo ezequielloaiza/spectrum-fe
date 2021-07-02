@@ -100,6 +100,12 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.listOrders = this.listOrdersAux.slice(startItem, endItem);
   }
 
+  findByProductInOrdersManual(pR: any, value: any) {
+    return pR.productRequested && pR.productRequested.additionalInformation &&
+        pR.productRequested.additionalInformation.description &&
+        pR.productRequested.additionalInformation.description.toLowerCase().indexOf(value.toLowerCase()) > -1;
+  }
+
   getItems(ev: any) {
     this.listOrders = this.listOrdersAux;
     const val = ev.target.value;
@@ -141,7 +147,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
                 }
               })))
             && (item.listProductRequested.find((pR) => {
-              return (pR.productRequested.product.name.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1);
+              return (this.findByProductInOrdersManual(pR, this.valorProduct) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1));
             })));
         });
          //*
@@ -215,7 +221,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
         _.toString(this.valorClient) === '') { // Si no ha seleccionado cliente, status y fecha
         this.listOrders = this.listOrders.filter((item) => {
           return item.listProductRequested.find((pR) => {
-            return (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1);
+            return (this.findByProductInOrdersManual(pR, product) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1));
           });
         });
         //*
@@ -231,7 +237,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
             (item.number.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
             (item.supplier.companyName.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
             (pR.productRequested.patient ? pR.productRequested.patient.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1 : false))
-            && (pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1));
+            && (this.findByProductInOrdersManual(pR, product) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1)));
           });
         });
         //*
@@ -309,7 +315,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
           }
         }))) &&
         (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
+          return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1));
         }))) &&
         // tslint:disable-next-line:radix
         ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
@@ -335,7 +341,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if ((orders.listProductRequested.find((pR) => {
-        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+        return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1)); })) &&
         // tslint:disable-next-line:radix
         ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
@@ -367,7 +373,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
           }
         }))) &&
         (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+          return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1)); })) &&
         ((_.isEqual(fecha, fechaList)))) {
         lista.push(orders);
       }
@@ -390,7 +396,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
       // Fecha Listado
       const fechaList = _.toString(orders.date.slice(0, 10));
       if ((orders.listProductRequested.find((pR) => {
-        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+        return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1)); })) &&
         (_.isEqual(fecha, fechaList))) {
         lista.push(orders);
       }
@@ -408,7 +414,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.listOrdersAux = this.list;
     _.filter(this.listOrdersAux, function (orders) {
       if (((orders.listProductRequested.find((pR) => {
-        return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); }))) &&
+        return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1)); }))) &&
         // tslint:disable-next-line:radix
         (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
@@ -435,7 +441,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
           }
         }))) &&
         (orders.listProductRequested.find((pR) => {
-          return (pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
+          return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1)); })) &&
         // tslint:disable-next-line:radix
         (_.isEqual(parseInt(status), orders.paymentStatus))) {
         lista.push(orders);
