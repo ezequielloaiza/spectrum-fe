@@ -26,6 +26,7 @@ import { StatusUser } from '../../../../shared/enum/status-user.enum';
 })
 export class ConfirmationEuropaComponent implements OnInit {
 
+  typeOrder: any;
   datos: any;
   product: any;
   file: File;
@@ -224,6 +225,7 @@ export class ConfirmationEuropaComponent implements OnInit {
         // this.validateAvailableBalance();
         // if (this.available) {
             this.spinner.show();
+            this.buyNow.typeOrder = this.typeOrder;
             this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
             if (res.code === CodeHttp.ok) {
               this.save_success = true;

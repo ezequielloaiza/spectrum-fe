@@ -25,6 +25,8 @@ import { FileProductRequestedService } from '../../../../shared/services/filepro
   styleUrls: ['./confirmation-orion.component.scss']
 })
 export class ConfirmationOrionComponent implements OnInit {
+
+  typeOrder: any;
   datos: any;
   product: any;
   codeSpectrum: any;
@@ -142,6 +144,7 @@ export class ConfirmationOrionComponent implements OnInit {
         this.buyNow.listFileRightEye = this.listFileRightEye;
         this.buyNow.listFileLeftEye = this.listFileLeftEye;
         this.buyNow.idRole = this.role;
+        this.buyNow.typeOrder = this.typeOrder;
         // this.validateAvailableBalance();
         // if (this.available) {
             this.spinner.show();

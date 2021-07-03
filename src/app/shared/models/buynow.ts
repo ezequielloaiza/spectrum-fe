@@ -5,6 +5,7 @@ export class BuyNow {
 
     public idUser: number;
     public idRole: number;
+    public typeOrder: string;
     public productRequestedList: Array<ProductRequested>;
     public listFileRightEye: Array<FileProductRequested>;
     public listFileLeftEye: Array<FileProductRequested>;

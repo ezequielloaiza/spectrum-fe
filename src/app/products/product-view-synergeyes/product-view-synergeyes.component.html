@@ -39,6 +39,24 @@
         </div>
       </div>
 
+      <div *ngIf="user.role.idRole !== 3">
+        <span class="title">{{ 'Type Order' | translate }}</span>
+        <div class="d-flex">
+          <div class="custom-control custom-radio mr-3">
+            <input type="radio" id="order-new" name="orderType" value="new" [(ngModel)]="typeOrder"  class="custom-control-input" [checked]="typeOrder === 'new'">
+            <label class="custom-control-label" for="order-new">{{ 'New' | translate }}</label>
+          </div>
+          <div class="custom-control custom-radio mr-3">
+            <input type="radio" id="order-duplicate" name="orderType" value="duplicate" [(ngModel)]="typeOrder" class="custom-control-input" [checked]="typeOrder === 'duplicate'">
+            <label class="custom-control-label" for="order-duplicate">{{ 'Duplicate' | translate }}</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="order-warranty" name="orderType" value="warranty" [(ngModel)]="typeOrder" class="custom-control-input" [checked]="typeOrder === 'warranty'">
+            <label class="custom-control-label" for="order-warranty">{{ 'warranty' | translate }}</label>
+          </div>
+        </div>
+      </div>
+
       <!-- row (properties-material-replacement-warranty-sheet) -->
       <div class="row product-info">
         <div class="col-md-3">
@@ -386,7 +404,7 @@
             (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
             {{ 'Buy Now' | translate }}
           </button>
-          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
+          <button *ngIf="typeOrder === 'new'" class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
             [disabled]="!formIsValid()">
             <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
           </button>

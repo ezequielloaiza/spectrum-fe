@@ -57,6 +57,7 @@ export class ProductViewOrionComponent implements OnInit {
   download = false;
   type: any;
   parameterType: any;
+  typeOrder = 'new';
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
@@ -820,6 +821,7 @@ export class ProductViewOrionComponent implements OnInit {
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     modalRef.componentInstance.role = this.user.role.idRole;
+    modalRef.componentInstance.typeOrder = this.typeOrder;
     modalRef.result.then((result) => {
       this.ngOnInit();
     }, (reason) => {

@@ -57,6 +57,7 @@ export class ProductViewBlueComponent implements OnInit {
   queueLimit = 5;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
+  typeOrder = 'new';
   private uploadResult: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
@@ -334,6 +335,7 @@ export class ProductViewBlueComponent implements OnInit {
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.typeOrder = this.typeOrder;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {

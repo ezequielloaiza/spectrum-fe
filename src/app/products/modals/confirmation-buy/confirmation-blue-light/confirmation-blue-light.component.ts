@@ -26,6 +26,7 @@ import { StatusUser } from '../../../../shared/enum/status-user.enum';
 })
 export class ConfirmationBlueLightComponent implements OnInit {
 
+  typeOrder: any;
   datos: any;
   product: any;
   file: File;
@@ -146,6 +147,7 @@ export class ConfirmationBlueLightComponent implements OnInit {
         this.buyNow.idRole = this.role;
         this.buyNow.listFileRightEye = this.listFileRightEye;
         this.buyNow.listFileLeftEye = this.listFileLeftEye;
+        this.buyNow.typeOrder = this.typeOrder;
         // this.validateAvailableBalance();
 
         // if (this.available) {

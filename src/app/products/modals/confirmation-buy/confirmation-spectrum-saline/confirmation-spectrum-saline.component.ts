@@ -25,6 +25,7 @@ import { StatusUser } from '../../../../shared/enum/status-user.enum';
 })
 export class ConfirmationSpectrumSalineComponent implements OnInit {
 
+  typeOrder: any;
   datos: any;
   product: any;
   role: any;
@@ -123,6 +124,7 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
         this.buyNow.idRole = this.role;
         this.basketRequest.listFileRightEye = [];
         this.basketRequest.listFileLeftEye = [];
+        this.buyNow.typeOrder = this.typeOrder;
         // this.validateAvailableBalance();
         // if (this.available) {
             this.spinner.show();
