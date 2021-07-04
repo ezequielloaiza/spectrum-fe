@@ -25,6 +25,7 @@ import { StatusUser } from '../../../../shared/enum/status-user.enum';
 })
 export class ConfirmationSpectrumSalineComponent implements OnInit {
 
+  typeOrder: any;
   datos: any;
   product: any;
   role: any;
@@ -123,6 +124,7 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
         this.buyNow.idRole = this.role;
         this.basketRequest.listFileRightEye = [];
         this.basketRequest.listFileLeftEye = [];
+        this.buyNow.typeOrder = this.typeOrder;
         // this.validateAvailableBalance();
         // if (this.available) {
             this.spinner.show();
@@ -169,7 +171,8 @@ export class ConfirmationSpectrumSalineComponent implements OnInit {
     if (this.user.role.idRole === 3) {
       this.router.navigate(['/order-list-client'], { queryParams: { status: 0 } });
     } else if ( this.user.role.idRole === 1) {
-      this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 1 } });
+      const status = this.typeOrder === 'new' ? 1 : 0;
+      this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: status } });
     } else if ( this.user.role.idRole === 2) {
       this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
     }

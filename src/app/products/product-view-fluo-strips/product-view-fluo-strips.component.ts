@@ -35,6 +35,7 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 })
 export class ProductViewFluoStripsComponent implements OnInit {
 
+  typeOrder = 'new';
   products: Array<any> = new Array;
   productsCode: Array<any> = new Array;
   product: any;
@@ -262,6 +263,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.view = 2; // fluo strips
+    modalRef.componentInstance.typeOrder = this.typeOrder;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {

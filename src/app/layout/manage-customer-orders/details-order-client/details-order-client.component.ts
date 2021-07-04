@@ -316,7 +316,10 @@ export class DetailsOrderClientComponent implements OnInit {
     let reference = '';
     if (order.type) {
       const type = this.translate.instant(order.type);
-      reference = ' (' + type + ': ' + '#' + order.originReference + ') '
+      if (order.originReference) {
+        return reference = ' (' + type + ': ' +  '#' + order.originReference + ') ';
+      }
+      reference = ' (' + type + ') ';
     }
     return reference;
   }

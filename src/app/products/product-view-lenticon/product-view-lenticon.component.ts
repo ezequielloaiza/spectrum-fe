@@ -66,6 +66,7 @@ export class ProductViewLenticonComponent implements OnInit {
   listFileRightEye: Array<FileProductRequested> = new Array;
   private uploadResultLeftEye: any = null;
   private uploadResultRightEye: any = null;
+  typeOrder = 'new';
   public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
@@ -482,6 +483,7 @@ export class ProductViewLenticonComponent implements OnInit {
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
+    modalRef.componentInstance.typeOrder = this.typeOrder;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
