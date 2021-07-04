@@ -139,8 +139,6 @@ const URL = environment.apiUrl + 'order/uploader-file-pre-order';
 
     onSelectedSupplier() {
       if (this.preOrder.supplierId) {
-        this.preOrder.userId = null;
-        this.getClient();
       } else {
         this.listCustomers = [];
       }
@@ -223,6 +221,7 @@ const URL = environment.apiUrl + 'order/uploader-file-pre-order';
 
     formIsValid() {
       let isValid = true;
+      debugger
       if (this.validValue(this.preOrder.userId) || this.validValue(this.preOrder.supplierId) ||
           this.validValue(this.preOrder.patient) || this.validValue(this.preOrder.product)) {
         isValid = false;
