@@ -26,6 +26,7 @@ import { StatusUser } from '../../../../shared/enum/status-user.enum';
 })
 export class ConfirmationEuropaComponent implements OnInit {
 
+  typeOrder: any;
   datos: any;
   product: any;
   file: File;
@@ -224,6 +225,7 @@ export class ConfirmationEuropaComponent implements OnInit {
         // this.validateAvailableBalance();
         // if (this.available) {
             this.spinner.show();
+            this.buyNow.typeOrder = this.typeOrder;
             this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
             if (res.code === CodeHttp.ok) {
               this.save_success = true;
@@ -292,7 +294,8 @@ export class ConfirmationEuropaComponent implements OnInit {
     if (this.user.role.idRole === 3) {
       this.router.navigate(['/order-list-client'], { queryParams: { status: 0 } });
     } else if ( this.user.role.idRole === 1) {
-      this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 1 } });
+      const status = this.typeOrder === 'new' ? 1 : 0;
+      this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: status } });
     } else if ( this.user.role.idRole === 2) {
       this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
     }

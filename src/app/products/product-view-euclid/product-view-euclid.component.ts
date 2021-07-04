@@ -57,6 +57,7 @@ export class ProductViewEuclidComponent implements OnInit {
   warrantyLeft = false;
   download = false;
   type: any;
+  typeOrder = 'new';
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
@@ -569,6 +570,7 @@ export class ProductViewEuclidComponent implements OnInit {
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.additional = this.product.additional;
+    modalRef.componentInstance.typeOrder = this.typeOrder;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
