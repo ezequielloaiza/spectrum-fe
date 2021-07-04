@@ -35,7 +35,6 @@ import { ShippingProtocolComponent } from './user/detail-user/shipping-protocol/
 import { InvoiceClientQBOComponent } from './invoice-client-qbo/invoice-client-qbo.component';
 import { ConsultationFormListComponent } from './manage-consultation-form/consultation-form-list/consultation-form-list.component';
 import { CreateOrderComponent } from './create-order/create-order.component';
-import { PreOrderComponent } from './pre-order/pre-order.component';
 
 const routes: Routes = [
   {
@@ -103,10 +102,6 @@ const routes: Routes = [
       {
         path: 'create/order', component: CreateOrderComponent,
         data: { option: 'CreateOrder' }
-      },
-      {
-        path: 'pre/order', component: PreOrderComponent,
-        data: { option: 'PreOrder' }
       },
       {
         path: 'user', component: UserComponent,

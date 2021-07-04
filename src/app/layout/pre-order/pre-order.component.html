@@ -1,21 +1,25 @@
-<div class="row page-header-fixed" *ngIf="!modoEdit">
+<div class="info-breadcrumbs">
   <div class="header-body">
     <h4 class="page-header">
-      {{ 'Orders List' | translate }}
+      {{ 'Product Details' | translate }}
     </h4>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']"><i class="fa fa-dashboard"></i> {{
-          'Dashboard' | translate }}</a>
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/products']">
+          <i class="fa fa-edit"></i> {{ 'Products List' | translate }}</a>
       </li>
       <li class="breadcrumb-item active">
-        <i class="fa fa-folder-open"></i> {{ 'Orders List' | translate}}</li>
+        <i class="fa fa-eye"></i> {{ 'Product Details' | translate}}</li>
     </ol>
   </div>
 </div>
 
 <div class="padding-detail">
-  <div class="p-3">
+  <div class="card">
     <!-- name-price -->
     <div class="main-info">
       <h3 class="product-title">{{'Order Form For' | translate }}:
@@ -24,12 +28,26 @@
       </h3>
     </div>
 
+    <div>
+      <span class="title">{{ 'Order Type' | translate }}</span>
+      <div class="d-flex">
+        <div class="custom-control custom-radio mr-3">
+          <input type="radio" id="order-duplicate" name="orderType" value="Duplicate" [(ngModel)]="preOrder.typeOrder" class="custom-control-input" [checked]="typeOrder === 'duplicate'">
+          <label class="custom-control-label" for="order-duplicate">{{ 'Duplicate' | translate }}</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" id="order-warranty" name="orderType" value="Warranty" [(ngModel)]="preOrder.typeOrder" class="custom-control-input" [checked]="typeOrder === 'warranty'">
+          <label class="custom-control-label" for="order-warranty">{{ 'Warranty' | translate }}</label>
+        </div>
+      </div>
+    </div>
+
     <!-- supplier -->
     <div class="row product-info">
       <div class="col-lg-4">
         <dt class="title">{{ 'Select Provider' | translate }}</dt>
         <div class="row info-content">
-          <ng-select [items]="suppliers" [(ngModel)]="preOrder.supplierId" (change)="onSelectedSupplier($event)" required
+          <ng-select [items]="listSupplier" [(ngModel)]="preOrder.supplierId" (change)="onSelectedSupplier($event)" required
             [virtualScroll]="true" bindLabel="companyName" bindValue="idSupplier"
             placeholder="{{ 'Select Provider' | translate }}">
           </ng-select>
@@ -39,7 +57,11 @@
       <!-- client -->
       <div class="col-lg-4">
         <dt class="title">{{ 'Customer Name' | translate }}</dt>
-        <div class="row info-content">
+        <div class="row info-content" [hidden]="user.role.idRole !== 3">
+          <input class="form-control" [(ngModel)]="fullNameClient" type="text" placeholder="{{ 'Enter name customer' | translate }}" required
+             disabled>
+        </div>
+        <div class="row info-content" [hidden]="user.role.idRole === 3">
           <ng-select [items]="listCustomers" [(ngModel)]="preOrder.userId" (change)="onSelectedClient($event)" required
             [virtualScroll]="true" bindLabel="fullName" bindValue="idUser"
             placeholder="{{ 'Select value' | translate }}">

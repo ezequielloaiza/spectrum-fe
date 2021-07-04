@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { SupplieruserService } from '../../shared/services/supplieruser/supplieruser.service';
 
 const URL = environment.apiUrl + 'order/uploader-file-pre-order';
 
@@ -25,8 +26,11 @@ const URL = environment.apiUrl + 'order/uploader-file-pre-order';
     @ViewChild('selectedFiles') selectedFiles: any;
 
     files: Array<any>;
-
-    suppliers: Array<any> = new Array;
+    currentUser: any;
+    user: any;
+    listSupplier: Array<any> = new Array();
+    listSupplierAux: Array<any> = new Array();
+    listSupplierFilter: Array<any> = new Array();
     listCustomers: Array<any> = new Array;
     listFile: Array<FileProductRequested> = new Array;
     shippingAddress = '';
@@ -39,9 +43,11 @@ const URL = environment.apiUrl + 'order/uploader-file-pre-order';
       supplierId: null,
       orderNumber: null,
       invoiceNumber: null,
-      product: null
+      product: null,
+      typeOrder: 'Duplicate'
     };
     queueLimit = 5;
+    fullNameClient = '';
     maxFileSize = 25 * 1024 * 1024; // 25 MB
     private uploadResult: any = null;
 
@@ -61,6 +67,7 @@ const URL = environment.apiUrl + 'order/uploader-file-pre-order';
                  private userService: UserService,
                  private ordeService: OrderService,
                  private shippingAddressService: ShippingAddressService,
+                 private supplierUserService: SupplieruserService,
                  private spinner: NgxSpinnerService,
                  public router: Router,
                  private notification: ToastrService,
@@ -87,18 +94,27 @@ const URL = environment.apiUrl + 'order/uploader-file-pre-order';
     }
 
     ngOnInit(): void {
+      this.currentUser = JSON.parse(this.userStorageService.getCurrentUser()).userResponse;
+      this.user = JSON.parse(this.userStorageService.getCurrentUser());
+      this.setClient();
       this.getSuppliers();
     }
 
+    setClient() {
+      if (this.user.role.idRole === 3) {
+        this.preOrder.userId = this.currentUser.idUser;
+        const accSpct = !!this.currentUser.accSpct ?  this.currentUser.accSpct + ' - ' : '';
+        this.fullNameClient = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
+        this.findShippingAddress(this.preOrder.userId);
+      }
+    }
+
     getSuppliers() {
-      this.supplierService.findAll$().subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.suppliers = this.suppliers = _.orderBy(res.data, 'companyName');
-        } else {
-          console.log(res.errors[0].detail);
-        }
-      }, error => {
-        console.log('error', error);
+      this.supplierUserService.findIdUser$(this.currentUser.idUser).subscribe(res => {
+        res.data.forEach(obj => {
+          this.listSupplier.push(obj.supplier);
+        });
+        this.listSupplier =  _.orderBy(this.listSupplier, 'companyName');
       });
     }
 
@@ -118,6 +134,8 @@ const URL = environment.apiUrl + 'order/uploader-file-pre-order';
         this.spinner.hide();
       });
     }
+
+
 
     onSelectedSupplier() {
       if (this.preOrder.supplierId) {

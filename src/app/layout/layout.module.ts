@@ -110,7 +110,6 @@ import { EditConsultationFormComponent } from './manage-consultation-form/edit-c
 import { CreateOrderComponent } from './create-order/create-order.component';
 import { SupplierGeneralComponent } from './details-order-supplier/supplier-general/supplier-general.component';
 import { GeneralOrderComponent } from './edit-order/general-order/general-order.component';
-import { PreOrderComponent } from './pre-order/pre-order.component';
 
 @NgModule({
     imports: [
@@ -228,8 +227,7 @@ import { PreOrderComponent } from './pre-order/pre-order.component';
         EditConsultationFormComponent,
         CreateOrderComponent,
         SupplierGeneralComponent,
-        GeneralOrderComponent,
-        PreOrderComponent
+        GeneralOrderComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,

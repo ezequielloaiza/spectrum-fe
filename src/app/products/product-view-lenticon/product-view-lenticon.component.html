@@ -40,7 +40,7 @@
       </div>
 
       <div *ngIf="user.role.idRole !== 3">
-        <span class="title">{{ 'Type Order' | translate }}</span>
+        <span class="title">{{ 'Order Type' | translate }}</span>
         <div class="d-flex">
           <div class="custom-control custom-radio mr-3">
             <input type="radio" id="order-new" name="orderType" value="new" [(ngModel)]="typeOrder"  class="custom-control-input" [checked]="typeOrder === 'new'">
@@ -52,7 +52,7 @@
           </div>
           <div class="custom-control custom-radio">
             <input type="radio" id="order-warranty" name="orderType" value="warranty" [(ngModel)]="typeOrder" class="custom-control-input" [checked]="typeOrder === 'warranty'">
-            <label class="custom-control-label" for="order-warranty">{{ 'warranty' | translate }}</label>
+            <label class="custom-control-label" for="order-warranty">{{ 'Warranty' | translate }}</label>
           </div>
         </div>
       </div>

@@ -46,6 +46,7 @@ import { ConfirmationOrionComponent } from './modals/confirmation-buy/confirmati
 import { CommonsModule } from '../commons.module';
 import { ConsultationFormComponent } from './consultation-form/consultation-form.component';
 import { ProductViewXsbComponent } from './product-view-xsb/product-view-xsb.component';
+import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
 
 @NgModule({
   imports: [
@@ -96,7 +97,8 @@ import { ProductViewXsbComponent } from './product-view-xsb/product-view-xsb.com
     ProductViewOrionComponent,
     ConfirmationOrionComponent,
     ConsultationFormComponent,
-    ProductViewXsbComponent
+    ProductViewXsbComponent,
+    PreOrderComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
