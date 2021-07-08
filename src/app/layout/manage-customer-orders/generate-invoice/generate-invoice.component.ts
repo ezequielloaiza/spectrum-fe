@@ -383,7 +383,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.quantity = pRequested.productRequested.quantity;
       let code = '';
       let name = '';
-      if (order.orderType !== null && order.orderType === 'GENERIC') {
+      if (pRequested.productRequested.additionalInformation != null) {
         name = pRequested.productRequested.additionalInformation.description;
       } else {
         // tslint:disable-next-line:max-line-length
@@ -393,7 +393,8 @@ export class GenerateInvoiceComponent implements OnInit {
         pRequested.productRequested.product.material : '');
       }
       productR.description = code + name;
-      productR.codeSpectrum = order.orderType === 'GENERIC' ? pRequested.productRequested.additionalInformation.codeSpectrum
+      productR.codeSpectrum = pRequested.productRequested.additionalInformation !== null
+      ? pRequested.productRequested.additionalInformation.codeSpectrum
       : pRequested.productRequested.product.codeSpectrum;
       productR.patient = pRequested.productRequested.patient === '' ? 'Not apply' : pRequested.productRequested.patient;
       productR.delete = false;

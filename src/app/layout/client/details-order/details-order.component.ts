@@ -240,14 +240,17 @@ export class DetailsOrderComponent implements OnInit {
     _.each(this.listDetailsAux, function (item) {
       total = total + item.productRequested.subtotal;
     });
-    this.order.total = total;
+    this.order.totalOrder = total;
   }
 
   getReferenceCopy(order) {
     let reference = '';
     if (order.type) {
       const type = this.translate.instant(order.type);
-      reference = ' (' + type + ': ' + '#' + order.originReference + ') '
+      if (order.originReference) {
+        return reference = ' (' + type + ': ' +  '#' + order.originReference + ') ';
+      }
+      reference = ' (' + type + ') ';
     }
     return reference;
   }

@@ -219,7 +219,7 @@
             (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
             {{ 'Buy Now' | translate }}
           </button>
-          <button class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
+          <button *ngIf="typeOrder === 'new'" class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
             [disabled]="!formIsValid()">
             <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
           </button>

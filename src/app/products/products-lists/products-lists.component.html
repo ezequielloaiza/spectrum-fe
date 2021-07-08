@@ -69,6 +69,21 @@
             </a>
           </div>
         </div>
+        <div class="col-md-4" *ngIf="user.role.idRole === 3">
+          <div class="mb-4 box-shadow">
+            <a class="prodTeaser" >
+              <div class="prodTeaser-overlay" (click)="openOrder()">
+                <i class="prodTeaser-more">{{ 'View' | translate }}</i>
+              </div>
+              <div class="prodTeaser-inner">
+                <img
+                  class="card-img-top-teaser"
+                  src="assets/images/duplicate-warranties.png"
+                />
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-sm-1 col-md-1 col-lg-1"></div>
