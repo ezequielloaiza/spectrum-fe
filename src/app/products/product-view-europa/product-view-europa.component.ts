@@ -132,6 +132,7 @@ export class ProductViewEuropaComponent implements OnInit {
   });
   axesNotch: any;
   axesSelected: any;
+  typeOrder = 'new';
 
   constructor(private productService: ProductService,
     private route: ActivatedRoute,
@@ -1109,6 +1110,7 @@ export class ProductViewEuropaComponent implements OnInit {
     modalRef.componentInstance.additionalInserts = this.inserts;
     modalRef.componentInstance.additionalNotch = this.notch;
     modalRef.componentInstance.additionalThickness = this.thickness;
+    modalRef.componentInstance.typeOrder = this.typeOrder;
     modalRef.result.then((result) => {
       this.ngOnInit();
     }, (reason) => {
