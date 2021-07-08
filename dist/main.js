@@ -972,6 +972,7 @@ var RoleAdmin;
     RoleAdmin[RoleAdmin["ConsultationFormComponent"] = 46] = "ConsultationFormComponent";
     RoleAdmin[RoleAdmin["ProductViewXsbComponent"] = 47] = "ProductViewXsbComponent";
     RoleAdmin[RoleAdmin["CreateOrder"] = 48] = "CreateOrder";
+    RoleAdmin[RoleAdmin["PreOrder"] = 49] = "PreOrder";
 })(RoleAdmin || (RoleAdmin = {}));
 
 
@@ -1077,6 +1078,7 @@ var RoleUser;
     RoleUser[RoleUser["ConsultationFormComponent"] = 29] = "ConsultationFormComponent";
     RoleUser[RoleUser["ConsultationFormList"] = 30] = "ConsultationFormList";
     RoleUser[RoleUser["ProductViewXsbComponent"] = 31] = "ProductViewXsbComponent";
+    RoleUser[RoleUser["PreOrder"] = 32] = "PreOrder";
 })(RoleUser || (RoleUser = {}));
 
 
@@ -2604,6 +2606,9 @@ var OrderService = /** @class */ (function () {
     };
     OrderService.prototype.saveOrderGeneral$ = function (buyNow) {
         return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/saveOrderGeneral', buyNow);
+    };
+    OrderService.prototype.savePreOrder$ = function (preOrder) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/pre-order', preOrder);
     };
     OrderService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
