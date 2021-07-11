@@ -527,6 +527,7 @@
                       </div>
                       <span class="unassigned">{{ invShippingProtocol?.shippingDetails ? invShippingProtocol.shippingDetails : 'Unassigned' }}</span>
                     </div>
+                    <!-- comentado por ya no se requiere este protocolo
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbAccountNumber" type="checkbox" [checked]="editAccountNumber" (change)="editAccountNumber = !editAccountNumber" class="custom-control-input">
@@ -547,6 +548,7 @@
                       />
                       <span *ngIf="!editAccountNumber" class="unassigned">{{ invShippingProtocol?.accountNumber ? invShippingProtocol.accountNumber : 'Unassigned' }}</span>
                     </div>
+                    -->
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbComments" type="checkbox" [checked]="editComment" (change)="editComment = !editComment" class="custom-control-input">
@@ -573,6 +575,7 @@
                       </div>
                       <span class="unassigned">{{ invShippingProtocol?.dmv ? invShippingProtocol.dmv : 'Unassigned' }}</span>
                     </div>
+                    <!--
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbEmailComment" type="checkbox" [checked]="editEmailComment" (change)="editEmailComment = !editEmailComment" class="custom-control-input">
@@ -592,8 +595,9 @@
                         placeholder="{{ 'Enter email comments' | translate }}"
                       ></textarea>
                       <span *ngIf="!editEmailComment" class="unassigned">{{ invShippingProtocol?.emailComment ? invShippingProtocol.emailComment : 'Unassigned' }}</span>
-                    </div>
+                    </div> -->
                   </div>
+                 
                 </ng-template>
               </ngb-tab>
               <ngb-tab title="{{'Proforma Protocols'| translate}}">
@@ -762,6 +766,7 @@
                       ></textarea>
                       <span *ngIf="!editComments" class="unassigned">{{ invProtocolProforma?.comments ? invProtocolProforma.comments : 'Unassigned' }}</span>
                     </div>
+                    <!--
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbEmailComment2" type="checkbox" [checked]="editEmailCommentProforma" (change)="editEmailCommentProforma = !editEmailCommentProforma" class="custom-control-input">
@@ -781,6 +786,7 @@
                       ></textarea>
                       <span *ngIf="!editEmailCommentProforma" class="unassigned">{{ invProtocolProforma?.emailComment ? invProtocolProforma.emailComment : 'Unassigned' }}</span>
                     </div>
+                    -->
                     <div class="form-group pr-3 half-flex">
                       <div *ngIf="!pilot" class="custom-control custom-checkbox">
                         <input id="cbTariffCodes" type="checkbox" [checked]="editTariffCodes" (change)="editTariffCodes = !editTariffCodes" class="custom-control-input">
