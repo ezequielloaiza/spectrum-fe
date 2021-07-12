@@ -355,8 +355,8 @@
                 </div>
                 <div class="col-xl-12 truncate" *ngIf="invShippingProtocol || editCountry">
                   <label *ngIf="(pilot && invShippingProtocol?.country != null) || (!pilot && editCountry)" class="bold">{{ 'Country' }}: </label>
-                  <label *ngIf="pilot && invShippingProtocol?.country != null" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol.country : '') }}</label>
-                  <label *ngIf="!pilot && editCountry" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.country : '') }}</label>
+                  <label *ngIf="pilot && invShippingProtocol?.country != null" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol.countryName : '') }}</label>
+                  <label *ngIf="!pilot && editCountry" class="margin-left">{{ (invShippingProtocol ? invShippingProtocol?.countryName : '') }}</label>
                 </div>
                 <div class="col-xl-12 truncate" *ngIf="protocolShippingInv || editBusinessName || editRecipient || editComment">
                   <!--
@@ -440,6 +440,7 @@
                           *ngIf="editCountry"
                           [ngModel]="invShippingProtocol?.country"
                           (blur)="updateCountry($event)"
+                          (change)="selectCountry($event)"
                         >
                         </ng-select>
                       </div>
