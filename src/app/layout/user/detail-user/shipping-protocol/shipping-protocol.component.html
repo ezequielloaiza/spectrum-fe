@@ -19,7 +19,7 @@
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'ACC Number' | translate }}</label>
                 <input type="text" class="form-control" formControlName="accNumber" maxlength="120" *ngIf="edit"
-                  placeholder="{{ 'Enter ACC number' | translate }}" />
+                  placeholder="{{ 'Enter ACC number' | translate }}"/>
                 <div class="truncate" *ngIf="!edit">
                   <span [ngClass]="{ unassigned: !protocol.accNumber }">{{ protocol.accNumber ? protocol.accNumber :
                     'Unassigned'
@@ -140,7 +140,7 @@
               </div>
             </div>
             <div class="d-flex">
-              <div class="form-group pr-3 half-flex">
+              <!--<div class="form-group pr-3 half-flex">
                 <label>{{ 'Account Number for Shipping Carrier' | translate }}</label>
                 <input type="text" class="form-control" formControlName="accountNumber" maxlength="120" *ngIf="edit"
                   placeholder="{{ 'Enter account number for shipping carrier' | translate }}" />
@@ -149,7 +149,7 @@
                     'Unassigned' | translate
                   }}</span>
                 </div>
-              </div>
+              </div>-->
               <div class="form-group pr-3 half-flex">
                 <label>{{ 'Comments' | translate }}</label>
                 <textarea style="overflow-x: hidden;" type="text" class="form-control" formControlName="comment"
@@ -162,7 +162,7 @@
               </div>
             </div>
             <div class="d-flex">
-
+              <!-- se comento por ya no es necesario este protocolo
               <div class="form-group pr-3 half-flex">
                 <label *ngIf="true">{{ 'Email Comments' | translate }}</label>
                 <textarea style="overflow-x: hidden;" *ngIf="edit" type="text" class="form-control"
@@ -173,7 +173,7 @@
                     'Unassigned' | translate
                   }}</span>
                 </div>
-              </div>
+              </div>-->
 
               <div class="form-group pr-3 half-flex">
                 <label *ngIf="false">{{ 'DMV' | translate }}</label>
@@ -213,7 +213,7 @@
             </div>
             <!--Manage all-->
             <div class="row" *ngFor="let protocol of protocols | keyvalue">
-              <div class="w-100 border-protocol p-3 mb-3">
+              <div class="w-100 border-protocol p-3 mb-3" [hidden]="protocol.value.label === 'Account Number for Shipping Carrier' || protocol.value.label === 'Email Comments'">
                 <div class="d-flex w-100 border-bottom">
                   <div class="w-50 mr-3">
                     <label class="font-weight-bold">{{ protocol.value.label | translate }}</label>

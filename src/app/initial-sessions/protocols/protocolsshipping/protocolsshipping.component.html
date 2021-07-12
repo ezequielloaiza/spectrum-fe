@@ -53,7 +53,7 @@
   <div class="w-46 m-4" *ngFor="let protocol of formProtocol.protocols, let pos = index">
     <!--<div class="w-100 border-protocol p-3 mb-3">-->
     <!--INPUTS-->
-    <div *ngFor="let value of protocol.values; let pos = index" class="form-inputs">
+    <div *ngFor="let value of protocol.values; let pos = index" class="form-inputs" [hidden]="value.label === 'Account Number for Shipping Carrier' || value.label === 'Shipping Details'">
 
       <!--PROTOCOL NAME-->
       <div class="margin-title">
