@@ -221,7 +221,6 @@ const URL = environment.apiUrl + 'order/uploader-file-pre-order';
 
     formIsValid() {
       let isValid = true;
-      debugger
       if (this.validValue(this.preOrder.userId) || this.validValue(this.preOrder.supplierId) ||
           this.validValue(this.preOrder.patient) || this.validValue(this.preOrder.product)) {
         isValid = false;
