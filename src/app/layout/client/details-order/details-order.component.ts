@@ -254,4 +254,10 @@ export class DetailsOrderComponent implements OnInit {
     }
     return reference;
   }
+
+  // idSupplier 2 europa, 3 lenticon
+  hasAttributeTypeLens(list) {
+    return list.productRequested.product.supplier &&
+      _.includes([2, 3], list.productRequested.product.supplier.idSupplier);
+  }
 }
