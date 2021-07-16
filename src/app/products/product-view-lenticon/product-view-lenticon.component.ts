@@ -67,6 +67,9 @@ export class ProductViewLenticonComponent implements OnInit {
   private uploadResultLeftEye: any = null;
   private uploadResultRightEye: any = null;
   typeOrder = 'new';
+  typeLensLeft: any;
+  typeLensRight: any;
+
   public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
@@ -179,10 +182,17 @@ export class ProductViewLenticonComponent implements OnInit {
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
+
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
-    this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+    this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
     this.product.setRight = JSON.parse(this.product.types)[0].set;
+    this.changeTypeLens('right', 'Please design my lens');
+
+    this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+    this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
     this.product.setLeft = JSON.parse(this.product.types)[0].set;
+    this.changeTypeLens('left', 'Please design my lens');
+
     this.product.priceSaleRight = 0;
     this.product.priceSaleLeft = 0;
     this.product.pupillaryRight = null;
@@ -368,6 +378,7 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   buildProductsSelected() {
+    let self = this;
     this.setEyeSelected();
     let product = this.productCopy;
     let productCode = this.productCode;
@@ -382,12 +393,12 @@ export class ProductViewLenticonComponent implements OnInit {
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
+        productSelected.typeLens = self.typeLensRight.selected;
 
         /* set*/
         _.each(product.setRight, function(parameter, index) {
-          if (parameter.name === 'num.LC') {
-            let value = parameter.selected.value;
-            parameter.selected = value;
+          if (parameter.name === 'num.LC' && parameter.selected) {
+            parameter.selected = parameter.selected.value;
           }
           product.setRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
@@ -409,12 +420,12 @@ export class ProductViewLenticonComponent implements OnInit {
       if (productSelected.eye === "Left") {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
+        productSelected.typeLens = self.typeLensLeft.selected;
 
         /* set*/
         _.each(product.setLeft, function(parameter, index) {
-          if (parameter.name === 'num.LC') {
-            let value = parameter.selected.value;
-            parameter.selected = value;
+          if (parameter.name === 'num.LC' && parameter.selected) {
+            parameter.selected = parameter.selected.value;
           }
           product.setLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
         });
@@ -433,7 +444,7 @@ export class ProductViewLenticonComponent implements OnInit {
         productSelected.parameters.push({'name': 'Pupillary diameter', 'selected': pupillaryLeft});
       }
 
-      productSelected.detail = { name: product.name, eye: productSelected.eye, parameters: productSelected.parameters,
+      productSelected.detail = { name: product.name, eye: productSelected.eye, typeLens: productSelected.typeLens, parameters: productSelected.parameters,
         set: productSelected.set };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'set']);
     });
@@ -500,24 +511,28 @@ export class ProductViewLenticonComponent implements OnInit {
       _.each(this.product.parametersRight, function (param) {
         if (param.name === 'Design') {
           if (param.selected === 'Elipsys_STD_MF' ||
-          param.selected === 'Elipsys_KC_MF' || param.selected === 'Elipsys_SE_MF'){
+              param.selected === 'Elipsys_KC_MF' || param.selected === 'Elipsys_SE_MF') {
             addAux = true;
           }
-       } else {
-          if (param.name === 'Addition') {
-             if ((param.selected === null || param.selected === undefined) && addAux) {
-              isValid = false;
-             }
+        } else if (param.name === 'Addition') {
+          if ((param.selected === null || param.selected === undefined) && addAux) {
+            isValid = false;
           }
+        } else if (param.name !== "Far Zone Diameter" && (param.selected === null || param.selected === undefined)) {
+          isValid = false;
         }
       });
-      _.each(this.product.setRight, function (param) {
-        if (param.selected === null || param.selected === undefined) {
-          isValid = false;
-         }
-      });
-      if ((this.product.pupillaryRight === null && addAux ) || (this.product.quantityRight === null
-        || this.product.quantityRight === undefined)) {
+      // Trial Lens Right
+      if (this.typeLensRight.selected === 'Please design my lens') {
+        _.each(this.product.setRight, function (param) {
+          if (param.selected === null || param.selected === undefined) {
+            isValid = false;
+          }
+        });
+      }
+
+      if ((this.product.pupillaryRight === null && addAux) || (this.product.quantityRight === null ||
+          this.product.quantityRight === undefined)) {
         isValid = false;
       }
     }
@@ -530,19 +545,24 @@ export class ProductViewLenticonComponent implements OnInit {
           param.selected === 'Elipsys_KC_MF' || param.selected === 'Elipsys_SE_MF'){
             addAux = true;
           }
-       } else {
-          if (param.name === 'Addition') {
-             if ((param.selected === null || param.selected === undefined) && addAux) {
-              isValid = false;
-             }
+        } else if (param.name === 'Addition') {
+          if ((param.selected === null || param.selected === undefined) && addAux) {
+            isValid = false;
           }
+        } else if (param.name !== "Far Zone Diameter" && (param.selected === null || param.selected === undefined)) {
+          isValid = false;
         }
       });
-      _.each(this.product.setLeft, function (param) {
-        if (param.selected === null || param.selected === undefined) {
-          isValid = false;
-         }
-      });
+
+      if (this.typeLensLeft.selected === 'Please design my lens') {
+        // Trial Lens Left
+        _.each(this.product.setLeft, function (param) {
+          if (param.selected === null || param.selected === undefined) {
+            isValid = false;
+          }
+        });
+      }
+
       if ((this.product.pupillaryLeft === null && addAux) || (this.product.quantityLeft === null
         || this.product.quantityLeft === undefined))  {
         isValid = false;
@@ -557,21 +577,17 @@ export class ProductViewLenticonComponent implements OnInit {
       parameters = this.product.parametersRight;
       this.product.quantityRight = '';
       this.product.observationsRight = '';
-      this.product.setRight[0].selected = null;
-      this.product.setRight[0].sel = null;
-      this.product.setRight[2].selected = null;
-      this.product.setRight[3].selected = null;
-      this.product.setRight[4].selected = null;
+      this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+      this.changeTypeLens('right', 'Please design my lens');
+      this.product.setRight = JSON.parse(this.product.types)[0].set;
       this.product.pupillaryRight = null;
     } else {
       parameters = this.product.parametersLeft;
       this.product.quantityLeft = '';
       this.product.observationsLeft = '';
-      this.product.setLeft[0].selected = null;
-      this.product.setLeft[0].sel = null;
-      this.product.setLeft[2].selected = null;
-      this.product.setLeft[3].selected = null;
-      this.product.setLeft[4].selected = null;
+      this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+      this.changeTypeLens('left', 'Please design my lens');
+      this.product.setLeft = JSON.parse(this.product.types)[0].set;
       this.product.pupillaryLeft = null;
     }
     // parameter
@@ -730,6 +746,61 @@ export class ProductViewLenticonComponent implements OnInit {
     return filteredId;
 
   }
+
+  resetTrialLens(eye) {
+    if (eye === 'right') {
+      //trial lens reset
+      this.product.setRight = JSON.parse(this.product.types)[0].set;
+    } else {
+      //trial lens reset
+      this.product.setLeft = JSON.parse(this.product.types)[0].set;
+    }
+  }
+
+  isPower(param) {
+    return param.name === 'Power(D)' || param.name === 'Over-Refaction' || param.name === 'Final Power';
+  }
+
+  changeTypeLens(eye, value) {
+    let self = this;
+    switch (eye) {
+      ///////////////EYE RIGHT////////////////////
+      case 'right':
+        this.typeLensRight.selected = value;
+
+        let powerRight = _.find(this.product.parametersRight, function (param){ return self.isPower(param)});
+        ;
+
+        //initialize values power
+        powerRight.sel = null; powerRight.selected = null;
+
+        //rename params and reset trial lens
+        if (value === 'Please design my lens') {
+            powerRight.name = 'Over-Refaction';
+        } else if (value === 'Final Lens') {
+          powerRight.name = 'Final Power';
+          this.resetTrialLens('right');
+        }
+        break;
+
+      ///////////////EYE LEFT////////////////////
+      case 'left':
+        this.typeLensLeft.selected = value;
+
+        let powerLeft = _.find(this.product.parametersLeft, function (param){ return self.isPower(param)});
+
+        //rename params and initialize values
+        powerLeft.name = value
+        powerLeft.sel = null; powerLeft.selected = null;
+
+        //rename params and reset trial lens
+        if (value === 'Please design my lens') {
+          powerLeft.name = 'Over-Refaction';
+        } else if (value === 'Final Lens') {
+          powerLeft.name = 'Final Power';
+          this.resetTrialLens('left');
+        }
+        break;
+    }
+  }
 }
-
-

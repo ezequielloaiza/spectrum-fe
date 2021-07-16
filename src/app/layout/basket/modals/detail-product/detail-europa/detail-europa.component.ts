@@ -26,7 +26,7 @@ export class DetailEuropaComponent implements OnInit {
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
     this.subtotal = this.productRequested.price * this.productRequested.quantity;
-    this.infoGlobal = [{name: "Patient", value: this.productRequested.patient},  {name: "Type", value: this.detail.typeLens}, {name: "Total", value: this.subtotal}]
+    this.infoGlobal = [{name: "Patient", value: this.productRequested.patient}, {name: "Type", value: this.detail.typeLens}, {name: "Total", value: this.subtotal}]
   }
 
   close() {

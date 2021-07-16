@@ -394,3 +394,22 @@ img {
 .title-pupullary{
   padding-left: 2rem;
 }
+
+.type-lens{
+  display: flex;
+  margin-top: 20px;
+
+  > span:nth-child(1) {
+    margin-right: 10px;
+  }
+
+  > div:nth-child(2), > div:nth-child(3) {
+    margin-right: 40px;
+    font-size: 14px;
+
+    label {
+      font-weight: 300;
+      font-size: 14px;
+    }
+  }
+}

@@ -745,10 +745,20 @@ export class GenerateInvoiceComponent implements OnInit {
 
   updateAccNumber($event) {
     this.invShippingProtocol.accNumber = $event.target.value;
+    if (!this.protocolShippingInv ) {
+      this.protocolShippingInv = true;
+    }
   }
 
   updateCountry($event) {
     this.invShippingProtocol.country = this.form.get('country').value;
+    if (!this.protocolShippingInv ) {
+      this.protocolShippingInv = true;
+    }
+  }
+
+  selectCountry(event) {
+    this.invShippingProtocol.countryName = event.name;
   }
 
   updateBusinessName($event) {

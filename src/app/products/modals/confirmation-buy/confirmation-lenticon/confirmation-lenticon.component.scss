@@ -15,6 +15,11 @@
     text-align: center;
   }
 
+  .test-set {
+    width: 100%;
+    margin-left: 0;
+  }
+
   .img-product {
     width: 45%;
     height: 9.5em;
@@ -30,7 +35,33 @@
   }
 
   .padding-params {
-    padding:  0 2em;
+    padding:2em 2em 1em;
+
+    .parameters{
+      color: $secondary-info;
+      margin-left: 1.8rem;
+      margin-bottom: 0.1rem;
+      font-weight: 600;
+      padding-top: 1rem;
+    }
+    .justify-steps{
+      justify-content: center;
+
+      > div:nth-child(2) {
+        padding-left: 0;
+      }
+    }
+
+    .name-parameters{
+      padding-left: 1rem;
+      color: $secondary-info;
+      padding-top: 0.5rem;
+    }
+
+    .comment{
+      color: $secondary-info;
+      padding: 0 1.5em;
+    }
   }
 
   .params {
