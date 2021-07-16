@@ -48,6 +48,7 @@ import { ConsultationFormComponent } from './consultation-form/consultation-form
 import { ProductViewXsbComponent } from './product-view-xsb/product-view-xsb.component';
 import { ProductViewMoldedLensesComponent } from './product-view-molded-lenses/product-view-molded-lenses.component';
 import { ConfirmationMoldedLensesComponent } from './modals/confirmation-buy/confirmation-molded-lenses/confirmation-molded-lenses.component';
+import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
 
 @NgModule({
   imports: [
@@ -100,7 +101,8 @@ import { ConfirmationMoldedLensesComponent } from './modals/confirmation-buy/con
     ConsultationFormComponent,
     ProductViewXsbComponent,
     ProductViewMoldedLensesComponent,
-    ConfirmationMoldedLensesComponent
+    ConfirmationMoldedLensesComponent,
+    PreOrderComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,

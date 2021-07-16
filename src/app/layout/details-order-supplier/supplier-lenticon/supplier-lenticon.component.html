@@ -24,7 +24,7 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="{{'Test Set'| translate}}">
+      <ngb-tab title="{{'Test Set'| translate}}"  *ngIf="lista.detail[0].typeLens === 'Please design my lens'">
         <ng-template ngbTabContent>
           <div class="card-body table-responsive">
             <div *ngFor="let specification of lista.detail">

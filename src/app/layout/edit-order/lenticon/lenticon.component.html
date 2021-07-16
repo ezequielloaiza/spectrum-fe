@@ -27,9 +27,19 @@
           <div class="col-lg-12 title eye-info">
             <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
+
+          <div class="type-lens">
+            <span>{{ 'Type' | translate }}:</span>
+            <div *ngFor="let value of typeLens.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLens" [value]="value" (change)="changeTypeLens(value)" class="custom-control-input" [checked]="typeLens.selected === value">
+                <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
         </div>
-         <!--Set-->
-         <div class="col-lg-12 label-title">
+
+        <div class="col-lg-12 label-title">
           <div class="row padding-params display-price" [hidden]="!editPrice">
               <div class="col-sm-3">
                 <dl class="align-item">
@@ -47,7 +57,8 @@
                 </dl>
               </div>
             </div>
-            <div class="row padding-params">
+
+            <div class="row padding-params" *ngIf="typeLens.selected === 'Please design my lens'">
               <div class="col-lg-12 title title-info">
                   <span>{{ 'Test set' | translate }}</span>&nbsp;&nbsp;
               </div>

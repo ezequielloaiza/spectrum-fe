@@ -133,12 +133,13 @@
                     </div>
                     <div *ngIf="order.listOrderGroups">
                       <div class="text-left" *ngFor="let orderGroup of order.listOrderGroups; let j = index">
-                        <span>{{ '#'+orderGroup.number}}</span>
+                        <span>{{ '#'+orderGroup.number + ' (' + orderGroup.supplier.companyName + ')'}}</span>
                       </div>
                     </div>
                     <div *ngIf="!order.listOrderGroups">
                       <span>{{ '#'+order.number}}</span>
                     </div>
+                    <!-- OBSOLETE .... Only visible in production (grouped from basket not exist)-->
                     <div class="mt-2" *ngIf="order.numberOrder.length > 0">
                       <div>
                         <span>{{'Grouped Orders' | translate }}{{':'}}</span>
@@ -249,8 +250,14 @@
                     <div class="title-status">
                       <span>{{'Supplier'| translate }}</span>
                     </div>
-                    <div class="div-status">
+                    <div class="div-status" *ngIf="!order.listOrderGroups">
                       <span class="center-span">{{order.supplier.companyName}}</span>
+                    </div>
+
+                    <div *ngIf="order.listOrderGroups">
+                      <div class="div-status"*ngFor="let orderGroup of order.listOrderGroups">
+                        <span class="center-span">{{ orderGroup.supplier.companyName }}</span>
+                      </div>
                     </div>
                   </div>
                   <div class="col-lg-2">
@@ -337,7 +344,7 @@
                     </div>
                     <div *ngIf="listDetails.productRequested.detail && listDetails.productRequested.detail.length > 0 ">
                       <span>{{listDetails.productRequested.detail[0].name}}</span>
-                    </div>                 
+                    </div>
                     <div
                       *ngIf="listDetails.productRequested.Product && listDetails.productRequested.detail.length > 0 && listDetails.productRequested.product.idProduct !== 146">
                       <span>{{listDetails.productRequested.detail[0].eye}}</span>

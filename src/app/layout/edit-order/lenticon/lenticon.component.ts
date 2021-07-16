@@ -31,6 +31,7 @@ export class LenticonComponent implements OnInit {
   membership: any;
   additional = 0;
   userOrder: any;
+  typeLens: any;
   add = false;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
@@ -65,6 +66,7 @@ export class LenticonComponent implements OnInit {
   getProductView() {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
+    this.typeLens = JSON.parse(this.product.types)[0].typeLens;
     this.product.set = JSON.parse(this.product.types)[0].set;
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
@@ -73,6 +75,10 @@ export class LenticonComponent implements OnInit {
     let paramet = this.product.parameters;
     let set = this.product.set;
     let id;
+
+    //set type lens
+    this.changeTypeLens(this.detail.typeLens);
+
     // Set
       _.each(this.detail.set, function(item) {
         _.each(set, function(productSelected) {
@@ -178,7 +184,7 @@ export class LenticonComponent implements OnInit {
     });
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-      this.productRequested.detail = '[' + JSON.stringify({ name: this.product.name , eye: this.detail.eye,
+      this.productRequested.detail = '[' + JSON.stringify({ name: this.product.name , eye: this.detail.eye, typeLens: this.typeLens.selected,
                                       parameters: this.detail.parameters, set: this.detail.set}) + ']';
       this.productRequested.observations = this.observations;
       this.productRequested.price = this.price;
@@ -188,7 +194,7 @@ export class LenticonComponent implements OnInit {
       this.update(this.productRequested);
     } else { // Order Detail
       this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.product.name, eye: this.detail.eye,
+      this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.product.name, eye: this.detail.eye, typeLens: this.typeLens.selected,
                                           parameters: this.detail.parameters, set: this.detail.set}) + ']';
       this.productRequestedAux.observations = this.observations;
       this.productRequestedAux.price = this.price;
@@ -202,27 +208,39 @@ export class LenticonComponent implements OnInit {
 
   formIsValid() {
     let valido = true;
-    let paramet = this.product.parameters;
+    let parameters = this.product.parameters;
     let addAux = false;
-      _.each(paramet, function(productSelected) {
-         if (productSelected.name === 'Design') {
-            if (productSelected.selected === 'Elipsys_STD_MF' ||
-            productSelected.selected === 'Elipsys_KC_MF' || productSelected.selected === 'Elipsys_SE_MF'){
-              addAux = true;
-            }
-         } else {
-            if (productSelected.name === 'Addition') {
-               if ((productSelected.selected === null || productSelected.selected === undefined) && addAux === true){
-                 valido = false;
-               }
-            }
-          }
-     });
-     if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '' ||
-     (addAux && this.product.pupillary === null) )) {
+
+    _.each(parameters, function(param) {
+      if (param.name === 'Design') {
+        if (param.selected === 'Elipsys_STD_MF' ||
+        param.selected === 'Elipsys_KC_MF' || param.selected === 'Elipsys_SE_MF'){
+          addAux = true;
+        }
+      } else if (param.name === 'Addition') {
+        if ((param.selected === null || param.selected === undefined) && addAux === true){
           valido = false;
-     }
-     return valido;
+        }
+      } else if (param.name !== "Far Zone Diameter" && (param.selected === null || param.selected === undefined)) {
+        valido = false;
+      }
+    });
+
+    // Trial Lens
+    if (this.typeLens.selected === 'Please design my lens') {
+      _.each(this.product.set, function (param) {
+        if (param.selected === null || param.selected === undefined) {
+          valido = false;
+        }
+      });
+    }
+
+    if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '' ||
+      (addAux && this.product.pupillary === null) )) {
+        valido = false;
+    }
+
+    return valido;
   }
 
   update(productRequested) {
@@ -299,6 +317,40 @@ export class LenticonComponent implements OnInit {
     let filteredId = value.toString();
     filteredId = _.padEnd(filteredId, tamano, '0');
     return filteredId;
+  }
 
+  isPower(param) {
+    return param.name === 'Power(D)' || param.name === 'Over-Refaction' || param.name === 'Final Power';
+  }
+
+  setPower(power, powerDetail, value) {
+    power.name = value;
+    power.selected = null;
+
+    powerDetail.name = value;
+  }
+
+  changeTypeLens(value) {
+    let self = this;
+    this.typeLens.selected = value;
+    let power = _.find(this.product.parameters, function (param){ return self.isPower(param) });
+    let powerDetail = _.find(this.detail.parameters, function (param){ return self.isPower(param) });
+    switch (value) {
+      case 'Please design my lens':
+        this.setPower(power, powerDetail, 'Over-Refaction')
+        break;
+      case 'Final Lens':
+        this.setPower(power, powerDetail, 'Final Power')
+        this.resetTrialLens();
+      break;
+    }
+  }
+
+  resetTrialLens() {
+    _.each(this.product.set, function (param, i: any, key) {
+      if (_.includes([0, 2, 3, 4], i)) {
+        param.selected = null
+      }
+    });
   }
 }

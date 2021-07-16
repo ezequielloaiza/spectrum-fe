@@ -17,22 +17,27 @@
             <div class="label-title">
               <img class="img-product" src="{{ basket.urlImage }}">
             </div>
-            <!--Patient-->
-            <div class="col-lg-12 title label-title patient-info">
-              <span>{{ 'Patient' | translate }}</span>
-              <dl>
-                <dt>{{ productRequested.patient }}</dt>
-              </dl>
-              <dl>
-                <dt>{{ subtotal | currency : "USD $" }}</dt>
-              </dl>
+
+            <!-- Patient, Type, Price-->
+            <div class="col-sm-12 header-global">
+              <div class="col-sm-4" *ngFor="let item of infoGlobal">
+                <dl class="align-item">
+                  <dt>{{ item.name | translate }}</dt>
+                  <hr class="separators" />
+                  <dl>
+                    <dt class="items" *ngIf="item.name !== 'Total'">{{ item.value | translate }}</dt>
+                    <dt class="items" *ngIf="item.name === 'Total'">{{ subtotal | currency: "USD $" }}</dt>
+                  </dl>
+                </dl>
+              </div>
             </div>
+
             <div class="col-lg-12 title eye-info">
               <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
             </div>
           </div>
           <!--SET-->
-          <div class="col-lg-12 label-title">
+          <div class="col-lg-12 label-title" *ngIf="detail.typeLens === 'Please design my lens'">
             <div class="row padding-params">
               <div class="col-lg-12 title title-info">
                   <span>{{ 'Test set' | translate }}</span>&nbsp;&nbsp;

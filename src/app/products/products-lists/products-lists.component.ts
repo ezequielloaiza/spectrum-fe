@@ -265,4 +265,8 @@ export class ProductsListsComponent implements OnInit {
   orderList() {
     this.listSupplierFilter = _.orderBy(this.listSupplierFilter, ['idSupplier'], ['asc']);
   }
+
+  openOrder() {
+    this.router.navigate(['/products/pre/order']);
+  }
 }
