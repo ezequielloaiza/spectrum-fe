@@ -32,7 +32,7 @@ export class ProtocolClientComponent implements OnInit {
   saving = false;
   listShippingMethod = ['2nd day', 'Overnight', 'Overnight AM', 'Ground'];
   listBiweekly = ['15', '30'];
-  listWeekly = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  listWeekly = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   valueFrecuency: any;
   today: Date = new Date();
   download = false;

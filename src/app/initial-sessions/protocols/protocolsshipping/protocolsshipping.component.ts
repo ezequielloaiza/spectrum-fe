@@ -33,7 +33,7 @@ export class ProtocolsshippingComponent implements OnInit {
   suppliers: Array<any> = new Array;
   listShippingMethod = ['2nd day', 'Overnight', 'Overnight AM', 'Ground'];
   listBiweekly = ['15', '30'];
-  listWeekly = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  listWeekly = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   currentUser: any;
   @Output() emitEventShipping: EventEmitter<any> = new EventEmitter<any>();
 
