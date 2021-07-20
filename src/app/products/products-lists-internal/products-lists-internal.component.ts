@@ -351,7 +351,6 @@ export class ProductsListInternalComponent implements OnInit {
         this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 15]);
         break;
       case 16: //Spectrum Molded Lenses
-        debugger
         this.router.navigate(['/products/' + product.idProduct + '/product-view-molded-lenses']);
         break;
     }

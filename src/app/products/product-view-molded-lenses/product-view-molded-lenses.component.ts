@@ -40,6 +40,7 @@ export class ProductViewMoldedLensesComponent implements OnInit {
   listCustomers: Array<any> = new Array;
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
+  typeOrder = 'new';
 
   constructor(private productService: ProductService,
     private route: ActivatedRoute,
@@ -271,6 +272,7 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.typeOrder = this.typeOrder;
     modalRef.result.then((result) => {
       this.ngOnInit();
     }, (reason) => {
