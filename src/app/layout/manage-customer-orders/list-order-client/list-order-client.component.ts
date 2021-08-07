@@ -1212,7 +1212,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     let self = this;
   _.each(this.listAux, function(item, index) {
     let order = _.find(self.listOrdersAux, { 'idOrder': item });
-
         self.generateOrder(order);
     });
   }
