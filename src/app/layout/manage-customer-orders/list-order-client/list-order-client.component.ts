@@ -1211,7 +1211,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   processMultipleOrders() {
     let self = this;
   _.each(this.listAux, function(item, index) {
-      let  order = _.find(self.listOrders, { 'idOrder': item});
+    let order = _.find(self.listOrdersAux, { 'idOrder': item });
+
         self.generateOrder(order);
     });
   }
