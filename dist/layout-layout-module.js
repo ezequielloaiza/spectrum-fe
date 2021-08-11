@@ -18510,7 +18510,7 @@ var ListOrderClientComponent = /** @class */ (function () {
     ListOrderClientComponent.prototype.processMultipleOrders = function () {
         var self = this;
         lodash__WEBPACK_IMPORTED_MODULE_5__["each"](this.listAux, function (item, index) {
-            var order = lodash__WEBPACK_IMPORTED_MODULE_5__["find"](self.listOrders, { 'idOrder': item });
+            var order = lodash__WEBPACK_IMPORTED_MODULE_5__["find"](self.listOrdersAux, { 'idOrder': item });
             self.generateOrder(order);
         });
     };
