@@ -18,6 +18,8 @@ import { InvoiceSupplier } from '../../../shared/models/invoice-supplier';
 import { ModalsInvoiceComponent } from '../modals-invoice/modals-invoice.component';
 import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
 import { ModalsShippingComponent } from '../modals-shipping/modals-shipping.component';
+import { ModalResendOrdersComponent } from '../modals-resend-orders/modal-resend-orders.component';
+
 
 @Component({
   selector: 'app-list-order-client',
@@ -851,7 +853,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   generateInvoice(order) {
     let pilot = order.invoiceSupplier === null ? false : true;
     const modalRef = this.modalService.open(GenerateInvoiceComponent,
-    { windowClass: 'modal-content-border modal-dialog-invoice', backdrop  : 'static', keyboard  : false});
+      { windowClass: 'modal-content-border modal-dialog-invoice', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.order = order;
     modalRef.componentInstance.pilot = pilot;
     if (pilot == true) {
@@ -1337,4 +1339,13 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       console.log('error', error);
     });
   }
+
+  resendOrder(order) {
+    const modalRef = this.modalService.open(ModalResendOrdersComponent,
+      { windowClass: 'modal-content-border', backdrop: 'static', keyboard: false, size: 'sm' });
+    modalRef.componentInstance.order = order;
+    modalRef.result.then((result) => {
+    }, (reason) => {//dismiss or cancel
+    });
+   }
 }
