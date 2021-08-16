@@ -157,4 +157,8 @@ export class OrderService {
   public savePreOrder$(preOrder): Observable<any> {
     return this.http.post(environment.apiUrl + 'order/pre-order', preOrder);
   }
+
+  public resendOrder$(idOrder, email): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/resendOrder/' + idOrder + '?email=' + email, {});
+  }
 }
