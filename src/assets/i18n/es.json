@@ -365,6 +365,10 @@
     "Place Order": "Realizar pedido",
     "Canceled": "Cancelada",
     "Are you sure you want to cancel the order? You must notify the provider this change.": "¿Está seguro que quiere cancelar esta orden? Debe notificar al proveedor este cambio",
+    "Do you want to resend the order?": "Desea reenviar la orden?",
+    "Resend to:": "Reenviar a:",
+    "Please type the new email to resend the order": "Por favor escriba el nuevo correo para reenviar la orden",
+    "Order forwarded successfully": "Orden reenviada correctamente",
     "Download": "Descargar",
     "Exceeds the maximum size allowed": "Excede el tamaño máximo permitido",
     "Max files size:": "Tamaño máximo de archivos:",
@@ -1362,6 +1366,8 @@
     "Order warranty generated successfully": "Garantía de orden generada con éxito",
     "Generate Duplicate": "Generar Duplicado",
     "Generate Warranty": "Generar Garantía",
+    "Resend Order": "Reenviar Orden",
+    "The order could not be sent to the mail": "La orden no pudo ser enviada al correo",
     "discount": "descuento",
     "Discount": "Descuento",
     "Lens Type": "Tipo de lente",
@@ -1401,5 +1407,5 @@
     "Enter handling cost": "Introduzca el costo de manipulación",
     "Duplicate": "Duplicado",
     "New": "Nuevo",
-    "Order Type": "Tipo de Órden"
+    "Order Type": "Tipo de Orden"
 }
