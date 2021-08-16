@@ -1367,6 +1367,7 @@
     "Generate Duplicate": "Generar Duplicado",
     "Generate Warranty": "Generar Garantía",
     "Resend Order": "Reenviar Orden",
+    "The order could not be sent to the mail": "La orden no pudo ser enviada al correo",
     "discount": "descuento",
     "Discount": "Descuento",
     "Lens Type": "Tipo de lente",
@@ -1406,5 +1407,5 @@
     "Enter handling cost": "Introduzca el costo de manipulación",
     "Duplicate": "Duplicado",
     "New": "Nuevo",
-    "Order Type": "Tipo de Órden"
+    "Order Type": "Tipo de Orden"
 }

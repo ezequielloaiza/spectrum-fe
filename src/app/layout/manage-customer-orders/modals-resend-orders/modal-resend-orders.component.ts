@@ -69,12 +69,17 @@ export class ModalResendOrdersComponent implements OnInit {
             });
           this.spinner.hide();
         } else {
-          this.spinner.hide();
-          console.log(res.code);
+          //this.spinner.hide();
         }
       },
       error => {
         this.spinner.hide();
+        this.close();
+        this.translate
+          .get('The order could not be sent to the mail', { value: 'The order could not be sent to the mail' })
+          .subscribe((res2: string) => {
+            this.notification.error('', res2);
+          });
         console.log('error', error);
       }
     );
