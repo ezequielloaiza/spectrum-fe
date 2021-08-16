@@ -66,7 +66,6 @@ export class ProductViewMoldedLensesComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
         this.getProductView();
-        //this.setCodeProduct();
         this.spinner.hide();
       } else {
         console.log(res.errors[0].detail);
@@ -88,30 +87,43 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.product.properties = this.product.infoAditional ? JSON.parse(this.product.infoAditional)[0] : null;
     this.product.priceSale = '';
+    this.setCodesXtensaPremiumToric();
     this.setClient();
     this.setPrice();
   }
 
-  /*setCodeProduct() {
-    const productCode = this.product.codeSpectrum;
-    const productCategory = this.product.category;
-    let prCode;
-    this.productService.findBySupplierAndInViewAndCategory$(1, false, productCategory.idCategory).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.productsCode = res.data;
-        _.each(this.productsCode, function (pr) {
-          if (_.includes(pr.codeSpectrum, productCode)) {
-            prCode = pr;
+  setCodesXtensaPremiumToric() {
+    if (this.product.name === 'Xtensa Premium Toric 6pk') {
+      this.product.codeRight = '214B';
+      this.product.codeLeft = '214B';
+    }
+  }
+
+  setCodeAndPrice(parameter, eye) {
+    switch (this.product.name) {
+      case 'Xtensa Premium Toric 6pk':
+        if (parameter.name === 'Cylinder (D)') {
+          if (parameter.selected === '-2.75') {
+            if (eye === 'right') {
+              this.product.codeRight = '214C';
+              this.product.priceSaleRight = 15.0;
+            } else {  
+              this.product.codeLeft = '214C';
+              this.product.priceSaleLeft = 15.0;
+            }
+          } else {
+            if (eye === 'right') {
+              this.product.codeRight = '214B';
+              this.product.priceSaleRight = 14.5;
+            } else {  
+              this.product.codeLeft = '214B';
+              this.product.priceSaleLeft = 14.5;
+            }
           }
-        });
-        this.productCode = prCode;
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
-  }*/
+        }
+        break;
+    }
+  }
 
   setValueEye(eye) {
     if (eye === 'right') {
@@ -208,8 +220,27 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     }
   }
 
+  setPricesAndCodes(product, productSelected) {
+    switch (product.name) {
+      case 'Xtensa Premium Toric 6pk':
+        if (productSelected.eye === 'Right') {
+          productSelected.price = product.priceSaleRight;
+          productSelected.detail.codeSpectrum = product.codeRight;
+        } else {
+          productSelected.price = product.priceSaleLeft;
+          productSelected.detail.codeSpectrum = product.codeLeft;
+        }
+        break;
+    }
+  }
+
+  hasCodeOrPriceByEye() {
+    return this.product.name === 'Xtensa Premium Toric 6pk';
+  }
+
   buildProductsSelected() {
     this.setEyeSelected();
+    let self = this;
     let product = this.productCopy;
     let productsSelected = this.productsSelected;
 
@@ -238,9 +269,9 @@ export class ProductViewMoldedLensesComponent implements OnInit {
       }
 
       productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters};
+      self.setPricesAndCodes(product, productSelected);
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye']);
     });
-
     return productsSelected;
   }
 

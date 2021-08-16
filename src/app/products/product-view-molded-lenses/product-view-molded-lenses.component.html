@@ -122,7 +122,7 @@
           </div>
         </div>
         <div class="col-lg-1">
-          <h5 class="padding-price" [hidden]="product.priceSale===''">
+          <h5 class="padding-price" [hidden]="product.priceSale==='' || hasCodeOrPriceByEye()">
             <span>{{ product.priceSale | currency : "USD $" }}</span>
           </h5>
         </div>
@@ -165,7 +165,7 @@
                 <div class="row select-values" *ngIf="parameter.type === 'selected'">
                   <ng-select [items]="parameter.values" [disabled]="!product.eyeRight"
                     [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}"
-                    [required]="product.eyeRight">
+                    (change)="setCodeAndPrice(parameter, 'right')" [required]="product.eyeRight">
                     {{item}}
                   </ng-select>
                 </div>
@@ -211,7 +211,7 @@
                 <div class="row select-values">
                   <ng-select [items]="parameter.values" [disabled]="!product.eyeLeft"
                     [required]="product.eyeLeft" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-                    placeholder="{{ 'Select value' | translate }}">
+                    (change)="setCodeAndPrice(parameter, 'left')" placeholder="{{ 'Select value' | translate }}">
                     {{item}}
                   </ng-select>
                 </div>

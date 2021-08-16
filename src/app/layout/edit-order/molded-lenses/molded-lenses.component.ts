@@ -73,6 +73,24 @@ export class MoldedLensesComponent implements OnInit {
      });
     });
     this.product.parameters = parameters;
+    this.initialPricesAndCodes();
+  }
+
+  initialPricesAndCodes() {
+    let self = this;
+    _.each(this.product.parameters, function(parameter) {
+      self.setCodeAndPrice(parameter);
+    });
+  }
+
+  savePricesAndCodes() {
+    switch (this.product.name) {
+      case 'Xtensa Premium Toric 6pk':
+        this.productRequested.price = this.productRequested.newPrice;
+        this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+                                    parameters: this.detail.parameters, codeSpectrum: this.productRequested.newCode}) + ']';
+        break;
+    }
   }
 
   save() {
@@ -94,6 +112,7 @@ export class MoldedLensesComponent implements OnInit {
         this.productRequested.quantity = this.quantity;
         this.productRequested.product = this.product.idProduct;
         this.productRequested.patient = this.patient;
+        this.savePricesAndCodes();
         this.update(this.productRequested);
    } else { // Order Detail
         this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
@@ -138,5 +157,23 @@ export class MoldedLensesComponent implements OnInit {
     }, error => {
       console.log('error', error);
     });
+  }
+
+  setCodeAndPrice(parameter) {
+    switch (this.product.name) {
+      case 'Xtensa Premium Toric 6pk':
+        if (parameter.name === 'Cylinder (D)') {
+          if (parameter.selected === '-2.75') {
+            this.productRequested.newCode = '214C';
+            this.productRequested.newPrice = 15.0;
+            this.price = 15.0;
+          } else {
+            this.productRequested.newCode = '214B';
+            this.productRequested.newPrice = 14.5;
+            this.price = 14.5;
+          }
+        }
+        break;
+    }
   }
 }

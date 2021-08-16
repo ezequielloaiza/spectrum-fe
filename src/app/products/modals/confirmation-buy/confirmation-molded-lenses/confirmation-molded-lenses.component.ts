@@ -255,4 +255,8 @@ export class ConfirmationMoldedLensesComponent implements OnInit {
       this.close();
     });
   }
+
+  hasCodeByEye() {
+    return this.product.name === 'Xtensa Premium Toric 6pk';
+  }
 }

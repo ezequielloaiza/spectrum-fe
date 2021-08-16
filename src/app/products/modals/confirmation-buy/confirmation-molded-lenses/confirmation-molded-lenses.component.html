@@ -17,7 +17,7 @@
           <img class="img-product" src="{{ product.mainImg }}">
         </div>
         <div class="row">
-            <div class="col-lg-4 title label-title patient-info">
+            <div class="col-lg-4 title label-title patient-info" [hidden]="hasCodeByEye()">
               <span>{{ 'Spectrum code' | translate }}</span>
               <dl>
                 <dt>{{ product.codeSpectrum }}</dt>
@@ -43,6 +43,18 @@
         <div class="row padding-params">
           <div class="col-lg-12 title eye-info">
             <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
+          </div>
+          <div *ngIf="hasCodeByEye" class="col-sm-3">
+            <dl class="align-item">
+              <dt>{{'Code Spectrum'| translate}}
+              </dt>
+              <hr class="separators">
+              <dl>
+                <dt class="items">
+                  {{ list.detail[0].codeSpectrum }}
+                </dt>
+              </dl>
+            </dl>
           </div>
           <div class="col-sm-3">
             <dl class="align-item">

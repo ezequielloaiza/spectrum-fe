@@ -19,6 +19,8 @@ export class ProductRequested {
   public  orderId: number;
   public fileProductRequestedList: Array<FileProductRequested>;
   public delete: boolean;
+  public newCode: string;
+  public newPrice: number;
 
   public constructor() { }
 
