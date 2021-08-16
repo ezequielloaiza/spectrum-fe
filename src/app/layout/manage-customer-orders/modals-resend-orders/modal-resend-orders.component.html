@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ titleModal }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="row options-resend" >
+      <div class="col-xl-12" >
+        <div class="custom-control custom-radio">
+          <input type="radio" id="radioGroup1" name="radioGroup" [ngModelOptions]="{standalone: true}"
+                  class="custom-control-input" [(ngModel)]="order.typeResend" [value]="'sameEmail'">
+          <label class="custom-control-label" for="radioGroup1">{{ 'Resend to:' | translate }} {{order.supplier.email}}</label>
+        </div>
+      </div>
+      <div class="col-xl-12" >
+        <div class="custom-control custom-radio">
+          <input type="radio" id="radioGroup2" name="radioGroup" [ngModelOptions]="{standalone: true}"
+                  class="custom-control-input" [(ngModel)]="order.typeResend" [value]="'notSame'">
+          <label class="custom-control-label" for="radioGroup2">{{ 'Please type the new email to resend the order' | translate }}</label>
+        </div>
+      </div>
+      <div class="col-xl-12">
+        <div *ngIf="order.typeResend === 'notSame'" class="custom-control form-group">
+          <label>{{ 'Email' | translate }}</label>
+          <input type="email" required autocomplete="off" class="form-control" name="email" formControlName="email">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)=modalReference.dismiss() >{{ 'Cancel' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" id="resendButton" class="btn btn-main" (click)="resend()" [disabled]="disabledResend()">{{ 'Resend' | translate }}&nbsp;
+  </button>
+</div>
+
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.description}}
+</ng-template>
