@@ -112,6 +112,7 @@ import { SupplierGeneralComponent } from './details-order-supplier/supplier-gene
 import { GeneralOrderComponent } from './edit-order/general-order/general-order.component';
 import { DetailMoldedLensesComponent } from './basket/modals/detail-product/detail-molded-lenses/detail-molded-lenses.component';
 import { MoldedLensesComponent } from './edit-order/molded-lenses/molded-lenses.component';
+import { ModalResendOrdersComponent } from './manage-customer-orders/modals-resend-orders/modal-resend-orders.component';
 
 @NgModule({
     imports: [
@@ -231,7 +232,8 @@ import { MoldedLensesComponent } from './edit-order/molded-lenses/molded-lenses.
         SupplierGeneralComponent,
         GeneralOrderComponent,
         DetailMoldedLensesComponent,
-        MoldedLensesComponent
+        MoldedLensesComponent,
+        ModalResendOrdersComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -284,7 +286,8 @@ import { MoldedLensesComponent } from './edit-order/molded-lenses/molded-lenses.
       EditConsultationFormComponent,
       GeneralOrderComponent,
       DetailMoldedLensesComponent,
-      MoldedLensesComponent
+      MoldedLensesComponent,
+      ModalResendOrdersComponent
     ],
     providers: [
       BusinessTypeService,
