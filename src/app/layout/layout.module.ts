@@ -110,6 +110,9 @@ import { EditConsultationFormComponent } from './manage-consultation-form/edit-c
 import { CreateOrderComponent } from './create-order/create-order.component';
 import { SupplierGeneralComponent } from './details-order-supplier/supplier-general/supplier-general.component';
 import { GeneralOrderComponent } from './edit-order/general-order/general-order.component';
+import { DetailMoldedLensesComponent } from './basket/modals/detail-product/detail-molded-lenses/detail-molded-lenses.component';
+import { MoldedLensesComponent } from './edit-order/molded-lenses/molded-lenses.component';
+import { SupplierMoldedLensesComponent } from './details-order-supplier/supplier-molded-lenses/supplier-molded-lenses.component';
 import { ModalResendOrdersComponent } from './manage-customer-orders/modals-resend-orders/modal-resend-orders.component';
 
 @NgModule({
@@ -229,6 +232,9 @@ import { ModalResendOrdersComponent } from './manage-customer-orders/modals-rese
         CreateOrderComponent,
         SupplierGeneralComponent,
         GeneralOrderComponent,
+        DetailMoldedLensesComponent,
+        SupplierMoldedLensesComponent,
+        MoldedLensesComponent,
         ModalResendOrdersComponent
     ],
     entryComponents: [
@@ -281,6 +287,8 @@ import { ModalResendOrdersComponent } from './manage-customer-orders/modals-rese
       DetailConsultationFormComponent,
       EditConsultationFormComponent,
       GeneralOrderComponent,
+      DetailMoldedLensesComponent,
+      MoldedLensesComponent,
       ModalResendOrdersComponent
     ],
     providers: [
