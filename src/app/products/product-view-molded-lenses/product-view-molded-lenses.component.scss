@@ -289,3 +289,9 @@ img {
 .custom-control-label::before {
   border: solid 1px #c3c2c2;
 }
+
+.message-quantity {
+  color:$message-quantity;
+  font-size: 1rem;
+  font-weight: 600;
+}

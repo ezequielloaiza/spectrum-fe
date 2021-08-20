@@ -257,6 +257,6 @@ export class ConfirmationMoldedLensesComponent implements OnInit {
   }
 
   hasCodeByEye() {
-    return this.product.name === 'Xtensa Premium Toric 6pk';
+    return this.product.name === 'Xtensa Premium Toric 6pk' || this.product.name === 'Claria SiHy Aspheric 6pk' || this.product.name === 'Claria SiHy Toric 6pk';
   }
 }

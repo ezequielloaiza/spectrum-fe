@@ -122,7 +122,7 @@
           </div>
         </div>
         <div class="col-lg-1">
-          <h5 class="padding-price" [hidden]="product.priceSale==='' || hasCodeOrPriceByEye()">
+          <h5 class="padding-price" [hidden]="product.priceSale==='' || isProductPersonalized(product)">
             <span>{{ product.priceSale | currency : "USD $" }}</span>
           </h5>
         </div>
@@ -131,6 +131,9 @@
       <div class="row product-info">
         <div class="col-md-12 title">
           <label> {{ 'Please specific your product' | translate }}</label>
+        </div>
+        <div class="col-md-12 message-quantity">
+          <span translate>{{'To make the order the minimum quantity is' | translate}} 50 {{ 'units' | translate}}</span>
         </div>
       </div>
 
@@ -150,8 +153,8 @@
                 <label class="form-check-label">{{ 'Quantity' | translate }}</label>
               </div>
               <div class="row">
-                <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
-                  [disabled]="!product.eyeRight" [required]="product.eyeRight">
+                <input class="form-control" type="number" step=1 min="{{ minToBuy() }}" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
+                  (change)="setCodeAndPriceByQuantity('right')" [disabled]="!product.eyeRight" [required]="product.eyeRight">
               </div>
             </div>
             <!--params right-->
@@ -196,8 +199,8 @@
                 <label class="form-check-label">{{ 'Quantity' | translate }}</label>
               </div>
               <div class="row">
-                <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');"
-                  [disabled]="!product.eyeLeft" [required]="product.eyeLeft">
+                <input class="form-control" type="number" step=1 min="{{ minToBuy() }}" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');"
+                (change)="setCodeAndPriceByQuantity('left')" [disabled]="!product.eyeLeft" [required]="product.eyeLeft">
               </div>
             </div>
             <!--params left-->

@@ -52,7 +52,8 @@
               </dt>
               <dl>
                 <div>
-                  <input class="form-control" type="number" step=1 min="1" [(ngModel)]="quantity" oninput="validity.valid||(value='');" required>
+                  <input class="form-control" type="number" step=1 min="{{ minToBuy() }}"
+                    (change)="setCodeAndPriceByQuantity()" [(ngModel)]="quantity" oninput="validity.valid||(value='');" required>
                 </div>
               </dl>
             </dl>

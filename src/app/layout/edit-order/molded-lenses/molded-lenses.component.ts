@@ -83,17 +83,27 @@ export class MoldedLensesComponent implements OnInit {
     });
   }
 
-  savePricesAndCodes() {
-    switch (this.product.name) {
-      case 'Xtensa Premium Toric 6pk':
-        this.productRequested.price = this.productRequested.newPrice;
+  savePricesAndCodes(type) {
+    if (this.isProductPersonalized(this.product)) {
+      if (type === 'basket') {
         this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-                                    parameters: this.detail.parameters, codeSpectrum: this.productRequested.newCode}) + ']';
-        break;
+          parameters: this.detail.parameters, codeSpectrum: this.productRequested.newCode}) + ']'; 
+        
+        this.productRequested.price = this.productRequested.newPrice;
+      } else if (type === 'order-detail') {
+        this.productRequestedAux.newCode = this.productRequested.newCode;
+        this.productRequestedAux.newPrice = this.productRequested.newPrice;
+        this.productRequestedAux.price = this.productRequested.newPrice;
+
+        this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+          parameters: this.detail.parameters, codeSpectrum: this.productRequestedAux.newCode}) + ']';
+      } 
     }
   }
 
   save() {
+    this.setCodeAndPriceByQuantity();
+
     this.spinner.show();
     let paramet = this.product.parameters;
     _.each(this.detail.parameters, function(item) {
@@ -112,7 +122,7 @@ export class MoldedLensesComponent implements OnInit {
         this.productRequested.quantity = this.quantity;
         this.productRequested.product = this.product.idProduct;
         this.productRequested.patient = this.patient;
-        this.savePricesAndCodes();
+        this.savePricesAndCodes('basket');
         this.update(this.productRequested);
    } else { // Order Detail
         this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
@@ -123,6 +133,7 @@ export class MoldedLensesComponent implements OnInit {
         this.productRequestedAux.quantity = this.quantity;
         this.productRequestedAux.product = this.product.idProduct;
         this.productRequestedAux.patient = this.patient;
+        this.savePricesAndCodes('order-detail');
         this.update(this.productRequestedAux);
     }
   }
@@ -138,6 +149,11 @@ export class MoldedLensesComponent implements OnInit {
      if (this.quantity === null  || this.price === null || !this.patient) {
           valido = false;
      }
+
+     if (this.isProductClaria(this.product)) {
+      valido = this.quantity > 49;
+    }
+
      return valido;
   }
 
@@ -158,6 +174,63 @@ export class MoldedLensesComponent implements OnInit {
       console.log('error', error);
     });
   }
+
+  minToBuy() {
+    if (this.isProductClaria(this.product)) {
+      return 50;
+    } else {
+      return 1;
+    }
+  }
+
+  isProductPersonalized(product) {
+    return product.name === 'Xtensa Premium Toric 6pk' || this.isProductClaria(product);
+  }
+
+  isProductClaria(product) {
+    return product.name === 'Claria SiHy Aspheric 6pk' || product.name === 'Claria SiHy Toric 6pk';
+  }
+
+  setCodeAndPriceByQuantity() {
+    if (this.product.name === 'Claria SiHy Aspheric 6pk') {
+      if (this.quantity < 501) {
+        this.productRequested.newCode = '216A';
+        this.productRequested.newPrice = 14.0;
+      } else if (this.quantity < 2001) {
+        this.productRequested.newCode = '216B';
+        this.productRequested.newPrice = 13.5;
+      } else if (this.quantity < 3501) {
+        this.productRequested.newCode = '216C';
+        this.productRequested.newPrice = 13.2;
+      } else if (this.quantity < 5001) {
+        this.productRequested.newCode = '216D';
+        this.productRequested.newPrice = 12.75;
+      } else {
+        this.productRequested.newCode = '216E';
+        this.productRequested.newPrice = 12.5;
+      }
+      this.price = this.productRequested.newPrice;
+    } else if (this.product.name === 'Claria SiHy Toric 6pk') {
+      if (this.quantity < 501) {
+        this.productRequested.newCode = '217A';
+        this.productRequested.newPrice = 18.25;
+      } else if (this.quantity < 2001) {
+        this.productRequested.newCode = '217B';
+        this.productRequested.newPrice = 18.0;
+      } else if (this.quantity < 3501) {
+        this.productRequested.newCode = '217C';
+        this.productRequested.newPrice = 17.75;
+      } else if (this.quantity < 5001) {
+        this.productRequested.newCode = '217D';
+        this.productRequested.newPrice = 17.5;
+      } else {
+        this.productRequested.newCode = '217E';
+        this.productRequested.newPrice = 17.25;
+      }
+      this.price = this.productRequested.newPrice;
+    }
+  }
+
 
   setCodeAndPrice(parameter) {
     switch (this.product.name) {

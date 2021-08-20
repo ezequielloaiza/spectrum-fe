@@ -44,7 +44,7 @@
           <div class="col-lg-12 title eye-info">
             <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
-          <div *ngIf="hasCodeByEye" class="col-sm-3">
+          <div *ngIf="hasCodeByEye()" class="col-sm-3">
             <dl class="align-item">
               <dt>{{'Code Spectrum'| translate}}
               </dt>
@@ -63,7 +63,7 @@
               <hr class="separators">
               <dl>
                 <dt class="items">
-                  {{ listBasket[0].quantity }}
+                  {{ list.quantity }}
                 </dt>
               </dl>
             </dl>

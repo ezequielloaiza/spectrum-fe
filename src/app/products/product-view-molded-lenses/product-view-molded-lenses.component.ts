@@ -125,6 +125,98 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     }
   }
 
+  isProductClaria(product) {
+    return product.name === 'Claria SiHy Aspheric 6pk' || product.name === 'Claria SiHy Toric 6pk';
+  }
+
+  isProductPersonalized(product) {
+    return product.name === 'Xtensa Premium Toric 6pk' || this.isProductClaria(product);
+  }
+
+  minToBuy() {
+    if (this.isProductClaria(this.product)) {
+      return 50;
+    } else {
+      return 1;
+    }
+  }
+
+  setCodeAndPriceByQuantity(eye) {
+    if (this.product.name === 'Claria SiHy Aspheric 6pk') {
+      if (eye === 'right') {
+        if (this.product.quantityRight < 501) {
+          this.product.codeRight = '216A';
+          this.product.priceSaleRight = 14.0;
+        } else if (this.product.quantityRight < 2001) {
+          this.product.codeRight = '216B';
+          this.product.priceSaleRight = 13.5;
+        } else if (this.product.quantityRight < 3501) {
+          this.product.codeRight = '216C';
+          this.product.priceSaleRight = 13.2;
+        } else if (this.product.quantityRight < 5001) {
+          this.product.codeRight = '216D';
+          this.product.priceSaleRight = 12.75;
+        } else {
+          this.product.codeRight = '216E';
+          this.product.priceSaleRight = 12.5;
+        }
+      } else {
+        if (this.product.quantityLeft < 501) {
+          this.product.codeLeft = '216A';
+          this.product.priceSaleLeft = 14.0;
+        } else if (this.product.quantityLeft < 2001) {
+          this.product.codeLeft = '216B';
+          this.product.priceSaleLeft = 13.5;
+        } else if (this.product.quantityLeft < 3501) {
+          this.product.codeLeft = '216C';
+          this.product.priceSaleLeft = 13.2;
+        } else if (this.product.quantityLeft < 5001) {
+          this.product.codeLeft = '216D';
+          this.product.priceSaleLeft = 12.75;
+        } else {
+          this.product.codeLeft = '216E';
+          this.product.priceSaleLeft = 12.5;
+        }
+      }
+    } else if (this.product.name === 'Claria SiHy Toric 6pk') {
+      if (eye === 'right') {
+        if (this.product.quantityRight < 501) {
+          this.product.codeRight = '217A';
+          this.product.priceSaleRight = 18.25;
+        } else if (this.product.quantityRight < 2001) {
+          this.product.codeRight = '217B';
+          this.product.priceSaleRight = 18.0;
+        } else if (this.product.quantityRight < 3501) {
+          this.product.codeRight = '217C';
+          this.product.priceSaleRight = 17.75;
+        } else if (this.product.quantityRight < 5001) {
+          this.product.codeRight = '217D';
+          this.product.priceSaleRight = 17.5;
+        } else {
+          this.product.codeRight = '217E';
+          this.product.priceSaleRight = 17.25;
+        }
+      } else {
+        if (this.product.quantityLeft < 501) {
+          this.product.codeLeft = '217A';
+          this.product.priceSaleLeft = 18.25;
+        } else if (this.product.quantityLeft < 2001) {
+          this.product.codeLeft = '217B';
+          this.product.priceSaleLeft = 18.0;
+        } else if (this.product.quantityLeft < 3501) {
+          this.product.codeLeft = '217C';
+          this.product.priceSaleLeft = 17.75;
+        } else if (this.product.quantityLeft < 5001) {
+          this.product.codeLeft = '217D';
+          this.product.priceSaleLeft = 17.5;
+        } else {
+          this.product.codeLeft = '217E';
+          this.product.priceSaleLeft = 17.25;
+        }
+      }
+    }
+  }
+
   setValueEye(eye) {
     if (eye === 'right') {
       this.product.eyeRight = !this.product.eyeRight;
@@ -221,21 +313,15 @@ export class ProductViewMoldedLensesComponent implements OnInit {
   }
 
   setPricesAndCodes(product, productSelected) {
-    switch (product.name) {
-      case 'Xtensa Premium Toric 6pk':
-        if (productSelected.eye === 'Right') {
-          productSelected.price = product.priceSaleRight;
-          productSelected.detail.codeSpectrum = product.codeRight;
-        } else {
-          productSelected.price = product.priceSaleLeft;
-          productSelected.detail.codeSpectrum = product.codeLeft;
-        }
-        break;
+    if (this.isProductPersonalized(product)) {
+      if (productSelected.eye === 'Right') {
+        productSelected.price = product.priceSaleRight;
+        productSelected.detail.codeSpectrum = product.codeRight;
+      } else {
+        productSelected.price = product.priceSaleLeft;
+        productSelected.detail.codeSpectrum = product.codeLeft;
+      }
     }
-  }
-
-  hasCodeOrPriceByEye() {
-    return this.product.name === 'Xtensa Premium Toric 6pk';
   }
 
   buildProductsSelected() {
@@ -319,6 +405,11 @@ export class ProductViewMoldedLensesComponent implements OnInit {
       if (this.product.quantityRight === undefined) {
         return false;
       }
+
+      if (this.isProductClaria(this.product)) {
+        return this.product.quantityRight > 49;
+      }
+
       _.each(this.product.parametersRight, function (param) {
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
@@ -332,6 +423,9 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     if (this.product.eyeLeft) {
       if (this.product.quantityLeft === undefined) {
         return false;
+      }
+      if (this.isProductClaria(this.product)) {
+        return this.product.quantityLeft > 49;
       }
       _.each(this.product.parametersLeft, function (param) {
         if (param.selected === null || param.selected === undefined) {
