@@ -112,6 +112,7 @@ import { SupplierGeneralComponent } from './details-order-supplier/supplier-gene
 import { GeneralOrderComponent } from './edit-order/general-order/general-order.component';
 import { DetailMoldedLensesComponent } from './basket/modals/detail-product/detail-molded-lenses/detail-molded-lenses.component';
 import { MoldedLensesComponent } from './edit-order/molded-lenses/molded-lenses.component';
+import { SupplierMoldedLensesComponent } from './details-order-supplier/supplier-molded-lenses/supplier-molded-lenses.component';
 
 @NgModule({
     imports: [
@@ -231,6 +232,7 @@ import { MoldedLensesComponent } from './edit-order/molded-lenses/molded-lenses.
         SupplierGeneralComponent,
         GeneralOrderComponent,
         DetailMoldedLensesComponent,
+        SupplierMoldedLensesComponent,
         MoldedLensesComponent
     ],
     entryComponents: [
