@@ -972,7 +972,8 @@ var RoleAdmin;
     RoleAdmin[RoleAdmin["ConsultationFormComponent"] = 46] = "ConsultationFormComponent";
     RoleAdmin[RoleAdmin["ProductViewXsbComponent"] = 47] = "ProductViewXsbComponent";
     RoleAdmin[RoleAdmin["CreateOrder"] = 48] = "CreateOrder";
-    RoleAdmin[RoleAdmin["PreOrder"] = 49] = "PreOrder";
+    RoleAdmin[RoleAdmin["ProductViewMoldedLenses"] = 49] = "ProductViewMoldedLenses";
+    RoleAdmin[RoleAdmin["PreOrder"] = 50] = "PreOrder";
 })(RoleAdmin || (RoleAdmin = {}));
 
 
@@ -1029,6 +1030,7 @@ var RoleSeller;
     RoleSeller[RoleSeller["ConsultationFormComponent"] = 36] = "ConsultationFormComponent";
     RoleSeller[RoleSeller["ProductViewXsbComponent"] = 37] = "ProductViewXsbComponent";
     RoleSeller[RoleSeller["CreateOrder"] = 38] = "CreateOrder";
+    RoleSeller[RoleSeller["ProductViewMoldedLenses"] = 39] = "ProductViewMoldedLenses";
 })(RoleSeller || (RoleSeller = {}));
 
 
@@ -1078,7 +1080,8 @@ var RoleUser;
     RoleUser[RoleUser["ConsultationFormComponent"] = 29] = "ConsultationFormComponent";
     RoleUser[RoleUser["ConsultationFormList"] = 30] = "ConsultationFormList";
     RoleUser[RoleUser["ProductViewXsbComponent"] = 31] = "ProductViewXsbComponent";
-    RoleUser[RoleUser["PreOrder"] = 32] = "PreOrder";
+    RoleUser[RoleUser["ProductViewMoldedLenses"] = 32] = "ProductViewMoldedLenses";
+    RoleUser[RoleUser["PreOrder"] = 33] = "PreOrder";
 })(RoleUser || (RoleUser = {}));
 
 
@@ -2609,6 +2612,9 @@ var OrderService = /** @class */ (function () {
     };
     OrderService.prototype.savePreOrder$ = function (preOrder) {
         return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/pre-order', preOrder);
+    };
+    OrderService.prototype.resendOrder$ = function (idOrder, email) {
+        return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/resendOrder/' + idOrder + '?email=' + email, {});
     };
     OrderService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
