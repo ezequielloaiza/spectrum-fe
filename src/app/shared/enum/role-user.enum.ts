@@ -31,5 +31,6 @@ export enum RoleUser {
   ConsultationFormComponent,
   ConsultationFormList,
   ProductViewXsbComponent,
+  ProductViewMoldedLenses,
   PreOrder
 }

@@ -46,6 +46,8 @@ import { ConfirmationOrionComponent } from './modals/confirmation-buy/confirmati
 import { CommonsModule } from '../commons.module';
 import { ConsultationFormComponent } from './consultation-form/consultation-form.component';
 import { ProductViewXsbComponent } from './product-view-xsb/product-view-xsb.component';
+import { ProductViewMoldedLensesComponent } from './product-view-molded-lenses/product-view-molded-lenses.component';
+import { ConfirmationMoldedLensesComponent } from './modals/confirmation-buy/confirmation-molded-lenses/confirmation-molded-lenses.component';
 import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
 
 @NgModule({
@@ -98,6 +100,8 @@ import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
     ConfirmationOrionComponent,
     ConsultationFormComponent,
     ProductViewXsbComponent,
+    ProductViewMoldedLensesComponent,
+    ConfirmationMoldedLensesComponent,
     PreOrderComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
@@ -116,7 +120,8 @@ import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
                     EditProductSpectrumSalineComponent,
                     EditProductMedmontComponent,
                     ConfirmationSynergeyesComponent,
-                    ConfirmationOrionComponent
+                    ConfirmationOrionComponent,
+                    ConfirmationMoldedLensesComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })

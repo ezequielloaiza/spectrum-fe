@@ -83,6 +83,8 @@ export class ProductsListsComponent implements OnInit {
                 return u;
               case 15: // BostonSigtht
                 return u;
+              case 16: // Spectrum Molded Lenses
+                return u;
             }
           });
           this.getSuppliers();
@@ -95,7 +97,7 @@ export class ProductsListsComponent implements OnInit {
     this.spinner.show();
     this.supplierService.findAll$().subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        const suppliersId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15];
+        const suppliersId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15, 16];
         this.listSupplierFilter = res.data;
         if (this.user.role.idRole === 3) {
           if (this.user.userResponse.membership.idMembership !== 2) {
@@ -174,6 +176,9 @@ export class ProductsListsComponent implements OnInit {
         case 15: // BostonSigtht
           supplier.image = 'assets/images/suppliers/BostonSight.png';
           break
+        case 16: // Spectrum Molded Lenses
+          supplier.image = 'assets/images/suppliers/spectrum-molded-lenses.png';
+          break
       }
     });
   }
@@ -206,6 +211,7 @@ export class ProductsListsComponent implements OnInit {
         case 13: // X-Cel
         case 14: // Smartlens
         case 15: // BostonSigtht
+        case 16: // Spectrum Molded Lenses
           this.router.navigate(['/products/' + idSupplier + '/internal']);
           break;
         case 5: //magic look
