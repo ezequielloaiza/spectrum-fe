@@ -37,5 +37,6 @@ export enum RoleSeller {
   ConsultationFormList,
   ConsultationFormComponent,
   ProductViewXsbComponent,
-  CreateOrder
+  CreateOrder,
+  ProductViewMoldedLenses
 }

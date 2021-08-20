@@ -285,6 +285,9 @@
 
                           <button class="dropdown-item" (click)="generateCopyOrder(order, 'warranty')" *ngIf="isValidDate(order)">
                             {{ 'Generate Warranty' | translate }}</button>
+
+                          <button class="dropdown-item" (click)="resendOrder(order)" *ngIf="order.status !== 4"><!--Does it need to check it? i do think so-->
+                            {{ 'Resend Order' | translate }}</button>
                          <!-- <button [hidden]="!order.generate" class="dropdown-item" (click)="generateOrder(order)">
                             {{ 'Generate Order' | translate }}</button>
                             -->

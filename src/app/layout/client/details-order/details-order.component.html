@@ -212,11 +212,19 @@
                         </div>
                       </div>
                       <div class="row">
-                          <div class="col-sm-3" *ngIf="list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier.idSupplier !== 7">
+                          <div class="col-sm-3" *ngIf="list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier.idSupplier !== 7 && list.productRequested.product.supplier.idSupplier !== 16">
                             <dl class="align-item">
                               <dt>{{ 'Spectrum code' | translate }}</dt>
                               <dt>
                                 <span class="font-text">{{ list.productRequested.product.codeSpectrum }}</span>
+                              </dt>
+                            </dl>
+                          </div>
+                          <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier && list.productRequested.product.supplier.idSupplier === 16">
+                            <dl class="align-item">
+                              <dt>{{ 'Spectrum code' | translate }}</dt>
+                              <dt>
+                                <span class="font-text">{{ list.productRequested.detail[0].codeSpectrum || list.productRequested.product.codeSpectrum }}</span>
                               </dt>
                             </dl>
                           </div>
@@ -262,6 +270,15 @@
           <!--Blue Light-->
           <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventBlue)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
+          <!--Synergeyes-->
+          <app-supplier-synergeyes [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventSynergeyes)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 9"></app-supplier-synergeyes>
+          <!--Fin Synergeyes-->
+          <!--Orion-->
+          <app-supplier-orion [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 10"></app-supplier-orion>
+          <!--Fin Orion-->
+          <!--Molded Lenses-->
+          <app-supplier-molded-lenses [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 16"></app-supplier-molded-lenses>
+          <!--Fin Molded Lenses-->
         </div>
           <div *ngIf="order.orderType === 'GENERIC'">
             <app-supplier-general  [order]="order" [files]="listDetailsAll[0].fileProductRequestedList" (emitEventOrion)="refresh($event, order)"></app-supplier-general>

@@ -33,6 +33,8 @@ import { DetailSynergeyesComponent } from '../../../modals/detail-product/detail
 import { SynergeyesComponent } from '../../../../edit-order/synergeyes/synergeyes.component';
 import { DetailOrionComponent } from '../../../modals/detail-product/detail-orion/detail-orion.component';
 import { OrionComponent } from '../../../../edit-order/orion/orion/orion.component';
+import { DetailMoldedLensesComponent } from '../../../modals/detail-product/detail-molded-lenses/detail-molded-lenses.component';
+import { MoldedLensesComponent } from '../../../../edit-order/molded-lenses/molded-lenses.component';
 
 @Component({
   selector: 'app-list-basket',
@@ -516,14 +518,23 @@ export class ListBasketComponent implements OnInit {
           this.ngOnInit();
           } , (reason) => {
           });
-          break;
+        break;
+      case 16: // Spectrum Molded Lenses
+        const modalRefMoldedLenses = this.modalService.open(DetailMoldedLensesComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+          modalRefMoldedLenses.componentInstance.basket = basket;
+          modalRefMoldedLenses.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+        break;
      }
   }
 
   openEdit(basket) {
    let  idSupplier = basket.productRequested.product.supplier.idSupplier;
    switch (idSupplier) {
-    case 1: // Markennovy
+     case 1: // Markennovy
         const modalRefMarkennovy = this.modalService.open( MarkennovyComponent,
           { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
         modalRefMarkennovy.componentInstance.basket = basket;
@@ -612,7 +623,17 @@ export class ListBasketComponent implements OnInit {
           this.ngOnInit();
         } , (reason) => {
         });
-        break;
+       break;
+    case 16: // Spectrum Molded Lenses
+      const modalRefMoldedLenses = this.modalService.open( MoldedLensesComponent,
+        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+      modalRefMoldedLenses.componentInstance.basket = basket;
+      modalRefMoldedLenses.componentInstance.typeEdit = 1;
+      modalRefMoldedLenses.result.then((result) => {
+        this.ngOnInit();
+      } , (reason) => {
+      });
+      break;
     }
   }
 
