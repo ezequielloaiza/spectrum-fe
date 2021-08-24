@@ -163,8 +163,9 @@
               <label class="form-check-label">{{ parameter.name | translate }}</label>
             </div>
             <div *ngIf="parameter.type === 'selected'" class="row select-values">
-              <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.sel"
-                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" required>
+              <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values" [(ngModel)]="parameter.selected"
+                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" required
+                [disabled]= "parameter.values.length === 1">
                 {{item}}
               </ng-select>
             </div>
