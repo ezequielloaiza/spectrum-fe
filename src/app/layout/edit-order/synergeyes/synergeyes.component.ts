@@ -184,6 +184,7 @@ export class SynergeyesComponent implements OnInit {
           addPower.hidden = false;
           centralNearZone = _.find(this.product.parameters, {name: 'Central Near Zone'});
           centralNearZone.hidden = false;
+          centralNearZone.selected = centralNearZone.values[0];
           centralDistanceZone = _.find(this.product.parameters, {name: 'Central Distance Zone'});
           centralDistanceZone.hidden = true;
           centralDistanceZone.selected = null;
@@ -218,7 +219,7 @@ export class SynergeyesComponent implements OnInit {
       centralDistanceZone.hidden = true;
       centralDistanceZone.selected = null;
       centralNearZone = _.find(this.product.parameters, {name: 'Central Near Zone'});
-      centralNearZone.selected = null;
+      //centralNearZone.selected = null;
       centralNearZone.hidden = true;
     }
   }

@@ -166,7 +166,7 @@
                 </div>
                 <!--param values-->
                 <div class="row select-values" *ngIf="parameter.type === 'selected'">
-                  <ng-select [items]="parameter.values" [disabled]="!product.eyeRight"
+                  <ng-select [items]="parameter.values" [disabled]="!product.eyeRight || parameter.values.length === 1"
                     [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}"
                     (change)="setCodeAndPrice(parameter, 'right')" [required]="product.eyeRight">
                     {{item}}

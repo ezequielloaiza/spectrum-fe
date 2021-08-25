@@ -84,7 +84,8 @@
                   <dt>
                     <div>
                       <ng-select class="display-row" (change)="changeTono(parameter.id, parameter, $event)" [items]="parameter.values"
-                        [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" required>
+                        [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}"
+                        [disabled]= "parameter.values.length === 1" required>
                         {{item}}
                       </ng-select>
                     </div>

@@ -107,7 +107,8 @@
                     <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition'" class="select-values col-sm-12">
                         <ng-select (change)="changeSelect(parameter, $event)" [items]="parameter.values"
                           [required]=true [(ngModel)]="parameter.selected" bindLabel="item"
-                          bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                          bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false"
+                          [disabled]= "parameter.values.length === 1">
                           {{item}}
                         </ng-select>
                       </div>

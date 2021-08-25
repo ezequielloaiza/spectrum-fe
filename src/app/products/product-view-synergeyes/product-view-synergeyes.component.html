@@ -178,8 +178,9 @@
                 <!--param values-->
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected' " class="select-values col-sm-12">
-                    <ng-select (change)="changeSelect('right', parameter,  parameter.sel)" [items]="parameter.values"
-                      [disabled]="!product.eyeRight || hiddenParameters(parameter, 'right')" [required]="product.eyeRight && (parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')" [(ngModel)]="parameter.sel"
+                    <ng-select (change)="changeSelect('right', parameter,  parameter.selected)" [items]="parameter.values"
+                      [disabled]="!product.eyeRight || hiddenParameters(parameter, 'right') || parameter.values.length === 1"
+                      [required]="product.eyeRight && (parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')" [(ngModel)]="parameter.selected"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.name === 'Add' || parameter.name === 'Dominance' || parameter.name === 'Central Near Zone' || parameter.name === 'Central Distance Zone'">
                       <ng-template ng-label-tmp let-item="item">
                         <div class="supplier-body">
@@ -308,8 +309,9 @@
                 <!--param values-->
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
-                    <ng-select (change)="changeSelect('left', parameter,  parameter.sel)" [items]="parameter.values"
-                      [disabled]="!product.eyeLeft || hiddenParameters(parameter, 'left')" [required]="product.eyeLeft && (parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')" [(ngModel)]="parameter.sel"
+                    <ng-select (change)="changeSelect('left', parameter,  parameter.selected)" [items]="parameter.values"
+                      [disabled]="!product.eyeLeft || hiddenParameters(parameter, 'left') || parameter.values.length === 1"
+                      [required]="product.eyeLeft && (parameter.name !== 'Add' && parameter.name !== 'Dominance' && parameter.name !== 'Central Near Zone' && parameter.name !== 'Central Distance Zone')" [(ngModel)]="parameter.selected"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.name === 'Add' || parameter.name === 'Dominance' || parameter.name === 'Central Near Zone' || parameter.name === 'Central Distance Zone'">
                       <ng-template ng-label-tmp let-item="item">
                         <div class="supplier-body">
