@@ -348,7 +348,7 @@ export class LenticonComponent implements OnInit {
 
   resetTrialLens() {
     _.each(this.product.set, function (param, i: any, key) {
-      if (_.includes([0, 2, 3, 4], i)) {
+      if (_.includes([0, 2, 3, 4], i) && _.uniq(param.values).length >1) {
         param.selected = null
       }
     });

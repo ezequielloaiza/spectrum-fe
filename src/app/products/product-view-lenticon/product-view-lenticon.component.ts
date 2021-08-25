@@ -186,11 +186,13 @@ export class ProductViewLenticonComponent implements OnInit {
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
     this.product.setRight = JSON.parse(this.product.types)[0].set;
+    this.setParameterDefaultValue(this.product.parametersRight);
     this.changeTypeLens('right', 'Please design my lens');
 
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
     this.product.setLeft = JSON.parse(this.product.types)[0].set;
+    this.setParameterDefaultValue(this.product.parametersLeft);
     this.changeTypeLens('left', 'Please design my lens');
 
     this.product.priceSaleRight = 0;
@@ -199,6 +201,18 @@ export class ProductViewLenticonComponent implements OnInit {
     this.product.pupillaryLeft = null;
     this.setClient();
     this.setPrice();
+  }
+
+  setParameterDefaultValue(parametersBox) { //FUNCION AA
+    const self = this;
+    _.each(parametersBox || [], function (parameter) {
+      const parameterValues = _.uniq(parameter.values || []);
+      if (parameterValues.length === 1 ) {
+        parameter.selected = parameterValues[0];
+        parameter.sel = parameterValues[0];
+        console.log(parameter.name);
+      }
+    });
   }
 
   setCodeProduct() {
@@ -591,9 +605,11 @@ export class ProductViewLenticonComponent implements OnInit {
       this.product.pupillaryLeft = null;
     }
     // parameter
-    _.each(parameters, function(param) {
-          param.selected = null;
-          param.sel = null;
+    _.each(parameters, function (param) {
+      if (param.values.length > 1 || param.type !== "selected") {
+        param.selected = null;
+        param.sel = null;
+      }
     });
     if (eye === 'right') {
       this.product.parametersRight = parameters;

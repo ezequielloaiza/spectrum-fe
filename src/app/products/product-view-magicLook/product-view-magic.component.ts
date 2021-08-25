@@ -155,10 +155,21 @@ export class ProductViewMagicComponent implements OnInit {
     this.product.priceSale = '';
 
     //adding first box in array boxes
-    let parametersBox = { parameters: JSON.parse(JSON.stringify(this.product.parametersBoxes))};
+    let parametersBox = { parameters: JSON.parse(JSON.stringify(this.product.parametersBoxes)) };
+    this.setParameterDefaultValue(parametersBox); //FUNCION AA
     this.boxes.push(parametersBox);
     this.setClient();
     this.setPrice();
+  }
+
+  setParameterDefaultValue(parametersBox) { //FUNCION AA
+    const self = this;
+    _.each(parametersBox.parameters || [], function (parameter) {
+      if (parameter.values && parameter.values.length === 1) {
+        parameter.selected = parameter.values[0];
+        self.changeSelect(parameter, parameter.selected);
+      }
+    });
   }
 
   setCodeProduct() {

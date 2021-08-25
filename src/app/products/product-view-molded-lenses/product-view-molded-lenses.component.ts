@@ -452,7 +452,9 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     }
     // parameter
     _.each(parameters, function (param) {
-      param.selected = null;
+      if (param.values.length > 1) {
+        param.selected = null;
+      }
     });
     if (eye === 'right') {
       this.product.parametersRight = parameters;

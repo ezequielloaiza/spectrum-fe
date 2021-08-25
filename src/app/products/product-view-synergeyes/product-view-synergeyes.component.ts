@@ -18,6 +18,7 @@ import { environment } from '../../../environments/environment';
 import { ConfirmationSynergeyesComponent } from '../modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ValueTransformer } from '@angular/compiler/src/util';
+import { ChangePasswordTemporalComponent } from '../../initial-sessions/change-password-temporal/change-password-temporal.component';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -212,10 +213,24 @@ export class ProductViewSynergeyesComponent implements OnInit {
     diameterLeft =  _.find(this.product.parametersLeft, { name: 'Diameter' });
     diameterLeft.sel = diameterLeft.selected = "14.50";
 
+    //set defaul Central Near Zone
+    this.setParameterDefaultValue(this.product.parametersRight); //FUNCION AA
+    this.setParameterDefaultValue(this.product.parametersLeft); //FUNCION AA
 
     this.setClient();
     this.setPrice();
     this.getProductsCode();
+  }
+
+  setParameterDefaultValue(parametersBox) { //FUNCION AA
+    const self = this;
+    _.each(parametersBox || [], function (parameter) {
+      const parameterValues = _.uniq(parameter.values || []);
+      if (parameterValues.length === 1) {
+        parameter.selected = parameterValues[0];
+
+      }
+    });
   }
 
   setCodeProduct(warranty) {
@@ -361,6 +376,8 @@ export class ProductViewSynergeyesComponent implements OnInit {
               addPower.hidden = false;
               centralNearZone = _.find(this.product.parametersRight, {name: 'Central Near Zone'});
               centralNearZone.hidden = false;
+              centralNearZone.selected = centralNearZone.values[0];
+              centralNearZone.sele = centralNearZone.values[0];
               centralDistanceZone = _.find(this.product.parametersRight, {name: 'Central Distance Zone'});
               centralDistanceZone.sel = null;
               centralDistanceZone.selected = null;
@@ -394,6 +411,8 @@ export class ProductViewSynergeyesComponent implements OnInit {
               addPower.hidden = false;
               centralNearZone = _.find(this.product.parametersLeft, {name: 'Central Near Zone'});
               centralNearZone.hidden = false;
+              centralNearZone.selected = centralNearZone.values[0];
+              centralNearZone.sele = centralNearZone.values[0];
               centralDistanceZone = _.find(this.product.parametersLeft, {name: 'Central Distance Zone'});
               centralDistanceZone.selected = null;
               centralDistanceZone.sel = null;
@@ -481,9 +500,11 @@ export class ProductViewSynergeyesComponent implements OnInit {
       this.product.observationsLeft = '';
     }
     // parameter
-    _.each(parameters, function(param) {
-          param.selected = null;
-          param.sel = null;
+    _.each(parameters, function (param) {
+      if (_.uniq(param.values).length > 1) {
+        param.selected = null;
+        param.sel = null;
+      }
     });
     if (eye === 'right') {
       this.product.parametersRight = parameters;
