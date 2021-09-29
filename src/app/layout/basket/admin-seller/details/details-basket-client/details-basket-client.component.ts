@@ -37,6 +37,8 @@ import { OrionComponent } from '../../../../edit-order/orion/orion/orion.compone
 import { DetailOrionComponent } from '../../../modals/detail-product/detail-orion/detail-orion.component';
 import { DetailMoldedLensesComponent } from '../../../modals/detail-product/detail-molded-lenses/detail-molded-lenses.component';
 import { MoldedLensesComponent } from '../../../../edit-order/molded-lenses/molded-lenses.component';
+import { SmartlensComponent } from '../../../../edit-order/smartlens/smartlens.component';
+import { DetailSmartlensComponent } from '../../../modals/detail-product/detail-smartlens/detail-smartlens.component';
 
 
 @Component({
@@ -561,6 +563,16 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
         break;
+        // TODO: complete
+      case 14: // Smartlens
+        const modalRefSmartlens = this.modalService.open(DetailSmartlensComponent,
+        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+        modalRefSmartlens.componentInstance.basket = basket;
+        modalRefSmartlens.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
       case 16: // Spectrum Molded Lenses
         const modalRefMoldedLenses = this.modalService.open(DetailMoldedLensesComponent,
         { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
@@ -586,86 +598,96 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
           break;
-     case 2: // Europa
-          const modalRefEuropa = this.modalService.open( EuropaComponent,
-          { size: 'lg', windowClass: 'modal-content-border modal-edit-europa' , backdrop : 'static', keyboard : false });
-          modalRefEuropa.componentInstance.basket = basket;
-          modalRefEuropa.componentInstance.typeEdit = 1;
-          modalRefEuropa.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-     case 3: // Lenticon
-          const modalRefLenticon = this.modalService.open( LenticonComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
-          modalRefLenticon.componentInstance.basket = basket;
-          modalRefLenticon.componentInstance.typeEdit = 1;
-          modalRefLenticon.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-       break;
-     case 4: // Euclid
-          const modalRefEuclid = this.modalService.open( EuclidComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
-          modalRefEuclid.componentInstance.basket = basket;
-          modalRefEuclid.componentInstance.typeEdit = 1;
-          modalRefEuclid.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-     case 5: // Magic Look
-          const modalRefMagic = this.modalService.open( MagicLookComponent,
-          { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false });
-          modalRefMagic.componentInstance.basket = basket;
-          modalRefMagic.componentInstance.typeEdit = 1;
-          modalRefMagic.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-     case 6: // Blue Light
-          const modalRefBlue = this.modalService.open( BlueLightComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
-          modalRefBlue.componentInstance.basket = basket;
-          modalRefBlue.componentInstance.typeEdit = 1;
-          modalRefBlue.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-    case 7: // Fluo strips y spectrum saline
-          const modalRefSalineFluo = this.modalService.open( SalineFluoComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
-          modalRefSalineFluo.componentInstance.basket = basket;
-          modalRefSalineFluo.componentInstance.typeEdit = 1;
-          modalRefSalineFluo.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-    case 9: // Synergeyes
-          const modalRefSynergeyes = this.modalService.open( SynergeyesComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
-          modalRefSynergeyes.componentInstance.basket = basket;
-          modalRefSynergeyes.componentInstance.typeEdit = 1;
-          modalRefSynergeyes.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-    case 10: // Orion
-        const modalRefOrion = this.modalService.open( OrionComponent,
-        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
-        modalRefOrion.componentInstance.basket = basket;
-        modalRefOrion.componentInstance.typeEdit = 1;
-        modalRefOrion.result.then((result) => {
-          this.ngOnInit();
-        } , (reason) => {
-        });
+      case 2: // Europa
+            const modalRefEuropa = this.modalService.open( EuropaComponent,
+            { size: 'lg', windowClass: 'modal-content-border modal-edit-europa' , backdrop : 'static', keyboard : false });
+            modalRefEuropa.componentInstance.basket = basket;
+            modalRefEuropa.componentInstance.typeEdit = 1;
+            modalRefEuropa.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 3: // Lenticon
+            const modalRefLenticon = this.modalService.open( LenticonComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+            modalRefLenticon.componentInstance.basket = basket;
+            modalRefLenticon.componentInstance.typeEdit = 1;
+            modalRefLenticon.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
         break;
+      case 4: // Euclid
+            const modalRefEuclid = this.modalService.open( EuclidComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+            modalRefEuclid.componentInstance.basket = basket;
+            modalRefEuclid.componentInstance.typeEdit = 1;
+            modalRefEuclid.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 5: // Magic Look
+            const modalRefMagic = this.modalService.open( MagicLookComponent,
+            { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false });
+            modalRefMagic.componentInstance.basket = basket;
+            modalRefMagic.componentInstance.typeEdit = 1;
+            modalRefMagic.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 6: // Blue Light
+            const modalRefBlue = this.modalService.open( BlueLightComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+            modalRefBlue.componentInstance.basket = basket;
+            modalRefBlue.componentInstance.typeEdit = 1;
+            modalRefBlue.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 7: // Fluo strips y spectrum saline
+            const modalRefSalineFluo = this.modalService.open( SalineFluoComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+            modalRefSalineFluo.componentInstance.basket = basket;
+            modalRefSalineFluo.componentInstance.typeEdit = 1;
+            modalRefSalineFluo.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 9: // Synergeyes
+            const modalRefSynergeyes = this.modalService.open( SynergeyesComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+            modalRefSynergeyes.componentInstance.basket = basket;
+            modalRefSynergeyes.componentInstance.typeEdit = 1;
+            modalRefSynergeyes.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 10: // Orion
+          const modalRefOrion = this.modalService.open( OrionComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+          modalRefOrion.componentInstance.basket = basket;
+          modalRefOrion.componentInstance.typeEdit = 1;
+          modalRefOrion.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
+      case 14: // Smartlens
+          const modalRefSmartlens = this.modalService.open( SmartlensComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+          modalRefSmartlens.componentInstance.basket = basket;
+          modalRefSmartlens.componentInstance.typeEdit = 1;
+          modalRefSmartlens.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
       case 16: // Spectrum Molded Lenses
           const modalRefMoldedLenses = this.modalService.open( MoldedLensesComponent,
           { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
@@ -676,8 +698,8 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
           break;
-     }
-   }
+    }
+  }
 
   openSumary() {
     this.addProductsAditionalEuropa();

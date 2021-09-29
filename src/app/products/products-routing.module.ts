@@ -19,6 +19,7 @@ import { ConsultationFormComponent } from './consultation-form/consultation-form
 import { ProductViewXsbComponent } from './product-view-xsb/product-view-xsb.component';
 import { ProductViewMoldedLensesComponent } from './product-view-molded-lenses/product-view-molded-lenses.component';
 import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
+import { ProductViewSmartlensComponent } from './product-view-smartlens/product-view-smartlens.component';
 
 const routes: Routes = [
   {
@@ -42,7 +43,8 @@ const routes: Routes = [
         { path: ':id/product-view-xsb/:supplierId', component: ProductViewXsbComponent, data: { option: 'ProductViewXsbComponent' }},
         { path: ':id/consultation-form', component: ConsultationFormComponent, data: { option: 'ConsultationFormComponent' } },
         { path: ':id/product-view-molded-lenses', component: ProductViewMoldedLensesComponent, data: { option: 'ProductViewMoldedLenses' }},
-        { path: 'pre/order', component: PreOrderComponent, data: { option: 'PreOrder' }}
+        { path: 'pre/order', component: PreOrderComponent, data: { option: 'PreOrder' }},
+        { path: ':id/product-view-smartlens', component: ProductViewSmartlensComponent, data: { option: 'ProductsViewSmartlens' }}
 
     ] , data: { option: 'ProductsList' }
 }

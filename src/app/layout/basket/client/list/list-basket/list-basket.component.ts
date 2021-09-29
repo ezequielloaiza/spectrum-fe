@@ -35,6 +35,7 @@ import { DetailOrionComponent } from '../../../modals/detail-product/detail-orio
 import { OrionComponent } from '../../../../edit-order/orion/orion/orion.component';
 import { DetailMoldedLensesComponent } from '../../../modals/detail-product/detail-molded-lenses/detail-molded-lenses.component';
 import { MoldedLensesComponent } from '../../../../edit-order/molded-lenses/molded-lenses.component';
+import { SmartlensComponent } from '../../../../edit-order/smartlens/smartlens.component';
 
 @Component({
   selector: 'app-list-basket',
@@ -519,6 +520,15 @@ export class ListBasketComponent implements OnInit {
           } , (reason) => {
           });
         break;
+      case 14: // Smartlens
+        const modalRefSmartlens = this.modalService.open( SmartlensComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+        modalRefSmartlens.componentInstance.basket = basket;
+        modalRefSmartlens.componentInstance.typeEdit = 1;
+        modalRefSmartlens.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {});
+        break;
       case 16: // Spectrum Molded Lenses
         const modalRefMoldedLenses = this.modalService.open(DetailMoldedLensesComponent,
           { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
@@ -624,6 +634,16 @@ export class ListBasketComponent implements OnInit {
         } , (reason) => {
         });
        break;
+    case 14: // Smartlens
+      const modalRefSmartlens = this.modalService.open( SmartlensComponent,
+        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+      modalRefSmartlens.componentInstance.basket = basket;
+      modalRefSmartlens.componentInstance.typeEdit = 1;
+      modalRefSmartlens.result.then((result) => {
+        this.ngOnInit();
+      } , (reason) => {
+      });
+      break;
     case 16: // Spectrum Molded Lenses
       const modalRefMoldedLenses = this.modalService.open( MoldedLensesComponent,
         { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});

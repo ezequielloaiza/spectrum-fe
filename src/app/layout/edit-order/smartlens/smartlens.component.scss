@@ -1,0 +1,128 @@
+
+@import "../../../../styles/spectrum/spectrum";
+
+.list-basket {
+  //max-height: 630px;
+  padding: 2em;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .main-info {
+    text-align: center;
+  }
+
+  .img-product {
+    width: 40%;
+    border-radius: 12px;
+    margin-top: 1em;
+  }
+
+  .display-row {
+    display: flex;
+  }
+
+  .display-price {
+    justify-content: center;
+  }
+
+  .padding-params {
+    padding: 0 1em 1em 0;
+  }
+
+  .params {
+    padding-top: 1em;
+
+    .separator {
+      margin-bottom: 1em;
+    }
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .label-title {
+    padding-top: 1.5em;
+  }
+
+  .patient-info {
+    padding-bottom: 1.5em;
+  }
+
+  .eye-info {
+    color: $secondary-info;
+    padding: 0 2em;
+  }
+
+  .align-item{
+    text-align: center;
+  }
+
+  .radio-custom {
+    display: flex;
+    flex-direction: row;
+  
+    > span:nth-child(1) {
+      margin-right: 10px;
+    }
+  
+    label {
+      font-weight: 300;
+      font-size: 14px;
+    }
+  
+    > div {
+      margin-right: 30px;
+    }
+  }
+
+  .select-values {
+    padding: 0 0 1em;
+  }
+
+
+  .param-flex {
+    display: flex;
+
+    .notch {
+      width: 25%;
+    }
+
+    .select-notch {
+      width: 50%;
+
+      img {
+        border-radius: 0;
+        height: 110px;
+        opacity: 0.7;
+        width: 110px;
+      }
+
+      img:hover {
+        border: 3px #007afe solid;
+        border-radius: 15px;
+        opacity: 1;
+      }
+    }
+  }
+
+  .selected-image {
+    border: 3px #8faab4 solid;
+    border-radius: 15px !important;
+    opacity: 1 !important;
+  }
+
+  .notch-lbl {
+    display: flex;
+
+    > dt:nth-child(1) {
+      width: 50%;
+    }
+
+    > dt:nth-child(2),
+    > dt:nth-child(3) {
+      margin-left: 5px;
+      width: 23%
+    }
+  }
+}
