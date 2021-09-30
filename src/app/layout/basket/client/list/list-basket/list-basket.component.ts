@@ -36,6 +36,7 @@ import { OrionComponent } from '../../../../edit-order/orion/orion/orion.compone
 import { DetailMoldedLensesComponent } from '../../../modals/detail-product/detail-molded-lenses/detail-molded-lenses.component';
 import { MoldedLensesComponent } from '../../../../edit-order/molded-lenses/molded-lenses.component';
 import { SmartlensComponent } from '../../../../edit-order/smartlens/smartlens.component';
+import { DetailSmartlensComponent } from '../../../modals/detail-product/detail-smartlens/detail-smartlens.component';
 
 @Component({
   selector: 'app-list-basket',
@@ -521,7 +522,7 @@ export class ListBasketComponent implements OnInit {
           });
         break;
       case 14: // Smartlens
-        const modalRefSmartlens = this.modalService.open( SmartlensComponent,
+        const modalRefSmartlens = this.modalService.open(DetailSmartlensComponent,
           { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
         modalRefSmartlens.componentInstance.basket = basket;
         modalRefSmartlens.componentInstance.typeEdit = 1;
@@ -636,7 +637,7 @@ export class ListBasketComponent implements OnInit {
        break;
     case 14: // Smartlens
       const modalRefSmartlens = this.modalService.open( SmartlensComponent,
-        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+        { size: 'lg', windowClass: 'modal-content-border modal-edit-smartlens' , backdrop : 'static', keyboard : false});
       modalRefSmartlens.componentInstance.basket = basket;
       modalRefSmartlens.componentInstance.typeEdit = 1;
       modalRefSmartlens.result.then((result) => {

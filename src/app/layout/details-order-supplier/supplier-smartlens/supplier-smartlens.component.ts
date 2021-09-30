@@ -77,7 +77,7 @@ export class SupplierSmartlensComponent implements OnInit {
 
   openEdit() {
     const modalRefSmartlens = this.modalService.open( SmartlensComponent,
-      { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false});
+      { size: 'lg', windowClass: 'modal-content-border modal-edit-smartlens' , backdrop  : 'static', keyboard  : false});
       modalRefSmartlens.componentInstance.detailEdit = this.lista;
       modalRefSmartlens.componentInstance.typeEdit = 2;
       modalRefSmartlens.componentInstance.userOrder = this.order.user;

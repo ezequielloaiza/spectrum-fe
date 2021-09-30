@@ -563,7 +563,6 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
         break;
-        // TODO: complete
       case 14: // Smartlens
         const modalRefSmartlens = this.modalService.open(DetailSmartlensComponent,
         { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
@@ -680,7 +679,7 @@ export class DetailsBasketClientComponent implements OnInit {
           break;
       case 14: // Smartlens
           const modalRefSmartlens = this.modalService.open( SmartlensComponent,
-            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+            { size: 'lg', windowClass: 'modal-content-border modal-edit-smartlens' , backdrop : 'static', keyboard : false});
           modalRefSmartlens.componentInstance.basket = basket;
           modalRefSmartlens.componentInstance.typeEdit = 1;
           modalRefSmartlens.result.then((result) => {

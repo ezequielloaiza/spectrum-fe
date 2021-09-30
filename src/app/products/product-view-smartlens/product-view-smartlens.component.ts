@@ -278,6 +278,29 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
+  isDependent(param, eye) {
+    const parameters = eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
+    const eyeSelected = eye === 'right' ? this.product.eyeRight : this.product.eyeLeft;
+
+    // Finding Diameter
+    const diameter: any = _.find(parameters, { name: 'Diameter (mm)' });
+
+    // Finding Sag.
+    const sag: any = _.find(parameters, { name: 'Sag.' });
+
+    switch (param.name) {
+      case "Sag.":
+        return !eyeSelected  || diameter.selected ? null : "Select Diameter (mm)";
+
+      case "Base Curve (mm)":
+      case "Power (D)":
+        return !eyeSelected || sag.selected ? null : "Select Sag.";
+    
+      default:
+        return null;
+    }
+  }
+
   onSelectedClient(clienteSelect) {
     if (clienteSelect !== undefined) {
       this.client = clienteSelect.idUser;

@@ -97,7 +97,7 @@ export class SmartlensComponent implements OnInit {
     _.each(this.detail.parameters, function(item) {
       _.each(self.product.parameters, function(productSelected) {
         if (productSelected.name === item.name) {
-          productSelected.selected = item.selected;
+          self.changeSelect(productSelected, item.selected, 0);
         }
       });
     });
@@ -111,6 +111,26 @@ export class SmartlensComponent implements OnInit {
       });
     }
     return this.product.parameters;
+  }
+
+  isDependent(param) {
+    // Finding Diameter
+    const diameter: any = _.find(this.product.parameters, { name: 'Diameter (mm)' });
+
+    // Finding Sag.
+    const sag: any = _.find(this.product.parameters, { name: 'Sag.' });
+
+    switch (param.name) {
+      case "Sag.":
+        return diameter.selected ? null : "Select Diameter (mm)";
+
+      case "Base Curve (mm)":
+      case "Power (D)":
+        return sag.selected ? null : "Select Sag.";
+    
+      default:
+        return null;
+    }
   }
 
   changeSelect(parameter, value, value2) {

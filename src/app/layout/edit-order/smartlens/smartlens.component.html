@@ -130,7 +130,8 @@
                   <!-- SELECTED OF ALL -->
                   <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect(parameter, $event,0)" [items]="parameter.values"
-                      [disabled]="parameter.values.length === 1 || parameter.disabled" [required]="true" [(ngModel)]="parameter.selected"
+                      placement="top" ngbTooltip="{{ isDependent(parameter) | translate }}"
+                      [disabled]="parameter.values.length === 1 || parameter.disabled || isDependent(parameter)" [required]="true" [(ngModel)]="parameter.selected"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
                       {{item}}
                     </ng-select>
@@ -158,13 +159,13 @@
 
                   <!-- INPUT TYPE TEXT-->
                   <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
-                    <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
+                    <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
                       [required]="true" [(ngModel)]="parameter.selected">
                   </div>
 
                   <!-- INPUT TYPE NUMBER-->
                   <div *ngIf="parameter.type === 'input-number'" class="select-values col-sm-12">
-                    <input class="form-control" type="text" placeholder="{{ parameter.placeholder | translate }}"
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
                       [required]="true" [(ngModel)]="parameter.selected">
                   </div>
 
