@@ -1407,5 +1407,17 @@
     "Enter handling cost": "Introduzca el costo de manipulación",
     "Duplicate": "Duplicado",
     "New": "Nuevo",
-    "Order Type": "Tipo de Orden"
+    "Order Type": "Tipo de Orden",
+    "Base Curve (mm)" : "Curva Base (mm)",
+    "Power (D)": "Poder (D)",
+    "Axes Cylinder(º)": "Ejes de Cilindro(º)",
+    "Over-refraction": "Sobre refracción",
+    "Position of axis rotation markers": "Marcadores de posicion de los ejes de rotacion",
+    "Rotationally stable": "Rotacionalmente estable",
+    "Zone 1 (Central Vault Zone)": "Zona 1 (Zona de la bóveda central)",
+    "Zone 2 (Peripheral Corneal Zone)": "Zona 2 (Zona Corneal Periferica)",
+    "Zone 3 (Limbal Lift Zone)": "Zona 3 (Zona de levantamiento limbal)",
+    "Zone 4 (Scleral Landing Zone)": "Zona 4 (Zona de aterrizaje escleral)",
+    "With Vertex": "Con Vertice",
+    "Without Vertex": "Sin Vertice"
 }
