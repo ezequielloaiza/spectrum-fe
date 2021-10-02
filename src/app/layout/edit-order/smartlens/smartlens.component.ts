@@ -37,6 +37,8 @@ export class SmartlensComponent implements OnInit {
   // Values of product
   typeLens: any;
   design: any;
+  materials: any;
+  hydrapeg: any;
 
 
   constructor(public modalReference: NgbActiveModal,
@@ -70,7 +72,8 @@ export class SmartlensComponent implements OnInit {
     this.product.type = JSON.parse(this.product.types)[0].name;
     this.typeLens = JSON.parse(this.product.types)[0].typeLens;
     this.design = JSON.parse(this.product.types)[0].design;
-    this.product.header = JSON.parse(this.product.types)[0].header;
+    this.product.materials = JSON.parse(this.product.types)[0].materials;
+    this.product.hydrapeg = JSON.parse(this.product.types)[0].hydrapeg;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
@@ -84,14 +87,12 @@ export class SmartlensComponent implements OnInit {
     // Set desing
     this.changeDesign(this.detail.design);
 
-    // Set materials
-    _.each(this.detail.header, function(item) {
-      _.each(self.product.header, function(itemHeader) {
-        if (itemHeader.name === item.name) {
-          itemHeader.selected = item.selected;
-        }
-      });
-    });
+    // Set Materials
+    this.changeMaterials(this.detail.materials);
+
+    // Set Hydrapeg
+    this.changeSelect(this.product.hydrapeg, this.detail.hydrapeg, 0);
+
 
     // Set selected value in parameters
     _.each(this.detail.parameters, function(item) {
@@ -127,7 +128,7 @@ export class SmartlensComponent implements OnInit {
       case "Base Curve (mm)":
       case "Power (D)":
         return sag.selected ? null : "Select Sag.";
-    
+
       default:
         return null;
     }
@@ -290,6 +291,14 @@ export class SmartlensComponent implements OnInit {
     this.design.selected = value;
   }
 
+  changeMaterials(value) {
+    this.product.materials.selected = value;
+
+    if (value !== 'Boston-XO') {
+      this.product.hydrapeg.selected = "No";
+    }
+  }
+
   // Params notch and axis
   changeNotchTime(value, parameter) {
     //validating change in notch time
@@ -343,15 +352,8 @@ export class SmartlensComponent implements OnInit {
     let self = this;
     this.spinner.show();
 
-    // Set header selected in detail json
-    _.each(this.detail.header, function(itemDetail) {
-      _.each(self.product.header, function(param) {
-        if (param.name === itemDetail.name) {
-          itemDetail.selected = param.selected;
-        }
-      });
-    });
-
+    this.detail.materials = this.product.materials.selected;
+    this.detail.hydrapeg = this.product.hydrapeg.selected;
     this.detail.typeLens = this.typeLens.selected;
     this.detail.design = this.design.selected;
 
@@ -376,7 +378,7 @@ export class SmartlensComponent implements OnInit {
         this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
         this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
                                       parameters: this.detail.parameters, typeLens: this.detail.typeLens,
-                                      design: this.detail.design, header: this.detail.header}) + ']';
+                                      design: this.detail.design, materials: this.detail.materials, hydrapeg: this.detail.hydrapeg}) + ']';
         this.productRequested.observations = this.observations;
         this.productRequested.price = this.price;
         this.productRequested.quantity = this.quantity;
@@ -387,7 +389,7 @@ export class SmartlensComponent implements OnInit {
         this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
         this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
           parameters: this.detail.parameters, typeLens: this.detail.typeLens,
-          design: this.detail.design, header: this.detail.header}) + ']';
+          design: this.detail.design, materials: this.detail.materials, hydrapeg: this.detail.hydrapeg}) + ']';
         this.productRequestedAux.observations = this.observations;
         this.productRequestedAux.price = this.price;
         this.productRequestedAux.quantity = this.quantity;

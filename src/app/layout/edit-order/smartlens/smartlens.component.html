@@ -59,6 +59,35 @@
             </dl>
           </div>
 
+          <div class="params display-row col-sm-12 radio-custom">
+            <span class="title">{{ 'Materials' | translate }}:</span>
+            <div *ngFor="let value of product.materials.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-materials-{{i}}" name="radioMaterials" [value]="value" (change)="changeMaterials(value)" class="custom-control-input" [checked]="product.materials.selected === value">
+                <label class="custom-control-label" for="radio-materials-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="params display-row col-sm-12 radio-custom" *ngIf="product.materials.selected === 'Boston-XO'">
+            <span class="title">{{ 'Hydrapeg' | translate }}:</span>
+            <div *ngFor="let value of product.hydrapeg.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-hydrapeg-{{i}}" name="radioHydrapeg" [value]="value" (change)="changeSelect(product.hydrapeg,value)" class="custom-control-input" [checked]="product.hydrapeg.selected === value">
+                <label class="custom-control-label" for="radio-hydrapeg-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="params display-row col-sm-12 radio-custom">
+            <span class="title">{{ 'Design' | translate }}:</span>
+            <div *ngFor="let value of design.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-design-{{i}}" name="radioDesign" [value]="value" class="custom-control-input" (change)="changeDesign(value)" [checked]="design.selected === value">
+                <label class="custom-control-label" for="radio-design-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
 
           <div class="params display-row col-sm-12 radio-custom">
             <span class="title">{{ 'Type' | translate }}:</span>
@@ -71,44 +100,6 @@
           </div>
 
           <br>
-
-          <div class="params display-row col-sm-12 radio-custom">
-            <span class="title">{{ 'Design' | translate }}:</span>
-            <div *ngFor="let value of design.values; let i = index">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio-design-{{i}}" name="radioDesign" [value]="value" class="custom-control-input" (change)="changeDesign(value)" [checked]="design.selected === value">
-                <label class="custom-control-label" for="radio-design-{{i}}">{{ value | translate }}</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="params col-sm-12 title">{{ 'Materials' | translate }}</div>
-          <!--row header (boston/ contamac / hydrapeg )-->
-          <div class="col-sm-12 display-row">
-            <div class="col-sm-4" *ngFor="let header of product.header">
-              <div class="row">
-                <label class="form-check-label">{{ header.name | translate }}</label>&nbsp;&nbsp;
-              </div>
-              <div class="row">
-                <div class="padding-params col-sm-12" *ngIf="header.type === 'selected'">
-                  <ng-select (change)="changeSelect(header, $event,0)" [items]="header.values"
-                    [(ngModel)]="header.selected" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="true"
-                    [clearable]="false">
-                    <ng-template ng-label-tmp let-item="item">
-                      <div class="supplier-body">
-                        <span>{{ item | translate }}</span>
-                      </div>
-                    </ng-template>
-                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                      <div class="supplier-body">
-                        <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
-                      </div>
-                    </ng-template>
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div class="params col-sm-12 title">{{ 'Parameters' | translate }}</div>
           <div class="col-sm-4" *ngFor="let parameter of getParams()">

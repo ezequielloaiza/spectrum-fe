@@ -147,6 +147,22 @@
   margin-bottom: 10px;
 }
 
+.materials {
+  display: flex;
+
+  > div:nth-child(1) {
+    margin-right: 100px;
+  }
+}
+
+.align-radio {
+  min-width: 195px;
+}
+
+.label-radio {
+  min-width: 75px;
+}
+
 .product-info {
   padding-top: 2em;
 

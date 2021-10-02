@@ -112,51 +112,44 @@
             class="custom-control-input">
           <label class="custom-control-label" for="right">{{ 'OD' }}</label>
 
-          <div class="row radio-custom">
-            <span class="title">{{ 'Type' | translate }}:</span>
-            <div *ngFor="let value of typeLensRight.values; let i = index">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLensRight" [value]="value" [disabled]="!product.eyeRight" (change)="changeTypeLens('right', value)" class="custom-control-input" [checked]="typeLensRight.selected === value">
-                <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="row radio-custom">
-            <span class="title">{{ 'Design' | translate }}:</span>
-            <div *ngFor="let value of designRight.values; let i = index">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio-design-{{i}}" name="radioDesignRight" [value]="value" [disabled]="!product.eyeRight" class="custom-control-input" (change)="changeDesign('right', value)" [checked]="designRight.selected === value">
-                <label class="custom-control-label" for="radio-design-{{i}}">{{ value | translate }}</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="row title">{{ 'Materials' | translate }}</div>
-
-          <!--row header right (boston/ contamac / hydrapeg )-->
-          <div class="row header-params">
-            <div class="col-lg-3" *ngFor="let header of product.headerRight">
-              <div class="row">
-                <label class="form-check-label">{{ header.name | translate }}</label>&nbsp;&nbsp;
-              </div>
-              <div class="row">
-                <div class="select-values col-sm-12" *ngIf="header.type === 'selected'">
-                  <ng-select (change)="changeSelect('right', header, $event,0)" [items]="header.values" [disabled]="!product.eyeRight"
-                    [(ngModel)]="header.selected" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeRight"
-                    [clearable]="false">
-                    <ng-template ng-label-tmp let-item="item">
-                      <div class="supplier-body">
-                        <span>{{ item | translate }}</span>
-                      </div>
-                    </ng-template>
-                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                      <div class="supplier-body">
-                        <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
-                      </div>
-                    </ng-template>
-                  </ng-select>
+          <div class="materials">
+            <div class="row radio-custom">
+              <span class="title label-radio">{{ 'Materials' | translate }}:</span>
+              <div class="align-radio" *ngFor="let value of product.materialsRight.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-materials-right-{{i}}" name="radioMaterialsRight" [value]="value" [disabled]="!product.eyeRight" class="custom-control-input" (change)="changeMaterials(value)" [checked]="product.materialsRight.selected === value">
+                  <label class="custom-control-label" for="radio-materials-right-{{i}}">{{ value | translate }}</label>
                 </div>
+              </div>
+            </div>
+
+            <div class="row radio-custom" *ngIf="product.materialsRight.selected === 'Boston-XO'" >
+              <span class="title">{{ 'Hydrapeg' | translate }}:</span>
+              <div *ngFor="let value of product.hydrapegRight.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-hydrapeg-right-{{i}}" name="radiohydrapegRight" [value]="value" [disabled]="!product.eyeRight" class="custom-control-input" (change)="changeSelect('right', product.hydrapegRight, value,0)" [checked]="product.hydrapegRight.selected === value">
+                  <label class="custom-control-label" for="radio-hydrapeg-right-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row radio-custom">
+            <span class="title label-radio">{{ 'Design' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of designRight.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-design-right-{{i}}" name="radioDesignRight" [value]="value" [disabled]="!product.eyeRight" class="custom-control-input" (change)="changeDesign('right', value)" [checked]="designRight.selected === value">
+                <label class="custom-control-label" for="radio-design-right-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row radio-custom">
+            <span class="title label-radio">{{ 'Type' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of typeLensRight.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-lens-right-{{i}}" name="radioTypeLensRight" [value]="value" [disabled]="!product.eyeRight" (change)="changeTypeLens('right', value)" class="custom-control-input" [checked]="typeLensRight.selected === value">
+                <label class="custom-control-label" for="radio-lens-right-{{i}}">{{ value | translate }}</label>
               </div>
             </div>
           </div>
@@ -222,7 +215,7 @@
                   <!-- INPUT TYPE TEXT-->
                   <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
-                      [required]="product.eyeRight" [(ngModel)]="parameter.selected"
+                      [required]="product.eyeRight" [(ngModel)]="parameter.selected" maxlength="{{ parameter.maxLength }}"
                       [disabled]="!product.eyeRight">
                   </div>
 
@@ -343,59 +336,45 @@
             class="custom-control-input">
           <label class="custom-control-label" for="left">{{ 'OS' }}</label>
 
-          <div class="row radio-custom">
-            <span class="title">{{ 'Type' | translate }}:</span>
-            <div *ngFor="let value of typeLensLeft.values; let i = index">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio-lens-left-{{i}}" name="radioTypeLensLeft"  [disabled]="!product.eyeLeft" [value]="value" (change)="changeTypeLens('left', value)" class="custom-control-input" [checked]="typeLensLeft.selected === value">
-                <label class="custom-control-label" for="radio-lens-left-{{i}}">{{ value | translate }}</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="row radio-custom">
-            <span class="title">{{ 'Design' | translate }}:</span>
-            <div *ngFor="let value of designLeft.values; let i = index">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio-design-left-{{i}}" name="radioDesignLeft" [value]="value" [disabled]="!product.eyeLeft" class="custom-control-input" (change)="changeDesign('left', value)" [checked]="designLeft.selected === value">
-                <label class="custom-control-label" for="radio-design-left-{{i}}">{{ value | translate }}</label>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="row title">{{ 'Materials' | translate }}</div>
-          <!--row header left (boston / contacmac / hydrapeg)-->
-          <div class="row header-params">
-            <div class="col-lg-3" *ngFor="let header of product.headerLeft">
-              <div class="row">
-                <label class="form-check-label">{{ header.name | translate }}</label>&nbsp;&nbsp;
-              </div>
-              <div class="row">
-                <div class="select-values col-sm-12" *ngIf="header.type === 'selected'">
-                  <ng-select (change)="changeSelect('left', header, $event,0)" [items]="header.values" [disabled]="!product.eyeLeft"
-                    [(ngModel)]="header.selected" bindValue="item" placeholder="{{ 'Select value' | translate }}" [required]="product.eyeLeft"
-                    [clearable]="false">
-                    <ng-template ng-label-tmp let-item="item">
-                      <div class="supplier-body">
-                        <span>{{ item | translate }}</span>
-                      </div>
-                    </ng-template>
-                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                      <div class="supplier-body">
-                        <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
-                      </div>
-                    </ng-template>
-                  </ng-select>
+          <div class="materials">
+            <div class="row radio-custom">
+              <span class="title label-radio">{{ 'Materials' | translate }}:</span>
+              <div class="align-radio" *ngFor="let value of product.materialsLeft.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-materials-{{i}}" name="radioMaterialsLeft" [value]="value" [disabled]="!product.eyeLeft" class="custom-control-input" (change)="changeSelect('left', product.materialsLeft, value,0)" [checked]="product.materialsLeft.selected === value">
+                  <label class="custom-control-label" for="radio-materials-{{i}}">{{ value | translate }}</label>
                 </div>
               </div>
             </div>
-            <div class="col-lg-3 prices">
-              <p>
-                <span [hidden]="product.priceSaleRight===0">
-                  {{ product.priceSaleRight | currency : "USD $" }}
-                </span>
-              </p>
+
+            <div class="row radio-custom" *ngIf="product.materialsLeft.selected === 'Boston-XO'" >
+              <span class="title">{{ 'Hydrapeg' | translate }}:</span>
+              <div *ngFor="let value of product.hydrapegLeft.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-hydrapeg-{{i}}" name="radiohydrapegLeft" [value]="value" [disabled]="!product.eyeLeft" class="custom-control-input" (change)="changeSelect('left', product.hydrapegLeft, value,0)" [checked]="product.hydrapegLeft.selected === value">
+                  <label class="custom-control-label" for="radio-hydrapeg-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row radio-custom">
+            <span class="title label-radio">{{ 'Design' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of designLeft.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-design-{{i}}" name="radioDesignLeft" [value]="value" [disabled]="!product.eyeLeft" class="custom-control-input" (change)="changeDesign('left', value)" [checked]="designLeft.selected === value">
+                <label class="custom-control-label" for="radio-design-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row radio-custom">
+            <span class="title label-radio">{{ 'Type' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of typeLensLeft.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLensLeft" [value]="value" [disabled]="!product.eyeLeft" (change)="changeTypeLens('left', value)" class="custom-control-input" [checked]="typeLensLeft.selected === value">
+                <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
+              </div>
             </div>
           </div>
 
@@ -466,7 +445,7 @@
                   <!-- INPUT TYPE TEXT-->
                   <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
-                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
+                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected" maxlength="{{ parameter.maxLength }}"
                       [disabled]="!product.eyeLeft">
                   </div>
 

@@ -66,6 +66,10 @@ export class ProductViewSmartlensComponent implements OnInit {
 
   designLeft: any;
   designRight: any;
+  materialsRight: any;
+  materialsLeft: any;
+  hydrapegRight: any;
+  hydrapegLeft: any;
 
 
   /* Notch */
@@ -182,7 +186,8 @@ export class ProductViewSmartlensComponent implements OnInit {
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
     this.designRight = JSON.parse(this.product.types)[0].design;
-    this.product.headerRight = JSON.parse(this.product.types)[0].header;
+    this.product.materialsRight = JSON.parse(this.product.types)[0].materials;
+    this.product.hydrapegRight = JSON.parse(this.product.types)[0].hydrapeg;
     this.setParameterDefaultValue(this.product.parametersRight);
     this.changeTypeLens('right', 'Design by laboratory');
 
@@ -190,7 +195,8 @@ export class ProductViewSmartlensComponent implements OnInit {
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
     this.designLeft = JSON.parse(this.product.types)[0].design;
-    this.product.headerLeft = JSON.parse(this.product.types)[0].header;
+    this.product.materialsLeft = JSON.parse(this.product.types)[0].materials;
+    this.product.hydrapegLeft = JSON.parse(this.product.types)[0].hydrapeg;
     this.setParameterDefaultValue(this.product.parametersLeft);
     this.changeTypeLens('left', 'Design by laboratory');
 
@@ -295,7 +301,7 @@ export class ProductViewSmartlensComponent implements OnInit {
       case "Base Curve (mm)":
       case "Power (D)":
         return !eyeSelected || sag.selected ? null : "Select Sag.";
-    
+
       default:
         return null;
     }
@@ -378,6 +384,14 @@ export class ProductViewSmartlensComponent implements OnInit {
       this.product.parametersRight = parameters;
     } else {
       this.product.parametersLeft = parameters;
+    }
+  }
+
+  changeMaterials(value) {
+    this.product.materials.selected = value;
+
+    if (value !== 'Boston-XO') {
+      this.product.hydrapeg.selected = "No";
     }
   }
 
@@ -588,16 +602,16 @@ export class ProductViewSmartlensComponent implements OnInit {
 
     if (this.product.eyeRight) {
       // quantity
-      if (!this.product.quantityRight) {
+      if (!this.product.quantityRight || !this.product.materialsLeft) {
         isValid = false;
       }
 
-      // check header right
-      _.each(this.product.headerRight, function (param) {
+    /*   // check header right
+      _.each(this.product.materialsRight, function (param) {
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
-      });
+      }); */
 
       // check params right
       _.each(this.getParams('right'), function (param) {
@@ -624,16 +638,16 @@ export class ProductViewSmartlensComponent implements OnInit {
 
     if (this.product.eyeLeft) {
       // quantity
-      if (!this.product.quantityLeft) {
+      if (!this.product.quantityLeft || !this.product.materialsLeft) {
         isValid = false;
       }
 
-      // check header left
-      _.each(this.product.headerLeft, function (param) {
+      /* // check header left
+      _.each(this.product.materialsLeft, function (param) {
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
-      });
+      }); */
 
       // check params left
       _.each(this.getParams('left'), function (param) {
@@ -802,11 +816,11 @@ export class ProductViewSmartlensComponent implements OnInit {
         productSelected.observations = product.observationsRight;
         productSelected.typeLens = self.typeLensRight.selected;
 
-        /* headers*/
-        _.each(product.headerRight, function (parameter, index) {
-          product.headerRight[index] = _.omit(parameter, ['type', 'values']);
-        });
-        productSelected.header = product.headerRight;
+        /* Materials */
+        productSelected.materials = product.materialsRight.selected;
+
+        /* Hydrapeg */
+        productSelected.hydrapeg = product.hydrapegRight.selected;
 
         /* design */
         productSelected.design = self.designRight.selected;
@@ -836,11 +850,11 @@ export class ProductViewSmartlensComponent implements OnInit {
         productSelected.observations = product.observationsLeft;
         productSelected.typeLens = self.typeLensLeft.selected;
 
-        /* headers*/
-        _.each(product.headerLeft, function (parameter, index) {
-          product.headerLeft[index] = _.omit(parameter, ['type', 'values']);
-        });
-        productSelected.header = product.headerLeft;
+        /* Materials */
+        productSelected.materials = product.materialsLeft.selected;
+
+        /* Hydrapeg */
+        productSelected.hydrapeg = product.hydrapegLeft.selected;
 
          /* design */
          productSelected.design = self.designLeft.selected;
@@ -865,7 +879,7 @@ export class ProductViewSmartlensComponent implements OnInit {
         productSelected.parameters = product.parametersLeft;
       }
 
-      productSelected.detail = { name: '', eye: productSelected.eye, typeLens: productSelected.typeLens, header: productSelected.header, design: productSelected.design, parameters: productSelected.parameters };
+      productSelected.detail = { name: '', eye: productSelected.eye, typeLens: productSelected.typeLens, materials: productSelected.materials, hydrapeg: productSelected.hydrapeg, design: productSelected.design, parameters: productSelected.parameters };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'set']);
     });
 
