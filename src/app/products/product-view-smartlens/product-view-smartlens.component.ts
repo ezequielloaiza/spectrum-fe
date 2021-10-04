@@ -262,26 +262,24 @@ export class ProductViewSmartlensComponent implements OnInit {
   // Methods of View
 
   getParams(eye) {
-    let self = this;
-    switch (eye) {
-      case 'right':
-        if (this.typeLensRight.selected === 'Final Design') {
-          return _.filter(this.product.parametersRight, function(param) {
-            // Excluding params design by laboratory
-            return param.name !== 'Over-refraction';
-          });
-        }
-        return this.product.parametersRight;
+    let design = eye === 'right' ? this.designRight : this.designLeft;
+    let typeLens = eye === 'right' ? this.typeLensRight : this.typeLensLeft;
+    let params = eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
 
-      case 'left':
-        if (this.typeLensLeft.selected === 'Final Design') {
-          return _.filter(this.product.parametersLeft, function(param) {
-            // Excluding params design by laboratory
-            return param.name !== 'Over-refraction';
-          });
-        }
-        return this.product.parametersLeft;
+    if (design.selected === "Sph") {
+      params =  _.filter(params, function(param) {
+        // Remove params cylinder and axis when design is Sph.
+        return param.name !== 'Cylinder (D)' && param.name !== 'Axes Cylinder(º)';
+      });
     }
+
+    if (typeLens.selected === 'Final Design') {
+      params =  _.filter(params, function(param) {
+        // Excluding params design by laboratory
+        return param.name !== 'Over-refraction';
+      });
+    }
+    return params;
   }
 
   isDependent(param, eye) {
@@ -349,12 +347,11 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
+  // TODO: clean materials and hydrapeg.
   clean(eye) {
-    let header;
     let parameters;
     if (eye === 'right') {
       parameters = this.product.parametersRight;
-      header = this.product.headerRight;
       this.product.quantityRight = '';
       this.product.observationsRight = '';
       this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
@@ -362,7 +359,6 @@ export class ProductViewSmartlensComponent implements OnInit {
       this.changeTypeLens('right', 'Design by laboratory');
     } else {
       parameters = this.product.parametersLeft;
-      header = this.product.headerLeft;
       this.product.quantityLeft = '';
       this.product.observationsLeft = '';
       this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
@@ -370,10 +366,7 @@ export class ProductViewSmartlensComponent implements OnInit {
       this.changeTypeLens('left', 'Design by laboratory');
     }
 
-    // header
-    _.each(header, function (itemHeader) {
-      itemHeader.selected = null;
-    });
+    // TODO: default select input radio over-refraction
     // parameter
     _.each(parameters, function (param) {
       if (param.values.length > 1 || param.type !== "selected") {
@@ -387,11 +380,25 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
-  changeMaterials(value) {
-    this.product.materials.selected = value;
+  changeMaterials(value, eye) {
+    switch (eye) {
+      ///////////////EYE RIGHT////////////////////
+      case 'right':
+        this.product.materialsRight.selected = value;
 
-    if (value !== 'Boston-XO') {
-      this.product.hydrapeg.selected = "No";
+        if (value !== 'Boston-XO') {
+          this.product.hydrapegRight.selected = "No";
+        }
+        break;
+
+      ///////////////EYE LEFT////////////////////
+      case 'left':
+        this.product.materialsLeft.selected = value;
+
+        if (value !== 'Boston-XO') {
+          this.product.hydrapegLeft.selected = "No";
+        }
+        break;
     }
   }
 
@@ -552,6 +559,14 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
+  renameSphere(params, newName) {
+    _.each(params, function(param, index) {
+      if (param.name === "Sphere (D)" || param.name === "Sphere (D) (final power)" || param.name === "Sphere (D) (add over-refraction)") {
+        params[index].name = newName;
+      }
+    });
+  }
+
   changeTypeLens(eye, value) {
     switch (eye) {
       ///////////////EYE RIGHT////////////////////
@@ -563,6 +578,9 @@ export class ProductViewSmartlensComponent implements OnInit {
           if (overRefraction) {
             overRefraction.selected = null;
           }
+          this.renameSphere(this.product.parametersRight, 'Sphere (D) (final power)');
+        } else {
+          this.renameSphere(this.product.parametersRight, 'Sphere (D) (add over-refraction)');
         }
         break;
 
@@ -574,22 +592,40 @@ export class ProductViewSmartlensComponent implements OnInit {
           if (overRefraction) {
             overRefraction.selected = null;
           }
+          this.renameSphere(this.product.parametersLeft, 'Sphere (D) (final power)');
+        } else {
+          this.renameSphere(this.product.parametersLeft, 'Sphere (D) (add over-refraction)');
         }
         break;
     }
   }
 
   changeDesign(eye, value) {
+    let params;
     switch (eye) {
       ///////////////EYE RIGHT////////////////////
       case 'right':
         this.designRight.selected = value;
+        params = this.product.parametersRight;
         break;
 
       ///////////////EYE LEFT////////////////////
       case 'left':
         this.designLeft.selected = value;
+        params = this.product.parametersLeft;
         break;
+    }
+
+    if (value === 'Sph') {
+      const cylinder: any = _.find(params, { name: 'Cylinder (D)' });
+      if (cylinder) {
+        cylinder.selected = null;
+      }
+
+      const axesCylinder: any = _.find(params, { name: 'Axes Cylinder(º)' });
+      if (axesCylinder) {
+        axesCylinder.selected = null;
+      }
     }
   }
 
@@ -602,16 +638,9 @@ export class ProductViewSmartlensComponent implements OnInit {
 
     if (this.product.eyeRight) {
       // quantity
-      if (!this.product.quantityRight || !this.product.materialsLeft) {
+      if (!this.product.quantityRight || !this.product.materialsRight) {
         isValid = false;
       }
-
-    /*   // check header right
-      _.each(this.product.materialsRight, function (param) {
-        if (param.selected === null || param.selected === undefined) {
-          isValid = false;
-        }
-      }); */
 
       // check params right
       _.each(this.getParams('right'), function (param) {
@@ -642,13 +671,6 @@ export class ProductViewSmartlensComponent implements OnInit {
         isValid = false;
       }
 
-      /* // check header left
-      _.each(this.product.materialsLeft, function (param) {
-        if (param.selected === null || param.selected === undefined) {
-          isValid = false;
-        }
-      }); */
-
       // check params left
       _.each(this.getParams('left'), function (param) {
         if (param.name === 'Notch (mm)') {
@@ -676,6 +698,13 @@ export class ProductViewSmartlensComponent implements OnInit {
 
 
   // Params notch and axis
+  setNotch(parameter) {
+    if (parameter.values[0].selected === null || parameter.values[1].selected === null) {
+      parameter.selected = '0x0';
+    } else {
+      parameter.selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
+    }
+  }
 
   changeNotchTime(eye, parameter, value) {
     //validating change in notch time
@@ -772,8 +801,6 @@ export class ProductViewSmartlensComponent implements OnInit {
         }
     }
   }
-
-  // TODO: pending for review (design, typelens)
 
   addToCart(type) {
     this.type = type;

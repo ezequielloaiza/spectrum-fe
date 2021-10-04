@@ -30,10 +30,9 @@
           <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
         </div>
       </div>
-      <!--PARAMETERS-->
       <div class="col-lg-12 label-title">
         <div class="row padding-params">
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             <dl class="align-item">
               <dt>{{'Quantity'| translate}}
               </dt>
@@ -45,7 +44,8 @@
               </dl>
             </dl>
           </div>
-          <div class="col-sm-3">
+
+          <div class="col-sm-4">
             <dl class="align-item">
               <dt>{{'Type'| translate}}
               </dt>
@@ -57,7 +57,8 @@
               </dl>
             </dl>
           </div>
-          <div class="col-sm-3">
+
+          <div class="col-sm-4">
             <dl class="align-item">
               <dt>{{'Design'| translate}}
               </dt>
@@ -71,25 +72,28 @@
           </div>
         </div>
 
-        <!-- Materials -->
-        <div class="col-lg-12">
-          <dl class="align-item">
-            <dt>{{ "Materials" | translate }}</dt>
-            <hr class="separators" />
-            <div class="row">
-              <div class="col-lg-3" *ngFor="let parameter of detail.materials">
-                <dl class="align-item">
-                  <dt>{{ parameter.name | translate }}</dt>
-                  <hr class="separators" />
-                  <dl>
-                    <dt class="items">
-                      <span>{{ parameter.selected | translate }}</span>
-                    </dt>
-                  </dl>
-                </dl>
-              </div>
-            </div>
-          </dl>
+        <div class="row padding-params">
+          <!-- Materials -->
+          <div class="col-sm-4">
+            <dl class="align-item">
+              <dt>{{ "Materials" | translate }}:</dt>
+              <hr class="separators" />
+              <dl>
+                <dt class="items">{{ detail.materials }}</dt>
+              </dl>
+            </dl>
+          </div>
+
+          <!-- Hydrapeg -->
+          <div class="col-sm-4" *ngIf="detail.materials === 'Boston-XO'">
+            <dl class="align-item">
+              <dt>{{ "Hydrapeg" | translate }}:</dt>
+              <hr class="separators" />
+              <dl>
+                <dt class="items">{{ detail.hydrapeg }}</dt>
+              </dl>
+            </dl>
+          </div>
         </div>
 
         <div class="separator-set"></div>
@@ -105,9 +109,8 @@
                   <dt>{{ parameter.name | translate }}</dt>
                   <hr class="separators" />
                   <dl>
-                    <dt class="items">
-                      <span>{{ parameter.selected | translate }}</span>
-                    </dt>
+                    <dt class="items" *ngIf="parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined">{{ parameter.selected }}</dt>
+                    <dt class="items" *ngIf="parameter.selected === null || parameter.selected === '' || parameter.selected === undefined">{{ 'Unassigned' | translate}}</dt>
                   </dl>
                 </dl>
               </div>

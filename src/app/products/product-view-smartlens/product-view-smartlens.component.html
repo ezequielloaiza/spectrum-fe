@@ -117,7 +117,7 @@
               <span class="title label-radio">{{ 'Materials' | translate }}:</span>
               <div class="align-radio" *ngFor="let value of product.materialsRight.values; let i = index">
                 <div class="custom-control custom-radio">
-                  <input type="radio" id="radio-materials-right-{{i}}" name="radioMaterialsRight" [value]="value" [disabled]="!product.eyeRight" class="custom-control-input" (change)="changeMaterials(value)" [checked]="product.materialsRight.selected === value">
+                  <input type="radio" id="radio-materials-right-{{i}}" name="radioMaterialsRight" [value]="value" [disabled]="!product.eyeRight" class="custom-control-input" (change)="changeMaterials(value, 'right')" [checked]="product.materialsRight.selected === value">
                   <label class="custom-control-label" for="radio-materials-right-{{i}}">{{ value | translate }}</label>
                 </div>
               </div>
@@ -341,7 +341,7 @@
               <span class="title label-radio">{{ 'Materials' | translate }}:</span>
               <div class="align-radio" *ngFor="let value of product.materialsLeft.values; let i = index">
                 <div class="custom-control custom-radio">
-                  <input type="radio" id="radio-materials-{{i}}" name="radioMaterialsLeft" [value]="value" [disabled]="!product.eyeLeft" class="custom-control-input" (change)="changeSelect('left', product.materialsLeft, value,0)" [checked]="product.materialsLeft.selected === value">
+                  <input type="radio" id="radio-materials-{{i}}" name="radioMaterialsLeft" [value]="value" [disabled]="!product.eyeLeft" class="custom-control-input" (change)="changeMaterials(value, 'left')" [checked]="product.materialsLeft.selected === value">
                   <label class="custom-control-label" for="radio-materials-{{i}}">{{ value | translate }}</label>
                 </div>
               </div>

@@ -58,19 +58,27 @@
     text-align: center;
   }
 
+  .align-radio {
+    min-width: 195px;
+  }
+
+  .label-radio {
+    min-width: 75px;
+  }
+
   .radio-custom {
     display: flex;
     flex-direction: row;
-  
+
     > span:nth-child(1) {
       margin-right: 10px;
     }
-  
+
     label {
       font-weight: 300;
       font-size: 14px;
     }
-  
+
     > div {
       margin-right: 30px;
     }

@@ -84,7 +84,7 @@ export class SmartlensComponent implements OnInit {
     // Set typeLens
     this.changeTypeLens(this.detail.typeLens);
 
-    // Set desing
+    // Set design
     this.changeDesign(this.detail.design);
 
     // Set Materials
@@ -98,20 +98,43 @@ export class SmartlensComponent implements OnInit {
     _.each(this.detail.parameters, function(item) {
       _.each(self.product.parameters, function(productSelected) {
         if (productSelected.name === item.name) {
-          self.changeSelect(productSelected, item.selected, 0);
+          if (productSelected.name === 'Notch (mm)') {
+            let  pos = _.indexOf(item.selected, 'x');
+            var itemSelected = String(item.selected);
+            productSelected.values[0].selected = parseFloat(itemSelected.slice(0, pos));
+            let pos2 = _.indexOf(item.selected, '(');
+            let pos3 = _.indexOf(item.selected, ')');
+            if (pos2 > -1 && pos3 > -1) {
+              productSelected.values[1].selected = parseFloat(itemSelected.slice(pos + 1, pos2 - 1));
+              self.selectedNotch = itemSelected.slice(pos2 + 1, pos3);
+            } else {
+              productSelected.values[1].selected = parseFloat(itemSelected.slice(pos + 1));
+            }
+          } else {
+            self.changeSelect(productSelected, item.selected, 0);
+          }
         }
       });
     });
   }
 
   getParams() {
+    let params = this.product.parameters;
+
+    if (this.design.selected === "Sph") {
+      params =  _.filter(params, function(param) {
+        // Remove params cylinder and axis when design is Sph.
+        return param.name !== 'Cylinder (D)' && param.name !== 'Axes Cylinder(º)';
+      });
+    }
+
     if (this.typeLens.selected === 'Final Design') {
-      return _.filter(this.product.parameters, function(param) {
+      params =  _.filter(params, function(param) {
         // Excluding params design by laboratory
         return param.name !== 'Over-refraction';
       });
     }
-    return this.product.parameters;
+    return params;
   }
 
   isDependent(param) {
@@ -275,6 +298,14 @@ export class SmartlensComponent implements OnInit {
     }
   }
 
+  renameSphere(params, newName) {
+    let self = this;
+    _.each(params, function(param, index) {
+      if (self.isSphere(param)) {
+        params[index].name = newName;
+      }
+    });
+  }
 
   changeTypeLens(value) {
     this.typeLens.selected = value;
@@ -284,11 +315,26 @@ export class SmartlensComponent implements OnInit {
       if (overRefraction) {
         overRefraction.selected = null;
       }
+      this.renameSphere(this.product.parameters, 'Sphere (D) (final power)');
+    } else {
+      this.renameSphere(this.product.parameters, 'Sphere (D) (add over-refraction)');
     }
   }
 
   changeDesign(value) {
     this.design.selected = value;
+
+    if (value === 'Sph') {
+      const cylinder: any = _.find(this.product.parameters, { name: 'Cylinder (D)' });
+      if (cylinder) {
+        cylinder.selected = null;
+      }
+
+      const axesCylinder: any = _.find(this.product.parameters, { name: 'Axes Cylinder(º)' });
+      if (axesCylinder) {
+        axesCylinder.selected = null;
+      }
+    }
   }
 
   changeMaterials(value) {
@@ -348,6 +394,10 @@ export class SmartlensComponent implements OnInit {
     }
   }
 
+  isSphere(param) {
+    return param.name === "Sphere (D)" || param.name === "Sphere (D) (final power)" || param.name === "Sphere (D) (add over-refraction)";
+  }
+
   save() {
     let self = this;
     this.spinner.show();
@@ -370,6 +420,10 @@ export class SmartlensComponent implements OnInit {
           } else {
             itemDetail.selected = param.selected;
           }
+        } else if (self.isSphere(param) && self.isSphere(itemDetail)) {
+          // If the parameters are sphere in of detail and product then change selected value and overwrite name.
+          itemDetail.name = param.name;
+          itemDetail.selected = param.selected;
         }
       });
     });

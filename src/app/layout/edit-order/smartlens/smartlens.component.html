@@ -59,29 +59,31 @@
             </dl>
           </div>
 
-          <div class="params display-row col-sm-12 radio-custom">
-            <span class="title">{{ 'Materials' | translate }}:</span>
-            <div *ngFor="let value of product.materials.values; let i = index">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio-materials-{{i}}" name="radioMaterials" [value]="value" (change)="changeMaterials(value)" class="custom-control-input" [checked]="product.materials.selected === value">
-                <label class="custom-control-label" for="radio-materials-{{i}}">{{ value | translate }}</label>
+          <div class="row display-row col-sm-12">
+            <div class="params display-row col-sm-8 radio-custom">
+              <span class="title label-radio">{{ 'Materials' | translate }}:</span>
+              <div class="align-radio" *ngFor="let value of product.materials.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-materials-{{i}}" name="radioMaterials" [value]="value" (change)="changeMaterials(value)" class="custom-control-input" [checked]="product.materials.selected === value">
+                  <label class="custom-control-label" for="radio-materials-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="params display-row col-sm-4 radio-custom" *ngIf="product.materials.selected === 'Boston-XO'">
+              <span class="title">{{ 'Hydrapeg' | translate }}:</span>
+              <div *ngFor="let value of product.hydrapeg.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-hydrapeg-{{i}}" name="radioHydrapeg" [value]="value" (change)="changeSelect(product.hydrapeg,value)" class="custom-control-input" [checked]="product.hydrapeg.selected === value">
+                  <label class="custom-control-label" for="radio-hydrapeg-{{i}}">{{ value | translate }}</label>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="params display-row col-sm-12 radio-custom" *ngIf="product.materials.selected === 'Boston-XO'">
-            <span class="title">{{ 'Hydrapeg' | translate }}:</span>
-            <div *ngFor="let value of product.hydrapeg.values; let i = index">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio-hydrapeg-{{i}}" name="radioHydrapeg" [value]="value" (change)="changeSelect(product.hydrapeg,value)" class="custom-control-input" [checked]="product.hydrapeg.selected === value">
-                <label class="custom-control-label" for="radio-hydrapeg-{{i}}">{{ value | translate }}</label>
-              </div>
-            </div>
-          </div>
-
           <div class="params display-row col-sm-12 radio-custom">
-            <span class="title">{{ 'Design' | translate }}:</span>
-            <div *ngFor="let value of design.values; let i = index">
+            <span class="title label-radio">{{ 'Design' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of design.values; let i = index">
               <div class="custom-control custom-radio">
                 <input type="radio" id="radio-design-{{i}}" name="radioDesign" [value]="value" class="custom-control-input" (change)="changeDesign(value)" [checked]="design.selected === value">
                 <label class="custom-control-label" for="radio-design-{{i}}">{{ value | translate }}</label>
@@ -90,8 +92,8 @@
           </div>
 
           <div class="params display-row col-sm-12 radio-custom">
-            <span class="title">{{ 'Type' | translate }}:</span>
-            <div *ngFor="let value of typeLens.values; let i = index">
+            <span class="title label-radio">{{ 'Type' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of typeLens.values; let i = index">
               <div class="custom-control custom-radio">
                 <input type="radio" id="radio-lens-{{i}}" name="radioTypeLens" [value]="value" (change)="changeTypeLens(value)" class="custom-control-input" [checked]="typeLens.selected === value">
                 <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
@@ -151,7 +153,7 @@
                   <!-- INPUT TYPE TEXT-->
                   <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
-                      [required]="true" [(ngModel)]="parameter.selected">
+                      [required]="true" maxlength="{{ parameter.maxLength }}" [(ngModel)]="parameter.selected">
                   </div>
 
                   <!-- INPUT TYPE NUMBER-->

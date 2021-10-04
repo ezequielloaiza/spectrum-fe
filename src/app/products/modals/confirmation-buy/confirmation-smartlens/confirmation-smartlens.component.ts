@@ -128,13 +128,22 @@ export class ConfirmationSmartlensComponent implements OnInit {
   }
 
   getParams(detail) {
+    let params = detail.parameters;
+
+    if (detail.design === "Sph") {
+      params =  _.filter(params, function(param) {
+        // Remove params cylinder and axis when design is Sph.
+        return param.name !== 'Cylinder (D)' && param.name !== 'Axes Cylinder(º)';
+      });
+    }
+
     if (detail.typeLens === 'Final Design') {
-      return _.filter(detail.parameters, function(param) {
+      params =  _.filter(params, function(param) {
         // Excluding params design by laboratory
         return param.name !== 'Over-refraction';
       });
     }
-    return detail.parameters;
+    return params;
   }
 
   buildUrlFiles() {
