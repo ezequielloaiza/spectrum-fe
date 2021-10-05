@@ -1,0 +1,13 @@
+
+<app-breadcrumb-product></app-breadcrumb-product>
+<app-card-product>
+  <app-order-type></app-order-type>
+  <app-info-client [idSupplier]="idSupplier"></app-info-client>  
+  <div class="row product-info">
+    <div class="col-md-12 title">
+      <label> {{ 'Please specific your product' | translate }}</label>
+    </div>
+  </div>
+  <app-info-product [parameters]="parameters.parametersRight" [id]="id"></app-info-product>
+  <app-info-product [parameters]="parameters.parametersLeft" [id]="id"></app-info-product>
+</app-card-product>

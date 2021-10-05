@@ -342,7 +342,7 @@ export class ProductsListInternalComponent implements OnInit {
         }
         break;
       case 13: // xcel
-        this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 13]);
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-x-cel/' + 13]);
         break;
       case 14: // SMARTLENS
         this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 14]);

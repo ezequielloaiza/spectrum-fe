@@ -40,7 +40,9 @@ const routes: Routes = [
         { path: ':id/product-view-orion', component: ProductViewOrionComponent, data: { option: 'ProductViewOrionComponent' } },
         { path: ':id/product-view-xsb/:supplierId', component: ProductViewXsbComponent, data: { option: 'ProductViewXsbComponent' }},
         { path: ':id/consultation-form', component: ConsultationFormComponent, data: { option: 'ConsultationFormComponent' }},
-        { path: 'pre/order', component: PreOrderComponent, data: { option: 'PreOrder' }}
+        { path: 'pre/order', component: PreOrderComponent, data: { option: 'PreOrder' }},
+        { path: ':id/product-view-x-cel/:idSupplier', loadChildren: './product-view-x-cel/product-view-x-cel.module#ProductsViewXCelModule',
+        data: { option: 'ProductViewXsbComponent' }},
 
     ] , data: { option: 'ProductsList' }
 }

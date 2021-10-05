@@ -1,0 +1,16 @@
+@import '../../../styles/spectrum/spectrum';
+
+.product-info {
+  padding-top: 2em;
+
+  .item-properties {
+    img {
+      width: 30px;
+      cursor: pointer;
+    }
+  }
+}
+
+.title {
+  font-weight: 600;
+}

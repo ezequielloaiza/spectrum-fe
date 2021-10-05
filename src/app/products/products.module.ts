@@ -47,6 +47,7 @@ import { CommonsModule } from '../commons.module';
 import { ConsultationFormComponent } from './consultation-form/consultation-form.component';
 import { ProductViewXsbComponent } from './product-view-xsb/product-view-xsb.component';
 import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
+import { ProductsViewXCelModule } from './product-view-x-cel/product-view-x-cel.module';
 
 @NgModule({
   imports: [
@@ -62,7 +63,8 @@ import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
     FileUploadModule,
     NgxSpinnerModule,
     CurrencyMaskModule,
-    CommonsModule
+    CommonsModule,
+    ProductsViewXCelModule
   ],
   declarations: [
     ProductsComponent,
