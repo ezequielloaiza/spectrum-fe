@@ -269,7 +269,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     if (design.selected === "Sph") {
       params =  _.filter(params, function(param) {
         // Remove params cylinder and axis when design is Sph.
-        return param.name !== 'Cylinder (D)' && param.name !== 'Axes Cylinder(º)';
+        return param.name !== 'Cylinder (D)' && param.name !== 'Axes Cylinder(º)' && param.name !== 'Position of axis rotation markers';
       });
     }
 
@@ -367,7 +367,6 @@ export class ProductViewSmartlensComponent implements OnInit {
       this.changeMaterials("Contamac-Extra", 'left');
     }
 
-    // TODO: default select input radio over-refraction
     // parameter
     _.each(parameters, function (param) {
       if (param.name === 'Over-refraction') {
@@ -628,6 +627,11 @@ export class ProductViewSmartlensComponent implements OnInit {
       const axesCylinder: any = _.find(params, { name: 'Axes Cylinder(º)' });
       if (axesCylinder) {
         axesCylinder.selected = null;
+      }
+
+      const axisRotationMarkers: any = _.find(params, { name: 'Position of axis rotation markers' });
+      if (axisRotationMarkers) {
+        axisRotationMarkers.selected = null;
       }
     }
   }
