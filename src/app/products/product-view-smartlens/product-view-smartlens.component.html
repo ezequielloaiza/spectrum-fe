@@ -185,8 +185,8 @@
                   <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('right', parameter, $event,0)" [items]="parameter.values"
                       placement="top" ngbTooltip="{{ isDependent(parameter, 'right') | translate }}"
-                      [disabled]="!product.eyeRight || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'right')" [required]="product.eyeRight" [(ngModel)]="parameter.selected"
-                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      [disabled]="!product.eyeRight || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'right')" [required]="product.eyeRight && !parameter.noRequired" [(ngModel)]="parameter.selected"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired">
                       {{item}}
                     </ng-select>
                   </div>
@@ -215,7 +215,7 @@
                   <!-- INPUT TYPE TEXT-->
                   <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
-                      [required]="product.eyeRight" [(ngModel)]="parameter.selected" maxlength="{{ parameter.maxLength }}"
+                      [required]="product.eyeRight && !parameter.noRequired" [(ngModel)]="parameter.selected" maxlength="{{ parameter.maxLength }}"
                       [disabled]="!product.eyeRight">
                   </div>
 
@@ -408,8 +408,8 @@
                   <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('left', parameter, $event,0)" [items]="parameter.values"
                       placement="top" ngbTooltip="{{ isDependent(parameter, 'left') | translate }}"
-                      [disabled]="!product.eyeLeft || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'left')" [required]="product.eyeLeft" [(ngModel)]="parameter.selected" bindLabel="item"
-                      bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      [disabled]="!product.eyeLeft || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'left')" [required]="product.eyeLeft && !parameter.noRequired" [(ngModel)]="parameter.selected" bindLabel="item"
+                      bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired">
                       {{item}}
                     </ng-select>
                   </div>
@@ -445,7 +445,7 @@
                   <!-- INPUT TYPE TEXT-->
                   <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
-                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected" maxlength="{{ parameter.maxLength }}"
+                      [required]="product.eyeLeft && !parameter.noRequired" [(ngModel)]="parameter.selected" maxlength="{{ parameter.maxLength }}"
                       [disabled]="!product.eyeLeft">
                   </div>
 

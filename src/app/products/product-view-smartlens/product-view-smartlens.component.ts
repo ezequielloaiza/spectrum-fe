@@ -347,7 +347,6 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
-  // TODO: clean materials and hydrapeg.
   clean(eye) {
     let parameters;
     if (eye === 'right') {
@@ -357,6 +356,7 @@ export class ProductViewSmartlensComponent implements OnInit {
       this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
       this.designRight = JSON.parse(this.product.types)[0].design;
       this.changeTypeLens('right', 'Design by laboratory');
+      this.changeMaterials("Contamac-Extra", 'right');
     } else {
       parameters = this.product.parametersLeft;
       this.product.quantityLeft = '';
@@ -364,12 +364,15 @@ export class ProductViewSmartlensComponent implements OnInit {
       this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
       this.designLeft = JSON.parse(this.product.types)[0].design;
       this.changeTypeLens('left', 'Design by laboratory');
+      this.changeMaterials("Contamac-Extra", 'left');
     }
 
     // TODO: default select input radio over-refraction
     // parameter
     _.each(parameters, function (param) {
-      if (param.values.length > 1 || param.type !== "selected") {
+      if (param.name === 'Over-refraction') {
+        param.selected = "With Vertex";
+      } else if (param.values.length > 1 || param.type !== "selected") {
         param.selected = null;
       }
     });
@@ -576,7 +579,7 @@ export class ProductViewSmartlensComponent implements OnInit {
         if (value === 'Final Design') {
           const overRefraction: any = _.find(this.product.parametersRight, { name: 'Over-refraction' });
           if (overRefraction) {
-            overRefraction.selected = null;
+            overRefraction.selected = "With Vertex";
           }
           this.renameSphere(this.product.parametersRight, 'Sphere (D) (final power)');
         } else {
@@ -590,7 +593,7 @@ export class ProductViewSmartlensComponent implements OnInit {
         if (value === 'Final Design') {
           const overRefraction: any = _.find(this.product.parametersLeft, { name: 'Over-refraction' });
           if (overRefraction) {
-            overRefraction.selected = null;
+            overRefraction.selected = "With Vertex";
           }
           this.renameSphere(this.product.parametersLeft, 'Sphere (D) (final power)');
         } else {
@@ -658,7 +661,7 @@ export class ProductViewSmartlensComponent implements OnInit {
           if (!!self.axesParam.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
             isValid = false;
           }
-        } else if (param.selected === null || param.selected === undefined || param.selected === '') {
+        } else if (!param.noRequired && (param.selected === null || param.selected === undefined || param.selected === '')) {
           isValid = false;
         }
       });
@@ -687,7 +690,7 @@ export class ProductViewSmartlensComponent implements OnInit {
           if (!!self.axesParam.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
             isValid = false;
           }
-        } else if (param.selected === null || param.selected === undefined) {
+        } else if (!param.noRequired && (param.selected === null || param.selected === undefined || param.selected === '') ){
           isValid = false;
         }
       });

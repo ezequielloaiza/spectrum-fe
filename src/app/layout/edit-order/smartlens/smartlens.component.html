@@ -61,7 +61,7 @@
 
           <div class="row display-row col-sm-12">
             <div class="params display-row col-sm-8 radio-custom">
-              <span class="title label-radio">{{ 'Materials' | translate }}:</span>
+              <span class="title label-radio">{{ 'Material' | translate }}:</span>
               <div class="align-radio" *ngFor="let value of product.materials.values; let i = index">
                 <div class="custom-control custom-radio">
                   <input type="radio" id="radio-materials-{{i}}" name="radioMaterials" [value]="value" (change)="changeMaterials(value)" class="custom-control-input" [checked]="product.materials.selected === value">
@@ -124,8 +124,8 @@
                   <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect(parameter, $event,0)" [items]="parameter.values"
                       placement="top" ngbTooltip="{{ isDependent(parameter) | translate }}"
-                      [disabled]="parameter.values.length === 1 || parameter.disabled || isDependent(parameter)" [required]="true" [(ngModel)]="parameter.selected"
-                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      [disabled]="parameter.values.length === 1 || parameter.disabled || isDependent(parameter)" [required]="!parameter.noRequired" [(ngModel)]="parameter.selected"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired">
                       {{item}}
                     </ng-select>
                   </div>
@@ -153,7 +153,7 @@
                   <!-- INPUT TYPE TEXT-->
                   <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
-                      [required]="true" maxlength="{{ parameter.maxLength }}" [(ngModel)]="parameter.selected">
+                      [required]="!parameter.noRequired" maxlength="{{ parameter.maxLength }}" [(ngModel)]="parameter.selected">
                   </div>
 
                   <!-- INPUT TYPE NUMBER-->
