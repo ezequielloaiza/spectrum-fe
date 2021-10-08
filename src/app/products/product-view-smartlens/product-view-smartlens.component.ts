@@ -80,6 +80,10 @@ export class ProductViewSmartlensComponent implements OnInit {
   notchParam: any;
   axesParam: any;
 
+  // Products prices on field info_aditional
+  priceNotch: any;
+  priceHydrapeg
+
   public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
                                                     queueLimit: this.queueLimit,
@@ -181,6 +185,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
     this.product.priceSale = '';
+    this.product.infoAditionalPrices = JSON.parse(this.product.infoAditional)[0];
 
     // Eye Right
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
@@ -323,13 +328,56 @@ export class ProductViewSmartlensComponent implements OnInit {
     switch (membership) {
       case 1:
         this.product.priceSale = this.product.price1;
+        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.gold;
+        this.priceNotch = this.product.infoAditionalPrices.values.notch.gold;
         break;
       case 2:
         this.product.priceSale = this.product.price2;
+        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.diamond;
+        this.priceNotch = this.product.infoAditionalPrices.values.notch.diamond;
         break;
       case 3:
         this.product.priceSale = this.product.price3;
+        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.preferred;
+        this.priceNotch = this.product.infoAditionalPrices.values.notch.preferred;
         break;
+    }
+  }
+
+  getAdditionalPrices(isIndividualPrice) {
+    let notchRight = 0;
+    let hydrapegRight = 0;
+
+    let notchLeft = 0;
+    let hydrapegLeft = 0;
+
+    // Finding Notch
+    const notch: any = _.find(this.product.parametersRight, { name: 'Notch (mm)' });
+    if (notch.selected !== '0x0' && notch.selected !== null) {
+      notchRight = this.priceNotch;
+    }
+
+    // Finding Hydrapeg
+    if (this.product.hydrapegRight.selected === "Yes") {
+      hydrapegRight =  this.priceHydrapeg;
+    }
+
+
+    // Finding Notch
+    const notchL: any = _.find(this.product.parametersLeft, { name: 'Notch (mm)' });
+    if (notchL.selected !== '0x0' && notchL.selected !== null) {
+      notchLeft = this.priceNotch;
+    }
+
+    // Finding Hydrapeg
+    if (this.product.hydrapegLeft.selected === "Yes") {
+      hydrapegLeft = this.priceHydrapeg;
+    }
+
+    if (isIndividualPrice) {
+      return {"notchRight": notchRight, "notchLeft": notchLeft, "hydrapegRight": hydrapegRight, "hydrapegLeft": hydrapegLeft };
+    } else {
+      return {"notch": (notchRight * this.product.quantityRight) + (notchLeft * this.product.quantityLeft), "hydrapeg": (hydrapegRight * this.product.quantityRight) + (hydrapegLeft * this.product.quantityLeft)};
     }
   }
 
@@ -753,6 +801,7 @@ export class ProductViewSmartlensComponent implements OnInit {
 
   validateSelectedNotch(parameter) {
     if (parameter.selectedNotchTime === null) {
+      parameter.selected = null;
       parameter.values[0].selected = 0;
       parameter.values[1].selected = 0;
     }
@@ -849,6 +898,7 @@ export class ProductViewSmartlensComponent implements OnInit {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
         productSelected.typeLens = self.typeLensRight.selected;
+        productSelected.price = product.priceSale + self.getAdditionalPrices(true).notchRight + self.getAdditionalPrices(true).hydrapegRight;
 
         /* Materials */
         productSelected.materials = product.materialsRight.selected;
@@ -883,6 +933,7 @@ export class ProductViewSmartlensComponent implements OnInit {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
         productSelected.typeLens = self.typeLensLeft.selected;
+        productSelected.price = product.priceSale + self.getAdditionalPrices(true).notchLeft + self.getAdditionalPrices(true).hydrapegLeft;
 
         /* Materials */
         productSelected.materials = product.materialsLeft.selected;
@@ -946,6 +997,8 @@ export class ProductViewSmartlensComponent implements OnInit {
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.role = this.user.role.idRole;
+    modalRef.componentInstance.additionalHydrapeg = this.getAdditionalPrices(false).hydrapeg;
+    modalRef.componentInstance.additionalNotch = this.getAdditionalPrices(false).notch;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     modalRef.componentInstance.typeOrder = this.typeOrder;

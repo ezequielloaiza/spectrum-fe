@@ -31,6 +31,14 @@
         <div class="col-lg-12">
           <dl>
             <dt>{{ price | currency: "USD $" }}</dt>
+            <p class="eye-info" *ngIf="additionalHydrapeg || additionalNotch">
+              (
+                <span>{{ 'Includes' | translate }}</span>&nbsp;
+                <span *ngIf="additionalHydrapeg">{{'Hydrapeg' | translate}}:{{ additionalHydrapeg | currency : " USD $" }}</span>
+                <span  *ngIf="additionalNotch">&nbsp;|&nbsp;</span>
+                <span *ngIf="additionalNotch">{{'Notch (mm)' | translate}}:{{ additionalNotch | currency : " USD $" }}</span>
+              )
+            </p>
           </dl>
         </div>
       </div>

@@ -40,6 +40,9 @@ export class SmartlensComponent implements OnInit {
   materials: any;
   hydrapeg: any;
 
+  // Products prices on field info_aditional
+  priceNotch: any;
+  priceHydrapeg
 
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,

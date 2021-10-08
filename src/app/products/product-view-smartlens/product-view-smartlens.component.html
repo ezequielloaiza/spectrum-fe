@@ -97,6 +97,14 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-md-12">
+          <h5 class="padding-price" [hidden]="product.priceSale===''">
+            <span>{{ product.priceSale | currency : "USD $" }}</span>
+          </h5>
+        </div>
+      </div>
+
       <div class="row product-info">
         <div class="col-md-12 title">
           <label> {{ 'Please specific your product' | translate }}</label>
@@ -266,7 +274,16 @@
               </div>
             </div>
           </div>
-          <br>
+        </div>
+
+        <!--prices additional right-->
+        <div class="row additional col-lg-12">
+          <p *ngIf="getAdditionalPrices(true).notchRight || getAdditionalPrices(true).hydrapegRight">
+            <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;
+            <span *ngIf="getAdditionalPrices(true).hydrapegRight">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegRight | currency : " USD $" }}</span>&nbsp;
+            <span *ngIf="getAdditionalPrices(true).notchRight && getAdditionalPrices(true).hydrapegRight">| </span>
+            <span *ngIf="getAdditionalPrices(true).notchRight">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchRight | currency : " USD $" }}</span>&nbsp;
+          </p>
         </div>
 
         <!--comments right-->
@@ -489,6 +506,16 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!--prices additional left-->
+        <div class="row additional col-lg-12">
+          <p *ngIf="getAdditionalPrices(true).notchLeft || getAdditionalPrices(true).hydrapegLeft">
+            <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;
+            <span *ngIf="getAdditionalPrices(true).hydrapegLeft">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegLeft | currency : " USD $" }}</span>&nbsp;
+            <span *ngIf="getAdditionalPrices(true).notchLeft && getAdditionalPrices(true).hydrapegLeft">| </span>
+            <span *ngIf="getAdditionalPrices(true).notchLeft">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchLeft | currency : " USD $" }}</span>&nbsp;
+          </p>
         </div>
 
         <!--comments left-->
