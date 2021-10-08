@@ -13,13 +13,7 @@ import { ShippingAddressService } from '../../../shared/services/shippingAddress
 })
 export class InfoClientComponent implements OnInit {
 
-  @Input() idSupplier;
-
-  product = {
-    patient: null,
-    client: null,
-    shippingAddress: null
-  };
+  @Input() product;
 
   listCustomers: Array<any>;
 
@@ -38,12 +32,13 @@ export class InfoClientComponent implements OnInit {
 
   getCustomer() {
   if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
-      this.userService.allCustomersAvailableBuy$(this.idSupplier).subscribe(res => {
+      this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listCustomers = res.data;
           this.listCustomers.map((i) => {
             const accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
-            i.fullName = accSpct + i.name + ' | ' +  i.certificationCode + ' | ' + i.country.name;
+            const certificationCode  = !!i.certificationCode ?  i.certificationCode + ' | ' : '';
+            i.fullName = accSpct + i.name + ' | ' +  certificationCode + i.country.name;
             return i;
           });
         }

@@ -9,33 +9,30 @@ import { ProductService } from '../../shared/services/products/product.service';
   })
   export class ProductViewXCelComponent implements OnInit {
     id: any;
-    idSupplier: any;
-
-    parameters = {
-      types: null,
-      parametersRight: [],
-      parametersLeft: []
-    };
-    product = {
-      eyeRight: null
-    };
+    product: any;
 
     constructor(private route: ActivatedRoute,
                 private productService: ProductService) {}
 
     ngOnInit(): void {
       this.id = +this.route.snapshot.paramMap.get('id');
-      this.idSupplier = +this.route.snapshot.paramMap.get('idSupplier');
       this.getProduct();
     }
 
     getProduct() {
       this.productService.findById$(this.id).subscribe(res => {
-        this.parameters = res.data[0];
-        this.parameters.parametersRight = JSON.parse(this.parameters.types)[0].parameters;
-        // _.reverse(this.product.parametersRight[4].values);
-        this.parameters.parametersLeft = JSON.parse(this.parameters.types)[0].parameters;
-        // _.reverse(this.product.parametersLeft[4].values);
+        this.product = res.data[0];
+        this.product.typeOrder = 'new'
+
+        this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+        this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
       });
+    }
+
+    validation() {
+      if (this.product) {
+        console.log(this.product.typeOrder);
+      }
+      return true;
     }
   }

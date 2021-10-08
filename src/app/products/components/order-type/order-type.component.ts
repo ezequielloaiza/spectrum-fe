@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserStorageService } from '../../../http/user-storage.service';
 
 @Component({
@@ -8,7 +8,8 @@ import { UserStorageService } from '../../../http/user-storage.service';
 })
 export class OrderTypeComponent implements OnInit {
 
-  typeOrder = 'new';
+  @Input() product: any;
+
   user: any;
 
   constructor(private userStorageService: UserStorageService) {}

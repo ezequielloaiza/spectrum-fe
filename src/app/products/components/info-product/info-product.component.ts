@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ProductService } from '../../../shared/services/products/product.service';
-
 @Component({
   selector: 'app-info-product',
   templateUrl: './info-product.component.html',
@@ -8,35 +6,26 @@ import { ProductService } from '../../../shared/services/products/product.servic
 })
 export class InfoProductComponent implements OnInit {
 
-  @Input()
-  id: any;
+  @Input() eye: any;
+  @Input() product: any
 
-  /*parameters = {
-    types: null,
-    parametersRight: [],
-    parametersLeft: []
-  };*/
-  product = {
-    eyeRight: null
-  };
+  eyeSelected: any;
 
-  @Input()
-  parameters: Array<any>;
-
-  constructor(private productService: ProductService) {}
+  constructor() {}
 
   ngOnInit(): void {
-    // this.getProduct();
   }
-  /*getProduct() {
-    this.productService.findById$(this.id).subscribe(res => {
-      debugger
-      this.parameters = res.data[0];
-      this.parameters.parametersRight = JSON.parse(this.parameters.types)[0].parameters;
-      debugger
-      // _.reverse(this.product.parametersRight[4].values);
-      this.parameters.parametersLeft = JSON.parse(this.parameters.types)[0].parameters;
-      // _.reverse(this.product.parametersLeft[4].values);
-    });
-  }*/
+
+  quantity() {
+    return this.eye === 'right' ? 'quantityRight' : 'quantityLeft';
+  }
+
+  selectEye() {
+    this.eyeSelected = !this.eyeSelected;
+    //CLEAN PARAMS IF EYESELECTED
+  }
+
+  getParams() {
+    return this.eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
+  }
 }

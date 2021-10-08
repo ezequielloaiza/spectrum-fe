@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-breadcrumb-product',
@@ -8,4 +9,6 @@ import { Component, OnInit } from '@angular/core';
 export class BreadcrumbProductComponent implements OnInit {
   ngOnInit(): void {
   }
+
+  constructor(private route: ActivatedRoute) {}
 }
