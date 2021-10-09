@@ -25,6 +25,7 @@ export class SmartlensComponent implements OnInit {
   quantity: any;
   observations: any;
   price: any;
+  priceNet: any;
   editPrice = false;
   user: any;
   patient: any;
@@ -78,9 +79,9 @@ export class SmartlensComponent implements OnInit {
     this.product.materials = JSON.parse(this.product.types)[0].materials;
     this.product.hydrapeg = JSON.parse(this.product.types)[0].hydrapeg;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
+    this.product.infoAditionalPrices = JSON.parse(this.product.infoAditional)[0];
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
-    this.price = this.productRequested.price;
     this.patient = this.productRequested.patient;
     let self = this;
 
@@ -119,6 +120,29 @@ export class SmartlensComponent implements OnInit {
         }
       });
     });
+
+    this.definePriceNet();
+    this.setFullPrice();
+  }
+
+  definePriceNet() {
+    const membership = this.basket.basket.user.membership.idMembership;
+    switch (membership) {
+      case 1:
+        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.gold;
+        this.priceNotch = this.product.infoAditionalPrices.values.notch.gold;
+        break;
+      case 2:
+        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.diamond;
+        this.priceNotch = this.product.infoAditionalPrices.values.notch.diamond;
+        break;
+      case 3:
+        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.preferred;
+        this.priceNotch = this.product.infoAditionalPrices.values.notch.preferred;
+        break;
+    }
+
+    this.priceNet = this.productRequested.price - this.getAdditionalPrices().hydrapeg - this.getAdditionalPrices().notch;
   }
 
   getParams() {
@@ -162,6 +186,8 @@ export class SmartlensComponent implements OnInit {
 
   changeSelect(parameter, value, value2) {
     parameter.selected = value;
+
+    this.setFullPrice();
 
     // Finding baseCurve
     let baseCurve = null;
@@ -375,14 +401,19 @@ export class SmartlensComponent implements OnInit {
 
     if (parameter.values[1].selected === 0)
       parameter.values[1].selected = null;
+
+    this.setFullPrice();
   }
 
   validateSelectedNotch(parameter) {
     if (this.selectedNotch === null) {
+      parameter.selected = null;
       parameter.values[0].selected = 0;
       parameter.values[1].selected = 0;
       this.axesSelected.selected = null
     }
+
+    this.setFullPrice();
   }
 
   axesValues() {
@@ -404,6 +435,31 @@ export class SmartlensComponent implements OnInit {
 
   isSphere(param) {
     return param.name === "Sphere (D)" || param.name === "Sphere (D) (final power)" || param.name === "Sphere (D) (add over-refraction)";
+  }
+
+  setFullPrice() {
+    this.price = this.priceNet;
+
+    this.price += this.getAdditionalPrices().notch;
+    this.price += this.getAdditionalPrices().hydrapeg;
+  }
+
+  getAdditionalPrices() {
+    let notchPrice = 0;
+    let hydrapegPrice = 0;
+
+    // Finding Notch
+    const notch: any = _.find(this.product.parameters, { name: 'Notch (mm)' });
+    if (notch.selected !== '0x0' && notch.selected !== null) {
+      notchPrice = this.priceNotch;
+    }
+
+    // Finding Hydrapeg
+    if (this.product.hydrapeg.selected === "Yes") {
+      hydrapegPrice = this.priceHydrapeg;
+    }
+
+    return { notch: notchPrice, hydrapeg: hydrapegPrice };
   }
 
   save() {
