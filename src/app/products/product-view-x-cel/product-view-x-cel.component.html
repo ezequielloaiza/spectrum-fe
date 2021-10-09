@@ -1,13 +1,14 @@
 
 <app-breadcrumb-product></app-breadcrumb-product>
 <app-card-product *ngIf="product && validation()" [productName]="product.name">
-  <app-order-type *ngIf="product" [product]="product"></app-order-type>
-  <app-info-client *ngIf="product" [product]="product"></app-info-client>
+  <app-order-type [product]="product"></app-order-type>
+  <app-info-client [product]="product"></app-info-client>
   <div class="row product-info">
     <div class="col-md-12 title">
       <label> {{ 'Please specific your product' | translate }}</label>
     </div>
   </div>
-  <app-info-product *ngIf="product" [product]="product" [eye]="'right'"></app-info-product>
-  <app-info-product *ngIf="product" [product]="product" [eye]="'left'"></app-info-product>
+  <app-info-params [product]="product" [eye]="'right'"></app-info-params>
+  <app-info-params [product]="product" [eye]="'left'"></app-info-params>
+  <app-footer-buttons (buttonAction)="buttonAction($event)" [buttons]="buttons"></app-footer-buttons>
 </app-card-product>

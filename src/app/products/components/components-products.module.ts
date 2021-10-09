@@ -6,9 +6,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BreadcrumbProductComponent } from '../components/breadcrumb-product/breadcrumb-product.component';
 import { CardProductComponent } from '../components/card-product/card-product.component';
 import { InfoClientComponent } from '../components/info-client/info-client.component';
-import { InfoProductComponent } from '../components/info-product/info-product.component';
 import { OrderTypeComponent } from '../components/order-type/order-type.component';
 import { CommentComponent } from './comment/comment.component';
+import { FooterButtonsComponent } from './footer-buttons/footer-buttons.component';
+import { InfoParamsComponent } from './info-params/info-params.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 
 @NgModule({
@@ -19,22 +20,24 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
     NgSelectModule
   ],
   declarations: [
-    InfoProductComponent,
+    InfoParamsComponent,
     InfoClientComponent,
     BreadcrumbProductComponent,
     OrderTypeComponent,
     CardProductComponent,
     CommentComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    FooterButtonsComponent
   ],
   exports: [
-    InfoProductComponent,
+    InfoParamsComponent,
     InfoClientComponent,
     BreadcrumbProductComponent,
     OrderTypeComponent,
     CardProductComponent,
     CommentComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    FooterButtonsComponent
   ]
 })
 export class ComponentsProductsModule {}

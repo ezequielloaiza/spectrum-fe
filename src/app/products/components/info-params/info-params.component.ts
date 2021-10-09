@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 @Component({
-  selector: 'app-info-product',
-  templateUrl: './info-product.component.html',
-  styleUrls: ['./info-product.component.scss']
+  selector: 'app-info-params',
+  templateUrl: './info-params.component.html',
+  styleUrls: ['./info-params.component.scss']
 })
-export class InfoProductComponent implements OnInit {
+export class InfoParamsComponent implements OnInit {
 
   @Input() eye: any;
   @Input() product: any
