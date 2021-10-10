@@ -274,7 +274,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     if (design.selected === "Sph") {
       params =  _.filter(params, function(param) {
         // Remove params cylinder and axis when design is Sph.
-        return param.name !== 'Cylinder (D)' && param.name !== 'Axes Cylinder(º)' && param.name !== 'Position of axis rotation markers';
+        return param.name !== 'Cylinder (D)' && param.name !== 'Axis Cylinder(º)' && param.name !== 'Position of axis rotation markers' && param.name !== 'Rotationally stable';
       });
     }
 
@@ -672,7 +672,7 @@ export class ProductViewSmartlensComponent implements OnInit {
         cylinder.selected = null;
       }
 
-      const axesCylinder: any = _.find(params, { name: 'Axes Cylinder(º)' });
+      const axesCylinder: any = _.find(params, { name: 'Axis Cylinder(º)' });
       if (axesCylinder) {
         axesCylinder.selected = null;
       }

@@ -35,7 +35,7 @@ export class DetailSmartlensComponent implements OnInit {
     if (this.detail.design === "Sph") {
       params =  _.filter(params, function(param) {
         // Remove params cylinder and axis when design is Sph.
-        return param.name !== 'Cylinder (D)' && param.name !== 'Axes Cylinder(º)' && param.name !== 'Position of axis rotation markers';
+        return param.name !== 'Cylinder (D)' && param.name !== 'Axis Cylinder(º)' && param.name !== 'Position of axis rotation markers' && param.name !== 'Rotationally stable';
       });
     }
 
