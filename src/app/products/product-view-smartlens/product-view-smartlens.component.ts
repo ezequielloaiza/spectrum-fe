@@ -78,7 +78,7 @@ export class ProductViewSmartlensComponent implements OnInit {
   typeNotchRight: any;
   typeNotchLeft: any;
   notchParam: any;
-  axesParam: any;
+  axisParam: any;
 
   // Products prices on field info_aditional
   priceNotch: any;
@@ -195,6 +195,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     this.product.hydrapegRight = JSON.parse(this.product.types)[0].hydrapeg;
     this.setParameterDefaultValue(this.product.parametersRight);
     this.changeTypeLens('right', 'Design by laboratory');
+    this.changeDesign('right', 'Sph');
 
     // Eye Left
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
@@ -204,6 +205,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     this.product.hydrapegLeft = JSON.parse(this.product.types)[0].hydrapeg;
     this.setParameterDefaultValue(this.product.parametersLeft);
     this.changeTypeLens('left', 'Design by laboratory');
+    this.changeDesign('left', 'Sph');
 
     this.setClient();
     this.setPrice();
@@ -650,6 +652,14 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
+  renameAddition(params, newName) {
+    _.each(params, function(param, index) {
+      if (param.name === "Addition" || param.name === "Addition (MF Sph)" || param.name === "Addition (MF Bitoric)") {
+        params[index].name = newName;
+      }
+    });
+  }
+
   changeDesign(eye, value) {
     let params;
     switch (eye) {
@@ -672,15 +682,21 @@ export class ProductViewSmartlensComponent implements OnInit {
         cylinder.selected = null;
       }
 
-      const axesCylinder: any = _.find(params, { name: 'Axis Cylinder(º)' });
-      if (axesCylinder) {
-        axesCylinder.selected = null;
+      const axisCylinder: any = _.find(params, { name: 'Axis Cylinder(º)' });
+      if (axisCylinder) {
+        axisCylinder.selected = null;
       }
 
       const axisRotationMarkers: any = _.find(params, { name: 'Position of axis rotation markers' });
       if (axisRotationMarkers) {
         axisRotationMarkers.selected = null;
       }
+
+      this.renameAddition(params, 'Addition (MF Sph)');
+    }
+
+    if (value === 'Bitoric') {
+      this.renameAddition(params, 'Addition (MF Bitoric)');
     }
   }
 
@@ -708,9 +724,9 @@ export class ProductViewSmartlensComponent implements OnInit {
             isValid = false;
           }
 
-        } else if (param.name === "Axes (º)") {
-          self.axesParam = _.find(self.product.parametersRight, { name: 'Notch (mm)' });
-          if (!!self.axesParam.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
+        } else if (param.name === "Axis (º)") {
+          self.axisParam = _.find(self.product.parametersRight, { name: 'Notch (mm)' });
+          if (!!self.axisParam.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
             isValid = false;
           }
         } else if (!param.noRequired && (param.selected === null || param.selected === undefined || param.selected === '')) {
@@ -737,9 +753,9 @@ export class ProductViewSmartlensComponent implements OnInit {
             isValid = false;
           }
 
-        } else if (param.name === "Axes (º)") {
-          self.axesParam = _.find(self.product.parametersLeft, { name: 'Notch (mm)' });
-          if (!!self.axesParam.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
+        } else if (param.name === "Axis (º)") {
+          self.axisParam = _.find(self.product.parametersLeft, { name: 'Notch (mm)' });
+          if (!!self.axisParam.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
             isValid = false;
           }
         } else if (!param.noRequired && (param.selected === null || param.selected === undefined || param.selected === '') ){
@@ -771,20 +787,20 @@ export class ProductViewSmartlensComponent implements OnInit {
         this.notchRight.itemsList._items[0].label = value;
         this.notchRight.itemsList._items[0].value = value;
 
-        // restart axes after change
+        // restart axis after change
         if (changedNotch) {
-          this.axesParam = _.find(this.product.parametersRight, { name: 'Axes (º)' });
-           this.axesParam.selected = null
+          this.axisParam = _.find(this.product.parametersRight, { name: 'Axis (º)' });
+           this.axisParam.selected = null
         }
         break;
       case 'left':
         this.notchLeft.itemsList._items[0].label = value;
         this.notchLeft.itemsList._items[0].value = value;
 
-        // restart axes after change
+        // restart axis after change
         if (changedNotch) {
-          this.axesParam = _.find(this.product.parametersLeft, { name: 'Axes (º)' });
-          this.axesParam.selected = null
+          this.axisParam = _.find(this.product.parametersLeft, { name: 'Axis (º)' });
+          this.axisParam.selected = null
         }
         break;
     }
@@ -807,7 +823,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
-  axesRequired(eye) {
+  axisRequired(eye) {
     switch (eye) {
       case 'right':
         this.notchParam = _.find(this.product.parametersRight, { name: 'Notch (mm)' });
@@ -818,11 +834,11 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
-  axesValues(eye) {
+  axisValues(eye) {
     switch (eye) {
       case 'right':
         this.notchParam = _.find(this.product.parametersRight, { name: 'Notch (mm)' });
-        this.axesParam = _.find(this.product.parametersRight, { name: 'Axes (º)' });
+        this.axisParam = _.find(this.product.parametersRight, { name: 'Axis (º)' });
 
         switch (this.notchParam.selectedNotchTime) {
           case 'Upper Temporal':
@@ -834,13 +850,13 @@ export class ProductViewSmartlensComponent implements OnInit {
           case 'Lower Nasal':
             return _.range(270, 361).toString().split(",");
           default:
-            this.axesParam.selected = null;
+            this.axisParam.selected = null;
             return [];
         }
 
       case 'left':
         this.notchParam = _.find(this.product.parametersLeft, { name: 'Notch (mm)' });
-        this.axesParam = _.find(this.product.parametersLeft, { name: 'Axes (º)' });
+        this.axisParam = _.find(this.product.parametersLeft, { name: 'Axis (º)' });
 
         switch (this.notchParam.selectedNotchTime) {
           case 'Upper Temporal':
@@ -852,7 +868,7 @@ export class ProductViewSmartlensComponent implements OnInit {
           case 'Lower Nasal':
             return _.range(270, 361).toString().split(",");
           default:
-            this.axesParam.selected = null;
+            this.axisParam.selected = null;
             return [];
         }
     }

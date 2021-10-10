@@ -190,7 +190,7 @@
                 <!--param values-->
                 <div class="row">
                   <!-- SELECTED OF ALL -->
-                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('right', parameter, $event,0)" [items]="parameter.values"
                       placement="top" ngbTooltip="{{ isDependent(parameter, 'right') | translate }}"
                       [disabled]="!product.eyeRight || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'right')" [required]="product.eyeRight && !parameter.noRequired" [(ngModel)]="parameter.selected"
@@ -234,11 +234,11 @@
                       [disabled]="!product.eyeRight">
                   </div>
 
-                  <!--Only Axes (notch)-->
-                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values col-sm-12">
-                    <ng-select (change)="changeSelect('right', parameter, $event,0)" [disabled]="!product.eyeRight || !axesRequired('right')" [required]="product.eyeRight && axesRequired('right')" [(ngModel)]="parameter.selected"
+                  <!--Only Axis (notch)-->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axis (º)'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('right', parameter, $event,0)" [disabled]="!product.eyeRight || !axisRequired('right')" [required]="product.eyeRight && axisRequired('right')" [(ngModel)]="parameter.selected"
                                 bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
-                      <ng-option [value]="item" *ngFor="let item of axesValues('right')">{{ item  | translate }}</ng-option>
+                      <ng-option [value]="item" *ngFor="let item of axisValues('right')">{{ item  | translate }}</ng-option>
                     </ng-select>
                   </div>
 
@@ -279,7 +279,7 @@
         <!--prices additional right-->
         <div class="row additional col-lg-12">
           <p *ngIf="getAdditionalPrices(true).notchRight || getAdditionalPrices(true).hydrapegRight">
-            <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;
+            <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
             <span *ngIf="getAdditionalPrices(true).hydrapegRight">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegRight | currency : " USD $" }}</span>&nbsp;
             <span *ngIf="getAdditionalPrices(true).notchRight && getAdditionalPrices(true).hydrapegRight">| </span>
             <span *ngIf="getAdditionalPrices(true).notchRight">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchRight | currency : " USD $" }}</span>&nbsp;
@@ -296,7 +296,7 @@
 
         <br>
         <!--files right-->
-        <div class="row col-md-12">
+        <div class="row attachments">
           <div class="col-md-12">
             <div>
               <dt class="title">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>
@@ -422,7 +422,7 @@
                 <div class="row">
 
                   <!-- SELECTED OF ALL -->
-                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect('left', parameter, $event,0)" [items]="parameter.values"
                       placement="top" ngbTooltip="{{ isDependent(parameter, 'left') | translate }}"
                       [disabled]="!product.eyeLeft || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'left')" [required]="product.eyeLeft && !parameter.noRequired" [(ngModel)]="parameter.selected" bindLabel="item"
@@ -466,11 +466,11 @@
                       [disabled]="!product.eyeLeft">
                   </div>
 
-                  <!--Only Axes (notch)-->
-                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values col-sm-12">
-                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [disabled]="!product.eyeLeft || !axesRequired('left')" [required]="product.eyeLeft && axesRequired('left')" [(ngModel)]="parameter.selected"
+                  <!--Only Axis (notch)-->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axis (º)'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [disabled]="!product.eyeLeft || !axisRequired('left')" [required]="product.eyeLeft && axisRequired('left')" [(ngModel)]="parameter.selected"
                                 bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
-                      <ng-option [value]="item" *ngFor="let item of axesValues('left')">{{ item  | translate }}</ng-option>
+                      <ng-option [value]="item" *ngFor="let item of axisValues('left')">{{ item  | translate }}</ng-option>
                     </ng-select>
                   </div>
 
@@ -511,7 +511,7 @@
         <!--prices additional left-->
         <div class="row additional col-lg-12">
           <p *ngIf="getAdditionalPrices(true).notchLeft || getAdditionalPrices(true).hydrapegLeft">
-            <span>{{ 'Warning: Includes' | translate }}</span>&nbsp;&nbsp;
+            <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
             <span *ngIf="getAdditionalPrices(true).hydrapegLeft">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegLeft | currency : " USD $" }}</span>&nbsp;
             <span *ngIf="getAdditionalPrices(true).notchLeft && getAdditionalPrices(true).hydrapegLeft">| </span>
             <span *ngIf="getAdditionalPrices(true).notchLeft">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchLeft | currency : " USD $" }}</span>&nbsp;
@@ -529,7 +529,7 @@
 
         <!--files left-->
         <br>
-        <div class="row col-md-12">
+        <div class="row attachments">
           <div class="col-md-12">
             <div class="">
               <dt class="title">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>

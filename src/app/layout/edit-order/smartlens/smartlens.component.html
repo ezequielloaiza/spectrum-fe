@@ -107,8 +107,7 @@
           <div class="col-sm-4" *ngFor="let parameter of getParams()">
             <dl>
               <div *ngIf="parameter.type !== 'selected-double' && parameter.name !== 'Type'">
-                <dt *ngIf="parameter.name !== 'Axes Cylinder'">{{ parameter.name | translate }}</dt>
-                <dt *ngIf="parameter.name === 'Axes Cylinder'">{{ "Axes (º)" | translate }}</dt>
+                <dt>{{ parameter.name | translate }}</dt>
               </div>
 
               <div class="notch-lbl" *ngIf="parameter.type === 'selected-double'">
@@ -121,7 +120,7 @@
                 <dt>
                   <!--param values-->
                   <!-- SELECTED OF ALL -->
-                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect(parameter, $event,0)" [items]="parameter.values"
                       placement="top" ngbTooltip="{{ isDependent(parameter) | translate }}"
                       [disabled]="parameter.values.length === 1 || parameter.disabled || isDependent(parameter)" [required]="!parameter.noRequired" [(ngModel)]="parameter.selected"
@@ -162,12 +161,12 @@
                       [required]="true" [(ngModel)]="parameter.selected">
                   </div>
 
-                  <!--Only Axes (notch)-->
-                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values">
+                  <!--Only axis (notch)-->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axis (º)'" class="select-values">
                     <ng-select (change)="changeSelect(parameter, parameter.selected,0)" [disabled]="!selectedNotch"
                               [required]="selectedNotch" [(ngModel)]="parameter.selected"
                               bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
-                              <ng-option [value]="item" *ngFor="let item of axesValues()">{{ item  | translate }}</ng-option>
+                              <ng-option [value]="item" *ngFor="let item of axisValues()">{{ item  | translate }}</ng-option>
                     </ng-select>
                   </div>
 

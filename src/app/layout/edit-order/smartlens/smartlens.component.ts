@@ -33,7 +33,7 @@ export class SmartlensComponent implements OnInit {
   /* Notch */
   @ViewChild('notchTime') notchTime;
   selectedNotch: any;
-  axesSelected: any;
+  axisSelected: any;
 
   // Values of product
   typeLens: any;
@@ -350,6 +350,14 @@ export class SmartlensComponent implements OnInit {
     }
   }
 
+  renameAddition(params, newName) {
+    _.each(params, function(param, index) {
+      if (param.name === "Addition" || param.name === "Addition (MF Sph)" || param.name === "Addition (MF Bitoric)") {
+        params[index].name = newName;
+      }
+    });
+  }
+
   changeDesign(value) {
     this.design.selected = value;
 
@@ -359,15 +367,21 @@ export class SmartlensComponent implements OnInit {
         cylinder.selected = null;
       }
 
-      const axesCylinder: any = _.find(this.product.parameters, { name: 'Axis Cylinder(º)' });
-      if (axesCylinder) {
-        axesCylinder.selected = null;
+      const axisCylinder: any = _.find(this.product.parameters, { name: 'Axis Cylinder(º)' });
+      if (axisCylinder) {
+        axisCylinder.selected = null;
       }
 
       const axisRotationMarkers: any = _.find(this.product.parameters, { name: 'Position of axis rotation markers' });
       if (axisRotationMarkers) {
         axisRotationMarkers.selected = null;
       }
+
+      this.renameAddition(this.product.parameters, 'Addition (MF Sph)');
+    }
+
+    if (value === 'Bitoric') {
+      this.renameAddition(this.product.parameters, 'Addition (MF Bitoric)');
     }
   }
 
@@ -389,10 +403,10 @@ export class SmartlensComponent implements OnInit {
     this.notchTime.itemsList._items[0].label = value;
     this.notchTime.itemsList._items[0].value = value;
 
-     // restart axes after change
+     // restart axis after change
      if (changedNotch) {
-      this.axesSelected = _.find(this.product.parameters, { name: 'Axes (º)' });
-      this.axesSelected.selected = null
+      this.axisSelected = _.find(this.product.parameters, { name: 'Axis (º)' });
+      this.axisSelected.selected = null
     }
 
     //set null in values notch
@@ -410,15 +424,15 @@ export class SmartlensComponent implements OnInit {
       parameter.selected = null;
       parameter.values[0].selected = 0;
       parameter.values[1].selected = 0;
-      this.axesSelected.selected = null
+      this.axisSelected.selected = null
     }
 
     this.setFullPrice();
   }
 
-  axesValues() {
-    this.axesSelected = _.find(this.product.parameters, { name: 'Axes (º)' });
-    if (this.selectedNotch === null) { this.axesSelected.selected = null };
+  axisValues() {
+    this.axisSelected = _.find(this.product.parameters, { name: 'Axis (º)' });
+    if (this.selectedNotch === null) { this.axisSelected.selected = null };
     switch (this.selectedNotch) {
       case 'Upper Temporal':
         return _.range(90, 181).toString().split(",")
@@ -536,7 +550,7 @@ export class SmartlensComponent implements OnInit {
         if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !self.selectedNotch) {
           isValid = false;
         }
-      } else if (param.name === "Axes (º)") {
+      } else if (param.name === "Axis (º)") {
         if (!!self.selectedNotch &&  (param.selected === null || param.selected === undefined)) {
           isValid = false;
         }

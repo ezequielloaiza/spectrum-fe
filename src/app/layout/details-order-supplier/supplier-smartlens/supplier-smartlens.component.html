@@ -68,12 +68,11 @@
                   </dl>
                 </dl>
               </div>
-              
+
               <div class="col-sm-3" *ngFor="let param of getParams(specification)">
                 <div class="container-supplier">
                   <dl class="align-item">
-                    <dt *ngIf="param.name !== 'Axes Cylinder'">{{ param.name | translate }}</dt>
-                    <dt *ngIf="param.name === 'Axes Cylinder'">{{ "Axes (º)" | translate }}</dt>
+                    <dt>{{ param.name | translate }}</dt>
                     <dt>
                       <span class="font-text" *ngIf="param.selected !== null && param.selected !== '' && param.selected !== undefined"> {{ param.selected }}</span>
                       <span class="font-text" *ngIf="param.selected === null || param.selected === '' || param.selected === undefined"> {{ 'Unassigned' | translate }}</span>
