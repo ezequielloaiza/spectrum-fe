@@ -1,3 +1,12 @@
-<p>
-  comment works!
-</p>
+<div class="col-md-12">
+  <div class="comments">
+    <div class="row header">
+      <div class="col-md-12">
+        <div class="title">{{ 'OD Comments' | translate }}</div>
+        <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product[attribute]"
+          [disabled]="!enableField" placeholder="{{ 'Enter OD Observations' | translate }}"></textarea>
+      </div>
+    </div>
+    <br>
+  </div>
+</div>

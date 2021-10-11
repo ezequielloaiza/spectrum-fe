@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
+import { FileUploadModule } from 'ng2-file-upload';
 import { BreadcrumbProductComponent } from '../components/breadcrumb-product/breadcrumb-product.component';
 import { CardProductComponent } from '../components/card-product/card-product.component';
 import { InfoClientComponent } from '../components/info-client/info-client.component';
@@ -17,7 +19,9 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
     CommonModule,
     TranslateModule,
     FormsModule,
-    NgSelectModule
+    NgSelectModule,
+    RouterModule,
+    FileUploadModule
   ],
   declarations: [
     InfoParamsComponent,

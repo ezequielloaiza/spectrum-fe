@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'app-info-params',
   templateUrl: './info-params.component.html',
@@ -7,7 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class InfoParamsComponent implements OnInit {
 
   @Input() eye: any;
-  @Input() product: any
+  @Input() product: any;
+  @Output() select: EventEmitter<any> = new EventEmitter();
 
   eyeSelected: any;
 
@@ -22,6 +23,7 @@ export class InfoParamsComponent implements OnInit {
 
   selectEye() {
     this.eyeSelected = !this.eyeSelected;
+    this.select.emit({name: this.eye, value: this.eyeSelected});
     //CLEAN PARAMS IF EYESELECTED
   }
 
