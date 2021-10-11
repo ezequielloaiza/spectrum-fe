@@ -1116,7 +1116,6 @@ export class ProductViewSmartlensComponent implements OnInit {
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.additionalHydrapeg = this.getAdditionalPrices(false).hydrapeg;
     modalRef.componentInstance.additionalNotch = this.getAdditionalPrices(false).notch;
-    debugger
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     modalRef.componentInstance.typeOrder = this.typeOrder;

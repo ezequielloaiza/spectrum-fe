@@ -243,7 +243,7 @@ export class DetailsBasketClientComponent implements OnInit {
         const idSupplier = basket.productRequested.product.supplier.idSupplier;
 
         if (this.productModel.haveAdditionalProduct(idSupplier)) {
-          this.deleteProductsAditionalEuropa(basket);
+          this.deleteProductsAdditional(basket);
         } else {
           this.deleteBasket(id);
         }
@@ -303,7 +303,7 @@ export class DetailsBasketClientComponent implements OnInit {
     return basket;
   }
 
-  deleteProductsAditionalEuropa(basket) {
+  deleteProductsAdditional(basket) {
     let arrayAux = [];
     let arrayDelete = [];
     let insertSelected;
@@ -675,7 +675,7 @@ export class DetailsBasketClientComponent implements OnInit {
   }
 
   openSumary() {
-    this.addProductsAditionalEuropa();
+    this.addingProductsAditional();
     this.buyBasket.idUser = this.id;
     this.buyBasket.listBasket = this.productRequestedToBuy;
     this.buyBasket.idRole = this.user.role.idRole;
@@ -697,32 +697,34 @@ export class DetailsBasketClientComponent implements OnInit {
     });
   }
 
-  // TODO:
-  addProductsAditionalEuropa() {
-    let listPA = [];
-    let arrayAux = [];
-    let arrayAuxPA = [];
+  addingProductsAditional() {
     let self = this;
-    let productsDistinctEuropa = _.filter(this.productRequestedToBuy, function (itemBasket) {
+    let productsAdditional = [];
+    let arrayAux = [];
+
+    // Filtering products without additionals
+    let productsWithoutAdditionals = _.filter(this.productRequestedToBuy, function (itemBasket) {
       return _.find(self.listBasket, function (item) {
-        return item.productRequested.product.supplier.idSupplier !== 2 && item.idBasketProductRequested === itemBasket;
+        const supplierId = item.productRequested.product.supplier.idSupplier;
+        return !self.productModel.haveAdditionalProduct(supplierId) && item.idBasketProductRequested === itemBasket;
       });
     });
 
-    // TODO: check X-cel
     const listSelect = this.productRequestedToBuy;
     _.each(this.listBasket, function(item) {
       _.each(listSelect, function(itemBasket) {
-        if (item.productRequested.product.supplier.idSupplier === 2 && item.idBasketProductRequested === itemBasket) {
-          arrayAuxPA = self.getProductsGrouped(item.productRequested.groupId, item.productRequested.detail[0].eye);
-          listPA = _.concat(listPA, arrayAuxPA);
+        const supplierId = item.productRequested.product.supplier.idSupplier;
+        if (self.productModel.haveAdditionalProduct(supplierId) && item.idBasketProductRequested === itemBasket) {
+          productsAdditional = _.concat(productsAdditional, self.getProductsGrouped(item.productRequested.groupId, item.productRequested.detail[0].eye));
         }
       });
     });
 
     let insertorsUniq = [];
 
-    _.each(listPA, function(item) {
+    _.each(productsAdditional, function(item) {
+      const supplierId = item.productRequested.product.supplier.idSupplier;
+
       const id = item.idBasketProductRequested;
       const groupId = item.productRequested.groupId;
 
@@ -734,8 +736,9 @@ export class DetailsBasketClientComponent implements OnInit {
       }
     });
 
+    // Set products to buy.
     if (arrayAux.length > 0) {
-      this.productRequestedToBuy = _.concat(arrayAux, productsDistinctEuropa);
+      this.productRequestedToBuy = _.concat(arrayAux, productsWithoutAdditionals);
     }
   }
 
