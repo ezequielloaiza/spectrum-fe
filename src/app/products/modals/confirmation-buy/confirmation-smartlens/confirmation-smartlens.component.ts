@@ -83,6 +83,7 @@ export class ConfirmationSmartlensComponent implements OnInit {
   }
 
   getDatos() {
+    const self = this;
     let patient;
     let  priceAcum = 0;
     let eyesSelected = [];
@@ -104,13 +105,20 @@ export class ConfirmationSmartlensComponent implements OnInit {
       });
 
       productRequested.detail = JSON.parse(productRequested.detail);
-      listBasketAux.push(productRequested);
+
+      if (!self.isAdditionalProduct(productRequested)) {
+        listBasketAux.push(productRequested);
+      }
     });
 
     this.listBasket = listBasketAux;
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;
     this.price = priceAcum;
+  }
+
+  isAdditionalProduct(productRequested) {
+    return productRequested.name === 'Notch' || productRequested.name === 'Hydrapeg';
   }
 
   getBalance() {

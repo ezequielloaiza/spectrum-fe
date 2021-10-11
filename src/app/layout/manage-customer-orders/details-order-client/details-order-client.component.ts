@@ -39,6 +39,8 @@ export class DetailsOrderClientComponent implements OnInit {
   company: any;
   prueba: any;
   status: any;
+  productModel: Product = new Product();
+
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
     public productImageService: ProductoimageService,
@@ -92,7 +94,7 @@ export class DetailsOrderClientComponent implements OnInit {
            }
 
            const productId = detailsOrder.productRequested.product ? detailsOrder.productRequested.product.idProduct : null;
-            if (productId && productId !== 145 && productId !== 146 && productId !== 147) {
+            if (productId && !self.productModel.isAdditionalProduct(productId)) {
               order.auxList.push(detailsOrder);
             }
          });

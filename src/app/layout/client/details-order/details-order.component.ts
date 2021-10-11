@@ -13,6 +13,7 @@ import { SalineFluoComponent } from '../../edit-order/saline-fluo/saline-fluo.co
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { ProductService } from '../../../shared/services/products/product.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Product } from '../../../shared/models/product';
 
 @Component({
   selector: 'app-details-order',
@@ -31,6 +32,7 @@ export class DetailsOrderComponent implements OnInit {
   itemPerPage = 2;
   download = false;
   listAux: Array<ProductRequested> = new Array<ProductRequested>();
+  productModel: Product = new Product();
 
   constructor(private route: ActivatedRoute,
     private orderService: OrderService,
@@ -55,6 +57,7 @@ export class DetailsOrderComponent implements OnInit {
   }
 
   getOrder(idOrder): void {
+    const self = this;
     this.spinner.show();
     this.orderService.findId$(idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -72,9 +75,7 @@ export class DetailsOrderComponent implements OnInit {
           if (detailsOrder.productRequested.detail && detailsOrder.productRequested.detail.length) {
             detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
           }
-          if (productId && productId !== 145
-              && productId !== 146
-              && productId !== 147) {
+          if (!self.productModel.isAdditionalProduct(productId)) {
             auxList.push(detailsOrder);
           }
         });

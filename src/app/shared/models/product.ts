@@ -23,6 +23,37 @@ export class Product {
   public priced1: number;
   public priced2: number;
   public priced3: number;
-    public constructor() { }
 
+  public constructor() { }
+
+  public haveAdditionalProduct(idSupplier) {
+    return idSupplier === 2 ||
+           idSupplier === 14 ||
+           idSupplier === 'id supplier Xcel';
   }
+
+  public haveInsertsDMV(idSupplier) {
+    return idSupplier === 2 ||
+           idSupplier === 'id supplier Xcel';
+  }
+
+  public isAdditionalProduct(idProduct) {
+    return idProduct === 145 || // Noctch Europa
+           idProduct === 146 || // DMV Inserts Europa
+           idProduct === 147 || // Hydrapeg Europa
+           idProduct === 310 || // Hydrapeg Smartlens
+           idProduct === 311;   // Notch Smartlens
+  }
+
+  public getInsertsID(product) {
+    switch (product.supplier.idSupplier) {
+      case 2: // Europa
+        return 146;
+      case 'id supplier Xcel': // X-cel
+        return null;
+      default:
+        null;
+    }
+  }
+
+}

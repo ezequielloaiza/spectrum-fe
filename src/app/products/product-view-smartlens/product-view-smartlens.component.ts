@@ -33,6 +33,7 @@ export class ProductViewSmartlensComponent implements OnInit {
 
 
   products: Array<any> = new Array;
+  productsAdditional: any;
   product: any;
   id: any;
   parameters: any;
@@ -80,7 +81,7 @@ export class ProductViewSmartlensComponent implements OnInit {
   notchParam: any;
   axisParam: any;
 
-  // Products prices on field info_aditional
+  // Products prices on field info_additional
   priceNotch: any;
   priceHydrapeg
 
@@ -167,6 +168,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     this.productService.findBySupplierInView$(14 , true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
+        this.getOtherProducts();
         this.getProductView();
         this.spinner.hide();
       } else {
@@ -179,13 +181,55 @@ export class ProductViewSmartlensComponent implements OnInit {
     });
   }
 
+  getOtherProducts() {
+    this.productService.findBySupplierAndInViewAndCategory$(14, false, 10).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.setInfoAdditionalPrices(res.data);
+      } else {
+        console.log(res.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
+  }
+
+  setInfoAdditionalPrices(data) {
+    let self = this;
+    this.productsAdditional = data;
+    this.product.infoAdditionalPrices = {
+      "name": "prices", "values":
+        { "hydrapeg": {
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          },
+          "notch" :{
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          }
+        }
+    }
+
+    _.each(this.productsAdditional, function(product) {
+      const name = product.name.toLowerCase();
+
+      self.product.infoAdditionalPrices.values[name] = {
+        "gold": product.price1,
+        "diamond": product.price2,
+        "preferred": product.price3
+      };
+    });
+  }
+
   getProductView() {
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, {idProduct: this.id});
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
     this.product.priceSale = '';
-    this.product.infoAditionalPrices = JSON.parse(this.product.infoAditional)[0];
 
     // Eye Right
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
@@ -330,18 +374,18 @@ export class ProductViewSmartlensComponent implements OnInit {
     switch (membership) {
       case 1:
         this.product.priceSale = this.product.price1;
-        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.gold;
-        this.priceNotch = this.product.infoAditionalPrices.values.notch.gold;
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.gold;
         break;
       case 2:
         this.product.priceSale = this.product.price2;
-        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.diamond;
-        this.priceNotch = this.product.infoAditionalPrices.values.notch.diamond;
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamond;
         break;
       case 3:
         this.product.priceSale = this.product.price3;
-        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.preferred;
-        this.priceNotch = this.product.infoAditionalPrices.values.notch.preferred;
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.preferred;
         break;
     }
   }
@@ -379,7 +423,8 @@ export class ProductViewSmartlensComponent implements OnInit {
     if (isIndividualPrice) {
       return {"notchRight": notchRight, "notchLeft": notchLeft, "hydrapegRight": hydrapegRight, "hydrapegLeft": hydrapegLeft };
     } else {
-      return {"notch": (notchRight * this.product.quantityRight) + (notchLeft * this.product.quantityLeft), "hydrapeg": (hydrapegRight * this.product.quantityRight) + (hydrapegLeft * this.product.quantityLeft)};
+      return {"notch": (notchRight * (this.product.quantityRight || 0)) + (notchLeft * (this.product.quantityLeft || 0)),
+              "hydrapeg": (hydrapegRight * (this.product.quantityRight || 0)) + (hydrapegLeft * (this.product.quantityLeft || 0))};
     }
   }
 
@@ -886,6 +931,8 @@ export class ProductViewSmartlensComponent implements OnInit {
       productoSelect.idProduct = product.id;
       productRequest.product = productoSelect;
       productRequest.quantity = product.quantity;
+      productoSelect.codeSpectrum = product.codeSpectrum;
+      productRequest.name = product.name;
       productRequest.price = product.price;
       productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
       productRequest.patient = product.patient;
@@ -896,6 +943,55 @@ export class ProductViewSmartlensComponent implements OnInit {
     this.basketRequestModal.productRequestedList = productsRequested;
     // this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
     // this.openModal(type);
+  }
+
+  getProductsAdditional(productSelected: any, type: any) {
+    const additionals = [];
+
+    // Type is basket (detail) and when is detail (productSelecte)
+    const eye = productSelected.eye || productSelected.detail.eye;
+
+    const keyNotch = eye === 'Right' ? "notchRight" : "notchLeft";
+    const keyHydrapeg = eye === 'Right' ? "hydrapegRight" : "hydrapegLeft";
+
+    const productNotch: any = _.find(this.productsAdditional, {name:"Notch"});
+    const productHydrapeg: any = _.find(this.productsAdditional, {name:"Hydrapeg"});
+
+    if (this.getAdditionalPrices(true)[keyNotch]) {
+      let notch = {
+        id: productNotch.idProduct,
+        name: productNotch.name,
+        price: this.getAdditionalPrices(true)[keyNotch],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productNotch.codeSpectrum,
+        detail: {}
+      }
+
+      if (type === 'basket') {
+        notch.detail = productSelected.detail;
+      }
+      additionals.push(notch);
+    }
+
+    if (this.getAdditionalPrices(true)[keyHydrapeg]) {
+      const hydrapeg = {
+        id: productHydrapeg.idProduct,
+        name: productHydrapeg.name,
+        price: this.getAdditionalPrices(true)[keyHydrapeg],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productHydrapeg.codeSpectrum,
+        detail: {}
+      }
+
+      if (type === 'basket') {
+        hydrapeg.detail = productSelected.detail;
+      }
+      additionals.push(hydrapeg)
+    }
+
+    return additionals;
   }
 
   buildProductsSelected() {
@@ -914,7 +1010,6 @@ export class ProductViewSmartlensComponent implements OnInit {
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
         productSelected.typeLens = self.typeLensRight.selected;
-        productSelected.price = product.priceSale + self.getAdditionalPrices(true).notchRight + self.getAdditionalPrices(true).hydrapegRight;
 
         /* Materials */
         productSelected.materials = product.materialsRight.selected;
@@ -949,7 +1044,6 @@ export class ProductViewSmartlensComponent implements OnInit {
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
         productSelected.typeLens = self.typeLensLeft.selected;
-        productSelected.price = product.priceSale + self.getAdditionalPrices(true).notchLeft + self.getAdditionalPrices(true).hydrapegLeft;
 
         /* Materials */
         productSelected.materials = product.materialsLeft.selected;
@@ -980,11 +1074,18 @@ export class ProductViewSmartlensComponent implements OnInit {
         productSelected.parameters = product.parametersLeft;
       }
 
-      productSelected.detail = { name: '', eye: productSelected.eye, typeLens: productSelected.typeLens, materials: productSelected.materials, hydrapeg: productSelected.hydrapeg, design: productSelected.design, parameters: productSelected.parameters };
+      productSelected.detail = { name: '', eye: productSelected.eye, typeLens: productSelected.typeLens, materials: productSelected.materials, hydrapeg: productSelected.hydrapeg, design: productSelected.design, parameters: productSelected.parameters, productsAdditional: self.getProductsAdditional(productSelected, 'detail') };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'set']);
     });
 
-    return productsSelected;
+    let requestedProducts = JSON.parse(JSON.stringify(productsSelected));
+    _.each(productsSelected, function(p) {
+      _.each(self.getProductsAdditional(p, 'basket'), function(additional) {
+        requestedProducts.push(additional);
+      });
+    });
+
+    return requestedProducts;
   }
 
   setEyeSelected() {
@@ -1015,6 +1116,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.additionalHydrapeg = this.getAdditionalPrices(false).hydrapeg;
     modalRef.componentInstance.additionalNotch = this.getAdditionalPrices(false).notch;
+    debugger
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     modalRef.componentInstance.typeOrder = this.typeOrder;
