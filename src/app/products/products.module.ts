@@ -51,6 +51,7 @@ import { ConfirmationMoldedLensesComponent } from './modals/confirmation-buy/con
 import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
 import { ProductViewSmartlensComponent } from './product-view-smartlens/product-view-smartlens.component';
 import { ConfirmationSmartlensComponent } from './modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component';
+import { ProductsViewXCelModule } from './product-view-x-cel/product-view-x-cel.module';
 
 @NgModule({
   imports: [
@@ -66,7 +67,8 @@ import { ConfirmationSmartlensComponent } from './modals/confirmation-buy/confir
     FileUploadModule,
     NgxSpinnerModule,
     CurrencyMaskModule,
-    CommonsModule
+    CommonsModule,
+    ProductsViewXCelModule
   ],
   declarations: [
     ProductsComponent,
