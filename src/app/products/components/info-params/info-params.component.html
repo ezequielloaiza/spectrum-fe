@@ -2,41 +2,81 @@
   <!-- row (parameters right) -->
   <div class="col-lg-12 custom-control custom-checkbox">
     <!--header-->
-    <input id="{{eye}}" type="checkbox" name="checkboxGroupAll" (click)="selectEye()"
-      class="custom-control-input">
-    <label class="custom-control-label" for="{{eye}}">{{ 'OD' }}</label>
-    <!--<div class="title">{{ 'Parameters' | translate }}</div>-->
-    <div class="row  p-3">
-      <!--quantity right-->
-      <div class="col-lg-2 margin-col padding-col">
+    <input id="{{eye}}" type="checkbox" name="checkboxGroupAll" (click)="selectEye(); cleanEye(eye)" class="custom-control-input">
+    <label class="custom-control-label" for="{{eye}}">{{ getLabelEye() }}</label>
+    <!--<div class="title">{{ 'Header' | translate }}</div>-->
+    <div class="custom-header">
+      <div class="col-lg-2 margin-col padding-col pb-3" *ngFor="let header of globalHeader">
         <div class="row">
-          <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+          <label class="form-check-label">{{ header.name | translate }}</label>&nbsp;&nbsp;
         </div>
-        <div class="row">
-          <div class="col-sm-12 pl-0">
-            <input class="form-control" type="number" step=1 min="1" [(ngModel)]="product[quantity()]" oninput="validity.valid||(value='');"
-            [disabled]="!eyeSelected" [required]="eyeSelected">
+        <div class="row" [ngSwitch]="header.type">
+          <div *ngSwitchCase="'selected'" class="select-values col-sm-12 pl-0">
+            <ng-select [items]="header.values" [disabled]="!eyeSelected" [required]="eyeSelected"
+              (change)="changeHeaders(header)" [(ngModel)]="header.selected" bindLabel="item" bindValue="item"
+              placeholder="{{ 'Select value' | translate }}">
+              {{item}}
+            </ng-select>
+          </div>
+          <div *ngSwitchCase="'input-text'" class="select-values col-sm-12 pl-0">
+            <input type="text" class="form-control" [(ngModel)]="header.selected" [disabled]="!eyeSelected"
+              [required]="eyeSelected" (change)="changeHeaders(header)" />
+          </div>
+
+          <div *ngSwitchCase="'radio'" class="select-values col-sm-12 pl-0 radio-button">
+            <div *ngFor="let value of header.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-{{eye}}-{{header.name}}-{{i}}" name="radio-{{eye}}-{{header.name}}"
+                  [value]="value" (change)="setRadioButtonValue(header,eye,value); cleanEye(eye)" [required]="eyeSelected" [disabled]="!eyeSelected"
+                  class="custom-control-input form-control" [checked]="header.selected === value">
+                <label class="custom-control-label" for="radio-{{eye}}-{{header.name}}-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'input-number'" class="select-values col-sm-12 pl-0">
+            <input type="number" class="form-control" [(ngModel)]="header.selected" [disabled]="!eyeSelected"
+              [required]="eyeSelected" (change)="changeHeaders(header)" />
           </div>
         </div>
       </div>
-      <div class="col-lg-2 margin-col padding-col pb-3" *ngFor="let parameter of getParams()">
+    </div>
+    <!-- Parameters  -->
+    <div class="row  p-3">
+      <div class="col-lg-2 margin-col padding-col pb-3" *ngFor="let parameter of newParameters">
         <div class="row">
           <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
         </div>
         <div class="row" [ngSwitch]="parameter.type">
           <div *ngSwitchCase="'selected'" class="select-values col-sm-12 pl-0">
-            <ng-select [items]="parameter.values" [disabled]="!eyeSelected" [required]="eyeSelected"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}">
+            <ng-select [items]="parameter.values" [disabled]="!eyeSelected" [required]="eyeSelected && !parameter.noRequired"
+              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
+              placeholder="{{ 'Select value' | translate }}">
               {{item}}
             </ng-select>
           </div>
+
           <div *ngSwitchCase="'input-text'" class="select-values col-sm-12 pl-0">
-            <input type="text" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!eyeSelected" [required]="eyeSelected" />
+            <input type="text" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!eyeSelected"
+              [required]="eyeSelected && !parameter.noRequired" />
           </div>
 
           <div *ngSwitchCase="'input-number'" class="select-values col-sm-12 pl-0">
-            <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!eyeSelected" [required]="eyeSelected"/>
+            <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!eyeSelected"
+              [required]="eyeSelected && !parameter.noRequired" />
           </div>
+
+          <div *ngSwitchCase="'radio'" class="select-values col-sm-12 pl-0 radio-button">
+            <div *ngFor="let value of parameter.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-{{eye}}-{{parameter.name}}-{{i}}" name="radio-{{eye}}-{{parameter.name}}"
+                  [value]="value" [required]="eyeSelected" [disabled]="!eyeSelected" (click)="setRadioButtonValue(parameter,eye,value); cleanEye(eye)"
+                  class="custom-control-input form-control" [checked]="parameter.selected === value">
+                <label class="custom-control-label" for="radio-{{eye}}-{{parameter.name}}-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
