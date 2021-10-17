@@ -16,7 +16,7 @@ export class ProductViewXCelComponent implements OnInit {
   user: any;
   product: any;
   buttons: any;
-  newParameters = {right: [], left: []};
+  originalParameters = { right: [], left: [] };
   enable = {
     right: false,
     left: false
@@ -72,6 +72,9 @@ export class ProductViewXCelComponent implements OnInit {
       this.product = res.data[0];
       this.product.typeOrder = 'new';
 
+      this.originalParameters.right =JSON.parse(this.product.types)[0].parameters;
+      this.originalParameters.left = JSON.parse(this.product.types)[0].parameters;
+
       this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
       this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
 
@@ -92,15 +95,30 @@ export class ProductViewXCelComponent implements OnInit {
     return eye === 'right' ? 'parametersRight' : 'parametersLeft';
   }
 
-  changeParamHeader(value) {
+  getParams(type, eye) {
+    switch (type) {
+      case 'header':
+       return  _.filter(this.product[this.parametersByEye(eye)], function (param) {
+          return param.header;
+        });
+
+      case 'body':
+        return _.filter(this.product[this.parametersByEye(eye)], function (param) {
+          return !param.header;
+        });
+    }
+  }
+
+  changeParam(value) {
     //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"
-    let self = this;
     let valueSelected = value.param.selected;
-    let eyeParameter = this.parametersByEye(value.eye);
+    let paramsBody = [];
+    const paramsHeader = this.getParams('header', value.eye);
+
 
     if (value.param.name === 'Design') {
 
-      self.newParameters[value.eye] = _.filter(this.product[eyeParameter], function (param) {
+      paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
 
         switch (valueSelected) {
           case 'Atlantis SPH':
@@ -114,26 +132,27 @@ export class ProductViewXCelComponent implements OnInit {
           case 'Atlantis 2.O':
             return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header;
           case 'Atlantis LD':
-            return param.name !== 'Atlantis 2.0 C.S.A';
+            return param.name !== 'Atlantis 2.0 C.S.A' && !param.header;
           default:
             return param;
         }
 
       });
+      this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
       this.setRequiredParams(value);
     }
   }
 
   setRequiredParams({ param, eye }) {
     let self = this;
-    _.each(this.newParameters[eye], function (p, index) {
+    _.each(this.product[this.parametersByEye(eye)], function (p, index) {
       switch (p.name) {
         case 'TPC':
         case 'Addition':
         case 'Dom. Eye':
         case 'Distance Zone':
           if (param.name === 'Design') {
-            self.newParameters[eye][index].noRequired = param.selected !== 'Atlantis MF';
+            self.product[self.parametersByEye(eye)][index].noRequired = param.selected !== 'Atlantis MF';
           }
           break;
       }

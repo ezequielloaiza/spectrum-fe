@@ -8,11 +8,11 @@ import * as _ from 'lodash';
 export class InfoParamsComponent implements OnInit {
 
   @Input() eye: any;
-  @Input() product: any;
   @Input() newParameters: any;
+  @Input() typeParams: any;
 
   @Output() select: EventEmitter<any> = new EventEmitter();
-  @Output("changeHeader") changeParamHeader: EventEmitter<any> = new EventEmitter();
+  @Output("changeParam") changeParam: EventEmitter<any> = new EventEmitter();
 
   parameters: any;
   globalHeader = [];
@@ -23,7 +23,7 @@ export class InfoParamsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.getHeader();
+    //this.getHeader();
   }
 
   /* quantity() {
@@ -40,26 +40,22 @@ export class InfoParamsComponent implements OnInit {
     //CLEAN PARAMS IF EYESELECTED
   }
 
-  getHeader() {
-    let self = this;
-    this.parameters = this.eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
-    let list = [];
-    this.globalHeader = _.filter(this.parameters, function (param) {
-      if (!param.header) {
-        list.push(param);
-      } else {
-        return param.header;
-      }
-    });
-    this.parameters = list;
+  getParams() {
+    switch (this.typeParams) {
+      case 'header':
+       return  _.filter(this.newParameters, function (param) {
+          return param.header;
+        });
+
+      case 'body':
+        return _.filter(this.newParameters, function (param) {
+          return !param.header;
+        });
+    }
   }
 
-/*   getParams() {
-    return this.eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
-  } */
-
-  changeHeaders(paramHeader) {
-    this.changeParamHeader.emit({ param: paramHeader, eye: this.eye });
+  changeParamValue(paramHeader) {
+    this.changeParam.emit({ param: paramHeader, eye: this.eye });
   }
 
   setRadioButtonValue(param, eye, value) {
