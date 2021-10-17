@@ -8,6 +8,9 @@ import { ProductsRequestedService } from '../../../shared/services';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ProductService } from '../../../shared/services/products/product.service';
+import { Product } from '../../../shared/models/product';
+import { BasketproductrequestedService } from '../../../shared/services/basketproductrequested/basketproductrequested.service';
 
 @Component({
   selector: 'app-smartlens',
@@ -18,6 +21,8 @@ export class SmartlensComponent implements OnInit {
 
   basket: any;productRequested: ProductRequested = new ProductRequested();
   productRequestedAux: ProductRequested = new ProductRequested();
+  productModel: Product = new Product();
+  productsAdditional: any;
   product: any;
   detail: any;
   detailEdit: any;
@@ -25,7 +30,6 @@ export class SmartlensComponent implements OnInit {
   quantity: any;
   observations: any;
   price: any;
-  priceNet: any;
   editPrice = false;
   user: any;
   patient: any;
@@ -41,15 +45,19 @@ export class SmartlensComponent implements OnInit {
   materials: any;
   hydrapeg: any;
 
-  // Products prices on field info_aditional
+  // Products prices additionals
   priceNotch: any;
   priceHydrapeg
+  productRequestedNotch: any;
+  productRequestedHydrapeg: any;
 
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
               private productRequestedService: ProductsRequestedService,
+              private productService: ProductService,
               private userService: UserStorageService,
+              private basketProductRequestedService: BasketproductrequestedService,
               private spinner: NgxSpinnerService) {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
@@ -79,7 +87,6 @@ export class SmartlensComponent implements OnInit {
     this.product.materials = JSON.parse(this.product.types)[0].materials;
     this.product.hydrapeg = JSON.parse(this.product.types)[0].hydrapeg;
     this.product.parameters = JSON.parse(this.product.types)[0].parameters;
-    this.product.infoAditionalPrices = JSON.parse(this.product.infoAditional)[0];
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
     this.patient = this.productRequested.patient;
@@ -111,6 +118,7 @@ export class SmartlensComponent implements OnInit {
             if (pos2 > -1 && pos3 > -1) {
               productSelected.values[1].selected = parseFloat(itemSelected.slice(pos + 1, pos2 - 1));
               self.selectedNotch = itemSelected.slice(pos2 + 1, pos3);
+              productSelected.selected = self.selectedNotch;
             } else {
               productSelected.values[1].selected = parseFloat(itemSelected.slice(pos + 1));
             }
@@ -120,29 +128,127 @@ export class SmartlensComponent implements OnInit {
         }
       });
     });
-
-    this.definePriceNet();
-    this.setFullPrice();
+    this.getOtherProducts();
+    this.findByGroupdId();
   }
 
-  definePriceNet() {
+  getOtherProducts() {
+    this.productService.findBySupplierAndInViewAndCategory$(14, false, 10).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.setInfoAdditionalPrices(res.data);
+        this.definePrice();
+        this.setFullPrice();
+      } else {
+        console.log(res.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
+  }
+
+  findByGroupdId() {
+    const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
+    this.basketProductRequestedService.allBasketByGroupId$(this.productRequested.groupId).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        let prNotch;
+        let prHydrapeg;
+        _.each(res.data, function (basket) {
+          const productId = basket.productRequested.product.idProduct;
+          switch (productId) {
+            case 310:
+              if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                prHydrapeg = basket.productRequested;
+              }
+              break;
+
+            case 311:
+              if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+                prNotch = basket.productRequested;
+              }
+              break;
+          }
+        });
+        this.productRequestedNotch = prNotch;
+        this.productRequestedHydrapeg = prHydrapeg;
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  setInfoAdditionalPrices(data) {
+    let self = this;
+    this.productsAdditional = data;
+
+    this.product.infoAdditionalPrices = {
+      "name": "prices", "values":
+        { "hydrapeg": {
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          },
+          "notch" :{
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          }
+        }
+    }
+
+    _.each(this.productsAdditional, function(product) {
+      const name = product.name.toLowerCase();
+
+      self.product.infoAdditionalPrices.values[name] = {
+        "gold": product.price1,
+        "diamond": product.price2,
+        "preferred": product.price3
+      };
+    });
+  }
+
+  definePrice() {
     const membership = this.basket.basket.user.membership.idMembership;
     switch (membership) {
       case 1:
-        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.gold;
-        this.priceNotch = this.product.infoAditionalPrices.values.notch.gold;
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.gold;
         break;
       case 2:
-        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.diamond;
-        this.priceNotch = this.product.infoAditionalPrices.values.notch.diamond;
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamond;
         break;
       case 3:
-        this.priceHydrapeg = this.product.infoAditionalPrices.values.hydrapeg.preferred;
-        this.priceNotch = this.product.infoAditionalPrices.values.notch.preferred;
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.preferred;
         break;
     }
+  }
 
-    this.priceNet = this.productRequested.price - this.getAdditionalPrices().hydrapeg - this.getAdditionalPrices().notch;
+  setFullPrice() {
+    this.price = this.productRequested.priceBase;
+
+    this.price += this.getAdditionalPrices().notch;
+    this.price += this.getAdditionalPrices().hydrapeg;
+  }
+
+  getAdditionalPrices() {
+    let notchPrice = 0;
+    let hydrapegPrice = 0;
+
+    // Finding Notch
+    const notch: any = _.find(this.product.parameters, { name: 'Notch (mm)' });
+    if (notch.selected !== '0x0' && notch.selected) {
+      notchPrice = this.priceNotch;
+    }
+
+    // Finding Hydrapeg
+    if (this.product.hydrapeg.selected === "Yes") {
+      hydrapegPrice = this.priceHydrapeg;
+    }
+
+    return { notch: notchPrice, hydrapeg: hydrapegPrice };
   }
 
   getParams() {
@@ -451,31 +557,6 @@ export class SmartlensComponent implements OnInit {
     return param.name === "Sphere (D)" || param.name === "Sphere (D) (final power)" || param.name === "Sphere (D) (add over-refraction)";
   }
 
-  setFullPrice() {
-    this.price = this.priceNet;
-
-    this.price += this.getAdditionalPrices().notch;
-    this.price += this.getAdditionalPrices().hydrapeg;
-  }
-
-  getAdditionalPrices() {
-    let notchPrice = 0;
-    let hydrapegPrice = 0;
-
-    // Finding Notch
-    const notch: any = _.find(this.product.parameters, { name: 'Notch (mm)' });
-    if (notch.selected !== '0x0' && notch.selected !== null) {
-      notchPrice = this.priceNotch;
-    }
-
-    // Finding Hydrapeg
-    if (this.product.hydrapeg.selected === "Yes") {
-      hydrapegPrice = this.priceHydrapeg;
-    }
-
-    return { notch: notchPrice, hydrapeg: hydrapegPrice };
-  }
-
   save() {
     let self = this;
     this.spinner.show();
@@ -510,25 +591,95 @@ export class SmartlensComponent implements OnInit {
         this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
         this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
                                       parameters: this.detail.parameters, typeLens: this.detail.typeLens,
-                                      design: this.detail.design, materials: this.detail.materials, hydrapeg: this.detail.hydrapeg}) + ']';
+                                      design: this.detail.design, materials: this.detail.materials, hydrapeg: this.detail.hydrapeg,
+                                      productsAdditional: self.getProductsAdditional(this.productRequested, 'detail')}) + ']';
         this.productRequested.observations = this.observations;
-        this.productRequested.price = this.price;
+        this.productRequested.price = this.productRequested.priceBase;
         this.productRequested.quantity = this.quantity;
         this.productRequested.product = this.product.idProduct;
         this.productRequested.patient = this.patient;
-        this.update(this.productRequested);
    } else { // Order Detail
         this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
         this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
           parameters: this.detail.parameters, typeLens: this.detail.typeLens,
-          design: this.detail.design, materials: this.detail.materials, hydrapeg: this.detail.hydrapeg}) + ']';
+          design: this.detail.design, materials: this.detail.materials, hydrapeg: this.detail.hydrapeg,
+          productsAdditional: self.getProductsAdditional(this.productRequested, 'detail')}) + ']';
         this.productRequestedAux.observations = this.observations;
-        this.productRequestedAux.price = this.price;
+        this.productRequestedAux.price = this.productRequested.priceBase;
         this.productRequestedAux.quantity = this.quantity;
         this.productRequestedAux.product = this.product.idProduct;
         this.productRequestedAux.patient = this.patient;
-        this.update(this.productRequestedAux);
     }
+
+    const productRequested = this.typeEdit === 1 ? this.productRequested : this.productRequestedAux;
+
+    let requestedProducts = [JSON.parse(JSON.stringify(productRequested))];
+    _.each(self.getProductsAdditional(productRequested, 'basket'), function(additional) {
+      requestedProducts.push(additional);
+    });
+
+    this.update(requestedProducts);
+  }
+
+  getProductsAdditional(productSelected: any, type: any) {
+    const additionals = [];
+
+    // Type is basket (detail) and when is detail (productSelected)
+    const eye = productSelected.eye || productSelected.detail.eye;
+
+    const productNotch: any = _.find(this.productsAdditional, {name:"Notch"});
+    const productHydrapeg: any = _.find(this.productsAdditional, {name:"Hydrapeg"});
+
+
+    /////////////////////////////// NOTCH //////////////////////////////////
+    if (this.getAdditionalPrices()["notch"] || this.productRequestedNotch) {
+      const notch = {
+        id: productNotch.idProduct,
+        idProductRequested: this.productRequestedNotch && this.productRequestedNotch.idProductRequested,
+        product: productNotch.idProduct,
+        name: productNotch.name,
+        price: this.getAdditionalPrices()["notch"],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productNotch.codeSpectrum,
+        detail: {},
+        groupId: productSelected.groupId,
+        delete: !this.getAdditionalPrices()["notch"],
+        basketId: this.basket.basket.idBasket
+      }
+
+      if (type === 'basket') {
+        notch.detail = productSelected.detail;
+      }
+      additionals.push(notch);
+    }
+
+    /////////////////////////////// HYDRAPEG //////////////////////////////////
+
+    if (this.getAdditionalPrices()["hydrapeg"] || this.productRequestedHydrapeg) {
+      const hydrapeg = {
+        id: productHydrapeg.idProduct,
+        idProductRequested: this.productRequestedHydrapeg && this.productRequestedHydrapeg.idProductRequested,
+        product: productHydrapeg.idProduct,
+        name: productHydrapeg.name,
+        price: this.getAdditionalPrices()["hydrapeg"],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productHydrapeg.codeSpectrum,
+        detail: {},
+        groupId: productSelected.groupId,
+        delete: !this.getAdditionalPrices()["hydrapeg"],
+        basketId: this.basket.basket.idBasket
+      }
+
+      if (type === 'basket') {
+        hydrapeg.detail = productSelected.detail;
+      }
+      additionals.push(hydrapeg)
+    }
+
+
+    return additionals;
   }
 
   formIsValid() {
@@ -565,21 +716,30 @@ export class SmartlensComponent implements OnInit {
     return isValid;
   }
 
-  update(productRequested) {
-    this.productRequestedService.update$(productRequested).subscribe(res => {
+  update(listProducts) {
+    let self = this;
+    this.productRequestedService.updateList$(listProducts).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.spinner.hide();
-        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res1: string) => {
-          this.notification.success('', res1);
+        let listAux = res.data;
+        const principal = listAux.filter((item) => {
+          return !self.productModel.isAdditionalProduct(item.product.idProduct);
         });
-        productRequested = res.data;
+        this.spinner.hide();
+        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
+        let productRequested = principal[0];
         productRequested.detail = JSON.parse(productRequested.detail);
         this.modalReference.close(productRequested);
       } else {
         console.log(res);
+        this.spinner.hide();
+        this.modalReference.close();
       }
     }, error => {
       console.log('error', error);
+      this.spinner.hide();
+      this.modalReference.close();
     });
   }
 }

@@ -261,7 +261,6 @@ export class ProductViewSmartlensComponent implements OnInit {
       const parameterValues = _.uniq(parameter.values || []);
       if (parameterValues.length === 1 ) {
         parameter.selected = parameterValues[0];
-        console.log(parameter.name);
       }
     });
   }

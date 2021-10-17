@@ -1075,8 +1075,7 @@ export class EuropaComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         let listAux = res.data;
         const principal = listAux.filter((item) => {
-          return ((item.product.idProduct != 145 &&  item.product.idProduct != 146
-            && item.product.idProduct != 147));
+          return !self.productModel.isAdditionalProduct(item.product.idProduct);
         });
         this.spinner.hide();
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
@@ -1086,7 +1085,6 @@ export class EuropaComponent implements OnInit {
         productRequested.detail = JSON.parse(productRequested.detail);
         this.modalReference.close(productRequested);
       } else {
-        console.log(res);
         this.spinner.hide();
         this.modalReference.close(self.listAux);
       }
