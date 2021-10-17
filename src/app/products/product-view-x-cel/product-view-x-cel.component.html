@@ -8,13 +8,13 @@
       <label> {{ 'Please specific your product' | translate }}</label>
     </div>
   </div>
-  <app-info-params [eye]="'right'" [typeParams]="'header'" (select)="selectEye($event)" (changeParam)="changeParam($event)" [newParameters]="product.parametersRight"></app-info-params>
-  <app-info-params [eye]="'right'" [typeParams]="'body'" (select)="selectEye($event)" (changeParam)="changeParam($event)" [newParameters]="product.parametersRight"></app-info-params>
+  <app-info-params [eye]="'right'" [typeParams]="'header'" [enableParams]="enableParams.right" (select)="selectEye($event)" (changeParam)="changeParam($event)" [newParameters]="product.parametersRight"></app-info-params>
+  <app-info-params [eye]="'right'" [typeParams]="'body'" [enableParams]="enableParams.right" (select)="selectEye($event)" (changeParam)="changeParam($event)" [newParameters]="product.parametersRight"></app-info-params>
   <app-comment [product]="product" [attribute]="'observationsRight'" [enableField]="enable.right"></app-comment>
   <app-upload-file #uploadFile [product]="product" [enableField]="enable.right" [listFiles]="listFileRightEye"></app-upload-file>
 
-  <app-info-params [eye]="'left'" [typeParams]="'header'" (select)="selectEye($event)" (changeParam)="changeParam($event)" [newParameters]="product.parametersLeft"></app-info-params>
-  <app-info-params [eye]="'left'" [typeParams]="'body'" (select)="selectEye($event)" (changeParam)="changeParam($event)" [newParameters]="product.parametersLeft"></app-info-params>
+  <app-info-params [eye]="'left'" [typeParams]="'header'" [enableParams]="enableParams.left" (select)="selectEye($event)" (changeParam)="changeParam($event)" [newParameters]="product.parametersLeft"></app-info-params>
+  <app-info-params [eye]="'left'" [typeParams]="'body'" [enableParams]="enableParams.left" (select)="selectEye($event)" (changeParam)="changeParam($event)" [newParameters]="product.parametersLeft"></app-info-params>
   <app-upload-file #uploadFile [product]="product" [enableField]="enable.left" [listFiles]="listFileLeftEye"></app-upload-file>
   <app-comment [product]="product" [attribute]="'observationsLeft'" [enableField]="enable.left"></app-comment>
 

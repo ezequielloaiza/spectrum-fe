@@ -13,7 +13,7 @@
         </div>
         <div class="row" [ngSwitch]="parameter.type">
           <div *ngSwitchCase="'selected'" class="select-values col-sm-12 pl-0">
-            <ng-select [items]="parameter.values" [disabled]="!eyeSelected" [required]="eyeSelected && !parameter.noRequired"
+            <ng-select [items]="parameter.values" [disabled]="!enableParams" [required]="eyeSelected && !parameter.noRequired"
               [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" (change)="changeParamValue(parameter)"
               placeholder="{{ 'Select value' | translate }}">
               {{item}}
@@ -21,12 +21,12 @@
           </div>
 
           <div *ngSwitchCase="'input-text'" class="select-values col-sm-12 pl-0">
-            <input type="text" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!eyeSelected"
+            <input type="text" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams"
               [required]="eyeSelected && !parameter.noRequired" (change)="changeParamValue(parameter)"/>
           </div>
 
           <div *ngSwitchCase="'input-number'" class="select-values col-sm-12 pl-0">
-            <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!eyeSelected"
+            <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams"
               [required]="eyeSelected && !parameter.noRequired" (change)="changeParamValue(parameter)"/>
           </div>
 

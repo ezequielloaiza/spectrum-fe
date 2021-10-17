@@ -10,6 +10,7 @@ export class InfoParamsComponent implements OnInit {
   @Input() eye: any;
   @Input() newParameters: any;
   @Input() typeParams: any;
+  @Input() enableParams: any;
 
   @Output() select: EventEmitter<any> = new EventEmitter();
   @Output("changeParam") changeParam: EventEmitter<any> = new EventEmitter();

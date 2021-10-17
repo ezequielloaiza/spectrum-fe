@@ -22,6 +22,8 @@ export class ProductViewXCelComponent implements OnInit {
     left: false
   };
 
+  enableParams = { right: false, left: false };
+
   listFileRightEye: Array<FileProductRequested> = new Array;
   listFileLeftEye: Array<FileProductRequested> = new Array;
 
@@ -88,6 +90,7 @@ export class ProductViewXCelComponent implements OnInit {
 
   selectEye(object) {
     this.enable[object.name] = object.value;
+    this.enableParams[object.name] = object.value;
   }
 
   parametersByEye(eye) {
