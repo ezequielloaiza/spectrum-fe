@@ -158,6 +158,7 @@ export class ListBasketComponent implements OnInit {
       }
 
       if (self.productModel.haveAdditionalProduct(supplierId)) {
+        basket.productRequested.priceBase = basket.productRequested.price;
         basket.productRequested.price = priceAll;
       }
     });

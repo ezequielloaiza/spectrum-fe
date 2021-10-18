@@ -31,17 +31,23 @@
       <!--PARAMETERS-->
       <div class="col-lg-12 label-title">
         <div class="row padding-params">
-          <div class="col-sm-4" [hidden]="!editPrice">
+          <div class="col-sm-4" >
             <dl>
               <dt>{{'Price'| translate}}
               </dt>
               <dl>
-                <div class="form-group input-group">
+                <div [hidden]="!editPrice" class="form-group input-group">
                     <div class="input-group-append">
                       <span class="input-group-text">$</span>
                     </div>
                     <input class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
                         name="price1" disabled="true">
+                </div>
+
+                <div [hidden]="editPrice || price === ''">
+                  <h5 class="padding-price">
+                    <span>{{ price | currency : "USD $" }}</span>
+                  </h5>
                 </div>
               </dl>
             </dl>
@@ -202,6 +208,16 @@
           </div>
         </div>
       </div>
+
+      <div class="additional col-lg-12">
+        <p *ngIf="getAdditionalPrices(true).notch || getAdditionalPrices(true).hydrapeg">
+          <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
+          <span *ngIf="getAdditionalPrices(true).hydrapeg">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapeg | currency : " USD $" }}</span>&nbsp;
+          <span *ngIf="getAdditionalPrices(true).notch && getAdditionalPrices(true).hydrapeg">| </span>
+          <span *ngIf="getAdditionalPrices(true).notch">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notch | currency : " USD $" }}</span>&nbsp;
+        </p>
+      </div>
+
       <!--Fin parameters-->
       <div class="col-lg-12">
         <div class="row padding-params">

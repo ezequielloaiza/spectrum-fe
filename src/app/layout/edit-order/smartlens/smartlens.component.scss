@@ -120,6 +120,15 @@
     opacity: 1 !important;
   }
 
+  .additional {
+    justify-content: flex-start;
+    margin-top: 10px;
+    > p:nth-child(1) {
+    font-size: 15px;
+    color: green;
+    }
+  }
+
   .notch-lbl {
     display: flex;
 
