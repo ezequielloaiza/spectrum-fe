@@ -45,8 +45,8 @@ export class Product {
            idProduct === 311;   // Notch Smartlens
   }
 
-  public getInsertsID(product) {
-    switch (product.supplier.idSupplier) {
+  public getInsertsID(product, supplierId) {
+    switch (supplierId || product.supplier.idSupplier) {
       case 2: // Europa
         return 146;
       case 'id supplier Xcel': // X-cel

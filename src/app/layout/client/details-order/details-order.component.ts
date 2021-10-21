@@ -85,19 +85,8 @@ export class DetailsOrderComponent implements OnInit {
         this.listDetailsAux = this.order.listProductRequested;
         this.listDetails = this.listDetailsAux.slice(0, this.itemPerPage);
 
-        // search product insertor
-        if (res.data.supplier.idSupplier === 2 && res.data.type !== 'warranty') {
-          this.productService.findById$(146).subscribe(res1 => {
-            if (res1.code === CodeHttp.ok) {
-              this.assignPriceAllEuropa(auxList, res1.data[0]);
-            } else {
-              console.log(res1.errors[0].detail);
-              this.spinner.hide();
-            }
-          }, error => {
-            console.log('error', error);
-            this.spinner.hide();
-          });
+         if (self.productModel.haveAdditionalProduct(this.order.supplier.idSupplier)) {
+          self.setPriceWithAdditionals(this.order);
         }
 
         this.spinner.hide();
@@ -105,33 +94,47 @@ export class DetailsOrderComponent implements OnInit {
     });
   }
 
-  assignPriceAllEuropa(auxList, productDMV): void {
-    let arrayProductAditionals = [];
+  setPriceWithAdditionals(order): void {
+    let productsAdditional = [];
     const self = this;
     let priceAll = 0;
     let priceInsertor = 0;
 
     let existContraryEye = false;
+    const insertId = self.productModel.getInsertsID(null, order.supplier.idSupplier);
 
-    _.each(auxList, function(detailsOrder) {
-      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye, detailsOrder.productRequested.groupId);
+
+    _.each(order.listProductRequested, function(detailsOrder) {
+      productsAdditional = self.getProductsGrouped(detailsOrder.productRequested.detail[0].eye, detailsOrder.productRequested.groupId);
       priceAll = 0;
       existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye, detailsOrder.productRequested.groupId);
-      _.each(arrayProductAditionals, function(item) {
+      
+      _.each(productsAdditional, function(item) {
         const productId = item.productRequested.product.idProduct;
-        if (productId !== 146) {
+        if (productId !== insertId) {
           priceAll = priceAll + item.productRequested.price;
         }
       });
-      // price insertors
-      const insertor = detailsOrder.productRequested.detail[0].header[2].selected === true;
 
-      priceInsertor = self.getPriceInsertor(detailsOrder.order.user.membership.idMembership, productDMV);
+      if (insertId && order.type !== 'warranty') {
+        const productDMV = _.find(_.map(productsAdditional, function(item) {
+          return item.productRequested.product;
+        }), function (product) {
+          return product.idProduct === insertId;
+        });
 
-      if (insertor && existContraryEye) {
-        priceAll = priceAll + (priceInsertor / 2);
-      } else if (insertor) {
-        priceAll = priceAll + priceInsertor;
+        if (productDMV) {
+          // price insertors
+          const insertor = detailsOrder.productRequested.detail[0].header[2].selected === true;
+
+          priceInsertor = self.getPriceInsertor(detailsOrder.order.user.membership.idMembership, productDMV);
+
+          if (insertor && existContraryEye) {
+            priceAll = priceAll + (priceInsertor / 2);
+          } else if (insertor) {
+            priceAll = priceAll + priceInsertor;
+          }
+        }
       }
 
       detailsOrder.productRequested.price = priceAll;
@@ -140,7 +143,7 @@ export class DetailsOrderComponent implements OnInit {
     this.updateTotal();
   }
 
-  getProductsAditionalEuropa(eye, groupId) {
+  getProductsGrouped(eye, groupId) {
     const auxList = [];
 
     _.each(this.listDetailsAll, function(item) {

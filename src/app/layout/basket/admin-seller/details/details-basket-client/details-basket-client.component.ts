@@ -156,7 +156,7 @@ export class DetailsBasketClientComponent implements OnInit {
       priceAll = 0;
       productsGrouped = self.getProductsGrouped(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
       existContraryEye = self.contraryEye(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
-      const insertID = self.productModel.getInsertsID(basket.productRequested.product);
+      const insertID = self.productModel.getInsertsID(basket.productRequested.product, null);
       const productDMV = insertID && _.find(productsAdditional, {idProduct: insertID});
 
       _.each(productsGrouped, function(item) {
@@ -313,7 +313,7 @@ export class DetailsBasketClientComponent implements OnInit {
     let productsAdditional = this.getProductsGrouped(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
     const supplierId = basket.productRequested.product.supplier.idSupplier;
     const existContraryEye = this.contraryEye(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
-    const insertID = this.productModel.getInsertsID(basket.productRequested.product);
+    const insertID = this.productModel.getInsertsID(basket.productRequested.product, null);
     const eyeContrary = basket.productRequested.detail[0].eye === 'Left' ? 'Right' : 'Left';
 
     const productDMV = insertID && _.find(productsAdditional, function(p) {

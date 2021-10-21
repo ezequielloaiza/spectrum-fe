@@ -80,81 +80,87 @@ export class DetailsOrderClientComponent implements OnInit {
         _.each(this.orders, function(order) {
           if (order.status !== 1 && order.dateSend === null && self.user.role.idRole === 1) {
             self.generar = true;
-         }
+          }
 
-         if (order.dateSend !== null && order.supplier.idSupplier !== 1) {
-           self.download = true;
-         }
-         order.auxList = [];
-         _.each(order.listProductRequested, function (detailsOrder) {
-           detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
-           detailsOrder.productRequested.priceBase = detailsOrder.productRequested.price;
-           if (detailsOrder.productRequested.detail && detailsOrder.productRequested.detail.length > 0) {
-             detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
-           }
+          if (order.dateSend !== null && order.supplier.idSupplier !== 1) {
+            self.download = true;
+          }
 
-           const productId = detailsOrder.productRequested.product ? detailsOrder.productRequested.product.idProduct : null;
-            if (productId && !self.productModel.isAdditionalProduct(productId)) {
-              order.auxList.push(detailsOrder);
+          order.auxList = [];
+          _.each(order.listProductRequested, function (detailsOrder) {
+            detailsOrder.productRequested.subtotal = detailsOrder.productRequested.price * detailsOrder.productRequested.quantity;
+            detailsOrder.productRequested.priceBase = detailsOrder.productRequested.price;
+            if (detailsOrder.productRequested.detail && detailsOrder.productRequested.detail.length > 0) {
+              detailsOrder.productRequested.detail = JSON.parse(detailsOrder.productRequested.detail);
             }
-         });
-         order.listDetails = [];
-         order.listDetailsAux = [];
-         order.listDetailsAll = [];
-         order.listDetailsAll = order.listProductRequested;
-         order.listProductRequested = order.auxList;
-         order.listDetailsAux = order.listProductRequested;
-         order.listDetails = order.listDetailsAux.slice(0, self.itemPerPage);
 
-         // search product insertor
-         if (order.supplier.idSupplier === 2 && order.type !== 'warranty') {
-          self.productService.findById$(146).subscribe(res1 => {
-             if (res1.code === CodeHttp.ok) {
-              self.assignPriceAllEuropa(order, res1.data);
-             } else {
-               console.log(res1.errors[0].detail);
-               self.spinner.hide();
-             }
-           }, error => {
-             console.log('error', error);
-             self.spinner.hide();
-           });
-         }
+            const productId = detailsOrder.productRequested.product ? detailsOrder.productRequested.product.idProduct : null;
+              if (productId && !self.productModel.isAdditionalProduct(productId)) {
+                order.auxList.push(detailsOrder);
+              }
+          });
+
+          order.listDetails = [];
+          order.listDetailsAux = [];
+          order.listDetailsAll = [];
+          order.listDetailsAll = order.listProductRequested;
+          order.listProductRequested = order.auxList;
+          order.listDetailsAux = order.listProductRequested;
+          order.listDetails = order.listDetailsAux.slice(0, self.itemPerPage);
+
+          if (self.productModel.haveAdditionalProduct(order.supplier.idSupplier)) {
+            self.setPriceWithAdditionals(order);
+          }
         });
-
 
         this.spinner.hide();
       }
     });
   }
 
-  assignPriceAllEuropa(order, productDMV): void {
-    let arrayProductAditionals = [];
+  // This method is only for Europa, Smartlens and X-cel
+  setPriceWithAdditionals(order): void {
+    let productsAdditional = [];
     const self = this;
     let priceAll = 0;
     let priceInsertor = 0;
 
     let existContraryEye = false;
+    const insertId = self.productModel.getInsertsID(null, order.supplier.idSupplier);
 
     _.each(order.auxList, function(detailsOrder) {
-      arrayProductAditionals = self.getProductsAditionalEuropa(detailsOrder.productRequested.detail[0].eye, order, detailsOrder.productRequested.groupId);
+      productsAdditional = self.getProductsGrouped(detailsOrder.productRequested.detail[0].eye, order, detailsOrder.productRequested.groupId);
       priceAll = 0;
       existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye, order, detailsOrder.productRequested.groupId);
-      _.each(arrayProductAditionals, function(item) {
+
+      _.each(productsAdditional, function(item) {
         const productId = item.productRequested.product.idProduct;
-        if (productId !== 146) {
+
+        if (productId !== insertId) {
           priceAll = priceAll + item.productRequested.price;
         }
       });
-      // price insertors
-      const insertor = detailsOrder.productRequested.detail[0].header[2].selected === true;
 
-      priceInsertor = self.getPriceInsertor(detailsOrder.order.user.membership.idMembership, productDMV);
+      // INSERTS PRICES
+      if (insertId && order.type !== 'warranty') {
+        const productDMV = _.find(_.map(productsAdditional, function(item) {
+          return item.productRequested.product;
+        }), function (product) {
+          return product.idProduct === insertId;
+        });
 
-      if (insertor && existContraryEye) {
-        priceAll = priceAll + (priceInsertor / 2);
-      } else if (insertor) {
-        priceAll = priceAll + priceInsertor;
+        if (productDMV) {
+          // price insertors
+          const insertor = detailsOrder.productRequested.detail[0].header[2].selected === true;
+
+          priceInsertor = self.getPriceInsertor(detailsOrder.order.user.membership.idMembership, productDMV);
+
+          if (insertor && existContraryEye) {
+            priceAll = priceAll + (priceInsertor / 2);
+          } else if (insertor) {
+            priceAll = priceAll + priceInsertor;
+          }
+        }
       }
 
       detailsOrder.productRequested.price = priceAll;
@@ -163,7 +169,7 @@ export class DetailsOrderClientComponent implements OnInit {
     this.updateTotal(order);
   }
 
-  getProductsAditionalEuropa(eye, order, groupId) {
+  getProductsGrouped(eye, order, groupId) {
     const auxList = [];
 
     _.each(order.listDetailsAll, function(item) {
@@ -180,13 +186,13 @@ export class DetailsOrderClientComponent implements OnInit {
 
     switch (membership) {
       case 1:
-        price = productDMV[0].price1;
+        price = productDMV.price1;
         break;
       case 2:
-        price = productDMV[0].price2;
+        price = productDMV.price2;
         break;
       case 3:
-        price = productDMV[0].price3;
+        price = productDMV.price3;
         break;
     }
 
