@@ -22,6 +22,12 @@ export class ProductViewXCelComponent implements OnInit {
     left: false
   };
 
+  //buscarlos mejor por la DB
+  parametersRgp = ["Apex", "Bitoric", "CV-4 Multifocal", "Essential Solutions", "Pinnacle", "Pinnacle FT", "Pinnacle  IC", "Pinnacle LD", "Proplus", "Solutions Bifocal", "Sphere", "Starlens", "Titan", "X-Cel Thin"];
+  parametersAtlantis = ["Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"];
+  parametersCustomSoft = ["Adult Aphakic", "X-Cel Multifocal", "Flexlens Piggyback", "Flexlens ARC", "Flexlens Large Diameter", "Flexlens PRS", "Flexlens Sphere", "Flexlens Toric", "Flexlens Tricurve", "Horizon Sphere", "Horizon Toric", "Pediatric Aphakic"];
+
+
   enableParams = { right: false, left: false };
 
   listFileRightEye: Array<FileProductRequested> = new Array;
@@ -65,10 +71,10 @@ export class ProductViewXCelComponent implements OnInit {
   initialViewParams() {
     const self = this;
     this.product.parametersRight = _.filter(this.product.parametersRight, function (param) {
-      return !self.checkAtlantisParams(param.name);
+      return !self.checkAtlantisParams(param);
     });
     this.product.parametersLeft = _.filter(this.product.parametersLeft, function (param) {
-      return !self.checkAtlantisParams(param.name);
+      return !self.checkAtlantisParams(param);
     });
   }
 
@@ -123,38 +129,129 @@ export class ProductViewXCelComponent implements OnInit {
     }
   }
 
-  changeParam(value) {
+  changeParamsAndPrice(value) {
     //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"
     const self = this;
     let valueSelected = value.param.selected;
     let paramsBody = [];
     const paramsHeader = this.getParams('header', value.eye);
+    debugger
 
+    if (_.includes(this.parametersAtlantis, valueSelected)) { //Atlantis Case
 
-    if (value.param.name === 'Design') {
+      if (value.param.name === 'Design') {
 
-      paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
+        this.setPriceByDesign(valueSelected); //Change price by design selected
 
-        switch (valueSelected) {
-          case 'Atlantis SPH':
-          case 'Atlantis FT':
-            return param.name !== 'Atlantis 2.0 C.S.A' && param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param.name);
-          case 'Atlantis TPC':
-          case 'Atlantis MF':
-            return param.name !== 'Atlantis 2.0 C.S.A' && param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param.name);
-          case 'Atlantis 3D':
-            return param.name !== 'Atlantis 2.0 C.S.A' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param.name);
-          case 'Atlantis 2.O':
-            return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header;
-          case 'Atlantis LD':
-            return param.name !== 'Atlantis 2.0 C.S.A' && !param.header && !self.checkAtlantisParams(param.name);
-          default:
-            return param && !self.checkAtlantisParams(param.name) && !param.header;
-        }
+        paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
+          switch (valueSelected) {
+            case 'Atlantis SPH':
+            case 'Atlantis FT':
+              if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
+                param.selected = (param.type === 'radio') ? 'No' : null;
+              }
+              return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param);
+            case 'Atlantis TPC':
+            case 'Atlantis MF':
+              if (param.name === 'LZ 3D Vault / 2.0') {
+                param.selected = (param.type === 'radio') ? 'No' : null;
+              }
+              return param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param);
+            case 'Atlantis 3D':
+              if (param.name === 'TPC') {
+                param.selected = (param.type === 'radio') ? 'No' : null;
+              }
+              return param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param);
+            case 'Atlantis 2.O':
+              if (_.includes(['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
+                param.selected = (param.type === 'radio') ? 'No' : null;
+              }
+              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header;
+            case 'Atlantis LD':
+              return !param.header && !self.checkAtlantisParams(param);
+            default:
+              return param && !self.checkAtlantisParams(param) && !param.header;
+          }
 
-      });
+        });
+        this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
+        this.setRequiredParams(value);
+      }
+    } else if (_.includes(this.parametersRgp, valueSelected)) { // RGP CASE
+    } else if (_.includes(this.parametersCustomSoft, valueSelected)) { //Custom Soft Case
+
+      if (value.param.name === 'Design') {
+        paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
+          debugger
+          switch (valueSelected) {
+            case 'X-Cel Multifocal': //addition, dom eye, distance zone
+            return !param.header;
+
+            default:
+              if (param.name === 'Presentation') {
+                param.values = param.values.filter(p => p !== '3 Pack');
+              }
+            return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye' && !param.header;
+          }
+        });
       this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
-      this.setRequiredParams(value);
+      }
+
+    }
+
+  }
+
+  setPriceByDesign(design) {
+    let spCode = null;
+    let preferredP = null;
+    let diamondP = null;
+    let goldP = null;
+    //do i get it from db or set it here?
+     //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"
+
+    switch (design) {
+      case 'Atlantis SPH':
+        spCode = '122A';
+        preferredP = 95;
+        diamondP = 95;
+        goldP = 95;
+      break;
+      case 'Atlantis TPC':
+        spCode = '126A';
+        preferredP = 140;
+        diamondP = 140;
+        goldP = 140;
+      break;
+      case '"Atlantis FT':
+        spCode = '125A';
+        preferredP = 140;
+        diamondP = 140;
+        goldP = 140;
+      break;
+      case 'Atlantis 3D':
+        spCode = '124A';
+        preferredP = 140;
+        diamondP = 140;
+        goldP = 140;
+      break;
+      case 'Atlantis MF':
+        spCode = '125A';
+        preferredP = 140;
+        diamondP = 140;
+        goldP = 140;
+      break;
+      case 'Atlantis 2.O':
+        spCode = '127A';
+        preferredP = 140;
+        diamondP = 140;
+        goldP = 140;
+      break;
+      case 'Atlantis LD':
+        spCode = '123A';
+        preferredP = 140;
+        diamondP = 140;
+        goldP = 140;
+      break;
     }
   }
 
@@ -162,11 +259,6 @@ export class ProductViewXCelComponent implements OnInit {
     let self = this;
     _.each(this.product[this.parametersByEye(eye)], function (p, index) {
       switch (p.name) {
-        case 'TPC':
-          if (param.name === 'Design') {
-            self.product[self.parametersByEye(eye)][index].noRequired = param.selected !== 'Atlantis TPC';
-          }
-        break;
         case 'Addition':
         case 'Dom. Eye':
         case 'Distance Zone':
@@ -179,7 +271,7 @@ export class ProductViewXCelComponent implements OnInit {
   }
 
   checkAtlantisParams(param) {
-    switch (param) {
+    switch (param.name) {
       case 'Atlantis 2.0 C.S.A':
       case 'Clock Mark':
       case 'Q1 LZ':
@@ -190,6 +282,7 @@ export class ProductViewXCelComponent implements OnInit {
       case 'Q3 SZ':
       case 'Q4 LZ':
       case 'Q4 SZ':
+       param.selected = null;
         return true;
       default:
         break;

@@ -6,37 +6,45 @@
       <label class="custom-control-label" for="{{eye}}">{{ getLabelEye() }}</label>
     </div>
     <!-- Parameters (Header or Body) -->
+<!--     <div class="row">
+      <div class="col-md-12">
+        <h5 class="padding-price" >
+          <span>{{ 0 | currency : "USD $" }}</span>
+          <span>{{ 'THE PRICE IS SUBJECT TO VARIATIONS ACCORDING TO THE DESIGN RECOMMENDED BY THE LABORATORY' | translate }}</span>
+        </h5>
+      </div>
+    </div> -->
     <div class="row  p-3">
       <div class="col-lg-2 margin-col padding-col pb-3" *ngFor="let parameter of getParams()">
         <div class="row">
           <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
         </div>
         <div class="row" [ngSwitch]="parameter.type">
-          <div *ngSwitchCase="'selected'" class="select-values col-sm-12 pl-0">
+          <div *ngSwitchCase="'selected'" class="col-sm-12 pl-0">
             <ng-select [items]="parameter.values" [disabled]="!enableParams" [required]="!parameter.noRequired"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" (change)="changeParamValue(parameter)"
+              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" (change)="changeParamsAndPriceValue(parameter)"
               [clearable]="parameter.noRequired" placeholder="{{ 'Select value' | translate }}">
               {{item}}
             </ng-select>
           </div>
 
-          <div *ngSwitchCase="'input-text'" class="select-values col-sm-12 pl-0">
+          <div *ngSwitchCase="'input-text'" class="col-sm-12 pl-0">
             <input type="text" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams"
-              [required]="!parameter.noRequired" (change)="changeParamValue(parameter)"/>
+              [required]="!parameter.noRequired" (change)="changeParamsAndPriceValue(parameter)"/>
           </div>
 
-          <div *ngSwitchCase="'input-number'" class="select-values col-sm-12 pl-0">
+          <div *ngSwitchCase="'input-number'" class="col-sm-12 pl-0">
             <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams"
-              [required]="!parameter.noRequired" (change)="changeParamValue(parameter)"/>
+              [required]="!parameter.noRequired" (change)="changeParamsAndPriceValue(parameter)"/>
           </div>
 
-          <div *ngSwitchCase="'radio'" class="select-values col-sm-12 pl-0 radio-button">
+          <div *ngSwitchCase="'radio'" class="radio-b">
             <div *ngFor="let value of parameter.values; let i = index">
               <div class="custom-control custom-radio">
                 <input type="radio" id="radio-{{eye}}-{{parameter.name}}-{{i}}" name="radio-{{eye}}-{{parameter.name}}"
                        [value]="value" [required]="!parameter.noRequired" [disabled]="!enableParams"
                        (click)="setRadioButtonValue(parameter,eye,value)"
-                       class="custom-control-input form-control" [checked]="parameter.selected === value">
+                       class=" custom-control-input form-control" [checked]="parameter.selected === value">
                 <label class="custom-control-label" for="radio-{{eye}}-{{parameter.name}}-{{i}}">{{ value | translate }}</label>
               </div>
             </div>

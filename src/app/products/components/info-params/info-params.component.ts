@@ -13,7 +13,7 @@ export class InfoParamsComponent implements OnInit {
   @Input() enableParams: any;
 
   @Output() select: EventEmitter<any> = new EventEmitter();
-  @Output("changeParam") changeParam: EventEmitter<any> = new EventEmitter();
+  @Output("changeParamsAndPrice") changeParamsAndPrice: EventEmitter<any> = new EventEmitter();
 
   globalHeader = [];
   isSelectedDesign = false;
@@ -55,8 +55,8 @@ export class InfoParamsComponent implements OnInit {
     }
   }
 
-  changeParamValue(parameter) {
-    this.changeParam.emit({ param: parameter, eye: this.eye });
+  changeParamsAndPriceValue(parameter) {
+    this.changeParamsAndPrice.emit({ param: parameter, eye: this.eye });
   }
 
   setRadioButtonValue(parameter, eye, value) {
