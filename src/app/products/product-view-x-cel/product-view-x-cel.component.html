@@ -5,7 +5,7 @@
   <app-info-client [product]="product"></app-info-client>
   <div class="row product-info">
     <div class="col-md-12 title">
-      <label> {{ 'Please specific your product' | translate }}</label>
+      <label> {{ 'Please specify your product' | translate }}</label>
     </div>
   </div>
   <app-info-params [eye]="'right'" [typeParams]="'header'" [enableParams]="enableParams.right" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersRight"></app-info-params>
@@ -18,5 +18,5 @@
   <app-upload-file #uploadFile [product]="product" [enableField]="enable.left" [listFiles]="listFileLeftEye"></app-upload-file>
   <app-comment [product]="product" [attribute]="'observationsLeft'" [enableField]="enable.left"></app-comment>
 
-  <app-footer-buttons (buttonAction)="buttonAction($event)" [buttons]="buttons"></app-footer-buttons>
+  <app-footer-buttons (buttonAction)="buttonAction($event)" [buttons]="buttons" (checkToBuy) ="checkToBuy()" [disableBuyButton]="disableBuyButton"></app-footer-buttons>
 </app-card-product>

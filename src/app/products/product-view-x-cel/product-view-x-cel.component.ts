@@ -21,6 +21,8 @@ export class ProductViewXCelComponent implements OnInit {
     right: false,
     left: false
   };
+  disableBuyButton = true;
+  designSelected: any;
 
   //buscarlos mejor por la DB
   parametersRgp = ["Apex", "Bitoric", "CV-4 Multifocal", "Essential Solutions", "Pinnacle", "Pinnacle FT", "Pinnacle  IC", "Pinnacle LD", "Proplus", "Solutions Bifocal", "Sphere", "Starlens", "Titan", "X-Cel Thin"];
@@ -132,19 +134,18 @@ export class ProductViewXCelComponent implements OnInit {
   changeParamsAndPrice(value) {
     //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"
     const self = this;
-    let valueSelected = value.param.selected;
+    this.designSelected = value.param.selected;
     let paramsBody = [];
     const paramsHeader = this.getParams('header', value.eye);
-    debugger
 
-    if (_.includes(this.parametersAtlantis, valueSelected)) { //Atlantis Case
+    if (_.includes(this.parametersAtlantis, this.designSelected)) { //Atlantis Case
 
       if (value.param.name === 'Design') {
 
-        this.setPriceByDesign(valueSelected); //Change price by design selected
+        this.setPriceByDesign(this.designSelected); //Change price by design selected
 
         paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
-          switch (valueSelected) {
+          switch (self.designSelected) {
             case 'Atlantis SPH':
             case 'Atlantis FT':
               if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
@@ -176,25 +177,29 @@ export class ProductViewXCelComponent implements OnInit {
         });
         this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
         this.setRequiredParams(value);
+        //call checkBUY method
       }
-    } else if (_.includes(this.parametersRgp, valueSelected)) { // RGP CASE
-    } else if (_.includes(this.parametersCustomSoft, valueSelected)) { //Custom Soft Case
+    } else if (_.includes(this.parametersRgp, this.designSelected)) { // RGP CASE
+    } else if (_.includes(this.parametersCustomSoft, this.designSelected)) { //Custom Soft Case
 
       if (value.param.name === 'Design') {
         paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
-          debugger
-          switch (valueSelected) {
+          switch (this.designSelected) {
             case 'X-Cel Multifocal': //addition, dom eye, distance zone
-            return !param.header;
-
-            default:
+              return !param.header;
+            case 'Flexlens Large Diameter':
               if (param.name === 'Presentation') {
                 param.values = param.values.filter(p => p !== '3 Pack');
               }
-            return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye' && !param.header;
+            return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+            default:
+              if (!_.includes(param.values, '3 Pack') && param.name === 'Presentation') {
+                param.values = _.concat(param.values, '3 Pack');
+              }
+            return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
           }
         });
-      this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
+        this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
       }
 
     }
@@ -282,10 +287,32 @@ export class ProductViewXCelComponent implements OnInit {
       case 'Q3 SZ':
       case 'Q4 LZ':
       case 'Q4 SZ':
-       param.selected = null;
+        param.selected = null;
         return true;
       default:
         break;
     }
+  }
+
+  checkToBuy() {
+    const rightEye = this.enable.right;
+    const leftEye = this.enable.left;
+
+    if (!rightEye && !leftEye) {
+      this.disableBuyButton = true;
+    } else {
+      this.disableBuyButton = this.checkSelectedParams('right', rightEye) || this.checkSelectedParams('left', leftEye);
+      debugger
+    }
+  }
+
+  checkSelectedParams(eye, value) {
+    let disable = !this.product.client || !this.product.patient;
+    if (value) {
+      _.each(this.product[this.parametersByEye(eye)], function (parameter) {
+        disable = disable || (!parameter.noRequired && !parameter.selected);
+      });
+    }
+    return disable;
   }
 }
