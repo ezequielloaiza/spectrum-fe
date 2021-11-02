@@ -121,18 +121,22 @@ export class DetailsOrderClientComponent implements OnInit {
   // This method is only for Europa, Smartlens and X-cel
   setPriceWithAdditionals(order): void {
     let productsAdditional = [];
+    let inserts = [];
     const self = this;
     let priceAll = 0;
     let priceInsertor = 0;
 
     let existContraryEye = false;
-    const insertId = self.productModel.getInsertsID(null, order.supplier.idSupplier);
+    let insertor = false;
+    const supplierId = order.supplier.idSupplier;
+    const insertId = self.productModel.getInsertsID(null, supplierId);
 
     _.each(order.auxList, function(detailsOrder) {
-      productsAdditional = self.getProductsGrouped(detailsOrder.productRequested.detail[0].eye, order, detailsOrder.productRequested.groupId);
+      [productsAdditional, inserts] = self.getProductsGrouped(detailsOrder.productRequested.detail[0].eye, order, detailsOrder.productRequested.groupId);
       priceAll = 0;
       existContraryEye = self.contraryEye(detailsOrder.productRequested.detail[0].eye, order, detailsOrder.productRequested.groupId);
 
+      // Set prices on additional products
       _.each(productsAdditional, function(item) {
         const productId = item.productRequested.product.idProduct;
 
@@ -141,24 +145,29 @@ export class DetailsOrderClientComponent implements OnInit {
         }
       });
 
-      // INSERTS PRICES
+      // INSERTS(DMV) PRICESexistContraryEye
       if (insertId && order.type !== 'warranty') {
-        const productDMV = _.find(_.map(productsAdditional, function(item) {
-          return item.productRequested.product;
-        }), function (product) {
-          return product.idProduct === insertId;
-        });
 
-        if (productDMV) {
-          // price insertors
-          const insertor = detailsOrder.productRequested.detail[0].header[2].selected === true;
+        if (inserts.length) {
+          // Europa
+          if (supplierId === 2) {
+            insertor = insertor || detailsOrder.productRequested.detail[0].header[2].selected === true;
+          }
 
-          priceInsertor = self.getPriceInsertor(detailsOrder.order.user.membership.idMembership, productDMV);
+          // Smartlens
+          if (supplierId === 14) {
+            insertor = insertor || detailsOrder.productRequested.detail[0].dmv.selected === 'Yes';
+          }
 
-          if (insertor && existContraryEye) {
-            priceAll = priceAll + (priceInsertor / 2);
-          } else if (insertor) {
-            priceAll = priceAll + priceInsertor;
+          if (insertor) {
+            // price insertors
+            priceInsertor = inserts[0].productRequested.price;
+
+            if (existContraryEye) {
+              priceAll = priceAll + (priceInsertor / 2);
+            } else {
+              priceAll = priceAll + priceInsertor;
+            }
           }
         }
       }
@@ -170,38 +179,31 @@ export class DetailsOrderClientComponent implements OnInit {
   }
 
   getProductsGrouped(eye, order, groupId) {
-    const auxList = [];
+    const groupedList = [];
+    const inserts = [];
+    const self = this;
 
     _.each(order.listDetailsAll, function(item) {
-      if (item.productRequested.detail[0].eye === eye && item.productRequested.groupId === groupId) {
-        auxList.push(item);
+      if (item.productRequested.groupId === groupId) {
+        if (item.productRequested.detail[0].eye === eye  && !self.productModel.isInsertsDMV(item.productRequested.product.idProduct)) {
+          groupedList.push(item);
+        }
+
+        if (self.productModel.isInsertsDMV(item.productRequested.product.idProduct)) {
+          inserts.push(item);
+        }
       }
     });
 
-    return auxList;
-  }
+    debugger
 
-  getPriceInsertor(membership, productDMV) {
-    let price = 0;
-
-    switch (membership) {
-      case 1:
-        price = productDMV.price1;
-        break;
-      case 2:
-        price = productDMV.price2;
-        break;
-      case 3:
-        price = productDMV.price3;
-        break;
-    }
-
-    return price;
+    return [groupedList, inserts];
   }
 
   contraryEye(eye, order, groupId) {
     let exist = false;
     let contraryEye = '';
+    const self = this;
 
     if (eye === 'Left') {
       contraryEye = 'Right';
@@ -210,7 +212,7 @@ export class DetailsOrderClientComponent implements OnInit {
     }
 
     _.each(order.listDetailsAll, function(item) {
-      if (item.productRequested.detail[0].eye === contraryEye && item.productRequested.groupId === groupId) {
+      if (item.productRequested.detail[0].eye === contraryEye && item.productRequested.groupId === groupId && !self.productModel.isAdditionalProduct(item.productRequested.product.idProduct) ) {
         exist = true;
       }
     });

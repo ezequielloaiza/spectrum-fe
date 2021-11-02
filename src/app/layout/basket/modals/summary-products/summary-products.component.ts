@@ -11,7 +11,6 @@ import { UserStorageService } from '../../../../http/user-storage.service';
 import { NotificationBalanceOrderComponent } from '../../../notification/notification-balance-order/notification-balance-order.component';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
-import { ProductRequested } from '../../../../shared/models/productrequested';
 import { StatusUser } from '../../../../shared/enum/status-user.enum';
 import { AlertifyService } from '../../../../shared/services/alertify/alertify.service';
 
@@ -44,8 +43,7 @@ export class SummaryProductsComponent implements OnInit {
               private userService: UserService,
               private userStorageService: UserStorageService,
               private modalService: NgbModal,
-              public router: Router,
-              private productRequestedService: ProductsRequestedService) {
+              public router: Router) {
       this.user = JSON.parse(userStorageService.getCurrentUser());
               }
 
@@ -130,23 +128,6 @@ export class SummaryProductsComponent implements OnInit {
       this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 1 } });
     } else if ( this.user.role.idRole === 2) {
       this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
-    }
-  }
-
-
-
-  definePriceInserts(membership, basket) {
-    let pricesAditionalInserts = JSON.parse(basket.productRequested.product.infoAditional)[0].values[1];
-    switch (membership) {
-      case 1:
-        this.inserts = pricesAditionalInserts.values[0].price;
-        break;
-      case 2:
-        this.inserts =  pricesAditionalInserts.values[1].price;
-        break;
-      case 3:
-        this.inserts = pricesAditionalInserts.values[2].price;
-        break;
     }
   }
 }

@@ -45,6 +45,16 @@
             </dl>
           </div>
 
+          <div class="col-lg-4">
+            <dl class="align-item">
+              <dt>{{ 'Spectrum code' | translate }}</dt>
+              <hr class="separators" />
+              <dl>
+                <dt class="items">{{ detail.codeSpectrum }}</dt>
+              </dl>
+            </dl>
+          </div>
+
           <div class="col-sm-4">
             <dl class="align-item">
               <dt>{{'Type'| translate}}
@@ -73,6 +83,17 @@
         </div>
 
         <div class="row padding-params">
+          <!-- DMV -->
+          <div class="col-sm-4">
+            <dl class="align-item">
+              <dt>{{ "Inserts (DMV)" | translate }}:</dt>
+              <hr class="separators" />
+              <dl>
+                <dt class="items">{{ detail.dmv.selected }}</dt>
+              </dl>
+            </dl>
+          </div>
+
           <!-- Materials -->
           <div class="col-sm-4">
             <dl class="align-item">

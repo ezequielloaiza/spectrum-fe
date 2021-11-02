@@ -18,6 +18,7 @@ import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { NotificationBalanceComponent } from '../../notification-balance/notification-balance.component';
 import * as _ from 'lodash';
 import { StatusUser } from '../../../../shared/enum/status-user.enum';
+import { Product } from '../../../../shared/models/product';
 
 @Component({
   selector: 'app-confirmation-smartlens',
@@ -52,6 +53,7 @@ export class ConfirmationSmartlensComponent implements OnInit {
   balance_modal: Boolean = false;
   company: Company = new Company();
   available: any;
+  productModel: Product = new Product();
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
@@ -87,12 +89,21 @@ export class ConfirmationSmartlensComponent implements OnInit {
     let patient;
     let  priceAcum = 0;
     let eyesSelected = [];
+    let quantityInserts = 0;
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     const listBasketAux = [];
     _.each(this.listBasket, function (productRequested) {
 
-      priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+      // Validation necesary because dvm is for order
+      if (self.productModel.isInsertsDMV(productRequested.product.idProduct)) {
+        quantityInserts++;
+        if (quantityInserts === 1) {
+          priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+        }
+      } else {
+        priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
+      }
 
       patient = productRequested.patient;
       if (productRequested.observations === undefined) {
@@ -118,7 +129,7 @@ export class ConfirmationSmartlensComponent implements OnInit {
   }
 
   isAdditionalProduct(productRequested) {
-    return productRequested.name === 'Notch' || productRequested.name === 'Hydrapeg';
+    return productRequested.name === 'DMV Insertion and Removal Set' || productRequested.name === 'Notch' || productRequested.name === 'Hydrapeg';
   }
 
   getBalance() {

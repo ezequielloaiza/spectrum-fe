@@ -48,9 +48,11 @@ export class SmartlensComponent implements OnInit {
 
   // Products prices additionals
   priceNotch: any;
-  priceHydrapeg
+  priceHydrapeg: any;
+  priceDMV: any;
   productRequestedNotch: any;
   productRequestedHydrapeg: any;
+  productRequestedDMV: any;
 
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
@@ -84,6 +86,7 @@ export class SmartlensComponent implements OnInit {
 
   getProductView() {
     this.product.type = JSON.parse(this.product.types)[0].name;
+    this.product.dmv = JSON.parse(this.product.types)[0].dmv;
     this.typeLens = JSON.parse(this.product.types)[0].typeLens;
     this.design = JSON.parse(this.product.types)[0].design;
     this.product.materials = JSON.parse(this.product.types)[0].materials;
@@ -93,6 +96,9 @@ export class SmartlensComponent implements OnInit {
     this.observations = this.productRequested.observations;
     this.patient = this.productRequested.patient;
     let self = this;
+
+    // Set DMV
+    this.changeDMV(this.detail.dmv.selected);
 
     // Set typeLens
     this.changeTypeLens(this.detail.typeLens);
@@ -144,7 +150,7 @@ export class SmartlensComponent implements OnInit {
     this.productService.findBySupplierAndInViewAndCategory$(14, false, 10).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.setInfoAdditionalPrices(res.data);
-        this.definePrice();
+        this.definePriceAdditionals();
         this.setFullPrice();
       } else {
         console.log(res.errors[0].detail);
@@ -154,6 +160,12 @@ export class SmartlensComponent implements OnInit {
       console.log('error', error);
       this.spinner.hide();
     });
+  }
+
+  changeDMV(value) {
+    this.product.dmv.selected = value;
+
+    this.setFullPrice();
   }
 
   findBasketByGroupdId() {
@@ -178,6 +190,7 @@ export class SmartlensComponent implements OnInit {
     if (res.code === CodeHttp.ok) {
       let prNotch;
       let prHydrapeg;
+      let prDMV;
       _.each(res.data, function (basket) {
         const productId = basket.productRequested.product.idProduct;
         switch (productId) {
@@ -192,10 +205,77 @@ export class SmartlensComponent implements OnInit {
               prNotch = basket.productRequested;
             }
             break;
+          case 312:
+            if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+              prDMV = basket.productRequested;
+            }
+            break;
         }
       });
+      this.productRequestedDMV = prDMV;
       this.productRequestedNotch = prNotch;
       this.productRequestedHydrapeg = prHydrapeg;
+    }
+  }
+
+  setFullPrice() {
+    //this.price = this.productRequested.priceBase || this.productRequested.price;
+    this.price = this.priceSaleTotal();
+    this.price += this.getAdditionalPrices().dmv;
+    this.price += this.getAdditionalPrices().notch;
+    this.price += this.getAdditionalPrices().hydrapeg;
+  }
+
+  priceSaleTotal() {
+    this.getPricePersonalized();
+    return (this.product.priceSale || 0);
+  }
+
+  getPricePersonalized() {
+    // Finding Diameter
+    const diameter: any = _.find(this.product.parameters, { name: 'Diameter (mm)' });
+
+    if (diameter) {
+      if (_.includes(["15.00"], diameter.selected)) {
+        this.product.code = '200A';
+        this.product.priceSale = this.pricePersonalizedByMembership(diameter);
+      } else if (_.includes(["15.50", "16.50"], diameter.selected)) {
+        this.product.code = '200B';
+        this.product.priceSale = this.pricePersonalizedByMembership(diameter);
+      }
+    }
+  }
+
+  pricePersonalizedByMembership(param) {
+    let membership = null;
+    if (this.typeEdit === 1 ) { // Basket
+      membership = this.basket.basket.user.membership.idMembership;
+    } else { // Order detail
+      membership = this.order.user.membership.idMembership;
+    }
+
+    if (param.name === 'Diameter (mm)') {
+      if (_.includes(["15.00"], param.selected)) {
+        switch (membership) {
+          case 1:
+            return 110;
+          case 2:
+            return 100;
+          case 3:
+            return 100;
+        }
+      }
+
+      if (_.includes(["15.50", "16.50"], param.selected)) {
+        switch (membership) {
+          case 1:
+            return 135;
+          case 2:
+            return 125;
+          case 3:
+            return 125;
+        }
+      }
     }
   }
 
@@ -210,7 +290,12 @@ export class SmartlensComponent implements OnInit {
             "diamond": 0,
             "preferred": 0
           },
-          "notch" :{
+          "notch" : {
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          },
+          "dmv insertion and removal set": {
             "gold": 0,
             "diamond": 0,
             "preferred": 0
@@ -229,7 +314,7 @@ export class SmartlensComponent implements OnInit {
     });
   }
 
-  definePrice() {
+  definePriceAdditionals() {
     let membership = null;
     if (this.typeEdit === 1 ) { // Basket
       membership = this.basket.basket.user.membership.idMembership;
@@ -240,28 +325,30 @@ export class SmartlensComponent implements OnInit {
       case 1:
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.gold;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].gold;
         break;
       case 2:
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamond;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamond;
         break;
       case 3:
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.preferred;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
         break;
     }
   }
 
-  setFullPrice() {
-    this.price = this.productRequested.priceBase || this.productRequested.price;
-
-    this.price += this.getAdditionalPrices().notch;
-    this.price += this.getAdditionalPrices().hydrapeg;
-  }
-
   getAdditionalPrices() {
+    let dmv = 0;
     let notchPrice = 0;
     let hydrapegPrice = 0;
+
+    // Finding DMV
+    if (this.product.dmv.selected === 'Yes') {
+      dmv = this.priceDMV;
+    }
 
     // Finding Notch
     const notch: any = _.find(this.product.parameters, { name: 'Notch (mm)' });
@@ -274,7 +361,7 @@ export class SmartlensComponent implements OnInit {
       hydrapegPrice = this.priceHydrapeg;
     }
 
-    return { notch: notchPrice, hydrapeg: hydrapegPrice };
+    return { dmv, notch: notchPrice, hydrapeg: hydrapegPrice };
   }
 
   getParams() {
@@ -621,10 +708,11 @@ export class SmartlensComponent implements OnInit {
 
     this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
                                   parameters: this.detail.parameters, typeLens: this.detail.typeLens,
+                                  dmv: this.product.dmv,
                                   design: this.detail.design, materials: this.detail.materials, hydrapeg: this.detail.hydrapeg,
                                   productsAdditional: self.getProductsAdditional(this.productRequested, 'detail')}) + ']';
     this.productRequested.observations = this.observations;
-    this.productRequested.price = this.productRequested.priceBase || this.productRequested.price;
+    this.productRequested.price = this.priceSaleTotal();
     this.productRequested.quantity = this.quantity;
     this.productRequested.product = this.product.idProduct;
     this.productRequested.patient = this.patient;
@@ -638,10 +726,40 @@ export class SmartlensComponent implements OnInit {
   }
 
   getProductsAdditional(productSelected: any, type: any) {
+    let self = this;
     const additionals = [];
     const productNotch: any = _.find(this.productsAdditional, {name:"Notch"});
     const productHydrapeg: any = _.find(this.productsAdditional, {name:"Hydrapeg"});
+    const productDMV: any = _.find(this.productsAdditional, {name: "DMV Insertion and Removal Set"});
 
+    /////////////////////////////// DMV //////////////////////////////////
+    // if exist price dmv or productRequest will be deleted
+    if (this.getAdditionalPrices()["dmv"] || this.productRequestedDMV) {
+      const dmv: any = {
+        id: productDMV.idProduct,
+        idProductRequested: this.productRequestedDMV && this.productRequestedDMV.idProductRequested,
+        product: productDMV.idProduct,
+        name: productDMV.name,
+        price: self.getAdditionalPrices()["dmv"],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productDMV.codeSpectrum,
+        detail: {},
+        groupId: productSelected.groupId,
+        delete: !self.getAdditionalPrices()["dmv"]
+      }
+
+      if (self.typeEdit === 1) {
+        dmv.basketId = self.basket.basket.idBasket;
+      } else {
+        dmv.orderId = self.order.idOrder;
+      }
+
+      if (type === 'basket') {
+        dmv.detail = productSelected.detail;
+      }
+      additionals.push(dmv);
+    }
 
     /////////////////////////////// NOTCH //////////////////////////////////
     // if exist price notch or productRequest will be deleted

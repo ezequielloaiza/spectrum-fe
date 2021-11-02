@@ -83,7 +83,8 @@ export class ProductViewSmartlensComponent implements OnInit {
 
   // Products prices on field info_additional
   priceNotch: any;
-  priceHydrapeg
+  priceHydrapeg: any;
+  priceDMV: any;
 
   public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
@@ -185,6 +186,8 @@ export class ProductViewSmartlensComponent implements OnInit {
     this.productService.findBySupplierAndInViewAndCategory$(14, false, 10).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.setInfoAdditionalPrices(res.data);
+        this.setClient();
+        this.setPrice();
       } else {
         console.log(res.errors[0].detail);
         this.spinner.hide();
@@ -206,6 +209,11 @@ export class ProductViewSmartlensComponent implements OnInit {
             "preferred": 0
           },
           "notch" :{
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          },
+          "dmv insertion and removal set": {
             "gold": 0,
             "diamond": 0,
             "preferred": 0
@@ -231,10 +239,14 @@ export class ProductViewSmartlensComponent implements OnInit {
     this.product.eyeLeft = false;
     this.product.priceSale = '';
 
+    // DMV
+    this.product.dmv = JSON.parse(this.product.types)[0].dmv;
+
     // Eye Right
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
     this.designRight = JSON.parse(this.product.types)[0].design;
+    this.product.quantityRight = 1;
     this.product.materialsRight = JSON.parse(this.product.types)[0].materials;
     this.product.hydrapegRight = JSON.parse(this.product.types)[0].hydrapeg;
     this.setParameterDefaultValue(this.product.parametersRight);
@@ -245,14 +257,12 @@ export class ProductViewSmartlensComponent implements OnInit {
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
     this.designLeft = JSON.parse(this.product.types)[0].design;
+    this.product.quantityLeft = 1;
     this.product.materialsLeft = JSON.parse(this.product.types)[0].materials;
     this.product.hydrapegLeft = JSON.parse(this.product.types)[0].hydrapeg;
     this.setParameterDefaultValue(this.product.parametersLeft);
     this.changeTypeLens('left', 'Design by laboratory');
     this.changeDesign('left', 'Sph');
-
-    this.setClient();
-    this.setPrice();
   }
 
   setParameterDefaultValue(parameters) {
@@ -283,6 +293,65 @@ export class ProductViewSmartlensComponent implements OnInit {
           });
         }
       });
+    }
+  }
+
+  priceSaleTotal() {
+    this.getPricePersonalized('right');
+    this.getPricePersonalized('left');
+    return (this.product.priceSaleRight || 0) + (this.product.priceSaleLeft || 0);
+  }
+
+  getPricePersonalized(eye) {
+    const parameters = eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
+
+    // Finding Diameter
+    const diameter: any = _.find(parameters, { name: 'Diameter (mm)' });
+
+    if (diameter) {
+      if (_.includes(["15.00"], diameter.selected)) {
+        if (eye === 'right') {
+          this.product.codeRight = '200A';
+          this.product.priceSaleRight = this.pricePersonalizedByMembership(diameter);
+        } else {
+          this.product.codeLeft = '200A';
+          this.product.priceSaleLeft = this.pricePersonalizedByMembership(diameter);
+        }
+      } else if (_.includes(["15.50", "16.50"], diameter.selected)) {
+        if (eye === 'right') {
+          this.product.codeRight = '200B';
+          this.product.priceSaleRight = this.pricePersonalizedByMembership(diameter);
+        } else {
+          this.product.codeLeft = '200B';
+          this.product.priceSaleLeft = this.pricePersonalizedByMembership(diameter);
+        }
+      }
+    }
+  }
+
+  pricePersonalizedByMembership(param) {
+    if (param.name === 'Diameter (mm)') {
+      if (_.includes(["15.00"], param.selected)) {
+        switch (this.membership) {
+          case 1:
+            return 110;
+          case 2:
+            return 100;
+          case 3:
+            return 100;
+        }
+      }
+
+      if (_.includes(["15.50", "16.50"], param.selected)) {
+        switch (this.membership) {
+          case 1:
+            return 135;
+          case 2:
+            return 125;
+          case 3:
+            return 125;
+        }
+      }
     }
   }
 
@@ -372,29 +441,35 @@ export class ProductViewSmartlensComponent implements OnInit {
   definePrice(membership) {
     switch (membership) {
       case 1:
-        this.product.priceSale = this.product.price1;
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.gold;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].gold;
         break;
       case 2:
-        this.product.priceSale = this.product.price2;
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamond;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamond;
         break;
       case 3:
-        this.product.priceSale = this.product.price3;
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.preferred;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
         break;
     }
   }
 
   getAdditionalPrices(isIndividualPrice) {
+    let dmv = 0;
     let notchRight = 0;
     let hydrapegRight = 0;
 
     let notchLeft = 0;
     let hydrapegLeft = 0;
+
+    // Finding DMV
+    if (this.product.dmv.selected === 'Yes') {
+      dmv = this.priceDMV;
+    }
 
     // Finding Notch
     const notch: any = _.find(this.product.parametersRight, { name: 'Notch (mm)' });
@@ -420,9 +495,10 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
 
     if (isIndividualPrice) {
-      return {"notchRight": notchRight, "notchLeft": notchLeft, "hydrapegRight": hydrapegRight, "hydrapegLeft": hydrapegLeft };
+      return { "dmv": (dmv || 0), "notchRight": notchRight, "notchLeft": notchLeft, "hydrapegRight": hydrapegRight, "hydrapegLeft": hydrapegLeft };
     } else {
-      return {"notch": (notchRight * (this.product.quantityRight || 0)) + (notchLeft * (this.product.quantityLeft || 0)),
+      return { "dmv": (dmv || 0),
+              "notch": (notchRight * (this.product.quantityRight || 0)) + (notchLeft * (this.product.quantityLeft || 0)),
               "hydrapeg": (hydrapegRight * (this.product.quantityRight || 0)) + (hydrapegLeft * (this.product.quantityLeft || 0))};
     }
   }
@@ -474,6 +550,10 @@ export class ProductViewSmartlensComponent implements OnInit {
     } else {
       this.product.parametersLeft = parameters;
     }
+  }
+
+  changeDMV(value) {
+    this.product.dmv.selected = value;
   }
 
   changeMaterials(value, eye) {
@@ -930,7 +1010,7 @@ export class ProductViewSmartlensComponent implements OnInit {
       productoSelect.idProduct = product.id;
       productRequest.product = productoSelect;
       productRequest.quantity = product.quantity;
-      productoSelect.codeSpectrum = product.codeSpectrum;
+      productRequest.codeSpectrum = product.codeSpectrum;
       productRequest.name = product.name;
       productRequest.price = product.price;
       productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
@@ -950,11 +1030,30 @@ export class ProductViewSmartlensComponent implements OnInit {
     // Type is basket (detail) and when is detail (productSelecte)
     const eye = productSelected.eye || productSelected.detail.eye;
 
+    const keyDMV = 'dmv';
     const keyNotch = eye === 'Right' ? "notchRight" : "notchLeft";
     const keyHydrapeg = eye === 'Right' ? "hydrapegRight" : "hydrapegLeft";
 
+    const productDMV: any = _.find(this.productsAdditional, {name:"DMV Insertion and Removal Set"});
     const productNotch: any = _.find(this.productsAdditional, {name:"Notch"});
     const productHydrapeg: any = _.find(this.productsAdditional, {name:"Hydrapeg"});
+
+    if (this.getAdditionalPrices(true)[keyDMV]) {
+      let dmv = {
+        id: productDMV.idProduct,
+        name: productDMV.name,
+        price: this.getAdditionalPrices(true)[keyDMV],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productDMV.codeSpectrum,
+        detail: {}
+      }
+
+      if (type === 'basket') {
+        dmv.detail = productSelected.detail;
+      }
+      additionals.push(dmv);
+    }
 
     if (this.getAdditionalPrices(true)[keyNotch]) {
       let notch = {
@@ -1003,10 +1102,11 @@ export class ProductViewSmartlensComponent implements OnInit {
 
       productSelected.id = product.idProduct;
       productSelected.patient = product.patient;
-      productSelected.price = product.priceSale;
 
       if (productSelected.eye === "Right") {
         productSelected.quantity = product.quantityRight;
+        productSelected.price = product.priceSaleRight;
+        productSelected.codeSpectrum = product.codeRight;
         productSelected.observations = product.observationsRight;
         productSelected.typeLens = self.typeLensRight.selected;
 
@@ -1041,6 +1141,8 @@ export class ProductViewSmartlensComponent implements OnInit {
       }
       if (productSelected.eye === "Left") {
         productSelected.quantity = product.quantityLeft;
+        productSelected.price = product.priceSaleLeft;
+        productSelected.codeSpectrum = product.codeLeft;
         productSelected.observations = product.observationsLeft;
         productSelected.typeLens = self.typeLensLeft.selected;
 
@@ -1073,7 +1175,7 @@ export class ProductViewSmartlensComponent implements OnInit {
         productSelected.parameters = product.parametersLeft;
       }
 
-      productSelected.detail = { name: '', eye: productSelected.eye, typeLens: productSelected.typeLens, materials: productSelected.materials, hydrapeg: productSelected.hydrapeg, design: productSelected.design, parameters: productSelected.parameters, productsAdditional: self.getProductsAdditional(productSelected, 'detail') };
+      productSelected.detail = { name: '', eye: productSelected.eye, codeSpectrum: productSelected.codeSpectrum, dmv: product.dmv, typeLens: productSelected.typeLens, materials: productSelected.materials, hydrapeg: productSelected.hydrapeg, design: productSelected.design, parameters: productSelected.parameters, productsAdditional: self.getProductsAdditional(productSelected, 'detail') };
       productsSelected[index] = _.omit(productSelected, ['parameters', 'eye', 'set']);
     });
 
@@ -1113,6 +1215,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.role = this.user.role.idRole;
+    modalRef.componentInstance.additionalDMV = this.getAdditionalPrices(false).dmv;
     modalRef.componentInstance.additionalHydrapeg = this.getAdditionalPrices(false).hydrapeg;
     modalRef.componentInstance.additionalNotch = this.getAdditionalPrices(false).notch;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;

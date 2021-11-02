@@ -61,7 +61,6 @@ export class ListBasketComponent implements OnInit {
   basket: any;
   checkedAll: any;
   productDMV: any;
-  inserts: any;
   productModel: Product = new Product();
 
   constructor(private basketService: BasketService,
@@ -151,6 +150,16 @@ export class ListBasketComponent implements OnInit {
       if (supplierId === 2) {
         // price insertors
         const insertSelected = basket.productRequested.detail[0].header[2].selected === true;
+        if (insertSelected) {
+          priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
+          priceAll = priceAll + priceInsertor;
+        }
+      }
+
+      // SMARTLENS
+      if (supplierId === 14) {
+        // price insertors
+        const insertSelected = basket.productRequested.detail[0].dmv.selected === "Yes";
         if (insertSelected) {
           priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
           priceAll = priceAll + priceInsertor;
@@ -303,15 +312,14 @@ export class ListBasketComponent implements OnInit {
     let insertorsUniq = [];
 
     _.each(productsAdditional, function(item) {
-      const supplierId = item.productRequested.product.supplier.idSupplier;
-
       const id = item.idBasketProductRequested;
       const groupId = item.productRequested.groupId;
+      const isInsertsDMV = self.productModel.isInsertsDMV(item.productRequested.product.idProduct);
 
-      if (item.productRequested.product.idProduct === 146 && !_.includes(insertorsUniq, groupId)) {
+      if (isInsertsDMV && !_.includes(insertorsUniq, groupId)) {
         insertorsUniq.push(groupId);
         arrayAux = _.concat(arrayAux, id);
-      } else if (item.productRequested.product.idProduct !== 146) {
+      } else if (!isInsertsDMV) {
         arrayAux = _.concat(arrayAux, id);
       }
     });
@@ -717,13 +725,22 @@ export class ListBasketComponent implements OnInit {
     let self = this;
     let amountToExcluded = 0;
     let groupsIdsReady = [];
+
+    // Finding inserts
     _.each(this.productRequestedToBuy, function (basketProductRequest) {
       let basket = _.find(self.listBasket, function(o) {
         return self.productModel.haveInsertsDMV(o.supplier) &&  o.idBasketProductRequested === basketProductRequest;
       });
 
       if (!!basket) {
-        self.definePriceInserts(basket.basket.user.membership.idMembership, basket.productRequested);
+        let priceInsert = 0
+        const insert = _.find(self.listBasketAll, function(o) {
+          return self.productModel.isInsertsDMV(basket.productRequested.product.idProduct) && o.idBasketProductRequested === basketProductRequest;
+        });
+        if (insert) {
+          priceInsert = insert.productRequested.price;
+        }
+
         let basketProduct = _.find(self.listBasket, function(o) {
           return _.includes(self.productRequestedToBuy, o.idBasketProductRequested) && o.productRequested.idProductRequested !== basket.productRequested.idProductRequested
           && basket.productRequested.groupId === o.productRequested.groupId;
@@ -731,27 +748,10 @@ export class ListBasketComponent implements OnInit {
 
         if (basketProduct && !_.includes(groupsIdsReady, basketProduct.productRequested.groupId)) {
           groupsIdsReady.push(basketProduct.productRequested.groupId);
-          amountToExcluded += self.inserts;
+          amountToExcluded += priceInsert;
         }
       }
     });
     return amountToExcluded;
   }
-
-  definePriceInserts(membership, productRequested) {
-    // TODO: check in Xcel
-    let pricesAditionalInserts = JSON.parse(productRequested.product.infoAditional)[0].values[1];
-    switch (membership) {
-      case 1:
-        this.inserts = pricesAditionalInserts.values[0].price;
-        break;
-      case 2:
-        this.inserts =  pricesAditionalInserts.values[1].price;
-        break;
-      case 3:
-        this.inserts = pricesAditionalInserts.values[2].price;
-        break;
-    }
-  }
-
 }

@@ -31,7 +31,7 @@
       <!--PARAMETERS-->
       <div class="col-lg-12 label-title">
         <div class="row padding-params">
-          <div class="col-sm-4" >
+          <div class="col-sm-4">
             <dl>
               <dt>{{'Price'| translate}}
               </dt>
@@ -42,12 +42,6 @@
                     </div>
                     <input class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
                         name="price1" disabled="true">
-                </div>
-
-                <div [hidden]="editPrice || price === ''">
-                  <h5 class="padding-price">
-                    <span>{{ price | currency : "USD $" }}</span>
-                  </h5>
                 </div>
               </dl>
             </dl>
@@ -63,6 +57,26 @@
                 </div>
               </dl>
             </dl>
+          </div>
+
+          <div class="col-lg-12" *ngIf="product?.dmv">
+            <div class="radio-custom">
+              <span class="title label-radio">{{ product.dmv.name | translate }}:</span>
+              <div *ngFor="let value of product.dmv.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-dmv-{{i}}" name="radioDMV" [value]="value"
+                         class="custom-control-input" (change)="changeDMV(value)"
+                         [checked]="product.dmv.selected === value">
+                  <label class="custom-control-label" for="radio-dmv-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="row additional col-lg-12">
+              <p *ngIf="product.dmv.selected === 'Yes'">
+                <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;
+                <span>{{'Inserts (DMV)' | translate}}:{{ getAdditionalPrices(false).dmv | currency : " USD $" }}</span>&nbsp;
+              </p>
+            </div>
           </div>
 
           <div class="row display-row col-sm-12">

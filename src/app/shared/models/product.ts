@@ -27,14 +27,21 @@ export class Product {
   public constructor() { }
 
   public haveAdditionalProduct(idSupplier) {
-    return idSupplier === 2 ||
-           idSupplier === 14 ||
+    return idSupplier === 2 ||  // Europa
+           idSupplier === 14 || // Smartlens
            idSupplier === 'id supplier Xcel';
   }
 
   public haveInsertsDMV(idSupplier) {
-    return idSupplier === 2 ||
+    return idSupplier === 2 ||  // Europa
+           idSupplier === 14 || // Smartlens
            idSupplier === 'id supplier Xcel';
+  }
+
+  public isInsertsDMV(idProduct) {
+    return idProduct === 146 ||  // Europa
+           idProduct === 312 || // Smartlens
+           idProduct === 'id product dmv Xcel';
   }
 
   public isAdditionalProduct(idProduct) {
@@ -42,13 +49,16 @@ export class Product {
            idProduct === 146 || // DMV Inserts Europa
            idProduct === 147 || // Hydrapeg Europa
            idProduct === 310 || // Hydrapeg Smartlens
-           idProduct === 311;   // Notch Smartlens
+           idProduct === 311 || // Notch Smartlens
+           idProduct === 312;   // Dmv Inserts Smartlens
   }
 
   public getInsertsID(product, supplierId) {
     switch (supplierId || product.supplier.idSupplier) {
       case 2: // Europa
         return 146;
+      case 14: // Smartlens
+        return 312;
       case 'id supplier Xcel': // X-cel
         return null;
       default:
