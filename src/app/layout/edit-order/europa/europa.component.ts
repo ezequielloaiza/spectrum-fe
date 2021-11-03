@@ -10,6 +10,7 @@ import { ProductRequested } from '../../../shared/models/productrequested';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BasketproductrequestedService } from '../../../shared/services/basketproductrequested/basketproductrequested.service';
 import { ProductService } from '../../../shared/services/products/product.service';
+import { Product } from '../../../shared/models/product';
 
 @Component({
   selector: 'app-europa',
@@ -19,6 +20,7 @@ import { ProductService } from '../../../shared/services/products/product.servic
 export class EuropaComponent implements OnInit {
 
   basket: any;
+  productModel: Product = new Product();
   productRequested: ProductRequested = new ProductRequested();
   productRequestedAux: ProductRequested = new ProductRequested();
   productsOriginal: Array<any> = new Array;
@@ -106,6 +108,7 @@ export class EuropaComponent implements OnInit {
   }
 
   findBasketByGroupdId() {
+    const self = this;
     const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
     this.basketProductRequestedService.allBasketByGroupId$(this.productRequested.groupId).subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -115,9 +118,7 @@ export class EuropaComponent implements OnInit {
         let prHydrapeg;
         _.each(res.data, function (basket) {
           const productId = basket.productRequested.product.idProduct;
-          if (productId !== 145
-                && productId !== 146
-                && productId !== 147) {
+          if (!self.productModel.isAdditionalProduct(productId)) {
             auxList.push(basket);
           } else {
             switch (productId) {
@@ -151,6 +152,7 @@ export class EuropaComponent implements OnInit {
   }
 
   findByGroupdId() {
+    const self = this;
     const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
     this.orderProductRequestedService.allByGroupId$(this.productRequested.groupId, this.order.idOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -160,9 +162,7 @@ export class EuropaComponent implements OnInit {
         let prHydrapeg;
         _.each(res.data, function (basket) {
           const productId = basket.productRequested.product.idProduct;
-          if (productId !== 145
-                && productId !== 146
-                && productId !== 147) {
+          if (!self.productModel.isAdditionalProduct(productId)) {
             auxList.push(basket);
           } else {
               switch (productId) {
@@ -1075,8 +1075,7 @@ export class EuropaComponent implements OnInit {
       if (res.code === CodeHttp.ok) {
         let listAux = res.data;
         const principal = listAux.filter((item) => {
-          return ((item.product.idProduct != 145 &&  item.product.idProduct != 146
-            && item.product.idProduct != 147));
+          return !self.productModel.isAdditionalProduct(item.product.idProduct);
         });
         this.spinner.hide();
         this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
@@ -1086,7 +1085,6 @@ export class EuropaComponent implements OnInit {
         productRequested.detail = JSON.parse(productRequested.detail);
         this.modalReference.close(productRequested);
       } else {
-        console.log(res);
         this.spinner.hide();
         this.modalReference.close(self.listAux);
       }

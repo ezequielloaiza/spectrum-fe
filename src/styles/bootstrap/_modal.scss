@@ -80,6 +80,12 @@
   }
 }
 
+.modal-edit-smartlens {
+  .modal-dialog {
+    max-width: 68% !important;
+  }
+}
+
 .modal-send-invoice {
   .modal-dialog {
     top: 20%;

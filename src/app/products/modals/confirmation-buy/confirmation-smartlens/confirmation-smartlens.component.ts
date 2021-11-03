@@ -18,13 +18,14 @@ import { CodeHttp } from '../../../../shared/enum/code-http.enum';
 import { NotificationBalanceComponent } from '../../notification-balance/notification-balance.component';
 import * as _ from 'lodash';
 import { StatusUser } from '../../../../shared/enum/status-user.enum';
+import { Product } from '../../../../shared/models/product';
 
 @Component({
-  selector: 'app-confirmation-europa',
-  templateUrl: './confirmation-europa.component.html',
-  styleUrls: ['./confirmation-europa.component.scss']
+  selector: 'app-confirmation-smartlens',
+  templateUrl: './confirmation-smartlens.component.html',
+  styleUrls: ['./confirmation-smartlens.component.scss']
 })
-export class ConfirmationEuropaComponent implements OnInit {
+export class ConfirmationSmartlensComponent implements OnInit {
 
   typeOrder: any;
   datos: any;
@@ -33,7 +34,6 @@ export class ConfirmationEuropaComponent implements OnInit {
   role: any;
   listBasket: Array<ProductRequested> = new Array;
   lista: Array<ProductRequested> = new Array;
-  listNameParameters: Array<any> = new Array;
   namePatient: any;
   basketRequest: BasketRequest = new BasketRequest();
   buyNow: BuyNow = new BuyNow();
@@ -42,15 +42,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   price: any;
   user: any;
   client: any;
-  balace: any;
-  additionalHidrapeg: any;
-  additionalInserts: any;
-  additionalNotch: any;
-  additionalThickness: any;
-  totalHidrapeg: any;
-  totalInserts: any;
-  totalNotch: any;
-  totalThickness: any;
+  balance: any;
   // list for File
   listFileBasket: Array<FileProductRequested> = new Array;
   listUrlFiles: Array<String> = new Array;
@@ -61,8 +53,7 @@ export class ConfirmationEuropaComponent implements OnInit {
   balance_modal: Boolean = false;
   company: Company = new Company();
   available: any;
-  insertCodeSpectrum: any;
-  existInserts: Boolean = false;
+  productModel: Product = new Product();
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
@@ -94,63 +85,40 @@ export class ConfirmationEuropaComponent implements OnInit {
   }
 
   getDatos() {
+    const self = this;
     let patient;
     let  priceAcum = 0;
     let eyesSelected = [];
+    let quantityInserts = 0;
     this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
     const listBasketAux = [];
-    let quantityHidrapeg = 0;
-    let quantityInserts = 0;
-    let quantityNotch = 0;
-    let quantityThickness = 0;
-    let existInserts = false;
-    let insertCodeSpectrum = '';
     _.each(this.listBasket, function (productRequested) {
 
-      // TODO: change a function isInsertsDMV of product.ts
-      if (productRequested.product.idProduct === 146) {
+      // Validation necesary because dvm is for order
+      if (self.productModel.isInsertsDMV(productRequested.product.idProduct)) {
         quantityInserts++;
-        if (quantityInserts < 2) {
+        if (quantityInserts === 1) {
           priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
         }
       } else {
         priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
       }
 
-      if (productRequested.name !== 'Inserts (DMV)'
-         && productRequested.name !== 'Notch'
-         && productRequested.name !== 'HydraPEG') {
-        // priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
-        patient = productRequested.patient;
-        if (productRequested.observations === undefined) {
-          productRequested.observations = '';
-        }
-        let details = JSON.parse(productRequested.detail);
-        _.each(details, function (detail) {
-          eyesSelected.push(detail.eye);
-          _.each(detail.header, function (parameters) {
-            if (parameters.name === 'Hidrapeg' && parameters.selected) {
-              quantityHidrapeg = quantityHidrapeg + productRequested.quantity;
-            }
-          });
-          _.each(detail.parameters, function (parameter) {
-            if (parameter.name === 'Notch (mm)' && parameter.selected !== '0x0' && parameter.selected !== '0x0 (undefined)' &&
-                parameter.selected !== '0x0 (Upper Temporal)' && parameter.selected !== '0x0 (Lower Temporal)' && 
-                parameter.selected !== '0x0 (Upper Nasal)' && parameter.selected !== '0x0 (Lower Nasal)') {
-              quantityNotch = quantityNotch + productRequested.quantity;
-            }
-            if (parameter.name === 'Thickness' && parameter.selected) {
-              quantityThickness = quantityThickness + productRequested.quantity;
-            }
-          });
-        });
+      patient = productRequested.patient;
+      if (productRequested.observations === undefined) {
+        productRequested.observations = '';
+      }
+      let details = JSON.parse(productRequested.detail);
 
-        productRequested.detail = JSON.parse(productRequested.detail);
+      _.each(details, function (detail) {
+        eyesSelected.push(detail.eye);
+      });
+
+      productRequested.detail = JSON.parse(productRequested.detail);
+
+      if (!self.isAdditionalProduct(productRequested)) {
         listBasketAux.push(productRequested);
-      } else if (productRequested.name === 'Inserts (DMV)') {
-        existInserts = true;
-        insertCodeSpectrum = productRequested.product.codeSpectrum;
       }
     });
 
@@ -158,101 +126,43 @@ export class ConfirmationEuropaComponent implements OnInit {
     this.eyesSelected = eyesSelected;
     this.namePatient = patient;
     this.price = priceAcum;
-    this.existInserts = existInserts;
-    this.insertCodeSpectrum = insertCodeSpectrum;
-    this.listNameParameters = JSON.parse(this.product.types)[0].parameters;
-    this.totalHidrapeg = this.additionalHidrapeg * quantityHidrapeg;
-    this.totalInserts = this.additionalInserts;
-    this.totalNotch = this.additionalNotch * quantityNotch;
-    this.totalThickness = this.additionalThickness * quantityThickness;
   }
 
-  save(): void {
-    if (this.typeBuy === 1) {
-      this.spinner.show();
-      this.basketRequest.idUser = this.datos.idUser;
-      this.basketRequest.productRequestedList = this.lista;
-      this.basketRequest.listFileRightEye = this.listFileRightEye;
-      this.basketRequest.listFileLeftEye = this.listFileLeftEye;
-      this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-            this.save_success = true;
-            this.close();
-            this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe(( res: string) => {
-              this.notification.success('', res);
-            });
-            this.spinner.hide();
-            this.redirectListProducts();
-            // this.redirectListBasket();
-        } else {
-          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
-            this.notification.error('', res);
-            this.spinner.hide();
-            console.log(res);
-          });
-        }
-      }, error => {
-        console.log('error', error);
-      });
-    } else {
-      if (this.client.status === StatusUser.InDefault) {
-        this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
-          this.translate.get('Your account was deactivated. Please contact with the administrator',
-          { value: 'Your account was deactivated. Please contact with the administrator' })
-          .subscribe((msg: string) => {
-            this.alertify.warning(msg);
-            this.close();
-          });
-        });
+  isAdditionalProduct(productRequested) {
+    return productRequested.name === 'DMV Insertion and Removal Set' || productRequested.name === 'Notch' || productRequested.name === 'Hydrapeg';
+  }
+
+  getBalance() {
+    this.userService.findById$(this.datos.idUser).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.client = res.data;
+        this.company = res.data.company;
+        this.balance = this.company.balance;
       } else {
-        this.buyNow.idUser = this.datos.idUser;
-        this.buyNow.productRequestedList = this.lista;
-        this.buyNow.idRole = this.role;
-        this.buyNow.listFileRightEye = this.listFileRightEye;
-        this.buyNow.listFileLeftEye = this.listFileLeftEye;
-
-        // removing duplicate inserts
-        let quantityInserts = 0;
-        let self = this;
-        _.each(this.buyNow.productRequestedList, function(productRequested, index){
-          if (productRequested.product.idProduct === 146) {
-            quantityInserts++;
-            if (quantityInserts > 1) {
-              self.buyNow.productRequestedList.splice(index, 1)
-            }
-          }
-        });
-
-        // this.validateAvailableBalance();
-        // if (this.available) {
-            this.spinner.show();
-            this.buyNow.typeOrder = this.typeOrder;
-            this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
-            if (res.code === CodeHttp.ok) {
-              this.save_success = true;
-              this.spinner.hide();
-              this.close();
-              this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
-                this.notification.success('', res);
-              });
-              this.redirectListOrder();
-            } else {
-              this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
-                this.notification.error('', res);
-                this.spinner.hide();
-                console.log(res);
-              });
-            }
-          }, error => {
-            console.log('error', error);
-          });
-        /*} else {
-          this.balance_modal = true;
-          this.openModal(); // No tiene disponible el balance de credito
-          this.close();
-        }*/
+        console.log(res.errors[0].detail);
       }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  getParams(detail) {
+    let params = detail.parameters;
+
+    if (detail.design === "Sph") {
+      params =  _.filter(params, function(param) {
+        // Remove params cylinder and axis when design is Sph.
+        return param.name !== 'Cylinder (D)' && param.name !== 'Axis Cylinder(º)' && param.name !== 'Position of axis rotation markers' && param.name !== 'Rotationally stable';
+      });
     }
+
+    if (detail.typeLens === 'Final Design') {
+      params =  _.filter(params, function(param) {
+        // Excluding params design by laboratory
+        return param.name !== 'Over-refraction';
+      });
+    }
+    return params;
   }
 
   buildUrlFiles() {
@@ -302,23 +212,9 @@ export class ConfirmationEuropaComponent implements OnInit {
     }
   }
 
-  getBalance() {
-    this.userService.findById$(this.datos.idUser).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.client = res.data;
-        this.company = res.data.company;
-        this.balace = this.company.balance;
-      } else {
-        console.log(res.errors[0].detail);
-      }
-    }, error => {
-      console.log('error', error);
-    });
-  }
-
   validateAvailableBalance() {
     let available = true;
-    if (this.company.paymentMethod === 1 && ((this.price) > this.balace)) { // Postpago
+    if (this.company.paymentMethod === 1 && ((this.price) > this.balance)) { // Postpago
         available = false;
     }
     this.available = available;
@@ -335,5 +231,82 @@ export class ConfirmationEuropaComponent implements OnInit {
       this.balance_modal = false;
       this.close();
     });
+  }
+
+  save(): void {
+    if (this.typeBuy === 1) {
+      this.spinner.show();
+      this.basketRequest.idUser = this.datos.idUser;
+      this.basketRequest.productRequestedList = this.lista;
+      this.basketRequest.listFileRightEye = this.listFileRightEye;
+      this.basketRequest.listFileLeftEye = this.listFileLeftEye;
+      this.basketService.saveBasket$(this.basketRequest).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+            this.save_success = true;
+            this.close();
+            this.translate.get('Successfully Saved', {value: 'Successfully Saved'}).subscribe(( res: string) => {
+              this.notification.success('', res);
+            });
+            this.spinner.hide();
+            this.redirectListProducts();
+            // this.redirectListBasket();
+        } else {
+          this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+            this.notification.error('', res);
+            this.spinner.hide();
+            console.log(res);
+          });
+        }
+      }, error => {
+        console.log('error', error);
+      });
+    } else {
+      if (this.client.status === StatusUser.InDefault) {
+        this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
+          this.translate.get('Your account was deactivated. Please contact with the administrator',
+          { value: 'Your account was deactivated. Please contact with the administrator' })
+          .subscribe((msg: string) => {
+            this.alertify.warning(msg);
+            this.close();
+          });
+        });
+      } else {
+        this.buyNow.idUser = this.datos.idUser;
+        this.buyNow.productRequestedList = this.lista;
+        this.buyNow.idRole = this.role;
+        this.buyNow.listFileRightEye = this.listFileRightEye;
+        this.buyNow.listFileLeftEye = this.listFileLeftEye;
+
+
+        // this.validateAvailableBalance();
+        // if (this.available) {
+            this.spinner.show();
+            this.buyNow.typeOrder = this.typeOrder;
+            this.orderService.saveOrderDirect$(this.buyNow).subscribe(res => {
+            if (res.code === CodeHttp.ok) {
+              this.save_success = true;
+              this.spinner.hide();
+              this.close();
+              this.translate.get('Order generated successfully', {value: 'Order generated successfully'}).subscribe(( res: string) => {
+                this.notification.success('', res);
+              });
+              this.redirectListOrder();
+            } else {
+              this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe((res: string) => {
+                this.notification.error('', res);
+                this.spinner.hide();
+                console.log(res);
+              });
+            }
+          }, error => {
+            console.log('error', error);
+          });
+        /*} else {
+          this.balance_modal = true;
+          this.openModal(); // No tiene disponible el balance de credito
+          this.close();
+        }*/
+      }
+    }
   }
 }

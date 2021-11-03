@@ -37,6 +37,9 @@ import { OrionComponent } from '../../../../edit-order/orion/orion/orion.compone
 import { DetailOrionComponent } from '../../../modals/detail-product/detail-orion/detail-orion.component';
 import { DetailMoldedLensesComponent } from '../../../modals/detail-product/detail-molded-lenses/detail-molded-lenses.component';
 import { MoldedLensesComponent } from '../../../../edit-order/molded-lenses/molded-lenses.component';
+import { SmartlensComponent } from '../../../../edit-order/smartlens/smartlens.component';
+import { DetailSmartlensComponent } from '../../../modals/detail-product/detail-smartlens/detail-smartlens.component';
+import { Product } from '../../../../../shared/models/product';
 
 
 @Component({
@@ -61,10 +64,10 @@ export class DetailsBasketClientComponent implements OnInit {
   };
   checkedAll: any;
   customer: any;
-  inserts = 0;
   basketUpdate;
   productRequested1: ProductRequested;
   productDMV: any;
+  productModel: Product = new Product();
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -97,6 +100,7 @@ export class DetailsBasketClientComponent implements OnInit {
   }
 
   getListBasket(): void {
+    const self = this;
     this.spinner.show();
     this.basketService.allBasketByUser$(this.id).subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -105,6 +109,8 @@ export class DetailsBasketClientComponent implements OnInit {
         this.listBasketAll = res.data;
 
         const auxList = [];
+        let productsAdditional = [];
+
         _.each(this.listBasket, function (basket) {
           basket.checked = false;
           basket.supplier = basket.productRequested.product.supplier.idSupplier;
@@ -112,27 +118,20 @@ export class DetailsBasketClientComponent implements OnInit {
             basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
           }
           const productId = basket.productRequested.product.idProduct;
-          if (productId !== 145
-                && productId !== 146
-                && productId !== 147) {
+
+          // auxList filter only products to show
+          if (!self.productModel.isAdditionalProduct(productId)) {
             auxList.push(basket);
+          } else {
+            productsAdditional.push(basket.productRequested.product);
           }
         });
+
         this.listBasketAll = this.listBasket;
         this.listBasket = auxList;
         this.listBasketAux = auxList;
-        // search product insertor
-        this.productService.findById$(146).subscribe(res1 => {
-          if (res1.code === CodeHttp.ok) {
-            this.assignPriceAllEuropa(auxList, res1.data[0]);
-          } else {
-            console.log(res1.errors[0].detail);
-            this.spinner.hide();
-          }
-        }, error => {
-          console.log('error', error);
-          this.spinner.hide();
-        });
+
+        this.setPriceWithAdditionals(auxList, productsAdditional);
 
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
@@ -143,37 +142,68 @@ export class DetailsBasketClientComponent implements OnInit {
     });
   }
 
-  assignPriceAllEuropa(auxList, productDMV): void {
-    let arrayProductAditionals = [];
+  // This method is only for Europa, Smartlens and X-cel
+  setPriceWithAdditionals(auxList, productsAdditional): void {
     const self = this;
+
+    let productsGrouped = [];
     let priceAll = 0;
     let priceInsertor = 0;
-
     let existContraryEye = false;
 
     _.each(auxList, function(basket) {
-      if (basket.productRequested.product.supplier.idSupplier === 2) {
-        arrayProductAditionals = self.getProductsAditionalEuropa(basket.productRequested.groupId,
-          basket.productRequested.detail[0].eye);
-        priceAll = 0;
-        existContraryEye = self.contraryEye(basket.productRequested.groupId,
-          basket.productRequested.detail[0].eye);
-        _.each(arrayProductAditionals, function(item) {
-          const productId = item.productRequested.product.idProduct;
-          if (productId !== 146) {
-            priceAll = priceAll + item.productRequested.price;
-          }
-        });
+      priceAll = 0;
+      productsGrouped = self.getProductsGrouped(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+      existContraryEye = self.contraryEye(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+      const insertID = self.productModel.getInsertsID(basket.productRequested.product, null);
+      const productDMV = insertID && _.find(productsAdditional, {idProduct: insertID});
+
+      _.each(productsGrouped, function(item) {
+        const productId = item.productRequested.product.idProduct;
+        if (productId !== insertID) {
+          priceAll = priceAll + item.productRequested.price;
+        }
+      });
+
+      const supplierId = basket.productRequested.product.supplier.idSupplier;
+
+      // EUROPA
+      if (supplierId === 2) {
         // price insertors
-        const insertor = basket.productRequested.detail[0].header[2].selected === true;
-        priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
-        if (insertor) {
+        const insertSelected = basket.productRequested.detail[0].header[2].selected === true;
+        if (insertSelected) {
+          priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
           priceAll = priceAll + priceInsertor;
         }
+      }
+
+      // SMARTLENS
+      if (supplierId === 14) {
+        // price insertors
+        const insertSelected = basket.productRequested.detail[0].dmv.selected === "Yes";
+        if (insertSelected) {
+          priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
+          priceAll = priceAll + priceInsertor;
+        }
+      }
+
+      if (self.productModel.haveAdditionalProduct(supplierId)) {
         basket.productRequested.priceBase = basket.productRequested.price;
         basket.productRequested.price = priceAll;
       }
     });
+  }
+
+  getProductsGrouped(groupId, eye) {
+    const auxList = [];
+
+    _.each(this.listBasketAll, function(item) {
+      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === eye) {
+        auxList.push(item);
+      }
+    });
+
+    return auxList;
   }
 
   getPriceInsertor(membership, productDMV) {
@@ -212,47 +242,44 @@ export class DetailsBasketClientComponent implements OnInit {
     return exist;
   }
 
-  borrar(id): void {
-   //Basket a eliminar
-    let basket = _.find(this.listBasket, function(o) {
-      return o.idBasketProductRequested === id;
-    });
-     if (basket.productRequested.product.supplier.idSupplier === 2) {
-     } else {
-      this.basketProductRequestedService.removeById$(id).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.getListBasket();
-          // tslint:disable-next-line:no-shadowed-variable
-          this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res: string) => {
-            this.notification.success('', res);
-          });
-        } else {
-          console.log(res.errors[0].detail);
-        }
-      }, error => {
-        console.log('error', error);
-      });
-     }
-  }
-
   delete(id) {
     this.translate.get('Confirm Delete', {value: 'Confirm Delete'}).subscribe((title: string) => {
       this.translate.get('Are you sure do you want to delete this register?',
-       {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
-         this.alertify.confirm(title, msg, () => {
-          const basket = this.getBasket(id);
-          const idSupplier = basket.productRequested.product.supplier.idSupplier;
+        {value: 'Are you sure do you want to delete this register?'}).subscribe((msg: string) => {
 
-          if (idSupplier === 2) {
-            this.deleteProductsAditionalEuropa(basket);
-          } else {
-            this.borrar(id);
-          }
+        this.alertify.confirm(title, msg, () => {
+        const basket = this.getBasket(id);
+        const idSupplier = basket.productRequested.product.supplier.idSupplier;
 
-          }, () => {});
-        });
+        if (this.productModel.haveAdditionalProduct(idSupplier)) {
+          this.deleteProductsAdditional(basket);
+        } else {
+          this.deleteBasket(id);
+        }
+
+        }, () => {});
       });
-    }
+    });
+  }
+
+  deleteBasket(id): void {
+    this.basketProductRequestedService.removeById$(id).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.getListBasket();
+
+        // tslint:disable-next-line:no-shadowed-variable
+        this.translate.get('Successfully Deleted', {value: 'Successfully Deleted'}).subscribe(( res: string) => {
+          this.notification.success('', res);
+        });
+
+      } else {
+        console.log(res.errors[0].detail);
+      }
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
 
   getItems(ev: any) {
     this.listBasket = this.listBasketAux;
@@ -275,18 +302,6 @@ export class DetailsBasketClientComponent implements OnInit {
     this.openSumary();
   }
 
-  getProductsAditionalEuropa(groupId, eye) {
-    const auxList = [];
-
-    _.each(this.listBasketAll, function(item) {
-      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === eye) {
-        auxList.push(item);
-      }
-    });
-
-    return auxList;
-  }
-
   getBasket(id) {
     let basket;
     _.each(this.listBasket, function(item) {
@@ -297,101 +312,71 @@ export class DetailsBasketClientComponent implements OnInit {
     return basket;
   }
 
-  addProductsAditionalEuropa() {
-    let listPA = [];
-    let arrayAux = [];
-    let arrayAuxPA = [];
-    let self = this;
-    let productsDistinctEuropa = _.filter(this.productRequestedToBuy, function (itemBasket) {
-      return _.find(self.listBasket, function (item) {
-        return item.productRequested.product.supplier.idSupplier !== 2 && item.idBasketProductRequested === itemBasket;
-      });
-    });
-
-    const listSelect = this.productRequestedToBuy;
-    _.each(this.listBasket, function(item) {
-      _.each(listSelect, function(itemBasket) {
-        if (item.productRequested.product.supplier.idSupplier === 2 && item.idBasketProductRequested === itemBasket) {
-          arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId, item.productRequested.detail[0].eye);
-          listPA = _.concat(listPA, arrayAuxPA);
-        }
-      });
-    });
-
-    let insertorsUniq = [];
-
-    _.each(listPA, function(item) {
-      const id = item.idBasketProductRequested;
-      const groupId = item.productRequested.groupId;
-
-      if (item.productRequested.product.idProduct === 146 && !_.includes(insertorsUniq, groupId)) {
-        insertorsUniq.push(groupId);
-        arrayAux = _.concat(arrayAux, id);
-      } else if (item.productRequested.product.idProduct !== 146) {
-        arrayAux = _.concat(arrayAux, id);
-      }
-    });
-
-    if (arrayAux.length > 0) {
-      this.productRequestedToBuy = _.concat(arrayAux, productsDistinctEuropa);
-    }
-  }
-
-  deleteProductsAditionalEuropa(basket) {
-    let auxList = [];
+  deleteProductsAdditional(basket) {
     let arrayAux = [];
     let arrayDelete = [];
-    let detail;
-    let idProductRequested;
-    let price;
-    const productRequested1 = new ProductRequested();
-    let eye;
-    let productRDmv;
+    let insertSelected;
 
-    auxList = this.getProductsAditionalEuropa(basket.productRequested.groupId,
-      basket.productRequested.detail[0].eye);
+    const newProductRequested = new ProductRequested();
 
-    // insertors
-    const insertor = basket.productRequested.detail[0].header[2].selected === true;
-    const existContraryEye = this.contraryEye(basket.productRequested.groupId,
-      basket.productRequested.detail[0].eye);
-    productRDmv = _.find(auxList, function(o) {
-      return o.productRequested.product.idProduct === 146;
+    let productsAdditional = this.getProductsGrouped(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+    const supplierId = basket.productRequested.product.supplier.idSupplier;
+    const existContraryEye = this.contraryEye(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+    const insertID = this.productModel.getInsertsID(basket.productRequested.product, null);
+    const eyeContrary = basket.productRequested.detail[0].eye === 'Left' ? 'Right' : 'Left';
+
+    const productDMV = insertID && _.find(productsAdditional, function(p) {
+      return p.productRequested.product.idProduct === insertID;
     });
 
-    if (insertor && existContraryEye && productRDmv !== undefined) {
-      eye = basket.productRequested.detail[0].eye === 'Left' ? 'Right' : 'Left';
+    const productRequestedDMV = productDMV && productDMV.productRequested;
 
-      idProductRequested = productRDmv.productRequested.idProductRequested;
-      const detailContrary = productRDmv.productRequested.detail;
+    // EUROPA
+    if (supplierId === 2) {
+      // Inserts DMV
+      insertSelected = basket.productRequested.detail[0].header[2].selected === true;
+    }
+
+    // XCEL
+    if (supplierId === 'id supplier Xcel') {
+      // Inserts DMV
+      insertSelected = null;
+    }
+
+    if (insertSelected && existContraryEye && productDMV !== undefined) {
+
+      const detailContrary = productRequestedDMV.detail;
       _.each(detailContrary, function(item) {
-        item.eye = eye;
-        _.each(item.header, function(itemH, index) {
-          if (itemH.name === 'Inserts (DMV)') {
-            item.header[index].selected = true;
-          }
-        });
+        item.eye = eyeContrary;
+        newProductRequested.idProductRequested = productRequestedDMV.idProductRequested;
+        newProductRequested.price = productRequestedDMV.price;
+
+        // EUROPA
+        if (supplierId === 2) {
+          _.each(item.header, function(itemH, index) {
+            if (itemH.name === 'Inserts (DMV)') {
+              item.header[index].selected = true;
+            }
+          });
+
+          // building detail Europa
+          newProductRequested.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+            header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+            pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+        }
       });
 
-      price = productRDmv.productRequested.price;
 
-      // build object
-      productRequested1.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
-        header: detailContrary[0].header, parameters: detailContrary[0].parameters,
-        pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
-      productRequested1.idProductRequested = idProductRequested;
-      productRequested1.price = price;
-
-      this.productRequestedService.updatePriceEuropa$(productRequested1).subscribe(res1 => {
+      this.productRequestedService.updatePriceEuropa$(newProductRequested).subscribe(res1 => {
         if (res1.code === CodeHttp.ok) {
-          _.each(auxList, function(item) {
-            if (item.productRequested.product.idProduct !== 146) {
+          _.each(productsAdditional, function(item) {
+            if (item.productRequested.product.idProduct !== insertID) {
               arrayDelete.push(item);
             }
           });
-          auxList = arrayDelete;
+          productsAdditional = arrayDelete;
 
-          _.each(auxList, function(item) {
+          _.each(productsAdditional, function(item) {
             const id = item.idBasketProductRequested;
             arrayAux = _.concat(arrayAux, id);
           });
@@ -399,7 +384,7 @@ export class DetailsBasketClientComponent implements OnInit {
         }
       });
     } else {
-      _.each(auxList, function(item) {
+      _.each(productsAdditional, function(item) {
         const id = item.idBasketProductRequested;
         arrayAux = _.concat(arrayAux, id);
       });
@@ -561,6 +546,15 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
         break;
+      case 14: // Smartlens
+        const modalRefSmartlens = this.modalService.open(DetailSmartlensComponent,
+        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+        modalRefSmartlens.componentInstance.basket = basket;
+        modalRefSmartlens.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
       case 16: // Spectrum Molded Lenses
         const modalRefMoldedLenses = this.modalService.open(DetailMoldedLensesComponent,
         { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
@@ -586,86 +580,96 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
           break;
-     case 2: // Europa
-          const modalRefEuropa = this.modalService.open( EuropaComponent,
-          { size: 'lg', windowClass: 'modal-content-border modal-edit-europa' , backdrop : 'static', keyboard : false });
-          modalRefEuropa.componentInstance.basket = basket;
-          modalRefEuropa.componentInstance.typeEdit = 1;
-          modalRefEuropa.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-     case 3: // Lenticon
-          const modalRefLenticon = this.modalService.open( LenticonComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
-          modalRefLenticon.componentInstance.basket = basket;
-          modalRefLenticon.componentInstance.typeEdit = 1;
-          modalRefLenticon.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-       break;
-     case 4: // Euclid
-          const modalRefEuclid = this.modalService.open( EuclidComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
-          modalRefEuclid.componentInstance.basket = basket;
-          modalRefEuclid.componentInstance.typeEdit = 1;
-          modalRefEuclid.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-     case 5: // Magic Look
-          const modalRefMagic = this.modalService.open( MagicLookComponent,
-          { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false });
-          modalRefMagic.componentInstance.basket = basket;
-          modalRefMagic.componentInstance.typeEdit = 1;
-          modalRefMagic.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-     case 6: // Blue Light
-          const modalRefBlue = this.modalService.open( BlueLightComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
-          modalRefBlue.componentInstance.basket = basket;
-          modalRefBlue.componentInstance.typeEdit = 1;
-          modalRefBlue.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-    case 7: // Fluo strips y spectrum saline
-          const modalRefSalineFluo = this.modalService.open( SalineFluoComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
-          modalRefSalineFluo.componentInstance.basket = basket;
-          modalRefSalineFluo.componentInstance.typeEdit = 1;
-          modalRefSalineFluo.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-    case 9: // Synergeyes
-          const modalRefSynergeyes = this.modalService.open( SynergeyesComponent,
-          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
-          modalRefSynergeyes.componentInstance.basket = basket;
-          modalRefSynergeyes.componentInstance.typeEdit = 1;
-          modalRefSynergeyes.result.then((result) => {
-            this.ngOnInit();
-          } , (reason) => {
-          });
-          break;
-    case 10: // Orion
-        const modalRefOrion = this.modalService.open( OrionComponent,
-        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
-        modalRefOrion.componentInstance.basket = basket;
-        modalRefOrion.componentInstance.typeEdit = 1;
-        modalRefOrion.result.then((result) => {
-          this.ngOnInit();
-        } , (reason) => {
-        });
+      case 2: // Europa
+            const modalRefEuropa = this.modalService.open( EuropaComponent,
+            { size: 'lg', windowClass: 'modal-content-border modal-edit-europa' , backdrop : 'static', keyboard : false });
+            modalRefEuropa.componentInstance.basket = basket;
+            modalRefEuropa.componentInstance.typeEdit = 1;
+            modalRefEuropa.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 3: // Lenticon
+            const modalRefLenticon = this.modalService.open( LenticonComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+            modalRefLenticon.componentInstance.basket = basket;
+            modalRefLenticon.componentInstance.typeEdit = 1;
+            modalRefLenticon.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
         break;
+      case 4: // Euclid
+            const modalRefEuclid = this.modalService.open( EuclidComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+            modalRefEuclid.componentInstance.basket = basket;
+            modalRefEuclid.componentInstance.typeEdit = 1;
+            modalRefEuclid.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 5: // Magic Look
+            const modalRefMagic = this.modalService.open( MagicLookComponent,
+            { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false });
+            modalRefMagic.componentInstance.basket = basket;
+            modalRefMagic.componentInstance.typeEdit = 1;
+            modalRefMagic.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 6: // Blue Light
+            const modalRefBlue = this.modalService.open( BlueLightComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+            modalRefBlue.componentInstance.basket = basket;
+            modalRefBlue.componentInstance.typeEdit = 1;
+            modalRefBlue.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 7: // Fluo strips y spectrum saline
+            const modalRefSalineFluo = this.modalService.open( SalineFluoComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+            modalRefSalineFluo.componentInstance.basket = basket;
+            modalRefSalineFluo.componentInstance.typeEdit = 1;
+            modalRefSalineFluo.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 9: // Synergeyes
+            const modalRefSynergeyes = this.modalService.open( SynergeyesComponent,
+            { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+            modalRefSynergeyes.componentInstance.basket = basket;
+            modalRefSynergeyes.componentInstance.typeEdit = 1;
+            modalRefSynergeyes.result.then((result) => {
+              this.ngOnInit();
+            } , (reason) => {
+            });
+            break;
+      case 10: // Orion
+          const modalRefOrion = this.modalService.open( OrionComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+          modalRefOrion.componentInstance.basket = basket;
+          modalRefOrion.componentInstance.typeEdit = 1;
+          modalRefOrion.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
+      case 14: // Smartlens
+          const modalRefSmartlens = this.modalService.open( SmartlensComponent,
+            { size: 'lg', windowClass: 'modal-content-border modal-edit-smartlens' , backdrop : 'static', keyboard : false});
+          modalRefSmartlens.componentInstance.basket = basket;
+          modalRefSmartlens.componentInstance.typeEdit = 1;
+          modalRefSmartlens.result.then((result) => {
+            this.ngOnInit();
+          } , (reason) => {
+          });
+          break;
       case 16: // Spectrum Molded Lenses
           const modalRefMoldedLenses = this.modalService.open( MoldedLensesComponent,
           { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
@@ -676,11 +680,11 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
           break;
-     }
-   }
+    }
+  }
 
   openSumary() {
-    this.addProductsAditionalEuropa();
+    this.addingProductsAditional();
     this.buyBasket.idUser = this.id;
     this.buyBasket.listBasket = this.productRequestedToBuy;
     this.buyBasket.idRole = this.user.role.idRole;
@@ -702,6 +706,50 @@ export class DetailsBasketClientComponent implements OnInit {
     });
   }
 
+  addingProductsAditional() {
+    let self = this;
+    let productsAdditional = [];
+    let arrayAux = [];
+
+    // Filtering products without additionals
+    let productsWithoutAdditionals = _.filter(this.productRequestedToBuy, function (itemBasket) {
+      return _.find(self.listBasket, function (item) {
+        const supplierId = item.productRequested.product.supplier.idSupplier;
+        return !self.productModel.haveAdditionalProduct(supplierId) && item.idBasketProductRequested === itemBasket;
+      });
+    });
+
+    const listSelect = this.productRequestedToBuy;
+    _.each(this.listBasket, function(item) {
+      _.each(listSelect, function(itemBasket) {
+        const supplierId = item.productRequested.product.supplier.idSupplier;
+        if (self.productModel.haveAdditionalProduct(supplierId) && item.idBasketProductRequested === itemBasket) {
+          productsAdditional = _.concat(productsAdditional, self.getProductsGrouped(item.productRequested.groupId, item.productRequested.detail[0].eye));
+        }
+      });
+    });
+
+    let insertorsUniq = [];
+
+    _.each(productsAdditional, function(item) {
+      const id = item.idBasketProductRequested;
+      const groupId = item.productRequested.groupId;
+      const isInsertsDMV = self.productModel.isInsertsDMV(item.productRequested.product.idProduct);
+
+      if (isInsertsDMV && !_.includes(insertorsUniq, groupId)) {
+        insertorsUniq.push(groupId);
+        arrayAux = _.concat(arrayAux, id);
+      } else if (!isInsertsDMV) {
+        arrayAux = _.concat(arrayAux, id);
+      }
+    });
+
+    // Set products to buy.
+    if (arrayAux.length > 0) {
+      this.productRequestedToBuy = _.concat(arrayAux, productsWithoutAdditionals);
+    }
+  }
+
   calculationsSummary() {
     let self = this;
     let subtotal = 0;
@@ -718,19 +766,26 @@ export class DetailsBasketClientComponent implements OnInit {
     this.total = this.subtotal;
   }
 
-
-
   totalInsertsExcluded() {
     let self = this;
     let amountToExcluded = 0;
     let groupsIdsReady = [];
+
+    // Finding inserts
     _.each(this.productRequestedToBuy, function (basketProductRequest) {
       let basket = _.find(self.listBasket, function(o) {
-        return o.supplier === 2 && o.idBasketProductRequested === basketProductRequest;
+        return self.productModel.haveInsertsDMV(o.supplier) && o.idBasketProductRequested === basketProductRequest;
       });
 
       if (!!basket) {
-        self.definePriceInserts(basket.basket.user.membership.idMembership, basket.productRequested);
+        let priceInsert = 0
+        const insert = _.find(self.listBasketAll, function(o) {
+          return self.productModel.isInsertsDMV(o.productRequested.product.idProduct) && basket.productRequested.groupId === o.productRequested.groupId;
+        });
+        if (insert) {
+          priceInsert = insert.productRequested.price;
+        }
+
         let basketProduct = _.find(self.listBasket, function(o) {
           return _.includes(self.productRequestedToBuy, o.idBasketProductRequested) && o.productRequested.idProductRequested !== basket.productRequested.idProductRequested
           && basket.productRequested.groupId === o.productRequested.groupId;
@@ -738,25 +793,10 @@ export class DetailsBasketClientComponent implements OnInit {
 
         if (basketProduct && !_.includes(groupsIdsReady, basketProduct.productRequested.groupId)) {
           groupsIdsReady.push(basketProduct.productRequested.groupId);
-          amountToExcluded += self.inserts;
+          amountToExcluded += priceInsert;
         }
       }
     });
     return amountToExcluded;
-  }
-
-  definePriceInserts(membership, productRequested) {
-    let pricesAditionalInserts = JSON.parse(productRequested.product.infoAditional)[0].values[1];
-    switch (membership) {
-      case 1:
-        this.inserts = pricesAditionalInserts.values[0].price;
-        break;
-      case 2:
-        this.inserts =  pricesAditionalInserts.values[1].price;
-        break;
-      case 3:
-        this.inserts = pricesAditionalInserts.values[2].price;
-        break;
-    }
   }
 }
