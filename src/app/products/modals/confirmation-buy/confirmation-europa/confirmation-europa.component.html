@@ -155,8 +155,7 @@
             *ngFor="let parameter of list.detail[0].parameters"
           >
             <dl class="align-item">
-              <dt *ngIf="parameter.name !== 'Axes Cylinder'">{{ parameter.name | translate }}</dt>
-              <dt *ngIf="parameter.name === 'Axes Cylinder'">{{ "Axes (º)" | translate }}</dt>
+              <dt>{{ parameter.name | translate }}</dt>
               <hr class="separators" />
               <dl>
                 <dt class="items" *ngIf="parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined">{{ parameter.selected }}</dt>

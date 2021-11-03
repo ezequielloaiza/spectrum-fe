@@ -49,5 +49,6 @@ export enum RoleAdmin {
   ProductViewXsbComponent,
   CreateOrder,
   ProductViewMoldedLenses,
-  PreOrder
+  PreOrder,
+  ProductsViewSmartlens
 }
