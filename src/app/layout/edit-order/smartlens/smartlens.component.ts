@@ -194,18 +194,18 @@ export class SmartlensComponent implements OnInit {
       _.each(res.data, function (basket) {
         const productId = basket.productRequested.product.idProduct;
         switch (productId) {
-          case 310:
+          case 305:
             if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
               prHydrapeg = basket.productRequested;
             }
             break;
 
-          case 311:
+          case 306:
             if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
               prNotch = basket.productRequested;
             }
             break;
-          case 312:
+          case 307:
             if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
               prDMV = basket.productRequested;
             }

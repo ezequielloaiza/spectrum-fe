@@ -40,7 +40,7 @@ export class Product {
 
   public isInsertsDMV(idProduct) {
     return idProduct === 146 ||  // Europa
-           idProduct === 312 || // Smartlens
+           idProduct === 307 || // Smartlens
            idProduct === 'id product dmv Xcel';
   }
 
@@ -48,9 +48,9 @@ export class Product {
     return idProduct === 145 || // Noctch Europa
            idProduct === 146 || // DMV Inserts Europa
            idProduct === 147 || // Hydrapeg Europa
-           idProduct === 310 || // Hydrapeg Smartlens
-           idProduct === 311 || // Notch Smartlens
-           idProduct === 312;   // Dmv Inserts Smartlens
+           idProduct === 305 || // Hydrapeg Smartlens
+           idProduct === 306 || // Notch Smartlens
+           idProduct === 307;   // Dmv Inserts Smartlens
   }
 
   public getInsertsID(product, supplierId) {
@@ -58,7 +58,7 @@ export class Product {
       case 2: // Europa
         return 146;
       case 14: // Smartlens
-        return 312;
+        return 307;
       case 'id supplier Xcel': // X-cel
         return null;
       default:
