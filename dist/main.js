@@ -974,6 +974,7 @@ var RoleAdmin;
     RoleAdmin[RoleAdmin["CreateOrder"] = 48] = "CreateOrder";
     RoleAdmin[RoleAdmin["ProductViewMoldedLenses"] = 49] = "ProductViewMoldedLenses";
     RoleAdmin[RoleAdmin["PreOrder"] = 50] = "PreOrder";
+    RoleAdmin[RoleAdmin["ProductsViewSmartlens"] = 51] = "ProductsViewSmartlens";
 })(RoleAdmin || (RoleAdmin = {}));
 
 
@@ -1031,6 +1032,7 @@ var RoleSeller;
     RoleSeller[RoleSeller["ProductViewXsbComponent"] = 37] = "ProductViewXsbComponent";
     RoleSeller[RoleSeller["CreateOrder"] = 38] = "CreateOrder";
     RoleSeller[RoleSeller["ProductViewMoldedLenses"] = 39] = "ProductViewMoldedLenses";
+    RoleSeller[RoleSeller["ProductsViewSmartlens"] = 40] = "ProductsViewSmartlens";
 })(RoleSeller || (RoleSeller = {}));
 
 
@@ -1082,6 +1084,7 @@ var RoleUser;
     RoleUser[RoleUser["ProductViewXsbComponent"] = 31] = "ProductViewXsbComponent";
     RoleUser[RoleUser["ProductViewMoldedLenses"] = 32] = "ProductViewMoldedLenses";
     RoleUser[RoleUser["PreOrder"] = 33] = "PreOrder";
+    RoleUser[RoleUser["ProductsViewSmartlens"] = 34] = "ProductsViewSmartlens";
 })(RoleUser || (RoleUser = {}));
 
 

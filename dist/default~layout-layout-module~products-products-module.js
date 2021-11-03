@@ -1843,6 +1843,61 @@ var FileProductRequested = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/models/product.ts":
+/*!******************************************!*\
+  !*** ./src/app/shared/models/product.ts ***!
+  \******************************************/
+/*! exports provided: Product */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Product", function() { return Product; });
+var Product = /** @class */ (function () {
+    function Product() {
+    }
+    Product.prototype.haveAdditionalProduct = function (idSupplier) {
+        return idSupplier === 2 || // Europa
+            idSupplier === 14 || // Smartlens
+            idSupplier === 'id supplier Xcel';
+    };
+    Product.prototype.haveInsertsDMV = function (idSupplier) {
+        return idSupplier === 2 || // Europa
+            idSupplier === 14 || // Smartlens
+            idSupplier === 'id supplier Xcel';
+    };
+    Product.prototype.isInsertsDMV = function (idProduct) {
+        return idProduct === 146 || // Europa
+            idProduct === 307 || // Smartlens
+            idProduct === 'id product dmv Xcel';
+    };
+    Product.prototype.isAdditionalProduct = function (idProduct) {
+        return idProduct === 145 || // Noctch Europa
+            idProduct === 146 || // DMV Inserts Europa
+            idProduct === 147 || // Hydrapeg Europa
+            idProduct === 305 || // Hydrapeg Smartlens
+            idProduct === 306 || // Notch Smartlens
+            idProduct === 307; // Dmv Inserts Smartlens
+    };
+    Product.prototype.getInsertsID = function (product, supplierId) {
+        switch (supplierId || product.supplier.idSupplier) {
+            case 2:// Europa
+                return 146;
+            case 14:// Smartlens
+                return 307;
+            case 'id supplier Xcel':// X-cel
+                return null;
+            default:
+                null;
+        }
+    };
+    return Product;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/models/productrequested.ts":
 /*!***************************************************!*\
   !*** ./src/app/shared/models/productrequested.ts ***!

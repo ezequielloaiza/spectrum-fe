@@ -1789,7 +1789,7 @@ var ConfirmationEuclidComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ \"Confirm purchase\" | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!-- Image -->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!-- Image -->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\" />\n        </div>\n        <!-- Patient -->\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <div class=\"col-sm-12\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Patient\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ namePatient }}</dt>\n              </dl>\n            </dl>\n          </div>\n        </div>\n        <div class=\"col-lg-12\">\n          <dl>\n            <dt>{{ price | currency: \"USD $\" }}</dt>\n            <p class=\"eye-info\" *ngIf=\"(totalInserts && existInserts) || totalHidrapeg || totalNotch || totalThickness\">\n              (\n              <span>{{ 'Includes' | translate }}</span>&nbsp;\n              <span *ngIf=\"totalHidrapeg\">{{'Hidrapeg' | translate}}:{{ totalHidrapeg | currency : \" USD $\" }}</span>\n              <span  *ngIf=\"totalHidrapeg && (totalInserts && existInserts )\">&nbsp;|&nbsp;</span>\n              <span *ngIf=\"totalInserts && existInserts\">{{'Inserts (DMV)' | translate}}:{{ totalInserts | currency : \" USD $\" }}</span>\n              <span  *ngIf=\"((totalInserts && existInserts) || totalHidrapeg) && totalNotch\">&nbsp;|&nbsp;</span>\n              <span *ngIf=\"totalNotch\">{{'Notch (mm)' | translate}}:{{ totalNotch | currency : \" USD $\" }}</span>\n              <!--<span  *ngIf=\"(totalHidrapeg || totalInserts || totalNotch) && totalThickness\">|</span>\n              <span *ngIf=\"totalThickness\">{{'Thickness' | translate}}:{{ totalThickness | currency : \" USD $\" }}</span>-->\n              )\n            </p>\n          </dl>\n        </div>\n      </div>\n      <!-- PARAMETERS -->\n      <div class=\"col-sm-12\" *ngFor=\"let parameter of listBasket[0].detail[0].header\">\n          <dl *ngIf=\"parameter.name === 'Inserts (DMV)'\" class=\"align-item\">\n            <dt>{{ parameter.name | translate }}</dt>\n            <hr class=\"separators\" />\n            <dl>\n              <dt *ngIf=\"parameter.selected === true || parameter.selected === false\" class=\"items\">\n                <span *ngIf=\"parameter.selected === true\">{{\n                  \"Yes\" + ' ' + insertCodeSpectrum | translate\n                }}</span>\n                <span *ngIf=\"parameter.selected === false\">{{\n                  \"No\" | translate\n                }}</span>\n              </dt>\n            </dl>\n          </dl>\n      </div>\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n\n          <div class=\"col-lg-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Type\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].typeLens | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-lg-3\">\n            <dl class=\"align-item\">\n              <dt>{{ 'Spectrum code' | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.product.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of list.detail[0].header\">\n            <dl *ngIf=\"parameter.name !== 'Inserts (DMV)'\" class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt *ngIf=\"parameter.selected !== true && parameter.selected !== false\" class=\"items\">{{ parameter.selected }}</dt>\n                <dt *ngIf=\"parameter.selected === true || parameter.selected === false\" class=\"items\">\n                  <span *ngIf=\"parameter.selected === true\">{{\n                    \"Yes\" | translate\n                  }}</span>\n                  <span *ngIf=\"parameter.selected === false\">{{\n                    \"No\" | translate\n                  }}</span>\n                </dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"row test-set\" *ngIf=\"list.detail[0].typeLens === 'Please design my lens'\">\n            <div class=\"col-lg-12 title title-info\">\n              <div class=\"parameters\">{{ 'Test set' | translate }}</div>&nbsp;&nbsp;\n            </div>\n            <div class=\"col-sm-4\" *ngFor=\"let parameter of list.detail[0].set\">\n              <dl class=\"align-item\">\n                <dt>{{ parameter.name | translate }}\n                </dt>\n                <hr class=\"separators\">\n                <dl>\n                  <dt class=\"items\" *ngIf=\"!!parameter.selected && parameter.selected !== null && parameter.selected !== ''\">{{ parameter.selected}}</dt>\n                  <dt class=\"items\" *ngIf=\"parameter.selected === null || parameter.selected === '' || !parameter.selected\">{{ 'Unassigned' | translate}}</dt>\n                </dl>\n              </dl>\n            </div>\n          </div>\n\n          <div class=\"separator-set\"></div>\n\n          <div *ngIf=\"list.detail[0].productsAditional.length > 0\" class=\"col-sm-12\">\n            <div class=\"parameters\">{{ 'Additional Products' | translate }}:</div>\n          </div>\n          <div class=\"col-sm-4\" *ngFor=\"let productA of list.detail[0].productsAditional\">\n            <dl class=\"align-item\">\n              <dt>{{ productA.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ productA.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-12\">\n            <div class=\"parameters\">{{ \"Parameters\" | translate }}:</div>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Quantity\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.quantity }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div\n            class=\"col-sm-3\"\n            *ngFor=\"let parameter of list.detail[0].parameters\"\n          >\n            <dl class=\"align-item\">\n              <dt *ngIf=\"parameter.name !== 'Axes Cylinder'\">{{ parameter.name | translate }}</dt>\n              <dt *ngIf=\"parameter.name === 'Axes Cylinder'\">{{ \"Axes (º)\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\" *ngIf=\"parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined\">{{ parameter.selected }}</dt>\n                <dt class=\"items\" *ngIf=\"parameter.selected === null || parameter.selected === '' || parameter.selected === undefined\">{{ 'Unassigned' | translate}}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-12\">\n            <dl class=\"align-item steps\">\n              <dt>{{ \"Steps\" | translate }}:</dt>\n              <dt class=\"items\">{{ list.detail[0].typeSteps | translate }}</dt>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-12\" *ngFor=\"let parameter of list.detail[0].pasos\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-2\">\n                  <dl class=\"name-parameters\">\n                      <dt>{{ parameter.name | translate }}\n                          <hr class=\"separators\" />\n                      </dt>\n                  </dl>\n              </div>\n              <div class=\"col-sm-5\" *ngFor=\"let item of parameter.values\">\n                <dl>\n                  <dt>{{ item.name | translate }}</dt>\n                </dl>\n                <div class=\"row justify-steps\">\n                  <div class=\"col-sm-6\" *ngFor=\"let val of item.values\">\n                    <dl>\n                      <dt class=\"items\">\n                        {{ val.name | translate }}:\n                        <span *ngIf=\"val.selected === true\">{{\n                          \"Yes\" | translate\n                        }}</span>\n                        <span *ngIf=\"val.selected === false\">{{\n                          \"No\" | translate\n                        }}</span>\n                      </dt>\n                    </dl>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <br />\n          <!-- Comments -->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{ \"Comments\" | translate }}</dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations ==='' || list.observations === null\">\n                      <span translate>{{'No comments' | translate}}</span>\n                    </dl>\n                  <dl>\n                    <span style=\"overflow-x: hidden;\">\n                      {{ list.observations }}</span\n                    >\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!-- FIN PARAMETERS -->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">\n      {{ \"Cancel\" | translate }}&nbsp; <i class=\"fa fa-times\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 2\"\n    >\n      {{ \"Save\" | translate }}&nbsp; <i class=\"fa fa-save\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 1\"\n    >\n      {{ \"Buy\" | translate }}&nbsp; <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description }}\n  </ng-template>\n</div>\n"
+module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ \"Confirm purchase\" | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!-- Image -->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!-- Image -->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\" />\n        </div>\n        <!-- Patient -->\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <div class=\"col-sm-12\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Patient\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ namePatient }}</dt>\n              </dl>\n            </dl>\n          </div>\n        </div>\n        <div class=\"col-lg-12\">\n          <dl>\n            <dt>{{ price | currency: \"USD $\" }}</dt>\n            <p class=\"eye-info\" *ngIf=\"(totalInserts && existInserts) || totalHidrapeg || totalNotch || totalThickness\">\n              (\n              <span>{{ 'Includes' | translate }}</span>&nbsp;\n              <span *ngIf=\"totalHidrapeg\">{{'Hidrapeg' | translate}}:{{ totalHidrapeg | currency : \" USD $\" }}</span>\n              <span  *ngIf=\"totalHidrapeg && (totalInserts && existInserts )\">&nbsp;|&nbsp;</span>\n              <span *ngIf=\"totalInserts && existInserts\">{{'Inserts (DMV)' | translate}}:{{ totalInserts | currency : \" USD $\" }}</span>\n              <span  *ngIf=\"((totalInserts && existInserts) || totalHidrapeg) && totalNotch\">&nbsp;|&nbsp;</span>\n              <span *ngIf=\"totalNotch\">{{'Notch (mm)' | translate}}:{{ totalNotch | currency : \" USD $\" }}</span>\n              <!--<span  *ngIf=\"(totalHidrapeg || totalInserts || totalNotch) && totalThickness\">|</span>\n              <span *ngIf=\"totalThickness\">{{'Thickness' | translate}}:{{ totalThickness | currency : \" USD $\" }}</span>-->\n              )\n            </p>\n          </dl>\n        </div>\n      </div>\n      <!-- PARAMETERS -->\n      <div class=\"col-sm-12\" *ngFor=\"let parameter of listBasket[0].detail[0].header\">\n          <dl *ngIf=\"parameter.name === 'Inserts (DMV)'\" class=\"align-item\">\n            <dt>{{ parameter.name | translate }}</dt>\n            <hr class=\"separators\" />\n            <dl>\n              <dt *ngIf=\"parameter.selected === true || parameter.selected === false\" class=\"items\">\n                <span *ngIf=\"parameter.selected === true\">{{\n                  \"Yes\" + ' ' + insertCodeSpectrum | translate\n                }}</span>\n                <span *ngIf=\"parameter.selected === false\">{{\n                  \"No\" | translate\n                }}</span>\n              </dt>\n            </dl>\n          </dl>\n      </div>\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n\n          <div class=\"col-lg-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Type\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].typeLens | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-lg-3\">\n            <dl class=\"align-item\">\n              <dt>{{ 'Spectrum code' | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.product.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of list.detail[0].header\">\n            <dl *ngIf=\"parameter.name !== 'Inserts (DMV)'\" class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt *ngIf=\"parameter.selected !== true && parameter.selected !== false\" class=\"items\">{{ parameter.selected }}</dt>\n                <dt *ngIf=\"parameter.selected === true || parameter.selected === false\" class=\"items\">\n                  <span *ngIf=\"parameter.selected === true\">{{\n                    \"Yes\" | translate\n                  }}</span>\n                  <span *ngIf=\"parameter.selected === false\">{{\n                    \"No\" | translate\n                  }}</span>\n                </dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"row test-set\" *ngIf=\"list.detail[0].typeLens === 'Please design my lens'\">\n            <div class=\"col-lg-12 title title-info\">\n              <div class=\"parameters\">{{ 'Test set' | translate }}</div>&nbsp;&nbsp;\n            </div>\n            <div class=\"col-sm-4\" *ngFor=\"let parameter of list.detail[0].set\">\n              <dl class=\"align-item\">\n                <dt>{{ parameter.name | translate }}\n                </dt>\n                <hr class=\"separators\">\n                <dl>\n                  <dt class=\"items\" *ngIf=\"!!parameter.selected && parameter.selected !== null && parameter.selected !== ''\">{{ parameter.selected}}</dt>\n                  <dt class=\"items\" *ngIf=\"parameter.selected === null || parameter.selected === '' || !parameter.selected\">{{ 'Unassigned' | translate}}</dt>\n                </dl>\n              </dl>\n            </div>\n          </div>\n\n          <div class=\"separator-set\"></div>\n\n          <div *ngIf=\"list.detail[0].productsAditional.length > 0\" class=\"col-sm-12\">\n            <div class=\"parameters\">{{ 'Additional Products' | translate }}:</div>\n          </div>\n          <div class=\"col-sm-4\" *ngFor=\"let productA of list.detail[0].productsAditional\">\n            <dl class=\"align-item\">\n              <dt>{{ productA.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ productA.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-12\">\n            <div class=\"parameters\">{{ \"Parameters\" | translate }}:</div>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Quantity\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.quantity }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div\n            class=\"col-sm-3\"\n            *ngFor=\"let parameter of list.detail[0].parameters\"\n          >\n            <dl class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\" *ngIf=\"parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined\">{{ parameter.selected }}</dt>\n                <dt class=\"items\" *ngIf=\"parameter.selected === null || parameter.selected === '' || parameter.selected === undefined\">{{ 'Unassigned' | translate}}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-12\">\n            <dl class=\"align-item steps\">\n              <dt>{{ \"Steps\" | translate }}:</dt>\n              <dt class=\"items\">{{ list.detail[0].typeSteps | translate }}</dt>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-12\" *ngFor=\"let parameter of list.detail[0].pasos\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-2\">\n                  <dl class=\"name-parameters\">\n                      <dt>{{ parameter.name | translate }}\n                          <hr class=\"separators\" />\n                      </dt>\n                  </dl>\n              </div>\n              <div class=\"col-sm-5\" *ngFor=\"let item of parameter.values\">\n                <dl>\n                  <dt>{{ item.name | translate }}</dt>\n                </dl>\n                <div class=\"row justify-steps\">\n                  <div class=\"col-sm-6\" *ngFor=\"let val of item.values\">\n                    <dl>\n                      <dt class=\"items\">\n                        {{ val.name | translate }}:\n                        <span *ngIf=\"val.selected === true\">{{\n                          \"Yes\" | translate\n                        }}</span>\n                        <span *ngIf=\"val.selected === false\">{{\n                          \"No\" | translate\n                        }}</span>\n                      </dt>\n                    </dl>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <br />\n          <!-- Comments -->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{ \"Comments\" | translate }}</dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations ==='' || list.observations === null\">\n                      <span translate>{{'No comments' | translate}}</span>\n                    </dl>\n                  <dl>\n                    <span style=\"overflow-x: hidden;\">\n                      {{ list.observations }}</span\n                    >\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!-- FIN PARAMETERS -->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">\n      {{ \"Cancel\" | translate }}&nbsp; <i class=\"fa fa-times\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 2\"\n    >\n      {{ \"Save\" | translate }}&nbsp; <i class=\"fa fa-save\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 1\"\n    >\n      {{ \"Buy\" | translate }}&nbsp; <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description }}\n  </ng-template>\n</div>\n"
 
 /***/ }),
 
@@ -1917,6 +1917,7 @@ var ConfirmationEuropaComponent = /** @class */ (function () {
         var existInserts = false;
         var insertCodeSpectrum = '';
         lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listBasket, function (productRequested) {
+            // TODO: change a function isInsertsDMV of product.ts
             if (productRequested.product.idProduct === 146) {
                 quantityInserts++;
                 if (quantityInserts < 2) {
@@ -3710,6 +3711,368 @@ var ConfirmationOrionComponent = /** @class */ (function () {
             _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModal"]])
     ], ConfirmationOrionComponent);
     return ConfirmationOrionComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.html":
+/*!***************************************************************************************************************!*\
+  !*** ./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.html ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ \"Confirm purchase\" | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!-- Image -->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!-- Image -->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\" />\n        </div>\n        <!-- Patient -->\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <div class=\"col-sm-12\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Patient\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ namePatient }}</dt>\n              </dl>\n            </dl>\n          </div>\n        </div>\n        <div class=\"col-lg-12\">\n          <dl>\n            <dt>{{ price | currency: \"USD $\" }}</dt>\n            <p class=\"eye-info\" *ngIf=\"additionalDMV || additionalHydrapeg || additionalNotch\">\n              (\n                <span>{{ 'Includes' | translate }}</span>&nbsp;\n                <span *ngIf=\"additionalDMV\">{{'Inserts (DMV)' | translate}}:{{ additionalDMV | currency : \" USD $\" }}</span>\n                <span  *ngIf=\"additionalHydrapeg\">&nbsp;|&nbsp;</span>\n                <span *ngIf=\"additionalHydrapeg\">{{'Hydrapeg' | translate}}:{{ additionalHydrapeg | currency : \" USD $\" }}</span>\n                <span  *ngIf=\"additionalNotch\">&nbsp;|&nbsp;</span>\n                <span *ngIf=\"additionalNotch\">{{'Notch (mm)' | translate}}:{{ additionalNotch | currency : \" USD $\" }}</span>\n              )\n            </p>\n          </dl>\n        </div>\n      </div>\n\n      <!-- PARAMETERS -->\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n\n          <div class=\"col-lg-4\">\n            <dl class=\"align-item\">\n              <dt>{{ 'Spectrum code' | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <!-- Design -->\n          <div class=\"col-lg-4\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Design\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].design | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <!-- Type lens-->\n          <div class=\"col-lg-4\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Type\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].typeLens | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <!-- Materials -->\n          <div class=\"col-lg-12\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Material\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].materials }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n           <!-- Hydrapeg -->\n          <div class=\"col-lg-12\" *ngIf=\"list.detail[0].materials === 'Boston-XO'\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Hydrapeg\" | translate }}:</dt>\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].hydrapeg }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"separator-set\"></div>\n\n          <div class=\"col-sm-12\">\n            <div class=\"parameters\">{{ \"Parameters\" | translate }}:</div>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Quantity\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.quantity }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of getParams(list.detail[0])\">\n            <dl class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\" *ngIf=\"parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined\">{{ parameter.selected }}</dt>\n                <dt class=\"items\" *ngIf=\"parameter.selected === null || parameter.selected === '' || parameter.selected === undefined\">{{ 'Unassigned' | translate}}</dt>\n              </dl>\n            </dl>\n          </div>\n          <br />\n          <!-- Comments -->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{ \"Comments\" | translate }}</dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations ==='' || list.observations === null\">\n                      <span translate>{{'No comments' | translate}}</span>\n                    </dl>\n                  <dl>\n                    <span style=\"overflow-x: hidden;\">\n                      {{ list.observations }}</span\n                    >\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!-- FIN PARAMETERS -->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">\n      {{ \"Cancel\" | translate }}&nbsp; <i class=\"fa fa-times\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 2\"\n    >\n      {{ \"Save\" | translate }}&nbsp; <i class=\"fa fa-save\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 1\"\n    >\n      {{ \"Buy\" | translate }}&nbsp; <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description }}\n  </ng-template>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.scss":
+/*!***************************************************************************************************************!*\
+  !*** ./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.scss ***!
+  \***************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.body {\n  overflow-y: auto; }\n.list-basket {\n  max-height: 630px;\n  padding: 2em;\n  overflow-y: auto;\n  overflow-x: hidden; }\n.list-basket .main-info {\n    text-align: center; }\n.list-basket .test-set {\n    width: 100%;\n    margin-left: 0; }\n.list-basket .img-product {\n    width: 40%;\n    border-radius: 12px;\n    margin-top: 1em; }\n.list-basket .display-row {\n    display: flex;\n    justify-content: space-between; }\n.list-basket .display-price {\n    justify-content: center; }\n.list-basket .padding-params {\n    padding: 2em 2em 1em; }\n.list-basket .padding-params .parameters {\n      color: #868e96;\n      margin-left: 1.8rem;\n      margin-bottom: 0.1rem;\n      font-weight: 600;\n      padding-top: 1rem; }\n.list-basket .padding-params .justify-steps {\n      justify-content: center; }\n.list-basket .padding-params .justify-steps > div:nth-child(2) {\n        padding-left: 0; }\n.list-basket .padding-params .name-parameters {\n      padding-left: 1rem;\n      color: #868e96;\n      padding-top: 0.5rem; }\n.list-basket .padding-params .comment {\n      color: #868e96;\n      padding: 0 1.5em; }\n.list-basket .params {\n    padding-top: 1em; }\n.list-basket .params .separator {\n      margin-bottom: 1em; }\n.list-basket .title {\n    font-weight: 600; }\n.list-basket .steps {\n    text-align: left;\n    margin: 3rem 0 0 3rem;\n    display: flex; }\n.list-basket .steps > dt:nth-child(1) {\n      margin-right: 15px; }\n.list-basket .label-title {\n    padding-top: 1.5em; }\n.list-basket .patient-info {\n    display: flex;\n    padding-bottom: 1.5em; }\n.list-basket .eye-info {\n    color: #868e96;\n    padding-bottom: 2em;\n    text-align: center; }\n.list-basket .align-item {\n    text-align: center; }\n.list-basket .items {\n    color: #868e96; }\n.list-basket .comments {\n    padding: 0 2.5em; }\n.list-basket .separators {\n    border-top: 1.5px solid rgba(0, 0, 0, 0.1);\n    margin-top: 0.5rem;\n    margin-bottom: 0.5rem; }\n.list-basket .param {\n    color: #f8ac59; }\n.list-basket .separator-set {\n    display: flex;\n    margin-top: 20px;\n    width: 100%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9lbGllemVyL1NQUy9TcGVjdHJ1bS9zcGVjdHJ1bS1mZS9zcmMvc3R5bGVzL3NwZWN0cnVtL21vZHVsZXMvX3RhYmxlcy5zY3NzIiwiL1VzZXJzL2VsaWV6ZXIvU1BTL1NwZWN0cnVtL3NwZWN0cnVtLWZlL3NyYy9zdHlsZXMvc3BlY3RydW0vbW9kdWxlcy9fY29sb3JzLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL3N0eWxlcy9zcGVjdHJ1bS9tb2R1bGVzL19idXR0b25zLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL3N0eWxlcy9zcGVjdHJ1bS9tb2R1bGVzL19tb2RhbHMuc2NzcyIsIi9Vc2Vycy9lbGllemVyL1NQUy9TcGVjdHJ1bS9zcGVjdHJ1bS1mZS9zcmMvc3R5bGVzL3NwZWN0cnVtL21vZHVsZXMvX2Zvcm1zLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL2FwcC9wcm9kdWN0cy9tb2RhbHMvY29uZmlybWF0aW9uLWJ1eS9jb25maXJtYXRpb24tc21hcnRsZW5zL2NvbmZpcm1hdGlvbi1zbWFydGxlbnMuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsb0JBQUE7QUFTQTtFQUNFLG1EQUFtRDtFQUNuRCxpRkFBeUUsRUFBQTtBQUYzRTtJQUtJLGFBQWE7SUFDYiw4QkFBOEI7SUFDOUIsbUJBQW1CO0lBQ25CLHlCQ2RjO0lEZWQsY0NoQmE7SURpQmIsZ0JBQWdCO0lBQ2hCLG1CQUFtQjtJQUNuQixpQkFBaUIsRUFBQTtBQVpyQjtNQWVNLDJCQUEyQixFQUFBO0FBS2pDO0VBR0ksZ0JBQWdCO0VBQ2hCLHVCQUF1QixFQUFBO0FBSjNCO0VBUUksYUFBYSxFQUFBO0FBSWpCO0VBRUksZUFBZSxFQUFBO0FBSW5CO0VBQ0UsZUFBZSxFQUFBO0FBR2pCO0VBQ0Usa0JBQWtCO0VBQ2xCLGFBQWE7RUFDYixnQkFBZ0I7RUFDaEIsY0FBYyxFQUFBO0FBR2hCO0VBQ0UsaUJBQWlCO0VBQ2pCLHlCQUF5QjtFQUN6QixnQkFBZ0IsRUFBQTtBQUdsQjtFQUNFLGlCQUFpQixFQUFBO0FBR25CO0VBQ0UsZ0JBQWdCO0VBQ2hCLGVBQWUsRUFBQTtBQUdqQjtFQUNFLGdCQUFnQjtFQUNoQixlQUFlLEVBQUE7QUFHakI7RUFDRSxnQkFBZ0I7RUFDaEIsZUFBZSxFQUFBO0FBR2pCO0VBQ0Usa0JBQWtCLEVBQUE7QUFHcEI7RUFDRSxnQkFBZ0I7RUFDaEIsZ0JBQWdCO0VBQ2hCLHVCQUF1QjtFQUN2QixtQkFBbUIsRUFBQTtBRTNGckI7RUFDRSxtQkRDZTtFQ0FmLGNEQ2dCLEVBQUE7QUNIbEI7SUFLSSxnQkFBZ0IsRUFBQTtBQUxwQjtJQVNJLG1CREhtQixFQUFBO0FDT3ZCO0VBQ0UsY0RaZTtFQ2FmLDZCQUE2QjtFQUM3QixzQkFBc0I7RUFDdEIsa0JBQWtCO0VBQ2xCLGtCQUFrQixFQUFBO0FBTHBCO0lBUUksZ0JBQWdCLEVBQUE7QUFLcEI7RUFDRSxlQUFlO0VBQ2Ysb0JBQW9CO0VBQ3BCLHFCQUFxQixFQUFBO0FBR3ZCO0VBQ0Usa0JBQWtCO0VBQ2xCLFNBQVM7RUFDVCxVQUFVO0VBQ1YscUJBQXFCO0VBQ3JCLG1DQUFtQztFQUNuQyw2QkFBNkI7RUFDN0Isa0NBQWtDO0VBQ2xDLHVDQUF1QztFQUN2QyxXQUFXLEVBQUE7QUFFWDtFQUNBLGtCQUFrQjtFQUNsQixTQUFTO0VBQ1QsVUFBVTtFQUNWLHFCQUFxQjtFQUNyQixtQ0FBbUM7RUFDbkMsZ0NEOUNnQjtFQytDaEIsa0NBQWtDO0VBQ2xDLFdBQVcsRUFBQTtBQUdYO0VBQ0UsbUJBQW1CLEVBQUE7QUN2RHZCO0VBQ0UseUJGQ2U7RUVBZixZQUFZO0VBQ1osNEJBQTRCO0VBQzVCLDJCQUEyQjtFQUMzQixtQkFBbUI7RUFDbkIsWUFBWSxFQUFBO0FBTmQ7SUFTSSxjRk5jO0lFT2QsVUFBVSxFQUFBO0FDVmQ7RUFDRSw4QkhhZ0I7RUdia0IsVUFBQSxFQUFXO0FBRy9DO0VBQ0UsOEJIR2M7RUdIa0IsUUFBQSxFQUFTO0FBRzNDO0VBQ0UsZUFBZSxFQUFBO0FBR2pCO0VBQ0UsZ0RBQWlELEVBQUE7QUFHbkQ7RUFDRSxpQkFBaUI7RUFDakIsY0hWYztFR1dkLGtCQUFrQixFQUFBO0FBR3BCO0VBQ0UsZUFBZTtFQUNmLFdBQVc7RUFDWCxhQUFhO0VBQ2IsaUJBQWlCO0VBQ2pCLGlCQUFpQjtFQUNqQixpQkFBaUI7RUFDakIsaUJBQWlCLEVBQUE7QUFHbkI7RUFDRSxrQkFBa0I7RUFDbEIsa0JBQWtCLEVBQUE7QUFHcEI7RUFDRSxjSHBDZTtFR3FDZixpQkFBaUI7RUFDakIsaUJBQWlCLEVBQUE7QUNyQ25CO0VBQ0UsZ0JBQWdCLEVBQUE7QUFHbEI7RUFDRSxpQkFBaUI7RUFDakIsWUFBWTtFQUNaLGdCQUFnQjtFQUNoQixrQkFBa0IsRUFBQTtBQUpwQjtJQU9JLGtCQUFrQixFQUFBO0FBUHRCO0lBV0ksV0FBVztJQUNYLGNBQWMsRUFBQTtBQVpsQjtJQWdCSSxVQUFVO0lBQ1YsbUJBQW1CO0lBQ25CLGVBQWUsRUFBQTtBQWxCbkI7SUFzQkksYUFBYTtJQUNiLDhCQUE4QixFQUFBO0FBdkJsQztJQTJCSSx1QkFBdUIsRUFBQTtBQTNCM0I7SUErQkksb0JBQW1CLEVBQUE7QUEvQnZCO01Ba0NNLGNKZGlCO01JZWpCLG1CQUFtQjtNQUNuQixxQkFBcUI7TUFDckIsZ0JBQWdCO01BQ2hCLGlCQUFpQixFQUFBO0FBdEN2QjtNQXlDTSx1QkFBdUIsRUFBQTtBQXpDN0I7UUE0Q1EsZUFBZSxFQUFBO0FBNUN2QjtNQWlETSxrQkFBa0I7TUFDbEIsY0o5QmlCO01JK0JqQixtQkFBbUIsRUFBQTtBQW5EekI7TUF1RE0sY0puQ2lCO01Jb0NqQixnQkFBZ0IsRUFBQTtBQXhEdEI7SUE2REksZ0JBQWdCLEVBQUE7QUE3RHBCO01BZ0VNLGtCQUFrQixFQUFBO0FBaEV4QjtJQXFFSSxnQkFBZ0IsRUFBQTtBQXJFcEI7SUF5RUksZ0JBQWdCO0lBQ2hCLHFCQUFxQjtJQUNyQixhQUFhLEVBQUE7QUEzRWpCO01BOEVNLGtCQUFrQixFQUFBO0FBOUV4QjtJQW1GSSxrQkFBa0IsRUFBQTtBQW5GdEI7SUF1RkksYUFBYTtJQUNiLHFCQUFxQixFQUFBO0FBeEZ6QjtJQTRGSSxjSnhFbUI7SUl5RW5CLG1CQUFtQjtJQUNuQixrQkFBa0IsRUFBQTtBQTlGdEI7SUFrR0ksa0JBQWtCLEVBQUE7QUFsR3RCO0lBc0dLLGNKbEZrQixFQUFBO0FJcEJ2QjtJQTBHSSxnQkFBZ0IsRUFBQTtBQTFHcEI7SUE4R0ksMENKeEY4QjtJSXlGOUIsa0JBQWtCO0lBQ2xCLHFCQUFxQixFQUFBO0FBaEh6QjtJQW9ISSxjQUFjLEVBQUE7QUFwSGxCO0lBd0hJLGFBQWE7SUFDYixnQkFBZ0I7SUFDaEIsV0FBVyxFQUFBIiwiZmlsZSI6InNyYy9hcHAvcHJvZHVjdHMvbW9kYWxzL2NvbmZpcm1hdGlvbi1idXkvY29uZmlybWF0aW9uLXNtYXJ0bGVucy9jb25maXJtYXRpb24tc21hcnRsZW5zLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogRGVmaW5lIHRyIHdpZHRoICovXG5AbWl4aW4gdHItc2l6ZXMoJGNlbGwtc2l6ZXMpIHtcbiAgQGZvciAkaSBmcm9tIDEgdGhyb3VnaCBsZW5ndGgoJGNlbGwtc2l6ZXMpIHtcbiAgICAudGFibGUtdHI6bnRoLWNoaWxkKCN7JGl9KSB7XG4gICAgICB3aWR0aDogbnRoKCRjZWxsLXNpemVzLCAkaSk7XG4gICAgfVxuICB9XG59XG5cbi5jYXJkIHtcbiAgYm9yZGVyOiAwLjVweCBzb2xpZCByZ2JhKDAsIDAsIDAsIDAuMTI1KSAhaW1wb3J0YW50OztcbiAgYm94LXNoYWRvdzogMCAycHggMnB4IHJnYmEoMCwwLDAsLjI0KSwgMCAwIDJweCByZ2JhKDAsMCwwLC4xMikgIWltcG9ydGFudDtcblxuICAuY2FyZC1oZWFkZXIge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogJGJnLXdoaXRlO1xuICAgIGNvbG9yOiAkYmctYmx1ZTtcbiAgICBmb250LXdlaWdodDogNjAwO1xuICAgIGJvcmRlci1ib3R0b206IG5vbmU7XG4gICAgZm9udC1zaXplOiAxLjNyZW07XG5cbiAgICAuY2FyZC1ib2R5IHtcbiAgICAgIG92ZXJmbG93LXk6IC13ZWJraXQtcGFnZWQteTtcbiAgICB9XG4gIH1cbn1cblxuLnRhYmxlIHtcblxuICA+dGhlYWQgPnRyID50aCA+dGQge1xuICAgIGJvcmRlci10b3A6IG5vbmU7XG4gICAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7XG4gIH1cblxuICA+dGJvZHkgPnRyOm50aC1sYXN0LWNoaWxkKDEpIHtcbiAgICBoZWlnaHQ6IDEwMHB4O1xuICB9XG59XG5cbi5oZWFkZXItY29sdW1uIHtcbiAgOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gIH1cbn1cblxuLmRyb3Bkb3duLWl0ZW0ge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi50YWJsZS1lbXB0eSB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgcGFkZGluZzogMjVweDtcbiAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgY29sb3I6ICM4YThhOGE7XG59XG5cbi5wYWdpbmF0aW9uLWxpc3Qge1xuICB0ZXh0LWFsaWduOiByaWdodDtcbiAgbGluZS1oZWlnaHQ6IDAgIWltcG9ydGFudDtcbiAgZm9udC13ZWlnaHQ6IDMwMDtcbn1cblxuLmNvdW50LWVsZW1lbnRzIHtcbiAgbWFyZ2luLXJpZ2h0OiAwcHg7XG59XG5cbi5mYS1zb3J0LXVwIHtcbiAgbWFyZ2luLWxlZnQ6IDVweDtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4uZmEtc29ydC1kb3duIHtcbiAgbWFyZ2luLWxlZnQ6IDVweDtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4uZmEtc29ydCB7XG4gIG1hcmdpbi1sZWZ0OiA1cHg7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLm5vLXJlY29yZHMge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi50ZC10YWJsZXtcbiAgbWF4LXdpZHRoOiAxMDBweDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7XG4gIHdoaXRlLXNwYWNlOiBub3dyYXA7XG59XG4iLCIkYmctc2lkZWJhcjogIzQ5NDk0OTtcbiRiZy1uYXZiYXI6ICMyMjI7XG4kYmctYmx1ZTogIzE3NTZhNjtcbiRiZy13aGl0ZTogI2ZmZmZmZjtcbiRiZy10ZXh0LXNlbGVjdDogI2Y5MDtcbiRiZy1pdGVtLXNlbGVjdDogIzNjM2MzYztcbiRiZy1ibHVlLWhvdmVyOiAjMTg1ZWI5O1xuJGJnLWltcHV0OiAjY2VkNGRhO1xuJGJnLXJlZDogI2NjMDAwMDtcbiRiZy1ncmVlbjogIzQyQTk0ODtcbiRib3JkZXI6cmdiYSgwLCAwLCAwLCAwLjEyNSk7XG4kYm94LXNoYWRvdyA6IDJweCByZ2JhKDAsMCwwLC4yNCk7XG4kYm94LXNoYWRvdzE6cmdiYSgwLDAsMCwuMTIpO1xuJGNvbG9yLXRleHQtbWVudTojODY4ZTk2O1xuJGJnLWdyZWVuOiAjNDJBOTQ4O1xuJGJnLXRpdGxlLWNhcmQ6ICNmN2Y3Zjc7XG4kYm9yZGVyLWdyZXk6ICNkZWUyZTY7XG5cbi8vU1RBVFVTRVNcbiRwZW5kaW5nLXN0YXR1czogI0I3MUMxQztcbiRhdXRob3JpemVkLXN0YXR1czogIzRBMTQ4QztcbiRwcm9jZXNzZWQtc3RhdHVzOiAjRkY2RjAwO1xuJHBhaWQtc3RhdHVzOiAjMUI1RTIwO1xuJHNlbnQtc3RhdHVzOiAjMDE1NzlCO1xuJGNhbmNlbC1zdGF0dXM6ICMzMzMzMzU7XG5cblxuJHNlY29uZGFyeS1pbmZvOiM4NjhlOTY7XG4kYmctcHJvZHVjdC1kZXRhaWw6I2ZmZmZmZjtcbiRpbmZvLXNlcGFyYXRvcjpyZ2JhKDAsIDAsIDAsIDAuMSk7XG4kaWNvbi1lZGl0LWRldGFpbDojMTc1NmE2O1xuJGVycm9yLXF1YW50aXR5OnJlZDtcbiRtZXNzYWdlLXF1YW50aXR5OiMwMDgwMDA7XG4iLCIuYnRuLW1haW4ge1xuICBiYWNrZ3JvdW5kOiAkYmctYmx1ZTtcbiAgY29sb3I6ICRiZy13aGl0ZTtcblxuICAmOmZvY3VzIHtcbiAgICBib3gtc2hhZG93OiBub25lO1xuICB9XG5cbiAgJjpob3ZlciB7XG4gICAgYmFja2dyb3VuZDogJGJnLWJsdWUtaG92ZXI7XG4gIH1cbn1cblxuLmJ0bi1kcm9wZG93bi1tYWluIHtcbiAgY29sb3I6ICRiZy1ibHVlO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgYmFja2dyb3VuZC1pbWFnZTogbm9uZTtcbiAgYm9yZGVyLWNvbG9yOiBub25lO1xuICBib3JkZXItcmFkaXVzOiAycHg7XG5cbiAgJjpmb2N1cyB7XG4gICAgYm94LXNoYWRvdzogbm9uZTtcbiAgfVxuXG59XG5cbi5kcm9wZG93bi1tZW51IHtcbiAgbWluLXdpZHRoOiA3cmVtO1xuICB0b3A6IDI4cHggIWltcG9ydGFudDtcbiAgbGVmdDogMTBweCAhaW1wb3J0YW50O1xufVxuXG4uZHJvcGRvd24tbWVudTo6YmVmb3JlIHtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IC03cHg7XG4gIGxlZnQ6IDU5cHg7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgYm9yZGVyLXJpZ2h0OiA3cHggc29saWQgdHJhbnNwYXJlbnQ7XG4gIGJvcmRlci1ib3R0b206IDdweCBzb2xpZCAjQ0NDO1xuICBib3JkZXItbGVmdDogN3B4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBib3JkZXItYm90dG9tLWNvbG9yOiByZ2JhKDAsIDAsIDAsIDAuMik7XG4gIGNvbnRlbnQ6ICcnO1xuICB9XG4gIC5kcm9wZG93bi1tZW51OjphZnRlciB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAtNnB4O1xuICBsZWZ0OiA2MHB4O1xuICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIGJvcmRlci1yaWdodDogNnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBib3JkZXItYm90dG9tOiA2cHggc29saWQgJGJnLXdoaXRlO1xuICBib3JkZXItbGVmdDogNnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBjb250ZW50OiAnJztcbiAgfVxuXG4gIC5idG4uZGlzYWJsZWQsIC5idG46ZGlzYWJsZWQge1xuICAgIGN1cnNvcjogbm90LWFsbG93ZWQ7XG59XG4iLCIubW9kYWwtaGVhZGVyIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogJGJnLWJsdWU7XG4gIGNvbG9yOiAjZmZmZjtcbiAgYm9yZGVyLXRvcC1yaWdodC1yYWRpdXM6IDJweDtcbiAgYm9yZGVyLXRvcC1sZWZ0LXJhZGl1czogMnB4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBoZWlnaHQ6IDUwcHg7XG5cbiAgPmJ1dHRvbiB7XG4gICAgY29sb3I6ICRiZy13aGl0ZTtcbiAgICBvcGFjaXR5OiAxO1xuICB9XG59IiwiLm5nLXZhbGlkW3JlcXVpcmVkXSwgLm5nLXZhbGlkLnJlcXVpcmVkICB7XG4gIGJvcmRlci1sZWZ0OiA1cHggc29saWQgJGJnLWdyZWVuOyAvKiBncmVlbiAqL1xufVxuXG4ubmctaW52YWxpZDpub3QoZm9ybSkgIHtcbiAgYm9yZGVyLWxlZnQ6IDVweCBzb2xpZCAkYmctcmVkOyAvKiByZWQgKi9cbn1cblxuLmNvbnRlbnQge1xuICBwYWRkaW5nOiAxLjdyZW07XG59XG5cbi5mb3JtLWNvbnRyb2w6Zm9jdXMge1xuICBib3gtc2hhZG93OiAwIDAgMCAwLjA4cmVtIHJnYmEoMCwgMTIzLCAyNTUsIDAuMjApO1xufVxuXG4ubWVzc2FnZS1lcnJvciB7XG4gIG1hcmdpbi10b3A6IC0xcmVtO1xuICBjb2xvcjogJGJnLXJlZDtcbiAgZm9udC1zaXplOiAwLjg1cmVtO1xufVxuXG4ucGFnZS1oZWFkZXItZml4ZWQge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIHdpZHRoOiAxMDAlO1xuICB6LWluZGV4OiAxMDAwO1xuICBiYWNrZ3JvdW5kOiB3aGl0ZTtcbiAgbWFyZ2luLXRvcDogLTIycHg7XG4gIHBhZGRpbmctdG9wOiAyNXB4O1xuICBtYXJnaW4tbGVmdDogMzBweDtcbn1cblxuLnNwLWNvbnRhaW5lciB7XG4gIHBhZGRpbmctdG9wOiAxMDBweDtcbiAgcGFkZGluZy1sZWZ0OiAzMHB4O1xufVxuXG4uc3AtdGl0bGUge1xuICBjb2xvcjogJGJnLWJsdWU7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBmb250LXNpemU6IDEuNHJlbTtcbn1cblxuIiwiXG5AaW1wb3J0IFwiLi4vLi4vLi4vLi4vLi4vc3R5bGVzL3NwZWN0cnVtL3NwZWN0cnVtXCI7XG5cbi5ib2R5e1xuICBvdmVyZmxvdy15OiBhdXRvO1xufVxuXG4ubGlzdC1iYXNrZXQge1xuICBtYXgtaGVpZ2h0OiA2MzBweDtcbiAgcGFkZGluZzogMmVtO1xuICBvdmVyZmxvdy15OiBhdXRvO1xuICBvdmVyZmxvdy14OiBoaWRkZW47XG5cbiAgLm1haW4taW5mbyB7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICB9XG5cbiAgLnRlc3Qtc2V0IHtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBtYXJnaW4tbGVmdDogMDtcbiAgfVxuXG4gIC5pbWctcHJvZHVjdCB7XG4gICAgd2lkdGg6IDQwJTtcbiAgICBib3JkZXItcmFkaXVzOiAxMnB4O1xuICAgIG1hcmdpbi10b3A6IDFlbTtcbiAgfVxuXG4gIC5kaXNwbGF5LXJvdyB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG4gIH1cblxuICAuZGlzcGxheS1wcmljZSB7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIH1cblxuICAucGFkZGluZy1wYXJhbXMge1xuICAgIHBhZGRpbmc6MmVtIDJlbSAxZW07XG5cbiAgICAucGFyYW1ldGVyc3tcbiAgICAgIGNvbG9yOiAkc2Vjb25kYXJ5LWluZm87XG4gICAgICBtYXJnaW4tbGVmdDogMS44cmVtO1xuICAgICAgbWFyZ2luLWJvdHRvbTogMC4xcmVtO1xuICAgICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgICAgIHBhZGRpbmctdG9wOiAxcmVtO1xuICAgIH1cbiAgICAuanVzdGlmeS1zdGVwc3tcbiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuXG4gICAgICA+IGRpdjpudGgtY2hpbGQoMikge1xuICAgICAgICBwYWRkaW5nLWxlZnQ6IDA7XG4gICAgICB9XG4gICAgfVxuXG4gICAgLm5hbWUtcGFyYW1ldGVyc3tcbiAgICAgIHBhZGRpbmctbGVmdDogMXJlbTtcbiAgICAgIGNvbG9yOiAkc2Vjb25kYXJ5LWluZm87XG4gICAgICBwYWRkaW5nLXRvcDogMC41cmVtO1xuICAgIH1cblxuICAgIC5jb21tZW50e1xuICAgICAgY29sb3I6ICRzZWNvbmRhcnktaW5mbztcbiAgICAgIHBhZGRpbmc6IDAgMS41ZW07XG4gICAgfVxuICB9XG5cbiAgLnBhcmFtcyB7XG4gICAgcGFkZGluZy10b3A6IDFlbTtcblxuICAgIC5zZXBhcmF0b3Ige1xuICAgICAgbWFyZ2luLWJvdHRvbTogMWVtO1xuICAgIH1cbiAgfVxuXG4gIC50aXRsZSB7XG4gICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgfVxuXG4gIC5zdGVwcyB7XG4gICAgdGV4dC1hbGlnbjogbGVmdDtcbiAgICBtYXJnaW46IDNyZW0gMCAwIDNyZW07XG4gICAgZGlzcGxheTogZmxleDtcblxuICAgID4gZHQ6bnRoLWNoaWxkKDEpIHtcbiAgICAgIG1hcmdpbi1yaWdodDogMTVweDtcbiAgICB9XG4gIH1cblxuICAubGFiZWwtdGl0bGUge1xuICAgIHBhZGRpbmctdG9wOiAxLjVlbTtcbiAgfVxuXG4gIC5wYXRpZW50LWluZm8ge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgcGFkZGluZy1ib3R0b206IDEuNWVtO1xuICB9XG5cbiAgLmV5ZS1pbmZvIHtcbiAgICBjb2xvcjogJHNlY29uZGFyeS1pbmZvO1xuICAgIHBhZGRpbmctYm90dG9tOiAyZW07XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICB9XG5cbiAgLmFsaWduLWl0ZW17XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICB9XG5cbiAgLml0ZW1ze1xuICAgICBjb2xvcjogJHNlY29uZGFyeS1pbmZvO1xuICAgfVxuXG4gICAuY29tbWVudHN7XG4gICAgcGFkZGluZzogMCAyLjVlbTtcbiAgfVxuXG4gIC5zZXBhcmF0b3JzIHtcbiAgICBib3JkZXItdG9wOiAxLjVweCBzb2xpZCAkaW5mby1zZXBhcmF0b3I7XG4gICAgbWFyZ2luLXRvcDogMC41cmVtO1xuICAgIG1hcmdpbi1ib3R0b206IDAuNXJlbTtcbiAgfVxuXG4gIC5wYXJhbXtcbiAgICBjb2xvcjogI2Y4YWM1OTtcbiAgfVxuXG4gIC5zZXBhcmF0b3Itc2V0IHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIG1hcmdpbi10b3A6IDIwcHg7XG4gICAgd2lkdGg6IDEwMCU7XG4gIH1cbn1cbiJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.ts":
+/*!*************************************************************************************************************!*\
+  !*** ./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.ts ***!
+  \*************************************************************************************************************/
+/*! exports provided: ConfirmationSmartlensComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmationSmartlensComponent", function() { return ConfirmationSmartlensComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_models_buynow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../shared/models/buynow */ "./src/app/shared/models/buynow.ts");
+/* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
+/* harmony import */ var _shared_models_company__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../shared/models/company */ "./src/app/shared/models/company.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../shared/services/alertify/alertify.service */ "./src/app/shared/services/alertify/alertify.service.ts");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _shared_services_basket_basket_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../shared/services/basket/basket.service */ "./src/app/shared/services/basket/basket.service.ts");
+/* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../shared/services/fileproductrequested/fileproductrequested.service */ "./src/app/shared/services/fileproductrequested/fileproductrequested.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _http_user_storage_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../../http/user-storage.service */ "./src/app/http/user-storage.service.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var _notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../notification-balance/notification-balance.component */ "./src/app/products/modals/notification-balance/notification-balance.component.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../../../shared/enum/status-user.enum */ "./src/app/shared/enum/status-user.enum.ts");
+/* harmony import */ var _shared_models_product__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../../shared/models/product */ "./src/app/shared/models/product.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var ConfirmationSmartlensComponent = /** @class */ (function () {
+    function ConfirmationSmartlensComponent(modalReference, alertify, notification, translate, basketService, orderService, fileProductRequestedService, router, userStorageService, spinner, userService, modalService) {
+        this.modalReference = modalReference;
+        this.alertify = alertify;
+        this.notification = notification;
+        this.translate = translate;
+        this.basketService = basketService;
+        this.orderService = orderService;
+        this.fileProductRequestedService = fileProductRequestedService;
+        this.router = router;
+        this.userStorageService = userStorageService;
+        this.spinner = spinner;
+        this.userService = userService;
+        this.modalService = modalService;
+        this.listBasket = new Array;
+        this.lista = new Array;
+        this.basketRequest = new _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_2__["BasketRequest"]();
+        this.buyNow = new _shared_models_buynow__WEBPACK_IMPORTED_MODULE_1__["BuyNow"]();
+        // list for File
+        this.listFileBasket = new Array;
+        this.listUrlFiles = new Array;
+        this.listFileLeftEye = new Array;
+        this.listFileRightEye = new Array;
+        // boolean for delete file
+        this.save_success = false;
+        this.balance_modal = false;
+        this.company = new _shared_models_company__WEBPACK_IMPORTED_MODULE_3__["Company"]();
+        this.productModel = new _shared_models_product__WEBPACK_IMPORTED_MODULE_18__["Product"]();
+        this.user = JSON.parse(userStorageService.getCurrentUser());
+    }
+    ConfirmationSmartlensComponent.prototype.ngOnInit = function () {
+        this.getDatos();
+        this.getBalance();
+    };
+    ConfirmationSmartlensComponent.prototype.close = function () {
+        if (!this.save_success && !this.balance_modal) {
+            this.listUrlFiles = this.buildUrlFiles();
+            this.deleteAllFile();
+        }
+        this.modalReference.dismiss();
+        this.modalReference.close();
+    };
+    ConfirmationSmartlensComponent.prototype.getDatos = function () {
+        var self = this;
+        var patient;
+        var priceAcum = 0;
+        var eyesSelected = [];
+        var quantityInserts = 0;
+        this.listBasket = JSON.parse(JSON.stringify(this.datos.productRequestedList));
+        this.lista = JSON.parse(JSON.stringify(this.datos.productRequestedList));
+        var listBasketAux = [];
+        lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listBasket, function (productRequested) {
+            // Validation necesary because dvm is for order
+            if (self.productModel.isInsertsDMV(productRequested.product.idProduct)) {
+                quantityInserts++;
+                if (quantityInserts === 1) {
+                    priceAcum = priceAcum + (productRequested.price * productRequested.quantity);
+                }
+            }
+            else {
+                priceAcum = priceAcum + (productRequested.price * productRequested.quantity);
+            }
+            patient = productRequested.patient;
+            if (productRequested.observations === undefined) {
+                productRequested.observations = '';
+            }
+            var details = JSON.parse(productRequested.detail);
+            lodash__WEBPACK_IMPORTED_MODULE_16__["each"](details, function (detail) {
+                eyesSelected.push(detail.eye);
+            });
+            productRequested.detail = JSON.parse(productRequested.detail);
+            if (!self.isAdditionalProduct(productRequested)) {
+                listBasketAux.push(productRequested);
+            }
+        });
+        this.listBasket = listBasketAux;
+        this.eyesSelected = eyesSelected;
+        this.namePatient = patient;
+        this.price = priceAcum;
+    };
+    ConfirmationSmartlensComponent.prototype.isAdditionalProduct = function (productRequested) {
+        return productRequested.name === 'DMV Insertion and Removal Set' || productRequested.name === 'Notch' || productRequested.name === 'Hydrapeg';
+    };
+    ConfirmationSmartlensComponent.prototype.getBalance = function () {
+        var _this = this;
+        this.userService.findById$(this.datos.idUser).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
+                _this.client = res.data;
+                _this.company = res.data.company;
+                _this.balance = _this.company.balance;
+            }
+            else {
+                console.log(res.errors[0].detail);
+            }
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
+    ConfirmationSmartlensComponent.prototype.getParams = function (detail) {
+        var params = detail.parameters;
+        if (detail.design === "Sph") {
+            params = lodash__WEBPACK_IMPORTED_MODULE_16__["filter"](params, function (param) {
+                // Remove params cylinder and axis when design is Sph.
+                return param.name !== 'Cylinder (D)' && param.name !== 'Axis Cylinder(º)' && param.name !== 'Position of axis rotation markers' && param.name !== 'Rotationally stable';
+            });
+        }
+        if (detail.typeLens === 'Final Design') {
+            params = lodash__WEBPACK_IMPORTED_MODULE_16__["filter"](params, function (param) {
+                // Excluding params design by laboratory
+                return param.name !== 'Over-refraction';
+            });
+        }
+        return params;
+    };
+    ConfirmationSmartlensComponent.prototype.buildUrlFiles = function () {
+        var listUrlFiles = new Array;
+        lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listFileLeftEye, function (file) {
+            listUrlFiles.push(file.url);
+        });
+        lodash__WEBPACK_IMPORTED_MODULE_16__["each"](this.listFileRightEye, function (file) {
+            listUrlFiles.push(file.url);
+        });
+        return listUrlFiles;
+    };
+    ConfirmationSmartlensComponent.prototype.deleteAllFile = function () {
+        this.fileProductRequestedService.deleteAllFile$(this.buildUrlFiles()).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
+                console.log('Delete files');
+            }
+            else {
+                console.log(res.errors[0].detail);
+            }
+        }, function (error) {
+            console.log('error', error);
+        });
+    };
+    ConfirmationSmartlensComponent.prototype.redirectListProducts = function () {
+        this.router.navigate(['/products/']);
+    };
+    ConfirmationSmartlensComponent.prototype.redirectListBasket = function () {
+        if (this.user.role.idRole === 3) {
+            this.router.navigate(['/list-basket-client']);
+        }
+        else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+            this.router.navigate(['/list-basket']);
+        }
+    };
+    ConfirmationSmartlensComponent.prototype.redirectListOrder = function () {
+        if (this.user.role.idRole === 3) {
+            this.router.navigate(['/order-list-client'], { queryParams: { status: 0 } });
+        }
+        else if (this.user.role.idRole === 1) {
+            var status_1 = this.typeOrder === 'new' ? 1 : 0;
+            this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: status_1 } });
+        }
+        else if (this.user.role.idRole === 2) {
+            this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 0 } });
+        }
+    };
+    ConfirmationSmartlensComponent.prototype.validateAvailableBalance = function () {
+        var available = true;
+        if (this.company.paymentMethod === 1 && ((this.price) > this.balance)) {
+            available = false;
+        }
+        this.available = available;
+    };
+    ConfirmationSmartlensComponent.prototype.openModal = function () {
+        var _this = this;
+        var modalRef = this.modalService.open(_notification_balance_notification_balance_component__WEBPACK_IMPORTED_MODULE_15__["NotificationBalanceComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
+        modalRef.componentInstance.buyNowModal = this.buyNow;
+        modalRef.result.then(function (result) {
+            _this.ngOnInit();
+        }, function (reason) {
+            _this.save_success = true;
+            _this.balance_modal = false;
+            _this.close();
+        });
+    };
+    ConfirmationSmartlensComponent.prototype.save = function () {
+        var _this = this;
+        if (this.typeBuy === 1) {
+            this.spinner.show();
+            this.basketRequest.idUser = this.datos.idUser;
+            this.basketRequest.productRequestedList = this.lista;
+            this.basketRequest.listFileRightEye = this.listFileRightEye;
+            this.basketRequest.listFileLeftEye = this.listFileLeftEye;
+            this.basketService.saveBasket$(this.basketRequest).subscribe(function (res) {
+                if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
+                    _this.save_success = true;
+                    _this.close();
+                    _this.translate.get('Successfully Saved', { value: 'Successfully Saved' }).subscribe(function (res) {
+                        _this.notification.success('', res);
+                    });
+                    _this.spinner.hide();
+                    _this.redirectListProducts();
+                    // this.redirectListBasket();
+                }
+                else {
+                    _this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe(function (res) {
+                        _this.notification.error('', res);
+                        _this.spinner.hide();
+                        console.log(res);
+                    });
+                }
+            }, function (error) {
+                console.log('error', error);
+            });
+        }
+        else {
+            if (this.client.status === _shared_enum_status_user_enum__WEBPACK_IMPORTED_MODULE_17__["StatusUser"].InDefault) {
+                this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe(function (title) {
+                    _this.translate.get('Your account was deactivated. Please contact with the administrator', { value: 'Your account was deactivated. Please contact with the administrator' })
+                        .subscribe(function (msg) {
+                        _this.alertify.warning(msg);
+                        _this.close();
+                    });
+                });
+            }
+            else {
+                this.buyNow.idUser = this.datos.idUser;
+                this.buyNow.productRequestedList = this.lista;
+                this.buyNow.idRole = this.role;
+                this.buyNow.listFileRightEye = this.listFileRightEye;
+                this.buyNow.listFileLeftEye = this.listFileLeftEye;
+                // this.validateAvailableBalance();
+                // if (this.available) {
+                this.spinner.show();
+                this.buyNow.typeOrder = this.typeOrder;
+                this.orderService.saveOrderDirect$(this.buyNow).subscribe(function (res) {
+                    if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
+                        _this.save_success = true;
+                        _this.spinner.hide();
+                        _this.close();
+                        _this.translate.get('Order generated successfully', { value: 'Order generated successfully' }).subscribe(function (res) {
+                            _this.notification.success('', res);
+                        });
+                        _this.redirectListOrder();
+                    }
+                    else {
+                        _this.translate.get('Connection Failed', { value: 'Connection Failed' }).subscribe(function (res) {
+                            _this.notification.error('', res);
+                            _this.spinner.hide();
+                            console.log(res);
+                        });
+                    }
+                }, function (error) {
+                    console.log('error', error);
+                });
+                /*} else {
+                  this.balance_modal = true;
+                  this.openModal(); // No tiene disponible el balance de credito
+                  this.close();
+                }*/
+            }
+        }
+    };
+    ConfirmationSmartlensComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-confirmation-smartlens',
+            template: __webpack_require__(/*! ./confirmation-smartlens.component.html */ "./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.html"),
+            styles: [__webpack_require__(/*! ./confirmation-smartlens.component.scss */ "./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbActiveModal"],
+            _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_5__["AlertifyService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_7__["TranslateService"],
+            _shared_services_basket_basket_service__WEBPACK_IMPORTED_MODULE_8__["BasketService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_9__["OrderService"],
+            _shared_services_fileproductrequested_fileproductrequested_service__WEBPACK_IMPORTED_MODULE_10__["FileProductRequestedService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_11__["Router"],
+            _http_user_storage_service__WEBPACK_IMPORTED_MODULE_12__["UserStorageService"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_13__["NgxSpinnerService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_9__["UserService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModal"]])
+    ], ConfirmationSmartlensComponent);
+    return ConfirmationSmartlensComponent;
 }());
 
 
@@ -12329,6 +12692,1253 @@ var ProductViewOrionComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/products/product-view-smartlens/product-view-smartlens.component.html":
+/*!***************************************************************************************!*\
+  !*** ./src/app/products/product-view-smartlens/product-view-smartlens.component.html ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"user.role.idRole !== 3\">\n        <span class=\"title\">{{ 'Order Type' | translate }}</span>\n        <div class=\"d-flex\">\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-new\" name=\"orderType\" value=\"new\" [(ngModel)]=\"typeOrder\"  class=\"custom-control-input\" [checked]=\"typeOrder === 'new'\">\n            <label class=\"custom-control-label\" for=\"order-new\">{{ 'New' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-duplicate\" name=\"orderType\" value=\"duplicate\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'duplicate'\">\n            <label class=\"custom-control-label\" for=\"order-duplicate\">{{ 'Duplicate' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio\">\n            <input type=\"radio\" id=\"order-warranty\" name=\"orderType\" value=\"warranty\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'warranty'\">\n            <label class=\"custom-control-label\" for=\"order-warranty\">{{ 'Warranty' | translate }}</label>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ product.url }}\" target=\"_blank\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"50\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" [(ngModel)]=\"product.client\"\n              disabled required>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\"\n              required>\n            </ng-select>\n          </div>\n        </div>\n\n        <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content\">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row\">\n        <div class=\"col-md-12\">\n          <h5 class=\"padding-price\" *ngIf=\"priceSaleTotal()\">\n            <span>{{ priceSaleTotal() | currency : \"USD $\" }}</span>\n          </h5>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specific your product' | translate }}</label>\n\n          <div class=\"col-lg-6\" *ngIf=\"product?.dmv\">\n            <div class=\"row radio-custom\">\n              <span class=\"title label-radio\">{{ product.dmv.name | translate }}:</span>\n              <div *ngFor=\"let value of product.dmv.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-dmv-{{i}}\" name=\"radioDMV\" [value]=\"value\"\n                         class=\"custom-control-input\" (change)=\"changeDMV(value)\"\n                         [checked]=\"product.dmv.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-dmv-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n            <div class=\"row additional col-lg-12\">\n              <p *ngIf=\"product.dmv.selected === 'Yes'\">\n                <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;\n                <span>{{'Inserts (DMV)' | translate}}:{{ getAdditionalPrices(false).dmv | currency : \" USD $\" }}</span>&nbsp;\n              </p>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header\" *ngIf=\"typeLensRight\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n\n          <div class=\"materials\">\n            <div class=\"row radio-custom\">\n              <span class=\"title label-radio\">{{ 'Materials' | translate }}:</span>\n              <div class=\"align-radio\" *ngFor=\"let value of product.materialsRight.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-materials-right-{{i}}\" name=\"radioMaterialsRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" class=\"custom-control-input\" (change)=\"changeMaterials(value, 'right')\" [checked]=\"product.materialsRight.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-materials-right-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n\n            <div class=\"row radio-custom\" *ngIf=\"product.materialsRight.selected === 'Boston-XO'\" >\n              <span class=\"title\">{{ 'Hydrapeg' | translate }}:</span>\n              <div *ngFor=\"let value of product.hydrapegRight.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-hydrapeg-right-{{i}}\" name=\"radiohydrapegRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" class=\"custom-control-input\" (change)=\"changeSelect('right', product.hydrapegRight, value,0)\" [checked]=\"product.hydrapegRight.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-hydrapeg-right-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Design' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of designRight.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-design-right-{{i}}\" name=\"radioDesignRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" class=\"custom-control-input\" (change)=\"changeDesign('right', value)\" [checked]=\"designRight.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-design-right-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Type' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of typeLensRight.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-right-{{i}}\" name=\"radioTypeLensRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" (change)=\"changeTypeLens('right', value)\" class=\"custom-control-input\" [checked]=\"typeLensRight.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-right-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n\n          <!--params right-->\n          <div class=\"row\">\n\n            <!--quantity right-->\n            <div class=\"col-lg-3\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                     [required]=\"product.eyeRight\"  [disabled]=\"true\" min=\"1\">\n                </div>\n              </div>\n            </div>\n\n            <!-- parameters right -->\n            <div class=\"col-lg-3 padding-params\" *ngFor=\"let parameter of getParams('right')\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <!-- SELECTED OF ALL -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [items]=\"parameter.values\"\n                      placement=\"top\" ngbTooltip=\"{{ isDependent(parameter, 'right') | translate }}\"\n                      [disabled]=\"!product.eyeRight || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'right')\" [required]=\"product.eyeRight && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"parameter.noRequired\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- SELECTED ONLY ADITION -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeRight || parameter.values.length === 1\" [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- INPUT RADIO -->\n                  <div *ngIf=\"parameter.type === 'radio'\" class=\"radio-custom\">\n                    <div *ngFor=\"let value of parameter.values; let i = index\">\n                      <div class=\"custom-control custom-radio\">\n                        <input type=\"radio\" id=\"radio-overrefaction-{{i}}\" name=\"radioORRight\" [value]=\"value\"\n                               [disabled]=\"!product.eyeRight\"  class=\"custom-control-input\"\n                               (change)=\"changeSelect('right', parameter, value, 0)\" [checked]=\"parameter.selected === value\">\n                        <label class=\"custom-control-label\" for=\"radio-overrefaction-{{i}}\">{{ value | translate }}</label>\n                      </div>\n                    </div>\n                  </div>\n\n                  <!-- INPUT TYPE TEXT-->\n                  <div *ngIf=\"parameter.type === 'input-text'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ (parameter.placeholder || 'Introduce value') | translate }}\"\n                      [required]=\"product.eyeRight && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\" maxlength=\"{{ parameter.maxLength }}\"\n                      [disabled]=\"!product.eyeRight\">\n                  </div>\n\n                  <!-- INPUT TYPE NUMBER-->\n                  <div *ngIf=\"parameter.type === 'input-number'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"!product.eyeRight\">\n                  </div>\n\n                  <!--Only Axis (notch)-->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [disabled]=\"!product.eyeRight || !axisRequired('right')\" [required]=\"product.eyeRight && axisRequired('right')\" [(ngModel)]=\"parameter.selected\"\n                                bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      <ng-option [value]=\"item\" *ngFor=\"let item of axisValues('right')\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <!-- Notch -->\n                  <div *ngIf=\"parameter.type === 'selected-double'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select #notchRight class=\"select-notch\" [items]=\"['Upper Temporal']\"\n                               [(ngModel)]=\"parameter.selectedNotchTime\" placeholder=\"{{ 'Select type' | translate }}\"\n                               [disabled]=\"!product.eyeRight\" [required]=\"parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0\"\n                               (click)=\"validateSelectedNotch(parameter)\" (clear)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\">\n                      <ng-template ng-option-tmp>\n                        <div class=\"main-info\">\n                          <div class=\"one-two\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-one.png'\" (click)=\"changeNotchTime('right', parameter, 'Upper Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-two.png'\" (click)=\"changeNotchTime('right', parameter, 'Upper Nasal')\">\n                          </div>\n                          <div clas=\"three-four\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-three.png'\" (click)=\"changeNotchTime('right', parameter, 'Lower Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-four.png'\" (click)=\"changeNotchTime('right', parameter, 'Lower Nasal')\">\n                          </div>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[0].placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.values[0].selected\" (change)=\"setNotch(parameter);changeSelect('right', parameter, parameter.values[0].selected, parameter.values[1].selected)\" (keyup)=\"changeSelect('right', parameter, parameter.values[0].selected, parameter.values[1].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeRight\">\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[1].placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.values[1].selected\" (change)=\"setNotch(parameter);changeSelect('right', parameter, parameter.values[1].selected, parameter.values[0].selected)\" (keyup)=\"changeSelect('right', parameter, parameter.values[1].selected, parameter.values[0].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeRight\">\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!--prices additional right-->\n        <div class=\"row additional col-lg-12\">\n          <p *ngIf=\"getAdditionalPrices(true).notchRight || getAdditionalPrices(true).hydrapegRight\">\n            <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).hydrapegRight\">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegRight | currency : \" USD $\" }}</span>&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).notchRight && getAdditionalPrices(true).hydrapegRight\">| </span>\n            <span *ngIf=\"getAdditionalPrices(true).notchRight\">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchRight | currency : \" USD $\" }}</span>&nbsp;\n          </p>\n        </div>\n\n        <!--comments right-->\n        <br>\n        <div class=\"row col-md-12\">\n          <div class=\"title\">{{ 'OD Comments' | translate }}</div>\n          <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\"\n            [disabled]=\"!product.eyeRight\" placeholder=\"{{ 'Enter OD Observations' | translate }}\"></textarea>\n        </div>\n\n        <br>\n        <!--files right-->\n        <div class=\"row attachments\">\n          <div class=\"col-md-12\">\n            <div>\n              <dt class=\"title\">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>\n              <div class=\"custom-file\">\n                <input #selectedFilesRightEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderRightEye\"\n                  [disabled]=\"!product.eyeRight || uploaderRightEye.queue.length > 4\" multiple />\n                <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                <div class=\"message-error-file\">\n                  <span translate>{{'Max files size:' | translate}} 25MB</span>\n                  <span> / </span>\n                  <span translate>{{'Maximum files number:' | translate }} 5</span>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div style=\"margin-bottom: 40px\" *ngIf=\"uploaderRightEye.queue.length > 0\">\n              <div class=\"row justify-content-end\" *ngIf=\"uploaderRightEye.queue.length > 1\">\n                <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderRightEye.clearQueue()\" [disabled]=\"!uploaderRightEye.queue.length\">\n                  <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                </button>\n              </div>\n              <br>\n              <table class=\"table\">\n                <thead>\n                  <tr>\n                    <th width=\"50%\">{{ 'Name' | translate }}</th>\n                    <th>{{ 'Size' | translate }}</th>\n                    <th>{{ 'Actions' | translate }}</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of uploaderRightEye.queue\">\n                    <td><strong>{{ item?.file?.name }}</strong></td>\n                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                    <td nowrap>\n                      <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Right')\">\n                        <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                      </button>\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row header\" *ngIf=\"typeLensLeft\">\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n\n          <div class=\"materials\">\n            <div class=\"row radio-custom\">\n              <span class=\"title label-radio\">{{ 'Materials' | translate }}:</span>\n              <div class=\"align-radio\" *ngFor=\"let value of product.materialsLeft.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-materials-{{i}}\" name=\"radioMaterialsLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" class=\"custom-control-input\" (change)=\"changeMaterials(value, 'left')\" [checked]=\"product.materialsLeft.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-materials-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n\n            <div class=\"row radio-custom\" *ngIf=\"product.materialsLeft.selected === 'Boston-XO'\" >\n              <span class=\"title\">{{ 'Hydrapeg' | translate }}:</span>\n              <div *ngFor=\"let value of product.hydrapegLeft.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-hydrapeg-{{i}}\" name=\"radiohydrapegLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" class=\"custom-control-input\" (change)=\"changeSelect('left', product.hydrapegLeft, value,0)\" [checked]=\"product.hydrapegLeft.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-hydrapeg-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Design' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of designLeft.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-design-{{i}}\" name=\"radioDesignLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" class=\"custom-control-input\" (change)=\"changeDesign('left', value)\" [checked]=\"designLeft.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-design-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Type' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of typeLensLeft.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-{{i}}\" name=\"radioTypeLensLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" (change)=\"changeTypeLens('left', value)\" class=\"custom-control-input\" [checked]=\"typeLensLeft.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n\n          <!--params left-->\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-3\">\n              <div class=\"row \">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityLeft\" [required]=\"product.eyeLeft\"\n                    oninput=\"validity.valid||(value='');\" [disabled]=\"true\" min=\"1\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3 padding-params\" *ngFor=\"let parameter of getParams('left')\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n\n                <div class=\"row\">\n\n                  <!-- SELECTED OF ALL -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [items]=\"parameter.values\"\n                      placement=\"top\" ngbTooltip=\"{{ isDependent(parameter, 'left') | translate }}\"\n                      [disabled]=\"!product.eyeLeft || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'left')\" [required]=\"product.eyeLeft && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\" bindLabel=\"item\"\n                      bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"parameter.noRequired\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- SELECTED ONLY ADITION -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeLeft || parameter.values.length === 1\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- INPUT RADIO -->\n                  <div *ngIf=\"parameter.type === 'radio'\" class=\"radio-custom\">\n                    <div *ngFor=\"let value of parameter.values; let i = index\">\n                      <div class=\"custom-control custom-radio\">\n                        <input type=\"radio\" id=\"radio-overrefaction-{{i}}\" name=\"radioORLeft\" [value]=\"value\"\n                               [disabled]=\"!product.eyeLeft\"  class=\"custom-control-input\"\n                               (change)=\"changeSelect('left', parameter, value, 0)\" [checked]=\"parameter.selected === value\">\n                        <label class=\"custom-control-label\" for=\"radio-overrefaction-{{i}}\">{{ value | translate }}</label>\n                      </div>\n                    </div>\n                  </div>\n\n                  <!-- INPUT TYPE NUMBER-->\n                  <div *ngIf=\"parameter.type === 'input-number'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"!product.eyeLeft\">\n                  </div>\n\n                  <!-- INPUT TYPE TEXT-->\n                  <div *ngIf=\"parameter.type === 'input-text'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ (parameter.placeholder || 'Introduce value') | translate }}\"\n                      [required]=\"product.eyeLeft && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\" maxlength=\"{{ parameter.maxLength }}\"\n                      [disabled]=\"!product.eyeLeft\">\n                  </div>\n\n                  <!--Only Axis (notch)-->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [disabled]=\"!product.eyeLeft || !axisRequired('left')\" [required]=\"product.eyeLeft && axisRequired('left')\" [(ngModel)]=\"parameter.selected\"\n                                bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      <ng-option [value]=\"item\" *ngFor=\"let item of axisValues('left')\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <!-- Notch -->\n                  <div *ngIf=\"parameter.type === 'selected-double'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select #notchLeft class=\"select-notch\" [items]=\"['Upper Temporal']\"\n                               [(ngModel)]=\"parameter.selectedNotchTime\" placeholder=\"{{ 'Select type' | translate }}\"\n                               [disabled]=\"!product.eyeLeft\" [required]=\"parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0\"\n                               (click)=\"validateSelectedNotch(parameter)\" (clear)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\">\n                      <ng-template ng-option-tmp>\n                        <div class=\"main-info\">\n                          <div class=\"one-two\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-one.png'\" (click)=\"changeNotchTime('left', parameter, 'Upper Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-two.png'\" (click)=\"changeNotchTime('left', parameter, 'Upper Nasal')\">\n                          </div>\n                          <div clas=\"three-four\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-three.png'\" (click)=\"changeNotchTime('left', parameter, 'Lower Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-four.png'\" (click)=\"changeNotchTime('left', parameter, 'Lower Nasal')\">\n                          </div>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[0].placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.values[0].selected\" (change)=\"setNotch(parameter);changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)\"  (keyup)=\"changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeLeft\">\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[1].placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.values[1].selected\" (change)=\"setNotch(parameter);changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)\" (keyup)=\"changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeLeft\">\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!--prices additional left-->\n        <div class=\"row additional col-lg-12\">\n          <p *ngIf=\"getAdditionalPrices(true).notchLeft || getAdditionalPrices(true).hydrapegLeft\">\n            <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).hydrapegLeft\">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegLeft | currency : \" USD $\" }}</span>&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).notchLeft && getAdditionalPrices(true).hydrapegLeft\">| </span>\n            <span *ngIf=\"getAdditionalPrices(true).notchLeft\">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchLeft | currency : \" USD $\" }}</span>&nbsp;\n          </p>\n        </div>\n\n        <!--comments left-->\n        <br>\n        <div class=\"row col-md-12\">\n          <div class=\"title\">{{ 'OS Comments' | translate }}</div>\n          <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\"\n            [disabled]=\"!product.eyeLeft\" placeholder=\"{{ 'Enter OS Observations' | translate }}\"></textarea>\n        </div>\n\n\n        <!--files left-->\n        <br>\n        <div class=\"row attachments\">\n          <div class=\"col-md-12\">\n            <div class=\"\">\n              <dt class=\"title\">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>\n              <div class=\"custom-file\">\n                <input #selectedFilesLeftEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderLeftEye\"\n                  [disabled]=\"!product.eyeLeft || uploaderLeftEye.queue.length > 4\" multiple />\n                <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                <div class=\"message-error-file\">\n                  <span translate>{{'Max files size:' | translate}} 25MB</span>\n                  <span> / </span>\n                  <span translate>{{'Maximum files number:' | translate }} 5</span>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderLeftEye.queue.length > 0\">\n              <div class=\"row justify-content-end\" *ngIf=\"uploaderLeftEye.queue.length > 1\">\n                <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderLeftEye.clearQueue()\" [disabled]=\"!uploaderLeftEye.queue.length\">\n                  <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                </button>\n              </div>\n              <br>\n              <table class=\"table\">\n                <thead>\n                  <tr>\n                    <th width=\"50%\">{{ 'Name' | translate }}</th>\n                    <th>{{ 'Size' | translate }}</th>\n                    <th>{{ 'Actions' | translate }}</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of uploaderLeftEye.queue\">\n                    <td><strong>{{ item?.file?.name }}</strong></td>\n                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                    <td nowrap>\n                      <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Left')\">\n                        <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                      </button>\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button *ngIf=\"typeOrder === 'new'\" class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/products/product-view-smartlens/product-view-smartlens.component.scss":
+/*!***************************************************************************************!*\
+  !*** ./src/app/products/product-view-smartlens/product-view-smartlens.component.scss ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Define tr width */\n.card {\n  border: 0.5px solid rgba(0, 0, 0, 0.125) !important;\n  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12) !important; }\n.card .card-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    background-color: #ffffff;\n    color: #1756a6;\n    font-weight: 600;\n    border-bottom: none;\n    font-size: 1.3rem; }\n.card .card-header .card-body {\n      overflow-y: -webkit-paged-y; }\n.table > thead > tr > th > td {\n  border-top: none;\n  text-overflow: ellipsis; }\n.table > tbody > tr:nth-last-child(1) {\n  height: 100px; }\n.header-column :hover {\n  cursor: pointer; }\n.dropdown-item {\n  cursor: pointer; }\n.table-empty {\n  text-align: center;\n  padding: 25px;\n  font-weight: 600;\n  color: #8a8a8a; }\n.pagination-list {\n  text-align: right;\n  line-height: 0 !important;\n  font-weight: 300; }\n.count-elements {\n  margin-right: 0px; }\n.fa-sort-up {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort-down {\n  margin-left: 5px;\n  cursor: pointer; }\n.fa-sort {\n  margin-left: 5px;\n  cursor: pointer; }\n.no-records {\n  text-align: center; }\n.td-table {\n  max-width: 100px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n.btn-main {\n  background: #1756a6;\n  color: #ffffff; }\n.btn-main:focus {\n    box-shadow: none; }\n.btn-main:hover {\n    background: #185eb9; }\n.btn-dropdown-main {\n  color: #1756a6;\n  background-color: transparent;\n  background-image: none;\n  border-color: none;\n  border-radius: 2px; }\n.btn-dropdown-main:focus {\n    box-shadow: none; }\n.dropdown-menu {\n  min-width: 7rem;\n  top: 28px !important;\n  left: 10px !important; }\n.dropdown-menu::before {\n  position: absolute;\n  top: -7px;\n  left: 59px;\n  display: inline-block;\n  border-right: 7px solid transparent;\n  border-bottom: 7px solid #CCC;\n  border-left: 7px solid transparent;\n  border-bottom-color: rgba(0, 0, 0, 0.2);\n  content: ''; }\n.dropdown-menu::after {\n  position: absolute;\n  top: -6px;\n  left: 60px;\n  display: inline-block;\n  border-right: 6px solid transparent;\n  border-bottom: 6px solid #ffffff;\n  border-left: 6px solid transparent;\n  content: ''; }\n.btn.disabled, .btn:disabled {\n  cursor: not-allowed; }\n.modal-header {\n  background-color: #1756a6;\n  color: #ffff;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n  align-items: center;\n  height: 50px; }\n.modal-header > button {\n    color: #ffffff;\n    opacity: 1; }\n.ng-valid[required], .ng-valid.required {\n  border-left: 5px solid #42A948;\n  /* green */ }\n.ng-invalid:not(form) {\n  border-left: 5px solid #cc0000;\n  /* red */ }\n.content {\n  padding: 1.7rem; }\n.form-control:focus {\n  box-shadow: 0 0 0 0.08rem rgba(0, 123, 255, 0.2); }\n.message-error {\n  margin-top: -1rem;\n  color: #cc0000;\n  font-size: 0.85rem; }\n.page-header-fixed {\n  position: fixed;\n  width: 100%;\n  z-index: 1000;\n  background: white;\n  margin-top: -22px;\n  padding-top: 25px;\n  margin-left: 30px; }\n.sp-container {\n  padding-top: 100px;\n  padding-left: 30px; }\n.sp-title {\n  color: #1756a6;\n  font-weight: bold;\n  font-size: 1.4rem; }\n.info-breadcrumbs {\n  margin-top: 80px;\n  margin-left: 3%; }\n.info-breadcrumbs .header-body {\n    width: 100%;\n    background: #ffffff;\n    box-shadow: -2px 5px 5px -5px rgba(0, 0, 0, 0.5); }\n.info-breadcrumbs .header-body .link {\n      color: #1756a6;\n      padding-left: 0px; }\n.info-breadcrumbs .header-body .breadcrumb {\n      background-color: transparent;\n      border-radius: 0px;\n      border-bottom: 0px;\n      padding-top: 0px;\n      padding-bottom: 0px; }\n.info-breadcrumbs .header-body h4 {\n      padding-left: 15px; }\n.padding-detail {\n  padding: 10px 40px 10px 40px; }\n.padding-detail .card {\n    background: #ffffff;\n    padding: 2em;\n    line-height: 1.5em; }\n.padding-detail .card .main-info {\n      text-align: center; }\n.padding-detail .card .main-info .img-color {\n        border-radius: 35px; }\n@media screen and (min-width: 997px) {\n  .wrapper {\n    display: flex;\n    margin-bottom: 10px; } }\n.tab-content {\n  overflow: hidden; }\n.tab-content img {\n  width: 100%;\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .3s; }\n.preview {\n  display: flex;\n  flex-direction: column; }\n@media screen and (max-width: 996px) {\n  .preview {\n    margin-bottom: 20px; }\n  .margin-button {\n    margin-bottom: 3%; } }\n.margin-button {\n  margin-right: 2%; }\n.ng-select {\n  width: 100%; }\n.preview-pic {\n  flex-grow: 1; }\n.preview-pic #pic-1 img {\n    height: 15em;\n    width: 25em;\n    border-radius: 12px; }\n.preview-pic > div:nth-child(2) {\n    margin-top: 10px; }\n.product-title,\n.price,\n.sizes,\n.colors {\n  text-transform: UPPERCASE;\n  font-weight: bold; }\n.product-title {\n  margin-top: 0; }\n.header {\n  padding-left: 1em;\n  margin-bottom: 10px; }\n.header .custom-control {\n    margin-bottom: 1em; }\n.header .quantity {\n    padding-left: 2em; }\n.header-params {\n  margin-bottom: 10px; }\n.materials {\n  display: flex; }\n.materials > div:nth-child(1) {\n    margin-right: 100px; }\n.align-radio {\n  min-width: 195px; }\n.label-radio {\n  min-width: 75px; }\n.product-info {\n  padding-top: 2em; }\n.product-info .item-properties img {\n    width: 30px;\n    cursor: pointer; }\n.select-values {\n  padding-left: 0px; }\n.param-flex {\n  display: flex; }\n.param-power {\n  display: flex; }\n.card-body {\n  padding: 20px !important; }\nbody {\n  font-family: 'open sans';\n  overflow-x: hidden; }\nimg {\n  max-width: 100%; }\n.checked,\n.price span {\n  color: #ff9f1a; }\n.rating,\n.price,\n.vote {\n  margin-bottom: 15px; }\n.add-to-cart,\n.like {\n  background: #ff9f1a;\n  padding: 1.2em 1.5em;\n  border: none;\n  text-transform: UPPERCASE;\n  font-weight: bold;\n  color: #fff;\n  transition: background .3s ease; }\n.add-to-cart:hover,\n.like:hover {\n  background: #b36800;\n  color: #fff; }\n.not-available {\n  text-align: center;\n  line-height: 2em; }\n.buy-btns {\n  text-align: right; }\n.not-available:before {\n  font-family: fontawesome;\n  content: \"\\f00d\";\n  color: #fff; }\n.tooltip-inner {\n  padding: 1.3em; }\n@-webkit-keyframes opacity {\n  0% {\n    opacity: 0;\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    transform: scale(1); } }\n@keyframes opacity {\n  0% {\n    opacity: 0;\n    transform: scale(3); }\n  100% {\n    opacity: 1;\n    transform: scale(1); } }\n.fa-arrow-left {\n  margin-top: 10px; }\n.title {\n  font-weight: 600; }\n.info-content {\n  margin-left: 0px;\n  margin-bottom: 0px;\n  line-height: 30px; }\n.item-properties img {\n  width: 30px; }\n.check-steps {\n  display: flex; }\n.check-steps > input:nth-child(1) {\n    width: 20px;\n    height: 10px;\n    margin-left: 20px; }\n.content-steps .selection {\n  padding-right: 1.5rem;\n  padding-top: 30px; }\n.content-steps .steeps > div:nth-child(2) {\n  padding-left: 0; }\n.content-steps .sub-label {\n  padding-left: 25px; }\n.content-steps .sub-label .row {\n    padding-top: 5px;\n    padding-left: 15px; }\n.content-steps > div:nth-child(1) {\n  padding-left: 0; }\n.content-steps > div:nth-child(2) {\n  border-left: 1px solid #ccc; }\n.content-steps > div:nth-child(3) {\n  border-left: 1px solid #ccc; }\n.selected-double > div:nth-child(1) {\n  padding-right: 0px; }\n.selected-double > div:nth-child(2) {\n  padding-left: 2px; }\n.attachments {\n  padding: 20px 0;\n  width: 100%; }\n.custom-file-input {\n  cursor: pointer; }\n.custom-control-label::before {\n  border: solid 1px #c3c2c2; }\n.custom-control-label {\n  font-size: 0.9rem;\n  padding-left: -2%; }\n.page-header-fixed {\n  margin-left: 15px; }\n.padding-price {\n  padding-top: 1.1em;\n  font-weight: bold;\n  display: flex;\n  flex-direction: column; }\n.padding-price > span:nth-child(1) {\n    padding-bottom: 0.5em;\n    font-size: 16px; }\n.padding-price > span:nth-child(2) {\n    font-size: 12px;\n    color: gray; }\n.additional {\n  justify-content: flex-start;\n  margin-top: 10px; }\n.additional > p:nth-child(1) {\n    font-size: 15px;\n    color: green; }\n.prices {\n  -webkit-animation-name: opacity;\n  animation-name: opacity;\n  -webkit-animation-duration: .3s;\n  animation-duration: .6s;\n  padding-top: 10px; }\n.prices > p:nth-child(1) {\n    font-size: 26px;\n    font-weight: bold; }\n.message-error-file {\n  color: #cc0000;\n  font-size: 0.85rem; }\n.title-pupullary {\n  padding-left: 2rem; }\n/* NEW CODE EUROPA*/\n.padding-params {\n  padding-bottom: 10px; }\n.radio-custom {\n  display: flex;\n  flex-direction: row; }\n.radio-custom > span:nth-child(1) {\n    margin-right: 10px; }\n.radio-custom label {\n    font-weight: 300;\n    font-size: 14px; }\n.radio-custom > div {\n    margin-right: 30px; }\n.notch {\n  width: 40%; }\n.select-notch img {\n  border-radius: 0;\n  height: 130px;\n  opacity: 0.7;\n  width: 130px; }\n.select-notch img:hover {\n  border: 3px #007afe solid;\n  border-radius: 15px;\n  opacity: 1; }\n.selected-image {\n  border: 3px #8faab4 solid;\n  border-radius: 15px !important;\n  opacity: 1 !important; }\n.notch-lbl > label:nth-child(1) {\n  width: 50%; }\n.notch-lbl > label:nth-child(2),\n.notch-lbl > label:nth-child(3) {\n  margin-left: 2px;\n  width: 23%; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9lbGllemVyL1NQUy9TcGVjdHJ1bS9zcGVjdHJ1bS1mZS9zcmMvc3R5bGVzL3NwZWN0cnVtL21vZHVsZXMvX3RhYmxlcy5zY3NzIiwiL1VzZXJzL2VsaWV6ZXIvU1BTL1NwZWN0cnVtL3NwZWN0cnVtLWZlL3NyYy9zdHlsZXMvc3BlY3RydW0vbW9kdWxlcy9fY29sb3JzLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL3N0eWxlcy9zcGVjdHJ1bS9tb2R1bGVzL19idXR0b25zLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL3N0eWxlcy9zcGVjdHJ1bS9tb2R1bGVzL19tb2RhbHMuc2NzcyIsIi9Vc2Vycy9lbGllemVyL1NQUy9TcGVjdHJ1bS9zcGVjdHJ1bS1mZS9zcmMvc3R5bGVzL3NwZWN0cnVtL21vZHVsZXMvX2Zvcm1zLnNjc3MiLCIvVXNlcnMvZWxpZXplci9TUFMvU3BlY3RydW0vc3BlY3RydW0tZmUvc3JjL2FwcC9wcm9kdWN0cy9wcm9kdWN0LXZpZXctc21hcnRsZW5zL3Byb2R1Y3Qtdmlldy1zbWFydGxlbnMuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsb0JBQUE7QUFTQTtFQUNFLG1EQUFtRDtFQUNuRCxpRkFBeUUsRUFBQTtBQUYzRTtJQUtJLGFBQWE7SUFDYiw4QkFBOEI7SUFDOUIsbUJBQW1CO0lBQ25CLHlCQ2RjO0lEZWQsY0NoQmE7SURpQmIsZ0JBQWdCO0lBQ2hCLG1CQUFtQjtJQUNuQixpQkFBaUIsRUFBQTtBQVpyQjtNQWVNLDJCQUEyQixFQUFBO0FBS2pDO0VBR0ksZ0JBQWdCO0VBQ2hCLHVCQUF1QixFQUFBO0FBSjNCO0VBUUksYUFBYSxFQUFBO0FBSWpCO0VBRUksZUFBZSxFQUFBO0FBSW5CO0VBQ0UsZUFBZSxFQUFBO0FBR2pCO0VBQ0Usa0JBQWtCO0VBQ2xCLGFBQWE7RUFDYixnQkFBZ0I7RUFDaEIsY0FBYyxFQUFBO0FBR2hCO0VBQ0UsaUJBQWlCO0VBQ2pCLHlCQUF5QjtFQUN6QixnQkFBZ0IsRUFBQTtBQUdsQjtFQUNFLGlCQUFpQixFQUFBO0FBR25CO0VBQ0UsZ0JBQWdCO0VBQ2hCLGVBQWUsRUFBQTtBQUdqQjtFQUNFLGdCQUFnQjtFQUNoQixlQUFlLEVBQUE7QUFHakI7RUFDRSxnQkFBZ0I7RUFDaEIsZUFBZSxFQUFBO0FBR2pCO0VBQ0Usa0JBQWtCLEVBQUE7QUFHcEI7RUFDRSxnQkFBZ0I7RUFDaEIsZ0JBQWdCO0VBQ2hCLHVCQUF1QjtFQUN2QixtQkFBbUIsRUFBQTtBRTNGckI7RUFDRSxtQkRDZTtFQ0FmLGNEQ2dCLEVBQUE7QUNIbEI7SUFLSSxnQkFBZ0IsRUFBQTtBQUxwQjtJQVNJLG1CREhtQixFQUFBO0FDT3ZCO0VBQ0UsY0RaZTtFQ2FmLDZCQUE2QjtFQUM3QixzQkFBc0I7RUFDdEIsa0JBQWtCO0VBQ2xCLGtCQUFrQixFQUFBO0FBTHBCO0lBUUksZ0JBQWdCLEVBQUE7QUFLcEI7RUFDRSxlQUFlO0VBQ2Ysb0JBQW9CO0VBQ3BCLHFCQUFxQixFQUFBO0FBR3ZCO0VBQ0Usa0JBQWtCO0VBQ2xCLFNBQVM7RUFDVCxVQUFVO0VBQ1YscUJBQXFCO0VBQ3JCLG1DQUFtQztFQUNuQyw2QkFBNkI7RUFDN0Isa0NBQWtDO0VBQ2xDLHVDQUF1QztFQUN2QyxXQUFXLEVBQUE7QUFFWDtFQUNBLGtCQUFrQjtFQUNsQixTQUFTO0VBQ1QsVUFBVTtFQUNWLHFCQUFxQjtFQUNyQixtQ0FBbUM7RUFDbkMsZ0NEOUNnQjtFQytDaEIsa0NBQWtDO0VBQ2xDLFdBQVcsRUFBQTtBQUdYO0VBQ0UsbUJBQW1CLEVBQUE7QUN2RHZCO0VBQ0UseUJGQ2U7RUVBZixZQUFZO0VBQ1osNEJBQTRCO0VBQzVCLDJCQUEyQjtFQUMzQixtQkFBbUI7RUFDbkIsWUFBWSxFQUFBO0FBTmQ7SUFTSSxjRk5jO0lFT2QsVUFBVSxFQUFBO0FDVmQ7RUFDRSw4QkhhZ0I7RUdia0IsVUFBQSxFQUFXO0FBRy9DO0VBQ0UsOEJIR2M7RUdIa0IsUUFBQSxFQUFTO0FBRzNDO0VBQ0UsZUFBZSxFQUFBO0FBR2pCO0VBQ0UsZ0RBQWlELEVBQUE7QUFHbkQ7RUFDRSxpQkFBaUI7RUFDakIsY0hWYztFR1dkLGtCQUFrQixFQUFBO0FBR3BCO0VBQ0UsZUFBZTtFQUNmLFdBQVc7RUFDWCxhQUFhO0VBQ2IsaUJBQWlCO0VBQ2pCLGlCQUFpQjtFQUNqQixpQkFBaUI7RUFDakIsaUJBQWlCLEVBQUE7QUFHbkI7RUFDRSxrQkFBa0I7RUFDbEIsa0JBQWtCLEVBQUE7QUFHcEI7RUFDRSxjSHBDZTtFR3FDZixpQkFBaUI7RUFDakIsaUJBQWlCLEVBQUE7QUN2Q25CO0VBQ0UsZ0JBQWdCO0VBQ2hCLGVBQWUsRUFBQTtBQUZqQjtJQUtJLFdBQVc7SUFDWCxtQkpKYztJSUtkLGdEQUFnRCxFQUFBO0FBUHBEO01BVU0sY0pUVztNSVVYLGlCQUFpQixFQUFBO0FBWHZCO01BZU0sNkJBQTZCO01BQzdCLGtCQUFrQjtNQUVsQixrQkFBa0I7TUFDbEIsZ0JBQWdCO01BQ2hCLG1CQUFtQixFQUFBO0FBcEJ6QjtNQXdCTSxrQkFBa0IsRUFBQTtBQUt4QjtFQUNFLDRCQUE0QixFQUFBO0FBRDlCO0lBSUksbUJKTnNCO0lJT3RCLFlBQVk7SUFDWixrQkFBa0IsRUFBQTtBQU50QjtNQVNNLGtCQUFrQixFQUFBO0FBVHhCO1FBWVEsbUJBQW1CLEVBQUE7QUFNM0I7RUFDRTtJQUlFLGFBQWE7SUFDYixtQkFBbUIsRUFBQSxFQUNwQjtBQUdIO0VBQ0UsZ0JBQWdCLEVBQUE7QUFHbEI7RUFDRSxXQUFXO0VBQ1gsK0JBQStCO0VBQy9CLHVCQUF1QjtFQUN2QiwrQkFBK0I7RUFDL0IsdUJBQXVCLEVBQUE7QUFHekI7RUFJRSxhQUFhO0VBS2Isc0JBQXNCLEVBQUE7QUFHeEI7RUFDRTtJQUNFLG1CQUFtQixFQUFBO0VBR3JCO0lBQ0UsaUJBQWlCLEVBQUEsRUFDbEI7QUFJSDtFQUNFLGdCQUFnQixFQUFBO0FBR2xCO0VBQ0UsV0FBVyxFQUFBO0FBR2I7RUFJRSxZQUFZLEVBQUE7QUFKZDtJQVFNLFlBQVk7SUFDWixXQUFXO0lBQ1gsbUJBQW1CLEVBQUE7QUFWekI7SUFlSSxnQkFBZ0IsRUFBQTtBQUlwQjs7OztFQUlFLHlCQUF5QjtFQUN6QixpQkFBaUIsRUFBQTtBQUduQjtFQUNFLGFBQWEsRUFBQTtBQUdmO0VBQ0UsaUJBQWlCO0VBQ2pCLG1CQUFtQixFQUFBO0FBRnJCO0lBS0ksa0JBQWtCLEVBQUE7QUFMdEI7SUFTSSxpQkFBaUIsRUFBQTtBQUlyQjtFQUNFLG1CQUFtQixFQUFBO0FBR3JCO0VBQ0UsYUFBYSxFQUFBO0FBRGY7SUFJSSxtQkFBbUIsRUFBQTtBQUl2QjtFQUNFLGdCQUFnQixFQUFBO0FBR2xCO0VBQ0UsZUFBZSxFQUFBO0FBR2pCO0VBQ0UsZ0JBQWdCLEVBQUE7QUFEbEI7SUFLTSxXQUFXO0lBQ1gsZUFBZSxFQUFBO0FBS3JCO0VBQ0UsaUJBQWlCLEVBQUE7QUFHbkI7RUFDRSxhQUFhLEVBQUE7QUFHZjtFQUNFLGFBQWEsRUFBQTtBQUdmO0VBQ0Usd0JBQXdCLEVBQUE7QUFJMUI7RUFDRSx3QkFBd0I7RUFDeEIsa0JBQWtCLEVBQUE7QUFHcEI7RUFDRSxlQUFlLEVBQUE7QUFHakI7O0VBRUUsY0FBYyxFQUFBO0FBR2hCOzs7RUFHRSxtQkFBbUIsRUFBQTtBQUlyQjs7RUFFRSxtQkFBbUI7RUFDbkIsb0JBQW9CO0VBQ3BCLFlBQVk7RUFDWix5QkFBeUI7RUFDekIsaUJBQWlCO0VBQ2pCLFdBQVc7RUFFWCwrQkFBK0IsRUFBQTtBQUdqQzs7RUFFRSxtQkFBbUI7RUFDbkIsV0FBVyxFQUFBO0FBR2I7RUFDRSxrQkFBa0I7RUFDbEIsZ0JBQWdCLEVBQUE7QUFHbEI7RUFDRSxpQkFBaUIsRUFBQTtBQUVuQjtFQUNFLHdCQUF3QjtFQUN4QixnQkFBZ0I7RUFDaEIsV0FBVyxFQUFBO0FBR2I7RUFDRSxjQUFjLEVBQUE7QUFHaEI7RUFDRTtJQUNFLFVBQVU7SUFFVixtQkFBbUIsRUFBQTtFQUVyQjtJQUNFLFVBQVU7SUFFVixtQkFBbUIsRUFBQSxFQUFBO0FBSXZCO0VBQ0U7SUFDRSxVQUFVO0lBRVYsbUJBQW1CLEVBQUE7RUFFckI7SUFDRSxVQUFVO0lBRVYsbUJBQW1CLEVBQUEsRUFBQTtBQUl2QjtFQUNFLGdCQUFnQixFQUFBO0FBR2xCO0VBQ0UsZ0JBQWdCLEVBQUE7QUFHbEI7RUFDRSxnQkFBZ0I7RUFDaEIsa0JBQWtCO0VBQ2xCLGlCQUFpQixFQUFBO0FBSW5CO0VBRUksV0FBVyxFQUFBO0FBSWY7RUFDRSxhQUFhLEVBQUE7QUFEZjtJQUlJLFdBQVc7SUFDWCxZQUFZO0lBQ1osaUJBQWlCLEVBQUE7QUFJckI7RUFFSSxxQkFBcUI7RUFDckIsaUJBQWlCLEVBQUE7QUFIckI7RUFRTSxlQUFlLEVBQUE7QUFSckI7RUFhSSxrQkFBa0IsRUFBQTtBQWJ0QjtJQWdCTSxnQkFBZ0I7SUFDaEIsa0JBQWtCLEVBQUE7QUFqQnhCO0VBc0JJLGVBQWUsRUFBQTtBQXRCbkI7RUEwQkksMkJBQTJCLEVBQUE7QUExQi9CO0VBOEJJLDJCQUEyQixFQUFBO0FBSy9CO0VBRUksa0JBQWtCLEVBQUE7QUFGdEI7RUFLSSxpQkFBaUIsRUFBQTtBQUlyQjtFQUNFLGVBQWU7RUFDZixXQUFXLEVBQUE7QUFJYjtFQUNFLGVBQWUsRUFBQTtBQWFqQjtFQUNFLHlCQUF5QixFQUFBO0FBRzNCO0VBQ0UsaUJBQWlCO0VBQ2pCLGlCQUFpQixFQUFBO0FBRW5CO0VBQ0UsaUJBQWlCLEVBQUE7QUFHbkI7RUFDRSxrQkFBa0I7RUFDbEIsaUJBQWlCO0VBRWpCLGFBQWE7RUFDYixzQkFBc0IsRUFBQTtBQUx4QjtJQVFJLHFCQUFxQjtJQUNyQixlQUFlLEVBQUE7QUFUbkI7SUFhSSxlQUFlO0lBQ2YsV0FBVyxFQUFBO0FBSWY7RUFDRSwyQkFBMkI7RUFDM0IsZ0JBQWdCLEVBQUE7QUFGbEI7SUFJRSxlQUFlO0lBQ2YsWUFBWSxFQUFBO0FBSWQ7RUFDRSwrQkFBK0I7RUFDL0IsdUJBQXVCO0VBQ3ZCLCtCQUErQjtFQUMvQix1QkFBdUI7RUFDdkIsaUJBQWlCLEVBQUE7QUFMbkI7SUFPTSxlQUFlO0lBQ2YsaUJBQWlCLEVBQUE7QUFJdkI7RUFDRSxjQUFjO0VBQ2Qsa0JBQWtCLEVBQUE7QUFHcEI7RUFDRSxrQkFBa0IsRUFBQTtBQUdwQixtQkFBQTtBQUVBO0VBQ0Usb0JBQW9CLEVBQUE7QUFHdEI7RUFDRSxhQUFhO0VBQ2IsbUJBQW1CLEVBQUE7QUFGckI7SUFLSSxrQkFBa0IsRUFBQTtBQUx0QjtJQVNJLGdCQUFnQjtJQUNoQixlQUFlLEVBQUE7QUFWbkI7SUFjSSxrQkFBa0IsRUFBQTtBQUl0QjtFQUNFLFVBQVUsRUFBQTtBQUdaO0VBRUksZ0JBQWdCO0VBQ2hCLGFBQWE7RUFDYixZQUFZO0VBQ1osWUFBWSxFQUFBO0FBTGhCO0VBU0kseUJBQXlCO0VBQ3pCLG1CQUFtQjtFQUNuQixVQUFVLEVBQUE7QUFJZDtFQUNFLHlCQUF5QjtFQUN6Qiw4QkFBOEI7RUFDOUIscUJBQXFCLEVBQUE7QUFHdkI7RUFFSSxVQUFVLEVBQUE7QUFGZDs7RUFPSSxnQkFBZ0I7RUFDaEIsVUFDRixFQUFBIiwiZmlsZSI6InNyYy9hcHAvcHJvZHVjdHMvcHJvZHVjdC12aWV3LXNtYXJ0bGVucy9wcm9kdWN0LXZpZXctc21hcnRsZW5zLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogRGVmaW5lIHRyIHdpZHRoICovXG5AbWl4aW4gdHItc2l6ZXMoJGNlbGwtc2l6ZXMpIHtcbiAgQGZvciAkaSBmcm9tIDEgdGhyb3VnaCBsZW5ndGgoJGNlbGwtc2l6ZXMpIHtcbiAgICAudGFibGUtdHI6bnRoLWNoaWxkKCN7JGl9KSB7XG4gICAgICB3aWR0aDogbnRoKCRjZWxsLXNpemVzLCAkaSk7XG4gICAgfVxuICB9XG59XG5cbi5jYXJkIHtcbiAgYm9yZGVyOiAwLjVweCBzb2xpZCByZ2JhKDAsIDAsIDAsIDAuMTI1KSAhaW1wb3J0YW50OztcbiAgYm94LXNoYWRvdzogMCAycHggMnB4IHJnYmEoMCwwLDAsLjI0KSwgMCAwIDJweCByZ2JhKDAsMCwwLC4xMikgIWltcG9ydGFudDtcblxuICAuY2FyZC1oZWFkZXIge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogJGJnLXdoaXRlO1xuICAgIGNvbG9yOiAkYmctYmx1ZTtcbiAgICBmb250LXdlaWdodDogNjAwO1xuICAgIGJvcmRlci1ib3R0b206IG5vbmU7XG4gICAgZm9udC1zaXplOiAxLjNyZW07XG5cbiAgICAuY2FyZC1ib2R5IHtcbiAgICAgIG92ZXJmbG93LXk6IC13ZWJraXQtcGFnZWQteTtcbiAgICB9XG4gIH1cbn1cblxuLnRhYmxlIHtcblxuICA+dGhlYWQgPnRyID50aCA+dGQge1xuICAgIGJvcmRlci10b3A6IG5vbmU7XG4gICAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7XG4gIH1cblxuICA+dGJvZHkgPnRyOm50aC1sYXN0LWNoaWxkKDEpIHtcbiAgICBoZWlnaHQ6IDEwMHB4O1xuICB9XG59XG5cbi5oZWFkZXItY29sdW1uIHtcbiAgOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gIH1cbn1cblxuLmRyb3Bkb3duLWl0ZW0ge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi50YWJsZS1lbXB0eSB7XG4gIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgcGFkZGluZzogMjVweDtcbiAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgY29sb3I6ICM4YThhOGE7XG59XG5cbi5wYWdpbmF0aW9uLWxpc3Qge1xuICB0ZXh0LWFsaWduOiByaWdodDtcbiAgbGluZS1oZWlnaHQ6IDAgIWltcG9ydGFudDtcbiAgZm9udC13ZWlnaHQ6IDMwMDtcbn1cblxuLmNvdW50LWVsZW1lbnRzIHtcbiAgbWFyZ2luLXJpZ2h0OiAwcHg7XG59XG5cbi5mYS1zb3J0LXVwIHtcbiAgbWFyZ2luLWxlZnQ6IDVweDtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4uZmEtc29ydC1kb3duIHtcbiAgbWFyZ2luLWxlZnQ6IDVweDtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4uZmEtc29ydCB7XG4gIG1hcmdpbi1sZWZ0OiA1cHg7XG4gIGN1cnNvcjogcG9pbnRlcjtcbn1cblxuLm5vLXJlY29yZHMge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi50ZC10YWJsZXtcbiAgbWF4LXdpZHRoOiAxMDBweDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7XG4gIHdoaXRlLXNwYWNlOiBub3dyYXA7XG59XG4iLCIkYmctc2lkZWJhcjogIzQ5NDk0OTtcbiRiZy1uYXZiYXI6ICMyMjI7XG4kYmctYmx1ZTogIzE3NTZhNjtcbiRiZy13aGl0ZTogI2ZmZmZmZjtcbiRiZy10ZXh0LXNlbGVjdDogI2Y5MDtcbiRiZy1pdGVtLXNlbGVjdDogIzNjM2MzYztcbiRiZy1ibHVlLWhvdmVyOiAjMTg1ZWI5O1xuJGJnLWltcHV0OiAjY2VkNGRhO1xuJGJnLXJlZDogI2NjMDAwMDtcbiRiZy1ncmVlbjogIzQyQTk0ODtcbiRib3JkZXI6cmdiYSgwLCAwLCAwLCAwLjEyNSk7XG4kYm94LXNoYWRvdyA6IDJweCByZ2JhKDAsMCwwLC4yNCk7XG4kYm94LXNoYWRvdzE6cmdiYSgwLDAsMCwuMTIpO1xuJGNvbG9yLXRleHQtbWVudTojODY4ZTk2O1xuJGJnLWdyZWVuOiAjNDJBOTQ4O1xuJGJnLXRpdGxlLWNhcmQ6ICNmN2Y3Zjc7XG4kYm9yZGVyLWdyZXk6ICNkZWUyZTY7XG5cbi8vU1RBVFVTRVNcbiRwZW5kaW5nLXN0YXR1czogI0I3MUMxQztcbiRhdXRob3JpemVkLXN0YXR1czogIzRBMTQ4QztcbiRwcm9jZXNzZWQtc3RhdHVzOiAjRkY2RjAwO1xuJHBhaWQtc3RhdHVzOiAjMUI1RTIwO1xuJHNlbnQtc3RhdHVzOiAjMDE1NzlCO1xuJGNhbmNlbC1zdGF0dXM6ICMzMzMzMzU7XG5cblxuJHNlY29uZGFyeS1pbmZvOiM4NjhlOTY7XG4kYmctcHJvZHVjdC1kZXRhaWw6I2ZmZmZmZjtcbiRpbmZvLXNlcGFyYXRvcjpyZ2JhKDAsIDAsIDAsIDAuMSk7XG4kaWNvbi1lZGl0LWRldGFpbDojMTc1NmE2O1xuJGVycm9yLXF1YW50aXR5OnJlZDtcbiRtZXNzYWdlLXF1YW50aXR5OiMwMDgwMDA7XG4iLCIuYnRuLW1haW4ge1xuICBiYWNrZ3JvdW5kOiAkYmctYmx1ZTtcbiAgY29sb3I6ICRiZy13aGl0ZTtcblxuICAmOmZvY3VzIHtcbiAgICBib3gtc2hhZG93OiBub25lO1xuICB9XG5cbiAgJjpob3ZlciB7XG4gICAgYmFja2dyb3VuZDogJGJnLWJsdWUtaG92ZXI7XG4gIH1cbn1cblxuLmJ0bi1kcm9wZG93bi1tYWluIHtcbiAgY29sb3I6ICRiZy1ibHVlO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDtcbiAgYmFja2dyb3VuZC1pbWFnZTogbm9uZTtcbiAgYm9yZGVyLWNvbG9yOiBub25lO1xuICBib3JkZXItcmFkaXVzOiAycHg7XG5cbiAgJjpmb2N1cyB7XG4gICAgYm94LXNoYWRvdzogbm9uZTtcbiAgfVxuXG59XG5cbi5kcm9wZG93bi1tZW51IHtcbiAgbWluLXdpZHRoOiA3cmVtO1xuICB0b3A6IDI4cHggIWltcG9ydGFudDtcbiAgbGVmdDogMTBweCAhaW1wb3J0YW50O1xufVxuXG4uZHJvcGRvd24tbWVudTo6YmVmb3JlIHtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IC03cHg7XG4gIGxlZnQ6IDU5cHg7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgYm9yZGVyLXJpZ2h0OiA3cHggc29saWQgdHJhbnNwYXJlbnQ7XG4gIGJvcmRlci1ib3R0b206IDdweCBzb2xpZCAjQ0NDO1xuICBib3JkZXItbGVmdDogN3B4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBib3JkZXItYm90dG9tLWNvbG9yOiByZ2JhKDAsIDAsIDAsIDAuMik7XG4gIGNvbnRlbnQ6ICcnO1xuICB9XG4gIC5kcm9wZG93bi1tZW51OjphZnRlciB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAtNnB4O1xuICBsZWZ0OiA2MHB4O1xuICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gIGJvcmRlci1yaWdodDogNnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBib3JkZXItYm90dG9tOiA2cHggc29saWQgJGJnLXdoaXRlO1xuICBib3JkZXItbGVmdDogNnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuICBjb250ZW50OiAnJztcbiAgfVxuXG4gIC5idG4uZGlzYWJsZWQsIC5idG46ZGlzYWJsZWQge1xuICAgIGN1cnNvcjogbm90LWFsbG93ZWQ7XG59XG4iLCIubW9kYWwtaGVhZGVyIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogJGJnLWJsdWU7XG4gIGNvbG9yOiAjZmZmZjtcbiAgYm9yZGVyLXRvcC1yaWdodC1yYWRpdXM6IDJweDtcbiAgYm9yZGVyLXRvcC1sZWZ0LXJhZGl1czogMnB4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBoZWlnaHQ6IDUwcHg7XG5cbiAgPmJ1dHRvbiB7XG4gICAgY29sb3I6ICRiZy13aGl0ZTtcbiAgICBvcGFjaXR5OiAxO1xuICB9XG59IiwiLm5nLXZhbGlkW3JlcXVpcmVkXSwgLm5nLXZhbGlkLnJlcXVpcmVkICB7XG4gIGJvcmRlci1sZWZ0OiA1cHggc29saWQgJGJnLWdyZWVuOyAvKiBncmVlbiAqL1xufVxuXG4ubmctaW52YWxpZDpub3QoZm9ybSkgIHtcbiAgYm9yZGVyLWxlZnQ6IDVweCBzb2xpZCAkYmctcmVkOyAvKiByZWQgKi9cbn1cblxuLmNvbnRlbnQge1xuICBwYWRkaW5nOiAxLjdyZW07XG59XG5cbi5mb3JtLWNvbnRyb2w6Zm9jdXMge1xuICBib3gtc2hhZG93OiAwIDAgMCAwLjA4cmVtIHJnYmEoMCwgMTIzLCAyNTUsIDAuMjApO1xufVxuXG4ubWVzc2FnZS1lcnJvciB7XG4gIG1hcmdpbi10b3A6IC0xcmVtO1xuICBjb2xvcjogJGJnLXJlZDtcbiAgZm9udC1zaXplOiAwLjg1cmVtO1xufVxuXG4ucGFnZS1oZWFkZXItZml4ZWQge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIHdpZHRoOiAxMDAlO1xuICB6LWluZGV4OiAxMDAwO1xuICBiYWNrZ3JvdW5kOiB3aGl0ZTtcbiAgbWFyZ2luLXRvcDogLTIycHg7XG4gIHBhZGRpbmctdG9wOiAyNXB4O1xuICBtYXJnaW4tbGVmdDogMzBweDtcbn1cblxuLnNwLWNvbnRhaW5lciB7XG4gIHBhZGRpbmctdG9wOiAxMDBweDtcbiAgcGFkZGluZy1sZWZ0OiAzMHB4O1xufVxuXG4uc3AtdGl0bGUge1xuICBjb2xvcjogJGJnLWJsdWU7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBmb250LXNpemU6IDEuNHJlbTtcbn1cblxuIiwiQGltcG9ydCAnLi4vLi4vLi4vc3R5bGVzL3NwZWN0cnVtL3NwZWN0cnVtJztcbi5pbmZvLWJyZWFkY3J1bWJzIHtcbiAgbWFyZ2luLXRvcDogODBweDtcbiAgbWFyZ2luLWxlZnQ6IDMlO1xuXG4gIC5oZWFkZXItYm9keSB7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgYmFja2dyb3VuZDogJGJnLXdoaXRlO1xuICAgIGJveC1zaGFkb3c6IC0ycHggNXB4IDVweCAtNXB4IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAgIC5saW5rIHtcbiAgICAgIGNvbG9yOiAkYmctYmx1ZTtcbiAgICAgIHBhZGRpbmctbGVmdDogMHB4O1xuICAgIH1cblxuICAgIC5icmVhZGNydW1iIHtcbiAgICAgIGJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50O1xuICAgICAgYm9yZGVyLXJhZGl1czogMHB4O1xuICAgICAgLy9wYWRkaW5nLWxlZnQ6IDE1cHg7XG4gICAgICBib3JkZXItYm90dG9tOiAwcHg7XG4gICAgICBwYWRkaW5nLXRvcDogMHB4O1xuICAgICAgcGFkZGluZy1ib3R0b206IDBweDtcbiAgICB9XG5cbiAgICBoNCB7XG4gICAgICBwYWRkaW5nLWxlZnQ6IDE1cHg7XG4gICAgfVxuICB9XG59XG5cbi5wYWRkaW5nLWRldGFpbCB7XG4gIHBhZGRpbmc6IDEwcHggNDBweCAxMHB4IDQwcHg7XG5cbiAgLmNhcmQge1xuICAgIGJhY2tncm91bmQ6ICRiZy1wcm9kdWN0LWRldGFpbDtcbiAgICBwYWRkaW5nOiAyZW07XG4gICAgbGluZS1oZWlnaHQ6IDEuNWVtO1xuXG4gICAgLm1haW4taW5mbyB7XG4gICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG5cbiAgICAgIC5pbWctY29sb3Ige1xuICAgICAgICBib3JkZXItcmFkaXVzOiAzNXB4O1xuICAgICAgfVxuICAgIH1cbiAgfVxufVxuXG5AbWVkaWEgc2NyZWVuIGFuZCAobWluLXdpZHRoOiA5OTdweCkge1xuICAud3JhcHBlciB7XG4gICAgZGlzcGxheTogLXdlYmtpdC1ib3g7XG4gICAgZGlzcGxheTogLXdlYmtpdC1mbGV4O1xuICAgIGRpc3BsYXk6IC1tcy1mbGV4Ym94O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgbWFyZ2luLWJvdHRvbTogMTBweDtcbiAgfVxufVxuXG4udGFiLWNvbnRlbnQge1xuICBvdmVyZmxvdzogaGlkZGVuO1xufVxuXG4udGFiLWNvbnRlbnQgaW1nIHtcbiAgd2lkdGg6IDEwMCU7XG4gIC13ZWJraXQtYW5pbWF0aW9uLW5hbWU6IG9wYWNpdHk7XG4gIGFuaW1hdGlvbi1uYW1lOiBvcGFjaXR5O1xuICAtd2Via2l0LWFuaW1hdGlvbi1kdXJhdGlvbjogLjNzO1xuICBhbmltYXRpb24tZHVyYXRpb246IC4zcztcbn1cblxuLnByZXZpZXcge1xuICBkaXNwbGF5OiAtd2Via2l0LWJveDtcbiAgZGlzcGxheTogLXdlYmtpdC1mbGV4O1xuICBkaXNwbGF5OiAtbXMtZmxleGJveDtcbiAgZGlzcGxheTogZmxleDtcbiAgLXdlYmtpdC1ib3gtb3JpZW50OiB2ZXJ0aWNhbDtcbiAgLXdlYmtpdC1ib3gtZGlyZWN0aW9uOiBub3JtYWw7XG4gIC13ZWJraXQtZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgLW1zLWZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG59XG5cbkBtZWRpYSBzY3JlZW4gYW5kIChtYXgtd2lkdGg6IDk5NnB4KSB7XG4gIC5wcmV2aWV3IHtcbiAgICBtYXJnaW4tYm90dG9tOiAyMHB4O1xuICB9XG5cbiAgLm1hcmdpbi1idXR0b24ge1xuICAgIG1hcmdpbi1ib3R0b206IDMlO1xuICB9XG5cbn1cblxuLm1hcmdpbi1idXR0b24ge1xuICBtYXJnaW4tcmlnaHQ6IDIlO1xufVxuXG4ubmctc2VsZWN0e1xuICB3aWR0aDogMTAwJTtcbn1cblxuLnByZXZpZXctcGljIHtcbiAgLXdlYmtpdC1ib3gtZmxleDogMTtcbiAgLXdlYmtpdC1mbGV4LWdyb3c6IDE7XG4gIC1tcy1mbGV4LXBvc2l0aXZlOiAxO1xuICBmbGV4LWdyb3c6IDE7XG5cbiAgI3BpYy0xIHtcbiAgICBpbWcge1xuICAgICAgaGVpZ2h0OiAxNWVtO1xuICAgICAgd2lkdGg6IDI1ZW07XG4gICAgICBib3JkZXItcmFkaXVzOiAxMnB4O1xuICAgIH1cbiAgfVxuXG4gID5kaXY6bnRoLWNoaWxkKDIpIHtcbiAgICBtYXJnaW4tdG9wOiAxMHB4O1xuICB9XG59XG5cbi5wcm9kdWN0LXRpdGxlLFxuLnByaWNlLFxuLnNpemVzLFxuLmNvbG9ycyB7XG4gIHRleHQtdHJhbnNmb3JtOiBVUFBFUkNBU0U7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xufVxuXG4ucHJvZHVjdC10aXRsZSB7XG4gIG1hcmdpbi10b3A6IDA7XG59XG5cbi5oZWFkZXIge1xuICBwYWRkaW5nLWxlZnQ6IDFlbTtcbiAgbWFyZ2luLWJvdHRvbTogMTBweDtcblxuICAuY3VzdG9tLWNvbnRyb2wge1xuICAgIG1hcmdpbi1ib3R0b206IDFlbTtcbiAgfVxuXG4gIC5xdWFudGl0eSB7XG4gICAgcGFkZGluZy1sZWZ0OiAyZW07XG4gIH1cbn1cblxuLmhlYWRlci1wYXJhbXMge1xuICBtYXJnaW4tYm90dG9tOiAxMHB4O1xufVxuXG4ubWF0ZXJpYWxzIHtcbiAgZGlzcGxheTogZmxleDtcblxuICA+IGRpdjpudGgtY2hpbGQoMSkge1xuICAgIG1hcmdpbi1yaWdodDogMTAwcHg7XG4gIH1cbn1cblxuLmFsaWduLXJhZGlvIHtcbiAgbWluLXdpZHRoOiAxOTVweDtcbn1cblxuLmxhYmVsLXJhZGlvIHtcbiAgbWluLXdpZHRoOiA3NXB4O1xufVxuXG4ucHJvZHVjdC1pbmZvIHtcbiAgcGFkZGluZy10b3A6IDJlbTtcblxuICAuaXRlbS1wcm9wZXJ0aWVzIHtcbiAgICBpbWcge1xuICAgICAgd2lkdGg6IDMwcHg7XG4gICAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgfVxuICB9XG59XG5cbi5zZWxlY3QtdmFsdWVzIHtcbiAgcGFkZGluZy1sZWZ0OiAwcHg7XG59XG5cbi5wYXJhbS1mbGV4IHtcbiAgZGlzcGxheTogZmxleDtcbn1cblxuLnBhcmFtLXBvd2VyIHtcbiAgZGlzcGxheTogZmxleDtcbn1cblxuLmNhcmQtYm9keSB7XG4gIHBhZGRpbmc6IDIwcHggIWltcG9ydGFudDtcbn1cblxuLy9uZXdcbmJvZHkge1xuICBmb250LWZhbWlseTogJ29wZW4gc2Fucyc7XG4gIG92ZXJmbG93LXg6IGhpZGRlbjtcbn1cblxuaW1nIHtcbiAgbWF4LXdpZHRoOiAxMDAlO1xufVxuXG4uY2hlY2tlZCxcbi5wcmljZSBzcGFuIHtcbiAgY29sb3I6ICNmZjlmMWE7XG59XG5cbi5yYXRpbmcsXG4ucHJpY2UsXG4udm90ZSB7XG4gIG1hcmdpbi1ib3R0b206IDE1cHg7XG59XG5cblxuLmFkZC10by1jYXJ0LFxuLmxpa2Uge1xuICBiYWNrZ3JvdW5kOiAjZmY5ZjFhO1xuICBwYWRkaW5nOiAxLjJlbSAxLjVlbTtcbiAgYm9yZGVyOiBub25lO1xuICB0ZXh0LXRyYW5zZm9ybTogVVBQRVJDQVNFO1xuICBmb250LXdlaWdodDogYm9sZDtcbiAgY29sb3I6ICNmZmY7XG4gIC13ZWJraXQtdHJhbnNpdGlvbjogYmFja2dyb3VuZCAuM3MgZWFzZTtcbiAgdHJhbnNpdGlvbjogYmFja2dyb3VuZCAuM3MgZWFzZTtcbn1cblxuLmFkZC10by1jYXJ0OmhvdmVyLFxuLmxpa2U6aG92ZXIge1xuICBiYWNrZ3JvdW5kOiAjYjM2ODAwO1xuICBjb2xvcjogI2ZmZjtcbn1cblxuLm5vdC1hdmFpbGFibGUge1xuICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gIGxpbmUtaGVpZ2h0OiAyZW07XG59XG5cbi5idXktYnRucyB7XG4gIHRleHQtYWxpZ246IHJpZ2h0O1xufVxuLm5vdC1hdmFpbGFibGU6YmVmb3JlIHtcbiAgZm9udC1mYW1pbHk6IGZvbnRhd2Vzb21lO1xuICBjb250ZW50OiBcIlxcZjAwZFwiO1xuICBjb2xvcjogI2ZmZjtcbn1cblxuLnRvb2x0aXAtaW5uZXIge1xuICBwYWRkaW5nOiAxLjNlbTtcbn1cblxuQC13ZWJraXQta2V5ZnJhbWVzIG9wYWNpdHkge1xuICAwJSB7XG4gICAgb3BhY2l0eTogMDtcbiAgICAtd2Via2l0LXRyYW5zZm9ybTogc2NhbGUoMyk7XG4gICAgdHJhbnNmb3JtOiBzY2FsZSgzKTtcbiAgfVxuICAxMDAlIHtcbiAgICBvcGFjaXR5OiAxO1xuICAgIC13ZWJraXQtdHJhbnNmb3JtOiBzY2FsZSgxKTtcbiAgICB0cmFuc2Zvcm06IHNjYWxlKDEpO1xuICB9XG59XG5cbkBrZXlmcmFtZXMgb3BhY2l0eSB7XG4gIDAlIHtcbiAgICBvcGFjaXR5OiAwO1xuICAgIC13ZWJraXQtdHJhbnNmb3JtOiBzY2FsZSgzKTtcbiAgICB0cmFuc2Zvcm06IHNjYWxlKDMpO1xuICB9XG4gIDEwMCUge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgLXdlYmtpdC10cmFuc2Zvcm06IHNjYWxlKDEpO1xuICAgIHRyYW5zZm9ybTogc2NhbGUoMSk7XG4gIH1cbn1cblxuLmZhLWFycm93LWxlZnQge1xuICBtYXJnaW4tdG9wOiAxMHB4O1xufVxuXG4udGl0bGUge1xuICBmb250LXdlaWdodDogNjAwO1xufVxuXG4uaW5mby1jb250ZW50IHtcbiAgbWFyZ2luLWxlZnQ6IDBweDtcbiAgbWFyZ2luLWJvdHRvbTogMHB4O1xuICBsaW5lLWhlaWdodDogMzBweDtcblxufVxuXG4uaXRlbS1wcm9wZXJ0aWVzIHtcbiAgaW1nIHtcbiAgICB3aWR0aDogMzBweDtcbiAgfVxufVxuXG4uY2hlY2stc3RlcHMge1xuICBkaXNwbGF5OiBmbGV4O1xuXG4gID5pbnB1dDpudGgtY2hpbGQoMSkge1xuICAgIHdpZHRoOiAyMHB4O1xuICAgIGhlaWdodDogMTBweDtcbiAgICBtYXJnaW4tbGVmdDogMjBweDtcbiAgfVxufVxuXG4uY29udGVudC1zdGVwcyB7XG4gIC5zZWxlY3Rpb24ge1xuICAgIHBhZGRpbmctcmlnaHQ6IDEuNXJlbTtcbiAgICBwYWRkaW5nLXRvcDogMzBweDtcbiAgfVxuXG4gIC5zdGVlcHMge1xuICAgID4gZGl2Om50aC1jaGlsZCgyKSB7XG4gICAgICBwYWRkaW5nLWxlZnQ6IDA7XG4gICAgfVxuICB9XG5cbiAgLnN1Yi1sYWJlbCB7XG4gICAgcGFkZGluZy1sZWZ0OiAyNXB4O1xuXG4gICAgLnJvdyB7XG4gICAgICBwYWRkaW5nLXRvcDogNXB4O1xuICAgICAgcGFkZGluZy1sZWZ0OiAxNXB4O1xuICAgIH1cbiAgfVxuXG4gID4gZGl2Om50aC1jaGlsZCgxKSB7XG4gICAgcGFkZGluZy1sZWZ0OiAwO1xuICB9XG5cbiAgPiBkaXY6bnRoLWNoaWxkKDIpIHtcbiAgICBib3JkZXItbGVmdDogMXB4IHNvbGlkICNjY2M7XG4gIH1cblxuICA+IGRpdjpudGgtY2hpbGQoMykge1xuICAgIGJvcmRlci1sZWZ0OiAxcHggc29saWQgI2NjYztcbiAgfVxuXG59XG5cbi5zZWxlY3RlZC1kb3VibGUge1xuICA+ZGl2Om50aC1jaGlsZCgxKSB7XG4gICAgcGFkZGluZy1yaWdodDogMHB4O1xuICB9XG4gID5kaXY6bnRoLWNoaWxkKDIpIHtcbiAgICBwYWRkaW5nLWxlZnQ6IDJweDtcbiAgfVxufVxuXG4uYXR0YWNobWVudHMge1xuICBwYWRkaW5nOiAyMHB4IDA7XG4gIHdpZHRoOiAxMDAlO1xufVxuXG5cbi5jdXN0b20tZmlsZS1pbnB1dCB7XG4gIGN1cnNvcjogcG9pbnRlcjtcbiAgJGN1c3RvbS1maWxlLXRleHQ6IChcbiAgICBwbGFjZWhvbGRlcjogKFxuICAgICAgZW46IFwiQ2hvb3NlIGZpbGUuLi5cIixcbiAgICAgIGVzOiBcIlNlbGVjY2lvbmFyIGFyY2hpdm8uLi5cIlxuICAgICksXG4gICAgYnV0dG9uLWxhYmVsOiAoXG4gICAgICBlbjogXCJCcm93c2VcIixcbiAgICAgIGVzOiBcIk5hdmVnYXJcIlxuICAgIClcbiAgKTtcbn1cblxuLmN1c3RvbS1jb250cm9sLWxhYmVsOjpiZWZvcmUge1xuICBib3JkZXI6IHNvbGlkIDFweCAjYzNjMmMyO1xufVxuXG4uY3VzdG9tLWNvbnRyb2wtbGFiZWwge1xuICBmb250LXNpemU6IDAuOXJlbTtcbiAgcGFkZGluZy1sZWZ0OiAtMiU7XG59XG4ucGFnZS1oZWFkZXItZml4ZWQge1xuICBtYXJnaW4tbGVmdDogMTVweDtcbn1cblxuLnBhZGRpbmctcHJpY2Uge1xuICBwYWRkaW5nLXRvcDogMS4xZW07XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuXG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG5cbiAgPiBzcGFuOm50aC1jaGlsZCgxKSB7XG4gICAgcGFkZGluZy1ib3R0b206IDAuNWVtO1xuICAgIGZvbnQtc2l6ZTogMTZweDtcbiAgfVxuXG4gID4gc3BhbjpudGgtY2hpbGQoMikge1xuICAgIGZvbnQtc2l6ZTogMTJweDtcbiAgICBjb2xvcjogZ3JheTtcbiAgfVxufVxuXG4uYWRkaXRpb25hbCB7XG4gIGp1c3RpZnktY29udGVudDogZmxleC1zdGFydDtcbiAgbWFyZ2luLXRvcDogMTBweDtcbiAgPiBwOm50aC1jaGlsZCgxKSB7XG4gIGZvbnQtc2l6ZTogMTVweDtcbiAgY29sb3I6IGdyZWVuO1xuICB9XG59XG5cbi5wcmljZXMge1xuICAtd2Via2l0LWFuaW1hdGlvbi1uYW1lOiBvcGFjaXR5O1xuICBhbmltYXRpb24tbmFtZTogb3BhY2l0eTtcbiAgLXdlYmtpdC1hbmltYXRpb24tZHVyYXRpb246IC4zcztcbiAgYW5pbWF0aW9uLWR1cmF0aW9uOiAuNnM7XG4gIHBhZGRpbmctdG9wOiAxMHB4O1xuICAgID4gcDpudGgtY2hpbGQoMSkge1xuICAgICAgZm9udC1zaXplOiAyNnB4O1xuICAgICAgZm9udC13ZWlnaHQ6IGJvbGQ7XG4gICAgfVxufVxuXG4ubWVzc2FnZS1lcnJvci1maWxlIHtcbiAgY29sb3I6ICNjYzAwMDA7XG4gIGZvbnQtc2l6ZTogMC44NXJlbTtcbn1cblxuLnRpdGxlLXB1cHVsbGFyeXtcbiAgcGFkZGluZy1sZWZ0OiAycmVtO1xufVxuXG4vKiBORVcgQ09ERSBFVVJPUEEqL1xuXG4ucGFkZGluZy1wYXJhbXMge1xuICBwYWRkaW5nLWJvdHRvbTogMTBweDtcbn1cblxuLnJhZGlvLWN1c3RvbXtcbiAgZGlzcGxheTogZmxleDtcbiAgZmxleC1kaXJlY3Rpb246IHJvdztcblxuICA+IHNwYW46bnRoLWNoaWxkKDEpIHtcbiAgICBtYXJnaW4tcmlnaHQ6IDEwcHg7XG4gIH1cblxuICBsYWJlbCB7XG4gICAgZm9udC13ZWlnaHQ6IDMwMDtcbiAgICBmb250LXNpemU6IDE0cHg7XG4gIH1cblxuICA+IGRpdiB7XG4gICAgbWFyZ2luLXJpZ2h0OiAzMHB4O1xuICB9XG59XG5cbi5ub3RjaCB7XG4gIHdpZHRoOiA0MCU7XG59XG5cbi5zZWxlY3Qtbm90Y2gge1xuICBpbWcge1xuICAgIGJvcmRlci1yYWRpdXM6IDA7XG4gICAgaGVpZ2h0OiAxMzBweDtcbiAgICBvcGFjaXR5OiAwLjc7XG4gICAgd2lkdGg6IDEzMHB4O1xuICB9XG5cbiAgaW1nOmhvdmVyIHtcbiAgICBib3JkZXI6IDNweCAjMDA3YWZlIHNvbGlkO1xuICAgIGJvcmRlci1yYWRpdXM6IDE1cHg7XG4gICAgb3BhY2l0eTogMTtcbiAgfVxufVxuXG4uc2VsZWN0ZWQtaW1hZ2Uge1xuICBib3JkZXI6IDNweCAjOGZhYWI0IHNvbGlkO1xuICBib3JkZXItcmFkaXVzOiAxNXB4ICFpbXBvcnRhbnQ7XG4gIG9wYWNpdHk6IDEgIWltcG9ydGFudDtcbn1cblxuLm5vdGNoLWxibCB7XG4gID4gbGFiZWw6bnRoLWNoaWxkKDEpIHtcbiAgICB3aWR0aDogNTAlO1xuICB9XG5cbiAgPiBsYWJlbDpudGgtY2hpbGQoMiksXG4gID4gbGFiZWw6bnRoLWNoaWxkKDMpIHtcbiAgICBtYXJnaW4tbGVmdDogMnB4O1xuICAgIHdpZHRoOiAyMyVcbiAgfVxufVxuIl19 */"
+
+/***/ }),
+
+/***/ "./src/app/products/product-view-smartlens/product-view-smartlens.component.ts":
+/*!*************************************************************************************!*\
+  !*** ./src/app/products/product-view-smartlens/product-view-smartlens.component.ts ***!
+  \*************************************************************************************/
+/*! exports provided: ProductViewSmartlensComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductViewSmartlensComponent", function() { return ProductViewSmartlensComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/models/fileproductrequested */ "./src/app/shared/models/fileproductrequested.ts");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/services/products/product.service */ "./src/app/shared/services/products/product.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _http_user_storage_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../http/user-storage.service */ "./src/app/http/user-storage.service.ts");
+/* harmony import */ var _shared_services_basket_basket_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../shared/services/basket/basket.service */ "./src/app/shared/services/basket/basket.service.ts");
+/* harmony import */ var _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../shared/services/shippingAddress/shipping-address.service */ "./src/app/shared/services/shippingAddress/shipping-address.service.ts");
+/* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../shared/services/alertify/alertify.service */ "./src/app/shared/services/alertify/alertify.service.ts");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../shared/models/basketrequest */ "./src/app/shared/models/basketrequest.ts");
+/* harmony import */ var _shared_models_productrequested__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../shared/models/productrequested */ "./src/app/shared/models/productrequested.ts");
+/* harmony import */ var _shared_models_product__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../shared/models/product */ "./src/app/shared/models/product.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _modals_confirmation_buy_confirmation_smartlens_confirmation_smartlens_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component */ "./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var URL = _environments_environment__WEBPACK_IMPORTED_MODULE_19__["environment"].apiUrl + 'fileProductRequested/uploader';
+var ProductViewSmartlensComponent = /** @class */ (function () {
+    function ProductViewSmartlensComponent(productService, route, userStorageService, basketService, shippingAddressService, userService, modalService, router, alertify, notification, translate, spinner) {
+        var _this = this;
+        this.productService = productService;
+        this.route = route;
+        this.userStorageService = userStorageService;
+        this.basketService = basketService;
+        this.shippingAddressService = shippingAddressService;
+        this.userService = userService;
+        this.modalService = modalService;
+        this.router = router;
+        this.alertify = alertify;
+        this.notification = notification;
+        this.translate = translate;
+        this.spinner = spinner;
+        this.products = new Array;
+        this.quantity = 1;
+        this.productsSelected = new Array;
+        this.basketRequestModal = new _shared_models_basketrequest__WEBPACK_IMPORTED_MODULE_16__["BasketRequest"]();
+        this.listCustomers = new Array;
+        this.listCustomersAux = new Array;
+        this.queueLimit = 5;
+        this.maxFileSize = 25 * 1024 * 1024; // 25 MB
+        this.listFileBasket = new Array;
+        this.listFileLeftEye = new Array;
+        this.listFileRightEye = new Array;
+        this.uploadResultLeftEye = null;
+        this.uploadResultRightEye = null;
+        this.typeOrder = 'new';
+        this.uploaderLeftEye = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_2__["FileUploader"]({ url: URL,
+            itemAlias: 'files',
+            queueLimit: this.queueLimit,
+            maxFileSize: this.maxFileSize,
+            removeAfterUpload: false,
+            authToken: this.userStorageService.getToke(),
+            autoUpload: false });
+        this.uploaderRightEye = new ng2_file_upload__WEBPACK_IMPORTED_MODULE_2__["FileUploader"]({ url: URL,
+            itemAlias: 'files',
+            queueLimit: this.queueLimit,
+            maxFileSize: this.maxFileSize,
+            removeAfterUpload: false,
+            authToken: this.userStorageService.getToke(),
+            autoUpload: false });
+        this.currentUser = JSON.parse(userStorageService.getCurrentUser()).userResponse;
+        this.user = JSON.parse(userStorageService.getCurrentUser());
+        this.uploaderLeftEye.onAfterAddingFile = function (item) {
+            var maxSize = _this.maxFilesSize('Left');
+            if (maxSize > _this.maxFileSize) {
+                _this.removeFile(item, 'Left');
+                _this.translate.get('Exceeds the maximum size allowed', { value: 'Exceeds the maximum size allowed' }).subscribe(function (res) {
+                    _this.notification.error('', res);
+                });
+            }
+        };
+        this.uploaderLeftEye.onSuccessItem = function (item, response, status, headers) {
+            _this.uploadResultLeftEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+            if (_this.uploadResultLeftEye) {
+                _this.buildFileProductRequested('Left');
+            }
+        };
+        this.uploaderLeftEye.onErrorItem = function (item, response, status, headers) {
+            _this.uploadResultLeftEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+        };
+        this.uploaderRightEye.onAfterAddingFile = function (item) {
+            var maxSize = _this.maxFilesSize('Right');
+            if (maxSize > _this.maxFileSize) {
+                _this.removeFile(item, 'Right');
+                _this.translate.get('Exceeds the maximum size allowed', { value: 'Exceeds the maximum size allowed' }).subscribe(function (res) {
+                    _this.notification.error('', res);
+                });
+            }
+        };
+        this.uploaderRightEye.onSuccessItem = function (item, response, status, headers) {
+            _this.uploadResultRightEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+            if (_this.uploadResultRightEye) {
+                _this.buildFileProductRequested('Right');
+            }
+        };
+        this.uploaderRightEye.onErrorItem = function (item, response, status, headers) {
+            _this.uploadResultRightEye = { 'success': true, 'item': item, 'response': response, 'status': status, 'headers': headers };
+        };
+    }
+    ProductViewSmartlensComponent.prototype.ngOnInit = function () {
+        this.getProducts();
+    };
+    ProductViewSmartlensComponent.prototype.getProducts = function () {
+        var _this = this;
+        this.spinner.show();
+        this.productService.findBySupplierInView$(14, true).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
+                _this.products = res.data;
+                _this.getOtherProducts();
+                _this.getProductView();
+                _this.spinner.hide();
+            }
+            else {
+                console.log(res.errors[0].detail);
+                _this.spinner.hide();
+            }
+        }, function (error) {
+            console.log('error', error);
+            _this.spinner.hide();
+        });
+    };
+    ProductViewSmartlensComponent.prototype.getOtherProducts = function () {
+        var _this = this;
+        this.productService.findBySupplierAndInViewAndCategory$(14, false, 10).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
+                _this.setInfoAdditionalPrices(res.data);
+                _this.setClient();
+                _this.setPrice();
+            }
+            else {
+                console.log(res.errors[0].detail);
+                _this.spinner.hide();
+            }
+        }, function (error) {
+            console.log('error', error);
+            _this.spinner.hide();
+        });
+    };
+    ProductViewSmartlensComponent.prototype.setInfoAdditionalPrices = function (data) {
+        var self = this;
+        this.productsAdditional = data;
+        this.product.infoAdditionalPrices = {
+            "name": "prices", "values": { "hydrapeg": {
+                    "gold": 0,
+                    "diamond": 0,
+                    "preferred": 0
+                },
+                "notch": {
+                    "gold": 0,
+                    "diamond": 0,
+                    "preferred": 0
+                },
+                "dmv insertion and removal set": {
+                    "gold": 0,
+                    "diamond": 0,
+                    "preferred": 0
+                }
+            }
+        };
+        lodash__WEBPACK_IMPORTED_MODULE_15__["each"](this.productsAdditional, function (product) {
+            var name = product.name.toLowerCase();
+            self.product.infoAdditionalPrices.values[name] = {
+                "gold": product.price1,
+                "diamond": product.price2,
+                "preferred": product.price3
+            };
+        });
+    };
+    ProductViewSmartlensComponent.prototype.getProductView = function () {
+        this.id = +this.route.snapshot.paramMap.get('id');
+        this.product = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.products, { idProduct: this.id });
+        this.product.eyeRight = false;
+        this.product.eyeLeft = false;
+        this.product.priceSale = '';
+        // DMV
+        this.product.dmv = JSON.parse(this.product.types)[0].dmv;
+        // Eye Right
+        this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
+        this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+        this.designRight = JSON.parse(this.product.types)[0].design;
+        this.product.quantityRight = 1;
+        this.product.materialsRight = JSON.parse(this.product.types)[0].materials;
+        this.product.hydrapegRight = JSON.parse(this.product.types)[0].hydrapeg;
+        this.setParameterDefaultValue(this.product.parametersRight);
+        this.changeTypeLens('right', 'Design by laboratory');
+        this.changeDesign('right', 'Sph');
+        // Eye Left
+        this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+        this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+        this.designLeft = JSON.parse(this.product.types)[0].design;
+        this.product.quantityLeft = 1;
+        this.product.materialsLeft = JSON.parse(this.product.types)[0].materials;
+        this.product.hydrapegLeft = JSON.parse(this.product.types)[0].hydrapeg;
+        this.setParameterDefaultValue(this.product.parametersLeft);
+        this.changeTypeLens('left', 'Design by laboratory');
+        this.changeDesign('left', 'Sph');
+    };
+    ProductViewSmartlensComponent.prototype.setParameterDefaultValue = function (parameters) {
+        var self = this;
+        lodash__WEBPACK_IMPORTED_MODULE_15__["each"](parameters || [], function (parameter) {
+            var parameterValues = lodash__WEBPACK_IMPORTED_MODULE_15__["uniq"](parameter.values || []);
+            if (parameterValues.length === 1) {
+                parameter.selected = parameterValues[0];
+            }
+        });
+    };
+    ProductViewSmartlensComponent.prototype.setClient = function () {
+        var _this = this;
+        if (this.user.role.idRole === 3) {
+            this.client = this.currentUser.idUser;
+            var accSpct = !!this.currentUser.accSpct ? this.currentUser.accSpct + ' - ' : '';
+            this.product.client = accSpct + this.currentUser.name + ' | ' + this.currentUser.country.name;
+            this.findShippingAddress(this.client);
+        }
+        else if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+            this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(function (res) {
+                if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
+                    _this.listCustomersAux = res.data;
+                    _this.listCustomers = _this.listCustomersAux;
+                    _this.listCustomers.map(function (i) {
+                        var accSpct = !!i.accSpct ? i.accSpct + ' - ' : '';
+                        i.fullName = accSpct + i.name + ' | ' + i.country.name;
+                        return i;
+                    });
+                }
+            });
+        }
+    };
+    ProductViewSmartlensComponent.prototype.priceSaleTotal = function () {
+        this.getPricePersonalized('right');
+        this.getPricePersonalized('left');
+        return (this.product.priceSaleRight || 0) + (this.product.priceSaleLeft || 0);
+    };
+    ProductViewSmartlensComponent.prototype.getPricePersonalized = function (eye) {
+        var parameters = eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
+        // Finding Diameter
+        var diameter = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](parameters, { name: 'Diameter (mm)' });
+        if (diameter) {
+            if (lodash__WEBPACK_IMPORTED_MODULE_15__["includes"](["15.00"], diameter.selected)) {
+                if (eye === 'right') {
+                    this.product.codeRight = '200A';
+                    this.product.priceSaleRight = this.pricePersonalizedByMembership(diameter);
+                }
+                else {
+                    this.product.codeLeft = '200A';
+                    this.product.priceSaleLeft = this.pricePersonalizedByMembership(diameter);
+                }
+            }
+            else if (lodash__WEBPACK_IMPORTED_MODULE_15__["includes"](["15.50", "16.50"], diameter.selected)) {
+                if (eye === 'right') {
+                    this.product.codeRight = '200B';
+                    this.product.priceSaleRight = this.pricePersonalizedByMembership(diameter);
+                }
+                else {
+                    this.product.codeLeft = '200B';
+                    this.product.priceSaleLeft = this.pricePersonalizedByMembership(diameter);
+                }
+            }
+        }
+    };
+    ProductViewSmartlensComponent.prototype.pricePersonalizedByMembership = function (param) {
+        if (param.name === 'Diameter (mm)') {
+            if (lodash__WEBPACK_IMPORTED_MODULE_15__["includes"](["15.00"], param.selected)) {
+                switch (this.membership) {
+                    case 1:
+                        return 110;
+                    case 2:
+                        return 100;
+                    case 3:
+                        return 100;
+                }
+            }
+            if (lodash__WEBPACK_IMPORTED_MODULE_15__["includes"](["15.50", "16.50"], param.selected)) {
+                switch (this.membership) {
+                    case 1:
+                        return 135;
+                    case 2:
+                        return 125;
+                    case 3:
+                        return 125;
+                }
+            }
+        }
+    };
+    ProductViewSmartlensComponent.prototype.setPrice = function () {
+        if (this.user.role.idRole === 3) {
+            this.membership = this.currentUser.membership.idMembership;
+            this.definePrice(this.membership);
+        }
+    };
+    ProductViewSmartlensComponent.prototype.findShippingAddress = function (idCliente) {
+        var _this = this;
+        this.shippingAddressService.findIdUser$(idCliente).subscribe(function (res) {
+            if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
+                _this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
+            }
+            else if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].notContent) {
+                _this.product.shippingAddress = '';
+                _this.translate.get('You must enter a main address in the shipping address module', { value: 'You must enter a main address in the shipping address module' }).subscribe(function (res) {
+                    _this.notification.warning('', res);
+                });
+            }
+            else {
+                _this.product.shippingAddress = '';
+            }
+        });
+    };
+    // Methods of View
+    ProductViewSmartlensComponent.prototype.getParams = function (eye) {
+        var design = eye === 'right' ? this.designRight : this.designLeft;
+        var typeLens = eye === 'right' ? this.typeLensRight : this.typeLensLeft;
+        var params = eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
+        if (design.selected === "Sph") {
+            params = lodash__WEBPACK_IMPORTED_MODULE_15__["filter"](params, function (param) {
+                // Remove params cylinder and axis when design is Sph.
+                return param.name !== 'Cylinder (D)' && param.name !== 'Axis Cylinder(º)' && param.name !== 'Position of axis rotation markers' && param.name !== 'Rotationally stable';
+            });
+        }
+        if (typeLens.selected === 'Final Design') {
+            params = lodash__WEBPACK_IMPORTED_MODULE_15__["filter"](params, function (param) {
+                // Excluding params design by laboratory
+                return param.name !== 'Over-refraction';
+            });
+        }
+        return params;
+    };
+    ProductViewSmartlensComponent.prototype.isDependent = function (param, eye) {
+        var parameters = eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
+        var eyeSelected = eye === 'right' ? this.product.eyeRight : this.product.eyeLeft;
+        // Finding Diameter
+        var diameter = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](parameters, { name: 'Diameter (mm)' });
+        // Finding Sag.
+        var sag = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](parameters, { name: 'Sag.' });
+        switch (param.name) {
+            case "Sag.":
+                return !eyeSelected || diameter.selected ? null : "Select Diameter (mm)";
+            case "Base Curve (mm)":
+            case "Power (D)":
+                return !eyeSelected || sag.selected ? null : "Select Sag.";
+            default:
+                return null;
+        }
+    };
+    ProductViewSmartlensComponent.prototype.onSelectedClient = function (clienteSelect) {
+        if (clienteSelect !== undefined) {
+            this.client = clienteSelect.idUser;
+            this.membership = clienteSelect.membership.idMembership;
+            this.findShippingAddress(this.client);
+            this.definePrice(clienteSelect.membership.idMembership);
+        }
+        else {
+            this.client = '';
+            this.product.shippingAddress = '';
+            this.membership = 0;
+            this.product.priceSale = '';
+        }
+    };
+    ProductViewSmartlensComponent.prototype.definePrice = function (membership) {
+        switch (membership) {
+            case 1:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
+                this.priceNotch = this.product.infoAdditionalPrices.values.notch.gold;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].gold;
+                break;
+            case 2:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
+                this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamond;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamond;
+                break;
+            case 3:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
+                this.priceNotch = this.product.infoAdditionalPrices.values.notch.preferred;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
+                break;
+        }
+    };
+    ProductViewSmartlensComponent.prototype.getAdditionalPrices = function (isIndividualPrice) {
+        var dmv = 0;
+        var notchRight = 0;
+        var hydrapegRight = 0;
+        var notchLeft = 0;
+        var hydrapegLeft = 0;
+        // Finding DMV
+        if (this.product.dmv.selected === 'Yes') {
+            dmv = this.priceDMV;
+        }
+        // Finding Notch
+        var notch = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Notch (mm)' });
+        if (notch.selected !== '0x0' && notch.selected !== null) {
+            notchRight = this.priceNotch;
+        }
+        // Finding Hydrapeg
+        if (this.product.hydrapegRight.selected === "Yes") {
+            hydrapegRight = this.priceHydrapeg;
+        }
+        // Finding Notch
+        var notchL = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Notch (mm)' });
+        if (notchL.selected !== '0x0' && notchL.selected !== null) {
+            notchLeft = this.priceNotch;
+        }
+        // Finding Hydrapeg
+        if (this.product.hydrapegLeft.selected === "Yes") {
+            hydrapegLeft = this.priceHydrapeg;
+        }
+        if (isIndividualPrice) {
+            return { "dmv": (dmv || 0), "notchRight": notchRight, "notchLeft": notchLeft, "hydrapegRight": hydrapegRight, "hydrapegLeft": hydrapegLeft };
+        }
+        else {
+            return { "dmv": (dmv || 0),
+                "notch": (notchRight * (this.product.quantityRight || 0)) + (notchLeft * (this.product.quantityLeft || 0)),
+                "hydrapeg": (hydrapegRight * (this.product.quantityRight || 0)) + (hydrapegLeft * (this.product.quantityLeft || 0)) };
+        }
+    };
+    ProductViewSmartlensComponent.prototype.setValueEye = function (eye) {
+        if (eye === 'right') {
+            this.product.eyeRight = !this.product.eyeRight;
+            if (!this.product.eyeRight) {
+                this.clean('right');
+            }
+        }
+        else {
+            this.product.eyeLeft = !this.product.eyeLeft;
+            if (!this.product.eyeLeft) {
+                this.clean('left');
+            }
+        }
+    };
+    ProductViewSmartlensComponent.prototype.clean = function (eye) {
+        var parameters;
+        if (eye === 'right') {
+            parameters = this.product.parametersRight;
+            this.product.quantityRight = '';
+            this.product.observationsRight = '';
+            this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
+            this.designRight = JSON.parse(this.product.types)[0].design;
+            this.changeTypeLens('right', 'Design by laboratory');
+            this.changeMaterials("Contamac-Extra", 'right');
+        }
+        else {
+            parameters = this.product.parametersLeft;
+            this.product.quantityLeft = '';
+            this.product.observationsLeft = '';
+            this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
+            this.designLeft = JSON.parse(this.product.types)[0].design;
+            this.changeTypeLens('left', 'Design by laboratory');
+            this.changeMaterials("Contamac-Extra", 'left');
+        }
+        // parameter
+        lodash__WEBPACK_IMPORTED_MODULE_15__["each"](parameters, function (param) {
+            if (param.name === 'Over-refraction') {
+                param.selected = "With Vertex";
+            }
+            else if (param.values.length > 1 || param.type !== "selected") {
+                param.selected = null;
+            }
+        });
+        if (eye === 'right') {
+            this.product.parametersRight = parameters;
+        }
+        else {
+            this.product.parametersLeft = parameters;
+        }
+    };
+    ProductViewSmartlensComponent.prototype.changeDMV = function (value) {
+        this.product.dmv.selected = value;
+    };
+    ProductViewSmartlensComponent.prototype.changeMaterials = function (value, eye) {
+        switch (eye) {
+            ///////////////EYE RIGHT////////////////////
+            case 'right':
+                this.product.materialsRight.selected = value;
+                if (value !== 'Boston-XO') {
+                    this.product.hydrapegRight.selected = "No";
+                }
+                break;
+            ///////////////EYE LEFT////////////////////
+            case 'left':
+                this.product.materialsLeft.selected = value;
+                if (value !== 'Boston-XO') {
+                    this.product.hydrapegLeft.selected = "No";
+                }
+                break;
+        }
+    };
+    ProductViewSmartlensComponent.prototype.changeSelect = function (eye, parameter, value, value2) {
+        parameter.selected = value;
+        // Finding baseCurve
+        var baseCurve = null;
+        if (eye === "right") {
+            baseCurve = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Base Curve (mm)' });
+        }
+        else {
+            baseCurve = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Base Curve (mm)' });
+        }
+        // Finding power
+        var power = null;
+        if (eye === "right") {
+            power = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Power (D)' });
+        }
+        else {
+            power = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Power (D)' });
+        }
+        if (!power || !baseCurve) {
+            return;
+        }
+        if (parameter.name === "Diameter (mm)") {
+            // Finding Sag.
+            var sag = null;
+            if (eye === "right") {
+                sag = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Sag.' });
+            }
+            else {
+                sag = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Sag.' });
+            }
+            if (!sag) {
+                return;
+            }
+            sag.selected = null;
+            baseCurve.selected = null;
+            power.selected = null;
+            switch (parameter.selected) {
+                case "15.00":
+                    sag.values = ["3.400", "3.800"];
+                    break;
+                case "15.50":
+                    sag.values = ["3.200", "3.400", "3.600", "3.800", "4.000", "4.200", "4.800"];
+                    break;
+                case "16.50":
+                    sag.values = ["3.800", "4.000", "4.200", "4.400", "4.600", "4.800", "5.200"];
+                    break;
+            }
+        }
+        else if (parameter.name === "Sag.") {
+            // Finding Diameter.
+            var diameter = null;
+            if (eye === "right") {
+                diameter = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Diameter (mm)' });
+            }
+            else {
+                diameter = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Diameter (mm)' });
+            }
+            baseCurve.disabled = true;
+            power.disabled = true;
+            // Diameter 15.00
+            if (diameter.selected === "15.00") {
+                if (parameter.selected === "3.400") {
+                    baseCurve.selected = "8.65";
+                    power.selected = "3.00";
+                }
+                if (parameter.selected === "3.800") {
+                    baseCurve.selected = "8.04";
+                    power.selected = "0.00";
+                }
+            }
+            // Diameter 15.50
+            if (diameter.selected === "15.50") {
+                if (parameter.selected === "3.200") {
+                    baseCurve.selected = "8.65";
+                    power.selected = "4.00";
+                }
+                if (parameter.selected === "3.400") {
+                    baseCurve.selected = "8.65";
+                    power.selected = "3.00";
+                }
+                if (parameter.selected === "3.600") {
+                    baseCurve.selected = "8.45";
+                    power.selected = "2.00";
+                }
+                if (parameter.selected === "3.800") {
+                    baseCurve.selected = "8.04";
+                    power.selected = "0.00";
+                }
+                if (parameter.selected === "4.000") {
+                    baseCurve.selected = "7.50";
+                    power.selected = "-2.00";
+                }
+                if (parameter.selected === "4.200") {
+                    baseCurve.selected = "7.03";
+                    power.selected = "-4.00";
+                }
+                if (parameter.selected === "4.800") {
+                    baseCurve.selected = "6.75";
+                    power.selected = "-10.00";
+                }
+            }
+            // Diameter 16.50
+            if (diameter.selected === "16.50") {
+                if (parameter.selected === "3.800") {
+                    baseCurve.selected = "8.44";
+                    power.selected = "2.00";
+                }
+                if (parameter.selected === "4.000") {
+                    baseCurve.selected = "8.44";
+                    power.selected = "0.00";
+                }
+                if (parameter.selected === "4.200") {
+                    baseCurve.selected = "8.04";
+                    power.selected = "-2.00";
+                }
+                if (parameter.selected === "4.400") {
+                    baseCurve.selected = "8.04";
+                    power.selected = "-4.00";
+                }
+                if (parameter.selected === "4.600") {
+                    baseCurve.selected = "8.04";
+                    power.selected = "-6.00";
+                }
+                if (parameter.selected === "4.800") {
+                    baseCurve.selected = "8.04";
+                    power.selected = "-8";
+                }
+                if (parameter.selected === "5.200") {
+                    baseCurve.selected = "7.34";
+                    power.selected = "-12.00";
+                }
+            }
+        }
+    };
+    ProductViewSmartlensComponent.prototype.renameSphere = function (params, newName) {
+        lodash__WEBPACK_IMPORTED_MODULE_15__["each"](params, function (param, index) {
+            if (param.name === "Sphere (D)" || param.name === "Sphere (D) (final power)" || param.name === "Sphere (D) (add over-refraction)") {
+                params[index].name = newName;
+            }
+        });
+    };
+    ProductViewSmartlensComponent.prototype.changeTypeLens = function (eye, value) {
+        switch (eye) {
+            ///////////////EYE RIGHT////////////////////
+            case 'right':
+                this.typeLensRight.selected = value;
+                if (value === 'Final Design') {
+                    var overRefraction = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Over-refraction' });
+                    if (overRefraction) {
+                        overRefraction.selected = "With Vertex";
+                    }
+                    this.renameSphere(this.product.parametersRight, 'Sphere (D) (final power)');
+                }
+                else {
+                    this.renameSphere(this.product.parametersRight, 'Sphere (D) (add over-refraction)');
+                }
+                break;
+            ///////////////EYE LEFT////////////////////
+            case 'left':
+                this.typeLensLeft.selected = value;
+                if (value === 'Final Design') {
+                    var overRefraction = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Over-refraction' });
+                    if (overRefraction) {
+                        overRefraction.selected = "With Vertex";
+                    }
+                    this.renameSphere(this.product.parametersLeft, 'Sphere (D) (final power)');
+                }
+                else {
+                    this.renameSphere(this.product.parametersLeft, 'Sphere (D) (add over-refraction)');
+                }
+                break;
+        }
+    };
+    ProductViewSmartlensComponent.prototype.renameAddition = function (params, newName) {
+        lodash__WEBPACK_IMPORTED_MODULE_15__["each"](params, function (param, index) {
+            if (param.name === "Addition" || param.name === "Addition (MF Sph)" || param.name === "Addition (MF Bitoric)") {
+                params[index].name = newName;
+            }
+        });
+    };
+    ProductViewSmartlensComponent.prototype.changeDesign = function (eye, value) {
+        var params;
+        switch (eye) {
+            ///////////////EYE RIGHT////////////////////
+            case 'right':
+                this.designRight.selected = value;
+                params = this.product.parametersRight;
+                break;
+            ///////////////EYE LEFT////////////////////
+            case 'left':
+                this.designLeft.selected = value;
+                params = this.product.parametersLeft;
+                break;
+        }
+        if (value === 'Sph') {
+            var cylinder = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](params, { name: 'Cylinder (D)' });
+            if (cylinder) {
+                cylinder.selected = null;
+            }
+            var axisCylinder = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](params, { name: 'Axis Cylinder(º)' });
+            if (axisCylinder) {
+                axisCylinder.selected = null;
+            }
+            var axisRotationMarkers = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](params, { name: 'Position of axis rotation markers' });
+            if (axisRotationMarkers) {
+                axisRotationMarkers.selected = null;
+            }
+            this.renameAddition(params, 'Addition (MF Sph)');
+        }
+        if (value === 'Bitoric') {
+            this.renameAddition(params, 'Addition (MF Bitoric)');
+        }
+    };
+    ProductViewSmartlensComponent.prototype.formIsValid = function () {
+        var isValid = true;
+        var self = this;
+        if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+            return false;
+        }
+        if (this.product.eyeRight) {
+            // quantity
+            if (!this.product.quantityRight || !this.product.materialsRight) {
+                isValid = false;
+            }
+            // check params right
+            lodash__WEBPACK_IMPORTED_MODULE_15__["each"](this.getParams('right'), function (param) {
+                if (param.name === 'Notch (mm)') {
+                    if (param.values[0].selected === null || param.values[1].selected === null) {
+                        isValid = false;
+                    }
+                    if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !param.selectedNotchTime) {
+                        isValid = false;
+                    }
+                }
+                else if (param.name === "Axis (º)") {
+                    self.axisParam = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](self.product.parametersRight, { name: 'Notch (mm)' });
+                    if (!!self.axisParam.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
+                        isValid = false;
+                    }
+                }
+                else if (!param.noRequired && (param.selected === null || param.selected === undefined || param.selected === '')) {
+                    isValid = false;
+                }
+            });
+        }
+        if (this.product.eyeLeft) {
+            // quantity
+            if (!this.product.quantityLeft || !this.product.materialsLeft) {
+                isValid = false;
+            }
+            // check params left
+            lodash__WEBPACK_IMPORTED_MODULE_15__["each"](this.getParams('left'), function (param) {
+                if (param.name === 'Notch (mm)') {
+                    if (param.values[0].selected === null || param.values[1].selected === null) {
+                        isValid = false;
+                    }
+                    if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !param.selectedNotchTime) {
+                        isValid = false;
+                    }
+                }
+                else if (param.name === "Axis (º)") {
+                    self.axisParam = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](self.product.parametersLeft, { name: 'Notch (mm)' });
+                    if (!!self.axisParam.selectedNotchTime && (param.selected === null || param.selected === undefined)) {
+                        isValid = false;
+                    }
+                }
+                else if (!param.noRequired && (param.selected === null || param.selected === undefined || param.selected === '')) {
+                    isValid = false;
+                }
+            });
+        }
+        return isValid;
+    };
+    // Params notch and axis
+    ProductViewSmartlensComponent.prototype.setNotch = function (parameter) {
+        if (parameter.values[0].selected === null || parameter.values[1].selected === null) {
+            parameter.selected = '0x0';
+        }
+        else {
+            parameter.selected = parameter.values[0].selected + 'x' + parameter.values[1].selected;
+        }
+    };
+    ProductViewSmartlensComponent.prototype.changeNotchTime = function (eye, parameter, value) {
+        //validating change in notch time
+        var changedNotch = parameter.selectedNotchTime !== value;
+        parameter.selectedNotchTime = value;
+        switch (eye) {
+            case 'right':
+                this.notchRight.itemsList._items[0].label = value;
+                this.notchRight.itemsList._items[0].value = value;
+                // restart axis after change
+                if (changedNotch) {
+                    this.axisParam = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Axis (º)' });
+                    this.axisParam.selected = null;
+                }
+                break;
+            case 'left':
+                this.notchLeft.itemsList._items[0].label = value;
+                this.notchLeft.itemsList._items[0].value = value;
+                // restart axis after change
+                if (changedNotch) {
+                    this.axisParam = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Axis (º)' });
+                    this.axisParam.selected = null;
+                }
+                break;
+        }
+        //set null in values notch
+        if (parameter.values[0].selected === 0) {
+            parameter.values[0].selected = null;
+        }
+        if (parameter.values[1].selected === 0) {
+            parameter.values[1].selected = null;
+        }
+    };
+    ProductViewSmartlensComponent.prototype.validateSelectedNotch = function (parameter) {
+        if (parameter.selectedNotchTime === null) {
+            parameter.selected = null;
+            parameter.values[0].selected = 0;
+            parameter.values[1].selected = 0;
+        }
+    };
+    ProductViewSmartlensComponent.prototype.axisRequired = function (eye) {
+        switch (eye) {
+            case 'right':
+                this.notchParam = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Notch (mm)' });
+                return !!this.notchParam.selectedNotchTime;
+            case 'left':
+                this.notchParam = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Notch (mm)' });
+                return !!this.notchParam.selectedNotchTime;
+        }
+    };
+    ProductViewSmartlensComponent.prototype.axisValues = function (eye) {
+        switch (eye) {
+            case 'right':
+                this.notchParam = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Notch (mm)' });
+                this.axisParam = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Axis (º)' });
+                switch (this.notchParam.selectedNotchTime) {
+                    case 'Upper Temporal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_15__["range"](90, 181).toString().split(",");
+                    case 'Lower Temporal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_15__["range"](180, 271).toString().split(",");
+                    case 'Upper Nasal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_15__["range"](0, 91).toString().split(",");
+                    case 'Lower Nasal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_15__["range"](270, 361).toString().split(",");
+                    default:
+                        this.axisParam.selected = null;
+                        return [];
+                }
+            case 'left':
+                this.notchParam = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Notch (mm)' });
+                this.axisParam = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Axis (º)' });
+                switch (this.notchParam.selectedNotchTime) {
+                    case 'Upper Temporal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_15__["range"](90, 181).toString().split(",");
+                    case 'Lower Temporal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_15__["range"](180, 271).toString().split(",");
+                    case 'Upper Nasal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_15__["range"](0, 91).toString().split(",");
+                    case 'Lower Nasal':
+                        return lodash__WEBPACK_IMPORTED_MODULE_15__["range"](270, 361).toString().split(",");
+                    default:
+                        this.axisParam.selected = null;
+                        return [];
+                }
+        }
+    };
+    ProductViewSmartlensComponent.prototype.addToCart = function (type) {
+        this.type = type;
+        this.spinner.show();
+        this.saveFiles();
+        var productsRequested = [];
+        var productsSelected = this.buildProductsSelected();
+        lodash__WEBPACK_IMPORTED_MODULE_15__["each"](productsSelected, function (product) {
+            var productRequest = new _shared_models_productrequested__WEBPACK_IMPORTED_MODULE_17__["ProductRequested"]();
+            var productoSelect = new _shared_models_product__WEBPACK_IMPORTED_MODULE_18__["Product"]();
+            productoSelect.idProduct = product.id;
+            productRequest.product = productoSelect;
+            productRequest.quantity = product.quantity;
+            productRequest.codeSpectrum = product.codeSpectrum;
+            productRequest.name = product.name;
+            productRequest.price = product.price;
+            productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
+            productRequest.patient = product.patient;
+            productRequest.observations = product.observations;
+            productsRequested.push(productRequest);
+        });
+        this.basketRequestModal.idUser = this.client;
+        this.basketRequestModal.productRequestedList = productsRequested;
+        // this.basketRequestModal.fileProductRequestedList = this.listFileBasket;
+        // this.openModal(type);
+    };
+    ProductViewSmartlensComponent.prototype.getProductsAdditional = function (productSelected, type) {
+        var additionals = [];
+        // Type is basket (detail) and when is detail (productSelecte)
+        var eye = productSelected.eye || productSelected.detail.eye;
+        var keyDMV = 'dmv';
+        var keyNotch = eye === 'Right' ? "notchRight" : "notchLeft";
+        var keyHydrapeg = eye === 'Right' ? "hydrapegRight" : "hydrapegLeft";
+        var productDMV = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.productsAdditional, { name: "DMV Insertion and Removal Set" });
+        var productNotch = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.productsAdditional, { name: "Notch" });
+        var productHydrapeg = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.productsAdditional, { name: "Hydrapeg" });
+        if (this.getAdditionalPrices(true)[keyDMV]) {
+            var dmv = {
+                id: productDMV.idProduct,
+                name: productDMV.name,
+                price: this.getAdditionalPrices(true)[keyDMV],
+                quantity: productSelected.quantity,
+                patient: productSelected.patient,
+                codeSpectrum: productDMV.codeSpectrum,
+                detail: {}
+            };
+            if (type === 'basket') {
+                dmv.detail = productSelected.detail;
+            }
+            additionals.push(dmv);
+        }
+        if (this.getAdditionalPrices(true)[keyNotch]) {
+            var notch = {
+                id: productNotch.idProduct,
+                name: productNotch.name,
+                price: this.getAdditionalPrices(true)[keyNotch],
+                quantity: productSelected.quantity,
+                patient: productSelected.patient,
+                codeSpectrum: productNotch.codeSpectrum,
+                detail: {}
+            };
+            if (type === 'basket') {
+                notch.detail = productSelected.detail;
+            }
+            additionals.push(notch);
+        }
+        if (this.getAdditionalPrices(true)[keyHydrapeg]) {
+            var hydrapeg = {
+                id: productHydrapeg.idProduct,
+                name: productHydrapeg.name,
+                price: this.getAdditionalPrices(true)[keyHydrapeg],
+                quantity: productSelected.quantity,
+                patient: productSelected.patient,
+                codeSpectrum: productHydrapeg.codeSpectrum,
+                detail: {}
+            };
+            if (type === 'basket') {
+                hydrapeg.detail = productSelected.detail;
+            }
+            additionals.push(hydrapeg);
+        }
+        return additionals;
+    };
+    ProductViewSmartlensComponent.prototype.buildProductsSelected = function () {
+        var self = this;
+        this.setEyeSelected();
+        var product = JSON.parse(JSON.stringify(this.product));
+        var productsSelected = this.productsSelected;
+        lodash__WEBPACK_IMPORTED_MODULE_15__["each"](productsSelected, function (productSelected, index) {
+            productSelected.id = product.idProduct;
+            productSelected.patient = product.patient;
+            if (productSelected.eye === "Right") {
+                productSelected.quantity = product.quantityRight;
+                productSelected.price = product.priceSaleRight;
+                productSelected.codeSpectrum = product.codeRight;
+                productSelected.observations = product.observationsRight;
+                productSelected.typeLens = self.typeLensRight.selected;
+                /* Materials */
+                productSelected.materials = product.materialsRight.selected;
+                /* Hydrapeg */
+                productSelected.hydrapeg = product.hydrapegRight.selected;
+                /* design */
+                productSelected.design = self.designRight.selected;
+                /*params*/
+                lodash__WEBPACK_IMPORTED_MODULE_15__["each"](product.parametersRight, function (parameter, index) {
+                    if (parameter.name === 'Addition') {
+                        if (parameter.selected === null || parameter.selected === undefined) {
+                            parameter.selected = '';
+                        }
+                    }
+                    if (parameter.name === 'Notch (mm)') {
+                        if (!parameter.selectedNotchTime || (parameter.values[0].selected === 0 && parameter.values[1].selected === 0)) {
+                            product.parametersRight[index].selected = '0x0';
+                        }
+                        else {
+                            product.parametersRight[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + ' (' + parameter.selectedNotchTime + ')';
+                        }
+                    }
+                    product.parametersRight[index] = lodash__WEBPACK_IMPORTED_MODULE_15__["omit"](parameter, ['type', 'values', 'placeholder', 'disabled']);
+                });
+                productSelected.parameters = product.parametersRight;
+            }
+            if (productSelected.eye === "Left") {
+                productSelected.quantity = product.quantityLeft;
+                productSelected.price = product.priceSaleLeft;
+                productSelected.codeSpectrum = product.codeLeft;
+                productSelected.observations = product.observationsLeft;
+                productSelected.typeLens = self.typeLensLeft.selected;
+                /* Materials */
+                productSelected.materials = product.materialsLeft.selected;
+                /* Hydrapeg */
+                productSelected.hydrapeg = product.hydrapegLeft.selected;
+                /* design */
+                productSelected.design = self.designLeft.selected;
+                /*params*/
+                lodash__WEBPACK_IMPORTED_MODULE_15__["each"](product.parametersLeft, function (parameter, index) {
+                    if (parameter.name === 'Addition') {
+                        if (parameter.selected === null || parameter.selected === undefined) {
+                            parameter.selected = '';
+                        }
+                    }
+                    if (parameter.name === 'Notch (mm)') {
+                        if (!parameter.selectedNotchTime || (parameter.values[0].selected === 0 && parameter.values[1].selected === 0)) {
+                            product.parametersLeft[index].selected = '0x0';
+                        }
+                        else {
+                            product.parametersLeft[index].selected = parameter.values[0].selected + 'x' + parameter.values[1].selected + ' (' + parameter.selectedNotchTime + ')';
+                        }
+                    }
+                    product.parametersLeft[index] = lodash__WEBPACK_IMPORTED_MODULE_15__["omit"](parameter, ['type', 'values', 'placeholder', 'disabled']);
+                });
+                productSelected.parameters = product.parametersLeft;
+            }
+            productSelected.detail = { name: '', eye: productSelected.eye, codeSpectrum: productSelected.codeSpectrum, dmv: product.dmv, typeLens: productSelected.typeLens, materials: productSelected.materials, hydrapeg: productSelected.hydrapeg, design: productSelected.design, parameters: productSelected.parameters, productsAdditional: self.getProductsAdditional(productSelected, 'detail') };
+            productsSelected[index] = lodash__WEBPACK_IMPORTED_MODULE_15__["omit"](productSelected, ['parameters', 'eye', 'set']);
+        });
+        var requestedProducts = JSON.parse(JSON.stringify(productsSelected));
+        lodash__WEBPACK_IMPORTED_MODULE_15__["each"](productsSelected, function (p) {
+            lodash__WEBPACK_IMPORTED_MODULE_15__["each"](self.getProductsAdditional(p, 'basket'), function (additional) {
+                requestedProducts.push(additional);
+            });
+        });
+        return requestedProducts;
+    };
+    ProductViewSmartlensComponent.prototype.setEyeSelected = function () {
+        this.productsSelected = [];
+        if (this.product.eyeRight) {
+            this.productsSelected.push({ eye: 'Right' });
+        }
+        if (this.product.eyeLeft) {
+            this.productsSelected.push({ eye: 'Left' });
+        }
+    };
+    ProductViewSmartlensComponent.prototype.verifyOpenModal = function () {
+        if (this.uploaderRightEye.queue.length === this.listFileRightEye.length
+            && this.uploaderLeftEye.queue.length === this.listFileLeftEye.length) {
+            this.openModal(this.type);
+        }
+    };
+    ProductViewSmartlensComponent.prototype.openModal = function (type) {
+        var _this = this;
+        this.spinner.hide();
+        var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_smartlens_confirmation_smartlens_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationSmartlensComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
+        modalRef.componentInstance.datos = this.basketRequestModal;
+        modalRef.componentInstance.product = this.product;
+        modalRef.componentInstance.typeBuy = type;
+        modalRef.componentInstance.role = this.user.role.idRole;
+        modalRef.componentInstance.additionalDMV = this.getAdditionalPrices(false).dmv;
+        modalRef.componentInstance.additionalHydrapeg = this.getAdditionalPrices(false).hydrapeg;
+        modalRef.componentInstance.additionalNotch = this.getAdditionalPrices(false).notch;
+        modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
+        modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
+        modalRef.componentInstance.typeOrder = this.typeOrder;
+        modalRef.result.then(function (result) {
+            _this.ngOnInit();
+        }, function (reason) {
+        });
+    };
+    ProductViewSmartlensComponent.prototype.maxFilesSize = function (eye) {
+        var maxFileSize = 0;
+        if (eye === 'Right') {
+            if (this.uploaderRightEye.queue) {
+                lodash__WEBPACK_IMPORTED_MODULE_15__["each"](this.uploaderRightEye.queue, function (item) {
+                    maxFileSize = maxFileSize + item.file.size;
+                });
+            }
+        }
+        else if (eye === 'Left') {
+            if (this.uploaderLeftEye.queue) {
+                lodash__WEBPACK_IMPORTED_MODULE_15__["each"](this.uploaderLeftEye.queue, function (item) {
+                    maxFileSize = maxFileSize + item.file.size;
+                });
+            }
+        }
+        return maxFileSize;
+    };
+    ProductViewSmartlensComponent.prototype.removeFile = function (item, eye) {
+        if (eye === 'Right') {
+            this.uploaderRightEye.removeFromQueue(item);
+        }
+        else if (eye === 'Left') {
+            this.uploaderLeftEye.removeFromQueue(item);
+        }
+        this.clearSelectedFile(eye);
+    };
+    ProductViewSmartlensComponent.prototype.clearSelectedFile = function (eye) {
+        if (eye === 'Right') {
+            this.selectedFilesRightEye.nativeElement.value = '';
+        }
+        else if (eye === 'Left') {
+            this.selectedFilesLeftEye.nativeElement.value = '';
+        }
+    };
+    ProductViewSmartlensComponent.prototype.clearFiles = function () {
+        if (this.uploaderLeftEye.queue.length) {
+            this.uploaderLeftEye.clearQueue();
+            this.clearSelectedFile('Left');
+        }
+        if (this.uploaderRightEye.queue.length) {
+            this.uploaderRightEye.clearQueue();
+            this.clearSelectedFile('Right');
+        }
+    };
+    ProductViewSmartlensComponent.prototype.saveFiles = function () {
+        this.listFileLeftEye = new Array;
+        this.listFileRightEye = new Array;
+        if (this.uploaderLeftEye.queue) {
+            lodash__WEBPACK_IMPORTED_MODULE_15__["each"](this.uploaderLeftEye.queue, function (item) {
+                item.upload();
+            });
+        }
+        if (this.uploaderRightEye.queue) {
+            lodash__WEBPACK_IMPORTED_MODULE_15__["each"](this.uploaderRightEye.queue, function (item) {
+                item.upload();
+            });
+        }
+        if (!this.uploaderLeftEye.queue.length && !this.uploaderRightEye.queue.length) {
+            this.openModal(this.type);
+        }
+    };
+    ProductViewSmartlensComponent.prototype.buildFileProductRequested = function (eye) {
+        if (eye === 'Right' && this.uploadResultRightEye.success) {
+            var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_1__["FileProductRequested"]();
+            var fileResponse = JSON.parse(this.uploadResultRightEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
+            fileProductRequest.type = this.uploadResultRightEye.item.file.type;
+            fileProductRequest.size = this.uploadResultRightEye.item.file.size;
+            fileProductRequest.createdAt = new Date();
+            this.listFileRightEye.push(fileProductRequest);
+            this.verifyOpenModal();
+        }
+        if (eye === 'Left' && this.uploadResultLeftEye.success) {
+            var fileProductRequest = new _shared_models_fileproductrequested__WEBPACK_IMPORTED_MODULE_1__["FileProductRequested"]();
+            var fileResponse = JSON.parse(this.uploadResultLeftEye.response).data;
+            fileProductRequest.url = fileResponse.url;
+            fileProductRequest.name = fileResponse.name;
+            fileProductRequest.type = this.uploadResultLeftEye.item.file.type;
+            fileProductRequest.size = this.uploadResultLeftEye.item.file.size;
+            fileProductRequest.createdAt = new Date();
+            this.listFileLeftEye.push(fileProductRequest);
+            this.verifyOpenModal();
+        }
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('selectedFilesLeftEye'),
+        __metadata("design:type", Object)
+    ], ProductViewSmartlensComponent.prototype, "selectedFilesLeftEye", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('selectedFilesRightEye'),
+        __metadata("design:type", Object)
+    ], ProductViewSmartlensComponent.prototype, "selectedFilesRightEye", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('notchRight'),
+        __metadata("design:type", Object)
+    ], ProductViewSmartlensComponent.prototype, "notchRight", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('notchLeft'),
+        __metadata("design:type", Object)
+    ], ProductViewSmartlensComponent.prototype, "notchLeft", void 0);
+    ProductViewSmartlensComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-product-view-smartlens',
+            template: __webpack_require__(/*! ./product-view-smartlens.component.html */ "./src/app/products/product-view-smartlens/product-view-smartlens.component.html"),
+            styles: [__webpack_require__(/*! ./product-view-smartlens.component.scss */ "./src/app/products/product-view-smartlens/product-view-smartlens.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_3__["ProductService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"],
+            _http_user_storage_service__WEBPACK_IMPORTED_MODULE_5__["UserStorageService"],
+            _shared_services_basket_basket_service__WEBPACK_IMPORTED_MODULE_6__["BasketService"],
+            _shared_services_shippingAddress_shipping_address_service__WEBPACK_IMPORTED_MODULE_7__["ShippingAddressService"],
+            _shared_services__WEBPACK_IMPORTED_MODULE_8__["UserService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_9__["NgbModal"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],
+            _shared_services_alertify_alertify_service__WEBPACK_IMPORTED_MODULE_10__["AlertifyService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_11__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_12__["TranslateService"],
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_13__["NgxSpinnerService"]])
+    ], ProductViewSmartlensComponent);
+    return ProductViewSmartlensComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/products/product-view-spectrum-saline/product-view-spectrum-saline.component.html":
 /*!***************************************************************************************************!*\
   !*** ./src/app/products/product-view-spectrum-saline/product-view-spectrum-saline.component.html ***!
@@ -15067,7 +16677,7 @@ var ProductsListInternalComponent = /** @class */ (function () {
                 this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 13]);
                 break;
             case 14:// SMARTLENS
-                this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 14]);
+                this.router.navigate(['/products/' + product.idProduct + '/product-view-smartlens/']);
                 break;
             case 15:// BOSTONSIGHT
                 this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 15]);
@@ -15773,12 +17383,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _product_view_xsb_product_view_xsb_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./product-view-xsb/product-view-xsb.component */ "./src/app/products/product-view-xsb/product-view-xsb.component.ts");
 /* harmony import */ var _product_view_molded_lenses_product_view_molded_lenses_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./product-view-molded-lenses/product-view-molded-lenses.component */ "./src/app/products/product-view-molded-lenses/product-view-molded-lenses.component.ts");
 /* harmony import */ var _layout_pre_order_pre_order_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../layout/pre-order/pre-order.component */ "./src/app/layout/pre-order/pre-order.component.ts");
+/* harmony import */ var _product_view_smartlens_product_view_smartlens_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./product-view-smartlens/product-view-smartlens.component */ "./src/app/products/product-view-smartlens/product-view-smartlens.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -15822,7 +17434,8 @@ var routes = [
             { path: ':id/product-view-xsb/:supplierId', component: _product_view_xsb_product_view_xsb_component__WEBPACK_IMPORTED_MODULE_18__["ProductViewXsbComponent"], data: { option: 'ProductViewXsbComponent' } },
             { path: ':id/consultation-form', component: _consultation_form_consultation_form_component__WEBPACK_IMPORTED_MODULE_17__["ConsultationFormComponent"], data: { option: 'ConsultationFormComponent' } },
             { path: ':id/product-view-molded-lenses', component: _product_view_molded_lenses_product_view_molded_lenses_component__WEBPACK_IMPORTED_MODULE_19__["ProductViewMoldedLensesComponent"], data: { option: 'ProductViewMoldedLenses' } },
-            { path: 'pre/order', component: _layout_pre_order_pre_order_component__WEBPACK_IMPORTED_MODULE_20__["PreOrderComponent"], data: { option: 'PreOrder' } }
+            { path: 'pre/order', component: _layout_pre_order_pre_order_component__WEBPACK_IMPORTED_MODULE_20__["PreOrderComponent"], data: { option: 'PreOrder' } },
+            { path: ':id/product-view-smartlens', component: _product_view_smartlens_product_view_smartlens_component__WEBPACK_IMPORTED_MODULE_21__["ProductViewSmartlensComponent"], data: { option: 'ProductsViewSmartlens' } }
         ], data: { option: 'ProductsList' }
     }
 ];
@@ -15966,6 +17579,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _product_view_molded_lenses_product_view_molded_lenses_component__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! ./product-view-molded-lenses/product-view-molded-lenses.component */ "./src/app/products/product-view-molded-lenses/product-view-molded-lenses.component.ts");
 /* harmony import */ var _modals_confirmation_buy_confirmation_molded_lenses_confirmation_molded_lenses_component__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./modals/confirmation-buy/confirmation-molded-lenses/confirmation-molded-lenses.component */ "./src/app/products/modals/confirmation-buy/confirmation-molded-lenses/confirmation-molded-lenses.component.ts");
 /* harmony import */ var _layout_pre_order_pre_order_component__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! ../layout/pre-order/pre-order.component */ "./src/app/layout/pre-order/pre-order.component.ts");
+/* harmony import */ var _product_view_smartlens_product_view_smartlens_component__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! ./product-view-smartlens/product-view-smartlens.component */ "./src/app/products/product-view-smartlens/product-view-smartlens.component.ts");
+/* harmony import */ var _modals_confirmation_buy_confirmation_smartlens_confirmation_smartlens_component__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! ./modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component */ "./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16006,6 +17621,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 // tslint:disable-next-line:max-line-length
+
+
 
 
 
@@ -16079,7 +17696,9 @@ var ProductsModule = /** @class */ (function () {
                 _product_view_xsb_product_view_xsb_component__WEBPACK_IMPORTED_MODULE_46__["ProductViewXsbComponent"],
                 _product_view_molded_lenses_product_view_molded_lenses_component__WEBPACK_IMPORTED_MODULE_47__["ProductViewMoldedLensesComponent"],
                 _modals_confirmation_buy_confirmation_molded_lenses_confirmation_molded_lenses_component__WEBPACK_IMPORTED_MODULE_48__["ConfirmationMoldedLensesComponent"],
-                _layout_pre_order_pre_order_component__WEBPACK_IMPORTED_MODULE_49__["PreOrderComponent"]
+                _layout_pre_order_pre_order_component__WEBPACK_IMPORTED_MODULE_49__["PreOrderComponent"],
+                _product_view_smartlens_product_view_smartlens_component__WEBPACK_IMPORTED_MODULE_50__["ProductViewSmartlensComponent"],
+                _modals_confirmation_buy_confirmation_smartlens_confirmation_smartlens_component__WEBPACK_IMPORTED_MODULE_51__["ConfirmationSmartlensComponent"]
             ],
             entryComponents: [_modals_confirmation_buy_confirmation_buy_component__WEBPACK_IMPORTED_MODULE_14__["ConfirmationBuyComponent"],
                 _modals_edit_product_edit_product_component__WEBPACK_IMPORTED_MODULE_16__["EditProductComponent"],
@@ -16098,7 +17717,8 @@ var ProductsModule = /** @class */ (function () {
                 _modals_edit_product_edit_product_medmont_edit_product_medmont_component__WEBPACK_IMPORTED_MODULE_38__["EditProductMedmontComponent"],
                 _modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_41__["ConfirmationSynergeyesComponent"],
                 _modals_confirmation_buy_confirmation_orion_confirmation_orion_component__WEBPACK_IMPORTED_MODULE_43__["ConfirmationOrionComponent"],
-                _modals_confirmation_buy_confirmation_molded_lenses_confirmation_molded_lenses_component__WEBPACK_IMPORTED_MODULE_48__["ConfirmationMoldedLensesComponent"]
+                _modals_confirmation_buy_confirmation_molded_lenses_confirmation_molded_lenses_component__WEBPACK_IMPORTED_MODULE_48__["ConfirmationMoldedLensesComponent"],
+                _modals_confirmation_buy_confirmation_smartlens_confirmation_smartlens_component__WEBPACK_IMPORTED_MODULE_51__["ConfirmationSmartlensComponent"]
             ],
             providers: [_shared__WEBPACK_IMPORTED_MODULE_11__["RoleGuard"], _shared_services__WEBPACK_IMPORTED_MODULE_13__["AuthorizationService"]]
         })
@@ -16184,26 +17804,6 @@ var FileConsultationForm = /** @class */ (function () {
     function FileConsultationForm() {
     }
     return FileConsultationForm;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/models/product.ts":
-/*!******************************************!*\
-  !*** ./src/app/shared/models/product.ts ***!
-  \******************************************/
-/*! exports provided: Product */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Product", function() { return Product; });
-var Product = /** @class */ (function () {
-    function Product() {
-    }
-    return Product;
 }());
 
 
