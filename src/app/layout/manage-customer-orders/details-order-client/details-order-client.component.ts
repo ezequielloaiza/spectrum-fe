@@ -194,9 +194,6 @@ export class DetailsOrderClientComponent implements OnInit {
         }
       }
     });
-
-    debugger
-
     return [groupedList, inserts];
   }
 
