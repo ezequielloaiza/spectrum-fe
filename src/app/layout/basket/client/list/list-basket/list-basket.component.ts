@@ -35,6 +35,9 @@ import { DetailOrionComponent } from '../../../modals/detail-product/detail-orio
 import { OrionComponent } from '../../../../edit-order/orion/orion/orion.component';
 import { DetailMoldedLensesComponent } from '../../../modals/detail-product/detail-molded-lenses/detail-molded-lenses.component';
 import { MoldedLensesComponent } from '../../../../edit-order/molded-lenses/molded-lenses.component';
+import { SmartlensComponent } from '../../../../edit-order/smartlens/smartlens.component';
+import { DetailSmartlensComponent } from '../../../modals/detail-product/detail-smartlens/detail-smartlens.component';
+import { Product } from '../../../../../shared/models/product';
 
 @Component({
   selector: 'app-list-basket',
@@ -58,7 +61,7 @@ export class ListBasketComponent implements OnInit {
   basket: any;
   checkedAll: any;
   productDMV: any;
-  inserts: any;
+  productModel: Product = new Product();
 
   constructor(private basketService: BasketService,
     private basketProductRequestedService: BasketproductrequestedService,
@@ -79,6 +82,7 @@ export class ListBasketComponent implements OnInit {
   }
 
   getListBasket(): void {
+    const self = this;
     this.spinner.show();
     this.basketService.allBasketByUser$(this.user.userResponse.idUser).subscribe(res => {
       if (res.code === CodeHttp.ok) {
@@ -87,6 +91,8 @@ export class ListBasketComponent implements OnInit {
         this.listBasketAll = res.data;
 
         const auxList = [];
+        let productsAdditional = [];
+
         _.each(this.listBasket, function (basket) {
           basket.checked = false;
           basket.supplier = basket.productRequested.product.supplier.idSupplier;
@@ -94,27 +100,21 @@ export class ListBasketComponent implements OnInit {
             basket.productRequested.detail = JSON.parse(basket.productRequested.detail);
           }
           const productId = basket.productRequested.product.idProduct;
-          if (productId !== 145
-                && productId !== 146
-                && productId !== 147) {
+
+          // auxList filter only products to show
+          if (!self.productModel.isAdditionalProduct(productId)) {
             auxList.push(basket);
+          } else {
+            productsAdditional.push(basket.productRequested.product);
           }
         });
+
         this.listBasketAll = this.listBasket;
         this.listBasket = auxList;
         this.listBasketAux = auxList;
-        // search product insertor
-        this.productService.findById$(146).subscribe(res1 => {
-          if (res1.code === CodeHttp.ok) {
-            this.assignPriceAllEuropa(auxList, res1.data[0]);
-          } else {
-            console.log(res1.errors[0].detail);
-            this.spinner.hide();
-          }
-        }, error => {
-          console.log('error', error);
-          this.spinner.hide();
-        });
+
+        this.setPriceWithAdditionals(auxList, productsAdditional);
+
         this.listBasket = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.listBasketAux = _.orderBy(this.listBasket, ['date'], ['desc']);
         this.spinner.hide();
@@ -122,34 +122,52 @@ export class ListBasketComponent implements OnInit {
     });
   }
 
-  assignPriceAllEuropa(auxList, productDMV): void {
-    let arrayProductAditionals = [];
+  setPriceWithAdditionals(auxList, productsAdditional): void {
     const self = this;
+
+    let productsGrouped = [];
     let priceAll = 0;
     let priceInsertor = 0;
-
     let existContraryEye = false;
 
     _.each(auxList, function(basket) {
-      if (basket.productRequested.product.supplier.idSupplier === 2) {
-        arrayProductAditionals = self.getProductsAditionalEuropa(basket.productRequested.groupId,
-          basket.productRequested.detail[0].eye);
-        priceAll = 0;
-        existContraryEye = self.contraryEye(basket.productRequested.groupId,
-          basket.productRequested.detail[0].eye);
-        _.each(arrayProductAditionals, function(item) {
-          const productId = item.productRequested.product.idProduct;
-          if (productId !== 146) {
-            priceAll = priceAll + item.productRequested.price;
-          }
-        });
-        // price insertors
-        const insertor = basket.productRequested.detail[0].header[2].selected === true;
-        priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
-        if (insertor) {
-          priceAll = priceAll + priceInsertor;
+      priceAll = 0;
+      productsGrouped = self.getProductsGrouped(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+      existContraryEye = self.contraryEye(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+      const insertID = self.productModel.getInsertsID(basket.productRequested.product, null);
+      const productDMV = insertID && _.find(productsAdditional, {idProduct: insertID});
 
+      _.each(productsGrouped, function(item) {
+        const productId = item.productRequested.product.idProduct;
+        if (productId !== insertID) {
+          priceAll = priceAll + item.productRequested.price;
         }
+      });
+
+      const supplierId = basket.productRequested.product.supplier.idSupplier;
+
+      // EUROPA
+      if (supplierId === 2) {
+        // price insertors
+        const insertSelected = basket.productRequested.detail[0].header[2].selected === true;
+        if (insertSelected) {
+          priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
+          priceAll = priceAll + priceInsertor;
+        }
+      }
+
+      // SMARTLENS
+      if (supplierId === 14) {
+        // price insertors
+        const insertSelected = basket.productRequested.detail[0].dmv.selected === "Yes";
+        if (insertSelected) {
+          priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);
+          priceAll = priceAll + priceInsertor;
+        }
+      }
+
+      if (self.productModel.haveAdditionalProduct(supplierId)) {
+        basket.productRequested.priceBase = basket.productRequested.price;
         basket.productRequested.price = priceAll;
       }
     });
@@ -215,8 +233,8 @@ export class ListBasketComponent implements OnInit {
           const basket = this.getBasket(id);
           const  idSupplier = basket.productRequested.product.supplier.idSupplier;
 
-          if (idSupplier === 2) {
-            this.deleteProductsAditionalEuropa(basket);
+          if (this.productModel.haveAdditionalProduct(idSupplier)) {
+            this.deleteProductsAdditional(basket);
           } else {
             this.borrar(id);
           }
@@ -246,7 +264,7 @@ export class ListBasketComponent implements OnInit {
     this.openSumary();
   }
 
-  getProductsAditionalEuropa(groupId, eye) {
+  getProductsGrouped(groupId, eye) {
     const auxList = [];
 
     _.each(this.listBasketAll, function(item) {
@@ -268,102 +286,115 @@ export class ListBasketComponent implements OnInit {
     return basket;
   }
 
-  addProductsAditionalEuropa() {
-    let listPA = [];
-    let arrayAux = [];
-    let arrayAuxPA = [];
+  addingProductsAdditional() {
     let self = this;
+    let productsAdditional = [];
+    let arrayAux = [];
 
-    let productsDistinctEuropa = _.filter(this.productRequestedToBuy, function (itemBasket) {
+    // Filtering products without additionals
+    let productsWithoutAdditionals = _.filter(this.productRequestedToBuy, function (itemBasket) {
       return _.find(self.listBasket, function (item) {
-        return item.productRequested.product.supplier.idSupplier !== 2 && item.idBasketProductRequested === itemBasket;
+        const supplierId = item.productRequested.product.supplier.idSupplier;
+        return !self.productModel.haveAdditionalProduct(supplierId) && item.idBasketProductRequested === itemBasket;
       });
     });
 
     const listSelect = this.productRequestedToBuy;
     _.each(this.listBasket, function(item) {
       _.each(listSelect, function(itemBasket) {
-        if (item.productRequested.product.supplier.idSupplier === 2 && item.idBasketProductRequested === itemBasket) {
-          arrayAuxPA = self.getProductsAditionalEuropa(item.productRequested.groupId,
-            item.productRequested.detail[0].eye);
-          listPA = _.concat(listPA, arrayAuxPA);
+        const supplierId = item.productRequested.product.supplier.idSupplier;
+        if (self.productModel.haveAdditionalProduct(supplierId) && item.idBasketProductRequested === itemBasket) {
+          productsAdditional = _.concat(productsAdditional, self.getProductsGrouped(item.productRequested.groupId, item.productRequested.detail[0].eye));
         }
       });
     });
 
     let insertorsUniq = [];
 
-    _.each(listPA, function(item) {
+    _.each(productsAdditional, function(item) {
       const id = item.idBasketProductRequested;
       const groupId = item.productRequested.groupId;
+      const isInsertsDMV = self.productModel.isInsertsDMV(item.productRequested.product.idProduct);
 
-      if (item.productRequested.product.idProduct === 146 && !_.includes(insertorsUniq, groupId)) {
+      if (isInsertsDMV && !_.includes(insertorsUniq, groupId)) {
         insertorsUniq.push(groupId);
         arrayAux = _.concat(arrayAux, id);
-      } else if (item.productRequested.product.idProduct !== 146) {
+      } else if (!isInsertsDMV) {
         arrayAux = _.concat(arrayAux, id);
       }
     });
 
+    // Set products to buy.
     if (arrayAux.length > 0) {
-      this.productRequestedToBuy = _.concat(arrayAux, productsDistinctEuropa);
+      this.productRequestedToBuy = _.concat(arrayAux, productsWithoutAdditionals);
     }
   }
 
-  deleteProductsAditionalEuropa(basket) {
-    let auxList = [];
+  deleteProductsAdditional(basket) {
     let arrayAux = [];
     let arrayDelete = [];
-    let idProductRequested;
-    let price;
-    const productRequested1 = new ProductRequested();
-    let eye;
-    let productRDmv;
+    let insertSelected;
 
-    auxList = this.getProductsAditionalEuropa(basket.productRequested.groupId,
-      basket.productRequested.detail[0].eye);
+    const newProductRequested = new ProductRequested();
 
-    // insertors
-    const insertor = basket.productRequested.detail[0].header[2].selected === true;
-    const existContraryEye = this.contraryEye(basket.productRequested.groupId,
-      basket.productRequested.detail[0].eye);
-    productRDmv = _.find(auxList, function(o) {
-      return o.productRequested.product.idProduct === 146;
+    let productsAdditional = this.getProductsGrouped(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+    const supplierId = basket.productRequested.product.supplier.idSupplier;
+    const existContraryEye = this.contraryEye(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+    const insertID = this.productModel.getInsertsID(basket.productRequested.product, null);
+    const eyeContrary = basket.productRequested.detail[0].eye === 'Left' ? 'Right' : 'Left';
+
+    const productDMV = insertID && _.find(productsAdditional, function(p) {
+      return p.productRequested.product.idProduct === insertID;
     });
 
-    if (insertor && existContraryEye && productRDmv !== undefined) {
-      eye = basket.productRequested.detail[0].eye === 'Left' ? 'Right' : 'Left';
+    const productRequestedDMV = productDMV && productDMV.productRequested;
 
-      idProductRequested = productRDmv.productRequested.idProductRequested;
-      const detailContrary = productRDmv.productRequested.detail;
+    // EUROPA
+    if (supplierId === 2) {
+      // Inserts DMV
+      insertSelected = basket.productRequested.detail[0].header[2].selected === true;
+    }
+
+    // XCEL
+    if (supplierId === 'id supplier Xcel') {
+      // Inserts DMV
+      insertSelected = null;
+    }
+
+    if (insertSelected && existContraryEye && productDMV !== undefined) {
+
+      const detailContrary = productRequestedDMV.detail;
       _.each(detailContrary, function(item) {
-        item.eye = eye;
-        _.each(item.header, function(itemH, index) {
-          if (itemH.name === 'Inserts (DMV)') {
-            item.header[index].selected = true;
-          }
-        });
+        item.eye = eyeContrary;
+        newProductRequested.idProductRequested = productRequestedDMV.idProductRequested;
+        newProductRequested.price = productRequestedDMV.price;
+
+        // EUROPA
+        if (supplierId === 2) {
+          _.each(item.header, function(itemH, index) {
+            if (itemH.name === 'Inserts (DMV)') {
+              item.header[index].selected = true;
+            }
+          });
+
+          // building detail Europa
+          newProductRequested.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
+            header: detailContrary[0].header, parameters: detailContrary[0].parameters,
+            pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
+        }
       });
 
-      price = productRDmv.productRequested.price;
 
-      // build object
-      productRequested1.detail = '[' + JSON.stringify({ name: detailContrary[0].name, eye: detailContrary[0].eye,
-        header: detailContrary[0].header, parameters: detailContrary[0].parameters,
-        pasos: detailContrary[0].pasos, productsAditional: detailContrary[0].productsAditional }) + ']';
-      productRequested1.idProductRequested = idProductRequested;
-      productRequested1.price = price;
-
-      this.productRequestedService.updatePriceEuropa$(productRequested1).subscribe(res1 => {
+      this.productRequestedService.updatePriceEuropa$(newProductRequested).subscribe(res1 => {
         if (res1.code === CodeHttp.ok) {
-          _.each(auxList, function(item) {
-            if (item.productRequested.product.idProduct !== 146) {
+          _.each(productsAdditional, function(item) {
+            if (item.productRequested.product.idProduct !== insertID) {
               arrayDelete.push(item);
             }
           });
-          auxList = arrayDelete;
+          productsAdditional = arrayDelete;
 
-          _.each(auxList, function(item) {
+          _.each(productsAdditional, function(item) {
             const id = item.idBasketProductRequested;
             arrayAux = _.concat(arrayAux, id);
           });
@@ -371,7 +402,7 @@ export class ListBasketComponent implements OnInit {
         }
       });
     } else {
-      _.each(auxList, function(item) {
+      _.each(productsAdditional, function(item) {
         const id = item.idBasketProductRequested;
         arrayAux = _.concat(arrayAux, id);
       });
@@ -519,6 +550,15 @@ export class ListBasketComponent implements OnInit {
           } , (reason) => {
           });
         break;
+      case 14: // Smartlens
+        const modalRefSmartlens = this.modalService.open(DetailSmartlensComponent,
+          { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
+        modalRefSmartlens.componentInstance.basket = basket;
+        modalRefSmartlens.componentInstance.typeEdit = 1;
+        modalRefSmartlens.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {});
+        break;
       case 16: // Spectrum Molded Lenses
         const modalRefMoldedLenses = this.modalService.open(DetailMoldedLensesComponent,
           { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
@@ -624,6 +664,16 @@ export class ListBasketComponent implements OnInit {
         } , (reason) => {
         });
        break;
+    case 14: // Smartlens
+      const modalRefSmartlens = this.modalService.open( SmartlensComponent,
+        { size: 'lg', windowClass: 'modal-content-border modal-edit-smartlens' , backdrop : 'static', keyboard : false});
+      modalRefSmartlens.componentInstance.basket = basket;
+      modalRefSmartlens.componentInstance.typeEdit = 1;
+      modalRefSmartlens.result.then((result) => {
+        this.ngOnInit();
+      } , (reason) => {
+      });
+      break;
     case 16: // Spectrum Molded Lenses
       const modalRefMoldedLenses = this.modalService.open( MoldedLensesComponent,
         { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});
@@ -638,7 +688,7 @@ export class ListBasketComponent implements OnInit {
   }
 
   openSumary() {
-    this.addProductsAditionalEuropa();
+    this.addingProductsAdditional();
     this.buyBasket.idUser = this.user.userResponse.idUser;
     this.buyBasket.listBasket = this.productRequestedToBuy;
     this.buyBasket.idRole = this.user.role.idRole;
@@ -675,13 +725,22 @@ export class ListBasketComponent implements OnInit {
     let self = this;
     let amountToExcluded = 0;
     let groupsIdsReady = [];
+
+    // Finding inserts
     _.each(this.productRequestedToBuy, function (basketProductRequest) {
       let basket = _.find(self.listBasket, function(o) {
-        return o.supplier === 2 &&  o.idBasketProductRequested === basketProductRequest;
+        return self.productModel.haveInsertsDMV(o.supplier) &&  o.idBasketProductRequested === basketProductRequest;
       });
 
       if (!!basket) {
-        self.definePriceInserts(basket.basket.user.membership.idMembership, basket.productRequested);
+        let priceInsert = 0
+        const insert = _.find(self.listBasketAll, function(o) {
+          return self.productModel.isInsertsDMV(basket.productRequested.product.idProduct) && o.idBasketProductRequested === basketProductRequest;
+        });
+        if (insert) {
+          priceInsert = insert.productRequested.price;
+        }
+
         let basketProduct = _.find(self.listBasket, function(o) {
           return _.includes(self.productRequestedToBuy, o.idBasketProductRequested) && o.productRequested.idProductRequested !== basket.productRequested.idProductRequested
           && basket.productRequested.groupId === o.productRequested.groupId;
@@ -689,26 +748,10 @@ export class ListBasketComponent implements OnInit {
 
         if (basketProduct && !_.includes(groupsIdsReady, basketProduct.productRequested.groupId)) {
           groupsIdsReady.push(basketProduct.productRequested.groupId);
-          amountToExcluded += self.inserts;
+          amountToExcluded += priceInsert;
         }
       }
     });
     return amountToExcluded;
   }
-
-  definePriceInserts(membership, productRequested) {
-    let pricesAditionalInserts = JSON.parse(productRequested.product.infoAditional)[0].values[1];
-    switch (membership) {
-      case 1:
-        this.inserts = pricesAditionalInserts.values[0].price;
-        break;
-      case 2:
-        this.inserts =  pricesAditionalInserts.values[1].price;
-        break;
-      case 3:
-        this.inserts = pricesAditionalInserts.values[2].price;
-        break;
-    }
-  }
-
 }

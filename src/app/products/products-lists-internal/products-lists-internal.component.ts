@@ -345,7 +345,7 @@ export class ProductsListInternalComponent implements OnInit {
         this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 13]);
         break;
       case 14: // SMARTLENS
-        this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 14]);
+        this.router.navigate(['/products/' + product.idProduct + '/product-view-smartlens/']);
         break;
       case 15: // BOSTONSIGHT
         this.router.navigate(['/products/' + product.idProduct + '/product-view-xsb/' + 15]);

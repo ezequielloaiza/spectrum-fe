@@ -49,6 +49,8 @@ import { ProductViewXsbComponent } from './product-view-xsb/product-view-xsb.com
 import { ProductViewMoldedLensesComponent } from './product-view-molded-lenses/product-view-molded-lenses.component';
 import { ConfirmationMoldedLensesComponent } from './modals/confirmation-buy/confirmation-molded-lenses/confirmation-molded-lenses.component';
 import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
+import { ProductViewSmartlensComponent } from './product-view-smartlens/product-view-smartlens.component';
+import { ConfirmationSmartlensComponent } from './modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component';
 
 @NgModule({
   imports: [
@@ -102,7 +104,9 @@ import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
     ProductViewXsbComponent,
     ProductViewMoldedLensesComponent,
     ConfirmationMoldedLensesComponent,
-    PreOrderComponent
+    PreOrderComponent,
+    ProductViewSmartlensComponent,
+    ConfirmationSmartlensComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
@@ -121,7 +125,8 @@ import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
                     EditProductMedmontComponent,
                     ConfirmationSynergeyesComponent,
                     ConfirmationOrionComponent,
-                    ConfirmationMoldedLensesComponent
+                    ConfirmationMoldedLensesComponent,
+                    ConfirmationSmartlensComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })

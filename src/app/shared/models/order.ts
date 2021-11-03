@@ -20,6 +20,7 @@ export class Order {
     public idEntrustingCompany: number;
     public listDetailsAll: Array<OrderProductRequested>;
     public totalOrder: number;
+    public supplier: any;
 
     public constructor() { }
 

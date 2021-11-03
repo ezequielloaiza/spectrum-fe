@@ -1,0 +1,616 @@
+<div class="info-breadcrumbs" *ngIf="product">
+  <div class="header-body">
+    <h4 class="page-header">
+      {{ 'Product Details' | translate }}
+    </h4>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> {{ 'Dashboard' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="link" href="Javascript:void(0)" [routerLink]="['/products/' + product.supplier.idSupplier + '/internal']">
+          <i class="fa fa-edit"></i> {{ 'Products List' | translate }}</a>
+      </li>
+      <li class="breadcrumb-item active">
+        <i class="fa fa-eye"></i> {{ 'Product Details' | translate}}</li>
+    </ol>
+  </div>
+</div>
+<div class="padding-detail" *ngIf="product">
+  <div class="card">
+    <div class="">
+      <!-- row (name-price-image) -->
+      <div class="row wrapper">
+        <div class="preview col-md-12">
+          <!-- name-price -->
+          <div class="main-info">
+            <h3 class="product-title">{{'Order Form For' | translate }}:
+              <br>
+              <i>{{ product.name }}</i>
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="user.role.idRole !== 3">
+        <span class="title">{{ 'Order Type' | translate }}</span>
+        <div class="d-flex">
+          <div class="custom-control custom-radio mr-3">
+            <input type="radio" id="order-new" name="orderType" value="new" [(ngModel)]="typeOrder"  class="custom-control-input" [checked]="typeOrder === 'new'">
+            <label class="custom-control-label" for="order-new">{{ 'New' | translate }}</label>
+          </div>
+          <div class="custom-control custom-radio mr-3">
+            <input type="radio" id="order-duplicate" name="orderType" value="duplicate" [(ngModel)]="typeOrder" class="custom-control-input" [checked]="typeOrder === 'duplicate'">
+            <label class="custom-control-label" for="order-duplicate">{{ 'Duplicate' | translate }}</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="order-warranty" name="orderType" value="warranty" [(ngModel)]="typeOrder" class="custom-control-input" [checked]="typeOrder === 'warranty'">
+            <label class="custom-control-label" for="order-warranty">{{ 'Warranty' | translate }}</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- row (sheet) -->
+      <div class="row product-info">
+        <div class="col-md-2">
+          <dt>{{ 'Product Sheet' | translate }}</dt>
+          <dd>
+            <a href="{{ product.url }}" target="_blank">{{ 'Download' | translate }}</a>
+          </dd>
+        </div>
+      </div>
+
+      <!-- row (pacient, client, shipping address) -->
+      <div class="row product-info">
+        <!-- patient -->
+        <div class="col-lg-3">
+          <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
+          <div class="row info-content">
+            <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter name patient' | translate }}" [(ngModel)]="product.patient"
+              required>
+          </div>
+        </div>
+
+        <!-- client -->
+        <div class="col-lg-4">
+          <dt class="title">{{ 'Account Name' | translate }}</dt>
+          <div class="row info-content" [hidden]="user.role.idRole !== 3">
+            <input class="form-control" type="text" placeholder="{{ 'Enter name customer' | translate }}" [(ngModel)]="product.client"
+              disabled required>
+          </div>
+          <div class="row info-content" [hidden]="user.role.idRole === 3">
+            <ng-select [items]="listCustomers" (change)="onSelectedClient($event)" [(ngModel)]="CustomersSelected"
+              [virtualScroll]="true" bindLabel="fullName" bindValue="idUser" placeholder="{{ 'Select value' | translate }}"
+              required>
+            </ng-select>
+          </div>
+        </div>
+
+        <!--shipping address-->
+        <div class="col-lg-4">
+          <span class="title">{{ 'Shipping Address' | translate }}</span>
+          <div class="row info-content">
+            <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress" placeholder="{{ 'This field is filled when the client is selected.' | translate }}"
+              readonly>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h5 class="padding-price" *ngIf="priceSaleTotal()">
+            <span>{{ priceSaleTotal() | currency : "USD $" }}</span>
+          </h5>
+        </div>
+      </div>
+
+      <div class="row product-info">
+        <div class="col-md-12 title">
+          <label> {{ 'Please specific your product' | translate }}</label>
+
+          <div class="col-lg-6" *ngIf="product?.dmv">
+            <div class="row radio-custom">
+              <span class="title label-radio">{{ product.dmv.name | translate }}:</span>
+              <div *ngFor="let value of product.dmv.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-dmv-{{i}}" name="radioDMV" [value]="value"
+                         class="custom-control-input" (change)="changeDMV(value)"
+                         [checked]="product.dmv.selected === value">
+                  <label class="custom-control-label" for="radio-dmv-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="row additional col-lg-12">
+              <p *ngIf="product.dmv.selected === 'Yes'">
+                <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;
+                <span>{{'Inserts (DMV)' | translate}}:{{ getAdditionalPrices(false).dmv | currency : " USD $" }}</span>&nbsp;
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- row (parameters) -->
+      <div class="row header" *ngIf="typeLensRight">
+        <!-- row (parameters right) -->
+        <div class="col-lg-12 custom-control custom-checkbox">
+
+          <input id="right" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('right')" [checked]="product.eyeRight"
+            class="custom-control-input">
+          <label class="custom-control-label" for="right">{{ 'OD' }}</label>
+
+          <div class="materials">
+            <div class="row radio-custom">
+              <span class="title label-radio">{{ 'Materials' | translate }}:</span>
+              <div class="align-radio" *ngFor="let value of product.materialsRight.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-materials-right-{{i}}" name="radioMaterialsRight" [value]="value" [disabled]="!product.eyeRight" class="custom-control-input" (change)="changeMaterials(value, 'right')" [checked]="product.materialsRight.selected === value">
+                  <label class="custom-control-label" for="radio-materials-right-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row radio-custom" *ngIf="product.materialsRight.selected === 'Boston-XO'" >
+              <span class="title">{{ 'Hydrapeg' | translate }}:</span>
+              <div *ngFor="let value of product.hydrapegRight.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-hydrapeg-right-{{i}}" name="radiohydrapegRight" [value]="value" [disabled]="!product.eyeRight" class="custom-control-input" (change)="changeSelect('right', product.hydrapegRight, value,0)" [checked]="product.hydrapegRight.selected === value">
+                  <label class="custom-control-label" for="radio-hydrapeg-right-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row radio-custom">
+            <span class="title label-radio">{{ 'Design' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of designRight.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-design-right-{{i}}" name="radioDesignRight" [value]="value" [disabled]="!product.eyeRight" class="custom-control-input" (change)="changeDesign('right', value)" [checked]="designRight.selected === value">
+                <label class="custom-control-label" for="radio-design-right-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row radio-custom">
+            <span class="title label-radio">{{ 'Type' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of typeLensRight.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-lens-right-{{i}}" name="radioTypeLensRight" [value]="value" [disabled]="!product.eyeRight" (change)="changeTypeLens('right', value)" class="custom-control-input" [checked]="typeLensRight.selected === value">
+                <label class="custom-control-label" for="radio-lens-right-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row title">{{ 'Parameters' | translate }}</div>
+
+          <!--params right-->
+          <div class="row">
+
+            <!--quantity right-->
+            <div class="col-lg-3">
+              <div class="row">
+                <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+              </div>
+              <div class="row">
+                <div class="select-values col-sm-12">
+                  <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
+                     [required]="product.eyeRight"  [disabled]="true" min="1">
+                </div>
+              </div>
+            </div>
+
+            <!-- parameters right -->
+            <div class="col-lg-3 padding-params" *ngFor="let parameter of getParams('right')">
+              <div>
+                <!--param name-->
+                <div class="row label">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                </div>
+                <!--param values-->
+                <div class="row">
+                  <!-- SELECTED OF ALL -->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('right', parameter, $event,0)" [items]="parameter.values"
+                      placement="top" ngbTooltip="{{ isDependent(parameter, 'right') | translate }}"
+                      [disabled]="!product.eyeRight || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'right')" [required]="product.eyeRight && !parameter.noRequired" [(ngModel)]="parameter.selected"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired">
+                      {{item}}
+                    </ng-select>
+                  </div>
+
+                  <!-- SELECTED ONLY ADITION -->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Addition'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('right', parameter, $event,0)" [items]="parameter.values"
+                      [disabled]="!product.eyeRight || parameter.values.length === 1" [required]="product.eyeRight" [(ngModel)]="parameter.selected"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      {{item}}
+                    </ng-select>
+                  </div>
+
+                  <!-- INPUT RADIO -->
+                  <div *ngIf="parameter.type === 'radio'" class="radio-custom">
+                    <div *ngFor="let value of parameter.values; let i = index">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="radio-overrefaction-{{i}}" name="radioORRight" [value]="value"
+                               [disabled]="!product.eyeRight"  class="custom-control-input"
+                               (change)="changeSelect('right', parameter, value, 0)" [checked]="parameter.selected === value">
+                        <label class="custom-control-label" for="radio-overrefaction-{{i}}">{{ value | translate }}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- INPUT TYPE TEXT-->
+                  <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
+                    <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
+                      [required]="product.eyeRight && !parameter.noRequired" [(ngModel)]="parameter.selected" maxlength="{{ parameter.maxLength }}"
+                      [disabled]="!product.eyeRight">
+                  </div>
+
+                  <!-- INPUT TYPE NUMBER-->
+                  <div *ngIf="parameter.type === 'input-number'" class="select-values col-sm-12">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                      [required]="product.eyeRight" [(ngModel)]="parameter.selected"
+                      [disabled]="!product.eyeRight">
+                  </div>
+
+                  <!--Only Axis (notch)-->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axis (º)'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('right', parameter, $event,0)" [disabled]="!product.eyeRight || !axisRequired('right')" [required]="product.eyeRight && axisRequired('right')" [(ngModel)]="parameter.selected"
+                                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      <ng-option [value]="item" *ngFor="let item of axisValues('right')">{{ item  | translate }}</ng-option>
+                    </ng-select>
+                  </div>
+
+                  <!-- Notch -->
+                  <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex col-sm-12">
+                    <ng-select #notchRight class="select-notch" [items]="['Upper Temporal']"
+                               [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
+                               [disabled]="!product.eyeRight" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0"
+                               (click)="validateSelectedNotch(parameter)" (clear)="validateSelectedNotch(parameter)" (change)="validateSelectedNotch(parameter)">
+                      <ng-template ng-option-tmp>
+                        <div class="main-info">
+                          <div class="one-two">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('right', parameter, 'Upper Temporal')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('right', parameter, 'Upper Nasal')">
+                          </div>
+                          <div clas="three-four">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('right', parameter, 'Lower Temporal')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('right', parameter, 'Lower Nasal')">
+                          </div>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+
+                    <input class="form-control notch" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
+                      [required]="product.eyeRight" [(ngModel)]="parameter.values[0].selected" (change)="setNotch(parameter);changeSelect('right', parameter, parameter.values[0].selected, parameter.values[1].selected)" (keyup)="changeSelect('right', parameter, parameter.values[0].selected, parameter.values[1].selected)"
+                      step="0.01" [disabled]="!product.eyeRight">
+
+                    <input class="form-control notch" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
+                      [required]="product.eyeRight" [(ngModel)]="parameter.values[1].selected" (change)="setNotch(parameter);changeSelect('right', parameter, parameter.values[1].selected, parameter.values[0].selected)" (keyup)="changeSelect('right', parameter, parameter.values[1].selected, parameter.values[0].selected)"
+                      step="0.01" [disabled]="!product.eyeRight">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--prices additional right-->
+        <div class="row additional col-lg-12">
+          <p *ngIf="getAdditionalPrices(true).notchRight || getAdditionalPrices(true).hydrapegRight">
+            <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
+            <span *ngIf="getAdditionalPrices(true).hydrapegRight">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegRight | currency : " USD $" }}</span>&nbsp;
+            <span *ngIf="getAdditionalPrices(true).notchRight && getAdditionalPrices(true).hydrapegRight">| </span>
+            <span *ngIf="getAdditionalPrices(true).notchRight">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchRight | currency : " USD $" }}</span>&nbsp;
+          </p>
+        </div>
+
+        <!--comments right-->
+        <br>
+        <div class="row col-md-12">
+          <div class="title">{{ 'OD Comments' | translate }}</div>
+          <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsRight"
+            [disabled]="!product.eyeRight" placeholder="{{ 'Enter OD Observations' | translate }}"></textarea>
+        </div>
+
+        <br>
+        <!--files right-->
+        <div class="row attachments">
+          <div class="col-md-12">
+            <div>
+              <dt class="title">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>
+              <div class="custom-file">
+                <input #selectedFilesRightEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderRightEye"
+                  [disabled]="!product.eyeRight || uploaderRightEye.queue.length > 4" multiple />
+                <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                <div class="invalid-feedback">Example invalid custom file feedback</div>
+                <div class="message-error-file">
+                  <span translate>{{'Max files size:' | translate}} 25MB</span>
+                  <span> / </span>
+                  <span translate>{{'Maximum files number:' | translate }} 5</span>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div style="margin-bottom: 40px" *ngIf="uploaderRightEye.queue.length > 0">
+              <div class="row justify-content-end" *ngIf="uploaderRightEye.queue.length > 1">
+                <button type="button" class="btn btn-danger btn-s" (click)="uploaderRightEye.clearQueue()" [disabled]="!uploaderRightEye.queue.length">
+                  <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                </button>
+              </div>
+              <br>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th width="50%">{{ 'Name' | translate }}</th>
+                    <th>{{ 'Size' | translate }}</th>
+                    <th>{{ 'Actions' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of uploaderRightEye.queue">
+                    <td><strong>{{ item?.file?.name }}</strong></td>
+                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td nowrap>
+                      <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Right')">
+                        <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row header" *ngIf="typeLensLeft">
+        <!-- row (parameters left) -->
+        <div class="col-lg-12 custom-control custom-checkbox">
+          <!--header-->
+          <input id="left" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('left')" [checked]="product.eyeLeft"
+            class="custom-control-input">
+          <label class="custom-control-label" for="left">{{ 'OS' }}</label>
+
+          <div class="materials">
+            <div class="row radio-custom">
+              <span class="title label-radio">{{ 'Materials' | translate }}:</span>
+              <div class="align-radio" *ngFor="let value of product.materialsLeft.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-materials-{{i}}" name="radioMaterialsLeft" [value]="value" [disabled]="!product.eyeLeft" class="custom-control-input" (change)="changeMaterials(value, 'left')" [checked]="product.materialsLeft.selected === value">
+                  <label class="custom-control-label" for="radio-materials-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row radio-custom" *ngIf="product.materialsLeft.selected === 'Boston-XO'" >
+              <span class="title">{{ 'Hydrapeg' | translate }}:</span>
+              <div *ngFor="let value of product.hydrapegLeft.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-hydrapeg-{{i}}" name="radiohydrapegLeft" [value]="value" [disabled]="!product.eyeLeft" class="custom-control-input" (change)="changeSelect('left', product.hydrapegLeft, value,0)" [checked]="product.hydrapegLeft.selected === value">
+                  <label class="custom-control-label" for="radio-hydrapeg-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row radio-custom">
+            <span class="title label-radio">{{ 'Design' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of designLeft.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-design-{{i}}" name="radioDesignLeft" [value]="value" [disabled]="!product.eyeLeft" class="custom-control-input" (change)="changeDesign('left', value)" [checked]="designLeft.selected === value">
+                <label class="custom-control-label" for="radio-design-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row radio-custom">
+            <span class="title label-radio">{{ 'Type' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of typeLensLeft.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-lens-{{i}}" name="radioTypeLensLeft" [value]="value" [disabled]="!product.eyeLeft" (change)="changeTypeLens('left', value)" class="custom-control-input" [checked]="typeLensLeft.selected === value">
+                <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row title">{{ 'Parameters' | translate }}</div>
+
+          <!--params left-->
+          <div class="row">
+            <!--quantity left-->
+            <div class="col-lg-3">
+              <div class="row ">
+                <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+              </div>
+              <div class="row">
+                <div class="select-values col-sm-12">
+                  <input class="form-control" type="number" value="1" [(ngModel)]="product.quantityLeft" [required]="product.eyeLeft"
+                    oninput="validity.valid||(value='');" [disabled]="true" min="1">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 padding-params" *ngFor="let parameter of getParams('left')">
+              <div>
+                <!--param name-->
+                <div class="row label">
+                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+                </div>
+                <!--param values-->
+
+                <div class="row">
+
+                  <!-- SELECTED OF ALL -->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [items]="parameter.values"
+                      placement="top" ngbTooltip="{{ isDependent(parameter, 'left') | translate }}"
+                      [disabled]="!product.eyeLeft || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'left')" [required]="product.eyeLeft && !parameter.noRequired" [(ngModel)]="parameter.selected" bindLabel="item"
+                      bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired">
+                      {{item}}
+                    </ng-select>
+                  </div>
+
+                  <!-- SELECTED ONLY ADITION -->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Addition'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [items]="parameter.values"
+                      [disabled]="!product.eyeLeft || parameter.values.length === 1" [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      {{item}}
+                    </ng-select>
+                  </div>
+
+                  <!-- INPUT RADIO -->
+                  <div *ngIf="parameter.type === 'radio'" class="radio-custom">
+                    <div *ngFor="let value of parameter.values; let i = index">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="radio-overrefaction-{{i}}" name="radioORLeft" [value]="value"
+                               [disabled]="!product.eyeLeft"  class="custom-control-input"
+                               (change)="changeSelect('left', parameter, value, 0)" [checked]="parameter.selected === value">
+                        <label class="custom-control-label" for="radio-overrefaction-{{i}}">{{ value | translate }}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- INPUT TYPE NUMBER-->
+                  <div *ngIf="parameter.type === 'input-number'" class="select-values col-sm-12">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
+                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
+                      [disabled]="!product.eyeLeft">
+                  </div>
+
+                  <!-- INPUT TYPE TEXT-->
+                  <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
+                    <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
+                      [required]="product.eyeLeft && !parameter.noRequired" [(ngModel)]="parameter.selected" maxlength="{{ parameter.maxLength }}"
+                      [disabled]="!product.eyeLeft">
+                  </div>
+
+                  <!--Only Axis (notch)-->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axis (º)'" class="select-values col-sm-12">
+                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [disabled]="!product.eyeLeft || !axisRequired('left')" [required]="product.eyeLeft && axisRequired('left')" [(ngModel)]="parameter.selected"
+                                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      <ng-option [value]="item" *ngFor="let item of axisValues('left')">{{ item  | translate }}</ng-option>
+                    </ng-select>
+                  </div>
+
+                  <!-- Notch -->
+                  <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex col-sm-12">
+                    <ng-select #notchLeft class="select-notch" [items]="['Upper Temporal']"
+                               [(ngModel)]="parameter.selectedNotchTime" placeholder="{{ 'Select type' | translate }}"
+                               [disabled]="!product.eyeLeft" [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0"
+                               (click)="validateSelectedNotch(parameter)" (clear)="validateSelectedNotch(parameter)" (change)="validateSelectedNotch(parameter)">
+                      <ng-template ng-option-tmp>
+                        <div class="main-info">
+                          <div class="one-two">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('left', parameter, 'Upper Temporal')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('left', parameter, 'Upper Nasal')">
+                          </div>
+                          <div clas="three-four">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('left', parameter, 'Lower Temporal')">
+                            <img [ngClass]="{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('left', parameter, 'Lower Nasal')">
+                          </div>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+
+                    <input class="form-control notch" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
+                      [required]="product.eyeLeft" [(ngModel)]="parameter.values[0].selected" (change)="setNotch(parameter);changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)"  (keyup)="changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)"
+                      step="0.01" [disabled]="!product.eyeLeft">
+
+                    <input class="form-control notch" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
+                      [required]="product.eyeLeft" [(ngModel)]="parameter.values[1].selected" (change)="setNotch(parameter);changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)" (keyup)="changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)"
+                      step="0.01" [disabled]="!product.eyeLeft">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--prices additional left-->
+        <div class="row additional col-lg-12">
+          <p *ngIf="getAdditionalPrices(true).notchLeft || getAdditionalPrices(true).hydrapegLeft">
+            <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
+            <span *ngIf="getAdditionalPrices(true).hydrapegLeft">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegLeft | currency : " USD $" }}</span>&nbsp;
+            <span *ngIf="getAdditionalPrices(true).notchLeft && getAdditionalPrices(true).hydrapegLeft">| </span>
+            <span *ngIf="getAdditionalPrices(true).notchLeft">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchLeft | currency : " USD $" }}</span>&nbsp;
+          </p>
+        </div>
+
+        <!--comments left-->
+        <br>
+        <div class="row col-md-12">
+          <div class="title">{{ 'OS Comments' | translate }}</div>
+          <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product.observationsLeft"
+            [disabled]="!product.eyeLeft" placeholder="{{ 'Enter OS Observations' | translate }}"></textarea>
+        </div>
+
+
+        <!--files left-->
+        <br>
+        <div class="row attachments">
+          <div class="col-md-12">
+            <div class="">
+              <dt class="title">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>
+              <div class="custom-file">
+                <input #selectedFilesLeftEye type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderLeftEye"
+                  [disabled]="!product.eyeLeft || uploaderLeftEye.queue.length > 4" multiple />
+                <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+                <div class="invalid-feedback">Example invalid custom file feedback</div>
+                <div class="message-error-file">
+                  <span translate>{{'Max files size:' | translate}} 25MB</span>
+                  <span> / </span>
+                  <span translate>{{'Maximum files number:' | translate }} 5</span>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="" style="margin-bottom: 40px" *ngIf="uploaderLeftEye.queue.length > 0">
+              <div class="row justify-content-end" *ngIf="uploaderLeftEye.queue.length > 1">
+                <button type="button" class="btn btn-danger btn-s" (click)="uploaderLeftEye.clearQueue()" [disabled]="!uploaderLeftEye.queue.length">
+                  <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+                </button>
+              </div>
+              <br>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th width="50%">{{ 'Name' | translate }}</th>
+                    <th>{{ 'Size' | translate }}</th>
+                    <th>{{ 'Actions' | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of uploaderLeftEye.queue">
+                    <td><strong>{{ item?.file?.name }}</strong></td>
+                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td nowrap>
+                      <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item, 'Left')">
+                        <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-md-12 buy-btns">
+          <button [hidden]="user.role.idRole === 3" class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
+            (click)="formIsValid() && addToCart(2)" [disabled]="!formIsValid()">
+            {{ 'Buy Now' | translate }}
+          </button>
+          <button *ngIf="typeOrder === 'new'" class="btn btn-lg btn-outline-primary text-uppercase margin-button" (click)="formIsValid() && addToCart(1)"
+            [disabled]="!formIsValid()">
+            <i class="fa fa-cart-plus"></i> {{ 'Add to cart' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
