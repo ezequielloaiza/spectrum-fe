@@ -4,7 +4,9 @@ import { UserStorageService } from '../../http/user-storage.service';
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { ProductService } from '../../shared/services/products/product.service';
 import { UploadFileComponent } from '../components/upload-file/upload-file.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
+import { PurchaseConfirmationComponent } from '../components/confirm-purchase/confirmation-component.component';
 
 @Component({
   selector: 'app-product-view-x-cel',
@@ -38,6 +40,7 @@ export class ProductViewXCelComponent implements OnInit {
   @ViewChildren('uploadFile') uploadFilesComponents: QueryList<UploadFileComponent>;
 
   constructor(private route: ActivatedRoute,
+    private modalService: NgbModal,
     private userStorageService: UserStorageService,
     private productService: ProductService) { }
 
@@ -94,7 +97,24 @@ export class ProductViewXCelComponent implements OnInit {
     this.uploadFilesComponents.forEach(uploadFileComponent => {
       uploadFileComponent.saveFiles();
     });
-    console.log('buyNow');
+    debugger
+    //this.spinner.hide();
+    const modalRef = this.modalService.open( PurchaseConfirmationComponent,
+      { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
+    modalRef.componentInstance.cdgd = "cdgd";
+    modalRef.componentInstance.product = this.product;
+    /* modalRef.componentInstance.datos = this.basketRequestModal;
+    modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.role = this.user.role.idRole;
+    modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
+    modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
+    modalRef.componentInstance.typeOrder = this.typeOrder; */
+    modalRef.result.then((result) => {
+      this.ngOnInit();
+    } , (reason) => {
+    });
+    //console.log('buyNow');
   }
 
   addToCart() {
@@ -302,7 +322,6 @@ export class ProductViewXCelComponent implements OnInit {
       this.disableBuyButton = true;
     } else {
       this.disableBuyButton = this.checkSelectedParams('right', rightEye) || this.checkSelectedParams('left', leftEye);
-      debugger
     }
   }
 

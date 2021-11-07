@@ -52,6 +52,7 @@ import { PreOrderComponent } from '../layout/pre-order/pre-order.component';
 import { ProductViewSmartlensComponent } from './product-view-smartlens/product-view-smartlens.component';
 import { ConfirmationSmartlensComponent } from './modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component';
 import { ProductsViewXCelModule } from './product-view-x-cel/product-view-x-cel.module';
+import { PurchaseConfirmationComponent } from './components/confirm-purchase/confirmation-component.component';
 
 @NgModule({
   imports: [
@@ -108,7 +109,8 @@ import { ProductsViewXCelModule } from './product-view-x-cel/product-view-x-cel.
     ConfirmationMoldedLensesComponent,
     PreOrderComponent,
     ProductViewSmartlensComponent,
-    ConfirmationSmartlensComponent
+    ConfirmationSmartlensComponent,
+    PurchaseConfirmationComponent
   ],
   entryComponents: [ConfirmationBuyComponent,
                     EditProductComponent,
@@ -128,7 +130,8 @@ import { ProductsViewXCelModule } from './product-view-x-cel/product-view-x-cel.
                     ConfirmationSynergeyesComponent,
                     ConfirmationOrionComponent,
                     ConfirmationMoldedLensesComponent,
-                    ConfirmationSmartlensComponent
+                    ConfirmationSmartlensComponent,
+                    PurchaseConfirmationComponent
                    ],
   providers: [RoleGuard, AuthorizationService]
 })
