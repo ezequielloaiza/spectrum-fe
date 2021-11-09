@@ -10,11 +10,11 @@
       <!-- Image -->
       <div class="col-lg-12 main-info">
         <div>
-          <span class="title">{{ product.name }}</span>
+          <span class="title">{{ selectedProduct.name }}</span>
         </div>
         <!-- Image -->
         <div class="label-title">
-          <img class="img-product" src="{{ product.mainImg }}" />
+          <img class="img-product" src="{{ selectedProduct.mainImg }}" />
         </div>
         <!-- Patient -->
         <div class="col-lg-12 title label-title patient-info">
@@ -23,7 +23,7 @@
               <dt>{{ "Patient" | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items">{{ namePatient }}</dt>
+                <dt class="items">{{ selectedProduct.patient }}</dt>
               </dl>
             </dl>
           </div>
@@ -36,87 +36,31 @@
       </div>
 
       <!-- PARAMETERS -->
-      <div class="col-lg-12" *ngFor="let list of listBasket">
-        <div class="row padding-params">
+      <div class="col-lg-12" *ngFor="let list of selectedProduct.params">
+        <div class="row padding-params" *ngIf="list.header.length > 0">
           <div class="col-lg-12 title eye-info">
-            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
+            <span>{{ list.name + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
 
-          <div class="col-lg-4">
+          <div class="col-lg-4" *ngFor="let header of list.header">
             <dl class="align-item">
-              <dt>{{ 'Spectrum code' | translate }}</dt>
+              <dt>{{ header.name | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items">{{ product.codeSpectrum }}</dt>
+                <dt class="items">{{ header.selected }}</dt>
               </dl>
             </dl>
           </div>
-
-          <!-- Design -->
-          <div class="col-lg-4">
-            <dl class="align-item">
-              <dt>{{ "Design" | translate }}:</dt>
-              <hr class="separators" />
-              <dl>
-                <dt class="items">{{ list.detail[0].design | translate }}</dt>
-              </dl>
-            </dl>
-          </div>
-
-          <!-- Type lens-->
-          <div class="col-lg-4">
-            <dl class="align-item">
-              <dt>{{ "Type" | translate }}:</dt>
-              <hr class="separators" />
-              <dl>
-                <dt class="items">{{ list.detail[0].typeLens | translate }}</dt>
-              </dl>
-            </dl>
-          </div>
-
-          <!-- Materials -->
-          <div class="col-lg-12">
-            <dl class="align-item">
-              <dt>{{ "Materials" | translate }}:</dt>
-              <hr class="separators" />
-              <dl>
-                <dt class="items">{{ list.detail[0].materials }}</dt>
-              </dl>
-            </dl>
-          </div>
-
-           <!-- Hydrapeg -->
-          <div class="col-lg-12">
-            <dl class="align-item">
-              <dt>{{ "Hydrapeg" | translate }}:</dt>
-              <dl>
-                <dt class="items">{{ list.detail[0].hydrapeg }}</dt>
-              </dl>
-            </dl>
-          </div>
-
-          <div class="separator-set"></div>
 
           <div class="col-sm-12">
             <div class="parameters">{{ "Parameters" | translate }}:</div>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3" *ngFor="let param of list.params">
             <dl class="align-item">
-              <dt>{{ "Quantity" | translate }}</dt>
+              <dt>{{ param.name | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items">{{ list.quantity }}</dt>
-              </dl>
-            </dl>
-          </div>
-          <div class="col-sm-3" *ngFor="let parameter of getParams(list.detail[0])">
-            <dl class="align-item">
-              <dt *ngIf="parameter.name !== 'Axes Cylinder'">{{ parameter.name | translate }}</dt>
-              <dt *ngIf="parameter.name === 'Axes Cylinder'">{{ "Axes (º)" | translate }}</dt>
-              <hr class="separators" />
-              <dl>
-                <dt class="items" *ngIf="parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined">{{ parameter.selected }}</dt>
-                <dt class="items" *ngIf="parameter.selected === null || parameter.selected === '' || parameter.selected === undefined">{{ 'Unassigned' | translate}}</dt>
+                <dt class="items">{{ param.selected }}</dt>
               </dl>
             </dl>
           </div>
@@ -127,7 +71,7 @@
               <div class="col-sm-12">
                 <dl>
                   <dt>{{ "Comments" | translate }}</dt>
-                  <dl class="comment" *ngIf="list.observations ==='' || list.observations === null">
+                  <dl class="comment" *ngIf="!list.observations">
                       <span translate>{{'No comments' | translate}}</span>
                     </dl>
                   <dl>

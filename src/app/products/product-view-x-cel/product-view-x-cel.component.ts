@@ -25,6 +25,9 @@ export class ProductViewXCelComponent implements OnInit {
   };
   disableBuyButton = true;
   designSelected: any;
+  //selectedProduct = { right: { name: 'right', header: [], params: [] }, left: { name: 'left', header: [], params: [] } };
+  //selectedProduct.params[0].header
+  selectedProduct = { params: [ { name: 'Right', header: [], params: []  }, { name: 'Left', header: [], params: [] } ] }//ob-array-obj
 
   //buscarlos mejor por la DB
   parametersRgp = ["Apex", "Bitoric", "CV-4 Multifocal", "Essential Solutions", "Pinnacle", "Pinnacle FT", "Pinnacle  IC", "Pinnacle LD", "Proplus", "Solutions Bifocal", "Sphere", "Starlens", "Titan", "X-Cel Thin"];
@@ -97,12 +100,28 @@ export class ProductViewXCelComponent implements OnInit {
     this.uploadFilesComponents.forEach(uploadFileComponent => {
       uploadFileComponent.saveFiles();
     });
-    debugger
+    this.selectedProduct.params[0].header = [];//clean everything
+    this.selectedProduct.params[0].params = []
+    this.selectedProduct.params[1].header = []
+    this.selectedProduct.params[1].params = []
+
+    this.selectedProduct['name'] = this.product.name;
+    this.selectedProduct['category'] = this.product.category;
+    this.selectedProduct['idProduct'] = this.product.idProduct;
+    this.selectedProduct['client'] = this.product.client;
+    this.selectedProduct['mainImg'] = this.product.mainImg;
+    this.selectedProduct['patient'] = this.product.patient;
+    this.selectedProduct['shipping'] = this.product.shippingAddress;
+    this.selectedProduct['supplier'] = this.product.supplier;
+    this.selectedProduct['typeOrder'] = this.product.typeOrder;
+
+    this.setSelectedParams();
+    //this.setSelectedParams(this.selectedProduct.params[1]);
+    console.log('chequeando si todo salio vbien', this.selectedProduct);
     //this.spinner.hide();
     const modalRef = this.modalService.open( PurchaseConfirmationComponent,
       { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
-    modalRef.componentInstance.cdgd = "cdgd";
-    modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.selectedProduct = this.selectedProduct;
     /* modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;
@@ -115,6 +134,24 @@ export class ProductViewXCelComponent implements OnInit {
     } , (reason) => {
     });
     //console.log('buyNow');
+  }
+
+  setSelectedParams() {
+    const self = this;
+    _.each(this.selectedProduct.params, function (parameters) {
+      _.each(self.product[self.parametersByEye(parameters.name)], function (param) {
+
+        if (self.enable[(parameters.name.toLowerCase())] && !!param.selected && param.selected !== 'No') {
+          if (param.header) {
+            parameters.header = _.concat(parameters.header, param);
+          } else {
+            parameters.params = _.concat(parameters.params, param);
+          }
+        }
+      });
+      parameters['observations'] = parameters.name.toLowerCase() === 'right' ? self.product.observationsRight : self.product.observationsLeft;
+    })
+
   }
 
   addToCart() {
@@ -133,8 +170,7 @@ export class ProductViewXCelComponent implements OnInit {
   }
 
   parametersByEye(eye) {
-
-    return eye === 'right' ? 'parametersRight' : 'parametersLeft';
+    return eye.toLowerCase() === 'right' ? 'parametersRight' : 'parametersLeft';
   }
 
   getParams(type, eye) {
@@ -157,7 +193,7 @@ export class ProductViewXCelComponent implements OnInit {
     this.designSelected = value.param.selected;
     let paramsBody = [];
     const paramsHeader = this.getParams('header', value.eye);
-
+debugger
     if (_.includes(this.parametersAtlantis, this.designSelected)) { //Atlantis Case
 
       if (value.param.name === 'Design') {

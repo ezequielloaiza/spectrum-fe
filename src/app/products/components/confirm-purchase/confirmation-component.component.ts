@@ -27,7 +27,7 @@ import { StatusUser } from '../../../shared/enum/status-user.enum';
 })
 export class PurchaseConfirmationComponent implements OnInit {
 
-  cdgd: any;
+  selectedProduct: any;
   typeOrder: any;
   datos: any;
   product: any;
@@ -73,8 +73,10 @@ export class PurchaseConfirmationComponent implements OnInit {
   ngOnInit() {
     //this.getDatos();
     //this.getBalance();
-    console.log(this.cdgd);
-    console.log(this.product);
+  }
+
+  checkList(parameterList) {
+    return parameterList.params.lenght > 0 ? true : false;
   }
 
   close() {
