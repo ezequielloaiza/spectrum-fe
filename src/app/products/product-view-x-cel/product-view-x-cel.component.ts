@@ -16,23 +16,22 @@ import { PurchaseConfirmationComponent } from '../components/confirm-purchase/co
 export class ProductViewXCelComponent implements OnInit {
   id: any;
   user: any;
+  membership: any;
   product: any;
   buttons: any;
+  insertor: any;
+  dmv = 5.15;
+  hydrapeg = 25.00;
   originalParameters = { right: [], left: [] };
   enable = {
     right: false,
     left: false
   };
   disableBuyButton = true;
-  designSelected: any;
-  //selectedProduct = { right: { name: 'right', header: [], params: [] }, left: { name: 'left', header: [], params: [] } };
-  //selectedProduct.params[0].header
-  selectedProduct = { params: [ { name: 'Right', header: [], params: []  }, { name: 'Left', header: [], params: [] } ] }//ob-array-obj
-
-  //buscarlos mejor por la DB
-  parametersRgp = ["Apex", "Bitoric", "CV-4 Multifocal", "Essential Solutions", "Pinnacle", "Pinnacle FT", "Pinnacle  IC", "Pinnacle LD", "Proplus", "Solutions Bifocal", "Sphere", "Starlens", "Titan", "X-Cel Thin"];
-  parametersAtlantis = ["Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"];
-  parametersCustomSoft = ["Adult Aphakic", "X-Cel Multifocal", "Flexlens Piggyback", "Flexlens ARC", "Flexlens Large Diameter", "Flexlens PRS", "Flexlens Sphere", "Flexlens Toric", "Flexlens Tricurve", "Horizon Sphere", "Horizon Toric", "Pediatric Aphakic"];
+  selectedProduct = { params: [{ name: 'Right', header: [], params: [] }, { name: 'Left', header: [], params: [] }] };
+  price = { right: { spCode: null, priceUnit: 0 }, left: { spCode: null, priceUnit: 0 } };
+  quantity = { right: 0, left: 0 };
+  presentationAndDesign = { right: { presentation: '', design: '' }, left:{ presentation: '', design: ''} };
 
 
   enableParams = { right: false, left: false };
@@ -50,6 +49,7 @@ export class ProductViewXCelComponent implements OnInit {
   ngOnInit(): void {
     this.id = +this.route.snapshot.paramMap.get('id');
     this.user = JSON.parse(this.userStorageService.getCurrentUser());
+    this.membership = this.user.userResponse.membership.idMembership;
     this.getProduct();
   }
 
@@ -63,9 +63,11 @@ export class ProductViewXCelComponent implements OnInit {
 
       this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
       this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+      this.product.header = JSON.parse(this.product.types)[0].header;
 
       this.initFooterButtons();
       this.initialViewParams();
+      this.insertorButton();
     });
   }
 
@@ -86,17 +88,21 @@ export class ProductViewXCelComponent implements OnInit {
     });
   }
 
-  buttonAction(functionName) {
-    if (functionName === 'buyNow') {
-      this.buyNow();
-    }
+  insertorButton() {
+    this.insertor = this.product.name.includes('Atlantis') /*? true : false*/;
+  }
 
+ /*  buttonAction(functionName) {
+   // if (functionName === 'buyNow') {
+      this.buyNow(functionName);
+    //}
+/*
     if (functionName === 'addToCart') {
       this.addToCart();
     }
-  }
+  } */
 
-  buyNow() {
+  buttonAction(functionName) {
     this.uploadFilesComponents.forEach(uploadFileComponent => {
       uploadFileComponent.saveFiles();
     });
@@ -114,14 +120,17 @@ export class ProductViewXCelComponent implements OnInit {
     this.selectedProduct['shipping'] = this.product.shippingAddress;
     this.selectedProduct['supplier'] = this.product.supplier;
     this.selectedProduct['typeOrder'] = this.product.typeOrder;
+    this.selectedProduct['insertor'] = this.product.name.includes('Atlantis') ? this.product.header[0] : null;//this's DMV according to Json
 
     this.setSelectedParams();
-    //this.setSelectedParams(this.selectedProduct.params[1]);
-    console.log('chequeando si todo salio vbien', this.selectedProduct);
+    this.selectedProduct['price'] = this.price; //an object that has selected designs and their price
+    this.selectedProduct['totalPrice'] = this.setTotalPrice(); //sum both eyes, hydra, dmv
+    //console.log("revisando prices", this.selectedProduct['price']);
     //this.spinner.hide();
     const modalRef = this.modalService.open( PurchaseConfirmationComponent,
       { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.selectedProduct = this.selectedProduct;
+    modalRef.componentInstance.buttonPressed = functionName;
     /* modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;
@@ -144,6 +153,12 @@ export class ProductViewXCelComponent implements OnInit {
         if (self.enable[(parameters.name.toLowerCase())] && !!param.selected && param.selected !== 'No') {
           if (param.header) {
             parameters.header = _.concat(parameters.header, param);
+            if (param.name === 'Quantity') {
+              self.quantity[parameters.name.toLowerCase()] = param.selected;
+            }
+            if (param.name === 'Design') { //put spectrum code right after Design header.
+              parameters.header = _.concat(parameters.header, { name: 'Spectrum Code', selected: self.price[parameters.name.toLowerCase()].spCode });//ver cual ojo colocar
+            }
           } else {
             parameters.params = _.concat(parameters.params, param);
           }
@@ -188,20 +203,21 @@ export class ProductViewXCelComponent implements OnInit {
   }
 
   changeParamsAndPrice(value) {
-    //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"
     const self = this;
-    this.designSelected = value.param.selected;
     let paramsBody = [];
     const paramsHeader = this.getParams('header', value.eye);
-debugger
-    if (_.includes(this.parametersAtlantis, this.designSelected)) { //Atlantis Case
+
+    //--------------------------------------------------------
+
+    if (this.product.name.includes('Atlantis')) { //Atlantis Case
 
       if (value.param.name === 'Design') {
 
-        this.setPriceByDesign(this.designSelected); //Change price by design selected
+        const selectedDesign = value.param.selected;
+        this.setPriceByDesign(value.eye, selectedDesign);
 
         paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
-          switch (self.designSelected) {
+          switch (selectedDesign) {
             case 'Atlantis SPH':
             case 'Atlantis FT':
               if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
@@ -235,85 +251,864 @@ debugger
         this.setRequiredParams(value);
         //call checkBUY method
       }
-    } else if (_.includes(this.parametersRgp, this.designSelected)) { // RGP CASE
-    } else if (_.includes(this.parametersCustomSoft, this.designSelected)) { //Custom Soft Case
+    } else if (this.product.name.includes('RGP')) { // RGP CASE
 
       if (value.param.name === 'Design') {
-        paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
-          switch (this.designSelected) {
-            case 'X-Cel Multifocal': //addition, dom eye, distance zone
-              return !param.header;
-            case 'Flexlens Large Diameter':
-              if (param.name === 'Presentation') {
-                param.values = param.values.filter(p => p !== '3 Pack');
-              }
-            return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
-            default:
-              if (!_.includes(param.values, '3 Pack') && param.name === 'Presentation') {
-                param.values = _.concat(param.values, '3 Pack');
-              }
-            return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+
+        const selectedDesign = value.param.selected;
+        this.setPriceByDesign(value.eye, selectedDesign);
+      }
+
+    } else if (this.product.name.includes('Soft')) { //Custom Soft Case
+
+        if (value.param.name === 'Presentation') {
+          this.presentationAndDesign[value.eye.toLowerCase()].presentation = value.param.selected;
+          this.setPriceByDesign(value.eye, value.param.selected);
+        }
+      console.log(this.presentationAndDesign);
+        if (value.param.name === 'Design') {
+
+          const selectedDesign = value.param.selected;
+          this.presentationAndDesign[value.eye.toLowerCase()].design = selectedDesign;
+          this.setPriceByDesign(value.eye, selectedDesign);
+
+          paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
+            switch (selectedDesign) {
+              case 'X-Cel Multifocal': //addition, dom eye, distance zone
+                return !param.header;
+              case 'Flexlens Large Diameter':
+                if (param.name === 'Presentation') {
+                  param.values = param.values.filter(p => p !== '3 Pack');
+                  param.selected = null;
+                  this.presentationAndDesign[value.eye.toLowerCase()].presentation = null;
+                }
+              return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+              default:
+                if (!_.includes(param.values, '3 Pack') && param.name === 'Presentation') {
+                  param.values = _.concat(param.values, '3 Pack');
+                }
+              return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+            }
+          });
+          this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
+        }
+
+    }
+
+  }
+
+  setPriceByDesign(eye, design) {
+
+    //do i get it from db or set it here? X-Cel RGP X-Cel Atlantis Scleral X-Cel Custom Soft
+     //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"
+    if (this.product.name.includes('Atlantis')) {
+      switch (design) {
+        case 'Atlantis SPH':
+          this.price[eye].spCode = '122A';
+          switch (this.membership) {
+            case 1://Gold
+              this.price[eye].priceUnit = 95;
+              break;
+            case 2://Diamond
+              this.price[eye].priceUnit = 95;
+              break;
+            case 3://Preffered
+              this.price[eye].priceUnit = 95;
+              break;
           }
-        });
-        this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
+        break;
+        case 'Atlantis TPC':
+          this.price[eye].spCode = '126A';
+          switch (this.membership) {
+            case 1://Gold
+              this.price[eye].priceUnit = 140;
+              break;
+            case 2://Diamond
+              this.price[eye].priceUnit = 140;
+              break;
+            case 3://Preffered
+              this.price[eye].priceUnit = 140;
+              break;
+          }
+        break;
+        case '"Atlantis FT':
+          this.price[eye].spCode = '125A';
+          switch (this.membership) {
+            case 1://Gold
+              this.price[eye].priceUnit = 140;
+              break;
+            case 2://Diamond
+              this.price[eye].priceUnit = 140;
+              break;
+            case 3://Preffered
+              this.price[eye].priceUnit = 140;
+              break;
+          }
+        break;
+        case 'Atlantis 3D':
+          this.price[eye].spCode = '124A';
+          switch (this.membership) {
+            case 1://Gold
+              this.price[eye].priceUnit = 140;
+              break;
+            case 2://Diamond
+              this.price[eye].priceUnit = 140;
+              break;
+            case 3://Preffered
+              this.price[eye].priceUnit = 140;
+              break;
+          }
+        break;
+        case 'Atlantis MF':
+          this.price[eye].spCode = '125A';
+          switch (this.membership) {
+            case 1://Gold
+              this.price[eye].priceUnit = 140;
+              break;
+            case 2://Diamond
+              this.price[eye].priceUnit = 140;
+              break;
+            case 3://Preffered
+              this.price[eye].priceUnit = 140;
+              break;
+          }
+        break;
+        case 'Atlantis 2.O':
+          this.price[eye].spCode = '127A';
+          switch (this.membership) {
+            case 1://Gold
+              this.price[eye].priceUnit = 140;
+              break;
+            case 2://Diamond
+              this.price[eye].priceUnit = 140;
+              break;
+            case 3://Preffered
+              this.price[eye].priceUnit = 140;
+              break;
+          }
+        break;
+        case 'Atlantis LD':
+          this.price[eye].spCode = '123A';
+          switch (this.membership) {
+            case 1://Gold
+              this.price[eye].priceUnit = 140;
+              break;
+            case 2://Diamond
+              this.price[eye].priceUnit = 140;
+              break;
+            case 3://Preffered
+              this.price[eye].priceUnit = 140;
+              break;
+          }
+        break;
+      }
+    } else if (this.product.name.includes('RGP')) {
+      switch (design) {
+        case 'Apex':
+          this.price[eye].spCode = '130A';
+          switch (this.membership) {
+            case 1://Gold
+              this.price[eye].priceUnit = 65;
+              break;
+            case 2://Diamond
+              this.price[eye].priceUnit = 65;
+              break;
+            case 3://Preffered
+              this.price[eye].priceUnit = 65;
+          break;
+          }
+          break;
+          case 'Bitoric':
+            this.price[eye].spCode = '129A';
+            switch (this.membership) {
+              case 1://Gold
+                this.price[eye].priceUnit = 32;
+                break;
+              case 2://Diamond
+                this.price[eye].priceUnit = 32;
+                break;
+              case 3://Preffered
+                this.price[eye].priceUnit = 32;
+                break;
+            }
+          break;
+          case 'CV-4 Multifocal':
+            this.price[eye].spCode = '133A';
+            switch (this.membership) {
+              case 1://Gold
+                this.price[eye].priceUnit = 66;
+                break;
+              case 2://Diamond
+                this.price[eye].priceUnit = 66;
+                break;
+              case 3://Preffered
+                this.price[eye].priceUnit = 66;
+                break;
+            }
+          break;
+          case 'Pinnacle':
+            this.price[eye].spCode = '118A';
+            switch (this.membership) {
+              case 1://Gold
+                this.price[eye].priceUnit = 21;
+                break;
+              case 2://Diamond
+                this.price[eye].priceUnit = 21;
+                break;
+              case 3://Preffered
+                this.price[eye].priceUnit = 21;
+                break;
+            }
+          break;
+          case 'Pinnacle IC':
+            this.price[eye].spCode = '120A';
+            switch (this.membership) {
+              case 1://Gold
+                this.price[eye].priceUnit = 55;
+                break;
+              case 2://Diamond
+                this.price[eye].priceUnit = 55;
+                break;
+              case 3://Preffered
+                this.price[eye].priceUnit = 55;
+                break;
+            }
+          break;
+          case 'Pinnacle LD':
+            this.price[eye].spCode = '119A';
+            switch (this.membership) {
+              case 1://Gold
+                this.price[eye].priceUnit = 31;
+                break;
+              case 2://Diamond
+                this.price[eye].priceUnit = 31;
+                break;
+              case 3://Preffered
+                this.price[eye].priceUnit = 31;
+                break;
+            }
+          break;
+          case 'Proplus':
+            this.price[eye].spCode = '131A';
+            switch (this.membership) {
+              case 1://Gold
+                this.price[eye].priceUnit = 47;
+                break;
+              case 2://Diamond
+                this.price[eye].priceUnit = 47;
+                break;
+              case 3://Preffered
+                this.price[eye].priceUnit = 47;
+                break;
+            }
+          break;
+          case 'Sphere':
+            this.price[eye].spCode = '114A';
+            switch (this.membership) {
+              case 1://Gold
+                this.price[eye].priceUnit = 21;
+                break;
+              case 2://Diamond
+                this.price[eye].priceUnit = 21;
+                break;
+              case 3://Preffered
+                this.price[eye].priceUnit = 21;
+                break;
+            }
+          break;
+          case 'Starlens':
+            this.price[eye].spCode = '116A';
+            switch (this.membership) {
+              case 1://Gold
+                this.price[eye].priceUnit = 21;
+                break;
+              case 2://Diamond
+                this.price[eye].priceUnit = 21;
+                break;
+              case 3://Preffered
+                this.price[eye].priceUnit = 21;
+                break;
+            }
+          break;
+          case 'Titan':
+            this.price[eye].spCode = '121A';
+            switch (this.membership) {
+              case 1://Gold
+                this.price[eye].priceUnit = 65;
+                break;
+              case 2://Diamond
+                this.price[eye].priceUnit = 65;
+                break;
+              case 3://Preffered
+                this.price[eye].priceUnit = 65;
+                break;
+            }
+          break;
+          case 'X-Cel Thin':
+            this.price[eye].spCode = '117A';
+            switch (this.membership) {
+              case 1://Gold
+                this.price[eye].priceUnit = 21;
+                break;
+              case 2://Diamond
+                this.price[eye].priceUnit = 21;
+                break;
+              case 3://Preffered
+                this.price[eye].priceUnit = 21;
+                break;
+            }
+          break;
+      }
+
+    } else if (this.product.name.includes('Custom Soft')) {
+      const customDesign = this.presentationAndDesign[eye.toLowerCase()].design;
+      const customPresentation = this.presentationAndDesign[eye.toLowerCase()].presentation;
+      if (!!customDesign && !!customPresentation) {
+        switch (customDesign) {
+          case 'Adult Aphakic':
+          case 'Pediatric Aphakic':
+            switch (customPresentation) {
+              case 'Single (Vial)':
+                this.price[eye].spCode = '104A (W)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 60.00;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 60.00;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 60.00;
+                    break;
+                }
+              break;
+              case 'Spare (Blister)':
+                this.price[eye].spCode = '104B (NW)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 30.00;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 30.00;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 30.00;
+                    break;
+                }
+              break;
+              case '3 Pack':
+                this.price[eye].spCode = '104C (3PK)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 93.00;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 93.00;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 93.00;
+                    break;
+                }
+              break;
+            }
+          break;
+          case 'X-Cel Multifocal':
+            switch (customPresentation) {
+              case 'Single (Vial)':
+                this.price[eye].spCode = '107A (W)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 69.00;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 69.00;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 69.00;
+                    break;
+                }
+              break;
+              case 'Spare (Blister)':
+                this.price[eye].spCode = '107B (NW)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 36.50;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 36.50;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 36.50;
+                    break;
+                }
+              break;
+              case '3 Pack':
+                this.price[eye].spCode = '107C (3PK)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 103.50;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 103.50;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 103.50;
+                    break;
+                }
+              break;
+            }
+          break;
+          case 'Flexlens ARC':
+            switch (customPresentation) {
+              case 'Single (Vial)':
+                this.price[eye].spCode = '100A (W)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 79.00;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 79.00;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 79.00;
+                    break;
+                }
+              break;
+              case 'Spare (Blister)':
+                this.price[eye].spCode = '100B (NW)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 45.00;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 45.00;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 45.00;
+                    break;
+                }
+              break;
+              case '3 Pack':
+                this.price[eye].spCode = '100C (3PK)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 99.00;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 99.00;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 99.00;
+                    break;
+                }
+              break;
+            }
+          break;
+          case 'Flexlens Piggyback':
+            switch (customPresentation) {
+              case 'Single (Vial)':
+                this.price[eye].spCode = '103A (W)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 60.00;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 60.00;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 60.00;
+                    break;
+                }
+              break;
+              case 'Spare (Blister)':
+                this.price[eye].spCode = '103B (NW)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 37.50;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 37.50;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 37.50;
+                    break;
+                }
+              break;
+              case '3 Pack':
+                this.price[eye].spCode = '103C (3PK)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 110.00;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 110.00;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 110.00;
+                    break;
+                }
+              break;
+            }
+          break;
+          case 'Flexlens Large Diameter':
+            switch (customPresentation) {
+              case 'Single (Vial)':
+                this.price[eye].spCode = '108A (W)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 51.75;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 51.75;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 51.75;
+                    break;
+                }
+              break;
+              case 'Spare (Blister)':
+                this.price[eye].spCode = '108B (NW)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 32.30;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 32.30;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 32.30;
+                    break;
+                }
+              break;
+/*               case '3 Pack': //This presentation is not being offered
+                this.price[eye].spCode = '103C (3PK)';
+                switch (this.membership) {
+                  case 1://Gold
+                    this.price[eye].priceUnit = 110.00;
+                    break;
+                  case 2://Diamond
+                    this.price[eye].priceUnit = 110.00;
+                    break;
+                  case 3://Preffered
+                    this.price[eye].priceUnit = 110.00;
+                    break;
+                }
+              break; */
+            }
+            break;
+            case 'Flexlens PRS':
+              switch (customPresentation) {
+                case 'Single (Vial)':
+                  this.price[eye].spCode = '102A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 70.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 70.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 70.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.price[eye].spCode = '102B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 37.50;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 37.50;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 37.50;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.price[eye].spCode = '102C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 80.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 80.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 80.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Flexlens Sphere':
+              switch (customPresentation) {
+                case 'Single (Vial)':
+                  this.price[eye].spCode = '105A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 26.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 26.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 26.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.price[eye].spCode = '105B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 14.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 14.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 14.00;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.price[eye].spCode = '105C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 42.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 42.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 42.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Flexlens Toric':
+              switch (customPresentation) {
+                case 'Single (Vial)':
+                  this.price[eye].spCode = '106A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 40.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 40.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 40.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.price[eye].spCode = '106B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 18.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 18.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 18.00;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.price[eye].spCode = '106C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 54.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 54.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 54.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Flexlens Tricurve':
+              switch (customPresentation) {
+                case 'Single (Vial)':
+                  this.price[eye].spCode = '101A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 70.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 70.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 70.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.price[eye].spCode = '101B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 37.50;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 37.50;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 37.50;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.price[eye].spCode = '101C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 80.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 80.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 80.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Horizon Sphere':
+              switch (customPresentation) {
+                case 'Single (Vial)':
+                  this.price[eye].spCode = '111A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 26.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 26.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 26.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.price[eye].spCode = '111B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 14.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 14.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 14.00;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.price[eye].spCode = '111C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 42.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 42.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 42.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Horizon Toric':
+              switch (customPresentation) {
+                case 'Single (Vial)':
+                  this.price[eye].spCode = '112A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 40.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 40.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 40.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.price[eye].spCode = '112B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 18.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 18.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 18.00;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.price[eye].spCode = '112C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      this.price[eye].priceUnit = 54.00;
+                      break;
+                    case 2://Diamond
+                      this.price[eye].priceUnit = 54.00;
+                      break;
+                    case 3://Preffered
+                      this.price[eye].priceUnit = 54.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+
+          //---------------------------------------------//
+        }
       }
 
     }
 
   }
 
-  setPriceByDesign(design) {
-    let spCode = null;
-    let preferredP = null;
-    let diamondP = null;
-    let goldP = null;
-    //do i get it from db or set it here?
-     //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"
+  setTotalPrice() {
+    let total = 0;
+    let insertorUsed = false;
+    let hydraTotal = 0;
+    const dmvSelected = this.product.header[0].selected;
 
-    switch (design) {
-      case 'Atlantis SPH':
-        spCode = '122A';
-        preferredP = 95;
-        diamondP = 95;
-        goldP = 95;
-      break;
-      case 'Atlantis TPC':
-        spCode = '126A';
-        preferredP = 140;
-        diamondP = 140;
-        goldP = 140;
-      break;
-      case '"Atlantis FT':
-        spCode = '125A';
-        preferredP = 140;
-        diamondP = 140;
-        goldP = 140;
-      break;
-      case 'Atlantis 3D':
-        spCode = '124A';
-        preferredP = 140;
-        diamondP = 140;
-        goldP = 140;
-      break;
-      case 'Atlantis MF':
-        spCode = '125A';
-        preferredP = 140;
-        diamondP = 140;
-        goldP = 140;
-      break;
-      case 'Atlantis 2.O':
-        spCode = '127A';
-        preferredP = 140;
-        diamondP = 140;
-        goldP = 140;
-      break;
-      case 'Atlantis LD':
-        spCode = '123A';
-        preferredP = 140;
-        diamondP = 140;
-        goldP = 140;
-      break;
+    if (this.enable.right) {
+      total += this.price.right.priceUnit * this.quantity.right;
+      total = (dmvSelected === 'Yes' && !insertorUsed) ? total + this.dmv : total;
+      insertorUsed = true;
+      _.each(this.product.parametersRight, function(param) {
+        if (param.name === 'Hydrapeg' && param.selected === 'Yes') {
+          hydraTotal++;
+        }
+      })
     }
+    if (this.enable.left) {
+      total += this.price.left.priceUnit * this.quantity.left;
+      total = (dmvSelected === 'Yes' && !insertorUsed) ? total + this.dmv : total;
+      insertorUsed = true;
+      _.each(this.product.parametersLeft, function(param) {
+        if (param.name === 'Hydrapeg' && param.selected === 'Yes') {
+          hydraTotal++;
+        }
+      })
+    }
+    debugger
+    return total + (hydraTotal * this.hydrapeg);//+ hydra, + dmv
   }
 
   setRequiredParams({ param, eye }) {

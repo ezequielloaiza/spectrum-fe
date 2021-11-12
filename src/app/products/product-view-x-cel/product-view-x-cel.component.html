@@ -3,6 +3,7 @@
 <app-card-product *ngIf="product && validation()" [productName]="product.name">
   <app-order-type [product]="product"></app-order-type>
   <app-info-client [product]="product"></app-info-client>
+  <app-header-component [insertor]="insertor" [header]="product.header"></app-header-component>
   <div class="row product-info">
     <div class="col-md-12 title">
       <label> {{ 'Please specify your product' | translate }}</label>

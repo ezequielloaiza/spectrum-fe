@@ -12,6 +12,7 @@ import { OrderTypeComponent } from '../components/order-type/order-type.componen
 import { CommentComponent } from './comment/comment.component';
 import { FooterButtonsComponent } from './footer-buttons/footer-buttons.component';
 import { InfoParamsComponent } from './info-params/info-params.component';
+import { HeaderComponent } from './header/header-component.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 
 @NgModule({
@@ -31,7 +32,8 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
     CardProductComponent,
     CommentComponent,
     UploadFileComponent,
-    FooterButtonsComponent
+    FooterButtonsComponent,
+    HeaderComponent
   ],
   exports: [
     InfoParamsComponent,
@@ -41,7 +43,8 @@ import { UploadFileComponent } from './upload-file/upload-file.component';
     CardProductComponent,
     CommentComponent,
     UploadFileComponent,
-    FooterButtonsComponent
+    FooterButtonsComponent,
+    HeaderComponent
   ]
 })
 export class ComponentsProductsModule {}

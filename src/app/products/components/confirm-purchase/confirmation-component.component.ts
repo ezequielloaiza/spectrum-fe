@@ -28,6 +28,9 @@ import { StatusUser } from '../../../shared/enum/status-user.enum';
 export class PurchaseConfirmationComponent implements OnInit {
 
   selectedProduct: any;
+  buttonPressed: any;
+  dmvPrice = 5.15;
+
   typeOrder: any;
   datos: any;
   product: any;
@@ -73,6 +76,7 @@ export class PurchaseConfirmationComponent implements OnInit {
   ngOnInit() {
     //this.getDatos();
     //this.getBalance();
+    console.log("chequeando el modal el insertor como llega", this.selectedProduct.insertor);
   }
 
   checkList(parameterList) {

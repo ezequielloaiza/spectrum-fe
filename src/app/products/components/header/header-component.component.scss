@@ -1,0 +1,30 @@
+@import '../../../../styles/spectrum/spectrum';
+
+.header {
+  margin-top: 17px;
+}
+
+.header-params {
+  padding-left: 1em;
+
+  .custom-control {
+    margin-bottom: 1em;
+  }
+
+}
+
+.custom-header {
+  display: flex;
+}
+
+.radio-b{
+  display: flex;
+
+  > div:nth-child(1) {
+    margin-right: 20px;
+  }
+}
+
+.warnings {
+  color: green;
+}
