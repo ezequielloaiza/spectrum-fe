@@ -30,6 +30,7 @@ export class PurchaseConfirmationComponent implements OnInit {
   selectedProduct: any;
   buttonPressed: any;
   dmvPrice = 5.15;
+  hydrapegPrice = 25.00;
 
   typeOrder: any;
   datos: any;
@@ -77,6 +78,20 @@ export class PurchaseConfirmationComponent implements OnInit {
     //this.getDatos();
     //this.getBalance();
     console.log("chequeando el modal el insertor como llega", this.selectedProduct.insertor);
+  }
+
+  getHydrapegSelection() {
+    debugger
+    let checkHydrapegSelection = false;
+
+    _.each(this.selectedProduct.params, function (paramList) {
+      _.each(paramList.params, function (p) {
+        if (p.name === 'Hydrapeg' && p.selected === 'Yes') {
+          checkHydrapegSelection = true;
+        }
+      });
+    });
+    return checkHydrapegSelection;
   }
 
   checkList(parameterList) {

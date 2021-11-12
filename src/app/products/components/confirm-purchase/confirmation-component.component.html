@@ -31,12 +31,12 @@
         <div class="col-lg-12">
           <dl>
             <dt>{{ selectedProduct.totalPrice | currency: "USD $" }}</dt>
-            <p class="eye-info" *ngIf="selectedProduct.insertor.selected === 'Yes'">
+            <p class="eye-info" *ngIf="selectedProduct.insertor.selected === 'Yes' || getHydrapegSelection()">
               (
               <span>{{ 'Includes' | translate }}</span>&nbsp;
-              <!-- <span *ngIf="totalHidrapeg">{{'Hidrapeg' | translate}}:{{ totalHidrapeg | currency : " USD $" }}</span> -->
-              <!-- <span>&nbsp;|&nbsp;</span> -->
-              <span>{{'Inserts (DMV)' | translate}}:{{ dmvPrice | currency : " USD $" }}</span>
+               <span *ngIf="getHydrapegSelection()">{{'Hidrapeg' | translate}}:{{ hydrapegPrice | currency : " USD $" }}</span>
+               <span>&nbsp;|&nbsp;</span>
+              <span *ngIf="selectedProduct.insertor.selected === 'Yes'">{{'Inserts (DMV)' | translate}}:{{ dmvPrice | currency : " USD $" }}</span>
               )
             </p>
           </dl>
