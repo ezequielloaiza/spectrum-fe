@@ -31,9 +31,10 @@ export class PurchaseConfirmationComponent implements OnInit {
   buttonPressed: any;
   dmvPrice = 5.15;
   hydrapegPrice = 25.00;
+  datos: any;
+
 
   typeOrder: any;
-  datos: any;
   product: any;
   file: File;
   role: any;
@@ -75,13 +76,11 @@ export class PurchaseConfirmationComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.getDatos();
-    //this.getBalance();
-    console.log("chequeando el modal el insertor como llega", this.selectedProduct.insertor);
+    this.getDatos();
+    this.getBalance();
   }
 
   getHydrapegSelection() {
-    debugger
     let checkHydrapegSelection = false;
 
     _.each(this.selectedProduct.params, function (paramList) {
@@ -119,7 +118,7 @@ export class PurchaseConfirmationComponent implements OnInit {
       priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
 
       patient = productRequested.patient;
-      if (productRequested.observations === undefined) {
+      if (!productRequested.observations) {
         productRequested.observations = '';
       }
       let details = JSON.parse(productRequested.detail);
@@ -134,7 +133,7 @@ export class PurchaseConfirmationComponent implements OnInit {
 
     this.listBasket = listBasketAux;
     this.eyesSelected = eyesSelected;
-    this.namePatient = "[pepito]";
+    this.namePatient = patient;
     this.price = priceAcum;
   }
 
@@ -231,7 +230,7 @@ export class PurchaseConfirmationComponent implements OnInit {
   }
 
   save(): void {
-    if (this.typeBuy === 1) {
+    if (this.buttonPressed === 'addToCart') {
       this.spinner.show();
       this.basketRequest.idUser = this.datos.idUser;
       this.basketRequest.productRequestedList = this.lista;

@@ -7,6 +7,9 @@ import { UploadFileComponent } from '../components/upload-file/upload-file.compo
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'lodash';
 import { PurchaseConfirmationComponent } from '../components/confirm-purchase/confirmation-component.component';
+import { ProductRequested } from '../../shared/models/productrequested';
+import { Product } from '../../shared/models/product';
+import { BasketRequest } from '../../shared/models/basketrequest';
 
 @Component({
   selector: 'app-product-view-x-cel',
@@ -28,10 +31,13 @@ export class ProductViewXCelComponent implements OnInit {
     left: false
   };
   disableBuyButton = true;
-  selectedProduct = { params: [{ name: 'Right', header: [], params: [] }, { name: 'Left', header: [], params: [] }] };
+  selectedProduct = { params: [{ eye: 'Right', header: [], params: [] }, { eye: 'Left', header: [], params: [] }] };
   price = { right: { spCode: null, priceUnit: 0 }, left: { spCode: null, priceUnit: 0 } };
   quantity = { right: 0, left: 0 };
-  presentationAndDesign = { right: { presentation: '', design: '' }, left:{ presentation: '', design: ''} };
+  presentationAndDesign = { right: { presentation: '', design: '' }, left: { presentation: '', design: '' } };
+
+  productsSelected: Array<any> = new Array;
+  basketRequestModal: BasketRequest = new BasketRequest();
 
 
   enableParams = { right: false, left: false };
@@ -102,6 +108,17 @@ export class ProductViewXCelComponent implements OnInit {
     }
   } */
 
+  setEyeSelected() {
+    this.productsSelected = [];
+
+    if (this.enable.right) {
+      this.productsSelected.push({ eye: 'Right' });
+    }
+    if (this.enable.left) {
+      this.productsSelected.push({ eye: 'Left' });
+    }
+  }
+
   buttonAction(functionName) {
     this.uploadFilesComponents.forEach(uploadFileComponent => {
       uploadFileComponent.saveFiles();
@@ -110,6 +127,24 @@ export class ProductViewXCelComponent implements OnInit {
     this.selectedProduct.params[0].params = []
     this.selectedProduct.params[1].header = []
     this.selectedProduct.params[1].params = []
+    const productsRequested = [];
+    const productsSelected = this.buildProductSelected();
+    _.each(productsSelected, function (product) {
+      const productRequest: ProductRequested = new ProductRequested();
+      const productoSelect: Product = new Product();
+      productoSelect.idProduct = product.id;
+      productoSelect.codeSpectrum = product.codeSpectrum;
+      productRequest.product = productoSelect;
+      productRequest.quantity = product.quantity;
+      productRequest.name = product.name;
+      productRequest.price = product.price;
+      productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
+      productRequest.patient = product.patient;
+      productRequest.observations = product.observations;
+      productsRequested.push(productRequest);
+    });
+    this.basketRequestModal.idUser = this.product.client;
+    this.basketRequestModal.productRequestedList = productsRequested;
 
     this.selectedProduct['name'] = this.product.name;
     this.selectedProduct['category'] = this.product.category;
@@ -122,7 +157,6 @@ export class ProductViewXCelComponent implements OnInit {
     this.selectedProduct['typeOrder'] = this.product.typeOrder;
     this.selectedProduct['insertor'] = this.product.name.includes('Atlantis') ? this.product.header[0] : null;//this's DMV according to Json
 
-    this.setSelectedParams();
     this.selectedProduct['price'] = this.price; //an object that has selected designs and their price
     this.selectedProduct['totalPrice'] = this.setTotalPrice(); //sum both eyes, hydra, dmv
     //console.log("revisando prices", this.selectedProduct['price']);
@@ -131,12 +165,12 @@ export class ProductViewXCelComponent implements OnInit {
       { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.selectedProduct = this.selectedProduct;
     modalRef.componentInstance.buttonPressed = functionName;
-    /* modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.product;
-    modalRef.componentInstance.typeBuy = type;
-    modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
+     modalRef.componentInstance.datos = this.basketRequestModal;
+    /*modalRef.componentInstance.product = this.product;
+    modalRef.componentInstance.typeBuy = type;
+    modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeOrder = this.typeOrder; */
     modalRef.result.then((result) => {
       this.ngOnInit();
@@ -145,26 +179,76 @@ export class ProductViewXCelComponent implements OnInit {
     //console.log('buyNow');
   }
 
+  buildProductSelected() {
+    const self = this;
+    this.setEyeSelected();
+    let productsSelected = this.productsSelected;
+    console.log("creacion de arturo", productsSelected);
+ /*    this.selectedProduct['name'] = this.product.name;
+    this.selectedProduct['category'] = this.product.category;
+    this.selectedProduct['idProduct'] = this.product.idProduct;
+    this.selectedProduct['client'] = this.product.client;
+    this.selectedProduct['mainImg'] = this.product.mainImg;
+    this.selectedProduct['patient'] = this.product.patient;
+    this.selectedProduct['shipping'] = this.product.shippingAddress;
+    this.selectedProduct['supplier'] = this.product.supplier;
+    this.selectedProduct['typeOrder'] = this.product.typeOrder;
+    this.selectedProduct['insertor'] = this.product.name.includes('Atlantis') ? this.product.header[0] : null;//this's DMV according to Json */
+    this.setSelectedParams();
+    _.each(productsSelected, function (p, index) {
+      let eye = p.eye.toLowerCase();
+      debugger
+      p['patient'] = self.product.patient;
+      p['name'] = self.product.name;
+      p['id'] = self.product.idProduct;
+      p['codeSpectrum'] = self.price[eye].spCode;
+      p['price'] = self.price[eye].priceUnit;
+      p['quantity'] = self.quantity[eye];
+      p.header = self.selectedProduct.params[index].header.filter(param => param.name !== 'Spectrum Code');
+      debugger
+      _.each(p.header, function (parameter) {
+        parameter = _.omit(parameter, ['type', 'values', 'header']);
+        console.log(parameter);
+      });
+      p.parameters = self.selectedProduct.params[index].params;
+      p.parameters = _.each(p.parameters, function (parameter) {
+        parameter = _.omit(parameter, ['type', 'values', 'noRequired', 'placeholder']);
+      });
+
+      if (self.product.name.includes('Atlantis')) {
+        p['insertor'] = self.product.header[0];
+      } else {
+        p['insertor'] =  ['selected: No'];
+      }
+      p.observations = eye === 'right' ? self.product.observationsRight : self.product.observationsLeft;
+
+      p.detail = { name: self.product.name, eye: p.eye, header: p.header, parameters: p.parameters };
+    });
+
+    return productsSelected;
+
+  }
+
   setSelectedParams() {
     const self = this;
     _.each(this.selectedProduct.params, function (parameters) {
-      _.each(self.product[self.parametersByEye(parameters.name)], function (param) {
+      _.each(self.product[self.parametersByEye(parameters.eye)], function (param) {
 
-        if (self.enable[(parameters.name.toLowerCase())] && !!param.selected && param.selected !== 'No') {
+        if (self.enable[(parameters.eye.toLowerCase())] && !!param.selected && param.selected !== 'No') {
           if (param.header) {
             parameters.header = _.concat(parameters.header, param);
             if (param.name === 'Quantity') {
-              self.quantity[parameters.name.toLowerCase()] = param.selected;
+              self.quantity[parameters.eye.toLowerCase()] = param.selected;
             }
             if (param.name === 'Design') { //put spectrum code right after Design header.
-              parameters.header = _.concat(parameters.header, { name: 'Spectrum Code', selected: self.price[parameters.name.toLowerCase()].spCode });//ver cual ojo colocar
+              parameters.header = _.concat(parameters.header, { name: 'Spectrum Code', selected: self.price[parameters.eye.toLowerCase()].spCode });//ver cual ojo colocar
             }
           } else {
             parameters.params = _.concat(parameters.params, param);
           }
         }
       });
-      parameters['observations'] = parameters.name.toLowerCase() === 'right' ? self.product.observationsRight : self.product.observationsLeft;
+      parameters['observations'] = parameters.eye.toLowerCase() === 'right' ? self.product.observationsRight : self.product.observationsLeft;
     })
 
   }
@@ -1085,7 +1169,7 @@ export class ProductViewXCelComponent implements OnInit {
     let total = 0;
     let insertorUsed = false;
     let hydraTotal = 0;
-    const dmvSelected = this.product.header[0].selected;
+    const dmvSelected = this.product.header && this.product.header[0].selected;
 
     if (this.enable.right) {
       total += this.price.right.priceUnit * this.quantity.right;

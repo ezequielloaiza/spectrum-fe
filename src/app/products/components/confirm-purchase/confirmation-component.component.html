@@ -31,7 +31,7 @@
         <div class="col-lg-12">
           <dl>
             <dt>{{ selectedProduct.totalPrice | currency: "USD $" }}</dt>
-            <p class="eye-info" *ngIf="selectedProduct.insertor.selected === 'Yes' || getHydrapegSelection()">
+            <p class="eye-info" *ngIf="selectedProduct.insertor?.selected === 'Yes' || getHydrapegSelection()">
               (
               <span>{{ 'Includes' | translate }}</span>&nbsp;
                <span *ngIf="getHydrapegSelection()">{{'Hidrapeg' | translate}}:{{ hydrapegPrice | currency : " USD $" }}</span>
@@ -47,7 +47,7 @@
       <div class="col-lg-12" *ngFor="let list of selectedProduct.params">
         <div class="row padding-params" *ngIf="list.header.length > 0">
           <div class="col-lg-12 title eye-info">
-            <span>{{ list.name + ' Eye' | translate }}</span>&nbsp;&nbsp;
+            <span>{{ list.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
 
           <div class="col-lg-4" *ngFor="let header of list.header">
