@@ -1231,7 +1231,7 @@
     "Order Type": "Order Type",
     "Base Curve (mm)": "Base Curve (mm)",
     "Power (D)": "Power (D)",
-    "Axes Cylinder(º)": "Axes Cylinder(º)",
+    "Axis Cylinder(º)": "Axis Cylinder(º)",
     "Over-refaction": "Over-refaction",
     "Position of axis rotation markers": "Position of axis rotation markers",
     "Rotationally stable": "Rotationally stable",
@@ -1245,5 +1245,9 @@
     "Final Design": "Final Design",
     "Select Diameter (mm)": "Select Diameter (mm)",
     "Select Sag.": "Select Sag.",
-    "Introduce value": "Introduce value"
+    "Introduce value": "Introduce value",
+    "Sphere (D) (add over-refraction)": "Sphere (D) (add over-refaction)",
+    "Sphere (D) (final power)": "Sphere (D) (final power)",
+    "Addition (MF Sph)": "Addition (MF Sph)",
+    "Addition (MF Bitoric)": "Addition (MF Bitoric)"
 }

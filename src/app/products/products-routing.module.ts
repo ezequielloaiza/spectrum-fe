@@ -43,13 +43,10 @@ const routes: Routes = [
         { path: ':id/product-view-xsb/:supplierId', component: ProductViewXsbComponent, data: { option: 'ProductViewXsbComponent' }},
         { path: ':id/consultation-form', component: ConsultationFormComponent, data: { option: 'ConsultationFormComponent' } },
         { path: ':id/product-view-molded-lenses', component: ProductViewMoldedLensesComponent, data: { option: 'ProductViewMoldedLenses' }},
-        { path: 'pre/order', component: PreOrderComponent, data: { option: 'PreOrder' }},
-        { path: ':id/product-view-smartlens', component: ProductViewSmartlensComponent, data: { option: 'ProductsViewSmartlens' }},
-        { path: ':id/consultation-form', component: ConsultationFormComponent, data: { option: 'ConsultationFormComponent' }},
-        { path: 'pre/order', component: PreOrderComponent, data: { option: 'PreOrder' }},
+        { path: 'pre/order', component: PreOrderComponent, data: { option: 'PreOrder' } },
         { path: ':id/product-view-x-cel', loadChildren: './product-view-x-cel/product-view-x-cel.module#ProductsViewXCelModule',
-        data: { option: 'ProductViewXsbComponent' }},
-
+          data: { option: 'ProductViewXsbComponent' }},
+        { path: ':id/product-view-smartlens', component: ProductViewSmartlensComponent, data: { option: 'ProductsViewSmartlens' }}
     ] , data: { option: 'ProductsList' }
 }
 

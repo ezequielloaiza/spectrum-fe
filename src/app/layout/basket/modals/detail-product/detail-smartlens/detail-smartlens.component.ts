@@ -30,13 +30,22 @@ export class DetailSmartlensComponent implements OnInit {
   }
 
   getParams() {
+    let params = this.detail.parameters;
+
+    if (this.detail.design === "Sph") {
+      params =  _.filter(params, function(param) {
+        // Remove params cylinder and axis when design is Sph.
+        return param.name !== 'Cylinder (D)' && param.name !== 'Axis Cylinder(º)' && param.name !== 'Position of axis rotation markers' && param.name !== 'Rotationally stable';
+      });
+    }
+
     if (this.detail.typeLens === 'Final Design') {
-      return _.filter(this.detail.parameters, function(param) {
+      params =  _.filter(params, function(param) {
         // Excluding params design by laboratory
         return param.name !== 'Over-refraction';
       });
     }
-    return this.detail.parameters;
+    return params;
   }
 
   close() {

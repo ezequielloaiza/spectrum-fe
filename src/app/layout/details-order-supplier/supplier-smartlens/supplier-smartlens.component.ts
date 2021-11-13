@@ -58,13 +58,22 @@ export class SupplierSmartlensComponent implements OnInit {
   }
 
   getParams(detail) {
+    let params = detail.parameters;
+
+    if (detail.design === "Sph") {
+      params =  _.filter(params, function(param) {
+        // Remove params cylinder and axis when design is Sph.
+        return param.name !== 'Cylinder (D)' && param.name !== 'Axis Cylinder(º)' && param.name !== 'Position of axis rotation markers' && param.name !== 'Rotationally stable';
+      });
+    }
+
     if (detail.typeLens === 'Final Design') {
-      return _.filter(detail.parameters, function(param) {
+      params =  _.filter(params, function(param) {
         // Excluding params design by laboratory
         return param.name !== 'Over-refraction';
       });
     }
-    return detail.parameters;
+    return params;
   }
 
   downloadFile(item) {
@@ -80,7 +89,7 @@ export class SupplierSmartlensComponent implements OnInit {
       { size: 'lg', windowClass: 'modal-content-border modal-edit-smartlens' , backdrop  : 'static', keyboard  : false});
       modalRefSmartlens.componentInstance.detailEdit = this.lista;
       modalRefSmartlens.componentInstance.typeEdit = 2;
-      modalRefSmartlens.componentInstance.userOrder = this.order.user;
+      modalRefSmartlens.componentInstance.order = this.order;
       modalRefSmartlens.componentInstance.image = this.urlImage;
       modalRefSmartlens.result.then((result) => {
         this.skipLocationAndRedirect(this.router.url);

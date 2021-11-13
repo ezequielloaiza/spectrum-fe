@@ -1,4 +1,4 @@
-<div *ngIf="namePatient">
+  <div *ngIf="namePatient">
   <div class="modal-header">
     <h4 class="modal-title">{{ "Confirm purchase" | translate }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="close()">
@@ -31,6 +31,16 @@
         <div class="col-lg-12">
           <dl>
             <dt>{{ price | currency: "USD $" }}</dt>
+            <p class="eye-info" *ngIf="additionalDMV || additionalHydrapeg || additionalNotch">
+              (
+                <span>{{ 'Includes' | translate }}</span>&nbsp;
+                <span *ngIf="additionalDMV">{{'Inserts (DMV)' | translate}}:{{ additionalDMV | currency : " USD $" }}</span>
+                <span  *ngIf="additionalHydrapeg">&nbsp;|&nbsp;</span>
+                <span *ngIf="additionalHydrapeg">{{'Hydrapeg' | translate}}:{{ additionalHydrapeg | currency : " USD $" }}</span>
+                <span  *ngIf="additionalNotch">&nbsp;|&nbsp;</span>
+                <span *ngIf="additionalNotch">{{'Notch (mm)' | translate}}:{{ additionalNotch | currency : " USD $" }}</span>
+              )
+            </p>
           </dl>
         </div>
       </div>
@@ -47,7 +57,7 @@
               <dt>{{ 'Spectrum code' | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items">{{ product.codeSpectrum }}</dt>
+                <dt class="items">{{ list.codeSpectrum }}</dt>
               </dl>
             </dl>
           </div>
@@ -77,7 +87,7 @@
           <!-- Materials -->
           <div class="col-lg-12">
             <dl class="align-item">
-              <dt>{{ "Materials" | translate }}:</dt>
+              <dt>{{ "Material" | translate }}:</dt>
               <hr class="separators" />
               <dl>
                 <dt class="items">{{ list.detail[0].materials }}</dt>
@@ -111,8 +121,7 @@
           </div>
           <div class="col-sm-3" *ngFor="let parameter of getParams(list.detail[0])">
             <dl class="align-item">
-              <dt *ngIf="parameter.name !== 'Axes Cylinder'">{{ parameter.name | translate }}</dt>
-              <dt *ngIf="parameter.name === 'Axes Cylinder'">{{ "Axes (º)" | translate }}</dt>
+              <dt>{{ parameter.name | translate }}</dt>
               <hr class="separators" />
               <dl>
                 <dt class="items" *ngIf="parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined">{{ parameter.selected }}</dt>

@@ -31,17 +31,17 @@
       <!--PARAMETERS-->
       <div class="col-lg-12 label-title">
         <div class="row padding-params">
-          <div class="col-sm-4" [hidden]="!editPrice">
+          <div class="col-sm-4">
             <dl>
               <dt>{{'Price'| translate}}
               </dt>
               <dl>
-                <div class="form-group input-group">
+                <div [hidden]="!editPrice" class="form-group input-group">
                     <div class="input-group-append">
                       <span class="input-group-text">$</span>
                     </div>
                     <input class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
-                        name="price1">
+                        name="price1" disabled="true">
                 </div>
               </dl>
             </dl>
@@ -59,29 +59,51 @@
             </dl>
           </div>
 
-          <div class="params display-row col-sm-12 radio-custom">
-            <span class="title">{{ 'Materials' | translate }}:</span>
-            <div *ngFor="let value of product.materials.values; let i = index">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio-materials-{{i}}" name="radioMaterials" [value]="value" (change)="changeMaterials(value)" class="custom-control-input" [checked]="product.materials.selected === value">
-                <label class="custom-control-label" for="radio-materials-{{i}}">{{ value | translate }}</label>
+          <div class="col-lg-12" *ngIf="product?.dmv">
+            <div class="radio-custom">
+              <span class="title label-radio">{{ product.dmv.name | translate }}:</span>
+              <div *ngFor="let value of product.dmv.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-dmv-{{i}}" name="radioDMV" [value]="value"
+                         class="custom-control-input" (change)="changeDMV(value)"
+                         [checked]="product.dmv.selected === value">
+                  <label class="custom-control-label" for="radio-dmv-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="row additional col-lg-12">
+              <p *ngIf="product.dmv.selected === 'Yes'">
+                <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;
+                <span>{{'Inserts (DMV)' | translate}}:{{ getAdditionalPrices(false).dmv | currency : " USD $" }}</span>&nbsp;
+              </p>
+            </div>
+          </div>
+
+          <div class="row display-row col-sm-12">
+            <div class="params display-row col-sm-8 radio-custom">
+              <span class="title label-radio">{{ 'Material' | translate }}:</span>
+              <div class="align-radio" *ngFor="let value of product.materials.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-materials-{{i}}" name="radioMaterials" [value]="value" (change)="changeMaterials(value)" class="custom-control-input" [checked]="product.materials.selected === value">
+                  <label class="custom-control-label" for="radio-materials-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="params display-row col-sm-4 radio-custom" *ngIf="product.materials.selected === 'Boston-XO'">
+              <span class="title">{{ 'Hydrapeg' | translate }}:</span>
+              <div *ngFor="let value of product.hydrapeg.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-hydrapeg-{{i}}" name="radioHydrapeg" [value]="value" (change)="changeSelect(product.hydrapeg,value)" class="custom-control-input" [checked]="product.hydrapeg.selected === value">
+                  <label class="custom-control-label" for="radio-hydrapeg-{{i}}">{{ value | translate }}</label>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="params display-row col-sm-12 radio-custom" *ngIf="product.materials.selected === 'Boston-XO'">
-            <span class="title">{{ 'Hydrapeg' | translate }}:</span>
-            <div *ngFor="let value of product.hydrapeg.values; let i = index">
-              <div class="custom-control custom-radio">
-                <input type="radio" id="radio-hydrapeg-{{i}}" name="radioHydrapeg" [value]="value" (change)="changeSelect(product.hydrapeg,value)" class="custom-control-input" [checked]="product.hydrapeg.selected === value">
-                <label class="custom-control-label" for="radio-hydrapeg-{{i}}">{{ value | translate }}</label>
-              </div>
-            </div>
-          </div>
-
           <div class="params display-row col-sm-12 radio-custom">
-            <span class="title">{{ 'Design' | translate }}:</span>
-            <div *ngFor="let value of design.values; let i = index">
+            <span class="title label-radio">{{ 'Design' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of design.values; let i = index">
               <div class="custom-control custom-radio">
                 <input type="radio" id="radio-design-{{i}}" name="radioDesign" [value]="value" class="custom-control-input" (change)="changeDesign(value)" [checked]="design.selected === value">
                 <label class="custom-control-label" for="radio-design-{{i}}">{{ value | translate }}</label>
@@ -90,8 +112,8 @@
           </div>
 
           <div class="params display-row col-sm-12 radio-custom">
-            <span class="title">{{ 'Type' | translate }}:</span>
-            <div *ngFor="let value of typeLens.values; let i = index">
+            <span class="title label-radio">{{ 'Type' | translate }}:</span>
+            <div class="align-radio" *ngFor="let value of typeLens.values; let i = index">
               <div class="custom-control custom-radio">
                 <input type="radio" id="radio-lens-{{i}}" name="radioTypeLens" [value]="value" (change)="changeTypeLens(value)" class="custom-control-input" [checked]="typeLens.selected === value">
                 <label class="custom-control-label" for="radio-lens-{{i}}">{{ value | translate }}</label>
@@ -105,8 +127,7 @@
           <div class="col-sm-4" *ngFor="let parameter of getParams()">
             <dl>
               <div *ngIf="parameter.type !== 'selected-double' && parameter.name !== 'Type'">
-                <dt *ngIf="parameter.name !== 'Axes Cylinder'">{{ parameter.name | translate }}</dt>
-                <dt *ngIf="parameter.name === 'Axes Cylinder'">{{ "Axes (º)" | translate }}</dt>
+                <dt>{{ parameter.name | translate }}</dt>
               </div>
 
               <div class="notch-lbl" *ngIf="parameter.type === 'selected-double'">
@@ -119,11 +140,11 @@
                 <dt>
                   <!--param values-->
                   <!-- SELECTED OF ALL -->
-                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'" class="select-values col-sm-12">
                     <ng-select (change)="changeSelect(parameter, $event,0)" [items]="parameter.values"
                       placement="top" ngbTooltip="{{ isDependent(parameter) | translate }}"
-                      [disabled]="parameter.values.length === 1 || parameter.disabled || isDependent(parameter)" [required]="true" [(ngModel)]="parameter.selected"
-                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
+                      [disabled]="parameter.values.length === 1 || parameter.disabled || isDependent(parameter)" [required]="!parameter.noRequired" [(ngModel)]="parameter.selected"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired">
                       {{item}}
                     </ng-select>
                   </div>
@@ -151,7 +172,7 @@
                   <!-- INPUT TYPE TEXT-->
                   <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
-                      [required]="true" [(ngModel)]="parameter.selected">
+                      [required]="!parameter.noRequired" maxlength="{{ parameter.maxLength }}" [(ngModel)]="parameter.selected">
                   </div>
 
                   <!-- INPUT TYPE NUMBER-->
@@ -160,12 +181,12 @@
                       [required]="true" [(ngModel)]="parameter.selected">
                   </div>
 
-                  <!--Only Axes (notch)-->
-                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axes (º)'" class="select-values">
+                  <!--Only axis (notch)-->
+                  <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axis (º)'" class="select-values">
                     <ng-select (change)="changeSelect(parameter, parameter.selected,0)" [disabled]="!selectedNotch"
                               [required]="selectedNotch" [(ngModel)]="parameter.selected"
                               bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
-                              <ng-option [value]="item" *ngFor="let item of axesValues()">{{ item  | translate }}</ng-option>
+                              <ng-option [value]="item" *ngFor="let item of axisValues()">{{ item  | translate }}</ng-option>
                     </ng-select>
                   </div>
 
@@ -201,6 +222,16 @@
           </div>
         </div>
       </div>
+
+      <div class="additional col-lg-12">
+        <p *ngIf="getAdditionalPrices(true).notch || getAdditionalPrices(true).hydrapeg">
+          <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
+          <span *ngIf="getAdditionalPrices(true).hydrapeg">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapeg | currency : " USD $" }}</span>&nbsp;
+          <span *ngIf="getAdditionalPrices(true).notch && getAdditionalPrices(true).hydrapeg">| </span>
+          <span *ngIf="getAdditionalPrices(true).notch">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notch | currency : " USD $" }}</span>&nbsp;
+        </p>
+      </div>
+
       <!--Fin parameters-->
       <div class="col-lg-12">
         <div class="row padding-params">

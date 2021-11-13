@@ -33,8 +33,6 @@ export class ProductViewMoldedLensesComponent implements OnInit {
   currentUser: any;
   user: any;
   ngSelect: any;
-  paramAxesRight: any;
-  paramAxesLeft: any;
   basketRequestModal: BasketRequest = new BasketRequest();
   client: any;
   listCustomers: Array<any> = new Array;

@@ -86,7 +86,7 @@
         <div class="card-header products-label" *ngIf="listDetails.length > 0">{{ 'Your Products' | translate }}</div>
         <div class="container product-list" *ngFor="let list of listDetails">
           <hr>
-          <div class="row">
+          <div class="row" *ngIf="list.productRequested.product.supplier">
             <div class="container-img" [ngClass]="{'col-sm-4': list.productRequested.product.supplier.idSupplier === 4, 'col-sm-3': list.productRequested.product.supplier.idSupplier !== 4}">
                 <div class="imag-product" [ngClass]="{'size-image-euclid': list.productRequested.product.father === 'Sapphire Toric','size-image': list.productRequested.product.father !== 'Sapphire Toric' }" [style.backgroundImage]="'url('+ list.urlImage +')'"></div>
             </div>
@@ -212,7 +212,7 @@
                         </div>
                       </div>
                       <div class="row">
-                          <div class="col-sm-3" *ngIf="list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier.idSupplier !== 7 && list.productRequested.product.supplier.idSupplier !== 16">
+                          <div class="col-sm-3" *ngIf="list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier.idSupplier !== 7 && list.productRequested.product.supplier.idSupplier !== 16 && list.productRequested.product.supplier.idSupplier !== 14">
                             <dl class="align-item">
                               <dt>{{ 'Spectrum code' | translate }}</dt>
                               <dt>
@@ -220,7 +220,7 @@
                               </dt>
                             </dl>
                           </div>
-                          <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier && list.productRequested.product.supplier.idSupplier === 16">
+                          <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier && (list.productRequested.product.supplier.idSupplier === 16 || list.productRequested.product.supplier.idSupplier === 14)">
                             <dl class="align-item">
                               <dt>{{ 'Spectrum code' | translate }}</dt>
                               <dt>
@@ -253,34 +253,34 @@
             </aside>
           </div>
           <!--Markennovy-->
-          <app-supplier-markennovy [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventMarkennovy)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===1"></app-supplier-markennovy>
+          <app-supplier-markennovy [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventMarkennovy)="refresh($event)" *ngIf="list.productRequested.product.supplier?.idSupplier===1"></app-supplier-markennovy>
           <!--Find Markennovy-->
           <!--Europa-->
-          <app-supplier-europa [lista]="list.productRequested" [image]="list.urlImage" [files]="list.fileProductRequestedList" [order]="order" (emitEventEuropa)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===2"></app-supplier-europa>
+          <app-supplier-europa [lista]="list.productRequested" [image]="list.urlImage" [files]="list.fileProductRequestedList" [order]="order" (emitEventEuropa)="refresh($event)" *ngIf="list.productRequested.product.supplier?.idSupplier===2"></app-supplier-europa>
           <!--Fin Europa-->
           <!--Lenticon-->
-          <app-supplier-lenticon [lista]="list.productRequested" [image]="list.urlImage" [files]="list.fileProductRequestedList" [order]="order" (emitEventLenticon)="refresh($event)"  *ngIf="list.productRequested.product.supplier.idSupplier===3"></app-supplier-lenticon>
+          <app-supplier-lenticon [lista]="list.productRequested" [image]="list.urlImage" [files]="list.fileProductRequestedList" [order]="order" (emitEventLenticon)="refresh($event)"  *ngIf="list.productRequested.product.supplier?.idSupplier===3"></app-supplier-lenticon>
           <!--Fin Lenticon-->
           <!--Euclid-->
-          <app-supplier-euclid [lista]="list.productRequested" [image]="list.urlImage" [files]="list.fileProductRequestedList" [order]="order" (emitEventEuclid)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===4"></app-supplier-euclid>
+          <app-supplier-euclid [lista]="list.productRequested" [image]="list.urlImage" [files]="list.fileProductRequestedList" [order]="order" (emitEventEuclid)="refresh($event)" *ngIf="list.productRequested.product.supplier?.idSupplier===4"></app-supplier-euclid>
           <!--Fin Euclid-->
           <!--Magic Look-->
-          <app-supplier-magic-look [lista]="list.productRequested" [image]="list.urlImage" [order]="order"  (emitEventMagic)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===5"></app-supplier-magic-look>
+          <app-supplier-magic-look [lista]="list.productRequested" [image]="list.urlImage" [order]="order"  (emitEventMagic)="refresh($event)" *ngIf="list.productRequested.product.supplier?.idSupplier===5"></app-supplier-magic-look>
           <!--Fin Magic Look-->
           <!--Blue Light-->
-          <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventBlue)="refresh($event)" *ngIf="list.productRequested.product.supplier.idSupplier===6"></app-supplier-blue-light>
+          <app-supplier-blue-light [lista]="list.productRequested" [image]="list.urlImage" [order]="order" (emitEventBlue)="refresh($event)" *ngIf="list.productRequested.product.supplier?.idSupplier===6"></app-supplier-blue-light>
           <!--Fin Blue Light-->
           <!--Synergeyes-->
-          <app-supplier-synergeyes [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventSynergeyes)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 9"></app-supplier-synergeyes>
+          <app-supplier-synergeyes [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventSynergeyes)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier?.idSupplier === 9"></app-supplier-synergeyes>
           <!--Fin Synergeyes-->
           <!--Orion-->
-          <app-supplier-orion [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 10"></app-supplier-orion>
+          <app-supplier-orion [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier?.idSupplier === 10"></app-supplier-orion>
           <!--Fin Orion-->
           <!--Molded Lenses-->
-          <app-supplier-molded-lenses [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 16"></app-supplier-molded-lenses>
+          <app-supplier-molded-lenses [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier?.idSupplier === 16"></app-supplier-molded-lenses>
           <!--Fin Molded Lenses-->
           <!--Smartlens-->
-          <app-supplier-smartlens [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 14"></app-supplier-smartlens>
+          <app-supplier-smartlens [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier?.idSupplier === 14"></app-supplier-smartlens>
           <!--Fin Smartlens-->
         </div>
           <div *ngIf="order.orderType === 'GENERIC'">

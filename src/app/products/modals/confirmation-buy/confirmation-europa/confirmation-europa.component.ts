@@ -108,6 +108,7 @@ export class ConfirmationEuropaComponent implements OnInit {
     let insertCodeSpectrum = '';
     _.each(this.listBasket, function (productRequested) {
 
+      // TODO: change a function isInsertsDMV of product.ts
       if (productRequested.product.idProduct === 146) {
         quantityInserts++;
         if (quantityInserts < 2) {
