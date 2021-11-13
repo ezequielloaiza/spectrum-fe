@@ -167,11 +167,13 @@ export class ProductViewXCelComponent implements OnInit {
     modalRef.componentInstance.buttonPressed = functionName;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
-     modalRef.componentInstance.datos = this.basketRequestModal;
+    modalRef.componentInstance.datos = this.basketRequestModal;
+    modalRef.componentInstance.typeOrder = this.product.typeOrder;
+    modalRef.componentInstance.role = this.user.role.idRole
     /*modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.role = this.user.role.idRole;
-    modalRef.componentInstance.typeOrder = this.typeOrder; */
+     */
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
