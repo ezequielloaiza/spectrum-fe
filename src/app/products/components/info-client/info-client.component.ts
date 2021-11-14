@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { UserStorageService } from '../../../http/user-storage.service';
@@ -14,6 +14,12 @@ import { ShippingAddressService } from '../../../shared/services/shippingAddress
 export class InfoClientComponent implements OnInit {
 
   @Input() product;
+  membership: any;
+  client: any;
+
+  @Output("getClient") getClient: EventEmitter<any> = new EventEmitter();
+
+
 
   listCustomers: Array<any>;
 
@@ -31,31 +37,45 @@ export class InfoClientComponent implements OnInit {
   }
 
   getCustomer() {
-  if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+    let currentUser = this.user.userResponse;
+
+    if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.listCustomers = res.data;
           this.listCustomers.map((i) => {
-            const accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
-            const certificationCode  = !!i.certificationCode ?  i.certificationCode + ' | ' : '';
-            i.fullName = accSpct + i.name + ' | ' +  certificationCode + i.country.name;
+            const accSpct = !!i.accSpct ? i.accSpct + ' - ' : '';
+            const certificationCode = !!i.certificationCode ? i.certificationCode + ' | ' : '';
+            i.fullName = accSpct + i.name + ' | ' + certificationCode + i.country.name;
             return i;
           });
         }
       });
+    } else if (this.user.role.idRole === 3) {
+      this.client = currentUser.idUser;
+      let accSpct = !!currentUser.accSpct ? currentUser.accSpct + ' - ' : '';
+      this.product.client = accSpct + currentUser.name + ' | ' + currentUser.country.name;
+      this.findShippingAddress(this.client);
     }
   }
 
   onSelectedClient(clientSelect) {
     if (clientSelect !== undefined) {
-      // this.client = clientSelect;
+      this.client = clientSelect;
       this.findShippingAddress(this.product.client);
-      // this.definePrice(clientSelect.membership.idMembership);
+      this.setClient(this.client);
+      //this.membership = clientSelect.membership.idMembership;
+      //this.definePrice(clienteSelect.membership.idMembership);
     } else {
-      // this.client = '';
+      //this.client = '';
       this.product.shippingAddress = '';
-      // this.product.priceSale = '';
+      this.membership = 0;
+      this.product.priceSale = '';
     }
+  }
+
+  setClient(client) {
+    this.getClient.emit(client);
   }
 
   findShippingAddress(idCliente) {

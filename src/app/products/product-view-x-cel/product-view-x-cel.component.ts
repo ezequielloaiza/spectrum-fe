@@ -10,6 +10,8 @@ import { PurchaseConfirmationComponent } from '../components/confirm-purchase/co
 import { ProductRequested } from '../../shared/models/productrequested';
 import { Product } from '../../shared/models/product';
 import { BasketRequest } from '../../shared/models/basketrequest';
+import { UserService } from '../../shared/services';
+import { CodeHttp } from '../../shared/enum/code-http.enum';
 
 @Component({
   selector: 'app-product-view-x-cel',
@@ -23,6 +25,7 @@ export class ProductViewXCelComponent implements OnInit {
   product: any;
   buttons: any;
   insertor: any;
+  client: any;
   dmv = 5.15;
   hydrapeg = 25.00;
   originalParameters = { right: [], left: [] };
@@ -50,12 +53,13 @@ export class ProductViewXCelComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private modalService: NgbModal,
     private userStorageService: UserStorageService,
+    private userService: UserService,
     private productService: ProductService) { }
 
   ngOnInit(): void {
     this.id = +this.route.snapshot.paramMap.get('id');
     this.user = JSON.parse(this.userStorageService.getCurrentUser());
-    this.membership = this.user.userResponse.membership.idMembership;
+    //this.membership = this.user.userResponse.membership.idMembership;
     this.getProduct();
   }
 
@@ -74,7 +78,28 @@ export class ProductViewXCelComponent implements OnInit {
       this.initFooterButtons();
       this.initialViewParams();
       this.insertorButton();
+      this.setMembership();
     });
+  }
+
+  setMembership() {
+
+    if (this.user.role.idRole === 3) {
+      this.membership = this.user.userResponse.membership.idMembership;
+    }
+     /* else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+      this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
+        if (res.code === CodeHttp.ok) {
+          this.listCustomersAux = res.data;
+          this.listCustomers = this.listCustomersAux;
+          this.listCustomers.map((i) => {
+            let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
+            i.fullName = accSpct + i.name + ' | ' + i.country.name;
+            return i;
+          });
+        }
+      });
+    } */
   }
 
   initFooterButtons() {
@@ -96,6 +121,12 @@ export class ProductViewXCelComponent implements OnInit {
 
   insertorButton() {
     this.insertor = this.product.name.includes('Atlantis') /*? true : false*/;
+  }
+
+  getClient(client) {
+    this.client = client.idUser;
+    this.membership = client.membership.idMembership;
+    debugger
   }
 
  /*  buttonAction(functionName) {
@@ -185,18 +216,8 @@ export class ProductViewXCelComponent implements OnInit {
     const self = this;
     this.setEyeSelected();
     let productsSelected = this.productsSelected;
-    console.log("creacion de arturo", productsSelected);
- /*    this.selectedProduct['name'] = this.product.name;
-    this.selectedProduct['category'] = this.product.category;
-    this.selectedProduct['idProduct'] = this.product.idProduct;
-    this.selectedProduct['client'] = this.product.client;
-    this.selectedProduct['mainImg'] = this.product.mainImg;
-    this.selectedProduct['patient'] = this.product.patient;
-    this.selectedProduct['shipping'] = this.product.shippingAddress;
-    this.selectedProduct['supplier'] = this.product.supplier;
-    this.selectedProduct['typeOrder'] = this.product.typeOrder;
-    this.selectedProduct['insertor'] = this.product.name.includes('Atlantis') ? this.product.header[0] : null;//this's DMV according to Json */
     this.setSelectedParams();
+
     _.each(productsSelected, function (p, index) {
       let eye = p.eye.toLowerCase();
       debugger
@@ -226,7 +247,7 @@ export class ProductViewXCelComponent implements OnInit {
 
       p.detail = { name: self.product.name, eye: p.eye, header: p.header, parameters: p.parameters };
     });
-
+    console.log("encapsulado el producto", productsSelected);
     return productsSelected;
 
   }
@@ -417,7 +438,7 @@ export class ProductViewXCelComponent implements OnInit {
               break;
           }
         break;
-        case '"Atlantis FT':
+        case 'Atlantis FT':
           this.price[eye].spCode = '125A';
           switch (this.membership) {
             case 1://Gold
