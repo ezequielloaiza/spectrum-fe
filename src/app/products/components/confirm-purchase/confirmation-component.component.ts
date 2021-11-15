@@ -256,7 +256,7 @@ export class PurchaseConfirmationComponent implements OnInit {
       }, error => {
         console.log('error', error);
       });
-    } else {
+    } else { // buy now order
       if (this.client.status === StatusUser.InDefault) {
         this.translate.get('Customer in Default', { value: 'Customer in Default' }).subscribe((title: string) => {
           this.translate.get('Your account was deactivated. Please contact with the administrator',

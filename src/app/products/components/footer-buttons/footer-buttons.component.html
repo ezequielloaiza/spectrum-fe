@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-12 buy-btns">
     <!-- TODO: disabled-->
-    <button *ngFor="let button of buttons" [hidden]="button.hidden" [disabled]="checkToBuy2()"
+    <button *ngFor="let button of buttons" [hidden]="button.hidden" [disabled]="disableBuyButton"
             class="btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button"
             (click)="executeAction(button.fn)">
       <i class="{{button.icon}}"></i> {{ button.name | translate }}

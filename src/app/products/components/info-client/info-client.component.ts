@@ -81,7 +81,11 @@ export class InfoClientComponent implements OnInit {
   findShippingAddress(idCliente) {
     this.shippingAddressService.findIdUser$(idCliente).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.product.shippingAddress = res.data.name + ',' + res.data.city + '-' + res.data.state + ' ' + res.data.country.name;
+        let shippingAddress = res.data.name ? res.data.name : '';
+        shippingAddress += res.data.city ? (shippingAddress ? (', ' +  res.data.city) : res.data.city) : shippingAddress;
+        shippingAddress += res.data.state ? (shippingAddress ? (' - ' +  res.data.state) : res.data.state) : shippingAddress;
+        shippingAddress += res.data.country.name ? (shippingAddress ? (' ' +  res.data.country.name) : res.data.country.name) : shippingAddress;
+        this.product.shippingAddress = shippingAddress;
       } else if (res.code === CodeHttp.notContent) {
         this.product.shippingAddress = '';
         this.translate.get('You must enter a main address in the shipping address module',

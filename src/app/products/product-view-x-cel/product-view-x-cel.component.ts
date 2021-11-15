@@ -126,18 +126,7 @@ export class ProductViewXCelComponent implements OnInit {
   getClient(client) {
     this.client = client.idUser;
     this.membership = client.membership.idMembership;
-    debugger
   }
-
- /*  buttonAction(functionName) {
-   // if (functionName === 'buyNow') {
-      this.buyNow(functionName);
-    //}
-/*
-    if (functionName === 'addToCart') {
-      this.addToCart();
-    }
-  } */
 
   setEyeSelected() {
     this.productsSelected = [];
@@ -220,7 +209,6 @@ export class ProductViewXCelComponent implements OnInit {
 
     _.each(productsSelected, function (p, index) {
       let eye = p.eye.toLowerCase();
-      debugger
       p['patient'] = self.product.patient;
       p['name'] = self.product.name;
       p['id'] = self.product.idProduct;
@@ -228,15 +216,7 @@ export class ProductViewXCelComponent implements OnInit {
       p['price'] = self.price[eye].priceUnit;
       p['quantity'] = self.quantity[eye];
       p.header = self.selectedProduct.params[index].header.filter(param => param.name !== 'Spectrum Code');
-      debugger
-      _.each(p.header, function (parameter) {
-        parameter = _.omit(parameter, ['type', 'values', 'header']);
-        console.log(parameter);
-      });
       p.parameters = self.selectedProduct.params[index].params;
-      p.parameters = _.each(p.parameters, function (parameter) {
-        parameter = _.omit(parameter, ['type', 'values', 'noRequired', 'placeholder']);
-      });
 
       if (self.product.name.includes('Atlantis')) {
         p['insertor'] = self.product.header[0];
@@ -245,9 +225,8 @@ export class ProductViewXCelComponent implements OnInit {
       }
       p.observations = eye === 'right' ? self.product.observationsRight : self.product.observationsLeft;
 
-      p.detail = { name: self.product.name, eye: p.eye, header: p.header, parameters: p.parameters };
+      p.detail = { name: self.product.name, eye: p.eye, codeSpectrum: self.price[eye].spCode, header: p.header, parameters: p.parameters };
     });
-    console.log("encapsulado el producto", productsSelected);
     return productsSelected;
 
   }
@@ -1214,7 +1193,6 @@ export class ProductViewXCelComponent implements OnInit {
         }
       })
     }
-    debugger
     return total + (hydraTotal * this.hydrapeg);//+ hydra, + dmv
   }
 
@@ -1252,24 +1230,19 @@ export class ProductViewXCelComponent implements OnInit {
     }
   }
 
-  checkToBuy() {
-    const rightEye = this.enable.right;
-    const leftEye = this.enable.left;
-
-    if (!rightEye && !leftEye) {
-      this.disableBuyButton = true;
-    } else {
-      this.disableBuyButton = this.checkSelectedParams('right', rightEye) || this.checkSelectedParams('left', leftEye);
-    }
+  checkDisabled() {
+    return (this.enable.right || this.enable.left) && this.missingParamsRequired();
   }
 
-  checkSelectedParams(eye, value) {
-    let disable = !this.product.client || !this.product.patient;
-    if (value) {
-      _.each(this.product[this.parametersByEye(eye)], function (parameter) {
-        disable = disable || (!parameter.noRequired && !parameter.selected);
+  missingParamsRequired() {
+    const eyes = ['right', 'left'];
+    const eyesEnabled = [this.enable.right, this.enable.left];
+    const self = this;
+
+    return !this.product.client || !this.product.patient || _.some(eyes, function (eye, index) {
+      return eyesEnabled[index] && _.some(self.product[self.parametersByEye(eye)], function (parameter) {
+        return !parameter.noRequired && !parameter.selected;
       });
-    }
-    return disable;
+    });
   }
 }

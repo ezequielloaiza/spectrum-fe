@@ -117,6 +117,7 @@ import { ModalResendOrdersComponent } from './manage-customer-orders/modals-rese
 import { SmartlensComponent } from './edit-order/smartlens/smartlens.component';
 import { DetailSmartlensComponent } from './basket/modals/detail-product/detail-smartlens/detail-smartlens.component';
 import { SupplierSmartlensComponent } from './details-order-supplier/supplier-smartlens/supplier-smartlens.component';
+import { SupplierXcelComponent } from './details-order-supplier/supplier-xcel/supplier-xcel.component';
 
 @NgModule({
     imports: [
@@ -241,7 +242,8 @@ import { SupplierSmartlensComponent } from './details-order-supplier/supplier-sm
         ModalResendOrdersComponent,
         SmartlensComponent,
         DetailSmartlensComponent,
-        SupplierSmartlensComponent
+        SupplierSmartlensComponent,
+        SupplierXcelComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,

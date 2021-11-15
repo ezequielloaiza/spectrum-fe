@@ -11,8 +11,6 @@ export class FooterButtonsComponent implements OnInit {
   @Input() buttons: any;
   @Input() disableBuyButton: any;
   @Output("buttonAction") buttonAction: EventEmitter<any> = new EventEmitter();
-  @Output("checkToBuy") checkToBuy: EventEmitter<any> = new EventEmitter();
-
 
 
   ngOnInit(): void {
@@ -20,10 +18,5 @@ export class FooterButtonsComponent implements OnInit {
 
   executeAction(fn) {
     this.buttonAction.emit(fn);
-  }
-
-  checkToBuy2() {
-    this.checkToBuy.emit();
-    return this.disableBuyButton;
   }
 }
