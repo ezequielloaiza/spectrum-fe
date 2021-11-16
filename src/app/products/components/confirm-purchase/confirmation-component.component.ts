@@ -118,7 +118,9 @@ export class PurchaseConfirmationComponent implements OnInit {
       priceAcum =  priceAcum + (productRequested.price * productRequested.quantity);
 
       patient = productRequested.patient;
-      if (!productRequested.observations) {
+      if (!!productRequested.observations) {
+        productRequested.observations = productRequested.observations;
+      } else {
         productRequested.observations = '';
       }
       let details = JSON.parse(productRequested.detail);

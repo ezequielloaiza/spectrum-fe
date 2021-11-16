@@ -38,6 +38,7 @@ import { MoldedLensesComponent } from '../../../../edit-order/molded-lenses/mold
 import { SmartlensComponent } from '../../../../edit-order/smartlens/smartlens.component';
 import { DetailSmartlensComponent } from '../../../modals/detail-product/detail-smartlens/detail-smartlens.component';
 import { Product } from '../../../../../shared/models/product';
+import { DetailXcelComponent } from '../../../modals/detail-product/detail-xcel/detail-xcel.component';
 
 @Component({
   selector: 'app-list-basket',
@@ -120,6 +121,7 @@ export class ListBasketComponent implements OnInit {
         this.spinner.hide();
       }
     });
+    console.log(this.basket);
   }
 
   setPriceWithAdditionals(auxList, productsAdditional): void {
@@ -550,6 +552,16 @@ export class ListBasketComponent implements OnInit {
           } , (reason) => {
           });
         break;
+      case 13: // Xcel
+      const modalRefXcel = this.modalService.open(DetailXcelComponent,
+        { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false});
+        modalRefXcel.componentInstance.basket = basket;
+        modalRefXcel.componentInstance.typeEdit = 1;
+        modalRefOrion.result.then((result) => {
+        this.ngOnInit();
+        } , (reason) => {
+        });
+      break;
       case 14: // Smartlens
         const modalRefSmartlens = this.modalService.open(DetailSmartlensComponent,
           { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false});

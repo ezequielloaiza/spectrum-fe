@@ -28,6 +28,9 @@ export class ProductViewXCelComponent implements OnInit {
   client: any;
   dmv = 5.15;
   hydrapeg = 25.00;
+  hydrapegSelected = { right: false, left: false };
+  hydrapegSelection: any;
+  hydrapegValues: any;
   originalParameters = { right: [], left: [] };
   enable = {
     right: false,
@@ -220,12 +223,14 @@ export class ProductViewXCelComponent implements OnInit {
 
       if (self.product.name.includes('Atlantis')) {
         p['insertor'] = self.product.header[0];
+        p['insertor']['price'] = self.dmv;
       } else {
-        p['insertor'] =  ['selected: No'];
+        p['insertor'] = ['selected: No'];
+        p['hydrapeg'] = ['selected: No'];
       }
       p.observations = eye === 'right' ? self.product.observationsRight : self.product.observationsLeft;
 
-      p.detail = { name: self.product.name, eye: p.eye, codeSpectrum: self.price[eye].spCode, header: p.header, parameters: p.parameters };
+      p.detail = { name: self.product.name, eye: p.eye, codeSpectrum: self.price[eye].spCode, header: p.header, parameters: p.parameters, insertor: p.insertor, hydrapeg: { hydrapeg: self.hydrapegSelected, price: self.hydrapeg, values: self.hydrapegValues, selected: self.hydrapegSelection }, eyeSelected: self.enable };
     });
     return productsSelected;
 
@@ -236,7 +241,7 @@ export class ProductViewXCelComponent implements OnInit {
     _.each(this.selectedProduct.params, function (parameters) {
       _.each(self.product[self.parametersByEye(parameters.eye)], function (param) {
 
-        if (self.enable[(parameters.eye.toLowerCase())] && !!param.selected && param.selected !== 'No') {
+        if (self.enable[(parameters.eye.toLowerCase())] && !!param.selected && param.selected !== 'No') { //filtra el dom eye o radio no
           if (param.header) {
             parameters.header = _.concat(parameters.header, param);
             if (param.name === 'Quantity') {
@@ -246,6 +251,12 @@ export class ProductViewXCelComponent implements OnInit {
               parameters.header = _.concat(parameters.header, { name: 'Spectrum Code', selected: self.price[parameters.eye.toLowerCase()].spCode });//ver cual ojo colocar
             }
           } else {
+            if (param.name === 'Hydrapeg') {
+              param['price'] = self.hydrapeg;
+              self.hydrapegSelection = param.selected;
+              self.hydrapegValues = param.values;
+              self.hydrapegSelected[parameters.eye.toLowerCase()] = true;
+            }
             parameters.params = _.concat(parameters.params, param);
           }
         }
@@ -365,8 +376,8 @@ export class ProductViewXCelComponent implements OnInit {
               case 'Flexlens Large Diameter':
                 if (param.name === 'Presentation') {
                   param.values = param.values.filter(p => p !== '3 Pack');
-                  param.selected = null;
-                  this.presentationAndDesign[value.eye.toLowerCase()].presentation = null;
+                  param.selected = (param.selected === '3 Pack') ? null : param.selected;
+                  self.presentationAndDesign[value.eye.toLowerCase()].presentation = null;
                 }
               return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
               default:

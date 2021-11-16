@@ -118,6 +118,8 @@ import { SmartlensComponent } from './edit-order/smartlens/smartlens.component';
 import { DetailSmartlensComponent } from './basket/modals/detail-product/detail-smartlens/detail-smartlens.component';
 import { SupplierSmartlensComponent } from './details-order-supplier/supplier-smartlens/supplier-smartlens.component';
 import { SupplierXcelComponent } from './details-order-supplier/supplier-xcel/supplier-xcel.component';
+import { DetailXcelComponent } from './basket/modals/detail-product/detail-xcel/detail-xcel.component';
+import { XcelComponent } from './edit-order/xcel/xcel.component';
 
 @NgModule({
     imports: [
@@ -242,6 +244,8 @@ import { SupplierXcelComponent } from './details-order-supplier/supplier-xcel/su
         ModalResendOrdersComponent,
         SmartlensComponent,
         DetailSmartlensComponent,
+        DetailXcelComponent,
+        XcelComponent,
         SupplierSmartlensComponent,
         SupplierXcelComponent
     ],
@@ -299,7 +303,9 @@ import { SupplierXcelComponent } from './details-order-supplier/supplier-xcel/su
       MoldedLensesComponent,
       ModalResendOrdersComponent,
       SmartlensComponent,
-      DetailSmartlensComponent
+      XcelComponent,
+      DetailSmartlensComponent,
+      DetailXcelComponent,
     ],
     providers: [
       BusinessTypeService,

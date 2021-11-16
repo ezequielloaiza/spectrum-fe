@@ -1,0 +1,1791 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CodeHttp } from '../../../shared/enum/code-http.enum';
+import * as _ from 'lodash';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { OrderProductRequestedService, ProductsRequestedService } from '../../../shared/services';
+import { UserStorageService } from '../../../http/user-storage.service';
+import { ProductRequested } from '../../../shared/models/productrequested';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ProductService } from '../../../shared/services/products/product.service';
+import { Product } from '../../../shared/models/product';
+import { BasketproductrequestedService } from '../../../shared/services/basketproductrequested/basketproductrequested.service';
+import { DetailBlueLightComponent } from '../../basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
+
+@Component({
+  selector: 'app-xcel',
+  templateUrl: './xcel.component.html',
+  styleUrls: ['./xcel.component.scss']
+})
+export class XcelComponent implements OnInit {
+
+  basket: any;productRequested: ProductRequested = new ProductRequested();
+  productRequestedAux: ProductRequested = new ProductRequested();
+  productModel: Product = new Product();
+  productsAdditional: any;
+  product: any;
+  detail: any;
+  detailEdit: any;
+  typeEdit: any;
+  quantity: any;
+  observations: any;
+  price: any;
+  editPrice = false;
+  user: any;
+  patient: any;
+  order: any;
+
+  header: any;
+  parameters: any;
+  designPR: any;
+  membership: any;
+  showHydrapeg = false;
+  showDmv = false;
+  productHeader: any;
+  productParams: any;
+  hydrapegV: any;
+  hydrapegSelection: any;
+  presentation: any;
+  paramsToShow: any;
+  paramsToSave = [];
+  //hydrapegValueSelected: any;
+
+  /* Notch */
+  @ViewChild('notchTime') notchTime;
+  selectedNotch: any;
+  axisSelected: any;
+
+  // Values of product
+  typeLens: any;
+  design: any;
+  materials: any;
+  hydrapeg: any;
+
+  // Products prices additionals
+  priceNotch: any;
+  priceHydrapeg: any;
+  priceDMV: any;
+  productRequestedNotch: any;
+  productRequestedHydrapeg: any;
+  productRequestedDMV: any;
+
+  constructor(public modalReference: NgbActiveModal,
+              private notification: ToastrService,
+              private translate: TranslateService,
+              private productRequestedService: ProductsRequestedService,
+              private productService: ProductService,
+              private userService: UserStorageService,
+              private basketProductRequestedService: BasketproductrequestedService,
+              private orderProductRequestedService: OrderProductRequestedService,
+              private spinner: NgxSpinnerService) {
+                this.user = JSON.parse(userService.getCurrentUser());
+              }
+
+  ngOnInit() {
+    if (this.typeEdit === 1 ) { // Basket
+      this.productRequested = this.basket.productRequested;
+    } else { // order-detail
+      this.productRequested = this.detailEdit;
+    }
+    this.observations = this.productRequested.observations;
+    this.detail = this.productRequested.detail[0];
+    this.product = this.productRequested.product;
+    this.showHydrapeg = this.product.name.includes('Atlantis');
+    this.showDmv = this.product.name.includes('Atlantis');
+
+
+    if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
+      this.editPrice = true;
+    }
+
+    if (this.typeEdit === 1 ) { // Basket
+      this.membership = this.basket.basket.user.membership.idMembership;
+    } else { // Order detail
+      this.membership = this.order.user.membership.idMembership;
+    }
+
+    //this.header = this.detail.header;// an array includes dmv
+    //this.parameters = this.detail.parameters;
+    this.productHeader = JSON.parse(this.product.types)[0].header || [];
+    this.productParams = JSON.parse(this.product.types)[0].parameters;
+
+    this.getProductView();
+    this.setFullPrice();
+  }
+
+  close() {
+    this.modalReference.close();
+  }
+
+  getProductView() {
+/*
+    this.header = this.detail.header;// an array includes dmv
+    this.parameters = this.detail.parameters;
+
+
+    this.product.type = JSON.parse(this.product.types)[0].name;
+    this.product.dmv = JSON.parse(this.product.types)[0].dmv;
+    this.typeLens = JSON.parse(this.product.types)[0].typeLens;
+    this.design = JSON.parse(this.product.types)[0].design;
+    this.product.materials = JSON.parse(this.product.types)[0].materials;
+    this.product.hydrapeg = JSON.parse(this.product.types)[0].hydrapeg;
+    this.product.parameters = JSON.parse(this.product.types)[0].parameters;*/
+
+    this.price = this.productRequested.price;
+    this.quantity = this.productRequested.quantity;
+    this.observations = this.productRequested.observations;
+    this.patient = this.productRequested.patient;
+    let self = this;
+
+    if (this.showDmv) {
+      this.productHeader[0].selected = this.detail.insertor.selected;
+    }
+
+    _.each(this.productParams, function (parameter, i) {
+      _.each(self.detail.header, function (param, j) {
+        if (parameter.name === param.name) {
+          self.productParams[i].selected = self.detail.header[j].selected;
+        }
+      })
+    });
+
+    _.each(this.productParams, function (parameter, i) {
+      _.each(self.detail.parameters, function (param, j) {
+        if (parameter.name === param.name) {
+          self.productParams[i].selected = self.detail.parameters[j].selected;
+          if (parameter.name === 'Hydrapeg') {
+            self.hydrapegV = parameter;
+            self.hydrapegV.selected = param.selected;
+          } else if (parameter.name === 'Design') {
+            self.designPR = param.selected;
+          } else if (parameter.name === 'Presentation') {
+            self.presentation = param.selected;
+          }
+        }
+      })
+    });
+
+    _.each(this.detail.header, function (param) {
+      if (param.name === 'Design') {
+        self.designPR = param.selected;
+        self.changeParams(param,self.designPR)
+      }
+    });
+  }
+
+    /*// Set DMV
+    this.changeDMV(this.detail.parameters.selected);
+
+    // Set typeLens
+    //this.changeTypeLens(this.detail.typeLens);
+
+    // Set design
+    //this.changeDesign(this.detail.design);
+
+    // Set Materials
+    //this.changeMaterials(this.detail.materials);
+
+    // Set Hydrapeg
+    this.changeSelect(this.product.hydrapeg, this.detail.hydrapeg, 0);
+
+
+    // Set selected value in parameters
+    _.each(this.detail.parameters, function(item) {
+      _.each(self.product.parameters, function(productSelected) {
+        if (productSelected.name === item.name) {
+          if (productSelected.name === 'Notch (mm)') {
+            let  pos = _.indexOf(item.selected, 'x');
+            var itemSelected = String(item.selected);
+            productSelected.values[0].selected = parseFloat(itemSelected.slice(0, pos));
+            let pos2 = _.indexOf(item.selected, '(');
+            let pos3 = _.indexOf(item.selected, ')');
+            if (pos2 > -1 && pos3 > -1) {
+              productSelected.values[1].selected = parseFloat(itemSelected.slice(pos + 1, pos2 - 1));
+              self.selectedNotch = itemSelected.slice(pos2 + 1, pos3);
+              productSelected.selected = self.selectedNotch;
+            } else {
+              productSelected.values[1].selected = parseFloat(itemSelected.slice(pos + 1));
+            }
+          } else {
+            self.changeSelect(productSelected, item.selected, 0);
+          }
+        }
+      });
+    });
+
+    this.getOtherProducts();
+
+    if (this.typeEdit === 1) {
+      this.findBasketByGroupdId();
+    } else {
+      this.findOrderByGroupdId();
+    }
+  } */
+
+/*   getOtherProducts() {
+    this.productService.findBySupplierAndInViewAndCategory$(13, false, 10).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.setInfoAdditionalPrices(res.data);
+        //this.definePriceAdditionals();
+        this.setFullPrice();
+      } else {
+        console.log(res.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
+  } */
+
+  changeDMV(value) {
+    //this.product.dmv.selected = value;
+    this.productHeader[0].selected = value;
+    this.detail.insertor.selected = value;
+
+    this.setFullPrice();
+  }
+
+  findBasketByGroupdId() {
+    this.basketProductRequestedService.allBasketByGroupId$(this.productRequested.groupId).subscribe(res => {
+      this.setProductsByGroup(res);
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  findOrderByGroupdId() {
+    this.orderProductRequestedService.allByGroupId$(this.productRequested.groupId, this.order.idOrder).subscribe(res => {
+      this.setProductsByGroup(res);
+    }, error => {
+      console.log('error', error);
+    });
+  }
+
+  setProductsByGroup(res) {
+    const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
+
+    if (res.code === CodeHttp.ok) {
+      let prNotch;
+      let prHydrapeg;
+      let prDMV;
+      _.each(res.data, function (basket) {
+        const productId = basket.productRequested.product.idProduct;
+        switch (productId) {
+          case 305:
+            if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+              prHydrapeg = basket.productRequested;
+            }
+            break;
+
+          case 306:
+            if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+              prNotch = basket.productRequested;
+            }
+            break;
+          case 307:
+            if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+              prDMV = basket.productRequested;
+            }
+            break;
+        }
+      });
+      this.productRequestedDMV = prDMV;
+      this.productRequestedNotch = prNotch;
+      this.productRequestedHydrapeg = prHydrapeg;
+    }
+  }
+
+  setFullPrice() {
+    //this.price = this.productRequested.priceBase || this.productRequested.price;
+    //this.price = this.priceSaleTotal(); //by design
+   // if (!!param) {
+      this.price = this.priceSaleTotal(); //by design
+    //}
+    this.price += this.getAdditionalPrices().dmv;
+    this.price += this.getAdditionalPrices().hydrapeg;
+  }
+
+  priceSaleTotal() {
+    const self = this;
+    let price = 0;
+    /* this.getPricePersonalized();
+    return (this.product.priceSale || 0); */
+
+    //do i get it from db or set it here? X-Cel RGP X-Cel Atlantis Scleral X-Cel Custom Soft
+      //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"
+
+    if (this.product.name.includes('Atlantis')) {
+      switch (this.designPR) {
+        case 'Atlantis SPH':
+          this.detail.codeSpectrum = '122A';
+          switch (this.membership) {
+            case 1://Gold
+              price = 95;
+              break;
+            case 2://Diamond
+              price = 95;
+              break;
+            case 3://Preffered
+              price = 95;
+              break;
+          }
+        break;
+        case 'Atlantis TPC':
+          this.detail.codeSpectrum = '126A';
+          switch (this.membership) {
+            case 1://Gold
+              price = 140;
+              break;
+            case 2://Diamond
+              price = 140;
+              break;
+            case 3://Preffered
+              price = 140;
+              break;
+          }
+        break;
+        case 'Atlantis FT':
+          this.detail.codeSpectrum = '125A';
+          switch (this.membership) {
+            case 1://Gold
+              price = 140;
+              break;
+            case 2://Diamond
+              price = 140;
+              break;
+            case 3://Preffered
+              price = 140;
+              break;
+          }
+        break;
+        case 'Atlantis 3D':
+          this.detail.codeSpectrum = '124A';
+          switch (this.membership) {
+            case 1://Gold
+              price = 140;
+              break;
+            case 2://Diamond
+              price = 140;
+              break;
+            case 3://Preffered
+              price = 140;
+              break;
+          }
+        break;
+        case 'Atlantis MF':
+          this.detail.codeSpectrum = '125A';
+          switch (this.membership) {
+            case 1://Gold
+              price = 140;
+              break;
+            case 2://Diamond
+              price = 140;
+              break;
+            case 3://Preffered
+              price = 140;
+              break;
+          }
+        break;
+        case 'Atlantis 2.O':
+          this.detail.codeSpectrum = '127A';
+          switch (this.membership) {
+            case 1://Gold
+              price = 140;
+              break;
+            case 2://Diamond
+              price = 140;
+              break;
+            case 3://Preffered
+              price = 140;
+              break;
+          }
+        break;
+        case 'Atlantis LD':
+          this.detail.codeSpectrum = '123A';
+          switch (this.membership) {
+            case 1://Gold
+              price = 140;
+              break;
+            case 2://Diamond
+              price = 140;
+              break;
+            case 3://Preffered
+              price = 140;
+              break;
+          }
+        break;
+      }
+    } else if (this.product.name.includes('RGP')) {
+      switch (this.designPR) {
+        case 'Apex':
+          this.detail.codeSpectrum = '130A';
+          switch (this.membership) {
+            case 1://Gold
+              price = 65;
+              break;
+            case 2://Diamond
+              price = 65;
+              break;
+            case 3://Preffered
+              price = 65;
+          break;
+          }
+          break;
+          case 'Bitoric':
+            this.detail.codeSpectrum = '129A';
+            switch (this.membership) {
+              case 1://Gold
+                price = 32;
+                break;
+              case 2://Diamond
+                price = 32;
+                break;
+              case 3://Preffered
+                price = 32;
+                break;
+            }
+          break;
+          case 'CV-4 Multifocal':
+            this.detail.codeSpectrum = '133A';
+            switch (this.membership) {
+              case 1://Gold
+                price = 66;
+                break;
+              case 2://Diamond
+                price = 66;
+                break;
+              case 3://Preffered
+                price = 66;
+                break;
+            }
+          break;
+          case 'Pinnacle':
+            this.detail.codeSpectrum = '118A';
+            switch (this.membership) {
+              case 1://Gold
+                price = 21;
+                break;
+              case 2://Diamond
+                price = 21;
+                break;
+              case 3://Preffered
+                price = 21;
+                break;
+            }
+          break;
+          case 'Pinnacle IC':
+            this.detail.codeSpectrum = '120A';
+            switch (this.membership) {
+              case 1://Gold
+                price = 55;
+                break;
+              case 2://Diamond
+                price = 55;
+                break;
+              case 3://Preffered
+                price = 55;
+                break;
+            }
+          break;
+          case 'Pinnacle LD':
+            this.detail.codeSpectrum = '119A';
+            switch (this.membership) {
+              case 1://Gold
+                price = 31;
+                break;
+              case 2://Diamond
+                price = 31;
+                break;
+              case 3://Preffered
+                price = 31;
+                break;
+            }
+          break;
+          case 'Proplus':
+            this.detail.codeSpectrum = '131A';
+            switch (this.membership) {
+              case 1://Gold
+                price = 47;
+                break;
+              case 2://Diamond
+                price = 47;
+                break;
+              case 3://Preffered
+                price = 47;
+                break;
+            }
+          break;
+          case 'Sphere':
+            this.detail.codeSpectrum = '114A';
+            switch (this.membership) {
+              case 1://Gold
+                price = 21;
+                break;
+              case 2://Diamond
+                price = 21;
+                break;
+              case 3://Preffered
+                price = 21;
+                break;
+            }
+          break;
+          case 'Starlens':
+            this.detail.codeSpectrum = '116A';
+            switch (this.membership) {
+              case 1://Gold
+                price = 21;
+                break;
+              case 2://Diamond
+                price = 21;
+                break;
+              case 3://Preffered
+                price = 21;
+                break;
+            }
+          break;
+          case 'Titan':
+            this.detail.codeSpectrum = '121A';
+            switch (this.membership) {
+              case 1://Gold
+                price = 65;
+                break;
+              case 2://Diamond
+                price = 65;
+                break;
+              case 3://Preffered
+                price = 65;
+                break;
+            }
+          break;
+          case 'X-Cel Thin':
+            this.detail.codeSpectrum = '117A';
+            switch (this.membership) {
+              case 1://Gold
+                price = 21;
+                break;
+              case 2://Diamond
+                price = 21;
+                break;
+              case 3://Preffered
+                price = 21;
+                break;
+            }
+          break;
+      }
+
+    } else if (this.product.name.includes('Custom Soft')) {
+        switch (this.designPR) {
+          case 'Adult Aphakic':
+          case 'Pediatric Aphakic':
+            switch (this.presentation) {
+              case 'Single (Vial)':
+                this.detail.codeSpectrum = '104A (W)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 60.00;
+                    break;
+                  case 2://Diamond
+                    price = 60.00;
+                    break;
+                  case 3://Preffered
+                    price = 60.00;
+                    break;
+                }
+              break;
+              case 'Spare (Blister)':
+                this.detail.codeSpectrum = '104B (NW)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 30.00;
+                    break;
+                  case 2://Diamond
+                    price = 30.00;
+                    break;
+                  case 3://Preffered
+                    price = 30.00;
+                    break;
+                }
+              break;
+              case '3 Pack':
+                this.detail.codeSpectrum = '104C (3PK)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 93.00;
+                    break;
+                  case 2://Diamond
+                    price = 93.00;
+                    break;
+                  case 3://Preffered
+                    price = 93.00;
+                    break;
+                }
+              break;
+            }
+          break;
+          case 'X-Cel Multifocal':
+            switch (this.presentation) {
+              case 'Single (Vial)':
+                this.detail.codeSpectrum = '107A (W)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 69.00;
+                    break;
+                  case 2://Diamond
+                    price = 69.00;
+                    break;
+                  case 3://Preffered
+                    price = 69.00;
+                    break;
+                }
+              break;
+              case 'Spare (Blister)':
+                this.detail.codeSpectrum = '107B (NW)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 36.50;
+                    break;
+                  case 2://Diamond
+                    price = 36.50;
+                    break;
+                  case 3://Preffered
+                    price = 36.50;
+                    break;
+                }
+              break;
+              case '3 Pack':
+                this.detail.codeSpectrum = '107C (3PK)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 103.50;
+                    break;
+                  case 2://Diamond
+                    price = 103.50;
+                    break;
+                  case 3://Preffered
+                    price = 103.50;
+                    break;
+                }
+              break;
+            }
+          break;
+          case 'Flexlens ARC':
+            switch (this.presentation) {
+              case 'Single (Vial)':
+                this.detail.codeSpectrum = '100A (W)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 79.00;
+                    break;
+                  case 2://Diamond
+                    price = 79.00;
+                    break;
+                  case 3://Preffered
+                    price = 79.00;
+                    break;
+                }
+              break;
+              case 'Spare (Blister)':
+                this.detail.codeSpectrum = '100B (NW)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 45.00;
+                    break;
+                  case 2://Diamond
+                    price = 45.00;
+                    break;
+                  case 3://Preffered
+                    price = 45.00;
+                    break;
+                }
+              break;
+              case '3 Pack':
+                this.detail.codeSpectrum = '100C (3PK)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 99.00;
+                    break;
+                  case 2://Diamond
+                    price = 99.00;
+                    break;
+                  case 3://Preffered
+                    price = 99.00;
+                    break;
+                }
+              break;
+            }
+          break;
+          case 'Flexlens Piggyback':
+            switch (this.presentation) {
+              case 'Single (Vial)':
+                this.detail.codeSpectrum = '103A (W)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 60.00;
+                    break;
+                  case 2://Diamond
+                    price = 60.00;
+                    break;
+                  case 3://Preffered
+                    price = 60.00;
+                    break;
+                }
+              break;
+              case 'Spare (Blister)':
+                this.detail.codeSpectrum = '103B (NW)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 37.50;
+                    break;
+                  case 2://Diamond
+                    price = 37.50;
+                    break;
+                  case 3://Preffered
+                    price = 37.50;
+                    break;
+                }
+              break;
+              case '3 Pack':
+                this.detail.codeSpectrum = '103C (3PK)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 110.00;
+                    break;
+                  case 2://Diamond
+                    price = 110.00;
+                    break;
+                  case 3://Preffered
+                    price = 110.00;
+                    break;
+                }
+              break;
+            }
+          break;
+          case 'Flexlens Large Diameter':
+            switch (this.presentation) {
+              case 'Single (Vial)':
+                this.detail.codeSpectrum = '108A (W)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 51.75;
+                    break;
+                  case 2://Diamond
+                    price = 51.75;
+                    break;
+                  case 3://Preffered
+                    price = 51.75;
+                    break;
+                }
+              break;
+              case 'Spare (Blister)':
+                this.detail.codeSpectrum = '108B (NW)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 32.30;
+                    break;
+                  case 2://Diamond
+                    price = 32.30;
+                    break;
+                  case 3://Preffered
+                    price = 32.30;
+                    break;
+                }
+              break;
+/*               case '3 Pack': //This presentation is not being offered
+                this.detail.codeSpectrum = '103C (3PK)';
+                switch (this.membership) {
+                  case 1://Gold
+                    price = 110.00;
+                    break;
+                  case 2://Diamond
+                    price = 110.00;
+                    break;
+                  case 3://Preffered
+                    price = 110.00;
+                    break;
+                }
+              break; */
+            }
+            break;
+            case 'Flexlens PRS':
+              switch (this.presentation) {
+                case 'Single (Vial)':
+                  this.detail.codeSpectrum = '102A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 70.00;
+                      break;
+                    case 2://Diamond
+                      price = 70.00;
+                      break;
+                    case 3://Preffered
+                      price = 70.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.detail.codeSpectrum = '102B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 37.50;
+                      break;
+                    case 2://Diamond
+                      price = 37.50;
+                      break;
+                    case 3://Preffered
+                      price = 37.50;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.detail.codeSpectrum = '102C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 80.00;
+                      break;
+                    case 2://Diamond
+                      price = 80.00;
+                      break;
+                    case 3://Preffered
+                      price = 80.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Flexlens Sphere':
+              switch (this.presentation) {
+                case 'Single (Vial)':
+                  this.detail.codeSpectrum = '105A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 26.00;
+                      break;
+                    case 2://Diamond
+                      price = 26.00;
+                      break;
+                    case 3://Preffered
+                      price = 26.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.detail.codeSpectrum = '105B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 14.00;
+                      break;
+                    case 2://Diamond
+                      price = 14.00;
+                      break;
+                    case 3://Preffered
+                      price = 14.00;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.detail.codeSpectrum = '105C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 42.00;
+                      break;
+                    case 2://Diamond
+                      price = 42.00;
+                      break;
+                    case 3://Preffered
+                      price = 42.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Flexlens Toric':
+              switch (this.presentation) {
+                case 'Single (Vial)':
+                  this.detail.codeSpectrum = '106A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 40.00;
+                      break;
+                    case 2://Diamond
+                      price = 40.00;
+                      break;
+                    case 3://Preffered
+                      price = 40.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.detail.codeSpectrum = '106B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 18.00;
+                      break;
+                    case 2://Diamond
+                      price = 18.00;
+                      break;
+                    case 3://Preffered
+                      price = 18.00;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.detail.codeSpectrum = '106C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 54.00;
+                      break;
+                    case 2://Diamond
+                      price = 54.00;
+                      break;
+                    case 3://Preffered
+                      price = 54.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Flexlens Tricurve':
+              switch (this.presentation) {
+                case 'Single (Vial)':
+                  this.detail.codeSpectrum = '101A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 70.00;
+                      break;
+                    case 2://Diamond
+                      price = 70.00;
+                      break;
+                    case 3://Preffered
+                      price = 70.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.detail.codeSpectrum = '101B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 37.50;
+                      break;
+                    case 2://Diamond
+                      price = 37.50;
+                      break;
+                    case 3://Preffered
+                      price = 37.50;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.detail.codeSpectrum = '101C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 80.00;
+                      break;
+                    case 2://Diamond
+                      price = 80.00;
+                      break;
+                    case 3://Preffered
+                      price = 80.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Horizon Sphere':
+              switch (this.presentation) {
+                case 'Single (Vial)':
+                  this.detail.codeSpectrum = '111A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 26.00;
+                      break;
+                    case 2://Diamond
+                      price = 26.00;
+                      break;
+                    case 3://Preffered
+                      price = 26.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.detail.codeSpectrum = '111B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 14.00;
+                      break;
+                    case 2://Diamond
+                      price = 14.00;
+                      break;
+                    case 3://Preffered
+                      price = 14.00;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.detail.codeSpectrum = '111C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 42.00;
+                      break;
+                    case 2://Diamond
+                      price = 42.00;
+                      break;
+                    case 3://Preffered
+                      price = 42.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Horizon Toric':
+              switch (this.presentation) {
+                case 'Single (Vial)':
+                  this.detail.codeSpectrum = '112A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 40.00;
+                      break;
+                    case 2://Diamond
+                      price = 40.00;
+                      break;
+                    case 3://Preffered
+                      price = 40.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.detail.codeSpectrum = '112B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 18.00;
+                      break;
+                    case 2://Diamond
+                      price = 18.00;
+                      break;
+                    case 3://Preffered
+                      price = 18.00;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.detail.codeSpectrum = '112C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 54.00;
+                      break;
+                    case 2://Diamond
+                      price = 54.00;
+                      break;
+                    case 3://Preffered
+                      price = 54.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+
+          //---------------------------------------------//
+        }
+
+
+    }
+
+    return this.price = price * this.quantity;
+    //return price; //chequear
+  }
+
+
+  /* getPricePersonalized() {
+    // Finding design
+    const diameter: any = _.find(this.product.parameters, { name: 'Diameter (mm)' });
+
+    if (diameter) {
+      if (_.includes(["15.00"], diameter.selected)) {
+        this.product.code = '200A';
+        this.product.priceSale = this.pricePersonalizedByMembership(diameter);
+      } else if (_.includes(["15.50", "16.50"], diameter.selected)) {
+        this.product.code = '200B';
+        this.product.priceSale = this.pricePersonalizedByMembership(diameter);
+      }
+    }
+  } */
+
+  /* pricePersonalizedByMembership(param) {
+   // let membership = null;
+    if (this.typeEdit === 1 ) { // Basket
+      this.membership = this.basket.basket.user.membership.idMembership;
+    } else { // Order detail
+      this.membership = this.order.user.membership.idMembership;
+    }
+  } */
+
+  setInfoAdditionalPrices(data) {
+    let self = this;
+    this.productsAdditional = data;
+
+    this.product.infoAdditionalPrices = {
+      "name": "prices", "values":
+        { "hydrapeg": {
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          },
+          "notch" : {
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          },
+          "dmv insertion and removal set": {
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          }
+        }
+    }
+
+    _.each(this.productsAdditional, function(product) {
+      const name = product.name.toLowerCase();
+
+      self.product.infoAdditionalPrices.values[name] = {
+        "gold": product.price1,
+        "diamond": product.price2,
+        "preferred": product.price3
+      };
+    });
+  }
+
+ /*  definePriceAdditionals() {
+    let membership = null;
+    if (this.typeEdit === 1 ) { // Basket
+      membership = this.basket.basket.user.membership.idMembership;
+    } else { // Order detail
+      membership = this.order.user.membership.idMembership;
+    }
+    switch (membership) {
+      case 1:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.gold;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].gold;
+        break;
+      case 2:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamond;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamond;
+        break;
+      case 3:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.preferred;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
+        break;
+    }
+  } */
+
+  getAdditionalPrices() {
+    let dmv = 0;
+    let notchPrice = 0;
+    let hydrapegPrice = 0;
+
+    // Finding DMV
+
+    if (this.showDmv) {
+      if (this.detail.insertor.selected === 'Yes') {
+        dmv = this.detail.insertor.price;
+      }
+    }
+    if (this.showHydrapeg) {
+      // Finding Hydrapeg
+      if (this.hydrapegV.selected === 'Yes') {
+        hydrapegPrice = this.detail.hydrapeg.price;
+      }
+    }
+
+    return { dmv, hydrapeg: hydrapegPrice };
+  }
+
+  getParams() {
+   /*  let params = this.product.parameters;
+
+    if (this.design.selected === "Sph") {
+      params =  _.filter(params, function(param) {
+        // Remove params cylinder and axis when design is Sph.
+        return param.name !== 'Cylinder (D)' && param.name !== 'Axis Cylinder(º)' && param.name !== 'Position of axis rotation markers' && param.name !== 'Rotationally stable';
+      });
+    }
+
+    if (this.typeLens.selected === 'Final Design') {
+      params =  _.filter(params, function(param) {
+        // Excluding params design by laboratory
+        return param.name !== 'Over-refraction';
+      });
+    } */
+    return this.product.parameters;
+  }
+
+  /* isDependent(param) {
+    // Finding Diameter
+    const diameter: any = _.find(this.product.parameters, { name: 'Diameter (mm)' });
+
+    // Finding Sag.
+    const sag: any = _.find(this.product.parameters, { name: 'Sag.' });
+
+    switch (param.name) {
+      case "Sag.":
+        return diameter.selected ? null : "Select Diameter (mm)";
+
+      case "Base Curve (mm)":
+      case "Power (D)":
+        return sag.selected ? null : "Select Sag.";
+
+      default:
+        return null;
+    }
+  } */
+
+  changeSelect(parameter, value, value2) {
+
+    console.log("ver que trae parameter", parameter);
+    parameter.selected = value;
+    let check = false;
+    const self = this;
+
+
+    _.each(this.detail.parameters, function (param, index) {
+      if (param.name === parameter.name) {
+        //check = true;
+        self.detail.parameters[index].selected = value;
+        if (self.showHydrapeg) {
+          self.hydrapegV.selected = param.name === 'Hydrapeg' ? value : self.hydrapegV.selected; //this.detail.hydrapeg.selected
+        }
+      }
+    });
+
+    /* if (!check) {
+      this.detail.parameters.push(parameter);
+    } */
+
+    if (parameter.name === 'Design' || parameter.name === 'Hydrapeg') {
+      this.designPR = parameter.name === 'Design' ? value : this.designPR;
+      this.setFullPrice();
+    }
+  }
+
+  renameSphere(params, newName) {
+    let self = this;
+    _.each(params, function(param, index) {
+      if (self.isSphere(param)) {
+        params[index].name = newName;
+      }
+    });
+  }
+
+  /* changeTypeLens(value) {
+    this.typeLens.selected = value;
+
+    if (value === 'Final Design') {
+      const overRefraction: any = _.find(this.product.parameters, { name: 'Over-refraction' });
+      if (overRefraction) {
+        overRefraction.selected = null;
+      }
+      this.renameSphere(this.product.parameters, 'Sphere (D) (final power)');
+    } else {
+      this.renameSphere(this.product.parameters, 'Sphere (D) (add over-refraction)');
+    }
+  } */
+
+  renameAddition(params, newName) {
+    _.each(params, function(param, index) {
+      if (param.name === "Addition" || param.name === "Addition (MF Sph)" || param.name === "Addition (MF Bitoric)") {
+        params[index].name = newName;
+      }
+    });
+  }
+
+  changeDesign(value) {
+    this.design.selected = value;
+
+    if (value === 'Sph') {
+      const cylinder: any = _.find(this.product.parameters, { name: 'Cylinder (D)' });
+      if (cylinder) {
+        cylinder.selected = null;
+      }
+
+      const axisCylinder: any = _.find(this.product.parameters, { name: 'Axis Cylinder(º)' });
+      if (axisCylinder) {
+        axisCylinder.selected = null;
+      }
+
+      const axisRotationMarkers: any = _.find(this.product.parameters, { name: 'Position of axis rotation markers' });
+      if (axisRotationMarkers) {
+        axisRotationMarkers.selected = null;
+      }
+
+      this.renameAddition(this.product.parameters, 'Addition (MF Sph)');
+    }
+
+    if (value === 'Bitoric') {
+      this.renameAddition(this.product.parameters, 'Addition (MF Bitoric)');
+    }
+  }
+
+  changeMaterials(value) {
+    this.product.materials.selected = value;
+
+    if (value !== 'Boston-XO') {
+      this.product.hydrapeg.selected = "No";
+    }
+  }
+
+  // Params notch and axis
+  changeNotchTime(value, parameter) {
+    //validating change in notch time
+    var changedNotch = this.selectedNotch !== value;
+
+    this.selectedNotch = value;
+
+    this.notchTime.itemsList._items[0].label = value;
+    this.notchTime.itemsList._items[0].value = value;
+
+     // restart axis after change
+     if (changedNotch) {
+      this.axisSelected = _.find(this.product.parameters, { name: 'Axis (º)' });
+      this.axisSelected.selected = null
+    }
+
+    //set null in values notch
+    if (parameter.values[0].selected === 0)
+      parameter.values[0].selected = null;
+
+    if (parameter.values[1].selected === 0)
+      parameter.values[1].selected = null;
+
+    this.setFullPrice();
+  }
+
+  validateSelectedNotch(parameter) {
+    if (this.selectedNotch === null) {
+      parameter.selected = null;
+      parameter.values[0].selected = 0;
+      parameter.values[1].selected = 0;
+      this.axisSelected.selected = null
+    }
+
+    this.setFullPrice();
+  }
+
+  axisValues() {
+    this.axisSelected = _.find(this.product.parameters, { name: 'Axis (º)' });
+    if (this.selectedNotch === null) { this.axisSelected.selected = null };
+    switch (this.selectedNotch) {
+      case 'Upper Temporal':
+        return _.range(90, 181).toString().split(",")
+      case 'Lower Temporal':
+        return _.range(180, 271).toString().split(",");
+      case 'Upper Nasal':
+        return _.range(0, 91).toString().split(",");
+      case 'Lower Nasal':
+        return _.range(270, 361).toString().split(",");
+      default:
+        return [];
+    }
+  }
+
+  isSphere(param) {
+    return param.name === "Sphere (D)" || param.name === "Sphere (D) (final power)" || param.name === "Sphere (D) (add over-refraction)";
+  }
+
+  /* save() {
+    let self = this;
+    this.spinner.show();
+
+    this.detail.materials = this.product.materials.selected;
+    this.detail.hydrapeg = this.product.hydrapeg.selected;
+    this.detail.typeLens = this.typeLens.selected;
+    this.detail.design = this.design.selected;
+
+    // Set param selected in detail json
+    _.each(this.detail.parameters, function(itemDetail) {
+      _.each(self.product.parameters, function(param) {
+        if (param.name === itemDetail.name) {
+          if (param.name === 'Notch (mm)') {
+            if (param.values[0].selected === null || param.values[1].selected === null || !self.selectedNotch || (param.values[0].selected === 0 && param.values[1].selected === 0)) {
+              itemDetail.selected = '0x0';
+            } else {
+              itemDetail.selected = param.values[0].selected + 'x' + param.values[1].selected + ' (' + self.selectedNotch + ')';
+            }
+          } else {
+            itemDetail.selected = param.selected;
+          }
+        } else if (self.isSphere(param) && self.isSphere(itemDetail)) {
+          // If the parameters are sphere in of detail and product then change selected value and overwrite name.
+          itemDetail.name = param.name;
+          itemDetail.selected = param.selected;
+        }
+      });
+    });
+
+    if (this.typeEdit === 1) { // Basket
+      this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
+    } else {
+      this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
+    }
+
+    this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
+                                  parameters: this.detail.parameters, typeLens: this.detail.typeLens,
+                                  dmv: this.product.dmv,
+                                  design: this.detail.design, materials: this.detail.materials, hydrapeg: this.detail.hydrapeg,
+                                  productsAdditional: self.getProductsAdditional(this.productRequested, 'detail')}) + ']';
+    this.productRequested.observations = this.observations;
+    this.productRequested.price = this.priceSaleTotal();
+    this.productRequested.quantity = this.quantity;
+    this.productRequested.product = this.product.idProduct;
+    this.productRequested.patient = this.patient;
+
+    let requestedProducts = [JSON.parse(JSON.stringify(this.productRequested))];
+    _.each(self.getProductsAdditional(this.productRequested, 'basket'), function(additional) {
+      requestedProducts.push(additional);
+    });
+
+    this.update(requestedProducts);
+  } */
+
+  /* getProductsAdditional(productSelected: any, type: any) {
+    let self = this;
+    const additionals = [];
+    const productNotch: any = _.find(this.productsAdditional, {name:"Notch"});
+    const productHydrapeg: any = _.find(this.productsAdditional, {name:"Hydrapeg"});
+    const productDMV: any = _.find(this.productsAdditional, {name: "DMV Insertion and Removal Set"});
+
+    /////////////////////////////// DMV //////////////////////////////////
+    // if exist price dmv or productRequest will be deleted
+    if (this.getAdditionalPrices()["dmv"] || this.productRequestedDMV) {
+      const dmv: any = {
+        id: productDMV.idProduct,
+        idProductRequested: this.productRequestedDMV && this.productRequestedDMV.idProductRequested,
+        product: productDMV.idProduct,
+        name: productDMV.name,
+        price: self.getAdditionalPrices()["dmv"],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productDMV.codeSpectrum,
+        detail: {},
+        groupId: productSelected.groupId,
+        delete: !self.getAdditionalPrices()["dmv"]
+      }
+
+      if (self.typeEdit === 1) {
+        dmv.basketId = self.basket.basket.idBasket;
+      } else {
+        dmv.orderId = self.order.idOrder;
+      }
+
+      if (type === 'basket') {
+        dmv.detail = productSelected.detail;
+      }
+      additionals.push(dmv);
+    }
+
+    /////////////////////////////// NOTCH //////////////////////////////////
+    // if exist price notch or productRequest will be deleted
+    if (this.getAdditionalPrices()["notch"] || this.productRequestedNotch) {
+      const notch: any = {
+        id: productNotch.idProduct,
+        idProductRequested: this.productRequestedNotch && this.productRequestedNotch.idProductRequested,
+        product: productNotch.idProduct,
+        name: productNotch.name,
+        price: this.getAdditionalPrices()["notch"],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productNotch.codeSpectrum,
+        detail: {},
+        groupId: productSelected.groupId,
+        delete: !this.getAdditionalPrices()["notch"]
+      }
+
+      if (this.typeEdit === 1) {
+        notch.basketId = this.basket.basket.idBasket;
+      } else {
+        notch.orderId = this.order.idOrder;
+      }
+
+      if (type === 'basket') {
+        notch.detail = productSelected.detail;
+      }
+      additionals.push(notch);
+    }
+
+    /////////////////////////////// HYDRAPEG //////////////////////////////////
+    // if exist price notch or productRequest will be deleted
+    if (this.getAdditionalPrices()["hydrapeg"] || this.productRequestedHydrapeg) {
+      const hydrapeg: any = {
+        id: productHydrapeg.idProduct,
+        idProductRequested: this.productRequestedHydrapeg && this.productRequestedHydrapeg.idProductRequested,
+        product: productHydrapeg.idProduct,
+        name: productHydrapeg.name,
+        price: this.getAdditionalPrices()["hydrapeg"],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productHydrapeg.codeSpectrum,
+        detail: {},
+        groupId: productSelected.groupId,
+        delete: !this.getAdditionalPrices()["hydrapeg"]
+      }
+
+      if (this.typeEdit === 1) {
+        hydrapeg.basketId = this.basket.basket.idBasket;
+      } else {
+        hydrapeg.orderId = this.order.idOrder;
+      }
+
+      if (type === 'basket') {
+        hydrapeg.detail = productSelected.detail;
+      }
+      additionals.push(hydrapeg)
+    }
+
+
+    return additionals;
+  } */
+
+  formIsValid() {
+    let self = this;
+    let isValid = true;
+
+    _.each(this.product.header, function(param) {
+      if (param.selected === null || param.selected === undefined) {
+        isValid = false;
+      }
+    });
+
+    _.each(this.getParams(), function(param) {
+      if (param.name === 'Notch (mm)') {
+        if (param.values[0].selected === null || param.values[1].selected === null ) {
+          isValid = false;
+        }
+
+        if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !self.selectedNotch) {
+          isValid = false;
+        }
+      } else if (param.name === "Axis (º)") {
+        if (!!self.selectedNotch &&  (param.selected === null || param.selected === undefined)) {
+          isValid = false;
+        }
+      } else if (!param.noRequired && (param.selected === null || param.selected === undefined || param.selected === '')) {
+          isValid = false;
+      }
+    });
+
+    if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '')) {
+        isValid = false;
+    }
+    return isValid;
+  }
+
+  update(listProducts) {
+    let self = this;
+    this.productRequestedService.updateList$(listProducts).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        let listAux = res.data;
+        const principal = listAux.filter((item) => {
+          return !self.productModel.isAdditionalProduct(item.product.idProduct);
+        });
+        this.spinner.hide();
+        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res: string) => {
+          this.notification.success('', res);
+        });
+        let productRequested = principal[0];
+        productRequested.detail = JSON.parse(productRequested.detail);
+        this.modalReference.close(productRequested);
+      } else {
+        console.log(res);
+        this.spinner.hide();
+        this.modalReference.close();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+      this.modalReference.close();
+    });
+  }
+
+
+  changeParams(parameter,value) {
+    const self = this;
+    //--------------------------------------------------------
+
+    if (this.product.name.includes('Atlantis')) { //Atlantis Case
+
+      if (parameter.name === 'Design') {
+
+        this.designPR = value;
+        this.priceSaleTotal();
+
+        this.paramsToShow = _.filter(this.productParams, function (param) {
+          switch (self.designPR) {
+            case 'Atlantis SPH':
+            case 'Atlantis FT':
+              if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
+                param.selected = (param.type === 'radio') ? 'No' : null;
+              }
+              return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !self.checkAtlantisParams(param);
+            case 'Atlantis TPC':
+            case 'Atlantis MF':
+              if (param.name === 'LZ 3D Vault / 2.0') {
+                param.selected = (param.type === 'radio') ? 'No' : null;
+              }
+              return param.name !== 'LZ 3D Vault / 2.0' && !self.checkAtlantisParams(param);
+            case 'Atlantis 3D':
+              if (param.name === 'TPC') {
+                param.selected = (param.type === 'radio') ? 'No' : null;
+              }
+              return param.name !== 'TPC' && !self.checkAtlantisParams(param);
+            case 'Atlantis 2.O':
+              if (_.includes(['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
+                param.selected = (param.type === 'radio') ? 'No' : null;
+              }
+              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC';
+            case 'Atlantis LD':
+              return  !self.checkAtlantisParams(param);
+            default:
+              return param && !self.checkAtlantisParams(param);
+          }
+
+        });
+        this.setRequiredParams(parameter, value);
+        //call checkBUY method
+      }
+    } else if (this.product.name.includes('RGP')) { // RGP CASE
+
+      if (parameter.name === 'Design') {
+
+        this.designPR = value;
+        this.paramsToShow = this.productParams;
+        this.priceSaleTotal();
+      }
+
+    } else if (this.product.name.includes('Soft')) { //Custom Soft Case
+
+        if (parameter.name === 'Presentation') {
+          this.presentation = parameter.selected;
+          this.priceSaleTotal();
+        }
+
+        if (parameter.name === 'Design') {
+
+          this.designPR = value;
+          //this.presentationAndDesign[value.eye.toLowerCase()].design = selectedDesign;
+          this.priceSaleTotal();
+
+          this.paramsToShow = _.filter(this.productParams, function (param) {
+            switch (self.designPR) {
+              /* case 'X-Cel Multifocal': //addition, dom eye, distance zone
+                return ; */
+              case 'Flexlens Large Diameter':
+                if (param.name === 'Presentation') {
+                  param.values = param.values.filter(p => p !== '3 Pack');
+                  param.selected = (param.selected === '3 Pack') ? null : param.selected;
+                 //this.presentationAndDesign[value.eye.toLowerCase()].presentation = null;
+                }
+              return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+              default:
+                if (!_.includes(param.values, '3 Pack') && param.name === 'Presentation') {
+                  param.values = _.concat(param.values, '3 Pack');
+                }
+              return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+            }
+          });
+        }
+
+    }
+
+  }
+
+  setRequiredParams(param, value) {
+    let self = this;
+    _.each(this.productParams, function (p, index) {
+      switch (p.name) {
+        case 'Addition':
+        case 'Dom. Eye':
+        case 'Distance Zone':
+          if (param.name === 'Design') {
+            self.productParams[index].noRequired = param.selected !== 'Atlantis MF';
+          }
+          break;
+      }
+    });
+  }
+
+
+  checkAtlantisParams(param) {
+    switch (param.name) {
+      case 'Atlantis 2.0 C.S.A':
+      case 'Clock Mark':
+      case 'Q1 LZ':
+      case 'Q1 SZ':
+      case 'Q2 LZ':
+      case 'Q2 SZ':
+      case 'Q3 LZ':
+      case 'Q3 SZ':
+      case 'Q4 LZ':
+      case 'Q4 SZ':
+        param.selected = null;
+        return true;
+      default:
+        break;
+    }
+  }
+
+  pruebasave() {
+    this.spinner.show();
+    const self = this;
+    this.paramsToSave = [];
+    let paramsHeader = [];
+    //productParams (quantity) = this.quantity
+    //en producto solo estan los parametros los otros los tengo que construir yo como el codigo spectrum
+
+    if (this.typeEdit === 1) { // Basket
+      this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
+    } else {
+      this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
+    }
+
+    _.each(this.productParams, function (parameter, i) {
+      if (!!parameter.selected && parameter.selected !== 'No') { //filtra el dom eye o radio no
+        if (!parameter.header) {
+          self.paramsToSave = _.concat(self.paramsToSave, parameter);
+        } else {
+          paramsHeader = _.concat(paramsHeader, parameter);
+        }
+      }
+      if (parameter.name === 'Quantity') {
+        self.paramsToSave[i] = self.quantity;
+      }
+      if (parameter.name === 'Hydrapeg' && self.showHydrapeg) {
+        self.parameters[i] = self.hydrapegV;
+      }
+    });
+    if (!this.showDmv) {
+      this.productHeader[0] = ['selected: No'];;
+
+    }
+     this.productRequested.detail = '[' + JSON.stringify({ name: '', codeSpectrum: this.detail.codeSpectrum, eye: this.detail.eye,
+                                  header: paramsHeader, hydrapeg: self.hydrapegV, insertor: this.productHeader[0], eyesSelected: this.detail.eyesSelected,
+                                  parameters: self.paramsToSave}) + ']';
+    this.productRequested.observations = this.observations;
+    this.productRequested.price = this.priceSaleTotal();
+    this.productRequested.quantity = this.quantity;
+    this.productRequested.product = this.product.idProduct;
+    this.productRequested.patient = this.patient;
+
+    let requestedProducts = [JSON.parse(JSON.stringify(this.productRequested))];
+   /*  _.each(self.getProductsAdditional(this.productRequested, 'basket'), function(additional) {
+      requestedProducts.push(additional);
+    }); */
+
+    this.update(requestedProducts);
+
+
+
+  }
+
+}
