@@ -282,6 +282,9 @@
           <!--Smartlens-->
           <app-supplier-smartlens [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier?.idSupplier === 14"></app-supplier-smartlens>
           <!--Fin Smartlens-->
+          <!--Xcel-->
+          <app-supplier-xcel [lista]="list.productRequested" [image]="list.urlImage"  [order]="order" (emitEventOrion)="refresh($event, order)" [files]="list.fileProductRequestedList" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 13"></app-supplier-xcel>
+          <!--Fin Xcel-->
         </div>
           <div *ngIf="order.orderType === 'GENERIC'">
             <app-supplier-general  [order]="order" [files]="listDetailsAll[0].fileProductRequestedList" (emitEventOrion)="refresh($event, order)"></app-supplier-general>

@@ -167,7 +167,7 @@ export class ProductViewXCelComponent implements OnInit {
       productRequest.observations = product.observations;
       productsRequested.push(productRequest);
     });
-    this.basketRequestModal.idUser = this.product.client;
+    this.basketRequestModal.idUser = this.client;
     this.basketRequestModal.productRequestedList = productsRequested;
 
     this.selectedProduct['name'] = this.product.name;

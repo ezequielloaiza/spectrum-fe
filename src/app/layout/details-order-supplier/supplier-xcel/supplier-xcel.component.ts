@@ -8,6 +8,7 @@ import { UserStorageService } from '../../../http/user-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import * as _ from 'lodash';
+import { XcelComponent } from '../../edit-order/xcel/xcel.component';
 
 @Component({
   selector: 'app-supplier-xcel',
@@ -65,17 +66,16 @@ export class SupplierXcelComponent implements OnInit {
   }
 
   openEdit() {
-    // TODO: XcelComponent
-    // const modalRefSmartlens = this.modalService.open( XcelComponent,
-    //   { size: 'lg', windowClass: 'modal-content-border modal-edit-smartlens' , backdrop  : 'static', keyboard  : false});
-    //   modalRefSmartlens.componentInstance.detailEdit = this.lista;
-    //   modalRefSmartlens.componentInstance.typeEdit = 2;
-    //   modalRefSmartlens.componentInstance.order = this.order;
-    //   modalRefSmartlens.componentInstance.image = this.urlImage;
-    //   modalRefSmartlens.result.then((result) => {
-    //     this.skipLocationAndRedirect(this.router.url);
-    //   } , (reason) => {
-    // });
+    const modalRefSmartlens = this.modalService.open( XcelComponent,
+      { size: 'lg', windowClass: 'modal-content-border modal-edit-smartlens' , backdrop  : 'static', keyboard  : false});
+      modalRefSmartlens.componentInstance.detailEdit = this.lista;
+      modalRefSmartlens.componentInstance.typeEdit = 2;
+      modalRefSmartlens.componentInstance.order = this.order;
+      modalRefSmartlens.componentInstance.image = this.urlImage;
+      modalRefSmartlens.result.then((result) => {
+        this.skipLocationAndRedirect(this.router.url);
+      } , (reason) => {
+    });
   }
 
   public sendReply(): any {

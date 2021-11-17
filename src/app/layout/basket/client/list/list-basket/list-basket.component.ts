@@ -39,6 +39,7 @@ import { SmartlensComponent } from '../../../../edit-order/smartlens/smartlens.c
 import { DetailSmartlensComponent } from '../../../modals/detail-product/detail-smartlens/detail-smartlens.component';
 import { Product } from '../../../../../shared/models/product';
 import { DetailXcelComponent } from '../../../modals/detail-product/detail-xcel/detail-xcel.component';
+import { XcelComponent } from '../../../../edit-order/xcel/xcel.component';
 
 @Component({
   selector: 'app-list-basket',
@@ -557,7 +558,7 @@ export class ListBasketComponent implements OnInit {
         { size: 'lg', windowClass: 'modal-content-border', backdrop : 'static', keyboard : false});
         modalRefXcel.componentInstance.basket = basket;
         modalRefXcel.componentInstance.typeEdit = 1;
-        modalRefOrion.result.then((result) => {
+        modalRefXcel.result.then((result) => {
         this.ngOnInit();
         } , (reason) => {
         });
@@ -676,6 +677,16 @@ export class ListBasketComponent implements OnInit {
         } , (reason) => {
         });
        break;
+    case 13: // Xcel
+      const modalRefXcel = this.modalService.open( XcelComponent,
+        { size: 'lg', windowClass: 'modal-content-border modal-edit-Xcel' , backdrop : 'static', keyboard : false});
+      modalRefXcel.componentInstance.basket = basket;
+      modalRefXcel.componentInstance.typeEdit = 1;
+      modalRefXcel.result.then((result) => {
+        this.ngOnInit();
+      } , (reason) => {
+      });
+      break;
     case 14: // Smartlens
       const modalRefSmartlens = this.modalService.open( SmartlensComponent,
         { size: 'lg', windowClass: 'modal-content-border modal-edit-smartlens' , backdrop : 'static', keyboard : false});

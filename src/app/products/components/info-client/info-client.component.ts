@@ -56,6 +56,7 @@ export class InfoClientComponent implements OnInit {
       let accSpct = !!currentUser.accSpct ? currentUser.accSpct + ' - ' : '';
       this.product.client = accSpct + currentUser.name + ' | ' + currentUser.country.name;
       this.findShippingAddress(this.client);
+      this.setClient(currentUser);
     }
   }
 

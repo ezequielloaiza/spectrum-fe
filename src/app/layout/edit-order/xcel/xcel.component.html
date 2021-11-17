@@ -52,12 +52,12 @@
             </div>
           </div>
 
-          <div class="col-sm-4">
+          <div [hidden]="!editPrice" class="col-sm-4">
             <dl>
               <dt>{{'Price'| translate}}
               </dt>
               <dl>
-                <div [hidden]="!editPrice" class="form-group input-group">
+                <div class="form-group input-group">
                     <div class="input-group-append">
                       <span class="input-group-text">$</span>
                     </div>
