@@ -49,7 +49,6 @@ export class XcelComponent implements OnInit {
   presentation: any;
   paramsToShow: any;
   paramsToSave = [];
-  //hydrapegValueSelected: any;
 
   /* Notch */
   @ViewChild('notchTime') notchTime;
@@ -105,11 +104,8 @@ export class XcelComponent implements OnInit {
       this.membership = this.order.user.membership.idMembership;
     }
 
-    //this.header = this.detail.header;// an array includes dmv
-    //this.parameters = this.detail.parameters;
     this.productHeader = JSON.parse(this.product.types)[0].header || [];
     this.productParams = JSON.parse(this.product.types)[0].parameters;
-
     this.getProductView();
     this.setFullPrice();
   }
@@ -119,18 +115,6 @@ export class XcelComponent implements OnInit {
   }
 
   getProductView() {
-/*
-    this.header = this.detail.header;// an array includes dmv
-    this.parameters = this.detail.parameters;
-
-
-    this.product.type = JSON.parse(this.product.types)[0].name;
-    this.product.dmv = JSON.parse(this.product.types)[0].dmv;
-    this.typeLens = JSON.parse(this.product.types)[0].typeLens;
-    this.design = JSON.parse(this.product.types)[0].design;
-    this.product.materials = JSON.parse(this.product.types)[0].materials;
-    this.product.hydrapeg = JSON.parse(this.product.types)[0].hydrapeg;
-    this.product.parameters = JSON.parse(this.product.types)[0].parameters;*/
 
     this.price = this.productRequested.price;
     this.quantity = this.productRequested.quantity;
@@ -140,6 +124,7 @@ export class XcelComponent implements OnInit {
 
     if (this.showDmv) {
       this.productHeader[0].selected = this.detail.insertor.selected;
+      this.productHeader[0].price = this.detail.insertor.price
     }
 
     _.each(this.productParams, function (parameter, i) {
@@ -154,16 +139,19 @@ export class XcelComponent implements OnInit {
       _.each(self.detail.parameters, function (param, j) {
         if (parameter.name === param.name) {
           self.productParams[i].selected = self.detail.parameters[j].selected;
-          if (parameter.name === 'Hydrapeg') {
-            self.hydrapegV = parameter;
-            self.hydrapegV.selected = param.selected;
-          } else if (parameter.name === 'Design') {
+          if (param.name === 'Hydrapeg') {
+            self.checkHydrapeg(param, 1);
+          }
+          if (parameter.name === 'Design') {
             self.designPR = param.selected;
           } else if (parameter.name === 'Presentation') {
             self.presentation = param.selected;
           }
         }
       })
+      if (parameter.name === 'Hydrapeg') {
+        self.checkHydrapeg(parameter, 0);
+      }
     });
 
     _.each(this.detail.header, function (param) {
@@ -174,76 +162,18 @@ export class XcelComponent implements OnInit {
     });
   }
 
-    /*// Set DMV
-    this.changeDMV(this.detail.parameters.selected);
-
-    // Set typeLens
-    //this.changeTypeLens(this.detail.typeLens);
-
-    // Set design
-    //this.changeDesign(this.detail.design);
-
-    // Set Materials
-    //this.changeMaterials(this.detail.materials);
-
-    // Set Hydrapeg
-    this.changeSelect(this.product.hydrapeg, this.detail.hydrapeg, 0);
-
-
-    // Set selected value in parameters
-    _.each(this.detail.parameters, function(item) {
-      _.each(self.product.parameters, function(productSelected) {
-        if (productSelected.name === item.name) {
-          if (productSelected.name === 'Notch (mm)') {
-            let  pos = _.indexOf(item.selected, 'x');
-            var itemSelected = String(item.selected);
-            productSelected.values[0].selected = parseFloat(itemSelected.slice(0, pos));
-            let pos2 = _.indexOf(item.selected, '(');
-            let pos3 = _.indexOf(item.selected, ')');
-            if (pos2 > -1 && pos3 > -1) {
-              productSelected.values[1].selected = parseFloat(itemSelected.slice(pos + 1, pos2 - 1));
-              self.selectedNotch = itemSelected.slice(pos2 + 1, pos3);
-              productSelected.selected = self.selectedNotch;
-            } else {
-              productSelected.values[1].selected = parseFloat(itemSelected.slice(pos + 1));
-            }
-          } else {
-            self.changeSelect(productSelected, item.selected, 0);
-          }
-        }
-      });
-    });
-
-    this.getOtherProducts();
-
-    if (this.typeEdit === 1) {
-      this.findBasketByGroupdId();
+  checkHydrapeg(parameter, value) {
+    if (value) {
+      this.hydrapegV = parameter;
+      this.hydrapegV['price'] = this.detail.hydrapeg.price;
     } else {
-      this.findOrderByGroupdId();
+      this.hydrapegV = parameter;
+      this.hydrapegV['price'] = this.detail.hydrapeg.price;
     }
-  } */
-
-/*   getOtherProducts() {
-    this.productService.findBySupplierAndInViewAndCategory$(13, false, 10).subscribe(res => {
-      if (res.code === CodeHttp.ok) {
-        this.setInfoAdditionalPrices(res.data);
-        //this.definePriceAdditionals();
-        this.setFullPrice();
-      } else {
-        console.log(res.errors[0].detail);
-        this.spinner.hide();
-      }
-    }, error => {
-      console.log('error', error);
-      this.spinner.hide();
-    });
-  } */
+  }
 
   changeDMV(value) {
-    //this.product.dmv.selected = value;
     this.productHeader[0].selected = value;
-    this.detail.insertor.selected = value;
-
     this.setFullPrice();
   }
 
@@ -298,23 +228,35 @@ export class XcelComponent implements OnInit {
   }
 
   setFullPrice() {
-    //this.price = this.productRequested.priceBase || this.productRequested.price;
-    //this.price = this.priceSaleTotal(); //by design
-   // if (!!param) {
-      this.price = this.priceSaleTotal(); //by design
-    //}
+    this.priceSaleTotal(); //by design
     this.price += this.getAdditionalPrices().dmv;
     this.price += this.getAdditionalPrices().hydrapeg;
+  }
+
+  getAdditionalPrices() {
+    let dmv = 0;
+    let notchPrice = 0;
+    let hydrapegPrice = 0;
+
+    // Finding DMV
+    if (this.showDmv) {
+      if (this.productHeader[0].selected === 'Yes') {
+        dmv = this.detail.insertor.price;
+      }
+    }
+    if (this.showHydrapeg) {
+      // Finding Hydrapeg
+      if (this.hydrapegV.selected === 'Yes') {
+        hydrapegPrice = this.detail.hydrapeg.price;
+      }
+    }
+
+    return { dmv, hydrapeg: hydrapegPrice };
   }
 
   priceSaleTotal() {
     const self = this;
     let price = 0;
-    /* this.getPricePersonalized();
-    return (this.product.priceSale || 0); */
-
-    //do i get it from db or set it here? X-Cel RGP X-Cel Atlantis Scleral X-Cel Custom Soft
-      //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"
 
     if (this.product.name.includes('Atlantis')) {
       switch (this.designPR) {
@@ -1091,34 +1033,9 @@ export class XcelComponent implements OnInit {
 
     }
 
-    return this.price = price * this.quantity;
-    //return price; //chequear
+    this.price = price * this.quantity;
+    return price
   }
-
-
-  /* getPricePersonalized() {
-    // Finding design
-    const diameter: any = _.find(this.product.parameters, { name: 'Diameter (mm)' });
-
-    if (diameter) {
-      if (_.includes(["15.00"], diameter.selected)) {
-        this.product.code = '200A';
-        this.product.priceSale = this.pricePersonalizedByMembership(diameter);
-      } else if (_.includes(["15.50", "16.50"], diameter.selected)) {
-        this.product.code = '200B';
-        this.product.priceSale = this.pricePersonalizedByMembership(diameter);
-      }
-    }
-  } */
-
-  /* pricePersonalizedByMembership(param) {
-   // let membership = null;
-    if (this.typeEdit === 1 ) { // Basket
-      this.membership = this.basket.basket.user.membership.idMembership;
-    } else { // Order detail
-      this.membership = this.order.user.membership.idMembership;
-    }
-  } */
 
   setInfoAdditionalPrices(data) {
     let self = this;
@@ -1155,96 +1072,12 @@ export class XcelComponent implements OnInit {
     });
   }
 
- /*  definePriceAdditionals() {
-    let membership = null;
-    if (this.typeEdit === 1 ) { // Basket
-      membership = this.basket.basket.user.membership.idMembership;
-    } else { // Order detail
-      membership = this.order.user.membership.idMembership;
-    }
-    switch (membership) {
-      case 1:
-        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
-        this.priceNotch = this.product.infoAdditionalPrices.values.notch.gold;
-        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].gold;
-        break;
-      case 2:
-        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
-        this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamond;
-        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamond;
-        break;
-      case 3:
-        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
-        this.priceNotch = this.product.infoAdditionalPrices.values.notch.preferred;
-        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
-        break;
-    }
-  } */
-
-  getAdditionalPrices() {
-    let dmv = 0;
-    let notchPrice = 0;
-    let hydrapegPrice = 0;
-
-    // Finding DMV
-
-    if (this.showDmv) {
-      if (this.detail.insertor.selected === 'Yes') {
-        dmv = this.detail.insertor.price;
-      }
-    }
-    if (this.showHydrapeg) {
-      // Finding Hydrapeg
-      if (this.hydrapegV.selected === 'Yes') {
-        hydrapegPrice = this.detail.hydrapeg.price;
-      }
-    }
-
-    return { dmv, hydrapeg: hydrapegPrice };
-  }
-
   getParams() {
-   /*  let params = this.product.parameters;
-
-    if (this.design.selected === "Sph") {
-      params =  _.filter(params, function(param) {
-        // Remove params cylinder and axis when design is Sph.
-        return param.name !== 'Cylinder (D)' && param.name !== 'Axis Cylinder(º)' && param.name !== 'Position of axis rotation markers' && param.name !== 'Rotationally stable';
-      });
-    }
-
-    if (this.typeLens.selected === 'Final Design') {
-      params =  _.filter(params, function(param) {
-        // Excluding params design by laboratory
-        return param.name !== 'Over-refraction';
-      });
-    } */
     return this.product.parameters;
   }
 
-  /* isDependent(param) {
-    // Finding Diameter
-    const diameter: any = _.find(this.product.parameters, { name: 'Diameter (mm)' });
-
-    // Finding Sag.
-    const sag: any = _.find(this.product.parameters, { name: 'Sag.' });
-
-    switch (param.name) {
-      case "Sag.":
-        return diameter.selected ? null : "Select Diameter (mm)";
-
-      case "Base Curve (mm)":
-      case "Power (D)":
-        return sag.selected ? null : "Select Sag.";
-
-      default:
-        return null;
-    }
-  } */
-
   changeSelect(parameter, value, value2) {
 
-    console.log("ver que trae parameter", parameter);
     parameter.selected = value;
     let check = false;
     const self = this;
@@ -1252,17 +1085,12 @@ export class XcelComponent implements OnInit {
 
     _.each(this.detail.parameters, function (param, index) {
       if (param.name === parameter.name) {
-        //check = true;
         self.detail.parameters[index].selected = value;
         if (self.showHydrapeg) {
-          self.hydrapegV.selected = param.name === 'Hydrapeg' ? value : self.hydrapegV.selected; //this.detail.hydrapeg.selected
+          self.hydrapegV.selected = param.name === 'Hydrapeg' ? value : self.hydrapegV.selected;
         }
       }
     });
-
-    /* if (!check) {
-      this.detail.parameters.push(parameter);
-    } */
 
     if (parameter.name === 'Design' || parameter.name === 'Hydrapeg') {
       this.designPR = parameter.name === 'Design' ? value : this.designPR;
@@ -1278,20 +1106,6 @@ export class XcelComponent implements OnInit {
       }
     });
   }
-
-  /* changeTypeLens(value) {
-    this.typeLens.selected = value;
-
-    if (value === 'Final Design') {
-      const overRefraction: any = _.find(this.product.parameters, { name: 'Over-refraction' });
-      if (overRefraction) {
-        overRefraction.selected = null;
-      }
-      this.renameSphere(this.product.parameters, 'Sphere (D) (final power)');
-    } else {
-      this.renameSphere(this.product.parameters, 'Sphere (D) (add over-refraction)');
-    }
-  } */
 
   renameAddition(params, newName) {
     _.each(params, function(param, index) {
@@ -1394,190 +1208,19 @@ export class XcelComponent implements OnInit {
     return param.name === "Sphere (D)" || param.name === "Sphere (D) (final power)" || param.name === "Sphere (D) (add over-refraction)";
   }
 
-  /* save() {
-    let self = this;
-    this.spinner.show();
-
-    this.detail.materials = this.product.materials.selected;
-    this.detail.hydrapeg = this.product.hydrapeg.selected;
-    this.detail.typeLens = this.typeLens.selected;
-    this.detail.design = this.design.selected;
-
-    // Set param selected in detail json
-    _.each(this.detail.parameters, function(itemDetail) {
-      _.each(self.product.parameters, function(param) {
-        if (param.name === itemDetail.name) {
-          if (param.name === 'Notch (mm)') {
-            if (param.values[0].selected === null || param.values[1].selected === null || !self.selectedNotch || (param.values[0].selected === 0 && param.values[1].selected === 0)) {
-              itemDetail.selected = '0x0';
-            } else {
-              itemDetail.selected = param.values[0].selected + 'x' + param.values[1].selected + ' (' + self.selectedNotch + ')';
-            }
-          } else {
-            itemDetail.selected = param.selected;
-          }
-        } else if (self.isSphere(param) && self.isSphere(itemDetail)) {
-          // If the parameters are sphere in of detail and product then change selected value and overwrite name.
-          itemDetail.name = param.name;
-          itemDetail.selected = param.selected;
-        }
-      });
-    });
-
-    if (this.typeEdit === 1) { // Basket
-      this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-    } else {
-      this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-    }
-
-    this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-                                  parameters: this.detail.parameters, typeLens: this.detail.typeLens,
-                                  dmv: this.product.dmv,
-                                  design: this.detail.design, materials: this.detail.materials, hydrapeg: this.detail.hydrapeg,
-                                  productsAdditional: self.getProductsAdditional(this.productRequested, 'detail')}) + ']';
-    this.productRequested.observations = this.observations;
-    this.productRequested.price = this.priceSaleTotal();
-    this.productRequested.quantity = this.quantity;
-    this.productRequested.product = this.product.idProduct;
-    this.productRequested.patient = this.patient;
-
-    let requestedProducts = [JSON.parse(JSON.stringify(this.productRequested))];
-    _.each(self.getProductsAdditional(this.productRequested, 'basket'), function(additional) {
-      requestedProducts.push(additional);
-    });
-
-    this.update(requestedProducts);
-  } */
-
-  /* getProductsAdditional(productSelected: any, type: any) {
-    let self = this;
-    const additionals = [];
-    const productNotch: any = _.find(this.productsAdditional, {name:"Notch"});
-    const productHydrapeg: any = _.find(this.productsAdditional, {name:"Hydrapeg"});
-    const productDMV: any = _.find(this.productsAdditional, {name: "DMV Insertion and Removal Set"});
-
-    /////////////////////////////// DMV //////////////////////////////////
-    // if exist price dmv or productRequest will be deleted
-    if (this.getAdditionalPrices()["dmv"] || this.productRequestedDMV) {
-      const dmv: any = {
-        id: productDMV.idProduct,
-        idProductRequested: this.productRequestedDMV && this.productRequestedDMV.idProductRequested,
-        product: productDMV.idProduct,
-        name: productDMV.name,
-        price: self.getAdditionalPrices()["dmv"],
-        quantity: productSelected.quantity,
-        patient: productSelected.patient,
-        codeSpectrum: productDMV.codeSpectrum,
-        detail: {},
-        groupId: productSelected.groupId,
-        delete: !self.getAdditionalPrices()["dmv"]
-      }
-
-      if (self.typeEdit === 1) {
-        dmv.basketId = self.basket.basket.idBasket;
-      } else {
-        dmv.orderId = self.order.idOrder;
-      }
-
-      if (type === 'basket') {
-        dmv.detail = productSelected.detail;
-      }
-      additionals.push(dmv);
-    }
-
-    /////////////////////////////// NOTCH //////////////////////////////////
-    // if exist price notch or productRequest will be deleted
-    if (this.getAdditionalPrices()["notch"] || this.productRequestedNotch) {
-      const notch: any = {
-        id: productNotch.idProduct,
-        idProductRequested: this.productRequestedNotch && this.productRequestedNotch.idProductRequested,
-        product: productNotch.idProduct,
-        name: productNotch.name,
-        price: this.getAdditionalPrices()["notch"],
-        quantity: productSelected.quantity,
-        patient: productSelected.patient,
-        codeSpectrum: productNotch.codeSpectrum,
-        detail: {},
-        groupId: productSelected.groupId,
-        delete: !this.getAdditionalPrices()["notch"]
-      }
-
-      if (this.typeEdit === 1) {
-        notch.basketId = this.basket.basket.idBasket;
-      } else {
-        notch.orderId = this.order.idOrder;
-      }
-
-      if (type === 'basket') {
-        notch.detail = productSelected.detail;
-      }
-      additionals.push(notch);
-    }
-
-    /////////////////////////////// HYDRAPEG //////////////////////////////////
-    // if exist price notch or productRequest will be deleted
-    if (this.getAdditionalPrices()["hydrapeg"] || this.productRequestedHydrapeg) {
-      const hydrapeg: any = {
-        id: productHydrapeg.idProduct,
-        idProductRequested: this.productRequestedHydrapeg && this.productRequestedHydrapeg.idProductRequested,
-        product: productHydrapeg.idProduct,
-        name: productHydrapeg.name,
-        price: this.getAdditionalPrices()["hydrapeg"],
-        quantity: productSelected.quantity,
-        patient: productSelected.patient,
-        codeSpectrum: productHydrapeg.codeSpectrum,
-        detail: {},
-        groupId: productSelected.groupId,
-        delete: !this.getAdditionalPrices()["hydrapeg"]
-      }
-
-      if (this.typeEdit === 1) {
-        hydrapeg.basketId = this.basket.basket.idBasket;
-      } else {
-        hydrapeg.orderId = this.order.idOrder;
-      }
-
-      if (type === 'basket') {
-        hydrapeg.detail = productSelected.detail;
-      }
-      additionals.push(hydrapeg)
-    }
-
-
-    return additionals;
-  } */
-
   formIsValid() {
     let self = this;
     let isValid = true;
-
-    _.each(this.product.header, function(param) {
-      if (param.selected === null || param.selected === undefined) {
-        isValid = false;
-      }
-    });
-
-    _.each(this.getParams(), function(param) {
-      if (param.name === 'Notch (mm)') {
-        if (param.values[0].selected === null || param.values[1].selected === null ) {
-          isValid = false;
-        }
-
-        if ((param.values[0].selected !== 0 || param.values[1].selected !== 0) && !self.selectedNotch) {
-          isValid = false;
-        }
-      } else if (param.name === "Axis (º)") {
-        if (!!self.selectedNotch &&  (param.selected === null || param.selected === undefined)) {
-          isValid = false;
-        }
-      } else if (!param.noRequired && (param.selected === null || param.selected === undefined || param.selected === '')) {
-          isValid = false;
-      }
-    });
-
-    if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '')) {
-        isValid = false;
+    isValid = !!this.patient;
+    if (this.quantity <= 0) {
+      isValid = false;
     }
+    _.each(this.paramsToShow, function (param) {
+      if (!param.noRequired && !param.selected) {
+        isValid = false;
+      }
+
+    });
     return isValid;
   }
 
@@ -1652,7 +1295,6 @@ export class XcelComponent implements OnInit {
 
         });
         this.setRequiredParams(parameter, value);
-        //call checkBUY method
       }
     } else if (this.product.name.includes('RGP')) { // RGP CASE
 
@@ -1673,18 +1315,14 @@ export class XcelComponent implements OnInit {
         if (parameter.name === 'Design') {
 
           this.designPR = value;
-          //this.presentationAndDesign[value.eye.toLowerCase()].design = selectedDesign;
           this.priceSaleTotal();
 
           this.paramsToShow = _.filter(this.productParams, function (param) {
             switch (self.designPR) {
-              /* case 'X-Cel Multifocal': //addition, dom eye, distance zone
-                return ; */
               case 'Flexlens Large Diameter':
                 if (param.name === 'Presentation') {
                   param.values = param.values.filter(p => p !== '3 Pack');
                   param.selected = (param.selected === '3 Pack') ? null : param.selected;
-                 //this.presentationAndDesign[value.eye.toLowerCase()].presentation = null;
                 }
               return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
               default:
@@ -1735,13 +1373,11 @@ export class XcelComponent implements OnInit {
     }
   }
 
-  pruebasave() {
+  save() {
     this.spinner.show();
     const self = this;
     this.paramsToSave = [];
     let paramsHeader = [];
-    //productParams (quantity) = this.quantity
-    //en producto solo estan los parametros los otros los tengo que construir yo como el codigo spectrum
 
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
@@ -1750,7 +1386,7 @@ export class XcelComponent implements OnInit {
     }
 
     _.each(this.productParams, function (parameter, i) {
-      if (!!parameter.selected && parameter.selected !== 'No') { //filtra el dom eye o radio no
+      if (!!parameter.selected && parameter.selected !== 'No') {
         if (!parameter.header) {
           self.paramsToSave = _.concat(self.paramsToSave, parameter);
         } else {
@@ -1758,14 +1394,16 @@ export class XcelComponent implements OnInit {
         }
       }
       if (parameter.name === 'Quantity') {
-        self.paramsToSave[i] = self.quantity;
+        parameter.selected = self.quantity;
+        self.paramsToSave = _.concat(self.paramsToSave, parameter);
       }
       if (parameter.name === 'Hydrapeg' && self.showHydrapeg) {
-        self.parameters[i] = self.hydrapegV;
+        self.paramsToSave = _.concat(self.paramsToSave, self.hydrapegV);
       }
     });
+
     if (!this.showDmv) {
-      this.productHeader[0] = ['selected: No'];;
+      this.productHeader[0] = { selected: 'No'};
 
     }
      this.productRequested.detail = '[' + JSON.stringify({ name: '', codeSpectrum: this.detail.codeSpectrum, eye: this.detail.eye,
@@ -1778,10 +1416,6 @@ export class XcelComponent implements OnInit {
     this.productRequested.patient = this.patient;
 
     let requestedProducts = [JSON.parse(JSON.stringify(this.productRequested))];
-   /*  _.each(self.getProductsAdditional(this.productRequested, 'basket'), function(additional) {
-      requestedProducts.push(additional);
-    }); */
-
     this.update(requestedProducts);
 
 
