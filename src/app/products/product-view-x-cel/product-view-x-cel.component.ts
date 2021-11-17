@@ -47,6 +47,7 @@ export class ProductViewXCelComponent implements OnInit {
 
 
   enableParams = { right: false, left: false };
+  paramsAtlantisImages: any;
 
   listFileRightEye: Array<FileProductRequested> = new Array;
   listFileLeftEye: Array<FileProductRequested> = new Array;
@@ -336,14 +337,19 @@ export class ProductViewXCelComponent implements OnInit {
               if (_.includes(['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header;
+              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param);
             case 'Atlantis LD':
               return !param.header && !self.checkAtlantisParams(param);
             default:
               return param && !self.checkAtlantisParams(param) && !param.header;
           }
-
         });
+
+        // TODO: check queda vacio.
+        this.paramsAtlantisImages = _.filter(this.originalParameters[value.eye], function (param) {
+          return selectedDesign === 'Atlantis 2.0' && self.checkAtlantisParams(param);
+        });
+
         this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
         this.setRequiredParams(value);
         //call checkBUY method

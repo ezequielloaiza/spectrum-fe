@@ -9,13 +9,82 @@
       <label> {{ 'Please specify your product' | translate }}</label>
     </div>
   </div>
+
+  <!-- EYE RIGHT -->
   <app-info-params [eye]="'right'" [typeParams]="'header'" [enableParams]="enableParams.right" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersRight"></app-info-params>
   <app-info-params [eye]="'right'" [typeParams]="'body'" [enableParams]="enableParams.right" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersRight"></app-info-params>
+
+  <div class="img-atlantis">
+    <div class="img1">
+      <div>
+        <span>Quadrant Specifications</span>
+        <span>Clock mark position of quadrant 2</span>
+        <input type="text" placeholder="">
+      </div>
+      <img [src]="'assets/images/products/atlantis/img1.png'">
+    </div>
+
+    <div class="img2">
+      <div>
+        <!--Quadrant 1-->
+        <input class="quadrant Q1 LZ" type="text" placeholder="LZ">
+        <input class="quadrant Q1 SZ" type="text" placeholder="SZ">
+
+        <!--Quadrant 2-->
+        <input class="quadrant Q2 LZ" type="text" placeholder="LZ">
+        <input class="quadrant Q2 SZ" type="text" placeholder="SZ">
+
+        <!--Quadrant 3-->
+        <input class="quadrant Q3 LZ" type="text" placeholder="LZ">
+        <input class="quadrant Q3 SZ" type="text" placeholder="SZ">
+
+        <!--Quadrant 4-->
+        <input class="quadrant Q4 LZ" type="text" placeholder="LZ">
+        <input class="quadrant Q4 SZ" type="text" placeholder="SZ">
+      </div>
+      <img [src]="'assets/images/products/atlantis/img2.png'">
+    </div>
+  </div>
+
   <app-comment [product]="product" [attribute]="'observationsRight'" [enableField]="enable.right"></app-comment>
   <app-upload-file #uploadFile [product]="product" [enableField]="enable.right" [listFiles]="listFileRightEye"></app-upload-file>
 
+
+  <!-- EYE LEFT -->
   <app-info-params [eye]="'left'" [typeParams]="'header'" [enableParams]="enableParams.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft"></app-info-params>
   <app-info-params [eye]="'left'" [typeParams]="'body'" [enableParams]="enableParams.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft"></app-info-params>
+  <div class="img-atlantis">
+    <div class="img1">
+      <div>
+        <span>Quadrant Specifications</span>
+        <span>Clock mark position of quadrant 2</span>
+        <input type="text" placeholder="">
+      </div>
+      <img [src]="'assets/images/products/atlantis/img1.png'">
+    </div>
+
+    <div class="img2">
+      <div>
+        <!--Quadrant 1-->
+        <input class="quadrant Q1 LZ" type="text" placeholder="LZ">
+        <input class="quadrant Q1 SZ" type="text" placeholder="SZ">
+
+        <!--Quadrant 2-->
+        <input class="quadrant Q2 LZ" type="text" placeholder="LZ">
+        <input class="quadrant Q2 SZ" type="text" placeholder="SZ">
+
+        <!--Quadrant 3-->
+        <input class="quadrant Q3 LZ" type="text" placeholder="LZ">
+        <input class="quadrant Q3 SZ" type="text" placeholder="SZ">
+
+        <!--Quadrant 4-->
+        <input class="quadrant Q4 LZ" type="text" placeholder="LZ">
+        <input class="quadrant Q4 SZ" type="text" placeholder="SZ">
+      </div>
+      <img [src]="'assets/images/products/atlantis/img2.png'">
+    </div>
+  </div>
+
   <app-upload-file #uploadFile [product]="product" [enableField]="enable.left" [listFiles]="listFileLeftEye"></app-upload-file>
   <app-comment [product]="product" [attribute]="'observationsLeft'" [enableField]="enable.left"></app-comment>
 
