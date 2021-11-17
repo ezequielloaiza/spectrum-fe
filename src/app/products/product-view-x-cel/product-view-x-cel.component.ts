@@ -1248,15 +1248,17 @@ export class ProductViewXCelComponent implements OnInit {
   }
 
   checkDisabled() {
-    return (this.enable.right || this.enable.left) && this.missingParamsRequired();
+
+    return this.missingParamsRequired();
   }
 
   missingParamsRequired() {
     const eyes = ['right', 'left'];
     const eyesEnabled = [this.enable.right, this.enable.left];
+    const nothingSelected = _.every(eyesEnabled, function (eye) { return !eye; });
     const self = this;
 
-    return !this.product.client || !this.product.patient || _.some(eyes, function (eye, index) {
+    return !this.product.client || !this.product.patient || nothingSelected || _.some(eyes, function (eye, index) {
       return eyesEnabled[index] && _.some(self.product[self.parametersByEye(eye)], function (parameter) {
         return !parameter.noRequired && !parameter.selected;
       });

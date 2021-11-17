@@ -61,8 +61,8 @@
                     <div class="input-group-append">
                       <span class="input-group-text">$</span>
                     </div>
-                    <input class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
-                        name="price1" disabled="true">
+                    <input class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}"
+                     [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}" name="price1" disabled="true">
                 </div>
               </dl>
             </dl>
@@ -89,7 +89,7 @@
               <div *ngFor="let value of hydrapegV.values; let i = index">
                 <div class="custom-control custom-radio">
                   <input type="radio" id="radio-hydrapeg-{{i}}" name="radioHydrapeg" [value]="value" (change)="changeSelect(hydrapegV,value)"
-                  class="custom-control-input" [checked]="hydrapegV.selected === value">
+                  class="custom-control-input" [checked]="detail.hydrapeg.selected === value">
                   <label class="custom-control-label" for="radio-hydrapeg-{{i}}">{{ value | translate }}</label>
                 </div>
               </div>
@@ -110,12 +110,6 @@
               <div>
                 <dt>{{ parameter.name | translate }}</dt>
               </div>
-
-              <!-- <div class="notch-lbl" *ngIf="parameter.type === 'selected-double'">
-                <dt>{{ parameter.name | translate }}</dt>
-                <dt>{{ parameter.values[0].placeholder | translate }}</dt>
-                <dt>{{ parameter.values[1].placeholder | translate }}</dt>
-              </div> -->
 
               <dl>
                 <dt>
@@ -154,42 +148,6 @@
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder || 'Introduce value' | translate }}"
                        [(ngModel)]="parameter.selected" [required]="!parameter.noRequired" id="number-{{eye}}-{{parameter.name}}">
                   </div>
-
-                  <!--Only axis (notch)-->
-                  <!-- <div *ngIf="parameter.type === 'selected' && parameter.name === 'Axis (º)'" class="select-values">
-                    <ng-select (change)="changeSelect(parameter, parameter.selected,0)" [disabled]="!selectedNotch"
-                              [required]="selectedNotch" [(ngModel)]="parameter.selected"
-                              bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="false">
-                              <ng-option [value]="item" *ngFor="let item of axisValues()">{{ item  | translate }}</ng-option>
-                    </ng-select>
-                  </div> -->
-
-                  <!-- Notch -->
-                  <!-- <div *ngIf="parameter.type === 'selected-double'" class="select-values param-flex">
-                    <ng-select #notchTime class="select-notch" [items]="['Upper Temporal']"
-                              [(ngModel)]="selectedNotch" placeholder="{{ 'Select type' | translate }}"
-                              (clear)="validateSelectedNotch(parameter)" (change)="validateSelectedNotch(parameter)"
-                              [required]="parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0">
-                      <ng-template ng-option-tmp>
-                        <div class="main-info">
-                          <div class="one-two">
-                            <img [ngClass]="{'selected-image': selectedNotch === 'Upper Temporal'}" [src]="'assets/images/products/europa/notch-time-one.png'" (click)="changeNotchTime('Upper Temporal', parameter)">
-                            <img [ngClass]="{'selected-image': selectedNotch === 'Upper Nasal'}" [src]="'assets/images/products/europa/notch-time-two.png'" (click)="changeNotchTime('Upper Nasal', parameter)">
-                          </div>
-                          <div clas="three-four">
-                            <img [ngClass]="{'selected-image': selectedNotch === 'Lower Temporal'}" [src]="'assets/images/products/europa/notch-time-three.png'" (click)="changeNotchTime('Lower Temporal', parameter)">
-                            <img [ngClass]="{'selected-image': selectedNotch === 'Lower Nasal'}" [src]="'assets/images/products/europa/notch-time-four.png'" (click)="changeNotchTime('Lower Nasal', parameter)">
-                          </div>
-                        </div>
-                      </ng-template>
-                    </ng-select>
-                    <input class="form-control notch" type="number" placeholder="{{ parameter.values[0].placeholder | translate }}"
-                            [(ngModel)]="parameter.values[0].selected" step="0.01"
-                            (change)="changeSelect(parameter, parameter.values[0].selected,parameter.values[1].selected)" required>
-                    <input class="form-control notch" type="number" placeholder="{{ parameter.values[1].placeholder | translate }}"
-                            [(ngModel)]="parameter.values[1].selected" step="0.01"
-                            (change)="changeSelect(parameter, parameter.values[1].selected,parameter.values[0].selected)" required>
-                  </div> -->
                 </dt>
               </dl>
             </dl>
@@ -222,7 +180,7 @@
     <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
       <i class="fa fa-times"></i>
     </button>
-    <button type="button" class="btn btn-main" (click)="pruebasave()" [disabled]="!formIsValid()">{{ 'Save' | translate }}&nbsp;
+    <button type="button" class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">{{ 'Save' | translate }}&nbsp;
       <i class="fa fa-save"></i>
     </button>
   </div>
