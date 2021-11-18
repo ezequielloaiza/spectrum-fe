@@ -1389,7 +1389,7 @@ export class XcelComponent implements OnInit {
     }
 
     _.each(this.productParams, function (parameter, i) {
-      if (!!parameter.selected && parameter.selected !== 'No') {
+      if (!!parameter.selected && parameter.selected !== 'No' && parameter.name !== 'Hydrapeg') {
         if (!parameter.header) {
           self.paramsToSave = _.concat(self.paramsToSave, parameter);
         } else {
