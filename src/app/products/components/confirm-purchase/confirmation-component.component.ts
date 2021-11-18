@@ -97,7 +97,6 @@ export class PurchaseConfirmationComponent implements OnInit {
   }
 
   hydrapegMsg(flag) {
-    console.log(this.price);
     if (this.hydrapegs.right.selec) {
       if (this.hydrapegs.left.selec) {
         return flag ? (this.hydrapegPrice *2 ) :'Right and Left Eyes Hydrapeg ';

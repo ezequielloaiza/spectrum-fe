@@ -122,7 +122,6 @@ export class ListBasketComponent implements OnInit {
         this.spinner.hide();
       }
     });
-    console.log(this.basket);
   }
 
   setPriceWithAdditionals(auxList, productsAdditional): void {

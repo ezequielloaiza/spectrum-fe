@@ -1303,6 +1303,9 @@ export class XcelComponent implements OnInit {
         this.designPR = value;
         this.paramsToShow = this.productParams;
         this.priceSaleTotal();
+
+        this.paramsToShow = this.productParams.filter(p => p.name !== 'Quantity');
+
       }
 
     } else if (this.product.name.includes('Soft')) { //Custom Soft Case
@@ -1324,12 +1327,12 @@ export class XcelComponent implements OnInit {
                   param.values = param.values.filter(p => p !== '3 Pack');
                   param.selected = (param.selected === '3 Pack') ? null : param.selected;
                 }
-              return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+              return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye' && param.name !== 'Quantity';
               default:
                 if (!_.includes(param.values, '3 Pack') && param.name === 'Presentation') {
                   param.values = _.concat(param.values, '3 Pack');
                 }
-              return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+              return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye' && param.name !== 'Quantity';
             }
           });
         }
@@ -1393,10 +1396,10 @@ export class XcelComponent implements OnInit {
           paramsHeader = _.concat(paramsHeader, parameter);
         }
       }
-      if (parameter.name === 'Quantity') {
+   /*    if (parameter.name === 'Quantity') {
         parameter.selected = self.quantity;
-        self.paramsToSave = _.concat(self.paramsToSave, parameter);
-      }
+        //self.paramsToSave = _.concat(self.paramsToSave, parameter);
+      } */
       if (parameter.name === 'Hydrapeg' && self.showHydrapeg) {
         self.paramsToSave = _.concat(self.paramsToSave, self.hydrapegV);
       }
@@ -1404,8 +1407,9 @@ export class XcelComponent implements OnInit {
 
     if (!this.showDmv) {
       this.productHeader[0] = { selected: 'No'};
-
     }
+    paramsHeader = paramsHeader.filter(p => p.name !== 'Quantity');
+
      this.productRequested.detail = '[' + JSON.stringify({ name: '', codeSpectrum: this.detail.codeSpectrum, eye: this.detail.eye,
                                   header: paramsHeader, hydrapeg: self.hydrapegV, insertor: this.productHeader[0], eyesSelected: this.detail.eyesSelected,
                                   parameters: self.paramsToSave}) + ']';

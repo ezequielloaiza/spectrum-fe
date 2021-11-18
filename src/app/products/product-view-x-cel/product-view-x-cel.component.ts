@@ -184,10 +184,7 @@ export class ProductViewXCelComponent implements OnInit {
     this.selectedProduct['supplier'] = this.product.supplier;
     this.selectedProduct['typeOrder'] = this.product.typeOrder;
     this.selectedProduct['insertor'] = this.product.name.includes('Atlantis') ? this.product.header[0] : null;//this's DMV according to Json
-
-    debugger//unico
     this.selectedProduct['totalPrice'] = this.setTotalPrice(); //sum both eyes, hydra, dmv
-    //console.log("revisando prices", this.selectedProduct['price']);
     //this.spinner.hide();
     const modalRef = this.modalService.open( PurchaseConfirmationComponent,
       { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
@@ -206,7 +203,6 @@ export class ProductViewXCelComponent implements OnInit {
       this.ngOnInit();
     } , (reason) => {
     });
-    //console.log('buyNow');
   }
 
   setPrice() {
@@ -233,7 +229,6 @@ export class ProductViewXCelComponent implements OnInit {
       p['name'] = self.product.name;
       p['id'] = self.product.idProduct;
       p['codeSpectrum'] = self.price[eye].spCode;
-      debugger//perreeeeeeeeeeeo
       p['price'] = self.price[eye].priceUnit;
       p['quantity'] = self.quantity[eye];
       p.header = self.selectedProduct.params[index].header.filter(param => param.name !== 'Spectrum Code');
@@ -402,7 +397,6 @@ export class ProductViewXCelComponent implements OnInit {
           this.presentationAndDesign[value.eye.toLowerCase()].presentation = value.param.selected;
           this.setPriceByDesign(value.eye, value.param.selected);
         }
-      console.log(this.presentationAndDesign);
         if (value.param.name === 'Design') {
 
           const selectedDesign = value.param.selected;
@@ -1313,6 +1307,5 @@ export class ProductViewXCelComponent implements OnInit {
         self.paramsAtlantisImages[eye].clock = param;
       }
     });
-    //console.log(this.paramsAtlantisImages[eye].clock);
   }
 }
