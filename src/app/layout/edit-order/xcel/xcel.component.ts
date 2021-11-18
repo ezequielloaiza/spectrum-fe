@@ -330,7 +330,7 @@ export class XcelComponent implements OnInit {
               break;
           }
         break;
-        case 'Atlantis 2.O':
+        case 'Atlantis 2.0':
           this.detail.codeSpectrum = '127A';
           switch (this.membership) {
             case 1://Gold
@@ -1270,27 +1270,27 @@ export class XcelComponent implements OnInit {
               if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !self.checkAtlantisParams(param);
+              return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !self.checkAtlantisParams(param) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis TPC':
             case 'Atlantis MF':
               if (param.name === 'LZ 3D Vault / 2.0') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'LZ 3D Vault / 2.0' && !self.checkAtlantisParams(param);
+              return param.name !== 'LZ 3D Vault / 2.0' && !self.checkAtlantisParams(param) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis 3D':
               if (param.name === 'TPC') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'TPC' && !self.checkAtlantisParams(param);
-            case 'Atlantis 2.O':
+              return param.name !== 'TPC' && !self.checkAtlantisParams(param) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
+            case 'Atlantis 2.0':
               if (_.includes(['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC';
+              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && param.name !== 'Quantity' && param.name !== 'Hydrapeg' ;
             case 'Atlantis LD':
-              return  !self.checkAtlantisParams(param);
+              return  !self.checkAtlantisParams(param) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             default:
-              return param && !self.checkAtlantisParams(param);
+              return param && !self.checkAtlantisParams(param) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
           }
 
         });

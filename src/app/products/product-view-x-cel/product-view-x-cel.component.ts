@@ -12,6 +12,7 @@ import { Product } from '../../shared/models/product';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { UserService } from '../../shared/services';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
+import { add } from 'lodash';
 
 @Component({
   selector: 'app-product-view-x-cel',
@@ -28,6 +29,8 @@ export class ProductViewXCelComponent implements OnInit {
   client: any;
   dmv = 5.15;
   hydrapeg = 25.00;
+  showImg = { right: false, left: false };
+  finalDesign: any;
   hydrapegSelected = { right: false, left: false };
   hydrapegSelection: any;
   hydrapegValues: any;
@@ -47,7 +50,7 @@ export class ProductViewXCelComponent implements OnInit {
 
 
   enableParams = { right: false, left: false };
-  paramsAtlantisImages: any;
+  paramsAtlantisImages = { right: { clock: {}, parameters: []}, left: { clock: {}, parameters: [] }};
 
   listFileRightEye: Array<FileProductRequested> = new Array;
   listFileLeftEye: Array<FileProductRequested> = new Array;
@@ -116,10 +119,10 @@ export class ProductViewXCelComponent implements OnInit {
   initialViewParams() {
     const self = this;
     this.product.parametersRight = _.filter(this.product.parametersRight, function (param) {
-      return !self.checkAtlantisParams(param);
+      return !self.checkAtlantisParams(param, 0);
     });
     this.product.parametersLeft = _.filter(this.product.parametersLeft, function (param) {
-      return !self.checkAtlantisParams(param);
+      return !self.checkAtlantisParams(param, 0);
     });
   }
 
@@ -151,6 +154,7 @@ export class ProductViewXCelComponent implements OnInit {
     this.selectedProduct.params[0].params = []
     this.selectedProduct.params[1].header = []
     this.selectedProduct.params[1].params = []
+    this.selectedProduct['price'] = this.setPrice(); //an object that has selected designs and their price
     const productsRequested = [];
     const productsSelected = this.buildProductSelected();
     _.each(productsSelected, function (product) {
@@ -181,7 +185,7 @@ export class ProductViewXCelComponent implements OnInit {
     this.selectedProduct['typeOrder'] = this.product.typeOrder;
     this.selectedProduct['insertor'] = this.product.name.includes('Atlantis') ? this.product.header[0] : null;//this's DMV according to Json
 
-    this.selectedProduct['price'] = this.price; //an object that has selected designs and their price
+    debugger//unico
     this.selectedProduct['totalPrice'] = this.setTotalPrice(); //sum both eyes, hydra, dmv
     //console.log("revisando prices", this.selectedProduct['price']);
     //this.spinner.hide();
@@ -205,6 +209,18 @@ export class ProductViewXCelComponent implements OnInit {
     //console.log('buyNow');
   }
 
+  setPrice() {
+    const self = this;
+    _.each(this.selectedProduct.params, function (parameter) {
+      _.each(self.product[self.parametersByEye(parameter.eye)], function (p) {
+        if (p.name === 'Design' && !!p.selected) {
+          self.setPriceByDesign(parameter.eye.toLowerCase(), p.selected)
+        }
+      });
+    });
+    return this.price;
+  }
+
   buildProductSelected() {
     const self = this;
     this.setEyeSelected();
@@ -217,10 +233,18 @@ export class ProductViewXCelComponent implements OnInit {
       p['name'] = self.product.name;
       p['id'] = self.product.idProduct;
       p['codeSpectrum'] = self.price[eye].spCode;
+      debugger//perreeeeeeeeeeeo
       p['price'] = self.price[eye].priceUnit;
       p['quantity'] = self.quantity[eye];
       p.header = self.selectedProduct.params[index].header.filter(param => param.name !== 'Spectrum Code');
       p.parameters = self.selectedProduct.params[index].params;
+
+    /*   _.each(p.header, function (parameter) {
+        if (parameter.name === 'Design' && parameter.selected === 'Atlantis 2.0') {
+          self.paramsAtlantisImages[eye].parameters = self.paramsAtlantisImages[eye].parameters.filter(p => p.name !== 'Atlantis 2.0 C.S.A' && p.name !== 'Clock Mark');
+          p.parameters = _.concat(p.parameters, self.paramsAtlantisImages[eye].clock, self.paramsAtlantisImages[eye].parameters);
+        }
+      }); */
 
       if (self.product.name.includes('Atlantis')) {
         p['insertor'] = self.product.header[0];
@@ -250,6 +274,7 @@ export class ProductViewXCelComponent implements OnInit {
             }
             if (param.name === 'Design') { //put spectrum code right after Design header.
               parameters.header = _.concat(parameters.header, { name: 'Spectrum Code', selected: self.price[parameters.eye.toLowerCase()].spCode });//ver cual ojo colocar
+              self.finalDesign = param.selected;
             }
           } else {
             if (param.name === 'Hydrapeg') {
@@ -262,6 +287,11 @@ export class ProductViewXCelComponent implements OnInit {
           }
         }
       });
+      if (self.finalDesign === 'Atlantis 2.0') {
+        let eye = parameters.eye.toLowerCase();
+        self.paramsAtlantisImages[eye].parameters = self.paramsAtlantisImages[eye].parameters.filter(p => p.name !== 'Atlantis 2.0 C.S.A');
+        parameters.params = _.concat(parameters.params, self.paramsAtlantisImages[parameters.eye.toLowerCase()].parameters);
+      }
       parameters['observations'] = parameters.eye.toLowerCase() === 'right' ? self.product.observationsRight : self.product.observationsLeft;
     })
 
@@ -313,6 +343,7 @@ export class ProductViewXCelComponent implements OnInit {
 
         const selectedDesign = value.param.selected;
         this.setPriceByDesign(value.eye, selectedDesign);
+        this.showImg[value.eye] = false;
 
         paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
           switch (selectedDesign) {
@@ -321,34 +352,37 @@ export class ProductViewXCelComponent implements OnInit {
               if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param);
+              return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
             case 'Atlantis TPC':
             case 'Atlantis MF':
               if (param.name === 'LZ 3D Vault / 2.0') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param);
+              return param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param, 0);
             case 'Atlantis 3D':
               if (param.name === 'TPC') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param);
-            case 'Atlantis 2.O':
+              return param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
+            case 'Atlantis 2.0':
+              self.paramsAtlantisImages[value.eye].parameters = _.filter(self.originalParameters[value.eye], function (param) {
+                return selectedDesign === 'Atlantis 2.0' && self.checkAtlantisParams(param, 0);
+              });
+              self.getClock(value.eye);
+              self.showImg[value.eye] = true;
               if (_.includes(['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param);
+              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 1);
             case 'Atlantis LD':
-              return !param.header && !self.checkAtlantisParams(param);
+              return !param.header && !self.checkAtlantisParams(param, 0);
             default:
-              return param && !self.checkAtlantisParams(param) && !param.header;
+              return param && !self.checkAtlantisParams(param, 0) && !param.header;
           }
         });
 
         // TODO: check queda vacio.
-        this.paramsAtlantisImages = _.filter(this.originalParameters[value.eye], function (param) {
-          return selectedDesign === 'Atlantis 2.0' && self.checkAtlantisParams(param);
-        });
+          //this.getClock(value.eye);
 
         this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
         this.setRequiredParams(value);
@@ -403,7 +437,7 @@ export class ProductViewXCelComponent implements OnInit {
   setPriceByDesign(eye, design) {
 
     //do i get it from db or set it here? X-Cel RGP X-Cel Atlantis Scleral X-Cel Custom Soft
-     //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.O", "Atlantis LD"
+     //"Atlantis SPH", "Atlantis TPC", "Atlantis FT", "Atlantis 3D", "Atlantis MF", "Atlantis 2.0", "Atlantis LD"
     if (this.product.name.includes('Atlantis')) {
       switch (design) {
         case 'Atlantis SPH':
@@ -476,7 +510,7 @@ export class ProductViewXCelComponent implements OnInit {
               break;
           }
         break;
-        case 'Atlantis 2.O':
+        case 'Atlantis 2.0':
           this.price[eye].spCode = '127A';
           switch (this.membership) {
             case 1://Gold
@@ -1228,7 +1262,10 @@ export class ProductViewXCelComponent implements OnInit {
     });
   }
 
-  checkAtlantisParams(param) {
+  checkAtlantisParams(param, flag) {
+    if (flag && param.name === 'Atlantis 2.0 C.S.A') {
+      return false;
+    }
     switch (param.name) {
       case 'Atlantis 2.0 C.S.A':
       case 'Clock Mark':
@@ -1263,5 +1300,19 @@ export class ProductViewXCelComponent implements OnInit {
         return !parameter.noRequired && !parameter.selected;
       });
     });
+  }
+
+  getAtlantisParams(eye) {
+    return this.paramsAtlantisImages[eye].parameters;
+  }
+
+  getClock(eye) {
+    const self = this;
+    _.each(this.paramsAtlantisImages[eye].parameters, function (param) {
+      if ('Clock Mark' === param.name) {
+        self.paramsAtlantisImages[eye].clock = param;
+      }
+    });
+    //console.log(this.paramsAtlantisImages[eye].clock);
   }
 }

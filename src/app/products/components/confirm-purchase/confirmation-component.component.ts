@@ -59,6 +59,7 @@ export class PurchaseConfirmationComponent implements OnInit {
   balance_modal: Boolean = false;
   company: Company = new Company();
   available: any;
+  hydrapegs= { right: { selec: 0 }, left: { selec: 0 } };
 
   constructor(public modalReference: NgbActiveModal,
               private alertify: AlertifyService,
@@ -82,15 +83,34 @@ export class PurchaseConfirmationComponent implements OnInit {
 
   getHydrapegSelection() {
     let checkHydrapegSelection = false;
+    const self = this;
 
     _.each(this.selectedProduct.params, function (paramList) {
       _.each(paramList.params, function (p) {
         if (p.name === 'Hydrapeg' && p.selected === 'Yes') {
           checkHydrapegSelection = true;
+          self.hydrapegs[paramList.eye.toLowerCase()].selec = true;
         }
       });
     });
     return checkHydrapegSelection;
+  }
+
+  hydrapegMsg(flag) {
+    console.log(this.price);
+    if (this.hydrapegs.right.selec) {
+      if (this.hydrapegs.left.selec) {
+        return flag ? (this.hydrapegPrice *2 ) :'Right and Left Eyes Hydrapeg ';
+      } else {
+        return flag ? this.hydrapegPrice : 'Right Eye Hydrapeg ';
+      }
+    } else {
+      return flag ? this.hydrapegPrice : 'Left Eye Hydrapeg ';
+    }
+  }
+
+  dmvMsg() {
+    return this.getHydrapegSelection() ? '| Inserts (DMV)' : 'Inserts (DMV)';
   }
 
   checkList(parameterList) {

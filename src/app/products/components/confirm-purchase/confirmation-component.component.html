@@ -34,9 +34,9 @@
             <p class="eye-info" *ngIf="selectedProduct.insertor?.selected === 'Yes' || getHydrapegSelection()">
               (
               <span>{{ 'Includes' | translate }}</span>&nbsp;
-               <span *ngIf="getHydrapegSelection()">{{'Hidrapeg' | translate}}:{{ hydrapegPrice | currency : " USD $" }}</span>
-               <span>&nbsp;|&nbsp;</span>
-              <span *ngIf="selectedProduct.insertor.selected === 'Yes'">{{'Inserts (DMV)' | translate}}:{{ dmvPrice | currency : " USD $" }}</span>
+               <span *ngIf="getHydrapegSelection()">{{ hydrapegMsg(0) | translate}}:{{ hydrapegMsg(1) | currency : " USD $" }}</span>
+               <span>&nbsp;&nbsp;</span>
+              <span *ngIf="selectedProduct.insertor.selected === 'Yes'">{{ dmvMsg() | translate}}:{{ dmvPrice | currency : " USD $" }}</span>
               )
             </p>
           </dl>
