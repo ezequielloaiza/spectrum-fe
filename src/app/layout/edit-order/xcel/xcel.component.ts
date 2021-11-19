@@ -35,6 +35,7 @@ export class XcelComponent implements OnInit {
   user: any;
   patient: any;
   order: any;
+  hydrapegInserted = false;
 
   header: any;
   parameters: any;
@@ -162,13 +163,15 @@ export class XcelComponent implements OnInit {
     });
   }
 
-  checkHydrapeg(parameter, value) {
-    if (value) {
+  checkHydrapeg(parameter, flag) {
+    if (flag) {
+      this.hydrapegInserted = true;
       this.hydrapegV = parameter;
       this.hydrapegV['price'] = this.detail.hydrapeg.price;
-    } else {
+    } else if (!this.hydrapegInserted) {
       this.hydrapegV = parameter;
       this.hydrapegV['price'] = this.detail.hydrapeg.price;
+      this.detail.hydrapeg.selected = parameter.selected;
     }
   }
 

@@ -32,61 +32,10 @@
       <div>
         <div *ngFor="let parameter of getAtlantisParams('right')">
           <!--Quadrant 1-->
-          <div *ngIf="parameter.name === 'Q1 LZ'" class="quadrant Q1 LZ">
+          <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
             <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
               [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'LZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <div *ngIf="parameter.name === 'Q1 SZ'" class="quadrant Q1 SZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'SZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <!--Quadrant 2-->
-          <div *ngIf="parameter.name === 'Q2 LZ'" class="quadrant Q2 LZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'LZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div><div *ngIf="parameter.name === 'Q2 SZ'" class="quadrant Q2 SZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'SZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <!--Quadrant 3-->
-          <div *ngIf="parameter.name === 'Q3 LZ'" class="quadrant Q3 LZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'LZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <div *ngIf="parameter.name === 'Q3 SZ'" class="quadrant Q3 SZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'SZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <!--Quadrant 4-->
-          <div *ngIf="parameter.name === 'Q4 LZ'" class="quadrant Q4 LZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'LZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <div *ngIf="parameter.name === 'Q4 SZ'" class="quadrant Q4 SZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'SZ' | translate }}">
+              [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
               {{item}}
             </ng-select>
           </div>
@@ -121,61 +70,11 @@
       <div>
         <div *ngFor="let parameter of getAtlantisParams('left')">
           <!--Quadrant 1-->
-          <div *ngIf="parameter.name === 'Q1 LZ'" class="quadrant Q1 LZ">
+          <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
+            <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
             <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
               [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'LZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <div *ngIf="parameter.name === 'Q1 SZ'" class="quadrant Q1 SZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'SZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <!--Quadrant 2-->
-          <div *ngIf="parameter.name === 'Q2 LZ'" class="quadrant Q2 LZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'LZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div><div *ngIf="parameter.name === 'Q2 SZ'" class="quadrant Q2 SZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'SZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <!--Quadrant 3-->
-          <div *ngIf="parameter.name === 'Q3 LZ'" class="quadrant Q3 LZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'LZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <div *ngIf="parameter.name === 'Q3 SZ'" class="quadrant Q3 SZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'SZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <!--Quadrant 4-->
-          <div *ngIf="parameter.name === 'Q4 LZ'" class="quadrant Q4 LZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'LZ' | translate }}">
-              {{item}}
-            </ng-select>
-          </div>
-          <div *ngIf="parameter.name === 'Q4 SZ'" class="quadrant Q4 SZ">
-            <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ 'SZ' | translate }}">
+              [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
               {{item}}
             </ng-select>
           </div>
