@@ -15,33 +15,43 @@
   <app-info-params [eye]="'right'" [typeParams]="'body'" [enableParams]="enableParams.right" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersRight"></app-info-params>
 
   <div class="img-atlantis" *ngIf="!!showImg.right && !!enable.right">
-    <div class="img1">
-      <div>
-        <span>Quadrant Specifications</span>
-        <span>Clock mark position of quadrant 2</span>
-          <ng-select [items]="paramsAtlantisImages.right.clock.values" [required]="true" id="select-right-clock"
-            [(ngModel)]="paramsAtlantisImages.right.clock.selected" bindLabel="item" bindValue="item"
-            placeholder="{{ ' ' | translate }}">
-            {{item}}
-          </ng-select>
-      </div>
-      <img [src]="'assets/images/products/atlantis/img1.png'">
+    <div class="col-md-12 title">
+      <label> {{ 'Quadrant Specifications' | translate }}</label>
     </div>
-
-    <div class="img2">
-      <div>
-        <div *ngFor="let parameter of getAtlantisParams('right')">
-          <!--Quadrant 1-->
-          <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
-            <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+    <div>
+      <div class="img1">
+        <div>
+          <span>Clock mark position of quadrant 2</span>
+            <ng-select [items]="paramsAtlantisImages.right.clock.values" [required]="true" id="select-right-clock"
+              [(ngModel)]="paramsAtlantisImages.right.clock.selected" bindLabel="item" bindValue="item"
+              placeholder="{{ ' ' | translate }}">
               {{item}}
             </ng-select>
+        </div>
+        <img [src]="'assets/images/products/atlantis/img1.png'">
+      </div>
+
+      <div class="img2">
+        <div>
+          <span> (-) FLATTEN</span>
+          <span> (+) STEEPEN</span>
+          <span> 1 STEP = 25µ</span>
+        </div>
+        <div>
+          <div *ngFor="let parameter of getAtlantisParams('right')">
+            <!--Quadrant 1-->
+            <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
+              <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
+              <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
+                [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
+                [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+                {{item}}
+              </ng-select>
+            </div>
           </div>
         </div>
+        <img [src]="'assets/images/products/atlantis/img2.png'">
       </div>
-      <img [src]="'assets/images/products/atlantis/img2.png'">
     </div>
   </div>
 
@@ -53,34 +63,43 @@
   <app-info-params [eye]="'left'" [typeParams]="'header'" [enableParams]="enableParams.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft"></app-info-params>
   <app-info-params [eye]="'left'" [typeParams]="'body'" [enableParams]="enableParams.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft"></app-info-params>
   <div class="img-atlantis" *ngIf="!!showImg.left && !!enable.left">
-    <div class="img1">
-      <div>
-        <span>Quadrant Specifications</span>
-        <span>Clock mark position of quadrant 2</span>
-          <ng-select [items]="paramsAtlantisImages.left.clock.values" [required]="true" id="select-left-clock"
-            [(ngModel)]="paramsAtlantisImages.left.clock.selected" bindLabel="item" bindValue="item"
-            placeholder="{{ ' ' | translate }}">
-            {{item}}
-          </ng-select>
-      </div>
-      <img [src]="'assets/images/products/atlantis/img1.png'">
+    <div class="col-md-12 title">
+      <label> {{ 'Quadrant Specifications' | translate }}</label>
     </div>
-
-    <div class="img2">
-      <div>
-        <div *ngFor="let parameter of getAtlantisParams('left')">
-          <!--Quadrant 1-->
-          <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
-            <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
-            <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-              [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+    <div>
+      <div class="img1">
+        <div>
+          <span>Clock mark position of quadrant 2</span>
+            <ng-select [items]="paramsAtlantisImages.left.clock.values" [required]="true" id="select-left-clock"
+              [(ngModel)]="paramsAtlantisImages.left.clock.selected" bindLabel="item" bindValue="item"
+              placeholder="{{ ' ' | translate }}">
               {{item}}
             </ng-select>
+        </div>
+        <img [src]="'assets/images/products/atlantis/img1.png'">
+      </div>
+
+      <div class="img2">
+        <div>
+          <span> (-) FLATTEN</span>
+          <span> (+) STEEPEN</span>
+          <span> 1 STEP = 25µ</span>
+        </div>
+        <div>
+          <div *ngFor="let parameter of getAtlantisParams('left')">
+            <!--Quadrant 1-->
+            <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
+              <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
+              <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
+                [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
+                [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+                {{item}}
+              </ng-select>
+            </div>
           </div>
         </div>
+        <img [src]="'assets/images/products/atlantis/img2.png'">
       </div>
-      <img [src]="'assets/images/products/atlantis/img2.png'">
     </div>
   </div>
 

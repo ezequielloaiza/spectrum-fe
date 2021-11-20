@@ -36,7 +36,8 @@ export class XcelComponent implements OnInit {
   patient: any;
   order: any;
   hydrapegInserted = false;
-
+  paramsAtlantisImages: any;
+  clockParam: any;
   header: any;
   parameters: any;
   designPR: any;
@@ -1273,27 +1274,31 @@ export class XcelComponent implements OnInit {
               if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !self.checkAtlantisParams(param) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
+              return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis TPC':
             case 'Atlantis MF':
               if (param.name === 'LZ 3D Vault / 2.0') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'LZ 3D Vault / 2.0' && !self.checkAtlantisParams(param) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
+              return param.name !== 'LZ 3D Vault / 2.0' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis 3D':
               if (param.name === 'TPC') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'TPC' && !self.checkAtlantisParams(param) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
+              return param.name !== 'TPC' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis 2.0':
+              self.paramsAtlantisImages = _.filter(self.productParams, function (param) {
+                return self.checkAtlantisParams(param, 1);
+              });
+              self.getClockParam();
               if (_.includes(['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
-              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && param.name !== 'Quantity' && param.name !== 'Hydrapeg' ;
+              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && param.name !== 'Quantity' && param.name !== 'Hydrapeg'&& !self.checkAtlantisParams(param, 1);
             case 'Atlantis LD':
-              return  !self.checkAtlantisParams(param) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
+              return  !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             default:
-              return param && !self.checkAtlantisParams(param) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
+              return param && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
           }
 
         });
@@ -1360,9 +1365,12 @@ export class XcelComponent implements OnInit {
   }
 
 
-  checkAtlantisParams(param) {
+  checkAtlantisParams(param, remove) {
     switch (param.name) {
       case 'Atlantis 2.0 C.S.A':
+        if (remove) {
+          return false;
+        }
       case 'Clock Mark':
       case 'Q1 LZ':
       case 'Q1 SZ':
@@ -1372,11 +1380,24 @@ export class XcelComponent implements OnInit {
       case 'Q3 SZ':
       case 'Q4 LZ':
       case 'Q4 SZ':
-        param.selected = null;
+        //param.selected = null;  //chequear y  borrar
         return true;
       default:
         break;
     }
+  }
+
+  getClockParam() {
+    const self = this;
+    _.each(this.paramsAtlantisImages, function (p, index) {
+      if (p.name === 'Clock Mark') {
+        self.clockParam = self.paramsAtlantisImages[index];
+      }
+    });
+  }
+
+  getAtlantisParams() {
+    return this.paramsAtlantisImages.filter(p => p !== 'Clock Mark');
   }
 
   save() {
@@ -1390,7 +1411,7 @@ export class XcelComponent implements OnInit {
     } else {
       this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
     }
-
+    //concat productparams con los de atlantisimg??? revisar que tiene el producparams si creo un scope nuevo o es el mismo y ve los cambios
     _.each(this.productParams, function (parameter, i) {
       if (!!parameter.selected && parameter.selected !== 'No' && parameter.name !== 'Hydrapeg') {
         if (!parameter.header) {

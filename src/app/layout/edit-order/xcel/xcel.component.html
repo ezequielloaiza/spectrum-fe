@@ -153,6 +153,38 @@
             </dl>
           </div>
         </div>
+<!-- -------------------------------------------IMG-------------------------------------------------------- -->
+<div class="img-atlantis" *ngIf="designPR === 'Atlantis 2.0'">
+  <div class="img1">
+    <div>
+      <span>{{'Quadrant Specifications'|translate}}</span>
+      <span>{{'Clock mark position of quadrant 2'|translate}}</span>
+        <ng-select [items]="clockParam.values" [required]="true" id="select-clock" [clearable]="No"
+          [(ngModel)]="clockParam.selected" bindLabel="item" bindValue="item"
+          placeholder="{{ ' ' | translate }}">
+          {{item}}
+        </ng-select>
+    </div>
+    <img [src]="'assets/images/products/atlantis/img1.png'">
+  </div>
+
+  <div class="img2">
+    <div>
+      <div *ngFor="let parameter of getAtlantisParams()">
+        <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
+          <!-- <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span> -->
+          <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
+            [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
+            [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+            {{item}}
+          </ng-select>
+        </div>
+      </div>
+    </div>
+    <img [src]="'assets/images/products/atlantis/img2.png'">
+  </div>
+</div>
+<!-- -------------------------------------------IMG-------------------------------------------------------- -->
       </div>
 
 

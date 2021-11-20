@@ -142,3 +142,92 @@
     }
   }
 }
+
+.img-atlantis {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+
+  .img1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+
+    > div:nth-child(1) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    img {
+      width: 140px;
+      height: 150px;
+    }
+  }
+
+  .img2 {
+    position: relative;
+
+    > div:nth-child(1) {
+      position: absolute;
+      height: 380px;
+      width: 535px;
+      z-index: 999;
+
+      .quadrant {
+        position: absolute;
+        width: 130px;
+
+        &.Q1 {
+          right: 0;
+          margin-bottom: 5px;
+
+          &.LZ {
+            top: 165px;
+          }
+
+          &.SZ {
+            top: 195px;
+          }
+        }
+
+        &.Q2 {
+          left: 210px;
+
+          &.LZ {
+            bottom: 30px;
+          }
+
+          &.SZ {
+            bottom: 0px;
+          }
+        }
+
+        &.Q3 {
+          left: 0;
+
+          &.LZ {
+            top: 165px;
+          }
+
+          &.SZ {
+            top: 195px;
+          }
+        }
+
+        &.Q4 {
+          left: 210px;
+
+          &.SZ {
+            top: 30px;
+          }
+        }
+      }
+    }
+
+    img {
+      width: 530px;
+    }
+  }
+}

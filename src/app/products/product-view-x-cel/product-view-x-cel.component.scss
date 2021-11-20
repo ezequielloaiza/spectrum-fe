@@ -17,9 +17,15 @@
 
 
 .img-atlantis {
+  flex-direction: column;
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+
+  >div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+  }
 
   .img1 {
     > div:nth-child(1) {
@@ -36,22 +42,36 @@
   .img2 {
     position: relative;
 
-    > div:nth-child(1) {
+    >div:nth-child(1){
       position: absolute;
-      height: 380px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    top: -10px;
+    }
+    > div:nth-child(2) {
+      position: absolute;
+      height: 400px;
       width: 535px;
       z-index: 999;
 
       .quadrant {
+        display: flex;
         position: absolute;
         width: 130px;
+        align-items: center;
+
+        ng-select {
+          width: 75px;
+          margin: 0 10px;
+        }
 
         &.Q1 {
           right: 0;
           margin-bottom: 5px;
 
           &.LZ {
-            top: 165px;
+            top: 155px;
           }
 
           &.SZ {
@@ -63,7 +83,7 @@
           left: 210px;
 
           &.LZ {
-            bottom: 30px;
+            bottom: 40px;
           }
 
           &.SZ {
@@ -75,7 +95,7 @@
           left: 0;
 
           &.LZ {
-            top: 165px;
+            top: 155px;
           }
 
           &.SZ {
@@ -86,6 +106,9 @@
         &.Q4 {
           left: 210px;
 
+          &.LZ {
+            top: -10px;
+          }
           &.SZ {
             top: 30px;
           }
