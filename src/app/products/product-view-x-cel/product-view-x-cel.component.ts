@@ -241,16 +241,21 @@ export class ProductViewXCelComponent implements OnInit {
         }
       }); */
 
+      /* else {
+        p['insertor'] = ['selected: No'];
+        p['hydrapeg'] = ['selected: No'];
+      } */
+      p.observations = eye === 'right' ? self.product.observationsRight : self.product.observationsLeft;
+
       if (self.product.name.includes('Atlantis')) {
         p['insertor'] = self.product.header[0];
         p['insertor']['price'] = self.dmv;
-      } else {
-        p['insertor'] = ['selected: No'];
-        p['hydrapeg'] = ['selected: No'];
-      }
-      p.observations = eye === 'right' ? self.product.observationsRight : self.product.observationsLeft;
+        p.detail = { name: self.product.name, eye: p.eye, codeSpectrum: self.price[eye].spCode, header: p.header, parameters: p.parameters, insertor: p.insertor, hydrapeg: { hydrapeg: self.hydrapegSelected, price: self.hydrapeg, values: self.hydrapegValues, selected: self.hydrapegSelection } };
 
-      p.detail = { name: self.product.name, eye: p.eye, codeSpectrum: self.price[eye].spCode, header: p.header, parameters: p.parameters, insertor: p.insertor, hydrapeg: { hydrapeg: self.hydrapegSelected, price: self.hydrapeg, values: self.hydrapegValues, selected: self.hydrapegSelection }, eyeSelected: self.enable };
+      } else {
+        p.detail = { name: self.product.name, eye: p.eye, codeSpectrum: self.price[eye].spCode, header: p.header, parameters: p.parameters};
+
+      }
     });
     return productsSelected;
 

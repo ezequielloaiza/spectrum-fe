@@ -1434,9 +1434,16 @@ export class XcelComponent implements OnInit {
     }
     paramsHeader = paramsHeader.filter(p => p.name !== 'Quantity');
 
-     this.productRequested.detail = '[' + JSON.stringify({ name: '', codeSpectrum: this.detail.codeSpectrum, eye: this.detail.eye,
-                                  header: paramsHeader, hydrapeg: self.hydrapegV, insertor: this.productHeader[0], eyesSelected: this.detail.eyesSelected,
-                                  parameters: self.paramsToSave}) + ']';
+    if (self.product.name.includes('Atlantis')) {
+      this.productRequested.detail = '[' + JSON.stringify({ name: '', codeSpectrum: this.detail.codeSpectrum, eye: this.detail.eye,
+                                  header: paramsHeader, hydrapeg: self.hydrapegV, insertor: this.productHeader[0], parameters: self.paramsToSave}) + ']';
+
+    } else {
+      this.productRequested.detail = '[' + JSON.stringify({ name: '', codeSpectrum: this.detail.codeSpectrum, eye: this.detail.eye,
+                                  header: paramsHeader, parameters: self.paramsToSave}) + ']';
+    }
+
+
     this.productRequested.observations = this.observations;
     this.productRequested.price = this.priceSaleTotal();
     this.productRequested.quantity = this.quantity;
